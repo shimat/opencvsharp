@@ -1,7 +1,7 @@
 #OpenCvSharp
 Cross platform wrapper of OpenCV for .NET Framework.
 
-OpenCVを.NET Frameworkから利用するためのクロスプラットフォームで動作するラッパーです。
+OpenCVを.NET Frameworkから利用するための、クロスプラットフォームで動作するラッパーです。
 
 ## Installation
 ### NuGet
@@ -10,7 +10,7 @@ If you use Visual Studio 2012 or later, search 'opencvsharp' on the NuGet Packag
 * [x64 package](https://www.nuget.org/packages/OpenCvSharp-x64/) - for 64-bit OS
 
 ### Downloads
-
+If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Requirements
 * [OpenCV 2.4.5](http://opencv.org/)
@@ -85,3 +85,5 @@ class Program
 
 For more details, see the xxx page.
 
+## License
+[LGPL](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt)
