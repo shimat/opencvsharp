@@ -81,49 +81,55 @@ namespace OpenCvSharp.ReleaseMaker
         {
             Button b = (Button)sender;
             b.Enabled = false;
-            try
+            //try
             {
                 MakeBinaryPackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
                 MakeSamplePackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
                 MessageBox.Show("生成成功");
             }
-            catch (Exception ex)
+            /*catch (Exception ex)
             {
+                throw;
                 MessageBox.Show(ex.ToString());
             }
-            finally
+            finally*/
             {
                 b.Enabled = true;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private static readonly string[] DllFiles = new string[]{
+            @"OpenCvSharp\bin\Release\OpenCvSharp.dll", 
+            @"OpenCvSharp\bin\Release\OpenCvSharp.dll.config", 
+            @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll", 
+            @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config", 
+            @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll", 
+            @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config", 
+            @"OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll", 
+            @"OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll", 
+            @"OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll.config", 
+            @"OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll", 
+            //"OpenCvSharp.Gpu.dll",
+            @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll", 
+            //"OpenCvSharp.DebuggerVisualizers.dll",
+            //"OpenCvSharpExtern.dll",
+        };
 
         /// <summary>
         /// 
         /// </summary>
-        private static readonly string[] FileNames = new string[]{
-            "OpenCvSharp.dll", 
-            "OpenCvSharp.xml",
-            "OpenCvSharp.dll.config",
-            "OpenCvSharp.Blob.dll",
-            "OpenCvSharp.Blob.xml",
-            "OpenCvSharp.Blob.dll.config",
-            "OpenCvSharp.CPlusPlus.dll",
-            "OpenCvSharp.CPlusPlus.xml",
-            "OpenCvSharp.Extensions.dll",
-            "OpenCvSharp.Extensions.xml",
-            "OpenCvSharp.MachineLearning.dll",
-            "OpenCvSharp.MachineLearning.xml",
-            "OpenCvSharp.MachineLearning.dll.config",
-            "OpenCvSharp.UserInterface.dll",
-            "OpenCvSharp.UserInterface.xml",
-            "OpenCvSharp.Gpu.dll",
-            "OpenCvSharp.Gpu.xml",
-            //"OpenCvSharp.DebuggerVisualizers.dll",
-            //"OpenCvSharpExtern.dll",
-            "LGPL.txt",
-            "ReadMe.txt",
+        private static readonly string[] XmlFiles = new string[]{
+            @"OpenCvSharp\bin\{0}\OpenCvSharp.xml", 
+            @"OpenCvSharp.Blob\bin\{0}\OpenCvSharp.Blob.xml", 
+            @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.xml", 
+            @"OpenCvSharp.Extensions\bin\{0}\OpenCvSharp.Extensions.xml", 
+            @"OpenCvSharp.MachineLearning\bin\{0}\OpenCvSharp.MachineLearning.xml", 
+            @"OpenCvSharp.UserInterface\bin\{0}\OpenCvSharp.UserInterface.xml", 
         };
+
         private static readonly string[] Platforms = new string[] { 
             "x86", 
             "x64" 
@@ -140,48 +146,34 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="dirDst"></param>
         /// <param name="language"></param>
         /// <param name="platform"></param>
-        private void MakeBinaryPackage(string dirSrc, string dirDst, string version)
+        private void MakeBinaryPackage(string dir, string dirDst, string version)
         {
-            dirSrc = Path.Combine(dirSrc, version);
+            string dirSrc = Path.Combine(dir, "src");
 
             foreach (string pf in Platforms)
             {
                 using (ZipFile zf = new ZipFile())
                 {
-                    // DLLをまず選択
+                    // DLLを選択
+                    foreach (string f in DllFiles)
                     {
-                        string srcBase = Path.Combine(Path.Combine(dirSrc, @"OpenCvSharp.Test\bin"), Path.Combine(pf, "Release"));
-                        foreach (string f in FileNames)
-                        {
-                            if (Path.GetExtension(f).ToLower() != ".xml")
-                            {
-                                string src = Path.Combine(srcBase, f);
-                                ZipEntry e = zf.AddFile(src);
-                                e.FileName = Path.GetFileName(src);
-                            }
-                        }
+                        string dll = Path.Combine(dirSrc, f);
+                        ZipEntry e = zf.AddFile(dll);
+                        e.FileName = Path.GetFileName(dll);
                     }
-                    // DebuggerVisualizerを持ってくる
-                    {
-                        string src = Path.Combine(dirSrc, @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll");
-                        ZipEntry e = zf.AddFile(src);
-                        e.FileName = Path.GetFileName(src);
-                    }
+
                     // XMLドキュメントコメントを選択
                     foreach (string lang in Languages)
                     {
-                        string srcBase = Path.Combine(Path.Combine(dirSrc, @"OpenCvSharp.Test\bin"), Path.Combine(pf, lang));
-                        foreach (string f in FileNames)
+                        foreach (string f in XmlFiles)
                         {
-                            if (Path.GetExtension(f).ToLower() == ".xml")
-                            {
-                                string src = Path.Combine(srcBase, f);
-                                ZipEntry e = zf.AddFile(src);
-                                string lg = lang.Contains("JP") ? "Japanese" : "English";
-                                e.FileName = Path.Combine("XmlDoc-" + lg, Path.GetFileName(src));
-                            }
+                            string xml = Path.Combine(dirSrc, String.Format(f, lang));
+                            ZipEntry e = zf.AddFile(xml);
+                            string lg = lang.Contains("JP") ? "Japanese" : "English";
+                            e.FileName = Path.Combine("XmlDoc-" + lg, Path.GetFileName(xml));
                         }
                     }
+
                     // OpenCvSharpExtern.dllを選択
                     {
                         string pfExtern = (pf == "x86") ? "Win32" : "x64";
@@ -192,6 +184,14 @@ namespace OpenCvSharp.ReleaseMaker
                             ZipEntry e = zf.AddFile(externFile);
                             e.FileName = Path.GetFileName(externFile);
                         }
+                    }
+
+                    // テキストを選択
+                    {
+                        ZipEntry e1 = zf.AddFile(Path.Combine(dir, "LICENSE"));
+                        e1.FileName = Path.GetFileName("LICENSE");
+                        ZipEntry e2 = zf.AddFile(Path.Combine(dir, "README.md"));
+                        e2.FileName = Path.GetFileName("README.md");
                     }
 
                     string dst = Path.Combine(dirDst, GetBinaryDstDirName(pf, version)) + ".zip";
@@ -208,7 +208,7 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="version"></param>
         private void MakeSamplePackage(string dirSrc, string dirDst, string version)
         {
-            dirSrc = Path.Combine(Path.Combine(dirSrc, version), "OpenCvSharp.Test");
+            dirSrc = Path.Combine(dirSrc, "sample");
             dirDst = Path.Combine(dirDst, GetSampleDstDirName(version));
 
             CopyDirectory(dirSrc, dirDst);
@@ -251,9 +251,11 @@ namespace OpenCvSharp.ReleaseMaker
             ".pdb", 
             ".bak",
             ".user",
+            ".suo",
         };
         private static readonly string[] InvalidDir = new string[] { 
             ".svn", 
+            ".git", 
             "bin",
             "obj",            
         };
