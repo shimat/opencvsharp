@@ -1,0 +1,1 @@
+#include "WCvAdaptiveSkinDetector.h"

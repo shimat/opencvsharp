@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="cvaux.cpp">
+      <Filter>Sources\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="cvblob.cpp">
+      <Filter>Sources\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="cvcolor.cpp">
+      <Filter>Sources\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="cvcontour.cpp">
+      <Filter>Sources\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="CvBoost.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvBlobWrapper.cpp">
+      <Filter>Sources\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="CvANN_MLP.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvDTree.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvEM.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvERTrees.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvKNearest.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvMLData.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvSVM.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvNormalBayesClassifier.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvRTrees.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="CvTrainTestSplit.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="cvlabel.cpp">
+      <Filter>Sources\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="CvStatModel.cpp">
+      <Filter>Sources\ml</Filter>
+    </ClCompile>
+    <ClCompile Include="cvtrack.cpp">
+      <Filter>Sources\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="WAlgorithm.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WCore.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WCv.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WCvAdaptiveSkinDetector.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WCvaux.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WCvCamShiftTracker.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WFlann.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WHighgui.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WHOGDescriptor.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WMat.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WStereoSGBM.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WVector.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WNonfree.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WVideo.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cvblob.h">
+      <Filter>Headers\cvblob</Filter>
+    </ClInclude>
+    <ClInclude Include="CvBoost.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvANN_MLP.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvEM.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvBlobWrapper.h">
+      <Filter>Headers\cvblob</Filter>
+    </ClInclude>
+    <ClInclude Include="CvERTrees.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvMLData.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvKNearest.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvDTree.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvNormalBayesClassifier.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvStatModel.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvRTrees.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvTrainTestSplit.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="CvSVM.h">
+      <Filter>Headers\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="WAlgorithm.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WCore.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WCv.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WCvAdaptiveSkinDetector.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WCvaux.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WCvCamShiftTracker.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WFlann.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WHighgui.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WMat.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WHOGDescriptor.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WNonfree.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WStereoSGBM.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WVector.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WVideo.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{efcab9f5-3ffb-4ad1-a7b2-283fb4f489c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{6d645e3a-f10b-484e-a30a-37751d2a962c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\cvblob">
+      <UniqueIdentifier>{41971b60-14a9-4bbe-8be9-45e7db666c14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\cvblob">
+      <UniqueIdentifier>{d9178238-69e9-4065-bb9b-900e20cd1afa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\ml">
+      <UniqueIdentifier>{94e69298-bb03-434c-a3d1-8639b82a0103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\ml">
+      <UniqueIdentifier>{d03264e9-15cd-4541-ae61-a92da46af74b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
