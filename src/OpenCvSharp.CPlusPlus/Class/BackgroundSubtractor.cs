@@ -47,7 +47,7 @@ namespace OpenCvSharp.CPlusPlus
                 PInvokeHelper.DllImportError(e);
                 throw;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -106,7 +106,7 @@ namespace OpenCvSharp.CPlusPlus
                 PInvokeHelper.DllImportError(e);
                 throw;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -422,7 +422,7 @@ namespace OpenCvSharp.CPlusPlus
                 PInvokeHelper.DllImportError(e);
                 throw;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
