@@ -114,7 +114,6 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll", 
             //"OpenCvSharp.Gpu.dll",
             @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll", 
-            //"OpenCvSharp.DebuggerVisualizers.dll",
             //"OpenCvSharpExtern.dll",
         };
 
@@ -177,7 +176,6 @@ namespace OpenCvSharp.ReleaseMaker
                     // OpenCvSharpExtern.dllを選択
                     {
                         string pfExtern = (pf == "x86") ? "Win32" : "x64";
-                        // 2010を標準添付 
                         {
                             string externDir = Path.Combine(dirSrc, Path.Combine("Release", pfExtern));
                             string externFile = Path.Combine(externDir, "OpenCvSharpExtern.dll");
@@ -188,8 +186,8 @@ namespace OpenCvSharp.ReleaseMaker
 
                     // テキストを選択
                     {
-                        ZipEntry e1 = zf.AddFile(Path.Combine(dir, "LICENSE"));
-                        e1.FileName = Path.GetFileName("LICENSE");
+                        ZipEntry e1 = zf.AddFile(Path.Combine(dir, "LICENSE.txt"));
+                        e1.FileName = Path.GetFileName("LICENSE.txt");
                         ZipEntry e2 = zf.AddFile(Path.Combine(dir, "README.md"));
                         e2.FileName = Path.GetFileName("README.md");
                     }
