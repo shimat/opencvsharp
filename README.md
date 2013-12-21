@@ -1,7 +1,7 @@
 #OpenCvSharp
-Cross platform wrapper of OpenCV for .NET Framework
+Cross platform wrapper of OpenCV for .NET Framework.
 
-OpenCvSharpは、OpenCVを.NET Frameworkから利用するためのクロスプラットフォームで動作するラッパーです。
+OpenCVを.NET Frameworkから利用するためのクロスプラットフォームで動作するラッパーです。
 
 ## Installation
 ### NuGet
