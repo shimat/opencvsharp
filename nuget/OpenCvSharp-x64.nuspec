@@ -24,7 +24,7 @@
     <files>
         <file src="..\lib\vc++\x64\msvcp110.dll" target="Content\msvcp110.dll" />
         <file src="..\lib\vc++\x64\msvcr110.dll" target="Content\msvcr110.dll" />
-        <file src="..\Release\Win32\OpenCvSharpExtern.dll" target="Content\OpenCvSharpExtern.dll" />
+        <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="Content\OpenCvSharpExtern.dll" />
         <file src="..\lib\opencv\x64\vc11\opencv_calib3d245.dll" target="Content\opencv_calib3d245.dll" />
         <file src="..\lib\opencv\x64\vc11\opencv_contrib245.dll" target="Content\opencv_contrib245.dll" />
         <file src="..\lib\opencv\x64\vc11\opencv_core245.dll" target="Content\opencv_core245.dll" />
@@ -44,38 +44,38 @@
         <file src="..\lib\opencv\x64\vc11\opencv_ts245.dll" target="Content\opencv_ts245.dll" />
         <file src="..\lib\opencv\x64\vc11\opencv_video245.dll" target="Content\opencv_video245.dll" />
         <file src="..\lib\opencv\x64\vc11\opencv_videostab245.dll" target="Content\opencv_videostab245.dll" />
-        <file src="..\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
-        <file src="..\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
-        <file src="..\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net20\OpenCvSharp.Blob.XML" />
-        <file src="..\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net20\OpenCvSharp.CPlusPlus.dll" />
-        <file src="..\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net20\OpenCvSharp.CPlusPlus.dll.config" />
-        <file src="..\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.XML" target="lib\net20\OpenCvSharp.CPlusPlus.XML" />
-        <file src="..\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net20\OpenCvSharp.dll" />
-        <file src="..\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net20\OpenCvSharp.dll.config" />
-        <file src="..\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll" target="lib\net20\OpenCvSharp.MachineLearning.dll" />
-        <file src="..\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll.config" target="lib\net20\OpenCvSharp.MachineLearning.dll.config" />
-        <file src="..\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.XML" target="lib\net20\OpenCvSharp.MachineLearning.XML" />
-        <file src="..\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net20\OpenCvSharp.UserInterface.dll" />
-        <file src="..\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.XML" target="lib\net20\OpenCvSharp.UserInterface.XML" />
-        <file src="..\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net20\OpenCvSharp.XML" />
-        <file src="..\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net35\OpenCvSharp.Extensions.dll" />
-        <file src="..\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net35\OpenCvSharp.Extensions.XML" />
-        <file src="..\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net40\OpenCvSharp.Blob.dll" />
-        <file src="..\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net40\OpenCvSharp.Blob.dll.config" />
-        <file src="..\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net40\OpenCvSharp.Blob.XML" />
-        <file src="..\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net40\OpenCvSharp.CPlusPlus.dll" />
-        <file src="..\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net40\OpenCvSharp.CPlusPlus.dll.config" />
-        <file src="..\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.XML" target="lib\net40\OpenCvSharp.CPlusPlus.XML" />
-        <file src="..\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net40\OpenCvSharp.dll" />
-        <file src="..\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net40\OpenCvSharp.dll.config" />
-        <file src="..\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net40\OpenCvSharp.Extensions.dll" />
-        <file src="..\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net40\OpenCvSharp.Extensions.XML" />
-        <file src="..\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll" target="lib\net40\OpenCvSharp.MachineLearning.dll" />
-        <file src="..\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll.config" target="lib\net40\OpenCvSharp.MachineLearning.dll.config" />
-        <file src="..\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.XML" target="lib\net40\OpenCvSharp.MachineLearning.XML" />
-        <file src="..\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net40\OpenCvSharp.UserInterface.dll" />
-        <file src="..\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.XML" target="lib\net40\OpenCvSharp.UserInterface.XML" />
-        <file src="..\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net40\OpenCvSharp.XML" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net20\OpenCvSharp.Blob.XML" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net20\OpenCvSharp.CPlusPlus.dll" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net20\OpenCvSharp.CPlusPlus.dll.config" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.XML" target="lib\net20\OpenCvSharp.CPlusPlus.XML" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net20\OpenCvSharp.dll" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net20\OpenCvSharp.dll.config" />
+        <file src="..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll" target="lib\net20\OpenCvSharp.MachineLearning.dll" />
+        <file src="..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll.config" target="lib\net20\OpenCvSharp.MachineLearning.dll.config" />
+        <file src="..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.XML" target="lib\net20\OpenCvSharp.MachineLearning.XML" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net20\OpenCvSharp.UserInterface.dll" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.XML" target="lib\net20\OpenCvSharp.UserInterface.XML" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net20\OpenCvSharp.XML" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net35\OpenCvSharp.Extensions.dll" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net35\OpenCvSharp.Extensions.XML" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net40\OpenCvSharp.Blob.dll" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net40\OpenCvSharp.Blob.dll.config" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net40\OpenCvSharp.Blob.XML" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net40\OpenCvSharp.CPlusPlus.dll" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net40\OpenCvSharp.CPlusPlus.dll.config" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.XML" target="lib\net40\OpenCvSharp.CPlusPlus.XML" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net40\OpenCvSharp.dll" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net40\OpenCvSharp.dll.config" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net40\OpenCvSharp.Extensions.dll" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net40\OpenCvSharp.Extensions.XML" />
+        <file src="..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll" target="lib\net40\OpenCvSharp.MachineLearning.dll" />
+        <file src="..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll.config" target="lib\net40\OpenCvSharp.MachineLearning.dll.config" />
+        <file src="..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.XML" target="lib\net40\OpenCvSharp.MachineLearning.XML" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net40\OpenCvSharp.UserInterface.dll" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.XML" target="lib\net40\OpenCvSharp.UserInterface.XML" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net40\OpenCvSharp.XML" />
         <file src="tools-x64\init.ps1" target="tools\init.ps1" />
         <file src="tools-x64\install.ps1" target="tools\install.ps1" />
         <file src="tools-x64\uninstall.ps1" target="tools\uninstall.ps1" />
