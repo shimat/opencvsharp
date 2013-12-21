@@ -53,8 +53,6 @@
         <file src="..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll" target="lib\net20\OpenCvSharp.MachineLearning.dll" />
         <file src="..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll.config" target="lib\net20\OpenCvSharp.MachineLearning.dll.config" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net20\OpenCvSharp.UserInterface.dll" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net35\OpenCvSharp.Extensions.dll" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net35\OpenCvSharp.Extensions.XML" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net40\OpenCvSharp.Blob.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net40\OpenCvSharp.Blob.dll.config" />
         <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net40\OpenCvSharp.CPlusPlus.dll" />
