@@ -34,6 +34,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
     　
 
 ## Usage
+For more details, see the **[Wiki](https://github.com/shimat/opencvsharp/wiki)** page.
 ### C-style
 ```C#
 // Edge detection by Canny algorithm
@@ -81,8 +82,6 @@ class Program
     }
 }
 ```
-
-For more details, see the [Wiki](https://github.com/shimat/opencvsharp/wiki) page.
 
 ## License
 [LGPL](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt)
