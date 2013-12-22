@@ -5,560 +5,136 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-
-using CvLabel = System.UInt32;
 
 namespace OpenCvSharp.Blob
 {
     /// <summary>
     /// Struct that contain information about one blob.
     /// </summary>
-    public class CvBlob : DisposableCvObject
+    public class CvBlob
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed = false;
-
         #region Init & Disposal
         /// <summary>
         /// Constructor
         /// </summary>
         public CvBlob()
         {
-            this.ptr = CvBlobInvoke.CvBlob_construct();
-            base.NotifyMemoryPressure(SizeOf);
-        }
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="ptr">struct CvBlob*</param>
-        public CvBlob(IntPtr ptr)
-            : base(ptr)
-        {
-            IsDisposed = false;
-        }
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                // 継承したクラス独自の解放処理
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (IsEnabledDispose)
-                    {
-                        try
-                        {
-                            CvBlobInvoke.CvBlob_destruct(ptr);
-                        }
-                        catch
-                        {
-                            // ひどいけど揉みつぶす。
-                            // 二重deleteで怒られることがあるため。
-                            // CvBlobsのDisposeが先に来ると死ぬが、
-                            // ラッパーでの対策は苦しい。
-                        }
-                    }
-                    this.disposed = true;
-                }
-                finally
-                {
-                    // 親の解放処理
-                    base.Dispose(disposing);
-                }
-            }
+            Contour = new CvContourChainCode();
+            InternalContours = new List<CvContourChainCode>();
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// sizeof(CvBlob)
-        /// </summary>
-        public static readonly int SizeOf = CvBlobInvoke.CvBlob_sizeof();
 
-		/// <summary>
+        /// <summary>
         /// Label assigned to the blob
         /// </summary>
-		public CvLabel Label
-		{
-			get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_label(ptr)); 
-                }
-            }
-			set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_label(ptr)) = value;
-                }
-            }
-		}    
-		
+        public int Label { get; set; }
+
+        /// <summary>
+        /// Area (moment 00)
+        /// </summary>
+        public int Area { get; set; }	
 		/// <summary>
         /// Area (moment 00)
         /// </summary>
-		public uint Area
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_area(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_area(ptr)) = value; 
-                }
-            }
-		}		
-		/// <summary>
-        /// Area (moment 00)
-        /// </summary>
-		public uint M00
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_m00(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_m00(ptr))  = value;
-                }
-            }
-		}	
+        public int M00 { get; set; }
 
 		/// <summary>
         /// X min
         /// </summary>
-		public uint MinX
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_minx(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_minx(ptr))  = value;
-                }
-            }
-		}	
+        public int MinX { get; set; }	
 		/// <summary>
         /// X max
         /// </summary>
-		public uint MaxX
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_maxx(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_maxx(ptr)) = value;
-                }
-            }
-		}	
+        public int MaxX { get; set; }
 		/// <summary>
         /// Y min
         /// </summary>
-		public uint MinY
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_miny(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_miny(ptr)) = value;
-                }
-            }
-		}	
+        public int MinY { get; set; }
 		/// <summary>
         /// Y max
         /// </summary>
-		public uint MaxY
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_maxy(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_maxy(ptr)) = value;
-                }
-            }
-		}
+        public int MaxY { get; set; }
 
         /// <summary>
         /// CvRect(MinX, MinY, MaxX - MinX, MaxY - MinY)
         /// </summary>
-        public CvRect Rect
-        {
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                return new CvRect((int)MinX, (int)MinY, (int)(MaxX - MinX), (int)(MaxY - MinY));
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                MinX = (uint)value.Left;
-                MinY = (uint)value.Top;
-                MaxX = (uint)value.Right;
-                MaxY = (uint)value.Bottom;
-            }
-        }
+        public CvRect Rect { get; set; }
 
 		/// <summary>
         /// Centroid
         /// </summary>
-		public CvPoint2D64f Centroid
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_centroid(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_centroid(ptr)) = value;
-                }
-            }
-		}	
+        public CvPoint2D64f Centroid { get; internal set; }
 
 		/// <summary>
         /// Moment 10
         /// </summary>
-		public double M10
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_m10(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_m10(ptr)) = value;
-                }
-            }
-		}
+        public double M10 { get; set; }
 		/// <summary>
         /// Moment 01
         /// </summary>
-		public double M01
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_m01(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_m01(ptr)) = value;
-                }
-            }
-		}
+        public double M01 { get; set; }
 		/// <summary>
         /// Moment 11
         /// </summary>
-		public double M11
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_m11(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_m11(ptr)) = value;
-                }
-            }
-		}
+        public double M11 { get; set; }
 		/// <summary>
         /// Moment 20
         /// </summary>
-		public double M20
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_m20(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_m20(ptr)) = value;
-                }
-            }
-		}
+        public double M20 { get; set; }
 		/// <summary>
         /// Moment 02
         /// </summary>
-		public double M02
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_m02(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_m02(ptr)) = value;
-                }
-            }
-		}
+        public double M02 { get; set; }
 	    
 		/// <summary>
         /// True if central moments are being calculated
         /// </summary>
-		public bool CentralMoments
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_centralMoments(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_centralMoments(ptr)) = value;
-                }
-            }
-		}
+        public bool CentralMoments { get; set; }
 		/// <summary>
         /// Central moment 11
         /// </summary>
-		public double U11
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_u11(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_u11(ptr)) = value;
-                }
-            }
-		}
+        public double U11 { get; internal set; } 
 		/// <summary>
         /// Central moment 20
         /// </summary>
-		public double U20
-		{
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_u20(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_u20(ptr)) = value;
-                }
-            }
-		}
+        public double U20 { get; internal set; } 
 		/// <summary>
         /// Central moment 02
         /// </summary>
-        public double U02
-        {
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    return *(CvBlobInvoke.CvBlob_u02(ptr));
-                }
-            }
-            set
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                unsafe
-                {
-                    *(CvBlobInvoke.CvBlob_u02(ptr)) = value;
-                }
-            }
-        }
+        public double U02 { get; internal set; } 
+
+        /// <summary>
+        /// Normalized central moment 11.
+        /// </summary>
+        public double N11 { get; internal set; } 
+        /// <summary>
+        /// Normalized central moment 20.
+        /// </summary>
+        public double N20 { get; internal set; }
+        /// <summary>
+        /// Normalized central moment 02.
+        /// </summary>
+        public double N02 { get; internal set; }
+
+        /// <summary>
+        /// Hu moment 1.
+        /// </summary>
+        public double P1; 
+        /// <summary>
+        /// Hu moment 2.
+        /// </summary>
+        public double P2; 
 
         /// <summary>
         /// Contour
         /// </summary>
-        public CvContourChainCode Contour
-        {
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                IntPtr p = CvBlobInvoke.CvBlob_contour(ptr);
-                return new CvContourChainCode(p);
-            }
-        }
+        public CvContourChainCode Contour { get; internal set; }
         /// <summary>
         /// Internal contours
         /// </summary>
-        public CvContoursChainCode InternalContours
-        {
-            get
-            {
-                if (IsDisposed)
-                    throw new ObjectDisposedException("CvBlob");
-                IntPtr p = CvBlobInvoke.CvBlob_internalContours(ptr);
-                return new CvContoursChainCode(p);
-            }
-        }
+        public List<CvContourChainCode> InternalContours { get; internal set; }
 		#endregion
 
 		#region Methods
@@ -570,9 +146,6 @@ namespace OpenCvSharp.Blob
 		/// <returns>Centroid.</returns>
 		public CvPoint2D64f CalcCentroid()
 		{
-            if (IsDisposed)
-                throw new ObjectDisposedException("CvBlob");
-
             return CvBlobLib.Centroid(this);
         }
         #endregion
@@ -602,9 +175,6 @@ namespace OpenCvSharp.Blob
 		/// <returns>Angle orientation in radians.</returns>
 		public double CalcAngle()
 		{
-            if (IsDisposed)
-                throw new ObjectDisposedException("CvBlob");
-
             return CvBlobLib.Angle(this);
         }
         #endregion
@@ -631,31 +201,7 @@ namespace OpenCvSharp.Blob
         /// <returns>Average color.</returns>
         public CvScalar MeanColor(IplImage imgLabel, IplImage img)
         {
-            if (IsDisposed)
-                throw new ObjectDisposedException("CvBlob");
-
             return CvBlobLib.BlobMeanColor(this, imgLabel, img);
-        }
-        #endregion
-        #region Release
-#if LANG_JP
-        /// <summary>
-        /// 領域を解放 (cvReleaseBlob).
-        /// 基本的にはユーザは呼び出すべきではない.
-        /// </summary>
-#else
-        /// <summary>
-        /// Clean up any resources being used (cvReleaseBlob).
-        /// Usually users should not explicitly call this method.
-        /// </summary>
-#endif
-        public void Release()
-        {
-            if (!IsDisposed)
-            {
-                CvBlobInvoke.cvb_cvReleaseBlob(ptr);
-                IsDisposed = true;
-            }
         }
         #endregion
         #region SetImageROItoBlob
@@ -663,12 +209,9 @@ namespace OpenCvSharp.Blob
         /// Set the ROI of an image to the bounding box of a blob.
         /// </summary>
         /// <param name="img">Image.</param>
-        public void SetImageROIToBlob(IplImage img)
+        public void SetImageRoiToBlob(IplImage img)
         {
-            if (IsDisposed)
-                throw new ObjectDisposedException("CvBlob");
-
-            CvBlobLib.SetImageROItoBlob(img, this);
+            CvBlobLib.SetImageRoItoBlob(img, this);
         }
         #endregion
 		#endregion

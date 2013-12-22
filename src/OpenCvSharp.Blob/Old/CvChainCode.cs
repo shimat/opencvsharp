@@ -6,7 +6,7 @@
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.Blob
+namespace OpenCvSharp.Blob.Old
 {
     /// <summary>
     /// Chain code (direction)

@@ -183,6 +183,7 @@
     <Compile Include="Src\Enum\CvStatus.cs" />
     <Compile Include="Src\Enum\ErrMode.cs" />
     <Compile Include="Src\Enum\FourCC.cs" />
+    <Compile Include="Src\PInvoke\Struct\Etc\IplROI.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WIplConvKernel.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvConDensation.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvFont.cs" />
