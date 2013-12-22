@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
+# Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.UserInterface", "OpenCvSharp.UserInterface\OpenCvSharp.UserInterface.csproj", "{DB12E2F1-1A50-4D12-A92F-4C3D705ECC1F}"
@@ -306,7 +306,6 @@ Global
 		{D0A87C56-1384-4D07-9135-CEA9063232D3}.Release|Win32.ActiveCfg = Release|Win32
 		{D0A87C56-1384-4D07-9135-CEA9063232D3}.Release|Win32.Build.0 = Release|Win32
 		{D0A87C56-1384-4D07-9135-CEA9063232D3}.Release|x64.ActiveCfg = Release|x64
-		{D0A87C56-1384-4D07-9135-CEA9063232D3}.Release|x64.Build.0 = Release|x64
 		{D0A87C56-1384-4D07-9135-CEA9063232D3}.Release|x86.ActiveCfg = Release|Win32
 		{504D4626-F5A5-4591-B833-B4A52FDF4444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{504D4626-F5A5-4591-B833-B4A52FDF4444}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -354,9 +353,10 @@ Global
 		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|Win32.ActiveCfg = Release|Any CPU
-		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|x64.ActiveCfg = Release|Any CPU
-		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|x86.ActiveCfg = Release|Any CPU
-		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|x86.Build.0 = Release|Any CPU
+		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|x64.ActiveCfg = Release|x64
+		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|x64.Build.0 = Release|x64
+		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|x86.ActiveCfg = Release|x86
+		{74711820-94D5-4F00-AB01-4D65C52E8761}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

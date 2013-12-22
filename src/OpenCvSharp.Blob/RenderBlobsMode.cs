@@ -16,6 +16,11 @@ namespace OpenCvSharp.Blob
 	public enum RenderBlobsMode : ushort
 	{
         /// <summary>
+        /// No flags (=0)
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// Render each blog with a different color.
         /// [CV_BLOB_RENDER_COLOR]
         /// </summary>

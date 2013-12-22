@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using CvLabel = System.UInt32;
-using CvID = System.UInt32;
 
 namespace OpenCvSharp.Blob
 {
@@ -15,7 +10,7 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Size of a label in bits.
         /// </summary>
-        public const BitDepth DepthLabel = (BitDepth)(sizeof(CvLabel) * 8);
+        public const BitDepth DepthLabel = (BitDepth)(sizeof(UInt32) * 8);
 
         #region RenderBlobsMode
         /// <summary>

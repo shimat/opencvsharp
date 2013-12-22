@@ -5,9 +5,11 @@
 
 using System;
 
-//#pragma warning disable 1591
+//using CvID = System.UInt32;
 
-namespace OpenCvSharp.Blob
+#pragma warning disable 1591
+
+namespace OpenCvSharp.Blob.Old
 {
     /// <summary>
     /// Functions of cvblob library
@@ -21,7 +23,7 @@ namespace OpenCvSharp.Blob
         public const BitDepth DepthLabel = (BitDepth)(sizeof(UInt32) * 8);
         #endregion
 
-        #region Public Methods
+        #region Methods
         #region Angle
         /// <summary>
         /// Calculates angle orientation of a blob.
@@ -32,11 +34,11 @@ namespace OpenCvSharp.Blob
         public static double Angle(CvBlob blob)
         {
             if (blob == null)
+            {
                 throw new ArgumentNullException("blob");
-            return 0.5 * Math.Atan2(
-                2.0 * blob.U11, 
-                (blob.U20 - blob.U02)
-            );
+            }
+
+            return CvBlobInvoke.cvb_cvAngle(blob.CvPtr);
         }
         #endregion
         #region CentralMoments
@@ -53,7 +55,7 @@ namespace OpenCvSharp.Blob
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvCentralMoments(blob.CvPtr, img.CvPtr);
         }
         #endregion
         #region Centroid
@@ -66,9 +68,11 @@ namespace OpenCvSharp.Blob
         public static CvPoint2D64f Centroid(CvBlob blob)
         {
             if (blob == null)
+            {
                 throw new ArgumentNullException("blob");
+            }
 
-            throw new NotImplementedException();
+            return CvBlobInvoke.cvb_cvCentroid(blob.CvPtr);
         }
         #endregion
         #region ContourPolygonArea
@@ -82,7 +86,7 @@ namespace OpenCvSharp.Blob
             if (p == null)
                 throw new ArgumentNullException("p");
 
-            throw new NotImplementedException();
+            return CvBlobInvoke.cvb_cvContourPolygonArea(p.CvPtr);
         }
         #endregion
         #region ContourPolygonPerimeter
@@ -96,7 +100,7 @@ namespace OpenCvSharp.Blob
             if (p == null)
                 throw new ArgumentNullException("p");
 
-            throw new NotImplementedException();
+            return CvBlobInvoke.cvb_cvContourPolygonPerimeter(p.CvPtr);
         }
         #endregion
         #region ConvertChainCodesToPolygon
@@ -109,7 +113,11 @@ namespace OpenCvSharp.Blob
         {
             if (cc == null)
                 throw new ArgumentNullException("cc");
-            throw new NotImplementedException();
+            IntPtr ptr = CvBlobInvoke.cvb_cvConvertChainCodesToPolygon(cc.CvPtr);
+            if (ptr == IntPtr.Zero)
+                return null;
+            else
+                return new CvContourPolygon(ptr);
         }
         #endregion
         #region FilterByArea
@@ -123,9 +131,11 @@ namespace OpenCvSharp.Blob
         public static void FilterByArea(CvBlobs blobs, uint minArea, uint maxArea)
         {
             if (blobs == null)
+            {
                 throw new ArgumentNullException("blobs");
+            }
 
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvFilterByArea(blobs.CvPtr, minArea, maxArea);
         }
         #endregion
         #region FilterLabels
@@ -144,7 +154,7 @@ namespace OpenCvSharp.Blob
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
 
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvFilterLabels(imgIn.CvPtr, imgOut.CvPtr, blobs.CvPtr);
         }
         #endregion   
         /*
@@ -184,7 +194,7 @@ namespace OpenCvSharp.Blob
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            throw new NotImplementedException();
+            return CvBlobInvoke.cvb_cvGetLabel(img.CvPtr, x, y);
         }
         #endregion
         #region GreaterBlob
@@ -193,22 +203,12 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="blobs">List of blobs.</param>
         /// <returns>Label of greater blob.</returns>
-        public static int GreaterBlob(CvBlobs blobs)
-        {
-            return LargestBlob(blobs);
-        }
-
-        /// <summary>
-        /// Find largest blob. (cvLargestBlob)
-        /// </summary>
-        /// <param name="blobs">List of blobs.</param>
-        /// <returns>Label of greater blob.</returns>
-        public static int LargestBlob(CvBlobs blobs)
+        public static UInt32 GreaterBlob(CvBlobs blobs)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
 
-            throw new NotImplementedException();
+            return CvBlobInvoke.cvb_cvGreaterBlob(blobs.CvPtr);
         }
         #endregion
         #region Label
@@ -216,19 +216,19 @@ namespace OpenCvSharp.Blob
         /// Label the connected parts of a binary image. (cvLabel)
         /// </summary>
         /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
-        /// <param name="labels">Output Label values.</param>
+        /// <param name="imgOut">Output image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
         /// <param name="blobs">List of blobs.</param>
         /// <returns>Number of pixels that has been labeled.</returns>
-        public static int Label(IplImage img, int[,] labels, CvBlobs blobs)
+        public static UInt32 Label(IplImage img, IplImage imgOut, CvBlobs blobs)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            if (labels == null)
-                throw new ArgumentNullException("labels");
+            if (imgOut == null)
+                throw new ArgumentNullException("imgOut");
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
 
-            return Labeller.Perform(img, labels, blobs);
+            return CvBlobInvoke.cvb_cvLabel(img.CvPtr, imgOut.CvPtr, blobs.CvPtr);
         }
         #endregion
         #region BlobMeanColor
@@ -247,8 +247,10 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("imgLabel");
             if (img == null)
                 throw new ArgumentNullException("img");
+            if (blob.IsDisposed)
+                throw new ObjectDisposedException("CvBlob");
 
-            throw new NotImplementedException();
+            return CvBlobInvoke.cvb_cvBlobMeanColor(blob.CvPtr, imgLabel.CvPtr, img.CvPtr);
         }
         #endregion
         #region PolygonContourConvexHull
@@ -263,7 +265,25 @@ namespace OpenCvSharp.Blob
             if (p == null)
                 throw new ArgumentNullException("p");
 
-            throw new NotImplementedException();
+            IntPtr result = CvBlobInvoke.cvb_cvPolygonContourConvexHull(p.CvPtr);
+            if (result == IntPtr.Zero)
+                return null;
+            else
+                return new CvContourPolygon(result);
+        }
+        #endregion
+        #region ReleaseBlobs
+        /// <summary>
+        /// Clear blobs structure. (cvReleaseBlobs)
+        /// </summary>
+        /// <param name="blobs">List of blobs.</param>
+        public static void ReleaseBlobs(CvBlobs blobs)
+        {
+            if (blobs == null)
+                throw new ArgumentNullException("blobs");
+
+            CvBlobInvoke.cvb_cvReleaseBlobs(blobs.CvPtr);
+            blobs.Dispose();
         }
         #endregion
         #region RenderBlob
@@ -324,46 +344,46 @@ namespace OpenCvSharp.Blob
             if (imgDest == null)
                 throw new ArgumentNullException("imgDest");
 
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvRenderBlob(imgLabel.CvPtr, blob.CvPtr, imgSource.CvPtr, imgDest.CvPtr, mode, color, alpha);
         }
         #endregion
         #region RenderBlobs
         /// <summary>
         /// Draws or prints information about blobs. (cvRenderBlobs)
         /// </summary>
-        /// <param name="labels">Label data.</param>
+        /// <param name="imgLabel">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
         /// <param name="blobs">List of blobs.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        public static void RenderBlobs(int[,] labels, CvBlobs blobs, IplImage imgSource, IplImage imgDest)
+        public static void RenderBlobs(IplImage imgLabel, CvBlobs blobs, IplImage imgSource, IplImage imgDest)
         {
-            RenderBlobs(labels, blobs, imgSource, imgDest, (RenderBlobsMode)0x000f, 1.0);
+            RenderBlobs(imgLabel, blobs, imgSource, imgDest, (RenderBlobsMode)0x000f, 1.0);
         }
         /// <summary>
         /// Draws or prints information about blobs. (cvRenderBlobs)
         /// </summary>
-        /// <param name="labels">Label data.</param>
+        /// <param name="imgLabel">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
         /// <param name="blobs">List of blobs.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
-        public static void RenderBlobs(int[,] labels, CvBlobs blobs, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
+        public static void RenderBlobs(IplImage imgLabel, CvBlobs blobs, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
         {
-            RenderBlobs(labels, blobs, imgSource, imgDest, mode, 1.0);
+            RenderBlobs(imgLabel, blobs, imgSource, imgDest, mode, 1.0);
         }
         /// <summary>
         /// Draws or prints information about blobs. (cvRenderBlobs)
         /// </summary>
-        /// <param name="labels">Label data.</param>
+        /// <param name="imgLabel">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
         /// <param name="blobs">List of blobs.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
-        public static void RenderBlobs(int[,] labels, CvBlobs blobs, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, double alpha)
+        public static void RenderBlobs(IplImage imgLabel, CvBlobs blobs, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, double alpha)
         {
-            if (labels == null)
-                throw new ArgumentNullException("labels");
+            if (imgLabel == null)
+                throw new ArgumentNullException("imgLabel");
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
             if (imgSource == null)
@@ -371,7 +391,7 @@ namespace OpenCvSharp.Blob
             if (imgDest == null)
                 throw new ArgumentNullException("imgDest");
 
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvRenderBlobs(imgLabel.CvPtr, blobs.CvPtr, imgSource.CvPtr, imgDest.CvPtr, mode, alpha);
         }
         #endregion
         #region RenderContourChainCode
@@ -396,8 +416,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("contour");
             if (img == null)
                 throw new ArgumentNullException("img");
-
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvRenderContourChainCode(contour.CvPtr, img.CvPtr, color);
         }
         #endregion
         #region RenderContourPolygon
@@ -422,8 +441,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("contour");
             if (img == null)
                 throw new ArgumentNullException("img");
-
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvRenderContourPolygon(contour.CvPtr, img.CvPtr, color);
         }
         #endregion
         #region RenderTracks
@@ -465,23 +483,23 @@ namespace OpenCvSharp.Blob
             if (imgDest == null)
                 throw new ArgumentNullException("imgDest");
 
-            throw new NotImplementedException();
+            IntPtr fontPtr = (font == null) ? IntPtr.Zero : font.CvPtr;
+            CvBlobInvoke.cvb_cvRenderTracks(tracks.CvPtr, imgSource.CvPtr, imgDest.CvPtr, mode, fontPtr);
         }
         #endregion
-        #region SetImageRoItoBlob
+        #region SetImageROItoBlob
         /// <summary>
         /// Set the ROI of an image to the bounding box of a blob.
         /// </summary>
         /// <param name="img">Image.</param>
         /// <param name="blob">Blob.</param>
-        public static void SetImageRoItoBlob(IplImage img, CvBlob blob)
+        public static void SetImageROItoBlob(IplImage img, CvBlob blob)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
             if (blob == null)
                 throw new ArgumentNullException("blob");
-            
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvSetImageROItoBlob(img.CvPtr, blob.CvPtr);
         }
         #endregion
         #region SimplifyPolygon
@@ -507,15 +525,19 @@ namespace OpenCvSharp.Blob
             if (p == null)
                 throw new ArgumentNullException("p");
 
-            throw new NotImplementedException();
+            IntPtr result = CvBlobInvoke.cvb_cvSimplifyPolygon(p.CvPtr, delta);
+            if (result == IntPtr.Zero)
+                return null;
+            else
+                return new CvContourPolygon(result);
         }
         #endregion
         #region UpdateTracks
         /// <summary>
         /// Updates list of tracks based on current blobs. 
         /// </summary>
-        /// <param name="blobs">List of blobs.</param>
-        /// <param name="tracks">List of tracks.</param>
+        /// <param name="b">List of blobs.</param>
+        /// <param name="t">List of tracks.</param>
         /// <param name="thDistance">Max distance to determine when a track and a blob match.</param>
         /// <param name="thInactive">Max number of frames a track can be inactive.</param>
         /// <remarks>
@@ -525,14 +547,13 @@ namespace OpenCvSharp.Blob
         /// Surveillance Systems &amp; CVPR'01. December, 2001.
         /// (http://www.research.ibm.com/peoplevision/PETS2001.pdf)
         /// </remarks>
-        public static void UpdateTracks(CvBlobs blobs, CvTracks tracks, double thDistance, uint thInactive)
+        public static void UpdateTracks(CvBlobs b, CvTracks t, double thDistance, uint thInactive)
         {
-            if (blobs == null)
-                throw new ArgumentNullException("blobs");
-            if (tracks == null)
-                throw new ArgumentNullException("tracks");
-
-            throw new NotImplementedException();
+            if (b == null)
+                throw new ArgumentNullException("b");
+            if (t == null)
+                throw new ArgumentNullException("t");
+            CvBlobInvoke.cvb_cvUpdateTracks(b.CvPtr, t.CvPtr, thDistance, thInactive);
         }
         #endregion
         #region WriteContourPolygonCSV
@@ -547,7 +568,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("p");
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvWriteContourPolygonCSV(p.CvPtr, filename);
         }
         #endregion
         #region WriteContourPolygonSVG
@@ -573,7 +594,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("p");
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
-            throw new NotImplementedException();
+            CvBlobInvoke.cvb_cvWriteContourPolygonSVG(p.CvPtr, filename, stroke, fill);
         }
         #endregion
         #endregion

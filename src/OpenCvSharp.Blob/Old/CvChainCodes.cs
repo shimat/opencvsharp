@@ -5,9 +5,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.Blob
+namespace OpenCvSharp.Blob.Old
 {
 	/// <summary>
     /// Chain code.

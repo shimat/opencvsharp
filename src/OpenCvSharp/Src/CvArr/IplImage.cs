@@ -1020,6 +1020,26 @@ namespace OpenCvSharp
         }
 #if LANG_JP
         /// <summary>
+        /// 画像 ROI の矩形のポインタを取得する
+        /// </summary>
+#else
+        /// <summary>
+        /// image ROI. when it is not NULL, this specifies image region to process
+        /// </summary>
+#endif
+        public IplROI ROIValue
+        {
+            get
+            {
+                unsafe
+                {
+                    IntPtr p = new IntPtr(((WIplImage*)ptr)->roi);
+                    return (IplROI)Marshal.PtrToStructure(p, typeof(IplROI));
+                }
+            }
+        }
+#if LANG_JP
+        /// <summary>
         /// 画像のピクセル幅を取得する
         /// </summary>
 #else

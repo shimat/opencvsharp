@@ -4,14 +4,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-using CvLabel = System.UInt32;
-using CvID = System.UInt32;
-
-namespace OpenCvSharp.Blob
+namespace OpenCvSharp.Blob.Old
 {
     [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Ansi)]
     internal struct WCvTrack
@@ -19,12 +14,12 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Track identification number.
         /// </summary>
-        public CvID id; 
+        public UInt32 id; 
 
         /// <summary>
         /// Label assigned to the blob related to this track.
         /// </summary>
-        public CvLabel label;
+        public UInt32 label;
 
         /// <summary>
         /// X min.
@@ -130,7 +125,7 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Track identification number.
         /// </summary>
-        public CvID ID
+        public UInt32 ID
         {
             get
             {
@@ -154,7 +149,7 @@ namespace OpenCvSharp.Blob
 		/// <summary>
         /// Label assigned to the blob
         /// </summary>
-		public CvLabel Label
+		public UInt32 Label
 		{
 			get
             {

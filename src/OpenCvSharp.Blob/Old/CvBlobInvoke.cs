@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
-using System.Text;
 using OpenCvSharp.Utilities;
-
-using CvLabel = System.UInt32;
-using CvID = System.UInt32;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.Blob
+namespace OpenCvSharp.Blob.Old
 {
     /// <summary>
     /// cvblob's P/Invoke methods
@@ -94,11 +89,11 @@ namespace OpenCvSharp.Blob
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         //public static extern IntPtr cvb_cvGetContour(IntPtr blob, IntPtr img);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvLabel cvb_cvGetLabel(IntPtr img, uint x, uint y);
+        public static extern UInt32 cvb_cvGetLabel(IntPtr img, uint x, uint y);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvLabel cvb_cvGreaterBlob(IntPtr blobs);
+        public static extern UInt32 cvb_cvGreaterBlob(IntPtr blobs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvLabel cvb_cvLabel(IntPtr img, IntPtr imgOut, IntPtr blobs);
+        public static extern UInt32 cvb_cvLabel(IntPtr img, IntPtr imgOut, IntPtr blobs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cvb_cvPolygonContourConvexHull(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -257,15 +252,15 @@ namespace OpenCvSharp.Blob
         public static extern void CvBlobs_destruct(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBlobs_Add(IntPtr blobs, CvLabel key, IntPtr value);
+        public static extern void CvBlobs_Add(IntPtr blobs, UInt32 key, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool CvBlobs_ContainsKey(IntPtr blobs, CvLabel key);
+        public static extern bool CvBlobs_ContainsKey(IntPtr blobs, UInt32 key);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBlobs_Keys(IntPtr blobs, [In, Out] CvLabel[] keys);
+        public static extern void CvBlobs_Keys(IntPtr blobs, [In, Out] UInt32[] keys);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool CvBlobs_RemoveAt(IntPtr blobs, CvLabel key);
+        public static extern bool CvBlobs_RemoveAt(IntPtr blobs, UInt32 key);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool CvBlobs_TryGetValue(IntPtr blobs, CvLabel key, out IntPtr value);
+        public static extern bool CvBlobs_TryGetValue(IntPtr blobs, UInt32 key, out IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void CvBlobs_Values(IntPtr blobs, [In, Out] IntPtr[] values);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -273,18 +268,18 @@ namespace OpenCvSharp.Blob
         public static extern void CvBlobs_Clear(IntPtr blobs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvBlobs_Contains(IntPtr blobs, CvLabel key, IntPtr value);
+        public static extern bool CvBlobs_Contains(IntPtr blobs, UInt32 key, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int CvBlobs_Count(IntPtr blobs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvBlobs_Remove(IntPtr blobs, CvLabel key, IntPtr value);
+        public static extern bool CvBlobs_Remove(IntPtr blobs, UInt32 key, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBlobs_get(IntPtr blobs, CvLabel key);
+        public static extern IntPtr CvBlobs_get(IntPtr blobs, UInt32 key);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBlobs_set(IntPtr blobs, CvLabel key, IntPtr value);
+        public static extern void CvBlobs_set(IntPtr blobs, UInt32 key, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBlobs_GetKeysAndValues(IntPtr blobs, [In, Out] CvLabel[] keys, [In, Out] IntPtr[] values);
+        public static extern void CvBlobs_GetKeysAndValues(IntPtr blobs, [In, Out] UInt32[] keys, [In, Out] IntPtr[] values);
         #endregion
         #region CvTracks
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -304,18 +299,18 @@ namespace OpenCvSharp.Blob
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void CvTracks_cvReleaseTracks(IntPtr tracks);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvTracks_Add(IntPtr obj, CvID key, IntPtr value);
+        public static extern void CvTracks_Add(IntPtr obj, UInt32 key, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvTracks_ContainsKey(IntPtr obj, CvID key);
+        public static extern bool CvTracks_ContainsKey(IntPtr obj, UInt32 key);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvTracks_Keys(IntPtr obj, [In, Out]CvID[] keys);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvTracks_RemoveAt(IntPtr obj, CvID key);
+        public static extern void CvTracks_Keys(IntPtr obj, [In, Out]UInt32[] keys);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvTracks_TryGetValue(IntPtr obj, CvID key, out IntPtr value);
+        public static extern bool CvTracks_RemoveAt(IntPtr obj, UInt32 key);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CvTracks_TryGetValue(IntPtr obj, UInt32 key, out IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void CvTracks_Values(IntPtr obj, [In, Out] IntPtr[] values);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -323,18 +318,18 @@ namespace OpenCvSharp.Blob
         public static extern void CvTracks_Clear(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvTracks_Contains(IntPtr obj, CvID key, IntPtr value);
+        public static extern bool CvTracks_Contains(IntPtr obj, UInt32 key, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int CvTracks_Count(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvTracks_Remove(IntPtr obj, CvID key, IntPtr value);
+        public static extern bool CvTracks_Remove(IntPtr obj, UInt32 key, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvTracks_get(IntPtr obj, CvID key);
+        public static extern IntPtr CvTracks_get(IntPtr obj, UInt32 key);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvTracks_set(IntPtr obj, CvID key, IntPtr value);
+        public static extern void CvTracks_set(IntPtr obj, UInt32 key, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvTracks_GetKeysAndValues(IntPtr obj, [In, Out]CvID[] keys, [In, Out]IntPtr[] values);
+        public static extern void CvTracks_GetKeysAndValues(IntPtr obj, [In, Out]UInt32[] keys, [In, Out]IntPtr[] values);
         #endregion
         #endregion
     }
