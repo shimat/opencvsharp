@@ -82,7 +82,7 @@ class Program
 }
 ```
 
-For more details, see the xxx page.
+For more details, see the [Wiki](https://github.com/shimat/opencvsharp/wiki) page.
 
 ## License
 [LGPL](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt)
