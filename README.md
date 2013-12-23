@@ -84,7 +84,9 @@ class Program
 ```
 
 ## License
-[LGPL](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt)
+OpenCvSharp is released under an [LGPL](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt).
+
+This library uses [cvBlob](http://code.google.com/p/cvblob/) to implement blob extraction. cvBlob is under an LGPL, so OpenCvSharp follows the cvBlob licensing.
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/shimat/opencvsharp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
