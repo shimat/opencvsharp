@@ -34,11 +34,15 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Area (moment 00)
         /// </summary>
-        public int Area { get; set; }	
-		/// <summary>
+        public int Area { get; set; }
+        /// <summary>
         /// Area (moment 00)
         /// </summary>
-        public int M00 { get; set; }
+        public int M00
+        {
+            get { return Area; }
+            set { Area = value; }
+        }
 
 		/// <summary>
         /// X min
@@ -60,7 +64,20 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// CvRect(MinX, MinY, MaxX - MinX, MaxY - MinY)
         /// </summary>
-        public CvRect Rect { get; set; }
+        public CvRect Rect
+        {
+            get
+            {
+                return new CvRect(MinX, MinY, MaxX - MinX, MaxY - MinY);
+            }
+            set
+            {
+                MinX = value.Left;
+                MinY = value.Top;
+                MaxX = value.Right;
+                MaxY = value.Bottom;
+            }
+        }
 
 		/// <summary>
         /// Centroid

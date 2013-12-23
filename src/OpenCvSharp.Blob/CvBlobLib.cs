@@ -228,7 +228,7 @@ namespace OpenCvSharp.Blob
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
 
-            return Labeller.Perform(img, labels, blobs);
+            return blobs.Label(img, labels);
         }
         #endregion
         #region BlobMeanColor
@@ -270,53 +270,53 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Draws or prints information about a blob.
         /// </summary>
-        /// <param name="imgLabel">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
+        /// <param name="labels">Label data.</param>
         /// <param name="blob">Blob.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        public static void RenderBlob(IplImage imgLabel, CvBlob blob, IplImage imgSource, IplImage imgDest)
+        public static void RenderBlob(int[,] labels, CvBlob blob, IplImage imgSource, IplImage imgDest)
         {
-            RenderBlob(imgLabel, blob, imgSource, imgDest, (RenderBlobsMode)0x000f, CvColor.White, 1.0);
+            RenderBlob(labels, blob, imgSource, imgDest, (RenderBlobsMode)0x000f, CvColor.White, 1.0);
         }
         /// <summary>
         /// Draws or prints information about a blob.
         /// </summary>
-        /// <param name="imgLabel">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
+        /// <param name="labels">Label data.</param>
         /// <param name="blob">Blob.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
-        public static void RenderBlob(IplImage imgLabel, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
+        public static void RenderBlob(int[,] labels, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
         {
-            RenderBlob(imgLabel, blob, imgSource, imgDest, mode, CvColor.White, 1.0);
+            RenderBlob(labels, blob, imgSource, imgDest, mode, CvColor.White, 1.0);
         }
         /// <summary>
         /// Draws or prints information about a blob.
         /// </summary>
-        /// <param name="imgLabel">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
+        /// <param name="labels">Label data.</param>
         /// <param name="blob">Blob.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="color">Color to render (if CV_BLOB_RENDER_COLOR is used).</param>
-        public static void RenderBlob(IplImage imgLabel, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, CvScalar color)
+        public static void RenderBlob(int[,] labels, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, CvScalar color)
         {
-            RenderBlob(imgLabel, blob, imgSource, imgDest, mode, color, 1.0);
+            RenderBlob(labels, blob, imgSource, imgDest, mode, color, 1.0);
         }
         /// <summary>
         /// Draws or prints information about a blob.
         /// </summary>
-        /// <param name="imgLabel">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
+        /// <param name="labels">Label data.</param>
         /// <param name="blob">Blob.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="color">Color to render (if CV_BLOB_RENDER_COLOR is used).</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
-        public static void RenderBlob(IplImage imgLabel, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, CvScalar color, double alpha)
+        public static void RenderBlob(int[,] labels, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, CvScalar color, double alpha)
         {
-            if (imgLabel == null)
-                throw new ArgumentNullException("imgLabel");
+            if (labels == null)
+                throw new ArgumentNullException("labels");
             if (blob == null)
                 throw new ArgumentNullException("blob");
             if (imgSource == null)
@@ -324,7 +324,7 @@ namespace OpenCvSharp.Blob
             if (imgDest == null)
                 throw new ArgumentNullException("imgDest");
 
-            throw new NotImplementedException();
+            BlobRenderer.PerformOne(labels, blob, imgSource, imgDest, mode, color, alpha);
         }
         #endregion
         #region RenderBlobs
@@ -371,7 +371,7 @@ namespace OpenCvSharp.Blob
             if (imgDest == null)
                 throw new ArgumentNullException("imgDest");
 
-            throw new NotImplementedException();
+            BlobRenderer.PerformMany(labels, blobs, imgSource, imgDest, mode, alpha);
         }
         #endregion
         #region RenderContourChainCode
