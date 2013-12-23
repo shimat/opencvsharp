@@ -2,10 +2,38 @@
 using System.Collections.Generic;
 using System.Text;
 
+// Copyright (C) 2007 by Cristóbal Carnero Liñán
+// grendel.ccl@gmail.com
+//
+// This file is part of cvBlob.
+//
+// cvBlob is free software: you can redistribute it and/or modify
+// it under the terms of the Lesser GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// cvBlob is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// Lesser GNU General Public License for more details.
+//
+// You should have received a copy of the Lesser GNU General Public License
+// along with cvBlob.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace OpenCvSharp.Blob
 {
     internal static class BlobRenderer
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="blob"></param>
+        /// <param name="imgSrc"></param>
+        /// <param name="imgDst"></param>
+        /// <param name="mode"></param>
+        /// <param name="color"></param>
+        /// <param name="alpha"></param>
         public static unsafe void PerformOne(int[,] labels, CvBlob blob, IplImage imgSrc, IplImage imgDst,
             RenderBlobsMode mode, CvScalar color, double alpha)
         {
@@ -24,24 +52,16 @@ namespace OpenCvSharp.Blob
             {
                 int stepSrc = imgSrc.WidthStep;
                 int stepDst = imgDst.WidthStep;
-                int widthSrc = imgSrc.Width;
-                int heightSrc = imgSrc.Height;
                 int offsetSrc = 0;
-                int widthDst = imgDst.Width;
-                int heightDst = imgDst.Height;
                 int offsetDst = 0;
                 if (imgSrc.ROIPointer != IntPtr.Zero)
                 {
                     IplROI roi = imgSrc.ROIValue;
-                    widthSrc = roi.width;
-                    heightSrc = roi.height;
                     offsetSrc = (imgSrc.NChannels*roi.xOffset) + (roi.yOffset*stepSrc);
                 }
                 if (imgDst.ROIPointer != IntPtr.Zero)
                 {
                     IplROI roi = imgDst.ROIValue;
-                    widthDst = roi.width;
-                    heightDst = roi.height;
                     offsetDst = (imgDst.NChannels*roi.xOffset) + (roi.yOffset*stepSrc);
                 }
 
@@ -77,29 +97,37 @@ namespace OpenCvSharp.Blob
                 if ((mode & RenderBlobsMode.Angle) == RenderBlobsMode.Angle)
                 {
                     double angle = CvBlobLib.Angle(blob);
-                    double lengthLine = Math.Max(blob.MaxX - blob.MinX, blob.MaxY - blob.MinY)/2.0;
-                    double x1 = blob.Centroid.X - lengthLine*Math.Cos(angle);
-                    double y1 = blob.Centroid.Y - lengthLine*Math.Sin(angle);
-                    double x2 = blob.Centroid.X + lengthLine*Math.Cos(angle);
-                    double y2 = blob.Centroid.Y + lengthLine*Math.Sin(angle);
-                    Cv.Line(imgDst, new CvPoint((int) x1, (int) y1), Cv.Point((int) x2, (int) y2),
+                    double lengthLine = Math.Max(blob.MaxX - blob.MinX, blob.MaxY - blob.MinY) / 2.0;
+                    double x1 = blob.Centroid.X - lengthLine * Math.Cos(angle);
+                    double y1 = blob.Centroid.Y - lengthLine * Math.Sin(angle);
+                    double x2 = blob.Centroid.X + lengthLine * Math.Cos(angle);
+                    double y2 = blob.Centroid.Y + lengthLine * Math.Sin(angle);
+                    Cv.Line(imgDst, new CvPoint((int)x1, (int)y1), Cv.Point((int)x2, (int)y2),
                         new CvColor(0, 255, 0));
                 }
                 if ((mode & RenderBlobsMode.Centroid) == RenderBlobsMode.Centroid)
                 {
                     Cv.Line(imgDst,
-                        new CvPoint((int) blob.Centroid.X - 3, (int) blob.Centroid.Y),
-                        new CvPoint((int) blob.Centroid.X + 3, (int) blob.Centroid.Y),
+                        new CvPoint((int)blob.Centroid.X - 3, (int)blob.Centroid.Y),
+                        new CvPoint((int)blob.Centroid.X + 3, (int)blob.Centroid.Y),
                         new CvColor(0, 0, 255));
                     Cv.Line(imgDst,
-                        new CvPoint((int) blob.Centroid.X, (int) blob.Centroid.Y - 3),
-                        new CvPoint((int) blob.Centroid.X, (int) blob.Centroid.Y + 3),
+                        new CvPoint((int)blob.Centroid.X, (int)blob.Centroid.Y - 3),
+                        new CvPoint((int)blob.Centroid.X, (int)blob.Centroid.Y + 3),
                         new CvColor(0, 0, 255));
                 }
             }
-
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="blobs"></param>
+        /// <param name="imgSrc"></param>
+        /// <param name="imgDst"></param>
+        /// <param name="mode"></param>
+        /// <param name="alpha"></param>
         public static void PerformMany(int[,] labels, CvBlobs blobs, IplImage imgSrc, IplImage imgDst,
             RenderBlobsMode mode, double alpha)
         {
@@ -114,32 +142,80 @@ namespace OpenCvSharp.Blob
             if (imgDst.Depth != BitDepth.U8 || imgDst.NChannels != 3)
                 throw new ArgumentException("'img' must be a 3-channel U8 image.");
 
-            CV_ASSERT(imgLabel && (imgLabel->depth == IPL_DEPTH_LABEL) && (imgLabel->nChannels == 1));
-            CV_ASSERT(imgDest && (imgDest->depth == IPL_DEPTH_8U) && (imgDest->nChannels == 3));
-
-            Palete pal;
-            if (mode & CV_BLOB_RENDER_COLOR)
+            var palette = new Dictionary<int, CvColor>();
+            if ((mode & RenderBlobsMode.Color) == RenderBlobsMode.Color)
             {
-
-                unsigned
                 int colorCount = 0;
-                for (CvBlobs::const_iterator it = blobs.begin(); it != blobs.end(); ++it)
+                foreach (var kv in blobs)
                 {
-                    CvLabel label = (*it).second->label;
-
                     double r, g, b;
-
-                    _HSV2RGB_((double) ((colorCount*77)%360), .5, 1., r, g, b);
+                    Hsv2Rgb((colorCount*77) % 360, 0.5, 1.0, out r, out g, out b);
                     colorCount++;
-
-                    pal[label] = CV_RGB(r, g, b);
+                    palette[kv.Key] = new CvColor((int)r, (int)g, (int)b);
                 }
             }
 
-            for (CvBlobs::iterator it = blobs.begin(); it != blobs.end(); ++it)
-                cvRenderBlob(imgLabel, (*it).second, imgSource, imgDest, mode, pal[(*it).second->label], alpha);
-
+            foreach (var kv in blobs)
+            {
+                PerformOne(labels, kv.Value, imgSrc, imgDst, mode, palette[kv.Key], alpha);
+            }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="h"></param>
+        /// <param name="s"></param>
+        /// <param name="v"></param>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
+        private static void Hsv2Rgb(double h, double s, double v, out double r, out double g, out double b)
+        {
+            double hh = h / 60.0;
+            int hf = (int)Math.Floor(hh);
+            int hi = ((int)hh) % 6;
+            double f = hh - hf;
+
+            double p = v * (1.0 - s);
+            double q = v * (1.0 - f * s);
+            double t = v * (1.0 - (1.0 - f) * s);
+
+            switch (hi)
+            {
+                case 0:
+                    r = 255.0 * v;
+                    g = 255.0 * t;
+                    b = 255.0 * p;
+                    break;
+                case 1:
+                    r = 255.0 * q;
+                    g = 255.0 * v;
+                    b = 255.0 * p;
+                    break;
+                case 2:
+                    r = 255.0 * p;
+                    g = 255.0 * v;
+                    b = 255.0 * t;
+                    break;
+                case 3:
+                    r = 255.0 * p;
+                    g = 255.0 * q;
+                    b = 255.0 * v;
+                    break;
+                case 4:
+                    r = 255.0 * t;
+                    g = 255.0 * p;
+                    b = 255.0 * v;
+                    break;
+                case 5:
+                    r = 255.0 * v;
+                    g = 255.0 * p;
+                    b = 255.0 * q;
+                    break;
+                default:
+                    throw new Exception();
+            }
+        }
     }
 }

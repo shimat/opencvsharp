@@ -5,15 +5,28 @@ using System.Text;
 namespace OpenCvSharp.Blob
 {
     /// <summary>
-    /// 
+    /// Blob set
     /// </summary>
     public class CvBlobs : Dictionary<int, CvBlob>
     {
         /// <summary>
-        /// Constructor
+        /// Label values
         /// </summary>
-        public CvBlobs()
+        public int[,] Labels { get; protected set; }
+
+        /// <summary>
+        /// Constructor (init and cvLabel)
+        /// </summary>
+        /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
+        public CvBlobs(IplImage img)
         {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (img.Depth != BitDepth.U8 || img.NChannels != 1)
+                throw new ArgumentException("img.Depth == BitDepth.U8 && img.NChannels == 1");
+
+            var labels = new int[img.Height, img.Width];
+            Label(img, labels);
         }
         /// <summary>
         /// Constructor (init and cvLabel)
@@ -21,8 +34,9 @@ namespace OpenCvSharp.Blob
         /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
         /// <param name="labels">Output Label values.</param>
         public CvBlobs(IplImage img, int[,] labels)
-            : this()
         {
+            if (img == null)
+                throw new ArgumentNullException("img");
             Label(img, labels);
         }
 
@@ -36,7 +50,13 @@ namespace OpenCvSharp.Blob
         /// <returns>Number of pixels that has been labeled.</returns>
         public int Label(IplImage img, int[,] labels)
         {
-            return CvBlobLib.Label(img, labels, this);
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (labels == null)
+                throw new ArgumentNullException("labels");
+
+            Labels = labels;
+            return Labeller.Perform(img, labels, this);
         }
         #endregion
         #region FilterLabels

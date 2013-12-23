@@ -2,8 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 
+// Copyright (C) 2007 by Cristóbal Carnero Liñán
+// grendel.ccl@gmail.com
+//
+// This file is part of cvBlob.
+//
+// cvBlob is free software: you can redistribute it and/or modify
+// it under the terms of the Lesser GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// cvBlob is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// Lesser GNU General Public License for more details.
+//
+// You should have received a copy of the Lesser GNU General Public License
+// along with cvBlob.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace OpenCvSharp.Blob
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal static class Labeller
     {
 	    private static readonly int[,,] MovesE= new int[4, 3, 4]{ 
@@ -19,6 +40,12 @@ namespace OpenCvSharp.Blob
             {{-1, 1, 1, CvBlobConst.CV_CHAINCODE_DOWN_LEFT}, {0, 1, 2, CvBlobConst.CV_CHAINCODE_DOWN}, {1, 1, 2, CvBlobConst.CV_CHAINCODE_DOWN_RIGHT}},
             {{1, 1, 2, CvBlobConst.CV_CHAINCODE_DOWN_RIGHT}, {1, 0, 3, CvBlobConst.CV_CHAINCODE_RIGHT}, {1, -1, 3, CvBlobConst.CV_CHAINCODE_UP_RIGHT}}
         };
+
+        /// <summary>
+        /// Value of invalid pixel.
+        /// -1 == uint.MaxValue
+        /// </summary>
+        private const int MarkerValue = -1;
 
         /// <summary>
         /// 
@@ -72,7 +99,7 @@ namespace OpenCvSharp.Blob
 
                         // Label contour.
                         label++;
-                        if (label == int.MaxValue)
+                        if (label == MarkerValue)
                             throw new Exception();
 
                         labels[y, x] = label;
@@ -80,7 +107,7 @@ namespace OpenCvSharp.Blob
 
                         // XXX This is not necessary at all. I only do this for consistency.
                         if (y > 0)
-                            labels[y - 1, x] = int.MaxValue;
+                            labels[y - 1, x] = MarkerValue;
 
                         CvBlob blob = new CvBlob
                         {
@@ -126,10 +153,7 @@ namespace OpenCvSharp.Blob
                                             direction = MovesE[direction, i, 2];
                                             break;
                                         }
-                                        else
-                                        {
-                                            labels[ny, nx] = int.MaxValue;
-                                        }
+                                        labels[ny, nx] = MarkerValue;
                                     }
                                 }
 
@@ -208,10 +232,11 @@ namespace OpenCvSharp.Blob
                         }
 
                         // XXX This is not necessary (I believe). I only do this for consistency.
-                        labels[y + 1, x] = int.MaxValue;
-
-                        CvContourChainCode contour = new CvContourChainCode();
-                        contour.StartingPoint = new CvPoint(x, y);
+                        labels[y + 1, x] = MarkerValue;
+                        var contour = new CvContourChainCode
+                        {
+                            StartingPoint = new CvPoint(x, y)
+                        };
 
                         int direction = 3;
                         int xx = x;
@@ -236,10 +261,7 @@ namespace OpenCvSharp.Blob
                                         direction = MovesI[direction, i, 2];
                                         break;
                                     }
-                                    else
-                                    {
-                                        labels[ny, nx] = int.MaxValue;
-                                    }
+                                    labels[ny, nx] = MarkerValue;
                                 }
 
                                 if (!found)
@@ -274,7 +296,7 @@ namespace OpenCvSharp.Blob
                         labels[y, x] = l;
                         numPixels++;
 
-                        CvBlob blob = null;
+                        CvBlob blob;
                         if (l == lastLabel)
                             blob = lastBlob;
                         else
@@ -297,23 +319,23 @@ namespace OpenCvSharp.Blob
             {
                 CvBlob b = kv.Value;
 
-                b.Centroid = new CvPoint2D64f(b.M10/b.Area, b.M01/b.Area);
+                b.Centroid = new CvPoint2D64f(b.M10 / b.Area, b.M01 / b.Area);
 
                 b.U11 = b.M11 - (b.M10 * b.M01) / b.M00;
-				b.U20 = b.M20 - (b.M10*b.M10) / b.M00;
-				b.U02 = b.M02 - (b.M01*b.M01) / b.M00;
+                b.U20 = b.M20 - (b.M10 * b.M10) / b.M00;
+                b.U02 = b.M02 - (b.M01 * b.M01) / b.M00;
 
                 double m00_2 = b.M00 * b.M00;
-				b.N11 = b.U11 / m00_2;
-				b.N20 = b.U20 / m00_2;
-				b.N02 = b.U02 / m00_2;
+                b.N11 = b.U11 / m00_2;
+                b.N20 = b.U20 / m00_2;
+                b.N02 = b.U02 / m00_2;
 
                 b.P1 = b.N20 + b.N02;
-				double nn = b.N20 - b.N02;
-				b.P2 = nn*nn + 4.0*(b.N11 * b.N11);
+                double nn = b.N20 - b.N02;
+                b.P2 = nn * nn + 4.0 * (b.N11 * b.N11);
             }
 
-			return numPixels;
+            return numPixels;
 	    }
     }
 }
