@@ -282,7 +282,6 @@ namespace OpenCvSharp.Blob.Old
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
 
-            CvBlobInvoke.cvb_cvReleaseBlobs(blobs.CvPtr);
             blobs.Dispose();
         }
         #endregion

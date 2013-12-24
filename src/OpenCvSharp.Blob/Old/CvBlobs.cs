@@ -5,6 +5,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
+
+using CvLabel = System.UInt32;
 
 namespace OpenCvSharp.Blob.Old
 {
@@ -12,7 +15,7 @@ namespace OpenCvSharp.Blob.Old
     /// List of blobs.
     /// A map is used to access each blob from its label number.
     /// </summary>
-    public class CvBlobs : DisposableCvObject, IDictionary<uint, CvBlob>
+    public class CvBlobs : DisposableCvObject, IDictionary<CvLabel, CvBlob>
     {
         /// <summary>
         /// sizeof(CvBlobs)
@@ -21,7 +24,7 @@ namespace OpenCvSharp.Blob.Old
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        public bool Disposed { get; internal set; }
 
         #region Init and Disposal
         /// <summary>
@@ -30,6 +33,7 @@ namespace OpenCvSharp.Blob.Old
         public CvBlobs()
         {
             ptr = CvBlobInvoke.CvBlobs_construct();
+            Disposed = false;
             NotifyMemoryPressure(SizeOf);
         }
         /// <summary>
@@ -61,7 +65,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!Disposed)
             {
                 // 継承したクラス独自の解放処理
                 try
@@ -71,10 +75,14 @@ namespace OpenCvSharp.Blob.Old
                     }
                     if (IsEnabledDispose)
                     {
-                        CvBlobInvoke.cvb_cvReleaseBlobs(ptr);
+                        //CvBlobInvoke.cvb_cvReleaseBlobs(ptr);
+                        foreach (CvBlob blob in Values)
+                        {
+                            blob.Dispose();
+                        }
                         CvBlobInvoke.CvBlobs_destruct(ptr);
                     }
-                    this.disposed = true;
+                    Disposed = true;
                 }
                 finally
                 {
@@ -95,6 +103,8 @@ namespace OpenCvSharp.Blob.Old
         /// <returns>Number of pixels that has been labeled.</returns>
         public uint Label(IplImage img, IplImage imgOut)
         {
+            if(Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             return CvBlobLib.Label(img, imgOut, this);
         }
         #endregion
@@ -106,6 +116,8 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="imgOut">Output binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
         public void FilterLabels(IplImage imgIn, IplImage imgOut)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.FilterLabels(imgIn, imgOut, this);
         }
         #endregion
@@ -114,8 +126,10 @@ namespace OpenCvSharp.Blob.Old
         /// Find greater blob. (cvGreaterBlob)
         /// </summary>
         /// <returns>Label of greater blob.</returns>
-        public UInt32 GreaterBlob()
+        public CvLabel GreaterBlob()
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             return CvBlobLib.GreaterBlob(this);
         }
         #endregion
@@ -124,7 +138,9 @@ namespace OpenCvSharp.Blob.Old
         /// Clear blobs structure. (cvReleaseBlobs)
         /// </summary>
         public void Release()
-	    {
+        {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
 		    CvBlobLib.ReleaseBlobs(this);
 	    }
         #endregion
@@ -137,6 +153,8 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         public void RenderBlobs(IplImage imgLabel, IplImage imgSource, IplImage imgDest)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.RenderBlobs(imgLabel, this, imgSource, imgDest);
         }
         /// <summary>
@@ -148,6 +166,8 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         public void RenderBlobs(IplImage imgLabel, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.RenderBlobs(imgLabel, this, imgSource, imgDest, mode);
         }
         /// <summary>
@@ -160,6 +180,8 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
         public void RenderBlobs(IplImage imgLabel, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, Double alpha)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.RenderBlobs(imgLabel, this, imgSource, imgDest, mode, alpha);
         }
         #endregion
@@ -172,6 +194,8 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="maxArea">Maximun area.</param>
         public void FilterByArea(UInt32 minArea, UInt32 maxArea)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.FilterByArea(this, minArea, maxArea);
         }
         #endregion
@@ -192,12 +216,12 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="key">The object to use as the key.</param>
         /// <param name="value">The object to use as the value.</param>
 #endif
-        public virtual void Add(UInt32 key, CvBlob value)
+        public virtual void Add(CvLabel key, CvBlob value)
         {
             if (value == null)
-            {
                 throw new ArgumentNullException("value");
-            }
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobInvoke.CvBlobs_Add(ptr, key, value.CvPtr);
         }
 #if LANG_JP
@@ -213,8 +237,10 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="key">The key to locate in the IDictionary&lt;TKey,TValue&gt;.</param>
         /// <returns>true if the IDictionary&lt;TKey,TValue&gt; contains an element with the key; otherwise, false. </returns>
 #endif
-        public virtual bool ContainsKey(UInt32 key)
+        public virtual bool ContainsKey(CvLabel key)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             return CvBlobInvoke.CvBlobs_ContainsKey(ptr, key);
         }
 #if LANG_JP
@@ -228,11 +254,13 @@ namespace OpenCvSharp.Blob.Old
         /// </summary>
         /// <returns>An ICollection&lt;T&gt; containing the keys of the IDictionary&lt;TKey,TValue&gt;.</returns>
 #endif
-        public virtual ICollection<uint> Keys
+        public virtual ICollection<CvLabel> Keys
         {
             get
             {
-                UInt32[] keys = new UInt32[Count];
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
+                CvLabel[] keys = new CvLabel[Count];
                 CvBlobInvoke.CvBlobs_Keys(ptr, keys);
                 return keys;
             }
@@ -250,8 +278,10 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="key">The key of the element to remove.</param>
         /// <returns> true if the element is successfully found and removed; otherwise, false. This method returns false if key is not found in the IDictionary&lt;TKey, TValue&gt;.</returns>
 #endif
-        public virtual bool Remove(UInt32 key)
+        public virtual bool Remove(CvLabel key)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             if (ContainsKey(key))
             {                
                 CvBlob blob = this[key];                
@@ -278,8 +308,10 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="value">When this method returns, the value associated with the specified key, if the key is found; otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.</param>
         /// <returns>true if the object that implements IDictionary contains an element with the specified key; otherwise, false. </returns>
 #endif
-        public virtual bool TryGetValue(UInt32 key, out CvBlob value)
+        public virtual bool TryGetValue(CvLabel key, out CvBlob value)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             IntPtr valuePtr;
             if (CvBlobInvoke.CvBlobs_TryGetValue(ptr, key, out valuePtr))
             {
@@ -310,6 +342,9 @@ namespace OpenCvSharp.Blob.Old
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
+
                 IntPtr[] values = new IntPtr[Count];
                 CvBlobInvoke.CvBlobs_Values(ptr, values);
 
@@ -337,10 +372,12 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="key">The key of the value to get or set.</param>
         /// <returns>The value associated with the specified key. If the specified key is not found, a get operation throws a KeyNotFoundException, and a set operation creates a new element with the specified key.</returns>
 #endif
-        public virtual CvBlob this[UInt32 key]
+        public virtual CvBlob this[CvLabel key]
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 IntPtr p = CvBlobInvoke.CvBlobs_get(ptr, key);
                 if (p == IntPtr.Zero)
                     return null;
@@ -349,6 +386,8 @@ namespace OpenCvSharp.Blob.Old
             }
             set
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 IntPtr v = (value == null) ? IntPtr.Zero : value.CvPtr;
                 CvBlobInvoke.CvBlobs_set(ptr, key, v);
             }
@@ -366,8 +405,10 @@ namespace OpenCvSharp.Blob.Old
         /// </summary>
         /// <param name="item">The object to add to the ICollection&lt;T&gt;.</param>
 #endif
-        public virtual void Add(KeyValuePair<uint, CvBlob> item)
+        public virtual void Add(KeyValuePair<CvLabel, CvBlob> item)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             IntPtr value = (item.Value == null) ? IntPtr.Zero : item.Value.CvPtr;
             CvBlobInvoke.CvBlobs_Add(ptr, item.Key, value);
         }
@@ -382,6 +423,8 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public virtual void Clear()
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobInvoke.cvb_cvReleaseBlobs(ptr);
             //CvBlobInvoke.CvBlobs_Clear(_ptr);
         }
@@ -398,8 +441,10 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="item">The object to locate in the ICollection&lt;T&gt;.</param>
         /// <returns>true if item is found in the ICollection&lt;T&gt;; otherwise, false. </returns>
 #endif
-        public virtual bool Contains(KeyValuePair<uint, CvBlob> item)
+        public virtual bool Contains(KeyValuePair<CvLabel, CvBlob> item)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             IntPtr value = (item.Value == null) ? IntPtr.Zero : item.Value.CvPtr;
             return CvBlobInvoke.CvBlobs_Contains(ptr, item.Key, value);
         }
@@ -416,15 +461,17 @@ namespace OpenCvSharp.Blob.Old
         /// <param name="ary">The one-dimensional Array that is the destination of the elements copied from ICollection. The Array must have zero-based indexing.</param>
         /// <param name="aryIndex">The zero-based index in array at which copying begins.</param>
 #endif
-        public virtual void CopyTo(KeyValuePair<uint, CvBlob>[] ary, int aryIndex)
+        public virtual void CopyTo(KeyValuePair<CvLabel, CvBlob>[] ary, int aryIndex)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             if (ary == null)
                 throw new ArgumentNullException("ary");
             if (ary.Length < Count + aryIndex)
                 throw new ArgumentException();
 
             int i = 0;
-            foreach (KeyValuePair<uint, CvBlob> item in this)
+            foreach (KeyValuePair<CvLabel, CvBlob> item in this)
             {
                 ary[i + aryIndex] = item;
                 i++;
@@ -445,6 +492,8 @@ namespace OpenCvSharp.Blob.Old
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 return CvBlobInvoke.CvBlobs_Count(ptr);
             }
         }
@@ -464,6 +513,8 @@ namespace OpenCvSharp.Blob.Old
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 return false;
             }
         }
@@ -482,8 +533,10 @@ namespace OpenCvSharp.Blob.Old
         /// <returns>true if item was successfully removed from the ICollection&lt;T&gt;; otherwise, false. 
         /// This method also returns false if item is not found in the original ICollection&lt;T&gt;. </returns>
 #endif
-        public virtual bool Remove(KeyValuePair<uint, CvBlob> item)
+        public virtual bool Remove(KeyValuePair<CvLabel, CvBlob> item)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             if (item.Value == null)
                 throw new ArgumentException("");
 
@@ -506,17 +559,19 @@ namespace OpenCvSharp.Blob.Old
         /// Returns an enumerator that iterates through a collection. 
         /// </summary>
 #endif
-        public IEnumerator<KeyValuePair<uint, CvBlob>> GetEnumerator()
+        public IEnumerator<KeyValuePair<CvLabel, CvBlob>> GetEnumerator()
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             int count = Count;
-            UInt32[] keys = new UInt32[count];
+            CvLabel[] keys = new CvLabel[count];
             IntPtr[] values = new IntPtr[count];
             CvBlobInvoke.CvBlobs_GetKeysAndValues(ptr, keys, values);
 
             for (int i = 0; i < count; i++)
             {
                 CvBlob v = (values[i] == IntPtr.Zero) ? null : new CvBlob(values[i]);
-                yield return new KeyValuePair<uint, CvBlob>(keys[i], v);
+                yield return new KeyValuePair<CvLabel, CvBlob>(keys[i], v);
             }
         }
 #if LANG_JP
@@ -530,6 +585,8 @@ namespace OpenCvSharp.Blob.Old
 #endif
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             return GetEnumerator();
         }
         #endregion
