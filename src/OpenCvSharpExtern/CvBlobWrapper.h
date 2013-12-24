@@ -427,6 +427,8 @@ CVAPI(cvb::CvBlobs*) CvBlobs_construct()
 }
 CVAPI(void) CvBlobs_destruct(cvb::CvBlobs* blobs)
 {
+	//delete blobs;
+	blobs->clear();
 	delete blobs;
 }
 

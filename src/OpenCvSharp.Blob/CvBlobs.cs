@@ -24,7 +24,7 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        public bool Disposed { get; internal set; }
 
         #region Init and Disposal
         /// <summary>
@@ -33,6 +33,7 @@ namespace OpenCvSharp.Blob
         public CvBlobs()
         {
             ptr = CvBlobInvoke.CvBlobs_construct();
+            Disposed = false;
             NotifyMemoryPressure(SizeOf);
         }
         /// <summary>
@@ -64,7 +65,7 @@ namespace OpenCvSharp.Blob
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!Disposed)
             {
                 // 継承したクラス独自の解放処理
                 try
@@ -74,10 +75,14 @@ namespace OpenCvSharp.Blob
                     }
                     if (IsEnabledDispose)
                     {
-                        CvBlobInvoke.cvb_cvReleaseBlobs(ptr);
+                        //CvBlobInvoke.cvb_cvReleaseBlobs(ptr);
+                        foreach (CvBlob blob in Values)
+                        {
+                            blob.Dispose();
+                        }
                         CvBlobInvoke.CvBlobs_destruct(ptr);
                     }
-                    this.disposed = true;
+                    Disposed = true;
                 }
                 finally
                 {
@@ -98,6 +103,8 @@ namespace OpenCvSharp.Blob
         /// <returns>Number of pixels that has been labeled.</returns>
         public uint Label(IplImage img, IplImage imgOut)
         {
+            if(Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             return CvBlobLib.Label(img, imgOut, this);
         }
         #endregion
@@ -109,6 +116,8 @@ namespace OpenCvSharp.Blob
         /// <param name="imgOut">Output binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
         public void FilterLabels(IplImage imgIn, IplImage imgOut)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.FilterLabels(imgIn, imgOut, this);
         }
         #endregion
@@ -119,6 +128,8 @@ namespace OpenCvSharp.Blob
         /// <returns>Label of greater blob.</returns>
         public CvLabel GreaterBlob()
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             return CvBlobLib.GreaterBlob(this);
         }
         #endregion
@@ -127,7 +138,9 @@ namespace OpenCvSharp.Blob
         /// Clear blobs structure. (cvReleaseBlobs)
         /// </summary>
         public void Release()
-	    {
+        {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
 		    CvBlobLib.ReleaseBlobs(this);
 	    }
         #endregion
@@ -140,6 +153,8 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         public void RenderBlobs(IplImage imgLabel, IplImage imgSource, IplImage imgDest)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.RenderBlobs(imgLabel, this, imgSource, imgDest);
         }
         /// <summary>
@@ -151,6 +166,8 @@ namespace OpenCvSharp.Blob
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         public void RenderBlobs(IplImage imgLabel, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.RenderBlobs(imgLabel, this, imgSource, imgDest, mode);
         }
         /// <summary>
@@ -163,6 +180,8 @@ namespace OpenCvSharp.Blob
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
         public void RenderBlobs(IplImage imgLabel, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, Double alpha)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.RenderBlobs(imgLabel, this, imgSource, imgDest, mode, alpha);
         }
         #endregion
@@ -175,6 +194,8 @@ namespace OpenCvSharp.Blob
         /// <param name="maxArea">Maximun area.</param>
         public void FilterByArea(UInt32 minArea, UInt32 maxArea)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobLib.FilterByArea(this, minArea, maxArea);
         }
         #endregion
@@ -198,9 +219,9 @@ namespace OpenCvSharp.Blob
         public virtual void Add(CvLabel key, CvBlob value)
         {
             if (value == null)
-            {
                 throw new ArgumentNullException("value");
-            }
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobInvoke.CvBlobs_Add(ptr, key, value.CvPtr);
         }
 #if LANG_JP
@@ -218,6 +239,8 @@ namespace OpenCvSharp.Blob
 #endif
         public virtual bool ContainsKey(CvLabel key)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             return CvBlobInvoke.CvBlobs_ContainsKey(ptr, key);
         }
 #if LANG_JP
@@ -235,6 +258,8 @@ namespace OpenCvSharp.Blob
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 CvLabel[] keys = new CvLabel[Count];
                 CvBlobInvoke.CvBlobs_Keys(ptr, keys);
                 return keys;
@@ -255,6 +280,8 @@ namespace OpenCvSharp.Blob
 #endif
         public virtual bool Remove(CvLabel key)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             if (ContainsKey(key))
             {                
                 CvBlob blob = this[key];                
@@ -283,6 +310,8 @@ namespace OpenCvSharp.Blob
 #endif
         public virtual bool TryGetValue(CvLabel key, out CvBlob value)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             IntPtr valuePtr;
             if (CvBlobInvoke.CvBlobs_TryGetValue(ptr, key, out valuePtr))
             {
@@ -313,6 +342,9 @@ namespace OpenCvSharp.Blob
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
+
                 IntPtr[] values = new IntPtr[Count];
                 CvBlobInvoke.CvBlobs_Values(ptr, values);
 
@@ -344,6 +376,8 @@ namespace OpenCvSharp.Blob
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 IntPtr p = CvBlobInvoke.CvBlobs_get(ptr, key);
                 if (p == IntPtr.Zero)
                     return null;
@@ -352,6 +386,8 @@ namespace OpenCvSharp.Blob
             }
             set
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 IntPtr v = (value == null) ? IntPtr.Zero : value.CvPtr;
                 CvBlobInvoke.CvBlobs_set(ptr, key, v);
             }
@@ -371,6 +407,8 @@ namespace OpenCvSharp.Blob
 #endif
         public virtual void Add(KeyValuePair<CvLabel, CvBlob> item)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             IntPtr value = (item.Value == null) ? IntPtr.Zero : item.Value.CvPtr;
             CvBlobInvoke.CvBlobs_Add(ptr, item.Key, value);
         }
@@ -385,6 +423,8 @@ namespace OpenCvSharp.Blob
 #endif
         public virtual void Clear()
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             CvBlobInvoke.cvb_cvReleaseBlobs(ptr);
             //CvBlobInvoke.CvBlobs_Clear(_ptr);
         }
@@ -403,6 +443,8 @@ namespace OpenCvSharp.Blob
 #endif
         public virtual bool Contains(KeyValuePair<CvLabel, CvBlob> item)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             IntPtr value = (item.Value == null) ? IntPtr.Zero : item.Value.CvPtr;
             return CvBlobInvoke.CvBlobs_Contains(ptr, item.Key, value);
         }
@@ -421,6 +463,8 @@ namespace OpenCvSharp.Blob
 #endif
         public virtual void CopyTo(KeyValuePair<CvLabel, CvBlob>[] ary, int aryIndex)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             if (ary == null)
                 throw new ArgumentNullException("ary");
             if (ary.Length < Count + aryIndex)
@@ -448,6 +492,8 @@ namespace OpenCvSharp.Blob
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 return CvBlobInvoke.CvBlobs_Count(ptr);
             }
         }
@@ -467,6 +513,8 @@ namespace OpenCvSharp.Blob
         {
             get
             {
+                if (Disposed)
+                    throw new ObjectDisposedException("CvBlobs");
                 return false;
             }
         }
@@ -487,6 +535,8 @@ namespace OpenCvSharp.Blob
 #endif
         public virtual bool Remove(KeyValuePair<CvLabel, CvBlob> item)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             if (item.Value == null)
                 throw new ArgumentException("");
 
@@ -511,6 +561,8 @@ namespace OpenCvSharp.Blob
 #endif
         public IEnumerator<KeyValuePair<CvLabel, CvBlob>> GetEnumerator()
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             int count = Count;
             CvLabel[] keys = new CvLabel[count];
             IntPtr[] values = new IntPtr[count];
@@ -533,6 +585,8 @@ namespace OpenCvSharp.Blob
 #endif
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
+            if (Disposed)
+                throw new ObjectDisposedException("CvBlobs");
             return GetEnumerator();
         }
         #endregion
