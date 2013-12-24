@@ -15,6 +15,12 @@ namespace OpenCvSharp.Blob
         public int[,] Labels { get; protected set; }
 
         /// <summary>
+        /// Constructor (init only)
+        /// </summary>
+        public CvBlobs()
+        {
+        }
+        /// <summary>
         /// Constructor (init and cvLabel)
         /// </summary>
         /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
