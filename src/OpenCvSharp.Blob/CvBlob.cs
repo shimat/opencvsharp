@@ -75,9 +75,7 @@ namespace OpenCvSharp.Blob
                         catch
                         {
                             // ひどいけど揉みつぶす。
-                            // 二重deleteで怒られることがあるため。
-                            // CvBlobsのDisposeが先に来ると死ぬが、
-                            // ラッパーでの対策は苦しい。
+                            // 二重deleteで怒られている？なんとかしたい・・・
                         }
                     }
                     this.disposed = true;
