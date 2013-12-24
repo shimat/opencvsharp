@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-x64</id>
-        <version>2.4.5.20131218</version>
+        <version>2.4.5.20131221</version>
         <title>OpenCvSharp x64</title>
         <authors>shimat</authors>
         <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
@@ -22,28 +22,28 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="..\lib\vc++\x64\msvcp110.dll" target="Content\msvcp110.dll" />
-        <file src="..\lib\vc++\x64\msvcr110.dll" target="Content\msvcr110.dll" />
+        <file src="..\lib\vc++\x64\msvcp100.dll" target="Content\msvcp100.dll" />
+        <file src="..\lib\vc++\x64\msvcr100.dll" target="Content\msvcr100.dll" />
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="Content\OpenCvSharpExtern.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_calib3d245.dll" target="Content\opencv_calib3d245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_contrib245.dll" target="Content\opencv_contrib245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_core245.dll" target="Content\opencv_core245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_features2d245.dll" target="Content\opencv_features2d245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_ffmpeg245_64.dll" target="Content\opencv_ffmpeg245_64.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_flann245.dll" target="Content\opencv_flann245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_gpu245.dll" target="Content\opencv_gpu245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_highgui245.dll" target="Content\opencv_highgui245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_imgproc245.dll" target="Content\opencv_imgproc245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_legacy245.dll" target="Content\opencv_legacy245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_ml245.dll" target="Content\opencv_ml245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_nonfree245.dll" target="Content\opencv_nonfree245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_objdetect245.dll" target="Content\opencv_objdetect245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_photo245.dll" target="Content\opencv_photo245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_stitching245.dll" target="Content\opencv_stitching245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_superres245.dll" target="Content\opencv_superres245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_ts245.dll" target="Content\opencv_ts245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_video245.dll" target="Content\opencv_video245.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_videostab245.dll" target="Content\opencv_videostab245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_calib3d245.dll" target="Content\opencv_calib3d245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_contrib245.dll" target="Content\opencv_contrib245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_core245.dll" target="Content\opencv_core245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_features2d245.dll" target="Content\opencv_features2d245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_ffmpeg245_64.dll" target="Content\opencv_ffmpeg245_64.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_flann245.dll" target="Content\opencv_flann245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_gpu245.dll" target="Content\opencv_gpu245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_highgui245.dll" target="Content\opencv_highgui245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_imgproc245.dll" target="Content\opencv_imgproc245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_legacy245.dll" target="Content\opencv_legacy245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_ml245.dll" target="Content\opencv_ml245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_nonfree245.dll" target="Content\opencv_nonfree245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_objdetect245.dll" target="Content\opencv_objdetect245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_photo245.dll" target="Content\opencv_photo245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_stitching245.dll" target="Content\opencv_stitching245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_superres245.dll" target="Content\opencv_superres245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_ts245.dll" target="Content\opencv_ts245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_video245.dll" target="Content\opencv_video245.dll" />
+        <file src="..\lib\opencv\x64\vc10\opencv_videostab245.dll" target="Content\opencv_videostab245.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
         <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net20\OpenCvSharp.CPlusPlus.dll" />
