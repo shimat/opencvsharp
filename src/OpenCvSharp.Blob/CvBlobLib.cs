@@ -39,23 +39,6 @@ namespace OpenCvSharp.Blob
             );
         }
         #endregion
-        #region CentralMoments
-        /// <summary>
-        /// Calculates central moment for a blob.
-        /// Central moments will be stored in blob structure. (cvCentralMoments)
-        /// </summary>
-        /// <param name="blob">Blob.</param>
-        /// <param name="img">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
-        public static void CentralMoments(CvBlob blob, IplImage img)
-        {
-            if (blob == null)
-                throw new ArgumentNullException("blob");
-            if (img == null)
-                throw new ArgumentNullException("img");
-
-            throw new NotImplementedException();
-        }
-        #endregion
         #region Centroid
         /// <summary>
         /// Calculates centroid.
@@ -67,8 +50,8 @@ namespace OpenCvSharp.Blob
         {
             if (blob == null)
                 throw new ArgumentNullException("blob");
-
-            throw new NotImplementedException();
+            blob.Centroid = new CvPoint2D64f(blob.M10 / blob.Area, blob.M01 / blob.Area);
+            return blob.Centroid;
         }
         #endregion
         #region ContourPolygonArea
@@ -125,7 +108,14 @@ namespace OpenCvSharp.Blob
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
 
-            throw new NotImplementedException();
+            foreach (int key in blobs.Keys)
+            {
+                int area = blobs[key].Area;
+                if (area < minArea || area > maxArea)
+                {
+                    blobs.Remove(key);
+                }
+            }
         }
         #endregion
         #region FilterLabels

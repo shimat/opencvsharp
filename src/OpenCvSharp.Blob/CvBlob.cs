@@ -13,7 +13,7 @@ namespace OpenCvSharp.Blob
     /// </summary>
     public class CvBlob
     {
-        #region Init & Disposal
+        #region Init
         /// <summary>
         /// Constructor
         /// </summary>
@@ -164,24 +164,6 @@ namespace OpenCvSharp.Blob
 		public CvPoint2D64f CalcCentroid()
 		{
             return CvBlobLib.Centroid(this);
-        }
-        #endregion
-        #region CalcCentralMoments
-        /// <summary>
-		/// Calculates central moment for a blob.
-		/// Central moments will be stored in blob structure. (cvCentralMoments)
-		/// </summary>
-		/// <param name="img">Label image (depth=IPL_DEPTH_LABEL and num. channels=1).</param>
-		public void CalcCentralMoments(IplImage img)
-		{
-            throw new NotImplementedException();
-            /*
-            if (IsDisposed)
-                throw new ObjectDisposedException("CvBlob");
-			if(img == null)
-				throw new ArgumentNullException("img");
-
-		    CvBlobLib.CentralMoments(this, img);*/
         }
         #endregion
         #region CalcAngle
