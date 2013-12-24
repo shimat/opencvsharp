@@ -23,8 +23,8 @@ function MarkFileAsCopy($item)
 }
 
 $copyFiles = @(
-    "msvcp110.dll";
-    "msvcr110.dll";
+    "msvcp100.dll";
+    "msvcr100.dll";
     "OpenCvSharpExtern.dll";
     "opencv_calib3d245.dll";
     "opencv_contrib245.dll";
