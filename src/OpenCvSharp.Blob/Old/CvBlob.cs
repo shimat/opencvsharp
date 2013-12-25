@@ -4,6 +4,10 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Text;
+
+using CvLabel = System.UInt32;
 
 namespace OpenCvSharp.Blob.Old
 {
@@ -71,9 +75,7 @@ namespace OpenCvSharp.Blob.Old
                         catch
                         {
                             // ひどいけど揉みつぶす。
-                            // 二重deleteで怒られることがあるため。
-                            // CvBlobsのDisposeが先に来ると死ぬが、
-                            // ラッパーでの対策は苦しい。
+                            // 二重deleteで怒られている？なんとかしたい・・・
                         }
                     }
                     this.disposed = true;
@@ -96,7 +98,7 @@ namespace OpenCvSharp.Blob.Old
 		/// <summary>
         /// Label assigned to the blob
         /// </summary>
-		public UInt32 Label
+		public CvLabel Label
 		{
 			get
             {
