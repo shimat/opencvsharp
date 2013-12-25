@@ -213,6 +213,29 @@ namespace OpenCvSharp.Blob
             CvBlobLib.SetImageRoItoBlob(img, this);
         }
         #endregion
+
+
+        /// <summary>
+        /// Set central/hu moments and centroid value from moment values (M**)
+        /// </summary>
+        public void SetMoments()
+        {
+            // 重心
+            Centroid = new CvPoint2D64f(M10 / Area, M01 / Area);
+            // 各モーメント
+            U11 = M11 - (M10 * M01) / M00;
+            U20 = M20 - (M10 * M10) / M00;
+            U02 = M02 - (M01 * M01) / M00;
+
+            double m00Pow2 = M00 * M00;
+            N11 = U11 / m00Pow2;
+            N20 = U20 / m00Pow2;
+            N02 = U02 / m00Pow2;
+
+            P1 = N20 + N02;
+            double nn = N20 - N02;
+            P2 = nn * nn + 4.0 * (N11 * N11);
+        }
 		#endregion
     }
 }

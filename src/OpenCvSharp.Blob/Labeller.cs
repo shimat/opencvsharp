@@ -51,43 +51,49 @@ namespace OpenCvSharp.Blob
         /// 
         /// </summary>
         /// <param name="img"></param>
-        /// <param name="labels"></param>
         /// <param name="blobs"></param>
         /// <returns></returns>
-        public static unsafe int Perform(IplImage img, int[,] labels, CvBlobs blobs)
+        public static unsafe int Perform(IplImage img, CvBlobs blobs)
 	    {
-            if(img == null)
+            if (img == null)
                 throw new ArgumentNullException("img");
-            if(labels == null)
-                throw new ArgumentNullException("labels");
-            if(blobs == null)
+            if (blobs == null)
                 throw new ArgumentNullException("blobs");
-            if(img.Depth != BitDepth.U8 || img.NChannels != 1)
+            if (img.Depth != BitDepth.U8 || img.NChannels != 1)
                 throw new ArgumentException("'img' must be a 1-channel U8 image.");
+
+            LabelData labels = blobs.Labels;
+            if (labels == null)
+                throw new ArgumentException("");
+            //if(labels.GetLength(0) != h || labels.GetLength(1) != w)
+            if (labels.Rows != img.Height || labels.Cols != img.Width)
+                throw new ArgumentException("img.Size != labels' size");
 
             int numPixels = 0;
 			blobs.Clear();
 
 			int step = img.WidthStep;
-			int ox = img.ROI.X;
-            int oy = img.ROI.Y;
-            int w = img.ROI.Width;
-            int h = img.ROI.Height;
-            byte *imgIn = img.ImageDataPtr;
-
-            if(labels.GetLength(0) != h || labels.GetLength(1) != w)
-                throw new ArgumentException("img.Size != labels' size");
-
+            CvRect roi = img.ROI;
+            int ox = roi.X;
+            int oy = roi.Y;
+            int w = roi.Width;
+            int h = roi.Height;
+            int offset = 0;
+            if (img.ROIPointer != IntPtr.Zero)
+            {
+                IplROI r = img.ROIValue;
+                w = r.width;
+                h = r.height;
+                offset = r.xOffset + (r.yOffset * step);
+            }
+            byte* imgIn = img.ImageDataPtr + offset;
+            int label = 0;
 			int lastLabel = 0;
 			CvBlob lastBlob = null;
 
-			int label = 0;
-            int xLimit = oy + img.ROI.Width;
-            int yLimit = oy + img.ROI.Height;
-
-            for (int y = oy; y < oy + yLimit; y++)
+            for (int y = 0; y < h; y++)
             {
-                for (int x = ox; x < xLimit; x++)
+                for (int x = 0; x < w; x++)
                 {
                     if (imgIn[x + y*step] == 0)
                         continue;
@@ -147,7 +153,7 @@ namespace OpenCvSharp.Blob
                                         if (imgIn[nx + ny*step] != 0)
                                         {
                                             found = true;
-                                            blob.Contour.ChainCode.Add((CvChainCode) MovesE[direction, i, 3]);
+                                            blob.Contour.ChainCode.Add((CvChainCode)MovesE[direction, i, 3]);
                                             xx = nx;
                                             yy = ny;
                                             direction = MovesE[direction, i, 2];
@@ -211,6 +217,8 @@ namespace OpenCvSharp.Blob
                                 lastLabel = l;
                                 lastBlob = blob;
                             }
+                            if (blob == null)
+                                throw new Exception();
                             blob.Area++;
                             blob.M10 += x;
                             blob.M01 += y;
@@ -230,6 +238,9 @@ namespace OpenCvSharp.Blob
                                 lastBlob = blob;
                             }
                         }
+
+                        if (blob == null)
+                            throw new Exception();
 
                         // XXX This is not necessary (I believe). I only do this for consistency.
                         labels[y + 1, x] = MarkerValue;
@@ -265,7 +276,7 @@ namespace OpenCvSharp.Blob
                                 }
 
                                 if (!found)
-                                    direction = (direction + 1)%4;
+                                    direction = (direction + 1) % 4;
                                 else
                                 {
                                     if (labels[yy, xx] == 0)
@@ -276,9 +287,9 @@ namespace OpenCvSharp.Blob
                                         blob.Area++;
                                         blob.M10 += xx;
                                         blob.M01 += yy;
-                                        blob.M11 += xx*yy;
-                                        blob.M20 += xx*xx;
-                                        blob.M02 += yy*yy;
+                                        blob.M11 += xx * yy;
+                                        blob.M20 += xx * xx;
+                                        blob.M02 += yy * yy;
                                     }
                                     break;
                                 }
@@ -305,6 +316,8 @@ namespace OpenCvSharp.Blob
                             lastLabel = l;
                             lastBlob = blob;
                         }
+                        if(blob == null)
+                            throw new Exception();
                         blob.Area++;
                         blob.M10 += x;
                         blob.M01 += y;
@@ -317,22 +330,7 @@ namespace OpenCvSharp.Blob
 
             foreach (var kv in blobs)
             {
-                CvBlob b = kv.Value;
-                // 重心
-                b.Centroid = new CvPoint2D64f(b.M10 / b.Area, b.M01 / b.Area);
-                // 各モーメント
-                b.U11 = b.M11 - (b.M10 * b.M01) / b.M00;
-                b.U20 = b.M20 - (b.M10 * b.M10) / b.M00;
-                b.U02 = b.M02 - (b.M01 * b.M01) / b.M00;
-
-                double m00Pow2 = b.M00 * b.M00;
-                b.N11 = b.U11 / m00Pow2;
-                b.N20 = b.U20 / m00Pow2;
-                b.N02 = b.U02 / m00Pow2;
-
-                b.P1 = b.N20 + b.N02;
-                double nn = b.N20 - b.N02;
-                b.P2 = nn * nn + 4.0 * (b.N11 * b.N11);
+                kv.Value.SetMoments();
             }
 
             return numPixels;
