@@ -21,15 +21,14 @@ namespace OpenCvSharp.Test
         [DeploymentItem(@"OpenCV\", "")]
         public void SimpleTest()
         {
-            using (var src = new IplImage("shapes3.png", LoadMode.GrayScale))
+            using (var src = new IplImage("shapes2.png", LoadMode.GrayScale))
             using (var binary = new IplImage(src.Size, BitDepth.U8, 1))
             using (var render = new IplImage(src.Size, BitDepth.U8, 3))
             {
                 Cv.Threshold(src, binary, 0, 255, ThresholdType.Otsu);
 
-                var labels = new int[src.Height, src.Width];
-                var blobs = new CvBlobs(binary, labels);
-                blobs.RenderBlobs(labels, src, render);
+                var blobs = new CvBlobs(binary);
+                blobs.RenderBlobs(src, render);
                 using (new CvWindow(render))
                 {
                     Cv.WaitKey();
@@ -44,8 +43,9 @@ namespace OpenCvSharp.Test
         {
             using (var img = new IplImage("shapes1.png", LoadMode.GrayScale))
             {
-                CompareNewOldBlob(img);
-                CompareNewOldRendering(img);
+                CompareBlob(img);
+                CompareRendering(img);
+                CompareLabelImage(img);
             }
         }
 
@@ -56,8 +56,23 @@ namespace OpenCvSharp.Test
         {
             using (var img = new IplImage("shapes2.png", LoadMode.GrayScale))
             {
-                CompareNewOldBlob(img);
-                CompareNewOldRendering(img);
+                CompareBlob(img);
+                CompareRendering(img);
+                CompareLabelImage(img);
+            }
+        }
+
+        [TestMethod]
+        [DeploymentItem(@"Image\Blob\")]
+        [DeploymentItem(@"OpenCV\", "")]
+        public void NewEqualsOld2WithRoi()
+        {
+            using (var img = new IplImage("shapes2.png", LoadMode.GrayScale))
+            {
+                img.ROI = new CvRect(100, 40, 700, 160);
+                CompareBlob(img, false);
+                CompareRendering(img);
+                CompareLabelImage(img);
             }
         }
 
@@ -68,31 +83,33 @@ namespace OpenCvSharp.Test
         {
             using (var img = new IplImage("shapes3.png", LoadMode.GrayScale))
             {
-                CompareNewOldBlob(img);
-                CompareNewOldRendering(img);
+                CompareBlob(img);
+                CompareRendering(img);
+                CompareLabelImage(img);
             }
         }
 
 
 
-        private void CompareNewOldBlob(IplImage src)
+        private void CompareBlob(IplImage src, bool comapresLabel = true)
         {
             IplImage binary;
             // old labeling
             IplImage labelsOld;
             Blob.Old.CvBlobs blobsOld; 
             // new labeling
-            int[,] labelsNew;
+            LabelData labelsNew;
             CvBlobs blobsNew;
 
             // Execute Labeling
             Label(src, out binary, out labelsOld, out labelsNew, out blobsOld, out blobsNew);
 
             // compare labels value
+            if(comapresLabel)
             unsafe
             {
                 byte* p1 = (byte*) labelsOld.ImageDataPtr;
-                fixed (int* p2 = &labelsNew[0, 0])
+                fixed (int* p2 = &labelsNew.Values[0, 0])
                 {
                     int length = src.Width * src.Height;
                     int[] array1 = new int[length];
@@ -133,14 +150,14 @@ namespace OpenCvSharp.Test
             labelsOld.Dispose();
         }
 
-        private void CompareNewOldRendering(IplImage src)
+        private void CompareRendering(IplImage src)
         {
             IplImage binary;
             // old labeling
             IplImage labelsOld;
             Blob.Old.CvBlobs blobsOld;
             // new labeling
-            int[,] labelsNew;
+            LabelData labelsNew;
             CvBlobs blobsNew;
 
             // Execute Labeling
@@ -149,8 +166,12 @@ namespace OpenCvSharp.Test
             using (IplImage renderOld = new IplImage(src.Size, BitDepth.U8, 3))
             using (IplImage renderNew = new IplImage(src.Size, BitDepth.U8, 3))
             {
+                renderOld.ROI = src.ROI;
+                renderNew.ROI = src.ROI;
+
                 blobsOld.RenderBlobs(labelsOld, binary, renderOld);
-                blobsNew.RenderBlobs(labelsNew, binary, renderNew);
+                blobsNew.RenderBlobs(binary, renderNew);
+                CvWindow.ShowImages(renderOld, renderNew);
                 IsSameImage(renderOld, renderNew);
             }
 
@@ -158,11 +179,36 @@ namespace OpenCvSharp.Test
             labelsOld.Dispose();
         }
 
+        private void CompareLabelImage(IplImage src)
+        {
+            IplImage binary;
+            // old labeling
+            IplImage labelsOld;
+            Blob.Old.CvBlobs blobsOld;
+            // new labeling
+            LabelData labelsNew;
+            CvBlobs blobsNew;
+
+            // Execute Labeling
+            Label(src, out binary, out labelsOld, out labelsNew, out blobsOld, out blobsNew);
+
+            using (IplImage filterOld = new IplImage(src.Size, BitDepth.U8, 1))
+            using (IplImage filterNew = new IplImage(src.Size, BitDepth.U8, 1))
+            {
+                blobsOld.FilterLabels(labelsOld, filterOld);
+                blobsNew.FilterLabels(filterNew); 
+                CvWindow.ShowImages(filterOld, filterNew);
+                IsSameImage(filterOld, filterNew);
+            }
+            
+        }
+
         private void Label(IplImage src, out IplImage binary,
-                           out IplImage labelsOld, out int[,] labelsNew,
+                           out IplImage labelsOld, out LabelData labelsNew,
                            out Blob.Old.CvBlobs blobsOld, out CvBlobs blobsNew)
         {
             binary = new IplImage(src.Size, BitDepth.U8, 1);
+            binary.ROI = src.ROI;
 
             Cv.Threshold(src, binary, 0, 255, ThresholdType.Otsu);
 
@@ -171,19 +217,20 @@ namespace OpenCvSharp.Test
             blobsOld = new OpenCvSharp.Blob.Old.CvBlobs(binary, labelsOld);
 
             // new labeling
-            labelsNew = new int[src.Height,src.Width];
-            blobsNew = new CvBlobs(binary, labelsNew);
+            blobsNew = new CvBlobs(binary);
+            labelsNew = blobsNew.Labels;
         }
 
         private void IsSameImage(IplImage img1, IplImage img2)
         {
-            img1.Size.Is(img2.Size);
+            img1.ROI.Is(img2.ROI);
             img1.Depth.Is(img2.Depth);
             img1.NChannels.Is(img2.NChannels);
 
-            for (int y = 0; y < img1.Height; y++)
+            CvRect roi = img1.ROI;
+            for (int y = roi.Top; y < roi.Bottom; y++)
             {
-                for (int x = 0; x < img1.Width; x++)
+                for (int x = roi.Left; x < roi.Right; x++)
                 {
                     img1[y, x].Is(img2[y, x], 
                         String.Format("Pixel comparison failed at ({0},{1})", x, y));

@@ -34,7 +34,7 @@ namespace OpenCvSharp.Blob
         /// <param name="mode"></param>
         /// <param name="color"></param>
         /// <param name="alpha"></param>
-        public static unsafe void PerformOne(int[,] labels, CvBlob blob, IplImage imgSrc, IplImage imgDst,
+        public static unsafe void PerformOne(LabelData labels, CvBlob blob, IplImage imgSrc, IplImage imgDst,
             RenderBlobsMode mode, CvScalar color, double alpha)
         {
             if (labels == null)
@@ -122,17 +122,13 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="labels"></param>
         /// <param name="blobs"></param>
         /// <param name="imgSrc"></param>
         /// <param name="imgDst"></param>
         /// <param name="mode"></param>
         /// <param name="alpha"></param>
-        public static void PerformMany(int[,] labels, CvBlobs blobs, IplImage imgSrc, IplImage imgDst,
-            RenderBlobsMode mode, double alpha)
+        public static void PerformMany(CvBlobs blobs, IplImage imgSrc, IplImage imgDst, RenderBlobsMode mode, double alpha)
         {
-            if (labels == null)
-                throw new ArgumentNullException("labels");
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
             if (imgSrc == null)
@@ -157,7 +153,7 @@ namespace OpenCvSharp.Blob
 
             foreach (var kv in blobs)
             {
-                PerformOne(labels, kv.Value, imgSrc, imgDst, mode, palette[kv.Key], alpha);
+                PerformOne(blobs.Labels, kv.Value, imgSrc, imgDst, mode, palette[kv.Key], alpha);
             }
         }
 
