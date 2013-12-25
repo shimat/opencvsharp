@@ -318,17 +318,17 @@ namespace OpenCvSharp.Blob
             foreach (var kv in blobs)
             {
                 CvBlob b = kv.Value;
-
+                // 重心
                 b.Centroid = new CvPoint2D64f(b.M10 / b.Area, b.M01 / b.Area);
-
+                // 各モーメント
                 b.U11 = b.M11 - (b.M10 * b.M01) / b.M00;
                 b.U20 = b.M20 - (b.M10 * b.M10) / b.M00;
                 b.U02 = b.M02 - (b.M01 * b.M01) / b.M00;
 
-                double m00_2 = b.M00 * b.M00;
-                b.N11 = b.U11 / m00_2;
-                b.N20 = b.U20 / m00_2;
-                b.N02 = b.U02 / m00_2;
+                double m00Pow2 = b.M00 * b.M00;
+                b.N11 = b.U11 / m00Pow2;
+                b.N20 = b.U20 / m00Pow2;
+                b.N02 = b.U02 / m00Pow2;
 
                 b.P1 = b.N20 + b.N02;
                 double nn = b.N20 - b.N02;
