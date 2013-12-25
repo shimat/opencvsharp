@@ -17,7 +17,7 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Constructor (init and cvLabel)
         /// </summary>
-        /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
+        /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and nchannels=1).</param>
         public CvBlobs(IplImage img)
         {
             if (img == null)
@@ -31,7 +31,7 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Constructor (init and cvLabel)
         /// </summary>
-        /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
+        /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and nchannels=1).</param>
         /// <param name="labels">Output Label values.</param>
         public CvBlobs(IplImage img, int[,] labels)
         {
@@ -76,6 +76,14 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <returns>Label of greater blob.</returns>
         public int GreaterBlob()
+        {
+            return CvBlobLib.GreaterBlob(this);
+        }
+        /// <summary>
+        /// Find the largest blob. (cvGreaterBlob)
+        /// </summary>
+        /// <returns>Label of the largest blob.</returns>
+        public int LargestBlob()
         {
             return CvBlobLib.GreaterBlob(this);
         }
