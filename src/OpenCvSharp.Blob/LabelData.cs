@@ -57,5 +57,29 @@ namespace OpenCvSharp.Blob
             get { return Values[row + roi.Y, col + roi.X]; }
             set { Values[row + roi.Y, col + roi.X] = value; }
         }
+
+        public void DebugShow()
+        {
+            using (IplImage img = new IplImage(Cols, Rows, BitDepth.U8, 1))
+            {
+                img.Zero();
+                for (int r = 0; r < Rows; r++)
+                {
+                    for (int c = 0; c < Cols; c++)
+                    {
+                        try
+                        {
+                            if (Values[r, c] != 0)
+                                img[r, c] = 255;
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+                CvWindow.ShowImages("new", img);
+            }
+        }
     }
 }
