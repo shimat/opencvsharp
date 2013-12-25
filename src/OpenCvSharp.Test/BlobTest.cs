@@ -89,7 +89,29 @@ namespace OpenCvSharp.Test
             }
         }
 
-
+        public void DebugShowOldLabel(IplImage oldLabels)
+        {
+            using (IplImage img = new IplImage(oldLabels.Size, BitDepth.U8, 1))
+            {
+                img.Zero();
+                for (int r = 0; r < img.Height; r++)
+                {
+                    for (int c = 0; c < img.Width; c++)
+                    {
+                        try
+                        {
+                            if (oldLabels[r, c] != 0)
+                                img[r, c] = 255;
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+                CvWindow.ShowImages("old", img);
+            }
+        }
 
         private void CompareBlob(IplImage src, bool comapresLabel = true)
         {
@@ -103,7 +125,8 @@ namespace OpenCvSharp.Test
 
             // Execute Labeling
             Label(src, out binary, out labelsOld, out labelsNew, out blobsOld, out blobsNew);
-
+            //DebugShowOldLabel(labelsOld);
+            //labelsNew.DebugShow();
             // compare labels value
             if(comapresLabel)
             unsafe

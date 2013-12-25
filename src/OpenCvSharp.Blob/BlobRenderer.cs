@@ -62,7 +62,7 @@ namespace OpenCvSharp.Blob
                 if (imgDst.ROIPointer != IntPtr.Zero)
                 {
                     IplROI roi = imgDst.ROIValue;
-                    offsetDst = (imgDst.NChannels*roi.xOffset) + (roi.yOffset*stepSrc);
+                    offsetDst = (imgDst.NChannels*roi.xOffset) + (roi.yOffset*stepDst);
                 }
 
                 byte* pSrc = (byte*) imgSrc.ImageData + offsetSrc + (blob.MinY*stepSrc);
