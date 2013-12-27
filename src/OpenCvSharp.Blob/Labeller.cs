@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 // Copyright (C) 2007 by Cristóbal Carnero Liñán
@@ -53,8 +54,8 @@ namespace OpenCvSharp.Blob
         /// <param name="img"></param>
         /// <param name="blobs"></param>
         /// <returns></returns>
-        public static unsafe int Perform(IplImage img, CvBlobs blobs)
-	    {
+        public static int Perform(IplImage img, CvBlobs blobs)
+        {
             if (img == null)
                 throw new ArgumentNullException("img");
             if (blobs == null)
@@ -86,129 +87,235 @@ namespace OpenCvSharp.Blob
                 h = r.height;
                 offset = r.xOffset + (r.yOffset * step);
             }
-            byte* imgIn = img.ImageDataPtr + offset;
+            byte[] imgIn;
+            unsafe
+            {
+                byte* imgInPtr = img.ImageDataPtr + offset;
+                imgIn = new byte[h * step];
+                Marshal.Copy(new IntPtr(imgInPtr), imgIn, 0, imgIn.Length);
+            }
             int label = 0;
 			int lastLabel = 0;
 			CvBlob lastBlob = null;
 
-            for (int y = 0; y < h; y++)
-            {
-                for (int x = 0; x < w; x++)
+
+                for (int y = 0; y < h; y++)
                 {
-                    if (imgIn[x + y*step] == 0)
-                        continue;
-
-                    bool labeled = labels[y, x] != 0;
-                    if (!labeled && ((y == 0) || (imgIn[x + (y - 1)*step] == 0)))
+                    for (int x = 0; x < w; x++)
                     {
-                        labeled = true;
+                        if (imgIn[x + y * step] == 0)
+                            continue;
 
-                        // Label contour.
-                        label++;
-                        if (label == MarkerValue)
-                            throw new Exception();
-
-                        labels[y, x] = label;
-                        numPixels++;
-
-                        // XXX This is not necessary at all. I only do this for consistency.
-                        if (y > 0)
-                            labels[y - 1, x] = MarkerValue;
-
-                        CvBlob blob = new CvBlob
+                        bool labeled = labels[y, x] != 0;
+                        if (!labeled && ((y == 0) || (imgIn[x + (y - 1) * step] == 0)))
                         {
-                            Label = label,
-                            Area = 1,
-                            MinX = x,
-                            MaxX = x,
-                            MinY = y,
-                            MaxY = y,
-                            M10 = x,
-                            M01 = y,
-                            M11 = x*y,
-                            M20 = x*x,
-                            M02 = y*y,
-                        };
-                        blobs.Add(label, blob);
-                        lastLabel = label;
-                        lastBlob = blob;
+                            labeled = true;
 
-                        blob.Contour.StartingPoint = new CvPoint(x, y);
-                        int direction = 1;
-                        int xx = x;
-                        int yy = y;
-                        bool contourEnd = false;
+                            // Label contour.
+                            label++;
+                            if (label == MarkerValue)
+                                throw new Exception();
 
-                        do
-                        {
-                            for (int numAttempts = 0; numAttempts < 3; numAttempts++)
+                            labels[y, x] = label;
+                            numPixels++;
+
+                            // XXX This is not necessary at all. I only do this for consistency.
+                            if (y > 0)
+                                labels[y - 1, x] = MarkerValue;
+
+                            CvBlob blob = new CvBlob
                             {
-                                bool found = false;
-                                for (int i = 0; i < 3; i++)
+                                Label = label,
+                                Area = 1,
+                                MinX = x,
+                                MaxX = x,
+                                MinY = y,
+                                MaxY = y,
+                                M10 = x,
+                                M01 = y,
+                                M11 = x * y,
+                                M20 = x * x,
+                                M02 = y * y,
+                            };
+                            blobs.Add(label, blob);
+                            lastLabel = label;
+                            lastBlob = blob;
+
+                            blob.Contour.StartingPoint = new CvPoint(x, y);
+                            int direction = 1;
+                            int xx = x;
+                            int yy = y;
+                            bool contourEnd = false;
+
+                            do
+                            {
+                                for (int numAttempts = 0; numAttempts < 3; numAttempts++)
                                 {
-                                    int nx = xx + MovesE[direction, i, 0];
-                                    int ny = yy + MovesE[direction, i, 1];
-                                    if ((nx < w) && (nx >= 0) && (ny < h) && (ny >= 0))
+                                    bool found = false;
+                                    for (int i = 0; i < 3; i++)
                                     {
-                                        if (imgIn[nx + ny*step] != 0)
+                                        int nx = xx + MovesE[direction, i, 0];
+                                        int ny = yy + MovesE[direction, i, 1];
+                                        if ((nx < w) && (nx >= 0) && (ny < h) && (ny >= 0))
+                                        {
+                                            if (imgIn[nx + ny * step] != 0)
+                                            {
+                                                found = true;
+                                                blob.Contour.ChainCode.Add((CvChainCode)MovesE[direction, i, 3]);
+                                                xx = nx;
+                                                yy = ny;
+                                                direction = MovesE[direction, i, 2];
+                                                break;
+                                            }
+                                            labels[ny, nx] = MarkerValue;
+                                        }
+                                    }
+
+                                    if (!found)
+                                        direction = (direction + 1) % 4;
+                                    else
+                                    {
+                                        if (labels[yy, xx] != label)
+                                        {
+                                            labels[yy, xx] = label;
+                                            numPixels++;
+
+                                            if (xx < blob.MinX) blob.MinX = xx;
+                                            else if (xx > blob.MaxX) blob.MaxX = xx;
+                                            if (yy < blob.MinY) blob.MinY = yy;
+                                            else if (yy > blob.MaxY) blob.MaxY = yy;
+
+                                            blob.Area++;
+                                            blob.M10 += xx;
+                                            blob.M01 += yy;
+                                            blob.M11 += xx * yy;
+                                            blob.M20 += xx * xx;
+                                            blob.M02 += yy * yy;
+                                        }
+                                        break;
+                                    }
+
+                                    contourEnd = ((xx == x) && (yy == y) && (direction == 1));
+                                    if (contourEnd)
+                                        break;
+                                }
+                            } while (!contourEnd);
+
+                        }
+
+                        if ((y + 1 < h) && (imgIn[x + (y + 1) * step] == 0) && (labels[y + 1, x] == 0))
+                        {
+                            labeled = true;
+
+                            // Label internal contour
+                            int l;
+                            CvBlob blob;
+
+                            if (labels[y, x] == 0)
+                            {
+                                l = labels[y, x - 1];
+                                labels[y, x] = l;
+                                numPixels++;
+
+                                if (l == lastLabel)
+                                    blob = lastBlob;
+                                else
+                                {
+                                    blob = blobs[l];
+                                    lastLabel = l;
+                                    lastBlob = blob;
+                                }
+                                if (blob == null)
+                                    throw new Exception();
+                                blob.Area++;
+                                blob.M10 += x;
+                                blob.M01 += y;
+                                blob.M11 += x * y;
+                                blob.M20 += x * x;
+                                blob.M02 += y * y;
+                            }
+                            else
+                            {
+                                l = labels[y, x];
+                                if (l == lastLabel)
+                                    blob = lastBlob;
+                                else
+                                {
+                                    blob = blobs[l];
+                                    lastLabel = l;
+                                    lastBlob = blob;
+                                }
+                            }
+
+                            if (blob == null)
+                                throw new Exception();
+
+                            // XXX This is not necessary (I believe). I only do this for consistency.
+                            labels[y + 1, x] = MarkerValue;
+                            var contour = new CvContourChainCode
+                            {
+                                StartingPoint = new CvPoint(x, y)
+                            };
+
+                            int direction = 3;
+                            int xx = x;
+                            int yy = y;
+
+                            do
+                            {
+                                for (int numAttempts = 0; numAttempts < 3; numAttempts++)
+                                {
+                                    bool found = false;
+
+                                    for (int i = 0; i < 3; i++)
+                                    {
+                                        int nx = xx + MovesI[direction, i, 0];
+                                        int ny = yy + MovesI[direction, i, 1];
+                                        if (imgIn[nx + ny * step] != 0)
                                         {
                                             found = true;
-                                            blob.Contour.ChainCode.Add((CvChainCode)MovesE[direction, i, 3]);
+                                            contour.ChainCode.Add((CvChainCode)MovesI[direction, i, 3]);
                                             xx = nx;
                                             yy = ny;
-                                            direction = MovesE[direction, i, 2];
+                                            direction = MovesI[direction, i, 2];
                                             break;
                                         }
                                         labels[ny, nx] = MarkerValue;
                                     }
-                                }
 
-                                if (!found)
-                                    direction = (direction + 1)%4;
-                                else
-                                {
-                                    if (labels[yy, xx] != label)
+                                    if (!found)
+                                        direction = (direction + 1) % 4;
+                                    else
                                     {
-                                        labels[yy, xx] = label;
-                                        numPixels++;
+                                        if (labels[yy, xx] == 0)
+                                        {
+                                            labels[yy, xx] = l;
+                                            numPixels++;
 
-                                        if (xx < blob.MinX) blob.MinX = xx;
-                                        else if (xx > blob.MaxX) blob.MaxX = xx;
-                                        if (yy < blob.MinY) blob.MinY = yy;
-                                        else if (yy > blob.MaxY) blob.MaxY = yy;
-
-                                        blob.Area++;
-                                        blob.M10 += xx;
-                                        blob.M01 += yy;
-                                        blob.M11 += xx*yy;
-                                        blob.M20 += xx*xx;
-                                        blob.M02 += yy*yy;
+                                            blob.Area++;
+                                            blob.M10 += xx;
+                                            blob.M01 += yy;
+                                            blob.M11 += xx * yy;
+                                            blob.M20 += xx * xx;
+                                            blob.M02 += yy * yy;
+                                        }
+                                        break;
                                     }
-                                    break;
                                 }
+                            } while (!(xx == x && yy == y));
 
-                                contourEnd = ((xx == x) && (yy == y) && (direction == 1));
-                                if (contourEnd)
-                                    break;
-                            }
-                        } while (!contourEnd);
+                            blob.InternalContours.Add(contour);
+                        }
 
-                    }
-
-                    if ((y + 1 < h) && (imgIn[x + (y + 1)*step] == 0) && (labels[y + 1, x] == 0))
-                    {
-                        labeled = true;
-
-                        // Label internal contour
-                        int l;
-                        CvBlob blob;
-
-                        if (labels[y, x] == 0)
+                        //else if (!imageOut(x, y))
+                        if (!labeled)
                         {
-                            l = labels[y, x - 1];
+                            // Internal pixel
+                            int l = labels[y, x - 1];
                             labels[y, x] = l;
                             numPixels++;
 
+                            CvBlob blob;
                             if (l == lastLabel)
                                 blob = lastBlob;
                             else
@@ -222,111 +329,13 @@ namespace OpenCvSharp.Blob
                             blob.Area++;
                             blob.M10 += x;
                             blob.M01 += y;
-                            blob.M11 += x*y;
-                            blob.M20 += x*x;
-                            blob.M02 += y*y;
+                            blob.M11 += x * y;
+                            blob.M20 += x * x;
+                            blob.M02 += y * y;
                         }
-                        else
-                        {
-                            l = labels[y, x];
-                            if (l == lastLabel)
-                                blob = lastBlob;
-                            else
-                            {
-                                blob = blobs[l];
-                                lastLabel = l;
-                                lastBlob = blob;
-                            }
-                        }
-
-                        if (blob == null)
-                            throw new Exception();
-
-                        // XXX This is not necessary (I believe). I only do this for consistency.
-                        labels[y + 1, x] = MarkerValue;
-                        var contour = new CvContourChainCode
-                        {
-                            StartingPoint = new CvPoint(x, y)
-                        };
-
-                        int direction = 3;
-                        int xx = x;
-                        int yy = y;
-
-                        do
-                        {
-                            for (int numAttempts = 0; numAttempts < 3; numAttempts++)
-                            {
-                                bool found = false;
-
-                                for (int i = 0; i < 3; i++)
-                                {
-                                    int nx = xx + MovesI[direction, i, 0];
-                                    int ny = yy + MovesI[direction, i, 1];
-                                    if (imgIn[nx + ny*step] != 0)
-                                    {
-                                        found = true;
-                                        contour.ChainCode.Add((CvChainCode) MovesI[direction, i, 3]);
-                                        xx = nx;
-                                        yy = ny;
-                                        direction = MovesI[direction, i, 2];
-                                        break;
-                                    }
-                                    labels[ny, nx] = MarkerValue;
-                                }
-
-                                if (!found)
-                                    direction = (direction + 1) % 4;
-                                else
-                                {
-                                    if (labels[yy, xx] == 0)
-                                    {
-                                        labels[yy, xx] = l;
-                                        numPixels++;
-
-                                        blob.Area++;
-                                        blob.M10 += xx;
-                                        blob.M01 += yy;
-                                        blob.M11 += xx * yy;
-                                        blob.M20 += xx * xx;
-                                        blob.M02 += yy * yy;
-                                    }
-                                    break;
-                                }
-                            }
-                        } while (!(xx == x && yy == y));
-
-                        blob.InternalContours.Add(contour);
-                    }
-
-                    //else if (!imageOut(x, y))
-                    if (!labeled)
-                    {
-                        // Internal pixel
-                        int l = labels[y, x - 1];
-                        labels[y, x] = l;
-                        numPixels++;
-
-                        CvBlob blob;
-                        if (l == lastLabel)
-                            blob = lastBlob;
-                        else
-                        {
-                            blob = blobs[l];
-                            lastLabel = l;
-                            lastBlob = blob;
-                        }
-                        if(blob == null)
-                            throw new Exception();
-                        blob.Area++;
-                        blob.M10 += x;
-                        blob.M01 += y;
-                        blob.M11 += x*y;
-                        blob.M20 += x*x;
-                        blob.M02 += y*y;
                     }
                 }
-            }
+
 
             foreach (var kv in blobs)
             {
@@ -334,6 +343,7 @@ namespace OpenCvSharp.Blob
             }
 
             return numPixels;
+
 	    }
     }
 }

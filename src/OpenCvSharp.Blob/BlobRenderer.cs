@@ -54,19 +54,14 @@ namespace OpenCvSharp.Blob
                 int stepDst = imgDst.WidthStep;
                 int offsetSrc = 0;
                 int offsetDst = 0;
-                if (imgSrc.ROIPointer != IntPtr.Zero)
-                {
-                    IplROI roi = imgSrc.ROIValue;
-                    offsetSrc = (imgSrc.NChannels*roi.xOffset) + (roi.yOffset*stepSrc);
-                }
-                if (imgDst.ROIPointer != IntPtr.Zero)
-                {
-                    IplROI roi = imgDst.ROIValue;
-                    offsetDst = (imgDst.NChannels*roi.xOffset) + (roi.yOffset*stepDst);
-                }
-
-                byte* pSrc = (byte*) imgSrc.ImageData + offsetSrc + (blob.MinY*stepSrc);
-                byte* pDst = (byte*) imgDst.ImageData + offsetDst + (blob.MinY*stepDst);
+                CvRect roiSrc = imgSrc.ROI;
+                CvRect roiDst = imgDst.ROI;
+                if (roiSrc.Size != imgSrc.Size)
+                    offsetSrc = roiSrc.Y * stepSrc + roiSrc.X;
+                if (roiDst.Size != imgDst.Size)
+                    offsetDst = roiDst.Y * stepDst + roiDst.X;
+                byte* pSrc = (byte*)imgSrc.ImageData + offsetSrc + (blob.MinY * stepSrc);
+                byte* pDst = (byte*)imgDst.ImageData + offsetDst + (blob.MinY * stepDst);
 
                 for (int r = blob.MinY; r < blob.MaxY; r++)
                 {

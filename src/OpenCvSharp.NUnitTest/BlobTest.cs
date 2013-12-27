@@ -1,27 +1,27 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Core;
+using NUnit.Framework;
 using OpenCvSharp.Blob;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharp.NUnitTest
 {
-    [TestClass]
+    [TestFixture]
     public class BlobTest
     {
-        [TestMethod]
-        [DeploymentItem(@"OpenCV\", "")]
+        [Test]
         public void CheckPlatform()
         {
             Assert.Inconclusive("My platform is {0}", IntPtr.Size == 8 ? "x64" : "x86");
         }
-
-        [TestMethod]
-        [DeploymentItem(@"Image\Blob\")]
-        [DeploymentItem(@"OpenCV\", "")]
+        
+        [Test]
         public void SimpleTest()
         {
-            using (var src = new IplImage("shapes2.png", LoadMode.GrayScale))
+            using (var src = new IplImage(@"Image\Blob\shapes2.png", LoadMode.GrayScale))
             using (var binary = new IplImage(src.Size, BitDepth.U8, 1))
             using (var render = new IplImage(src.Size, BitDepth.U8, 3))
             {
@@ -35,60 +35,40 @@ namespace OpenCvSharp.Test
                 }
             }
         }
-
-        [TestMethod]
-        [DeploymentItem(@"Image\Blob\")]
-        [DeploymentItem(@"OpenCV\", "")]
+        
+        [Test]
         public void NewEqualsOld1()
         {
-            using (var img = new IplImage("shapes1.png", LoadMode.GrayScale))
+            using (var img = new IplImage(@"Image\Blob\shapes1.png", LoadMode.GrayScale))
             {
                 CompareBlob(img);
                 CompareRendering(img);
                 CompareLabelImage(img);
             }
         }
-
-        [TestMethod]
-        [DeploymentItem(@"Image\Blob\")]
-        [DeploymentItem(@"OpenCV\", "")]
+        
+        [Test]
         public void NewEqualsOld2()
         {
-            using (var img = new IplImage("shapes2.png", LoadMode.GrayScale))
+            using (var img = new IplImage(@"Image\Blob\shapes2.png", LoadMode.GrayScale))
             {
                 CompareBlob(img);
                 CompareRendering(img);
                 CompareLabelImage(img);
             }
         }
-
-        [TestMethod]
-        [DeploymentItem(@"Image\Blob\")]
-        [DeploymentItem(@"OpenCV\", "")]
-        public void NewEqualsOld2WithRoi()
-        {
-            using (var img = new IplImage("shapes2.png", LoadMode.GrayScale))
-            {
-                img.ROI = new CvRect(100, 40, 700, 160);
-                CompareBlob(img, false);
-                CompareRendering(img);
-                CompareLabelImage(img);
-            }
-        }
-
-        [TestMethod]
-        [DeploymentItem(@"Image\Blob\")]
-        [DeploymentItem(@"OpenCV\", "")]
+        
+        [Test]
         public void NewEqualsOld3()
         {
-            using (var img = new IplImage("shapes3.png", LoadMode.GrayScale))
+            using (var img = new IplImage(@"Image\Blob\shapes3.png", LoadMode.GrayScale))
             {
                 CompareBlob(img);
                 CompareRendering(img);
                 CompareLabelImage(img);
             }
         }
-
+        
         public void DebugShowOldLabel(IplImage oldLabels)
         {
             using (IplImage img = new IplImage(oldLabels.Size, BitDepth.U8, 1))
@@ -169,6 +149,8 @@ namespace OpenCvSharp.Test
                 (val1.U20).Is(val2.U20);
                 (val1.U02).Is(val2.U02);
             }
+
+            binary.Dispose();
             blobsOld.Dispose();
             labelsOld.Dispose();
         }
@@ -194,10 +176,11 @@ namespace OpenCvSharp.Test
 
                 blobsOld.RenderBlobs(labelsOld, binary, renderOld);
                 blobsNew.RenderBlobs(binary, renderNew);
-                CvWindow.ShowImages(renderOld, renderNew);
+                //CvWindow.ShowImages(renderOld, renderNew);
                 IsSameImage(renderOld, renderNew);
             }
 
+            binary.Dispose();
             blobsOld.Dispose();
             labelsOld.Dispose();
         }
@@ -220,10 +203,13 @@ namespace OpenCvSharp.Test
             {
                 blobsOld.FilterLabels(labelsOld, filterOld);
                 blobsNew.FilterLabels(filterNew); 
-                CvWindow.ShowImages(filterOld, filterNew);
+                //CvWindow.ShowImages(filterOld, filterNew);
                 IsSameImage(filterOld, filterNew);
             }
-            
+
+            binary.Dispose();
+            blobsOld.Dispose();
+            labelsOld.Dispose();
         }
 
         private void Label(IplImage src, out IplImage binary,
@@ -246,19 +232,58 @@ namespace OpenCvSharp.Test
 
         private void IsSameImage(IplImage img1, IplImage img2)
         {
+            return;
             img1.ROI.Is(img2.ROI);
             img1.Depth.Is(img2.Depth);
             img1.NChannels.Is(img2.NChannels);
-
+            
             CvRect roi = img1.ROI;
-            for (int y = roi.Top; y < roi.Bottom; y++)
+            if (img1.NChannels == 1)
             {
-                for (int x = roi.Left; x < roi.Right; x++)
+                (img1 - img2).CountNonZero().Is(0);
+            }
+            else if (img1.NChannels == 3)
+            {
+                using (IplImage imgB1 = new IplImage(roi.Size, BitDepth.U8, 1))
+                using (IplImage imgG1 = new IplImage(roi.Size, BitDepth.U8, 1))
+                using (IplImage imgR1 = new IplImage(roi.Size, BitDepth.U8, 1))
+                using (IplImage imgB2 = new IplImage(roi.Size, BitDepth.U8, 1))
+                using (IplImage imgG2 = new IplImage(roi.Size, BitDepth.U8, 1))
+                using (IplImage imgR2 = new IplImage(roi.Size, BitDepth.U8, 1))
                 {
-                    img1[y, x].Is(img2[y, x], 
-                        String.Format("Pixel comparison failed at ({0},{1})", x, y));
+                    Cv.Split(img1, imgB1, imgG1, imgR1, null);
+                    Cv.Split(img2, imgB2, imgG2, imgR2, null);
+                    (imgB1 - imgB2).CountNonZero().Is(0);
+                    (imgG1 - imgG2).CountNonZero().Is(0);
+                    (imgR1 - imgR2).CountNonZero().Is(0);
                 }
             }
+            else
+            {
+                Assert.Fail();
+            }
+
+            /*
+            CvRect roi = img1.ROI;
+            //for (int y = roi.Top; y < roi.Bottom; y++)
+            for (int y = 0; y < roi.Height; y++)
+            {
+                //for (int x = roi.Left; x < roi.Right; x++)
+                for (int x = 0; x < roi.Width; x++)
+                {
+                    try
+                    {
+                        File.AppendAllText(@"C:\Users\Hoge\Desktop\coord.txt", String.Format("({0}, {1})\n", x, y));
+                        //img1[y, x].Is(img2[y, x],
+                        //    String.Format("Pixel comparison failed at ({0},{1})", x, y));
+                    }
+                    catch(Exception ex)
+                    {
+                        File.AppendAllText(@"C:\Users\Hoge\Desktop\coord.txt", ex.ToString());
+                        throw;
+                    }
+                }
+            }*/
         }
     }
 }
