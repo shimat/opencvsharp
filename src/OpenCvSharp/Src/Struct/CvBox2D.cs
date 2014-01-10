@@ -21,7 +21,7 @@ namespace OpenCvSharp
 #endif
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct CvBox2D
+    public struct CvBox2D : IEquatable<CvBox2D>
     {
         #region Variables and Properties
 #if LANG_JP
@@ -122,6 +122,18 @@ namespace OpenCvSharp
         #region Override
 #if LANG_JP
         /// <summary>
+        /// 文字列形式を返す 
+        /// </summary>
+        /// <returns>文字列形式</returns>
+#else
+        public bool Equals(CvBox2D other)
+        {
+            return Math.Abs(this.Angle - other.Angle) < 1e-9 &&
+                   this.Center == other.Center &&
+                   this.Size == other.Size;
+        }
+#if LANG_JP
+        /// <summary>
         /// Equalsのオーバーライド
         /// </summary>
         /// <param name="obj">比較するオブジェクト</param>
@@ -135,7 +147,9 @@ namespace OpenCvSharp
 #endif
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (obj is CvBox2D)
+                return Equals((CvBox2D)obj);
+            return Equals(obj);
         }
 #if LANG_JP
         /// <summary>
@@ -150,14 +164,9 @@ namespace OpenCvSharp
 #endif
         public override int GetHashCode()
         {
-            return Center.GetHashCode() + Size.GetHashCode();
+            return Center.GetHashCode() ^ Size.GetHashCode() ^ Angle.GetHashCode();
         }
-#if LANG_JP
-        /// <summary>
-        /// 文字列形式を返す 
-        /// </summary>
-        /// <returns>文字列形式</returns>
-#else
+
         /// <summary>
         /// Converts this object to a human readable string.
         /// </summary>

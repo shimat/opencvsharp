@@ -205,7 +205,7 @@ namespace OpenCvSharp
                         return 64;
                     default:
                         // んなバカな
-                        throw new OpenCvSharpException();
+                        throw new NotSupportedException();
                 }
             }
         }
