@@ -36,7 +36,6 @@ namespace OpenCvSharp.Blob
 
         #region Methods
         #region BlobMeanColor
-
         /// <summary>
         /// Calculates mean color of a blob in an image. (cvBlobMeanColor)
         /// </summary>
@@ -55,7 +54,44 @@ namespace OpenCvSharp.Blob
             if (Labels == null)
                 throw new ArgumentException("blobs.Labels == null");
 
-            throw new NotImplementedException();
+			int stepLbl = imgLabel->widthStep / (imgLabel->depth / 8);
+			int stepImg = img->widthStep / (img->depth / 8);
+            int width = originalImage.Width;
+            int height = originalImage.Height;
+			int img_offset = 0;
+			if (imgLabel->roi)
+			{
+				imgLabel_width = imgLabel->roi->width;
+				imgLabel_height = imgLabel->roi->height;
+				imgLabel_offset = (imgLabel->nChannels * imgLabel->roi->xOffset) + (imgLabel->roi->yOffset * stepLbl);
+			}
+			if (img->roi)
+			{
+				img_width = img->roi->width;
+				img_height = img->roi->height;
+				img_offset = (img->nChannels * img->roi->xOffset) + (img->roi->yOffset * stepImg);
+			}
+			
+
+			double mb = 0;
+			double mg = 0;
+			double mr = 0;
+			double pixels = (double)blob->area;
+            unsafe
+            {
+                byte* imgData = originalImage.ImageDataPtr + img_offset;
+                for (int r = 0; r < height; r++, imgData += stepImg)
+                    for (int c = 0; c < (int) imgLabel_width; c++)
+                    {
+                        if (labels[r, c] == blob->label)
+                        {
+                            mb += ((double) imgData[img->nChannels * c + 0]) / pixels; // B
+                            mg += ((double) imgData[img->nChannels * c + 1]) / pixels; // G
+                            mr += ((double) imgData[img->nChannels * c + 2]) / pixels; // R
+                        }
+                    }
+            }
+            return new CvScalar(mr, mg, mb);
         }
         #endregion
         #region Label
