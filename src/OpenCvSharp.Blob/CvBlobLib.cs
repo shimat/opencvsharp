@@ -103,19 +103,11 @@ namespace OpenCvSharp.Blob
         /// <param name="blobs">List of blobs.</param>
         /// <param name="minArea">Minimun area.</param>
         /// <param name="maxArea">Maximun area.</param>
-        public static void FilterByArea(CvBlobs blobs, uint minArea, uint maxArea)
+        public static void FilterByArea(CvBlobs blobs, int minArea, int maxArea)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
-
-            foreach (int key in blobs.Keys)
-            {
-                int area = blobs[key].Area;
-                if (area < minArea || area > maxArea)
-                {
-                    blobs.Remove(key);
-                }
-            }
+            blobs.FilterByArea(minArea, maxArea);
         }
         #endregion
         #region FilterLabels
@@ -126,53 +118,9 @@ namespace OpenCvSharp.Blob
         /// <param name="imgOut">Output binary image (depth=IPL_DEPTH_8U and nchannels=1).</param>
         public static void FilterLabels(CvBlobs blobs, IplImage imgOut)
         {
-            if (imgOut == null)
-                throw new ArgumentNullException("imgOut");
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
-            if (imgOut.Depth != BitDepth.U8)
-                throw new ArgumentException("imgOut.Depth != BitDepth.U8");
-            if (imgOut.NChannels != 1)
-                throw new ArgumentException("imgOut.NChannels != 1");
-            if (blobs.Labels == null)
-                throw new ArgumentException("blobs.Labels == null");
-
-            LabelData labels = blobs.Labels;
-            CvRect roi = labels.Roi;
-			int w = roi.Width;
-			int h = roi.Height;
-
-            int step = imgOut.WidthStep;
-            int offset = 0;
-			if (imgOut.ROIPointer != IntPtr.Zero)
-			{
-			    IplROI r = imgOut.ROIValue;
-				offset = r.xOffset + (r.yOffset * step);
-			}
-
-            unsafe
-            {
-                byte* imgData = imgOut.ImageDataPtr + offset;
-
-                for (int r = 0; r < h; r++, imgData += step)
-                {
-                    for (int c = 0; c < w; c++)
-                    {
-                        int label = labels[r, c];
-                        if (label != 0)
-                        {
-                            if (blobs.ContainsKey(label))
-                                imgData[c] = 0xff;
-                            else
-                                imgData[c] = 0x00;
-                        }
-                        else
-                        {
-                            imgData[c] = 0x00;
-                        }
-                    }
-                }
-            }
+            blobs.FilterLabels(imgOut);
         }
         #endregion   
         /*
@@ -203,16 +151,15 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Get the label value from a labeled image.
         /// </summary>
-        /// <param name="img">Label image.</param>
+        /// <param name="blobs">Blob data.</param>
         /// <param name="x">X coordenate.</param>
         /// <param name="y">Y coordenate.</param>
         /// <returns>Label value.</returns>
-        public static UInt32 GetLabel(IplImage img, uint x, uint y)
+        public static int GetLabel(CvBlobs blobs, int x, int y)
         {
-            if (img == null)
-                throw new ArgumentNullException("img");
-
-            throw new NotImplementedException();
+            if (blobs == null)
+                throw new ArgumentNullException("blobs");
+            return blobs.GetLabel(x, y);
         }
         #endregion
         #region GreaterBlob
@@ -220,23 +167,24 @@ namespace OpenCvSharp.Blob
         /// Find greater blob. (cvGreaterBlob)
         /// </summary>
         /// <param name="blobs">List of blobs.</param>
-        /// <returns>Label of greater blob.</returns>
-        public static int GreaterBlob(CvBlobs blobs)
-        {
-            return LargestBlob(blobs);
-        }
-
-        /// <summary>
-        /// Find largest blob. (cvLargestBlob)
-        /// </summary>
-        /// <param name="blobs">List of blobs.</param>
-        /// <returns>Label of greater blob.</returns>
-        public static int LargestBlob(CvBlobs blobs)
+        /// <returns>The greater blob.</returns>
+        public static CvBlob GreaterBlob(CvBlobs blobs)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
+            return blobs.GreaterBlob();
+        }
 
-            throw new NotImplementedException();
+        /// <summary>
+        /// Find the largest blob. (cvLargestBlob)
+        /// </summary>
+        /// <param name="blobs">List of blobs.</param>
+        /// <returns>The largest blob.</returns>
+        public static CvBlob LargestBlob(CvBlobs blobs)
+        {
+            if (blobs == null)
+                throw new ArgumentNullException("blobs");
+            return blobs.LargestBlob();
         }
         #endregion
         #region Label

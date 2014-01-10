@@ -57,25 +57,95 @@ namespace OpenCvSharp.Blob
         /// <param name="imgOut">Output binary image (depth=IPL_DEPTH_8U and nchannels=1).</param>
         public void FilterLabels(IplImage imgOut)
         {
-            CvBlobLib.FilterLabels(this, imgOut);
+            if (imgOut == null)
+                throw new ArgumentNullException("imgOut");
+            if (imgOut.Depth != BitDepth.U8)
+                throw new ArgumentException("imgOut.Depth != BitDepth.U8");
+            if (imgOut.NChannels != 1)
+                throw new ArgumentException("imgOut.NChannels != 1");
+            if (Labels == null)
+                throw new ArgumentException("blobs.Labels == null");
+
+            CvRect roi = Labels.Roi;
+            int w = roi.Width;
+            int h = roi.Height;
+
+            int step = imgOut.WidthStep;
+            int offset = 0;
+            if (imgOut.ROIPointer != IntPtr.Zero)
+            {
+                IplROI r = imgOut.ROIValue;
+                offset = r.xOffset + (r.yOffset * step);
+            }
+
+            unsafe
+            {
+                byte* imgData = imgOut.ImageDataPtr + offset;
+
+                for (int r = 0; r < h; r++, imgData += step)
+                {
+                    for (int c = 0; c < w; c++)
+                    {
+                        int label = Labels[r, c];
+                        if (label != 0)
+                        {
+                            if (ContainsKey(label))
+                                imgData[c] = 0xff;
+                            else
+                                imgData[c] = 0x00;
+                        }
+                        else
+                        {
+                            imgData[c] = 0x00;
+                        }
+                    }
+                }
+            }
         }
         #endregion
         #region GreaterBlob
         /// <summary>
         /// Find greater blob. (cvGreaterBlob)
         /// </summary>
-        /// <returns>Label of greater blob.</returns>
-        public int GreaterBlob()
+        /// <returns>The greater blob.</returns>
+        public CvBlob GreaterBlob()
         {
-            return CvBlobLib.GreaterBlob(this);
+            return LargestBlob();
         }
         /// <summary>
         /// Find the largest blob. (cvGreaterBlob)
         /// </summary>
-        /// <returns>Label of the largest blob.</returns>
-        public int LargestBlob()
+        /// <returns>The largest blob.</returns>
+        public CvBlob LargestBlob()
         {
-            return CvBlobLib.GreaterBlob(this);
+            if (Count == 0)
+                return null;
+
+            var list = new List<KeyValuePair<int, CvBlob>>(this);
+            // 降順ソート
+            list.Sort((kv1, kv2) =>
+                {
+                    CvBlob b1 = kv1.Value;
+                    CvBlob b2 = kv2.Value;
+                    if (b1 == null)
+                        return -1;
+                    if (b2 == null)
+                        return 1;
+                    return b2.Area - b1.Area;
+                });
+            return list[0].Value;
+        }
+        #endregion
+        #region GetLabel
+        /// <summary>
+        /// Label the connected parts of a binary image. (cvLabel)
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns>Number of pixels that has been labeled.</returns>
+        public int GetLabel(int x, int y)
+        {
+            return Labels[y, x];
         }
         #endregion
         #region RenderBlobs
@@ -117,9 +187,16 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="minArea">Minimun area.</param>
         /// <param name="maxArea">Maximun area.</param>
-        public void FilterByArea(UInt32 minArea, UInt32 maxArea)
+        public void FilterByArea(int minArea, int maxArea)
         {
-            CvBlobLib.FilterByArea(this, minArea, maxArea);
+            foreach (int key in Keys)
+            {
+                int area = this[key].Area;
+                if (area < minArea || area > maxArea)
+                {
+                    Remove(key);
+                }
+            }
         }
         #endregion
         #endregion
