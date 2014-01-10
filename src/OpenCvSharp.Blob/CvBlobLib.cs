@@ -208,20 +208,15 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Calculates mean color of a blob in an image.
         /// </summary>
-        /// <param name="blob">Blob</param>
-        /// <param name="imgLabel">Image of labels.</param>
-        /// <param name="img">Original image.</param>
+        /// <param name="blobs">Blob list</param>
+        /// <param name="targetBlob">The target blob</param>
+        /// <param name="originalImage">Original image.</param>
         /// <returns>Average color.</returns>
-        public static CvScalar BlobMeanColor(CvBlob blob, IplImage imgLabel, IplImage img)
+        public static CvScalar BlobMeanColor(CvBlobs blobs, CvBlob targetBlob, IplImage originalImage)
         {
-            if (blob == null)
-                throw new ArgumentNullException("blob");
-            if (imgLabel == null)
-                throw new ArgumentNullException("imgLabel");
-            if (img == null)
-                throw new ArgumentNullException("img");
-
-            throw new NotImplementedException();
+            if (blobs == null)
+                throw new ArgumentNullException("blobs");
+            return blobs.BlobMeanColor(targetBlob, originalImage);
         }
         #endregion
         #region PolygonContourConvexHull
@@ -444,12 +439,9 @@ namespace OpenCvSharp.Blob
         /// <param name="blob">Blob.</param>
         public static void SetImageRoItoBlob(IplImage img, CvBlob blob)
         {
-            if (img == null)
-                throw new ArgumentNullException("img");
             if (blob == null)
                 throw new ArgumentNullException("blob");
-            
-            throw new NotImplementedException();
+            blob.SetImageRoiToBlob(img);
         }
         #endregion
         #region SimplifyPolygon
