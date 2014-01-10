@@ -35,6 +35,29 @@ namespace OpenCvSharp.Blob
         }
 
         #region Methods
+        #region BlobMeanColor
+
+        /// <summary>
+        /// Calculates mean color of a blob in an image. (cvBlobMeanColor)
+        /// </summary>
+        /// <param name="targetBlob">The target blob</param>
+        /// <param name="originalImage">Original image.</param>
+        public CvScalar BlobMeanColor(CvBlob targetBlob, IplImage originalImage)
+        {
+            if (targetBlob == null)
+                throw new ArgumentNullException("targetBlob");
+            if (originalImage == null)
+                throw new ArgumentNullException("originalImage");
+            if (originalImage.Depth != BitDepth.U8)
+                throw new ArgumentException("imgOut.Depth != BitDepth.U8");
+            if (originalImage.NChannels != 3)
+                throw new ArgumentException("imgOut.NChannels != 3");
+            if (Labels == null)
+                throw new ArgumentException("blobs.Labels == null");
+
+            throw new NotImplementedException();
+        }
+        #endregion
         #region Label
         /// <summary>
         /// Label the connected parts of a binary image. (cvLabel)

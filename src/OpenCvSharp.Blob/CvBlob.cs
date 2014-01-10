@@ -191,18 +191,7 @@ namespace OpenCvSharp.Blob
         }
         #endregion
         //*/
-        #region MeanColor
-        /// <summary>
-        /// Calculates mean color of a blob in an image.
-        /// </summary>
-        /// <param name="imgLabel">Image of labels.</param>
-        /// <param name="img">Original image.</param>
-        /// <returns>Average color.</returns>
-        public CvScalar MeanColor(IplImage imgLabel, IplImage img)
-        {
-            return CvBlobLib.BlobMeanColor(this, imgLabel, img);
-        }
-        #endregion
+
         #region SetImageROItoBlob
         /// <summary>
         /// Set the ROI of an image to the bounding box of a blob.
@@ -210,11 +199,12 @@ namespace OpenCvSharp.Blob
         /// <param name="img">Image.</param>
         public void SetImageRoiToBlob(IplImage img)
         {
-            CvBlobLib.SetImageRoItoBlob(img, this);
+            if(img == null)
+                throw new ArgumentNullException("img");
+            img.ROI = Rect;
         }
         #endregion
-
-
+        #region SetMoments
         /// <summary>
         /// Set central/hu moments and centroid value from moment values (M**)
         /// </summary>
@@ -236,6 +226,7 @@ namespace OpenCvSharp.Blob
             double nn = N20 - N02;
             P2 = nn * nn + 4.0 * (N11 * N11);
         }
-		#endregion
+        #endregion
+        #endregion
     }
 }
