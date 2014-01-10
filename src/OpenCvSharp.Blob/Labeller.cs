@@ -75,8 +75,6 @@ namespace OpenCvSharp.Blob
 
 			int step = img.WidthStep;
             CvRect roi = img.ROI;
-            int ox = roi.X;
-            int oy = roi.Y;
             int w = roi.Width;
             int h = roi.Height;
             int offset = 0;
@@ -123,20 +121,7 @@ namespace OpenCvSharp.Blob
                             if (y > 0)
                                 labels[y - 1, x] = MarkerValue;
 
-                            CvBlob blob = new CvBlob
-                            {
-                                Label = label,
-                                Area = 1,
-                                MinX = x,
-                                MaxX = x,
-                                MinY = y,
-                                MaxY = y,
-                                M10 = x,
-                                M01 = y,
-                                M11 = x * y,
-                                M20 = x * x,
-                                M02 = y * y,
-                            };
+                            CvBlob blob = new CvBlob(label, x, y);
                             blobs.Add(label, blob);
                             lastLabel = label;
                             lastBlob = blob;
@@ -180,10 +165,14 @@ namespace OpenCvSharp.Blob
                                             labels[yy, xx] = label;
                                             numPixels++;
 
-                                            if (xx < blob.MinX) blob.MinX = xx;
-                                            else if (xx > blob.MaxX) blob.MaxX = xx;
-                                            if (yy < blob.MinY) blob.MinY = yy;
-                                            else if (yy > blob.MaxY) blob.MaxY = yy;
+                                            if (xx < blob.MinX) 
+                                                blob.MinX = xx;
+                                            else if (xx > blob.MaxX) 
+                                                blob.MaxX = xx;
+                                            if (yy < blob.MinY) 
+                                                blob.MinY = yy;
+                                            else if (yy > blob.MaxY) 
+                                                blob.MaxY = yy;
 
                                             blob.Area++;
                                             blob.M10 += xx;

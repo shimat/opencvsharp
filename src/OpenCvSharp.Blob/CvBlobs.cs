@@ -54,44 +54,34 @@ namespace OpenCvSharp.Blob
             if (Labels == null)
                 throw new ArgumentException("blobs.Labels == null");
 
-			int stepLbl = imgLabel->widthStep / (imgLabel->depth / 8);
-			int stepImg = img->widthStep / (img->depth / 8);
-            int width = originalImage.Width;
-            int height = originalImage.Height;
-			int img_offset = 0;
-			if (imgLabel->roi)
-			{
-				imgLabel_width = imgLabel->roi->width;
-				imgLabel_height = imgLabel->roi->height;
-				imgLabel_offset = (imgLabel->nChannels * imgLabel->roi->xOffset) + (imgLabel->roi->yOffset * stepLbl);
-			}
-			if (img->roi)
-			{
-				img_width = img->roi->width;
-				img_height = img->roi->height;
-				img_offset = (img->nChannels * img->roi->xOffset) + (img->roi->yOffset * stepImg);
-			}
-			
+			int step = originalImage.WidthStep;
+            CvRect roi = originalImage.ROI;
+            int width = roi.Width;
+            int height = roi.Height;
+            int offset = roi.X + (roi.Y * step);
 
-			double mb = 0;
-			double mg = 0;
-			double mr = 0;
-			double pixels = (double)blob->area;
+			int mb = 0;
+            int mg = 0;
+            int mr = 0;
             unsafe
             {
-                byte* imgData = originalImage.ImageDataPtr + img_offset;
-                for (int r = 0; r < height; r++, imgData += stepImg)
-                    for (int c = 0; c < (int) imgLabel_width; c++)
+                byte* imgData = originalImage.ImageDataPtr + offset;
+                for (int r = 0; r < height; r++)
+                {
+                    for (int c = 0; c < width; c++)
                     {
-                        if (labels[r, c] == blob->label)
+                        if (Labels[r, c] == targetBlob.Label)
                         {
-                            mb += ((double) imgData[img->nChannels * c + 0]) / pixels; // B
-                            mg += ((double) imgData[img->nChannels * c + 1]) / pixels; // G
-                            mr += ((double) imgData[img->nChannels * c + 2]) / pixels; // R
+                            mb += imgData[3 * c + 0];
+                            mg += imgData[3 * c + 1]; 
+                            mr += imgData[3 * c + 2]; 
                         }
                     }
+                    imgData += step;
+                }
             }
-            return new CvScalar(mr, mg, mb);
+            int pixels = targetBlob.Area;
+            return new CvColor((byte)(mr / pixels), (byte)(mg / pixels), (byte)(mb / pixels));
         }
         #endregion
         #region Label
