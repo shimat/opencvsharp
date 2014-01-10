@@ -224,14 +224,13 @@ namespace OpenCvSharp.Blob
         /// Calculates convex hull of a contour.
         /// Uses the Melkman Algorithm. Code based on the version in http://w3.impa.br/~rdcastan/Cgeometry/.
         /// </summary>
-        /// <param name="p">Contour (polygon type).</param>
+        /// <param name="polygon">Contour (polygon type).</param>
         /// <returns>Convex hull.</returns>
-        public static CvContourPolygon PolygonContourConvexHull(CvContourPolygon p)
+        public static CvContourPolygon PolygonContourConvexHull(CvContourPolygon polygon)
         {
-            if (p == null)
-                throw new ArgumentNullException("p");
-
-            throw new NotImplementedException();
+            if (polygon == null)
+                throw new ArgumentNullException("polygon");
+            return polygon.ContourConvexHull();
         }
         #endregion
         #region RenderBlob
@@ -495,45 +494,41 @@ namespace OpenCvSharp.Blob
             throw new NotImplementedException();
         }
         #endregion
-        #region WriteContourPolygonCSV
+        #region WriteContourPolygonCsv
         /// <summary>
         /// Write a contour to a CSV (Comma-separated values) file.
         /// </summary>
-        /// <param name="p">Polygon contour.</param>
+        /// <param name="polygon">Polygon contour.</param>
         /// <param name="filename">File name.</param>
-        public static void WriteContourPolygonCSV(CvContourPolygon p, string filename)
+        public static void WriteContourPolygonCsv(CvContourPolygon polygon, string filename)
         {
-            if (p == null)
-                throw new ArgumentNullException("p");
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
-            throw new NotImplementedException();
+            if (polygon == null)
+                throw new ArgumentNullException("polygon");
+            polygon.WriteAsCsv(filename);
         }
         #endregion
-        #region WriteContourPolygonSVG
+        #region WriteContourPolygonSvg
         /// <summary>
         /// Write a contour to a SVG file.
         /// </summary>
-        /// <param name="p">Polygon contour.</param>
-        /// <param name="filename">File name.</param>
-        public static void WriteContourPolygonSVG(CvContourPolygon p, string filename)
+        /// <param name="polygon">Polygon contour.</param>
+        /// <param name="fileName">File name.</param>
+        public static void WriteContourPolygonSvg(CvContourPolygon polygon, string fileName)
         {
-            WriteContourPolygonSVG(p, filename, CvColor.Black, CvColor.White);
+            polygon.WriteAsSvg(fileName);
         }
         /// <summary>
         /// Write a contour to a SVG file.
         /// </summary>
-        /// <param name="p">Polygon contour.</param>
-        /// <param name="filename">File name.</param>
+        /// <param name="polygon">Polygon contour.</param>
+        /// <param name="fileName">File name.</param>
         /// <param name="stroke">Stroke color (black by default).</param>
         /// <param name="fill">Fill color (white by default).</param>
-        public static void WriteContourPolygonSVG(CvContourPolygon p, string filename, CvScalar stroke, CvScalar fill)
+        public static void WriteContourPolygonSvg(CvContourPolygon polygon, string fileName, CvScalar stroke, CvScalar fill)
         {
-            if (p == null)
-                throw new ArgumentNullException("p");
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
-            throw new NotImplementedException();
+            if (polygon == null)
+                throw new ArgumentNullException("polygon");
+            polygon.WriteAsSvg(fileName, stroke, fill);
         }
         #endregion
         #endregion

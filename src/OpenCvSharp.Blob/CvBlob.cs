@@ -22,6 +22,27 @@ namespace OpenCvSharp.Blob
             Contour = new CvContourChainCode();
             InternalContours = new List<CvContourChainCode>();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        internal CvBlob(int label, int x, int y) : this()
+        {
+            Label = label;
+            Area = 1;
+            MinX = x;
+            MaxX = x;
+            MinY = y;
+            MaxY = y;
+            M10 = x;
+            M01 = y;
+            M11 = x * y;
+            M20 = x * x;
+            M02 = y * y;
+        }
         #endregion
 
         #region Properties
