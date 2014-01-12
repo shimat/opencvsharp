@@ -39,6 +39,27 @@ namespace OpenCvSharp.Blob
             return sb.ToString();
         }
 
+        #region Area
+        /// <summary>
+        /// Calculates area of a polygonal contour. 
+        /// </summary>
+        /// <param name="p">Contour (polygon type).</param>
+        /// <returns>Area of the contour.</returns>
+        public double Area()
+        {                
+            if (Count <= 2)
+	            return 1.0;
+
+            CvPoint lastPoint = this[Count - 1];
+            double area = 0.0;
+            foreach (CvPoint point in this)
+            {
+                area += lastPoint.X * point.Y - lastPoint.Y * point.X;
+                lastPoint = point;
+            }
+            return area * 0.5;
+        }
+        #endregion
         #region ContourConvexHull
         /// <summary>
         /// Calculates convex hull of a contour.
