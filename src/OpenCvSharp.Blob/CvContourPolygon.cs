@@ -102,7 +102,40 @@ namespace OpenCvSharp.Blob
         }
 
         #endregion
+        #region Render
+        /// <summary>
+        /// Draw a polygon.
+        /// </summary>
+        /// <param name="img">Image to draw on.</param>
+        public void Render(IplImage img)
+        {
+            Render(img, new CvScalar(255, 255, 255, 0));
+        }
+        /// <summary>
+        /// Draw a polygon.
+        /// </summary>
+        /// <param name="img">Image to draw on.</param>
+        /// <param name="color">Color to draw (default, white).</param>
+        public void Render(IplImage img, CvScalar color)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (img.Depth != BitDepth.U8 || img.NChannels != 3)
+                throw new ArgumentException("Invalid img format (U8 3-channels)");
 
+            if (Count == 0)
+                return;
+
+            int fx = this[Count - 1].X;
+            int fy = this[Count - 1].Y;
+            foreach (CvPoint p in this)
+            {
+                Cv.Line(img, fx, fy, p.X, p.Y, 1);
+                fx = p.X;
+                fy = p.Y;
+            }
+        }
+        #endregion
         #region WriteAsCsv
         /// <summary>
         /// Write a contour to a CSV (Comma-separated values) file.
@@ -116,7 +149,6 @@ namespace OpenCvSharp.Blob
             }
         }
         #endregion
-
         #region WriteAsSvg
         /// <summary>
         /// Write a contour to a SVG file.

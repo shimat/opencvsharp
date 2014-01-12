@@ -344,6 +344,8 @@ namespace OpenCvSharp.Blob
         /// <param name="img">Image to draw on.</param>
         public static void RenderContourChainCode(CvContourChainCode contour, IplImage img)
         {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
             contour.Render(img);
         }
         /// <summary>
@@ -356,9 +358,6 @@ namespace OpenCvSharp.Blob
         {
             if (contour == null)
                 throw new ArgumentNullException("contour");
-            if (img == null)
-                throw new ArgumentNullException("img");
-
             contour.Render(img, color);
         }
         #endregion
@@ -370,7 +369,9 @@ namespace OpenCvSharp.Blob
         /// <param name="img">Image to draw on.</param>
         public static void RenderContourPolygon(CvContourPolygon contour, IplImage img)
         {
-            RenderContourPolygon(contour, img, new CvScalar(255, 255, 255, 0));
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            contour.Render(img);
         }
         /// <summary>
         /// Draw a polygon.
@@ -382,10 +383,7 @@ namespace OpenCvSharp.Blob
         {
             if (contour == null)
                 throw new ArgumentNullException("contour");
-            if (img == null)
-                throw new ArgumentNullException("img");
-
-            throw new NotImplementedException();
+            contour.Render(img, color);
         }
         #endregion
         #region RenderTracks
