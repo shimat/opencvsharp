@@ -172,11 +172,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.Blob\$(TargetFileName)"
-copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.MachineLearning\$(TargetFileName)"
-copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.CPlusPlus\$(TargetFileName)"
-copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.Test\$(TargetFileName)"
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -211,10 +208,8 @@ copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.Test\$(TargetFileN
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.Blob\$(TargetFileName)"
-copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.MachineLearning\$(TargetFileName)"
-copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.CPlusPlus\$(TargetFileName)"
-copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\OpenCvSharp.Test\$(TargetFileName)"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

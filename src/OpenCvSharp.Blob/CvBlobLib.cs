@@ -344,7 +344,7 @@ namespace OpenCvSharp.Blob
         /// <param name="img">Image to draw on.</param>
         public static void RenderContourChainCode(CvContourChainCode contour, IplImage img)
         {
-            RenderContourChainCode(contour, img, new CvScalar(255, 255, 255, 0));
+            contour.Render(img);
         }
         /// <summary>
         /// Draw a contour.
@@ -359,7 +359,7 @@ namespace OpenCvSharp.Blob
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            throw new NotImplementedException();
+            contour.Render(img, color);
         }
         #endregion
         #region RenderContourPolygon

@@ -75,7 +75,7 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Move vectors of chain codes.
         /// </summary>
-        public static readonly sbyte[][] cvChainCodeMoves = new sbyte[][]{
+        public static readonly sbyte[][] ChainCodeMoves = new sbyte[][]{
                     new sbyte[]{ 0, -1},
                     new sbyte[]{ 1, -1},
 					new sbyte[]{ 1,  0},

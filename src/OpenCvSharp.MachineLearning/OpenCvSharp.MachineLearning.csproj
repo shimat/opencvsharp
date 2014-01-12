@@ -161,9 +161,6 @@
     <Compile Include="CvStatModel\CvANN_MLP.cs" />
     <Compile Include="CvStatModel\CvRTrees.cs" />
     <Compile Include="CvStatModel\CvBoost.cs" />
-    <Content Include="OpenCvSharpExtern.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Compile Include="Struct\CvPair32s32f.cs" />
   </ItemGroup>
   <ItemGroup>
