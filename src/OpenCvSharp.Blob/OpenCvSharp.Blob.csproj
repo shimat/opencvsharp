@@ -126,9 +126,6 @@
     <Compile Include="Old\CvBlobInvoke.cs" />
     <Compile Include="Old\CvBlobLib.cs" />
     <Compile Include="Old\CvBlobs.cs" />
-    <Content Include="OpenCvSharpExtern.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="ReadMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
