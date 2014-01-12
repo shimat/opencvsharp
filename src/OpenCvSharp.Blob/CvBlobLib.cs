@@ -58,14 +58,13 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Calculates area of a polygonal contour. 
         /// </summary>
-        /// <param name="p">Contour (polygon type).</param>
+        /// <param name="polygon">Contour (polygon type).</param>
         /// <returns>Area of the contour.</returns>
-        public static double ContourPolygonArea(CvContourPolygon p)
+        public static double ContourPolygonArea(CvContourPolygon polygon)
         {
-            if (p == null)
-                throw new ArgumentNullException("p");
-
-            throw new NotImplementedException();
+            if (polygon == null)
+                throw new ArgumentNullException("polygon");
+            return polygon.Area();
         }
         #endregion
         #region ContourPolygonPerimeter
