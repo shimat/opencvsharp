@@ -29,6 +29,26 @@ namespace OpenCvSharp.Blob
             ChainCode = new List<CvChainCode>();
         }
 
+        #region Perimeter
+        /// <summary>
+        /// Calculates perimeter of a polygonal contour.
+        /// </summary>
+        /// <param name="polygon">Contour (polygon type).</param>
+        /// <returns>Perimeter of the contour.</returns>
+        public double Perimeter()
+        {
+            double perimeter = 0.0;
+            foreach (CvChainCode cc in ChainCode)
+            {
+                int type = (int)cc;
+                if (type % 2 != 0)
+                    perimeter += Math.Sqrt(1.0 + 1.0);
+                else
+                    perimeter += 1.0;
+            }
+            return perimeter;
+        }
+        #endregion
         #region Render
         /// <summary>
         /// Draw a contour.

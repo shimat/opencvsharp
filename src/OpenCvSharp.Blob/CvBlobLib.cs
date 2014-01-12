@@ -69,16 +69,15 @@ namespace OpenCvSharp.Blob
         #endregion
         #region ContourPolygonPerimeter
         /// <summary>
-        /// Calculates perimeter of a polygonal contour.
+        /// Calculates perimeter of a chain code contour.
         /// </summary>
-        /// <param name="p">Contour (polygon type).</param>
+        /// <param name="cc">Contour (polygon type).</param>
         /// <returns>Perimeter of the contour.</returns>
-        public static double ContourPolygonPerimeter(CvContourPolygon p)
+        public static double ContourPolygonPerimeter(CvContourChainCode cc)
         {
-            if (p == null)
-                throw new ArgumentNullException("p");
-
-            throw new NotImplementedException();
+            if (cc == null)
+                throw new ArgumentNullException("cc");
+            return cc.Perimeter();
         }
         #endregion
         #region ConvertChainCodesToPolygon
