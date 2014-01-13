@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.Blob
+namespace OpenCvSharp.Blob.Old
 {
     /// <summary>
     /// Constants which are defined by cvblob
@@ -93,10 +93,6 @@ namespace OpenCvSharp.Blob
         /// </summary>
         public const ushort CV_TRACK_RENDER_ID = 0x0001;
         /// <summary>
-        /// Draw bounding box of each track in the image. \see cvRenderTracks
-        /// </summary>
-        public const ushort CV_TRACK_RENDER_BOUNDING_BOX = 0x0002;
-        /// <summary>
         /// Print track info to log out.
         /// </summary>
         public const ushort CV_TRACK_RENDER_TO_LOG = 0x0010;
@@ -104,7 +100,6 @@ namespace OpenCvSharp.Blob
         /// Print track info to log out.
         /// </summary>
         public const ushort CV_TRACK_RENDER_TO_STD = 0x0020;
-
         // ReSharper restore InconsistentNaming
         #endregion
     }

@@ -43,7 +43,6 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Calculates area of a polygonal contour. 
         /// </summary>
-        /// <param name="p">Contour (polygon type).</param>
         /// <returns>Area of the contour.</returns>
         public double Area()
         {                
@@ -65,7 +64,6 @@ namespace OpenCvSharp.Blob
         /// Calculates convex hull of a contour.
         /// Uses the Melkman Algorithm. Code based on the version in http://w3.impa.br/~rdcastan/Cgeometry/.
         /// </summary>
-        /// <param name="p">Contour (polygon type).</param>
         /// <returns>Convex hull.</returns>
         public CvContourPolygon ContourConvexHull()
         {
