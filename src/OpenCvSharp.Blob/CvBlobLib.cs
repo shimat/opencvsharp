@@ -103,7 +103,7 @@ namespace OpenCvSharp.Blob
         {
             if (cc == null)
                 throw new ArgumentNullException("cc");
-            throw new NotImplementedException();
+            return cc.ConvertToPolygon();
         }
         #endregion
         #region FilterByArea
@@ -406,7 +406,9 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         public static void RenderTracks(CvTracks tracks, IplImage imgSource, IplImage imgDest)
         {
-            RenderTracks(tracks, imgSource, imgDest, RenderTracksMode.ID, null);
+            if (tracks == null)
+                throw new ArgumentNullException("tracks");
+            tracks.Render(imgSource, imgDest);
         }
         /// <summary>
         /// Prints tracks information.
@@ -417,7 +419,9 @@ namespace OpenCvSharp.Blob
         /// <param name="mode">Render mode. By default is CV_TRACK_RENDER_ID.</param>
         public static void RenderTracks(CvTracks tracks, IplImage imgSource, IplImage imgDest, RenderTracksMode mode)
         {
-            RenderTracks(tracks, imgSource, imgDest, mode, null);
+            if (tracks == null)
+                throw new ArgumentNullException("tracks");
+            tracks.Render(imgSource, imgDest, mode);
         }
         /// <summary>
         /// Prints tracks information.
@@ -431,12 +435,7 @@ namespace OpenCvSharp.Blob
         {
             if (tracks == null)
                 throw new ArgumentNullException("tracks");
-            if (imgSource == null)
-                throw new ArgumentNullException("imgSource");
-            if (imgDest == null)
-                throw new ArgumentNullException("imgDest");
-
-            throw new NotImplementedException();
+            tracks.Render(imgSource, imgDest, mode, font);
         }
         #endregion
         #region SetImageRoItoBlob

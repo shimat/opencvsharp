@@ -29,11 +29,45 @@ namespace OpenCvSharp.Blob
             ChainCode = new List<CvChainCode>();
         }
 
+        #region ConvertToPolygon
+
+        /// <summary>
+        /// Convert a chain code contour to a polygon.
+        /// </summary>
+        /// <returns>A polygon.</returns>
+        public CvContourPolygon ConvertToPolygon()
+        {
+            CvContourPolygon contour = new CvContourPolygon();
+
+            int x = StartingPoint.X;
+            int y = StartingPoint.Y;
+            contour.Add(new CvPoint(x, y));
+
+            if (ChainCode.Count > 0)
+            {
+                CvChainCode lastCode = ChainCode[0];
+                x += CvBlobConst.ChainCodeMoves[(int)ChainCode[0]][0];
+                y += CvBlobConst.ChainCodeMoves[(int)ChainCode[0]][1];
+                for (int i = 1; i < ChainCode.Count; i++)
+                {
+                    if (lastCode != ChainCode[i])
+                    {
+                        contour.Add(new CvPoint(x, y));
+                        lastCode = ChainCode[i];
+                    }
+                    x += CvBlobConst.ChainCodeMoves[(int)ChainCode[i]][0];
+                    y += CvBlobConst.ChainCodeMoves[(int)ChainCode[i]][1];
+                }
+            }
+
+            return contour;
+        }
+
+        #endregion
         #region Perimeter
         /// <summary>
         /// Calculates perimeter of a polygonal contour.
         /// </summary>
-        /// <param name="polygon">Contour (polygon type).</param>
         /// <returns>Perimeter of the contour.</returns>
         public double Perimeter()
         {

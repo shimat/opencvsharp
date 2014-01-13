@@ -232,7 +232,6 @@ namespace OpenCvSharp.NUnitTest
 
         private void IsSameImage(IplImage img1, IplImage img2)
         {
-            return;
             img1.ROI.Is(img2.ROI);
             img1.Depth.Is(img2.Depth);
             img1.NChannels.Is(img2.NChannels);

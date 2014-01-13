@@ -20,10 +20,10 @@ namespace OpenCvSharp.Utilities
     /// </summary>
     /// <typeparam name="T"></typeparam>
 #endif
-    public class ArrayAddress1<T> : IDisposable
+    public class ArrayAddress1<T> : DisposableObject
     {
-        private Array _array;
-        private GCHandle _gch;
+        private Array array;
+        private GCHandle gch;
 
 #if LANG_JP
         /// <summary>
@@ -39,11 +39,9 @@ namespace OpenCvSharp.Utilities
         public ArrayAddress1(T[] array)
         {
             if (array == null)
-            {
                 throw new ArgumentNullException();
-            }
-            this._array = array;
-            this._gch = GCHandle.Alloc(array, GCHandleType.Pinned);
+            this.array = array;
+            this.gch = GCHandle.Alloc(array, GCHandleType.Pinned);
         }
 #if LANG_JP
         /// <summary>
@@ -59,11 +57,9 @@ namespace OpenCvSharp.Utilities
         public ArrayAddress1(T[,] array)
         {
             if (array == null)
-            {
                 throw new ArgumentNullException();
-            }
-            this._array = array;
-            this._gch = GCHandle.Alloc(array, GCHandleType.Pinned);
+            this.array = array;
+            this.gch = GCHandle.Alloc(array, GCHandleType.Pinned);
         }
 
 #if LANG_JP
@@ -75,12 +71,13 @@ namespace OpenCvSharp.Utilities
         /// 
         /// </summary>
 #endif
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (_gch.IsAllocated)
+            if (gch.IsAllocated)
             {
-                _gch.Free();
+                gch.Free();
             }
+            base.Dispose();
         }
 
 #if LANG_JP
@@ -95,7 +92,7 @@ namespace OpenCvSharp.Utilities
 #endif
         public IntPtr Pointer
         {
-            get { return _gch.AddrOfPinnedObject(); }
+            get { return gch.AddrOfPinnedObject(); }
         }
 #if LANG_JP
         /// <summary>
@@ -127,11 +124,11 @@ namespace OpenCvSharp.Utilities
     /// </summary>
     /// <typeparam name="T"></typeparam>
 #endif
-    public class ArrayAddress2<T> : IDisposable
+    public class ArrayAddress2<T> : DisposableObject
     {
-        private T[][] _array;
-        private GCHandle[] _gch;
-        private IntPtr[] _ptr;
+        private T[][] array;
+        private readonly GCHandle[] gch;
+        private readonly IntPtr[] ptr;
 
 #if LANG_JP
         /// <summary>
@@ -147,14 +144,12 @@ namespace OpenCvSharp.Utilities
         public ArrayAddress2(T[][] array)
         {
             if (array == null)
-            {
                 throw new ArgumentNullException("array");
-            }
-            this._array = array;
+            this.array = array;
 
             // T[][]をIntPtr[]に変換する
-            this._ptr = new IntPtr[array.Length];
-            this._gch = new GCHandle[array.Length];
+            ptr = new IntPtr[array.Length];
+            gch = new GCHandle[array.Length];
             for (int i = 0; i < array.Length; i++)
             {
                 T[] elem = array[i];
@@ -163,8 +158,8 @@ namespace OpenCvSharp.Utilities
                     throw new ArgumentException(string.Format("array[{0}] is not valid array object.", i));
                 }
                 // メモリ確保
-                this._gch[i] = GCHandle.Alloc(elem, GCHandleType.Pinned);
-                this._ptr[i] = this._gch[i].AddrOfPinnedObject();
+                gch[i] = GCHandle.Alloc(elem, GCHandleType.Pinned);
+                ptr[i] = gch[i].AddrOfPinnedObject();
             }
         }
 
@@ -177,15 +172,16 @@ namespace OpenCvSharp.Utilities
         /// 
         /// </summary>
 #endif
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            foreach (GCHandle h in _gch)
+            foreach (GCHandle h in gch)
             {
                 if (h.IsAllocated)
                 {
                     h.Free();
                 }
             }
+            base.Dispose();
         }
 
 #if LANG_JP
@@ -200,7 +196,7 @@ namespace OpenCvSharp.Utilities
 #endif
         public IntPtr[] Pointer
         {
-            get { return _ptr; }
+            get { return ptr; }
         }
 #if LANG_JP
         /// <summary>

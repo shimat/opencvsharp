@@ -16,21 +16,21 @@ namespace OpenCvSharp.Blob
 	public enum RenderTracksMode : ushort
 	{
         /// <summary>
+        /// No flags
+        /// [0]
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// Print the ID of each track in the image.
         /// [CV_TRACK_RENDER_ID]
         /// </summary>
-        ID = CvBlobConst.CV_TRACK_RENDER_ID,
+        Id = CvBlobConst.CV_TRACK_RENDER_ID,
 
         /// <summary>
-        /// Print track info to log out.
-        /// [CV_TRACK_RENDER_TO_LOG]
+        /// Draw bounding box of each track in the image. \see cvRenderTracks
+        /// [CV_TRACK_RENDER_BOUNDING_BOX]
         /// </summary>
-        ToLog = CvBlobConst.CV_TRACK_RENDER_TO_LOG,
-
-        /// <summary>
-        /// Print track info to log out.
-        /// [CV_TRACK_RENDER_TO_STD]
-        /// </summary>
-        ToStd = CvBlobConst.CV_TRACK_RENDER_TO_STD,
+        BoundingBox = CvBlobConst.CV_TRACK_RENDER_BOUNDING_BOX,
 	}
 }

@@ -115,9 +115,13 @@
     <Compile Include="CvChainCode.cs" />
     <Compile Include="CvContourChainCode.cs" />
     <Compile Include="CvContourPolygon.cs" />
+    <Compile Include="CvTrack.cs" />
     <Compile Include="CvTracks.cs" />
     <Compile Include="LabelData.cs" />
     <Compile Include="Labeller.cs" />
+    <Compile Include="Old\CvBlobConst.cs" />
+    <Compile Include="Old\RenderBlobsMode.cs" />
+    <Compile Include="Old\RenderTracksMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Old\CvContoursChainCode.cs" />
   </ItemGroup>

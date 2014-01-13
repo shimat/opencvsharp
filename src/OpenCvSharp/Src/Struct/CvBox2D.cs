@@ -122,10 +122,17 @@ namespace OpenCvSharp
         #region Override
 #if LANG_JP
         /// <summary>
-        /// 文字列形式を返す 
+        ///  
         /// </summary>
-        /// <returns>文字列形式</returns>
+        /// <param name="other"></param>
+        /// <returns></returns>
 #else
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+#endif
         public bool Equals(CvBox2D other)
         {
             return Math.Abs(this.Angle - other.Angle) < 1e-9 &&
@@ -167,6 +174,12 @@ namespace OpenCvSharp
             return Center.GetHashCode() ^ Size.GetHashCode() ^ Angle.GetHashCode();
         }
 
+#if LANG_JP
+        /// <summary>
+        /// このオブジェクトの文字列形式を返す
+        /// </summary>
+        /// <returns></returns>
+#else
         /// <summary>
         /// Converts this object to a human readable string.
         /// </summary>
