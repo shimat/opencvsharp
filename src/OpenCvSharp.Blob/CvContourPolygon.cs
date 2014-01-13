@@ -123,6 +123,27 @@ namespace OpenCvSharp.Blob
         }
 
         #endregion
+        #region ContourPolygonPerimeter
+        /// <summary>
+        /// Calculates perimeter of a chain code contour.
+        /// </summary>
+        /// <returns>Perimeter of the contour.</returns>
+        public double Perimeter()
+        {
+            double perimeter = DistancePointPoint(this[Count - 1], this[0]);
+            for (int i = 0; i < Count - 1; i++)
+            {
+                perimeter += DistancePointPoint(this[i], this[i + 1]);
+            }
+            return perimeter;
+        }
+        private static double DistancePointPoint(CvPoint a, CvPoint b)
+        {
+            double abx = a.X - b.X;
+            double aby = a.Y - b.Y;
+            return Math.Sqrt(abx * abx + aby * aby);
+        }
+        #endregion
         #region Render
         /// <summary>
         /// Draw a polygon.
