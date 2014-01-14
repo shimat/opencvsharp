@@ -199,22 +199,6 @@ namespace OpenCvSharp.Blob
             return Centroid;
         }
         #endregion
-
-        /*
-        #region GetContour
-        /// <summary>
-        /// Get the contour of a blob.
-        /// Uses Theo Pavlidis' algorithm (see http://www.imageprocessingplace.com/downloads_V3/root_downloads/tutorials/contour_tracing_Abeer_George_Ghuneim/theo.html ).
-        /// </summary>
-        /// <param name="img">Label image.</param>
-        /// <returns>Chain code contour.</returns>
-        public CvContourChainCode GetContour(IplImage img)
-        {
-            return CvBlobLib.GetContour(this, img);
-        }
-        #endregion
-        //*/
-
         #region SetImageROItoBlob
         /// <summary>
         /// Set the ROI of an image to the bounding box of a blob.
