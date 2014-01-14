@@ -176,6 +176,17 @@ namespace OpenCvSharp.Blob
 		#endregion
 
 		#region Methods
+        #region Angle
+        /// <summary>
+        /// Calculates angle orientation of a blob.
+        /// This function uses central moments so cvCentralMoments should have been called before for this blob. (cvAngle)
+        /// </summary>
+        /// <returns>Angle orientation in radians.</returns>
+        public double Angle()
+        {
+            return 0.5 * Math.Atan2(2.0 * U11, (U20 - U02));
+        }
+        #endregion
         #region CalcCentroid
         /// <summary>
 		/// Calculates centroid.
@@ -184,36 +195,31 @@ namespace OpenCvSharp.Blob
 		/// <returns>Centroid.</returns>
 		public CvPoint2D64f CalcCentroid()
 		{
-            return CvBlobLib.Centroid(this);
+            Centroid = new CvPoint2D64f(M10 / Area, M01 / Area);
+            return Centroid;
         }
         #endregion
-        #region CalcAngle
+        #region SaveImage
         /// <summary>
-		/// Calculates angle orientation of a blob.
-		/// This function uses central moments so cvCentralMoments should have been called before for this blob. (cvAngle)
-		/// </summary>
-		/// <returns>Angle orientation in radians.</returns>
-		public double CalcAngle()
-		{
-            return CvBlobLib.Angle(this);
-        }
-        #endregion
-        /*
-        #region GetContour
-        /// <summary>
-        /// Get the contour of a blob.
-        /// Uses Theo Pavlidis' algorithm (see http://www.imageprocessingplace.com/downloads_V3/root_downloads/tutorials/contour_tracing_Abeer_George_Ghuneim/theo.html ).
+        /// Save the image of a blob to a file.
+        /// The function uses an image (that can be the original pre-processed image or a processed one, or even the result of cvRenderBlobs, for example) and a blob structure.
+        /// Then the function saves a copy of the part of the image where the blob is.
         /// </summary>
-        /// <param name="img">Label image.</param>
-        /// <returns>Chain code contour.</returns>
-        public CvContourChainCode GetContour(IplImage img)
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="img">Image.</param>
+        public void SaveImage(string fileName, IplImage img)
         {
-            return CvBlobLib.GetContour(this, img);
+            if (String.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
+            if (img == null)
+                throw new ArgumentNullException("img");
+            CvRect roi = Cv.GetImageROI(img);
+            SetImageRoiToBlob(img);
+            Cv.SaveImage(fileName, img);
+            Cv.SetImageROI(img, roi);
         }
         #endregion
-        //*/
-
-        #region SetImageROItoBlob
+        #region SetImageRoiToBlob
         /// <summary>
         /// Set the ROI of an image to the bounding box of a blob.
         /// </summary>

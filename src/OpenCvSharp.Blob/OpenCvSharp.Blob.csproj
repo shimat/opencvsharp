@@ -109,7 +109,6 @@
   <ItemGroup>
     <Compile Include="BlobRenderer.cs" />
     <Compile Include="CvBlob.cs" />
-    <Content Include="cvblob.h" />
     <Compile Include="CvBlobLib.cs" />
     <Compile Include="CvBlobs.cs" />
     <Compile Include="CvChainCode.cs" />
@@ -135,6 +134,7 @@
     </Content>
     <Compile Include="Old\CvBlob.cs" />
     <Compile Include="Old\CvContourChainCode.cs" />
+    <Compile Include="ProximityMatrix.cs" />
     <Compile Include="RenderBlobsMode.cs" />
     <Compile Include="Old\CvChainCode.cs" />
     <Compile Include="Old\CvChainCodes.cs" />
