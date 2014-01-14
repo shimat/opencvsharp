@@ -27,6 +27,9 @@ namespace OpenCvSharp.Blob
     /// </summary>
     public class CvTracks : Dictionary<int, CvTrack>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public CvTracks()
         {
         }
