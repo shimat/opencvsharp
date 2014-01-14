@@ -29,14 +29,11 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="blob">Blob.</param>
         /// <returns>Angle orientation in radians.</returns>
-        public static double Angle(CvBlob blob)
+        public static double CalcAngle(CvBlob blob)
         {
             if (blob == null)
                 throw new ArgumentNullException("blob");
-            return 0.5 * Math.Atan2(
-                2.0 * blob.U11, 
-                (blob.U20 - blob.U02)
-            );
+            return blob.Angle();
         }
         #endregion
         #region Centroid
@@ -46,12 +43,11 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="blob">Blob whose centroid will be calculated.</param>
         /// <returns>Centroid.</returns>
-        public static CvPoint2D64f Centroid(CvBlob blob)
+        public static CvPoint2D64f CalcCentroid(CvBlob blob)
         {
             if (blob == null)
                 throw new ArgumentNullException("blob");
-            blob.Centroid = new CvPoint2D64f(blob.M10 / blob.Area, blob.M01 / blob.Area);
-            return blob.Centroid;
+            return blob.CalcCentroid();
         }
         #endregion
         #region ContourPolygonArea
@@ -485,6 +481,20 @@ namespace OpenCvSharp.Blob
         /// <param name="tracks">List of tracks.</param>
         /// <param name="thDistance">Max distance to determine when a track and a blob match.</param>
         /// <param name="thInactive">Max number of frames a track can be inactive.</param>
+        public static void UpdateTracks(CvBlobs blobs, CvTracks tracks, double thDistance, int thInactive)
+        {
+            if (blobs == null)
+                throw new ArgumentNullException("blobs");
+            blobs.UpdateTracks(tracks, thDistance, thInactive);
+        }
+        /// <summary>
+        /// Updates list of tracks based on current blobs. 
+        /// </summary>
+        /// <param name="blobs">List of blobs.</param>
+        /// <param name="tracks">List of tracks.</param>
+        /// <param name="thDistance">Max distance to determine when a track and a blob match.</param>
+        /// <param name="thInactive">Max number of frames a track can be inactive.</param>
+        /// <param name="thActive">If a track becomes inactive but it has been active less than thActive frames, the track will be deleted.</param>
         /// <remarks>
         /// Tracking based on:
         /// A. Senior, A. Hampapur, Y-L Tian, L. Brown, S. Pankanti, R. Bolle. Appearance Models for
@@ -492,14 +502,11 @@ namespace OpenCvSharp.Blob
         /// Surveillance Systems &amp; CVPR'01. December, 2001.
         /// (http://www.research.ibm.com/peoplevision/PETS2001.pdf)
         /// </remarks>
-        public static void UpdateTracks(CvBlobs blobs, CvTracks tracks, double thDistance, uint thInactive)
+        public static void UpdateTracks(CvBlobs blobs, CvTracks tracks, double thDistance, int thInactive, int thActive)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
-            if (tracks == null)
-                throw new ArgumentNullException("tracks");
-
-            throw new NotImplementedException();
+            blobs.UpdateTracks(tracks, thDistance, thInactive, thActive);
         }
         #endregion
         #region WriteContourPolygonCsv
