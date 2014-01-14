@@ -460,6 +460,7 @@ namespace OpenCvSharp.Blob
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             int[] trackKeys = new int[tracks.Count];
+            tracks.Keys.CopyTo(trackKeys, 0);
             foreach (int tkey in trackKeys)
             {
                 CvTrack t = tracks[tkey];
