@@ -176,6 +176,17 @@ namespace OpenCvSharp.Blob
 		#endregion
 
 		#region Methods
+        #region Angle
+        /// <summary>
+        /// Calculates angle orientation of a blob.
+        /// This function uses central moments so cvCentralMoments should have been called before for this blob. (cvAngle)
+        /// </summary>
+        /// <returns>Angle orientation in radians.</returns>
+        public double Angle()
+        {
+            return 0.5 * Math.Atan2(2.0 * U11, (U20 - U02));
+        }
+        #endregion
         #region CalcCentroid
         /// <summary>
 		/// Calculates centroid.
@@ -184,20 +195,11 @@ namespace OpenCvSharp.Blob
 		/// <returns>Centroid.</returns>
 		public CvPoint2D64f CalcCentroid()
 		{
-            return CvBlobLib.Centroid(this);
+            Centroid = new CvPoint2D64f(M10 / Area, M01 / Area);
+            return Centroid;
         }
         #endregion
-        #region CalcAngle
-        /// <summary>
-		/// Calculates angle orientation of a blob.
-		/// This function uses central moments so cvCentralMoments should have been called before for this blob. (cvAngle)
-		/// </summary>
-		/// <returns>Angle orientation in radians.</returns>
-		public double CalcAngle()
-		{
-            return CvBlobLib.Angle(this);
-        }
-        #endregion
+
         /*
         #region GetContour
         /// <summary>

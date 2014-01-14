@@ -135,6 +135,7 @@
     </Content>
     <Compile Include="Old\CvBlob.cs" />
     <Compile Include="Old\CvContourChainCode.cs" />
+    <Compile Include="ProximityMatrix.cs" />
     <Compile Include="RenderBlobsMode.cs" />
     <Compile Include="Old\CvChainCode.cs" />
     <Compile Include="Old\CvChainCodes.cs" />
