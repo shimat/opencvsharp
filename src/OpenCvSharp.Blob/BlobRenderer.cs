@@ -22,6 +22,9 @@ using System.Text;
 
 namespace OpenCvSharp.Blob
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal static class BlobRenderer
     {
         /// <summary>
@@ -91,7 +94,7 @@ namespace OpenCvSharp.Blob
                 }
                 if ((mode & RenderBlobsMode.Angle) == RenderBlobsMode.Angle)
                 {
-                    double angle = CvBlobLib.Angle(blob);
+                    double angle = blob.Angle();
                     double lengthLine = Math.Max(blob.MaxX - blob.MinX, blob.MaxY - blob.MinY) / 2.0;
                     double x1 = blob.Centroid.X - lengthLine * Math.Cos(angle);
                     double y1 = blob.Centroid.Y - lengthLine * Math.Sin(angle);

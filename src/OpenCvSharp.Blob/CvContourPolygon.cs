@@ -3,6 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+// Copyright (C) 2007 by Cristóbal Carnero Liñán
+// grendel.ccl@gmail.com
+//
+// This file is part of cvBlob.
+//
+// cvBlob is free software: you can redistribute it and/or modify
+// it under the terms of the Lesser GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// cvBlob is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// Lesser GNU General Public License for more details.
+//
+// You should have received a copy of the Lesser GNU General Public License
+// along with cvBlob.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace OpenCvSharp.Blob
 {
     /// <summary>
@@ -57,6 +75,22 @@ namespace OpenCvSharp.Blob
                 lastPoint = point;
             }
             return area * 0.5;
+        }
+        #endregion
+        #region Circularity
+        /// <summary>
+        /// Calculates the circularity of a polygon (compactness measure).
+        /// </summary>
+        /// <returns>Circularity: a non-negative value, where 0 correspond with a circumference.</returns>
+        public double Circularity()
+        {
+            double l = Perimeter();
+            double c = (l * l / Area()) - 4.0 * Cv.PI;
+
+            if (c >= 0.0)
+                return c;
+            // This could happen if the blob it's only a pixel: the perimeter will be 0. Another solution would be to force "cvContourPolygonPerimeter" to be 1 or greater.
+            return 0.0;
         }
         #endregion
         #region ContourConvexHull
