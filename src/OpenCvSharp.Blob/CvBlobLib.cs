@@ -456,25 +456,24 @@ namespace OpenCvSharp.Blob
         /// Simplify a polygon reducing the number of vertex according the distance "delta". 
         /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
         /// </summary>
-        /// <param name="p">Contour (polygon type).</param>
+        /// <param name="polygon">Contour (polygon type).</param>
         /// <returns>A simplify version of the original polygon.</returns>
-        public static CvContourPolygon SimplifyPolygon(CvContourPolygon p)
+        public static CvContourPolygon SimplifyPolygon(CvContourPolygon polygon)
         {
-            return SimplifyPolygon(p, 1.0);
+            return polygon.Simplify();
         }
         /// <summary>
         /// Simplify a polygon reducing the number of vertex according the distance "delta". 
         /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
         /// </summary>
-        /// <param name="p">Contour (polygon type).</param>
+        /// <param name="polygon">Contour (polygon type).</param>
         /// <param name="delta">Minimun distance.</param>
         /// <returns>A simplify version of the original polygon.</returns>
-        public static CvContourPolygon SimplifyPolygon(CvContourPolygon p, double delta)
+        public static CvContourPolygon SimplifyPolygon(CvContourPolygon polygon, double delta)
         {
-            if (p == null)
-                throw new ArgumentNullException("p");
-
-            throw new NotImplementedException();
+            if (polygon == null)
+                throw new ArgumentNullException("polygon");
+            return polygon.Simplify(delta);
         }
         #endregion
         #region UpdateTracks

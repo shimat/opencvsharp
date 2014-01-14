@@ -176,6 +176,124 @@ namespace OpenCvSharp.Blob
             }
         }
         #endregion
+        #region SimplifyPolygon
+        /// <summary>
+        /// Simplify a polygon reducing the number of vertex according the distance "delta". 
+        /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
+        /// </summary>
+        /// <returns>A simplify version of the original polygon.</returns>
+        public CvContourPolygon Simplify()
+        {
+            return Simplify(1.0);
+        }
+
+        /// <summary>
+        /// Simplify a polygon reducing the number of vertex according the distance "delta". 
+        /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
+        /// </summary>
+        /// <param name="delta">Minimun distance.</param>
+        /// <returns>A simplify version of the original polygon.</returns>
+        public CvContourPolygon Simplify(double delta)
+        {
+            double furtherDistance = 0.0;
+            int furtherIndex = 0;
+
+            if(Count == 0)
+                return new CvContourPolygon();
+
+            for (int i = 1; i< Count; i++)
+            {
+                double d = DistancePointPoint(this[i], this[0]);
+                if (d > furtherDistance)
+                {
+                    furtherDistance = d;
+                    furtherIndex = i;
+                }
+            }
+
+            if (furtherDistance < delta)
+            {
+                CvContourPolygon result = new CvContourPolygon();
+                result.Add(this[0]);
+                return result;
+            }
+            else
+            {
+                bool[] pnUseFlag = new bool[Count];
+                for (int i = 1; i < Count; i++)
+                    pnUseFlag[i] = false;
+
+                pnUseFlag[0] = pnUseFlag[furtherIndex] = true;
+
+                SimplifyPolygonRecursive(this, 0, furtherIndex, pnUseFlag, delta);
+                SimplifyPolygonRecursive(this, furtherIndex, -1, pnUseFlag, delta);
+
+                CvContourPolygon result = new CvContourPolygon();
+
+                for (int i = 0; i < Count; i++)
+                {
+                    if (pnUseFlag[i])
+                        result.Add(this[i]);
+                }
+                return result;
+            }
+        }
+
+        private static void SimplifyPolygonRecursive(CvContourPolygon p, int i1, int i2, bool[] pnUseFlag, double delta)
+        {
+            int endIndex = (i2 < 0) ? p.Count : i2;
+
+            if (Math.Abs(i1 - endIndex) <= 1)
+                return;
+
+            CvPoint firstPoint = p[i1];
+            CvPoint lastPoint = (i2 < 0) ? p[0] : p[i2];
+
+            double furtherDistance = 0.0;
+            int furtherIndex = 0;
+
+            for (int i = i1 + 1; i < endIndex; i++)
+            {
+                double d = DistanceLinePoint(firstPoint, lastPoint, p[i]);
+
+                if ((d >= delta) && (d > furtherDistance))
+                {
+                    furtherDistance = d;
+                    furtherIndex = i;
+                }
+            }
+
+            if (furtherIndex > 0)
+            {
+                pnUseFlag[furtherIndex] = true;
+
+                SimplifyPolygonRecursive(p, i1, furtherIndex, pnUseFlag, delta);
+                SimplifyPolygonRecursive(p, furtherIndex, i2, pnUseFlag, delta);
+            }
+        }
+
+        private static double DistanceLinePoint(CvPoint a, CvPoint b, CvPoint c, bool isSegment = true) 
+        {
+            if (isSegment)
+            {
+                double dot1 = DotProductPoints(a, b, c);
+                if (dot1 > 0) return DistancePointPoint(b, c);
+
+                double dot2 = DotProductPoints(b, a, c);
+                if (dot2 > 0) return DistancePointPoint(a, c);
+            }
+            return Math.Abs(CrossProductPoints(a, b, c) / DistancePointPoint(a, b));
+        }
+        private static double DotProductPoints(CvPoint a, CvPoint b, CvPoint c)
+        {
+            double abx = b.X - a.X;
+            double aby = b.Y - a.Y;
+            double bcx = c.X - b.X;
+            double bcy = c.Y - b.Y;
+            return abx * bcx + aby * bcy;
+        }
+
+        #endregion
         #region WriteAsCsv
         /// <summary>
         /// Write a contour to a CSV (Comma-separated values) file.
