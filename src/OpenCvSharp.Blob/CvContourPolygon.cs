@@ -77,6 +77,22 @@ namespace OpenCvSharp.Blob
             return area * 0.5;
         }
         #endregion
+        #region Circularity
+        /// <summary>
+        /// Calculates the circularity of a polygon (compactness measure).
+        /// </summary>
+        /// <returns>Circularity: a non-negative value, where 0 correspond with a circumference.</returns>
+        public double Circularity()
+        {
+            double l = Perimeter();
+            double c = (l * l / Area()) - 4.0 * Cv.PI;
+
+            if (c >= 0.0)
+                return c;
+            // This could happen if the blob it's only a pixel: the perimeter will be 0. Another solution would be to force "cvContourPolygonPerimeter" to be 1 or greater.
+            return 0.0;
+        }
+        #endregion
         #region ContourConvexHull
         /// <summary>
         /// Calculates convex hull of a contour.

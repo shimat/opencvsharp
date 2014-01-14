@@ -199,7 +199,27 @@ namespace OpenCvSharp.Blob
             return Centroid;
         }
         #endregion
-        #region SetImageROItoBlob
+        #region SaveImage
+        /// <summary>
+        /// Save the image of a blob to a file.
+        /// The function uses an image (that can be the original pre-processed image or a processed one, or even the result of cvRenderBlobs, for example) and a blob structure.
+        /// Then the function saves a copy of the part of the image where the blob is.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="img">Image.</param>
+        public void SaveImage(string fileName, IplImage img)
+        {
+            if (String.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
+            if (img == null)
+                throw new ArgumentNullException("img");
+            CvRect roi = Cv.GetImageROI(img);
+            SetImageRoiToBlob(img);
+            Cv.SaveImage(fileName, img);
+            Cv.SetImageROI(img, roi);
+        }
+        #endregion
+        #region SetImageRoiToBlob
         /// <summary>
         /// Set the ROI of an image to the bounding box of a blob.
         /// </summary>

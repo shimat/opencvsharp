@@ -126,6 +126,26 @@ namespace OpenCvSharp.Blob
             }
         }
         #endregion
+        #region FilterByLabel
+        /// <summary>
+        /// Filter blobs by label.
+        /// Delete all blobs except those with label l.
+        /// </summary>
+        /// <param name="label">Label to leave.</param>
+        public void FilterByLabel(int label)
+        {
+            int[] keys = new int[Count];
+            Keys.CopyTo(keys, 0);
+
+            foreach (int key in keys)
+            {
+                if (this[key].Label != label)
+                {
+                    Remove(key);
+                }
+            }
+        }
+        #endregion
         #region FilterLabels
         /// <summary>
         /// Draw a binary image with the blobs that have been given. (cvFilterLabels)

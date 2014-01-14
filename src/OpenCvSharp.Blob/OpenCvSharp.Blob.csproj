@@ -109,7 +109,6 @@
   <ItemGroup>
     <Compile Include="BlobRenderer.cs" />
     <Compile Include="CvBlob.cs" />
-    <Content Include="cvblob.h" />
     <Compile Include="CvBlobLib.cs" />
     <Compile Include="CvBlobs.cs" />
     <Compile Include="CvChainCode.cs" />

@@ -63,6 +63,19 @@ namespace OpenCvSharp.Blob
             return polygon.Area();
         }
         #endregion
+        #region ContourPolygonCircularity
+        /// <summary>
+        /// Calculates the circularity of a polygon (compactness measure).
+        /// </summary>
+        /// <param name="polygon">Contour (polygon type).</param>
+        /// <returns>Circularity: a non-negative value, where 0 correspond with a circumference.</returns>
+        public static double ContourPolygonCircularity(CvContourPolygon polygon)
+        {
+            if (polygon == null)
+                throw new ArgumentNullException("polygon");
+            return polygon.Circularity();
+        }
+        #endregion
         #region ContourPolygonPerimeter
         /// <summary>
         /// Calculates perimeter of a chain code contour.
@@ -117,6 +130,20 @@ namespace OpenCvSharp.Blob
             blobs.FilterByArea(minArea, maxArea);
         }
         #endregion
+        #region FilterByLabel
+        /// <summary>
+        /// Filter blobs by label.
+        /// Delete all blobs except those with label l.
+        /// </summary>
+        /// <param name="blobs">List of blobs.</param>
+        /// <param name="label">Label to leave.</param>
+        public static void FilterByLabel(CvBlobs blobs, int label)
+        {
+            if (blobs == null)
+                throw new ArgumentNullException("blobs");
+            blobs.FilterByLabel(label);
+        }
+        #endregion
         #region FilterLabels
         /// <summary>
         /// Draw a binary image with the blobs that have been given. (cvFilterLabels)
@@ -129,31 +156,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blobs");
             blobs.FilterLabels(imgOut);
         }
-        #endregion   
-        /*
-        #region GetContour
-        /// <summary>
-        /// Get the contour of a blob.
-        /// Uses Theo Pavlidis' algorithm (see http://www.imageprocessingplace.com/downloads_V3/root_downloads/tutorials/contour_tracing_Abeer_George_Ghuneim/theo.html ).
-        /// </summary>
-        /// <param name="blob">Blob.</param>
-        /// <param name="img">Label image.</param>
-        /// <returns>Chain code contour.</returns>
-        public static CvContourChainCode GetContour(CvBlob blob, IplImage img)
-        {
-            if (blob == null)
-                throw new ArgumentNullException("blob");
-            if (img == null)
-                throw new ArgumentNullException("img");
-
-            IntPtr ptr = CvBlobInvoke.cvb_cvGetContour(blob.CvPtr, img.CvPtr);
-            if (ptr == IntPtr.Zero)
-                return null;
-            else
-                return new CvContourChainCode(ptr);
-        }
         #endregion
-        //*/
         #region GetLabel
         /// <summary>
         /// Get the label value from a labeled image.
@@ -432,6 +435,24 @@ namespace OpenCvSharp.Blob
             if (tracks == null)
                 throw new ArgumentNullException("tracks");
             tracks.Render(imgSource, imgDest, mode, font);
+        }
+        #endregion
+        #region SaveImageBlob
+        /// <summary>
+        /// Save the image of a blob to a file.
+        /// The function uses an image (that can be the original pre-processed image or a processed one, or even the result of cvRenderBlobs, for example) and a blob structure.
+        /// Then the function saves a copy of the part of the image where the blob is.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="img">Image.</param>
+        /// <param name="blob">Blob.</param>
+        public static void SaveImageBlob(string fileName, IplImage img, CvBlob blob)
+        {
+            if(String.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
+            if(blob == null)
+                throw new ArgumentNullException("blob");
+            blob.SaveImage(fileName, img);
         }
         #endregion
         #region SetImageRoItoBlob
