@@ -181,7 +181,6 @@ namespace OpenCvSharp.Utilities
                     h.Free();
                 }
             }
-            base.Dispose();
         }
 
 #if LANG_JP
