@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-x64</id>
-        <version>2.4.5.20131221</version>
+        <version>2.4.5.20140119</version>
         <title>OpenCvSharp x64</title>
         <authors>shimat</authors>
         <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
@@ -10,8 +10,9 @@
         <iconUrl>http://opencvsharp.googlecode.com/files/Lenna.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <releaseNotes>12/14/2013: Initial release.</releaseNotes>
-        <copyright>Copyright 2013</copyright>
+        <releaseNotes>12/14/2013: Initial release.
+01/19/2014: Pure C# implemented Blob</releaseNotes>
+        <copyright>Copyright 2008-2014</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework2.0, .NETFramework3.5" />
