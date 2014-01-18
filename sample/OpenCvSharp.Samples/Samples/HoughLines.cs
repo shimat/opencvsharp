@@ -6,7 +6,7 @@ using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// ハフ変換による直線検出

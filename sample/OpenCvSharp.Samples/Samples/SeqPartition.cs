@@ -6,7 +6,7 @@ using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.UserInterface;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// Partitioning 2d point set.

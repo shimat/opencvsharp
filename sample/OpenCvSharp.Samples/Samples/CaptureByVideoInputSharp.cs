@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using OpenCvSharp;
 using VideoInputSharp;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// Captures from camera by using VideoInputSharp (http://code.google.com/p/videoinputsharp/) 

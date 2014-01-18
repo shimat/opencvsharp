@@ -10,7 +10,7 @@ using System.Windows.Threading;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// System.Windows.Media.Imaging.WriteableBitmapへの変換

@@ -6,7 +6,7 @@ using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.MachineLearning;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// samples/c/mushroom.c

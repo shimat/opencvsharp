@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenCvSharp;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// Multidimensional Scaling (多次元尺度構成法)

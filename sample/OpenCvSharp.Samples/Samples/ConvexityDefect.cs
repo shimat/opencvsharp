@@ -6,7 +6,7 @@ using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.Blob;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// cvConvextyDefects sample
@@ -74,10 +74,10 @@ namespace OpenCvSharp.Test
         /// <param name="imgRender"></param>
         private void RetrieveFleshRegion(IplImage imgSrc, IplImage[] hsvPlanes, IplImage imgDst)
         {
-            int[] histSize = new int[] { 30, 32 };
-            float[] hRanges = { 0.0f, 20f };
-            float[] sRanges = { 50f, 255f };
-            float[][] ranges = { hRanges, sRanges };
+            int[] histSize = new int[] {30, 32};
+            float[] hRanges = {0.0f, 20f};
+            float[] sRanges = {50f, 255f};
+            float[][] ranges = {hRanges, sRanges};
 
             imgDst.Zero();
             using (CvHistogram hist = new CvHistogram(histSize, HistogramFormat.Array, ranges, true))
@@ -89,6 +89,7 @@ namespace OpenCvSharp.Test
                 hist.CalcBackProject(hsvPlanes, imgDst);
             }
         }
+
         /// <summary>
         /// ラベリングにより最大の面積の領域を残す
         /// </summary>
@@ -96,20 +97,17 @@ namespace OpenCvSharp.Test
         /// <param name="imgRender"></param>
         private void FilterByMaximalBlob(IplImage imgSrc, IplImage imgDst)
         {
-            using (CvBlobs blobs = new CvBlobs())
-            using (IplImage imgLabelData = new IplImage(imgSrc.Size, CvBlobLib.DepthLabel, 1))
-            {
-                imgDst.Zero();
-                blobs.Label(imgSrc, imgLabelData);
-                CvBlob max = blobs[blobs.GreaterBlob()];
-                if (max == null)
-                {
-                    return;
-                }
-                blobs.FilterByArea(max.Area, max.Area);
-                blobs.FilterLabels(imgLabelData, imgDst);
-            }
+            CvBlobs blobs = new CvBlobs();
+
+            imgDst.Zero();
+            blobs.Label(imgSrc);
+            CvBlob max = blobs.GreaterBlob();
+            if (max == null)
+                return;
+            blobs.FilterByArea(max.Area, max.Area);
+            blobs.FilterLabels(imgDst);
         }
+
         /// <summary>
         /// 欠損領域を補完する
         /// </summary>

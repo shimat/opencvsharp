@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.UserInterface;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// PictureBoxIpl sample

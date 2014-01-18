@@ -6,7 +6,7 @@ using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 using OpenCvSharp.CPlusPlus.Flann;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// cv::flann

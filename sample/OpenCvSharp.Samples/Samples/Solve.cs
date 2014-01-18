@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenCvSharp;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// 連立方程式を解く

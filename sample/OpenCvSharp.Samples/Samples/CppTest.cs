@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// OpenCV2.0の C++ interface っぽい新インターフェイスの実験場

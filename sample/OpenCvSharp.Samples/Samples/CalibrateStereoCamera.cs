@@ -7,7 +7,7 @@ using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// 

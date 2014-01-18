@@ -8,7 +8,7 @@ using OpenCvSharp.CPlusPlus;
 using CPP = OpenCvSharp.CPlusPlus;
 //using GPU = OpenCvSharp.Gpu;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// samples/c/peopledetect.c

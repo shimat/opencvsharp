@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// CvSeqのテスト

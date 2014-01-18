@@ -8,7 +8,7 @@ using OpenCvSharp;
 // for Binarizer
 using OpenCvSharp.Extensions;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// Various Binarization Methods

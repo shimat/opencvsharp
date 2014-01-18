@@ -5,7 +5,7 @@ using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// Retrieves keypoints using the StarDetector algorithm.

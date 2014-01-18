@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenCvSharp;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// 輪郭領域の面積と輪郭の長さ

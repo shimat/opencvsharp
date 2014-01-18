@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// SURF(Speeded Up Robust Features)による対応点検出        

@@ -8,10 +8,11 @@ using System.Windows.Forms;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using OpenCvSharp;
 using OpenCvSharp.Extensions;
 
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// Conversion from Bitmap/WriteableBitmap to IplImage

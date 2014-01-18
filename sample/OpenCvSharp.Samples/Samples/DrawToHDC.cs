@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenCvSharp;
 
-namespace OpenCvSharp.Test
+namespace OpenCvSharpSamples
 {
     /// <summary>
     /// Draws from IplImage to HDC
