@@ -14,7 +14,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 
 ## Requirements
 * [OpenCV 2.4.5](http://opencv.org/)
-* [Visual C++ 2012 Redistributable Package](http://www.microsoft.com/ja-jp/download/details.aspx?id=30679)
+* [Visual C++ 20xx Redistributable Package](http://www.microsoft.com/ja-jp/download/details.aspx?id=30679)
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [Mono](www.mono-project.com/)
 
 ## Features
