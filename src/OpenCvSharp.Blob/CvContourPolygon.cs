@@ -183,7 +183,7 @@ namespace OpenCvSharp.Blob
         /// <param name="img">Image to draw on.</param>
         public void Render(IplImage img)
         {
-            Render(img, new CvScalar(255, 255, 255, 0));
+            Render(img, new CvColor(255, 255, 255));
         }
         /// <summary>
         /// Draw a polygon.
@@ -204,7 +204,7 @@ namespace OpenCvSharp.Blob
             int fy = this[Count - 1].Y;
             foreach (CvPoint p in this)
             {
-                Cv.Line(img, fx, fy, p.X, p.Y, 1);
+                Cv.Line(img, fx, fy, p.X, p.Y, color);
                 fx = p.X;
                 fy = p.Y;
             }
