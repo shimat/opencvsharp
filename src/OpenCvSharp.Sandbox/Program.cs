@@ -221,8 +221,8 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            new ConvexityDefect();
-            /*
+            //new ConvexityDefect();
+            
             using (IplImage imgSrc = new IplImage(@"img\shapes.png", LoadMode.Color))
             using (IplImage imgBinary = new IplImage(imgSrc.Size, BitDepth.U8, 1))
             using (IplImage imgRender = new IplImage(imgSrc.Size, BitDepth.U8, 3))
@@ -234,7 +234,7 @@ namespace OpenCvSharp.Sandbox
 
                 CvBlobs blobs = new CvBlobs();
                 blobs.Label(imgBinary);
-
+                
                 foreach (KeyValuePair<int, CvBlob> item in blobs)
                 {
                     CvBlob b = item.Value;
@@ -242,23 +242,30 @@ namespace OpenCvSharp.Sandbox
 
                     CvContourChainCode cc = b.Contour;
                     cc.Render(imgContour);
+                    double perimeter = cc.Perimeter();
 
                     CvContourPolygon polygon = cc.ConvertToPolygon();
                     foreach (CvPoint p in polygon)
                     {
-                        imgPolygon.Circle(p, 1, CvColor.Red, -1);
+                        //imgPolygon.Rectangle(p.X, p.Y, p.X + 1, p.Y + 1, CvColor.Red);
                     }
+
+                    CvContourPolygon convexHull = polygon.ContourConvexHull();
+                    //imgPolygon.Zero();
+                    convexHull.Render(imgPolygon);
                 }
 
                 blobs.RenderBlobs(imgSrc, imgRender);
 
+                using (new CvWindow("src", imgSrc))
+                using (new CvWindow("binary", imgBinary))
                 using (new CvWindow("render", imgRender))
                 using (new CvWindow("contour", imgContour))
                 using (new CvWindow("polygon vertices", imgPolygon))
                 {
                     Cv.WaitKey(0);
                 }
-            }*/
+            }
         }
     }
 }
