@@ -37,14 +37,40 @@ namespace OpenCvSharp
 #if LANG_JP
 		/// <summary>
 		/// 
+        /// [KMEANS_RANDOM_CENTERS]
+		/// </summary>
+#else
+        /// <summary>
+        /// 
+        /// [KMEANS_RANDOM_CENTERS]
+        /// </summary>
+#endif
+        RandomCenters = CvConst.KMEANS_RANDOM_CENTERS,
+
+#if LANG_JP
+		/// <summary>
+		/// 
+        /// [KMEANS_PP_CENTERS]
+		/// </summary>
+#else
+        /// <summary>
+        /// 
+        /// [KMEANS_PP_CENTERS]
+        /// </summary>
+#endif
+        PpCenters = CvConst.KMEANS_PP_CENTERS,
+
+#if LANG_JP
+		/// <summary>
+		/// 
         /// [CV_KMEANS_USE_INITIAL_LABELS]
 		/// </summary>
 #else
         /// <summary>
         /// 
-        /// [CV_KMEANS_USE_INITIAL_LABELS]
+        /// [KMEANS_USE_INITIAL_LABELS]
         /// </summary>
 #endif
-        UseInitialLabels = CvConst.CV_KMEANS_USE_INITIAL_LABELS,
+        UseInitialLabels = CvConst.KMEANS_USE_INITIAL_LABELS,
     }
 }
