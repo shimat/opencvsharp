@@ -700,7 +700,9 @@ namespace OpenCvSharp
         public const int CV_QR = 4;
         public const int CV_NORMAL = 16;
         // cvKMeans2
-        public const int CV_KMEANS_USE_INITIAL_LABELS = 1;
+        public const int KMEANS_RANDOM_CENTERS = 0;
+        public const int KMEANS_USE_INITIAL_LABELS = 1;
+        public const int KMEANS_PP_CENTERS = 2;     // Uses k-Means++ algorithm for initialization
         // cvLoadImage
         public const int CV_LOAD_IMAGE_UNCHANGED = -1;
         public const int CV_LOAD_IMAGE_GRAYSCALE = 0;

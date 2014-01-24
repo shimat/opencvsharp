@@ -139,6 +139,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region KMeans
+        #region CvArr
 #if LANG_JP
         /// <summary>
         /// ベクトル集合を，与えられたクラスタ数に分割する.
@@ -298,9 +299,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("labels");
 
             if (rng == null)
-            {
                 rng = new CvRNG();
-            }
             IntPtr centersPtr = (centers != null) ? centers.CvPtr : IntPtr.Zero;
 
             UInt64 rngValue = rng.Seed;
@@ -309,6 +308,144 @@ namespace OpenCvSharp
 
             return result;
         }
+        #endregion
+        #region Array
+#if LANG_JP
+        /// <summary>
+        /// ベクトル集合を，与えられたクラスタ数に分割する.
+        /// 入力サンプルを各クラスタに分類するために cluster_count 個のクラスタの中心を求める k-means 法を実装する．
+        /// 出力 labels(i) は，配列 samples のi番目の行のサンプルが属するクラスタのインデックスを表す． 
+        /// </summary>
+        /// <param name="samples">浮動小数点型の入力サンプル行列．1行あたり一つのサンプル.</param>
+        /// <param name="clusterCount">集合を分割するクラスタ数</param>
+        /// <param name="labels">出力の整数ベクトル．すべてのサンプルについて，それぞれがどのクラスタに属しているかが保存されている.</param>
+        /// <param name="termcrit">最大繰り返し数と(または)，精度（1ループでの各クラスタ中心位置移動距離）の指定</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Splits set of vectors by given number of clusters
+        /// </summary>
+        /// <param name="samples">Floating-point matrix of input samples, one row per sample. </param>
+        /// <param name="clusterCount">Number of clusters to split the set by. </param>
+        /// <param name="labels">Output integer vector storing cluster indices for every sample. </param>
+        /// <param name="termcrit">Specifies maximum number of iterations and/or accuracy (distance the centers move by between the subsequent iterations). </param>
+        /// <returns></returns>
+#endif
+        public static int KMeans2(Array samples, MatrixType samplesType, int clusterCount, int[] labels, CvTermCriteria termcrit)
+        {
+            double compactness;
+            return KMeans2(samples, samplesType, clusterCount, labels, termcrit, 1, null, KMeansFlag.Zero, null, out compactness);
+        }
+#if LANG_JP
+        /// <summary>
+        /// ベクトル集合を，与えられたクラスタ数に分割する.
+        /// 入力サンプルを各クラスタに分類するために cluster_count 個のクラスタの中心を求める k-means 法を実装する．
+        /// 出力 labels(i) は，配列 samples のi番目の行のサンプルが属するクラスタのインデックスを表す． 
+        /// </summary>
+        /// <param name="samples">浮動小数点型の入力サンプル行列．1行あたり一つのサンプル.</param>
+        /// <param name="clusterCount">集合を分割するクラスタ数</param>
+        /// <param name="labels">出力の整数ベクトル．すべてのサンプルについて，それぞれがどのクラスタに属しているかが保存されている.</param>
+        /// <param name="termcrit">最大繰り返し数と(または)，精度（1ループでの各クラスタ中心位置移動距離）の指定</param>
+        /// <param name="attemps"></param>
+        /// <param name="rng"></param>
+        /// <param name="flag"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Splits set of vectors by given number of clusters
+        /// </summary>
+        /// <param name="samples">Floating-point matrix of input samples, one row per sample. </param>
+        /// <param name="clusterCount">Number of clusters to split the set by. </param>
+        /// <param name="labels">Output integer vector storing cluster indices for every sample. </param>
+        /// <param name="termcrit">Specifies maximum number of iterations and/or accuracy (distance the centers move by between the subsequent iterations). </param>
+        /// <param name="attemps"></param>
+        /// <param name="rng"></param>
+        /// <param name="flag"></param>
+        /// <returns></returns>
+#endif
+        public static int KMeans2(Array samples, MatrixType samplesType, int clusterCount, int[] labels, CvTermCriteria termcrit, int attemps, CvRNG rng, KMeansFlag flag)
+        {
+            double compactness;
+            return KMeans2(samples, samplesType, clusterCount, labels, termcrit, attemps, rng, flag, null, out compactness);
+        }
+#if LANG_JP
+        /// <summary>
+        /// ベクトル集合を，与えられたクラスタ数に分割する.
+        /// 入力サンプルを各クラスタに分類するために cluster_count 個のクラスタの中心を求める k-means 法を実装する．
+        /// 出力 labels(i) は，配列 samples のi番目の行のサンプルが属するクラスタのインデックスを表す． 
+        /// </summary>
+        /// <param name="samples">浮動小数点型の入力サンプル行列．1行あたり一つのサンプル.</param>
+        /// <param name="clusterCount">集合を分割するクラスタ数</param>
+        /// <param name="labels">出力の整数ベクトル．すべてのサンプルについて，それぞれがどのクラスタに属しているかが保存されている.</param>
+        /// <param name="termcrit">最大繰り返し数と(または)，精度（1ループでの各クラスタ中心位置移動距離）の指定</param>
+        /// <param name="attemps"></param>
+        /// <param name="rng"></param>
+        /// <param name="flag"></param>
+        /// <param name="centers"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Splits set of vectors by given number of clusters
+        /// </summary>
+        /// <param name="samples">Floating-point matrix of input samples, one row per sample. </param>
+        /// <param name="clusterCount">Number of clusters to split the set by. </param>
+        /// <param name="labels">Output integer vector storing cluster indices for every sample. </param>
+        /// <param name="termcrit">Specifies maximum number of iterations and/or accuracy (distance the centers move by between the subsequent iterations). </param>
+        /// <param name="attemps"></param>
+        /// <param name="rng"></param>
+        /// <param name="flag"></param>
+        /// <param name="centers"></param>
+        /// <returns></returns>
+#endif
+        public static int KMeans2(Array samples, MatrixType samplesType, int clusterCount, int[] labels, CvTermCriteria termcrit, int attemps, CvRNG rng, KMeansFlag flag, CvArr centers)
+        {
+            double compactness;
+            return KMeans2(samples, samplesType, clusterCount, labels, termcrit, attemps, rng, flag, centers, out compactness);
+        }
+#if LANG_JP
+        /// <summary>
+        /// ベクトル集合を，与えられたクラスタ数に分割する.
+        /// 入力サンプルを各クラスタに分類するために cluster_count 個のクラスタの中心を求める k-means 法を実装する．
+        /// 出力 labels(i) は，配列 samples のi番目の行のサンプルが属するクラスタのインデックスを表す． 
+        /// </summary>
+        /// <param name="samples">浮動小数点型の入力サンプル行列．1行あたり一つのサンプル.</param>
+        /// <param name="clusterCount">集合を分割するクラスタ数</param>
+        /// <param name="labels">出力の整数ベクトル．すべてのサンプルについて，それぞれがどのクラスタに属しているかが保存されている.</param>
+        /// <param name="termcrit">最大繰り返し数と(または)，精度（1ループでの各クラスタ中心位置移動距離）の指定</param>
+        /// <param name="attemps"></param>
+        /// <param name="rng"></param>
+        /// <param name="flag"></param>
+        /// <param name="centers"></param>
+        /// <param name="compactness"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Splits set of vectors by given number of clusters
+        /// </summary>
+        /// <param name="samples">Floating-point matrix of input samples, one row per sample. </param>
+        /// <param name="samplesType"></param>
+        /// <param name="clusterCount">Number of clusters to split the set by. </param>
+        /// <param name="labels">Output integer vector storing cluster indices for every sample. </param>
+        /// <param name="termcrit">Specifies maximum number of iterations and/or accuracy (distance the centers move by between the subsequent iterations). </param>
+        /// <param name="attemps"></param>
+        /// <param name="rng"></param>
+        /// <param name="flag"></param>
+        /// <param name="centers"></param>
+        /// <param name="compactness"></param>
+        /// <returns></returns>
+#endif
+        public static int KMeans2(Array samples, MatrixType samplesType, int clusterCount, int[] labels, CvTermCriteria termcrit, int attemps, CvRNG rng, KMeansFlag flag, CvArr centers, out double compactness)
+        {
+            if (samples == null)
+                throw new ArgumentNullException("samples");
+
+            using (CvMat samplesMat = new CvMat(labels.Length, 1, samplesType, samples, false))
+            using (CvMat labelsMat = new CvMat(labels.Length, 1, MatrixType.S32C1, labels, false))
+            {
+                return KMeans2(samplesMat, clusterCount, labelsMat, termcrit, attemps, rng, flag, centers, out compactness);
+            }
+        }
+        #endregion
         #endregion
     }
 }
