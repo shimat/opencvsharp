@@ -785,9 +785,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public override string ToString()
         {
             return "Mat [ " +
-                   rows() + "*" + cols() + "*" + CvType.typeToString(type()) +
+                   Rows() + "*" + cols() + "*" + CvType.typeToString(Type()) +
                    ", isCont=" + isContinuous() + ", isSubmat=" + isSubmatrix() +
-                   ", nativeObj=0x" + Long.toHexString(nativeObj) +
+                   ", nativeObj=0x" + Long.toHexString(ptr) +
                    ", dataAddr=0x" + Long.toHexString(dataAddr()) +
                    " ]";
         }
@@ -801,167 +801,167 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, params double[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
-            return nPutD(nativeObj, row, col, data.length, data);
+            return nPutD(ptr, row, col, data.Length, data);
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, float[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_32F)
             {
-                return nPutF(nativeObj, row, col, data.length, data);
+                return nPutF(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, int[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_32S)
             {
-                return nPutI(nativeObj, row, col, data.length, data);
+                return nPutI(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, short[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_16U || CvType.depth(t) == CvType.CV_16S)
             {
-                return nPutS(nativeObj, row, col, data.length, data);
+                return nPutS(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, byte[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_8U || CvType.depth(t) == CvType.CV_8S)
             {
-                return nPutB(nativeObj, row, col, data.length, data);
+                return nPutB(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, byte[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_8U || CvType.depth(t) == CvType.CV_8S)
             {
-                return nGetB(nativeObj, row, col, data.length, data);
+                return nGetB(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, short[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_16U || CvType.depth(t) == CvType.CV_16S)
             {
-                return nGetS(nativeObj, row, col, data.length, data);
+                return nGetS(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, int[] data)
         {
-            int t = type();
+            int t = Type();
             if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_32S)
             {
-                return nGetI(nativeObj, row, col, data.length, data);
+                return nGetI(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, float[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_32F)
             {
-                return nGetF(nativeObj, row, col, data.length, data);
+                return nGetF(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, double[] data)
         {
-            int t = type();
-            if (data == null || data.length % CvType.channels(t) != 0)
-                throw new java.lang.UnsupportedOperationException(
+            int t = Type();
+            if (data == null || data.Length % CvType.channels(t) != 0)
+                throw new OpenCvSharpException(
                     "Provided data element number (" +
-                    (data == null ? 0 : data.length) +
+                    (data == null ? 0 : data.Length) +
                     ") should be multiple of the Mat channels count (" +
                     CvType.channels(t) + ")");
             if (CvType.depth(t) == CvType.CV_64F)
             {
-                return nGetD(nativeObj, row, col, data.length, data);
+                return nGetD(ptr, row, col, data.Length, data);
             }
-            throw new java.lang.UnsupportedOperationException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
         }
 
         // javadoc:Mat::get(row,col)
@@ -973,7 +973,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc:Mat::height()
         public int Height()
         {
-            return rows();
+            return Rows();
         }
 
         // javadoc:Mat::width()
@@ -1107,9 +1107,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern void locateROI_0(IntPtr nativeObj, double[] wholeSize_out, double[] ofs_out);
 
         // C++: Mat Mat::mul(Mat m, double scale = 1)
-        private static extern long n_mul(IntPtr nativeObj, long m_nativeObj, double scale);
+        private static extern long n_mul(IntPtr nativeObj, IntPtr m_nativeObj, double scale);
 
-        private static extern long n_mul(IntPtr nativeObj, long m_nativeObj);
+        private static extern long n_mul(IntPtr nativeObj, IntPtr m_nativeObj);
 
         // C++: static Mat Mat::ones(int rows, int cols, int type)
         private static extern IntPtr n_ones(int rows, int cols, int type);
@@ -1129,19 +1129,19 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern long n_reshape(IntPtr nativeObj, int cn);
 
         // C++: Mat Mat::row(int y)
-        private static extern long n_row(IntPtr nativeObj, int y);
+        private static extern IntPtr n_row(IntPtr nativeObj, int y);
 
         // C++: Mat Mat::rowRange(int startrow, int endrow)
-        private static extern long n_rowRange(IntPtr nativeObj, int startrow, int endrow);
+        private static extern IntPtr n_rowRange(IntPtr nativeObj, int startrow, int endrow);
 
         // C++: int Mat::rows()
-        private static extern int n_rows(IntPtr nativeObj);
+        private static extern IntPtr n_rows(IntPtr nativeObj);
 
         // C++: Mat Mat::operator =(Scalar s)
-        private static extern long n_setTo(IntPtr nativeObj, double s_val0, double s_val1, double s_val2, double s_val3);
+        private static extern IntPtr n_setTo(IntPtr nativeObj, double s_val0, double s_val1, double s_val2, double s_val3);
 
         // C++: Mat Mat::setTo(Scalar value, Mat mask = Mat())
-        private static extern long n_setTo(IntPtr nativeObj, double s_val0, double s_val1, double s_val2, double s_val3,
+        private static extern IntPtr n_setTo(IntPtr nativeObj, double s_val0, double s_val1, double s_val2, double s_val3,
                                            IntPtr mask_nativeObj);
 
         // C++: Mat Mat::setTo(Mat value, Mat mask = Mat())
