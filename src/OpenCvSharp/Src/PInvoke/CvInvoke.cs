@@ -36,23 +36,23 @@ namespace OpenCvSharp
         /// <summary>
         /// cvLoadが一度でも呼ばれたかどうか
         /// </summary>
-        private static bool _cvLoadCalled;
+        private static bool cvLoadCalled;
         /// <summary>
         /// Qtが有効かどうか
         /// </summary>
-        private static bool? _hasQt;
+        private static bool? hasQt;
         #endregion
 
         #region DLL File Name
-        public const string DllCalib3d = "opencv_calib3d245";
-        public const string DllCore = "opencv_core245";
-        public const string DllFeatures2d = "opencv_features2d245";
-        public const string DllHighgui = "opencv_highgui245";
-        public const string DllImgproc = "opencv_imgproc245";
-        public const string DllLegacy = "opencv_legacy245";    
-        public const string DllObjdetect = "opencv_objdetect245";
-        public const string DllPhoto = "opencv_photo245";
-        public const string DllVideo = "opencv_video245";
+        public const string DllCalib3d = "opencv_calib3d248";
+        public const string DllCore = "opencv_core248";
+        public const string DllFeatures2d = "opencv_features2d248";
+        public const string DllHighgui = "opencv_highgui248";
+        public const string DllImgproc = "opencv_imgproc248";
+        public const string DllLegacy = "opencv_legacy248";    
+        public const string DllObjdetect = "opencv_objdetect248";
+        public const string DllPhoto = "opencv_photo248";
+        public const string DllVideo = "opencv_video248";
         #endregion
 
         #region Static constructor
@@ -64,7 +64,7 @@ namespace OpenCvSharp
 #endif
         static CvInvoke()
         {
-            _cvLoadCalled = false;            
+            cvLoadCalled = false;            
 
             // PInvokeできるかチェック            
             PInvokeHelper.TryPInvoke();
@@ -101,7 +101,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (!_hasQt.HasValue)
+                if (!hasQt.HasValue)
                 {
                     // 乱暴だけど、cvFontQtを呼んでみて、呼べなかったらエントリポイントがないのだろうと推定
                     try
@@ -110,16 +110,12 @@ namespace OpenCvSharp
                     }
                     catch
                     {
-                        _hasQt = false;
+                        hasQt = false;
                         return false;
                     }
-                    _hasQt = true;
+                    hasQt = true;
                 }
-                return _hasQt.Value;
-            }
-            private set
-            {
-                _hasQt = value;
+                return hasQt.Value;
             }
         }
         /// <summary>
@@ -287,7 +283,7 @@ namespace OpenCvSharp
         [DllImport(DllImgproc, CallingConvention = CallingConvention.Cdecl)]
         public static extern CvBox2D cvFitEllipse2(IntPtr points);
         [DllImport(DllImgproc, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe void cvFitLine(IntPtr points, [MarshalAs(UnmanagedType.I4)] DistanceType dist_type, double param, double reps, double aeps, [In, Out] float[] line);
+        public static extern void cvFitLine(IntPtr points, [MarshalAs(UnmanagedType.I4)] DistanceType dist_type, double param, double reps, double aeps, [In, Out] float[] line);
         [DllImport(DllImgproc, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvFloodFill(IntPtr image, CvPoint seed_point, CvScalar new_val, CvScalar lo_diff, CvScalar up_diff, IntPtr comp, int flags, IntPtr mask);
         [DllImport(DllImgproc, CallingConvention = CallingConvention.Cdecl)]
@@ -731,23 +727,23 @@ namespace OpenCvSharp
             [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] StringBuilder real_name);
         public static IntPtr cvLoad(string fileName, IntPtr memstorage, string name, IntPtr real_name)
         {
-            if (!_cvLoadCalled)
+            if (!cvLoadCalled)
             {
                 // あらかじめcvを先に呼んでおかなければだめらしい
                 IntPtr cascade = IntPtr.Zero;
                 cvReleaseHaarClassifierCascade(ref cascade);
-                _cvLoadCalled = true;
+                cvLoadCalled = true;
             }
             return cvLoad_(fileName, memstorage, name, real_name);
         }
         public static IntPtr cvLoad(string fileName, IntPtr memstorage, string name, StringBuilder real_name)
         {
-            if (!_cvLoadCalled)
+            if (!cvLoadCalled)
             {
                 // あらかじめcvを先に呼んでおかなければだめらしい
                 IntPtr cascade = IntPtr.Zero;
                 cvReleaseHaarClassifierCascade(ref cascade);
-                _cvLoadCalled = true;
+                cvLoadCalled = true;
             }
             return cvLoad_(fileName, memstorage, name, real_name);
         }
@@ -1043,7 +1039,7 @@ namespace OpenCvSharp
         }
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cvAddText")]
         private static extern void cvAddText_(IntPtr img, [MarshalAs(UnmanagedType.LPStr)] string text, CvPoint location, IntPtr font);
-        public static unsafe void cvAddText(IntPtr img, string text, CvPoint location, IntPtr font)
+        public static void cvAddText(IntPtr img, string text, CvPoint location, IntPtr font)
         {
             CheckQt();
             cvAddText_(img, text, location, font);
@@ -1509,5 +1505,3 @@ namespace OpenCvSharp
         #endregion
     }
 }
-
-// ReSharper restore InconsistentNaming
