@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace OpenCvSharp.CPlusPlus.Prototype
@@ -9,6 +10,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     public class Mat : DisposableCvObject, ICloneable
     {
+        #region Init & Disposal
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptr"></param>
         public Mat(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
@@ -16,457 +22,479 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             this.ptr = ptr;
         }
 
-        // Mat::Mat()
+        /// <summary>
+        /// 
+        /// </summary>
         public Mat()
         {
-            ptr = n_Mat();
+            ptr = CppInvoke.core_Mat_new1();
         }
 
-        // Mat::Mat(rows, cols, type)
-        public Mat(int rows, int cols, int type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        public Mat(int rows, int cols, MatrixType type)
         {
-            ptr = n_Mat(rows, cols, type);
+            ptr = CppInvoke.core_Mat_new2(rows, cols, (int)type);
         }
 
-        // Mat::Mat(size, type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
         public Mat(Size size, int type)
         {
-            ptr = n_Mat(size.Width, size.Height, type);
+            ptr = CppInvoke.core_Mat_new2(size.Width, size.Height, type);
         }
 
-        // Mat::Mat(rows, cols, type, s)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        /// <param name="s"></param>
         public Mat(int rows, int cols, int type, Scalar s)
         {
-            ptr = n_Mat(rows, cols, type, s[0], s[1], s[2], s[3]);
+            ptr = CppInvoke.core_Mat_new3(rows, cols, type, s);
         }
 
-        // Mat::Mat(size, type, s)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
+        /// <param name="s"></param>
         public Mat(Size size, int type, Scalar s)
         {
-            ptr = n_Mat(size.Width, size.Height, type, s[0], s[1], s[2], s[3]);
+            ptr = CppInvoke.core_Mat_new3(size.Width, size.Height, type, s);
         }
 
-        // javadoc: Mat::Mat(m, rowRange, colRange)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="rowRange"></param>
+        /// <param name="colRange"></param>
         public Mat(Mat m, Range rowRange, Range colRange)
         {
-            ptr = n_Mat(m.ptr, rowRange.Start, rowRange.End, colRange.Start, colRange.End);
+            ptr = CppInvoke.core_Mat_new4(m.ptr, rowRange, colRange);
         }
 
-        // javadoc: Mat::Mat(m, rowRange)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="rowRange"></param>
         public Mat(Mat m, Range rowRange)
         {
-            ptr = n_Mat(m.ptr, rowRange.Start, rowRange.End);
+            ptr = CppInvoke.core_Mat_new5(m.ptr, rowRange);
         }
 
-        // javadoc: Mat::Mat(m, roi)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="roi"></param>
         public Mat(Mat m, Rect roi)
         {
-            ptr = n_Mat(m.ptr, roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
+            ptr = CppInvoke.core_Mat_new6(m.ptr, roi);
         }
 
+#if LANG_JP
+        /// <summary>
+        /// リソースの解放
+        /// </summary>
+#else
+        /// <summary>
+        /// Releases the resources
+        /// </summary>
+#endif
+        public void Release()
+        {
+            Dispose();
+        }
+#if LANG_JP
+        /// <summary>
+        /// リソースの解放
+        /// </summary>
+#else
+        /// <summary>
+        /// Releases the resources
+        /// </summary>
+#endif
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+#if LANG_JP
+        /// <summary>
+        /// リソースの解放
+        /// </summary>
+        /// <param name="disposing">
+        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+        ///</param>
+#else
+        /// <summary>
+        /// Releases the resources
+        /// </summary>
+        /// <param name="disposing">
+        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
+        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
+        /// </param>
+#endif
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                // releases managed resources
+                if (disposing)
+                {
+                }
+                // releases unmanaged resources
+                CppInvoke.core_Mat_release(ptr);
+                IsDisposed = true;
+            }
+        }
 
-        // javadoc: Mat::adjustROI(dtop, dbottom, dleft, dright)
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dtop"></param>
+        /// <param name="dbottom"></param>
+        /// <param name="dleft"></param>
+        /// <param name="dright"></param>
+        /// <returns></returns>
         public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
-            Mat retVal = new Mat(n_adjustROI(ptr, dtop, dbottom, dleft, dright));
+            Mat retVal = new Mat(CppInvoke.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright));
             return retVal;
         }
 
         // javadoc: Mat::assignTo(m, type)
         public void AssignTo(Mat m, int type)
         {
-            n_assignTo(ptr, m.ptr, type);
+            throw new NotImplementedException();
+            //n_assignTo(ptr, m.ptr, type);
         }
 
         public void AssignTo(Mat m)
         {
-            n_assignTo(ptr, m.ptr);
+            throw new NotImplementedException();
+            //n_assignTo(ptr, m.ptr);
         }
 
         public int Channels()
         {
-            int retVal = n_channels(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_channels(ptr);
+            //return retVal;
         }
 
         // javadoc: Mat::checkVector(elemChannels, depth, requireContinuous)
         public int CheckVector(int elemChannels, int depth, bool requireContinuous)
         {
-
-            int retVal = n_checkVector(ptr, elemChannels, depth, requireContinuous);
-
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_checkVector(ptr, elemChannels, depth, requireContinuous);
+            //return retVal;
         }
 
         // javadoc: Mat::checkVector(elemChannels, depth)
         public int CheckVector(int elemChannels, int depth)
         {
-
-            int retVal = n_checkVector(ptr, elemChannels, depth);
-
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_checkVector(ptr, elemChannels, depth);
+            //return retVal;
         }
 
         // javadoc: Mat::checkVector(elemChannels)
         public int CheckVector(int elemChannels)
         {
-            int retVal = n_checkVector(ptr, elemChannels);
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_checkVector(ptr, elemChannels);
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::clone()
-        //
 
         // javadoc: Mat::clone()
         public Mat Clone()
         {
-            Mat retVal = new Mat(n_clone(ptr));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_clone(ptr));
+            //return retVal;
         }
         object ICloneable.Clone()
         {
             return Clone();
         }
 
-        //
-        // C++: Mat Mat::col(int x)
-        //
-
         // javadoc: Mat::col(x)
         public Mat Col(int x)
         {
-            Mat retVal = new Mat(n_col(ptr, x));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_col(ptr, x));
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::colRange(int startcol, int endcol)
-        //
 
         // javadoc: Mat::colRange(startcol, endcol)
         public Mat ColRange(int startcol, int endcol)
         {
-            Mat retVal = new Mat(n_colRange(ptr, startcol, endcol));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_colRange(ptr, startcol, endcol));
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::colRange(Range r)
-        //
 
         // javadoc: Mat::colRange(r)
         public Mat ColRange(Range r)
         {
-            Mat retVal = new Mat(n_colRange(ptr, r.Start, r.End));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_colRange(ptr, r.Start, r.End));
+            //return retVal;
         }
-
-        //
-        // C++: int Mat::dims()
-        //
 
         // javadoc: Mat::dims()
         public int Dims()
         {
-            int retVal = n_dims(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_dims(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: int Mat::cols()
-        //
 
         // javadoc: Mat::cols()
         public int Cols()
         {
-            int retVal = n_cols(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_cols(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: void Mat::convertTo(Mat& m, int rtype, double alpha = 1, double beta
-        // = 0)
-        //
 
         // javadoc: Mat::convertTo(m, rtype, alpha, beta)
         public void ConvertTo(Mat m, int rtype, double alpha, double beta)
         {
-            n_convertTo(ptr, m.ptr, rtype, alpha, beta);
+            throw new NotImplementedException();
+            //n_convertTo(ptr, m.ptr, rtype, alpha, beta);
         }
 
         // javadoc: Mat::convertTo(m, rtype, alpha)
         public void ConvertTo(Mat m, int rtype, double alpha)
         {
-            n_convertTo(ptr, m.ptr, rtype, alpha);
+            throw new NotImplementedException();
+            //n_convertTo(ptr, m.ptr, rtype, alpha);
         }
 
         // javadoc: Mat::convertTo(m, rtype)
         public void ConvertTo(Mat m, int rtype)
         {
-            n_convertTo(ptr, m.ptr, rtype);
+            throw new NotImplementedException();
+            //n_convertTo(ptr, m.ptr, rtype);
         }
-
-        //
-        // C++: void Mat::copyTo(Mat& m)
-        //
 
         // javadoc: Mat::copyTo(m)
         public void CopyTo(Mat m)
         {
-            n_copyTo(ptr, m.ptr);
+            throw new NotImplementedException();
+            //n_copyTo(ptr, m.ptr);
         }
-
-        //
-        // C++: void Mat::copyTo(Mat& m, Mat mask)
-        //
 
         // javadoc: Mat::copyTo(m, mask)
         public void CopyTo(Mat m, Mat mask)
         {
-            n_copyTo(ptr, m.ptr, mask.ptr);
+            throw new NotImplementedException();
+            //n_copyTo(ptr, m.ptr, mask.ptr);
         }
-
-        //
-        // C++: void Mat::create(int rows, int cols, int type)
-        //
 
         // javadoc: Mat::create(rows, cols, type)
         public void Create(int rows, int cols, int type)
         {
-            n_create(ptr, rows, cols, type);
+            throw new NotImplementedException();
+            //n_create(ptr, rows, cols, type);
         }
-
-        //
-        // C++: void Mat::create(Size size, int type)
-        //
 
         // javadoc: Mat::create(size, type)
         public void Create(Size size, int type)
         {
-            n_create(ptr, size.Width, size.Height, type);
+            throw new NotImplementedException();
+            //n_create(ptr, size.Width, size.Height, type);
         }
-
-        //
-        // C++: Mat Mat::cross(Mat m)
-        //
 
         // javadoc: Mat::cross(m)
         public Mat Cross(Mat m)
         {
-            Mat retVal = new Mat(n_cross(ptr, m.ptr));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_cross(ptr, m.ptr));
+            //return retVal;
         }
-
-        //
-        // C++: long Mat::dataAddr()
-        //
 
         // javadoc: Mat::dataAddr()
         public IntPtr DataAddr()
         {
-            IntPtr retVal = n_dataAddr(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //IntPtr retVal = n_dataAddr(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: int Mat::depth()
-        //
 
         // javadoc: Mat::depth()
         public int Depth()
         {
-            int retVal = n_depth(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_depth(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::diag(int d = 0)
-        //
 
         // javadoc: Mat::diag(d)
         public Mat Diag(int d)
         {
-            Mat retVal = new Mat(n_diag(ptr, d));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_diag(ptr, d));
+            //return retVal;
         }
 
         // javadoc: Mat::diag()
         public Mat Diag()
         {
-            Mat retVal = new Mat(n_diag(ptr, 0));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_diag(ptr, 0));
+            //return retVal;
         }
-
-        //
-        // C++: static Mat Mat::diag(Mat d)
-        //
 
         // javadoc: Mat::diag(d)
         public static Mat Diag(Mat d)
         {
-            Mat retVal = new Mat(n_diag(d.ptr));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_diag(d.ptr));
+            //return retVal;
         }
-
-        //
-        // C++: double Mat::dot(Mat m)
-        //
 
         // javadoc: Mat::dot(m)
         public double Dot(Mat m)
         {
-            double retVal = n_dot(ptr, m.ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //double retVal = n_dot(ptr, m.ptr);
+            //return retVal;
         }
-
-        //
-        // C++: size_t Mat::elemSize()
-        //
 
         // javadoc: Mat::elemSize()
         public long ElemSize()
         {
-            long retVal = n_elemSize(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //long retVal = n_elemSize(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: size_t Mat::elemSize1()
-        //
 
         // javadoc: Mat::elemSize1()
         public long ElemSize1()
         {
-            long retVal = n_elemSize1(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //long retVal = n_elemSize1(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: bool Mat::empty()
-        //
 
         // javadoc: Mat::empty()
         public bool Empty()
         {
-            bool retVal = n_empty(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //bool retVal = n_empty(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: static Mat Mat::eye(int rows, int cols, int type)
-        //
 
         // javadoc: Mat::eye(rows, cols, type)
         public static Mat Eye(int rows, int cols, int type)
         {
-            Mat retVal = new Mat(n_eye(rows, cols, type));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_eye(rows, cols, type));
+            //return retVal;
         }
-
-        //
-        // C++: static Mat Mat::eye(Size size, int type)
-        //
 
         // javadoc: Mat::eye(size, type)
         public static Mat Eye(Size size, int type)
         {
-            Mat retVal = new Mat(n_eye(size.Width, size.Height, type));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_eye(size.Width, size.Height, type));
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::inv(int method = DECOMP_LU)
-        //
 
         // javadoc: Mat::inv(method)
         public Mat Inv(int method)
         {
-            Mat retVal = new Mat(n_inv(ptr, method));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_inv(ptr, method));
+            //return retVal;
         }
 
         // javadoc: Mat::inv()
         public Mat Inv()
         {
-            Mat retVal = new Mat(n_inv(ptr));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_inv(ptr));
+            //return retVal;
         }
-
-        //
-        // C++: bool Mat::isContinuous()
-        //
 
         // javadoc: Mat::isContinuous()
         public bool IsContinuous()
         {
-            bool retVal = n_isContinuous(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //bool retVal = n_isContinuous(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: bool Mat::isSubmatrix()
-        //
 
         // javadoc: Mat::isSubmatrix()
         public bool IsSubmatrix()
         {
-            bool retVal = n_isSubmatrix(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //bool retVal = n_isSubmatrix(ptr);
+            //return retVal;
         }
 
         // javadoc: Mat::locateROI(wholeSize, ofs)
         public void LocateROI(Size wholeSize, Point ofs)
         {
-            double[] wholeSizeOut = new double[2];
+            /*double[] wholeSizeOut = new double[2];
             double[] ofsOut = new double[2];
             locateROI_0(ptr, wholeSizeOut, ofsOut);
             wholeSize.Width = wholeSizeOut[0];
             wholeSize.Height = wholeSizeOut[1];
             ofs.X = ofsOut[0];
-            ofs.Y = ofsOut[1];
+            ofs.Y = ofsOut[1];*/
+            throw new NotImplementedException();
         }
-
-        //
-        // C++: Mat Mat::mul(Mat m, double scale = 1)
-        //
-
+ 
         // javadoc: Mat::mul(m, scale)
         public Mat Mul(Mat m, double scale)
         {
-            Mat retVal = new Mat(n_mul(ptr, m.ptr, scale));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_mul(ptr, m.ptr, scale));
+            //return retVal;
         }
 
         // javadoc: Mat::mul(m)
         public Mat Mul(Mat m)
         {
-            Mat retVal = new Mat(n_mul(ptr, m.ptr));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_mul(ptr, m.ptr));
+            //return retVal;
         }
-
-        //
-        // C++: static Mat Mat::ones(int rows, int cols, int type)
-        //
 
         // javadoc: Mat::ones(rows, cols, type)
         public static Mat Ones(int rows, int cols, int type)
         {
-
-            Mat retVal = new Mat(n_ones(rows, cols, type));
-
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_ones(rows, cols, type));
+            //return retVal;
         }
-
-        //
-        // C++: static Mat Mat::ones(Size size, int type)
-        //
 
         // javadoc: Mat::ones(size, type)
         public static Mat Ones(Size size, int type)
         {
-            Mat retVal = new Mat(n_ones(size.Width, size.Height, type));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_ones(size.Width, size.Height, type));
+            //return retVal;
         }
 
         //
@@ -476,131 +504,97 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc: Mat::push_back(m)
         public void PushBack(Mat m)
         {
-            n_push_back(ptr, m.ptr);
+            throw new NotImplementedException();
+            //n_push_back(ptr, m.ptr);
         }
-
-        //
-        // C++: void Mat::release()
-        //
-
-        // javadoc: Mat::release()
-        public void Release()
-        {
-            n_release(ptr);
-        }
-
-        //
-        // C++: Mat Mat::reshape(int cn, int rows = 0)
-        //
 
         // javadoc: Mat::reshape(cn, rows)
         public Mat Reshape(int cn, int rows)
         {
-
-            Mat retVal = new Mat(n_reshape(ptr, cn, rows));
-
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_reshape(ptr, cn, rows));
+            //return retVal;
         }
 
         // javadoc: Mat::reshape(cn)
         public Mat Reshape(int cn)
         {
-
-            Mat retVal = new Mat(n_reshape(ptr, cn));
-
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_reshape(ptr, cn));
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::row(int y)
-        //
 
         // javadoc: Mat::row(y)
         public Mat Row(int y)
         {
-
-            Mat retVal = new Mat(n_row(ptr, y));
-
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_row(ptr, y));
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::rowRange(int startrow, int endrow)
-        //
 
         // javadoc: Mat::rowRange(startrow, endrow)
         public Mat RowRange(int startrow, int endrow)
         {
-            Mat retVal = new Mat(n_rowRange(ptr, startrow, endrow));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_rowRange(ptr, startrow, endrow));
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::rowRange(Range r)
-        //
 
         // javadoc: Mat::rowRange(r)
         public Mat RowRange(Range r)
         {
-            Mat retVal = new Mat(n_rowRange(ptr, r.Start, r.End));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_rowRange(ptr, r.Start, r.End));
+            //return retVal;
         }
-
-        //
-        // C++: int Mat::rows()
-        //
 
         // javadoc: Mat::rows()
         public int Rows()
         {
-            int retVal = n_rows(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_rows(ptr);
+            //return retVal;
         }
 
         // javadoc: Mat::operator =(s)
         public Mat SetTo(Scalar s)
         {
-            Mat retVal = new Mat(n_setTo(ptr, s[0], s[1], s[2], s[3]));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_setTo(ptr, s[0], s[1], s[2], s[3]));
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::setTo(Scalar value, Mat mask = Mat())
-        //
 
         // javadoc: Mat::setTo(value, mask)
         public Mat SetTo(Scalar value, Mat mask)
         {
-            Mat retVal = new Mat(n_setTo(ptr, value[0], value[1], value[2], value[3], mask.ptr));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_setTo(ptr, value[0], value[1], value[2], value[3], mask.ptr));
+            //return retVal;
         }
-
-        //
-        // C++: Mat Mat::setTo(Mat value, Mat mask = Mat())
-        //
 
         // javadoc: Mat::setTo(value, mask)
         public Mat SetTo(Mat value, Mat mask)
         {
-            Mat retVal = new Mat(n_setTo(ptr, value.ptr, mask.ptr));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_setTo(ptr, value.ptr, mask.ptr));
+            //return retVal;
         }
 
         // javadoc: Mat::setTo(value)
         public Mat SetTo(Mat value)
         {
-
-            Mat retVal = new Mat(n_setTo(ptr, value.ptr));
-
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_setTo(ptr, value.ptr));
+            //return retVal;
         }
 
         // javadoc: Mat::size()
         public Size Size()
         {
-            double[] size = n_size(ptr);
-            Size retVal = new Size(size[0], size[1]);
-            return retVal;
+            throw new NotImplementedException();
+            //double[] size = n_size(ptr);
+            //Size retVal = new Size(size[0], size[1]);
+            //return retVal;
         }
 
         //
@@ -610,87 +604,81 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc: Mat::step1(i)
         public long Step1(int i)
         {
-            long retVal = n_step1(ptr, i);
-            return retVal;
+            throw new NotImplementedException();
+            //long retVal = n_step1(ptr, i);
+            //return retVal;
         }
 
         // javadoc: Mat::step1()
         public long Step1()
         {
-            long retVal = n_step1(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //long retVal = n_step1(ptr);
+            //return retVal;
         }
 
         // javadoc: Mat::operator()(rowStart, rowEnd, colStart, colEnd)
         public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
         {
-            Mat retVal = new Mat(n_submat_rr(ptr, rowStart, rowEnd, colStart, colEnd));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_submat_rr(ptr, rowStart, rowEnd, colStart, colEnd));
+            //return retVal;
         }
 
         // javadoc: Mat::operator()(rowRange, colRange)
         public Mat SubMat(Range rowRange, Range colRange)
         {
-            Mat retVal = new Mat(n_submat_rr(ptr, rowRange.Start, rowRange.End, colRange.Start, colRange.End));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_submat_rr(ptr, rowRange.Start, rowRange.End, colRange.Start, colRange.End));
+            //return retVal;
         }
 
         // javadoc: Mat::operator()(roi)
         public Mat SubMat(Rect roi)
         {
-            Mat retVal = new Mat(n_submat(ptr, roi.X, roi.Y, roi.Width, roi.Height));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_submat(ptr, roi.X, roi.Y, roi.Width, roi.Height));
+            //return retVal;
         }
 
         // javadoc: Mat::t()
         public Mat T()
         {
-            Mat retVal = new Mat(n_t(ptr));
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_t(ptr));
+            //return retVal;
         }
 
         // javadoc: Mat::total()
         public long Total()
         {
-            long retVal = n_total(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //long retVal = n_total(ptr);
+            //return retVal;
         }
 
         // javadoc: Mat::type()
         public int Type()
         {
-            int retVal = n_type(ptr);
-            return retVal;
+            throw new NotImplementedException();
+            //int retVal = n_type(ptr);
+            //return retVal;
         }
-
-        //
-        // C++: static Mat Mat::zeros(int rows, int cols, int type)
-        //
 
         // javadoc: Mat::zeros(rows, cols, type)
-        public static Mat zeros(int rows, int cols, int type)
+        public static Mat Zeros(int rows, int cols, int type)
         {
-
-            Mat retVal = new Mat(n_zeros(rows, cols, type));
-
-            return retVal;
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_zeros(rows, cols, type));
+            //return retVal;
         }
-
-        //
-        // C++: static Mat Mat::zeros(Size size, int type)
-        //
 
         // javadoc: Mat::zeros(size, type)
-        public static Mat zeros(Size size, int type)
+        public static Mat Zeros(Size size, int type)
         {
-            Mat retVal = new Mat(n_zeros(size.Width, size.Height, type));
-            return retVal;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            n_delete(ptr);
-            base.Dispose(disposing);
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_zeros(size.Width, size.Height, type));
+            //return retVal;
         }
 
         // javadoc:Mat::ToString()
@@ -707,24 +695,27 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc:Mat::dump()
         public String Dump()
         {
-            return nDump(ptr);
+            throw new NotImplementedException();
+            //return nDump(ptr);
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, params double[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
                     (data == null ? 0 : data.Length), CvType.Channels(t));
-            return nPutD(ptr, row, col, data.Length, data);
+            return nPutD(ptr, row, col, data.Length, data);*/
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, float[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -733,13 +724,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nPutF(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, int[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -748,13 +740,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nPutI(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, short[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -763,13 +756,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nPutS(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::put(row,col,data)
         public int Put(int row, int col, byte[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -778,13 +772,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nPutB(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, byte[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -793,13 +788,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nGetB(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, short[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -808,13 +804,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nGetS(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, int[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -823,13 +820,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nGetI(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, float[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})", 
@@ -838,13 +836,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nGetF(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::get(row,col,data)
         public int Get(int row, int col, double[] data)
         {
-            int t = Type();
+            throw new NotImplementedException();
+            /*int t = Type();
             if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -853,13 +852,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 return nGetD(ptr, row, col, data.Length, data);
             }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::get(row,col)
         public double[] Get(int row, int col)
         {
-            return nGet(ptr, row, col);
+            throw new NotImplementedException();
+            //return nGet(ptr, row, col);
         }
 
         // javadoc:Mat::height()
@@ -874,32 +874,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             return Cols();
         }
 
-        // C++: Mat::Mat()
-        private static extern IntPtr n_Mat();
-
-        // C++: Mat::Mat(int rows, int cols, int type)
-        private static extern IntPtr n_Mat(int rows, int cols, int type);
-
-        // C++: Mat::Mat(Size size, int type)
-        private static extern IntPtr n_Mat(double size_width, double size_height, int type);
-
-        // C++: Mat::Mat(int rows, int cols, int type, Scalar s)
-        private static extern IntPtr n_Mat(int rows, int cols, int type, double s_val0, double s_val1, double s_val2,
-                                         double s_val3);
-
-        // C++: Mat::Mat(Size size, int type, Scalar s)
-        private static extern IntPtr n_Mat(double size_width, double size_height, int type, double s_val0, double s_val1,
-                                         double s_val2, double s_val3);
-
-        // C++: Mat::Mat(Mat m, Range rowRange, Range colRange = Range::all())
-        private static extern IntPtr n_Mat(IntPtr m_nativeObj, int rowRange_start, int rowRange_end, int colRange_start,
-                                         int colRange_end);
-
-        private static extern IntPtr n_Mat(IntPtr m_nativeObj, int rowRange_start, int rowRange_end);
-
-        // C++: Mat Mat::adjustROI(int dtop, int dbottom, int dleft, int dright)
-        private static extern IntPtr n_adjustROI(IntPtr nativeObj, int dtop, int dbottom, int dleft, int dright);
-
+        /*
         // C++: void Mat::assignTo(Mat m, int type = -1)
         private static extern void n_assignTo(IntPtr nativeObj, IntPtr m_nativeObj, int type);
 
@@ -1097,6 +1072,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern double[] nGet(IntPtr self, int row, int col);
 
         private static extern String nDump(IntPtr self);
+        */
     }
 
 }
