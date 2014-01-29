@@ -124,17 +124,19 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             Mat retVal = new Mat(n_clone(ptr));
             return retVal;
         }
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
 
         //
         // C++: Mat Mat::col(int x)
         //
 
         // javadoc: Mat::col(x)
-        public Mat col(int x)
+        public Mat Col(int x)
         {
-
             Mat retVal = new Mat(n_col(ptr, x));
-
             return retVal;
         }
 
@@ -143,11 +145,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::colRange(startcol, endcol)
-        public Mat colRange(int startcol, int endcol)
+        public Mat ColRange(int startcol, int endcol)
         {
-
             Mat retVal = new Mat(n_colRange(ptr, startcol, endcol));
-
             return retVal;
         }
 
@@ -156,11 +156,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::colRange(r)
-        public Mat colRange(Range r)
+        public Mat ColRange(Range r)
         {
-
             Mat retVal = new Mat(n_colRange(ptr, r.Start, r.End));
-
             return retVal;
         }
 
@@ -169,11 +167,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::dims()
-        public int dims()
+        public int Dims()
         {
-
             int retVal = n_dims(ptr);
-
             return retVal;
         }
 
@@ -182,11 +178,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::cols()
-        public int cols()
+        public int Cols()
         {
-
             int retVal = n_cols(ptr);
-
             return retVal;
         }
 
@@ -196,30 +190,21 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::convertTo(m, rtype, alpha, beta)
-        public void convertTo(Mat m, int rtype, double alpha, double beta)
+        public void ConvertTo(Mat m, int rtype, double alpha, double beta)
         {
-
             n_convertTo(ptr, m.ptr, rtype, alpha, beta);
-
-            return;
         }
 
         // javadoc: Mat::convertTo(m, rtype, alpha)
-        public void convertTo(Mat m, int rtype, double alpha)
+        public void ConvertTo(Mat m, int rtype, double alpha)
         {
-
             n_convertTo(ptr, m.ptr, rtype, alpha);
-
-            return;
         }
 
         // javadoc: Mat::convertTo(m, rtype)
-        public void convertTo(Mat m, int rtype)
+        public void ConvertTo(Mat m, int rtype)
         {
-
             n_convertTo(ptr, m.ptr, rtype);
-
-            return;
         }
 
         //
@@ -227,12 +212,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::copyTo(m)
-        public void copyTo(Mat m)
+        public void CopyTo(Mat m)
         {
-
             n_copyTo(ptr, m.ptr);
-
-            return;
         }
 
         //
@@ -240,12 +222,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::copyTo(m, mask)
-        public void copyTo(Mat m, Mat mask)
+        public void CopyTo(Mat m, Mat mask)
         {
-
             n_copyTo(ptr, m.ptr, mask.ptr);
-
-            return;
         }
 
         //
@@ -253,12 +232,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::create(rows, cols, type)
-        public void create(int rows, int cols, int type)
+        public void Create(int rows, int cols, int type)
         {
-
             n_create(ptr, rows, cols, type);
-
-            return;
         }
 
         //
@@ -266,12 +242,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::create(size, type)
-        public void create(Size size, int type)
+        public void Create(Size size, int type)
         {
-
             n_create(ptr, size.Width, size.Height, type);
-
-            return;
         }
 
         //
@@ -279,11 +252,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::cross(m)
-        public Mat cross(Mat m)
+        public Mat Cross(Mat m)
         {
-
             Mat retVal = new Mat(n_cross(ptr, m.ptr));
-
             return retVal;
         }
 
@@ -292,11 +263,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::dataAddr()
-        public long dataAddr()
+        public IntPtr DataAddr()
         {
-
-            long retVal = n_dataAddr(ptr);
-
+            IntPtr retVal = n_dataAddr(ptr);
             return retVal;
         }
 
@@ -305,11 +274,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::depth()
-        public int depth()
+        public int Depth()
         {
-
             int retVal = n_depth(ptr);
-
             return retVal;
         }
 
@@ -318,20 +285,16 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::diag(d)
-        public Mat diag(int d)
+        public Mat Diag(int d)
         {
-
             Mat retVal = new Mat(n_diag(ptr, d));
-
             return retVal;
         }
 
         // javadoc: Mat::diag()
-        public Mat diag()
+        public Mat Diag()
         {
-
             Mat retVal = new Mat(n_diag(ptr, 0));
-
             return retVal;
         }
 
@@ -340,11 +303,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::diag(d)
-        public static Mat diag(Mat d)
+        public static Mat Diag(Mat d)
         {
-
             Mat retVal = new Mat(n_diag(d.ptr));
-
             return retVal;
         }
 
@@ -353,11 +314,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::dot(m)
-        public double dot(Mat m)
+        public double Dot(Mat m)
         {
-
             double retVal = n_dot(ptr, m.ptr);
-
             return retVal;
         }
 
@@ -366,11 +325,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::elemSize()
-        public long elemSize()
+        public long ElemSize()
         {
-
             long retVal = n_elemSize(ptr);
-
             return retVal;
         }
 
@@ -379,11 +336,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::elemSize1()
-        public long elemSize1()
+        public long ElemSize1()
         {
-
             long retVal = n_elemSize1(ptr);
-
             return retVal;
         }
 
@@ -392,11 +347,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::empty()
-        public bool empty()
+        public bool Empty()
         {
-
             bool retVal = n_empty(ptr);
-
             return retVal;
         }
 
@@ -405,11 +358,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::eye(rows, cols, type)
-        public static Mat eye(int rows, int cols, int type)
+        public static Mat Eye(int rows, int cols, int type)
         {
-
             Mat retVal = new Mat(n_eye(rows, cols, type));
-
             return retVal;
         }
 
@@ -418,11 +369,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::eye(size, type)
-        public static Mat eye(Size size, int type)
+        public static Mat Eye(Size size, int type)
         {
-
             Mat retVal = new Mat(n_eye(size.Width, size.Height, type));
-
             return retVal;
         }
 
@@ -431,20 +380,16 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::inv(method)
-        public Mat inv(int method)
+        public Mat Inv(int method)
         {
-
             Mat retVal = new Mat(n_inv(ptr, method));
-
             return retVal;
         }
 
         // javadoc: Mat::inv()
-        public Mat inv()
+        public Mat Inv()
         {
-
             Mat retVal = new Mat(n_inv(ptr));
-
             return retVal;
         }
 
@@ -453,11 +398,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::isContinuous()
-        public bool isContinuous()
+        public bool IsContinuous()
         {
-
             bool retVal = n_isContinuous(ptr);
-
             return retVal;
         }
 
@@ -466,11 +409,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::isSubmatrix()
-        public bool isSubmatrix()
+        public bool IsSubmatrix()
         {
-
             bool retVal = n_isSubmatrix(ptr);
-
             return retVal;
         }
 
@@ -491,20 +432,16 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::mul(m, scale)
-        public Mat mul(Mat m, double scale)
+        public Mat Mul(Mat m, double scale)
         {
-
             Mat retVal = new Mat(n_mul(ptr, m.ptr, scale));
-
             return retVal;
         }
 
         // javadoc: Mat::mul(m)
-        public Mat mul(Mat m)
+        public Mat Mul(Mat m)
         {
-
             Mat retVal = new Mat(n_mul(ptr, m.ptr));
-
             return retVal;
         }
 
@@ -513,7 +450,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::ones(rows, cols, type)
-        public static Mat ones(int rows, int cols, int type)
+        public static Mat Ones(int rows, int cols, int type)
         {
 
             Mat retVal = new Mat(n_ones(rows, cols, type));
@@ -526,11 +463,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::ones(size, type)
-        public static Mat ones(Size size, int type)
+        public static Mat Ones(Size size, int type)
         {
-
             Mat retVal = new Mat(n_ones(size.Width, size.Height, type));
-
             return retVal;
         }
 
@@ -539,12 +474,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::push_back(m)
-        public void push_back(Mat m)
+        public void PushBack(Mat m)
         {
-
             n_push_back(ptr, m.ptr);
-
-            return;
         }
 
         //
@@ -552,7 +484,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::release()
-        public void release()
+        public void Release()
         {
             n_release(ptr);
         }
@@ -562,7 +494,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::reshape(cn, rows)
-        public Mat reshape(int cn, int rows)
+        public Mat Reshape(int cn, int rows)
         {
 
             Mat retVal = new Mat(n_reshape(ptr, cn, rows));
@@ -571,7 +503,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         }
 
         // javadoc: Mat::reshape(cn)
-        public Mat reshape(int cn)
+        public Mat Reshape(int cn)
         {
 
             Mat retVal = new Mat(n_reshape(ptr, cn));
@@ -584,7 +516,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::row(y)
-        public Mat row(int y)
+        public Mat Row(int y)
         {
 
             Mat retVal = new Mat(n_row(ptr, y));
@@ -597,7 +529,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::rowRange(startrow, endrow)
-        public Mat rowRange(int startrow, int endrow)
+        public Mat RowRange(int startrow, int endrow)
         {
             Mat retVal = new Mat(n_rowRange(ptr, startrow, endrow));
             return retVal;
@@ -608,7 +540,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         //
 
         // javadoc: Mat::rowRange(r)
-        public Mat EowRange(Range r)
+        public Mat RowRange(Range r)
         {
             Mat retVal = new Mat(n_rowRange(ptr, r.Start, r.End));
             return retVal;
@@ -625,14 +557,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             return retVal;
         }
 
-        //
-        // C++: Mat Mat::operator =(Scalar s)
-        //
-
         // javadoc: Mat::operator =(s)
         public Mat SetTo(Scalar s)
         {
-            Mat retVal = new Mat(n_setTo(ptr, s.val[0], s.val[1], s.val[2], s.val[3]));
+            Mat retVal = new Mat(n_setTo(ptr, s[0], s[1], s[2], s[3]));
             return retVal;
         }
 
@@ -643,8 +571,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc: Mat::setTo(value, mask)
         public Mat SetTo(Scalar value, Mat mask)
         {
-            Mat retVal =
-                new Mat(n_setTo(ptr, value.val[0], value.val[1], value.val[2], value.val[3], mask.ptr));
+            Mat retVal = new Mat(n_setTo(ptr, value[0], value[1], value[2], value[3], mask.ptr));
             return retVal;
         }
 
@@ -655,9 +582,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc: Mat::setTo(value, mask)
         public Mat SetTo(Mat value, Mat mask)
         {
-
             Mat retVal = new Mat(n_setTo(ptr, value.ptr, mask.ptr));
-
             return retVal;
         }
 
@@ -670,16 +595,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             return retVal;
         }
 
-        //
-        // C++: Size Mat::size()
-        //
-
         // javadoc: Mat::size()
         public Size Size()
         {
-
-            Size retVal = new Size(n_size(ptr));
-
+            double[] size = n_size(ptr);
+            Size retVal = new Size(size[0], size[1]);
             return retVal;
         }
 
@@ -690,36 +610,28 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc: Mat::step1(i)
         public long Step1(int i)
         {
-
             long retVal = n_step1(ptr, i);
-
             return retVal;
         }
 
         // javadoc: Mat::step1()
-        public long step1()
+        public long Step1()
         {
-
             long retVal = n_step1(ptr);
-
             return retVal;
         }
 
         // javadoc: Mat::operator()(rowStart, rowEnd, colStart, colEnd)
         public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
         {
-
             Mat retVal = new Mat(n_submat_rr(ptr, rowStart, rowEnd, colStart, colEnd));
-
             return retVal;
         }
 
         // javadoc: Mat::operator()(rowRange, colRange)
         public Mat SubMat(Range rowRange, Range colRange)
         {
-
             Mat retVal = new Mat(n_submat_rr(ptr, rowRange.Start, rowRange.End, colRange.Start, colRange.End));
-
             return retVal;
         }
 
@@ -785,10 +697,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public override string ToString()
         {
             return "Mat [ " +
-                   Rows() + "*" + cols() + "*" + CvType.typeToString(Type()) +
-                   ", isCont=" + isContinuous() + ", isSubmat=" + isSubmatrix() +
-                   ", nativeObj=0x" + Long.toHexString(ptr) +
-                   ", dataAddr=0x" + Long.toHexString(dataAddr()) +
+                   Rows() + "*" + Cols() + "*" + CvType.TypeToString(Type()) +
+                   ", isCont=" + IsContinuous() + ", isSubmat=" + IsSubmatrix() +
+                   ", nativeObj=0x" + Convert.ToString(ptr.ToInt64(), 16) +
+                   ", dataAddr=0x" + Convert.ToString(DataAddr().ToInt64(), 16) +
                    " ]";
         }
 
@@ -802,12 +714,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Put(int row, int col, params double[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
             return nPutD(ptr, row, col, data.Length, data);
         }
 
@@ -815,13 +725,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Put(int row, int col, float[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_32F)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_32F)
             {
                 return nPutF(ptr, row, col, data.Length, data);
             }
@@ -832,13 +740,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Put(int row, int col, int[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_32S)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_32S)
             {
                 return nPutI(ptr, row, col, data.Length, data);
             }
@@ -849,13 +755,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Put(int row, int col, short[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_16U || CvType.depth(t) == CvType.CV_16S)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_16U || CvType.Depth(t) == CvType.CV_16S)
             {
                 return nPutS(ptr, row, col, data.Length, data);
             }
@@ -866,13 +770,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Put(int row, int col, byte[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_8U || CvType.depth(t) == CvType.CV_8S)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_8U || CvType.Depth(t) == CvType.CV_8S)
             {
                 return nPutB(ptr, row, col, data.Length, data);
             }
@@ -883,13 +785,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Get(int row, int col, byte[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_8U || CvType.depth(t) == CvType.CV_8S)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_8U || CvType.Depth(t) == CvType.CV_8S)
             {
                 return nGetB(ptr, row, col, data.Length, data);
             }
@@ -900,13 +800,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Get(int row, int col, short[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_16U || CvType.depth(t) == CvType.CV_16S)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_16U || CvType.Depth(t) == CvType.CV_16S)
             {
                 return nGetS(ptr, row, col, data.Length, data);
             }
@@ -917,13 +815,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Get(int row, int col, int[] data)
         {
             int t = Type();
-            if (data == null || data.length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_32S)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_32S)
             {
                 return nGetI(ptr, row, col, data.Length, data);
             }
@@ -934,13 +830,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Get(int row, int col, float[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_32F)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})", 
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_32F)
             {
                 return nGetF(ptr, row, col, data.Length, data);
             }
@@ -951,13 +845,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Get(int row, int col, double[] data)
         {
             int t = Type();
-            if (data == null || data.Length % CvType.channels(t) != 0)
+            if (data == null || data.Length % CvType.Channels(t) != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number (" +
-                    (data == null ? 0 : data.Length) +
-                    ") should be multiple of the Mat channels count (" +
-                    CvType.channels(t) + ")");
-            if (CvType.depth(t) == CvType.CV_64F)
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    (data == null ? 0 : data.Length), CvType.Channels(t));
+            if (CvType.Depth(t) == CvType.CV_64F)
             {
                 return nGetD(ptr, row, col, data.Length, data);
             }
@@ -965,7 +857,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         }
 
         // javadoc:Mat::get(row,col)
-        public double[] get(int row, int col)
+        public double[] Get(int row, int col)
         {
             return nGet(ptr, row, col);
         }
@@ -979,7 +871,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc:Mat::width()
         public int Width()
         {
-            return cols();
+            return Cols();
         }
 
         // C++: Mat::Mat()
@@ -1003,15 +895,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern IntPtr n_Mat(IntPtr m_nativeObj, int rowRange_start, int rowRange_end, int colRange_start,
                                          int colRange_end);
 
-        private static extern IntPtr n_Mat(IntPtr IntPtrIntPtr, int rowRange_start, int rowRange_end);
+        private static extern IntPtr n_Mat(IntPtr m_nativeObj, int rowRange_start, int rowRange_end);
 
         // C++: Mat Mat::adjustROI(int dtop, int dbottom, int dleft, int dright)
         private static extern IntPtr n_adjustROI(IntPtr nativeObj, int dtop, int dbottom, int dleft, int dright);
 
         // C++: void Mat::assignTo(Mat m, int type = -1)
-        private static extern void n_assignTo(IntPtr nativeObj, long m_nativeObj, int type);
+        private static extern void n_assignTo(IntPtr nativeObj, IntPtr m_nativeObj, int type);
 
-        private static extern void n_assignTo(IntPtr nativeObj, long m_nativeObj);
+        private static extern void n_assignTo(IntPtr nativeObj, IntPtr m_nativeObj);
 
         // C++: int Mat::channels()
         private static extern int n_channels(IntPtr nativeObj);
@@ -1025,13 +917,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern int n_checkVector(IntPtr nativeObj, int elemChannels);
 
         // C++: Mat Mat::clone()
-        private static extern long n_clone(IntPtr nativeObj);
+        private static extern IntPtr n_clone(IntPtr nativeObj);
 
         // C++: Mat Mat::col(int x)
-        private static extern long n_col(IntPtr nativeObj, int x);
+        private static extern IntPtr n_col(IntPtr nativeObj, int x);
 
         // C++: Mat Mat::colRange(int startcol, int endcol)
-        private static extern long n_colRange(IntPtr nativeObj, int startcol, int endcol);
+        private static extern IntPtr n_colRange(IntPtr nativeObj, int startcol, int endcol);
 
         // C++: int Mat::dims()
         private static extern int n_dims(IntPtr nativeObj);
@@ -1043,7 +935,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // = 0)
         private static extern void n_convertTo(IntPtr nativeObj, IntPtr m_nativeObj, int rtype, double alpha, double beta);
 
-        private static extern void n_convertTo(long nativeObj, IntPtr m_nativeObj, int rtype, double alpha);
+        private static extern void n_convertTo(IntPtr nativeObj, IntPtr m_nativeObj, int rtype, double alpha);
 
         private static extern void n_convertTo(IntPtr nativeObj, IntPtr m_nativeObj, int rtype);
 
@@ -1051,7 +943,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern void n_copyTo(IntPtr nativeObj, IntPtr m_nativeObj);
 
         // C++: void Mat::copyTo(Mat& m, Mat mask)
-        private static extern void n_copyTo(IntPtr nativeObj, long m_nativeObj, IntPtr mask_nativeObj);
+        private static extern void n_copyTo(IntPtr nativeObj, IntPtr m_nativeObj, IntPtr mask_nativeObj);
 
         // C++: void Mat::create(int rows, int cols, int type)
         private static extern void n_create(IntPtr nativeObj, int rows, int cols, int type);
@@ -1060,22 +952,22 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern void n_create(IntPtr nativeObj, double size_width, double size_height, int type);
 
         // C++: Mat Mat::cross(Mat m)
-        private static extern long n_cross(IntPtr nativeObj, IntPtr m_nativeObj);
+        private static extern IntPtr n_cross(IntPtr nativeObj, IntPtr m_nativeObj);
 
         // C++: long Mat::dataAddr()
-        private static extern long n_dataAddr(IntPtr nativeObj);
+        private static extern IntPtr n_dataAddr(IntPtr nativeObj);
 
         // C++: int Mat::depth()
         private static extern int n_depth(IntPtr nativeObj);
 
         // C++: Mat Mat::diag(int d = 0)
-        private static extern long n_diag(IntPtr nativeObj, int d);
+        private static extern IntPtr n_diag(IntPtr nativeObj, int d);
 
         // C++: static Mat Mat::diag(Mat d)
-        private static extern long n_diag(long d_nativeObj);
+        private static extern IntPtr n_diag(IntPtr d_nativeObj);
 
         // C++: double Mat::dot(Mat m)
-        private static extern double n_dot(IntPtr nativeObj, long m_nativeObj);
+        private static extern double n_dot(IntPtr nativeObj, IntPtr m_nativeObj);
 
         // C++: size_t Mat::elemSize()
         private static extern long n_elemSize(IntPtr nativeObj);
@@ -1093,9 +985,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern IntPtr n_eye(double size_width, double size_height, int type);
 
         // C++: Mat Mat::inv(int method = DECOMP_LU)
-        private static extern long n_inv(IntPtr nativeObj, int method);
+        private static extern IntPtr n_inv(IntPtr nativeObj, int method);
 
-        private static extern long n_inv(IntPtr nativeObj);
+        private static extern IntPtr n_inv(IntPtr nativeObj);
 
         // C++: bool Mat::isContinuous()
         private static extern bool n_isContinuous(IntPtr nativeObj);
@@ -1107,9 +999,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern void locateROI_0(IntPtr nativeObj, double[] wholeSize_out, double[] ofs_out);
 
         // C++: Mat Mat::mul(Mat m, double scale = 1)
-        private static extern long n_mul(IntPtr nativeObj, IntPtr m_nativeObj, double scale);
+        private static extern IntPtr n_mul(IntPtr nativeObj, IntPtr m_nativeObj, double scale);
 
-        private static extern long n_mul(IntPtr nativeObj, IntPtr m_nativeObj);
+        private static extern IntPtr n_mul(IntPtr nativeObj, IntPtr m_nativeObj);
 
         // C++: static Mat Mat::ones(int rows, int cols, int type)
         private static extern IntPtr n_ones(int rows, int cols, int type);
@@ -1118,15 +1010,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern IntPtr n_ones(double size_width, double size_height, int type);
 
         // C++: void Mat::push_back(Mat m)
-        private static extern void n_push_back(IntPtr nativeObj, long m_nativeObj);
+        private static extern void n_push_back(IntPtr nativeObj, IntPtr m_nativeObj);
 
         // C++: void Mat::release()
         private static extern void n_release(IntPtr nativeObj);
 
         // C++: Mat Mat::reshape(int cn, int rows = 0)
-        private static extern long n_reshape(IntPtr nativeObj, int cn, int rows);
+        private static extern IntPtr n_reshape(IntPtr nativeObj, int cn, int rows);
 
-        private static extern long n_reshape(IntPtr nativeObj, int cn);
+        private static extern IntPtr n_reshape(IntPtr nativeObj, int cn);
 
         // C++: Mat Mat::row(int y)
         private static extern IntPtr n_row(IntPtr nativeObj, int y);
@@ -1135,7 +1027,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern IntPtr n_rowRange(IntPtr nativeObj, int startrow, int endrow);
 
         // C++: int Mat::rows()
-        private static extern IntPtr n_rows(IntPtr nativeObj);
+        private static extern int n_rows(IntPtr nativeObj);
 
         // C++: Mat Mat::operator =(Scalar s)
         private static extern IntPtr n_setTo(IntPtr nativeObj, double s_val0, double s_val1, double s_val2, double s_val3);
@@ -1145,9 +1037,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                                            IntPtr mask_nativeObj);
 
         // C++: Mat Mat::setTo(Mat value, Mat mask = Mat())
-        private static extern long n_setTo(IntPtr nativeObj, long value_nativeObj, long mask_nativeObj);
+        private static extern IntPtr n_setTo(IntPtr nativeObj, IntPtr value_nativeObj, IntPtr mask_nativeObj);
 
-        private static extern long n_setTo(IntPtr nativeObj, long value_nativeObj);
+        private static extern IntPtr n_setTo(IntPtr nativeObj, IntPtr value_nativeObj);
 
         // C++: Size Mat::size()
         private static extern double[] n_size(IntPtr nativeObj);
@@ -1158,14 +1050,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private static extern long n_step1(IntPtr nativeObj);
 
         // C++: Mat Mat::operator()(Range rowRange, Range colRange)
-        private static extern long n_submat_rr(IntPtr nativeObj, int rowRange_start, int rowRange_end, int colRange_start,
+        private static extern IntPtr n_submat_rr(IntPtr nativeObj, int rowRange_start, int rowRange_end, int colRange_start,
                                                int colRange_end);
 
         // C++: Mat Mat::operator()(Rect roi)
-        private static extern long n_submat(IntPtr nativeObj, int roi_x, int roi_y, int roi_width, int roi_height);
+        private static extern IntPtr n_submat(IntPtr nativeObj, int roi_x, int roi_y, int roi_width, int roi_height);
 
         // C++: Mat Mat::t()
-        private static extern long n_t(IntPtr nativeObj);
+        private static extern IntPtr n_t(IntPtr nativeObj);
 
         // C++: size_t Mat::total()
         private static extern long n_total(IntPtr nativeObj);
