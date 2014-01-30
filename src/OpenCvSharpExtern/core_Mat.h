@@ -95,6 +95,11 @@ CVAPI(cv::Mat*) core_Mat_col(cv::Mat *obj, int x)
 	cv::Mat ret = obj->col(x);
 	return new cv::Mat(ret);
 }
+
+CVAPI(int) core_Mat_cols(cv::Mat *obj)
+{
+	return obj->cols;
+}
 #pragma endregion
 
 #endif

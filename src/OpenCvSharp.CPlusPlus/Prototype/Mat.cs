@@ -332,7 +332,31 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
         #endregion
-        
+        #region Cols
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int Cols
+        {
+            get
+            {
+                if (cols == int.MinValue)
+                {
+                    try
+                    {
+                        cols = CppInvoke.core_Mat_cols(ptr);
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+                return cols;
+            }
+        }
+        private int cols = int.MinValue;
+        #endregion
         /// <summary>
         /// 
         /// </summary>
@@ -360,14 +384,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             throw new NotImplementedException();
             //int retVal = n_dims(ptr);
-            //return retVal;
-        }
-
-        // javadoc: Mat::cols()
-        public int Cols()
-        {
-            throw new NotImplementedException();
-            //int retVal = n_cols(ptr);
             //return retVal;
         }
 
@@ -971,9 +987,23 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        public int Width()
+        public int Width
         {
-            return Cols();
+            get
+            {
+                if (cols == int.MinValue)
+                {
+                    try
+                    {
+                        cols = CppInvoke.core_Mat_cols(ptr);
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+                return cols;
+            }
         }
         #endregion
         /*
