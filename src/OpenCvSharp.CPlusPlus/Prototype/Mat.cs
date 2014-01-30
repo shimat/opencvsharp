@@ -589,9 +589,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         // javadoc: Mat::setTo(value)
         public Mat SetTo(Mat value)
         {
-
             Mat retVal = new Mat(n_setTo(ptr, value.ptr));
-
             return retVal;
         }
 
