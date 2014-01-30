@@ -37,44 +37,46 @@ namespace OpenCvSharp.Utilities
             {
                 DllImportError(e);
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
         }
 
         /// <summary>
         /// DllImportの際にDllNotFoundExceptionかBadImageFormatExceptionが発生した際に呼び出されるメソッド。
         /// エラーメッセージを表示して解決策をユーザに示す。
         /// </summary>
-        /// <param name="e"></param>
-        public static void DllImportError(Exception e)
+        /// <param name="ex"></param>
+        public static void DllImportError(Exception ex)
         {
-            string nl = Environment.NewLine;
+            throw CreateException(ex);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ex"></param>
+        public static OpenCvSharpException CreateException(Exception ex)
+        {
+            StringBuilder message = new StringBuilder();
             if (System.Globalization.CultureInfo.CurrentCulture.Name.Contains("ja"))
             {
-                MessageBox.Show(
-                    "P/Invokeが原因で例外が発生しました。" + nl + "以下の項目を確認して下さい。" + nl + nl +
-                    "1. OpenCVのDLLが実行ファイルと同じ場所に置かれていますか? またはパスが正しく通っていますか?" + nl +
-                    "2. Visual C++ Redistributable Packageをインストールしましたか?" + nl +
-                    "3. OpenCVのDLLやOpenCvSharpの対象プラットフォーム(x86またはx64)と、プロジェクトのプラットフォーム設定が合っていますか?" + nl + nl +
-                    e.ToString(),
-                    "OpenCvSharp Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error
-                );
+                message.Append("*** P/Invokeが原因で例外が発生しました。***\n")
+                    .Append("以下の項目を確認して下さい。\n")
+                    .Append("(1) OpenCVのDLLが実行ファイルと同じ場所に置かれていますか? またはパスが正しく通っていますか?\n")
+                    .Append("(2) Visual C++ Redistributable Packageをインストールしましたか?\n")
+                    .Append("(3) OpenCVのDLLやOpenCvSharpの対象プラットフォーム(x86またはx64)と、プロジェクトのプラットフォーム設定が合っていますか?\n")
+                    .Append("\n")
+                    .Append(ex.ToString());
             }
             else
             {
-                MessageBox.Show(
-                    "An exception has occurred because of P/Invoke." + nl + "Please check the following:" + nl + nl +
-                    "1. OpenCV's DLL files exist in the same directory as the executable file." + nl +
-                    "2. Visual C++ Redistributable Package has been installed." + nl +
-                    "3. The target platform(x86/x64) of OpenCV's DLL files and OpenCvSharp is the same as your project's." + nl + nl +
-                    e.ToString(),
-                    "OpenCvSharp Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error
-                );
+                message.Append("*** An exception has occurred because of P/Invoke. ***\n")
+                    .Append("Please check the following:\n")
+                    .Append("(1) OpenCV's DLL files exist in the same directory as the executable file.\n")
+                    .Append("(2) Visual C++ Redistributable Package has been installed.\n")
+                    .Append("(3) The target platform(x86/x64) of OpenCV's DLL files and OpenCvSharp is the same as your project's.\n")
+                    .Append("\n")
+                    .Append(ex.ToString());
             }
+            return new OpenCvSharpException(message.ToString(), ex);
         }
     }
 }

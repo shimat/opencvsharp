@@ -67,19 +67,19 @@ namespace OpenCvSharp
         /// <summary>
         /// 初期化
         /// </summary>
-        /// <param name="start_index"></param>
-        /// <param name="end_index"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="endIndex"></param>
 #else
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="start_index"></param>
-        /// <param name="end_index"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="endIndex"></param>
 #endif
-        public CvSlice(int start_index, int end_index)
+        public CvSlice(int startIndex, int endIndex)
         {
-            this.StartIndex = start_index;
-            this.EndIndex = end_index;
+            this.StartIndex = startIndex;
+            this.EndIndex = endIndex;
         }
 
         #region Methods

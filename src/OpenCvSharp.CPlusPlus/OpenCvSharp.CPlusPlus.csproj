@@ -159,6 +159,8 @@
     <Compile Include="Flann\IndexParams\SavedIndexParams.cs" />
     <Compile Include="Flann\IndexParams\SearchParams.cs" />
     <Compile Include="Flann\IndexParams\SearchParams_old.cs" />
+    <Compile Include="Prototype\CppInvoke.cs" />
+    <Compile Include="Prototype\CvCpp.cs" />
     <Compile Include="Prototype\CvType.cs" />
     <Compile Include="Prototype\Mat.cs" />
     <Compile Include="Prototype\Point.cs" />
@@ -188,6 +190,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="OpenCvSharpExtern.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>

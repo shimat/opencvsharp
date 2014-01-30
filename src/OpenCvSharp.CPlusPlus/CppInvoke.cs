@@ -12,9 +12,6 @@ using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.Utilities;
 
-using CvLabel = System.UInt32;
-using CvID = System.UInt32;
-
 #pragma warning disable 1591
 
 namespace OpenCvSharp.CPlusPlus
