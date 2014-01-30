@@ -240,8 +240,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public int CheckVector(int elemChannels)
         {
-            int retVal = CppInvoke.core_Mat_checkVector(ptr, elemChannels);
-            return retVal;
+            try
+            {
+                int retVal = CppInvoke.core_Mat_checkVector(ptr, elemChannels);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
         /// <summary>
         /// 
@@ -251,8 +258,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public int CheckVector(int elemChannels, int depth)
         {
-            int retVal = CppInvoke.core_Mat_checkVector(ptr, elemChannels, depth);
-            return retVal;
+            try
+            {
+                int retVal = CppInvoke.core_Mat_checkVector(ptr, elemChannels, depth);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
         /// <summary>
         /// 
@@ -263,9 +277,16 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public int CheckVector(int elemChannels, int depth, bool requireContinuous)
         {
-            int retVal = CppInvoke.core_Mat_checkVector(
-                ptr, elemChannels, depth, requireContinuous ? 1 : 0);
-            return retVal;
+            try
+            {
+                int retVal = CppInvoke.core_Mat_checkVector(
+                    ptr, elemChannels, depth, requireContinuous ? 1 : 0);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
         #endregion
         #region Clone
@@ -275,33 +296,58 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Mat Clone()
         {
-            IntPtr retPtr = CppInvoke.core_Mat_clone(ptr);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_clone(ptr);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
         object ICloneable.Clone()
         {
             return Clone();
         }
         #endregion
-
-        // javadoc: Mat::col(x)
+        #region Col
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public Mat Col(int x)
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_col(ptr, x));
-            //return retVal;
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_col(ptr, x);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::colRange(startcol, endcol)
+        #endregion
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startcol"></param>
+        /// <param name="endcol"></param>
+        /// <returns></returns>
         public Mat ColRange(int startcol, int endcol)
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_colRange(ptr, startcol, endcol));
-            //return retVal;
+            return ColRange(new Range(startcol, endcol));
         }
-
-        // javadoc: Mat::colRange(r)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
         public Mat ColRange(Range r)
         {
             throw new NotImplementedException();
@@ -912,13 +958,19 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return nGet(ptr, row, col);
         }
 
-        // javadoc:Mat::height()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Height()
         {
             return Rows();
         }
 
-        // javadoc:Mat::width()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Width()
         {
             return Cols();

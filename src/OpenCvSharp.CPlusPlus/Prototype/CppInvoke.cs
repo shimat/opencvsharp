@@ -109,6 +109,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern int core_Mat_checkVector(IntPtr obj, int elemChannels, int depth, int requireContinuous);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_clone(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_col(IntPtr obj, int x);
         #endregion
 
         #region cv
