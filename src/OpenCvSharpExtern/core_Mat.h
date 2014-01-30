@@ -89,6 +89,12 @@ CVAPI(cv::Mat*) core_Mat_clone(cv::Mat *obj)
 	cv::Mat ret = obj->clone();
 	return new cv::Mat(ret);
 }
+
+CVAPI(cv::Mat*) core_Mat_col(cv::Mat *obj, int x)
+{
+	cv::Mat ret = obj->col(x);
+	return new cv::Mat(ret);
+}
 #pragma endregion
 
 #endif
