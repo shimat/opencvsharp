@@ -181,7 +181,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="map">親マップ．nullの場合，この関数はトップレベルノードを探す．もしmapとkeyの両方がnullの場合には， この関数はトップレベルノードを持つマップであるルートファイルノードを返す．</param>
         /// <param name="key">cvGetHashedKeyで取得されるノード名ヘの唯一のポインタ</param>
-        /// <param name="create_missing">absent keyをハッシュテーブルに追加するかどうかを指定するフラグ</param>
+        /// <param name="createMissing">absent keyをハッシュテーブルに追加するかどうかを指定するフラグ</param>
         /// <returns>与えたmap,keyに対するファイルノード</returns>
 #else
         /// <summary>
@@ -238,7 +238,7 @@ namespace OpenCvSharp
         /// <summary>
         /// トップレベルファイルノードの一つを返す．
         /// </summary>
-        /// <param name="stream_index">0から始まるストリームのインデックス．多くの場合，ファイル中に存在するのは一つのストームであるが，複数にもなり得る．</param>
+        /// <param name="streamIndex">0から始まるストリームのインデックス．多くの場合，ファイル中に存在するのは一つのストームであるが，複数にもなり得る．</param>
         /// <returns>トップレベルファイルノードの一つ</returns>
 #else
         /// <summary>
@@ -275,7 +275,7 @@ namespace OpenCvSharp
         /// 与えた名前に対するユニークなポインタを返す 
         /// </summary>
         /// <param name="name">ファイルノード名</param>
-        /// <param name="create_missing">absent keyをハッシュテーブルに追加するかどうかを指定するフラグ</param>
+        /// <param name="createMissing">absent keyをハッシュテーブルに追加するかどうかを指定するフラグ</param>
         /// <returns>与えた名前に対するユニークなポインタ</returns>
 #else
         /// <summary>
@@ -363,7 +363,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="map">親マップ．nullの場合，この関数はトップレベルノードを探索する.</param>
         /// <param name="name">ノード名</param>
-        /// <param name="default_value">ファイルノードが見つからない場合の戻り値</param>
+        /// <param name="defaultValue">ファイルノードが見つからない場合の戻り値</param>
         /// <returns>ファイルノードで表現された整数値</returns>
 #else
         /// <summary>
@@ -457,7 +457,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="map">親マップ．nullの場合，この関数はトップレベルノードを探索する.</param>
         /// <param name="name">ノード名</param>
-        /// <param name="default_value">ファイルノードが見つからない場合の戻り値</param>
+        /// <param name="defaultValue">ファイルノードが見つからない場合の戻り値</param>
         /// <returns>ファイルノードで表現された浮動小数点型の値</returns>
 #else
         /// <summary>
@@ -501,7 +501,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="map">親マップ．nullの場合，この関数はトップレベルノードを探索する.</param>
         /// <param name="name">ノード名</param>
-        /// <param name="default_value">ファイルノードが見つからない場合の戻り値</param>
+        /// <param name="defaultValue">ファイルノードが見つからない場合の戻り値</param>
         /// <returns>ファイルノードで表現された文字列</returns>
 #else
         /// <summary>
@@ -557,7 +557,7 @@ namespace OpenCvSharp
         /// 新しい構造体の書き込みを開始する
         /// </summary>
         /// <param name="name">書き込む構造体の名前．読み込む場合は，この名前で構造体にアクセスできる．</param>
-        /// <param name="struct_flags">Seq, Map, Flowのフラグの組み合わせ. SeqとMapはどちらか1つを指定しなければならない.</param>
+        /// <param name="structFlags">Seq, Map, Flowのフラグの組み合わせ. SeqとMapはどちらか1つを指定しなければならない.</param>
 #else
         /// <summary>
         /// Starts writing a new structure
@@ -574,8 +574,8 @@ namespace OpenCvSharp
         /// 新しい構造体の書き込みを開始する
         /// </summary>
         /// <param name="name">書き込む構造体の名前．読み込む場合は，この名前で構造体にアクセスできる．</param>
-        /// <param name="struct_flags">Seq, Map, Flowのフラグの組み合わせ. SeqとMapはどちらか1つを指定しなければならない.</param>
-        /// <param name="type_name">オプションパラメータ - オブジェクトの型の名前． 
+        /// <param name="structFlags">Seq, Map, Flowのフラグの組み合わせ. SeqとMapはどちらか1つを指定しなければならない.</param>
+        /// <param name="typeName">オプションパラメータ - オブジェクトの型の名前． 
         /// XMLの場合，構造体開始タグのtype_id属性として書かれる． YAMLの場合，構造体名に続くコロンの後に書かれる． 
         /// 主にユーザオブジェクトと共に使われる．ストレージが読まれたとき，エンコードされた型名がオブジェクトの型を決定する.</param>
 #else
@@ -600,7 +600,7 @@ namespace OpenCvSharp
         /// オブジェクトをファイルストレージに書き込む.
         /// </summary>
         /// <param name="name">書き込まれるオブジェクトの名前．親の構造体がシーケンスの場合は，nullにしなければならない．</param>
-        /// <param name="ptr">オブジェクトへの参照</param>
+        /// <param name="arr">オブジェクトへの参照</param>
 #else
         /// <summary>
         /// Writes user object
@@ -617,7 +617,7 @@ namespace OpenCvSharp
         /// オブジェクトをファイルストレージに書き込む.
         /// </summary>
         /// <param name="name">書き込まれるオブジェクトの名前．親の構造体がシーケンスの場合は，nullにしなければならない．</param>
-        /// <param name="ptr">オブジェクトへの参照.</param>
+        /// <param name="arr">オブジェクトへの参照.</param>
         /// <param name="attributes">オブジェクトの属性．これは特定の型に対して固有である.</param>
 #else
         /// <summary>
@@ -655,7 +655,7 @@ namespace OpenCvSharp
         /// このコメントはデバッグや説明を記述するために使われるもので，読み込み時には読み飛ばされる．
         /// </summary>
         /// <param name="comment">一行または複数行の，書き込まれるコメ文字列</param>
-        /// <param name="eol_comment">trueの場合，この関数は現在の行の最後にコメントを入れようと試みる．
+        /// <param name="eolComment">trueの場合，この関数は現在の行の最後にコメントを入れようと試みる．
         /// falseで，コメントが複数，または現在の行の最後に納まらない場合は，コメントは新しい行から始められる．</param>
 #else
         /// <summary>
@@ -675,7 +675,7 @@ namespace OpenCvSharp
         /// <summary>
         /// ファイルノードを他のファイルストレージに書き込む
         /// </summary>
-        /// <param name="new_node_name">書き込み先ファイルストレージ内のファイルノードの新しい名前．元の名前を維持するためには，cvGetFileNodeName(node)を用いる．</param>
+        /// <param name="newNodeName">書き込み先ファイルストレージ内のファイルノードの新しい名前．元の名前を維持するためには，cvGetFileNodeName(node)を用いる．</param>
         /// <param name="node">書き込まれるノード．</param>
         /// <param name="embed">書き込まれるノードがコレクションで，このパラメータがtrueの場合，階層の余分なレベルは生成されない．
         /// その代わりに，nodeの全ての要素は現在書き込まれている構造体に書き込まれる．

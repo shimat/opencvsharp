@@ -557,7 +557,7 @@ namespace OpenCvSharp
         /// バックプロジェクションの計算を行う
         /// </summary>
         /// <param name="image">入力画像群</param>
-        /// <param name="back_project">出力のバックプロジェクション画像．入力画像群と同じタイプ．</param>
+        /// <param name="backProject">出力のバックプロジェクション画像．入力画像群と同じタイプ．</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -576,7 +576,7 @@ namespace OpenCvSharp
         /// バックプロジェクションの計算を行う
         /// </summary>
         /// <param name="image">入力画像群</param>
-        /// <param name="back_project">出力のバックプロジェクション画像．入力画像群と同じタイプ．</param>
+        /// <param name="backProject">出力のバックプロジェクション画像．入力画像群と同じタイプ．</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -598,7 +598,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <returns></returns>
 #else
@@ -621,7 +621,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <param name="factor">ヒストグラムの正規化係数．出力画像の正規化スケールに影響する．値に確信がない場合は，１にする．</param>
         /// <returns></returns>
@@ -646,7 +646,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <returns></returns>
 #else
@@ -669,7 +669,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <param name="factor">ヒストグラムの正規化係数．出力画像の正規化スケールに影響する．値に確信がない場合は，１にする．</param>
         /// <returns></returns>
@@ -715,7 +715,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="hist1">一番目のヒストグラム（除数）</param>
         /// <param name="hist2">二番目のヒストグラム</param>
-        /// <param name="dst_hist">出力ヒストグラム</param>
+        /// <param name="dstHist">出力ヒストグラム</param>
 #else
         /// <summary>
         /// Divides one histogram by another.
@@ -734,7 +734,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="hist1">一番目のヒストグラム（除数）</param>
         /// <param name="hist2">二番目のヒストグラム</param>
-        /// <param name="dst_hist">出力ヒストグラム</param>
+        /// <param name="dstHist">出力ヒストグラム</param>
         /// <param name="scale">出力ヒストグラムのスケール係数</param>
 #else
         /// <summary>
@@ -900,8 +900,8 @@ namespace OpenCvSharp
         /// ヒストグラムのビンの最小値/最大値を求める (cvGetMinMaxHistValue相当)． 
         /// 同じ値の最大値や最小値が複数存在する場合，辞書順に並べたときに最も先頭になるインデックスが返される． 
         /// </summary>
-        /// <param name="min_value">ヒストグラムの最小値の出力</param>
-        /// <param name="max_value">ヒストグラムの最大値の出力</param>
+        /// <param name="minValue">ヒストグラムの最小値の出力</param>
+        /// <param name="maxValue">ヒストグラムの最大値の出力</param>
 #else
         /// <summary>
         /// Finds minimum and maximum histogram bins.
@@ -918,10 +918,10 @@ namespace OpenCvSharp
         /// ヒストグラムのビンの最小値/最大値とそれらの場所を求める (cvGetMinMaxHistValue相当)． 
         /// 同じ値の最大値や最小値が複数存在する場合，辞書順に並べたときに最も先頭になるインデックスが返される． 
         /// </summary>
-        /// <param name="min_value">ヒストグラムの最小値の出力</param>
-        /// <param name="max_value">ヒストグラムの最大値の出力</param>
-        /// <param name="min_idx">最小値の配列中のインデックスの出力</param>
-        /// <param name="max_idx">最大値の配列中のインデックスの出力</param>
+        /// <param name="minValue">ヒストグラムの最小値の出力</param>
+        /// <param name="maxValue">ヒストグラムの最大値の出力</param>
+        /// <param name="minIdx">最小値の配列中のインデックスの出力</param>
+        /// <param name="maxIdx">最大値の配列中のインデックスの出力</param>
 #else
         /// <summary>
         /// Finds minimum and maximum histogram bins.

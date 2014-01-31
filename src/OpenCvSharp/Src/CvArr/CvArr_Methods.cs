@@ -5377,7 +5377,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="dst">出力画像</param>
         /// <param name="center">出力精度が最大となるような変換の中心座標</param>
-        /// <param name="M">スケーリング係数の大きさ</param>
+        /// <param name="m">スケーリング係数の大きさ</param>
 #else
         /// <summary>
         /// Remaps image to log-polar space.
@@ -5399,7 +5399,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="dst">出力画像</param>
         /// <param name="center">出力精度が最大となるような変換の中心座標</param>
-        /// <param name="M">スケーリング係数の大きさ</param>
+        /// <param name="m">スケーリング係数の大きさ</param>
         /// <param name="flags">補間方法</param>
 #else
         /// <summary>
@@ -8610,7 +8610,7 @@ namespace OpenCvSharp
         /// 浮動小数点型の実数行列の特異値分解を行う.
         /// 行列Aを二つの直交行列と一つの対角行列の積に分解する．A=U*W*VT
         /// </summary>
-        /// <param name="W">特異値行列の結果 (M×N または N×N)またはベクトル（N×1）．</param>
+        /// <param name="w">特異値行列の結果 (M×N または N×N)またはベクトル（N×1）．</param>
 #else
         /// <summary>
         /// Performs singular value decomposition of real floating-point matrix
@@ -8626,8 +8626,8 @@ namespace OpenCvSharp
         /// 浮動小数点型の実数行列の特異値分解を行う.
         /// 行列Aを二つの直交行列と一つの対角行列の積に分解する．A=U*W*VT
         /// </summary>
-        /// <param name="W">特異値行列の結果 (M×N または N×N)またはベクトル（N×1）．</param>
-        /// <param name="U">任意の左直交行列 (M×M または M×N)．もしCV_SVD_U_Tが指定された場合，上で述べた，行と列の数は入れ替わる．</param>
+        /// <param name="w">特異値行列の結果 (M×N または N×N)またはベクトル（N×1）．</param>
+        /// <param name="u">任意の左直交行列 (M×M または M×N)．もしCV_SVD_U_Tが指定された場合，上で述べた，行と列の数は入れ替わる．</param>
 #else
         /// <summary>
         /// Performs singular value decomposition of real floating-point matrix
@@ -8644,9 +8644,9 @@ namespace OpenCvSharp
         /// 浮動小数点型の実数行列の特異値分解を行う.
         /// 行列Aを二つの直交行列と一つの対角行列の積に分解する．A=U*W*VT
         /// </summary>
-        /// <param name="W">特異値行列の結果 (M×N または N×N)またはベクトル（N×1）．</param>
-        /// <param name="U">任意の左直交行列 (M×M または M×N)．もしCV_SVD_U_Tが指定された場合，上で述べた，行と列の数は入れ替わる．</param>
-        /// <param name="V">任意の右直交行列（N×N)．</param>
+        /// <param name="w">特異値行列の結果 (M×N または N×N)またはベクトル（N×1）．</param>
+        /// <param name="u">任意の左直交行列 (M×M または M×N)．もしCV_SVD_U_Tが指定された場合，上で述べた，行と列の数は入れ替わる．</param>
+        /// <param name="v">任意の右直交行列（N×N)．</param>
 #else
         /// <summary>
         /// Performs singular value decomposition of real floating-point matrix
@@ -8664,9 +8664,9 @@ namespace OpenCvSharp
         /// 浮動小数点型の実数行列の特異値分解を行う.
         /// 行列Aを二つの直交行列と一つの対角行列の積に分解する．A=U*W*VT
         /// </summary>
-        /// <param name="W">特異値行列の結果 (M×N または N×N)またはベクトル（N×1）．</param>
-        /// <param name="U">任意の左直交行列 (M×M または M×N)．もしCV_SVD_U_Tが指定された場合，上で述べた，行と列の数は入れ替わる．</param>
-        /// <param name="V">任意の右直交行列（N×N)．</param>
+        /// <param name="w">特異値行列の結果 (M×N または N×N)またはベクトル（N×1）．</param>
+        /// <param name="u">任意の左直交行列 (M×M または M×N)．もしCV_SVD_U_Tが指定された場合，上で述べた，行と列の数は入れ替わる．</param>
+        /// <param name="v">任意の右直交行列（N×N)．</param>
         /// <param name="flags">操作フラグ</param>
 #else
         /// <summary>
@@ -8689,8 +8689,8 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="dst">出力配列．src と同じデータタイプ，または8ビット． </param>
         /// <param name="threshold">閾値</param>
-        /// <param name="max_value">threshold_type が Binary と BinaryInv のときに使用する最大値</param>
-        /// <param name="threshold_type">閾値処理の種類</param>
+        /// <param name="maxValue">threshold_type が Binary と BinaryInv のときに使用する最大値</param>
+        /// <param name="thresholdType">閾値処理の種類</param>
 #else
         /// <summary>
         /// Applies fixed-level threshold to array elements.
@@ -8760,8 +8760,8 @@ namespace OpenCvSharp
         /// 半径方向や円周方向のレンズ歪みを補正するために画像を変換する．
         /// </summary>
         /// <param name="dst">出力画像（補正済み）</param>
-        /// <param name="intrinsic_matrix">カメラ内部行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. </param>
-        /// <param name="distortion_coeffs">歪み係数ベクトル． 4x1 または 1x4 [k1, k2, p1, p2]. </param>
+        /// <param name="intrinsicMatrix">カメラ内部行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. </param>
+        /// <param name="distortionCoeffs">歪み係数ベクトル． 4x1 または 1x4 [k1, k2, p1, p2]. </param>
 #else
         /// <summary>
         /// Transforms image to compensate lens distortion.
@@ -8779,9 +8779,9 @@ namespace OpenCvSharp
         /// 半径方向や円周方向のレンズ歪みを補正するために画像を変換する．
         /// </summary>
         /// <param name="dst">出力画像（補正済み）</param>
-        /// <param name="intrinsic_matrix">カメラ内部行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. </param>
-        /// <param name="distortion_coeffs">歪み係数ベクトル． 4x1 または 1x4 [k1, k2, p1, p2]. </param>
-        /// <param name="new_camera_matrix"></param>
+        /// <param name="intrinsicMatrix">カメラ内部行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. </param>
+        /// <param name="distortionCoeffs">歪み係数ベクトル． 4x1 または 1x4 [k1, k2, p1, p2]. </param>
+        /// <param name="newCameraMatrix"></param>
 #else
         /// <summary>
         /// Transforms image to compensate lens distortion.
@@ -8844,7 +8844,7 @@ namespace OpenCvSharp
         /// 画像の透視変換を行う.
         /// </summary>
         /// <param name="dst">出力画像</param>
-        /// <param name="map_matrix">3×3 の変換行列</param>
+        /// <param name="mapMatrix">3×3 の変換行列</param>
 #else
         /// <summary>
         /// Applies perspective transformation to the image.
@@ -8861,7 +8861,7 @@ namespace OpenCvSharp
         /// 画像の透視変換を行う.
         /// </summary>
         /// <param name="dst">出力画像</param>
-        /// <param name="map_matrix">3×3 の変換行列</param>
+        /// <param name="mapMatrix">3×3 の変換行列</param>
         /// <param name="flags">補間方法</param>
 #else
         /// <summary>
@@ -8880,7 +8880,7 @@ namespace OpenCvSharp
         /// 画像の透視変換を行う.
         /// </summary>
         /// <param name="dst">出力画像</param>
-        /// <param name="map_matrix">3×3 の変換行列</param>
+        /// <param name="mapMatrix">3×3 の変換行列</param>
         /// <param name="flags">補間方法</param>
         /// <param name="fillval">対応の取れない点に対して与える値</param>
 #else

@@ -902,7 +902,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
         #endregion
-        // javadoc: Mat::mul(m, scale)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
         public Mat Mul(Mat m, double scale)
         {
             throw new NotImplementedException();
@@ -910,7 +915,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::mul(m)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         public Mat Mul(Mat m)
         {
             throw new NotImplementedException();
@@ -918,7 +927,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::ones(rows, cols, type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static Mat Ones(int rows, int cols, int type)
         {
             throw new NotImplementedException();
@@ -926,7 +941,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::ones(size, type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static Mat Ones(Size size, int type)
         {
             throw new NotImplementedException();
@@ -934,18 +954,22 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        //
-        // C++: void Mat::push_back(Mat m)
-        //
-
-        // javadoc: Mat::push_back(m)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
         public void PushBack(Mat m)
         {
             throw new NotImplementedException();
             //n_push_back(ptr, m.ptr);
         }
 
-        // javadoc: Mat::reshape(cn, rows)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cn"></param>
+        /// <param name="rows"></param>
+        /// <returns></returns>
         public Mat Reshape(int cn, int rows)
         {
             throw new NotImplementedException();
@@ -953,7 +977,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::reshape(cn)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cn"></param>
+        /// <returns></returns>
         public Mat Reshape(int cn)
         {
             throw new NotImplementedException();
@@ -961,7 +989,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::row(y)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public Mat Row(int y)
         {
             throw new NotImplementedException();
@@ -969,7 +1001,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::rowRange(startrow, endrow)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startrow"></param>
+        /// <param name="endrow"></param>
+        /// <returns></returns>
         public Mat RowRange(int startrow, int endrow)
         {
             throw new NotImplementedException();
@@ -977,7 +1014,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::rowRange(r)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
         public Mat RowRange(Range r)
         {
             throw new NotImplementedException();
@@ -985,7 +1026,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::rows()
+        /// <summary>
+        /// 
+        /// </summary>
         public int Rows
         {
             get
@@ -996,7 +1039,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
 
-        // javadoc: Mat::operator =(s)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public Mat SetTo(Scalar s)
         {
             throw new NotImplementedException();
@@ -1004,7 +1051,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::setTo(value, mask)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
         public Mat SetTo(Scalar value, Mat mask)
         {
             throw new NotImplementedException();
@@ -1012,7 +1064,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::setTo(value, mask)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
         public Mat SetTo(Mat value, Mat mask)
         {
             throw new NotImplementedException();
@@ -1020,7 +1077,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::setTo(value)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public Mat SetTo(Mat value)
         {
             throw new NotImplementedException();
@@ -1028,7 +1089,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::size()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Size Size()
         {
             throw new NotImplementedException();
@@ -1037,11 +1101,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        //
-        // C++: size_t Mat::step1(int i = 0)
-        //
-
-        // javadoc: Mat::step1(i)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public long Step1(int i)
         {
             throw new NotImplementedException();
@@ -1049,7 +1113,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::step1()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public long Step1()
         {
             throw new NotImplementedException();
@@ -1057,7 +1124,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::operator()(rowStart, rowEnd, colStart, colEnd)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rowStart"></param>
+        /// <param name="rowEnd"></param>
+        /// <param name="colStart"></param>
+        /// <param name="colEnd"></param>
+        /// <returns></returns>
         public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
         {
             throw new NotImplementedException();
@@ -1065,7 +1139,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::operator()(rowRange, colRange)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rowRange"></param>
+        /// <param name="colRange"></param>
+        /// <returns></returns>
         public Mat SubMat(Range rowRange, Range colRange)
         {
             throw new NotImplementedException();
@@ -1073,7 +1152,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::operator()(roi)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="roi"></param>
+        /// <returns></returns>
         public Mat SubMat(Rect roi)
         {
             throw new NotImplementedException();
@@ -1081,7 +1164,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::t()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Mat T()
         {
             throw new NotImplementedException();
@@ -1089,7 +1175,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::total()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public long Total()
         {
             throw new NotImplementedException();
@@ -1097,7 +1186,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::type()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Type()
         {
             throw new NotImplementedException();
@@ -1105,7 +1197,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::zeros(rows, cols, type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static Mat Zeros(int rows, int cols, int type)
         {
             throw new NotImplementedException();
@@ -1113,7 +1211,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc: Mat::zeros(size, type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static Mat Zeros(Size size, int type)
         {
             throw new NotImplementedException();
@@ -1121,7 +1224,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             //return retVal;
         }
 
-        // javadoc:Mat::ToString()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return "Mat [ " +
@@ -1132,14 +1238,23 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                    " ]";
         }
 
-        // javadoc:Mat::dump()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public String Dump()
         {
             throw new NotImplementedException();
             //return nDump(ptr);
         }
 
-        // javadoc:Mat::put(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Put(int row, int col, params double[] data)
         {
             throw new NotImplementedException();
@@ -1151,7 +1266,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             return nPutD(ptr, row, col, data.Length, data);*/
         }
 
-        // javadoc:Mat::put(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Put(int row, int col, float[] data)
         {
             throw new NotImplementedException();
@@ -1167,7 +1288,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::put(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Put(int row, int col, int[] data)
         {
             throw new NotImplementedException();
@@ -1183,7 +1310,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::put(row,col,data)
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Put(int row, int col, short[] data)
         {
             throw new NotImplementedException();
@@ -1199,7 +1332,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::put(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Put(int row, int col, byte[] data)
         {
             throw new NotImplementedException();
@@ -1215,7 +1354,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::get(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Get(int row, int col, byte[] data)
         {
             throw new NotImplementedException();
@@ -1231,7 +1376,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::get(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Get(int row, int col, short[] data)
         {
             throw new NotImplementedException();
@@ -1247,7 +1398,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::get(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Get(int row, int col, int[] data)
         {
             throw new NotImplementedException();
@@ -1263,7 +1420,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::get(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Get(int row, int col, float[] data)
         {
             throw new NotImplementedException();
@@ -1279,7 +1442,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::get(row,col,data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public int Get(int row, int col, double[] data)
         {
             throw new NotImplementedException();
@@ -1295,7 +1464,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
-        // javadoc:Mat::get(row,col)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
         public double[] Get(int row, int col)
         {
             throw new NotImplementedException();

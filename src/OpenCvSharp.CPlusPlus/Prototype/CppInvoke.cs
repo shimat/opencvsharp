@@ -140,9 +140,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern IntPtr core_Mat_dataend(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_depth(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_diag1")]
         public static extern IntPtr core_Mat_diag(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_diag2")]
         public static extern IntPtr core_Mat_diag(IntPtr obj, int d);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double core_Mat_dot(IntPtr obj, IntPtr m);
@@ -162,13 +162,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern int core_Mat_isContinuous(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_isSubmatrix(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_locateROI(IntPtr obj, out CvSize wholeSize, out CvPoint ofs);
         #endregion
 
         #region cv
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Canny(IntPtr image, IntPtr edges, double threshold1, double threshold2, [MarshalAs(UnmanagedType.I4)] ApertureSize apertureSize, [MarshalAs(UnmanagedType.Bool)] bool L2gradient);
+        public static extern void cv_Canny(IntPtr image, IntPtr edges, double threshold1, double threshold2, [MarshalAs(UnmanagedType.I4)] ApertureSize apertureSize, [MarshalAs(UnmanagedType.Bool)] bool l2Gradient);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2, [MarshalAs(UnmanagedType.I4)]  MatrixType dstmap1type, [MarshalAs(UnmanagedType.Bool)] bool nninterpolation);
+        public static extern void cv_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2, [MarshalAs(UnmanagedType.I4)]  MatrixType dstmap1Type, [MarshalAs(UnmanagedType.Bool)] bool nninterpolation);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cv_cornerEigenValsAndVecs(IntPtr src, IntPtr dst, int blockSize, int ksize, [MarshalAs(UnmanagedType.I4)] BorderType borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -206,7 +208,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr StereoSGBM_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr StereoSGBM_new2(int minDisparity, int numDisparities, int SADWindowSize, int P1, int P2, int disp12MaxDiff, int preFilterCap, int uniquenessRatio, int speckleWindowSize, int speckleRange, [MarshalAs(UnmanagedType.Bool)] bool fullDP);
+        public static extern IntPtr StereoSGBM_new2(int minDisparity, int numDisparities, int sadWindowSize, int p1, int p2, int disp12MaxDiff, int preFilterCap, int uniquenessRatio, int speckleWindowSize, int speckleRange, [MarshalAs(UnmanagedType.Bool)] bool fullDP);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void StereoSGBM_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -345,7 +347,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void MatND_setTo(IntPtr src, CvScalar s, IntPtr mask, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void MatND_reshape(IntPtr src, int _newcn, int _newndims, [MarshalAs(UnmanagedType.LPArray)] int[] _newsz, IntPtr dst);
+        public static extern void MatND_reshape(IntPtr src, int newCn, int newNdims, [MarshalAs(UnmanagedType.LPArray)] int[] newsz, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr MatND_ptr1(IntPtr src, int i0);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -467,10 +469,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern bool CvCamShiftTracker_set_threshold(IntPtr obj, int threshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_set_hist_bin_range(IntPtr obj, int dim, int min_val, int max_val);
+        public static extern bool CvCamShiftTracker_set_hist_bin_range(IntPtr obj, int dim, int minVal, int maxVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_set_hist_dims(IntPtr obj, int c_dims, [MarshalAs(UnmanagedType.LPArray)] int[] dims);
+        public static extern bool CvCamShiftTracker_set_hist_dims(IntPtr obj, int cDims, [MarshalAs(UnmanagedType.LPArray)] int[] dims);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CvCamShiftTracker_set_min_ch_val(IntPtr obj, int channel, int val);
@@ -479,10 +481,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern bool CvCamShiftTracker_set_max_ch_val(IntPtr obj, int channel, int val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_track_object(IntPtr obj, IntPtr cur_frame);
+        public static extern bool CvCamShiftTracker_track_object(IntPtr obj, IntPtr curFrame);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_update_histogram(IntPtr obj, IntPtr cur_frame);
+        public static extern bool CvCamShiftTracker_update_histogram(IntPtr obj, IntPtr curFrame);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void CvCamShiftTracker_reset_histogram(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -496,7 +498,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void CvAdaptiveSkinDetector_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvAdaptiveSkinDetector_process(IntPtr obj, IntPtr inputBGRImage, IntPtr outputHueMask);
+        public static extern void CvAdaptiveSkinDetector_process(IntPtr obj, IntPtr inputBgrImage, IntPtr outputHueMask);
         #endregion
         #region HOGDescriptor
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -506,9 +508,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr HOGDescriptor_new2(CvSize winSize, CvSize blockSize, CvSize blockStride, CvSize cellSize,
             int nbins, int derivAperture, double winSigma, [MarshalAs(UnmanagedType.I4)] HistogramNormType histogramNormType,
-            double L2HysThreshold, bool gammaCorrection, int nlevels);
+            double l2HysThreshold, bool gammaCorrection, int nlevels);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr HOGDescriptor_new3([MarshalAs(UnmanagedType.LPStr)] string filename);
+        public static extern IntPtr HOGDescriptor_new3([MarshalAs(UnmanagedType.LPStr)] string fileName);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void HOGDescriptor_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -526,7 +528,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern void HOGDescriptor_save(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string objname);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void HOGDescriptor_compute(IntPtr obj, IntPtr img, IntPtr descriptors,
-                         CvSize winStride, CvSize padding, [In] CvPoint[] locations, int locations_length);
+                         CvSize winStride, CvSize padding, [In] CvPoint[] locations, int locationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void HOGDescriptor_detect(IntPtr obj, IntPtr img, IntPtr foundLocations,
                         double hitThreshold, CvSize winStride, CvSize padding, [In] CvPoint[] searchLocations, int searchLocationsLength);
@@ -583,7 +585,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern void HOGDescriptor_nlevels_set(IntPtr obj, int value);
         #endregion
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_FAST(IntPtr image, IntPtr keypoints, int threshold, [MarshalAs(UnmanagedType.Bool)] bool nonmax_supression);
+        public static extern void cv_FAST(IntPtr image, IntPtr keypoints, int threshold, [MarshalAs(UnmanagedType.Bool)] bool nonmaxSupression);
         #endregion
         #region nonfree
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -696,7 +698,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_uchar_new2(IntPtr size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_uchar_new3([In] byte[] data, IntPtr data_length);
+        public static extern IntPtr vector_uchar_new3([In] byte[] data, IntPtr dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_uchar_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -710,7 +712,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_float_new2(IntPtr size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_float_new3([In] float[] data, IntPtr data_length);
+        public static extern IntPtr vector_float_new3([In] float[] data, IntPtr dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_float_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -724,7 +726,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvVec2f_new2(IntPtr size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec2f_new3([In] Vec2fElem[] data, IntPtr data_length);
+        public static extern IntPtr vector_cvVec2f_new3([In] Vec2fElem[] data, IntPtr dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvVec2f_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -738,7 +740,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvVec3f_new2(IntPtr size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec3f_new3([In] Vec3fElem[] data, IntPtr data_length);
+        public static extern IntPtr vector_cvVec3f_new3([In] Vec3fElem[] data, IntPtr dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvVec3f_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -752,7 +754,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvVec4i_new2(IntPtr size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec4i_new3([In] Vec4iElem[] data, IntPtr data_length);
+        public static extern IntPtr vector_cvVec4i_new3([In] Vec4iElem[] data, IntPtr dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvVec4i_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -766,7 +768,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvPoint_new2(IntPtr size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvPoint_new3([In] CvPoint[] data, IntPtr data_length);
+        public static extern IntPtr vector_cvPoint_new3([In] CvPoint[] data, IntPtr dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvPoint_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -780,7 +782,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvRect_new2(IntPtr size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvRect_new3([In] CvRect[] data, IntPtr data_length);
+        public static extern IntPtr vector_cvRect_new3([In] CvRect[] data, IntPtr dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvRect_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -794,7 +796,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvKeyPoint_new2(IntPtr size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvKeyPoint_new3([In]KeyPoint[] data, IntPtr data_length);
+        public static extern IntPtr vector_cvKeyPoint_new3([In]KeyPoint[] data, IntPtr dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_cvKeyPoint_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

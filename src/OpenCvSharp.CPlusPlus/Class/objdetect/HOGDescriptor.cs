@@ -987,7 +987,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="derivAperture"></param>
         /// <param name="winSigma">ガウシアン平滑化窓パラメータ．</param>
         /// <param name="histogramNormType"></param>
-        /// <param name="L2HysThreshold">L2-Hys 正規化縮小処理の閾値．</param>
+        /// <param name="l2HysThreshold">L2-Hys 正規化縮小処理の閾値．</param>
 #else
         /// <summary>
         /// 
@@ -1019,7 +1019,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="derivAperture"></param>
         /// <param name="winSigma">ガウシアン平滑化窓パラメータ．</param>
         /// <param name="histogramNormType"></param>
-        /// <param name="L2HysThreshold">L2-Hys 正規化縮小処理の閾値．</param>
+        /// <param name="l2HysThreshold">L2-Hys 正規化縮小処理の閾値．</param>
         /// <param name="gammaCorrection">前処理としてガンマ補正を行うか否か，を指定します．</param>
 #else
         /// <summary>
@@ -1053,7 +1053,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="derivAperture"></param>
         /// <param name="winSigma">ガウシアン平滑化窓パラメータ．</param>
         /// <param name="histogramNormType"></param>
-        /// <param name="L2HysThreshold">L2-Hys 正規化縮小処理の閾値．</param>
+        /// <param name="l2HysThreshold">L2-Hys 正規化縮小処理の閾値．</param>
         /// <param name="gammaCorrection">前処理としてガンマ補正を行うか否か，を指定します．</param>
         /// <param name="nlevels">検出窓拡大回数の最大値</param>
 #else

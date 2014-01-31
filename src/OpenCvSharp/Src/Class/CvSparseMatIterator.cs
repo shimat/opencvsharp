@@ -131,8 +131,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvSparseNode(p);
+                return new CvSparseNode(p);
             }
 		}
 #if LANG_JP
@@ -179,7 +178,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 疎な配列要素のイテレータを初期化する (cvInitSparseMatIterator)
         /// </summary>
-        /// <param name="mat">入力配列</param>
+        /// <param name="m">入力配列</param>
         /// <returns>疎な配列の先頭要素</returns>
 #else
         /// <summary>
