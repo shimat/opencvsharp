@@ -90,7 +90,7 @@ namespace OpenCvSharp
         /// ファイルまたはOpenCV 内に組み込まれた分類器データベースから，学習されたカスケード分類器を読み込む (cvLoadHaarClassifierCascade) 
         /// </summary>
         /// <param name="directory">学習されたカスケード分類器の記述を含むディレクトリ名． </param>
-        /// <param name="orig_window_size">オブジェクトのオリジナルサイズ（カスケード分類器はこのサイズに合わせて学習される）． これはカスケード分類器内に保存されないので，別に指定する必要がある事に注意． </param>
+        /// <param name="origWindowSize">オブジェクトのオリジナルサイズ（カスケード分類器はこのサイズに合わせて学習される）． これはカスケード分類器内に保存されないので，別に指定する必要がある事に注意． </param>
         /// <remarks>この関数は，もはやサポートされない．現在では，オブジェクト検出分類器はディレクトリではなく XML/YAML ファイルに保存される． カスケードをファイルから読み込むためには，関数 cvLoad を用いる．</remarks>
 #else
         /// <summary>
@@ -332,7 +332,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">この画像の中からオブジェクトを検出する</param>
         /// <param name="storage">オブジェクト候補の矩形が得られた場合に，その矩形列を保存するメモリストレージ</param>
-        /// <param name="scale_factor">スキャン毎に探索ウィンドウがスケーリングされる際のスケールファクタ． 例えばこの値が 1.1 ならば，ウィンドウが 10% 大きくなる</param>
+        /// <param name="scaleFactor">スキャン毎に探索ウィンドウがスケーリングされる際のスケールファクタ． 例えばこの値が 1.1 ならば，ウィンドウが 10% 大きくなる</param>
         /// <returns>CvAvgCompを要素とするCvSeq</returns>
 #else
         /// <summary>
@@ -353,8 +353,8 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">この画像の中からオブジェクトを検出する</param>
         /// <param name="storage">オブジェクト候補の矩形が得られた場合に，その矩形列を保存するメモリストレージ</param>
-        /// <param name="scale_factor">スキャン毎に探索ウィンドウがスケーリングされる際のスケールファクタ． 例えばこの値が 1.1 ならば，ウィンドウが 10% 大きくなる</param>
-        /// <param name="min_neighbors">（これから 1 を引いた値が）オブジェクトを構成する近傍矩形の最小数となる． min_neighbors-1 よりも少ない矩形しか含まないようなグループは全て棄却される． もし min_neighbors が 0 である場合，この関数はグループを一つも生成せず，候補となる矩形を全て返す．これはユーザがカスタマイズしたグループ化処理を適用したい場合に有用である． </param>
+        /// <param name="scaleFactor">スキャン毎に探索ウィンドウがスケーリングされる際のスケールファクタ． 例えばこの値が 1.1 ならば，ウィンドウが 10% 大きくなる</param>
+        /// <param name="minNeighbors">（これから 1 を引いた値が）オブジェクトを構成する近傍矩形の最小数となる． min_neighbors-1 よりも少ない矩形しか含まないようなグループは全て棄却される． もし min_neighbors が 0 である場合，この関数はグループを一つも生成せず，候補となる矩形を全て返す．これはユーザがカスタマイズしたグループ化処理を適用したい場合に有用である． </param>
         /// <returns>CvAvgCompを要素とするCvSeq</returns>
 #else
         /// <summary>
@@ -376,8 +376,8 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">この画像の中からオブジェクトを検出する</param>
         /// <param name="storage">オブジェクト候補の矩形が得られた場合に，その矩形列を保存するメモリストレージ</param>
-        /// <param name="scale_factor">スキャン毎に探索ウィンドウがスケーリングされる際のスケールファクタ． 例えばこの値が 1.1 ならば，ウィンドウが 10% 大きくなる</param>
-        /// <param name="min_neighbors">（これから 1 を引いた値が）オブジェクトを構成する近傍矩形の最小数となる． min_neighbors-1 よりも少ない矩形しか含まないようなグループは全て棄却される． もし min_neighbors が 0 である場合，この関数はグループを一つも生成せず，候補となる矩形を全て返す．これはユーザがカスタマイズしたグループ化処理を適用したい場合に有用である． </param>
+        /// <param name="scaleFactor">スキャン毎に探索ウィンドウがスケーリングされる際のスケールファクタ． 例えばこの値が 1.1 ならば，ウィンドウが 10% 大きくなる</param>
+        /// <param name="minNeighbors">（これから 1 を引いた値が）オブジェクトを構成する近傍矩形の最小数となる． min_neighbors-1 よりも少ない矩形しか含まないようなグループは全て棄却される． もし min_neighbors が 0 である場合，この関数はグループを一つも生成せず，候補となる矩形を全て返す．これはユーザがカスタマイズしたグループ化処理を適用したい場合に有用である． </param>
         /// <param name="flags">処理モード</param>
         /// <returns>CvAvgCompを要素とするCvSeq</returns>
 #else
@@ -401,10 +401,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">この画像の中からオブジェクトを検出する</param>
         /// <param name="storage">オブジェクト候補の矩形が得られた場合に，その矩形列を保存するメモリストレージ</param>
-        /// <param name="scale_factor">スキャン毎に探索ウィンドウがスケーリングされる際のスケールファクタ． 例えばこの値が 1.1 ならば，ウィンドウが 10% 大きくなる</param>
-        /// <param name="min_neighbors">（これから 1 を引いた値が）オブジェクトを構成する近傍矩形の最小数となる． min_neighbors-1 よりも少ない矩形しか含まないようなグループは全て棄却される． もし min_neighbors が 0 である場合，この関数はグループを一つも生成せず，候補となる矩形を全て返す．これはユーザがカスタマイズしたグループ化処理を適用したい場合に有用である． </param>
+        /// <param name="scaleFactor">スキャン毎に探索ウィンドウがスケーリングされる際のスケールファクタ． 例えばこの値が 1.1 ならば，ウィンドウが 10% 大きくなる</param>
+        /// <param name="minNeighbors">（これから 1 を引いた値が）オブジェクトを構成する近傍矩形の最小数となる． min_neighbors-1 よりも少ない矩形しか含まないようなグループは全て棄却される． もし min_neighbors が 0 である場合，この関数はグループを一つも生成せず，候補となる矩形を全て返す．これはユーザがカスタマイズしたグループ化処理を適用したい場合に有用である． </param>
         /// <param name="flags">処理モード</param>
-        /// <param name="min_size">最小ウィンドウサイズ．デフォルトでは分類器の学習に用いられたサンプルのサイズが設定される（顔検出の場合は，~20×20）.</param>
+        /// <param name="minSize">最小ウィンドウサイズ．デフォルトでは分類器の学習に用いられたサンプルのサイズが設定される（顔検出の場合は，~20×20）.</param>
         /// <returns>CvAvgCompを要素とするCvSeq</returns>
 #else
         /// <summary>
@@ -431,22 +431,23 @@ namespace OpenCvSharp
         /// <param name="pt">解析する領域の左上の角</param>
         /// <returns>分析対象の領域が全ての分類器ステージを通過した場合（これは候補の一つになる）はtrue，そうでなければfalse．</returns>
 #else
-        /// <summary>
-        /// Runs cascade of boosted classifier at given image location
-        /// </summary>
-        /// <param name="pt">Top-left corner of the analyzed region. Size of the region is a original window size scaled by the currenly set scale. The current window size may be retrieved using  cvGetHaarClassifierCascadeWindowSize function. </param>
-        /// <returns>positive value if the analyzed rectangle passed all the classifier stages (it is a candidate) and zero or negative value otherwise. </returns>
+    /// <summary>
+    /// Runs cascade of boosted classifier at given image location
+    /// </summary>
+    /// <param name="pt">Top-left corner of the analyzed region. Size of the region is a original window size scaled by the currenly set scale. The current window size may be retrieved using  cvGetHaarClassifierCascadeWindowSize function. </param>
+    /// <returns>positive value if the analyzed rectangle passed all the classifier stages (it is a candidate) and zero or negative value otherwise. </returns>
 #endif
-	    public bool Run( CvPoint pt )
-	    {
-		    return Cv.RunHaarClassifierCascade(this, pt);
-	    }
+        public bool Run(CvPoint pt)
+        {
+            return Cv.RunHaarClassifierCascade(this, pt);
+        }
+
 #if LANG_JP
         /// <summary>
         /// ブーストされた分類器のカスケードを，与えられた画像位置で実行する
         /// </summary>
         /// <param name="pt">解析する領域の左上の角</param>
-        /// <param name="start_stage">0から始まるインデックスで，カスケードステージをどこ から開始するかを決定する</param>
+        /// <param name="startStage">0から始まるインデックスで，カスケードステージをどこ から開始するかを決定する</param>
         /// <returns>分析対象の領域が全ての分類器ステージを通過した場合（これは候補の一つになる）はtrue，そうでなければfalse．</returns>
 #else
         /// <summary>
@@ -468,7 +469,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="sum">32 ビット整数シングルチャンネルのインテグラルイメージ</param>
         /// <param name="sqsum">64ビット浮動小数点型のシングルチャンネル画像の各ピクセルを二乗した値に対するインテグラルイメージ</param>
-        /// <param name="tilted_sum">32 ビット整数型のシングルチャンネル画像を 45°傾けたものに対するインテグラルイメージ</param>
+        /// <param name="tiltedSum">32 ビット整数型のシングルチャンネル画像を 45°傾けたものに対するインテグラルイメージ</param>
         /// <param name="scale">カスケードのウィンドウスケール</param>
 #else
         /// <summary>

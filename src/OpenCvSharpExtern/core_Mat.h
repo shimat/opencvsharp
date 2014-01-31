@@ -168,12 +168,12 @@ CVAPI(int) core_Mat_depth(cv::Mat *obj)
 }
 
      
-CVAPI(cv::Mat*) core_Mat_diag(cv::Mat *obj)
+CVAPI(cv::Mat*) core_Mat_diag1(cv::Mat *obj)
 {
 	cv::Mat ret = obj->diag();
     return new cv::Mat(ret);
 }
-CVAPI(cv::Mat*) core_Mat_diag(cv::Mat *obj, int d)
+CVAPI(cv::Mat*) core_Mat_diag2(cv::Mat *obj, int d)
 {
 	cv::Mat ret = obj->diag(d);
     return new cv::Mat(ret);
@@ -235,6 +235,7 @@ CVAPI(void) core_Mat_locateROI(cv::Mat *obj, CvSize *wholeSize, CvPoint *ofs)
 	*ofs = cvPoint(ofs2.x, ofs2.y);
 }
  
+/*
         // javadoc: Mat::mul(m, scale)
 CVAPI(Mat) core_Mat_Mul(Mat m, double scale)
         {
@@ -363,10 +364,6 @@ CVAPI(Size Size()
             //return retVal;
         }
 
-        //
-        // C++: size_t Mat::step1(int i = 0)
-        //
-
         // javadoc: Mat::step1(i)
 CVAPI(long Step1(int i)
         {
@@ -454,160 +451,59 @@ CVAPI(String Dump()
             //return nDump(ptr);
         }
 
-        // javadoc:Mat::put(row,col,data)
-CVAPI(int Put(int row, int col, params double[] data)
-        {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            return nPutD(ptr, row, col, data.Length, data);*/
         }
 
         // javadoc:Mat::put(row,col,data)
 CVAPI(int Put(int row, int col, float[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_32F)
-            {
-                return nPutF(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
         }
 
         // javadoc:Mat::put(row,col,data)
 CVAPI(int Put(int row, int col, int[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_32S)
-            {
-                return nPutI(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+
         }
 
         // javadoc:Mat::put(row,col,data)
 CVAPI(int Put(int row, int col, short[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_16U || CvType.Depth(t) == CvType.CV_16S)
-            {
-                return nPutS(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+
         }
 
         // javadoc:Mat::put(row,col,data)
 CVAPI(int Put(int row, int col, byte[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_8U || CvType.Depth(t) == CvType.CV_8S)
-            {
-                return nPutB(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+
         }
 
         // javadoc:Mat::get(row,col,data)
 CVAPI(int Get(int row, int col, byte[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_8U || CvType.Depth(t) == CvType.CV_8S)
-            {
-                return nGetB(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+
         }
 
         // javadoc:Mat::get(row,col,data)
 CVAPI(int Get(int row, int col, short[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_16U || CvType.Depth(t) == CvType.CV_16S)
-            {
-                return nGetS(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+
         }
 
         // javadoc:Mat::get(row,col,data)
 CVAPI( int Get(int row, int col, int[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_32S)
-            {
-                return nGetI(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+
         }
 
         // javadoc:Mat::get(row,col,data)
 CVAPI(int Get(int row, int col, float[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})", 
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_32F)
-            {
-                return nGetF(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+
         }
 
         // javadoc:Mat::get(row,col,data)
 CVAPI( int Get(int row, int col, double[] data)
         {
-            
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_64F)
-            {
-                return nGetD(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+
         }
 
         // javadoc:Mat::get(row,col)
@@ -617,7 +513,7 @@ CVAPI( double[] Get(int row, int col)
             //return nGet(ptr, row, col);
         }
 
-
+*/
 #pragma endregion
 
 #endif
