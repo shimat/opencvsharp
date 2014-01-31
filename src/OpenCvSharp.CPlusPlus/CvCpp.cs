@@ -6,19 +6,6 @@ using System.Text;
 #pragma warning disable 1591
 #pragma warning disable 1685
 
-
-namespace System.Runtime.CompilerServices
-{
-    /// <summary>
-    /// 拡張メソッドをコンパイルするのに必要となるExtensionAttributeの宣言
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Method)]
-    public sealed class ExtensionAttribute : Attribute
-    {
-    }
-}
-
-
 namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
@@ -246,6 +233,36 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="method">現在のところ，HoughCirclesMethod.Gradient メソッドのみが実装されている．</param>
         /// <param name="dp">画像分解能に対する投票分解能の比率の逆数．</param>
         /// <param name="minDist">検出される円の中心同士の最小距離．</param>
+        /// <returns>検出された円．各ベクトルは，3要素の浮動小数点型ベクトル (x, y, radius) としてエンコードされます</returns>
+#else
+        /// <summary>
+        /// Finds circles in a grayscale image using a Hough transform.
+        /// </summary>
+        /// <param name="image">The 8-bit, single-channel, grayscale input image</param>
+        /// <param name="method">Currently, the only implemented method is HoughCirclesMethod.Gradient</param>
+        /// <param name="dp">The inverse ratio of the accumulator resolution to the image resolution. </param>
+        /// <param name="minDist">Minimum distance between the centers of the detected circles. </param>
+        /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
+#endif
+        public static CvCircleSegment[] HoughCircles(Mat image, HoughCirclesMethod method, double dp, double minDist)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+
+            using (StdVectorVec3f vec = new StdVectorVec3f())
+            {
+                CppInvoke.cv_HoughCircles(image.CvPtr, vec.CvPtr, method, dp, minDist, 100, 100, 0, 0);
+                return vec.ToArray<CvCircleSegment>();
+            }
+        }
+#if LANG_JP
+        /// <summary>
+        /// ハフ変換を用いて，グレースケール画像から円を検出します．
+        /// </summary>
+        /// <param name="image">8ビット，シングルチャンネル，グレースケールの入力画像></param>
+        /// <param name="method">現在のところ，HoughCirclesMethod.Gradient メソッドのみが実装されている．</param>
+        /// <param name="dp">画像分解能に対する投票分解能の比率の逆数．</param>
+        /// <param name="minDist">検出される円の中心同士の最小距離．</param>
         /// <param name="param1">手法依存の1番目のパラメータ．[既定値は100]</param>
         /// <param name="param2">手法依存の2番目のパラメータ．[既定値は100]</param>
         /// <param name="minRadius">円の半径の最小値 [既定値は0]</param>
@@ -265,7 +282,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="maxRadius">Maximum circle radius. [By default this is 0] </param>
         /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
 #endif
-        public static CvCircleSegment[] HoughCircles(this Mat image, HoughCirclesMethod method, double dp, double minDist, double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
+        public static CvCircleSegment[] HoughCircles(Mat image, HoughCirclesMethod method, double dp, double minDist, double param1, double param2, int minRadius, int maxRadius)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -278,6 +295,38 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region HoughLines
+#if LANG_JP
+        /// <summary>
+        /// 標準ハフ変換を用いて，2値画像から直線を検出します．
+        /// </summary>
+        /// <param name="image">8ビット，シングルチャンネルの2値入力画像．この画像は関数により書き換えられる可能性があります</param>
+        /// <param name="rho">ピクセル単位で表される投票空間の距離分解能</param>
+        /// <param name="theta">ラジアン単位で表される投票空間の角度分解能</param>
+        /// <param name="threshold">投票の閾値パラメータ．十分な票（ &gt; threshold ）を得た直線のみが出力されます</param>
+        /// <returns>検出された直線．各直線は，2要素のベクトル (rho, theta) で表現されます．
+        /// rho は原点（画像の左上コーナー）からの距離， theta はラジアン単位で表される直線の回転角度です</returns>
+#else
+        /// <summary>
+        /// Finds lines in a binary image using standard Hough transform.
+        /// </summary>
+        /// <param name="image">The 8-bit, single-channel, binary source image. The image may be modified by the function</param>
+        /// <param name="rho">Distance resolution of the accumulator in pixels</param>
+        /// <param name="theta">Angle resolution of the accumulator in radians</param>
+        /// <param name="threshold">The accumulator threshold parameter. Only those lines are returned that get enough votes ( &gt; threshold )</param>
+        /// <returns>The output vector of lines. Each line is represented by a two-element vector (rho, theta) . 
+        /// rho is the distance from the coordinate origin (0,0) (top-left corner of the image) and theta is the line rotation angle in radians</returns>
+#endif
+        public static CvLineSegmentPolar[] HoughLines(Mat image, double rho, double theta, int threshold)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+
+            using (StdVectorVec2f vec = new StdVectorVec2f())
+            {
+                CppInvoke.cv_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, 0, 0);
+                return vec.ToArray<CvLineSegmentPolar>();
+            }
+        }
 #if LANG_JP
         /// <summary>
         /// 標準ハフ変換を用いて，2値画像から直線を検出します．
@@ -303,7 +352,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns>The output vector of lines. Each line is represented by a two-element vector (rho, theta) . 
         /// rho is the distance from the coordinate origin (0,0) (top-left corner of the image) and theta is the line rotation angle in radians</returns>
 #endif
-        public static CvLineSegmentPolar[] HoughLines(this Mat image, double rho, double theta, int threshold, double srn = 0, double stn = 0)
+        public static CvLineSegmentPolar[] HoughLines(Mat image, double rho, double theta, int threshold, double srn, double stn)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -316,6 +365,36 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region HoughLinesP
+#if LANG_JP
+        /// <summary>
+        /// 確率的ハフ変換を利用して，2値画像から線分を検出します．
+        /// </summary>
+        /// <param name="image">8ビット，シングルチャンネルの2値入力画像．この画像は関数により書き換えられる可能性があります</param>
+        /// <param name="rho">ピクセル単位で表される投票空間の距離分解能</param>
+        /// <param name="theta">ラジアン単位で表される投票空間の角度分解能</param>
+        /// <param name="threshold">投票の閾値パラメータ．十分な票（ &gt; threshold ）を得た直線のみが出力されます</param>
+        /// <returns>検出された線分．各線分は，4要素のベクトル (x1, y1, x2, y2) で表現されます．</returns>
+#else
+        /// <summary>
+        /// Finds lines segments in a binary image using probabilistic Hough transform.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="rho">Distance resolution of the accumulator in pixels</param>
+        /// <param name="theta">Angle resolution of the accumulator in radians</param>
+        /// <param name="threshold">The accumulator threshold parameter. Only those lines are returned that get enough votes ( &gt; threshold )</param>
+        /// <returns>The output lines. Each line is represented by a 4-element vector (x1, y1, x2, y2)</returns>
+#endif
+        public static CvLineSegmentPoint[] HoughLinesP(Mat image, double rho, double theta, int threshold)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+
+            using (StdVectorVec4i vec = new StdVectorVec4i())
+            {
+                CppInvoke.cv_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, 0, 0);
+                return vec.ToArray<CvLineSegmentPoint>();
+            }
+        }
 #if LANG_JP
         /// <summary>
         /// 確率的ハフ変換を利用して，2値画像から線分を検出します．
@@ -339,7 +418,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="maxLineGap">The maximum allowed gap between points on the same line to link them. [By default this is 0]</param>
         /// <returns>The output lines. Each line is represented by a 4-element vector (x1, y1, x2, y2)</returns>
 #endif
-        public static CvLineSegmentPoint[] HoughLinesP(this Mat image, double rho, double theta, int threshold, double minLineLength = 0, double maxLineGap = 0)
+        public static CvLineSegmentPoint[] HoughLinesP(Mat image, double rho, double theta, int threshold, double minLineLength, double maxLineGap)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -478,47 +557,47 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region core
         #region Miscellaneous
-        public static void setNumThreads(int nthreads)
+        public static void SetNumThreads(int nthreads)
         {
             CppInvoke.cv_setNumThreads(nthreads);
         }
-        public static int getNumThreads()
+        public static int GetNumThreads()
         {
             return CppInvoke.cv_getNumThreads();
         }
-        public static int getThreadNum()
+        public static int GetThreadNum()
         {
             return CppInvoke.cv_getThreadNum();
         }
-        public static string getBuildInformation()
+        public static string GetBuildInformation()
         {
             return CppInvoke.cv_getBuildInformation();
         }
-        public static Int64 getTickCount()
+        public static Int64 GetTickCount()
         {
             return CppInvoke.cv_getTickCount();
         }
-        public static double getTickFrequency()
+        public static double GetTickFrequency()
         {
             return CppInvoke.cv_getTickFrequency();
         }
-        public static Int64 getCPUTickCount()
+        public static Int64 GetCpuTickCount()
         {
             return CppInvoke.cv_getCPUTickCount();
         }
-        public static bool checkHardwareSupport(HardwareSupport feature)
+        public static bool CheckHardwareSupport(HardwareSupport feature)
         {
             return CppInvoke.cv_checkHardwareSupport(feature);
         }
-        public static int getNumberOfCPUs()
+        public static int FetNumberOfCpus()
         {
             return CppInvoke.cv_getNumberOfCPUs();
         }
-        public static IntPtr fastMalloc(long bufSize)
+        public static IntPtr FastMalloc(long bufSize)
         {
             return CppInvoke.cv_fastMalloc(new IntPtr(bufSize));
         }
-        public static void fastFree(IntPtr ptr)
+        public static void FastFree(IntPtr ptr)
         {
             CppInvoke.cv_fastFree(ptr);
         }
@@ -595,31 +674,77 @@ namespace OpenCvSharp.CPlusPlus
         /// 円を描画する
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="img">Image where the circle is drawn. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+#endif
+        public static void Circle(Mat img, int centerX, int centerY, int radius, CvScalar color)
+        {
+            Circle(img, new CvPoint(centerX, centerY), radius, color, 1, LineType.Link8, 1);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
-        /// <param name="line_type">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
         /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
 #else
         /// <summary>
         /// Draws a circle
         /// </summary>
         /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
-        /// <param name="line_type">Type of the circle boundary. [By default this is LineType.Link8]</param>
+        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
 #endif
-        public static void Circle(this Mat img, int center_x, int center_y, int radius, CvScalar color, int thickness = 1, LineType line_type = LineType.Link8, int shift = 1)
+        public static void Circle(Mat img, int centerX, int centerY, int radius, CvScalar color, int thickness, LineType lineType, int shift)
         {
-            Circle(img, new CvPoint(center_x, center_y), radius, color, thickness, line_type, shift);
+            Circle(img, new CvPoint(centerX, centerY), radius, color, thickness, lineType, shift);
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="center">円の中心</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="img">Image where the circle is drawn. </param>
+        /// <param name="center">Center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+#endif
+        public static void Circle(Mat img, CvPoint center, int radius, CvScalar color)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            CvInvoke.cvCircle(img.ToIplImage().CvPtr, center, radius, color, 1, LineType.Link8, 0);
+        }
 #if LANG_JP
         /// <summary>
         /// 円を描画する
@@ -643,12 +768,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="line_type">Type of the circle boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
 #endif
-        public static void Circle(this Mat img, CvPoint center, int radius, CvScalar color, int thickness = 1, LineType line_type = LineType.Link8, int shift = 0)
+        public static void Circle(Mat img, CvPoint center, int radius, CvScalar color, int thickness, LineType line_type, int shift)
         {
             if (img == null)
-            {
                 throw new ArgumentNullException("img");
-            }
             CvInvoke.cvCircle(img.ToIplImage().CvPtr, center, radius, color, thickness, line_type, shift);
         }
         #endregion
@@ -775,7 +898,7 @@ namespace OpenCvSharp.CPlusPlus
         public static void Divide(double scale, Mat src, Mat dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
             CppInvoke.cv_divide2(scale, src.CvPtr, dst.CvPtr);
@@ -790,11 +913,41 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="center">楕円の中心</param>
         /// <param name="axes">楕円の軸の長さ</param>
         /// <param name="angle">回転角度</param>
-        /// <param name="start_angle">楕円弧の開始角度</param>
-        /// <param name="end_angle">楕円弧の終了角度</param>
+        /// <param name="startAngle">楕円弧の開始角度</param>
+        /// <param name="endAngle">楕円弧の終了角度</param>
+        /// <param name="color">楕円の色</param>
+#else
+        /// <summary>
+        /// Draws simple or thick elliptic arc or fills ellipse sector
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="center">Center of the ellipse. </param>
+        /// <param name="axes">Length of the ellipse axes. </param>
+        /// <param name="angle">Rotation angle. </param>
+        /// <param name="startAngle">Starting angle of the elliptic arc. </param>
+        /// <param name="endAngle">Ending angle of the elliptic arc. </param>
+        /// <param name="color">Ellipse color. </param>
+#endif
+        public static void Ellipse(Mat img, CvPoint center, CvSize axes, double angle, double startAngle, double endAngle, CvScalar color)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+
+            CvInvoke.cvEllipse(img.ToIplImage().CvPtr, center, axes, angle, startAngle, endAngle, color, 1, LineType.Link8, 0);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 枠だけの楕円，楕円弧，もしくは塗りつぶされた扇形の楕円を描画する
+        /// </summary>
+        /// <param name="img">楕円が描画される画像</param>
+        /// <param name="center">楕円の中心</param>
+        /// <param name="axes">楕円の軸の長さ</param>
+        /// <param name="angle">回転角度</param>
+        /// <param name="startAngle">楕円弧の開始角度</param>
+        /// <param name="endAngle">楕円弧の終了角度</param>
         /// <param name="color">楕円の色</param>
         /// <param name="thickness">楕円弧の線の幅 [既定値は1]</param>
-        /// <param name="line_type">楕円弧の線の種類 [既定値はLineType.Link8]</param>
+        /// <param name="lineType">楕円弧の線の種類 [既定値はLineType.Link8]</param>
         /// <param name="shift">中心座標と軸の長さの小数点以下の桁を表すビット数 [既定値は0]</param>
 #else
         /// <summary>
@@ -804,21 +957,20 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="center">Center of the ellipse. </param>
         /// <param name="axes">Length of the ellipse axes. </param>
         /// <param name="angle">Rotation angle. </param>
-        /// <param name="start_angle">Starting angle of the elliptic arc. </param>
-        /// <param name="end_angle">Ending angle of the elliptic arc. </param>
+        /// <param name="startAngle">Starting angle of the elliptic arc. </param>
+        /// <param name="endAngle">Ending angle of the elliptic arc. </param>
         /// <param name="color">Ellipse color. </param>
         /// <param name="thickness">Thickness of the ellipse arc. [By default this is 1]</param>
-        /// <param name="line_type">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
+        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
 #endif
-        public static void Ellipse(this Mat img, CvPoint center, CvSize axes, double angle, double start_angle, double end_angle, CvScalar color,
-            int thickness = 1, LineType line_type = LineType.Link8, int shift = 0)
+        public static void Ellipse(Mat img, CvPoint center, CvSize axes, double angle, double startAngle, double endAngle, CvScalar color,
+            int thickness, LineType lineType, int shift)
         {
             if (img == null)
-            {
                 throw new ArgumentNullException("img");
-            }
-            CvInvoke.cvEllipse(img.ToIplImage().CvPtr, center, axes, angle, start_angle, end_angle, color, thickness, line_type, shift);
+            
+            CvInvoke.cvEllipse(img.ToIplImage().CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
         }
 
 #if LANG_JP
@@ -828,8 +980,35 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="img">楕円が描かれる画像．</param>
         /// <param name="box">描画したい楕円を囲む矩形領域．</param>
         /// <param name="color">楕円の色．</param>
+#else
+        /// <summary>
+        /// Draws simple or thick elliptic arc or fills ellipse sector
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="box">The enclosing box of the ellipse drawn </param>
+        /// <param name="color">Ellipse color. </param>
+#endif
+        public static void Ellipse(Mat img, CvBox2D box, CvScalar color)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+
+            CvSize axes = new CvSize
+            {
+                Width = (int)Math.Round(box.Size.Height * 0.5),
+                Height = (int)Math.Round(box.Size.Width * 0.5)
+            };
+            Ellipse(img, box.Center, axes, box.Angle, 0, 360, color, 1, LineType.Link8, 0);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 枠だけの楕円，もしくは塗りつぶされた楕円を描画する
+        /// </summary>
+        /// <param name="img">楕円が描かれる画像．</param>
+        /// <param name="box">描画したい楕円を囲む矩形領域．</param>
+        /// <param name="color">楕円の色．</param>
         /// <param name="thickness">楕円境界線の幅．[既定値は1]</param>
-        /// <param name="line_type">楕円境界線の種類．[既定値はLineType.Link8]</param>
+        /// <param name="lineType">楕円境界線の種類．[既定値はLineType.Link8]</param>
         /// <param name="shift">矩形領域の頂点座標の小数点以下の桁を表すビット数．[既定値は0]</param>
 #else
         /// <summary>
@@ -839,22 +1018,20 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="box">The enclosing box of the ellipse drawn </param>
         /// <param name="color">Ellipse color. </param>
         /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
-        /// <param name="line_type">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
+        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the box vertex coordinates. [By default this is 0]</param>
 #endif
-        public static void Ellipse(this Mat img, CvBox2D box, CvScalar color, int thickness = 1, LineType line_type = LineType.Link8, int shift = 0)
+        public static void Ellipse(Mat img, CvBox2D box, CvScalar color, int thickness, LineType lineType, int shift)
         {
             if (img == null)
-            {
                 throw new ArgumentNullException("img");
-            }
 
             CvSize axes = new CvSize
             {
                 Width = (int)Math.Round(box.Size.Height * 0.5),
                 Height = (int)Math.Round(box.Size.Width * 0.5)
             };
-            Ellipse(img, box.Center, axes, box.Angle, 0, 360, color, thickness, line_type, shift);
+            Ellipse(img, box.Center, axes, box.Angle, 0, 360, color, thickness, lineType, shift);
         }
         #endregion
         #region ExtractImageCOI
@@ -915,31 +1092,56 @@ namespace OpenCvSharp.CPlusPlus
         /// 2点を結ぶ線分を画像上に描画する．
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="pt1_x">線分の1番目の端点x</param>
-        /// <param name="pt1_y">線分の1番目の端点y</param>
-        /// <param name="pt2_x">線分の2番目の端点x</param>
-        /// <param name="pt2_y">線分の2番目の端点y</param>
+        /// <param name="pt1X">線分の1番目の端点x</param>
+        /// <param name="pt1Y">線分の1番目の端点y</param>
+        /// <param name="pt2X">線分の2番目の端点x</param>
+        /// <param name="pt2Y">線分の2番目の端点y</param>
+        /// <param name="color">線分の色</param>
+#else
+        /// <summary>
+        /// Draws a line segment connecting two points
+        /// </summary>
+        /// <param name="img">The image. </param>
+        /// <param name="pt1X">First point's x-coordinate of the line segment. </param>
+        /// <param name="pt1Y">First point's y-coordinate of the line segment. </param>
+        /// <param name="pt2X">Second point's x-coordinate of the line segment. </param>
+        /// <param name="pt2Y">Second point's y-coordinate of the line segment. </param>
+        /// <param name="color">Line color. </param>
+#endif
+        public static void Line(Mat img, int pt1X, int pt1Y, int pt2X, int pt2Y, CvScalar color)
+        {
+            Line(img, new CvPoint(pt1X, pt1Y), new CvPoint(pt2X, pt2Y), color, 1, LineType.Link8, 0);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 2点を結ぶ線分を画像上に描画する．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1X">線分の1番目の端点x</param>
+        /// <param name="pt1Y">線分の1番目の端点y</param>
+        /// <param name="pt2X">線分の2番目の端点x</param>
+        /// <param name="pt2Y">線分の2番目の端点y</param>
         /// <param name="color">線分の色</param>
         /// <param name="thickness">線分の太さ. [既定値は1]</param>
-        /// <param name="line_type">線分の種類. [既定値はLineType.Link8]</param>
+        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
         /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
 #else
         /// <summary>
         /// Draws a line segment connecting two points
         /// </summary>
         /// <param name="img">The image. </param>
-        /// <param name="pt1_x">First point's x-coordinate of the line segment. </param>
-        /// <param name="pt1_y">First point's y-coordinate of the line segment. </param>
-        /// <param name="pt2_x">Second point's x-coordinate of the line segment. </param>
-        /// <param name="pt2_y">Second point's y-coordinate of the line segment. </param>
+        /// <param name="pt1X">First point's x-coordinate of the line segment. </param>
+        /// <param name="pt1Y">First point's y-coordinate of the line segment. </param>
+        /// <param name="pt2X">Second point's x-coordinate of the line segment. </param>
+        /// <param name="pt2Y">Second point's y-coordinate of the line segment. </param>
         /// <param name="color">Line color. </param>
         /// <param name="thickness">Line thickness. [By default this is 1]</param>
-        /// <param name="line_type">Type of the line. [By default this is LineType.Link8]</param>
+        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public static void Line(this Mat img, int pt1_x, int pt1_y, int pt2_x, int pt2_y, CvScalar color, int thickness = 1, LineType line_type = LineType.Link8, int shift = 0)
+        public static void Line(Mat img, int pt1X, int pt1Y, int pt2X, int pt2Y, CvScalar color, int thickness, LineType lineType, int shift)
         {
-            Line(img, new CvPoint(pt1_x, pt1_y), new CvPoint(pt2_x, pt2_y), color, thickness, line_type, shift);
+            Line(img, new CvPoint(pt1X, pt1Y), new CvPoint(pt2X, pt2Y), color, thickness, lineType, shift);
         }
 
 #if LANG_JP
@@ -950,8 +1152,32 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="pt1">線分の1番目の端点</param>
         /// <param name="pt2">線分の2番目の端点</param>
         /// <param name="color">線分の色</param>
+#else
+        /// <summary>
+        /// Draws a line segment connecting two points
+        /// </summary>
+        /// <param name="img">The image. </param>
+        /// <param name="pt1">First point of the line segment. </param>
+        /// <param name="pt2">Second point of the line segment. </param>
+        /// <param name="color">Line color. </param>
+#endif
+        public static void Line(Mat img, CvPoint pt1, CvPoint pt2, CvScalar color)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+
+            CvInvoke.cvLine(img.ToIplImage().CvPtr, pt1, pt2, color, 1, LineType.Link8, 0);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 2点を結ぶ線分を画像上に描画する．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">線分の1番目の端点</param>
+        /// <param name="pt2">線分の2番目の端点</param>
+        /// <param name="color">線分の色</param>
         /// <param name="thickness">線分の太さ. [既定値は1]</param>
-        /// <param name="line_type">線分の種類. [既定値はLineType.Link8]</param>
+        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
         /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
 #else
         /// <summary>
@@ -962,16 +1188,15 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="pt2">Second point of the line segment. </param>
         /// <param name="color">Line color. </param>
         /// <param name="thickness">Line thickness. [By default this is 1]</param>
-        /// <param name="line_type">Type of the line. [By default this is LineType.Link8]</param>
+        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public static void Line(this Mat img, CvPoint pt1, CvPoint pt2, CvScalar color, int thickness = 1, LineType line_type = LineType.Link8, int shift = 0)
+        public static void Line(Mat img, CvPoint pt1, CvPoint pt2, CvScalar color, int thickness, LineType lineType, int shift)
         {
             if (img == null)
-            {
                 throw new ArgumentNullException("img");
-            }
-            CvInvoke.cvLine(img.ToIplImage().CvPtr, pt1, pt2, color, thickness, line_type, shift);
+            
+            CvInvoke.cvLine(img.ToIplImage().CvPtr, pt1, pt2, color, thickness, lineType, shift);
         }
         #endregion
         #region Multiply
@@ -1009,31 +1234,25 @@ namespace OpenCvSharp.CPlusPlus
         /// 枠のみ，もしくは塗りつぶされた矩形を描画する
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="pt1_x">矩形の一つの頂点のx座標</param>
-        /// <param name="pt1_y">矩形の一つの頂点のy座標</param>
-        /// <param name="pt2_x">矩形の反対側の頂点のx座標</param>
-        /// <param name="pt2_y">矩形の反対側の頂点のy座標</param>
+        /// <param name="pt1X">矩形の一つの頂点のx座標</param>
+        /// <param name="pt1Y">矩形の一つの頂点のy座標</param>
+        /// <param name="pt2X">矩形の反対側の頂点のx座標</param>
+        /// <param name="pt2Y">矩形の反対側の頂点のy座標</param>
         /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
-        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
-        /// <param name="line_type">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
 #else
         /// <summary>
         /// Draws simple, thick or filled rectangle
         /// </summary>
         /// <param name="img">Image. </param>
-        /// <param name="pt1_x">X-coordinate of the one of the rectangle vertices. </param>
-        /// <param name="pt1_y">Y-coordinate of the one of the rectangle vertices. </param>
-        /// <param name="pt2_x">X-coordinate of the opposite rectangle vertex. </param>
-        /// <param name="pt2_y">Y-coordinate of the opposite rectangle vertex. </param>
+        /// <param name="pt1X">X-coordinate of the one of the rectangle vertices. </param>
+        /// <param name="pt1Y">Y-coordinate of the one of the rectangle vertices. </param>
+        /// <param name="pt2X">X-coordinate of the opposite rectangle vertex. </param>
+        /// <param name="pt2Y">Y-coordinate of the opposite rectangle vertex. </param>
         /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
-        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
-        /// <param name="line_type">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public static void Rectangle(this Mat img, int pt1_x, int pt1_y, int pt2_x, int pt2_y, CvScalar color, int thickness = 1, LineType line_type = LineType.Link8, int shift = 0)
+        public static void Rectangle(Mat img, int pt1X, int pt1Y, int pt2X, int pt2Y, CvScalar color)
         {
-            Rectangle(img, new CvPoint(pt1_x, pt1_y), new CvPoint(pt2_x, pt2_y), color, thickness, line_type, shift);
+            Rectangle(img, new CvPoint(pt1X, pt1Y), new CvPoint(pt2X, pt2Y), color, 1, LineType.Link8, 0);
         }
 
 #if LANG_JP
@@ -1045,7 +1264,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="pt2">矩形の反対側の頂点</param>
         /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
         /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="line_type">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
         /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
 #else
         /// <summary>
@@ -1056,16 +1275,15 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="pt2">Opposite rectangle vertex. </param>
         /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
         /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
-        /// <param name="line_type">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public static void Rectangle(this Mat img, CvPoint pt1, CvPoint pt2, CvScalar color, int thickness = 1, LineType line_type = LineType.Link8, int shift = 0)
+        public static void Rectangle(Mat img, CvPoint pt1, CvPoint pt2, CvScalar color, int thickness, LineType lineType, int shift)
         {
             if (img == null)
-            {
                 throw new ArgumentNullException("img");
-            }
-            CvInvoke.cvRectangle(img.ToIplImage().CvPtr, pt1, pt2, color, thickness, line_type, shift);
+            
+            CvInvoke.cvRectangle(img.ToIplImage().CvPtr, pt1, pt2, color, thickness, lineType, shift);
         }
 
 #if LANG_JP
@@ -1075,8 +1293,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="img">画像</param>
         /// <param name="rect">矩形</param>
         /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+#endif
+        public static void Rectangle(Mat img, CvRect rect, CvScalar color)
+        {
+            Rectangle(img, new CvPoint(rect.X, rect.Y), new CvPoint(rect.X + rect.Width, rect.Y + rect.Height), color, 1, LineType.Link8, 0);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="rect">矩形</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
         /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="line_type">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
         /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
 #else
         /// <summary>
@@ -1086,12 +1323,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rect">Rectangle.</param>
         /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
         /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
-        /// <param name="line_type">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public static void Rectangle(this Mat img, CvRect rect, CvScalar color, int thickness = 1, LineType line_type = LineType.Link8, int shift = 0)
+        public static void Rectangle(Mat img, CvRect rect, CvScalar color, int thickness, LineType lineType, int shift)
         {
-            Rectangle(img, new CvPoint(rect.X, rect.Y), new CvPoint(rect.X + rect.Width, rect.Y + rect.Height), color, thickness, line_type, shift);
+            Rectangle(img, new CvPoint(rect.X, rect.Y), new CvPoint(rect.X + rect.Width, rect.Y + rect.Height), color, thickness, lineType, shift);
         }
         #endregion
         #region Subtract
@@ -1169,7 +1406,7 @@ namespace OpenCvSharp.CPlusPlus
         public static void Subtract(CvScalar sc, Mat src2, Mat dst, Mat mask)
         {
             if (src2 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException("src2");
             if (dst == null)
                 throw new ArgumentNullException("dst");
             CppInvoke.cv_subtract3(sc, src2.CvPtr, dst.CvPtr, ToPtr(mask));

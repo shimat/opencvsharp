@@ -33,7 +33,6 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         internal CvArr()
-            : base()
         {
         }
 #if LANG_JP
@@ -338,11 +337,10 @@ namespace OpenCvSharp
         {
             using (CvMemStorage lineStorage = new CvMemStorage())
             {
-                IntPtr result = CvInvoke.cvHoughLines2(this.CvPtr, lineStorage.CvPtr, HoughLinesMethod.Standard, rho, theta, threshold, param1, param2);
+                IntPtr result = CvInvoke.cvHoughLines2(CvPtr, lineStorage.CvPtr, HoughLinesMethod.Standard, rho, theta, threshold, param1, param2);
                 if (result == IntPtr.Zero)
-                {
                     throw new OpenCvSharpException();
-                }
+                
                 CvSeq<CvLineSegmentPolar> seq = new CvSeq<CvLineSegmentPolar>(result);
                 return seq.ToArray();
             }
@@ -395,11 +393,10 @@ namespace OpenCvSharp
         {
             using (CvMemStorage lineStorage = new CvMemStorage())
             {
-                IntPtr result = CvInvoke.cvHoughLines2(this.CvPtr, lineStorage.CvPtr, HoughLinesMethod.Probabilistic, rho, theta, threshold, param1, param2);
+                IntPtr result = CvInvoke.cvHoughLines2(CvPtr, lineStorage.CvPtr, HoughLinesMethod.Probabilistic, rho, theta, threshold, param1, param2);
                 if (result == IntPtr.Zero)
-                {
                     throw new OpenCvSharpException();
-                }
+                
                 CvSeq<CvLineSegmentPoint> seq = new CvSeq<CvLineSegmentPoint>(result);
                 return seq.ToArray();
             }
@@ -455,7 +452,7 @@ namespace OpenCvSharp
         /// 一様または正規分布の乱数で出力配列を埋める 
         /// </summary>
         /// <param name="rng">cvRNGによって初期化されたRNGの状態</param>
-        /// <param name="dist_type">分布のタイプ</param>
+        /// <param name="distType">分布のタイプ</param>
         /// <param name="param1">分布の第一パラメータ．一様分布では，発生する乱数の下限値（この値を含む）である． 正規分布では，乱数の平均値である．</param>
         /// <param name="param2">分布の第二パラメータ．一様分布では，発生する乱数の上限値（この値は含まない）である． 正規分布では，乱数の標準偏差である．</param>
 #else
@@ -518,7 +515,7 @@ namespace OpenCvSharp
         /// 画像を指定したファイルに保存する．画像フォーマットは，filename の拡張子により決定される．
         /// この関数で保存できるのは，8 ビット 1チャンネル，あるいは 8 ビット3 チャンネル（'BGR' の順）画像だけである．
         /// </summary>
-        /// <param name="filename">ファイル名</param>
+        /// <param name="fileName">ファイル名</param>
         /// <param name="prms"></param>
         /// <returns></returns>
 #else
@@ -530,9 +527,9 @@ namespace OpenCvSharp
         /// <param name="prms"></param>
         /// <returns></returns>
 #endif
-        public int SaveImage(string filename, params ImageEncodingParam[] prms)
+        public int SaveImage(string fileName, params ImageEncodingParam[] prms)
         {
-            return Cv.SaveImage(filename, this, prms);
+            return Cv.SaveImage(fileName, this, prms);
         }
         #endregion
         #region ToBytes

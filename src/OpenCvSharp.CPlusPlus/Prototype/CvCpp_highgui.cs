@@ -9,10 +9,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// <summary>
     /// 
     /// </summary>
-    public static class CvCpp
+    public static partial class CvCpp
     {
-        #region highgui
-
+        #region NamedWindow
+        /// <summary>
+        /// Creates a window.
+        /// </summary>
+        /// <param name="winname">Name of the window in the window caption that may be used as a window identifier.</param>
+        public static void NamedWindow(string winname)
+        {
+            NamedWindow(winname, WindowMode.None);
+        }
         /// <summary>
         /// Creates a window.
         /// </summary>
@@ -21,7 +28,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// Flags of the window. Currently the only supported flag is CV WINDOW AUTOSIZE. If this is set, 
         /// the window size is automatically adjusted to fit the displayed image (see imshow ), and the user can not change the window size manually.
         /// </param>
-        public static void NamedWindow(string winname, WindowMode flags = WindowMode.None)
+        public static void NamedWindow(string winname, WindowMode flags)
         {
             if (string.IsNullOrEmpty(winname))
                 throw new ArgumentNullException("winname");
@@ -34,7 +41,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
-
+        #endregion
+        #region ImShow
         /// <summary>
         /// Displays the image in the specified window
         /// </summary>
@@ -54,6 +62,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 throw PInvokeHelper.CreateException(ex);
             }
+        }
+        #endregion
+        #region ImRead
+        /// <summary>
+        /// Loads an image from a file.
+        /// </summary>
+        /// <param name="filename">Name of file to be loaded.</param>
+        /// <returns></returns>
+        public static Mat ImRead(string filename)
+        {
+            return ImRead(filename, LoadMode.Color);
         }
         /// <summary>
         /// Loads an image from a file.
@@ -75,6 +94,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+        #endregion
+        #region ImWrite
         /// <summary>
         /// Saves an image to a specified file.
         /// </summary>
@@ -123,6 +144,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 return ImWrite(filename, img, (int[])null);
             }
         }
+        #endregion
+        #region ImDecode
         /// <summary>
         /// Reads image from the specified buffer in memory.
         /// </summary>
@@ -143,7 +166,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
-
+        #endregion
+        #region ImEncode
         /// <summary>
         /// Compresses the image and stores it in the memory buffer
         /// </summary>
@@ -200,7 +224,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 ImEncode(ext, img, out buf, (int[])null);
             }
         }
-
+        #endregion
+        #region WaitKey
         /// <summary>
         /// Waits for a pressed key.
         /// </summary>

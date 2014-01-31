@@ -42,18 +42,17 @@ namespace OpenCvSharp
         public CvConDensation(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-            {
                 throw new ArgumentNullException("ptr");
-            }
+            
             this.ptr = ptr;
         }
 #if LANG_JP
         /// <summary>
         /// ConDensation フィルタ構造体の領域確保を行う
         /// </summary>
-        /// <param name="dynam_params">状態ベクトルの次元</param>
-        /// <param name="measure_params">観測ベクトルの次元</param>
-        /// <param name="sample_count">サンプル数</param>
+        /// <param name="dynamParams">状態ベクトルの次元</param>
+        /// <param name="measureParams">観測ベクトルの次元</param>
+        /// <param name="sampleCount">サンプル数</param>
 #else
         /// <summary>
         /// Allocates ConDensation filter structure

@@ -4,6 +4,8 @@ using System.Text;
 
 namespace OpenCvSharp.Src.Class
 {
+#pragma warning disable 1591
+
     public class KmeansInput
     {
         Array Samples { get; set; }

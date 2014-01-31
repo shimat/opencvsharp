@@ -144,8 +144,8 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// </summary>
         /// <param name="branching">階層型 k-means tree で利用される branching ファクタ</param>
         /// <param name="iterations">k-means tree を作成する際の，k-means クラスタリングステージでの反復数の上限．ここで -1 は，k-means クラスタリングが収束するまで続けられることを意味します</param>
-        /// <param name="centers_init">k-means クラスタリングの初期中心を選択するアルゴリズム．</param>
-        /// <param name="cb_index">このパラメータ（クラスタ境界インデックス）は，階層的 k-means tree の探索方法に影響を与えます． cb_index が0の場合，最も近い中心のクラスタが，次に探索される k-means 領域になります．0より大きい値の場合も，領域サイズが考慮されます</param>
+        /// <param name="centersInit">k-means クラスタリングの初期中心を選択するアルゴリズム．</param>
+        /// <param name="cbIndex">このパラメータ（クラスタ境界インデックス）は，階層的 k-means tree の探索方法に影響を与えます． cb_index が0の場合，最も近い中心のクラスタが，次に探索される k-means 領域になります．0より大きい値の場合も，領域サイズが考慮されます</param>
 #else
         /// <summary>
         /// 

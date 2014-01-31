@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace OpenCvSharp
@@ -55,7 +54,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
 #else
         /// <summary>
         /// Construct a Locality Sensitive Hash (LSH) table, for indexing d-dimensional vectors of
@@ -76,7 +75,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
 #else
         /// <summary>
@@ -99,7 +98,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
 #else
@@ -124,7 +123,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <param name="r"></param>
@@ -151,7 +150,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <param name="r"></param>
@@ -207,7 +206,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -230,7 +229,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <returns></returns>
 #else
@@ -255,7 +254,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -282,7 +281,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <param name="r"></param>
@@ -311,7 +310,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ops">(not supported argument on OpenCvSharp)</param>
         /// <param name="d"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <param name="r"></param>
@@ -362,7 +361,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
 #else
         /// <summary>
         /// Construct in-memory LSH table, with n bins.
@@ -381,7 +380,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
 #else
         /// <summary>
@@ -402,7 +401,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
 #else
@@ -425,7 +424,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <param name="r"></param>
@@ -450,7 +449,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <param name="r"></param>
@@ -502,7 +501,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -523,7 +522,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <returns></returns>
 #else
@@ -546,7 +545,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -571,7 +570,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <param name="r"></param>
@@ -598,7 +597,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="d"></param>
         /// <param name="n"></param>
-        /// <param name="L"></param>
+        /// <param name="l"></param>
         /// <param name="k"></param>
         /// <param name="type"></param>
         /// <param name="r"></param>
@@ -738,7 +737,7 @@ namespace OpenCvSharp
         /// Query the LSH n times for at most k nearest points; data is n x d,
         /// indices and dist are n x k. At most emax stored points will be accessed. 
         /// </summary>
-        /// <param name="query_points"></param>
+        /// <param name="queryPoints"></param>
         /// <param name="indices"></param>
         /// <param name="dist"></param>
         /// <param name="k"></param>

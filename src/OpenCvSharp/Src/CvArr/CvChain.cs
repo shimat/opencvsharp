@@ -128,7 +128,7 @@ namespace OpenCvSharp
         /// <param name="storage">計算結果保存用のストレージ．</param>
         /// <param name="method">推定手法.</param>
         /// <param name="parameter">メソッドパラメータ（現在は使われていない）．</param>
-        /// <param name="minimal_perimeter">minimal_perimeter以上の周囲長をもつ輪郭のみを計算する．その他のチェーンは結果の構造体から削除される．</param>
+        /// <param name="minimalPerimeter">minimal_perimeter以上の周囲長をもつ輪郭のみを計算する．その他のチェーンは結果の構造体から削除される．</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -151,7 +151,7 @@ namespace OpenCvSharp
         /// <param name="storage">計算結果保存用のストレージ．</param>
         /// <param name="method">推定手法.</param>
         /// <param name="parameter">メソッドパラメータ（現在は使われていない）．</param>
-        /// <param name="minimal_perimeter">minimal_perimeter以上の周囲長をもつ輪郭のみを計算する．その他のチェーンは結果の構造体から削除される．</param>
+        /// <param name="minimalPerimeter">minimal_perimeter以上の周囲長をもつ輪郭のみを計算する．その他のチェーンは結果の構造体から削除される．</param>
         /// <param name="recursive">trueの場合，src_seqからh_nextあるいはv_nextによって辿ることができる全てのチェーンを近似する．falseの場合，単一のチェーンを近似する． </param>
         /// <returns></returns>
 #else

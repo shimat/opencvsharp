@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
 {
@@ -33,7 +32,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 文字描画関数に渡されるフォント構造体を初期化する
         /// </summary>
-        /// <param name="font_face">フォント名の識別子</param>
+        /// <param name="fontFace">フォント名の識別子</param>
         /// <param name="hscale">幅の比率．1.0fにした場合，文字はそれぞれのフォントに依存する元々の幅で表示される． 0.5fにした場合, 文字は元々の半分の幅で表示される．</param>
         /// <param name="vscale">高さの比率．1.0fにした場合，文字はそれぞれのフォントに依存する元々の高さで表示される． 0.5fにした場合, 文字は元々の半分の高さで表示される．</param>
 #else
@@ -52,7 +51,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 文字描画関数に渡されるフォント構造体を初期化する
         /// </summary>
-        /// <param name="font_face">フォント名の識別子</param>
+        /// <param name="fontFace">フォント名の識別子</param>
         /// <param name="hscale">幅の比率．1.0fにした場合，文字はそれぞれのフォントに依存する元々の幅で表示される． 0.5fにした場合, 文字は元々の半分の幅で表示される．</param>
         /// <param name="vscale">高さの比率．1.0fにした場合，文字はそれぞれのフォントに依存する元々の高さで表示される． 0.5fにした場合, 文字は元々の半分の高さで表示される．</param>
         /// <param name="shear">垂直線からの文字の相対的な角度．ゼロの場合は非イタリックフォントで，例えば，1.0fは≈45°を意味する．</param>
@@ -73,7 +72,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 文字描画関数に渡されるフォント構造体を初期化する
         /// </summary>
-        /// <param name="font_face">フォント名の識別子</param>
+        /// <param name="fontFace">フォント名の識別子</param>
         /// <param name="hscale">幅の比率．1.0fにした場合，文字はそれぞれのフォントに依存する元々の幅で表示される． 0.5fにした場合, 文字は元々の半分の幅で表示される．</param>
         /// <param name="vscale">高さの比率．1.0fにした場合，文字はそれぞれのフォントに依存する元々の高さで表示される． 0.5fにした場合, 文字は元々の半分の高さで表示される．</param>
         /// <param name="shear">垂直線からの文字の相対的な角度．ゼロの場合は非イタリックフォントで，例えば，1.0fは≈45°を意味する．</param>
@@ -96,12 +95,12 @@ namespace OpenCvSharp
         /// <summary>
         /// 文字描画関数に渡されるフォント構造体を初期化する
         /// </summary>
-        /// <param name="font_face">フォント名の識別子</param>
+        /// <param name="fontFace">フォント名の識別子</param>
         /// <param name="hscale">幅の比率．1.0fにした場合，文字はそれぞれのフォントに依存する元々の幅で表示される． 0.5fにした場合, 文字は元々の半分の幅で表示される．</param>
         /// <param name="vscale">高さの比率．1.0fにした場合，文字はそれぞれのフォントに依存する元々の高さで表示される． 0.5fにした場合, 文字は元々の半分の高さで表示される．</param>
         /// <param name="shear">垂直線からの文字の相対的な角度．ゼロの場合は非イタリックフォントで，例えば，1.0fは≈45°を意味する．</param>
         /// <param name="thickness">文字の太さ．</param>
-        /// <param name="line_type">線の種類．</param>
+        /// <param name="lineType">線の種類．</param>
 #else
         /// <summary>
         /// Initializes font structure
@@ -422,7 +421,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 文字列の幅と高さを取得する
         /// </summary>
-        /// <param name="text_string">入力文字列</param>
+        /// <param name="textString">入力文字列</param>
 #else
         /// <summary>
         /// Retrieves width and height of text string
@@ -438,7 +437,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 文字列の幅と高さを取得する
         /// </summary>
-        /// <param name="text_string">入力文字列</param>
+        /// <param name="textString">入力文字列</param>
         /// <param name="baseline">文字の最下点から見たベースラインのy座標</param>
 #else
         /// <summary>

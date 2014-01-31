@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
 
-    public static class CvType
+    internal static class CvType
     {
         /// <summary>
         /// type depth constants
