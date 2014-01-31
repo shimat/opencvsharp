@@ -165,7 +165,7 @@ namespace OpenCvSharp
         /// <summary>
         /// チェーンリーダを初期化する
         /// </summary>
-        /// <param name="chain">チェーンへのポインタ</param>
+        /// <param name="target">チェーンへのポインタ</param>
 #else
         /// <summary>
         /// Initializes chain reader
@@ -175,9 +175,8 @@ namespace OpenCvSharp
         public void StartReadChainPoints(CvChain target)
         {
             if (target == null)
-            {
                 throw new ArgumentNullException("target");
-            }
+            
             chain = target;            
             CvInvoke.cvStartReadChainPoints(chain.CvPtr, CvPtr);
         }

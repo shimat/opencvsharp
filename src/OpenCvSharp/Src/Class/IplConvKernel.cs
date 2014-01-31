@@ -33,8 +33,8 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="cols">構造要素の列数</param>
         /// <param name="rows">構造要素の行数</param>
-        /// <param name="anchor_x">構造要素の原点のx座標</param>
-        /// <param name="anchor_y">構造要素の原点のy座標</param>
+        /// <param name="anchorX">構造要素の原点のx座標</param>
+        /// <param name="anchorY">構造要素の原点のy座標</param>
         /// <param name="shape">構造要素の形状</param>
         /// <returns>構造要素</returns>
 #else
@@ -58,8 +58,8 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="cols">構造要素の列数</param>
         /// <param name="rows">構造要素の行数</param>
-        /// <param name="anchor_x">構造要素の原点のx座標</param>
-        /// <param name="anchor_y">構造要素の原点のy座標</param>
+        /// <param name="anchorX">構造要素の原点のx座標</param>
+        /// <param name="anchorY">構造要素の原点のy座標</param>
         /// <param name="shape">構造要素の形状</param>
         /// <param name="values">構造要素データへのポインタ。このパラメータは形状がCV_SHAPE_CUSTOMのときのみ有効</param>
         /// <returns>構造要素</returns>

@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace OpenCvSharp
@@ -317,6 +316,7 @@ namespace OpenCvSharp
         /// 出力 labels(i) は，配列 samples のi番目の行のサンプルが属するクラスタのインデックスを表す． 
         /// </summary>
         /// <param name="samples">浮動小数点型の入力サンプル行列．1行あたり一つのサンプル.</param>
+        /// <param name="samplesType"></param>
         /// <param name="clusterCount">集合を分割するクラスタ数</param>
         /// <param name="labels">出力の整数ベクトル．すべてのサンプルについて，それぞれがどのクラスタに属しているかが保存されている.</param>
         /// <param name="termcrit">最大繰り返し数と(または)，精度（1ループでの各クラスタ中心位置移動距離）の指定</param>
@@ -326,6 +326,7 @@ namespace OpenCvSharp
         /// Splits set of vectors by given number of clusters
         /// </summary>
         /// <param name="samples">Floating-point matrix of input samples, one row per sample. </param>
+        /// <param name="samplesType"></param>
         /// <param name="clusterCount">Number of clusters to split the set by. </param>
         /// <param name="labels">Output integer vector storing cluster indices for every sample. </param>
         /// <param name="termcrit">Specifies maximum number of iterations and/or accuracy (distance the centers move by between the subsequent iterations). </param>
@@ -343,6 +344,7 @@ namespace OpenCvSharp
         /// 出力 labels(i) は，配列 samples のi番目の行のサンプルが属するクラスタのインデックスを表す． 
         /// </summary>
         /// <param name="samples">浮動小数点型の入力サンプル行列．1行あたり一つのサンプル.</param>
+        /// <param name="samplesType"></param>
         /// <param name="clusterCount">集合を分割するクラスタ数</param>
         /// <param name="labels">出力の整数ベクトル．すべてのサンプルについて，それぞれがどのクラスタに属しているかが保存されている.</param>
         /// <param name="termcrit">最大繰り返し数と(または)，精度（1ループでの各クラスタ中心位置移動距離）の指定</param>
@@ -355,6 +357,7 @@ namespace OpenCvSharp
         /// Splits set of vectors by given number of clusters
         /// </summary>
         /// <param name="samples">Floating-point matrix of input samples, one row per sample. </param>
+        /// <param name="samplesType"></param>
         /// <param name="clusterCount">Number of clusters to split the set by. </param>
         /// <param name="labels">Output integer vector storing cluster indices for every sample. </param>
         /// <param name="termcrit">Specifies maximum number of iterations and/or accuracy (distance the centers move by between the subsequent iterations). </param>
@@ -375,6 +378,7 @@ namespace OpenCvSharp
         /// 出力 labels(i) は，配列 samples のi番目の行のサンプルが属するクラスタのインデックスを表す． 
         /// </summary>
         /// <param name="samples">浮動小数点型の入力サンプル行列．1行あたり一つのサンプル.</param>
+        /// <param name="samplesType"></param>
         /// <param name="clusterCount">集合を分割するクラスタ数</param>
         /// <param name="labels">出力の整数ベクトル．すべてのサンプルについて，それぞれがどのクラスタに属しているかが保存されている.</param>
         /// <param name="termcrit">最大繰り返し数と(または)，精度（1ループでの各クラスタ中心位置移動距離）の指定</param>
@@ -388,6 +392,7 @@ namespace OpenCvSharp
         /// Splits set of vectors by given number of clusters
         /// </summary>
         /// <param name="samples">Floating-point matrix of input samples, one row per sample. </param>
+        /// <param name="samplesType"></param>
         /// <param name="clusterCount">Number of clusters to split the set by. </param>
         /// <param name="labels">Output integer vector storing cluster indices for every sample. </param>
         /// <param name="termcrit">Specifies maximum number of iterations and/or accuracy (distance the centers move by between the subsequent iterations). </param>
@@ -409,6 +414,7 @@ namespace OpenCvSharp
         /// 出力 labels(i) は，配列 samples のi番目の行のサンプルが属するクラスタのインデックスを表す． 
         /// </summary>
         /// <param name="samples">浮動小数点型の入力サンプル行列．1行あたり一つのサンプル.</param>
+        /// <param name="samplesType"></param>
         /// <param name="clusterCount">集合を分割するクラスタ数</param>
         /// <param name="labels">出力の整数ベクトル．すべてのサンプルについて，それぞれがどのクラスタに属しているかが保存されている.</param>
         /// <param name="termcrit">最大繰り返し数と(または)，精度（1ループでの各クラスタ中心位置移動距離）の指定</param>

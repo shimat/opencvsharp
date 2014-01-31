@@ -141,7 +141,21 @@ namespace OpenCvSharp
 #endif
         public IntPtr CvPtr
         {
-            get { return ptr; }
+            get
+            {
+                ThrowIfDisposed();
+                return ptr;
+            }
+        }
+
+        /// <summary>
+        /// Get native pointer of OpenCV structure
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>IntPtr.Zero if obj==null, obj.CvPtr otherwise</returns>
+        protected static IntPtr GetCvPtr(DisposableCvObject obj)
+        {
+            return (obj == null) ? IntPtr.Zero : obj.CvPtr;
         }
     }
 }
