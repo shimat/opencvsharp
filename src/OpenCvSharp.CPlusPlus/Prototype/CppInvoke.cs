@@ -144,7 +144,24 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern IntPtr core_Mat_diag(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_diag(IntPtr obj, int d);
-
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double core_Mat_dot(IntPtr obj, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern long core_Mat_elemSize(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern long core_Mat_elemSize1(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_empty(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_eye(int rows, int cols, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_inv1")]
+        public static extern IntPtr core_Mat_inv(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_inv2")]
+        public static extern IntPtr core_Mat_inv(IntPtr obj, int method);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_isContinuous(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_isSubmatrix(IntPtr obj);
         #endregion
 
         #region cv

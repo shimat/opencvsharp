@@ -179,92 +179,64 @@ CVAPI(cv::Mat*) core_Mat_diag(cv::Mat *obj, int d)
     return new cv::Mat(ret);
 }
 
-CVAPI(double) core_Mat_Dot(Mat m)
-        {
-            
-            //double retVal = n_dot(ptr, m.ptr);
-            //return retVal;
-        }
+CVAPI(double) core_Mat_dot(cv::Mat *obj, cv::Mat *m)
+{
+	return obj->dot(*m);
+}
 
-        // javadoc: Mat::elemSize()
-CVAPI(long) core_Mat_ElemSize()
-        {
-            
-            //long retVal = n_elemSize(ptr);
-            //return retVal;
-        }
+CVAPI(int64) core_Mat_elemSize(cv::Mat *obj)
+{
+	return obj->elemSize();
+}
 
-        // javadoc: Mat::elemSize1()
-CVAPI( long core_Mat_ElemSize1()
-        {
-            
-            //long retVal = n_elemSize1(ptr);
-            //return retVal;
-        }
+CVAPI(int64) core_Mat_elemSize1(cv::Mat *obj)
+{
+	return obj->elemSize1();
+}
 
-        // javadoc: Mat::empty()
-CVAPI(bool core_Mat_Empty()
-        {
-            
-            //bool retVal = n_empty(ptr);
-            //return retVal;
-        }
+CVAPI(int) core_Mat_empty(cv::Mat *obj)
+{
+	return obj->empty() ? 1 : 0;
+}
 
-        // javadoc: Mat::eye(rows, cols, type)
-CVAPI(Mat core_Mat_Eye(int rows, int cols, int type)
-        {
-            
-            //Mat retVal = new Mat(n_eye(rows, cols, type));
-            //return retVal;
-        }
+CVAPI(cv::Mat*) core_Mat_eye(int rows, int cols, int type)
+{
+	cv::Mat ret = cv::Mat::eye(rows, cols, type);
+    return new cv::Mat(ret);
+}
 
-        // javadoc: Mat::inv(method)
-CVAPI(Mat core_Mat_Inv(int method)
-        {
-            
-            //Mat retVal = new Mat(n_inv(ptr, method));
-            //return retVal;
-        }
+CVAPI(cv::Mat*) core_Mat_inv1(cv::Mat *obj)
+{
+	cv::Mat ret = obj->inv();
+    return new cv::Mat(ret);
+}
+CVAPI(cv::Mat*) core_Mat_inv2(cv::Mat *obj, int method)
+{
+	cv::Mat ret = obj->inv(method);
+    return new cv::Mat(ret);
+}
 
-        // javadoc: Mat::inv()
-CVAPI(Mat core_Mat_Inv()
-        {
-            
-            //Mat retVal = new Mat(n_inv(ptr));
-            //return retVal;
-        }
+CVAPI(int) core_Mat_isContinuous(cv::Mat *obj)
+{
+	return obj->isContinuous() ? 1 : 0;
+}
 
-        // javadoc: Mat::isContinuous()
-CVAPI(bool core_Mat_IsContinuous()
-        {
-            
-            //bool retVal = n_isContinuous(ptr);
-            //return retVal;
-        }
+CVAPI(int) core_Mat_isSubmatrix(cv::Mat *obj)
+{
+	return obj->isSubmatrix() ? 1 : 0;
+}
 
-        // javadoc: Mat::isSubmatrix()
-CVAPI(bool core_Mat_IsSubmatrix()
-        {
-            
-            //bool retVal = n_isSubmatrix(ptr);
-            //return retVal;
-        }
-
-        // javadoc: Mat::locateROI(wholeSize, ofs)
-CVAPI(void core_Mat_LocateROI(Size wholeSize, Point ofs)
-        {
-            /*double[] wholeSizeOut = new double[2];
-            double[] ofsOut = new double[2];
-            locateROI_0(ptr, wholeSizeOut, ofsOut);
-            wholeSize.Width = wholeSizeOut[0];
-            wholeSize.Height = wholeSizeOut[1];
-            ofs.X = ofsOut[0];
-            ofs.Y = ofsOut[1];*/
-            
-        }
+CVAPI(void) core_Mat_locateROI(cv::Mat *obj, CvSize *wholeSize, CvPoint *ofs)
+{
+	cv::Size wholeSize2;
+	cv::Point ofs2;
+	obj->locateROI(wholeSize2, ofs2);
+	*wholeSize = cvSize(wholeSize2.width, wholeSize2.height);
+	*ofs = cvPoint(ofs2.x, ofs2.y);
+}
  
         // javadoc: Mat::mul(m, scale)
-CVAPI(Mat core_Mat_Mul(Mat m, double scale)
+CVAPI(Mat) core_Mat_Mul(Mat m, double scale)
         {
             
             //Mat retVal = new Mat(n_mul(ptr, m.ptr, scale));
@@ -272,7 +244,7 @@ CVAPI(Mat core_Mat_Mul(Mat m, double scale)
         }
 
         // javadoc: Mat::mul(m)
-CVAPI(Mat core_Mat_Mul(Mat m)
+CVAPI(Mat) core_Mat_Mul(Mat m)
         {
             
             //Mat retVal = new Mat(n_mul(ptr, m.ptr));
@@ -280,7 +252,7 @@ CVAPI(Mat core_Mat_Mul(Mat m)
         }
 
         // javadoc: Mat::ones(rows, cols, type)
-CVAPI(Mat core_Mat_Ones(int rows, int cols, int type)
+CVAPI(Mat) core_Mat_Ones(int rows, int cols, int type)
         {
             
             //Mat retVal = new Mat(n_ones(rows, cols, type));
@@ -288,7 +260,7 @@ CVAPI(Mat core_Mat_Ones(int rows, int cols, int type)
         }
 
         // javadoc: Mat::ones(size, type)
-CVAPI(Mat core_Mat_Ones(Size size, int type)
+CVAPI(Mat) core_Mat_Ones(Size size, int type)
         {
             
             //Mat retVal = new Mat(n_ones(size.Width, size.Height, type));
@@ -296,14 +268,14 @@ CVAPI(Mat core_Mat_Ones(Size size, int type)
         }
 
         // javadoc: Mat::push_back(m)
-CVAPI(void core_Mat_PushBack(Mat m)
+CVAPI(void) core_Mat_PushBack(Mat m)
         {
             
             //n_push_back(ptr, m.ptr);
         }
 
         // javadoc: Mat::reshape(cn, rows)
-CVAPI(Mat core_Mat_Reshape(int cn, int rows)
+CVAPI(Mat) core_Mat_Reshape(int cn, int rows)
         {
             
             //Mat retVal = new Mat(n_reshape(ptr, cn, rows));

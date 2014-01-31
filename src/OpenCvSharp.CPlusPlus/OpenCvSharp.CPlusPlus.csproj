@@ -160,7 +160,7 @@
     <Compile Include="Flann\IndexParams\SearchParams.cs" />
     <Compile Include="Flann\IndexParams\SearchParams_old.cs" />
     <Compile Include="Prototype\CppInvoke.cs" />
-    <Compile Include="Prototype\CvCpp.cs" />
+    <Compile Include="Prototype\CvCpp_highgui.cs" />
     <Compile Include="Prototype\CvType.cs" />
     <Compile Include="Prototype\Mat.cs" />
     <Compile Include="Prototype\Point.cs" />
@@ -168,6 +168,8 @@
     <Compile Include="Prototype\Rect.cs" />
     <Compile Include="Prototype\Scalar.cs" />
     <Compile Include="Prototype\Size.cs" />
+    <Compile Include="Prototype\CvCpp_core.cs" />
+    <Compile Include="Prototype\CvCpp_imgproc.cs" />
     <Compile Include="Util\std_vector\IStdVector.cs" />
     <Compile Include="Util\std_vector\StdVectorByte.cs" />
     <Compile Include="CppInvoke.cs" />

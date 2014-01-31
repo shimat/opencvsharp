@@ -164,6 +164,37 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return d.Diag();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static Mat Eye(Size size, MatrixType type)
+        {
+            return Eye(size.Height, size.Width, type);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static Mat Eye(int rows, int cols, MatrixType type)
+        {
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_eye(rows, cols, (int)type);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
         #endregion
 
         #region Public Methods
@@ -683,12 +714,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
-        public Mat Diag(int d)
+        public Mat Diag(MatDiagType d)
         {
             ThrowIfDisposed();
             try
             {
-                IntPtr retPtr = CppInvoke.core_Mat_diag(ptr, d);
+                IntPtr retPtr = CppInvoke.core_Mat_diag(ptr, (int)d);
                 Mat retVal = new Mat(retPtr);
                 return retVal;
             }
@@ -698,100 +729,179 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
         #endregion
-
-        // javadoc: Mat::dot(m)
+        #region Dot
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         public double Dot(Mat m)
         {
-            throw new NotImplementedException();
-            //double retVal = n_dot(ptr, m.ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException("m");
+            try
+            {
+                return CppInvoke.core_Mat_dot(ptr, m.CvPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::elemSize()
+        #endregion
+        #region ElemSize
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public long ElemSize()
         {
-            throw new NotImplementedException();
-            //long retVal = n_elemSize(ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_elemSize(ptr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::elemSize1()
+        #endregion
+        #region ElemSize
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public long ElemSize1()
         {
-            throw new NotImplementedException();
-            //long retVal = n_elemSize1(ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_elemSize1(ptr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::empty()
+        #endregion
+        #region Empty
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool Empty()
         {
-            throw new NotImplementedException();
-            //bool retVal = n_empty(ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_empty(ptr) != 0;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::eye(rows, cols, type)
-        public static Mat Eye(int rows, int cols, int type)
-        {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_eye(rows, cols, type));
-            //return retVal;
-        }
-
-        // javadoc: Mat::eye(size, type)
-        public static Mat Eye(Size size, int type)
-        {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_eye(size.Width, size.Height, type));
-            //return retVal;
-        }
-
-        // javadoc: Mat::inv(method)
-        public Mat Inv(int method)
-        {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_inv(ptr, method));
-            //return retVal;
-        }
-
-        // javadoc: Mat::inv()
+        #endregion
+        #region Inv
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Mat Inv()
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_inv(ptr));
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_inv(ptr);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::isContinuous()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public Mat Inv(MatrixDecomposition method)
+        {
+            ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_inv(ptr, (int)method);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
+        #region IsContinuous
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsContinuous()
         {
-            throw new NotImplementedException();
-            //bool retVal = n_isContinuous(ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_isContinuous(ptr) != 0;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::isSubmatrix()
+        #endregion
+        #region IsSubmatirx
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsSubmatrix()
         {
-            throw new NotImplementedException();
-            //bool retVal = n_isSubmatrix(ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_isSubmatrix(ptr) != 0;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::locateROI(wholeSize, ofs)
-        public void LocateROI(Size wholeSize, Point ofs)
+        #endregion
+        #region LocateROI
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wholeSize"></param>
+        /// <param name="ofs"></param>
+        public void LocateROI(out Size wholeSize, out Point ofs)
         {
-            /*double[] wholeSizeOut = new double[2];
-            double[] ofsOut = new double[2];
-            locateROI_0(ptr, wholeSizeOut, ofsOut);
-            wholeSize.Width = wholeSizeOut[0];
-            wholeSize.Height = wholeSizeOut[1];
-            ofs.X = ofsOut[0];
-            ofs.Y = ofsOut[1];*/
-            throw new NotImplementedException();
+            ThrowIfDisposed();
+            try
+            {
+                CvSize wholeSize2;
+                CvPoint ofs2;
+                CppInvoke.core_Mat_locateROI(ptr, out wholeSize2, out ofs2);
+                wholeSize = wholeSize2;
+                ofs = ofs2;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
- 
+        #endregion
         // javadoc: Mat::mul(m, scale)
         public Mat Mul(Mat m, double scale)
         {
