@@ -797,7 +797,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public override string ToString()
         {
             return "Mat [ " +
-                   Rows() + "*" + Cols() + "*" + CvType.TypeToString(Type()) +
+                   Rows() + "*" + Cols + "*" + CvType.TypeToString(Type()) +
                    ", isCont=" + IsContinuous() + ", isSubmat=" + IsSubmatrix() +
                    ", nativeObj=0x" + Convert.ToString(ptr.ToInt64(), 16) +
                    ", dataAddr=0x" + Convert.ToString(DataAddr().ToInt64(), 16) +
