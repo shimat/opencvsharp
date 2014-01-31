@@ -113,6 +113,38 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern IntPtr core_Mat_col(IntPtr obj, int x);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_cols(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_colRange(IntPtr obj, int startCol, int endCol);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_dims(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo1")]
+        public static extern void core_Mat_convertTo(IntPtr obj, IntPtr m, int rtype);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo2")]
+        public static extern void core_Mat_convertTo(IntPtr obj, IntPtr m, int rtype, double alpha);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo3")]
+        public static extern void core_Mat_convertTo(IntPtr obj, IntPtr m, int rtype, double alpha, double beta);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_copyTo(IntPtr obj, IntPtr m, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_create1")]
+        public static extern void core_Mat_create(IntPtr obj, int rows, int cols, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_create2")]
+        public static extern void core_Mat_create(IntPtr obj, int ndims, 
+            [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_cross(IntPtr obj, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe byte* core_Mat_data(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_datastart(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_dataend(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_depth(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_diag(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_diag(IntPtr obj, int d);
+
         #endregion
 
         #region cv

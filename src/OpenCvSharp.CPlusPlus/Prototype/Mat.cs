@@ -154,6 +154,18 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         #endregion
 
+        #region Static
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static Mat Diag(Mat d)
+        {
+            return d.Diag();
+        }
+        #endregion
+
         #region Public Methods
         #region AdjustROI
         /// <summary>
@@ -166,6 +178,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
+            ThrowIfDisposed();
             try
             {
                 IntPtr retPtr = CppInvoke.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
@@ -180,7 +193,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         #endregion
         #region AssignTo
-
         /// <summary>
         /// 
         /// </summary>
@@ -188,9 +200,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         public void AssignTo(Mat m, MatrixType type)
         {
+            ThrowIfDisposed();
+            if(m == null)
+                throw new ArgumentNullException("m");
             try
             {
-                CppInvoke.core_Mat_assignTo(ptr, m.CvPtr, (int) type);
+                CppInvoke.core_Mat_assignTo(ptr, m.CvPtr, (int)type);
             }
             catch (BadImageFormatException ex)
             {
@@ -213,7 +228,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
-
         #endregion
         #region Channels
         /// <summary>
@@ -222,6 +236,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public int Channels()
         {
+            ThrowIfDisposed();
             try
             {
                 return CppInvoke.core_Mat_channels(ptr);
@@ -240,6 +255,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public int CheckVector(int elemChannels)
         {
+            ThrowIfDisposed();
             try
             {
                 int retVal = CppInvoke.core_Mat_checkVector(ptr, elemChannels);
@@ -258,6 +274,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public int CheckVector(int elemChannels, int depth)
         {
+            ThrowIfDisposed();
             try
             {
                 int retVal = CppInvoke.core_Mat_checkVector(ptr, elemChannels, depth);
@@ -277,6 +294,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public int CheckVector(int elemChannels, int depth, bool requireContinuous)
         {
+            ThrowIfDisposed();
             try
             {
                 int retVal = CppInvoke.core_Mat_checkVector(
@@ -296,6 +314,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Mat Clone()
         {
+            ThrowIfDisposed();
             try
             {
                 IntPtr retPtr = CppInvoke.core_Mat_clone(ptr);
@@ -320,6 +339,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Mat Col(int x)
         {
+            ThrowIfDisposed();
             try
             {
                 IntPtr retPtr = CppInvoke.core_Mat_col(ptr, x);
@@ -341,31 +361,42 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             get
             {
-                if (cols == int.MinValue)
+                if (colsVal == int.MinValue)
                 {
                     try
                     {
-                        cols = CppInvoke.core_Mat_cols(ptr);
+                        colsVal = CppInvoke.core_Mat_cols(ptr);
                     }
                     catch (BadImageFormatException ex)
                     {
                         throw PInvokeHelper.CreateException(ex);
                     }
                 }
-                return cols;
+                return colsVal;
             }
         }
-        private int cols = int.MinValue;
+        private int colsVal = int.MinValue;
         #endregion
+        #region ColRange
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="startcol"></param>
-        /// <param name="endcol"></param>
+        /// <param name="startCol"></param>
+        /// <param name="endCol"></param>
         /// <returns></returns>
-        public Mat ColRange(int startcol, int endcol)
+        public Mat ColRange(int startCol, int endCol)
         {
-            return ColRange(new Range(startcol, endcol));
+            ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_colRange(ptr, startCol, endCol);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
         /// <summary>
         /// 
@@ -374,115 +405,299 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Mat ColRange(Range r)
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_colRange(ptr, r.Start, r.End));
-            //return retVal;
+            return ColRange(r.Start, r.End);
         }
-
-        // javadoc: Mat::dims()
-        public int Dims()
+        #endregion
+        #region Dims
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Dims
         {
-            throw new NotImplementedException();
-            //int retVal = n_dims(ptr);
-            //return retVal;
+            get
+            {
+                ThrowIfDisposed();
+                try
+                {
+                    return CppInvoke.core_Mat_dims(ptr);
+                }
+                catch (BadImageFormatException ex)
+                {
+                    throw PInvokeHelper.CreateException(ex);
+                }
+            }
         }
-
-        // javadoc: Mat::convertTo(m, rtype, alpha, beta)
-        public void ConvertTo(Mat m, int rtype, double alpha, double beta)
-        {
-            throw new NotImplementedException();
-            //n_convertTo(ptr, m.ptr, rtype, alpha, beta);
-        }
-
-        // javadoc: Mat::convertTo(m, rtype, alpha)
-        public void ConvertTo(Mat m, int rtype, double alpha)
-        {
-            throw new NotImplementedException();
-            //n_convertTo(ptr, m.ptr, rtype, alpha);
-        }
-
-        // javadoc: Mat::convertTo(m, rtype)
+        #endregion
+        #region ConvertTo
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="rtype"></param>
         public void ConvertTo(Mat m, int rtype)
         {
-            throw new NotImplementedException();
-            //n_convertTo(ptr, m.ptr, rtype);
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException("m");
+            try
+            {
+                CppInvoke.core_Mat_convertTo(ptr, m.CvPtr, rtype);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::copyTo(m)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="rtype"></param>
+        /// <param name="alpha"></param>
+        public void ConvertTo(Mat m, int rtype, double alpha)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException("m");
+            try
+            {
+                CppInvoke.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="rtype"></param>
+        /// <param name="alpha"></param>
+        /// <param name="beta"></param>
+        public void ConvertTo(Mat m, int rtype, double alpha, double beta)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException("m");
+            try
+            {
+                CppInvoke.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha, beta);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
+        #region CopyTo
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
         public void CopyTo(Mat m)
         {
-            throw new NotImplementedException();
-            //n_copyTo(ptr, m.ptr);
+            CopyTo(m, null);
         }
-
-        // javadoc: Mat::copyTo(m, mask)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="mask"></param>
         public void CopyTo(Mat m, Mat mask)
         {
-            throw new NotImplementedException();
-            //n_copyTo(ptr, m.ptr, mask.ptr);
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException("m");
+            try
+            {
+                IntPtr maskPtr = GetCvPtr(mask);
+                CppInvoke.core_Mat_copyTo(ptr, m.CvPtr, maskPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::create(rows, cols, type)
-        public void Create(int rows, int cols, int type)
+        #endregion
+        #region Create
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        public void Create(int rows, int cols, MatrixType type)
         {
-            throw new NotImplementedException();
-            //n_create(ptr, rows, cols, type);
+            ThrowIfDisposed();
+            try
+            {
+                CppInvoke.core_Mat_create(ptr, rows, cols, (int)type);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::create(size, type)
-        public void Create(Size size, int type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
+        public void Create(Size size, MatrixType type)
         {
-            throw new NotImplementedException();
-            //n_create(ptr, size.Width, size.Height, type);
+            Create(size.Width, size.Height, type);
         }
-
-        // javadoc: Mat::cross(m)
+        #endregion
+        #region Cross
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         public Mat Cross(Mat m)
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_cross(ptr, m.ptr));
-            //return retVal;
+            ThrowIfDisposed();
+            if(m == null)
+                throw new ArgumentNullException("m");
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_cross(ptr, m.CvPtr);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::dataAddr()
-        public IntPtr DataAddr()
+        #endregion
+        #region Data
+        /// <summary>
+        /// 
+        /// </summary>
+        public IntPtr Data
         {
-            throw new NotImplementedException();
-            //IntPtr retVal = n_dataAddr(ptr);
-            //return retVal;
+            get
+            {
+                unsafe
+                {
+                    return new IntPtr(DataPointer);
+                }
+            }
         }
-
-        // javadoc: Mat::depth()
+        /// <summary>
+        /// 
+        /// </summary>
+        public unsafe byte* DataPointer
+        {
+            get
+            {
+                ThrowIfDisposed();
+                try
+                {
+                    return CppInvoke.core_Mat_data(ptr);
+                }
+                catch (BadImageFormatException ex)
+                {
+                    throw PInvokeHelper.CreateException(ex);
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public IntPtr DataStart
+        {
+            get
+            {
+                ThrowIfDisposed();
+                try
+                {
+                    return CppInvoke.core_Mat_datastart(ptr);
+                }
+                catch (BadImageFormatException ex)
+                {
+                    throw PInvokeHelper.CreateException(ex);
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public IntPtr DataEnd
+        {
+            get
+            {
+                ThrowIfDisposed();
+                try
+                {
+                    return CppInvoke.core_Mat_dataend(ptr);
+                }
+                catch (BadImageFormatException ex)
+                {
+                    throw PInvokeHelper.CreateException(ex);
+                }
+            }
+        }
+        #endregion
+        #region Depth
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Depth()
         {
-            throw new NotImplementedException();
-            //int retVal = n_depth(ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_depth(ptr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::diag(d)
-        public Mat Diag(int d)
-        {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_diag(ptr, d));
-            //return retVal;
-        }
-
-        // javadoc: Mat::diag()
+        #endregion
+        #region Diag
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Mat Diag()
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_diag(ptr, 0));
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_diag(ptr);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        // javadoc: Mat::diag(d)
-        public static Mat Diag(Mat d)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public Mat Diag(int d)
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_diag(d.ptr));
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_diag(ptr, d);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
+        #endregion
 
         // javadoc: Mat::dot(m)
         public double Dot(Mat m)
@@ -661,11 +876,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         }
 
         // javadoc: Mat::rows()
-        public int Rows()
+        public int Rows
         {
-            throw new NotImplementedException();
-            //int retVal = n_rows(ptr);
-            //return retVal;
+            get
+            {
+                throw new NotImplementedException();
+                //int retVal = n_rows(ptr);
+                //return retVal;
+            }
         }
 
         // javadoc: Mat::operator =(s)
@@ -797,10 +1015,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public override string ToString()
         {
             return "Mat [ " +
-                   Rows() + "*" + Cols() + "*" + CvType.TypeToString(Type()) +
+                   Rows + "*" + Cols + "*" + CvType.TypeToString(Type()) +
                    ", isCont=" + IsContinuous() + ", isSubmat=" + IsSubmatrix() +
                    ", nativeObj=0x" + Convert.ToString(ptr.ToInt64(), 16) +
-                   ", dataAddr=0x" + Convert.ToString(DataAddr().ToInt64(), 16) +
+                   ", dataAddr=0x" + Convert.ToString(Data.ToInt64(), 16) +
                    " ]";
         }
 
@@ -978,9 +1196,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        public int Height()
+        public int Height
         {
-            return Rows();
+            get { return Rows; }
         }
 
         /// <summary>
@@ -991,18 +1209,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             get
             {
-                if (cols == int.MinValue)
+                if (colsVal == int.MinValue)
                 {
-                    try
-                    {
-                        cols = CppInvoke.core_Mat_cols(ptr);
-                    }
-                    catch (BadImageFormatException ex)
-                    {
-                        throw PInvokeHelper.CreateException(ex);
-                    }
+                    colsVal = Cols; 
                 }
-                return cols;
+                return colsVal;
             }
         }
         #endregion

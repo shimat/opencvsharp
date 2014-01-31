@@ -258,6 +258,15 @@ namespace OpenCvSharp
             AllocatedMemorySize = size;
             GC.AddMemoryPressure(size);
         }
+
+        /// <summary>
+        /// このオブジェクトが解放済みの場合はObjectDisposedExceptionを投げる
+        /// </summary>
+        protected void ThrowIfDisposed()
+        {
+            if (IsDisposed) 
+                throw new ObjectDisposedException(GetType().FullName);
+        }
         #endregion
     }
 }
