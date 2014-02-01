@@ -23,6 +23,7 @@ namespace OpenCvSharp.Sandbox
                 
                 Mat matMul = mat.Mul(mat2);
                 matMul.GetHashCode();
+                //Console.WriteLine(mat.Dump());
 
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)

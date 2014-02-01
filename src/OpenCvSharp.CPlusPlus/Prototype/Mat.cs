@@ -142,21 +142,28 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             if (!disposed)
             {
-                // releases managed resources
-                if (disposing)
+                try
                 {
+                    // releases managed resources
+                    if (disposing)
+                    {
+                    }
+                    // releases unmanaged resources
+                    CppInvoke.core_Mat_delete(ptr);
+                    //CppInvoke.core_Mat_release(ptr);
+                    disposed = true;
                 }
-                // releases unmanaged resources
-                CppInvoke.core_Mat_delete(ptr);
-                //CppInvoke.core_Mat_release(ptr);
-                base.Dispose(disposing);
-                disposed = true;
+                finally
+                {
+                    base.Dispose(disposing);
+                }
             }
         }
 
         #endregion
 
         #region Static
+        #region Diag
         /// <summary>
         /// 
         /// </summary>
@@ -166,7 +173,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return d.Diag();
         }
-
+        #endregion
+        #region Eye
         /// <summary>
         /// 
         /// </summary>
@@ -197,6 +205,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+        #endregion
+        #region Ones
         /// <summary>
         /// 
         /// </summary>
@@ -217,7 +227,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -229,6 +238,86 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             return Ones(size.Height, size.Width, type);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="sizes"></param>
+        /// <returns></returns>
+        public static MatExpr Ones(MatrixType type, params int[] sizes)
+        {
+            if(sizes == null)
+                throw new ArgumentNullException("sizes");
+            /*
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_ones(sizes.Length, sizes, (int)type);
+                MatExpr retVal = new MatExpr(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }*/
+            throw new NotImplementedException(); // Undefined this in .lib file
+        }
+        #endregion
+        #region Zeros
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static MatExpr Zeros(int rows, int cols, MatrixType type)
+        {
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_zeros(rows, cols, (int)type);
+                MatExpr retVal = new MatExpr(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static MatExpr Zeros(Size size, MatrixType type)
+        {
+            return Zeros(size.Height, size.Width, type);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="sizes"></param>
+        /// <returns></returns>
+        public static MatExpr Zeros(MatrixType type, params int[] sizes)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("sizes");
+            /*
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_zeros(sizes.Length, sizes, (int)type);
+                MatExpr retVal = new MatExpr(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }*/
+            throw new NotImplementedException();
+        }
+        #endregion
         #endregion
 
         #region Operators
@@ -1436,66 +1525,63 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
         #endregion
+        #region T
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public Mat T()
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_t(ptr));
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_t(ptr);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
+        #endregion
+        #region Total
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public long Total()
         {
-            throw new NotImplementedException();
-            //long retVal = n_total(ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_total(ptr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
+        #endregion
+        #region Type
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public int Type()
+        public MatrixType Type()
         {
-            throw new NotImplementedException();
-            //int retVal = n_type(ptr);
-            //return retVal;
+            ThrowIfDisposed();
+            try
+            {
+                return (MatrixType)CppInvoke.core_Mat_type(ptr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static Mat Zeros(int rows, int cols, int type)
-        {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_zeros(rows, cols, type));
-            //return retVal;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static Mat Zeros(Size size, int type)
-        {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_zeros(size.Width, size.Height, type));
-            //return retVal;
-        }
-
+        #endregion
+        #region ToString
         /// <summary>
         /// 
         /// </summary>
@@ -1503,21 +1589,34 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public override string ToString()
         {
             return "Mat [ " +
-                   Rows + "*" + Cols + "*" + CvType.TypeToString(Type()) +
-                   ", isCont=" + IsContinuous() + ", isSubmat=" + IsSubmatrix() +
-                   ", nativeObj=0x" + Convert.ToString(ptr.ToInt64(), 16) +
-                   ", dataAddr=0x" + Convert.ToString(Data.ToInt64(), 16) +
+                   Rows + "*" + Cols + "*" + CvType.TypeToString((int)Type()) +
+                   ", IsContinuous=" + IsContinuous() + ", IsSubmatrix=" + IsSubmatrix() +
+                   ", NativeObject=0x" + Convert.ToString(ptr.ToInt64(), 16) +
+                   ", DataAddr=0x" + Convert.ToString(Data.ToInt64(), 16) +
                    " ]";
         }
-
+        #endregion
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public String Dump()
+        public string Dump()
         {
-            throw new NotImplementedException();
-            //return nDump(ptr);
+            ThrowIfDisposed();
+            try
+            {
+                unsafe
+                {
+                    sbyte *buf = CppInvoke.core_Mat_dump(ptr);
+                    string ret = new string(buf);
+                    CppInvoke.core_Mat_dump_delete(buf);
+                    return ret;
+                }
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>

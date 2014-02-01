@@ -30,13 +30,19 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             if (!disposed)
             {
-                if (disposing)
+                try
                 {
+                    if (disposing)
+                    {
+                    }
+                    //Console.WriteLine("MatExpr disposed");
+                    CppInvoke.core_MatExpr_delete(ptr);
+                    disposed = true;
                 }
-                Console.WriteLine("MatExpr disposed");
-                CppInvoke.core_MatExpr_delete(ptr);
-                disposed = true;
-                base.Dispose(disposing);
+                finally
+                {
+                    base.Dispose(disposing);
+                }
             }
         }
 
