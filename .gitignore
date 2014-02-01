@@ -16,7 +16,9 @@ TestResults
 # Build results
 [Dd]ebug/
 [Rr]elease/
-x64/
+#x64/
+OpenCvSharpExtern/x64
+OpenCvSharpExternGpu/x64
 *_i.c
 *_p.c
 *.ilk
