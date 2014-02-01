@@ -106,6 +106,9 @@
     <ClCompile Include="highgui.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="core_MatExpr.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -197,6 +200,12 @@
     </ClInclude>
     <ClInclude Include="highgui.h">
       <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_MatExpr.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="include_opencv.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

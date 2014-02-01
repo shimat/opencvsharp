@@ -119,11 +119,11 @@ namespace OpenCvSharp
                     if (disposing)
                     {
                     }
+                    ptr = IntPtr.Zero;
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

@@ -6,7 +6,7 @@
 #ifndef _CPP_HIGHGUI_H_
 #define _CPP_HIGHGUI_H_
 
-#include <opencv2/highgui/highgui.hpp>
+#include "include_opencv.h"
 
 CVAPI(void) highgui_namedWindow(const char *winname, int flags)
 {
