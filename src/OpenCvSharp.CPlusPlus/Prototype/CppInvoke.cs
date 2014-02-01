@@ -96,78 +96,113 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_adjustROI(IntPtr nativeObj, int dtop, int dbottom, int dleft, int dright);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_assignTo1")]
-        public static extern void core_Mat_assignTo(IntPtr obj, IntPtr m);
+        public static extern void core_Mat_assignTo(IntPtr self, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_assignTo2")]
-        public static extern void core_Mat_assignTo(IntPtr obj, IntPtr m, int type);
+        public static extern void core_Mat_assignTo(IntPtr self, IntPtr m, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_channels(IntPtr obj);
+        public static extern int core_Mat_channels(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_checkVector1")]
-        public static extern int core_Mat_checkVector(IntPtr obj, int elemChannels);
+        public static extern int core_Mat_checkVector(IntPtr self, int elemChannels);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_checkVector2")]
-        public static extern int core_Mat_checkVector(IntPtr obj, int elemChannels, int depth);
+        public static extern int core_Mat_checkVector(IntPtr self, int elemChannels, int depth);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_checkVector3")]
-        public static extern int core_Mat_checkVector(IntPtr obj, int elemChannels, int depth, int requireContinuous);
+        public static extern int core_Mat_checkVector(IntPtr self, int elemChannels, int depth, int requireContinuous);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_clone(IntPtr obj);
+        public static extern IntPtr core_Mat_clone(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_col(IntPtr obj, int x);
+        public static extern IntPtr core_Mat_col(IntPtr self, int x);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_cols(IntPtr obj);
+        public static extern int core_Mat_cols(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_colRange(IntPtr obj, int startCol, int endCol);
+        public static extern IntPtr core_Mat_colRange(IntPtr self, int startCol, int endCol);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_dims(IntPtr obj);
+        public static extern int core_Mat_dims(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo1")]
-        public static extern void core_Mat_convertTo(IntPtr obj, IntPtr m, int rtype);
+        public static extern void core_Mat_convertTo(IntPtr self, IntPtr m, int rtype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo2")]
-        public static extern void core_Mat_convertTo(IntPtr obj, IntPtr m, int rtype, double alpha);
+        public static extern void core_Mat_convertTo(IntPtr self, IntPtr m, int rtype, double alpha);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo3")]
-        public static extern void core_Mat_convertTo(IntPtr obj, IntPtr m, int rtype, double alpha, double beta);
+        public static extern void core_Mat_convertTo(IntPtr self, IntPtr m, int rtype, double alpha, double beta);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_copyTo(IntPtr obj, IntPtr m, IntPtr mask);
+        public static extern void core_Mat_copyTo(IntPtr self, IntPtr m, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_create1")]
-        public static extern void core_Mat_create(IntPtr obj, int rows, int cols, int type);
+        public static extern void core_Mat_create(IntPtr self, int rows, int cols, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_create2")]
-        public static extern void core_Mat_create(IntPtr obj, int ndims, 
+        public static extern void core_Mat_create(IntPtr self, int ndims, 
             [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_cross(IntPtr obj, IntPtr m);
+        public static extern IntPtr core_Mat_cross(IntPtr self, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* core_Mat_data(IntPtr obj);
+        public static extern unsafe byte* core_Mat_data(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_datastart(IntPtr obj);
+        public static extern IntPtr core_Mat_datastart(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_dataend(IntPtr obj);
+        public static extern IntPtr core_Mat_dataend(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_depth(IntPtr obj);
+        public static extern int core_Mat_depth(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_diag1")]
-        public static extern IntPtr core_Mat_diag(IntPtr obj);
+        public static extern IntPtr core_Mat_diag(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_diag2")]
-        public static extern IntPtr core_Mat_diag(IntPtr obj, int d);
+        public static extern IntPtr core_Mat_diag(IntPtr self, int d);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double core_Mat_dot(IntPtr obj, IntPtr m);
+        public static extern double core_Mat_dot(IntPtr self, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long core_Mat_elemSize(IntPtr obj);
+        public static extern long core_Mat_elemSize(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long core_Mat_elemSize1(IntPtr obj);
+        public static extern long core_Mat_elemSize1(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_empty(IntPtr obj);
+        public static extern int core_Mat_empty(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_eye(int rows, int cols, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_inv1")]
-        public static extern IntPtr core_Mat_inv(IntPtr obj);
+        public static extern IntPtr core_Mat_inv(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_inv2")]
-        public static extern IntPtr core_Mat_inv(IntPtr obj, int method);
+        public static extern IntPtr core_Mat_inv(IntPtr self, int method);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_isContinuous(IntPtr obj);
+        public static extern int core_Mat_isContinuous(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_isSubmatrix(IntPtr obj);
+        public static extern int core_Mat_isSubmatrix(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_locateROI(IntPtr obj, out CvSize wholeSize, out CvPoint ofs);
+        public static extern void core_Mat_locateROI(IntPtr self, out CvSize wholeSize, out CvPoint ofs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_mul1")]
-        public static extern IntPtr core_Mat_mul(IntPtr obj, IntPtr m);
+        public static extern IntPtr core_Mat_mul(IntPtr self, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_mul2")]
-        public static extern IntPtr core_Mat_mul(IntPtr obj, IntPtr m, double scale);
+        public static extern IntPtr core_Mat_mul(IntPtr self, IntPtr m, double scale);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_ones(int rows, int cols, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back(IntPtr self, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_push_back1")]
+        public static extern IntPtr core_Mat_reshape(IntPtr self, int cn);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_push_back2")]
+        public static extern IntPtr core_Mat_reshape(IntPtr self, int cn, int rows);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_push_back3")]
+        public static extern IntPtr core_Mat_reshape(IntPtr self, int cn, int newndims, [MarshalAs(UnmanagedType.LPArray)] int[] newsz);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_row(IntPtr self, int y);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_rowRange(IntPtr self, int startRow, int endRow);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_setTo1")]
+        public static extern IntPtr core_Mat_setTo(IntPtr self, CvScalar value, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_setTo2")]
+        public static extern IntPtr core_Mat_setTo(IntPtr self, IntPtr value, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvSize core_Mat_size(IntPtr self);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_sizeAt(IntPtr self, int i);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_step11")]
+        public static extern long core_Mat_step1(IntPtr self);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_step12")]
+        public static extern long core_Mat_step1(IntPtr self, int i);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern long core_Mat_step(IntPtr self);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern long core_Mat_stepAt(IntPtr self, int i);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_subMat1")]
+        public static extern IntPtr core_Mat_subMat(IntPtr self, int rowStart, int rowEnd, int colStart, int colEnd);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_subMat2")]
+        public static extern IntPtr core_Mat_subMat(IntPtr self, int nRanges, CvSlice[] ranges);
         #endregion
         #region MatExpr
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -222,54 +257,54 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr StereoSGBM_new2(int minDisparity, int numDisparities, int sadWindowSize, int p1, int p2, int disp12MaxDiff, int preFilterCap, int uniquenessRatio, int speckleWindowSize, int speckleRange, [MarshalAs(UnmanagedType.Bool)] bool fullDP);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_delete(IntPtr obj);
+        public static extern void StereoSGBM_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_exec(IntPtr obj, IntPtr left, IntPtr right, IntPtr disp);
+        public static extern void StereoSGBM_exec(IntPtr self, IntPtr left, IntPtr right, IntPtr disp);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_minDisparity_get(IntPtr obj);
+        public static extern int StereoSGBM_minDisparity_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_minDisparity_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_minDisparity_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_numberOfDisparities_get(IntPtr obj);
+        public static extern int StereoSGBM_numberOfDisparities_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_numberOfDisparities_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_numberOfDisparities_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_SADWindowSize_get(IntPtr obj);
+        public static extern int StereoSGBM_SADWindowSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_SADWindowSize_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_SADWindowSize_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_preFilterCap_get(IntPtr obj);
+        public static extern int StereoSGBM_preFilterCap_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_preFilterCap_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_preFilterCap_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_uniquenessRatio_get(IntPtr obj);
+        public static extern int StereoSGBM_uniquenessRatio_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_uniquenessRatio_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_uniquenessRatio_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_P1_get(IntPtr obj);
+        public static extern int StereoSGBM_P1_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_P1_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_P1_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_P2_get(IntPtr obj);
+        public static extern int StereoSGBM_P2_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_P2_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_P2_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_speckleWindowSize_get(IntPtr obj);
+        public static extern int StereoSGBM_speckleWindowSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_speckleWindowSize_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_speckleWindowSize_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_speckleRange_get(IntPtr obj);
+        public static extern int StereoSGBM_speckleRange_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_speckleRange_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_speckleRange_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_disp12MaxDiff_get(IntPtr obj);
+        public static extern int StereoSGBM_disp12MaxDiff_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_disp12MaxDiff_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_disp12MaxDiff_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_fullDP_get(IntPtr obj);
+        public static extern int StereoSGBM_fullDP_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_fullDP_set(IntPtr obj, int value);
+        public static extern void StereoSGBM_fullDP_set(IntPtr self, int value);
         #endregion
         #endregion
         #region core
@@ -278,48 +313,48 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cv_Algorithm_new();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_delete(IntPtr obj);
+        public static extern void cv_Algorithm_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_name(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf);
+        public static extern void cv_Algorithm_name(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cv_Algorithm_sizeof();
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cv_Algorithm_getInt(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern int cv_Algorithm_getInt(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double cv_Algorithm_getDouble(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern double cv_Algorithm_getDouble(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool cv_Algorithm_getBool(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern bool cv_Algorithm_getBool(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_getString(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf);
+        public static extern void cv_Algorithm_getString(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_getMat(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, out IntPtr outMat);
+        public static extern void cv_Algorithm_getMat(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, out IntPtr outMat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_getMatVector(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, out IntPtr outVec);
+        public static extern void cv_Algorithm_getMatVector(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, out IntPtr outVec);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cv_Algorithm_getAlgorithm(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern IntPtr cv_Algorithm_getAlgorithm(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_setInt(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, int value);
+        public static extern void cv_Algorithm_setInt(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_setDouble(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, double value);
+        public static extern void cv_Algorithm_setDouble(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, double value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_setBool(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.Bool)] bool value);
+        public static extern void cv_Algorithm_setBool(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.Bool)] bool value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_setString(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string value);
+        public static extern void cv_Algorithm_setString(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_setMat(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
+        public static extern void cv_Algorithm_setMat(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_setMatVector(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
+        public static extern void cv_Algorithm_setMatVector(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Algorithm_setAlgorithm(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
+        public static extern void cv_Algorithm_setAlgorithm(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
         #endregion
         #region MatND
         #region Init & Disposal
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int MatND_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void MatND_delete(IntPtr obj);
+        public static extern void MatND_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr MatND_new1();
         #endregion
@@ -428,7 +463,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #endregion
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_solvePnP(IntPtr objectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, bool useExtrinsicGuess);
+        public static extern void cv_solvePnP(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, bool useExtrinsicGuess);
 
         #endregion
         #region highgui
@@ -454,63 +489,63 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CvCamShiftTracker_new();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvCamShiftTracker_delete(IntPtr obj);
+        public static extern void CvCamShiftTracker_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern float CvCamShiftTracker_get_orientation(IntPtr obj);
+        public static extern float CvCamShiftTracker_get_orientation(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern float CvCamShiftTracker_get_length(IntPtr obj);
+        public static extern float CvCamShiftTracker_get_length(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern float CvCamShiftTracker_get_width(IntPtr obj);
+        public static extern float CvCamShiftTracker_get_width(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvPoint2D32f CvCamShiftTracker_get_center(IntPtr obj);
+        public static extern CvPoint2D32f CvCamShiftTracker_get_center(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvRect CvCamShiftTracker_get_window(IntPtr obj);
+        public static extern CvRect CvCamShiftTracker_get_window(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvCamShiftTracker_get_threshold(IntPtr obj);
+        public static extern int CvCamShiftTracker_get_threshold(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvCamShiftTracker_get_hist_dims(IntPtr obj, [MarshalAs(UnmanagedType.LPArray)] int[] dims);
+        public static extern int CvCamShiftTracker_get_hist_dims(IntPtr self, [MarshalAs(UnmanagedType.LPArray)] int[] dims);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvCamShiftTracker_get_min_ch_val(IntPtr obj, int channel);
+        public static extern int CvCamShiftTracker_get_min_ch_val(IntPtr self, int channel);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvCamShiftTracker_get_max_ch_val(IntPtr obj, int channel);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_set_window(IntPtr obj, CvRect window);
+        public static extern int CvCamShiftTracker_get_max_ch_val(IntPtr self, int channel);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_set_threshold(IntPtr obj, int threshold);
+        public static extern bool CvCamShiftTracker_set_window(IntPtr self, CvRect window);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_set_hist_bin_range(IntPtr obj, int dim, int minVal, int maxVal);
+        public static extern bool CvCamShiftTracker_set_threshold(IntPtr self, int threshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_set_hist_dims(IntPtr obj, int cDims, [MarshalAs(UnmanagedType.LPArray)] int[] dims);
+        public static extern bool CvCamShiftTracker_set_hist_bin_range(IntPtr self, int dim, int minVal, int maxVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_set_min_ch_val(IntPtr obj, int channel, int val);
+        public static extern bool CvCamShiftTracker_set_hist_dims(IntPtr self, int cDims, [MarshalAs(UnmanagedType.LPArray)] int[] dims);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_set_max_ch_val(IntPtr obj, int channel, int val);
+        public static extern bool CvCamShiftTracker_set_min_ch_val(IntPtr self, int channel, int val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_track_object(IntPtr obj, IntPtr curFrame);
+        public static extern bool CvCamShiftTracker_set_max_ch_val(IntPtr self, int channel, int val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CvCamShiftTracker_update_histogram(IntPtr obj, IntPtr curFrame);
+        public static extern bool CvCamShiftTracker_track_object(IntPtr self, IntPtr curFrame);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvCamShiftTracker_reset_histogram(IntPtr obj);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CvCamShiftTracker_update_histogram(IntPtr self, IntPtr curFrame);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvCamShiftTracker_get_back_project(IntPtr obj);
+        public static extern void CvCamShiftTracker_reset_histogram(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern float CvCamShiftTracker_query(IntPtr obj, [MarshalAs(UnmanagedType.LPArray)] int[] bin);
+        public static extern IntPtr CvCamShiftTracker_get_back_project(IntPtr self);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float CvCamShiftTracker_query(IntPtr self, [MarshalAs(UnmanagedType.LPArray)] int[] bin);
         #endregion
         #region CvAdaptiveSkinDetector
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CvAdaptiveSkinDetector_new(int samplingDivider, [MarshalAs(UnmanagedType.I4)] MorphingMethod morphingMethod);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvAdaptiveSkinDetector_delete(IntPtr obj);
+        public static extern void CvAdaptiveSkinDetector_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvAdaptiveSkinDetector_process(IntPtr obj, IntPtr inputBgrImage, IntPtr outputHueMask);
+        public static extern void CvAdaptiveSkinDetector_process(IntPtr self, IntPtr inputBgrImage, IntPtr outputHueMask);
         #endregion
         #region HOGDescriptor
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -524,77 +559,77 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr HOGDescriptor_new3([MarshalAs(UnmanagedType.LPStr)] string fileName);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_delete(IntPtr obj);
+        public static extern void HOGDescriptor_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr HOGDescriptor_getDescriptorSize(IntPtr obj);
+        public static extern IntPtr HOGDescriptor_getDescriptorSize(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HOGDescriptor_checkDetectorSize(IntPtr obj);
+        public static extern bool HOGDescriptor_checkDetectorSize(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double HOGDescriptor_getWinSigma(IntPtr obj);
+        public static extern double HOGDescriptor_getWinSigma(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_setSVMDetector(IntPtr obj, IntPtr svmdetector);
+        public static extern void HOGDescriptor_setSVMDetector(IntPtr self, IntPtr svmdetector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool HOGDescriptor_load(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string objname);
+        public static extern bool HOGDescriptor_load(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string objname);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_save(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string objname);
+        public static extern void HOGDescriptor_save(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string objname);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_compute(IntPtr obj, IntPtr img, IntPtr descriptors,
+        public static extern void HOGDescriptor_compute(IntPtr self, IntPtr img, IntPtr descriptors,
                          CvSize winStride, CvSize padding, [In] CvPoint[] locations, int locationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_detect(IntPtr obj, IntPtr img, IntPtr foundLocations,
+        public static extern void HOGDescriptor_detect(IntPtr self, IntPtr img, IntPtr foundLocations,
                         double hitThreshold, CvSize winStride, CvSize padding, [In] CvPoint[] searchLocations, int searchLocationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_detectMultiScale(IntPtr obj, IntPtr img, IntPtr foundLocations,
+        public static extern void HOGDescriptor_detectMultiScale(IntPtr self, IntPtr img, IntPtr foundLocations,
                                   double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_computeGradient(IntPtr obj, IntPtr img, IntPtr grad, IntPtr angleOfs, CvSize paddingTL, CvSize paddingBR);
+        public static extern void HOGDescriptor_computeGradient(IntPtr self, IntPtr img, IntPtr grad, IntPtr angleOfs, CvSize paddingTL, CvSize paddingBR);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize HOGDescriptor_winSize_get(IntPtr obj);
+        public static extern CvSize HOGDescriptor_winSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize HOGDescriptor_blockSize_get(IntPtr obj);
+        public static extern CvSize HOGDescriptor_blockSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize HOGDescriptor_blockStride_get(IntPtr obj);
+        public static extern CvSize HOGDescriptor_blockStride_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize HOGDescriptor_cellSize_get(IntPtr obj);
+        public static extern CvSize HOGDescriptor_cellSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int HOGDescriptor_nbins_get(IntPtr obj);
+        public static extern int HOGDescriptor_nbins_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int HOGDescriptor_derivAperture_get(IntPtr obj);
+        public static extern int HOGDescriptor_derivAperture_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double HOGDescriptor_winSigma_get(IntPtr obj);
+        public static extern double HOGDescriptor_winSigma_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int HOGDescriptor_histogramNormType_get(IntPtr obj);
+        public static extern int HOGDescriptor_histogramNormType_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double HOGDescriptor_L2HysThreshold_get(IntPtr obj);
+        public static extern double HOGDescriptor_L2HysThreshold_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int HOGDescriptor_gammaCorrection_get(IntPtr obj);
+        public static extern int HOGDescriptor_gammaCorrection_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int HOGDescriptor_nlevels_get(IntPtr obj);
+        public static extern int HOGDescriptor_nlevels_get(IntPtr self);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_winSize_set(IntPtr obj, CvSize value);
+        public static extern void HOGDescriptor_winSize_set(IntPtr self, CvSize value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_blockSize_set(IntPtr obj, CvSize value);
+        public static extern void HOGDescriptor_blockSize_set(IntPtr self, CvSize value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_blockStride_set(IntPtr obj, CvSize value);
+        public static extern void HOGDescriptor_blockStride_set(IntPtr self, CvSize value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_cellSize_set(IntPtr obj, CvSize value);
+        public static extern void HOGDescriptor_cellSize_set(IntPtr self, CvSize value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_nbins_set(IntPtr obj, int value);
+        public static extern void HOGDescriptor_nbins_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_derivAperture_set(IntPtr obj, int value);
+        public static extern void HOGDescriptor_derivAperture_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_winSigma_set(IntPtr obj, double value);
+        public static extern void HOGDescriptor_winSigma_set(IntPtr self, double value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_histogramNormType_set(IntPtr obj, int value);
+        public static extern void HOGDescriptor_histogramNormType_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_L2HysThreshold_set(IntPtr obj, double value);
+        public static extern void HOGDescriptor_L2HysThreshold_set(IntPtr self, double value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_gammaCorrection_set(IntPtr obj, int value);
+        public static extern void HOGDescriptor_gammaCorrection_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_nlevels_set(IntPtr obj, int value);
+        public static extern void HOGDescriptor_nlevels_set(IntPtr self, int value);
         #endregion
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cv_FAST(IntPtr image, IntPtr keypoints, int threshold, [MarshalAs(UnmanagedType.Bool)] bool nonmaxSupression);
@@ -609,7 +644,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int BackgroundSubtractor_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractor_getBackgroundImage(IntPtr obj, IntPtr backgroundImage);
+        public static extern void BackgroundSubtractor_getBackgroundImage(IntPtr self, IntPtr backgroundImage);
         #endregion
         #region BackgroundSubtractorMOG
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -619,32 +654,32 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr BackgroundSubtractorMOG_new2(int history, int nmixtures, double backgroundRatio, double noiseSigma);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG_delete(IntPtr obj);
+        public static extern void BackgroundSubtractorMOG_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG_operator(IntPtr obj, IntPtr image, IntPtr fgmask, double learningRate);
+        public static extern void BackgroundSubtractorMOG_operator(IntPtr self, IntPtr image, IntPtr fgmask, double learningRate);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG_initialize(IntPtr obj, CvSize frameSize, int frameType);
+        public static extern void BackgroundSubtractorMOG_initialize(IntPtr self, CvSize frameSize, int frameType);
         /*
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize BackgroundSubtractorMOG_frameSize_get(IntPtr obj);
+        public static extern CvSize BackgroundSubtractorMOG_frameSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG_frameSize_set(IntPtr obj, CvSize value);
+        public static extern void BackgroundSubtractorMOG_frameSize_set(IntPtr self, CvSize value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* BackgroundSubtractorMOG_frameType(IntPtr obj);
+        public static extern unsafe int* BackgroundSubtractorMOG_frameType(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr BackgroundSubtractorMOG_bgmodel(IntPtr obj);
+        public static extern IntPtr BackgroundSubtractorMOG_bgmodel(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* BackgroundSubtractorMOG_nframes(IntPtr obj);
+        public static extern unsafe int* BackgroundSubtractorMOG_nframes(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* BackgroundSubtractorMOG_history(IntPtr obj);
+        public static extern unsafe int* BackgroundSubtractorMOG_history(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* BackgroundSubtractorMOG_nmixtures(IntPtr obj);
+        public static extern unsafe int* BackgroundSubtractorMOG_nmixtures(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe double* BackgroundSubtractorMOG_varThreshold(IntPtr obj);
+        public static extern unsafe double* BackgroundSubtractorMOG_varThreshold(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe double* BackgroundSubtractorMOG_backgroundRatio(IntPtr obj);
+        public static extern unsafe double* BackgroundSubtractorMOG_backgroundRatio(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe double* BackgroundSubtractorMOG_noiseSigma(IntPtr obj);
+        public static extern unsafe double* BackgroundSubtractorMOG_noiseSigma(IntPtr self);
         //*/
         #endregion
         #region BackgroundSubtractorMOG2
@@ -655,51 +690,51 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr BackgroundSubtractorMOG2_new2(int history, float varThreshold, int bShadowDetection);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG2_delete(IntPtr obj);
+        public static extern void BackgroundSubtractorMOG2_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG2_operator(IntPtr obj, IntPtr image, IntPtr fgmask, double learningRate);
+        public static extern void BackgroundSubtractorMOG2_operator(IntPtr self, IntPtr image, IntPtr fgmask, double learningRate);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG2_getBackgroundImage(IntPtr obj, IntPtr backgroundImage);
+        public static extern void BackgroundSubtractorMOG2_getBackgroundImage(IntPtr self, IntPtr backgroundImage);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG2_initialize(IntPtr obj, CvSize frameSize, int frameType);
+        public static extern void BackgroundSubtractorMOG2_initialize(IntPtr self, CvSize frameSize, int frameType);
         /*
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize BackgroundSubtractorMOG2_frameSize_get(IntPtr obj);
+        public static extern CvSize BackgroundSubtractorMOG2_frameSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BackgroundSubtractorMOG2_frameSize_set(IntPtr obj, CvSize value);
+        public static extern void BackgroundSubtractorMOG2_frameSize_set(IntPtr self, CvSize value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* BackgroundSubtractorMOG2_frameType(IntPtr obj);
+        public static extern unsafe int* BackgroundSubtractorMOG2_frameType(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr BackgroundSubtractorMOG2_bgmodel(IntPtr obj);
+        public static extern IntPtr BackgroundSubtractorMOG2_bgmodel(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr BackgroundSubtractorMOG2_bgmodelUsedModes(IntPtr obj);
+        public static extern IntPtr BackgroundSubtractorMOG2_bgmodelUsedModes(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* BackgroundSubtractorMOG2_nframes(IntPtr obj);
+        public static extern unsafe int* BackgroundSubtractorMOG2_nframes(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* BackgroundSubtractorMOG2_history(IntPtr obj);
+        public static extern unsafe int* BackgroundSubtractorMOG2_history(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* BackgroundSubtractorMOG2_nmixtures(IntPtr obj);
+        public static extern unsafe int* BackgroundSubtractorMOG2_nmixtures(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* BackgroundSubtractorMOG2_varThreshold(IntPtr obj);
+        public static extern unsafe float* BackgroundSubtractorMOG2_varThreshold(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* BackgroundSubtractorMOG2_backgroundRatio(IntPtr obj);
+        public static extern unsafe float* BackgroundSubtractorMOG2_backgroundRatio(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* BackgroundSubtractorMOG2_varThresholdGen(IntPtr obj);
+        public static extern unsafe float* BackgroundSubtractorMOG2_varThresholdGen(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* BackgroundSubtractorMOG2_fVarInit(IntPtr obj);
+        public static extern unsafe float* BackgroundSubtractorMOG2_fVarInit(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* BackgroundSubtractorMOG2_fVarMin(IntPtr obj);
+        public static extern unsafe float* BackgroundSubtractorMOG2_fVarMin(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* BackgroundSubtractorMOG2_fVarMax(IntPtr obj);
+        public static extern unsafe float* BackgroundSubtractorMOG2_fVarMax(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* BackgroundSubtractorMOG2_fCT(IntPtr obj);
+        public static extern unsafe float* BackgroundSubtractorMOG2_fCT(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern unsafe bool* BackgroundSubtractorMOG2_bShadowDetection(IntPtr obj);
+        public static extern unsafe bool* BackgroundSubtractorMOG2_bShadowDetection(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* BackgroundSubtractorMOG2_nShadowDetection(IntPtr obj);
+        public static extern unsafe byte* BackgroundSubtractorMOG2_nShadowDetection(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* BackgroundSubtractorMOG2_fTau(IntPtr obj);
+        public static extern unsafe float* BackgroundSubtractorMOG2_fTau(IntPtr self);
         //*/
         #endregion
         #endregion

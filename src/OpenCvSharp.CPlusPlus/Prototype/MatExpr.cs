@@ -10,7 +10,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     public sealed class MatExpr : DisposableCvObject
     {
-        private bool disposed = false;
+        private bool disposed;
 
         /// <summary>
         /// 
@@ -33,7 +33,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 if (disposing)
                 {
                 }
-
+                Console.WriteLine("MatExpr disposed");
                 CppInvoke.core_MatExpr_delete(ptr);
                 disposed = true;
                 base.Dispose(disposing);
@@ -50,13 +50,21 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             try
             {
                 IntPtr retPtr = CppInvoke.core_MatExpr_toMat(self.ptr);
-                MatExpr retVal = new MatExpr(retPtr);
+                Mat retVal = new Mat(retPtr);
                 return retVal;
             }
             catch (BadImageFormatException ex)
             {
                 throw PInvokeHelper.CreateException(ex);
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Mat ToMat()
+        {
+            return (Mat)this;
         }
     }
 }

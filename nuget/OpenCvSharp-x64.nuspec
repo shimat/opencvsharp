@@ -10,9 +10,7 @@
         <iconUrl>http://opencvsharp.googlecode.com/files/Lenna.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <releaseNotes>12/14/2013: Initial release
-01/19/2014: Pure C# implemented Blob
-01/28/2014: 2.4.8 support</releaseNotes>
+        <releaseNotes>2.4.8 support</releaseNotes>
         <copyright>Copyright 2008-2014</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>

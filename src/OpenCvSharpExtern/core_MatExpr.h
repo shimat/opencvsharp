@@ -19,7 +19,7 @@ CVAPI(void) core_MatExpr_delete(cv::MatExpr *expr)
 
 CVAPI(cv::Mat*) core_MatExpr_toMat(cv::MatExpr *expr)
 {
-	cv::Mat ret = (cv::Mat)(*expr);
+	cv::Mat ret = (*expr);
 	return new cv::Mat(ret);
 }
 
