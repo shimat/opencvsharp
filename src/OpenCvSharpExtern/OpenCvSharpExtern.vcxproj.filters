@@ -100,6 +100,15 @@
     <ClCompile Include="WVideo.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="core_Mat.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="highgui.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core_MatExpr.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -186,6 +195,18 @@
     <ClInclude Include="WVideo.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="core_Mat.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="highgui.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_MatExpr.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="include_opencv.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -205,6 +226,12 @@
     </Filter>
     <Filter Include="Sources\ml">
       <UniqueIdentifier>{d03264e9-15cd-4541-ae61-a92da46af74b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\cpp">
+      <UniqueIdentifier>{c5b62a33-7c12-4cd2-99d6-ae7a1374e09f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\cpp">
+      <UniqueIdentifier>{4837bbfb-a1fe-487b-b6d8-a9de07d36e5d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
