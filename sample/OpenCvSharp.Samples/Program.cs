@@ -32,6 +32,72 @@ namespace OpenCvSharpSamples
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            IplImage img = new IplImage(@"C:\stegano.png");
+            IplImage imgBin = new IplImage(img.Size, BitDepth.U8, 3);
+            IplImage imgBinBig = new IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 3);
+
+            IplImage imgB = new IplImage(img.Size, BitDepth.U8, 1);
+            IplImage imgG = new IplImage(img.Size, BitDepth.U8, 1);
+            IplImage imgR = new IplImage(img.Size, BitDepth.U8, 1);
+            IplImage imgBBin = new IplImage(img.Size, BitDepth.U8, 1);
+            IplImage imgGBin = new IplImage(img.Size, BitDepth.U8, 1);
+            IplImage imgRBin = new IplImage(img.Size, BitDepth.U8, 1);
+            IplImage imgRBinBig = new IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1);
+            IplImage imgGBinBig = new IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1);
+            IplImage imgBBinBig = new IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1);
+            IplImage imgBRBinBig = new IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1);
+            IplImage imgGRBinBig = new IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1);
+            IplImage imgBGBinBig = new IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1);
+            Cv.Split(img, imgB, imgG, imgR, null);
+
+            using (CvWindow windowAll = new CvWindow("all"))
+            using (CvWindow windowB = new CvWindow("B"))
+            using (CvWindow windowG = new CvWindow("G"))
+            using (CvWindow windowR = new CvWindow("R"))
+            using (CvWindow windowBR = new CvWindow("BR"))
+            using (CvWindow windowGR = new CvWindow("GR"))
+            using (CvWindow windowBG = new CvWindow("BG"))
+            {
+                CvTrackbarCallback callback = (pos) =>
+                {
+                    Cv.Threshold(img, imgBin, pos, 255, ThresholdType.Binary);
+                    Cv.Threshold(imgB, imgBBin, pos, 255, ThresholdType.Binary);
+                    Cv.Threshold(imgG, imgGBin, pos, 255, ThresholdType.Binary);
+                    Cv.Threshold(imgR, imgRBin, pos, 255, ThresholdType.Binary);
+                    Cv.Resize(imgBin, imgBinBig, Interpolation.NearestNeighbor);
+                    Cv.Resize(imgBBin, imgBBinBig, Interpolation.NearestNeighbor);
+                    Cv.Resize(imgGBin, imgGBinBig, Interpolation.NearestNeighbor);
+                    Cv.Resize(imgRBin, imgRBinBig, Interpolation.NearestNeighbor);
+                    Cv.Or(imgBBinBig, imgRBinBig, imgBRBinBig);
+                    Cv.Or(imgGBinBig, imgRBinBig, imgGRBinBig);
+                    Cv.Or(imgBBinBig, imgGBinBig, imgBGBinBig);
+                    windowAll.ShowImage(imgBinBig);
+                    windowB.ShowImage(imgBBinBig);
+                    windowG.ShowImage(imgGBinBig);
+                    windowR.ShowImage(imgRBinBig);
+                    windowBR.ShowImage(imgBRBinBig);
+                    windowGR.ShowImage(imgGRBinBig);
+                    windowBG.ShowImage(imgBGBinBig);
+                };
+                callback(128);
+                windowAll.CreateTrackbar("t", 128, 255, callback);
+
+                Cv.WaitKey();
+            }
+            
+
+
+
+            return;
+
+
+            IplImage imgAnd = new IplImage(img.Size, BitDepth.U8, 1);
+            imgAnd.Zero();
+            Cv.And(imgB, imgG, imgAnd);
+            Cv.And(imgAnd, imgR, imgAnd);
+
+            CvWindow.ShowImages(imgBin, imgB, imgG, imgR, imgAnd);
+
             //new Affine();                      // 画像のアフィン変換  
 
             //new BgSubtractorMOG();               // BackgroundSubtractorMOG

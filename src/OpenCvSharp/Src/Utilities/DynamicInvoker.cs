@@ -19,18 +19,8 @@ namespace OpenCvSharp.Utilities
     /// </summary>
     /// <typeparam name="T"></typeparam>
 #endif
-    public class DynamicInvoker<T> : IDisposable //where T : Delegate
+    public class DynamicInvoker<T> : DisposableObject 
     {
-#if LANG_JP
-        /// <summary>
-        /// 解放済みかどうか
-        /// </summary>
-#else
-        /// <summary>
-        /// Returns true if this instance is disposed
-        /// </summary>
-#endif
-        public bool IsDisposed { get; private set; }
 #if LANG_JP
         /// <summary>
         /// 読み込むライブラリの名前
@@ -82,6 +72,7 @@ namespace OpenCvSharp.Utilities
 #endif
         public T Call { get; private set; }
 
+        private bool disposed;
 
 #if LANG_JP
         /// <summary>
@@ -130,15 +121,22 @@ namespace OpenCvSharp.Utilities
         /// </summary>
 #else
         /// <summary>
-        /// Release library
+        /// Releases resources
         /// </summary>
+        /// <param name="disposing"></param>
 #endif
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (!IsDisposed)
+            if (!disposed)
             {
+                // Dispose of any managed resources of the derived class here.
+                if (disposing)
+                {
+                }
+                base.Dispose(disposing);
+                // Dispose of any unmanaged resources of the derived class here.
                 Win32API.FreeLibrary(PtrLib);
-                IsDisposed = true;
+                disposed = true;
             }
         }
     }

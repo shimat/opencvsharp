@@ -40,9 +40,9 @@ namespace OpenCvSharp
         /// <summary>
         /// 空のグラフを生成する
         /// </summary>
-        /// <param name="graph_flags">生成したグラフのタイプ．無向グラフの場合，CV_SEQ_KIND_GRAPH，有向グラフの場合，CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED． </param>
-        /// <param name="vtx_size">グラフのヘッダサイズ （sizeof(CvGraph)以上）</param>
-        /// <param name="edge_size">グラフの頂点サイズ</param>
+        /// <param name="graphFlags">生成したグラフのタイプ．無向グラフの場合，CV_SEQ_KIND_GRAPH，有向グラフの場合，CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED． </param>
+        /// <param name="vtxSize">グラフのヘッダサイズ （sizeof(CvGraph)以上）</param>
+        /// <param name="edgeSize">グラフの頂点サイズ</param>
         /// <param name="storage">グラフの辺サイズ</param>
 #else
         /// <summary>
@@ -62,10 +62,10 @@ namespace OpenCvSharp
         /// <summary>
         /// 空のグラフを生成する
         /// </summary>
-        /// <param name="graph_flags">生成したグラフのタイプ．無向グラフの場合，CV_SEQ_KIND_GRAPH，有向グラフの場合，CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED． </param>
-        /// <param name="header_size">グラフのヘッダサイズ （sizeof(CvGraph)以上）</param>
-        /// <param name="vtx_size">グラフの頂点サイズ</param>
-        /// <param name="edge_size">グラフの辺サイズ</param>
+        /// <param name="graphFlags">生成したグラフのタイプ．無向グラフの場合，CV_SEQ_KIND_GRAPH，有向グラフの場合，CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED． </param>
+        /// <param name="headerSize">グラフのヘッダサイズ （sizeof(CvGraph)以上）</param>
+        /// <param name="vtxSize">グラフの頂点サイズ</param>
+        /// <param name="edgeSize">グラフの辺サイズ</param>
         /// <param name="storage">グラフコンテナ</param>
 #else
         /// <summary>
@@ -178,8 +178,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフから辺を検出する（インデックス指定）
         /// </summary>
-        /// <param name="start_idx">辺の始点を示す頂点のインデックス． </param>
-        /// <param name="end_idx">辺の終点を示す頂点のインデックス．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startIdx">辺の始点を示す頂点のインデックス． </param>
+        /// <param name="endIdx">辺の終点を示す頂点のインデックス．無向グラフの場合，順序はどちらでもよい． </param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -197,8 +197,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフから辺を検出する（インデックス指定）
         /// </summary>
-        /// <param name="start_idx">辺の始点を示す頂点のインデックス． </param>
-        /// <param name="end_idx">辺の終点を示す頂点のインデックス．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startIdx">辺の始点を示す頂点のインデックス． </param>
+        /// <param name="endIdx">辺の終点を示す頂点のインデックス．無向グラフの場合，順序はどちらでもよい． </param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -218,8 +218,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフから辺を検出する（ポインタ指定）
         /// </summary>
-        /// <param name="start_vtx">辺の始点を示す頂点へのポインタ． </param>
-        /// <param name="end_vtx">辺の終点を示す頂点へのポインタ．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startVtx">辺の始点を示す頂点へのポインタ． </param>
+        /// <param name="endVtx">辺の終点を示す頂点へのポインタ．無向グラフの場合，順序はどちらでもよい． </param>
         /// <returns>指定した二つの頂点を接続する辺</returns>
 #else
         /// <summary>
@@ -237,8 +237,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフから辺を検出する（ポインタ指定）
         /// </summary>
-        /// <param name="start_vtx">辺の始点を示す頂点へのポインタ． </param>
-        /// <param name="end_vtx">辺の終点を示す頂点へのポインタ．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startVtx">辺の始点を示す頂点へのポインタ． </param>
+        /// <param name="endVtx">辺の終点を示す頂点へのポインタ．無向グラフの場合，順序はどちらでもよい． </param>
         /// <returns>指定した二つの頂点を接続する辺</returns>
 #else
         /// <summary>
@@ -258,8 +258,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフに辺を追加する（インデックス指定）
         /// </summary>
-        /// <param name="start_idx">辺の始点を示すインデックス</param>
-        /// <param name="end_idx">辺の終点を示すインデックス．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startIdx">辺の始点を示すインデックス</param>
+        /// <param name="endIdx">辺の終点を示すインデックス．無向グラフの場合，順序はどちらでもよい． </param>
         /// <returns>追加に成功すると1を返し，すでに二つの頂点を接続する辺が存在する場合は0を返し，頂点のどちらかが存在しない，始点と終点が同じとき，他の重大な問題があるときには-1を返す．</returns>
 #else
         /// <summary>
@@ -277,8 +277,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフに辺を追加する（インデックス指定）
         /// </summary>
-        /// <param name="start_idx">辺の始点を示すインデックス</param>
-        /// <param name="end_idx">辺の終点を示すインデックス．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startIdx">辺の始点を示すインデックス</param>
+        /// <param name="endIdx">辺の終点を示すインデックス．無向グラフの場合，順序はどちらでもよい． </param>
         /// <param name="edge">オプションの入力パラメータ．辺の初期化のためのデータ． </param>
         /// <returns>追加に成功すると1を返し，すでに二つの頂点を接続する辺が存在する場合は0を返し，頂点のどちらかが存在しない，始点と終点が同じとき，他の重大な問題があるときには-1を返す．</returns>
 #else
@@ -298,10 +298,10 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフに辺を追加する（インデックス指定）
         /// </summary>
-        /// <param name="start_idx">辺の始点を示すインデックス</param>
-        /// <param name="end_idx">辺の終点を示すインデックス．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startIdx">辺の始点を示すインデックス</param>
+        /// <param name="endIdx">辺の終点を示すインデックス．無向グラフの場合，順序はどちらでもよい． </param>
         /// <param name="edge">オプションの入力パラメータ．辺の初期化のためのデータ． </param>
-        /// <param name="inserted_edge">入力された辺のアドレスを保存するための，オプションの出力パラメータ． </param>
+        /// <param name="insertedEdge">入力された辺のアドレスを保存するための，オプションの出力パラメータ． </param>
         /// <returns>追加に成功すると1を返し，すでに二つの頂点を接続する辺が存在する場合は0を返し，頂点のどちらかが存在しない，始点と終点が同じとき，他の重大な問題があるときには-1を返す．</returns>
 #else
         /// <summary>
@@ -323,8 +323,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフに辺を追加する（ポインタ指定）
         /// </summary>
-        /// <param name="start_vtx">辺の始点を示す頂点</param>
-        /// <param name="end_vtx">辺の終点を示す頂点</param>
+        /// <param name="startVtx">辺の始点を示す頂点</param>
+        /// <param name="endVtx">辺の終点を示す頂点</param>
         /// <returns>追加に成功すると1を返し，すでに二つの頂点を接続する辺が存在する場合は0を返し，頂点のどちらかが存在しない，始点と終点が同じとき，他の重大な問題があるときには-1を返す．</returns>
 #else
         /// <summary>
@@ -342,8 +342,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフに辺を追加する（ポインタ指定）
         /// </summary>
-        /// <param name="start_vtx">辺の始点を示す頂点</param>
-        /// <param name="end_vtx">辺の終点を示す頂点</param>
+        /// <param name="startVtx">辺の始点を示す頂点</param>
+        /// <param name="endVtx">辺の終点を示す頂点</param>
         /// <param name="edge">オプションの入力パラメータ，辺の初期化データ．</param>
         /// <returns>追加に成功すると1を返し，すでに二つの頂点を接続する辺が存在する場合は0を返し，頂点のどちらかが存在しない，始点と終点が同じとき，他の重大な問題があるときには-1を返す．</returns>
 #else
@@ -363,10 +363,10 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフに辺を追加する（ポインタ指定）
         /// </summary>
-        /// <param name="start_vtx">辺の始点を示す頂点</param>
-        /// <param name="end_vtx">辺の終点を示す頂点</param>
+        /// <param name="startVtx">辺の始点を示す頂点</param>
+        /// <param name="endVtx">辺の終点を示す頂点</param>
         /// <param name="edge">オプションの入力パラメータ，辺の初期化データ．</param>
-        /// <param name="inserted_edge">辺の集合の中で入力された辺のアドレスを保存するための，オプションの出力パラメータ．</param>
+        /// <param name="insertedEdge">辺の集合の中で入力された辺のアドレスを保存するための，オプションの出力パラメータ．</param>
         /// <returns>追加に成功すると1を返し，すでに二つの頂点を接続する辺が存在する場合は0を返し，頂点のどちらかが存在しない，始点と終点が同じとき，他の重大な問題があるときには-1を返す．</returns>
 #else
         /// <summary>
@@ -421,7 +421,7 @@ namespace OpenCvSharp
         /// グラフに頂点を追加する
         /// </summary>
         /// <param name="vtx">追加される頂点の初期化に使用される，オプションの入力引数（sizeof(CvGraphVtx)の領域を超えたユーザー定義フィールドのみコピーされる）． </param>
-        /// <param name="inserted_vtx">新しい頂点のアドレスがここに書かれる．</param>
+        /// <param name="insertedVtx">新しい頂点のアドレスがここに書かれる．</param>
         /// <returns>頂点のインデックス</returns>
 #else
         /// <summary>
@@ -494,8 +494,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフから辺を削除する（インデックス指定）
         /// </summary>
-        /// <param name="start_idx">辺の始点を示す頂点のインデックス． </param>
-        /// <param name="end_idx">辺の終点を示す頂点のインデックス．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startIdx">辺の始点を示す頂点のインデックス． </param>
+        /// <param name="endIdx">辺の終点を示す頂点のインデックス．無向グラフの場合，順序はどちらでもよい． </param>
 #else
         /// <summary>
         /// Removes edge from graph
@@ -514,8 +514,8 @@ namespace OpenCvSharp
         /// <summary>
         /// グラフから辺を削除する（ポインタ指定）
         /// </summary>
-        /// <param name="start_vtx">辺の始点を示す頂点へのポインタ．</param>
-        /// <param name="end_vtx">辺の終点を示す頂点へのポインタ．無向グラフの場合，順序はどちらでもよい． </param>
+        /// <param name="startVtx">辺の始点を示す頂点へのポインタ．</param>
+        /// <param name="endVtx">辺の終点を示す頂点へのポインタ．無向グラフの場合，順序はどちらでもよい． </param>
 #else
         /// <summary>
         /// Removes edge from graph
@@ -572,7 +572,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 頂点に接続している辺の数を数える（インデックス指定）
         /// </summary>
-        /// <param name="vtx_idx">頂点のインデックス</param>
+        /// <param name="vtxIdx">頂点のインデックス</param>
         /// <returns></returns>
 #else
         /// <summary>

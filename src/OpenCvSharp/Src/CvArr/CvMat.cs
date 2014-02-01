@@ -258,7 +258,7 @@ namespace OpenCvSharp
         /// <summary>
         /// ポインタと自動解放の可否を指定して初期化
         /// </summary>
-        /// <param name="ptr"></param>
+        /// <param name="p"></param>
         /// <param name="isEnabledDispose"></param>
 #else
         /// <summary>
@@ -1565,13 +1565,10 @@ namespace OpenCvSharp
         public static CvMat operator /(CvMat a, double b)
         {
             if (a == null)
-            {
                 throw new ArgumentNullException("a");
-            }
             if (b == 0)
-            {
                 throw new DivideByZeroException();
-            }
+            
             CvMat result = a.Clone();
             Cv.AddWeighted(a, 1.0 / b, a, 0, 0, result);
             return result;
@@ -1734,7 +1731,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
@@ -1749,9 +1746,9 @@ namespace OpenCvSharp
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
@@ -1768,9 +1765,9 @@ namespace OpenCvSharp
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
         /// <param name="fovx">x-方向の画角．degree単位.</param>
         /// <param name="fovy">y-方向の画角．degree単位.</param>
 #else
@@ -1793,12 +1790,12 @@ namespace OpenCvSharp
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
         /// <param name="fovx">x-方向の画角．degree単位.</param>
         /// <param name="fovy">y-方向の画角．degree単位.</param>
-        /// <param name="focal_length">焦点距離．実際の長さ単位.</param>
+        /// <param name="focalLength">焦点距離．実際の長さ単位.</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
@@ -1821,13 +1818,13 @@ namespace OpenCvSharp
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
         /// <param name="fovx">x-方向の画角．degree単位.</param>
         /// <param name="fovy">y-方向の画角．degree単位.</param>
-        /// <param name="focal_length">焦点距離．実際の長さ単位.</param>
-        /// <param name="principal_point">主点（光学中心）実際の長さ単位.</param>
+        /// <param name="focalLength">焦点距離．実際の長さ単位.</param>
+        /// <param name="principalPoint">主点（光学中心）実際の長さ単位.</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
@@ -1851,14 +1848,14 @@ namespace OpenCvSharp
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
         /// <param name="fovx">x-方向の画角．degree単位.</param>
         /// <param name="fovy">y-方向の画角．degree単位.</param>
-        /// <param name="focal_length">焦点距離．実際の長さ単位.</param>
-        /// <param name="principal_point">主点（光学中心）実際の長さ単位.</param>
-        /// <param name="pixel_aspect_ratio">ピクセルのアスペクト比 fy/fx</param>
+        /// <param name="focalLength">焦点距離．実際の長さ単位.</param>
+        /// <param name="principalPoint">主点（光学中心）実際の長さ単位.</param>
+        /// <param name="pixelAspectRatio">ピクセルのアスペクト比 fy/fx</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
@@ -1936,9 +1933,9 @@ namespace OpenCvSharp
         /// <summary>
         /// 2枚の画像間の点対応から基礎行列（F行列）を計算する
         /// </summary>
-        /// <param name="which_image">pointsを含む画像のインデックス（1 または 2）．</param>
-        /// <param name="fundamental_matrix">基礎行列</param>
-        /// <param name="correspondent_lines">計算されたエピポーラ線．大きさは3xN また Nx3 の配列．</param>
+        /// <param name="whichImage">pointsを含む画像のインデックス（1 または 2）．</param>
+        /// <param name="fundamentalMatrix">基礎行列</param>
+        /// <param name="correspondentLines">計算されたエピポーラ線．大きさは3xN また Nx3 の配列．</param>
 #else
         /// <summary>
         /// For points in one image of stereo pair computes the corresponding epilines in the other image
@@ -2412,10 +2409,10 @@ namespace OpenCvSharp
         /// 観測された点座標から理想的な点座標を計算する
         /// </summary>
         /// <param name="dst">歪み補正後に逆透視投影を行った理想的な点座標.</param>
-        /// <param name="camera_matrix">カメラ行列 A=[fx 0 cx; 0 fy cy; 0 0 1] </param>
-        /// <param name="dist_coeffs">歪み係数のベクトル，4x1, 1x4, 5x1, 1x5．</param>
-        /// <param name="R">オブジェクト空間での平行化変換（3x3 行列）． cvStereoRectify で計算された値， R1 あるいは R2 が渡される．このパラメータが null の場合，単位行列が用いられる．</param>
-        /// <param name="P">新しいカメラ行列（3x3），あるいは，新しい投影行列（3x4）． cvStereoRectify  で計算された値， P1 あるいは P2  が渡される． このパラメータが null の場合，単位行列が用いられる． </param>
+        /// <param name="cameraMatrix">カメラ行列 A=[fx 0 cx; 0 fy cy; 0 0 1] </param>
+        /// <param name="distCoeffs">歪み係数のベクトル，4x1, 1x4, 5x1, 1x5．</param>
+        /// <param name="r">オブジェクト空間での平行化変換（3x3 行列）． cvStereoRectify で計算された値， R1 あるいは R2 が渡される．このパラメータが null の場合，単位行列が用いられる．</param>
+        /// <param name="p">新しいカメラ行列（3x3），あるいは，新しい投影行列（3x4）． cvStereoRectify  で計算された値， P1 あるいは P2  が渡される． このパラメータが null の場合，単位行列が用いられる． </param>
 #else
         /// <summary>
         /// Computes the ideal point coordinates from the observed point coordinates

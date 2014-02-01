@@ -58,7 +58,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 // 継承したクラス独自の解放処理
                 try
@@ -78,7 +78,7 @@ namespace OpenCvSharp.Blob.Old
                             // 二重deleteで怒られている？なんとかしたい・・・
                         }
                     }
-                    this.disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
@@ -649,10 +649,10 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public void Release()
         {
-            if (!IsDisposed)
+            if (!disposed)
             {
                 CvBlobInvoke.cvb_cvReleaseBlob(ptr);
-                IsDisposed = true;
+                disposed = true;
             }
         }
         #endregion

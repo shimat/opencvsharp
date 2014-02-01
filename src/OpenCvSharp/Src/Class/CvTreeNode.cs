@@ -47,7 +47,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ptr">struct CvTreeNode*</param>
 #endif
-        public CvTreeNode(IntPtr ptr)
+        protected CvTreeNode(IntPtr ptr)
         {
             Initialize(ptr);
         }
@@ -56,7 +56,7 @@ namespace OpenCvSharp
         /// <summary>
         /// ポインタから初期化
         /// </summary>
-        /// <param name="ptr">struct CvTreeNode*</param>
+        /// <param name="p">struct CvTreeNode*</param>
 #else
         /// <summary>
         /// Initializes from native pointer
@@ -214,7 +214,7 @@ namespace OpenCvSharp
         /// <summary>
         /// すべてのノードへのポインタを一つのシーケンスに集める
         /// </summary>
-        /// <param name="header_size">作成したシーケンスのヘッダサイズ（sizeof(CvSeq) が用いられることが多い）．</param>
+        /// <param name="headerSize">作成したシーケンスのヘッダサイズ（sizeof(CvSeq) が用いられることが多い）．</param>
         /// <param name="storage">シーケンスのためのコンテナ．</param>
         /// <returns></returns>
 #else

@@ -119,11 +119,11 @@ namespace OpenCvSharp
                     if (disposing)
                     {
                     }
+                    ptr = IntPtr.Zero;
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -141,7 +141,21 @@ namespace OpenCvSharp
 #endif
         public IntPtr CvPtr
         {
-            get { return ptr; }
+            get
+            {
+                ThrowIfDisposed();
+                return ptr;
+            }
+        }
+
+        /// <summary>
+        /// Get native pointer of OpenCV structure
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>IntPtr.Zero if obj==null, obj.CvPtr otherwise</returns>
+        protected static IntPtr GetCvPtr(DisposableCvObject obj)
+        {
+            return (obj == null) ? IntPtr.Zero : obj.CvPtr;
         }
     }
 }
