@@ -89,6 +89,9 @@
     <Reference Include="OpenCvSharp.CPlusPlus">
       <HintPath>..\..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll</HintPath>
     </Reference>
+    <Reference Include="OpenCvSharp.MachineLearning">
+      <HintPath>..\..\src\OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />

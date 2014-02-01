@@ -164,6 +164,19 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern int core_Mat_isSubmatrix(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_locateROI(IntPtr obj, out CvSize wholeSize, out CvPoint ofs);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_mul1")]
+        public static extern IntPtr core_Mat_mul(IntPtr obj, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_mul2")]
+        public static extern IntPtr core_Mat_mul(IntPtr obj, IntPtr m, double scale);
+        #endregion
+        #region MatExpr
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_MatExpr_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_MatExpr_delete(IntPtr expr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_MatExpr_toMat(IntPtr expr);
         #endregion
 
         #region cv
@@ -201,7 +214,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern void cv_warpAffine(IntPtr src, IntPtr dst, IntPtr M, CvSize dsize, [MarshalAs(UnmanagedType.I4)] Interpolation flags, [MarshalAs(UnmanagedType.I4)] BorderType borderMode, CvScalar borderValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cv_warpPerspective(IntPtr src, IntPtr dst, IntPtr M, CvSize dsize, [MarshalAs(UnmanagedType.I4)] Interpolation flags, [MarshalAs(UnmanagedType.I4)]  BorderType borderMode, CvScalar borderValue);
-
         #region StereoSGBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int StereoSGBM_sizeof();

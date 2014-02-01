@@ -167,6 +167,7 @@
     <Compile Include="Prototype\CvCpp_highgui.cs" />
     <Compile Include="Prototype\CvType.cs" />
     <Compile Include="Prototype\Mat.cs" />
+    <Compile Include="Prototype\MatExpr.cs" />
     <Compile Include="Prototype\Point.cs" />
     <Compile Include="Prototype\Range.cs" />
     <Compile Include="Prototype\Rect.cs" />

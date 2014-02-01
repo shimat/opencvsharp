@@ -19,7 +19,11 @@ namespace OpenCvSharp.Sandbox
             for (int i = 0; ; i++)
             {
                 Mat mat = CvCpp.ImRead(@"img\shapes.png");
-                mat.GetHashCode();
+                Mat cols = mat.ColRange(10, 100);
+                Mat rowsCols = new Mat(mat, new Rect(100,100,200,200));
+                cols.GetHashCode();
+                rowsCols.GetHashCode();
+
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)
                 {

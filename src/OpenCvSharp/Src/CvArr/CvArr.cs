@@ -494,7 +494,7 @@ namespace OpenCvSharp
         /// 画像を指定したファイルに保存する．画像フォーマットは，filename の拡張子により決定される．
         /// この関数で保存できるのは，8 ビット 1チャンネル，あるいは 8 ビット3 チャンネル（'BGR' の順）画像だけである．
         /// </summary>
-        /// <param name="filename">ファイル名</param>
+        /// <param name="fileName">ファイル名</param>
         /// <param name="prms"></param>
         /// <returns></returns>
 #else
@@ -502,13 +502,13 @@ namespace OpenCvSharp
         /// Saves the image to the specified file. The image format is chosen depending on the filename extension, see cvLoadImage. 
         /// Only 8-bit single-channel or 3-channel (with 'BGR' channel order) images can be saved using this function. 
         /// </summary>
-        /// <param name="filename">Name of the file. </param>
+        /// <param name="fileName">Name of the file. </param>
         /// <param name="prms"></param>
         /// <returns></returns>
 #endif
-        public int SaveImage(string filename, int[] prms)
+        public int SaveImage(string fileName, int[] prms)
         {
-            return Cv.SaveImage(filename, this, prms);
+            return Cv.SaveImage(fileName, this, prms);
         }
 #if LANG_JP
         /// <summary>
@@ -523,7 +523,7 @@ namespace OpenCvSharp
         /// Saves the image to the specified file. The image format is chosen depending on the filename extension, see cvLoadImage. 
         /// Only 8-bit single-channel or 3-channel (with 'BGR' channel order) images can be saved using this function. 
         /// </summary>
-        /// <param name="filename">Name of the file. </param>
+        /// <param name="fileName">Name of the file. </param>
         /// <param name="prms"></param>
         /// <returns></returns>
 #endif

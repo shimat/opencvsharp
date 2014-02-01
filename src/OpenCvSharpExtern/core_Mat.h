@@ -6,8 +6,7 @@
 #ifndef _CPP_CORE_MAT_H_
 #define _CPP_CORE_MAT_H_
 
-#include <opencv2/core/core.hpp>
-#include <iostream>
+#include "include_opencv.h"
 
 #pragma region Init & Release
 CVAPI(uint64) core_Mat_sizeof()
@@ -21,7 +20,7 @@ CVAPI(cv::Mat*) core_Mat_new1()
 }
 CVAPI(cv::Mat*) core_Mat_new2(int rows, int cols, int type)
 {
-	return new cv::Mat(rows, cols, type); CvScalar s;
+	return new cv::Mat(rows, cols, type); 
 }
 CVAPI(cv::Mat*) core_Mat_new3(int rows, int cols, int type, CvScalar scalar)
 {
@@ -199,10 +198,11 @@ CVAPI(int) core_Mat_empty(cv::Mat *obj)
 	return obj->empty() ? 1 : 0;
 }
 
-CVAPI(cv::Mat*) core_Mat_eye(int rows, int cols, int type)
-{
-	cv::Mat ret = cv::Mat::eye(rows, cols, type);
-    return new cv::Mat(ret);
+CVAPI(cv::MatExpr*) core_Mat_eye(int rows, int cols, int type)
+{	
+	cv::MatExpr eye = cv::Mat::eye(rows, cols, type);
+	cv::MatExpr *ret = new cv::MatExpr(eye);
+	return ret;
 }
 
 CVAPI(cv::Mat*) core_Mat_inv1(cv::Mat *obj)
@@ -235,23 +235,18 @@ CVAPI(void) core_Mat_locateROI(cv::Mat *obj, CvSize *wholeSize, CvPoint *ofs)
 	*ofs = cvPoint(ofs2.x, ofs2.y);
 }
  
+
+CVAPI(cv::Mat*) core_Mat_mul1(cv::Mat *obj, cv::Mat *m)
+{
+	cv::Mat ret = obj->mul(*m);
+	return new cv::Mat(ret);
+}
+CVAPI(cv::Mat*) core_Mat_mul2(cv::Mat *obj, cv::Mat *m, double scale)
+{
+	cv::Mat ret = obj->mul(*m, scale);
+	return new cv::Mat(ret);
+}
 /*
-        // javadoc: Mat::mul(m, scale)
-CVAPI(Mat) core_Mat_Mul(Mat m, double scale)
-        {
-            
-            //Mat retVal = new Mat(n_mul(ptr, m.ptr, scale));
-            //return retVal;
-        }
-
-        // javadoc: Mat::mul(m)
-CVAPI(Mat) core_Mat_Mul(Mat m)
-        {
-            
-            //Mat retVal = new Mat(n_mul(ptr, m.ptr));
-            //return retVal;
-        }
-
         // javadoc: Mat::ones(rows, cols, type)
 CVAPI(Mat) core_Mat_Ones(int rows, int cols, int type)
         {

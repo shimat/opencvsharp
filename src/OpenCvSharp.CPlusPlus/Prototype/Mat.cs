@@ -11,6 +11,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     public class Mat : DisposableCvObject, ICloneable
     {
+        private bool disposed;
+
         #region Init & Disposal
         /// <summary>
         /// 
@@ -138,7 +140,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!IsDisposed)
+            if (!disposed)
             {
                 // releases managed resources
                 if (disposing)
@@ -147,8 +149,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 // releases unmanaged resources
                 CppInvoke.core_Mat_delete(ptr);
                 //CppInvoke.core_Mat_release(ptr);
-                ptr = IntPtr.Zero;
-                IsDisposed = true;
+                base.Dispose(disposing);
+                disposed = true;
             }
         }
 
@@ -171,7 +173,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static Mat Eye(Size size, MatrixType type)
+        public static MatExpr Eye(Size size, MatrixType type)
         {
             return Eye(size.Height, size.Width, type);
         }
@@ -182,12 +184,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="cols"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static Mat Eye(int rows, int cols, MatrixType type)
+        public static MatExpr Eye(int rows, int cols, MatrixType type)
         {
             try
             {
                 IntPtr retPtr = CppInvoke.core_Mat_eye(rows, cols, (int)type);
-                Mat retVal = new Mat(retPtr);
+                MatExpr retVal = new MatExpr(retPtr);
                 return retVal;
             }
             catch (BadImageFormatException ex)
@@ -195,6 +197,33 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static MatExpr Ones(int rows, int cols, int type)
+        {
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_ones(rows, cols, type));
+            //return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static MatExpr Ones(Size size, int type)
+        {
+            throw new NotImplementedException();
+            //Mat retVal = new Mat(n_ones(size.Width, size.Height, type));
+            //return retVal;
+        }
+
         #endregion
 
         #region Public Methods
@@ -902,57 +931,64 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
         #endregion
+        #region Mul
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public MatExpr Mul(Mat m)
+        {
+            ThrowIfDisposed();
+            if(m == null)
+                throw new ArgumentNullException();
+            try
+            {
+                IntPtr mPtr = m.CvPtr;
+                IntPtr retPtr = CppInvoke.core_Mat_mul(ptr, mPtr);
+                MatExpr retVal = new MatExpr(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="m"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public Mat Mul(Mat m, double scale)
+        public MatExpr Mul(Mat m, double scale)
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_mul(ptr, m.ptr, scale));
-            //return retVal;
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException();
+            try
+            {
+                IntPtr mPtr = m.CvPtr;
+                IntPtr retPtr = CppInvoke.core_Mat_mul(ptr, mPtr, scale);
+                MatExpr retVal = new MatExpr(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="m"></param>
         /// <returns></returns>
-        public Mat Mul(Mat m)
+        public static MatExpr operator *(Mat self, Mat m)
         {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_mul(ptr, m.ptr));
-            //return retVal;
+            return self.Mul(m);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static Mat Ones(int rows, int cols, int type)
-        {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_ones(rows, cols, type));
-            //return retVal;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static Mat Ones(Size size, int type)
-        {
-            throw new NotImplementedException();
-            //Mat retVal = new Mat(n_ones(size.Width, size.Height, type));
-            //return retVal;
-        }
+        #endregion
 
         /// <summary>
         /// 
