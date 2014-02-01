@@ -248,10 +248,16 @@ CVAPI(cv::MatExpr*) core_Mat_mul2(cv::Mat *self, cv::Mat *m, double scale)
 	return new cv::MatExpr(ret);
 }
 
-CVAPI(cv::MatExpr*) core_Mat_ones(int rows, int cols, int type)
+CVAPI(cv::MatExpr*) core_Mat_ones1(int rows, int cols, int type)
 {
 	cv::MatExpr ret = cv::Mat::ones(rows, cols, type);
 	return new cv::MatExpr(ret);
+}
+CVAPI(cv::MatExpr*) core_Mat_ones2(int ndims, const int *sz, int type)
+{
+	//cv::MatExpr ret = cv::Mat::ones(ndims, sz, type);
+	//return new cv::MatExpr(ret);
+	return NULL;
 }
 
 CVAPI(void) core_Mat_push_back(cv::Mat *self, cv::Mat *m)
@@ -352,56 +358,51 @@ CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, CvSlice *ranges)
 	return new cv::Mat(ret);
 }
 
-/*
-        // javadoc: Mat::t()
-CVAPI(cv::Mat*) core_Mat_T()
-        {
-            
-            //cv::Mat retVal = new cv::Mat(n_t(ptr));
-            //return retVal;
-        }
+CVAPI(cv::MatExpr*) core_Mat_t(cv::Mat *self)
+{
+	cv::MatExpr expr = self->t();
+	return new cv::MatExpr(expr);
+}
 
-        // javadoc: Mat::total()
-CVAPI(long) core_Mat_Total()
-        {
-            
-            //long retVal = n_total(ptr);
-            //return retVal;
-        }
+CVAPI(int64) core_Mat_total(cv::Mat *self)
+{
+	return self->total();
+}
 
-        // javadoc: Mat::type()
-CVAPI(int) core_Mat_Type()
-        {
-            
-            //int retVal = n_type(ptr);
-            //return retVal;
-        }
+CVAPI(int) core_Mat_type(cv::Mat *self)
+{
+	return self->type();
+}
 
-        // javadoc: Mat::zeros(rows, cols, type)
-CVAPI(cv::Mat*) core_Mat_Zeros(int rows, int cols, int type)
-        {
-            
-            //cv::Mat retVal = new cv::Mat(n_zeros(rows, cols, type));
-            //return retVal;
-        }
+CVAPI(cv::MatExpr*) core_Mat_zeros1(int rows, int cols, int type)
+{
+	cv::MatExpr expr = cv::Mat::zeros(rows, cols, type);
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_zeros2(int ndims, const int *sz, int type)
+{
+	//cv::MatExpr expr = cv::Mat::zeros(ndims, sz, type);
+	//return new cv::MatExpr(expr);
+	return NULL; 
+}
 
-        // javadoc: Mat::zeros(size, type)
-CVAPI(cv::Mat*) core_Mat_Zeros(Size size, int type)
-        {
-            
-            //cv::Mat retVal = new cv::Mat(n_zeros(size.Width, size.Height, type));
-            //return retVal;
-        }
+CVAPI(char*) core_Mat_dump(cv::Mat *self)
+{
+	std::stringstream s;
+	s << *self;
+	std::string str = s.str();
 
-        // javadoc:Mat::dump()
-CVAPI(string) core_Mat_Dump()
-        {
-            
-            //return nDump(ptr);
-        }
-
+	const char *src = str.c_str();
+	char *dst = new char[str.length() + 1];
+	std::memcpy(dst, src, str.length() + 1);
+	return dst;
+}
+CVAPI(void) core_Mat_dump_delete(char *buf)
+{
+	delete [] buf;
+}
         
-
+/*
         // javadoc:Mat::put(row,col,data)
 CVAPI(int) core_Mat_Put(int row, int col, float[] data)
         {
