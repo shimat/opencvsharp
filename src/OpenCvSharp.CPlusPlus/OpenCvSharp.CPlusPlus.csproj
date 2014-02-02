@@ -162,6 +162,7 @@
     <Compile Include="Flann\IndexParams\SavedIndexParams.cs" />
     <Compile Include="Flann\IndexParams\SearchParams.cs" />
     <Compile Include="Flann\IndexParams\SearchParams_old.cs" />
+    <Compile Include="Prototype\Byte3.cs" />
     <Compile Include="Prototype\CppConst.cs" />
     <Compile Include="Prototype\CppInvoke.cs" />
     <Compile Include="Prototype\CvCpp_highgui.cs" />

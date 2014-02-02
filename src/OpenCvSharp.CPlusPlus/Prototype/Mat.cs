@@ -1419,6 +1419,41 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
         #endregion
+        #region Step
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public long Step()
+        {
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_step(ptr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public long Step(int i)
+        {
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_stepAt(ptr, i);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
         #region Step1
         /// <summary>
         /// 
@@ -1596,6 +1631,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                    " ]";
         }
         #endregion
+        #region Dump
         /// <summary>
         /// 
         /// </summary>
@@ -1618,6 +1654,173 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+        #endregion
+
+        #region Ptr*D
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i0"></param>
+        /// <returns></returns>
+        public IntPtr Ptr(int i0)
+        {
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_ptr1d(ptr, i0);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i0"></param>
+        /// <param name="i1"></param>
+        /// <returns></returns>
+        public IntPtr Ptr(int i0, int i1)
+        {
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_ptr2d(ptr, i0, i1);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i0"></param>
+        /// <param name="i1"></param>
+        /// <param name="i2"></param>
+        /// <returns></returns>
+        public IntPtr Ptr(int i0, int i1, int i2)
+        {
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_ptr3d(ptr, i0, i1, i2);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idx"></param>
+        /// <returns></returns>
+        public IntPtr Ptr(params int[] idx)
+        {
+            ThrowIfDisposed();
+            try
+            {
+                return CppInvoke.core_Mat_ptrnd(ptr, idx);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
+
+        #region At
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public sealed class Indexer<T>
+        {
+            private readonly Mat parent;
+            private readonly long ptrVal;
+            private readonly long[] steps;
+
+            internal Indexer(Mat parent)
+            {
+                this.parent = parent;
+                this.ptrVal = parent.Data.ToInt64();
+
+                int dims = parent.Dims;
+                steps = new long[dims];
+                for (int i = 0; i < dims; i++)
+                {
+                    steps[i] = parent.Step(i);
+                }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="i0"></param>
+            /// <returns></returns>
+            public T this[int i0]
+            {
+                get
+                {
+                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                }
+                set
+                {
+                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
+                    Marshal.StructureToPtr(value, p, false);
+                }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="i0"></param>
+            /// <param name="i1"></param>
+            /// <returns></returns>
+            public T this[int i0, int i1]
+            {
+                get
+                {
+                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                }
+                set
+                {
+                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    Marshal.StructureToPtr(value, p, false);
+                }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="i0"></param>
+            /// <param name="i1"></param>
+            /// <param name="i2"></param>
+            /// <returns></returns>
+            public T this[int i0, int i1, int i2]
+            {
+                get
+                {
+                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                }
+                set
+                {
+                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    Marshal.StructureToPtr(value, p, false);
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Indexer<T> GetIndexer<T>()
+        {
+            return new Indexer<T>(this);
+        }
+        #endregion
 
         /// <summary>
         /// 
