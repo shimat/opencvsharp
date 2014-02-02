@@ -1,24 +1,26 @@
-﻿Imports System
-Imports System.Reflection
+﻿Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 
 ' アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 ' アセンブリに関連付けられている情報を変更するには、
 ' これらの属性値を変更してください。
-
-' アセンブリ属性の値を確認します。
-
 <Assembly: AssemblyTitle("OpenCvSharpSamplesVB")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyConfiguration("")>
+<Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("OpenCvSharpSamplesVB")> 
-<Assembly: AssemblyCopyright("Copyright ©  2014")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyCopyright("Copyright ©  2008-2014")>
+<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyCulture("")>
 
+' ComVisible を false に設定すると、その型はこのアセンブリ内で COM コンポーネントから 
+' 参照不可能になります。COM からこのアセンブリ内の型にアクセスする場合は、
+' その型の ComVisible 属性を true に設定してください。
 <Assembly: ComVisible(False)>
 
-'このプロジェクトが COM に公開される場合、次の GUID がタイプ ライブラリの ID になります。
-<Assembly: Guid("5431bcde-53c4-412e-b8f3-c3e3eed9d2fb")> 
+' 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
+<Assembly: Guid("17eb96a0-127c-4007-b904-0cb95631d3cd")>
 
 ' アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 '
@@ -29,7 +31,6 @@ Imports System.Runtime.InteropServices
 '
 ' すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を 
 ' 既定値にすることができます:
-' <Assembly: AssemblyVersion("1.0.*")> 
-
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+' [assembly: AssemblyVersion("1.0.*")]
+<Assembly: AssemblyVersion("1.0.0.0")>
+<Assembly: AssemblyFileVersion("1.0.0.0")>

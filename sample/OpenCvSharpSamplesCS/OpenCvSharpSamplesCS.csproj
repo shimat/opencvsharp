@@ -5,13 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{402DE49C-230E-4952-94B1-E570E00B67A7}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>OpenCvSharpSamplesVB</RootNamespace>
-    <AssemblyName>OpenCvSharpSamplesVB</AssemblyName>
+    <ProjectGuid>{B691EDEE-E08C-40A1-ACFC-91A8921F919D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenCvSharpSamplesCS</RootNamespace>
+    <AssemblyName>OpenCvSharpSamplesCS</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>OpenCvSharpSamplesVB.Form1</StartupObject>
+    <StartupObject>
+    </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -31,37 +33,31 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <OptionExplicit>On</OptionExplicit>
-    <OptionCompare>Binary</OptionCompare>
-    <OptionStrict>Off</OptionStrict>
-    <OptionInfer>On</OptionInfer>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -69,8 +65,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
+    <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -80,8 +75,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -89,16 +83,12 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
+    <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup>
-    <MyType>WindowsFormsWithCustomSubMain</MyType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenCvSharp">
@@ -129,7 +119,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
@@ -139,114 +128,97 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="Microsoft.VisualBasic" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Diagnostics" />
-    <Import Include="System.Linq" />
-    <Import Include="System.Drawing" />
-    <Import Include="System.Windows.Forms" />
-    <Import Include="System.Windows.Controls" />
-    <Import Include="System.Windows.Data" />
-    <Import Include="System.Windows.Shapes" />
-    <Import Include="System.Windows.Documents" />
-    <Import Include="System.Windows.Input" />
-    <Import Include="System.Windows.Media.Imaging" />
-    <Import Include="System.Windows.Media" />
-    <Import Include="System.Windows.Navigation" />
-    <Import Include="System.Windows" />
-    <Import Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Const.vb" />
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Form1.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Samples\ContourScanner.vb" />
-    <Compile Include="Program.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="Samples\Affine.vb" />
-    <Compile Include="Samples\BlobOld.vb" />
-    <Compile Include="Samples\Blob.vb" />
-    <Compile Include="Samples\BoundingRect.vb" />
-    <Compile Include="Samples\CalibrateCamera.vb" />
-    <Compile Include="Samples\CaptureAVI.vb" />
-    <Compile Include="Samples\CaptureCamera.vb" />
-    <Compile Include="Samples\Contour.vb" />
-    <Compile Include="Samples\ConvertToBitmap.vb" />
-    <Compile Include="Samples\ConvertToIplImage.vb" />
-    <Compile Include="Samples\ConvertToWriteableBitmap.vb" />
-    <Compile Include="Samples\ConvexHull.vb" />
-    <Compile Include="Samples\CopyMakeBorder.vb" />
-    <Compile Include="Samples\CornerDetect.vb" />
-    <Compile Include="Samples\CvWindowExTest.vb" />
-    <Compile Include="Samples\DFT.vb" />
-    <Compile Include="Samples\DistTransform.vb" />
-    <Compile Include="Samples\DrawToHDC.vb" />
-    <Compile Include="Samples\Edge.vb" />
-    <Compile Include="Samples\EM.vb" />
-    <Compile Include="Samples\FaceDetect.vb" />
-    <Compile Include="Samples\FileStorage.vb" />
-    <Compile Include="Samples\Filter2D.vb" />
-    <Compile Include="Samples\FindContours.vb" />
-    <Compile Include="Samples\FitLine.vb" />
-    <Compile Include="Samples\FlannTest.vb" />
-    <Compile Include="Samples\Histogram.vb" />
-    <Compile Include="Samples\HoughLines.vb" />
-    <Compile Include="Samples\Inpaint.vb" />
-    <Compile Include="Samples\LineIterator.vb" />
-    <Compile Include="Samples\PolarTransform.vb" />
-    <Compile Include="Samples\MatTest.vb" />
-    <Compile Include="Samples\Moments.vb" />
-    <Compile Include="Samples\Morphology.vb" />
-    <Compile Include="Samples\OpticalFlowBM.vb" />
-    <Compile Include="Samples\OpticalFlowHS.vb" />
-    <Compile Include="Samples\OpticalFlowLK.vb" />
-    <Compile Include="Samples\Perspective.vb" />
-    <Compile Include="Samples\PixelAccess.vb" />
-    <Compile Include="Samples\PixelSampling.vb" />
-    <Compile Include="Samples\PyrDownUp.vb" />
-    <Compile Include="Samples\PyrMeanShiftFiltering.vb" />
-    <Compile Include="Samples\PyrSegmentation.vb" />
-    <Compile Include="Samples\Resize.vb" />
-    <Compile Include="Samples\SeqTest.vb" />
-    <Compile Include="Samples\Snake.vb" />
-    <Compile Include="Samples\Squares.vb" />
-    <Compile Include="Samples\StereoCorrespondence.vb" />
-    <Compile Include="Samples\SVM.vb" />
-    <Compile Include="Samples\Text.vb" />
-    <Compile Include="Samples\Threshold.vb" />
-    <Compile Include="Samples\TreeNodeIterator.vb" />
-    <Compile Include="Samples\Undistort.vb" />
-    <Compile Include="Samples\VideoWriter.vb" />
-    <Compile Include="Samples\Watershed.vb" />
-    <Compile Include="Samples\ConvertToBitmapSource.vb" />
-    <Compile Include="Samples\ConvexityDefect.vb" />
-    <Compile Include="Samples\PictureBoxIplSample.vb" />
-    <Compile Include="Samples\CppTest.vb" />
-    <Compile Include="Samples\CaptureByVideoInputSharp.vb" />
-    <Compile Include="Samples\PseudoColor.vb" />
-    <Compile Include="Samples\GammaCorrection.vb" />
-    <Compile Include="Samples\LSH.vb" />
-    <Compile Include="Samples\MSERSample.vb" />
-    <Compile Include="Samples\StarDetectorSample.vb" />
-    <Compile Include="Samples\Serialization.vb" />
-    <Compile Include="Samples\SaveImage.vb" />
-    <Compile Include="Samples\HOG.vb" />
-    <Compile Include="Samples\Solve.vb" />
-    <Compile Include="Samples\SkinDetector.vb" />
-    <Compile Include="Samples\FAST.vb" />
-    <Compile Include="Samples\BinarizationMethods.vb" />
-    <Compile Include="Samples\HoughCircles.vb" />
-    <Compile Include="Samples\LatentSVM.vb" />
-    <Compile Include="Samples\GpuTest.vb" />
-    <Compile Include="Samples\QtTest.vb" />
-    <Compile Include="Samples\BgSubtractorMOG.vb" />
-    <Compile Include="Samples\CalibrateStereoCamera.vb" />
-    <Compile Include="Samples\Image2Stream.vb" />
+    <Compile Include="Const.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Samples\Affine.cs" />
+    <Compile Include="Samples\BlobOld.cs" />
+    <Compile Include="Samples\Blob.cs" />
+    <Compile Include="Samples\BoundingRect.cs" />
+    <Compile Include="Samples\CalibrateCamera.cs" />
+    <Compile Include="Samples\CaptureAVI.cs" />
+    <Compile Include="Samples\CaptureCamera.cs" />
+    <Compile Include="Samples\Contour.cs" />
+    <Compile Include="Samples\ContourScanner.cs" />
+    <Compile Include="Samples\ConvertToBitmap.cs" />
+    <Compile Include="Samples\ConvertToIplImage.cs" />
+    <Compile Include="Samples\ConvertToWriteableBitmap.cs" />
+    <Compile Include="Samples\ConvexHull.cs" />
+    <Compile Include="Samples\CopyMakeBorder.cs" />
+    <Compile Include="Samples\CornerDetect.cs" />
+    <Compile Include="Samples\CvWindowExTest.cs" />
+    <Compile Include="Samples\Delaunay.cs" />
+    <Compile Include="Samples\DFT.cs" />
+    <Compile Include="Samples\DistTransform.cs" />
+    <Compile Include="Samples\DrawToHDC.cs" />
+    <Compile Include="Samples\DTree.cs" />
+    <Compile Include="Samples\Edge.cs" />
+    <Compile Include="Samples\EM.cs" />
+    <Compile Include="Samples\FaceDetect.cs" />
+    <Compile Include="Samples\FileStorage.cs" />
+    <Compile Include="Samples\Filter2D.cs" />
+    <Compile Include="Samples\FindContours.cs" />
+    <Compile Include="Samples\FitLine.cs" />
+    <Compile Include="Samples\FlannTest.cs" />
+    <Compile Include="Samples\Histogram.cs" />
+    <Compile Include="Samples\HoughLines.cs" />
+    <Compile Include="Samples\Inpaint.cs" />
+    <Compile Include="Samples\Kalman.cs" />
+    <Compile Include="Samples\KMeans.cs" />
+    <Compile Include="Samples\LetterRecog.cs" />
+    <Compile Include="Samples\LineIterator.cs" />
+    <Compile Include="Samples\PolarTransform.cs" />
+    <Compile Include="Samples\MatTest.cs" />
+    <Compile Include="Samples\Moments.cs" />
+    <Compile Include="Samples\Morphology.cs" />
+    <Compile Include="Samples\OpticalFlowBM.cs" />
+    <Compile Include="Samples\OpticalFlowHS.cs" />
+    <Compile Include="Samples\OpticalFlowLK.cs" />
+    <Compile Include="Samples\Perspective.cs" />
+    <Compile Include="Samples\PixelAccess.cs" />
+    <Compile Include="Samples\PixelSampling.cs" />
+    <Compile Include="Samples\PyrDownUp.cs" />
+    <Compile Include="Samples\PyrMeanShiftFiltering.cs" />
+    <Compile Include="Samples\PyrSegmentation.cs" />
+    <Compile Include="Samples\Resize.cs" />
+    <Compile Include="Samples\SeqPartition.cs" />
+    <Compile Include="Samples\SeqTest.cs" />
+    <Compile Include="Samples\Snake.cs" />
+    <Compile Include="Samples\Squares.cs" />
+    <Compile Include="Samples\StereoCorrespondence.cs" />
+    <Compile Include="Samples\SURFSample.cs" />
+    <Compile Include="Samples\SVM.cs" />
+    <Compile Include="Samples\Text.cs" />
+    <Compile Include="Samples\Threshold.cs" />
+    <Compile Include="Samples\TreeNodeIterator.cs" />
+    <Compile Include="Samples\Undistort.cs" />
+    <Compile Include="Samples\VideoWriter.cs" />
+    <Compile Include="Samples\Watershed.cs" />
+    <Compile Include="Samples\ConvertToBitmapSource.cs" />
+    <Compile Include="Samples\ConvexityDefect.cs" />
+    <Compile Include="Samples\PictureBoxIplSample.cs" />
+    <Compile Include="Samples\CppTest.cs" />
+    <Compile Include="Samples\CaptureByVideoInputSharp.cs" />
+    <Compile Include="Samples\PseudoColor.cs" />
+    <Compile Include="Samples\GammaCorrection.cs" />
+    <Compile Include="Samples\LSH.cs" />
+    <Compile Include="Samples\MSERSample.cs" />
+    <Compile Include="Samples\StarDetectorSample.cs" />
+    <Compile Include="Samples\Serialization.cs" />
+    <Compile Include="Samples\SaveImage.cs" />
+    <Compile Include="Samples\HOG.cs" />
+    <Compile Include="Samples\Solve.cs" />
+    <Compile Include="Samples\MDS.cs" />
+    <Compile Include="Samples\SkinDetector.cs" />
+    <Compile Include="Samples\FAST.cs" />
+    <Compile Include="Samples\BinarizationMethods.cs" />
+    <Compile Include="Samples\HoughCircles.cs" />
+    <Compile Include="Samples\LatentSVM.cs" />
+    <Compile Include="Samples\GpuTest.cs" />
+    <Compile Include="Samples\QtTest.cs" />
+    <Compile Include="Samples\BgSubtractorMOG.cs" />
+    <Compile Include="Samples\CalibrateStereoCamera.cs" />
+    <Compile Include="Samples\Image2Stream.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Image\16bit.png">
@@ -492,13 +464,8 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
