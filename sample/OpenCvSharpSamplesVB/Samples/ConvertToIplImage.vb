@@ -12,7 +12,7 @@ Imports OpenCvSharp
 Imports OpenCvSharp.Extensions
 
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Conversion from Bitmap/WriteableBitmap to IplImage
     ''' </summary>
@@ -109,4 +109,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

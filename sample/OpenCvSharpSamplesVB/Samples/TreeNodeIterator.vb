@@ -5,7 +5,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 輪郭の検出を行い，木構造を持つ輪郭データから座標を取り出す.
     ''' </summary>
@@ -62,4 +62,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

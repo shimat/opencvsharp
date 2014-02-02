@@ -7,7 +7,7 @@ Imports System.Windows.Forms
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' OpenCV2.0の C++ interface っぽい新インターフェイスの実験場
     ''' </summary>
@@ -64,4 +64,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

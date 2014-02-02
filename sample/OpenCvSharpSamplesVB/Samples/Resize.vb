@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 画像のサイズ変更
     ''' </summary>
@@ -46,4 +46,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

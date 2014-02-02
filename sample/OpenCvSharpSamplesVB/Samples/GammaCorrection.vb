@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Gamma correction
     ''' </summary>
@@ -51,4 +51,4 @@ Namespace OpenCvSharpSamplesVB
             Cv.LUT(src, dst, lut)
         End Sub
     End Module
-End Namespace
+' End Namespace

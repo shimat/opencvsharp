@@ -5,7 +5,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' ステレオマッチング
     ''' </summary>
@@ -63,4 +63,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

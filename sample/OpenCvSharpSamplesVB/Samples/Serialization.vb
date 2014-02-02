@@ -6,7 +6,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Binary Serialization
     ''' </summary>
@@ -40,4 +40,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

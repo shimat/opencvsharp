@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 行列演算のテスト
     ''' </summary>  
@@ -46,4 +46,4 @@ Namespace OpenCvSharpSamplesVB
             Console.Read()
         End Sub
     End Module
-End Namespace
+' End Namespace

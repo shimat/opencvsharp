@@ -7,7 +7,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' カメラキャリブレーション
     ''' </summary>
@@ -116,4 +116,4 @@ Namespace OpenCvSharpSamplesVB
             sr.Close()
         End Sub
     End Module
-End Namespace
+' End Namespace

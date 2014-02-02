@@ -5,7 +5,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' CvLineIterator sample
     ''' </summary>
@@ -87,4 +87,4 @@ Namespace OpenCvSharpSamplesVB
             Form1.TextBox1.AppendText(Environment.NewLine & String.Format("(x:{0}, y:{1})", x, y))
         End Sub
     End Module
-End Namespace
+' End Namespace

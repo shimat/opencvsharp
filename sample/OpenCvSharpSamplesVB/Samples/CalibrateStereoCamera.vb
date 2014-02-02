@@ -7,7 +7,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 
     ''' </summary>
@@ -146,4 +146,4 @@ Namespace OpenCvSharpSamplesVB
         End Sub
 
     End Module
-End Namespace
+' End Namespace

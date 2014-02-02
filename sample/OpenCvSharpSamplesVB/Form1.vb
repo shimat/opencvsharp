@@ -7,6 +7,7 @@ Imports System.Diagnostics
 Imports System.Linq
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports Microsoft.VisualBasic.CallType
 
 Imports OpenCvSharp
 Imports OpenCvSharp.MachineLearning
@@ -110,10 +111,11 @@ Public Class Form1
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         Label1.Text = ""
         TextBox1.Clear()
-        'OpenCvSharpSamples.Squares.Start()
+        'OpenCvSharpSamplesVB.Affine.
+        'OpenCvSharpSamplesVB.Affine.Start()
         'Exit Sub
         Dim method As System.Reflection.MethodInfo
-        method = Type.GetType("OpenCvSharpSamples." & ComboBox1.SelectedItem.ToString()).GetMethod("Start")
+        method = Type.GetType("OpenCvSharpSamplesVB." & ComboBox1.SelectedItem.ToString()).GetMethod("Start")
         method.Invoke(Me, Nothing)
     End Sub
 
