@@ -401,6 +401,23 @@ CVAPI(void) core_Mat_dump_delete(char *buf)
 {
 	delete [] buf;
 }
+
+CVAPI(uchar*) core_Mat_ptr1d(cv::Mat *self, int i0)
+{
+	return self->ptr(i0);
+}
+CVAPI(uchar*) core_Mat_ptr2d(cv::Mat *self, int i0, int i1)
+{
+	return self->ptr(i0, i1);
+}
+CVAPI(uchar*) core_Mat_ptr3d(cv::Mat *self, int i0, int i1, int i2)
+{
+	return self->ptr(i0, i1, i2);
+}
+CVAPI(uchar*) core_Mat_ptrnd(cv::Mat *self, int *idx)
+{
+	return self->ptr(idx);
+}
         
 /*
         // javadoc:Mat::put(row,col,data)
