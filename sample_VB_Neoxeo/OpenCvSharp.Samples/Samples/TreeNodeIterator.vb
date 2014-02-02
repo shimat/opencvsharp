@@ -47,6 +47,8 @@ Namespace OpenCvSharpSamples
                             End Using
 
                             'Console.WriteLine(File.ReadAllText("contours.yaml"))
+
+                            Form1.Label1.Text = "contours.yaml"
                             Dim sr As StreamReader = File.OpenText("contours.yaml")
                             Form1.TextBox1.Text = sr.ReadToEnd()
                             sr.Close()
