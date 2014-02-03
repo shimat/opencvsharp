@@ -27,7 +27,7 @@ namespace OpenCvSharp.Sandbox
                 Stopwatch watch = new Stopwatch();
 
                 Mat mat = CvCpp.ImRead(@"img\lenna.png");
-                ByteMat3 mat3 = new ByteMat3(mat);
+                MatU8C3 mat3 = new MatU8C3(mat);
                 mat3.GetHashCode();
 
                 IplImage img = (IplImage)mat;
@@ -57,7 +57,7 @@ namespace OpenCvSharp.Sandbox
                 Console.WriteLine("GenericIndexer: {0}ms", watch.ElapsedMilliseconds);
                 //*/
 
-                /*
+                ///*
                 watch.Restart();
                 {
                     var matAt = mat3.GetIndexer();
@@ -78,7 +78,7 @@ namespace OpenCvSharp.Sandbox
                     }
                 }
                 watch.Stop();
-                Console.WriteLine("PointerIndexer: {0}ms", watch.ElapsedMilliseconds);
+                //Console.WriteLine("PointerIndexer: {0}ms", watch.ElapsedMilliseconds);
                 //*/
 
                 /*
