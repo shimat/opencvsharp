@@ -498,6 +498,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #endregion
 
         #region Operators
+        #region Indexers
         /// <summary>
         /// 
         /// </summary>
@@ -539,7 +540,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             get { return SubMat(ranges); }
         }
-
+        #endregion
+        #region Casting
         /// <summary>
         /// 
         /// </summary>
@@ -595,6 +597,103 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+        #endregion
+        #region Arithmetic
+
+        public static MatExpr operator +(Mat a, Mat b)
+        {
+            throw new NotImplementedException();
+        }
+        public static MatExpr operator +(Mat a, Scalar s)
+        {
+            throw new NotImplementedException();
+        }
+        public static MatExpr operator +(Scalar s, Mat a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator -(Mat a, Mat b)
+        {
+            throw new NotImplementedException();
+        }
+        public static MatExpr operator -(Mat a, Scalar s)
+        {
+            throw new NotImplementedException();
+        }
+        public static MatExpr operator -(Scalar s, Mat a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator -(Mat m)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public static MatExpr operator *(Mat a, Mat b)
+        {
+            if (a == null)
+                throw new ArgumentNullException("self");
+            return a.Mul(b);
+        }
+        public static MatExpr operator *(Mat a, double s)
+        {
+            throw new NotImplementedException();
+        }
+        public static MatExpr operator *(double s, Mat a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator /(Mat a, double s)
+        {
+            throw new NotImplementedException();
+        }
+        public static MatExpr operator /(double s, Mat a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator <(Mat a, Mat b) { throw new NotImplementedException(); }
+        public static MatExpr operator <(Mat a, double s) { throw new NotImplementedException(); }
+        public static MatExpr operator <(double s, Mat a) { throw new NotImplementedException(); }
+
+        public static MatExpr operator <=(Mat a, Mat b) { throw new NotImplementedException(); }
+        public static MatExpr operator <=(Mat a, double s) { throw new NotImplementedException(); }
+        public static MatExpr operator <=(double s, Mat a) { throw new NotImplementedException(); }
+        /*
+        public static MatExpr operator ==(Mat a, Mat b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(a, b))
+                return true;
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+                return false;
+            
+        }
+        public static MatExpr operator ==(Mat a, double s) { throw new NotImplementedException(); }
+        public static MatExpr operator ==(double s, Mat a) { throw new NotImplementedException(); }
+
+        public static MatExpr operator !=(Mat a, Mat b) { throw new NotImplementedException(); }
+        public static MatExpr operator !=(Mat a, double s) { throw new NotImplementedException(); }
+        public static MatExpr operator !=(double s, Mat a) { throw new NotImplementedException(); }
+        */
+        public static MatExpr operator >=(Mat a, Mat b) { throw new NotImplementedException(); }
+        public static MatExpr operator >=(Mat a, double s) { throw new NotImplementedException(); }
+        public static MatExpr operator >=(double s, Mat a) { throw new NotImplementedException(); }
+
+        public static MatExpr operator >(Mat a, Mat b) { throw new NotImplementedException(); }
+        public static MatExpr operator >(Mat a, double s) { throw new NotImplementedException(); }
+        public static MatExpr operator >(double s, Mat a) { throw new NotImplementedException(); }
+        #endregion
         #endregion
 
         #region Public Methods
@@ -1362,17 +1461,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 throw PInvokeHelper.CreateException(ex);
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="m"></param>
-        /// <returns></returns>
-        public static MatExpr operator *(Mat self, Mat m)
-        {
-            return self.Mul(m);
         }
         #endregion
         #region PushBack

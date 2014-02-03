@@ -12,6 +12,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     {
         private bool disposed;
 
+        #region Init & Disposal
         /// <summary>
         /// 
         /// </summary>
@@ -20,7 +21,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             this.ptr = ptr;
         }
-
 
         /// <summary>
         /// 
@@ -45,7 +45,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 }
             }
         }
+        #endregion
 
+        #region Casting
         /// <summary>
         /// 
         /// </summary>
@@ -72,5 +74,34 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return (Mat)this;
         }
+        #endregion
+
+        #region Operators
+        public static MatExpr operator +(MatExpr e, Mat m) { throw new NotImplementedException(); }
+        public static MatExpr operator +(Mat m, MatExpr e) { throw new NotImplementedException(); }
+        public static MatExpr operator +(MatExpr e, Scalar s) { throw new NotImplementedException(); }
+        public static MatExpr operator +(Scalar s, MatExpr e) { throw new NotImplementedException(); }
+        public static MatExpr operator +(MatExpr e1, MatExpr e2) { throw new NotImplementedException(); }
+
+        public static MatExpr operator -(MatExpr e, Mat m) { throw new NotImplementedException(); }
+        public static MatExpr operator -(Mat m, MatExpr e) { throw new NotImplementedException(); }
+        public static MatExpr operator -(MatExpr e, Scalar s) { throw new NotImplementedException(); }
+        public static MatExpr operator -(Scalar s, MatExpr e) { throw new NotImplementedException(); }
+        public static MatExpr operator -(MatExpr e1, MatExpr e2) { throw new NotImplementedException(); }
+
+        public static MatExpr operator -(MatExpr e) { throw new NotImplementedException(); }
+
+        public static MatExpr operator *(MatExpr e, Mat m) { throw new NotImplementedException(); }
+        public static MatExpr operator *(Mat m, MatExpr e) { throw new NotImplementedException(); }
+        public static MatExpr operator *(MatExpr e, double s) { throw new NotImplementedException(); }
+        public static MatExpr operator *(double s, MatExpr e) { throw new NotImplementedException(); }
+        public static MatExpr operator *(MatExpr e1, MatExpr e2) { throw new NotImplementedException(); }
+
+        public static MatExpr operator /(MatExpr e, Mat m) { throw new NotImplementedException(); }
+        public static MatExpr operator /(Mat m, MatExpr e) { throw new NotImplementedException(); }
+        public static MatExpr operator /(MatExpr e, double s) { throw new NotImplementedException(); }
+        public static MatExpr operator /(double s, MatExpr e) { throw new NotImplementedException(); }
+        public static MatExpr operator /(MatExpr e1, MatExpr e2) { throw new NotImplementedException(); }
+        #endregion
     }
 }
