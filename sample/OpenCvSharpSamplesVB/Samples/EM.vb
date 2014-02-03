@@ -5,7 +5,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.MachineLearning
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' EMアルゴリズム
     ''' </summary>
@@ -187,4 +187,4 @@ Namespace OpenCvSharpSamplesVB
         '        //
     End Module
 
-End Namespace
+' End Namespace

@@ -7,7 +7,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 顔の検出
     ''' </summary>
@@ -96,4 +96,4 @@ END_LOOP:
         End Sub
 
     End Module
-End Namespace
+' End Namespace

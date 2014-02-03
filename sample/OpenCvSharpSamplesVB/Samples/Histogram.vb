@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' ヒストグラムの描画
     ''' </summary>
@@ -132,4 +132,4 @@ Namespace OpenCvSharpSamplesVB
             Next i
         End Sub
     End Module
-End Namespace
+' End Namespace

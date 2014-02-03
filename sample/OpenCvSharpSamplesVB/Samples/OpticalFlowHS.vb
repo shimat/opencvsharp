@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Horn & Schunck アルゴリズムによるオプティカルフローの計算
     ''' </summary>
@@ -52,4 +52,4 @@ Namespace OpenCvSharpSamplesVB
 
         End Sub
     End Module
-End Namespace
+' End Namespace

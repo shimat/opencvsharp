@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' cvFitLine sample
     ''' </summary>
@@ -51,4 +51,4 @@ Namespace OpenCvSharpSamplesVB
             Return points
         End Function
     End Module
-End Namespace
+' End Namespace

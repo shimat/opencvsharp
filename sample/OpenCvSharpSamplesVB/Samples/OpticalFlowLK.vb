@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Lucas & Kanade アルゴリズムによるオプティカルフローの計算
     ''' </summary>
@@ -51,4 +51,4 @@ Namespace OpenCvSharpSamplesVB
 
         End Sub
     End Module
-End Namespace
+' End Namespace

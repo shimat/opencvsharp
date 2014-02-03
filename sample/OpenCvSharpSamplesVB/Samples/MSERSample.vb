@@ -5,7 +5,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Maximally Stable Extremal Regions
     ''' </summary>
@@ -67,4 +67,4 @@ Namespace OpenCvSharpSamplesVB
             Next p
         End Sub
     End Module
-End Namespace
+' End Namespace

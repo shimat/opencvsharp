@@ -6,7 +6,7 @@ Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 Imports OpenCvSharp.CPlusPlus.Flann
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' cv::flann
     ''' </summary>
@@ -52,4 +52,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

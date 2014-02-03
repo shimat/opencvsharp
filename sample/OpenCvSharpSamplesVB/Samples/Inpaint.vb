@@ -5,7 +5,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 不要オブジェクトの除去
     ''' </summary>
@@ -84,4 +84,4 @@ Namespace OpenCvSharpSamplesVB
 
         End Sub
     End Module
-End Namespace
+' End Namespace

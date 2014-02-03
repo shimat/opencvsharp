@@ -6,7 +6,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.Blob
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' cvConvextyDefects sample
     ''' </summary>
@@ -200,4 +200,4 @@ Namespace OpenCvSharpSamplesVB
             Return New CvPoint2D64f With {.X = (p1.X + p2.X) / 2.0, .Y = (p1.Y + p2.Y) / 2.0}
         End Function
     End Module
-End Namespace
+' End Namespace

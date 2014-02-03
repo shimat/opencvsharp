@@ -13,7 +13,7 @@ Imports OpenCvSharp.Blob
 Imports OpenCvSharp.UserInterface
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 
     ''' </summary>
@@ -291,4 +291,4 @@ Namespace OpenCvSharpSamplesVB
         End Sub
 
     End Class
-End Namespace
+' End Namespace

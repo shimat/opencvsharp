@@ -10,7 +10,7 @@ Imports System.Windows.Threading
 Imports OpenCvSharp
 Imports OpenCvSharp.Extensions
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' System.Windows.Media.Imaging.BitmapSourceへの変換
     ''' </summary>
@@ -37,4 +37,4 @@ Namespace OpenCvSharpSamplesVB
             app.Run(window)
         End Sub
     End Module
-End Namespace
+' End Namespace
