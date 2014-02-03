@@ -322,9 +322,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                     }
                     // releases unmanaged resources
-                    CppInvoke.core_Mat_delete(ptr);
-                    //CppInvoke.core_Mat_release(ptr);
+                    if (IsEnabledDispose)
+                    {
+                        CppInvoke.core_Mat_delete(ptr);
+                        //CppInvoke.core_Mat_release(ptr);
+                    }
                     disposed = true;
+                    
                 }
                 finally
                 {
@@ -2059,7 +2063,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public Indexer<T> GetIndexer<T>() where T : struct 
+        public Indexer<T> GetGenericIndexer<T>() where T : struct 
         {
             return new Indexer<T>(this);
         }

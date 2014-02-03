@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using OpenCvSharp.Blob;
@@ -15,27 +16,73 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
+            try
+            {
+                Run();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        static void Run()
+        {
             var memory = new List<long>(100);
             for (int i = 0; ; i++)
             {
-                Mat mat = CvCpp.ImRead(@"img\lenna.png");
-                /*
-                var matAt = mat.GetIndexer<Byte3>();
-                for (int y = 0; y < mat.Height; y++)
-                {
-                    for (int x = 0; x < mat.Width; x++)
-                    {
-                        Byte3 item = matAt[y, x];
-                        Byte3 newItem = new Byte3
-                        {
-                            Item1 = item.Item3,
-                            Item2 = item.Item2,
-                            Item3 = item.Item1,
-                        };
-                        matAt[y, x] = newItem;
-                    }
-                }*/
+                Stopwatch watch = new Stopwatch();
 
+                Mat mat = CvCpp.ImRead(@"img\lenna.png");
+                ByteMat3 mat3 = new ByteMat3(mat);
+                /*
+                watch.Restart();
+                {
+                    var matAt = mat.GetGenericIndexer<ByteTuple3>();
+                    for (int y = 0; y < mat.Height; y++)
+                    {
+                        for (int x = 0; x < mat.Width; x++)
+                        {
+                            ByteTuple3 item = matAt[y, x];
+                            ByteTuple3 newItem = new ByteTuple3
+                                {
+                                    Item1 = item.Item3,
+                                    Item2 = item.Item2,
+                                    Item3 = item.Item1,
+                                };
+                            matAt[y, x] = newItem;
+                        }
+                    }
+                }
+                watch.Stop();
+                Console.WriteLine("GenericIndexer: {0}ms", watch.ElapsedMilliseconds);
+                //*/
+
+                /*
+                watch.Restart();
+                {
+                    var matAt = mat3.GetIndexer();
+                    for (int y = 0; y < mat.Height; y++)
+                    {
+                        for (int x = 0; x < mat.Width; x++)
+                        {
+                            ByteTuple3 item = matAt[y, x];
+                            ByteTuple3 newItem = new ByteTuple3
+                            {
+                                Item1 = item.Item3,
+                                Item2 = item.Item2,
+                                Item3 = item.Item1,
+                            };
+                            matAt[y, x] = newItem;
+                        }
+
+                    }
+                }
+                watch.Stop();
+                Console.WriteLine("PointerIndexer: {0}ms", watch.ElapsedMilliseconds);
+                //*/
+
+                /*
                 byte[,] matData = new byte[3,3]
                     {
                         {1, 2, 3},
@@ -55,7 +102,7 @@ namespace OpenCvSharp.Sandbox
                     }
                     //Console.WriteLine();
                 }
-
+                */
                 //CvCpp.ImShow("window", mat);
                 //CvCpp.WaitKey();
 
