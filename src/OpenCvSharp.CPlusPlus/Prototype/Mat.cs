@@ -539,6 +539,62 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             get { return SubMat(ranges); }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static explicit operator IplImage(Mat self)
+        {
+            return self.ToIplImage();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IplImage ToIplImage()
+        {
+            ThrowIfDisposed();
+            try
+            {
+                IplImage img = new IplImage(false);
+                CppInvoke.core_Mat_IplImage(ptr, img.CvPtr);
+                return img;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static explicit operator CvMat(Mat self)
+        {
+            return self.ToCvMat();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public CvMat ToCvMat()
+        {
+            ThrowIfDisposed();
+            try
+            {
+                CvMat mat = new CvMat(false);
+                CppInvoke.core_Mat_CvMat(ptr, mat.CvPtr);
+                return mat;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
         #endregion
 
         #region Public Methods

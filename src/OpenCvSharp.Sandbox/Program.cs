@@ -16,14 +16,7 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            try
-            {
-                Run();
-            }
-            catch
-            {
-                throw;
-            }
+            Run();
         }
 
         static void Run()
@@ -35,6 +28,12 @@ namespace OpenCvSharp.Sandbox
 
                 Mat mat = CvCpp.ImRead(@"img\lenna.png");
                 ByteMat3 mat3 = new ByteMat3(mat);
+                mat3.GetHashCode();
+
+                IplImage img = (IplImage)mat;
+                img.GetHashCode();
+                //CvWindow.ShowImages(img);
+
                 /*
                 watch.Restart();
                 {

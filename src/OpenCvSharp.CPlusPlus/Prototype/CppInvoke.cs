@@ -235,6 +235,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern IntPtr core_Mat_ptr3d(IntPtr self, int i0, int i1, int i2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_ptrnd(IntPtr self, [MarshalAs(UnmanagedType.LPArray)] int[] idx);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_IplImage(IntPtr self, IntPtr outImage);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_CvMat(IntPtr self, IntPtr outMat);
         #endregion
         #region MatExpr
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

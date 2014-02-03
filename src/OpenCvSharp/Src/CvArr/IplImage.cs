@@ -59,7 +59,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="isEnabledDispose">If true, this matrix will be disposed by GC automatically.</param>
 #endif
-        internal IplImage(bool isEnabledDispose)
+        public IplImage(bool isEnabledDispose)
             : base(isEnabledDispose)
         {
             ptr = AllocMemory(SizeOf);

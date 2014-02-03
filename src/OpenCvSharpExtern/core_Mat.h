@@ -430,4 +430,21 @@ CVAPI(uchar*) core_Mat_ptrnd(cv::Mat *self, int *idx)
         
 #pragma endregion
 
+#pragma region Operators
+
+CVAPI(void) core_Mat_IplImage(cv::Mat *self, IplImage *outImage)
+{
+	*outImage = IplImage();
+	IplImage inImage = (IplImage)(*self);
+	memcpy(outImage, &inImage, sizeof(IplImage));
+}
+CVAPI(void) core_Mat_CvMat(cv::Mat *self, CvMat *outMat)
+{
+	*outMat = CvMat();
+	CvMat inMat = (CvMat)(*self);
+	memcpy(outMat, &inMat, sizeof(CvMat));
+}
+
+#pragma endregion
+
 #endif
