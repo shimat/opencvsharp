@@ -39,6 +39,15 @@ CVAPI(cv::Mat*) core_Mat_new6(cv::Mat *mat, CvRect roi)
 {
 	return new cv::Mat(*mat, roi);
 }
+CVAPI(cv::Mat*) core_Mat_new7(int rows, int cols, int type, void* data, size_t step)
+{
+	return new cv::Mat(rows, cols, type, data, step);
+}
+CVAPI(cv::Mat*) core_Mat_new8(int ndims, const int* sizes, int type, void* data, const size_t* steps)
+{
+	return new cv::Mat(ndims, sizes, type, data, steps);
+}
+
 
 CVAPI(void) core_Mat_release(cv::Mat *self)
 {
@@ -184,12 +193,12 @@ CVAPI(double) core_Mat_dot(cv::Mat *self, cv::Mat *m)
 	return self->dot(*m);
 }
 
-CVAPI(int64) core_Mat_elemSize(cv::Mat *self)
+CVAPI(uint64) core_Mat_elemSize(cv::Mat *self)
 {
 	return self->elemSize();
 }
 
-CVAPI(int64) core_Mat_elemSize1(cv::Mat *self)
+CVAPI(uint64) core_Mat_elemSize1(cv::Mat *self)
 {
 	return self->elemSize1();
 }
@@ -322,20 +331,20 @@ CVAPI(int) core_Mat_sizeAt(cv::Mat *self, int i)
 	return size;
 }
 
-CVAPI(int64) core_Mat_step11(cv::Mat *self)
+CVAPI(uint64) core_Mat_step11(cv::Mat *self)
 {
 	return self->step1();
 }
-CVAPI(int64) core_Mat_step12(cv::Mat *self, int i)
+CVAPI(uint64) core_Mat_step12(cv::Mat *self, int i)
 {
 	return self->step1(i);
 }
 
-CVAPI(int64) core_Mat_step(cv::Mat *self)
+CVAPI(uint64) core_Mat_step(cv::Mat *self)
 {
 	return self->step;
 }
-CVAPI(int64) core_Mat_stepAt(cv::Mat *self, int i)
+CVAPI(uint64) core_Mat_stepAt(cv::Mat *self, int i)
 {
 	return self->step[i];
 }
@@ -364,7 +373,7 @@ CVAPI(cv::MatExpr*) core_Mat_t(cv::Mat *self)
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(int64) core_Mat_total(cv::Mat *self)
+CVAPI(uint64) core_Mat_total(cv::Mat *self)
 {
 	return self->total();
 }
@@ -419,68 +428,6 @@ CVAPI(uchar*) core_Mat_ptrnd(cv::Mat *self, int *idx)
 	return self->ptr(idx);
 }
         
-/*
-        // javadoc:Mat::put(row,col,data)
-CVAPI(int) core_Mat_Put(int row, int col, float[] data)
-        {
-        }
-
-        // javadoc:Mat::put(row,col,data)
-CVAPI(int) core_Mat_Put(int row, int col, int[] data)
-        {
-
-        }
-
-        // javadoc:Mat::put(row,col,data)
-CVAPI(int) core_Mat_Put(int row, int col, short[] data)
-        {
-
-        }
-
-        // javadoc:Mat::put(row,col,data)
-CVAPI(int) core_Mat_Put(int row, int col, byte[] data)
-        {
-
-        }
-
-        // javadoc:Mat::get(row,col,data)
-CVAPI(int) core_Mat_Get(int row, int col, byte[] data)
-        {
-
-        }
-
-        // javadoc:Mat::get(row,col,data)
-CVAPI(int) core_Mat_Get(int row, int col, short[] data)
-        {
-
-        }
-
-        // javadoc:Mat::get(row,col,data)
-CVAPI(int) core_Mat_Get(int row, int col, int[] data)
-        {
-
-        }
-
-        // javadoc:Mat::get(row,col,data)
-CVAPI(int) core_Mat_Get(int row, int col, float[] data)
-        {
-
-        }
-
-        // javadoc:Mat::get(row,col,data)
-CVAPI(int) core_Mat_Get(int row, int col, double[] data)
-        {
-
-        }
-
-        // javadoc:Mat::get(row,col)
-CVAPI(double[]) Get(int row, int col)
-        {
-            
-            //return nGet(ptr, row, col);
-        }
-
-*/
 #pragma endregion
 
 #endif

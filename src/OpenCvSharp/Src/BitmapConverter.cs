@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2008-2013 Schima
+ * (C) 2008-2014 shimat
  * This code is licenced under the LGPL.
  */
 
@@ -284,14 +284,14 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src">変換するIplImage</param>
         /// <param name="dst">出力先のSystem.Drawing.Bitmap</param>
-        /// <remarks>Author: Schima, Gummo (ROI support)</remarks>
+        /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
 #else
         /// <summary>
         /// Converts IplImage to System.Drawing.Bitmap
         /// </summary>
         /// <param name="src">System.Drawing.Bitmap</param>
         /// <param name="dst">IplImage</param>
-        /// <remarks>Author: Schima, Gummo (ROI support)</remarks>
+        /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
 #endif
         public static void ToBitmap(IplImage src, Bitmap dst)
         {

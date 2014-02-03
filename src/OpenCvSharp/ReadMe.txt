@@ -1,5 +1,5 @@
-# Copyright (C) 2008-2011 by Schima
-# schimatk@gmail.com
+# Copyright (C) 2008-2011 by shimat
+# shimattk@gmail.com
 #
 # OpenCvSharp is free software: you can redistribute it and/or modify
 # it under the terms of the Lesser GNU General Public License as published by
