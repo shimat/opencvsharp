@@ -139,6 +139,8 @@
     <Compile Include="Class\BackgroundSubtractor.cs" />
     <Compile Include="Class\cvaux\CvAdaptiveSkinDetector.cs" />
     <Compile Include="Class\cvaux\CvCamShiftTracker.cs" />
+    <Compile Include="Prototype\Int32Tuple.cs" />
+    <Compile Include="Prototype\ByteMat1.cs" />
     <Compile Include="Class\SURF.cs" />
     <Compile Include="Class\StarDetector.cs" />
     <Compile Include="Class\MSER.cs" />
@@ -162,7 +164,7 @@
     <Compile Include="Flann\IndexParams\SavedIndexParams.cs" />
     <Compile Include="Flann\IndexParams\SearchParams.cs" />
     <Compile Include="Flann\IndexParams\SearchParams_old.cs" />
-    <Compile Include="Prototype\Byte3.cs" />
+    <Compile Include="Prototype\ByteTuple.cs" />
     <Compile Include="Prototype\CppConst.cs" />
     <Compile Include="Prototype\CppInvoke.cs" />
     <Compile Include="Prototype\CvCpp_highgui.cs" />
@@ -176,6 +178,11 @@
     <Compile Include="Prototype\Size.cs" />
     <Compile Include="Prototype\CvCpp_core.cs" />
     <Compile Include="Prototype\CvCpp_imgproc.cs" />
+    <Compile Include="Prototype\SingleTuple.cs" />
+    <Compile Include="Prototype\Int16Tuple.cs" />
+    <Compile Include="Prototype\Int64Tuple.cs" />
+    <Compile Include="Prototype\DoubleTuple.cs" />
+    <Compile Include="Prototype\ByteMat3.cs" />
     <Compile Include="Util\std_vector\IStdVector.cs" />
     <Compile Include="Util\std_vector\StdVectorByte.cs" />
     <Compile Include="CppInvoke.cs" />

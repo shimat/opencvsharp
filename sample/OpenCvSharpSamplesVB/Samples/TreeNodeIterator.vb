@@ -5,7 +5,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 輪郭の検出を行い，木構造を持つ輪郭データから座標を取り出す.
     ''' </summary>
@@ -47,6 +47,8 @@ Namespace OpenCvSharpSamplesVB
                             End Using
 
                             'Console.WriteLine(File.ReadAllText("contours.yaml"))
+
+                            Form1.Label1.Text = "contours.yaml"
                             Dim sr As StreamReader = File.OpenText("contours.yaml")
                             Form1.TextBox1.Text = sr.ReadToEnd()
                             sr.Close()
@@ -60,4 +62,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

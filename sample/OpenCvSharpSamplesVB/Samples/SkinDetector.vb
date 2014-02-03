@@ -5,7 +5,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' CvAdaptiveSkinDetector sample
     ''' </summary>
@@ -52,4 +52,4 @@ Namespace OpenCvSharpSamplesVB
             Next y
         End Sub
     End Module
-End Namespace
+' End Namespace

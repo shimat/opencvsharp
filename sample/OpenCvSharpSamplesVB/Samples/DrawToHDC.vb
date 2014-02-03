@@ -7,7 +7,7 @@ Imports System.Text
 Imports System.Windows.Forms
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Draws from IplImage to HDC
     ''' </summary>
@@ -44,4 +44,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

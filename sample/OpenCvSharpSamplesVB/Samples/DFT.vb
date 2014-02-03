@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 離散フーリエ変換
     ''' </summary>
@@ -138,4 +138,4 @@ Namespace OpenCvSharpSamplesVB
             End If
         End Sub
     End Module
-End Namespace
+' End Namespace

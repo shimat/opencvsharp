@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 距離変換とその可視化
     ''' </summary>
@@ -40,4 +40,4 @@ Namespace OpenCvSharpSamplesVB
 
         End Sub
     End Module
-End Namespace
+' End Namespace

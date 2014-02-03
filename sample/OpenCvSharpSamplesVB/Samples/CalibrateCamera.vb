@@ -7,7 +7,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' カメラキャリブレーション
     ''' </summary>
@@ -110,9 +110,10 @@ Namespace OpenCvSharpSamplesVB
             ' 書き込んだファイルを表示
             'Console.WriteLine(File.ReadAllText("camera.xml"))
             'Console.Read()
+            Form1.Label1.Text = "camera.xml"
             Dim sr As StreamReader = File.OpenText("camera.xml")
             Form1.TextBox1.Text = sr.ReadToEnd()
             sr.Close()
         End Sub
     End Module
-End Namespace
+' End Namespace

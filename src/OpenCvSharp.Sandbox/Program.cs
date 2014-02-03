@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using OpenCvSharp.Blob;
@@ -15,34 +16,94 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
+            Run();
+        }
+
+        static void Run()
+        {
             var memory = new List<long>(100);
             for (int i = 0; ; i++)
             {
-                Mat mat = CvCpp.ImRead(@"img\lenna.png");
-                //Mat mat2 = CvCpp.ImRead(@"img\lenna.png"); 
-                
-                //Mat matMul = mat.Mul(mat2);
-                //matMul.GetHashCode();
-                //Console.WriteLine(mat.Dump());
+                Stopwatch watch = new Stopwatch();
 
-                var matAt = mat.GetIndexer<Byte3>();
-                for (int y = 0; y < mat.Height; y++)
+                Mat mat = CvCpp.ImRead(@"img\lenna.png");
+                ByteMat3 mat3 = new ByteMat3(mat);
+                mat3.GetHashCode();
+
+                IplImage img = (IplImage)mat;
+                img.GetHashCode();
+                //CvWindow.ShowImages(img);
+
+                /*
+                watch.Restart();
                 {
-                    for (int x = 0; x < mat.Width; x++)
+                    var matAt = mat.GetGenericIndexer<ByteTuple3>();
+                    for (int y = 0; y < mat.Height; y++)
                     {
-                        Byte3 item = matAt[y, x];
-                        Byte3 newItem = new Byte3
+                        for (int x = 0; x < mat.Width; x++)
                         {
-                            Item1 = item.Item3,
-                            Item2 = item.Item2,
-                            Item3 = item.Item1,
-                        };
-                        matAt[y, x] = newItem;
+                            ByteTuple3 item = matAt[y, x];
+                            ByteTuple3 newItem = new ByteTuple3
+                                {
+                                    Item1 = item.Item3,
+                                    Item2 = item.Item2,
+                                    Item3 = item.Item1,
+                                };
+                            matAt[y, x] = newItem;
+                        }
                     }
                 }
+                watch.Stop();
+                Console.WriteLine("GenericIndexer: {0}ms", watch.ElapsedMilliseconds);
+                //*/
 
-                CvCpp.ImShow("window", mat);
-                CvCpp.WaitKey();
+                /*
+                watch.Restart();
+                {
+                    var matAt = mat3.GetIndexer();
+                    for (int y = 0; y < mat.Height; y++)
+                    {
+                        for (int x = 0; x < mat.Width; x++)
+                        {
+                            ByteTuple3 item = matAt[y, x];
+                            ByteTuple3 newItem = new ByteTuple3
+                            {
+                                Item1 = item.Item3,
+                                Item2 = item.Item2,
+                                Item3 = item.Item1,
+                            };
+                            matAt[y, x] = newItem;
+                        }
+
+                    }
+                }
+                watch.Stop();
+                Console.WriteLine("PointerIndexer: {0}ms", watch.ElapsedMilliseconds);
+                //*/
+
+                /*
+                byte[,] matData = new byte[3,3]
+                    {
+                        {1, 2, 3},
+                        {4, 5, 6},
+                        {7, 8, 9}
+                    };
+                Mat mat2 = new Mat(3, 3, MatrixType.U8C1, matData);
+                Mat mat22 = mat2.Mul(mat2);
+
+                for (int r = 0; r < mat2.Rows; r++)
+                {
+                    for (int c = 0; c < mat2.Cols; c++)
+                    {
+                        //Console.Write("{0} ", mat22.Get<byte>(r, c));
+                        (r + c).GetHashCode();
+                        mat22.GetHashCode();
+                    }
+                    //Console.WriteLine();
+                }
+                */
+                //CvCpp.ImShow("window", mat);
+                //CvCpp.WaitKey();
 
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)
@@ -50,6 +111,7 @@ namespace OpenCvSharp.Sandbox
                     double average = memory.Average();
                     Console.WriteLine("{0:F3}MB", average / 1024.0 / 1024.0);
                     memory.Clear();
+                    GC.Collect();
                 }
             }
             

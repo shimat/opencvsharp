@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Converts gray scale image to pseudo-color images
     ''' </summary>
@@ -89,4 +89,4 @@ Namespace OpenCvSharpSamplesVB
             Return lutData
         End Function
     End Module
-End Namespace
+' End Namespace

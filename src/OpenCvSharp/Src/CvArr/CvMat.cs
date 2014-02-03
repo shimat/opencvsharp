@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2008-2013 Schima
+ * (C) 2008-2014 shimat
  * This code is licenced under the LGPL.
  */
 
@@ -296,7 +296,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="isEnabledDispose">If true, this matrix will be disposed by GC automatically.</param>
 #endif
-        internal CvMat(bool isEnabledDispose)
+        public CvMat(bool isEnabledDispose)
             : base(isEnabledDispose)
         {
             ptr = AllocMemory(SizeOf);

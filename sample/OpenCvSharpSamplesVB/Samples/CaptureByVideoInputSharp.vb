@@ -8,7 +8,7 @@ Imports System.Windows.Forms
 Imports OpenCvSharp
 Imports VideoInputSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Captures from camera by using VideoInputSharp (http://code.google.com/p/videoinputsharp/) 
     ''' </summary>
@@ -124,4 +124,4 @@ Namespace OpenCvSharpSamplesVB
             '            //
         End Sub
     End Module
-End Namespace
+' End Namespace

@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' データのファイルストレージへの書き込み・読み込み
     ''' </summary>
@@ -178,4 +178,4 @@ Namespace OpenCvSharpSamplesVB
             'Console.ReadKey()
         End Sub
     End Module
-End Namespace
+' End Namespace

@@ -5,7 +5,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Retrieves keypoints using the StarDetector algorithm.
     ''' </summary>
@@ -72,4 +72,4 @@ Namespace OpenCvSharpSamplesVB
 
         End Sub
     End Module
-End Namespace
+' End Namespace

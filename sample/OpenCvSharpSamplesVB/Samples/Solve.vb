@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 連立方程式を解く
     ''' </summary>
@@ -32,4 +32,4 @@ Namespace OpenCvSharpSamplesVB
             Console.Read()
         End Sub
     End Module
-End Namespace
+' End Namespace

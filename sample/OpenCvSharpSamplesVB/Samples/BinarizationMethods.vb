@@ -8,7 +8,7 @@ Imports OpenCvSharp
 ' for Binarizer
 Imports OpenCvSharp.Extensions
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Various Binarization Methods
     ''' </summary>
@@ -60,4 +60,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

@@ -6,7 +6,7 @@ Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 'using OpenCvSharp.Gpu;
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' cv::gpu
     ''' </summary>
@@ -62,4 +62,4 @@ Namespace OpenCvSharpSamplesVB
             '            Console.Read();
         End Sub
     End Module
-End Namespace
+' End Namespace

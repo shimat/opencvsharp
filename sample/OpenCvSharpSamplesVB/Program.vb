@@ -13,7 +13,7 @@ Imports OpenCvSharp.Blob
 Imports OpenCvSharp.UserInterface
 Imports OpenCvSharp.CPlusPlus
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' 
     ''' </summary>
@@ -38,76 +38,6 @@ Namespace OpenCvSharpSamplesVB
         Shared Sub Main()
             Application.EnableVisualStyles()
             Application.SetCompatibleTextRenderingDefault(False)
-
-            'Dim img As New IplImage("C:\stegano.png")
-            'Dim imgBin As New IplImage(img.Size, BitDepth.U8, 3)
-            'Dim imgBinBig As New IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 3)
-
-            'Dim imgB As New IplImage(img.Size, BitDepth.U8, 1)
-            'Dim imgG As New IplImage(img.Size, BitDepth.U8, 1)
-            'Dim imgR As New IplImage(img.Size, BitDepth.U8, 1)
-            'Dim imgBBin As New IplImage(img.Size, BitDepth.U8, 1)
-            'Dim imgGBin As New IplImage(img.Size, BitDepth.U8, 1)
-            'Dim imgRBin As New IplImage(img.Size, BitDepth.U8, 1)
-            'Dim imgRBinBig As New IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1)
-            'Dim imgGBinBig As New IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1)
-            'Dim imgBBinBig As New IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1)
-            'Dim imgBRBinBig As New IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1)
-            'Dim imgGRBinBig As New IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1)
-            'Dim imgBGBinBig As New IplImage(img.Width * 6, img.Height * 6, BitDepth.U8, 1)
-            'Cv.Split(img, imgB, imgG, imgR, Nothing)
-
-            'Using windowAll As New CvWindow("all")
-            'Using windowB As New CvWindow("B")
-            'Using windowG As New CvWindow("G")
-            'Using windowR As New CvWindow("R")
-            'Using windowBR As New CvWindow("BR")
-            'Using windowGR As New CvWindow("GR")
-            'Using windowBG As New CvWindow("BG")
-            '	Dim callback As CvTrackbarCallback = Sub(pos)
-            '		Cv.Threshold(img, imgBin, pos, 255, ThresholdType.Binary)
-            '		Cv.Threshold(imgB, imgBBin, pos, 255, ThresholdType.Binary)
-            '		Cv.Threshold(imgG, imgGBin, pos, 255, ThresholdType.Binary)
-            '		Cv.Threshold(imgR, imgRBin, pos, 255, ThresholdType.Binary)
-            '		Cv.Resize(imgBin, imgBinBig, Interpolation.NearestNeighbor)
-            '		Cv.Resize(imgBBin, imgBBinBig, Interpolation.NearestNeighbor)
-            '		Cv.Resize(imgGBin, imgGBinBig, Interpolation.NearestNeighbor)
-            '		Cv.Resize(imgRBin, imgRBinBig, Interpolation.NearestNeighbor)
-            '		Cv.Or(imgBBinBig, imgRBinBig, imgBRBinBig)
-            '		Cv.Or(imgGBinBig, imgRBinBig, imgGRBinBig)
-            '		Cv.Or(imgBBinBig, imgGBinBig, imgBGBinBig)
-            '		windowAll.ShowImage(imgBinBig)
-            '		windowB.ShowImage(imgBBinBig)
-            '		windowG.ShowImage(imgGBinBig)
-            '		windowR.ShowImage(imgRBinBig)
-            '		windowBR.ShowImage(imgBRBinBig)
-            '		windowGR.ShowImage(imgGRBinBig)
-            '		windowBG.ShowImage(imgBGBinBig)
-            '	End Sub
-            '	callback(128)
-            '	windowAll.CreateTrackbar("t", 128, 255, callback)
-
-            '	Cv.WaitKey()
-            'End Using
-            'End Using
-            'End Using
-            'End Using
-            'End Using
-            'End Using
-            'End Using
-
-
-
-
-            'Return
-
-
-            'Dim imgAnd As New IplImage(img.Size, BitDepth.U8, 1)
-            'imgAnd.Zero()
-            'Cv.And(imgB, imgG, imgAnd)
-            'Cv.And(imgAnd, imgR, imgAnd)
-
-            'CvWindow.ShowImages(imgBin, imgB, imgG, imgR, imgAnd)
 
             'Affine.Start()                      ' 画像のアフィン変換  
 
@@ -291,4 +221,4 @@ Namespace OpenCvSharpSamplesVB
         End Sub
 
     End Class
-End Namespace
+' End Namespace

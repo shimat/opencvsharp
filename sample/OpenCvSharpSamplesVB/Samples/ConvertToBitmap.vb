@@ -6,7 +6,7 @@ Imports System.Text
 Imports System.Windows.Forms
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' System.Drawing.Bitmapへの変換
     ''' </summary>
@@ -42,4 +42,4 @@ Namespace OpenCvSharpSamplesVB
         End Sub
 
     End Module
-End Namespace
+' End Namespace

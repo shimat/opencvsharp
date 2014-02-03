@@ -4,7 +4,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' Locality Sensitive Hashing
     ''' </summary>
@@ -83,4 +83,4 @@ Namespace OpenCvSharpSamplesVB
             Return arr
         End Function
     End Module
-End Namespace
+' End Namespace

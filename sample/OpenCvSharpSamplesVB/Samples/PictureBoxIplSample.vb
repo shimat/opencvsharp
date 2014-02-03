@@ -7,7 +7,7 @@ Imports System.Windows.Forms
 Imports OpenCvSharp
 Imports OpenCvSharp.UserInterface
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' PictureBoxIpl sample
     ''' </summary>
@@ -28,4 +28,4 @@ Namespace OpenCvSharpSamplesVB
         End Sub
 
     End Module
-End Namespace
+' End Namespace

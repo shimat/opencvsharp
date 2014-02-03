@@ -5,7 +5,7 @@ Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.Blob ' for blob
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' c# implementation of cvblob/test/test.cpp.
     ''' cvblob : http://code.google.com/p/cvblob/
@@ -55,4 +55,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace

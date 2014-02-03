@@ -8,7 +8,7 @@ Imports OpenCvSharp.CPlusPlus
 Imports CPP = OpenCvSharp.CPlusPlus
 'using GPU = OpenCvSharp.Gpu;
 
-Namespace OpenCvSharpSamplesVB
+' Namespace OpenCvSharpSamplesVB
     ''' <summary>
     ''' samples/c/peopledetect.c
     ''' </summary>
@@ -59,4 +59,4 @@ Namespace OpenCvSharpSamplesVB
             End Using
         End Sub
     End Module
-End Namespace
+' End Namespace
