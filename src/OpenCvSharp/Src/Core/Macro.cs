@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2008 Schima
+ * (C) 2008 shimat
  * This code is licenced under the LGPL.
  */
 
