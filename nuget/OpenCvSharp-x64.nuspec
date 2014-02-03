@@ -6,7 +6,7 @@
         <title>OpenCvSharp x64</title>
         <authors>shimat</authors>
         <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
-        <projectUrl>http://code.google.com/p/opencvsharp/</projectUrl>
+        <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
         <iconUrl>http://opencvsharp.googlecode.com/files/Lenna.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
