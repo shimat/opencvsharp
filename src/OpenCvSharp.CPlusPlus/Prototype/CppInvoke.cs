@@ -88,6 +88,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern IntPtr core_Mat_new(IntPtr mat, CvSlice rowRange);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new6")]
         public static extern IntPtr core_Mat_new(IntPtr mat, CvRect roi);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new7")]
+        public static extern IntPtr core_Mat_new(int rows, int cols, int type, IntPtr data, IntPtr step);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new8")]
+        public static extern IntPtr core_Mat_new(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, 
+            int type, IntPtr data, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] steps);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new8")]
+        public static extern IntPtr core_Mat_new(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes,
+                                int type, IntPtr data, [MarshalAs(UnmanagedType.LPArray)] IntPtr steps);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_release(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -147,9 +155,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double core_Mat_dot(IntPtr self, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long core_Mat_elemSize(IntPtr self);
+        public static extern ulong core_Mat_elemSize(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long core_Mat_elemSize1(IntPtr self);
+        public static extern ulong core_Mat_elemSize1(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_empty(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -193,13 +201,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_sizeAt(IntPtr self, int i);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_step11")]
-        public static extern long core_Mat_step1(IntPtr self);
+        public static extern ulong core_Mat_step1(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_step12")]
-        public static extern long core_Mat_step1(IntPtr self, int i);
+        public static extern ulong core_Mat_step1(IntPtr self, int i);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern long core_Mat_step(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long core_Mat_stepAt(IntPtr self, int i);
+        public static extern ulong core_Mat_stepAt(IntPtr self, int i);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_subMat1")]
         public static extern IntPtr core_Mat_subMat(IntPtr self, int rowStart, int rowEnd, int colStart, int colEnd);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_subMat2")]
@@ -207,7 +215,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_t(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long core_Mat_total(IntPtr self);
+        public static extern ulong core_Mat_total(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_type(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_zeros1")]

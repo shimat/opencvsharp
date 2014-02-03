@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2008-2013 Schima
+ * (C) 2008-2014 shimat
  * This code is licenced under the LGPL.
  */
 
@@ -92,17 +92,18 @@ namespace OpenCvSharp
                 // releases managed resources
                 if (disposing)
                 {
-                    if (dataHandle.IsAllocated)
-                    {
-                        dataHandle.Free();
-                    }
-                    if (AllocatedMemorySize > 0)
-                    {
-                        GC.RemoveMemoryPressure(AllocatedMemorySize);
-                        AllocatedMemorySize = 0;
-                    }
                 }
+
                 // releases unmanaged resources
+                if (dataHandle.IsAllocated)
+                {
+                    dataHandle.Free();
+                }
+                if (AllocatedMemorySize > 0)
+                {
+                    GC.RemoveMemoryPressure(AllocatedMemorySize);
+                    AllocatedMemorySize = 0;
+                }
                 if (AllocatedMemory != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(AllocatedMemory);
@@ -193,7 +194,7 @@ namespace OpenCvSharp
         /// <param name="obj"></param>
         /// <returns></returns>
 #endif
-        internal GCHandle AllocGCHandle(object obj)
+        protected internal GCHandle AllocGCHandle(object obj)
         {
             if (obj == null)
                 throw new ArgumentNullException("obj");

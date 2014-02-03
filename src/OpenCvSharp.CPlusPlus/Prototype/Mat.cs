@@ -30,7 +30,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         public Mat()
         {
-            ptr = CppInvoke.core_Mat_new();
+            try
+            {
+                ptr = CppInvoke.core_Mat_new();
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>
@@ -41,7 +48,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         public Mat(int rows, int cols, MatrixType type)
         {
-            ptr = CppInvoke.core_Mat_new(rows, cols, (int)type);
+            try
+            {
+                ptr = CppInvoke.core_Mat_new(rows, cols, (int)type);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>
@@ -51,7 +65,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         public Mat(Size size, int type)
         {
-            ptr = CppInvoke.core_Mat_new(size.Width, size.Height, type);
+            try
+            {
+                ptr = CppInvoke.core_Mat_new(size.Width, size.Height, type);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>
@@ -63,7 +84,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="s"></param>
         public Mat(int rows, int cols, int type, Scalar s)
         {
-            ptr = CppInvoke.core_Mat_new(rows, cols, type, s);
+            try
+            {
+                ptr = CppInvoke.core_Mat_new(rows, cols, type, s);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>
@@ -72,9 +100,16 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <param name="s"></param>
-        public Mat(Size size, int type, Scalar s)
+        public Mat(Size size, MatrixType type, Scalar s)
         {
-            ptr = CppInvoke.core_Mat_new(size.Width, size.Height, type, s);
+            try
+            {
+                ptr = CppInvoke.core_Mat_new(size.Width, size.Height, (int)type, s);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>
@@ -85,7 +120,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="colRange"></param>
         public Mat(Mat m, Range rowRange, Range colRange)
         {
-            ptr = CppInvoke.core_Mat_new(m.ptr, rowRange, colRange);
+            try
+            {
+                ptr = CppInvoke.core_Mat_new(m.ptr, rowRange, colRange);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>
@@ -95,7 +137,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="rowRange"></param>
         public Mat(Mat m, Range rowRange)
         {
-            ptr = CppInvoke.core_Mat_new(m.ptr, rowRange);
+            try
+            {
+                ptr = CppInvoke.core_Mat_new(m.ptr, rowRange);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         /// <summary>
@@ -105,7 +154,131 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="roi"></param>
         public Mat(Mat m, Rect roi)
         {
-            ptr = CppInvoke.core_Mat_new(m.ptr, roi);
+            try
+            {
+                ptr = CppInvoke.core_Mat_new(m.ptr, roi);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        /// <param name="step"></param>
+        public Mat(int rows, int cols, MatrixType type, IntPtr data, long step = 0)
+        {
+            try
+            {
+                ptr = CppInvoke.core_Mat_new(rows, cols, (int)type, data, new IntPtr(step));
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        /// <param name="step"></param>
+        public Mat(int rows, int cols, MatrixType type, Array data, long step = 0)
+        {
+            try
+            {
+                GCHandle handle = AllocGCHandle(data);
+                ptr = CppInvoke.core_Mat_new(rows, cols, (int)type,
+                                             handle.AddrOfPinnedObject(), new IntPtr(step));
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sizes"></param>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        /// <param name="steps"></param>
+        public Mat(IEnumerable<int> sizes, MatrixType type, IntPtr data, IEnumerable<long> steps = null)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("steps");
+            if (data == IntPtr.Zero)
+                throw new ArgumentNullException("data");
+            try
+            {
+                int[] sizesArray = new List<int>(sizes).ToArray();
+                if (steps == null)
+                {
+                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, (int)type, data, IntPtr.Zero);
+                }
+                else
+                {
+                    List<IntPtr> stepsList = new List<IntPtr>();
+                    foreach (long step in steps)
+                    {
+                        stepsList.Add(new IntPtr(step));
+                    }
+                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, (int)type, data, stepsList.ToArray());
+                }
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sizes"></param>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        /// <param name="steps"></param>
+        public Mat(IEnumerable<int> sizes, MatrixType type, Array data, IEnumerable<long> steps = null)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("steps");
+            if (data == null)
+                throw new ArgumentNullException("data");
+            try
+            {
+                GCHandle handle = AllocGCHandle(data);
+                int[] sizesArray = new List<int>(sizes).ToArray();
+                if (steps == null)
+                {
+                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, 
+                        (int)type, handle.AddrOfPinnedObject(), IntPtr.Zero);
+                }
+                else
+                {
+                    List<IntPtr> stepsList = new List<IntPtr>();
+                    foreach (long step in steps)
+                    {
+                        stepsList.Add(new IntPtr(step));
+                    }
+                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, 
+                        (int)type, handle.AddrOfPinnedObject(), stepsList.ToArray());
+                }
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
 #if LANG_JP
@@ -937,7 +1110,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        public long ElemSize()
+        public ulong ElemSize()
         {
             ThrowIfDisposed();
             try
@@ -955,7 +1128,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        public long ElemSize1()
+        public ulong ElemSize1()
         {
             ThrowIfDisposed();
             try
@@ -1441,7 +1614,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public long Step(int i)
+        public ulong Step(int i)
         {
             ThrowIfDisposed();
             try
@@ -1459,7 +1632,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        public long Step1()
+        public ulong Step1()
         {
             ThrowIfDisposed();
             try
@@ -1476,7 +1649,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public long Step1(int i)
+        public ulong Step1(int i)
         {
             ThrowIfDisposed();
             try
@@ -1585,7 +1758,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        public long Total()
+        public ulong Total()
         {
             ThrowIfDisposed();
             try
@@ -1735,30 +1908,71 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public sealed class Indexer<T>
+        public abstract class IndexerBase<T> where T : struct 
         {
-            private readonly Mat parent;
-            private readonly long ptrVal;
-            private readonly long[] steps;
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="i0"></param>
+            /// <returns></returns>
+            public abstract T this[int i0] { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="i0"></param>
+            /// <param name="i1"></param>
+            /// <returns></returns>
+            public abstract T this[int i0, int i1] { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="i0"></param>
+            /// <param name="i1"></param>
+            /// <param name="i2"></param>
+            /// <returns></returns>
+            public abstract T this[int i0, int i1, int i2] { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="idx"></param>
+            /// <returns></returns>
+            public abstract T this[params int[] idx] { get; set; }
 
-            internal Indexer(Mat parent)
+            protected readonly Mat parent;
+            protected readonly long[] steps;
+
+            internal IndexerBase(Mat parent)
             {
                 this.parent = parent;
-                this.ptrVal = parent.Data.ToInt64();
 
                 int dims = parent.Dims;
                 steps = new long[dims];
                 for (int i = 0; i < dims; i++)
                 {
-                    steps[i] = parent.Step(i);
+                    steps[i] = (long)parent.Step(i);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public sealed class Indexer<T> : IndexerBase<T> where T : struct 
+        {
+            private readonly long ptrVal;
+
+            internal Indexer(Mat parent)
+                : base(parent)
+            {
+                ptrVal = parent.Data.ToInt64();
             }
             /// <summary>
             /// 
             /// </summary>
             /// <param name="i0"></param>
             /// <returns></returns>
-            public T this[int i0]
+            public override T this[int i0]
             {
                 get
                 {
@@ -1777,7 +1991,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i0"></param>
             /// <param name="i1"></param>
             /// <returns></returns>
-            public T this[int i0, int i1]
+            public override T this[int i0, int i1]
             {
                 get
                 {
@@ -1797,7 +2011,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i1"></param>
             /// <param name="i2"></param>
             /// <returns></returns>
-            public T this[int i0, int i1, int i2]
+            public override T this[int i0, int i1, int i2]
             {
                 get
                 {
@@ -1810,445 +2024,93 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="idx"></param>
+            /// <returns></returns>
+            public override T this[params int[] idx]
+            {
+                get
+                {
+                    long offset = 0;
+                    for (int i = 0; i < idx.Length; i++)
+                    {
+                        offset += steps[i] * idx[i];
+                    }
+                    IntPtr p = new IntPtr(ptrVal + offset);
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                }
+                set
+                {
+                    long offset = 0;
+                    for (int i = 0; i < idx.Length; i++)
+                    {
+                        offset += steps[i] * idx[i];
+                    }
+                    IntPtr p = new IntPtr(ptrVal + offset);
+                    Marshal.StructureToPtr(value, p, false);
+                }
+            }
         }
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public Indexer<T> GetIndexer<T>()
+        public Indexer<T> GetIndexer<T>() where T : struct 
         {
             return new Indexer<T>(this);
         }
         #endregion
 
+        #region Get
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0"></param>
         /// <returns></returns>
-        public int Put(int row, int col, params double[] data)
+        public T Get<T>(int i0) where T : struct 
         {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            return nPutD(ptr, row, col, data.Length, data);*/
+            return new Indexer<T>(this)[i0];
         }
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0"></param>
+        /// <param name="i1"></param>
         /// <returns></returns>
-        public int Put(int row, int col, float[] data)
+        public T Get<T>(int i0, int i1) where T : struct 
         {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_32F)
-            {
-                return nPutF(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+            return new Indexer<T>(this)[i0, i1];
         }
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0"></param>
+        /// <param name="i1"></param>
+        /// <param name="i2"></param>
         /// <returns></returns>
-        public int Put(int row, int col, int[] data)
+        public T Get<T>(int i0, int i1, int i2) where T : struct 
         {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_32S)
-            {
-                return nPutI(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
+            return new Indexer<T>(this)[i0, i1, i2];
         }
-
-        /// <summary>
-        /// /
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public int Put(int row, int col, short[] data)
-        {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_16U || CvType.Depth(t) == CvType.CV_16S)
-            {
-                return nPutS(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
-        }
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="idx"></param>
         /// <returns></returns>
-        public int Put(int row, int col, byte[] data)
+        public T Get<T>(params int[] idx) where T : struct 
         {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_8U || CvType.Depth(t) == CvType.CV_8S)
-            {
-                return nPutB(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public int Get(int row, int col, byte[] data)
-        {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_8U || CvType.Depth(t) == CvType.CV_8S)
-            {
-                return nGetB(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public int Get(int row, int col, short[] data)
-        {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_16U || CvType.Depth(t) == CvType.CV_16S)
-            {
-                return nGetS(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public int Get(int row, int col, int[] data)
-        {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_32S)
-            {
-                return nGetI(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public int Get(int row, int col, float[] data)
-        {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})", 
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_32F)
-            {
-                return nGetF(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public int Get(int row, int col, double[] data)
-        {
-            throw new NotImplementedException();
-            /*int t = Type();
-            if (data == null || data.Length % CvType.Channels(t) != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    (data == null ? 0 : data.Length), CvType.Channels(t));
-            if (CvType.Depth(t) == CvType.CV_64F)
-            {
-                return nGetD(ptr, row, col, data.Length, data);
-            }
-            throw new OpenCvSharpException("Mat data type is not compatible: " + t);*/
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <returns></returns>
-        public double[] Get(int row, int col)
-        {
-            throw new NotImplementedException();
-            //return nGet(ptr, row, col);
+            return new Indexer<T>(this)[idx];
         }
         #endregion
-        /*
-        // C++: void Mat::assignTo(Mat m, int type = -1)
-        private static extern void n_assignTo(IntPtr nativeObj, IntPtr m_nativeObj, int type);
-
-        private static extern void n_assignTo(IntPtr nativeObj, IntPtr m_nativeObj);
-
-        // C++: int Mat::channels()
-        private static extern int n_channels(IntPtr nativeObj);
-
-        // C++: int Mat::checkVector(int elemChannels, int depth = -1, bool
-        // requireContinuous = true)
-        private static extern int n_checkVector(IntPtr nativeObj, int elemChannels, int depth, bool requireContinuous);
-
-        private static extern int n_checkVector(IntPtr nativeObj, int elemChannels, int depth);
-
-        private static extern int n_checkVector(IntPtr nativeObj, int elemChannels);
-
-        // C++: Mat Mat::clone()
-        private static extern IntPtr n_clone(IntPtr nativeObj);
-
-        // C++: Mat Mat::col(int x)
-        private static extern IntPtr n_col(IntPtr nativeObj, int x);
-
-        // C++: Mat Mat::colRange(int startcol, int endcol)
-        private static extern IntPtr n_colRange(IntPtr nativeObj, int startcol, int endcol);
-
-        // C++: int Mat::dims()
-        private static extern int n_dims(IntPtr nativeObj);
-
-        // C++: int Mat::cols()
-        private static extern int n_cols(IntPtr nativeObj);
-
-        // C++: void Mat::convertTo(Mat& m, int rtype, double alpha = 1, double beta
-        // = 0)
-        private static extern void n_convertTo(IntPtr nativeObj, IntPtr m_nativeObj, int rtype, double alpha, double beta);
-
-        private static extern void n_convertTo(IntPtr nativeObj, IntPtr m_nativeObj, int rtype, double alpha);
-
-        private static extern void n_convertTo(IntPtr nativeObj, IntPtr m_nativeObj, int rtype);
-
-        // C++: void Mat::copyTo(Mat& m)
-        private static extern void n_copyTo(IntPtr nativeObj, IntPtr m_nativeObj);
-
-        // C++: void Mat::copyTo(Mat& m, Mat mask)
-        private static extern void n_copyTo(IntPtr nativeObj, IntPtr m_nativeObj, IntPtr mask_nativeObj);
-
-        // C++: void Mat::create(int rows, int cols, int type)
-        private static extern void n_create(IntPtr nativeObj, int rows, int cols, int type);
-
-        // C++: void Mat::create(Size size, int type)
-        private static extern void n_create(IntPtr nativeObj, double size_width, double size_height, int type);
-
-        // C++: Mat Mat::cross(Mat m)
-        private static extern IntPtr n_cross(IntPtr nativeObj, IntPtr m_nativeObj);
-
-        // C++: long Mat::dataAddr()
-        private static extern IntPtr n_dataAddr(IntPtr nativeObj);
-
-        // C++: int Mat::depth()
-        private static extern int n_depth(IntPtr nativeObj);
-
-        // C++: Mat Mat::diag(int d = 0)
-        private static extern IntPtr n_diag(IntPtr nativeObj, int d);
-
-        // C++: static Mat Mat::diag(Mat d)
-        private static extern IntPtr n_diag(IntPtr d_nativeObj);
-
-        // C++: double Mat::dot(Mat m)
-        private static extern double n_dot(IntPtr nativeObj, IntPtr m_nativeObj);
-
-        // C++: size_t Mat::elemSize()
-        private static extern long n_elemSize(IntPtr nativeObj);
-
-        // C++: size_t Mat::elemSize1()
-        private static extern long n_elemSize1(IntPtr nativeObj);
-
-        // C++: bool Mat::empty()
-        private static extern bool n_empty(IntPtr nativeObj);
-
-        // C++: static Mat Mat::eye(int rows, int cols, int type)
-        private static extern IntPtr n_eye(int rows, int cols, int type);
-
-        // C++: static Mat Mat::eye(Size size, int type)
-        private static extern IntPtr n_eye(double size_width, double size_height, int type);
-
-        // C++: Mat Mat::inv(int method = DECOMP_LU)
-        private static extern IntPtr n_inv(IntPtr nativeObj, int method);
-
-        private static extern IntPtr n_inv(IntPtr nativeObj);
-
-        // C++: bool Mat::isContinuous()
-        private static extern bool n_isContinuous(IntPtr nativeObj);
-
-        // C++: bool Mat::isSubmatrix()
-        private static extern bool n_isSubmatrix(IntPtr nativeObj);
-
-        // C++: void Mat::locateROI(Size wholeSize, Point ofs)
-        private static extern void locateROI_0(IntPtr nativeObj, double[] wholeSize_out, double[] ofs_out);
-
-        // C++: Mat Mat::mul(Mat m, double scale = 1)
-        private static extern IntPtr n_mul(IntPtr nativeObj, IntPtr m_nativeObj, double scale);
-
-        private static extern IntPtr n_mul(IntPtr nativeObj, IntPtr m_nativeObj);
-
-        // C++: static Mat Mat::ones(int rows, int cols, int type)
-        private static extern IntPtr n_ones(int rows, int cols, int type);
-
-        // C++: static Mat Mat::ones(Size size, int type)
-        private static extern IntPtr n_ones(double size_width, double size_height, int type);
-
-        // C++: void Mat::push_back(Mat m)
-        private static extern void n_push_back(IntPtr nativeObj, IntPtr m_nativeObj);
-
-        // C++: void Mat::release()
-        private static extern void n_release(IntPtr nativeObj);
-
-        // C++: Mat Mat::reshape(int cn, int rows = 0)
-        private static extern IntPtr n_reshape(IntPtr nativeObj, int cn, int rows);
-
-        private static extern IntPtr n_reshape(IntPtr nativeObj, int cn);
-
-        // C++: Mat Mat::row(int y)
-        private static extern IntPtr n_row(IntPtr nativeObj, int y);
-
-        // C++: Mat Mat::rowRange(int startrow, int endrow)
-        private static extern IntPtr n_rowRange(IntPtr nativeObj, int startrow, int endrow);
-
-        // C++: int Mat::rows()
-        private static extern int n_rows(IntPtr nativeObj);
-
-        // C++: Mat Mat::operator =(Scalar s)
-        private static extern IntPtr n_setTo(IntPtr nativeObj, double s_val0, double s_val1, double s_val2, double s_val3);
-
-        // C++: Mat Mat::setTo(Scalar value, Mat mask = Mat())
-        private static extern IntPtr n_setTo(IntPtr nativeObj, double s_val0, double s_val1, double s_val2, double s_val3,
-                                           IntPtr mask_nativeObj);
-
-        // C++: Mat Mat::setTo(Mat value, Mat mask = Mat())
-        private static extern IntPtr n_setTo(IntPtr nativeObj, IntPtr value_nativeObj, IntPtr mask_nativeObj);
-
-        private static extern IntPtr n_setTo(IntPtr nativeObj, IntPtr value_nativeObj);
-
-        // C++: Size Mat::size()
-        private static extern double[] n_size(IntPtr nativeObj);
-
-        // C++: size_t Mat::step1(int i = 0)
-        private static extern long n_step1(IntPtr nativeObj, int i);
-
-        private static extern long n_step1(IntPtr nativeObj);
-
-        // C++: Mat Mat::operator()(Range rowRange, Range colRange)
-        private static extern IntPtr n_submat_rr(IntPtr nativeObj, int rowRange_start, int rowRange_end, int colRange_start,
-                                               int colRange_end);
-
-        // C++: Mat Mat::operator()(Rect roi)
-        private static extern IntPtr n_submat(IntPtr nativeObj, int roi_x, int roi_y, int roi_width, int roi_height);
-
-        // C++: Mat Mat::t()
-        private static extern IntPtr n_t(IntPtr nativeObj);
-
-        // C++: size_t Mat::total()
-        private static extern long n_total(IntPtr nativeObj);
-
-        // C++: int Mat::type()
-        private static extern int n_type(IntPtr nativeObj);
-
-        // C++: static Mat Mat::zeros(int rows, int cols, int type)
-        private static extern IntPtr n_zeros(int rows, int cols, int type);
-
-        // C++: static Mat Mat::zeros(Size size, int type)
-        private static extern IntPtr n_zeros(double size_width, double size_height, int type);
-
-        // extern support for java finalize()
-        private static extern void n_delete(IntPtr nativeObj);
-
-        private static extern int nPutD(IntPtr self, int row, int col, int count, double[] data);
-
-        private static extern int nPutF(IntPtr self, int row, int col, int count, float[] data);
-
-        private static extern int nPutI(IntPtr self, int row, int col, int count, int[] data);
-
-        private static extern int nPutS(IntPtr self, int row, int col, int count, short[] data);
-
-        private static extern int nPutB(IntPtr self, int row, int col, int count, byte[] data);
-
-        private static extern int nGetB(IntPtr self, int row, int col, int count, byte[] vals);
-
-        private static extern int nGetS(IntPtr self, int row, int col, int count, short[] vals);
-
-        private static extern int nGetI(IntPtr self, int row, int col, int count, int[] vals);
-
-        private static extern int nGetF(IntPtr self, int row, int col, int count, float[] vals);
-
-        private static extern int nGetD(IntPtr self, int row, int col, int count, double[] vals);
-
-        private static extern double[] nGet(IntPtr self, int row, int col);
-
-        private static extern String nDump(IntPtr self);
-        */
+        #endregion
     }
 
 }

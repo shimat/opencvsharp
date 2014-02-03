@@ -139,6 +139,7 @@
     <Compile Include="Class\BackgroundSubtractor.cs" />
     <Compile Include="Class\cvaux\CvAdaptiveSkinDetector.cs" />
     <Compile Include="Class\cvaux\CvCamShiftTracker.cs" />
+    <Compile Include="Prototype\MatOfByte1.cs" />
     <Compile Include="Class\SURF.cs" />
     <Compile Include="Class\StarDetector.cs" />
     <Compile Include="Class\MSER.cs" />

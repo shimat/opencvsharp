@@ -19,12 +19,7 @@ namespace OpenCvSharp.Sandbox
             for (int i = 0; ; i++)
             {
                 Mat mat = CvCpp.ImRead(@"img\lenna.png");
-                //Mat mat2 = CvCpp.ImRead(@"img\lenna.png"); 
-                
-                //Mat matMul = mat.Mul(mat2);
-                //matMul.GetHashCode();
-                //Console.WriteLine(mat.Dump());
-
+                /*
                 var matAt = mat.GetIndexer<Byte3>();
                 for (int y = 0; y < mat.Height; y++)
                 {
@@ -39,10 +34,30 @@ namespace OpenCvSharp.Sandbox
                         };
                         matAt[y, x] = newItem;
                     }
+                }*/
+
+                byte[,] matData = new byte[3,3]
+                    {
+                        {1, 2, 3},
+                        {4, 5, 6},
+                        {7, 8, 9}
+                    };
+                Mat mat2 = new Mat(3, 3, MatrixType.U8C1, matData);
+                Mat mat22 = mat2.Mul(mat2);
+
+                for (int r = 0; r < mat2.Rows; r++)
+                {
+                    for (int c = 0; c < mat2.Cols; c++)
+                    {
+                        //Console.Write("{0} ", mat22.Get<byte>(r, c));
+                        (r + c).GetHashCode();
+                        mat22.GetHashCode();
+                    }
+                    //Console.WriteLine();
                 }
 
-                CvCpp.ImShow("window", mat);
-                CvCpp.WaitKey();
+                //CvCpp.ImShow("window", mat);
+                //CvCpp.WaitKey();
 
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)
@@ -50,6 +65,7 @@ namespace OpenCvSharp.Sandbox
                     double average = memory.Average();
                     Console.WriteLine("{0:F3}MB", average / 1024.0 / 1024.0);
                     memory.Clear();
+                    GC.Collect();
                 }
             }
             
