@@ -65,8 +65,8 @@ namespace OpenCvSharp.Sandbox
                     {
                         for (int x = 0; x < mat.Width; x++)
                         {
-                            ByteTuple3 item = matAt[y, x];
-                            ByteTuple3 newItem = new ByteTuple3
+                            TupleU8C3 item = matAt[y, x];
+                            TupleU8C3 newItem = new TupleU8C3
                             {
                                 Item1 = item.Item3,
                                 Item2 = item.Item2,

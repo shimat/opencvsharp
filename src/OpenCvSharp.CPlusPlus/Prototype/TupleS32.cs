@@ -6,27 +6,27 @@ using System.Text;
 namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
-    /// 2-Tuple of short (System.Int16)
+    /// 2-Tuple of int (System.Int32)
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Int16Tuple2
+    public struct TupleS32C2
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public short Item1;
+        public int Item1;
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public short Item2;
+        public int Item2;
 
         /// <summary>
         /// Initializer
         /// </summary>
         /// <param name="item1"></param>
         /// <param name="item2"></param>
-        public Int16Tuple2(short item1, short item2)
+        public TupleS32C2(int item1, int item2)
         {
             Item1 = item1;
             Item2 = item2;
@@ -34,24 +34,24 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     }
 
     /// <summary>
-    /// 3-Tuple of short (System.Int16)
+    /// 3-Tuple of int (System.Int32)
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Int16Tuple3
+    public struct TupleS32C3
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public short Item1;
+        public int Item1;
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public short Item2;
+        public int Item2;
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public short Item3;
+        public int Item3;
 
         /// <summary>
         /// Initializer
@@ -59,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="item1"></param>
         /// <param name="item2"></param>
         /// <param name="item3"></param>
-        public Int16Tuple3(short item1, short item2, short item3)
+        public TupleS32C3(int item1, int item2, int item3)
         {
             Item1 = item1;
             Item2 = item2;
@@ -68,31 +68,31 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     }
 
     /// <summary>
-    /// 4-Tuple of short (System.Int16)
+    /// 4-Tuple of int (System.Int32)
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Int16Tuple4
+    public struct TupleS32C4
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public short Item1;
+        public int Item1;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public short Item2;
+        public int Item2;
 
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public short Item3;
+        public int Item3;
 
         /// <summary>
         /// The value of the fourth component of this object.
         /// </summary>
-        public short Item4;
+        public int Item4;
 
         /// <summary>
         /// Initializer
@@ -101,7 +101,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="item2"></param>
         /// <param name="item3"></param>
         /// <param name="item4"></param>
-        public Int16Tuple4(short item1, short item2, short item3, short item4)
+        public TupleS32C4(int item1, int item2, int item3, int item4)
         {
             Item1 = item1;
             Item2 = item2;

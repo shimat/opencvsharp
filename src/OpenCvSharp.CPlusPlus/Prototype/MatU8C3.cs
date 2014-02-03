@@ -31,7 +31,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <summary>
         /// 
         /// </summary>
-        public sealed unsafe class Indexer : IndexerBase<ByteTuple3>
+        public sealed unsafe class Indexer : IndexerBase<TupleU8C3>
         {
             private readonly byte* ptr;
 
@@ -45,15 +45,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// </summary>
             /// <param name="i0"></param>
             /// <returns></returns>
-            public override ByteTuple3 this[int i0]
+            public override TupleU8C3 this[int i0]
             {
                 get
                 {
-                    return *(ByteTuple3*)(ptr + (steps[0] * i0));
+                    return *(TupleU8C3*)(ptr + (steps[0] * i0));
                 }
                 set
                 {
-                    *(ByteTuple3*)(ptr + (steps[0] * i0)) = value;
+                    *(TupleU8C3*)(ptr + (steps[0] * i0)) = value;
                 }
             }
             /// <summary>
@@ -62,15 +62,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i0"></param>
             /// <param name="i1"></param>
             /// <returns></returns>
-            public override ByteTuple3 this[int i0, int i1]
+            public override TupleU8C3 this[int i0, int i1]
             {
                 get
                 {
-                    return *(ByteTuple3*)(ptr + (steps[0] * i0) + (steps[1] * i1));
+                    return *(TupleU8C3*)(ptr + (steps[0] * i0) + (steps[1] * i1));
                 }
                 set
                 {
-                    *(ByteTuple3*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
+                    *(TupleU8C3*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
                 }
             }
             /// <summary>
@@ -80,15 +80,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i1"></param>
             /// <param name="i2"></param>
             /// <returns></returns>
-            public override ByteTuple3 this[int i0, int i1, int i2]
+            public override TupleU8C3 this[int i0, int i1, int i2]
             {
                 get
                 {
-                    return *(ByteTuple3*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    return *(TupleU8C3*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
                 }
                 set
                 {
-                    *(ByteTuple3*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
+                    *(TupleU8C3*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
                 }
             }
             /// <summary>
@@ -96,7 +96,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// </summary>
             /// <param name="idx"></param>
             /// <returns></returns>
-            public override ByteTuple3 this[params int[] idx]
+            public override TupleU8C3 this[params int[] idx]
             {
                 get
                 {
@@ -105,7 +105,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                         offset += steps[i] * idx[i];
                     }
-                    return *(ByteTuple3*)(ptr + offset);
+                    return *(TupleU8C3*)(ptr + offset);
                 }
                 set
                 {
@@ -114,7 +114,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                         offset += steps[i] * idx[i];
                     }
-                    *(ByteTuple3*)(ptr + offset) = value;
+                    *(TupleU8C3*)(ptr + offset) = value;
                 }
             }
         }
