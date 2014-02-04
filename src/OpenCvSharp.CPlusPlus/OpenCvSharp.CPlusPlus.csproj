@@ -140,6 +140,7 @@
     <Compile Include="Class\cvaux\CvAdaptiveSkinDetector.cs" />
     <Compile Include="Class\cvaux\CvCamShiftTracker.cs" />
     <Compile Include="Enum\DumpFormat.cs" />
+    <Compile Include="Prototype\MatRowColIndexer.cs" />
     <Compile Include="Prototype\TupleS32.cs" />
     <Compile Include="Prototype\MatU8C1.cs" />
     <Compile Include="Class\SURF.cs" />

@@ -53,7 +53,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                     }
                     //Console.WriteLine("MatExpr disposed");
-                    CppInvoke.core_MatExpr_delete(ptr);
+                    if (ptr != IntPtr.Zero)
+                    {
+                        CppInvoke.core_MatExpr_delete(ptr);
+                    }
                     disposed = true;
                 }
                 finally
@@ -118,12 +121,123 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         public static MatExpr operator -(MatExpr e) { throw new NotImplementedException(); }
 
-        public static MatExpr operator *(MatExpr e, Mat m) { throw new NotImplementedException(); }
-        public static MatExpr operator *(Mat m, MatExpr e) { throw new NotImplementedException(); }
-        public static MatExpr operator *(MatExpr e, double s) { throw new NotImplementedException(); }
-        public static MatExpr operator *(double s, MatExpr e) { throw new NotImplementedException(); }
-        public static MatExpr operator *(MatExpr e1, MatExpr e2) { throw new NotImplementedException(); }
-
+        #region *
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public static MatExpr operator *(MatExpr e, Mat m)
+        {
+            if (e == null)
+                throw new ArgumentNullException("e");
+            if (m == null)
+                throw new ArgumentNullException("m");
+            e.ThrowIfDisposed();
+            m.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorMultiply_MatExprMat(e.CvPtr, m.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static MatExpr operator *(Mat m, MatExpr e)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+            if (e == null)
+                throw new ArgumentNullException("e");
+            m.ThrowIfDisposed();
+            e.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorMultiply_MatMatExpr(m.CvPtr, e.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static MatExpr operator *(MatExpr e, double s)
+        {
+            if (e == null)
+                throw new ArgumentNullException("e");
+            e.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorMultiply_MatExprDouble(e.CvPtr, s);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static MatExpr operator *(double s, MatExpr e)
+        {
+            if (e == null)
+                throw new ArgumentNullException("e");
+            e.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorMultiply_DoubleMatExpr(s, e.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e1"></param>
+        /// <param name="e2"></param>
+        /// <returns></returns>
+        public static MatExpr operator *(MatExpr e1, MatExpr e2)
+        {
+            if (e1 == null)
+                throw new ArgumentNullException("e1");
+            if (e2 == null)
+                throw new ArgumentNullException("e2");
+            e1.ThrowIfDisposed();
+            e2.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorMultiply_MatExprMatExpr(e1.CvPtr, e2.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
+        #region /
         /// <summary>
         /// 
         /// </summary>
@@ -238,6 +352,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+        #endregion
         #endregion
 
         #region Methods

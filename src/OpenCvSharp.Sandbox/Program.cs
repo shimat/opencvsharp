@@ -31,7 +31,12 @@ namespace OpenCvSharp.Sandbox
                 //Console.WriteLine(mat.Dump());
                 //mat.Row(100).SetTo(Scalar.All(10));
                 //subMat.SetTo(subMat.Clone() / 3);
-                mat[new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
+                //mat[new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
+                mat.Col[10,20] = mat.Col[100,110] / 3;
+                var x = mat.Col[100, 110] / 3;
+                x.GetHashCode();
+
+                //mat.Row[100,200] = mat.Row[200,300] * 2;
 
                 Mat subMat = new Mat(mat, Range.All, Range.All);
                 //Console.WriteLine(subMat.IsContinuous());
@@ -118,9 +123,9 @@ namespace OpenCvSharp.Sandbox
                 }
                 */
                 
-                CvCpp.ImShow("window1", mat);
+                //CvCpp.ImShow("window1", mat);
                 //CvCpp.ImShow("window2", subMat);
-                CvCpp.WaitKey();
+                //CvCpp.WaitKey();
 
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)

@@ -99,10 +99,15 @@ CVAPI(cv::Mat*) core_Mat_clone(cv::Mat *self)
 	return new cv::Mat(ret);
 }
 
-CVAPI(cv::Mat*) core_Mat_col(cv::Mat *self, int x)
+CVAPI(cv::Mat*) core_Mat_col_toMat(cv::Mat *self, int x)
 {
 	cv::Mat ret = self->col(x);
 	return new cv::Mat(ret);
+}
+CVAPI(cv::MatExpr*) core_Mat_col_toMatExpr(cv::Mat *self, int x)
+{
+	cv::Mat ret = self->col(x);
+	return new cv::MatExpr(ret);
 }
 
 CVAPI(int) core_Mat_cols(cv::Mat *self)
@@ -110,12 +115,16 @@ CVAPI(int) core_Mat_cols(cv::Mat *self)
 	return self->cols;
 }
 
-CVAPI(cv::Mat*) core_Mat_colRange(cv::Mat *self, int startCol, int endCol)
+CVAPI(cv::Mat*) core_Mat_colRange_toMat(cv::Mat *self, int startCol, int endCol)
 { 
 	cv::Mat ret = self->colRange(startCol, endCol);
     return new cv::Mat(ret);
 }
-
+CVAPI(cv::MatExpr*) core_Mat_colRange_toMatExpr(cv::Mat *self, int startCol, int endCol)
+{
+	cv::Mat ret = self->colRange(startCol, endCol);
+	return new cv::MatExpr(ret);
+}
 
 CVAPI(int) core_Mat_dims(cv::Mat *self)
 {
@@ -290,16 +299,26 @@ CVAPI(cv::Mat*) core_Mat_reshape3(cv::Mat *self, int cn, int newndims, const int
 	return new cv::Mat(ret);
 }
 
-CVAPI(cv::Mat*) core_Mat_row(cv::Mat *self, int y)
+CVAPI(cv::Mat*) core_Mat_row_toMat(cv::Mat *self, int y)
 {
 	cv::Mat ret = self->row(y);
 	return new cv::Mat(ret);
 }
+CVAPI(cv::MatExpr*) core_Mat_row_toMatExpr(cv::Mat *self, int y)
+{
+	cv::Mat ret = self->row(y);
+	return new cv::MatExpr(ret);
+}
 
-CVAPI(cv::Mat*) core_Mat_rowRange(cv::Mat *self, int startRow, int endRow)
+CVAPI(cv::Mat*) core_Mat_rowRange_toMat(cv::Mat *self, int startRow, int endRow)
 {
 	cv::Mat ret = self->rowRange(startRow, endRow);
 	return new cv::Mat(ret);
+}
+CVAPI(cv::MatExpr*) core_Mat_rowRange_toMatExpr(cv::Mat *self, int startRow, int endRow)
+{
+	cv::Mat ret = self->rowRange(startRow, endRow);
+	return new cv::MatExpr(ret);
 }
 
 CVAPI(int) core_Mat_rows(cv::Mat *self)

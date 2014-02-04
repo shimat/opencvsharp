@@ -1441,27 +1441,106 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         #endregion
         #region Col
+        /// <summary>
+        /// Mat column's indexer object
+        /// </summary>
+        public class ColIndexer : MatRowColIndexer
+        {
+            protected internal ColIndexer(Mat parent)
+                : base(parent)
+            {
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="x"></param>
+            /// <returns></returns>
+            public override MatExpr this[int x]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    try
+                    {
+                        IntPtr matExprPtr = CppInvoke.core_Mat_col_toMatExpr(parent.ptr, x);
+                        MatExpr matExpr = new MatExpr(matExprPtr);
+                        return matExpr;
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+                set
+                {
+                    if(value == null)
+                        throw new ArgumentNullException("value");
+                    parent.ThrowIfDisposed();
+                    try
+                    {
+                        IntPtr colMatPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
+                        CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="startCol"></param>
+            /// <param name="endCol"></param>
+            /// <returns></returns>
+            public override MatExpr this[int startCol, int endCol]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    try
+                    {
+                        IntPtr matExprPtr = CppInvoke.core_Mat_colRange_toMatExpr(parent.ptr, startCol, endCol);
+                        MatExpr matExpr = new MatExpr(matExprPtr);
+                        return matExpr;
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    parent.ThrowIfDisposed();
+                    try
+                    {
+                        IntPtr colMatPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                        CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
         /// <returns></returns>
-        public Mat Col(int x)
+        public ColIndexer Col
         {
-            ThrowIfDisposed();
-            try
+            get
             {
-                IntPtr retPtr = CppInvoke.core_Mat_col(ptr, x);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
+                if(col == null)
+                    col = new ColIndexer(this);
+                return col;
             }
         }
-
+        private ColIndexer col = null;
         #endregion
         #region Cols
 
@@ -1517,27 +1596,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Mat ColRange(int startCol, int endCol)
         {
-            ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_colRange(ptr, startCol, endCol);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return Col[startCol, endCol];
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="range"></param>
         /// <returns></returns>
-        public Mat ColRange(Range r)
+        public Mat ColRange(Range range)
         {
-            return ColRange(r.Start, r.End);
+            return Col[range];
         }
 
         #endregion
@@ -2188,24 +2257,105 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #region Row
 
         /// <summary>
-        /// 
+        /// Mat row's indexer object
         /// </summary>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public Mat Row(int y)
+        public class RowIndexer : MatRowColIndexer
         {
-            ThrowIfDisposed();
-            try
+            protected internal RowIndexer(Mat parent)
+                : base(parent)
             {
-                IntPtr retPtr = CppInvoke.core_Mat_row(ptr, y);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
             }
-            catch (BadImageFormatException ex)
+            /// <summary>
+            /// Mat::row
+            /// </summary>
+            /// <param name="y"></param>
+            /// <returns></returns>
+            public override MatExpr this[int y]
             {
-                throw PInvokeHelper.CreateException(ex);
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    try
+                    {
+                        IntPtr matExprPtr = CppInvoke.core_Mat_row_toMatExpr(parent.ptr, y);
+                        MatExpr matExpr = new MatExpr(matExprPtr);
+                        return matExpr;
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    parent.ThrowIfDisposed();
+                    try
+                    {
+                        IntPtr rowMatPtr = CppInvoke.core_Mat_row_toMat(parent.ptr, y);
+                        CppInvoke.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+            }
+            /// <summary>
+            /// Mat::rowRange
+            /// </summary>
+            /// <param name="startRow"></param>
+            /// <param name="endRow"></param>
+            /// <returns></returns>
+            public override MatExpr this[int startRow, int endRow]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    try
+                    {
+                        IntPtr matExprPtr = CppInvoke.core_Mat_rowRange_toMatExpr(parent.ptr, startRow, endRow);
+                        MatExpr matExpr = new MatExpr(matExprPtr);
+                        return matExpr;
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    parent.ThrowIfDisposed();
+                    try
+                    {
+                        IntPtr rowMatPtr = CppInvoke.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                        CppInvoke.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        throw PInvokeHelper.CreateException(ex);
+                    }
+                }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public RowIndexer Row
+        {
+            get
+            {
+                if (row == null)
+                    row = new RowIndexer(this);
+                return row;
+            }
+        }
+        private RowIndexer row = null;
 
         #endregion
         #region RowRange
@@ -2218,27 +2368,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Mat RowRange(int startRow, int endRow)
         {
-            ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_rowRange(ptr, startRow, endRow);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return Row[startRow, endRow];
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="range"></param>
         /// <returns></returns>
-        public Mat RowRange(Range r)
+        public Mat RowRange(Range range)
         {
-            return RowRange(r.Start, r.End);
+            return Row[range];
         }
 
         #endregion

@@ -118,11 +118,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_clone(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_col(IntPtr self, int x);
+        public static extern IntPtr core_Mat_col_toMat(IntPtr self, int x);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_col_toMatExpr(IntPtr self, int x);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_cols(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_colRange(IntPtr self, int startCol, int endCol);
+        public static extern IntPtr core_Mat_colRange_toMat(IntPtr self, int startCol, int endCol);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_colRange_toMatExpr(IntPtr self, int startCol, int endCol);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_dims(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo1")]
@@ -189,9 +193,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_push_back3")]
         public static extern IntPtr core_Mat_reshape(IntPtr self, int cn, int newndims, [MarshalAs(UnmanagedType.LPArray)] int[] newsz);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_row(IntPtr self, int y);
+        public static extern IntPtr core_Mat_row_toMat(IntPtr self, int y);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_rowRange(IntPtr self, int startRow, int endRow);
+        public static extern IntPtr core_Mat_row_toMatExpr(IntPtr self, int y);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_rowRange_toMat(IntPtr self, int startRow, int endRow);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_rowRange_toMatExpr(IntPtr self, int startRow, int endRow);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_setTo1")]
         public static extern IntPtr core_Mat_setTo(IntPtr self, CvScalar value, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_setTo2")]
@@ -305,6 +313,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_MatExpr_toMat(IntPtr expr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMultiply_MatExprMat(IntPtr e, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMultiply_MatMatExpr(IntPtr m, IntPtr e);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMultiply_MatExprDouble(IntPtr e, double s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMultiply_DoubleMatExpr(double s, IntPtr e);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMultiply_MatExprMatExpr(IntPtr e1, IntPtr e2);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorDivide_MatExprMat(IntPtr e, IntPtr m);

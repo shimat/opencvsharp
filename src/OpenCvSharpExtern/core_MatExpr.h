@@ -27,8 +27,33 @@ CVAPI(cv::Mat*) core_MatExpr_toMat(cv::MatExpr *expr)
 	return new cv::Mat(ret);
 }
 
+CVAPI(cv::MatExpr*) core_operatorMultiply_MatExprMat(cv::MatExpr *e, cv::Mat *m)
+{
+	cv::MatExpr ret = (*e) * (*m);
+	return new cv::MatExpr(ret);
+}
+CVAPI(cv::MatExpr*) core_operatorMultiply_MatMatExpr(cv::Mat *m, cv::MatExpr *e)
+{
+	cv::MatExpr ret = (*m) * (*e);
+	return new cv::MatExpr(ret);
+}
+CVAPI(cv::MatExpr*) core_operatorMultiply_MatExprDouble(cv::MatExpr *e, double s)
+{
+	cv::MatExpr ret = (*e) * s;
+	return new cv::MatExpr(ret);
+}
+CVAPI(cv::MatExpr*) core_operatorMultiply_DoubleMatExpr(double s, cv::MatExpr *e)
+{
+	cv::MatExpr ret = s * (*e);
+	return new cv::MatExpr(ret);
+}
+CVAPI(cv::MatExpr*) core_operatorMultiply_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2)
+{
+	cv::MatExpr ret = (*e1) * (*e2);
+	return new cv::MatExpr(ret);
+}
 
-CVAPI(cv::MatExpr*) core_operatorDivide_MatExprMat(cv::MatExpr *e, cv::Mat *m) 
+CVAPI(cv::MatExpr*) core_operatorDivide_MatExprMat(cv::MatExpr *e, cv::Mat *m)
 { 
 	cv::MatExpr ret = (*e) / (*m);
 	return new cv::MatExpr(ret);
