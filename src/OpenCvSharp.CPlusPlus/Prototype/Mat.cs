@@ -14,6 +14,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private bool disposed;
 
         #region Init & Disposal
+
         /// <summary>
         /// 
         /// </summary>
@@ -261,8 +262,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 int[] sizesArray = new List<int>(sizes).ToArray();
                 if (steps == null)
                 {
-                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, 
-                        (int)type, handle.AddrOfPinnedObject(), IntPtr.Zero);
+                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray,
+                                                 (int)type, handle.AddrOfPinnedObject(), IntPtr.Zero);
                 }
                 else
                 {
@@ -271,8 +272,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                         stepsList.Add(new IntPtr(step));
                     }
-                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, 
-                        (int)type, handle.AddrOfPinnedObject(), stepsList.ToArray());
+                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray,
+                                                 (int)type, handle.AddrOfPinnedObject(), stepsList.ToArray());
                 }
             }
             catch (BadImageFormatException ex)
@@ -282,9 +283,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         }
 
 #if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
 #else
         /// <summary>
         /// Releases the resources
@@ -294,14 +295,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             Dispose();
         }
+
 #if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
+    /// <param name="disposing">
+    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+    ///</param>
 #else
         /// <summary>
         /// Releases the resources
@@ -328,7 +330,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                         //CppInvoke.core_Mat_release(ptr);
                     }
                     disposed = true;
-                    
+
                 }
                 finally
                 {
@@ -341,6 +343,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         #region Static
         #region Diag
+
         /// <summary>
         /// 
         /// </summary>
@@ -350,8 +353,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return d.Diag();
         }
+
         #endregion
         #region Eye
+
         /// <summary>
         /// 
         /// </summary>
@@ -362,6 +367,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return Eye(size.Height, size.Width, type);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -382,8 +388,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Ones
+
         /// <summary>
         /// 
         /// </summary>
@@ -395,7 +403,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             try
             {
-                IntPtr retPtr = CppInvoke.core_Mat_ones(rows, cols, (int)type); 
+                IntPtr retPtr = CppInvoke.core_Mat_ones(rows, cols, (int)type);
                 MatExpr retVal = new MatExpr(retPtr);
                 return retVal;
             }
@@ -404,6 +412,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -423,7 +432,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public static MatExpr Ones(MatrixType type, params int[] sizes)
         {
-            if(sizes == null)
+            if (sizes == null)
                 throw new ArgumentNullException("sizes");
             /*
             try
@@ -438,8 +447,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }*/
             throw new NotImplementedException(); // Undefined this in .lib file
         }
+
         #endregion
         #region Zeros
+
         /// <summary>
         /// 
         /// </summary>
@@ -460,6 +471,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -494,6 +506,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }*/
             throw new NotImplementedException();
         }
+
         #endregion
         #endregion
 
@@ -507,28 +520,60 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="colStart"></param>
         /// <param name="colEnd"></param>
         /// <returns></returns>
-        public Mat this[int rowStart, int rowEnd, int colStart, int colEnd]
+        public MatExpr this[int rowStart, int rowEnd, int colStart, int colEnd]
         {
-            get { return SubMat(rowStart, rowEnd, colStart, colEnd); }
+            get
+            {
+                return SubMat(rowStart, rowEnd, colStart, colEnd);
+            }
+            set
+            {
+                if(value == null)
+                    throw new ArgumentNullException("value");
+                Mat submat = SubMat(rowStart, rowEnd, colStart, colEnd);
+                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+            }
         }
+        
         /// <summary>
         /// 
         /// </summary>
         /// <param name="rowRange"></param>
         /// <param name="colRange"></param>
         /// <returns></returns>
-        public Mat this[Range rowRange, Range colRange]
+        public MatExpr this[Range rowRange, Range colRange]
         {
-            get { return SubMat(rowRange, colRange); }
+            get
+            {
+                return SubMat(rowRange, colRange);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                Mat submat = SubMat(rowRange, colRange);
+                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+            }
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="roi"></param>
         /// <returns></returns>
-        public Mat this[Rect roi]
+        public MatExpr this[Rect roi]
         {
-            get { return SubMat(roi); }
+            get
+            {
+                return SubMat(roi);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                Mat submat = SubMat(roi);
+                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+            }
         }
 
         /// <summary>
@@ -536,12 +581,24 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="ranges"></param>
         /// <returns></returns>
-        public Mat this[params Range[] ranges]
+        public MatExpr this[params Range[] ranges]
         {
-            get { return SubMat(ranges); }
+            get
+            {
+                return SubMat(ranges);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                Mat submat = SubMat(ranges);
+                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+            }
         }
+
         #endregion
         #region Casting
+
         /// <summary>
         /// 
         /// </summary>
@@ -551,6 +608,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return self.ToIplImage();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -579,6 +637,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return self.ToCvMat();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -597,77 +656,331 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Arithmetic
-
-        public static MatExpr operator +(Mat a, Mat b)
-        {
-            throw new NotImplementedException();
-        }
-        public static MatExpr operator +(Mat a, Scalar s)
-        {
-            throw new NotImplementedException();
-        }
-        public static MatExpr operator +(Scalar s, Mat a)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static MatExpr operator -(Mat a, Mat b)
-        {
-            throw new NotImplementedException();
-        }
-        public static MatExpr operator -(Mat a, Scalar s)
-        {
-            throw new NotImplementedException();
-        }
-        public static MatExpr operator -(Scalar s, Mat a)
-        {
-            throw new NotImplementedException();
-        }
+        #region Unary
 
         public static MatExpr operator -(Mat m)
         {
             throw new NotImplementedException();
         }
 
+        public static Mat operator +(Mat m)
+        {
+            return m;
+        }
+
+        #endregion
+        #region Binary
+        #region +
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="self"></param>
-        /// <param name="m"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static MatExpr operator +(Mat a, Mat b)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorAdd_MatMat(a.CvPtr, b.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static MatExpr operator +(Mat a, Scalar s)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorAdd_MatScalar(a.CvPtr, s);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static MatExpr operator +(Scalar s, Mat a)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorAdd_ScalarMat(s, a.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        #endregion
+        #region -
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static MatExpr operator -(Mat a, Mat b)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static MatExpr operator -(Mat a, Scalar s)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorSubtract_MatScalar(a.CvPtr, s);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static MatExpr operator -(Scalar s, Mat a)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorSubtract_ScalarMat(s, a.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        #endregion
+        #region *
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
         public static MatExpr operator *(Mat a, Mat b)
         {
             if (a == null)
-                throw new ArgumentNullException("self");
-            return a.Mul(b);
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static MatExpr operator *(Mat a, double s)
         {
-            throw new NotImplementedException();
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorMultiply_MatDouble(a.CvPtr, s);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public static MatExpr operator *(double s, Mat a)
         {
-            throw new NotImplementedException();
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorMultiply_DoubleMat(s, a.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
+        #endregion
+        #region /
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static MatExpr operator /(Mat a, Mat b)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorDivide_MatMat(a.CvPtr, b.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static MatExpr operator /(Mat a, double s)
         {
-            throw new NotImplementedException();
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorDivide_MatDouble(a.CvPtr, s);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public static MatExpr operator /(double s, Mat a)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorDivide_DoubleMat(s, a.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        #endregion
+        #region Comparison
+        public static MatExpr operator <(Mat a, Mat b)
         {
             throw new NotImplementedException();
         }
 
-        public static MatExpr operator <(Mat a, Mat b) { throw new NotImplementedException(); }
-        public static MatExpr operator <(Mat a, double s) { throw new NotImplementedException(); }
-        public static MatExpr operator <(double s, Mat a) { throw new NotImplementedException(); }
+        public static MatExpr operator <(Mat a, double s)
+        {
+            throw new NotImplementedException();
+        }
 
-        public static MatExpr operator <=(Mat a, Mat b) { throw new NotImplementedException(); }
-        public static MatExpr operator <=(Mat a, double s) { throw new NotImplementedException(); }
-        public static MatExpr operator <=(double s, Mat a) { throw new NotImplementedException(); }
+        public static MatExpr operator <(double s, Mat a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator <=(Mat a, Mat b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator <=(Mat a, double s)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator <=(double s, Mat a)
+        {
+            throw new NotImplementedException();
+        }
+
         /*
         public static MatExpr operator ==(Mat a, Mat b)
         {
@@ -686,18 +999,273 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static MatExpr operator !=(Mat a, double s) { throw new NotImplementedException(); }
         public static MatExpr operator !=(double s, Mat a) { throw new NotImplementedException(); }
         */
-        public static MatExpr operator >=(Mat a, Mat b) { throw new NotImplementedException(); }
-        public static MatExpr operator >=(Mat a, double s) { throw new NotImplementedException(); }
-        public static MatExpr operator >=(double s, Mat a) { throw new NotImplementedException(); }
 
-        public static MatExpr operator >(Mat a, Mat b) { throw new NotImplementedException(); }
-        public static MatExpr operator >(Mat a, double s) { throw new NotImplementedException(); }
-        public static MatExpr operator >(double s, Mat a) { throw new NotImplementedException(); }
+        public static MatExpr operator >=(Mat a, Mat b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator >=(Mat a, double s)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator >=(double s, Mat a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator >(Mat a, Mat b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator >(Mat a, double s)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static MatExpr operator >(double s, Mat a)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+        #region And
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static MatExpr operator &(Mat a, Mat b)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static MatExpr operator &(Mat a, double s)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorAnd_MatDouble(a.CvPtr, s);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static MatExpr operator &(double s, Mat a)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorAnd_DoubleMat(s, a.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
+        #region Or
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static MatExpr operator |(Mat a, Mat b)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorOr_MatMat(a.CvPtr, b.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static MatExpr operator |(Mat a, double s)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorOr_MatDouble(a.CvPtr, s);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static MatExpr operator |(double s, Mat a)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorOr_DoubleMat(s, a.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
+        #region Xor
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static MatExpr operator ^(Mat a, Mat b)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorXor_MatMat(a.CvPtr, b.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static MatExpr operator ^(Mat a, double s)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorXor_MatDouble(a.CvPtr, s);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static MatExpr operator ^(double s, Mat a)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorXor_DoubleMat(s, a.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
+        #region Not
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public static MatExpr operator ~(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+            m.ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_operatorNot_Mat(m.CvPtr);
+                return new MatExpr(retPtr);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #region
+        #endregion
+
+        #endregion
+        #endregion
         #endregion
         #endregion
 
         #region Public Methods
         #region AdjustROI
+
         /// <summary>
         /// 
         /// </summary>
@@ -723,6 +1291,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         #endregion
         #region AssignTo
+
         /// <summary>
         /// 
         /// </summary>
@@ -731,7 +1300,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public void AssignTo(Mat m, MatrixType type)
         {
             ThrowIfDisposed();
-            if(m == null)
+            if (m == null)
                 throw new ArgumentNullException("m");
             try
             {
@@ -758,8 +1327,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Channels
+
         /// <summary>
         /// 
         /// </summary>
@@ -776,8 +1347,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region CheckVector
+
         /// <summary>
         /// 
         /// </summary>
@@ -796,6 +1369,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -815,6 +1389,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -836,8 +1411,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Clone
+
         /// <summary>
         /// 
         /// </summary>
@@ -856,12 +1433,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         object ICloneable.Clone()
         {
             return Clone();
         }
+
         #endregion
         #region Col
+
         /// <summary>
         /// 
         /// </summary>
@@ -881,8 +1461,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Cols
+
         /// <summary>
         /// 
         /// </summary>
@@ -905,6 +1487,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 return colsVal;
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -920,9 +1503,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 return colsVal;
             }
         }
+
         private int colsVal = int.MinValue;
+
         #endregion
         #region ColRange
+
         /// <summary>
         /// 
         /// </summary>
@@ -943,6 +1529,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -952,8 +1539,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return ColRange(r.Start, r.End);
         }
+
         #endregion
         #region Dims
+
         /// <summary>
         /// 
         /// </summary>
@@ -972,8 +1561,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 }
             }
         }
+
         #endregion
         #region ConvertTo
+
         /// <summary>
         /// 
         /// </summary>
@@ -993,6 +1584,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1013,6 +1605,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1034,8 +1627,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region CopyTo
+
         /// <summary>
         /// 
         /// </summary>
@@ -1044,6 +1639,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             CopyTo(m, null);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1064,8 +1660,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Create
+
         /// <summary>
         /// 
         /// </summary>
@@ -1084,6 +1682,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1093,8 +1692,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             Create(size.Width, size.Height, type);
         }
+
         #endregion
         #region Cross
+
         /// <summary>
         /// 
         /// </summary>
@@ -1103,7 +1704,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public Mat Cross(Mat m)
         {
             ThrowIfDisposed();
-            if(m == null)
+            if (m == null)
                 throw new ArgumentNullException("m");
             try
             {
@@ -1116,8 +1717,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Data
+
         /// <summary>
         /// 
         /// </summary>
@@ -1131,6 +1734,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 }
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1149,6 +1753,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 }
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1167,6 +1772,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 }
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1185,8 +1791,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 }
             }
         }
+
         #endregion
         #region Depth
+
         /// <summary>
         /// 
         /// </summary>
@@ -1203,8 +1811,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Diag
+
         /// <summary>
         /// 
         /// </summary>
@@ -1223,6 +1833,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1242,8 +1853,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Dot
+
         /// <summary>
         /// 
         /// </summary>
@@ -1263,8 +1876,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region ElemSize
+
         /// <summary>
         /// 
         /// </summary>
@@ -1281,8 +1896,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
-        #region ElemSize
+        #region ElemSize1
+
         /// <summary>
         /// 
         /// </summary>
@@ -1299,8 +1916,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Empty
+
         /// <summary>
         /// 
         /// </summary>
@@ -1317,8 +1936,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Inv
+
         /// <summary>
         /// 
         /// </summary>
@@ -1337,6 +1958,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1356,8 +1978,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region IsContinuous
+
         /// <summary>
         /// 
         /// </summary>
@@ -1374,8 +1998,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region IsSubmatirx
+
         /// <summary>
         /// 
         /// </summary>
@@ -1392,8 +2018,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region LocateROI
+
         /// <summary>
         /// 
         /// </summary>
@@ -1415,8 +2043,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Mul
+
         /// <summary>
         /// 
         /// </summary>
@@ -1425,7 +2055,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public MatExpr Mul(Mat m)
         {
             ThrowIfDisposed();
-            if(m == null)
+            if (m == null)
                 throw new ArgumentNullException();
             try
             {
@@ -1439,6 +2069,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1462,8 +2093,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region PushBack
+
         /// <summary>
         /// 
         /// </summary>
@@ -1483,8 +2116,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Reshape
+
         /// <summary>
         /// 
         /// </summary>
@@ -1504,6 +2139,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1524,6 +2160,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1546,8 +2183,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Row
+
         /// <summary>
         /// 
         /// </summary>
@@ -1567,8 +2206,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region RowRange
+
         /// <summary>
         /// 
         /// </summary>
@@ -1589,6 +2230,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1598,8 +2240,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return RowRange(r.Start, r.End);
         }
+
         #endregion
         #region Rows
+
         /// <summary>
         /// 
         /// </summary>
@@ -1621,6 +2265,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 return rowsVal;
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1638,8 +2283,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         }
 
         private int rowsVal = int.MinValue;
+
         #endregion
         #region SetTo
+
         /// <summary>
         /// 
         /// </summary>
@@ -1681,6 +2328,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return SetTo(value, null);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1690,7 +2338,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public Mat SetTo(Mat value, Mat mask)
         {
             ThrowIfDisposed();
-            if(value == null)
+            if (value == null)
                 throw new ArgumentNullException("value");
             try
             {
@@ -1704,8 +2352,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Size
+
         /// <summary>
         /// 
         /// </summary>
@@ -1722,6 +2372,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1739,8 +2390,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Step
+
         /// <summary>
         /// 
         /// </summary>
@@ -1757,6 +2410,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1774,8 +2428,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Step1
+
         /// <summary>
         /// 
         /// </summary>
@@ -1792,6 +2448,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1809,8 +2466,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region SubMat
+
         /// <summary>
         /// 
         /// </summary>
@@ -1820,7 +2479,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="colEnd"></param>
         /// <returns></returns>
         public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
-        {           
+        {
+            if (rowStart >= rowEnd)
+                throw new ArgumentException("rowStart >= rowEnd");
+            if (colStart >= colEnd)
+                throw new ArgumentException("colStart >= colEnd");
+
             ThrowIfDisposed();
             try
             {
@@ -1833,6 +2497,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1843,6 +2508,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1852,6 +2518,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1859,7 +2526,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Mat SubMat(params Range[] ranges)
         {
-            if(ranges == null)
+            if (ranges == null)
                 throw new ArgumentNullException();
 
             ThrowIfDisposed();
@@ -1880,8 +2547,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region T
+
         /// <summary>
         /// 
         /// </summary>
@@ -1900,8 +2569,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Total
+
         /// <summary>
         /// 
         /// </summary>
@@ -1918,8 +2589,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region Type
+
         /// <summary>
         /// 
         /// </summary>
@@ -1936,8 +2609,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
         #region ToString
+
         /// <summary>
         /// 
         /// </summary>
@@ -1951,8 +2626,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                    ", DataAddr=0x" + Convert.ToString(Data.ToInt64(), 16) +
                    " ]";
         }
+
         #endregion
+
         #region Dump
+
         /// <summary>
         /// 
         /// </summary>
@@ -1964,7 +2642,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 unsafe
                 {
-                    sbyte *buf = CppInvoke.core_Mat_dump(ptr);
+                    sbyte* buf = CppInvoke.core_Mat_dump(ptr);
                     string ret = new string(buf);
                     CppInvoke.core_Mat_dump_delete(buf);
                     return ret;
@@ -1975,9 +2653,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         #endregion
 
         #region Ptr*D
+
         /// <summary>
         /// 
         /// </summary>
@@ -1995,6 +2675,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2013,6 +2694,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2032,6 +2714,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2049,14 +2732,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
-        #endregion
 
+        #endregion
         #region At
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public abstract class IndexerBase<T> where T : struct 
+        public abstract class IndexerBase<T> where T : struct
         {
             /// <summary>
             /// 
@@ -2064,6 +2748,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i0"></param>
             /// <returns></returns>
             public abstract T this[int i0] { get; set; }
+
             /// <summary>
             /// 
             /// </summary>
@@ -2071,6 +2756,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i1"></param>
             /// <returns></returns>
             public abstract T this[int i0, int i1] { get; set; }
+
             /// <summary>
             /// 
             /// </summary>
@@ -2079,6 +2765,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i2"></param>
             /// <returns></returns>
             public abstract T this[int i0, int i1, int i2] { get; set; }
+
             /// <summary>
             /// 
             /// </summary>
@@ -2106,7 +2793,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public sealed class Indexer<T> : IndexerBase<T> where T : struct 
+        public sealed class Indexer<T> : IndexerBase<T> where T : struct
         {
             private readonly long ptrVal;
 
@@ -2115,6 +2802,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 ptrVal = parent.Data.ToInt64();
             }
+
             /// <summary>
             /// 
             /// </summary>
@@ -2125,7 +2813,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 get
                 {
                     IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return (T)Marshal.PtrToStructure(p, typeof (T));
                 }
                 set
                 {
@@ -2133,6 +2821,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
+
             /// <summary>
             /// 
             /// </summary>
@@ -2144,7 +2833,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 get
                 {
                     IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return (T)Marshal.PtrToStructure(p, typeof (T));
                 }
                 set
                 {
@@ -2152,6 +2841,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
+
             /// <summary>
             /// 
             /// </summary>
@@ -2164,7 +2854,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 get
                 {
                     IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return (T)Marshal.PtrToStructure(p, typeof (T));
                 }
                 set
                 {
@@ -2188,7 +2878,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                         offset += steps[i] * idx[i];
                     }
                     IntPtr p = new IntPtr(ptrVal + offset);
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return (T)Marshal.PtrToStructure(p, typeof (T));
                 }
                 set
                 {
@@ -2202,28 +2892,31 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 }
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public Indexer<T> GetGenericIndexer<T>() where T : struct 
+        public Indexer<T> GetGenericIndexer<T>() where T : struct
         {
             return new Indexer<T>(this);
         }
-        #endregion
 
+        #endregion
         #region Get
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="i0"></param>
         /// <returns></returns>
-        public T Get<T>(int i0) where T : struct 
+        public T Get<T>(int i0) where T : struct
         {
             return new Indexer<T>(this)[i0];
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2231,10 +2924,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="i0"></param>
         /// <param name="i1"></param>
         /// <returns></returns>
-        public T Get<T>(int i0, int i1) where T : struct 
+        public T Get<T>(int i0, int i1) where T : struct
         {
             return new Indexer<T>(this)[i0, i1];
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2243,21 +2937,24 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="i1"></param>
         /// <param name="i2"></param>
         /// <returns></returns>
-        public T Get<T>(int i0, int i1, int i2) where T : struct 
+        public T Get<T>(int i0, int i1, int i2) where T : struct
         {
             return new Indexer<T>(this)[i0, i1, i2];
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="idx"></param>
         /// <returns></returns>
-        public T Get<T>(params int[] idx) where T : struct 
+        public T Get<T>(params int[] idx) where T : struct
         {
             return new Indexer<T>(this)[idx];
         }
+
         #endregion
+
         #endregion
     }
 

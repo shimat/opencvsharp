@@ -237,18 +237,85 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern IntPtr core_Mat_ptrnd(IntPtr self, [MarshalAs(UnmanagedType.LPArray)] int[] idx);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_assignment_FromMat(IntPtr self, IntPtr newMat);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_assignment_FromMatExpr(IntPtr self, IntPtr newMatExpr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_assignment_FromScalar(IntPtr self, CvScalar scalar);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_IplImage(IntPtr self, IntPtr outImage);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_CvMat(IntPtr self, IntPtr outMat);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorAdd_MatMat(IntPtr a, IntPtr b);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorAdd_MatScalar(IntPtr a, CvScalar s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorAdd_ScalarMat(CvScalar s, IntPtr a);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMinus_Mat(IntPtr a);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorSubtract_MatMat(IntPtr a, IntPtr b);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorSubtract_MatScalar(IntPtr a, CvScalar s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorSubtract_ScalarMat(CvScalar s, IntPtr a);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMultiply_MatMat(IntPtr a, IntPtr b);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMultiply_MatDouble(IntPtr a, double s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorMultiply_DoubleMat(double s, IntPtr a);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorDivide_MatMat(IntPtr a, IntPtr b);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorDivide_MatDouble(IntPtr a, double s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorDivide_DoubleMat(double s, IntPtr a);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorAnd_MatMat(IntPtr a, IntPtr b);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorAnd_MatDouble(IntPtr a, double s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorAnd_DoubleMat(double s, IntPtr a);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorOr_MatMat(IntPtr a, IntPtr b);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorOr_MatDouble(IntPtr a, double s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorOr_DoubleMat(double s, IntPtr a);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorXor_MatMat(IntPtr a, IntPtr b);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorXor_MatDouble(IntPtr a, double s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorXor_DoubleMat(double s, IntPtr a);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorNot_Mat(IntPtr a);
         #endregion
         #region MatExpr
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_MatExpr_new1")]
         public static extern IntPtr core_MatExpr_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_MatExpr_new2")]
+        public static extern IntPtr core_MatExpr_new(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_MatExpr_delete(IntPtr expr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_MatExpr_toMat(IntPtr expr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorDivide_MatExprMat(IntPtr e, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorDivide_MatMatExpr(IntPtr m, IntPtr e);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorDivide_MatExprDouble(IntPtr e, double s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorDivide_DoubleMatExpr(double s, IntPtr e);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorDivide_MatExprMatExpr(IntPtr e1, IntPtr e2);
         #endregion
 
         #region cv

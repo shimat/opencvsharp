@@ -27,11 +27,21 @@ namespace OpenCvSharp.Sandbox
                 Stopwatch watch = new Stopwatch();
 
                 Mat mat = CvCpp.ImRead(@"img\lenna.png");
-                MatU8C3 mat3 = new MatU8C3(mat);
-                mat3.GetHashCode();
+                mat[new Rect(100, 100, 200, 200)] /= 3;
 
-                IplImage img = (IplImage)mat;
-                img.GetHashCode();
+                //MatExpr subMat = mat[new Rect(100, 100, 200, 200)];
+                //subMat /= 3;
+
+                //Mat subMat = new Mat(mat, new Rect(100, 100, 200, 200));
+                //subMat /= 3;
+                
+                //Console.WriteLine(subMat.IsSubmatrix());
+
+                //MatU8C3 mat3 = new MatU8C3(mat);
+                //mat3.GetHashCode();
+
+                //IplImage img = (IplImage)mat;
+                //img.GetHashCode();
                 //CvWindow.ShowImages(img);
 
                 /*
@@ -57,7 +67,7 @@ namespace OpenCvSharp.Sandbox
                 Console.WriteLine("GenericIndexer: {0}ms", watch.ElapsedMilliseconds);
                 //*/
 
-                ///*
+                /*
                 watch.Restart();
                 {
                     var matAt = mat3.GetIndexer();
@@ -102,7 +112,9 @@ namespace OpenCvSharp.Sandbox
                     //Console.WriteLine();
                 }
                 */
-                //CvCpp.ImShow("window", mat);
+                
+                //CvCpp.ImShow("window1", mat);
+                //CvCpp.ImShow("window2", subMat);
                 //CvCpp.WaitKey();
 
                 memory.Add(MyProcess.WorkingSet64);

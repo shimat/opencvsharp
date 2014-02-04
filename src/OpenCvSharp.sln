@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.UserInterface", "OpenCvSharp.UserInterface\OpenCvSharp.UserInterface.csproj", "{DB12E2F1-1A50-4D12-A92F-4C3D705ECC1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Extensions", "OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj", "{F1110C7B-46B1-4504-871E-135B57F9DE67}"
@@ -28,8 +26,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.NUnitTest", "OpenCvSharp.NUnitTest\OpenCvSharp.NUnitTest.csproj", "{76A4E76B-0A98-411D-92E9-5527B31EBA3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Sandbox", "OpenCvSharp.Sandbox\OpenCvSharp.Sandbox.csproj", "{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCvSharp.SandBoxCpp", "OpenCvSharp.SandBoxCpp\OpenCvSharp.SandBoxCpp.vcxproj", "{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -384,30 +380,6 @@ Global
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release|x64.ActiveCfg = Release|Any CPU
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release|x86.ActiveCfg = Release|x86
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release|x86.Build.0 = Release|x86
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Debug|Win32.Build.0 = Debug|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Debug|x64.ActiveCfg = Debug|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Debug|x86.ActiveCfg = Debug|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Debug|x86.Build.0 = Debug|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release JP|Any CPU.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release JP|Mixed Platforms.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release JP|Mixed Platforms.Build.0 = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release JP|Win32.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release JP|Win32.Build.0 = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release JP|x64.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release JP|x86.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release JP|x86.Build.0 = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release|Any CPU.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release|Win32.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release|Win32.Build.0 = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release|x64.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release|x86.ActiveCfg = Release|Win32
-		{6842DAB4-4808-4D24-B2BB-5EEC0E40F2D0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
