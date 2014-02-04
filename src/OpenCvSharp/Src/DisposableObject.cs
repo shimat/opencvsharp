@@ -263,7 +263,7 @@ namespace OpenCvSharp
         /// <summary>
         /// このオブジェクトが解放済みの場合はObjectDisposedExceptionを投げる
         /// </summary>
-        protected void ThrowIfDisposed()
+        public void ThrowIfDisposed()
         {
             if (IsDisposed) 
                 throw new ObjectDisposedException(GetType().FullName);
