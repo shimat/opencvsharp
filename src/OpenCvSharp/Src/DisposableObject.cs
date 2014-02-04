@@ -260,9 +260,15 @@ namespace OpenCvSharp
             GC.AddMemoryPressure(size);
         }
 
+#if LANG_JP
         /// <summary>
         /// このオブジェクトが解放済みの場合はObjectDisposedExceptionを投げる
         /// </summary>
+#else
+        /// <summary>
+        /// If this object is disposed, then ObjectDisposedException is thrown.
+        /// </summary>
+#endif
         public void ThrowIfDisposed()
         {
             if (IsDisposed) 

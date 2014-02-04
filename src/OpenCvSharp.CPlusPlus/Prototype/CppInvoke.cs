@@ -20,7 +20,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// P/Invoke methods of OpenCV C++ interface
     /// </summary>
     [SuppressUnmanagedCodeSecurity]
-    public static class CppInvoke
+    internal static class CppInvoke
     {
         /// <summary>
         /// DLL file name
@@ -223,7 +223,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_zeros2")]
         public static extern IntPtr core_Mat_zeros(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sz, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe sbyte* core_Mat_dump(IntPtr self);
+        public static extern unsafe sbyte* core_Mat_dump(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string format);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe void core_Mat_dump_delete(sbyte* buf);
 
@@ -316,6 +316,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern IntPtr core_operatorDivide_DoubleMatExpr(double s, IntPtr e);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorDivide_MatExprMatExpr(IntPtr e1, IntPtr e2);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_MatExpr_t(IntPtr self);
         #endregion
 
         #region cv

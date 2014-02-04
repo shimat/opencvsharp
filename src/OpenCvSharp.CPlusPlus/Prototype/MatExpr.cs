@@ -239,5 +239,26 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
         #endregion
+
+        #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public MatExpr T()
+        {
+            ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_MatExpr_t(ptr);
+                MatExpr retVal = new MatExpr(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
     }
 }

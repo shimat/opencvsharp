@@ -42,6 +42,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return new CvSlice(self.Start, self.End);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -50,6 +51,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static implicit operator Range(CvSlice slice)
         {
             return new Range(slice.StartIndex, slice.EndIndex);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Range All
+        {
+            get { return new Range(Int32.MinValue, Int32.MaxValue); }
         }
     }
 }

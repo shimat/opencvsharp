@@ -2198,7 +2198,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             try
             {
                 IntPtr retPtr = CppInvoke.core_Mat_row(ptr, y);
-                MatExpr retVal = new MatExpr(retPtr);
+                Mat retVal = new Mat(retPtr);
                 return retVal;
             }
             catch (BadImageFormatException ex)
@@ -2635,14 +2635,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        public string Dump()
+        public string Dump(DumpFormat format = DumpFormat.Default)
         {
             ThrowIfDisposed();
             try
             {
+                string formatStr = GetDumpFormatString(format);
                 unsafe
                 {
-                    sbyte* buf = CppInvoke.core_Mat_dump(ptr);
+                    sbyte* buf = CppInvoke.core_Mat_dump(ptr, formatStr);
                     string ret = new string(buf);
                     CppInvoke.core_Mat_dump_delete(buf);
                     return ret;
@@ -2653,7 +2654,16 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+        private string GetDumpFormatString(DumpFormat format)
+        {
+            if (format == DumpFormat.Default)
+                return null;
 
+            string name = Enum.GetName(typeof (DumpFormat), format);
+            if(name == null)
+                throw new ArgumentException();
+            return name.ToLower();
+        }
         #endregion
 
         #region Ptr*D

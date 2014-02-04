@@ -27,14 +27,19 @@ namespace OpenCvSharp.Sandbox
                 Stopwatch watch = new Stopwatch();
 
                 Mat mat = CvCpp.ImRead(@"img\lenna.png");
-                mat[new Rect(100, 100, 200, 200)] /= 3;
+                //mat[new Rect(100, 100, 200, 200)] = 3;
+                //Console.WriteLine(mat.Dump());
+                //mat.Row(100).SetTo(Scalar.All(10));
+                //subMat.SetTo(subMat.Clone() / 3);
+                mat[new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
 
-                //MatExpr subMat = mat[new Rect(100, 100, 200, 200)];
+                Mat subMat = new Mat(mat, Range.All, Range.All);
+                //Console.WriteLine(subMat.IsContinuous());
+                //subMat.SetTo(subMat);
                 //subMat /= 3;
+                Mat t = subMat.T();
+                t.GetHashCode();
 
-                //Mat subMat = new Mat(mat, new Rect(100, 100, 200, 200));
-                //subMat /= 3;
-                
                 //Console.WriteLine(subMat.IsSubmatrix());
 
                 //MatU8C3 mat3 = new MatU8C3(mat);
@@ -113,9 +118,9 @@ namespace OpenCvSharp.Sandbox
                 }
                 */
                 
-                //CvCpp.ImShow("window1", mat);
+                CvCpp.ImShow("window1", mat);
                 //CvCpp.ImShow("window2", subMat);
-                //CvCpp.WaitKey();
+                CvCpp.WaitKey();
 
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)

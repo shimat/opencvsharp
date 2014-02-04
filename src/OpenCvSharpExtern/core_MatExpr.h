@@ -54,4 +54,12 @@ CVAPI(cv::MatExpr*) core_operatorDivide_MatExprMatExpr(cv::MatExpr *e1, cv::MatE
 	return new cv::MatExpr(ret);
 }
 
+
+
+CVAPI(cv::MatExpr*) core_MatExpr_t(cv::MatExpr *self) 
+{ 
+	cv::MatExpr ret = self->t();
+	return new cv::MatExpr(ret);
+}
+
 #endif
