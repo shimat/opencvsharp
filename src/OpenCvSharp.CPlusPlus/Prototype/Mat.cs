@@ -326,11 +326,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.core_Mat_delete(ptr);
-                        //CppInvoke.core_Mat_release(ptr);
+                        if (ptr != IntPtr.Zero)
+                        {
+                            CppInvoke.core_Mat_delete(ptr);
+                        }
                     }
                     disposed = true;
-
                 }
                 finally
                 {
@@ -1480,6 +1481,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                         IntPtr colMatPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
                         CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
+                        CppInvoke.core_Mat_delete(colMatPtr);
                     }
                     catch (BadImageFormatException ex)
                     {
@@ -1518,6 +1520,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                         IntPtr colMatPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
                         CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
+                        CppInvoke.core_Mat_delete(colMatPtr);
                     }
                     catch (BadImageFormatException ex)
                     {
@@ -1587,7 +1590,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         #endregion
         #region ColRange
-
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -1608,7 +1611,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return Col[range];
         }
-
+        */
         #endregion
         #region Dims
 
@@ -2295,6 +2298,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                         IntPtr rowMatPtr = CppInvoke.core_Mat_row_toMat(parent.ptr, y);
                         CppInvoke.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
+                        CppInvoke.core_Mat_delete(rowMatPtr);
                     }
                     catch (BadImageFormatException ex)
                     {
@@ -2359,7 +2363,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
         #endregion
         #region RowRange
-
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -2380,7 +2384,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             return Row[range];
         }
-
+        */
         #endregion
         #region Rows
 
