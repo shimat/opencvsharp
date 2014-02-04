@@ -113,7 +113,6 @@ namespace OpenCvSharp
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
