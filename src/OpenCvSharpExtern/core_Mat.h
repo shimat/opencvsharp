@@ -367,10 +367,10 @@ CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, CvSlice *ranges)
 	return new cv::Mat(ret);
 }
 
-CVAPI(cv::MatExpr*) core_Mat_t(cv::Mat *self)
+CVAPI(cv::Mat*) core_Mat_t(cv::Mat *self)
 {
-	cv::MatExpr expr = self->t();
-	return new cv::MatExpr(expr);
+	cv::Mat expr = self->t();
+	return new cv::Mat(expr);
 }
 
 CVAPI(uint64) core_Mat_total(cv::Mat *self)
@@ -388,17 +388,20 @@ CVAPI(cv::MatExpr*) core_Mat_zeros1(int rows, int cols, int type)
 	cv::MatExpr expr = cv::Mat::zeros(rows, cols, type);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_zeros2(int ndims, const int *sz, int type)
+CVAPI(cv::MatExpr*) core_Mat_zeros2(int ndims, const int *sz, int type) // Not defined in .lib 
 {
 	//cv::MatExpr expr = cv::Mat::zeros(ndims, sz, type);
 	//return new cv::MatExpr(expr);
 	return NULL; 
 }
 
-CVAPI(char*) core_Mat_dump(cv::Mat *self)
+CVAPI(char*) core_Mat_dump(cv::Mat *self, const char *format)
 {
-	std::stringstream s;
-	s << *self;
+	std::stringstream s;	
+	if (format == NULL)
+		s << *self;
+	else
+		s << cv::format(*self, format);
 	std::string str = s.str();
 
 	const char *src = str.c_str();
@@ -408,7 +411,7 @@ CVAPI(char*) core_Mat_dump(cv::Mat *self)
 }
 CVAPI(void) core_Mat_dump_delete(char *buf)
 {
-	delete [] buf;
+	delete[] buf;
 }
 
 CVAPI(uchar*) core_Mat_ptr1d(cv::Mat *self, int i0)
