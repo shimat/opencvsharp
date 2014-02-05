@@ -6,13 +6,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// <summary>
     /// 
     /// </summary>
-    public class MatU8C3 : Mat
+    public class Mat3b : Mat
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ptr"></param>
-        public MatU8C3(IntPtr ptr)
+        public Mat3b(IntPtr ptr)
             : base(ptr)
         {
         }
@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <param name="mat"></param>
-        public MatU8C3(Mat mat)
+        public Mat3b(Mat mat)
             : base(mat.CvPtr)
         {
             IsEnabledDispose = false;
@@ -31,7 +31,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <summary>
         /// 
         /// </summary>
-        public sealed unsafe class Indexer : IndexerBase<TupleU8C3>
+        public sealed unsafe class Indexer : IndexerBase<Vec3b>
         {
             private readonly byte* ptr;
 
@@ -45,15 +45,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// </summary>
             /// <param name="i0"></param>
             /// <returns></returns>
-            public override TupleU8C3 this[int i0]
+            public override Vec3b this[int i0]
             {
                 get
                 {
-                    return *(TupleU8C3*)(ptr + (steps[0] * i0));
+                    return *(Vec3b*)(ptr + (steps[0] * i0));
                 }
                 set
                 {
-                    *(TupleU8C3*)(ptr + (steps[0] * i0)) = value;
+                    *(Vec3b*)(ptr + (steps[0] * i0)) = value;
                 }
             }
             /// <summary>
@@ -62,15 +62,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i0"></param>
             /// <param name="i1"></param>
             /// <returns></returns>
-            public override TupleU8C3 this[int i0, int i1]
+            public override Vec3b this[int i0, int i1]
             {
                 get
                 {
-                    return *(TupleU8C3*)(ptr + (steps[0] * i0) + (steps[1] * i1));
+                    return *(Vec3b*)(ptr + (steps[0] * i0) + (steps[1] * i1));
                 }
                 set
                 {
-                    *(TupleU8C3*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
+                    *(Vec3b*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
                 }
             }
             /// <summary>
@@ -80,15 +80,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// <param name="i1"></param>
             /// <param name="i2"></param>
             /// <returns></returns>
-            public override TupleU8C3 this[int i0, int i1, int i2]
+            public override Vec3b this[int i0, int i1, int i2]
             {
                 get
                 {
-                    return *(TupleU8C3*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    return *(Vec3b*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
                 }
                 set
                 {
-                    *(TupleU8C3*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
+                    *(Vec3b*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
                 }
             }
             /// <summary>
@@ -96,7 +96,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             /// </summary>
             /// <param name="idx"></param>
             /// <returns></returns>
-            public override TupleU8C3 this[params int[] idx]
+            public override Vec3b this[params int[] idx]
             {
                 get
                 {
@@ -105,7 +105,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                         offset += steps[i] * idx[i];
                     }
-                    return *(TupleU8C3*)(ptr + offset);
+                    return *(Vec3b*)(ptr + offset);
                 }
                 set
                 {
@@ -114,7 +114,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     {
                         offset += steps[i] * idx[i];
                     }
-                    *(TupleU8C3*)(ptr + offset) = value;
+                    *(Vec3b*)(ptr + offset) = value;
                 }
             }
         }

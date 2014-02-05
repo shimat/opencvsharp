@@ -6,13 +6,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// <summary>
     /// 
     /// </summary>
-    public class MatU8C1 : Mat
+    public class Mat1b : Mat
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ptr"></param>
-        public MatU8C1(IntPtr ptr)
+        public Mat1b(IntPtr ptr)
             : base(ptr)
         {
         }
@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <param name="mat"></param>
-        public MatU8C1(Mat mat)
+        public Mat1b(Mat mat)
             : base(mat.CvPtr)
         {
         }

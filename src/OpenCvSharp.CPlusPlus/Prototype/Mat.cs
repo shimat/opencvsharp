@@ -512,92 +512,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #endregion
 
         #region Operators
-        #region Indexers
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rowStart"></param>
-        /// <param name="rowEnd"></param>
-        /// <param name="colStart"></param>
-        /// <param name="colEnd"></param>
-        /// <returns></returns>
-        public MatExpr this[int rowStart, int rowEnd, int colStart, int colEnd]
-        {
-            get
-            {
-                return SubMat(rowStart, rowEnd, colStart, colEnd);
-            }
-            set
-            {
-                if(value == null)
-                    throw new ArgumentNullException("value");
-                Mat submat = SubMat(rowStart, rowEnd, colStart, colEnd);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-            }
-        }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rowRange"></param>
-        /// <param name="colRange"></param>
-        /// <returns></returns>
-        public MatExpr this[Range rowRange, Range colRange]
-        {
-            get
-            {
-                return SubMat(rowRange, colRange);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                Mat submat = SubMat(rowRange, colRange);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="roi"></param>
-        /// <returns></returns>
-        public MatExpr this[Rect roi]
-        {
-            get
-            {
-                return SubMat(roi);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                Mat submat = SubMat(roi);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ranges"></param>
-        /// <returns></returns>
-        public MatExpr this[params Range[] ranges]
-        {
-            get
-            {
-                return SubMat(ranges);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                Mat submat = SubMat(ranges);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-            }
-        }
-
-        #endregion
         #region Casting
 
         /// <summary>
@@ -1265,6 +1179,93 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #endregion
 
         #region Public Methods
+        #region Indexers
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rowStart"></param>
+        /// <param name="rowEnd"></param>
+        /// <param name="colStart"></param>
+        /// <param name="colEnd"></param>
+        /// <returns></returns>
+        public MatExpr this[int rowStart, int rowEnd, int colStart, int colEnd]
+        {
+            get
+            {
+                return SubMat(rowStart, rowEnd, colStart, colEnd);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                Mat submat = SubMat(rowStart, rowEnd, colStart, colEnd);
+                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rowRange"></param>
+        /// <param name="colRange"></param>
+        /// <returns></returns>
+        public MatExpr this[Range rowRange, Range colRange]
+        {
+            get
+            {
+                return SubMat(rowRange, colRange);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                Mat submat = SubMat(rowRange, colRange);
+                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="roi"></param>
+        /// <returns></returns>
+        public MatExpr this[Rect roi]
+        {
+            get
+            {
+                return SubMat(roi);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                Mat submat = SubMat(roi);
+                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ranges"></param>
+        /// <returns></returns>
+        public MatExpr this[params Range[] ranges]
+        {
+            get
+            {
+                return SubMat(ranges);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                Mat submat = SubMat(ranges);
+                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+            }
+        }
+
+        #endregion
+
         #region AdjustROI
 
         /// <summary>

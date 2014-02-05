@@ -32,7 +32,10 @@ namespace OpenCvSharp.Sandbox
                 //mat.Row(100).SetTo(Scalar.All(10));
                 //subMat.SetTo(subMat.Clone() / 3);
                 //mat[new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
-                mat.Col[10, 20] = mat.Col[10, 20] / 3;
+                mat.Col[100, 200] = mat.Col[200, 300] * 2 / 3;
+
+                mat[200, 300, 200, 300] = ~mat[250, 300, 200, 300];
+
                 //var x = mat.Col[100, 110] / 3;
                 //x.GetHashCode();
 
@@ -47,7 +50,7 @@ namespace OpenCvSharp.Sandbox
 
                 //Console.WriteLine(subMat.IsSubmatrix());
 
-                //MatU8C3 mat3 = new MatU8C3(mat);
+                Mat3b mat3 = new Mat3b(mat);
                 //mat3.GetHashCode();
 
                 //IplImage img = (IplImage)mat;
@@ -77,7 +80,7 @@ namespace OpenCvSharp.Sandbox
                 Console.WriteLine("GenericIndexer: {0}ms", watch.ElapsedMilliseconds);
                 //*/
 
-                /*
+                ///*
                 watch.Restart();
                 {
                     var matAt = mat3.GetIndexer();
@@ -85,8 +88,8 @@ namespace OpenCvSharp.Sandbox
                     {
                         for (int x = 0; x < mat.Width; x++)
                         {
-                            TupleU8C3 item = matAt[y, x];
-                            TupleU8C3 newItem = new TupleU8C3
+                            Vec3b item = matAt[y, x];
+                            Vec3b newItem = new Vec3b
                             {
                                 Item1 = item.Item3,
                                 Item2 = item.Item2,

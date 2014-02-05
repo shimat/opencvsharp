@@ -6,27 +6,27 @@ using System.Text;
 namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
-    /// 2-Tuple of long (System.Int64)
+    /// 2-Tuple of float (System.Single)
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct TupleS64C2
+    public struct Vec2f : IVec
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public long Item1;
+        public float Item1;
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public long Item2;
+        public float Item2;
 
         /// <summary>
         /// Initializer
         /// </summary>
         /// <param name="item1"></param>
         /// <param name="item2"></param>
-        public TupleS64C2(long item1, long item2)
+        public Vec2f(float item1, float item2)
         {
             Item1 = item1;
             Item2 = item2;
@@ -34,24 +34,24 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     }
 
     /// <summary>
-    /// 3-Tuple of long (System.Int64)
+    /// 3-Tuple of float (System.Single)
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct TupleS64C3
+    public struct Vec3f : IVec
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public long Item1;
+        public float Item1;
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public long Item2;
+        public float Item2;
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public long Item3;
+        public float Item3;
 
         /// <summary>
         /// Initializer
@@ -59,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="item1"></param>
         /// <param name="item2"></param>
         /// <param name="item3"></param>
-        public TupleS64C3(long item1, long item2, long item3)
+        public Vec3f(float item1, float item2, float item3)
         {
             Item1 = item1;
             Item2 = item2;
@@ -68,31 +68,31 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     }
 
     /// <summary>
-    /// 4-Tuple of long (System.Int64)
+    /// 4-Tuple of float (System.Single)
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct TupleS64C4
+    public struct Vec4f : IVec
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public long Item1;
+        public float Item1;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public long Item2;
+        public float Item2;
 
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public long Item3;
+        public float Item3;
 
         /// <summary>
         /// The value of the fourth component of this object.
         /// </summary>
-        public long Item4;
+        public float Item4;
 
         /// <summary>
         /// Initializer
@@ -101,12 +101,69 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="item2"></param>
         /// <param name="item3"></param>
         /// <param name="item4"></param>
-        public TupleS64C4(long item1, long item2, long item3, long item4)
+        public Vec4f(float item1, float item2, float item3, float item4)
         {
             Item1 = item1;
             Item2 = item2;
             Item3 = item3;
             Item4 = item4;
+        }
+    }
+
+    /// <summary>
+    /// 6-Tuple of float (System.Single)
+    /// </summary>
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Vec6f : IVec
+    {
+        /// <summary>
+        /// The value of the first component of this object.
+        /// </summary>
+        public float Item1;
+
+        /// <summary>
+        /// The value of the second component of this object.
+        /// </summary>
+        public float Item2;
+
+        /// <summary>
+        /// The value of the third component of this object.
+        /// </summary>
+        public float Item3;
+
+        /// <summary>
+        /// The value of the fourth component of this object.
+        /// </summary>
+        public float Item4;
+
+        /// <summary>
+        /// The value of the fifth component of this object.
+        /// </summary>
+        public float Item5;
+
+        /// <summary>
+        /// The value of the sixth component of this object.
+        /// </summary>
+        public float Item6;
+
+        /// <summary>
+        /// Initializer
+        /// </summary>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        /// <param name="item3"></param>
+        /// <param name="item4"></param>
+        /// <param name="item5"></param>
+        /// <param name="item6"></param>
+        public Vec6f(float item1, float item2, float item3, float item4, float item5, float item6)
+        {
+            Item1 = item1;
+            Item2 = item2;
+            Item3 = item3;
+            Item4 = item4;
+            Item5 = item5;
+            Item6 = item6;
         }
     }
 }

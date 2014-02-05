@@ -10,7 +10,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct TupleU8C2
+    public struct Vec2b
     {
         /// <summary>
         /// The value of the first component of this object.
@@ -26,7 +26,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="item1"></param>
         /// <param name="item2"></param>
-        public TupleU8C2(byte item1, byte item2)
+        public Vec2b(byte item1, byte item2)
         {
             Item1 = item1;
             Item2 = item2;
@@ -38,7 +38,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct TupleU8C3
+    public struct Vec3b
     {
         /// <summary>
         /// The value of the first component of this object.
@@ -59,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="item1"></param>
         /// <param name="item2"></param>
         /// <param name="item3"></param>
-        public TupleU8C3(byte item1, byte item2, byte item3)
+        public Vec3b(byte item1, byte item2, byte item3)
         {
             Item1 = item1;
             Item2 = item2;
@@ -72,7 +72,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct TupleU8C4
+    public struct Vec4b
     {
         /// <summary>
         /// The value of the first component of this object.
@@ -101,12 +101,69 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="item2"></param>
         /// <param name="item3"></param>
         /// <param name="item4"></param>
-        public TupleU8C4(byte item1, byte item2, byte item3, byte item4)
+        public Vec4b(byte item1, byte item2, byte item3, byte item4)
         {
             Item1 = item1;
             Item2 = item2;
             Item3 = item3;
             Item4 = item4;
+        }
+    }
+
+    /// <summary>
+    /// 6-Tuple of byte (System.Byte)
+    /// </summary>
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Vec6b : IVec
+    {
+        /// <summary>
+        /// The value of the first component of this object.
+        /// </summary>
+        public byte Item1;
+
+        /// <summary>
+        /// The value of the second component of this object.
+        /// </summary>
+        public byte Item2;
+
+        /// <summary>
+        /// The value of the third component of this object.
+        /// </summary>
+        public byte Item3;
+
+        /// <summary>
+        /// The value of the fourth component of this object.
+        /// </summary>
+        public byte Item4;
+
+        /// <summary>
+        /// The value of the fifth component of this object.
+        /// </summary>
+        public byte Item5;
+
+        /// <summary>
+        /// The value of the sizth component of this object.
+        /// </summary>
+        public byte Item6;
+
+        /// <summary>
+        /// Initializer
+        /// </summary>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        /// <param name="item3"></param>
+        /// <param name="item4"></param>
+        /// <param name="item5"></param>
+        /// <param name="item6"></param>
+        public Vec6b(byte item1, byte item2, byte item3, byte item4, byte item5, byte item6)
+        {
+            Item1 = item1;
+            Item2 = item2;
+            Item3 = item3;
+            Item4 = item4;
+            Item5 = item5;
+            Item6 = item6;
         }
     }
 }
