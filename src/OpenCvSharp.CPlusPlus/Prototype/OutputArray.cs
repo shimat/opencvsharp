@@ -11,17 +11,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     public sealed class OutputArray : InputArray
     {
         private bool disposed;
-        private object obj;
+        private readonly object obj;
 
         #region Init & Disposal
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal OutputArray(IntPtr ptr)
-            : base(ptr)
-        {
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -54,7 +46,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     if (disposing)
                     {
                     }
-                    //Console.WriteLine("MatExpr disposed");
                     if (ptr != IntPtr.Zero)
                     {
                         CppInvoke.core_OutputArray_delete(ptr);
@@ -94,35 +85,78 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsMat()
         {
             return obj is Mat;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Mat GetMat()
         {
             return obj as Mat;
         }
 
-        public void AssignResult()
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void AssignResult()
         {
-            if(obj == null)
+            if(!IsReady())
                 throw new NotSupportedException();
 
+            // OutputArrayの実体が cv::Mat のとき
             if (IsMat())
             {
                 Mat mat = GetMat();
-                // 前のオブジェクトを削除
-                CppInvoke.core_Mat_delete(mat.CvPtr);
                 // OutputArrayからMatオブジェクトを取得
                 IntPtr outMat = CppInvoke.core_OutputArray_getMat(ptr);
                 // ポインタをセット
-                mat.SetPtr(outMat);
+                //CppInvoke.core_Mat_assignment_FromMat(mat.CvPtr, outMat);
+                CppInvoke.core_Mat_assignTo(outMat, mat.CvPtr);
+                // OutputArrayから取り出したMatをdelete
+                CppInvoke.core_Mat_delete(outMat);
             }
             else
             {
-                throw new OpenCvSharpException("Not supported OutputArray-derived type");
+                throw new OpenCvSharpException("Not supported OutputArray-compatible type");
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void AssignResultAndDispose()
+        {
+            AssignResult();
+            Dispose();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        internal bool IsReady()
+        {
+            return
+                ptr != IntPtr.Zero &&
+                !disposed &&
+                obj != null &&
+                IsMat();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        internal void ThrowIfNotReady()
+        {
+            if(!IsReady())
+                throw new OpenCvSharpException("Invalid OutputArray");
         }
 
         #endregion

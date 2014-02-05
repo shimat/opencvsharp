@@ -143,6 +143,7 @@
     <Compile Include="Enum\InOutArrayKind.cs" />
     <Compile Include="Prototype\IVec.cs" />
     <Compile Include="Prototype\MatRowColIndexer.cs" />
+    <Compile Include="Prototype\MatType.cs" />
     <Compile Include="Prototype\Veci.cs" />
     <Compile Include="Prototype\Mat1b.cs" />
     <Compile Include="Class\SURF.cs" />
@@ -171,8 +172,7 @@
     <Compile Include="Prototype\Vecb.cs" />
     <Compile Include="Prototype\CppConst.cs" />
     <Compile Include="Prototype\CppInvoke.cs" />
-    <Compile Include="Prototype\CvCpp_highgui.cs" />
-    <Compile Include="Prototype\CvType.cs" />
+    <Compile Include="Prototype\Cv2_highgui.cs" />
     <Compile Include="Prototype\Mat.cs" />
     <Compile Include="Prototype\MatExpr.cs" />
     <Compile Include="Prototype\Point.cs" />
@@ -180,8 +180,8 @@
     <Compile Include="Prototype\Rect.cs" />
     <Compile Include="Prototype\Scalar.cs" />
     <Compile Include="Prototype\Size.cs" />
-    <Compile Include="Prototype\CvCpp_core.cs" />
-    <Compile Include="Prototype\CvCpp_imgproc.cs" />
+    <Compile Include="Prototype\Cv2_core.cs" />
+    <Compile Include="Prototype\Cv2_imgproc.cs" />
     <Compile Include="Prototype\Vecf.cs" />
     <Compile Include="Prototype\Vecs.cs" />
     <Compile Include="Prototype\Vecw.cs" />

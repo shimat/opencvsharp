@@ -22,38 +22,38 @@ namespace OpenCvSharp.Sandbox
         static void Run()
         {
             var memory = new List<long>(100);
-            for (int i = 0; ; i++)
+            for (long i = 0; ; i++)
             {
                 Stopwatch watch = new Stopwatch();
 
-                Mat mat = CvCpp.ImRead(@"img\lenna.png", LoadMode.Color);
+                Mat mat = new Mat(@"img\lenna.png", LoadMode.Color);
+                new Mat(100, 100, MatType.CV_8UC1);
                 //mat[new Rect(100, 100, 200, 200)] = 3;
                 //Console.WriteLine(mat.Dump());
                 //mat.Row(100).SetTo(Scalar.All(10));
                 //subMat.SetTo(subMat.Clone() / 3);
-                //mat[new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
-                //mat.Col[100, 200] = mat.Col[200, 300] * 2 / 3;
+                //mat[ new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
+                mat.Col[100] = ~mat.Col[200] * 2 / 3;
 
                 Mat gray = new Mat();
-                CvCpp.CvtColor(mat, gray, (int)ColorConversion.BgrToGray);
-
-                mat[200, 300, 200, 300] = ~mat[250, 300, 200, 300];
+                Cv2.CvtColor(mat, gray, (int)ColorConversion.BgrToGray);
+                gray.ToString();
+                //mat[200, 300, 200, 300] = ~mat[250, 300, 200, 300];
 
                 //var x = mat.Col[100, 110] / 3;
                 //x.GetHashCode();
 
                 //mat.Row[100,200] = mat.Row[200,300] * 2;
 
-                //Mat subMat = new Mat(mat, Range.All, Range.All);
+                Mat subMat = new Mat(mat, Range.All, Range.All);
                 //Console.WriteLine(subMat.IsContinuous());
-                //subMat.SetTo(subMat);
-                //subMat /= 3;
+                subMat /= 3;
                 //Mat t = subMat.T();
                 //t.GetHashCode();
 
                 //Console.WriteLine(subMat.IsSubmatrix());
 
-                Mat3b mat3 = new Mat3b(mat);
+                //Mat3b mat3 = new Mat3b(mat);
                 //mat3.GetHashCode();
 
                 //IplImage img = (IplImage)mat;
@@ -83,7 +83,7 @@ namespace OpenCvSharp.Sandbox
                 Console.WriteLine("GenericIndexer: {0}ms", watch.ElapsedMilliseconds);
                 //*/
 
-                ///*
+                /*
                 watch.Restart();
                 {
                     var matAt = mat3.GetIndexer();
@@ -129,9 +129,10 @@ namespace OpenCvSharp.Sandbox
                 }
                 */
                 
-                CvCpp.ImShow("window1", mat);
-                CvCpp.ImShow("window2", gray);
-                CvCpp.WaitKey();
+                Cv2.ImShow("window1", mat);
+                Cv2.ImShow("window2", gray);
+                Cv2.ImShow("subMat", subMat);
+                Cv2.WaitKey();
 
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)

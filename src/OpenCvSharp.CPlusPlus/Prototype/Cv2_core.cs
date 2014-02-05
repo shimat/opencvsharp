@@ -9,7 +9,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// <summary>
     /// 
     /// </summary>
-    public static partial class CvCpp
+    public static partial class Cv2
     {
 
     }

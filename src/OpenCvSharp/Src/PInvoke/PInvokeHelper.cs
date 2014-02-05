@@ -58,6 +58,7 @@ namespace OpenCvSharp.Utilities
             StringBuilder message = new StringBuilder();
             if (System.Globalization.CultureInfo.CurrentCulture.Name.Contains("ja"))
             {
+                message.AppendFormat("{0}\n", ex.Message);
                 message.Append("*** P/Invokeが原因で例外が発生しました。***\n")
                     .Append("以下の項目を確認して下さい。\n")
                     .Append("(1) OpenCVのDLLが実行ファイルと同じ場所に置かれていますか? またはパスが正しく通っていますか?\n")
@@ -68,6 +69,7 @@ namespace OpenCvSharp.Utilities
             }
             else
             {
+                message.AppendFormat("{0}\n", ex.Message);
                 message.Append("*** An exception has occurred because of P/Invoke. ***\n")
                     .Append("Please check the following:\n")
                     .Append("(1) OpenCV's DLL files exist in the same directory as the executable file.\n")
@@ -75,7 +77,7 @@ namespace OpenCvSharp.Utilities
                     .Append("(3) The target platform(x86/x64) of OpenCV's DLL files and OpenCvSharp is the same as your project's.\n")
                     .Append("\n")
                     .Append(ex.ToString());
-            }
+            }            
             return new OpenCvSharpException(message.ToString(), ex);
         }
     }

@@ -11,7 +11,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     internal static class CppConst
     {
-        // matrix decomposition types
+        /// <summary>
+        /// matrix decomposition types
+        /// </summary>
         public const int DECOMP_LU = 0,
                          DECOMP_SVD = 1,
                          DECOMP_EIG = 2,
@@ -19,6 +21,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                          DECOMP_QR = 4,
                          DECOMP_NORMAL = 16;
 
+        /// <summary>
+        /// InputArray kind
+        /// </summary>
         public const int InputArray_KIND_SHIFT = 16,
                          InputArray_FIXED_TYPE = 0x8000 << InputArray_KIND_SHIFT,
                          InputArray_FIXED_SIZE = 0x4000 << InputArray_KIND_SHIFT,
@@ -34,5 +39,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                          InputArray_OPENGL_TEXTURE = 8 << InputArray_KIND_SHIFT,
                          InputArray_GPU_MAT = 9 << InputArray_KIND_SHIFT,
                          InputArray_OCL_MAT = 10 << InputArray_KIND_SHIFT;
+
+        /// <summary>
+        /// various border interpolation methods
+        /// </summary>
+        public const int BORDER_REPLICATE = 1,
+            BORDER_CONSTANT = 0,
+            BORDER_REFLECT = 2,
+            BORDER_WRAP = 3,
+            BORDER_REFLECT101 = 4,
+            BORDER_TRANSPARENT = 5,
+            BORDER_DEFAULT = BORDER_REFLECT101,
+            BORDER_ISOLATED = 16;
     }
 }

@@ -34,8 +34,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         static CppInvoke()
         {
-            // call cv to enable redirecting
-            //TryPInvoke();
+            // call cv to enable redirecting 
+            Cv.GetTickCount();
+            TryPInvoke();
         }
 
 #if LANG_JP
@@ -53,19 +54,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 return;
             tried = true;
 
-            // call cv to enable redirecting 
-            Cv.GetTickCount();
             try
             {
                 core_Mat_sizeof();
             }
             catch (DllNotFoundException e)
             {
-                PInvokeHelper.DllImportError(e);
+                throw PInvokeHelper.CreateException(e);
             }
             catch (BadImageFormatException e)
             {
-                PInvokeHelper.DllImportError(e);
+                throw PInvokeHelper.CreateException(e);
             }
         }
         private static bool tried = false;
@@ -433,7 +432,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cv_Canny(IntPtr image, IntPtr edges, double threshold1, double threshold2, [MarshalAs(UnmanagedType.I4)] ApertureSize apertureSize, [MarshalAs(UnmanagedType.Bool)] bool l2Gradient);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2, [MarshalAs(UnmanagedType.I4)]  MatrixType dstmap1Type, [MarshalAs(UnmanagedType.Bool)] bool nninterpolation);
+        public static extern void cv_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2, int dstmap1Type, int nninterpolation);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cv_cornerEigenValsAndVecs(IntPtr src, IntPtr dst, int blockSize, int ksize, [MarshalAs(UnmanagedType.I4)] BorderType borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

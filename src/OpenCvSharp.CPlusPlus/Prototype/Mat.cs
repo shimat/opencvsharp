@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Utilities;
@@ -31,14 +32,22 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         public Mat()
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new();
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new();
+        }
+
+
+        /// <summary>
+        /// Loads an image from a file.
+        /// </summary>
+        /// <param name="fileName">Name of file to be loaded.</param>
+        /// <param name="flags">Specifies color type of the loaded image</param>
+        public Mat(string fileName, LoadMode flags = LoadMode.Color)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException("", fileName);
+            ptr = CppInvoke.highgui_imread(fileName, flags);
         }
 
         /// <summary>
@@ -47,16 +56,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="rows"></param>
         /// <param name="cols"></param>
         /// <param name="type"></param>
-        public Mat(int rows, int cols, MatrixType type)
+        public Mat(int rows, int cols, MatType type)
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new(rows, cols, (int)type);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new(rows, cols, (int)type);
         }
 
         /// <summary>
@@ -64,16 +66,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="size"></param>
         /// <param name="type"></param>
-        public Mat(Size size, int type)
+        public Mat(Size size, MatType type)
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new(size.Width, size.Height, type);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new(size.Width, size.Height, type);
         }
 
         /// <summary>
@@ -83,16 +78,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="cols"></param>
         /// <param name="type"></param>
         /// <param name="s"></param>
-        public Mat(int rows, int cols, int type, Scalar s)
+        public Mat(int rows, int cols, MatType type, Scalar s)
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new(rows, cols, type, s);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new(rows, cols, type, s);
         }
 
         /// <summary>
@@ -101,16 +89,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <param name="s"></param>
-        public Mat(Size size, MatrixType type, Scalar s)
+        public Mat(Size size, MatType type, Scalar s)
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new(size.Width, size.Height, (int)type, s);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new(size.Width, size.Height, (int)type, s);
         }
 
         /// <summary>
@@ -121,14 +102,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="colRange"></param>
         public Mat(Mat m, Range rowRange, Range colRange)
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new(m.ptr, rowRange, colRange);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new(m.ptr, rowRange, colRange);
         }
 
         /// <summary>
@@ -138,14 +112,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="rowRange"></param>
         public Mat(Mat m, Range rowRange)
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new(m.ptr, rowRange);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new(m.ptr, rowRange);
         }
 
         /// <summary>
@@ -155,14 +122,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="roi"></param>
         public Mat(Mat m, Rect roi)
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new(m.ptr, roi);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new(m.ptr, roi);
         }
 
         /// <summary>
@@ -173,16 +133,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         /// <param name="data"></param>
         /// <param name="step"></param>
-        public Mat(int rows, int cols, MatrixType type, IntPtr data, long step = 0)
+        public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
         {
-            try
-            {
-                ptr = CppInvoke.core_Mat_new(rows, cols, (int)type, data, new IntPtr(step));
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_Mat_new(rows, cols, (int)type, data, new IntPtr(step));
         }
 
         /// <summary>
@@ -193,18 +146,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         /// <param name="data"></param>
         /// <param name="step"></param>
-        public Mat(int rows, int cols, MatrixType type, Array data, long step = 0)
+        public Mat(int rows, int cols, MatType type, Array data, long step = 0)
         {
-            try
-            {
-                GCHandle handle = AllocGCHandle(data);
-                ptr = CppInvoke.core_Mat_new(rows, cols, (int)type,
-                                             handle.AddrOfPinnedObject(), new IntPtr(step));
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            GCHandle handle = AllocGCHandle(data);
+            ptr = CppInvoke.core_Mat_new(rows, cols, (int)type,
+                handle.AddrOfPinnedObject(), new IntPtr(step));
         }
 
         /// <summary>
@@ -214,32 +160,25 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         /// <param name="data"></param>
         /// <param name="steps"></param>
-        public Mat(IEnumerable<int> sizes, MatrixType type, IntPtr data, IEnumerable<long> steps = null)
+        public Mat(IEnumerable<int> sizes, MatType type, IntPtr data, IEnumerable<long> steps = null)
         {
             if (sizes == null)
                 throw new ArgumentNullException("steps");
             if (data == IntPtr.Zero)
                 throw new ArgumentNullException("data");
-            try
+            int[] sizesArray = new List<int>(sizes).ToArray();
+            if (steps == null)
             {
-                int[] sizesArray = new List<int>(sizes).ToArray();
-                if (steps == null)
-                {
-                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, (int)type, data, IntPtr.Zero);
-                }
-                else
-                {
-                    List<IntPtr> stepsList = new List<IntPtr>();
-                    foreach (long step in steps)
-                    {
-                        stepsList.Add(new IntPtr(step));
-                    }
-                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, (int)type, data, stepsList.ToArray());
-                }
+                ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, (int)type, data, IntPtr.Zero);
             }
-            catch (BadImageFormatException ex)
+            else
             {
-                throw PInvokeHelper.CreateException(ex);
+                List<IntPtr> stepsList = new List<IntPtr>();
+                foreach (long step in steps)
+                {
+                    stepsList.Add(new IntPtr(step));
+                }
+                ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, (int)type, data, stepsList.ToArray());
             }
         }
 
@@ -250,35 +189,30 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         /// <param name="data"></param>
         /// <param name="steps"></param>
-        public Mat(IEnumerable<int> sizes, MatrixType type, Array data, IEnumerable<long> steps = null)
+        public Mat(IEnumerable<int> sizes, MatType type, Array data, IEnumerable<long> steps = null)
         {
             if (sizes == null)
                 throw new ArgumentNullException("steps");
             if (data == null)
                 throw new ArgumentNullException("data");
-            try
+
+
+            GCHandle handle = AllocGCHandle(data);
+            int[] sizesArray = new List<int>(sizes).ToArray();
+            if (steps == null)
             {
-                GCHandle handle = AllocGCHandle(data);
-                int[] sizesArray = new List<int>(sizes).ToArray();
-                if (steps == null)
-                {
-                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray,
-                                                 (int)type, handle.AddrOfPinnedObject(), IntPtr.Zero);
-                }
-                else
-                {
-                    List<IntPtr> stepsList = new List<IntPtr>();
-                    foreach (long step in steps)
-                    {
-                        stepsList.Add(new IntPtr(step));
-                    }
-                    ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray,
-                                                 (int)type, handle.AddrOfPinnedObject(), stepsList.ToArray());
-                }
+                ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray,
+                    (int)type, handle.AddrOfPinnedObject(), IntPtr.Zero);
             }
-            catch (BadImageFormatException ex)
+            else
             {
-                throw PInvokeHelper.CreateException(ex);
+                List<IntPtr> stepsList = new List<IntPtr>();
+                foreach (long step in steps)
+                {
+                    stepsList.Add(new IntPtr(step));
+                }
+                ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray,
+                    (int)type, handle.AddrOfPinnedObject(), stepsList.ToArray());
             }
         }
 
@@ -364,7 +298,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static MatExpr Eye(Size size, MatrixType type)
+        public static MatExpr Eye(Size size, MatType type)
         {
             return Eye(size.Height, size.Width, type);
         }
@@ -376,18 +310,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="cols"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static MatExpr Eye(int rows, int cols, MatrixType type)
+        public static MatExpr Eye(int rows, int cols, MatType type)
         {
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_eye(rows, cols, (int)type);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_Mat_eye(rows, cols, type);
+            MatExpr retVal = new MatExpr(retPtr);
+            return retVal;
         }
 
         #endregion
@@ -400,18 +327,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="cols"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static MatExpr Ones(int rows, int cols, MatrixType type)
+        public static MatExpr Ones(int rows, int cols, MatType type)
         {
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_ones(rows, cols, (int)type);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_Mat_ones(rows, cols, type);
+            MatExpr retVal = new MatExpr(retPtr);
+            return retVal;
         }
 
         /// <summary>
@@ -420,7 +340,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static MatExpr Ones(Size size, MatrixType type)
+        public static MatExpr Ones(Size size, MatType type)
         {
             return Ones(size.Height, size.Width, type);
         }
@@ -431,21 +351,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         /// <param name="sizes"></param>
         /// <returns></returns>
-        public static MatExpr Ones(MatrixType type, params int[] sizes)
+        public static MatExpr Ones(MatType type, params int[] sizes)
         {
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
             /*
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_ones(sizes.Length, sizes, (int)type);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }*/
+            IntPtr retPtr = CppInvoke.core_Mat_ones(sizes.Length, sizes, (int)type);
+            MatExpr retVal = new MatExpr(retPtr);
+            return retVal;
+            */
             throw new NotImplementedException(); // Undefined this in .lib file
         }
 
@@ -459,18 +373,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="cols"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static MatExpr Zeros(int rows, int cols, MatrixType type)
+        public static MatExpr Zeros(int rows, int cols, MatType type)
         {
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_zeros(rows, cols, (int)type);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_Mat_zeros(rows, cols, type);
+            MatExpr retVal = new MatExpr(retPtr);
+            return retVal;
         }
 
         /// <summary>
@@ -479,7 +386,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static MatExpr Zeros(Size size, MatrixType type)
+        public static MatExpr Zeros(Size size, MatType type)
         {
             return Zeros(size.Height, size.Width, type);
         }
@@ -490,21 +397,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="type"></param>
         /// <param name="sizes"></param>
         /// <returns></returns>
-        public static MatExpr Zeros(MatrixType type, params int[] sizes)
+        public static MatExpr Zeros(MatType type, params int[] sizes)
         {
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
             /*
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_zeros(sizes.Length, sizes, (int)type);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }*/
+            IntPtr retPtr = CppInvoke.core_Mat_zeros(sizes.Length, sizes, (int)type);
+            MatExpr retVal = new MatExpr(retPtr);
+            return retVal;
+            */
             throw new NotImplementedException();
         }
 
@@ -531,16 +432,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public IplImage ToIplImage()
         {
             ThrowIfDisposed();
-            try
-            {
-                IplImage img = new IplImage(false);
-                CppInvoke.core_Mat_IplImage(ptr, img.CvPtr);
-                return img;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IplImage img = new IplImage(false);
+            CppInvoke.core_Mat_IplImage(ptr, img.CvPtr);
+            return img;
         }
 
         /// <summary>
@@ -560,16 +454,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public CvMat ToCvMat()
         {
             ThrowIfDisposed();
-            try
-            {
-                CvMat mat = new CvMat(false);
-                CppInvoke.core_Mat_CvMat(ptr, mat.CvPtr);
-                return mat;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            CvMat mat = new CvMat(false);
+            CppInvoke.core_Mat_CvMat(ptr, mat.CvPtr);
+            return mat;
         }
 
         #endregion
@@ -589,6 +477,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #endregion
         #region Binary
         #region +
+
         /// <summary>
         /// 
         /// </summary>
@@ -603,16 +492,11 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorAdd_MatMat(a.CvPtr, b.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            IntPtr retPtr = CppInvoke.core_operatorAdd_MatMat(a.CvPtr, b.CvPtr);
+            return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -624,15 +508,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorAdd_MatScalar(a.CvPtr, s);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            
+            IntPtr retPtr = CppInvoke.core_operatorAdd_MatScalar(a.CvPtr, s);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -645,15 +523,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorAdd_ScalarMat(s, a.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorAdd_ScalarMat(s, a.CvPtr);
+            return new MatExpr(retPtr);
         }
 
         #endregion
@@ -672,15 +543,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -693,15 +557,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorSubtract_MatScalar(a.CvPtr, s);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorSubtract_MatScalar(a.CvPtr, s);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -714,15 +571,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorSubtract_ScalarMat(s, a.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorSubtract_ScalarMat(s, a.CvPtr);
+            return new MatExpr(retPtr);
         }
 
         #endregion
@@ -742,15 +592,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -763,15 +606,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorMultiply_MatDouble(a.CvPtr, s);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorMultiply_MatDouble(a.CvPtr, s);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -784,15 +620,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorMultiply_DoubleMat(s, a.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorMultiply_DoubleMat(s, a.CvPtr);
+            return new MatExpr(retPtr);
         }
 
         #endregion
@@ -811,16 +640,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorDivide_MatMat(a.CvPtr, b.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorDivide_MatMat(a.CvPtr, b.CvPtr);
+            return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -832,16 +655,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorDivide_MatDouble(a.CvPtr, s);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorDivide_MatDouble(a.CvPtr, s);
+            return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -853,15 +670,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorDivide_DoubleMat(s, a.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorDivide_DoubleMat(s, a.CvPtr);
+            return new MatExpr(retPtr);
         }
 
         #endregion
@@ -960,15 +770,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -981,15 +784,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorAnd_MatDouble(a.CvPtr, s);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorAnd_MatDouble(a.CvPtr, s);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -1002,15 +798,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorAnd_DoubleMat(s, a.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorAnd_DoubleMat(s, a.CvPtr);
+            return new MatExpr(retPtr);
         }
         #endregion
         #region Or
@@ -1028,15 +817,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorOr_MatMat(a.CvPtr, b.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorOr_MatMat(a.CvPtr, b.CvPtr);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -1049,15 +831,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorOr_MatDouble(a.CvPtr, s);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorOr_MatDouble(a.CvPtr, s);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -1070,15 +845,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorOr_DoubleMat(s, a.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorOr_DoubleMat(s, a.CvPtr);
+            return new MatExpr(retPtr);
         }
         #endregion
         #region Xor
@@ -1096,15 +864,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorXor_MatMat(a.CvPtr, b.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorXor_MatMat(a.CvPtr, b.CvPtr);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -1117,15 +878,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorXor_MatDouble(a.CvPtr, s);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorXor_MatDouble(a.CvPtr, s);
+            return new MatExpr(retPtr);
         }
         /// <summary>
         /// 
@@ -1138,15 +892,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorXor_DoubleMat(s, a.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorXor_DoubleMat(s, a.CvPtr);
+            return new MatExpr(retPtr);
         }
         #endregion
         #region Not
@@ -1160,18 +907,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             if (m == null)
                 throw new ArgumentNullException("m");
             m.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_operatorNot_Mat(m.CvPtr);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_operatorNot_Mat(m.CvPtr);
+            return new MatExpr(retPtr);
         }
-        #region
-        #endregion
 
         #endregion
         #endregion
@@ -1279,16 +1017,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
             ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
+            Mat retVal = new Mat(retPtr);
+            return retVal;
         }
 
         #endregion
@@ -1299,7 +1030,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="m"></param>
         /// <param name="type"></param>
-        public void AssignTo(Mat m, MatrixType type)
+        public void AssignTo(Mat m, MatType type)
         {
             ThrowIfDisposed();
             if (m == null)
@@ -1320,14 +1051,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="m"></param>
         public void AssignTo(Mat m)
         {
-            try
-            {
-                CppInvoke.core_Mat_assignTo(ptr, m.CvPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            CppInvoke.core_Mat_assignTo(ptr, m.CvPtr);
         }
 
         #endregion
@@ -1340,14 +1064,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int Channels()
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_channels(ptr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_channels(ptr);
         }
 
         #endregion
@@ -1361,15 +1078,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int CheckVector(int elemChannels)
         {
             ThrowIfDisposed();
-            try
-            {
-                int retVal = CppInvoke.core_Mat_checkVector(ptr, elemChannels);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_checkVector(ptr, elemChannels);
         }
 
         /// <summary>
@@ -1381,15 +1090,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int CheckVector(int elemChannels, int depth)
         {
             ThrowIfDisposed();
-            try
-            {
-                int retVal = CppInvoke.core_Mat_checkVector(ptr, elemChannels, depth);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_checkVector(ptr, elemChannels, depth);
         }
 
         /// <summary>
@@ -1402,16 +1103,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public int CheckVector(int elemChannels, int depth, bool requireContinuous)
         {
             ThrowIfDisposed();
-            try
-            {
-                int retVal = CppInvoke.core_Mat_checkVector(
+            return CppInvoke.core_Mat_checkVector(
                     ptr, elemChannels, depth, requireContinuous ? 1 : 0);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
         }
 
         #endregion
@@ -1743,7 +1436,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="rows"></param>
         /// <param name="cols"></param>
         /// <param name="type"></param>
-        public void Create(int rows, int cols, MatrixType type)
+        public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
             try
@@ -1761,7 +1454,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="size"></param>
         /// <param name="type"></param>
-        public void Create(Size size, MatrixType type)
+        public void Create(Size size, MatType type)
         {
             Create(size.Width, size.Height, type);
         }
@@ -2742,17 +2435,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        public MatrixType Type()
+        public MatType Type()
         {
             ThrowIfDisposed();
-            try
-            {
-                return (MatrixType)CppInvoke.core_Mat_type(ptr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return (MatType)CppInvoke.core_Mat_type(ptr);
         }
 
         #endregion
@@ -2765,7 +2451,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public override string ToString()
         {
             return "Mat [ " +
-                   Rows + "*" + Cols + "*" + CvType.TypeToString((int)Type()) +
+                   Rows + "*" + Cols + "*" + Type().ToString() +
                    ", IsContinuous=" + IsContinuous() + ", IsSubmatrix=" + IsSubmatrix() +
                    ", NativeObject=0x" + Convert.ToString(ptr.ToInt64(), 16) +
                    ", DataAddr=0x" + Convert.ToString(Data.ToInt64(), 16) +
@@ -2783,22 +2469,16 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public string Dump(DumpFormat format = DumpFormat.Default)
         {
             ThrowIfDisposed();
-            try
+            string formatStr = GetDumpFormatString(format);
+            unsafe
             {
-                string formatStr = GetDumpFormatString(format);
-                unsafe
-                {
-                    sbyte* buf = CppInvoke.core_Mat_dump(ptr, formatStr);
-                    string ret = new string(buf);
-                    CppInvoke.core_Mat_dump_delete(buf);
-                    return ret;
-                }
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
+                sbyte* buf = CppInvoke.core_Mat_dump(ptr, formatStr);
+                string ret = new string(buf);
+                CppInvoke.core_Mat_dump_delete(buf);
+                return ret;
             }
         }
+
         private string GetDumpFormatString(DumpFormat format)
         {
             if (format == DumpFormat.Default)
@@ -2821,14 +2501,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public IntPtr Ptr(int i0)
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_ptr1d(ptr, i0);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_ptr1d(ptr, i0);
         }
 
         /// <summary>
@@ -2840,14 +2513,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public IntPtr Ptr(int i0, int i1)
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_ptr2d(ptr, i0, i1);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_ptr2d(ptr, i0, i1);
         }
 
         /// <summary>
@@ -2860,14 +2526,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public IntPtr Ptr(int i0, int i1, int i2)
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_ptr3d(ptr, i0, i1, i2);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_ptr3d(ptr, i0, i1, i2);
         }
 
         /// <summary>
@@ -2878,14 +2537,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public IntPtr Ptr(params int[] idx)
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_ptrnd(ptr, idx);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_ptrnd(ptr, idx);
         }
 
         #endregion

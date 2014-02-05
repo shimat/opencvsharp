@@ -58,7 +58,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                     if (disposing)
                     {
                     }
-                    //Console.WriteLine("MatExpr disposed");
                     if (ptr != IntPtr.Zero)
                     {
                         CppInvoke.core_InputArray_delete(ptr);
@@ -98,7 +97,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// 
+        /// </summary>
         public InOutArrayKind Kind
         {
             get

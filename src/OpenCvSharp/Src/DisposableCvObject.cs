@@ -156,14 +156,5 @@ namespace OpenCvSharp
         {
             return (obj == null) ? IntPtr.Zero : obj.CvPtr;
         }
-
-        /// <summary>
-        /// Set a native pointer of OpenCV structure (dangerous)
-        /// </summary>
-        /// <param name="p"></param>
-        public void SetPtr(IntPtr p)
-        {
-            this.ptr = p;
-        }
     }
 }

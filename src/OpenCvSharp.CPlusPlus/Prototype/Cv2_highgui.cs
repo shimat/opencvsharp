@@ -9,7 +9,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// <summary>
     /// 
     /// </summary>
-    public static partial class CvCpp
+    public static partial class Cv2
     {
         #region NamedWindow
         /// <summary>
@@ -68,31 +68,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <summary>
         /// Loads an image from a file.
         /// </summary>
-        /// <param name="filename">Name of file to be loaded.</param>
-        /// <returns></returns>
-        public static Mat ImRead(string filename)
-        {
-            return ImRead(filename, LoadMode.Color);
-        }
-        /// <summary>
-        /// Loads an image from a file.
-        /// </summary>
-        /// <param name="filename">Name of file to be loaded.</param>
+        /// <param name="fileName">Name of file to be loaded.</param>
         /// <param name="flags">Specifies color type of the loaded image</param>
         /// <returns></returns>
-        public static Mat ImRead(string filename, LoadMode flags = LoadMode.Color)
+        public static Mat ImRead(string fileName, LoadMode flags = LoadMode.Color)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
-            try
-            {
-                IntPtr matPtr = CppInvoke.highgui_imread(filename, flags);
-                return new Mat(matPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return new Mat(fileName, flags);
         }
         #endregion
         #region ImWrite
