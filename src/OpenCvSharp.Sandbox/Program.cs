@@ -26,13 +26,16 @@ namespace OpenCvSharp.Sandbox
             {
                 Stopwatch watch = new Stopwatch();
 
-                Mat mat = CvCpp.ImRead(@"img\lenna.png");
+                Mat mat = CvCpp.ImRead(@"img\lenna.png", LoadMode.Color);
                 //mat[new Rect(100, 100, 200, 200)] = 3;
                 //Console.WriteLine(mat.Dump());
                 //mat.Row(100).SetTo(Scalar.All(10));
                 //subMat.SetTo(subMat.Clone() / 3);
                 //mat[new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
-                mat.Col[100, 200] = mat.Col[200, 300] * 2 / 3;
+                //mat.Col[100, 200] = mat.Col[200, 300] * 2 / 3;
+
+                Mat gray = new Mat();
+                CvCpp.CvtColor(mat, gray, (int)ColorConversion.BgrToGray);
 
                 mat[200, 300, 200, 300] = ~mat[250, 300, 200, 300];
 
@@ -127,7 +130,7 @@ namespace OpenCvSharp.Sandbox
                 */
                 
                 CvCpp.ImShow("window1", mat);
-                //CvCpp.ImShow("window2", subMat);
+                CvCpp.ImShow("window2", gray);
                 CvCpp.WaitKey();
 
                 memory.Add(MyProcess.WorkingSet64);

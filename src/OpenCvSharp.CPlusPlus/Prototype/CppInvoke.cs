@@ -389,6 +389,45 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static extern int core_MatExpr_type(IntPtr self);
 
         #endregion
+        #region InputArray/OutputArray
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_InputArray_new_byMat(IntPtr mat);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_InputArray_delete(IntPtr ia);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_OutputArray_new_byMat(IntPtr mat);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_OutputArray_delete(IntPtr oa);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_InputArray_kind(IntPtr ia);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_OutputArray_getMat(IntPtr oa);
+        #endregion
+
+        #region imgproc
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_copyMakeBorder(IntPtr src, IntPtr dst, int top, int bottom, int left,
+                                                         int right, int borderType, CvScalar value);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_medianBlur(IntPtr src, IntPtr dst, int ksize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_GaussianBlur(IntPtr src, IntPtr dst, CvSize ksize, double sigmaX,
+                                                       double sigmaY, int borderType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_bilateralFilter(IntPtr src, IntPtr dst, int d, double sigmaColor,
+                                                          double sigmaSpace, int borderType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_boxFilter(IntPtr src, IntPtr dst, int ddepth, CvSize ksize, CvPoint anchor,
+                                                    int normalize, int borderType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_blur(IntPtr src, IntPtr dst, CvSize ksize, CvPoint anchor, int borderType);
+
+        #endregion
 
         #region cv
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

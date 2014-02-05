@@ -140,6 +140,7 @@
     <Compile Include="Class\cvaux\CvAdaptiveSkinDetector.cs" />
     <Compile Include="Class\cvaux\CvCamShiftTracker.cs" />
     <Compile Include="Enum\DumpFormat.cs" />
+    <Compile Include="Enum\InOutArrayKind.cs" />
     <Compile Include="Prototype\IVec.cs" />
     <Compile Include="Prototype\MatRowColIndexer.cs" />
     <Compile Include="Prototype\Veci.cs" />
@@ -187,6 +188,8 @@
     <Compile Include="Prototype\Vecd.cs" />
     <Compile Include="Prototype\Mat3b.cs" />
     <Compile Include="Prototype\MatExprRowColIndexer.cs" />
+    <Compile Include="Prototype\InputArray.cs" />
+    <Compile Include="Prototype\OutputArray.cs" />
     <Compile Include="Util\std_vector\IStdVector.cs" />
     <Compile Include="Util\std_vector\StdVectorByte.cs" />
     <Compile Include="CppInvoke.cs" />

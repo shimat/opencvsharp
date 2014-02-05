@@ -109,6 +109,15 @@
     <ClCompile Include="core_MatExpr.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="imgproc.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core_InputArray.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core_OutputArray.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -206,6 +215,15 @@
     </ClInclude>
     <ClInclude Include="include_opencv.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="imgproc.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_InputArray.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_OutputArray.h">
+      <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -211,9 +211,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="core_InputArray.cpp" />
     <ClCompile Include="core_Mat.cpp" />
     <ClCompile Include="core_MatExpr.cpp" />
+    <ClCompile Include="core_OutputArray.cpp" />
     <ClCompile Include="highgui.cpp" />
+    <ClCompile Include="imgproc.cpp" />
     <ClCompile Include="WAlgorithm.cpp" />
     <ClCompile Include="WFlann.cpp" />
     <ClCompile Include="CvANN_MLP.cpp" />
@@ -249,9 +252,12 @@
     <ClCompile Include="WVideo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core_InputArray.h" />
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />
+    <ClInclude Include="core_OutputArray.h" />
     <ClInclude Include="highgui.h" />
+    <ClInclude Include="imgproc.h" />
     <ClInclude Include="include_opencv.h" />
     <ClInclude Include="WAlgorithm.h" />
     <ClInclude Include="WFlann.h" />

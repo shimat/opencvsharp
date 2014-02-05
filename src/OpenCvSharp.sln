@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.NUnitTest", "Op
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Sandbox", "OpenCvSharp.Sandbox\OpenCvSharp.Sandbox.csproj", "{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCvSharp.SandboxCpp", "OpenCvSharp.SandboxCpp\OpenCvSharp.SandboxCpp.vcxproj", "{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -380,6 +382,30 @@ Global
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release|x64.ActiveCfg = Release|Any CPU
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release|x86.ActiveCfg = Release|x86
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release|x86.Build.0 = Release|x86
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Debug|Win32.Build.0 = Debug|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Debug|x64.ActiveCfg = Debug|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Debug|x86.ActiveCfg = Debug|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Debug|x86.Build.0 = Debug|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release JP|Any CPU.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release JP|Mixed Platforms.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release JP|Mixed Platforms.Build.0 = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release JP|Win32.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release JP|Win32.Build.0 = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release JP|x64.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release JP|x86.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release JP|x86.Build.0 = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|Any CPU.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|Win32.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|Win32.Build.0 = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|x64.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|x86.ActiveCfg = Release|Win32
+		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
