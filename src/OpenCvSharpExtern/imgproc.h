@@ -11,7 +11,7 @@
 
 CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
 {
-	cv::cvtColor(*src, *dst, code, dstCn);
+	cv::cvtColor(*src, *dst, code, dstCn); 
 }
 
 CVAPI(void) imgproc_copyMakeBorder(cv::_InputArray *src, cv::_OutputArray *dst, int top, int bottom, int left, int right, int borderType, CvScalar value)
