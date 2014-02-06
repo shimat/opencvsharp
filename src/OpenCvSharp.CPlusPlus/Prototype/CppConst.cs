@@ -51,5 +51,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             BORDER_TRANSPARENT = 5,
             BORDER_DEFAULT = BORDER_REFLECT101,
             BORDER_ISOLATED = 16;
+
+        /// <summary>
+        /// shape of the structuring element
+        /// </summary>
+        public const int MORPH_RECT = 0,
+            MORPH_CROSS = 1,
+            MORPH_ELLIPSE = 2;
     }
 }

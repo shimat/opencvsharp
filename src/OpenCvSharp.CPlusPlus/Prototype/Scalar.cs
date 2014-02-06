@@ -64,6 +64,13 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <summary>
         /// 
         /// </summary>
+        public Scalar()
+        {
+            val = new double[] { 0, 0, 0, 0 };
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="vals"></param>
         public Scalar(double[] vals)
         {
