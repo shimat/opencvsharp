@@ -32,20 +32,19 @@ namespace OpenCvSharp.Sandbox
                 //mat.Row(100).SetTo(Scalar.All(10));
                 //subMat.SetTo(subMat.Clone() / 3);
                 //mat[ new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
-                //mat.Col[100] = ~mat.Col[200] * 2 / 3;
+                mat.Col[100] = ~mat.Col[200] * 2 / 3;
 
                 Mat gray = new Mat();
                 Cv2.CvtColor(mat, gray, (int)ColorConversion.BgrToGray);
 
-
-
                 //mat.Row[100,200] = mat.Row[200,300] * 2;
 
-                //Mat subMat = new Mat(mat, new Range(200, 400), new Range(200, 400));
+                Mat subMat = new Mat(mat, new Range(200, 400), new Range(200, 400));
+                Mat subMat2 = mat.SubMat(100, 200, 100, 200);
+                Console.WriteLine(subMat.IsSubmatrix());
+                Console.WriteLine(subMat2.IsSubmatrix());
                 //Cv2.GaussianBlur(subMat, subMat, new Size(25, 25), -1);
-                Cv2.GaussianBlur(mat.Row[100, 200], mat.Row[100, 200], new Size(25, 25), -1);
-
-                //Console.WriteLine(subMat.IsSubmatrix());
+                Cv2.GaussianBlur(mat.GetRowRange(100, 200), mat.GetRowRange(100, 200), new Size(25, 25), -1);
 
                 //Mat3b mat3 = new Mat3b(mat);
                 //mat3.GetHashCode();
@@ -123,10 +122,10 @@ namespace OpenCvSharp.Sandbox
                 }
                 */
                 
-                /*
+                ///*
                 Cv2.ImShow("window1", mat);
                 Cv2.ImShow("window2", gray);
-                Cv2.ImShow("subMat", subMat);
+                //Cv2.ImShow("subMat", subMat);
                 Cv2.WaitKey();
                 //*/
 

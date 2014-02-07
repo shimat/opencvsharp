@@ -191,20 +191,20 @@
     <Compile Include="Prototype\MatExprRowColIndexer.cs" />
     <Compile Include="Prototype\InputArray.cs" />
     <Compile Include="Prototype\OutputArray.cs" />
-    <Compile Include="Util\std_vector\IStdVector.cs" />
-    <Compile Include="Util\std_vector\StdVectorByte.cs" />
+    <Compile Include="Vector\IStdVector.cs" />
+    <Compile Include="Vector\StdVectorByte.cs" />
     <Compile Include="CppInvoke.cs" />
     <Compile Include="CvCpp.cs" />
     <Compile Include="Enum\HistogramNormType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\PlatformUtil.cs" />
-    <Compile Include="Util\std_vector\StdVectorFloat.cs" />
-    <Compile Include="Util\std_vector\StdVectorRect.cs" />
-    <Compile Include="Util\std_vector\StdVectorPoint.cs" />
-    <Compile Include="Util\std_vector\StdVectorKeyPoint.cs" />
-    <Compile Include="Util\std_vector\StdVectorVec2f.cs" />
-    <Compile Include="Util\std_vector\StdVectorVec4i.cs" />
-    <Compile Include="Util\std_vector\StdVectorVec3f.cs" />
+    <Compile Include="Vector\StdVectorFloat.cs" />
+    <Compile Include="Vector\StdVectorRect.cs" />
+    <Compile Include="Vector\StdVectorPoint.cs" />
+    <Compile Include="Vector\StdVectorKeyPoint.cs" />
+    <Compile Include="Vector\StdVectorVec2f.cs" />
+    <Compile Include="Vector\StdVectorVec4i.cs" />
+    <Compile Include="Vector\StdVectorVec3f.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">

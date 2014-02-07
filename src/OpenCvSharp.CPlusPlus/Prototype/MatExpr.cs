@@ -73,7 +73,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static implicit operator Mat(MatExpr self)
+        public static explicit operator Mat(MatExpr self)
         {
             try
             {
@@ -100,6 +100,15 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="mat"></param>
         /// <returns></returns>
         public static implicit operator MatExpr(Mat mat)
+        {
+            return new MatExpr(mat);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static MatExpr FromMat(Mat mat)
         {
             return new MatExpr(mat);
         }
@@ -660,8 +669,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 if (value == null)
                     throw new ArgumentNullException("value");
-                Mat submat = SubMat(rowRange, colRange);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                MatExpr subMatExpr = SubMat(rowRange, colRange);
+                CppInvoke.core_Mat_assignment_FromMatExpr(subMatExpr.CvPtr, value.CvPtr);
             }
         }
 
@@ -680,8 +689,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             {
                 if (value == null)
                     throw new ArgumentNullException("value");
-                Mat submat = SubMat(roi);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                MatExpr subMatExpr = SubMat(roi);
+                CppInvoke.core_Mat_assignment_FromMatExpr(subMatExpr.CvPtr, value.CvPtr);
             }
         }
         #endregion

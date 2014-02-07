@@ -1289,7 +1289,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         }
 
         #endregion
-       
         #region Cols
 
         /// <summary>
@@ -1334,7 +1333,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         private int colsVal = int.MinValue;
 
         #endregion
-        
         #region Dims
 
         /// <summary>
@@ -1918,7 +1916,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             try
             {
                 IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn);
-                MatExpr retVal = new MatExpr(retPtr);
+                Mat retVal = new Mat(retPtr);
                 return retVal;
             }
             catch (BadImageFormatException ex)
@@ -1939,7 +1937,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             try
             {
                 IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn, rows);
-                MatExpr retVal = new MatExpr(retPtr);
+                Mat retVal = new Mat(retPtr);
                 return retVal;
             }
             catch (BadImageFormatException ex)
@@ -1962,7 +1960,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             try
             {
                 IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn, newDims.Length, newDims);
-                MatExpr retVal = new MatExpr(retPtr);
+                Mat retVal = new Mat(retPtr);
                 return retVal;
             }
             catch (BadImageFormatException ex)
@@ -1972,7 +1970,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         }
 
         #endregion
-        
         #region RowRange
         /*
         /// <summary>
@@ -2215,87 +2212,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             try
             {
                 return CppInvoke.core_Mat_step1(ptr, i);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-
-        #endregion
-        #region SubMat
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rowStart"></param>
-        /// <param name="rowEnd"></param>
-        /// <param name="colStart"></param>
-        /// <param name="colEnd"></param>
-        /// <returns></returns>
-        public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
-        {
-            if (rowStart >= rowEnd)
-                throw new ArgumentException("rowStart >= rowEnd");
-            if (colStart >= colEnd)
-                throw new ArgumentException("colStart >= colEnd");
-
-            ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, rowStart, rowEnd, colStart, colEnd);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rowRange"></param>
-        /// <param name="colRange"></param>
-        /// <returns></returns>
-        public Mat SubMat(Range rowRange, Range colRange)
-        {
-            return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="roi"></param>
-        /// <returns></returns>
-        public Mat SubMat(Rect roi)
-        {
-            return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ranges"></param>
-        /// <returns></returns>
-        public Mat SubMat(params Range[] ranges)
-        {
-            if (ranges == null)
-                throw new ArgumentNullException();
-
-            ThrowIfDisposed();
-            try
-            {
-                CvSlice[] slices = new CvSlice[ranges.Length];
-                for (int i = 0; i < ranges.Length; i++)
-                {
-                    slices[i] = ranges[i];
-                }
-
-                IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, slices.Length, slices);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
             }
             catch (BadImageFormatException ex)
             {
@@ -2802,6 +2718,87 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public Mat GetRowRange(Range range)
         {
             return GetRowRange(range.Start, range.End);
+        }
+
+        #endregion
+        #region SubMat
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rowStart"></param>
+        /// <param name="rowEnd"></param>
+        /// <param name="colStart"></param>
+        /// <param name="colEnd"></param>
+        /// <returns></returns>
+        public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
+        {
+            if (rowStart >= rowEnd)
+                throw new ArgumentException("rowStart >= rowEnd");
+            if (colStart >= colEnd)
+                throw new ArgumentException("colStart >= colEnd");
+
+            ThrowIfDisposed();
+            try
+            {
+                IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, rowStart, rowEnd, colStart, colEnd);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rowRange"></param>
+        /// <param name="colRange"></param>
+        /// <returns></returns>
+        public Mat SubMat(Range rowRange, Range colRange)
+        {
+            return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="roi"></param>
+        /// <returns></returns>
+        public Mat SubMat(Rect roi)
+        {
+            return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ranges"></param>
+        /// <returns></returns>
+        public Mat SubMat(params Range[] ranges)
+        {
+            if (ranges == null)
+                throw new ArgumentNullException();
+
+            ThrowIfDisposed();
+            try
+            {
+                CvSlice[] slices = new CvSlice[ranges.Length];
+                for (int i = 0; i < ranges.Length; i++)
+                {
+                    slices[i] = ranges[i];
+                }
+
+                IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, slices.Length, slices);
+                Mat retVal = new Mat(retPtr);
+                return retVal;
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         #endregion
