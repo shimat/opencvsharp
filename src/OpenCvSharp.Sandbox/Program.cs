@@ -27,21 +27,17 @@ namespace OpenCvSharp.Sandbox
                 Stopwatch watch = new Stopwatch();
 
                 Mat mat = new Mat(@"img\lenna.png", LoadMode.Color);
-                new Mat(100, 100, MatType.CV_8UC1);
                 //mat[new Rect(100, 100, 200, 200)] = 3;
                 //Console.WriteLine(mat.Dump());
                 //mat.Row(100).SetTo(Scalar.All(10));
                 //subMat.SetTo(subMat.Clone() / 3);
                 //mat[ new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
-                mat.Col[100] = ~mat.Col[200] * 2 / 3;
+                //mat.Col[100] = ~mat.Col[200] * 2 / 3;
 
                 Mat gray = new Mat();
                 Cv2.CvtColor(mat, gray, (int)ColorConversion.BgrToGray);
-                gray.ToString();
-                //mat[200, 300, 200, 300] = ~mat[250, 300, 200, 300];
 
-                //var x = mat.Col[100, 110] / 3;
-                //x.GetHashCode();
+
 
                 //mat.Row[100,200] = mat.Row[200,300] * 2;
 

@@ -408,6 +408,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         #region imgproc
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr imgproc_getGaborKernel(CvSize ksize, double sigma, double theta, double lambd, double gamma, double psi, int ktype);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr imgproc_getStructuringElement(int shape, CvSize ksize, CvPoint anchor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_copyMakeBorder(IntPtr src, IntPtr dst, int top, int bottom, int left,
@@ -420,6 +424,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_bilateralFilter(IntPtr src, IntPtr dst, int d, double sigmaColor,
                                                           double sigmaSpace, int borderType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_adaptiveBilateralFilter(IntPtr src, IntPtr dst, CvSize ksize,
+            double sigmaSpace, double maxSigmaColor, CvPoint anchor, int borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_boxFilter(IntPtr src, IntPtr dst, int ddepth, CvSize ksize, CvPoint anchor,
                                                     int normalize, int borderType);

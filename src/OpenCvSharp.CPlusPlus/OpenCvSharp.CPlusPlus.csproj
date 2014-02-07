@@ -141,6 +141,7 @@
     <Compile Include="Class\cvaux\CvCamShiftTracker.cs" />
     <Compile Include="Enum\DumpFormat.cs" />
     <Compile Include="Enum\InOutArrayKind.cs" />
+    <Compile Include="Enum\StructuringElementShape.cs" />
     <Compile Include="Prototype\IVec.cs" />
     <Compile Include="Prototype\MatRowColIndexer.cs" />
     <Compile Include="Prototype\MatType.cs" />
