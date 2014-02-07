@@ -82,9 +82,6 @@
     <ClCompile Include="WHighgui.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="WHOGDescriptor.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="WMat.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -116,6 +113,9 @@
       <Filter>Sources\cpp</Filter>
     </ClCompile>
     <ClCompile Include="std_vector.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="objdetect.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -189,9 +189,6 @@
     <ClInclude Include="WMat.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="WHOGDescriptor.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="WNonfree.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -223,6 +220,9 @@
       <Filter>Headers\cpp</Filter>
     </ClInclude>
     <ClInclude Include="std_vector.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>

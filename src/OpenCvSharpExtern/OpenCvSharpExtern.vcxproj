@@ -217,6 +217,7 @@
     <ClCompile Include="core_OutputArray.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgproc.cpp" />
+    <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="WAlgorithm.cpp" />
     <ClCompile Include="WFlann.cpp" />
     <ClCompile Include="CvANN_MLP.cpp" />
@@ -244,7 +245,6 @@
     <ClCompile Include="WCvAdaptiveSkinDetector.cpp" />
     <ClCompile Include="WCvaux.cpp" />
     <ClCompile Include="WCvCamShiftTracker.cpp" />
-    <ClCompile Include="WHOGDescriptor.cpp" />
     <ClCompile Include="WCore.cpp" />
     <ClCompile Include="WMat.cpp" />
     <ClCompile Include="WCv.cpp" />
@@ -259,6 +259,7 @@
     <ClInclude Include="highgui.h" />
     <ClInclude Include="imgproc.h" />
     <ClInclude Include="include_opencv.h" />
+    <ClInclude Include="objdetect.h" />
     <ClInclude Include="WAlgorithm.h" />
     <ClInclude Include="WFlann.h" />
     <ClInclude Include="CvANN_MLP.h" />
@@ -283,7 +284,6 @@
     <ClInclude Include="WCvAdaptiveSkinDetector.h" />
     <ClInclude Include="WCvaux.h" />
     <ClInclude Include="WCvCamShiftTracker.h" />
-    <ClInclude Include="WHOGDescriptor.h" />
     <ClInclude Include="WCv.h" />
     <ClInclude Include="WStereoSGBM.h" />
     <ClInclude Include="WVideo.h" />

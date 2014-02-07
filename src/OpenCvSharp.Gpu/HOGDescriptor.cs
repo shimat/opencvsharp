@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.CPlusPlus.Prototype;
 
 namespace OpenCvSharp.Gpu
 {
@@ -1338,7 +1338,7 @@ namespace OpenCvSharp.Gpu
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            using (StdVectorPoint flVec = new StdVectorPoint())
+            using (StdVectorPoint2i flVec = new StdVectorPoint2i())
             {
                 GpuInvoke.HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride, padding);
                 // std::vector<cv::Point>*からCvPoint[]に移し替えて返す
