@@ -17,7 +17,7 @@ using OpenCvSharp.Utilities;
 namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
-    /// P/Invoke methods of OpenCV C++ interface
+    /// P/Invoke methods of OpenCV 2.x C++ interface
     /// </summary>
     [SuppressUnmanagedCodeSecurity]
     internal static class CppInvoke
@@ -432,102 +432,22 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                                                     int normalize, int borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_blur(IntPtr src, IntPtr dst, CvSize ksize, CvPoint anchor, int borderType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_filter2D(IntPtr src, IntPtr dst, int ddepth, IntPtr kernel, CvPoint anchor, double delta, int borderType);
 
-        #endregion
-
-        #region cv
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Canny(IntPtr image, IntPtr edges, double threshold1, double threshold2, [MarshalAs(UnmanagedType.I4)] ApertureSize apertureSize, [MarshalAs(UnmanagedType.Bool)] bool l2Gradient);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2, int dstmap1Type, int nninterpolation);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cornerEigenValsAndVecs(IntPtr src, IntPtr dst, int blockSize, int ksize, [MarshalAs(UnmanagedType.I4)] BorderType borderType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cornerHarris(IntPtr src, IntPtr dst, int blockSize, int ksize, double k, [MarshalAs(UnmanagedType.I4)] BorderType borderType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cornerSubPix(IntPtr image, IntPtr corners, CvSize winSize, CvSize zeroZone, CvTermCriteria criteria);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cvtColor(IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.I4)] ColorConversion code, int dstCn);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_erode(IntPtr src, IntPtr dst, IntPtr kernel, CvPoint anchor, int iterations, [MarshalAs(UnmanagedType.I4)] BorderType borderType, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_dilate(IntPtr src, IntPtr dst, IntPtr kernel, CvPoint anchor, int iterations, [MarshalAs(UnmanagedType.I4)] BorderType borderType, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_HoughCircles(IntPtr image, IntPtr circles, [MarshalAs(UnmanagedType.I4)] HoughCirclesMethod method, double dp, double minDist, double param1, double param2, int minRadius, int maxRadius);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_HoughLines(IntPtr image, IntPtr lines, double rho, double theta, int threshold, double srn, double stn);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_HoughLinesP(IntPtr image, IntPtr lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_morphologyEx(IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.I4)] MorphologyOperation op, IntPtr kernel, CvPoint anchor, int iterations, [MarshalAs(UnmanagedType.I4)] BorderType borderType, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_preCornerDetect(IntPtr src, IntPtr dst, int ksize, [MarshalAs(UnmanagedType.I4)] BorderType borderType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_remap(IntPtr src, IntPtr dst, IntPtr map1, IntPtr map2, [MarshalAs(UnmanagedType.I4)] Interpolation interpolation, [MarshalAs(UnmanagedType.I4)] BorderType borderMode, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_resize(IntPtr src, IntPtr dst, CvSize dsize, double fx, double fy, [MarshalAs(UnmanagedType.I4)] Interpolation interpolation);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_warpAffine(IntPtr src, IntPtr dst, IntPtr M, CvSize dsize, [MarshalAs(UnmanagedType.I4)] Interpolation flags, [MarshalAs(UnmanagedType.I4)] BorderType borderMode, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_warpPerspective(IntPtr src, IntPtr dst, IntPtr M, CvSize dsize, [MarshalAs(UnmanagedType.I4)] Interpolation flags, [MarshalAs(UnmanagedType.I4)]  BorderType borderMode, CvScalar borderValue);
-        #region StereoSGBM
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_sizeof();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr StereoSGBM_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr StereoSGBM_new2(int minDisparity, int numDisparities, int sadWindowSize, int p1, int p2, int disp12MaxDiff, int preFilterCap, int uniquenessRatio, int speckleWindowSize, int speckleRange, [MarshalAs(UnmanagedType.Bool)] bool fullDP);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_delete(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_exec(IntPtr self, IntPtr left, IntPtr right, IntPtr disp);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_minDisparity_get(IntPtr self);
+        public static extern void imgproc_HoughLines(IntPtr src, IntPtr lines,
+            double rho, double theta, int threshold, double srn, double stn);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_minDisparity_set(IntPtr self, int value);
+        public static extern void imgproc_HoughLinesP(IntPtr src, IntPtr lines,
+            double rho, double theta, int threshold, double minLineLength, double maxLineG);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_numberOfDisparities_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_numberOfDisparities_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_SADWindowSize_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_SADWindowSize_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_preFilterCap_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_preFilterCap_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_uniquenessRatio_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_uniquenessRatio_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_P1_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_P1_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_P2_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_P2_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_speckleWindowSize_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_speckleWindowSize_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_speckleRange_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_speckleRange_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_disp12MaxDiff_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_disp12MaxDiff_set(IntPtr self, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoSGBM_fullDP_get(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoSGBM_fullDP_set(IntPtr self, int value);
+        public static extern void imgproc_HoughCircles(IntPtr src, IntPtr circles,
+            int method, double dp, double minDist, double param1, double param2, int minRadius, int maxRadius);
+
         #endregion
-        #endregion
+                
         #region core
         #region Algorithm
 

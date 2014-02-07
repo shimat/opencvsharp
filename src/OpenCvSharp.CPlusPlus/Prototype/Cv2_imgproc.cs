@@ -204,7 +204,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             dst.AssignResultAndDispose();
         }
         #endregion
-
         #region AdaptiveBilateralFilter
         /// <summary>
         /// 
@@ -265,16 +264,106 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             dst.AssignResultAndDispose();
         }
         #endregion
-
-        public static void BoxFilter(InputArray src, OutputArray dst, int ddepth, CvSize ksize, CvPoint anchor, bool normalize, BorderType borderType)
+        #region BoxFilter
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="ddepth"></param>
+        /// <param name="ksize"></param>
+        public static void BoxFilter(InputArray src, OutputArray dst, int ddepth, Size ksize)
         {
-
+            BoxFilter(src, dst, ddepth, ksize, new Point(-1, -1));
         }
-
-        public static void Blur(InputArray src, OutputArray dst, CvSize ksize, CvPoint anchor, BorderType borderType)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="ddepth"></param>
+        /// <param name="ksize"></param>
+        /// <param name="anchor"></param>
+        /// <param name="normalize"></param>
+        /// <param name="borderType"></param>
+        public static void BoxFilter(InputArray src, OutputArray dst, int ddepth, Size ksize, Point anchor, 
+            bool normalize = true, BorderType borderType = BorderType.Default)
         {
-
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor, normalize ? 1 : 0, (int)borderType);
+            dst.AssignResultAndDispose();
         }
+        #endregion
+        #region Blur
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="ksize"></param>
+        public static void Blur(InputArray src, OutputArray dst, Size ksize)
+        {
+            Blur(src, dst, ksize, new Point(-1, -1));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="ksize"></param>
+        /// <param name="anchor"></param>
+        /// <param name="borderType"></param>
+        public static void Blur(InputArray src, OutputArray dst, Size ksize, Point anchor, BorderType borderType = BorderType.Default)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor, (int)borderType);
+        }
+        #endregion
+        #region Filter2D
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="ddepth"></param>
+        /// <param name="kernel"></param>
+        public static void Filter2D(InputArray src, OutputArray dst, int ddepth, InputArray kernel)
+        {
+            Filter2D(src, dst, ddepth, kernel, new Point(-1, -1));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="ddepth"></param>
+        /// <param name="kernel"></param>
+        /// <param name="anchor"></param>
+        /// <param name="delta"></param>
+        /// <param name="borderType"></param>
+        public static void Filter2D(InputArray src, OutputArray dst, int ddepth,
+	        InputArray kernel, Point anchor, double delta = 0, BorderType borderType = BorderType.Default)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            IntPtr kernelPtr = DisposableCvObject.GetCvPtr(kernel);
+            CppInvoke.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernelPtr, anchor, delta, (int)borderType);
+        }
+        #endregion
 
         #region HoughLines
 #if LANG_JP
@@ -310,7 +399,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
 
             using (StdVectorVec2f vec = new StdVectorVec2f())
             {
-                CppInvoke.cv_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
+                CppInvoke.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
                 return vec.ToArray<CvLineSegmentPolar>();
             }
         }
@@ -347,7 +436,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             image.ThrowIfDisposed();
             using (StdVectorVec4i vec = new StdVectorVec4i())
             {
-                CppInvoke.cv_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
+                CppInvoke.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
                 return vec.ToArray<CvLineSegmentPoint>();
             }
         }
@@ -388,7 +477,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             image.ThrowIfDisposed();
             using (StdVectorVec3f vec = new StdVectorVec3f())
             {
-                CppInvoke.cv_HoughCircles(image.CvPtr, vec.CvPtr, method, dp, minDist, param1, param2, minRadius, maxRadius);
+                CppInvoke.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
                 return vec.ToArray<CvCircleSegment>();
             }
         }
