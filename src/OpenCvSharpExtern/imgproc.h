@@ -119,10 +119,12 @@ CVAPI(void) imgproc_cornerSubPix(cv::_InputArray *src, cv::_OutputArray *corners
 {
 }
 
-CVAPI(void) imgproc_goodFeaturesToTrack(cv::_InputArray *src, cv::_OutputArray *corners,
+CVAPI(void) imgproc_goodFeaturesToTrack(cv::_InputArray *src, std::vector<cv::Point2f> *corners,
 	int maxCorners, double qualityLevel, double minDistance,
-	cv::_InputArray *mask, int blockSize, bool useHarrisDetector, double k)
+	cv::_InputArray *mask, int blockSize, int useHarrisDetector, double k)
 {
+	cv::InputArray maskVal = (mask == NULL) ? cv::noArray() : *mask;
+	cv::goodFeaturesToTrack(*src, *corners, maxCorners, qualityLevel, minDistance, maskVal, blockSize, useHarrisDetector != 0, k);
 }
 
 CVAPI(void) imgproc_HoughLines(cv::_InputArray *src, std::vector<cv::Vec2f> *lines,
