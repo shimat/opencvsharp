@@ -216,6 +216,38 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="copyData"></param>
+        public Mat(CvMat m, bool copyData = false)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+            ptr = CppInvoke.core_Mat_new_FromCvMat(m.CvPtr, copyData ? 1 : 0);
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException();
+            if (copyData == false)
+                IsEnabledDispose = false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="copyData"></param>
+        public Mat(IplImage img, bool copyData = false)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            ptr = CppInvoke.core_Mat_new_FromIplImage(img.CvPtr, copyData ? 1 : 0);
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException();
+            if (copyData == false)
+                IsEnabledDispose = false;
+        }  
+
 #if LANG_JP
     /// <summary>
     /// リソースの解放

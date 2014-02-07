@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp;
+using OpenCvSharp.CPlusPlus.Prototype;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
     /// Represents std::vector 

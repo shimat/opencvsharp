@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.CPlusPlus.Prototype
 {
 #if LANG_JP
     /// <summary>
@@ -32,7 +32,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// sizeof(HOGDescriptor) 
         /// </summary>
-        public static readonly int SizeOf = CppInvoke.HOGDescriptor_sizeof();
+        public static readonly int SizeOf = CppInvoke.objdetect_HOGDescriptor_sizeof();
         #region DefaultPeopleDetector
         /// <summary>
         /// 
@@ -848,7 +848,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// setSVMDetector parameter vector
         /// </summary>
-        private StdVectorFloat _svmDetector = null;
+        private StdVectorFloat svmDetector = null;
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
@@ -868,7 +868,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public HOGDescriptor()
 	    {
-            ptr = CppInvoke.HOGDescriptor_new1();               
+            ptr = CppInvoke.objdetect_HOGDescriptor_new1();               
 	    }
 #if LANG_JP
         /// <summary>
@@ -1075,7 +1075,7 @@ namespace OpenCvSharp.CPlusPlus
         public HOGDescriptor(CvSize winSize, CvSize blockSize, CvSize blockStride, CvSize cellSize,
             int nbins, int derivAperture, double winSigma, HistogramNormType histogramNormType, double l2HysThreshold, bool gammaCorrection, int nlevels)
         {
-            ptr = CppInvoke.HOGDescriptor_new2(winSize, blockSize, blockStride, cellSize, nbins, derivAperture, winSigma, histogramNormType, l2HysThreshold, gammaCorrection, nlevels);
+            ptr = CppInvoke.objdetect_HOGDescriptor_new2(winSize, blockSize, blockStride, cellSize, nbins, derivAperture, winSigma, histogramNormType, l2HysThreshold, gammaCorrection, nlevels);
         }
 #if LANG_JP
         /// <summary>
@@ -1090,7 +1090,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public HOGDescriptor(string filename)
         {
-            ptr = CppInvoke.HOGDescriptor_new3(filename);
+            ptr = CppInvoke.objdetect_HOGDescriptor_new3(filename);
         }
 
 #if LANG_JP
@@ -1138,9 +1138,9 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.HOGDescriptor_delete(ptr);
-                        if (_svmDetector != null)
-                            _svmDetector.Dispose();
+                        CppInvoke.objdetect_HOGDescriptor_delete(ptr);
+                        if (svmDetector != null)
+                            svmDetector.Dispose();
                     }
                     disposed = true;
                 }
@@ -1159,88 +1159,88 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public CvSize WinSize
         {
-            get { return CppInvoke.HOGDescriptor_winSize_get(ptr); }
-            set { CppInvoke.HOGDescriptor_winSize_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_winSize_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_winSize_set(ptr, value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public CvSize BlockSize
         {
-            get { return CppInvoke.HOGDescriptor_blockSize_get(ptr); }
-            set { CppInvoke.HOGDescriptor_blockSize_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_blockSize_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_blockSize_set(ptr, value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public CvSize BlockStride
         {
-            get { return CppInvoke.HOGDescriptor_blockStride_get(ptr); }
-            set { CppInvoke.HOGDescriptor_blockStride_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_blockStride_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_blockStride_set(ptr, value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public CvSize CellSize
         {
-            get { return CppInvoke.HOGDescriptor_cellSize_get(ptr); }
-            set { CppInvoke.HOGDescriptor_cellSize_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_cellSize_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_cellSize_set(ptr, value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public int Nbins
         {
-            get { return CppInvoke.HOGDescriptor_nbins_get(ptr); }
-            set { CppInvoke.HOGDescriptor_nbins_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_nbins_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_nbins_set(ptr, value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public int DerivAperture
         {
-            get { return CppInvoke.HOGDescriptor_derivAperture_get(ptr); }
-            set { CppInvoke.HOGDescriptor_derivAperture_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_derivAperture_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_derivAperture_set(ptr, value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public double WinSigma
         {
-            get { return CppInvoke.HOGDescriptor_winSigma_get(ptr); }
-            set { CppInvoke.HOGDescriptor_winSigma_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_winSigma_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_winSigma_set(ptr, value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public HistogramNormType HistogramNormType
         {
-            get { return (HistogramNormType)CppInvoke.HOGDescriptor_histogramNormType_get(ptr); }
-            set { CppInvoke.HOGDescriptor_histogramNormType_set(ptr, (int)value); }
+            get { return (HistogramNormType)CppInvoke.objdetect_HOGDescriptor_histogramNormType_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_histogramNormType_set(ptr, (int)value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public double L2HysThreshold
         {
-            get { return CppInvoke.HOGDescriptor_L2HysThreshold_get(ptr); }
-            set { CppInvoke.HOGDescriptor_L2HysThreshold_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_L2HysThreshold_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_L2HysThreshold_set(ptr, value); }
         }
         /// <summary>
         /// 
         /// </summary>
         public bool GammaCorrection
         {
-            get { return CppInvoke.HOGDescriptor_gammaCorrection_get(ptr) != 0; }
-            set { CppInvoke.HOGDescriptor_gammaCorrection_set(ptr, value ? 1 : 0); }
+            get { return CppInvoke.objdetect_HOGDescriptor_gammaCorrection_get(ptr) != 0; }
+            set { CppInvoke.objdetect_HOGDescriptor_gammaCorrection_set(ptr, value ? 1 : 0); }
         }
         /// <summary>
         /// 
         /// </summary>
         public int NLevels
         {
-            get { return CppInvoke.HOGDescriptor_nlevels_get(ptr); }
-            set { CppInvoke.HOGDescriptor_nlevels_set(ptr, value); }
+            get { return CppInvoke.objdetect_HOGDescriptor_nlevels_get(ptr); }
+            set { CppInvoke.objdetect_HOGDescriptor_nlevels_set(ptr, value); }
         }
         #endregion
 
@@ -1277,10 +1277,10 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
 
-            if (_svmDetector != null)
-                _svmDetector.Dispose();
-            _svmDetector = new StdVectorFloat(svmdetector);            
-            CppInvoke.HOGDescriptor_setSVMDetector(ptr, _svmDetector.CvPtr);
+            if (svmDetector != null)
+                svmDetector.Dispose();
+            svmDetector = new StdVectorFloat(svmdetector);            
+            CppInvoke.objdetect_HOGDescriptor_setSVMDetector(ptr, svmDetector.CvPtr);
         }
 
         /// <summary>
@@ -1302,7 +1302,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
-            return CppInvoke.HOGDescriptor_load(ptr, filename, objname);
+            return CppInvoke.objdetect_HOGDescriptor_load(ptr, filename, objname);
         }
 
         /// <summary>
@@ -1322,7 +1322,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
-            CppInvoke.HOGDescriptor_save(ptr, filename, objname);
+            CppInvoke.objdetect_HOGDescriptor_save(ptr, filename, objname);
         }
 
         /// <summary>
@@ -1333,7 +1333,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
-            return CppInvoke.HOGDescriptor_getDescriptorSize(ptr).ToInt32();
+            return CppInvoke.objdetect_HOGDescriptor_getDescriptorSize(ptr).ToInt32();
         }
 
         /// <summary>
@@ -1344,7 +1344,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
-            return CppInvoke.HOGDescriptor_checkDetectorSize(ptr);
+            return CppInvoke.objdetect_HOGDescriptor_checkDetectorSize(ptr);
         }
 
         /// <summary>
@@ -1355,7 +1355,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
-            return CppInvoke.HOGDescriptor_getWinSigma(ptr);
+            return CppInvoke.objdetect_HOGDescriptor_getWinSigma(ptr);
         }
 
         #region Compute
@@ -1407,7 +1407,7 @@ namespace OpenCvSharp.CPlusPlus
             using (StdVectorFloat flVec = new StdVectorFloat())
             {
                 int length = (locations != null) ? locations.Length : 0;
-                CppInvoke.HOGDescriptor_compute(ptr, img.CvPtr, flVec.CvPtr, winStride, padding, locations, length);
+                CppInvoke.objdetect_HOGDescriptor_compute(ptr, img.CvPtr, flVec.CvPtr, winStride, padding, locations, length);
                 // std::vector<float>*からfloat[]に移し替えて返す
                 return flVec.ToArray();
             }
@@ -1472,10 +1472,10 @@ namespace OpenCvSharp.CPlusPlus
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            using (StdVectorPoint flVec = new StdVectorPoint())
+            using (StdVectorPoint2i flVec = new StdVectorPoint2i())
             {
                 int length = (searchLocations != null) ? searchLocations.Length : 0;
-                CppInvoke.HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride, padding, searchLocations, length);
+                CppInvoke.objdetect_HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride, padding, searchLocations, length);
                 // std::vector<cv::Point>*からCvPoint[]に移し替えて返す
                 return flVec.ToArray();
             }
@@ -1556,7 +1556,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (StdVectorRect flVec = new StdVectorRect())
             {
-                CppInvoke.HOGDescriptor_detectMultiScale(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride, padding, scale, groupThreshold);
+                CppInvoke.objdetect_HOGDescriptor_detectMultiScale(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride, padding, scale, groupThreshold);
                 // std::vector<cv::Rect>*からCvRect[]に移し替えて返す
                 return flVec.ToArray();
             }          
@@ -1603,7 +1603,7 @@ namespace OpenCvSharp.CPlusPlus
             if (angleOfs == null)
                 throw new ArgumentNullException("angleOfs");
 
-            CppInvoke.HOGDescriptor_computeGradient(ptr, img.CvPtr, grad.CvPtr, angleOfs.CvPtr, paddingTL, paddingBR);
+            CppInvoke.objdetect_HOGDescriptor_computeGradient(ptr, img.CvPtr, grad.CvPtr, angleOfs.CvPtr, paddingTL, paddingBR);
         }
         #endregion
         #endregion

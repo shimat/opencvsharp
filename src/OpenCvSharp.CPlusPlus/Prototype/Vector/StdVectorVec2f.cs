@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
     /// 
@@ -38,7 +36,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public StdVectorVec2f()
         {
-            ptr = CppInvoke.vector_cvVec2f_new1();
+            ptr = CppInvoke.vector_Vec2f_new1();
         }
         /// <summary>
         /// 
@@ -48,7 +46,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_cvVec2f_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Vec2f_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
@@ -58,7 +56,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_cvVec2f_new3(data, new IntPtr(data.Length));
+            ptr = CppInvoke.vector_Vec2f_new3(data, new IntPtr(data.Length));
         }
 
         /// <summary>
@@ -76,7 +74,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_cvVec2f_delete(ptr);
+                        CppInvoke.vector_Vec2f_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -94,14 +92,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_cvVec2f_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Vec2f_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_cvVec2f_getPointer(ptr); }
+            get { return CppInvoke.vector_Vec2f_getPointer(ptr); }
         }
         #endregion
 

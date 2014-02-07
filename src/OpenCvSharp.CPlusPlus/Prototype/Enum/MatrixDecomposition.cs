@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.CPlusPlus.Prototype;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
     /// MatrixDecomposition

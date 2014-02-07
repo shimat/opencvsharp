@@ -1,15 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
     /// 
     /// </summary>
-    public class StdVectorRect : DisposableCvObject, IStdVector
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Vec3fElem
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public float V1;
+        /// <summary>
+        /// 
+        /// </summary>
+        public float V2;
+        /// <summary>
+        /// 
+        /// </summary>
+        public float V3;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class StdVectorVec3f : DisposableCvObject, IStdVector
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -20,29 +38,29 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorRect()
+        public StdVectorVec3f()
         {
-            ptr = CppInvoke.vector_cvRect_new1();
+            ptr = CppInvoke.vector_Vec3f_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorRect(int size)
+        public StdVectorVec3f(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_cvRect_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Vec3f_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorRect(CvRect[] data)
+        public StdVectorVec3f(Vec3fElem[] data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_cvRect_new3(data, new IntPtr(data.Length));
+            ptr = CppInvoke.vector_Vec3f_new3(data, new IntPtr(data.Length));
         }
 
         /// <summary>
@@ -60,7 +78,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_cvRect_delete(ptr);
+                        CppInvoke.vector_Vec2f_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -78,14 +96,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_cvRect_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Vec3f_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_cvRect_getPointer(ptr); }
+            get { return CppInvoke.vector_Vec3f_getPointer(ptr); }
         }
         #endregion
 
@@ -94,17 +112,32 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public CvRect[] ToArray()
+        public Vec3fElem[] ToArray()
         {
-            int size = Size;
-            if (size == 0)
+            return ToArray<Vec3fElem>();
+        }
+        /// <summary>
+        /// Converts std::vector to managed array
+        /// </summary>
+        /// <typeparam name="T">structure that has two float members (ex. CvLineSegmentPolar, CvPoint2D32f, PointF)</typeparam>
+        /// <returns></returns>
+        public T[] ToArray<T>() where T : struct
+        {
+            int typeSize = Marshal.SizeOf(typeof(T));
+            if (typeSize != sizeof(float) * 3)
             {
-                return new CvRect[0];
+                throw new OpenCvSharpException();
             }
-            CvRect[] dst = new CvRect[size];
-            using (ArrayAddress1<CvRect> dstPtr = new ArrayAddress1<CvRect>(dst))
+
+            int arySize = Size;
+            if (arySize == 0)
             {
-                Util.CopyMemory(dstPtr, ElemPtr, CvRect.SizeOf * dst.Length);
+                return new T[0];
+            }
+            T[] dst = new T[arySize];
+            using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
+            {
+                Util.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
             }
             return dst;
         }

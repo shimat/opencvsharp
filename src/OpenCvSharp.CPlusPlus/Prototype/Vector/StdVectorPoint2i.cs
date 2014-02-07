@@ -1,39 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
     /// 
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Vec4iElem
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int V1;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int V2;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int V3;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int V4;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class StdVectorVec4i : DisposableCvObject, IStdVector
+    public class StdVectorPoint2i : DisposableCvObject, IStdVector
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -44,29 +17,29 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorVec4i()
+        public StdVectorPoint2i()
         {
-            ptr = CppInvoke.vector_cvVec4i_new1();
+            ptr = CppInvoke.vector_Point2i_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorVec4i(int size)
+        public StdVectorPoint2i(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_cvVec4i_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Point2i_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorVec4i(Vec4iElem[] data)
+        public StdVectorPoint2i(CvPoint[] data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_cvVec4i_new3(data, new IntPtr(data.Length));
+            ptr = CppInvoke.vector_Point2i_new3(data, new IntPtr(data.Length));
         }
 
         /// <summary>
@@ -84,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_cvVec2f_delete(ptr);
+                        CppInvoke.vector_Point2i_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -102,14 +75,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_cvVec4i_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Point2i_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_cvVec4i_getPointer(ptr); }
+            get { return CppInvoke.vector_Point2i_getPointer(ptr); }
         }
         #endregion
 
@@ -118,32 +91,17 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Vec4iElem[] ToArray()
-        {
-            return ToArray<Vec4iElem>();
-        }
-        /// <summary>
-        /// Converts std::vector to managed array
-        /// </summary>
-        /// <typeparam name="T">structure that has four int members (ex. CvLineSegmentPoint, CvRect)</typeparam>
-        /// <returns></returns>
-        public T[] ToArray<T>() where T : struct
-        {
-            int typeSize = Marshal.SizeOf(typeof(T));
-            if (typeSize != sizeof(int) * 4)
+        public CvPoint[] ToArray()
+        {            
+            int size = Size;
+            if (size == 0)
             {
-                throw new OpenCvSharpException();
+                return new CvPoint[0];
             }
-
-            int arySize = Size;
-            if (arySize == 0)
+            CvPoint[] dst = new CvPoint[size];
+            using (ArrayAddress1<CvPoint> dstPtr = new ArrayAddress1<CvPoint>(dst))
             {
-                return new T[0];
-            }
-            T[] dst = new T[arySize];
-            using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
-            {
-                Util.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
+                Util.CopyMemory(dstPtr, ElemPtr, CvPoint.SizeOf * dst.Length);
             }
             return dst;
         }

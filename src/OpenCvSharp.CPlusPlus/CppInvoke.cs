@@ -10,6 +10,7 @@ using System.Security;
 using System.Security.Permissions;
 using System.Text;
 using OpenCvSharp;
+using OpenCvSharp.CPlusPlus.Prototype;
 using OpenCvSharp.Utilities;
 
 #pragma warning disable 1591
@@ -20,6 +21,7 @@ namespace OpenCvSharp.CPlusPlus
     /// P/Invoke methods of OpenCV C++ interface
     /// </summary>
     [SuppressUnmanagedCodeSecurity]
+    [Obsolete]
     public static class CppInvoke
     {
         /// <summary>
@@ -717,120 +719,6 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe float* BackgroundSubtractorMOG2_fTau(IntPtr obj);
         //*/
-        #endregion
-        #endregion
-        #region std::vector<T>
-        #region uchar
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_uchar_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_uchar_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_uchar_new3([In] byte[] data, IntPtr data_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_uchar_getSize(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_uchar_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vector_uchar_delete(IntPtr vector);
-        #endregion
-        #region float
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_float_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_float_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_float_new3([In] float[] data, IntPtr data_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_float_getSize(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_float_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vector_float_delete(IntPtr vector);
-        #endregion
-        #region cv::Vec2f
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec2f_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec2f_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec2f_new3([In] Vec2fElem[] data, IntPtr data_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec2f_getSize(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec2f_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vector_cvVec2f_delete(IntPtr vector);
-        #endregion
-        #region cv::Vec3f
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec3f_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec3f_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec3f_new3([In] Vec3fElem[] data, IntPtr data_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec3f_getSize(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec3f_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vector_cvVec3f_delete(IntPtr vector);
-        #endregion
-        #region cv::Vec4i
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec4i_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec4i_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec4i_new3([In] Vec4iElem[] data, IntPtr data_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec4i_getSize(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvVec4i_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vector_cvVec4i_delete(IntPtr vector);
-        #endregion
-        #region cv::Point
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvPoint_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvPoint_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvPoint_new3([In] CvPoint[] data, IntPtr data_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvPoint_getSize(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvPoint_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vector_cvPoint_delete(IntPtr vector);
-        #endregion
-        #region cv::Rect
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvRect_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvRect_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvRect_new3([In] CvRect[] data, IntPtr data_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvRect_getSize(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvRect_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vector_cvRect_delete(IntPtr vector);
-        #endregion
-        #region cv::KeyPoint
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvKeyPoint_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvKeyPoint_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvKeyPoint_new3([In]KeyPoint[] data, IntPtr data_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvKeyPoint_getSize(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vector_cvKeyPoint_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vector_cvKeyPoint_delete(IntPtr vector);
         #endregion
         #endregion
         #endregion

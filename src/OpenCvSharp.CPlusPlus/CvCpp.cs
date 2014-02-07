@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using OpenCvSharp.CPlusPlus.Prototype;
 
 #pragma warning disable 1591
 #pragma warning disable 1685

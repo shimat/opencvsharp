@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.CPlusPlus.Prototype
 {
     /// <summary>
     /// 
     /// </summary>
-    internal class StdVectorKeyPoint : DisposableCvObject, IStdVector
+    public class StdVectorFloat : DisposableCvObject, IStdVector
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -20,29 +17,29 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorKeyPoint()
+        public StdVectorFloat()
         {
-            ptr = CppInvoke.vector_cvKeyPoint_new1();
+            ptr = CppInvoke.vector_float_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorKeyPoint(int size)
+        public StdVectorFloat(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_cvKeyPoint_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_float_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorKeyPoint(KeyPoint[] data)
+        public StdVectorFloat(float[] data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_cvKeyPoint_new3(data, new IntPtr(data.Length));
+            ptr = CppInvoke.vector_float_new3(data, new IntPtr(data.Length));
         }
 
         /// <summary>
@@ -60,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_cvKeyPoint_delete(ptr);
+                        CppInvoke.vector_float_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -78,14 +75,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_cvKeyPoint_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_float_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_cvKeyPoint_getPointer(ptr); }
+            get { return CppInvoke.vector_float_getPointer(ptr); }
         }
         #endregion
 
@@ -94,18 +91,15 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public KeyPoint[] ToArray()
+        public float[] ToArray()
         {            
             int size = Size;
             if (size == 0)
             {
-                return new KeyPoint[0];
+                return new float[0];
             }
-            KeyPoint[] dst = new KeyPoint[size];
-            using (ArrayAddress1<KeyPoint> dstPtr = new ArrayAddress1<KeyPoint>(dst))
-            {
-                Util.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(KeyPoint)) * dst.Length);
-            }
+            float[] dst = new float[size];
+            Marshal.Copy(ElemPtr, dst, 0, dst.Length);
             return dst;
         }
         #endregion
