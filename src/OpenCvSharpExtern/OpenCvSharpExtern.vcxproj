@@ -240,7 +240,7 @@
     <ClCompile Include="cvtrack.cpp" />
     <ClCompile Include="WHighgui.cpp" />
     <ClCompile Include="WNonfree.cpp" />
-    <ClCompile Include="WVector.cpp" />
+    <ClCompile Include="std_vector.cpp" />
     <ClCompile Include="WCvAdaptiveSkinDetector.cpp" />
     <ClCompile Include="WCvaux.cpp" />
     <ClCompile Include="WCvCamShiftTracker.cpp" />
@@ -277,7 +277,7 @@
     <ClInclude Include="CvBlobWrapper.h" />
     <ClInclude Include="WHighgui.h" />
     <ClInclude Include="WNonfree.h" />
-    <ClInclude Include="WVector.h" />
+    <ClInclude Include="std_vector.h" />
     <ClInclude Include="WCore.h" />
     <ClInclude Include="WMat.h" />
     <ClInclude Include="WCvAdaptiveSkinDetector.h" />

@@ -91,9 +91,6 @@
     <ClCompile Include="WStereoSGBM.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="WVector.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="WNonfree.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -116,6 +113,9 @@
       <Filter>Sources\cpp</Filter>
     </ClCompile>
     <ClCompile Include="core_OutputArray.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="std_vector.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,9 +198,6 @@
     <ClInclude Include="WStereoSGBM.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="WVector.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="WVideo.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -223,6 +220,9 @@
       <Filter>Headers\cpp</Filter>
     </ClInclude>
     <ClInclude Include="core_OutputArray.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="std_vector.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>
