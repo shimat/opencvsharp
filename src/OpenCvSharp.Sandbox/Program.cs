@@ -45,11 +45,9 @@ namespace OpenCvSharp.Sandbox
 
                 //mat.Row[100,200] = mat.Row[200,300] * 2;
 
-                Mat subMat = new Mat(mat, Range.All, Range.All);
-                //Console.WriteLine(subMat.IsContinuous());
-                subMat /= 3;
-                //Mat t = subMat.T();
-                //t.GetHashCode();
+                //Mat subMat = new Mat(mat, new Range(200, 400), new Range(200, 400));
+                //Cv2.GaussianBlur(subMat, subMat, new Size(25, 25), -1);
+                Cv2.GaussianBlur(mat.Row[100, 200], mat.Row[100, 200], new Size(25, 25), -1);
 
                 //Console.WriteLine(subMat.IsSubmatrix());
 
@@ -129,10 +127,12 @@ namespace OpenCvSharp.Sandbox
                 }
                 */
                 
+                /*
                 Cv2.ImShow("window1", mat);
                 Cv2.ImShow("window2", gray);
                 Cv2.ImShow("subMat", subMat);
                 Cv2.WaitKey();
+                //*/
 
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)

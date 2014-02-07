@@ -1155,32 +1155,18 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 get
                 {
                     parent.ThrowIfDisposed();
-                    try
-                    {
-                        IntPtr matExprPtr = CppInvoke.core_Mat_col_toMatExpr(parent.ptr, x);
-                        MatExpr matExpr = new MatExpr(matExprPtr);
-                        return matExpr;
-                    }
-                    catch (BadImageFormatException ex)
-                    {
-                        throw PInvokeHelper.CreateException(ex);
-                    }
+                    IntPtr matExprPtr = CppInvoke.core_Mat_col_toMatExpr(parent.ptr, x);
+                    MatExpr matExpr = new MatExpr(matExprPtr);
+                    return matExpr;
                 }
                 set
                 {
-                    if(value == null)
+                    if (value == null)
                         throw new ArgumentNullException("value");
                     parent.ThrowIfDisposed();
-                    try
-                    {
-                        IntPtr colMatPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
-                        CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
-                        CppInvoke.core_Mat_delete(colMatPtr);
-                    }
-                    catch (BadImageFormatException ex)
-                    {
-                        throw PInvokeHelper.CreateException(ex);
-                    }
+                    IntPtr colMatPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
+                    CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
+                    CppInvoke.core_Mat_delete(colMatPtr);
                 }
             }
             /// <summary>
@@ -1194,32 +1180,18 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 get
                 {
                     parent.ThrowIfDisposed();
-                    try
-                    {
-                        IntPtr matExprPtr = CppInvoke.core_Mat_colRange_toMatExpr(parent.ptr, startCol, endCol);
-                        MatExpr matExpr = new MatExpr(matExprPtr);
-                        return matExpr;
-                    }
-                    catch (BadImageFormatException ex)
-                    {
-                        throw PInvokeHelper.CreateException(ex);
-                    }
+                    IntPtr matExprPtr = CppInvoke.core_Mat_colRange_toMatExpr(parent.ptr, startCol, endCol);
+                    MatExpr matExpr = new MatExpr(matExprPtr);
+                    return matExpr;
                 }
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException("value");
                     parent.ThrowIfDisposed();
-                    try
-                    {
-                        IntPtr colMatPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
-                        CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
-                        CppInvoke.core_Mat_delete(colMatPtr);
-                    }
-                    catch (BadImageFormatException ex)
-                    {
-                        throw PInvokeHelper.CreateException(ex);
-                    }
+                    IntPtr colMatPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
+                    CppInvoke.core_Mat_delete(colMatPtr);
                 }
             }
         }

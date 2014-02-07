@@ -190,7 +190,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             return MakeType(CV_64F, ch);
         }
 
-        private static int MakeType(int depth, int channels)
+        public static int MakeType(int depth, int channels)
         {
             if (channels <= 0 || channels >= CV_CN_MAX)
                 throw new OpenCvSharpException("Channels count should be 1.." + (CV_CN_MAX - 1));

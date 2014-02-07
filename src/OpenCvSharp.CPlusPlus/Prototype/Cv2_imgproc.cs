@@ -92,9 +92,23 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
 
-        public static void GaussianBlur(InputArray src, OutputArray dst, CvSize ksize, double sigmaX, double sigmaY, int borderType)
+        public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, double sigmaY = 0, BorderType borderType = BorderType.Default)
         {
-
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            try
+            {
+                CppInvoke.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
+                dst.AssignResultAndDispose();
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
         }
 
         public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)
