@@ -16,10 +16,14 @@ namespace OpenCvSharp.CPlusPlus
         protected FeatureDetector()
         {
             detectorPtr = IntPtr.Zero;
+            ptr = IntPtr.Zero;
         }
-        protected FeatureDetector(IntPtr ptr)
+        protected FeatureDetector(IntPtr p)
         {
-            detectorPtr = ptr;
+            detectorPtr = p;
+            ptr = CppInvoke.core_Ptr_FeatureDetector_obj(p);
+            if(ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
         }
 
         /// <summary>
@@ -95,7 +99,15 @@ namespace OpenCvSharp.CPlusPlus
             if(String.IsNullOrEmpty(detectorType))
                 throw new ArgumentNullException("detectorType");
             IntPtr ptr = CppInvoke.features2d_FeatureDetector_create(detectorType);
-            return new FeatureDetector(ptr);
+            try
+            {
+                FeatureDetector detector = new FeatureDetector(ptr);
+                return detector;
+            }
+            catch (OpenCvSharpException)
+            {
+                throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
+            }
         }
 
 
@@ -132,6 +144,7 @@ namespace OpenCvSharp.CPlusPlus
                         if (detectorPtr != IntPtr.Zero)
                             CppInvoke.core_Ptr_FeatureDetector_delete(detectorPtr);
                         detectorPtr = IntPtr.Zero;
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

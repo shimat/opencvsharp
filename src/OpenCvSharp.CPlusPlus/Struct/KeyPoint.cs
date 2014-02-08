@@ -280,7 +280,7 @@ namespace OpenCvSharp.CPlusPlus
                 );
             }
         }
-        /*
+        
 #if LANG_JP
         /// <summary>
         /// 文字列形式を返す 
@@ -294,9 +294,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif        
         public override string ToString()
         {
-            return string.Format("CvAvgComp (Rect:{0} Neighbors:{1})", Rect, Neighbors);
+            return String.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassID:{5}]", Pt, Size, Angle, Response, Octave, ClassID);
         }
-        //*/
         #endregion
     }
 }

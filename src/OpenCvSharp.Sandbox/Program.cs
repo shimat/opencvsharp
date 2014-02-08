@@ -39,19 +39,14 @@ namespace OpenCvSharp.Sandbox
 
                 //mat.Row[100,200] = mat.Row[200,300] * 2;
 
-                Mat subMat = new Mat(mat, new Range(200, 400), new Range(200, 400));
-                Mat subMat2 = mat.SubMat(100, 200, 100, 200);
-                Console.WriteLine(subMat.IsSubmatrix());
-                Console.WriteLine(subMat2.IsSubmatrix());
+                //Mat subMat = new Mat(mat, new Range(200, 400), new Range(200, 400));
+                //Mat subMat2 = mat.SubMat(100, 200, 100, 200);
                 //Cv2.GaussianBlur(subMat, subMat, new Size(25, 25), -1);
                 Cv2.GaussianBlur(mat.GetRowRange(100, 200), mat.GetRowRange(100, 200), new Size(25, 25), -1);
 
-                //Mat3b mat3 = new Mat3b(mat);
-                //mat3.GetHashCode();
-
-                //IplImage img = (IplImage)mat;
-                //img.GetHashCode();
-                //CvWindow.ShowImages(img);
+                FeatureDetector detector = FeatureDetector.Create("MSER");
+                KeyPoint[] keypoints = detector.Detect(gray);
+                keypoints.ToString();
 
                 /*
                 watch.Restart();
@@ -122,7 +117,7 @@ namespace OpenCvSharp.Sandbox
                 }
                 */
                 
-                ///*
+                /*
                 Cv2.ImShow("window1", mat);
                 Cv2.ImShow("window2", gray);
                 //Cv2.ImShow("subMat", subMat);

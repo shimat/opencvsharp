@@ -23,6 +23,8 @@ namespace OpenCvSharp.CPlusPlus
     internal static partial class CppInvoke
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Ptr_FeatureDetector_delete(IntPtr obj);
+        public static extern IntPtr core_Ptr_FeatureDetector_obj(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Ptr_FeatureDetector_delete(IntPtr ptr);
     }
 }
