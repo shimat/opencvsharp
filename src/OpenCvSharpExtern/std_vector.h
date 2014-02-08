@@ -323,4 +323,45 @@ CVAPI(void) vector_KeyPoint_delete(vector<cv::KeyPoint>* vector)
 }
 #pragma endregion
 
+#pragma region vector<cv::KeyPoint>
+CVAPI(vector<vector<cv::KeyPoint>>*) vector_vector_KeyPoint_new1()
+{
+	return new vector<vector<cv::KeyPoint>>;
+}
+CVAPI(vector<vector<cv::KeyPoint>>*) vector_vector_KeyPoint_new2(size_t size)
+{
+	return new vector<vector<cv::KeyPoint>>(size);
+}
+CVAPI(size_t) vector_vector_KeyPoint_getSize1(vector<vector<cv::KeyPoint>>* vec)
+{
+	return vec->size();
+}
+CVAPI(void) vector_vector_KeyPoint_getSize2(vector<vector<cv::KeyPoint>>* vec, size_t *sizes)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		sizes[i] = vec->at(i).size();
+	}
+}
+CVAPI(vector<cv::KeyPoint>*) vector_vector_KeyPoint_getPointer(vector<vector<cv::KeyPoint>>* vec)
+{
+	return &(vec->at(0));
+}
+CVAPI(void) vector_vector_KeyPoint_copy(vector<vector<cv::KeyPoint>> *vec, cv::KeyPoint **dst)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		vector<cv::KeyPoint> &elem = vec->at(i);
+		for (size_t j = 0; j < elem.size(); j++)
+		{
+			dst[i][j] = elem[j];
+		}
+	}
+}
+CVAPI(void) vector_vector_KeyPoint_delete(vector<vector<cv::KeyPoint>>* vec)
+{
+	delete vec;
+}
+#pragma endregion
+
 #endif

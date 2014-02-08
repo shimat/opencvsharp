@@ -3,48 +3,44 @@
  * This code is licenced under the LGPL.
  */
 
+#ifndef _CPP_VIDEO_H_
+#define _CPP_VIDEO_H_
 
-#ifndef _CPP_WCV_H_
-#define _CPP_WCV_H_
-
-#ifdef _MSC_VER
-#pragma warning(disable: 4251)
-#endif
-#include <opencv2/video/background_segm.hpp>
+#include "include_opencv.h"
 
 // BackgroundSubtractor
-CVAPI(int) BackgroundSubtractor_sizeof()
+CVAPI(size_t) video_BackgroundSubtractor_sizeof()
 {
 	return sizeof(cv::BackgroundSubtractor);
 }
-CVAPI(void) BackgroundSubtractor_getBackgroundImage(cv::BackgroundSubtractor* obj, cv::_OutputArray* backgroundImage)
+CVAPI(void) video_BackgroundSubtractor_getBackgroundImage(cv::BackgroundSubtractor* obj, cv::_OutputArray* backgroundImage)
 {
 	obj->getBackgroundImage(*backgroundImage);
 }
 
 
 // BackgroundSubtractorMOG
-CVAPI(int) BackgroundSubtractorMOG_sizeof()
+CVAPI(size_t) video_BackgroundSubtractorMOG_sizeof()
 {
 	return sizeof(cv::BackgroundSubtractorMOG);
 }
-CVAPI(cv::BackgroundSubtractorMOG*) BackgroundSubtractorMOG_new1()
+CVAPI(cv::BackgroundSubtractorMOG*) video_BackgroundSubtractorMOG_new1()
 {
 	return new cv::BackgroundSubtractorMOG();
 }
-CVAPI(cv::BackgroundSubtractorMOG*) BackgroundSubtractorMOG_new2(int history, int nmixtures, double backgroundRatio, double noiseSigma)
+CVAPI(cv::BackgroundSubtractorMOG*) video_BackgroundSubtractorMOG_new2(int history, int nmixtures, double backgroundRatio, double noiseSigma)
 {
 	return new cv::BackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
 }
-CVAPI(void) BackgroundSubtractorMOG_delete(cv::BackgroundSubtractorMOG* obj)
+CVAPI(void) video_BackgroundSubtractorMOG_delete(cv::BackgroundSubtractorMOG* obj)
 {
 	delete obj;
 }
-CVAPI(void) BackgroundSubtractorMOG_operator(cv::BackgroundSubtractorMOG* obj, cv::Mat* image, cv::Mat* fgmask, double learningRate)
+CVAPI(void) video_BackgroundSubtractorMOG_operator(cv::BackgroundSubtractorMOG* obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
 {
 	(*obj)(*image, *fgmask, learningRate);
 }    
-CVAPI(void) BackgroundSubtractorMOG_initialize(cv::BackgroundSubtractorMOG* obj, CvSize frameSize, int frameType)
+CVAPI(void) video_BackgroundSubtractorMOG_initialize(cv::BackgroundSubtractorMOG* obj, CvSize frameSize, int frameType)
 {
 	obj->initialize(frameSize, frameType);
 }
@@ -93,31 +89,31 @@ CVAPI(double*) BackgroundSubtractorMOG_noiseSigma(cv::BackgroundSubtractorMOG* o
 	
 
 // BackgroundSubtractorMOG2
-CVAPI(int) BackgroundSubtractorMOG2_sizeof()
+CVAPI(size_t) video_BackgroundSubtractorMOG2_sizeof()
 {
 	return sizeof(cv::BackgroundSubtractorMOG2);
 }
-CVAPI(cv::BackgroundSubtractorMOG2*) BackgroundSubtractorMOG2_new1()
+CVAPI(cv::BackgroundSubtractorMOG2*) video_BackgroundSubtractorMOG2_new1()
 {
 	return new cv::BackgroundSubtractorMOG2();
 }
-CVAPI(cv::BackgroundSubtractorMOG2*) BackgroundSubtractorMOG2_new2(int history, float varThreshold, int bShadowDetection)
+CVAPI(cv::BackgroundSubtractorMOG2*) video_BackgroundSubtractorMOG2_new2(int history, float varThreshold, int bShadowDetection)
 {
 	return new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection!=0);
 }
-CVAPI(void) BackgroundSubtractorMOG2_delete(cv::BackgroundSubtractorMOG2* obj)
+CVAPI(void) video_BackgroundSubtractorMOG2_delete(cv::BackgroundSubtractorMOG2* obj)
 {
 	delete obj;
 }
-CVAPI(void) BackgroundSubtractorMOG2_operator(cv::BackgroundSubtractorMOG2* obj, cv::_InputArray* image, cv::_OutputArray* fgmask, double learningRate)
+CVAPI(void) video_BackgroundSubtractorMOG2_operator(cv::BackgroundSubtractorMOG2* obj, cv::_InputArray* image, cv::_OutputArray* fgmask, double learningRate)
 {
 	(*obj)(*image, *fgmask, learningRate);
 }  
-CVAPI(void) BackgroundSubtractorMOG2_getBackgroundImage(cv::BackgroundSubtractorMOG2* obj, cv::_OutputArray* backgroundImage)
+CVAPI(void) video_BackgroundSubtractorMOG2_getBackgroundImage(cv::BackgroundSubtractorMOG2* obj, cv::_OutputArray* backgroundImage)
 {
 	obj->getBackgroundImage(*backgroundImage);
 }
-CVAPI(void) BackgroundSubtractorMOG2_initialize(cv::BackgroundSubtractorMOG2* obj, CvSize frameSize, int frameType)
+CVAPI(void) video_BackgroundSubtractorMOG2_initialize(cv::BackgroundSubtractorMOG2* obj, CvSize frameSize, int frameType)
 {
 	obj->initialize(frameSize, frameType);
 }

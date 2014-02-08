@@ -216,4 +216,10 @@ CVAPI(cv::MatExpr*) core_operatorDivide_MatExprMatExpr(cv::MatExpr *e1, cv::MatE
 }
 #pragma endregion
 
+CVAPI(cv::MatExpr*) core_abs_MatExpr(cv::MatExpr *e)
+{
+	cv::MatExpr ret = cv::abs(*e);
+	return new cv::MatExpr(ret);
+}
+
 #endif

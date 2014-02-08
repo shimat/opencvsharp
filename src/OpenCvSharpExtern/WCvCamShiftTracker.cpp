@@ -1,2 +1,0 @@
-#include "WCvCamShiftTracker.h"
-
