@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using OpenCvSharp.Blob;
-using OpenCvSharp.CPlusPlus.Prototype;
+using OpenCvSharp.CPlusPlus;
 
 namespace OpenCvSharp.Sandbox
 {

@@ -613,4 +613,11 @@ CVAPI(cv::MatExpr*) core_operatorNot_Mat(cv::Mat *a)
 
 #pragma endregion
 
+
+CVAPI(cv::MatExpr*) core_abs_Mat(cv::Mat *m)
+{
+	cv::MatExpr ret = cv::abs(*m);
+	return new cv::MatExpr(ret);
+}
+
 #endif

@@ -213,15 +213,16 @@
   <ItemGroup>
     <ClCompile Include="calib3d.cpp" />
     <ClCompile Include="core.cpp" />
+    <ClCompile Include="core_Algorithm.cpp" />
     <ClCompile Include="core_InputArray.cpp" />
     <ClCompile Include="core_Mat.cpp" />
     <ClCompile Include="core_MatExpr.cpp" />
     <ClCompile Include="core_OutputArray.cpp" />
+    <ClCompile Include="core_Ptr.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgproc.cpp" />
     <ClCompile Include="objdetect.cpp" />
-    <ClCompile Include="WAlgorithm.cpp" />
-    <ClCompile Include="WFlann.cpp" />
+    <ClCompile Include="flann.cpp" />
     <ClCompile Include="CvANN_MLP.cpp" />
     <ClCompile Include="CvBoost.cpp" />
     <ClCompile Include="CvDTree.cpp" />
@@ -241,14 +242,12 @@
     <ClCompile Include="cvcontour.cpp" />
     <ClCompile Include="cvlabel.cpp" />
     <ClCompile Include="cvtrack.cpp" />
-    <ClCompile Include="WNonfree.cpp" />
+    <ClCompile Include="nonfree.cpp" />
     <ClCompile Include="std_vector.cpp" />
-    <ClCompile Include="WCvAdaptiveSkinDetector.cpp" />
-    <ClCompile Include="WCvaux.cpp" />
-    <ClCompile Include="WCvCamShiftTracker.cpp" />
-    <ClCompile Include="WCore.cpp" />
-    <ClCompile Include="WStereoSGBM.cpp" />
-    <ClCompile Include="WVideo.cpp" />
+    <ClCompile Include="contrib.cpp" />
+    <ClCompile Include="features2d.cpp" />
+    <ClCompile Include="legacy.cpp" />
+    <ClCompile Include="video.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calib3d.h" />
@@ -257,12 +256,13 @@
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />
     <ClInclude Include="core_OutputArray.h" />
+    <ClInclude Include="core_Ptr.h" />
     <ClInclude Include="highgui.h" />
     <ClInclude Include="imgproc.h" />
     <ClInclude Include="include_opencv.h" />
     <ClInclude Include="objdetect.h" />
-    <ClInclude Include="WAlgorithm.h" />
-    <ClInclude Include="WFlann.h" />
+    <ClInclude Include="core_Algorithm.h" />
+    <ClInclude Include="flann.h" />
     <ClInclude Include="CvANN_MLP.h" />
     <ClInclude Include="CvBoost.h" />
     <ClInclude Include="CvDTree.h" />
@@ -277,14 +277,12 @@
     <ClInclude Include="CvTrainTestSplit.h" />
     <ClInclude Include="cvblob.h" />
     <ClInclude Include="CvBlobWrapper.h" />
-    <ClInclude Include="WNonfree.h" />
+    <ClInclude Include="nonfree.h" />
     <ClInclude Include="std_vector.h" />
-    <ClInclude Include="WCore.h" />
-    <ClInclude Include="WCvAdaptiveSkinDetector.h" />
-    <ClInclude Include="WCvaux.h" />
-    <ClInclude Include="WCvCamShiftTracker.h" />
-    <ClInclude Include="WStereoSGBM.h" />
-    <ClInclude Include="WVideo.h" />
+    <ClInclude Include="contrib.h" />
+    <ClInclude Include="features2d.h" />
+    <ClInclude Include="legacy.h" />
+    <ClInclude Include="video.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

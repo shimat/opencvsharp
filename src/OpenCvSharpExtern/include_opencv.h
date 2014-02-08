@@ -2,8 +2,13 @@
 #define _INCLUDE_OPENCV_H_
 
 #include <opencv2/opencv.hpp>
+#include <opencv2/legacy/legacy.hpp>
 typedef unsigned int uint32;
 typedef unsigned short uint16;
+
+#include <vector>
+#include <algorithm>
+#include <iterator>
 
 #if 0
 #ifdef _WIN32
@@ -30,6 +35,10 @@ static inline cv::InputArray entity(cv::_InputArray *obj)
 static inline cv::OutputArray entity(cv::_OutputArray *obj)
 {
 	return (obj != NULL) ? *obj : cv::noArray();
+}
+static inline cv::Mat entity(cv::Mat *obj)
+{
+	return (obj != NULL) ? *obj : cv::Mat();
 }
 
 #endif

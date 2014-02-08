@@ -87,6 +87,36 @@ CVAPI(void) core_insertImageCOI(cv::_InputArray *coiimg, CvArr* arr, int coi)
 }
 #pragma endregion
 
+#pragma region Array Operations
+
+CVAPI(void) cv_add(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, cv::_InputArray *mask, int dtype)
+{
+	cv::add(*src1, *src2, *dst, entity(mask), dtype);
+}
+CVAPI(void) cv_subtract(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, cv::_InputArray *mask, int dtype)
+{
+	cv::subtract(*src1, *src2, *dst, entity(mask), dtype);
+}
+CVAPI(void) cv_multiply(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, double scale, int dtype)
+{
+	cv::multiply(*src1, *src2, *dst, scale, dtype);
+}
+CVAPI(void) cv_divide1(double scale, cv::_InputArray *src2, cv::_OutputArray* dst, int dtype)
+{
+	cv::divide(scale, *src2, *dst, dtype);
+}
+CVAPI(void) cv_divide2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+{
+	cv::divide(*src1, *src2, *dst);
+}
+
+
+CVAPI(void) cv_convertScaleAbs(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta)
+{
+	cv::convertScaleAbs(*src, *dst, alpha, beta);
+}
+#pragma endregion
+
 #pragma region Drawing
 
 CVAPI(void) core_line(cv::Mat *img, CvPoint pt1, CvPoint pt2, CvScalar color,
@@ -161,5 +191,6 @@ CVAPI(int) core_clipLine2(CvRect imgRect, CvPoint *pt1, CvPoint *pt2)
 }
 
 #pragma endregion
+
 
 #endif
