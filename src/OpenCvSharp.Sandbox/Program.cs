@@ -35,7 +35,7 @@ namespace OpenCvSharp.Sandbox
                 mat.Col[100] = ~mat.Col[200] * 2 / 3;
 
                 Mat gray = new Mat();
-                Cv2.CvtColor(mat, gray, (int)ColorConversion.BgrToGray);
+                Cv2.CvtColor(mat, gray, ColorConversion.BgrToGray);
 
                 //mat.Row[100,200] = mat.Row[200,300] * 2;
 

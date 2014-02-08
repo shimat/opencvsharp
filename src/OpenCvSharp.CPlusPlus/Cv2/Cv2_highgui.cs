@@ -225,5 +225,24 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+        #region DestroyWindow
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="winName"></param>
+        public static void DestroyWindow(string winName)
+        {
+            if(String.IsNullOrEmpty("winName"))
+                throw new ArgumentNullException("winName");
+            CppInvoke.highgui_destroyWindow(winName);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void DestroyAllWindows()
+        {
+            CppInvoke.highgui_destroyAllWindows();
+        }
+        #endregion
     }
 }

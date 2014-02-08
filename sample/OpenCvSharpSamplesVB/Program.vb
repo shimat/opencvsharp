@@ -39,7 +39,7 @@ Imports OpenCvSharp.CPlusPlus
             Application.EnableVisualStyles()
             Application.SetCompatibleTextRenderingDefault(False)
 
-            'Affine.Start()                      ' 画像のアフィン変換  
+        'Affine.Start()                      ' 画像のアフィン変換  
 
             'BgSubtractorMOG.Start()               ' BackgroundSubtractorMOG
 
@@ -80,8 +80,6 @@ Imports OpenCvSharp.CPlusPlus
 
             ' CornerDetect.Start()                ' コーナーの検出
 
-            ' CppTest.Start()                     ' C++ interface sample
-
             ' new CvWindowExTest.Start()              ' Pure C# implementation of CvWindow
 
             ' Delaunay.Start()                    ' Planar Subdivisions
@@ -102,15 +100,11 @@ Imports OpenCvSharp.CPlusPlus
 
             ' FaceDetect.Start()                  ' 顔の検出
 
-            ' FAST.Start()                        ' cv::FAST
-
-            ' FileStorage.Start()                 ' データのファイルストレージへの書き込み・読み込み
+        ' FileStorage.Start()                 ' データのファイルストレージへの書き込み・読み込み
 
             ' Filter2D.Start()                    ' ユーザが定義したカーネルによるフィルタリング
 
             ' FindContours.Start()                ' 輪郭の検出と描画
-
-            ' FlannTest.Start()                   ' FLANN
 
             ' GammaCorrection.Start()             ' Gamma correction
 
@@ -120,8 +114,6 @@ Imports OpenCvSharp.CPlusPlus
             ' Histogram.Start()                   ' ヒストグラムの描画
 
             ' FitLine.Start()                     ' cvFitLine sample
-
-            ' HOG.Start()                         ' HOG sample (samples/c/peopledetect.c)
 
             ' HoughCircles.Start()                ' ハフ変換による円検出
 

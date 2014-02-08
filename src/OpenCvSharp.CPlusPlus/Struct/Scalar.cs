@@ -10,6 +10,7 @@ namespace OpenCvSharp.CPlusPlus
     [Serializable]
     public struct Scalar : ICloneable, IEquatable<Scalar>
     {
+        #region Field
         /// <summary>
         /// 
         /// </summary>
@@ -64,7 +65,9 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+        #endregion
 
+        #region Init
         /// <summary>
         /// 
         /// </summary>
@@ -108,8 +111,9 @@ namespace OpenCvSharp.CPlusPlus
             Val2 = v2;
             Val3 = v3;
         }
-        
+        #endregion
 
+        #region Cast
         /// <summary>
         /// 
         /// </summary>
@@ -128,6 +132,25 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Scalar(scalar.Val0, scalar.Val1, scalar.Val2, scalar.Val3);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static implicit operator CvColor(Scalar self)
+        {
+            return new CvScalar(self.Val2, self.Val1, self.Val0, 0);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static implicit operator Scalar(CvColor color)
+        {
+            return new Scalar(color.B, color.G, color.R, 0);
+        }
+        #endregion
 
         /// <summary>
         /// 

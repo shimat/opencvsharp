@@ -71,7 +71,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="code">The color space conversion code</param>
         /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
 #endif
-        public static void CvtColor(InputArray src, OutputArray dst, int code, int dstCn = 0)
+        public static void CvtColor(InputArray src, OutputArray dst, ColorConversion code, int dstCn = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -81,7 +81,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             try
             {
-                CppInvoke.imgproc_cvtColor(src.CvPtr, dst.CvPtr, code, dstCn);
+                CppInvoke.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
                 dst.Fix();
             }
             catch (BadImageFormatException ex)

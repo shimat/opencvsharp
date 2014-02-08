@@ -34,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Coordinate of the point
         /// </summary>
 #endif
-        public CvPoint2D32f Pt;
+        public Point2f Pt;
         /*{
             get { return _p.pt; }
             set { _p.pt = value; }

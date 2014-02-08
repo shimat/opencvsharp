@@ -36,5 +36,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void highgui_imencode([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr img, out IntPtr buf, [In] int[] @params, int paramsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int highgui_waitKey(int delay);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_destroyWindow([MarshalAs(UnmanagedType.LPStr)] string winName);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_destroyAllWindows();
     }
 }
