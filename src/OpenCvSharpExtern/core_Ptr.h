@@ -8,9 +8,14 @@
 
 #include "include_opencv.h"
 
-CVAPI(void) core_Ptr_FeatureDetector_delete(cv::Ptr<cv::FeatureDetector>* obj)
+CVAPI(cv::FeatureDetector*) core_Ptr_FeatureDetector_obj(cv::Ptr<cv::FeatureDetector>* ptr)
 {
-	delete obj;
+	return ptr->obj;
+}
+
+CVAPI(void) core_Ptr_FeatureDetector_delete(cv::Ptr<cv::FeatureDetector>* ptr)
+{
+	delete ptr;
 }
 
 #endif

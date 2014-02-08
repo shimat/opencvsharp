@@ -24,6 +24,7 @@ namespace OpenCvSharp.Utilities
     {
         private Array array;
         private GCHandle gch;
+        private bool disposed;
 
 #if LANG_JP
         /// <summary>
@@ -73,11 +74,15 @@ namespace OpenCvSharp.Utilities
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (gch.IsAllocated)
+            if (!disposed)
             {
-                gch.Free();
+                if (gch.IsAllocated)
+                {
+                    gch.Free();
+                }
+                disposed = true;
+                base.Dispose(disposing);
             }
-            base.Dispose();
         }
 
 #if LANG_JP
@@ -126,6 +131,7 @@ namespace OpenCvSharp.Utilities
 #endif
     public class ArrayAddress2<T> : DisposableObject
     {
+        private bool disposed;
         private T[][] array;
         private readonly GCHandle[] gch;
         private readonly IntPtr[] ptr;
@@ -174,12 +180,17 @@ namespace OpenCvSharp.Utilities
 #endif
         protected override void Dispose(bool disposing)
         {
-            foreach (GCHandle h in gch)
+            if (!disposed)
             {
-                if (h.IsAllocated)
+                foreach (GCHandle h in gch)
                 {
-                    h.Free();
+                    if (h.IsAllocated)
+                    {
+                        h.Free();
+                    }
                 }
+                disposed = true;
+                base.Dispose(disposing);
             }
         }
 

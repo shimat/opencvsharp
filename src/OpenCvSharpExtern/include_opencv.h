@@ -9,6 +9,8 @@ typedef unsigned short uint16;
 #include <vector>
 #include <algorithm>
 #include <iterator>
+#include <fstream>
+#include <iostream>
 
 #if 0
 #ifdef _WIN32
