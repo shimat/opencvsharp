@@ -45,4 +45,13 @@ CVAPI(int) highgui_waitKey(int delay)
 	return cv::waitKey(delay);
 }
 
+CVAPI(void) highgui_destroyWindow(const char *winName)
+{
+	cv::destroyWindow(winName);
+}
+CVAPI(void) highgui_destroyAllWindows()
+{
+	cv::destroyAllWindows();
+}
+
 #endif
