@@ -20,6 +20,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         public int Y;
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int SizeOf = sizeof(int) + sizeof(int);
 
         /// <summary>
         /// 

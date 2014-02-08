@@ -10,42 +10,36 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rect
+    public struct Size2f
     {
         /// <summary>
         /// 
         /// </summary>
-        public int X;
+        public float Width;
         /// <summary>
         /// 
         /// </summary>
-        public int Y;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Width;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Height;
-        /// <summary>
-        /// 
-        /// </summary>
-        public const int SizeOf = sizeof(int) * 4;
+        public float Height;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Rect(int x, int y, int width, int height)
+        public Size2f(float width, float height)
         {
-            X = x;
-            Y = y;
             Width = width;
             Height = height;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public Size2f(double width, double height)
+        {
+            Width = (int)width;
+            Height = (int)height;
         }
 
         /// <summary>
@@ -53,18 +47,18 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static implicit operator CvRect(Rect self)
+        public static implicit operator CvSize2D32f(Size2f self)
         {
-            return new CvRect(self.X, self.Y, self.Width, self.Height);
+            return new CvSize2D32f(self.Width, self.Height);
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="rect"></param>
+        /// <param name="size"></param>
         /// <returns></returns>
-        public static implicit operator Rect(CvRect rect)
+        public static implicit operator Size2f(CvSize2D32f size)
         {
-            return new Rect(rect.X, rect.Y, rect.Width, rect.Height);
+            return new Size2f(size.Width, size.Height);
         }
     }
 }

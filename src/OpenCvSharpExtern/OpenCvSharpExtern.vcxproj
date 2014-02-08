@@ -211,6 +211,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="calib3d.cpp" />
+    <ClCompile Include="core.cpp" />
     <ClCompile Include="core_InputArray.cpp" />
     <ClCompile Include="core_Mat.cpp" />
     <ClCompile Include="core_MatExpr.cpp" />
@@ -239,19 +241,18 @@
     <ClCompile Include="cvcontour.cpp" />
     <ClCompile Include="cvlabel.cpp" />
     <ClCompile Include="cvtrack.cpp" />
-    <ClCompile Include="WHighgui.cpp" />
     <ClCompile Include="WNonfree.cpp" />
     <ClCompile Include="std_vector.cpp" />
     <ClCompile Include="WCvAdaptiveSkinDetector.cpp" />
     <ClCompile Include="WCvaux.cpp" />
     <ClCompile Include="WCvCamShiftTracker.cpp" />
     <ClCompile Include="WCore.cpp" />
-    <ClCompile Include="WMat.cpp" />
-    <ClCompile Include="WCv.cpp" />
     <ClCompile Include="WStereoSGBM.cpp" />
     <ClCompile Include="WVideo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="calib3d.h" />
+    <ClInclude Include="core.h" />
     <ClInclude Include="core_InputArray.h" />
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />
@@ -276,15 +277,12 @@
     <ClInclude Include="CvTrainTestSplit.h" />
     <ClInclude Include="cvblob.h" />
     <ClInclude Include="CvBlobWrapper.h" />
-    <ClInclude Include="WHighgui.h" />
     <ClInclude Include="WNonfree.h" />
     <ClInclude Include="std_vector.h" />
     <ClInclude Include="WCore.h" />
-    <ClInclude Include="WMat.h" />
     <ClInclude Include="WCvAdaptiveSkinDetector.h" />
     <ClInclude Include="WCvaux.h" />
     <ClInclude Include="WCvCamShiftTracker.h" />
-    <ClInclude Include="WCv.h" />
     <ClInclude Include="WStereoSGBM.h" />
     <ClInclude Include="WVideo.h" />
   </ItemGroup>

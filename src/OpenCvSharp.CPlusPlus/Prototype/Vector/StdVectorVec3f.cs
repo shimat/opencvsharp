@@ -1,29 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus.Prototype
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Vec3fElem
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public float V1;
-        /// <summary>
-        /// 
-        /// </summary>
-        public float V2;
-        /// <summary>
-        /// 
-        /// </summary>
-        public float V3;
-    }
-
     /// <summary>
     /// 
     /// </summary>
@@ -56,11 +37,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorVec3f(Vec3fElem[] data)
+        public StdVectorVec3f(IEnumerable<Vec3f> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_Vec3f_new3(data, new IntPtr(data.Length));
+            Vec3f[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_Vec3f_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -112,9 +94,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Vec3fElem[] ToArray()
+        public Vec3f[] ToArray()
         {
-            return ToArray<Vec3fElem>();
+            return ToArray<Vec3f>();
         }
         /// <summary>
         /// Converts std::vector to managed array

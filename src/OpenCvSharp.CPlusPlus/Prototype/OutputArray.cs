@@ -22,15 +22,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             if(mat == null)
                 throw new ArgumentNullException("mat");
-            try
-            {
-                ptr = CppInvoke.core_OutputArray_new_byMat(mat.CvPtr);
-                obj = mat;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_OutputArray_new_byMat(mat.CvPtr);
+            obj = mat;
         }
 
         /// <summary>
@@ -105,7 +98,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <summary>
         /// 
         /// </summary>
-        internal void AssignResult()
+        public void AssignResult()
         {
             if(!IsReady())
                 throw new NotSupportedException();
@@ -131,7 +124,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <summary>
         /// 
         /// </summary>
-        internal void AssignResultAndDispose()
+        public void Fix()
         {
             AssignResult();
             Dispose();
@@ -141,7 +134,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        internal bool IsReady()
+        public bool IsReady()
         {
             return
                 ptr != IntPtr.Zero &&
@@ -153,7 +146,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <returns></returns>
-        internal void ThrowIfNotReady()
+        public void ThrowIfNotReady()
         {
             if(!IsReady())
                 throw new OpenCvSharpException("Invalid OutputArray");

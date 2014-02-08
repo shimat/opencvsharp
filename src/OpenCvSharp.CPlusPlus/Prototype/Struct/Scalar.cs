@@ -8,19 +8,90 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// 
     /// </summary>
     [Serializable]
-    public class Scalar : ICloneable, IEquatable<Scalar>
+    public struct Scalar : ICloneable, IEquatable<Scalar>
     {
         /// <summary>
         /// 
         /// </summary>
-        private double[] val;
+        public double Val0;
         /// <summary>
         /// 
         /// </summary>
-        public double[] Val
+        public double Val1;
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Val2;
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Val3;
+        /// <summary>
+        /// 
+        /// </summary>
+        public double this[int i]
         {
-            get { return val; }
-            protected set { val = value; }
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return Val0;
+                    case 1:
+                        return Val0;
+                    case 2:
+                        return Val0;
+                    case 3:
+                        return Val0;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0:
+                        Val0 = value; break;
+                    case 1:
+                        Val1 = value; break;
+                    case 2:
+                        Val2 = value; break;
+                    case 3:
+                        Val3 = value; break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v0"></param>
+        public Scalar(double v0)
+            : this(v0, 0, 0, 0)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v0"></param>
+        /// <param name="v1"></param>
+        public Scalar(double v0, double v1)
+            : this(v0, v1, 0, 0)
+        {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v0"></param>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        public Scalar(double v0, double v1, double v2)
+            : this(v0, v1, v2, 0)
+        {
         }
 
         /// <summary>
@@ -32,56 +103,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <param name="v3"></param>
         public Scalar(double v0, double v1, double v2, double v3)
         {
-            val = new double[] {v0, v1, v2, v3};
+            Val0 = v0;
+            Val1 = v1;
+            Val2 = v2;
+            Val3 = v3;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v0"></param>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        public Scalar(double v0, double v1, double v2)
-        {
-            val = new double[] {v0, v1, v2, 0};
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v0"></param>
-        /// <param name="v1"></param>
-        public Scalar(double v0, double v1)
-        {
-            val = new double[] {v0, v1, 0, 0};
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v0"></param>
-        public Scalar(double v0)
-        {
-            val = new double[] {v0, 0, 0, 0};
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Scalar()
-        {
-            val = new double[] { 0, 0, 0, 0 };
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vals"></param>
-        public Scalar(double[] vals)
-        {
-            if (vals != null && vals.Length == 4)
-                val = (double[]) vals.Clone();
-            else
-            {
-                val = new double[4];
-                Set(vals);
-            }
-        }
+        
 
         /// <summary>
         /// 
@@ -90,7 +117,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public static implicit operator CvScalar(Scalar self)
         {
-            return new CvScalar(self.val[0], self.val[1], self.val[2], self.val[3]);
+            return new CvScalar(self.Val0, self.Val1, self.Val2, self.Val3);
         }
         /// <summary>
         /// 
@@ -100,44 +127,6 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         public static implicit operator Scalar(CvScalar scalar)
         {
             return new Scalar(scalar.Val0, scalar.Val1, scalar.Val2, scalar.Val3);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public double this[int index]
-        {
-            get
-            {
-                if (index < 0 || index >= val.Length)
-                    throw new ArgumentOutOfRangeException("index");
-                return val[index];
-            }
-            set
-            {
-                if (index < 0 || index >= val.Length)
-                    throw new ArgumentOutOfRangeException("index");
-                val[index] = value;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vals"></param>
-        public void Set(double[] vals)
-        {
-            if (vals != null)
-            {
-                val[0] = vals.Length > 0 ? vals[0] : 0;
-                val[1] = vals.Length > 1 ? vals[1] : 0;
-                val[2] = vals.Length > 2 ? vals[2] : 0;
-                val[3] = vals.Length > 3 ? vals[3] : 0;
-            }
-            else
-                val[0] = val[1] = val[2] = val[3] = 0;
         }
 
         /// <summary>
@@ -155,7 +144,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Scalar Clone()
         {
-            return new Scalar(val);
+            return new Scalar(Val0, Val1, Val2, Val3);
         }
 
         object ICloneable.Clone()
@@ -171,8 +160,8 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Scalar Mul(Scalar it, double scale)
         {
-            return new Scalar(val[0] * it.val[0] * scale, val[1] * it.val[1] * scale,
-                              val[2] * it.val[2] * scale, val[3] * it.val[3] * scale);
+            return new Scalar(Val0 * it.Val0 * scale, Val1 * it.Val1 * scale,
+                              Val2 * it.Val2 * scale, Val3 * it.Val3 * scale);
         }
         /// <summary>
         /// 
@@ -190,7 +179,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public Scalar Conj()
         {
-            return new Scalar(val[0], -val[1], -val[2], -val[3]);
+            return new Scalar(Val0, -Val1, -Val2, -Val3);
         }
 
         /// <summary>
@@ -199,10 +188,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public bool IsReal()
         {
-            return
-                Math.Abs(val[1] - 0) <= Double.Epsilon &&
-                Math.Abs(val[2] - 0) <= Double.Epsilon &&
-                Math.Abs(val[3] - 0) <= Double.Epsilon;
+            return Val1 == 0 && Val2 == 0 && Val3 == 0;
         }
 
         /// <summary>
@@ -211,11 +197,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public override int GetHashCode()
         {
-            int result = 0;
-            foreach (double v in val)
-            {
-                result = result ^ v.GetHashCode();
-            }
+            int result = Val0.GetHashCode() ^ Val1.GetHashCode() ^ Val2.GetHashCode() ^ Val3.GetHashCode();
             return result;
         }
         /// <summary>
@@ -225,20 +207,31 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public bool Equals(Scalar other)
         {
-            if (other == null)
-                return false;
-            if (val == null)
-                return (other.val == null);
-            if (other.val == null)
-                return (val == null);
-            if (val.Length != other.val.Length)
-                return false;
-            for (int i = 0; i < val.Length; i++)
-            {
-                if (Math.Abs(val[i] - other.val[i]) > Double.Epsilon)
-                    return false;
-            }
-            return true;
+            return Val0 == other.Val0 &&
+                   Val1 == other.Val1 &&
+                   Val2 == other.Val2 &&
+                   Val3 == other.Val3;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        public static bool operator ==(Scalar s1, Scalar s2)
+        {
+            return s1.Equals(s2);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        public static bool operator !=(Scalar s1, Scalar s2)
+        {
+            return !s1.Equals(s2);
         }
 
         /// <summary>
@@ -247,7 +240,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[{0}, {1}, {2}, {3}]", val[0], val[1], val[2], val[3]);
+            return String.Format("[{0}, {1}, {2}, {3}]", Val0, Val1, Val2, Val3);
         }
 
     }

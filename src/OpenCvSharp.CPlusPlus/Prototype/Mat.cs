@@ -225,11 +225,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             if (m == null)
                 throw new ArgumentNullException("m");
+            m.ThrowIfDisposed();
             ptr = CppInvoke.core_Mat_new_FromCvMat(m.CvPtr, copyData ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
-            if (copyData == false)
-                IsEnabledDispose = false;
         }
 
         /// <summary>
@@ -241,11 +240,10 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         {
             if (img == null)
                 throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
             ptr = CppInvoke.core_Mat_new_FromIplImage(img.CvPtr, copyData ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
-            if (copyData == false)
-                IsEnabledDispose = false;
         }  
 
 #if LANG_JP
@@ -2833,6 +2831,291 @@ namespace OpenCvSharp.CPlusPlus.Prototype
             }
         }
 
+        #endregion
+
+        #endregion
+
+        #region Cv2 Methods
+
+        #region Line
+#if LANG_JP
+        /// <summary>
+        /// 2点を結ぶ線分を画像上に描画する．
+        /// </summary>
+        /// <param name="pt1X">線分の1番目の端点x</param>
+        /// <param name="pt1Y">線分の1番目の端点y</param>
+        /// <param name="pt2X">線分の2番目の端点x</param>
+        /// <param name="pt2Y">線分の2番目の端点y</param>
+        /// <param name="color">線分の色</param>
+        /// <param name="thickness">線分の太さ. [既定値は1]</param>
+        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a line segment connecting two points
+        /// </summary>
+        /// <param name="pt1X">First point's x-coordinate of the line segment. </param>
+        /// <param name="pt1Y">First point's y-coordinate of the line segment. </param>
+        /// <param name="pt2X">Second point's x-coordinate of the line segment. </param>
+        /// <param name="pt2Y">Second point's y-coordinate of the line segment. </param>
+        /// <param name="color">Line color. </param>
+        /// <param name="thickness">Line thickness. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public void Line(int pt1X, int pt1Y, int pt2X, int pt2Y, CvScalar color,
+            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.Line(this, pt1X, pt1Y, pt2X, pt2Y, color, thickness, lineType, shift);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 2点を結ぶ線分を画像上に描画する．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">線分の1番目の端点</param>
+        /// <param name="pt2">線分の2番目の端点</param>
+        /// <param name="color">線分の色</param>
+        /// <param name="thickness">線分の太さ. [既定値は1]</param>
+        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a line segment connecting two points
+        /// </summary>
+        /// <param name="img">The image. </param>
+        /// <param name="pt1">First point of the line segment. </param>
+        /// <param name="pt2">Second point of the line segment. </param>
+        /// <param name="color">Line color. </param>
+        /// <param name="thickness">Line thickness. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public void Line(Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.Line(this, pt1, pt2, color, thickness, lineType, shift);
+        }
+        #endregion
+        #region Rectangle
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="pt1">矩形の一つの頂点</param>
+        /// <param name="pt2">矩形の反対側の頂点</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="pt1">One of the rectangle vertices. </param>
+        /// <param name="pt2">Opposite rectangle vertex. </param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public void Rectangle(Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.Rectangle(this, pt1, pt2, color, thickness, lineType, shift);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="rect">矩形</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public void Rectangle(Rect rect, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.Rectangle(this, rect, color, thickness, lineType, shift);
+        }
+        #endregion
+        #region Circle
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
+        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
+#endif
+        public void Circle(int centerX, int centerY, int radius, Scalar color,
+            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.Circle(this, centerX, centerY, radius, color, thickness, lineType, shift);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="center">円の中心</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="center">Center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
+        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
+#endif
+        public void Circle(Point center, int radius, Scalar color,
+            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.Circle(this, center, radius, color, thickness, lineType, shift);
+        }
+        #endregion
+        #region Ellipse
+#if LANG_JP
+        /// <summary>
+        /// 枠だけの楕円，楕円弧，もしくは塗りつぶされた扇形の楕円を描画する
+        /// </summary>
+        /// <param name="center">楕円の中心</param>
+        /// <param name="axes">楕円の軸の長さ</param>
+        /// <param name="angle">回転角度</param>
+        /// <param name="startAngle">楕円弧の開始角度</param>
+        /// <param name="endAngle">楕円弧の終了角度</param>
+        /// <param name="color">楕円の色</param>
+        /// <param name="thickness">楕円弧の線の幅 [既定値は1]</param>
+        /// <param name="lineType">楕円弧の線の種類 [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と軸の長さの小数点以下の桁を表すビット数 [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple or thick elliptic arc or fills ellipse sector
+        /// </summary>
+        /// <param name="center">Center of the ellipse. </param>
+        /// <param name="axes">Length of the ellipse axes. </param>
+        /// <param name="angle">Rotation angle. </param>
+        /// <param name="startAngle">Starting angle of the elliptic arc. </param>
+        /// <param name="endAngle">Ending angle of the elliptic arc. </param>
+        /// <param name="color">Ellipse color. </param>
+        /// <param name="thickness">Thickness of the ellipse arc. [By default this is 1]</param>
+        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
+#endif
+        public void Ellipse(Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
+            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.Ellipse(this, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠だけの楕円，もしくは塗りつぶされた楕円を描画する
+        /// </summary>
+        /// <param name="img">楕円が描かれる画像．</param>
+        /// <param name="box">描画したい楕円を囲む矩形領域．</param>
+        /// <param name="color">楕円の色．</param>
+        /// <param name="thickness">楕円境界線の幅．[既定値は1]</param>
+        /// <param name="lineType">楕円境界線の種類．[既定値はLineType.Link8]</param>
+        /// <param name="shift">矩形領域の頂点座標の小数点以下の桁を表すビット数．[既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple or thick elliptic arc or fills ellipse sector
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="box">The enclosing box of the ellipse drawn </param>
+        /// <param name="color">Ellipse color. </param>
+        /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
+        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
+#endif
+        public void Ellipse(RotatedRect box, Scalar color,
+            int thickness = 1, LineType lineType = LineType.Link8)
+        {
+            Cv2.Ellipse(this, box, color, thickness, lineType);
+        }
+        #endregion
+        #region FillConvexPoly
+#if LANG_JP
+        /// <summary>
+        /// 塗りつぶされた凸ポリゴンを描きます．
+        /// </summary>
+        /// <param name="pts">ポリゴンの頂点．</param>
+        /// <param name="color">ポリゴンの色．</param>
+        /// <param name="lineType">ポリゴンの枠線の種類，</param>
+        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
+#else
+        /// <summary>
+        /// Fills a convex polygon.
+        /// </summary>
+        /// <param name="pts">The polygon vertices</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+#endif
+        public void FillConvexPoly(IEnumerable<Point> pts, Scalar color,
+            LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.FillConvexPoly(this, pts, color, lineType, shift);
+        }
+        #endregion
+        #region FillPoly
+#if LANG_JP
+        /// <summary>
+        /// 1つ，または複数のポリゴンで区切られた領域を塗りつぶします．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pts">ポリゴンの配列．各要素は，点の配列で表現されます．</param>
+        /// <param name="color">ポリゴンの色．</param>
+        /// <param name="lineType">ポリゴンの枠線の種類，</param>
+        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
+        /// <param name="offset"></param>
+#else
+        /// <summary>
+        /// Fills the area bounded by one or more polygons
+        /// </summary>
+        /// <param name="img">Image</param>
+        /// <param name="pts">Array of polygons, each represented as an array of points</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+        /// <param name="offset"></param>
+#endif
+        public void FillPoly(IEnumerable<IEnumerable<Point>> pts, Scalar color,
+            LineType lineType = LineType.Link8, int shift = 0, Point? offset = null)
+        {
+            Cv2.FillPoly(this, pts, color, lineType, shift, offset);
+        }
         #endregion
 
         #endregion

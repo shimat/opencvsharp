@@ -23,4 +23,13 @@ int p(T obj)
 #endif
 #endif
 
+static inline cv::InputArray entity(cv::_InputArray *obj)
+{
+	return (obj != NULL) ? *obj : cv::noArray();
+}
+static inline cv::OutputArray entity(cv::_OutputArray *obj)
+{
+	return (obj != NULL) ? *obj : cv::noArray();
+}
+
 #endif

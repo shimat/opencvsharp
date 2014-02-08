@@ -57,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             try
             {
-                SizeOf = CppInvoke.MatND_sizeof();
+                SizeOf = __CppInvoke.MatND_sizeof();
             }
             catch (DllNotFoundException e)
             {
@@ -86,7 +86,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public MatND()
         {
-            ptr = CppInvoke.MatND_new1();
+            ptr = __CppInvoke.MatND_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -134,7 +134,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.MatND_delete(ptr);
+                        __CppInvoke.MatND_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -319,7 +319,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("MatND");
-                return CppInvoke.MatND_flags_get(ptr);
+                return __CppInvoke.MatND_flags_get(ptr);
             }
         }
         /// <summary>
@@ -331,7 +331,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("MatND");
-                return CppInvoke.MatND_dims_get(ptr); 
+                return __CppInvoke.MatND_dims_get(ptr); 
             }
         }
         /// <summary>
@@ -343,7 +343,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("MatND");
-                return CppInvoke.MatND_data_get(ptr);
+                return __CppInvoke.MatND_data_get(ptr);
             }
         }
         /// <summary>
@@ -356,7 +356,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("MatND");
-                return CppInvoke.MatND_refcount_get(ptr);
+                return __CppInvoke.MatND_refcount_get(ptr);
             }
         }
         /// <summary>
@@ -368,7 +368,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("MatND");
-                return CppInvoke.MatND_datastart_get(ptr);
+                return __CppInvoke.MatND_datastart_get(ptr);
             }
         }
         /// <summary>
@@ -380,7 +380,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("MatND");
-                return CppInvoke.MatND_dataend_get(ptr);
+                return __CppInvoke.MatND_dataend_get(ptr);
             }
         }
         /// <summary>
@@ -392,7 +392,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("MatND");
-                IntPtr p = CppInvoke.MatND_size_get(ptr);
+                IntPtr p = __CppInvoke.MatND_size_get(ptr);
                 int[] result = new int[CvConst.CV_MAX_DIM];
                 Marshal.Copy(p, result, 0, result.Length);
                 return result;
@@ -407,7 +407,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("MatND");
-                IntPtr p = CppInvoke.MatND_size_get(ptr);
+                IntPtr p = __CppInvoke.MatND_size_get(ptr);
                 int[] result = new int[CvConst.CV_MAX_DIM];
                 Marshal.Copy(p, result, 0, result.Length);
                 return result;
@@ -475,7 +475,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 MatND result = new MatND();
-                CppInvoke.MatND_opRange(ptr, ranges, result.CvPtr);
+                __CppInvoke.MatND_opRange(ptr, ranges, result.CvPtr);
                 return result;
             }
         }
@@ -494,7 +494,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("MatND");
             MatND outValue = new MatND();
-            CppInvoke.Mat_clone(ptr, outValue.CvPtr);
+            __CppInvoke.Mat_clone(ptr, outValue.CvPtr);
             return outValue;
         }
         object ICloneable.Clone()
@@ -512,7 +512,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("MatND");
             if (m == null)
                 throw new ArgumentNullException("m");
-            CppInvoke.MatND_copyTo1(ptr, m.CvPtr);
+            __CppInvoke.MatND_copyTo1(ptr, m.CvPtr);
         }
         /// <summary>
         /// copies those matrix elements to "m" that are marked with non-zero mask elements.
@@ -527,7 +527,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("m");
             if (mask == null)
                 throw new ArgumentNullException("mask");
-            CppInvoke.MatND_copyTo2(ptr, m.CvPtr, mask.CvPtr);
+            __CppInvoke.MatND_copyTo2(ptr, m.CvPtr, mask.CvPtr);
         }
 
         /// <summary>
@@ -543,7 +543,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("MatND");
-            CppInvoke.MatND_convertTo(ptr, dst.CvPtr, rtype, alpha, beta);
+            __CppInvoke.MatND_convertTo(ptr, dst.CvPtr, rtype, alpha, beta);
         }
 
         /// <summary>
@@ -559,7 +559,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("MatND");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             MatND dst = new MatND();
-            CppInvoke.MatND_setTo(ptr, s, maskPtr, dst.CvPtr);
+            __CppInvoke.MatND_setTo(ptr, s, maskPtr, dst.CvPtr);
             return dst;
         }
 
@@ -575,7 +575,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("MatND");
             MatND dst = new MatND();
-            CppInvoke.MatND_reshape(ptr, newcn, newndims, newsz, dst.CvPtr);
+            __CppInvoke.MatND_reshape(ptr, newcn, newndims, newsz, dst.CvPtr);
             return dst;
         }
 
@@ -589,7 +589,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("MatND");
             Mat mat = new Mat();
             mat.IsEnabledDispose = false;
-            CppInvoke.MatND_opMat(ptr, mat.CvPtr);
+            __CppInvoke.MatND_opMat(ptr, mat.CvPtr);
             return mat;
         }
         /// <summary>
@@ -602,7 +602,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("MatND");
             CvMatND mat = new CvMatND();
             mat.IsEnabledDispose = false;
-            CppInvoke.MatND_opCvMatND(ptr, mat.CvPtr);
+            __CppInvoke.MatND_opCvMatND(ptr, mat.CvPtr);
             return mat;
         }
 
@@ -625,7 +625,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("MatND");
-            return CppInvoke.MatND_ptr1(ptr, i0);
+            return __CppInvoke.MatND_ptr1(ptr, i0);
         }
         /// <summary>
         /// return pointer to the element 
@@ -637,7 +637,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("MatND");
-            return CppInvoke.MatND_ptr2(ptr, i0, i1);
+            return __CppInvoke.MatND_ptr2(ptr, i0, i1);
         }
         /// <summary>
         /// return pointer to the element 
@@ -650,7 +650,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("MatND");
-            return CppInvoke.MatND_ptr3(ptr, i0, i1, i2);
+            return __CppInvoke.MatND_ptr3(ptr, i0, i1, i2);
         }
         /// <summary>
         /// return pointer to the element 
@@ -661,7 +661,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("MatND");
-            return CppInvoke.MatND_ptr4(ptr, idx);
+            return __CppInvoke.MatND_ptr4(ptr, idx);
         } 
         #endregion
         #endregion

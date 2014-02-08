@@ -35,7 +35,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             try
             {
-                SizeOf = CppInvoke.BackgroundSubtractor_sizeof();
+                SizeOf = __CppInvoke.BackgroundSubtractor_sizeof();
             }
             catch (DllNotFoundException e)
             {
@@ -69,7 +69,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (backgroundImage == null)
                 throw new ArgumentNullException("backgroundImage");
-            CppInvoke.BackgroundSubtractor_getBackgroundImage(ptr, backgroundImage.CvPtr);
+            __CppInvoke.BackgroundSubtractor_getBackgroundImage(ptr, backgroundImage.CvPtr);
         }
     }
 
@@ -94,7 +94,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             try
             {
-                SizeOf = CppInvoke.BackgroundSubtractorMOG_sizeof();
+                SizeOf = __CppInvoke.BackgroundSubtractorMOG_sizeof();
             }
             catch (DllNotFoundException e)
             {
@@ -116,7 +116,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public BackgroundSubtractorMOG()
         {
-            ptr = CppInvoke.BackgroundSubtractorMOG_new1();
+            ptr = __CppInvoke.BackgroundSubtractorMOG_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -129,7 +129,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="noiseSigma"></param>
         public BackgroundSubtractorMOG(int history, int nmixtures, double backgroundRatio, double noiseSigma=0)
         {
-            ptr = CppInvoke.BackgroundSubtractorMOG_new2(history, nmixtures, backgroundRatio, noiseSigma);
+            ptr = __CppInvoke.BackgroundSubtractorMOG_new2(history, nmixtures, backgroundRatio, noiseSigma);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -177,7 +177,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.BackgroundSubtractorMOG_delete(ptr);
+                        __CppInvoke.BackgroundSubtractorMOG_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -202,7 +202,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             if (fgmask == null)
                 throw new ArgumentNullException("fgmask");
-            CppInvoke.BackgroundSubtractorMOG_operator(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
+            __CppInvoke.BackgroundSubtractorMOG_operator(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
         }
     
         /// <summary>
@@ -212,7 +212,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frameType"></param>
         public virtual void Initialize(CvSize frameSize, int frameType)
         {
-            CppInvoke.BackgroundSubtractorMOG_initialize(ptr, frameSize, frameType);
+            __CppInvoke.BackgroundSubtractorMOG_initialize(ptr, frameSize, frameType);
         }
         
         #region Properties
@@ -410,7 +410,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             try
             {
-                SizeOf = CppInvoke.BackgroundSubtractorMOG2_sizeof();
+                SizeOf = __CppInvoke.BackgroundSubtractorMOG2_sizeof();
             }
             catch (DllNotFoundException e)
             {
@@ -432,7 +432,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public BackgroundSubtractorMOG2()
         {
-            ptr = CppInvoke.BackgroundSubtractorMOG2_new1();
+            ptr = __CppInvoke.BackgroundSubtractorMOG2_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -444,7 +444,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="bShadowDetection"></param>
         public BackgroundSubtractorMOG2(int history, float varThreshold, bool bShadowDetection = true)
         {
-            ptr = CppInvoke.BackgroundSubtractorMOG2_new2(history, varThreshold, bShadowDetection ? 1 : 0);
+            ptr = __CppInvoke.BackgroundSubtractorMOG2_new2(history, varThreshold, bShadowDetection ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -492,7 +492,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.BackgroundSubtractorMOG2_delete(ptr);
+                        __CppInvoke.BackgroundSubtractorMOG2_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -517,7 +517,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             if (fgmask == null)
                 throw new ArgumentNullException("fgmask");
-            CppInvoke.BackgroundSubtractorMOG2_operator(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
+            __CppInvoke.BackgroundSubtractorMOG2_operator(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
         }
 
         /// <summary>
@@ -528,7 +528,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (backgroundImage == null)
                 throw new ArgumentNullException("backgroundImage");
-            CppInvoke.BackgroundSubtractorMOG2_getBackgroundImage(ptr, backgroundImage.CvPtr);
+            __CppInvoke.BackgroundSubtractorMOG2_getBackgroundImage(ptr, backgroundImage.CvPtr);
         }
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frameType"></param>
         public virtual void Initialize(CvSize frameSize, int frameType)
         {
-            CppInvoke.BackgroundSubtractorMOG2_initialize(ptr, frameSize, frameType);
+            __CppInvoke.BackgroundSubtractorMOG2_initialize(ptr, frameSize, frameType);
         }
 
         #region Properties

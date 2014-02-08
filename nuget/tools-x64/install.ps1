@@ -39,6 +39,7 @@ $copyFiles = @(
     "opencv_ml248.dll";
     "opencv_nonfree248.dll";
     "opencv_objdetect248.dll";
+    "opencv_ocl248.dll";
     "opencv_photo248.dll";
     "opencv_stitching248.dll";
     "opencv_superres248.dll";

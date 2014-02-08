@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
@@ -36,11 +37,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorKeyPoint(KeyPoint[] data)
+        public StdVectorKeyPoint(IEnumerable<KeyPoint> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_KeyPoint_new3(data, new IntPtr(data.Length));
+            KeyPoint[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_KeyPoint_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>

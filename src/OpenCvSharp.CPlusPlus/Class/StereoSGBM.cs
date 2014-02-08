@@ -41,7 +41,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             try
             {
-                SizeOf = CppInvoke.StereoSGBM_sizeof();
+                SizeOf = __CppInvoke.StereoSGBM_sizeof();
             }
             catch (DllNotFoundException e)
             {
@@ -71,7 +71,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public StereoSGBM()
         {
-            ptr = CppInvoke.StereoSGBM_new1();
+            ptr = __CppInvoke.StereoSGBM_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -110,7 +110,7 @@ namespace OpenCvSharp.CPlusPlus
         public StereoSGBM(int minDisparity, int numDisparities,
             int SADWindowSize, int P1, int P2, int disp12MaxDiff, int preFilterCap, int uniquenessRatio, int speckleWindowSize, int speckleRange, bool fullDP)
         {
-            ptr = CppInvoke.StereoSGBM_new2(minDisparity, numDisparities, SADWindowSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, fullDP);
+            ptr = __CppInvoke.StereoSGBM_new2(minDisparity, numDisparities, SADWindowSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, fullDP);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -158,7 +158,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.StereoSGBM_delete(ptr);
+                        __CppInvoke.StereoSGBM_delete(ptr);
                     }
                     this.disposed = true;
                 }
@@ -188,7 +188,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_minDisparity_get(ptr);
+                return __CppInvoke.StereoSGBM_minDisparity_get(ptr);
             }
             set
             {
@@ -196,7 +196,7 @@ namespace OpenCvSharp.CPlusPlus
                     throw new ObjectDisposedException("StereoSGBM");
                 unsafe
                 {
-                    CppInvoke.StereoSGBM_minDisparity_set(ptr, value);
+                    __CppInvoke.StereoSGBM_minDisparity_set(ptr, value);
                 }
             }
         }
@@ -215,13 +215,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_numberOfDisparities_get(ptr);
+                return __CppInvoke.StereoSGBM_numberOfDisparities_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_numberOfDisparities_set(ptr, value);
+                __CppInvoke.StereoSGBM_numberOfDisparities_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -240,13 +240,13 @@ namespace OpenCvSharp.CPlusPlus
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
 
-                    return CppInvoke.StereoSGBM_SADWindowSize_get(ptr);
+                    return __CppInvoke.StereoSGBM_SADWindowSize_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_SADWindowSize_set(ptr, value);
+                __CppInvoke.StereoSGBM_SADWindowSize_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -264,13 +264,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_preFilterCap_get(ptr);
+                return __CppInvoke.StereoSGBM_preFilterCap_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_preFilterCap_set(ptr, value);
+                __CppInvoke.StereoSGBM_preFilterCap_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -288,13 +288,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_uniquenessRatio_get(ptr);
+                return __CppInvoke.StereoSGBM_uniquenessRatio_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_uniquenessRatio_set(ptr, value);
+                __CppInvoke.StereoSGBM_uniquenessRatio_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -312,13 +312,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_P1_get(ptr);
+                return __CppInvoke.StereoSGBM_P1_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_P1_set(ptr, value);
+                __CppInvoke.StereoSGBM_P1_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -336,13 +336,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_P2_get(ptr);
+                return __CppInvoke.StereoSGBM_P2_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_P2_set(ptr, value);
+                __CppInvoke.StereoSGBM_P2_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -360,13 +360,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_speckleWindowSize_get(ptr);
+                return __CppInvoke.StereoSGBM_speckleWindowSize_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_speckleWindowSize_set(ptr, value);
+                __CppInvoke.StereoSGBM_speckleWindowSize_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -384,13 +384,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_speckleRange_get(ptr);
+                return __CppInvoke.StereoSGBM_speckleRange_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_speckleRange_set(ptr, value);
+                __CppInvoke.StereoSGBM_speckleRange_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -408,13 +408,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_disp12MaxDiff_get(ptr);
+                return __CppInvoke.StereoSGBM_disp12MaxDiff_get(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_disp12MaxDiff_set(ptr, value);
+                __CppInvoke.StereoSGBM_disp12MaxDiff_set(ptr, value);
             }
         }
 #if LANG_JP
@@ -432,13 +432,13 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                return CppInvoke.StereoSGBM_fullDP_get(ptr) != 0;
+                return __CppInvoke.StereoSGBM_fullDP_get(ptr) != 0;
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException("StereoSGBM");
-                CppInvoke.StereoSGBM_fullDP_set(ptr, value ? 1 : 0);
+                __CppInvoke.StereoSGBM_fullDP_set(ptr, value ? 1 : 0);
             }
         }
         #endregion
@@ -470,7 +470,7 @@ namespace OpenCvSharp.CPlusPlus
             if(disp == null)
                 throw new ArgumentNullException("disp");
 
-            CppInvoke.StereoSGBM_exec(ptr, left.CvPtr, right.CvPtr, disp.CvPtr);
+            __CppInvoke.StereoSGBM_exec(ptr, left.CvPtr, right.CvPtr, disp.CvPtr);
         }
         #endregion
     }

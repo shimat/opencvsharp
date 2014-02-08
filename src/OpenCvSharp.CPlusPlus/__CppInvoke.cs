@@ -22,7 +22,7 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     [SuppressUnmanagedCodeSecurity]
     [Obsolete]
-    public static class CppInvoke
+    public static class __CppInvoke
     {
         /// <summary>
         /// DLL file name
@@ -34,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Static constructor
         /// </summary>
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        static CppInvoke()
+        static __CppInvoke()
         {
             // call cv to enable redirecting
             TryPInvoke();
@@ -79,40 +79,6 @@ namespace OpenCvSharp.CPlusPlus
 
         #region DllImport
         #region cv
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_Canny(IntPtr image, IntPtr edges, double threshold1, double threshold2, [MarshalAs(UnmanagedType.I4)] ApertureSize apertureSize, [MarshalAs(UnmanagedType.Bool)] bool L2gradient);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2, [MarshalAs(UnmanagedType.I4)]  MatrixType dstmap1type, [MarshalAs(UnmanagedType.Bool)] bool nninterpolation);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cornerEigenValsAndVecs(IntPtr src, IntPtr dst, int blockSize, int ksize, [MarshalAs(UnmanagedType.I4)] BorderType borderType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cornerHarris(IntPtr src, IntPtr dst, int blockSize, int ksize, double k, [MarshalAs(UnmanagedType.I4)] BorderType borderType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cornerSubPix(IntPtr image, IntPtr corners, CvSize winSize, CvSize zeroZone, CvTermCriteria criteria);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cvtColor(IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.I4)] ColorConversion code, int dstCn);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_erode(IntPtr src, IntPtr dst, IntPtr kernel, CvPoint anchor, int iterations, [MarshalAs(UnmanagedType.I4)] BorderType borderType, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_dilate(IntPtr src, IntPtr dst, IntPtr kernel, CvPoint anchor, int iterations, [MarshalAs(UnmanagedType.I4)] BorderType borderType, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_HoughCircles(IntPtr image, IntPtr circles, [MarshalAs(UnmanagedType.I4)] HoughCirclesMethod method, double dp, double minDist, double param1, double param2, int minRadius, int maxRadius);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_HoughLines(IntPtr image, IntPtr lines, double rho, double theta, int threshold, double srn, double stn);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_HoughLinesP(IntPtr image, IntPtr lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_morphologyEx(IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.I4)] MorphologyOperation op, IntPtr kernel, CvPoint anchor, int iterations, [MarshalAs(UnmanagedType.I4)] BorderType borderType, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_preCornerDetect(IntPtr src, IntPtr dst, int ksize, [MarshalAs(UnmanagedType.I4)] BorderType borderType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_remap(IntPtr src, IntPtr dst, IntPtr map1, IntPtr map2, [MarshalAs(UnmanagedType.I4)] Interpolation interpolation, [MarshalAs(UnmanagedType.I4)] BorderType borderMode, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_resize(IntPtr src, IntPtr dst, CvSize dsize, double fx, double fy, [MarshalAs(UnmanagedType.I4)] Interpolation interpolation);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_warpAffine(IntPtr src, IntPtr dst, IntPtr M, CvSize dsize, [MarshalAs(UnmanagedType.I4)] Interpolation flags, [MarshalAs(UnmanagedType.I4)] BorderType borderMode, CvScalar borderValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_warpPerspective(IntPtr src, IntPtr dst, IntPtr M, CvSize dsize, [MarshalAs(UnmanagedType.I4)] Interpolation flags, [MarshalAs(UnmanagedType.I4)]  BorderType borderMode, CvScalar borderValue);
 
         #region StereoSGBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -409,62 +375,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cv_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
         #endregion
-        #region Miscellaneous
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_setNumThreads(int nthreads);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cv_getNumThreads();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cv_getThreadNum();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.LPStr)]
-        public static extern string cv_getBuildInformation();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern Int64 cv_getTickCount();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double cv_getTickFrequency();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern Int64 cv_getCPUTickCount();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool cv_checkHardwareSupport([MarshalAs(UnmanagedType.I4)] HardwareSupport feature);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cv_getNumberOfCPUs();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cv_fastMalloc(IntPtr bufSize);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_fastFree(IntPtr ptr);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_cvarrToMat(IntPtr arr, [MarshalAs(UnmanagedType.Bool)] bool copyData, [MarshalAs(UnmanagedType.Bool)] bool allowND, int coiMode, IntPtr outValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_extractImageCOI(IntPtr arr, IntPtr coiimg, int coi);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_insertImageCOI(IntPtr coiimg, IntPtr arr, int coi);
-        #endregion
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_solvePnP(IntPtr objectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, bool useExtrinsicGuess);
 
         #endregion
-        #region highgui
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_namedWindow([MarshalAs(UnmanagedType.LPStr)] string winname, [MarshalAs(UnmanagedType.I4)] WindowMode flags);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_imshow([MarshalAs(UnmanagedType.LPStr)] string winname, IntPtr mat);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_imread(string filename, [MarshalAs(UnmanagedType.I4)] LoadMode flags, IntPtr outValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool cv_imwrite([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr img, [In] int[] @params, int params_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_imdecode(IntPtr buf, [MarshalAs(UnmanagedType.I4)] LoadMode flags, IntPtr outValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool cv_imencode([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr img, IntPtr buf, [In] int[] @params, int params_length);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cv_waitKey(int delay);
-        #endregion
+        
         #region cvaux
         #region CvCamShiftTracker
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

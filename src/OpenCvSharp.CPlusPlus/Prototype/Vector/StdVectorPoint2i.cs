@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus.Prototype
@@ -35,11 +36,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorPoint2i(CvPoint[] data)
+        public StdVectorPoint2i(IEnumerable<Point> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_Point2i_new3(data, new IntPtr(data.Length));
+            Point[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_Point2i_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -91,17 +93,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public CvPoint[] ToArray()
+        public Point[] ToArray()
         {            
             int size = Size;
             if (size == 0)
             {
-                return new CvPoint[0];
+                return new Point[0];
             }
-            CvPoint[] dst = new CvPoint[size];
-            using (ArrayAddress1<CvPoint> dstPtr = new ArrayAddress1<CvPoint>(dst))
+            Point[] dst = new Point[size];
+            using (ArrayAddress1<Point> dstPtr = new ArrayAddress1<Point>(dst))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, CvPoint.SizeOf * dst.Length);
+                Util.CopyMemory(dstPtr, ElemPtr, Point.SizeOf * dst.Length);
             }
             return dst;
         }

@@ -1298,9 +1298,9 @@ namespace OpenCvSharp.Gpu
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        public virtual CvPoint[] Detect(GpuMat img)
+        public virtual Point[] Detect(GpuMat img)
         {
-            return Detect(img, 0, new CvSize(0, 0), new CvSize(0, 0));
+            return Detect(img, 0, new Size(0, 0), new Size(0, 0));
         }
         /// <summary>
         /// 
@@ -1308,9 +1308,9 @@ namespace OpenCvSharp.Gpu
         /// <param name="img"></param>
         /// <param name="hitThreshold"></param>
         /// <returns></returns>
-        public virtual CvPoint[] Detect(GpuMat img, double hitThreshold)
+        public virtual Point[] Detect(GpuMat img, double hitThreshold)
         {
-            return Detect(img, hitThreshold, new CvSize(0, 0), new CvSize(0, 0));
+            return Detect(img, hitThreshold, new Size(0, 0), new Size(0, 0));
         }
         /// <summary>
         /// 
@@ -1319,9 +1319,9 @@ namespace OpenCvSharp.Gpu
         /// <param name="hitThreshold"></param>
         /// <param name="winStride"></param>
         /// <returns></returns>
-        public virtual CvPoint[] Detect(GpuMat img, double hitThreshold, CvSize winStride)
+        public virtual Point[] Detect(GpuMat img, double hitThreshold, Size winStride)
         {
-            return Detect(img, hitThreshold, winStride, new CvSize(0, 0));
+            return Detect(img, hitThreshold, winStride, new Size(0, 0));
         }
         /// <summary>
         /// 
@@ -1331,7 +1331,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="winStride"></param>
         /// <param name="padding"></param>
         /// <returns></returns>
-        public virtual CvPoint[] Detect(GpuMat img, double hitThreshold, CvSize winStride, CvSize padding)
+        public virtual Point[] Detect(GpuMat img, double hitThreshold, Size winStride, Size padding)
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
@@ -1351,77 +1351,25 @@ namespace OpenCvSharp.Gpu
         /// 
         /// </summary>
         /// <param name="img"></param>
-        /// <returns></returns>
-        public virtual CvRect[] DetectMultiScale(Mat img)
-        {
-            return DetectMultiScale(img, 0, new CvSize(0, 0), new CvSize(0, 0), 1.05, 2);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="img"></param>
-        /// <param name="hitThreshold"></param>
-        /// <returns></returns>
-        public virtual CvRect[] DetectMultiScale(Mat img, double hitThreshold)
-        {
-            return DetectMultiScale(img, hitThreshold, new CvSize(0, 0), new CvSize(0, 0), 1.05, 2);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="img"></param>
-        /// <param name="hitThreshold"></param>
-        /// <param name="winStride"></param>
-        /// <returns></returns>
-        public virtual CvRect[] DetectMultiScale(Mat img, double hitThreshold, CvSize winStride)
-        {
-            return DetectMultiScale(img, hitThreshold, winStride, new CvSize(0, 0), 1.05, 2);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="img"></param>
-        /// <param name="hitThreshold"></param>
-        /// <param name="winStride"></param>
-        /// <param name="padding"></param>
-        /// <returns></returns>
-        public virtual CvRect[] DetectMultiScale(Mat img, double hitThreshold, CvSize winStride, CvSize padding)
-        {
-            return DetectMultiScale(img, hitThreshold, winStride, padding, 1.05, 2);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="img"></param>
-        /// <param name="hitThreshold"></param>
-        /// <param name="winStride"></param>
-        /// <param name="padding"></param>
-        /// <param name="scale"></param>
-        /// <returns></returns>
-        public virtual CvRect[] DetectMultiScale(Mat img, double hitThreshold, CvSize winStride, CvSize padding, double scale)
-        {
-            return DetectMultiScale(img, hitThreshold, winStride, padding, scale, 2);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="img"></param>
         /// <param name="hitThreshold"></param>
         /// <param name="winStride"></param>
         /// <param name="padding"></param>
         /// <param name="scale"></param>
         /// <param name="groupThreshold"></param>
         /// <returns></returns>
-        public virtual CvRect[] DetectMultiScale(Mat img, double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold)
+        public virtual Rect[] DetectMultiScale(Mat img, double hitThreshold = 0, 
+            Size? winStride = null, Size? padding = null, double scale = 1.05, int groupThreshold = 2)
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
                 throw new ArgumentNullException("img");
 
+            Size winStride0 = winStride.GetValueOrDefault(new Size());
+            Size padding0 = padding.GetValueOrDefault(new Size());
             using (StdVectorRect flVec = new StdVectorRect())
             {
-                GpuInvoke.HOGDescriptor_detectMultiScale(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride, padding, scale, groupThreshold);
+                GpuInvoke.HOGDescriptor_detectMultiScale(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride0, padding0, scale, groupThreshold);
                 // std::vector<cv::Rect>*からCvRect[]に移し替えて返す
                 return flVec.ToArray();
             }          

@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// <summary>
     /// 
     /// </summary>
-    public class StdVectorRect : DisposableCvObject, IStdVector
+    public class StdVectorPoint3f : DisposableCvObject, IStdVector
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -18,30 +18,30 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorRect()
+        public StdVectorPoint3f()
         {
-            ptr = CppInvoke.vector_Rect_new1();
+            ptr = CppInvoke.vector_Point2f_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorRect(int size)
+        public StdVectorPoint3f(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_Rect_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Point3f_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorRect(IEnumerable<Rect> data)
+        public StdVectorPoint3f(IEnumerable<Point3f> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Rect[] array = Util.ToArray(data);
-            ptr = CppInvoke.vector_Rect_new3(array, new IntPtr(array.Length));
+            Point3f[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_Point3f_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_Rect_delete(ptr);
+                        CppInvoke.vector_Point3f_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -77,14 +77,14 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_Rect_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Point3f_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_Rect_getPointer(ptr); }
+            get { return CppInvoke.vector_Point3f_getPointer(ptr); }
         }
         #endregion
 
@@ -93,17 +93,17 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Rect[] ToArray()
-        {
+        public Point3f[] ToArray()
+        {            
             int size = Size;
             if (size == 0)
             {
-                return new Rect[0];
+                return new Point3f[0];
             }
-            Rect[] dst = new Rect[size];
-            using (ArrayAddress1<Rect> dstPtr = new ArrayAddress1<Rect>(dst))
+            Point3f[] dst = new Point3f[size];
+            using (ArrayAddress1<Point3f> dstPtr = new ArrayAddress1<Point3f>(dst))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, Rect.SizeOf * dst.Length);
+                Util.CopyMemory(dstPtr, ElemPtr, Point3f.SizeOf * dst.Length);
             }
             return dst;
         }

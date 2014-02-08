@@ -10,42 +10,30 @@ namespace OpenCvSharp.CPlusPlus.Prototype
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rect
+    public struct Point2f
     {
         /// <summary>
         /// 
         /// </summary>
-        public int X;
+        public float X;
         /// <summary>
         /// 
         /// </summary>
-        public int Y;
+        public float Y;
         /// <summary>
         /// 
         /// </summary>
-        public int Width;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Height;
-        /// <summary>
-        /// 
-        /// </summary>
-        public const int SizeOf = sizeof(int) * 4;
+        public const int SizeOf = sizeof(float) + sizeof(float);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public Rect(int x, int y, int width, int height)
+        public Point2f(float x, float y)
         {
             X = x;
             Y = y;
-            Width = width;
-            Height = height;
         }
 
         /// <summary>
@@ -53,18 +41,18 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static implicit operator CvRect(Rect self)
+        public static implicit operator CvPoint2D32f(Point2f self)
         {
-            return new CvRect(self.X, self.Y, self.Width, self.Height);
+            return new CvPoint2D32f(self.X, self.Y);
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="rect"></param>
+        /// <param name="point"></param>
         /// <returns></returns>
-        public static implicit operator Rect(CvRect rect)
+        public static implicit operator Point2f(CvPoint2D32f point)
         {
-            return new Rect(rect.X, rect.Y, rect.Width, rect.Height);
+            return new Point2f(point.X, point.Y);
         }
     }
 }

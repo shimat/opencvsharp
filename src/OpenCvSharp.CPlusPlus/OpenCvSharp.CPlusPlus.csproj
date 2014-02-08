@@ -139,9 +139,15 @@
     <Compile Include="Class\BackgroundSubtractor.cs" />
     <Compile Include="Class\cvaux\CvAdaptiveSkinDetector.cs" />
     <Compile Include="Class\cvaux\CvCamShiftTracker.cs" />
+    <Compile Include="Prototype\Cv2\Cv2_calib3d.cs" />
     <Compile Include="Prototype\Enum\DumpFormat.cs" />
     <Compile Include="Prototype\Enum\InOutArrayKind.cs" />
     <Compile Include="Prototype\Enum\StructuringElementShape.cs" />
+    <Compile Include="Prototype\Invoke\CppInvoke_core.cs" />
+    <Compile Include="Prototype\Invoke\CppInvoke_core_InputOutputArray.cs" />
+    <Compile Include="Prototype\Invoke\CppInvoke_calib3d.cs" />
+    <Compile Include="Prototype\Invoke\CppInvoke_settings.cs" />
+    <Compile Include="Prototype\Invoke\CppInvoke_core_MatExpr.cs" />
     <Compile Include="Prototype\Invoke\CppInvoke_objdetect.cs" />
     <Compile Include="Prototype\objdetect\HOGDescriptor.cs" />
     <Compile Include="Prototype\Invoke\CppInvoke_highgui.cs" />
@@ -151,6 +157,11 @@
     <Compile Include="Prototype\IVec.cs" />
     <Compile Include="Prototype\MatRowColIndexer.cs" />
     <Compile Include="Prototype\Struct\MatType.cs" />
+    <Compile Include="Prototype\Struct\Point3f.cs" />
+    <Compile Include="Prototype\Struct\Point2f.cs" />
+    <Compile Include="Prototype\Struct\RotatedRect.cs" />
+    <Compile Include="Prototype\Struct\Size2f.cs" />
+    <Compile Include="Prototype\Struct\TermCriteria.cs" />
     <Compile Include="Prototype\Struct\Veci.cs" />
     <Compile Include="Prototype\Mat1b.cs" />
     <Compile Include="Class\SURF.cs" />
@@ -198,10 +209,12 @@
     <Compile Include="Prototype\OutputArray.cs" />
     <Compile Include="Prototype\Vector\IStdVector.cs" />
     <Compile Include="Prototype\Vector\StdVectorByte.cs" />
-    <Compile Include="CppInvoke.cs" />
+    <Compile Include="Prototype\Vector\StdVectorPoint3f.cs" />
+    <Compile Include="__CppInvoke.cs" />
     <Compile Include="CvCpp.cs" />
     <Compile Include="Prototype\Enum\HistogramNormType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Prototype\Vector\StdVectorPoint2f.cs" />
     <Compile Include="Util\PlatformUtil.cs" />
     <Compile Include="Prototype\Vector\StdVectorFloat.cs" />
     <Compile Include="Prototype\Vector\StdVectorRect.cs" />
@@ -223,9 +236,7 @@
     </Content>
     <Content Include="ReadMe.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Util\Struct\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>

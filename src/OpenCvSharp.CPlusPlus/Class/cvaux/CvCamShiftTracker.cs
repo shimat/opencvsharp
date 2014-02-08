@@ -13,7 +13,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// sizeof(CvCamShiftTracker) 
         /// </summary>
-        public static readonly int SizeOf = CppInvoke.CvCamShiftTracker_sizeof();
+        public static readonly int SizeOf = __CppInvoke.CvCamShiftTracker_sizeof();
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
@@ -26,7 +26,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public CvCamShiftTracker()
         {
-            ptr = CppInvoke.CvCamShiftTracker_new();
+            ptr = __CppInvoke.CvCamShiftTracker_new();
         }
 
 #if LANG_JP
@@ -58,7 +58,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.CvCamShiftTracker_delete(ptr);
+                        __CppInvoke.CvCamShiftTracker_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -82,7 +82,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_orientation(ptr);         
+            return __CppInvoke.CvCamShiftTracker_get_orientation(ptr);         
         }
         /// <summary>
         /// the larger linear size of the object
@@ -92,7 +92,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_length(ptr);
+            return __CppInvoke.CvCamShiftTracker_get_length(ptr);
         }
         /// <summary>
         /// the smaller linear size of the object
@@ -102,7 +102,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_width(ptr); 
+            return __CppInvoke.CvCamShiftTracker_get_width(ptr); 
         }
         /// <summary>
         /// center of the object
@@ -112,7 +112,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_center(ptr);
+            return __CppInvoke.CvCamShiftTracker_get_center(ptr);
         }
         /// <summary>
         /// bounding rectangle for the object
@@ -122,7 +122,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_window(ptr);
+            return __CppInvoke.CvCamShiftTracker_get_window(ptr);
         }
 
         /*********************** Tracking parameters ************************/
@@ -135,7 +135,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_threshold(ptr); 
+            return __CppInvoke.CvCamShiftTracker_get_threshold(ptr); 
         }
         /// <summary>
         /// returns number of histogram dimensions and sets
@@ -146,7 +146,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_hist_dims(ptr, dims); 
+            return __CppInvoke.CvCamShiftTracker_get_hist_dims(ptr, dims); 
         }
         /// <summary>
         /// get the minimum allowed value of the specified channel
@@ -157,7 +157,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_min_ch_val(ptr, channel);
+            return __CppInvoke.CvCamShiftTracker_get_min_ch_val(ptr, channel);
         }
         /// <summary>
         /// get the maximum allowed value of the specified channel
@@ -168,7 +168,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_get_max_ch_val(ptr, channel); 
+            return __CppInvoke.CvCamShiftTracker_get_max_ch_val(ptr, channel); 
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_set_window(ptr, window);
+            return __CppInvoke.CvCamShiftTracker_set_window(ptr, window);
         }
         /// <summary>
         /// threshold applied to the histogram bins
@@ -191,7 +191,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_set_threshold(ptr, threshold);
+            return __CppInvoke.CvCamShiftTracker_set_threshold(ptr, threshold);
         }
         /// <summary>
         /// 
@@ -204,7 +204,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_set_hist_bin_range(ptr, dim, minVal, maxVal);
+            return __CppInvoke.CvCamShiftTracker_set_hist_bin_range(ptr, dim, minVal, maxVal);
         }
         /// <summary>
         /// set the histogram parameters
@@ -216,7 +216,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_set_hist_dims(ptr, cDims, dims);
+            return __CppInvoke.CvCamShiftTracker_set_hist_dims(ptr, cDims, dims);
         }
         /// <summary>
         /// set the minimum allowed value of the specified channel
@@ -228,7 +228,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_set_min_ch_val(ptr, channel, val);
+            return __CppInvoke.CvCamShiftTracker_set_min_ch_val(ptr, channel, val);
         }
         /// <summary>
         /// set the maximum allowed value of the specified channel
@@ -240,7 +240,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_set_max_ch_val(ptr, channel, val);
+            return __CppInvoke.CvCamShiftTracker_set_max_ch_val(ptr, channel, val);
         }
 
         /************************ The processing methods *********************************/
@@ -255,7 +255,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("CvCamShiftTracker");
             if (curFrame == null)
                 throw new ArgumentNullException("curFrame");
-            return CppInvoke.CvCamShiftTracker_track_object(ptr, curFrame.CvPtr);
+            return __CppInvoke.CvCamShiftTracker_track_object(ptr, curFrame.CvPtr);
         }
         /// <summary>
         /// update object histogram
@@ -268,7 +268,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("CvCamShiftTracker");
             if (curFrame == null)
                 throw new ArgumentNullException("curFrame");
-            return CppInvoke.CvCamShiftTracker_update_histogram(ptr, curFrame.CvPtr);
+            return __CppInvoke.CvCamShiftTracker_update_histogram(ptr, curFrame.CvPtr);
         }
         /// <summary>
         /// reset histogram
@@ -277,7 +277,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            CppInvoke.CvCamShiftTracker_reset_histogram(ptr);
+            __CppInvoke.CvCamShiftTracker_reset_histogram(ptr);
         }
 
         /************************ Retrieving internal data *******************************/
@@ -290,7 +290,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            IntPtr p = CppInvoke.CvCamShiftTracker_get_back_project(ptr);
+            IntPtr p = __CppInvoke.CvCamShiftTracker_get_back_project(ptr);
             if (p == IntPtr.Zero)
                 return null;
             return new IplImage(p, false);
@@ -305,7 +305,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CvCamShiftTracker");
-            return CppInvoke.CvCamShiftTracker_query(ptr, bin);
+            return __CppInvoke.CvCamShiftTracker_query(ptr, bin);
         }
         #endregion
     }

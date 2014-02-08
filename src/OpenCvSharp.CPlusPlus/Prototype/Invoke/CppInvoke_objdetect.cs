@@ -53,12 +53,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
                          CvSize winStride, CvSize padding, [In] CvPoint[] locations, int locationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_detect(IntPtr self, IntPtr img, IntPtr foundLocations,
-                        double hitThreshold, CvSize winStride, CvSize padding, [In] CvPoint[] searchLocations, int searchLocationsLength);
+                        double hitThreshold, CvSize winStride, CvSize padding, [In] Point[] searchLocations, int searchLocationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_detectMultiScale(IntPtr self, IntPtr img, IntPtr foundLocations,
                                   double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void objdetect_HOGDescriptor_computeGradient(IntPtr self, IntPtr img, IntPtr grad, IntPtr angleOfs, CvSize paddingTL, CvSize paddingBR);
+        public static extern void objdetect_HOGDescriptor_computeGradient(IntPtr self, IntPtr img, IntPtr grad, IntPtr angleOfs, Size paddingTL, Size paddingBR);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern CvSize objdetect_HOGDescriptor_winSize_get(IntPtr self);

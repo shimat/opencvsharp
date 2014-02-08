@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus.Prototype
 {
@@ -35,11 +37,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorByte(byte[] data)
+        public StdVectorByte(IEnumerable<byte> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_uchar_new3(data, new IntPtr(data.Length));
+            byte[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_uchar_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>

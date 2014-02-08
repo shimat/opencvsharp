@@ -64,9 +64,6 @@
     <ClCompile Include="WCore.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="WCv.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="WCvAdaptiveSkinDetector.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -77,12 +74,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="WFlann.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WHighgui.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WMat.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="WStereoSGBM.cpp">
@@ -116,6 +107,12 @@
       <Filter>Sources\cpp</Filter>
     </ClCompile>
     <ClCompile Include="objdetect.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="calib3d.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -168,9 +165,6 @@
     <ClInclude Include="WCore.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="WCv.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="WCvAdaptiveSkinDetector.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -181,12 +175,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="WFlann.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WHighgui.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WMat.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="WNonfree.h">
@@ -223,6 +211,12 @@
       <Filter>Headers\cpp</Filter>
     </ClInclude>
     <ClInclude Include="objdetect.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="calib3d.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>

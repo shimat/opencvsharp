@@ -58,7 +58,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             try
             {
-                SizeOf = CppInvoke.Mat_sizeof();
+                SizeOf = __CppInvoke.Mat_sizeof();
             }
             catch (DllNotFoundException e)
             {
@@ -83,7 +83,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat()
         {
-            ptr = CppInvoke.Mat_new1();
+            ptr = __CppInvoke.Mat_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -103,7 +103,7 @@ namespace OpenCvSharp.CPlusPlus
             //CppInvoke.cv_imread(filename, flags, _ptr);
             using (IplImage img = new IplImage(filename, flags))
             {
-                ptr = CppInvoke.Mat_new8(img.CvPtr, true);
+                ptr = __CppInvoke.Mat_new8(img.CvPtr, true);
             }
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -120,7 +120,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = CppInvoke.Mat_new2(rows, cols, type);
+            ptr = __CppInvoke.Mat_new2(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -146,7 +146,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = CppInvoke.Mat_new3(rows, cols, type, (CvScalar)s);
+            ptr = __CppInvoke.Mat_new3(rows, cols, type, (CvScalar)s);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -174,7 +174,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = CppInvoke.Mat_new4(rows, cols, type, data, step);
+            ptr = __CppInvoke.Mat_new4(rows, cols, type, data, step);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -199,7 +199,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = CppInvoke.Mat_new5(m.CvPtr, rowRange, colRange);
+            ptr = __CppInvoke.Mat_new5(m.CvPtr, rowRange, colRange);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -212,7 +212,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = CppInvoke.Mat_new6(m.CvPtr, (CvRect)roi);
+            ptr = __CppInvoke.Mat_new6(m.CvPtr, (CvRect)roi);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -233,7 +233,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = CppInvoke.Mat_new7(m.CvPtr, copyData);
+            ptr = __CppInvoke.Mat_new7(m.CvPtr, copyData);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
             if (copyData == false)
@@ -256,7 +256,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            ptr = CppInvoke.Mat_new8(img.CvPtr, copyData);
+            ptr = __CppInvoke.Mat_new8(img.CvPtr, copyData);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
             if (copyData == false)
@@ -295,7 +295,7 @@ namespace OpenCvSharp.CPlusPlus
                     default:
                         throw new ArgumentException();
                 }
-                ptr = CppInvoke.Mat_new9(vecPtr.AddrOfPinnedObject(), vec.Length, depthType, elemSize, copyData);
+                ptr = __CppInvoke.Mat_new9(vecPtr.AddrOfPinnedObject(), vec.Length, depthType, elemSize, copyData);
                 if (ptr == IntPtr.Zero)
                     throw new OpenCvSharpException();
             }
@@ -352,7 +352,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.Mat_delete(ptr);
+                        __CppInvoke.Mat_delete(ptr);
                     }
                     this.disposed = true;
                 }
@@ -380,7 +380,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src.disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_opUnaryMinus(src.CvPtr, dst.CvPtr);
+            __CppInvoke.Mat_opUnaryMinus(src.CvPtr, dst.CvPtr);
             return dst;
         }
         #endregion
@@ -400,7 +400,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src1.disposed || src2.disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_opBinaryPlus1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            __CppInvoke.Mat_opBinaryPlus1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             return dst;
         }
         /// <summary>
@@ -416,7 +416,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src1.disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_opBinaryPlus2(src1.CvPtr, src2, dst.CvPtr);
+            __CppInvoke.Mat_opBinaryPlus2(src1.CvPtr, src2, dst.CvPtr);
             return dst;
         }
 
@@ -435,7 +435,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src1.disposed || src2.disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_opBinaryMinus1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            __CppInvoke.Mat_opBinaryMinus1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             return dst;
         }
         /// <summary>
@@ -451,7 +451,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src1.disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_opBinaryMinus2(src1.CvPtr, src2, dst.CvPtr);
+            __CppInvoke.Mat_opBinaryMinus2(src1.CvPtr, src2, dst.CvPtr);
             return dst;
         }
 
@@ -470,7 +470,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src1.disposed || src2.disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_opBinaryMultiply(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            __CppInvoke.Mat_opBinaryMultiply(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             return dst;
         }
 
@@ -489,7 +489,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src1.disposed || src2.disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_opBinaryDivide(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            __CppInvoke.Mat_opBinaryDivide(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             return dst;
         }
         #endregion
@@ -559,7 +559,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("Mat");
-                return CppInvoke.Mat_flags(ptr);
+                return __CppInvoke.Mat_flags(ptr);
             }
         }
         /// <summary>
@@ -571,7 +571,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("Mat");
-                return CppInvoke.Mat_rows(ptr); 
+                return __CppInvoke.Mat_rows(ptr); 
             }
         }
         /// <summary>
@@ -583,7 +583,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("Mat");
-                return CppInvoke.Mat_cols(ptr);
+                return __CppInvoke.Mat_cols(ptr);
             }
         }
         /// <summary>
@@ -595,7 +595,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("Mat");
-                return CppInvoke.Mat_step(ptr);
+                return __CppInvoke.Mat_step(ptr);
             }
         }
         /// <summary>
@@ -607,7 +607,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("Mat");
-                return CppInvoke.Mat_data(ptr);
+                return __CppInvoke.Mat_data(ptr);
             }
         }
         /// <summary>
@@ -620,7 +620,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("Mat");
-                return CppInvoke.Mat_refcount(ptr);
+                return __CppInvoke.Mat_refcount(ptr);
             }
         }
         /// <summary>
@@ -632,7 +632,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("Mat");
-                return CppInvoke.Mat_datastart(ptr);
+                return __CppInvoke.Mat_datastart(ptr);
             }
         }
         /// <summary>
@@ -644,7 +644,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("Mat");
-                return CppInvoke.Mat_dataend(ptr);
+                return __CppInvoke.Mat_dataend(ptr);
             }
         }
         /// <summary>
@@ -728,7 +728,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 Mat result = new Mat();
-                CppInvoke.Mat_opRange1(ptr, roi, result.CvPtr);
+                __CppInvoke.Mat_opRange1(ptr, roi, result.CvPtr);
                 return result;
             }
         }
@@ -743,7 +743,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 Mat result = new Mat();
-                CppInvoke.Mat_opRange2(ptr, rowRange, colRange, result.CvPtr);
+                __CppInvoke.Mat_opRange2(ptr, rowRange, colRange, result.CvPtr);
                 return result;
             }
         }
@@ -776,7 +776,7 @@ namespace OpenCvSharp.CPlusPlus
             if (d == null)
                 throw new ArgumentNullException("d");
             Mat outValue = new Mat();
-            CppInvoke.Mat_diag2(d.CvPtr, outValue.CvPtr);
+            __CppInvoke.Mat_diag2(d.CvPtr, outValue.CvPtr);
             return outValue;
         }
 
@@ -790,7 +790,7 @@ namespace OpenCvSharp.CPlusPlus
         public static Mat Zeros(int rows, int cols, MatrixType type)
         {
             Mat outValue = new Mat();
-            CppInvoke.Mat_zeros(rows, cols, type, outValue.CvPtr);
+            __CppInvoke.Mat_zeros(rows, cols, type, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -814,7 +814,7 @@ namespace OpenCvSharp.CPlusPlus
         public static Mat Ones(int rows, int cols, MatrixType type)
         {
             Mat outValue = new Mat();
-            CppInvoke.Mat_ones(rows, cols, type, outValue.CvPtr);
+            __CppInvoke.Mat_ones(rows, cols, type, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -838,7 +838,7 @@ namespace OpenCvSharp.CPlusPlus
         public static Mat Eye(int rows, int cols, MatrixType type)
         {
             Mat outValue = new Mat();
-            CppInvoke.Mat_eye(rows, cols, type, outValue.CvPtr);
+            __CppInvoke.Mat_eye(rows, cols, type, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -863,7 +863,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat outValue = new Mat();
-            CppInvoke.Mat_row(ptr, y, outValue.CvPtr);
+            __CppInvoke.Mat_row(ptr, y, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -876,7 +876,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat outValue = new Mat();
-            CppInvoke.Mat_col(ptr, x, outValue.CvPtr);
+            __CppInvoke.Mat_col(ptr, x, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -890,7 +890,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat outValue = new Mat();
-            CppInvoke.Mat_rowRange(ptr, startrow, endrow, outValue.CvPtr);
+            __CppInvoke.Mat_rowRange(ptr, startrow, endrow, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -913,7 +913,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat outValue = new Mat();
-            CppInvoke.Mat_colRange(ptr, startcol, endcol, outValue.CvPtr);
+            __CppInvoke.Mat_colRange(ptr, startcol, endcol, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -944,7 +944,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat outValue = new Mat();
-            CppInvoke.Mat_diag1(ptr, d, outValue.CvPtr);
+            __CppInvoke.Mat_diag1(ptr, d, outValue.CvPtr);
             return outValue;
         }
 
@@ -957,7 +957,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat outValue = new Mat();
-            CppInvoke.Mat_clone(ptr, outValue.CvPtr);
+            __CppInvoke.Mat_clone(ptr, outValue.CvPtr);
             return outValue;
         }
         object ICloneable.Clone()
@@ -975,7 +975,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("Mat");
             if (m == null)
                 throw new ArgumentNullException("m");
-            CppInvoke.Mat_copyTo1(ptr, m.CvPtr);
+            __CppInvoke.Mat_copyTo1(ptr, m.CvPtr);
         }
         /// <summary>
         /// copies those matrix elements to "m" that are marked with non-zero mask elements.
@@ -990,7 +990,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("m");
             if (mask == null)
                 throw new ArgumentNullException("mask");
-            CppInvoke.Mat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
+            __CppInvoke.Mat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
         }
 
         /// <summary>
@@ -1005,7 +1005,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Mat");
-            CppInvoke.Mat_convertTo(ptr, dst.CvPtr, rtype, alpha, beta);
+            __CppInvoke.Mat_convertTo(ptr, dst.CvPtr, rtype, alpha, beta);
         }
 
         /// <summary>
@@ -1014,7 +1014,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="m"></param>
         public void AssignTo(Mat m)
         {
-            CppInvoke.Mat_assignTo(ptr, m.CvPtr, -1);
+            __CppInvoke.Mat_assignTo(ptr, m.CvPtr, -1);
         }
         /// <summary>
         /// 
@@ -1027,7 +1027,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("Mat");
             if (m == null)
                 throw new ArgumentNullException("m");
-            CppInvoke.Mat_assignTo(ptr, m.CvPtr, (int)type);
+            __CppInvoke.Mat_assignTo(ptr, m.CvPtr, (int)type);
         }
 
         /// <summary>
@@ -1044,7 +1044,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("value");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             Mat dst = new Mat();
-            CppInvoke.Mat_setTo(ptr, value.CvPtr, maskPtr, dst.CvPtr);
+            __CppInvoke.Mat_setTo(ptr, value.CvPtr, maskPtr, dst.CvPtr);
             return dst;
         }
 
@@ -1060,7 +1060,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat outValue = new Mat();
-            CppInvoke.Mat_reshape(ptr, cn, rows, outValue.CvPtr);
+            __CppInvoke.Mat_reshape(ptr, cn, rows, outValue.CvPtr);
             return outValue;
         }
 
@@ -1076,7 +1076,7 @@ namespace OpenCvSharp.CPlusPlus
             if (m == null)
                 throw new ArgumentNullException("m");
             Mat outValue = new Mat();
-            CppInvoke.Mat_cross(ptr, m.CvPtr, outValue.CvPtr);
+            __CppInvoke.Mat_cross(ptr, m.CvPtr, outValue.CvPtr);
             return outValue;
         }
 
@@ -1091,7 +1091,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("Mat");
             if (m == null)
                 throw new ArgumentNullException("m");
-            return CppInvoke.Mat_dot(ptr, m.CvPtr);
+            return __CppInvoke.Mat_dot(ptr, m.CvPtr);
         }
 
         /// <summary>
@@ -1105,7 +1105,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Mat");
-            CppInvoke.Mat_create(ptr, rows, cols, type);
+            __CppInvoke.Mat_create(ptr, rows, cols, type);
         }
         /// <summary>
         /// allocates new matrix data unless the matrix already has specified size and type.
@@ -1127,7 +1127,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Mat");
-            CppInvoke.Mat_locateROI(ptr, out wholeSize, out ofs);
+            __CppInvoke.Mat_locateROI(ptr, out wholeSize, out ofs);
         }
 
         /// <summary>
@@ -1143,7 +1143,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_adjustROI(ptr, dtop, dbottom, dleft, dright, dst.CvPtr);
+            __CppInvoke.Mat_adjustROI(ptr, dtop, dbottom, dleft, dright, dst.CvPtr);
             return dst;
         }
 
@@ -1156,7 +1156,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_t(ptr, dst.CvPtr);
+            __CppInvoke.Mat_t(ptr, dst.CvPtr);
             return dst;
         }
 
@@ -1169,7 +1169,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Mat");
             Mat dst = new Mat();
-            CppInvoke.Mat_inv(ptr, method, dst.CvPtr);
+            __CppInvoke.Mat_inv(ptr, method, dst.CvPtr);
             return dst;
         }
 
@@ -1183,7 +1183,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("Mat");
             CvMat mat = new CvMat();
             mat.IsEnabledDispose = false;
-            CppInvoke.Mat_opCvMat(ptr, mat.CvPtr);
+            __CppInvoke.Mat_opCvMat(ptr, mat.CvPtr);
             return mat;
         }
         /// <summary>
@@ -1196,7 +1196,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("Mat");
             IplImage ipl = new IplImage();
             ipl.IsEnabledDispose = false;
-            CppInvoke.Mat_opIplImage(ptr, ipl.CvPtr);
+            __CppInvoke.Mat_opIplImage(ptr, ipl.CvPtr);
             return ipl;
         }
 

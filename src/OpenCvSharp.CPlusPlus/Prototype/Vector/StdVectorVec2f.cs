@@ -1,25 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus.Prototype
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Vec2fElem
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public float V1;
-        /// <summary>
-        /// 
-        /// </summary>
-        public float V2;
-    }
-
     /// <summary>
     /// 
     /// </summary>
@@ -52,11 +37,12 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorVec2f(Vec2fElem[] data)
+        public StdVectorVec2f(IEnumerable<Vec2f> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            ptr = CppInvoke.vector_Vec2f_new3(data, new IntPtr(data.Length));
+            Vec2f[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_Vec2f_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -108,9 +94,9 @@ namespace OpenCvSharp.CPlusPlus.Prototype
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Vec2fElem[] ToArray()
+        public Vec2f[] ToArray()
         {
-            return ToArray<Vec2fElem>();
+            return ToArray<Vec2f>();
         }
         /// <summary>
         /// Converts std::vector to managed array
