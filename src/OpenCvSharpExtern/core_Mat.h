@@ -139,15 +139,7 @@ CVAPI(int) core_Mat_dims(cv::Mat *self)
 	return self->dims;
 }
 
-CVAPI(void) core_Mat_convertTo1(cv::Mat *self, cv::Mat *m, int rtype)
-{
-	self->convertTo(*m, rtype);
-}
-CVAPI(void) core_Mat_convertTo2(cv::Mat *self, cv::Mat *m, int rtype, double alpha)
-{
-	self->convertTo(*m, rtype, alpha);
-}
-CVAPI(void) core_Mat_convertTo3(cv::Mat *self, cv::Mat *m, int rtype, double alpha, double beta)
+CVAPI(void) core_Mat_convertTo(cv::Mat *self, cv::Mat *m, int rtype, double alpha, double beta)
 {
 	self->convertTo(*m, rtype, alpha, beta);
 }
