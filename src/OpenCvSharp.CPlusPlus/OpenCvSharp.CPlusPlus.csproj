@@ -233,12 +233,6 @@
     <Compile Include="Vector\StdVectorVec3f.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
-      <Project>{4C2356B8-1A1E-4F92-A51C-A49CA116867F}</Project>
-      <Name>OpenCvSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -54,7 +54,7 @@ namespace CPlusPlusSamplesCS
                     {
                         Vec3b color = indexer[y, x];
                         Swap(ref color.Item1, ref color.Item3);
-                        mat.Set<Vec3b>(y, x, color);
+                        indexer[y, x] = color;
                     }
                 }
                 //Cv2.ImShow("GenericIndexer", mat);
@@ -78,7 +78,7 @@ namespace CPlusPlusSamplesCS
                     {
                         Vec3b color = indexer[y, x];
                         Swap(ref color.Item1, ref color.Item3);
-                        mat.Set<Vec3b>(y, x, color);
+                        indexer[y, x] = color;
                     }
                 }
                 //Cv2.ImShow("TypeSpecificMat", mat);
