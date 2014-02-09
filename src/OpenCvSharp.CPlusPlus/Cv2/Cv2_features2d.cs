@@ -19,11 +19,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="keypoints"></param>
         /// <param name="threshold"></param>
         /// <param name="nonmaxSupression"></param>
-        public static void FAST(Mat image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression = true)
+        public static void FAST(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression = true)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
-
+            image.ThrowIfDisposed();
             using (StdVectorKeyPoint kp = new StdVectorKeyPoint())
             {
                 CppInvoke.features2d_FAST(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
@@ -38,11 +38,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="keypoints"></param>
         /// <param name="threshold"></param>
         /// <param name="nonmaxSupression"></param>
-        public static void FASTX(Mat image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression, int type)
+        public static void FASTX(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression, int type)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
-
+            image.ThrowIfDisposed();
             using (StdVectorKeyPoint kp = new StdVectorKeyPoint())
             {
                 CppInvoke.features2d_FASTX(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, type);

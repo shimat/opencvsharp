@@ -30,6 +30,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         static FlannInvoke()
         {
             // call cv to enable redirecting
+            Cv.GetTickCount();
             TryPInvoke();
         }
 
@@ -52,15 +53,11 @@ namespace OpenCvSharp.CPlusPlus.Flann
             }
             catch (DllNotFoundException e)
             {
-                PInvokeHelper.DllImportError(e);
+                throw PInvokeHelper.CreateException(e);
             }
             catch (BadImageFormatException e)
             {
-                PInvokeHelper.DllImportError(e);
-            }
-            catch (Exception e)
-            {
-                throw e;
+                throw PInvokeHelper.CreateException(e);
             }
         }
         #endregion
@@ -74,17 +71,17 @@ namespace OpenCvSharp.CPlusPlus.Flann
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void flann_Index_destruct(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_Index_knnSearch1(IntPtr obj, [In] float[] queries, int queries_length, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
+        public static extern void flann_Index_knnSearch1(IntPtr obj, [In] float[] queries, int queriesLength, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void flann_Index_knnSearch2(IntPtr obj, IntPtr queries, IntPtr indices, IntPtr dists, int knn, IntPtr @params);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void flann_Index_knnSearch3(IntPtr obj, IntPtr queries, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_Index_radiusSearch1(IntPtr obj, [In] float[] queries, int queries_length, [Out] int[] indices, int indices_length, [Out] float[] dists, int dists_length, float radius, int maxResults, IntPtr @params);
+        public static extern void flann_Index_radiusSearch1(IntPtr obj, [In] float[] queries, int queriesLength, [Out] int[] indices, int indicesLength, [Out] float[] dists, int dists_length, float radius, int maxResults, IntPtr @params);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void flann_Index_radiusSearch2(IntPtr obj, IntPtr queries, IntPtr indices, IntPtr dists, float radius, int maxResults, IntPtr @params);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_Index_radiusSearch3(IntPtr obj, IntPtr queries, [Out] int[] indices, int indices_length, [Out] float[] dists, int dists_length, float radius, int maxResults, IntPtr @params);
+        public static extern void flann_Index_radiusSearch3(IntPtr obj, IntPtr queries, [Out] int[] indices, int indicesLength, [Out] float[] dists, int distsLength, float radius, int maxResults, IntPtr @params);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void flann_Index_save(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

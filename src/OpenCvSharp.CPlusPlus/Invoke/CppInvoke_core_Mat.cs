@@ -83,11 +83,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_Mat_colRange_toMatExpr(IntPtr self, int startCol, int endCol);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_dims(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo1")]
-        public static extern void core_Mat_convertTo(IntPtr self, IntPtr m, int rtype);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo2")]
-        public static extern void core_Mat_convertTo(IntPtr self, IntPtr m, int rtype, double alpha);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_convertTo3")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_convertTo(IntPtr self, IntPtr m, int rtype, double alpha, double beta);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_copyTo(IntPtr self, IntPtr m, IntPtr mask);
@@ -146,6 +142,8 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_Mat_reshape(IntPtr self, int cn, int rows);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_push_back3")]
         public static extern IntPtr core_Mat_reshape(IntPtr self, int cn, int newndims, [MarshalAs(UnmanagedType.LPArray)] int[] newsz);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_rows(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_row_toMat(IntPtr self, int y);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

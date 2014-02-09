@@ -27,7 +27,7 @@ Friend Module HOGSample
         ' run the detector with default parameters. to get a higher hit-rate
         ' (and more false alarms, respectively), decrease the hitThreshold and
         ' groupThreshold (set groupThreshold to 0 to turn off the grouping completely).
-        Dim found() As CvRect = hog.DetectMultiScale(img, 0, New CvSize(8, 8), New CvSize(24, 16), 1.05, 2)
+        Dim found() As Rect = hog.DetectMultiScale(img, 0, New Size(8, 8), New Size(24, 16), 1.05, 2)
 
         watch.Stop()
         Console.WriteLine(Environment.NewLine & String.Format("Detection time = {0}ms", watch.ElapsedMilliseconds))

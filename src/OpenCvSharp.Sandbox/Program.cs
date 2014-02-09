@@ -27,37 +27,35 @@ namespace OpenCvSharp.Sandbox
                 Stopwatch watch = new Stopwatch();
 
                 Mat mat = new Mat(@"img\lenna.png", LoadMode.Color);
+                Mat3b mat3 = new Mat3b(mat);
                 //mat[new Rect(100, 100, 200, 200)] = 3;
                 //Console.WriteLine(mat.Dump());
                 //mat.Row(100).SetTo(Scalar.All(10));
                 //subMat.SetTo(subMat.Clone() / 3);
                 //mat[ new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
-                mat.Col[100] = ~mat.Col[200] * 2 / 3;
-
+                //mat.Col[100] = ~mat.Col[200] * 2 / 3;
+                mat.ImWrite("C:\\temp\\hoge.png");
                 Mat gray = new Mat();
                 Cv2.CvtColor(mat, gray, ColorConversion.BgrToGray);
 
-                //mat.Row[100,200] = mat.Row[200,300] * 2;
-
-                //Mat subMat = new Mat(mat, new Range(200, 400), new Range(200, 400));
-                //Mat subMat2 = mat.SubMat(100, 200, 100, 200);
-                //Cv2.GaussianBlur(subMat, subMat, new Size(25, 25), -1);
                 Cv2.GaussianBlur(mat.GetRowRange(100, 200), mat.GetRowRange(100, 200), new Size(25, 25), -1);
 
+                /*
                 FeatureDetector detector = FeatureDetector.Create("MSER");
                 KeyPoint[] keypoints = detector.Detect(gray);
                 keypoints.ToString();
+                //*/
 
                 /*
                 watch.Restart();
                 {
-                    var matAt = mat.GetGenericIndexer<ByteTuple3>();
+                    var matAt = mat.GetGenericIndexer<Vec3b>();
                     for (int y = 0; y < mat.Height; y++)
                     {
                         for (int x = 0; x < mat.Width; x++)
                         {
-                            ByteTuple3 item = matAt[y, x];
-                            ByteTuple3 newItem = new ByteTuple3
+                            Vec3b item = matAt[y, x];
+                            Vec3b newItem = new Vec3b
                                 {
                                     Item1 = item.Item3,
                                     Item2 = item.Item2,
@@ -69,6 +67,28 @@ namespace OpenCvSharp.Sandbox
                 }
                 watch.Stop();
                 Console.WriteLine("GenericIndexer: {0}ms", watch.ElapsedMilliseconds);
+                //*/
+
+                ///*
+                watch.Restart();
+                {
+                    for (int y = 0; y < mat.Height; y++)
+                    {
+                        for (int x = 0; x < mat.Width; x++)
+                        {
+                            Vec3b item = mat.Get<Vec3b>(y, x);
+                            Vec3b newItem = new Vec3b
+                            {
+                                Item1 = item.Item3,
+                                Item2 = item.Item2,
+                                Item3 = item.Item1,
+                            };
+                            mat.Set(y, x, newItem);
+                        }
+                    }
+                }
+                watch.Stop();
+                Console.WriteLine("Get/Set: {0}ms", watch.ElapsedMilliseconds);
                 //*/
 
                 /*
@@ -117,7 +137,7 @@ namespace OpenCvSharp.Sandbox
                 }
                 */
                 
-                /*
+                ///*
                 Cv2.ImShow("window1", mat);
                 Cv2.ImShow("window2", gray);
                 //Cv2.ImShow("subMat", subMat);

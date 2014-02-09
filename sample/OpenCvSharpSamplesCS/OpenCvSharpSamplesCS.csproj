@@ -93,27 +93,27 @@
   <ItemGroup>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140203\lib\net40\OpenCvSharp.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Blob, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140203\lib\net40\OpenCvSharp.Blob.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.Blob.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.CPlusPlus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140203\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140203\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.MachineLearning, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140203\lib\net40\OpenCvSharp.MachineLearning.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.MachineLearning.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140203\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -165,7 +165,6 @@
     <Compile Include="Samples\Filter2D.cs" />
     <Compile Include="Samples\FindContours.cs" />
     <Compile Include="Samples\FitLine.cs" />
-    <Compile Include="Samples\FlannTest.cs" />
     <Compile Include="Samples\Histogram.cs" />
     <Compile Include="Samples\HoughLines.cs" />
     <Compile Include="Samples\Inpaint.cs" />
@@ -191,7 +190,6 @@
     <Compile Include="Samples\SeqTest.cs" />
     <Compile Include="Samples\Snake.cs" />
     <Compile Include="Samples\Squares.cs" />
-    <Compile Include="Samples\StereoCorrespondence.cs" />
     <Compile Include="Samples\SURFSample.cs" />
     <Compile Include="Samples\SVM.cs" />
     <Compile Include="Samples\Text.cs" />
@@ -203,7 +201,6 @@
     <Compile Include="Samples\ConvertToBitmapSource.cs" />
     <Compile Include="Samples\ConvexityDefect.cs" />
     <Compile Include="Samples\PictureBoxIplSample.cs" />
-    <Compile Include="Samples\CppTest.cs" />
     <Compile Include="Samples\CaptureByVideoInputSharp.cs" />
     <Compile Include="Samples\PseudoColor.cs" />
     <Compile Include="Samples\GammaCorrection.cs" />
@@ -212,11 +209,9 @@
     <Compile Include="Samples\StarDetectorSample.cs" />
     <Compile Include="Samples\Serialization.cs" />
     <Compile Include="Samples\SaveImage.cs" />
-    <Compile Include="Samples\HOG.cs" />
     <Compile Include="Samples\Solve.cs" />
     <Compile Include="Samples\MDS.cs" />
     <Compile Include="Samples\SkinDetector.cs" />
-    <Compile Include="Samples\FAST.cs" />
     <Compile Include="Samples\BinarizationMethods.cs" />
     <Compile Include="Samples\HoughCircles.cs" />
     <Compile Include="Samples\LatentSVM.cs" />

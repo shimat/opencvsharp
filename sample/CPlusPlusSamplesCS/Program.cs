@@ -9,6 +9,16 @@ namespace CPlusPlusSamplesCS
     {
         static void Main(string[] args)
         {
+            ISample sample =
+                //new FASTSample();
+                //new FlannSample(); // Todo: crash
+                //new HOGSample();
+                //new HoughLinesSample();
+                //new MSERSample();
+                new PixelAccess();
+                //new StarDetectorSample();
+                //new StereoCorrespondence();
+            sample.Run();
         }
     }
 }

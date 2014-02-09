@@ -20,7 +20,7 @@ namespace OpenCvSharpSamplesCS
 
 
             // call cv::initModule_nonfree() before using SURF/SIFT.
-            CvCpp.InitModule_NonFree();
+            Cv2.InitModule_NonFree();
 
 
             using (IplImage obj = Cv.LoadImage(Const.ImageSurfBox, LoadMode.GrayScale))

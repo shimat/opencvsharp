@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -1385,50 +1386,9 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="m"></param>
         /// <param name="rtype"></param>
-        public void ConvertTo(Mat m, int rtype)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException("m");
-            try
-            {
-                CppInvoke.core_Mat_convertTo(ptr, m.CvPtr, rtype);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="rtype"></param>
-        /// <param name="alpha"></param>
-        public void ConvertTo(Mat m, int rtype, double alpha)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException("m");
-            try
-            {
-                CppInvoke.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="rtype"></param>
         /// <param name="alpha"></param>
         /// <param name="beta"></param>
-        public void ConvertTo(Mat m, int rtype, double alpha, double beta)
+        public void ConvertTo(Mat m, MatType rtype, double alpha = 1, double beta = 0)
         {
             ThrowIfDisposed();
             if (m == null)
@@ -2037,7 +1997,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     try
                     {
-                        rowsVal = CppInvoke.core_Mat_cols(ptr);
+                        rowsVal = CppInvoke.core_Mat_rows(ptr);
                     }
                     catch (BadImageFormatException ex)
                     {
@@ -2483,7 +2443,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
-                    return (T)Marshal.PtrToStructure(p, typeof (T));
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
                 }
                 set
                 {
@@ -2503,7 +2463,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
-                    return (T)Marshal.PtrToStructure(p, typeof (T));
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
                 }
                 set
                 {
@@ -2833,6 +2793,33 @@ namespace OpenCvSharp.CPlusPlus
 
         #endregion
 
+        #region ToBitmap
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Bitmap ToBitmap()
+        {
+            return ToBitmap(".png");
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        public Bitmap ToBitmap(string ext, params ImageEncodingParam[] prms)
+        {
+            byte[] imageBytes;
+            Cv2.ImEncode(ext, this, out imageBytes, prms);
+            using (MemoryStream stream = new MemoryStream(imageBytes))
+            {
+                return new Bitmap(stream);
+            }
+        }
+        #endregion
+
         #endregion
 
         #region Cv2 Methods
@@ -3115,6 +3102,28 @@ namespace OpenCvSharp.CPlusPlus
             LineType lineType = LineType.Link8, int shift = 0, Point? offset = null)
         {
             Cv2.FillPoly(this, pts, color, lineType, shift, offset);
+        }
+        #endregion
+        #region ImWrite
+        /// <summary>
+        /// Saves an image to a specified file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        public bool ImWrite(string fileName, int[] prms = null)
+        {
+            return Cv2.ImWrite(fileName, this, prms);
+        }
+        /// <summary>
+        /// Saves an image to a specified file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        public bool ImWrite(string fileName, params ImageEncodingParam[] prms)
+        {
+            return Cv2.ImWrite(fileName, this, prms);
         }
         #endregion
 

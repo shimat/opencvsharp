@@ -16,55 +16,7 @@ namespace OpenCvSharpSamplesCS
     {
         public HoughLines()
         {
-            SampleCpp();
-            //SampleC();            
-        }
-
-        /// <summary>
-        /// sample of new C++ style wrapper
-        /// </summary>
-        private void SampleCpp()
-        {
-            // (1)画像の読み込み 
-            using (Mat imgGray = new Mat(Const.ImageGoryokaku, LoadMode.GrayScale))
-            using (Mat imgStd = new Mat(Const.ImageGoryokaku, LoadMode.Color))
-            using (Mat imgProb = imgStd.Clone())
-            {
-                // ハフ変換のための前処理 
-                CvCpp.Canny(imgGray, imgGray, 50, 200, ApertureSize.Size3, false);
-
-                // (3)標準的ハフ変換による線の検出と検出した線の描画
-                CvLineSegmentPolar[] segStd = CvCpp.HoughLines(imgGray, 1, Math.PI / 180, 50, 0, 0);
-                int limit = Math.Min(segStd.Length, 10);
-                for (int i = 0; i < limit; i++ )
-                {
-                    float rho = segStd[i].Rho;
-                    float theta = segStd[i].Theta;
-
-                    double a = Math.Cos(theta);
-                    double b = Math.Sin(theta);
-                    double x0 = a * rho;
-                    double y0 = b * rho;
-                    CvPoint pt1 = new CvPoint { X = Cv.Round(x0 + 1000 * (-b)), Y = Cv.Round(y0 + 1000 * (a)) };
-                    CvPoint pt2 = new CvPoint { X = Cv.Round(x0 - 1000 * (-b)), Y = Cv.Round(y0 - 1000 * (a)) };
-                    imgStd.Line(pt1, pt2, CvColor.Red, 3, LineType.AntiAlias, 0);
-                }
-
-                // (4)確率的ハフ変換による線分の検出と検出した線分の描画
-                CvLineSegmentPoint[] segProb = CvCpp.HoughLinesP(imgGray, 1, Math.PI / 180, 50, 50, 10);
-                foreach (CvLineSegmentPoint s in segProb)
-                {
-                    imgProb.Line(s.P1, s.P2, CvColor.Red, 3, LineType.AntiAlias, 0);
-                }
-
-
-                // (5)検出結果表示用のウィンドウを確保し表示する
-                using (new CvWindow("Hough_line_standard", WindowMode.AutoSize, imgStd.ToIplImage()))
-                using (new CvWindow("Hough_line_probabilistic", WindowMode.AutoSize, imgProb.ToIplImage()))
-                {
-                    CvWindow.WaitKey(0);
-                }
-            }
+            SampleC();            
         }
 
         /// <summary>

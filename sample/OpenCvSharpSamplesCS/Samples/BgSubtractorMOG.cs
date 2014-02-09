@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenCvSharp;
+﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
 namespace OpenCvSharpSamplesCS
@@ -20,7 +16,7 @@ namespace OpenCvSharpSamplesCS
             using (CvWindow windowDst = new CvWindow("dst")) 
             {
                 IplImage imgFrame;
-                using (Mat imgFg = new Mat(capture.FrameWidth, capture.FrameHeight, MatrixType.U8C1))
+                using (Mat imgFg = new Mat())
                 while ((imgFrame = capture.QueryFrame()) != null)
                 {
                     mog.Run(new Mat(imgFrame, false), imgFg, 0.01);

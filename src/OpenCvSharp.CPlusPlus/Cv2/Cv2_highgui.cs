@@ -80,21 +80,21 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Saves an image to a specified file.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="fileName"></param>
         /// <param name="img"></param>
         /// <param name="prms"></param>
         /// <returns></returns>
-        public static bool ImWrite(string filename, Mat img, int[] prms = null)
+        public static bool ImWrite(string fileName, Mat img, int[] prms = null)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
             if (img == null)
                 throw new ArgumentNullException("img");
             if (prms == null)
                 prms = new int[0];
             try
             {
-                return CppInvoke.highgui_imwrite(filename, img.CvPtr, prms, prms.Length) != 0;
+                return CppInvoke.highgui_imwrite(fileName, img.CvPtr, prms, prms.Length) != 0;
             }
             catch (BadImageFormatException ex)
             {
@@ -104,11 +104,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Saves an image to a specified file.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="fileName"></param>
         /// <param name="img"></param>
         /// <param name="prms"></param>
         /// <returns></returns>
-        public static bool ImWrite(string filename, Mat img, params ImageEncodingParam[] prms)
+        public static bool ImWrite(string fileName, Mat img, params ImageEncodingParam[] prms)
         {
             if (prms != null)
             {
@@ -118,11 +118,11 @@ namespace OpenCvSharp.CPlusPlus
                     p.Add((int)item.EncodingID);
                     p.Add(item.Value);
                 }
-                return ImWrite(filename, img, p.ToArray());
+                return ImWrite(fileName, img, p.ToArray());
             }
             else
             {
-                return ImWrite(filename, img, (int[])null);
+                return ImWrite(fileName, img, (int[])null);
             }
         }
         #endregion
@@ -149,6 +149,7 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region ImEncode
+
         /// <summary>
         /// Compresses the image and stores it in the memory buffer
         /// </summary>
@@ -164,21 +165,14 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("img");
             if (prms == null)
                 prms = new int[0];
-            try
+            IntPtr bufMatPtr;
+            CppInvoke.highgui_imencode(ext, img.CvPtr, out bufMatPtr, prms, prms.Length);
             {
-                IntPtr bufMatPtr;
-                CppInvoke.highgui_imencode(ext, img.CvPtr, out bufMatPtr, prms, prms.Length);
-                {
-                    CvMat bufMat = new CvMat(bufMatPtr, false);
-                    buf = new byte[bufMat.Rows * bufMat.Cols];
-                    Marshal.Copy(bufMat.Data, buf, 0, buf.Length);
-                }
-                CvInvoke.cvReleaseMat(ref bufMatPtr);
+                CvMat bufMat = new CvMat(bufMatPtr, false);
+                buf = new byte[bufMat.Rows * bufMat.Cols];
+                Marshal.Copy(bufMat.Data, buf, 0, buf.Length);
             }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            CvInvoke.cvReleaseMat(ref bufMatPtr);
         }
 
         /// <summary>

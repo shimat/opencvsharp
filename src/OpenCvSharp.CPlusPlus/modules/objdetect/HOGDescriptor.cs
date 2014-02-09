@@ -1519,7 +1519,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="angleOfs"></param>
         public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs)
         {
-            ComputeGradient(img, grad, angleOfs, new CvSize(), new CvSize());
+            ComputeGradient(img, grad, angleOfs, new Size(), new Size());
         }
         /// <summary>
         /// 
@@ -1528,9 +1528,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="grad"></param>
         /// <param name="angleOfs"></param>
         /// <param name="paddingTL"></param>
-        public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, CvSize paddingTL)
+        public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, Size paddingTL)
         {
-            ComputeGradient(img, grad, angleOfs, paddingTL, new CvSize());
+            ComputeGradient(img, grad, angleOfs, paddingTL, new Size());
         }
         /// <summary>
         /// 
@@ -1540,7 +1540,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="angleOfs"></param>
         /// <param name="paddingTL"></param>
         /// <param name="paddingBR"></param>
-        public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, CvSize paddingTL, CvSize paddingBR)
+        public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, Size paddingTL, Size paddingBR)
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");

@@ -57,6 +57,24 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Point2f(point.X, point.Y);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static implicit operator Point(Point2f self)
+        {
+            return new Point((int)self.X, (int)self.Y);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static implicit operator Point2f(Point point)
+        {
+            return new Point2f(point.X, point.Y);
+        }
         #endregion
         #region == / !=
 #if LANG_JP

@@ -92,18 +92,18 @@ namespace OpenCvSharp
         /// <summary>
         /// Loads an image from the specified file. 
         /// </summary>
-        /// <param name="filename">Name of file to be loaded. </param>
+        /// <param name="fileName">Name of file to be loaded. </param>
         /// <param name="flags">Specifies colorness and Depth of the loaded image.</param>
         /// <returns>the reference to the loaded image. </returns>
 #endif
-        public IplImage(string filename, LoadMode flags)
+        public IplImage(string fileName, LoadMode flags)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
-            if (!File.Exists(filename))
-                throw new FileNotFoundException("", filename);
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException(String.Format("Not found '{0}'", fileName), fileName);
 
-            ptr = CvInvoke.cvLoadImage(filename, flags);
+            ptr = CvInvoke.cvLoadImage(fileName, flags);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create IplImage");

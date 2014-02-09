@@ -8,6 +8,7 @@ Imports System.Text
 ''' Paths
 ''' </summary>
 Friend NotInheritable Class [Const]
+    Public Const ImageAsahiyama As String = "img/asahiyama.png"
     Public Const ImageLenna As String = "img/lenna.png"
     Public Const ImageGoryokaku As String = "img/goryokaku.png"
 End Class
