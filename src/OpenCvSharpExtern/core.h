@@ -89,32 +89,29 @@ CVAPI(void) core_insertImageCOI(cv::_InputArray *coiimg, CvArr* arr, int coi)
 
 #pragma region Array Operations
 
-CVAPI(void) cv_add(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, cv::_InputArray *mask, int dtype)
+CVAPI(void) core_add(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, cv::_InputArray *mask, int dtype)
 {
 	cv::add(*src1, *src2, *dst, entity(mask), dtype);
 }
-CVAPI(void) cv_subtract(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, cv::_InputArray *mask, int dtype)
+CVAPI(void) core_subtract(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, cv::_InputArray *mask, int dtype)
 {
 	cv::subtract(*src1, *src2, *dst, entity(mask), dtype);
 }
-CVAPI(void) cv_multiply(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, double scale, int dtype)
+CVAPI(void) core_multiply(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, double scale, int dtype)
 {
 	cv::multiply(*src1, *src2, *dst, scale, dtype);
 }
-CVAPI(void) cv_divide1(double scale, cv::_InputArray *src2, cv::_OutputArray* dst, int dtype)
+CVAPI(void) core_divide1(double scale, cv::_InputArray *src2, cv::_OutputArray* dst, int dtype)
 {
 	cv::divide(scale, *src2, *dst, dtype);
 }
-CVAPI(void) cv_divide2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+CVAPI(void) core_divide2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
 {
 	cv::divide(*src1, *src2, *dst);
 }
 
 
-CVAPI(void) cv_convertScaleAbs(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta)
-{
-	cv::convertScaleAbs(*src, *dst, alpha, beta);
-}
+
 #pragma endregion
 
 #pragma region Drawing
@@ -190,7 +187,73 @@ CVAPI(int) core_clipLine2(CvRect imgRect, CvPoint *pt1, CvPoint *pt2)
 	return result ? 1 : 0;
 }
 
+//! renders text string in the image
+CVAPI(void) core_putText(cv::Mat *img, const char *text, CvPoint org,
+	int fontFace, double fontScale, CvScalar color,
+	int thickness, int lineType, int bottomLeftOrigin)
+{
+	cv::putText(*img, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin != 0);
+}
+
+//! returns bounding box of the text string
+CVAPI(CvSize) core_getTextSize(const char *text, int fontFace,
+	double fontScale, int thickness, int* baseLine)
+{
+	return cv::getTextSize(text, fontFace, fontScale, thickness, baseLine);
+}
+
+
 #pragma endregion
 
+CVAPI(void) core_convertScaleAbs(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta)
+{
+	cv::convertScaleAbs(*src, *dst, alpha, beta);
+}
+
+CVAPI(void) core_normalize(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta,
+	int normType, int dtype, cv::_InputArray *mask)
+{
+	cv::InputArray maskVal = entity(mask);
+	cv::normalize(*src, *dst, alpha, beta, normType, dtype, maskVal);
+}
+
+CVAPI(void) core_minMaxLoc1(cv::_InputArray *src, double* minVal, double* maxVal)
+{
+	cv::minMaxLoc(*src, minVal, maxVal);
+}
+CVAPI(void) core_minMaxLoc2(cv::_InputArray *src, double* minVal, double* maxVal,
+	CvPoint* minLoc, CvPoint* maxLoc, cv::_InputArray* mask)
+{
+	cv::InputArray maskVal = entity(mask);
+	cv::Point minLoc0, maxLoc0;
+	cv::minMaxLoc(*src, minVal, maxVal, &minLoc0, &maxLoc0, maskVal);
+	*minLoc = minLoc0;
+	*maxLoc = maxLoc0;
+}
+CVAPI(void) core_minMaxIdx1(cv::_InputArray *src, double* minVal, double* maxVal)
+{
+	cv::minMaxIdx(*src, minVal, maxVal);
+}
+CVAPI(void) core_minMaxIdx2(cv::_InputArray *src, double* minVal, double* maxVal,
+	int* minIdx, int* maxIdx, cv::_InputArray *mask)
+{
+	cv::InputArray maskVal = entity(mask);
+	cv::minMaxIdx(*src, minVal, maxVal, minIdx, maxIdx, maskVal);
+}
+
+CVAPI(int) core_eigen1(cv::_InputArray *src, cv::_OutputArray *eigenvalues, int lowindex, int highindex)
+{
+	return cv::eigen(*src, *eigenvalues, lowindex, highindex) ? 1 : 0;
+}
+CVAPI(int) core_eigen2(cv::_InputArray *src, cv::_OutputArray *eigenvalues,
+	cv::_OutputArray *eigenvectors, int lowindex, int highindex)
+{
+	return cv::eigen(*src, *eigenvalues, *eigenvectors, lowindex, highindex) ? 1 : 0;
+}
+CVAPI(int) core_eigen3(cv::_InputArray *src, bool computeEigenvectors,
+	cv::_OutputArray *eigenvalues, cv::_OutputArray *eigenvectors)
+{
+	return cv::eigen(*src, computeEigenvectors, *eigenvalues, *eigenvectors) ? 1 : 0;
+}
 
 #endif
