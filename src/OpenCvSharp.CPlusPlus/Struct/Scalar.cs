@@ -137,6 +137,24 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
+        public static explicit operator double(Scalar self)
+        {
+            return self.Val0;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static implicit operator Scalar(double val)
+        {
+            return new Scalar(val);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static implicit operator CvColor(Scalar self)
         {
             return new CvScalar(self.Val2, self.Val1, self.Val0, 0);
@@ -152,6 +170,7 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
+        #region Methods
         /// <summary>
         /// 
         /// </summary>
@@ -265,7 +284,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return String.Format("[{0}, {1}, {2}, {3}]", Val0, Val1, Val2, Val3);
         }
-
+        #endregion
     }
 
 }

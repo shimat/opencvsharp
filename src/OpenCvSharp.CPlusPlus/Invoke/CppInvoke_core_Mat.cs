@@ -209,6 +209,8 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_Mat_CvMat(IntPtr self, IntPtr outMat);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_operatorUnaryMinus_Mat(IntPtr mat);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorAdd_MatMat(IntPtr a, IntPtr b);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorAdd_MatScalar(IntPtr a, CvScalar s);

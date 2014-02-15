@@ -494,15 +494,24 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Arithmetic
         #region Unary
-
-        public static MatExpr operator -(Mat m)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static MatExpr operator -(Mat mat)
         {
-            throw new NotImplementedException();
+            IntPtr expr = CppInvoke.core_operatorUnaryMinus_Mat(mat.CvPtr);
+            return new MatExpr(expr);
         }
-
-        public static Mat operator +(Mat m)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static Mat operator +(Mat mat)
         {
-            return m;
+            return mat;
         }
 
         #endregion
@@ -1832,17 +1841,10 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException();
-            try
-            {
-                IntPtr mPtr = m.CvPtr;
-                IntPtr retPtr = CppInvoke.core_Mat_mul(ptr, mPtr);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            m.ThrowIfDisposed();
+            IntPtr retPtr = CppInvoke.core_Mat_mul(ptr, m.CvPtr);
+            MatExpr retVal = new MatExpr(retPtr);
+            return retVal;
         }
 
         /// <summary>
@@ -2696,7 +2698,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat GetRowRange(int startRow, int endRow)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = CppInvoke.core_Mat_colRange_toMat(ptr, startRow, endRow);
+            IntPtr matPtr = CppInvoke.core_Mat_rowRange_toMat(ptr, startRow, endRow);
             return new Mat(matPtr);
         }
 
@@ -3102,6 +3104,26 @@ namespace OpenCvSharp.CPlusPlus
             LineType lineType = LineType.Link8, int shift = 0, Point? offset = null)
         {
             Cv2.FillPoly(this, pts, color, lineType, shift, offset);
+        }
+        #endregion
+        #region PutText
+        /// <summary>
+        /// renders text string in the image
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="text"></param>
+        /// <param name="org"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="bottomLeftOrigin"></param>
+        public void PutText(string text, Point org,
+            FontFace fontFace, double fontScale, Scalar color,
+            int thickness = 1, LineType lineType = LineType.Link8, bool bottomLeftOrigin = false)
+        {
+            Cv2.PutText(this, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin);
         }
         #endregion
         #region ImWrite

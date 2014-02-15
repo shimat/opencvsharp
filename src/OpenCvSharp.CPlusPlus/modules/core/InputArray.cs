@@ -35,14 +35,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(mat == null)
                 throw new ArgumentNullException("mat");
-            try
-            {
-                ptr = CppInvoke.core_InputArray_new_byMat(mat.CvPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = CppInvoke.core_InputArray_new_byMat(mat.CvPtr);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expr"></param>
+        internal InputArray(MatExpr expr)
+        {
+            if (expr == null)
+                throw new ArgumentNullException("expr");
+            ptr = CppInvoke.core_InputArray_new_byMatExpr(expr.CvPtr);
         }
 
         /// <summary>
@@ -86,10 +89,30 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="mat"></param>
         /// <returns></returns>
         public static InputArray FromMat(Mat mat)
         {
             return new InputArray(mat);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public static implicit operator InputArray(MatExpr expr)
+        {
+            return new InputArray(expr);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public static InputArray FromMatExpr(MatExpr expr)
+        {
+            return new InputArray(expr);
         }
         #endregion
 

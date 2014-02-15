@@ -14,6 +14,12 @@ CVAPI(cv::_InputArray*) core_InputArray_new_byMat(cv::Mat *mat)
 	return new cv::_InputArray(ia);
 }
 
+CVAPI(cv::_InputArray*) core_InputArray_new_byMatExpr(cv::MatExpr *expr)
+{
+	cv::_InputArray ia(*expr);
+	return new cv::_InputArray(ia);
+}
+
 CVAPI(void) core_InputArray_delete(cv::_InputArray *ia)
 {
 	delete ia;

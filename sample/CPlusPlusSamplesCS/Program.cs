@@ -15,7 +15,8 @@ namespace CPlusPlusSamplesCS
                 //new HOGSample();
                 //new HoughLinesSample();
                 //new MSERSample();
-                new PixelAccess();
+                new MDS();
+                //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
             sample.Run();

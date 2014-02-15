@@ -35,6 +35,16 @@ namespace OpenCvSharp.CPlusPlus
             X = x;
             Y = y;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public Point(double x, double y)
+        {
+            X = (int)x;
+            Y = (int)y;
+        }
 
         /// <summary>
         /// 
