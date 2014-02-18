@@ -77,7 +77,7 @@ namespace OpenCvSharp.Utilities
             {
                 gch.Free();
             }
-            base.Dispose();
+            base.Dispose(disposing);
         }
 
 #if LANG_JP
@@ -181,6 +181,7 @@ namespace OpenCvSharp.Utilities
                     h.Free();
                 }
             }
+            base.Dispose(disposing);
         }
 
 #if LANG_JP
