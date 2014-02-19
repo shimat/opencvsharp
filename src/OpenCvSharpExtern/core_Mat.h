@@ -480,6 +480,12 @@ CVAPI(void) core_Mat_CvMat(cv::Mat *self, CvMat *outMat)
 	memcpy(outMat, &inMat, sizeof(CvMat));
 }
 
+CVAPI(cv::MatExpr*) core_operatorUnaryMinus_Mat(cv::Mat *mat)
+{
+	cv::MatExpr expr = -(*mat);
+	return new cv::MatExpr(expr);
+}
+
 CVAPI(cv::MatExpr*) core_operatorAdd_MatMat(cv::Mat *a, cv::Mat *b)
 {
 	cv::MatExpr expr = (*a) + (*b);
