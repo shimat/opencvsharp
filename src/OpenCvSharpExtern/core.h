@@ -26,8 +26,8 @@ CVAPI(int) core_getThreadNum()
 CVAPI(void) core_getBuildInformation(char* buf, uint32 maxLength)
 {
 	const std::string& str = cv::getBuildInformation();
-	const char* srcPtr = str.c_str();
-	uint32 length = std::max(str.length() + 1, maxLength);
+	const char* srcPtr = str.c_str(); 
+	uint32 length = (uint32)std::max<uint64>(str.length() + 1, maxLength);
 	memcpy(buf, srcPtr, length);
 }
 
