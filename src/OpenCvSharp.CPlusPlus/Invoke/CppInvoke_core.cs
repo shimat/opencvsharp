@@ -72,14 +72,13 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_subtract(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_multiply(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cv_divide1")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_divide1")]
         public static extern void core_divide(double scale, IntPtr src2, IntPtr dst, int dtype);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cv_divide2")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_divide2")]
         public static extern void core_divide(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
 
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
+
         #endregion
 
         #region Drawing
@@ -109,6 +108,14 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int core_clipLine(Size imgSize, ref Point pt1, ref Point pt2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_clipLine2")]
         public static extern int core_clipLine(Rect imgRect, ref Point pt1, ref Point pt2);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_putText(IntPtr img, string text, CvPoint org,
+            int fontFace, double fontScale, CvScalar color,
+            int thickness, int lineType, int bottomLeftOrigin);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvSize core_getTextSize(string text, int fontFace,
+	        double fontScale, int thickness, out int baseLine);
 
         #endregion
 
@@ -147,5 +154,32 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_insertImageCOI(IntPtr coiimg, IntPtr arr, int coi);
         #endregion
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_normalize(IntPtr src, IntPtr dst, double alpha, double beta,
+                             int norm_type, int dtype, IntPtr mask);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxLoc1")]
+        public static extern void core_minMaxLoc(IntPtr src, out double minVal, out double maxVal);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxLoc2")]
+        public static extern void core_minMaxLoc(IntPtr src, out double minVal, out double maxVal,
+            out CvPoint minLoc, out CvPoint maxLoc, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxIdx1")]
+        public static extern void core_minMaxIdx(IntPtr src, out double minVal, out double maxVal);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxIdx2")]
+        public static extern void core_minMaxIdx(IntPtr src, out double minVal, out double maxVal,
+            out int minIdx, out int maxIdx, IntPtr mask);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen1")]
+        public static extern int core_eigen(IntPtr src, IntPtr eigenvalues, int lowindex, int highindex);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen2")]
+        public static extern int core_eigen(IntPtr src, IntPtr eigenvalues,
+            IntPtr eigenvectors, int lowindex, int highindex);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen3")]
+        public static extern int core_eigen(IntPtr src, bool computeEigenvectors,
+            IntPtr eigenvalues, IntPtr eigenvectors);
     }
 }

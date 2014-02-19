@@ -230,6 +230,177 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
+        
+        #region Normalize
+        /// <summary>
+        /// scales and shifts array elements so that either the specified norm (alpha) 
+        /// or the minimum (alpha) and maximum (beta) array values get the specified values
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="alpha"></param>
+        /// <param name="beta"></param>
+        /// <param name="normType"></param>
+        /// <param name="dtype"></param>
+        /// <param name="mask"></param>
+        public static void Normalize( InputArray src, OutputArray dst, double alpha=1, double beta=0,
+                             NormType normType=NormType.L2, int dtype=-1, InputArray mask=null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_normalize(src.CvPtr, dst.CvPtr, alpha, beta, (int)normType, dtype, ToPtr(mask));
+            dst.Fix();
+        }
+        #endregion
+
+        #region MinMaxLoc
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="minVal"></param>
+        /// <param name="maxVal"></param>
+        public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+            CppInvoke.core_minMaxLoc(src.CvPtr, out minVal, out maxVal);
+        }
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="minVal"></param>
+        /// <param name="maxVal"></param>
+        /// <param name="minLoc"></param>
+        /// <param name="maxLoc"></param>
+        /// <param name="mask"></param>
+        public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal,
+            out Point minLoc, out Point maxLoc, InputArray mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+            CvPoint minLoc0, maxLoc0;
+            CppInvoke.core_minMaxLoc(src.CvPtr, out minVal, out maxVal, out minLoc0, out maxLoc0, ToPtr(mask));
+            minLoc = minLoc0;
+            maxLoc = maxLoc0;
+        }
+        #endregion
+
+        #region MinMaxIdx
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="minVal"></param>
+        /// <param name="maxVal"></param>
+        public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+            CppInvoke.core_minMaxIdx(src.CvPtr, out minVal, out maxVal);
+        }
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="minVal"></param>
+        /// <param name="maxVal"></param>
+        /// <param name="minIdx"></param>
+        /// <param name="maxIdx"></param>
+        /// <param name="mask"></param>
+        public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
+            out int minIdx, out int maxIdx, InputArray mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+            CppInvoke.core_minMaxIdx(src.CvPtr, out minVal, out maxVal, out minIdx, out maxIdx, ToPtr(mask));
+        }
+        #endregion
+
+        #region Eigen
+        /// <summary>
+        /// finds eigenvalues of a symmetric matrix
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="eigenvalues"></param>
+        /// <param name="lowindex"></param>
+        /// <param name="highindex"></param>
+        /// <returns></returns>
+        public static bool Eigen(InputArray src, OutputArray eigenvalues, int lowindex=-1,
+                      int highindex = -1)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (eigenvalues == null)
+                throw new ArgumentNullException("eigenvalues");
+            src.ThrowIfDisposed();
+            eigenvalues.ThrowIfNotReady();
+            int ret = CppInvoke.core_eigen(src.CvPtr, eigenvalues.CvPtr, lowindex, highindex);
+            eigenvalues.Fix();
+            return ret != 0;
+        }
+        /// <summary>
+        /// finds eigenvalues and eigenvectors of a symmetric matrix
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="eigenvalues"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="lowindex"></param>
+        /// <param name="highindex"></param>
+        /// <returns></returns>
+        public static bool Eigen(InputArray src, OutputArray eigenvalues,
+                              OutputArray eigenvectors,
+                              int lowindex=-1, int highindex=-1)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (eigenvalues == null)
+                throw new ArgumentNullException("eigenvalues");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            src.ThrowIfDisposed();
+            eigenvalues.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+            int ret = CppInvoke.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr, lowindex, highindex);
+            eigenvalues.Fix();
+            eigenvectors.Fix();
+            return ret != 0;
+        }
+        /// <summary>
+        /// finds eigenvalues and eigenvectors of a symmetric matrix
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="computeEigenvectors"></param>
+        /// <param name="eigenvalues"></param>
+        /// <param name="eigenvectors"></param>
+        /// <returns></returns>
+        public static bool Eigen(InputArray src, bool computeEigenvectors,
+                                OutputArray eigenvalues, OutputArray eigenvectors)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (eigenvalues == null)
+                throw new ArgumentNullException("eigenvalues");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            src.ThrowIfDisposed();
+            eigenvalues.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+            int ret = CppInvoke.core_eigen(src.CvPtr, computeEigenvectors, eigenvalues.CvPtr, eigenvectors.CvPtr);
+            eigenvalues.Fix();
+            eigenvectors.Fix();
+            return ret != 0;
+        }
+        #endregion
 
         #region Drawing
         #region Line
@@ -608,8 +779,51 @@ namespace OpenCvSharp.CPlusPlus
             return CppInvoke.core_clipLine(imgRect, ref pt1, ref pt2) != 0;
         }
         #endregion
+        #region PutText
+        /// <summary>
+        /// renders text string in the image
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="text"></param>
+        /// <param name="org"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="bottomLeftOrigin"></param>
+        public static void PutText(Mat img, string text, Point org,
+            FontFace fontFace, double fontScale, Scalar color,
+            int thickness = 1, LineType lineType = LineType.Link8, bool bottomLeftOrigin = false) 
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (String.IsNullOrEmpty(text))
+                throw new ArgumentNullException(text); 
+            img.ThrowIfDisposed();
+            CppInvoke.core_putText(img.CvPtr, text, org, (int)fontFace, fontScale, color, 
+                thickness, (int)lineType, bottomLeftOrigin ? 1 : 0);
+        }
         #endregion
-
+        #region GetTextSize
+        /// <summary>
+        /// returns bounding box of the text string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="thickness"></param>
+        /// <param name="baseLine"></param>
+        /// <returns></returns>
+        public static Size GetTextSize(string text, FontFace fontFace,
+            double fontScale, int thickness, out int baseLine)
+        {
+            if (String.IsNullOrEmpty(text))
+                throw new ArgumentNullException(text);
+            return CppInvoke.core_getTextSize(text, (int)fontFace, fontScale, thickness, out baseLine);
+        }
+        #endregion
+        #endregion
         #region Miscellaneous
         /// <summary>
         /// 

@@ -50,25 +50,29 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=x86">
+    <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140219\lib\net40\OpenCvSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.Blob">
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.Blob.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenCvSharp.CPlusPlus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=x86">
+    <Reference Include="OpenCvSharp.Blob, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140219\lib\net40\OpenCvSharp.Blob.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.Extensions">
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
+    <Reference Include="OpenCvSharp.CPlusPlus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140219\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.MachineLearning">
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.MachineLearning.dll</HintPath>
+    <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140219\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.UserInterface">
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140208\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
+    <Reference Include="OpenCvSharp.MachineLearning, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140219\lib\net40\OpenCvSharp.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140219\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -84,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Const.cs" />
+    <Compile Include="Samples\MDS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ISample.cs" />
@@ -247,7 +252,9 @@
     <Content Include="opencv_objdetect248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_ocl248.dll" />
+    <Content Include="opencv_ocl248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="opencv_photo248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

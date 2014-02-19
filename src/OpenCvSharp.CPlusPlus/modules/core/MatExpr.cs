@@ -67,13 +67,13 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Casting
+        #region Cast
         /// <summary>
         /// 
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static explicit operator Mat(MatExpr self)
+        public static implicit operator Mat(MatExpr self)
         {
             try
             {

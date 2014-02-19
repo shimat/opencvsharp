@@ -25,6 +25,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_InputArray_new_byMat(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_InputArray_new_byMatExpr(IntPtr mat);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_InputArray_delete(IntPtr ia);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_OutputArray_new_byMat(IntPtr mat);

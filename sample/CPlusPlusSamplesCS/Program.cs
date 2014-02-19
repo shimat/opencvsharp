@@ -13,8 +13,9 @@ namespace CPlusPlusSamplesCS
                 //new FASTSample();
                 //new FlannSample(); // Todo: crash
                 //new HOGSample();
-                new HoughLinesSample();
+                //new HoughLinesSample();
                 //new MSERSample();
+                new MDS();
                 //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
