@@ -397,7 +397,6 @@
     <Compile Include="Src\Struct\CvPoint3D32f.cs" />
     <Compile Include="Src\Struct\CvPoint3D64f.cs" />
     <Compile Include="Src\Struct\CvLineSegmentPoint.cs" />
-    <Compile Include="Src\Utilities\EnumerableHelper.cs" />
     <Compile Include="Src\Utilities\Platform.cs" />
     <Compile Include="Src\Pointer.cs" />
     <Compile Include="Src\PointerAccessor\1D\PointerAccessor1D.cs" />

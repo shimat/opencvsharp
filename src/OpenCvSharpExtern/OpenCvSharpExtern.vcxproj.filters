@@ -58,48 +58,6 @@
     <ClCompile Include="cvtrack.cpp">
       <Filter>Sources\cvblob</Filter>
     </ClCompile>
-    <ClCompile Include="WAlgorithm.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WCore.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WCv.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WCvAdaptiveSkinDetector.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WCvaux.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WCvCamShiftTracker.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WFlann.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WHighgui.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WHOGDescriptor.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WMat.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WStereoSGBM.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WVector.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WNonfree.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WVideo.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="core_Mat.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
@@ -107,6 +65,51 @@
       <Filter>Sources\cpp</Filter>
     </ClCompile>
     <ClCompile Include="core_MatExpr.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="imgproc.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core_InputArray.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core_OutputArray.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="std_vector.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="objdetect.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="calib3d.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core_Algorithm.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="flann.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="video.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="contrib.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="legacy.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="nonfree.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="features2d.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="core_Ptr.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -153,48 +156,6 @@
     <ClInclude Include="CvSVM.h">
       <Filter>Headers\ml</Filter>
     </ClInclude>
-    <ClInclude Include="WAlgorithm.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WCore.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WCv.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WCvAdaptiveSkinDetector.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WCvaux.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WCvCamShiftTracker.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WFlann.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WHighgui.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WMat.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WHOGDescriptor.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WNonfree.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WStereoSGBM.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WVector.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WVideo.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="core_Mat.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
@@ -206,6 +167,51 @@
     </ClInclude>
     <ClInclude Include="include_opencv.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="imgproc.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_InputArray.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_OutputArray.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="std_vector.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="calib3d.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_Algorithm.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="flann.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="video.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="contrib.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="nonfree.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="features2d.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_Ptr.h">
+      <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

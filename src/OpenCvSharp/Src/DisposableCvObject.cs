@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2008-2013 Schima
+ * (C) 2008-2014 shimat
  * This code is licenced under the LGPL.
  */
 
@@ -113,7 +113,6 @@ namespace OpenCvSharp
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -149,11 +148,11 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Get native pointer of OpenCV structure
+        /// Get a native pointer of OpenCV structure
         /// </summary>
         /// <param name="obj"></param>
         /// <returns>IntPtr.Zero if obj==null, obj.CvPtr otherwise</returns>
-        protected static IntPtr GetCvPtr(DisposableCvObject obj)
+        public static IntPtr GetCvPtr(DisposableCvObject obj)
         {
             return (obj == null) ? IntPtr.Zero : obj.CvPtr;
         }

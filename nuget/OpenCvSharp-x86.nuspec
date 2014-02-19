@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-x86</id>
-        <version>2.4.8.20140131</version>
+        <version>2.4.8.20140219</version>
         <title>OpenCvSharp x86</title>
         <authors>shimat</authors>
         <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
@@ -38,6 +38,7 @@
         <file src="..\lib\opencv\x86\vc10\opencv_ml248.dll" target="Content\opencv_ml248.dll" />
         <file src="..\lib\opencv\x86\vc10\opencv_nonfree248.dll" target="Content\opencv_nonfree248.dll" />
         <file src="..\lib\opencv\x86\vc10\opencv_objdetect248.dll" target="Content\opencv_objdetect248.dll" />
+        <file src="..\lib\opencv\x86\vc10\opencv_ocl248.dll" target="Content\opencv_ocl248.dll" />
         <file src="..\lib\opencv\x86\vc10\opencv_photo248.dll" target="Content\opencv_photo248.dll" />
         <file src="..\lib\opencv\x86\vc10\opencv_stitching248.dll" target="Content\opencv_stitching248.dll" />
         <file src="..\lib\opencv\x86\vc10\opencv_superres248.dll" target="Content\opencv_superres248.dll" />

@@ -3,4 +3,4 @@
  * This code is licenced under the LGPL.
  */
 
-#include "WAlgorithm.h"
+#include "flann.h"
