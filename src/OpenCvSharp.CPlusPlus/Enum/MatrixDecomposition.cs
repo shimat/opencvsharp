@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using OpenCvSharp.CPlusPlus.Prototype;
+using OpenCvSharp.CPlusPlus;
 
 namespace OpenCvSharp.CPlusPlus
 {

@@ -19,8 +19,7 @@ namespace OpenCvSharpSamplesCS
             {
                 Cv.CvtColor(img, cimg, ColorConversion.GrayToBgr);
 
-                //CStyleStarDetector(img, cimg);      // C-style
-                CppStyleStarDetector(img, cimg);    // C++-style
+                CStyleStarDetector(img, cimg);      // C-style
 
                 using (new CvWindow("img", img))
                 using (new CvWindow("features", cimg))
@@ -55,31 +54,6 @@ namespace OpenCvSharpSamplesCS
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Extracts keypoints by C++-style code (cv::StarDetector)
-        /// </summary>
-        /// <param name="img"></param>
-        /// <param name="cimg"></param>
-        private void CppStyleStarDetector(IplImage img, IplImage cimg)
-        {
-            Mat src = new Mat(img, false);
-            Mat dst = new Mat(cimg, false);
-            StarDetector detector = new StarDetector(45);
-            KeyPoint[] keypoints = detector.GetKeyPoints(src);
-
-            if (keypoints != null)
-            {
-                foreach (KeyPoint kpt in keypoints)
-                {
-                    float r = kpt.Size / 2;
-                    CvCpp.Circle(dst, kpt.Pt, (int)r, new CvColor(0, 255, 0), 1, LineType.Link8, 0);
-                    CvCpp.Line(dst, new CvPoint2D32f(kpt.Pt.X + r, kpt.Pt.Y + r), new CvPoint2D32f(kpt.Pt.X - r, kpt.Pt.Y - r), new CvColor(0, 255, 0), 1, LineType.Link8, 0);
-                    CvCpp.Line(dst, new CvPoint2D32f(kpt.Pt.X - r, kpt.Pt.Y + r), new CvPoint2D32f(kpt.Pt.X + r, kpt.Pt.Y - r), new CvColor(0, 255, 0), 1, LineType.Link8, 0);
-                }
-            }
-
         }
     }
 }
