@@ -285,6 +285,20 @@ CVAPI(double) imgproc_PSNR(cv::_InputArray *src1, cv::_InputArray *src2)
 }
 
 
+//! applies fixed threshold to the image
+CVAPI(double) imgproc_threshold(cv::_InputArray *src, cv::_OutputArray *dst,
+	double thresh, double maxval, int type)
+{
+	return cv::threshold(*src, *dst, thresh, maxval, type);
+}
+
+//! applies variable (adaptive) threshold to the image
+CVAPI(void) imgproc_adaptiveThreshold(cv::_InputArray *src, cv::_OutputArray *dst,
+	double maxValue, int adaptiveMethod,
+	int thresholdType, int blockSize, double C)
+{
+	cv::adaptiveThreshold(*src, *dst, maxValue, adaptiveMethod, thresholdType, blockSize, C);
+}
 
 
 #endif
