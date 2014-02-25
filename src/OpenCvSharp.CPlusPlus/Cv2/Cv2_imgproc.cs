@@ -1281,6 +1281,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src1"></param>
         /// <param name="src2"></param>
         /// <returns></returns>
+// ReSharper disable once InconsistentNaming
         public static double PSNR(InputArray src1, InputArray src2)
         {
             if (src1 == null)
@@ -1290,6 +1291,50 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             return CppInvoke.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
+        }
+        #endregion
+        #region Threshold
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="thresh"></param>
+        /// <param name="maxval"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdType type)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            return CppInvoke.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
+        }
+        #endregion
+        #region AdaptiveThreshold
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="maxValue"></param>
+        /// <param name="adaptiveMethod"></param>
+        /// <param name="thresholdType"></param>
+        /// <param name="blockSize"></param>
+        /// <param name="c"></param>
+        public static void AdaptiveThreshold(InputArray src, OutputArray dst,
+            double maxValue, AdaptiveThresholdType adaptiveMethod, ThresholdType thresholdType, int blockSize, double c)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)adaptiveMethod, (int)thresholdType, blockSize, c);
         }
         #endregion
     }

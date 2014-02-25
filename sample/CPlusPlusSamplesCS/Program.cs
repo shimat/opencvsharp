@@ -15,10 +15,11 @@ namespace CPlusPlusSamplesCS
                 //new HOGSample();
                 //new HoughLinesSample();
                 //new MSERSample();
-                new MDS();
+                //new MDS();
                 //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
+                new MorphologySample();
             sample.Run();
         }
     }

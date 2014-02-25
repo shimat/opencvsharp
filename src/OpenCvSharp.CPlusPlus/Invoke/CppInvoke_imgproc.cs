@@ -132,5 +132,10 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_PSNR(IntPtr src1, IntPtr src2);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double imgproc_threshold(IntPtr src, IntPtr dst, double thresh, double maxval, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_adaptiveThreshold(IntPtr src, IntPtr dst,
+            double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double c);
     }
 }
