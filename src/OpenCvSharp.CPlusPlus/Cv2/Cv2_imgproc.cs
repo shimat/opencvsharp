@@ -781,6 +781,7 @@ namespace OpenCvSharp.CPlusPlus
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = DisposableCvObject.GetCvPtr(element);
             CppInvoke.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            dst.Fix();
         }
         #endregion
         #region Erode
@@ -821,6 +822,7 @@ namespace OpenCvSharp.CPlusPlus
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = DisposableCvObject.GetCvPtr(element);
             CppInvoke.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            dst.Fix();
         }
         #endregion
         #region MorphologyEx
@@ -863,6 +865,7 @@ namespace OpenCvSharp.CPlusPlus
             CvScalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = DisposableCvObject.GetCvPtr(element);
             CppInvoke.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            dst.Fix();
         }
         #endregion
         #region Resize
@@ -1311,7 +1314,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            return CppInvoke.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
+            double ret = CppInvoke.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
+            dst.Fix();
+            return ret;
         }
         #endregion
         #region AdaptiveThreshold
@@ -1335,6 +1340,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             CppInvoke.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)adaptiveMethod, (int)thresholdType, blockSize, c);
+            dst.Fix();
         }
         #endregion
     }

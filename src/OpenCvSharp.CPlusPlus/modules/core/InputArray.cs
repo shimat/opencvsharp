@@ -128,14 +128,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                try
-                {
-                    return (InOutArrayKind)CppInvoke.core_InputArray_kind(ptr);
-                }
-                catch (BadImageFormatException ex)
-                {
-                    throw PInvokeHelper.CreateException(ex);
-                }
+                return (InOutArrayKind)CppInvoke.core_InputArray_kind(ptr);
             }
         }
 
