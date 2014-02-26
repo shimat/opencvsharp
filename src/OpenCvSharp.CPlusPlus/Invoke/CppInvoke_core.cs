@@ -76,8 +76,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_divide(double scale, IntPtr src2, IntPtr dst, int dtype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_divide2")]
         public static extern void core_divide(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
-
-
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_scaleAdd(IntPtr src1, double alpha, IntPtr src2,IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_addWeighted(IntPtr src1, double alpha, IntPtr src2,
+            double beta, double gamma, IntPtr dst, int dtype);
 
         #endregion
 
@@ -159,8 +162,17 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_LUT(IntPtr src, IntPtr lut, IntPtr dst, int interpolation);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvScalar core_sum(IntPtr src);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_countNonZero(IntPtr src);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_findNonZero(IntPtr src, IntPtr idx);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_normalize(IntPtr src, IntPtr dst, double alpha, double beta,
-                             int norm_type, int dtype, IntPtr mask);
+                             int normType, int dtype, IntPtr mask);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxLoc1")]
         public static extern void core_minMaxLoc(IntPtr src, out double minVal, out double maxVal);

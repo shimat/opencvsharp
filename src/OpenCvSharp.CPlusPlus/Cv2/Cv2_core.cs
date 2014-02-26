@@ -198,8 +198,57 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
+        #region ScaleAdd
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="alpha"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void ScaleAdd(InputArray src1, double alpha, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_scaleAdd(src1.CvPtr, alpha, src2.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region AddWeighted
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="alpha"></param>
+        /// <param name="src2"></param>
+        /// <param name="beta"></param>
+        /// <param name="gamma"></param>
+        /// <param name="dst"></param>
+        /// <param name="dtype"></param>
+        public static void AddWeighted(InputArray src1, double alpha, InputArray src2,
+            double beta, double gamma, OutputArray dst, int dtype = -1)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_addWeighted(src1.CvPtr, alpha, src2.CvPtr, beta, gamma, dst.CvPtr, dtype);
+            dst.Fix();
+        }
+        #endregion
 
-        
         #region ConvertScaleAbs
 #if LANG_JP
         /// <summary>
@@ -230,7 +279,93 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
-        
+        #region LUT
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="lut"></param>
+        /// <param name="dst"></param>
+        /// <param name="interpolation"></param>
+        public static void LUT(InputArray src, InputArray lut, OutputArray dst, int interpolation = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (lut == null)
+                throw new ArgumentNullException("lut");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            lut.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr, interpolation);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="lut"></param>
+        /// <param name="dst"></param>
+        /// <param name="interpolation"></param>
+        public static void LUT(InputArray src, byte[] lut, OutputArray dst, int interpolation = 0)
+        {
+            if (lut == null)
+                throw new ArgumentNullException("lut");
+            if (lut.Length != 256)
+                throw new ArgumentException("lut.Length != 256");
+            using (Mat lutMat = new Mat(256, 1, MatType.CV_8UC1, lut))
+            {
+                LUT(src, lutMat, dst, interpolation);
+            }
+        }
+        #endregion
+        #region Sum
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static Scalar Sum(InputArray src)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+            return CppInvoke.core_sum(src.CvPtr);
+        }
+        #endregion
+        #region CountNonZero
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static int CountNonZero(InputArray src)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+            return CppInvoke.core_countNonZero(src.CvPtr);
+        }
+        #endregion
+        #region FindNonZero
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="idx"></param>
+        public static void FindNonZero(InputArray src, OutputArray idx)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (idx == null)
+                throw new ArgumentNullException("idx");
+            src.ThrowIfDisposed();
+            idx.ThrowIfNotReady();
+            CppInvoke.core_findNonZero(src.CvPtr, idx.CvPtr);
+            idx.Fix();
+        }
+        #endregion
+
         #region Normalize
         /// <summary>
         /// scales and shifts array elements so that either the specified norm (alpha) 
