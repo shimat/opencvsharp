@@ -110,7 +110,15 @@ CVAPI(void) core_divide2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_Outp
 	cv::divide(*src1, *src2, *dst);
 }
 
-
+CVAPI(void) core_scaleAdd(cv::_InputArray *src1, double alpha, cv::_InputArray *src2, cv::_OutputArray *dst)
+{
+	cv::scaleAdd(*src1, alpha, *src2, *dst);
+}
+CVAPI(void) core_addWeighted(cv::_InputArray *src1, double alpha, cv::_InputArray *src2,
+	double beta, double gamma, cv::_OutputArray *dst, int dtype)
+{
+	cv::addWeighted(*src1, alpha, *src2, beta, gamma, *dst, dtype);
+}
 
 #pragma endregion
 
@@ -208,6 +216,23 @@ CVAPI(CvSize) core_getTextSize(const char *text, int fontFace,
 CVAPI(void) core_convertScaleAbs(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta)
 {
 	cv::convertScaleAbs(*src, *dst, alpha, beta);
+}
+
+CVAPI(void) core_LUT(cv::_InputArray *src, cv::_InputArray *lut, cv::_OutputArray *dst, int interpolation)
+{
+	cv::LUT(*src, *lut, *dst, interpolation);
+}
+CVAPI(CvScalar) core_sum(cv::_InputArray *src)
+{
+	return cv::sum(*src);
+}
+CVAPI(int) core_countNonZero(cv::_InputArray *src)
+{
+	return cv::countNonZero(*src);
+}
+CVAPI(void) core_findNonZero(cv::_InputArray *src, cv::_OutputArray *idx)
+{
+	cv::findNonZero(*src, *idx);
 }
 
 CVAPI(void) core_normalize(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta,
