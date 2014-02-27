@@ -158,9 +158,10 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_insertImageCOI(IntPtr coiimg, IntPtr arr, int coi);
         #endregion
 
+
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_LUT(IntPtr src, IntPtr lut, IntPtr dst, int interpolation);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -169,11 +170,24 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int core_countNonZero(IntPtr src);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_findNonZero(IntPtr src, IntPtr idx);
-
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvScalar core_mean(IntPtr src, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_meanStdDev(IntPtr src, IntPtr mean,
+                                                  IntPtr stddev, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_norm1")]
+        public static extern double core_norm(IntPtr src1, int normType, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_norm2")]
+        public static extern double core_norm(IntPtr src1, IntPtr src2,
+                                               int normType, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_batchDistance(IntPtr src1, IntPtr src2,
+                                                     IntPtr dist, int dtype, IntPtr nidx,
+                                                     int normType, int k, IntPtr mask,
+                                                     int update, int crosscheck);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_normalize(IntPtr src, IntPtr dst, double alpha, double beta,
                              int normType, int dtype, IntPtr mask);
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxLoc1")]
         public static extern void core_minMaxLoc(IntPtr src, out double minVal, out double maxVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxLoc2")]

@@ -200,7 +200,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region ScaleAdd
         /// <summary>
-        /// 
+        /// adds scaled array to another one (dst = alpha*src1 + src2)
         /// </summary>
         /// <param name="src1"></param>
         /// <param name="alpha"></param>
@@ -223,7 +223,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region AddWeighted
         /// <summary>
-        /// 
+        /// computes weighted sum of two arrays (dst = alpha*src1 + beta*src2 + gamma)
         /// </summary>
         /// <param name="src1"></param>
         /// <param name="alpha"></param>
@@ -281,7 +281,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region LUT
         /// <summary>
-        /// 
+        /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
         /// </summary>
         /// <param name="src"></param>
         /// <param name="lut"></param>
@@ -301,7 +301,7 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr, interpolation);
         }
         /// <summary>
-        /// 
+        /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
         /// </summary>
         /// <param name="src"></param>
         /// <param name="lut"></param>
@@ -321,7 +321,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Sum
         /// <summary>
-        /// 
+        /// computes sum of array elements
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
@@ -335,7 +335,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region CountNonZero
         /// <summary>
-        /// 
+        /// computes the number of nonzero array elements
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
@@ -349,7 +349,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region FindNonZero
         /// <summary>
-        /// 
+        /// returns the list of locations of non-zero pixels
         /// </summary>
         /// <param name="src"></param>
         /// <param name="idx"></param>
@@ -365,7 +365,120 @@ namespace OpenCvSharp.CPlusPlus
             idx.Fix();
         }
         #endregion
-
+        #region Mean
+        /// <summary>
+        /// computes mean value of selected array elements
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public static Scalar Mean(InputArray src, InputArray mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+            return CppInvoke.core_mean(src.CvPtr, ToPtr(mask));
+        }
+        #endregion
+        #region MeanStdDev
+        /// <summary>
+        /// computes mean value and standard deviation of all or selected array elements
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="mean"></param>
+        /// <param name="stddev"></param>
+        /// <param name="mask"></param>
+        public static void MeanStdDev(InputArray src, OutputArray mean,
+                                      OutputArray stddev, InputArray mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (stddev == null)
+                throw new ArgumentNullException("stddev");
+            src.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            stddev.ThrowIfNotReady();
+            CppInvoke.core_meanStdDev(src.CvPtr, mean.CvPtr, stddev.CvPtr, ToPtr(mask));
+            mean.Fix();
+            stddev.Fix();
+        }
+        #endregion
+        #region Norm
+        /// <summary>
+        /// computes norm of the selected array part
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="normType"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public static double Norm(InputArray src1, 
+            NormType normType = NormType.L2, InputArray mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            src1.ThrowIfDisposed();
+            return CppInvoke.core_norm(src1.CvPtr, (int)normType, ToPtr(mask));
+        }
+        /// <summary>
+        /// computes norm of selected part of the difference between two arrays
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="normType"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public static double Norm(InputArray src1, InputArray src2,
+                                  NormType normType = NormType.L2, InputArray mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            return CppInvoke.core_norm(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask));
+        }
+        #endregion
+        #region BatchDistance
+        /// <summary>
+        /// naive nearest neighbor finder
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dist"></param>
+        /// <param name="dtype"></param>
+        /// <param name="nidx"></param>
+        /// <param name="normType"></param>
+        /// <param name="k"></param>
+        /// <param name="mask"></param>
+        /// <param name="update"></param>
+        /// <param name="crosscheck"></param>
+        public static void BatchDistance(InputArray src1, InputArray src2,
+                                         OutputArray dist, int dtype, OutputArray nidx,
+                                         NormType normType = NormType.L2,
+                                         int k = 0, InputArray mask = null,
+                                         int update = 0, bool crosscheck = false)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dist == null)
+                throw new ArgumentNullException("dist");
+            if (nidx == null)
+                throw new ArgumentNullException("nidx");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dist.ThrowIfNotReady();
+            nidx.ThrowIfNotReady();
+            CppInvoke.core_batchDistance(src1.CvPtr, src2.CvPtr, dist.CvPtr, dtype, nidx.CvPtr,
+                (int)normType, k, ToPtr(mask), update, crosscheck ? 1 : 0);
+            dist.Fix();
+            nidx.Fix();
+        }
+        #endregion
         #region Normalize
         /// <summary>
         /// scales and shifts array elements so that either the specified norm (alpha) 
@@ -391,7 +504,6 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
-
         #region MinMaxLoc
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
@@ -427,7 +539,6 @@ namespace OpenCvSharp.CPlusPlus
             maxLoc = maxLoc0;
         }
         #endregion
-
         #region MinMaxIdx
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
