@@ -664,6 +664,7 @@ namespace OpenCvSharp.CPlusPlus
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             CppInvoke.core_bitwise_and(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            dst.Fix();
         }
         #endregion
         #region BitwiseOr
@@ -686,6 +687,7 @@ namespace OpenCvSharp.CPlusPlus
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             CppInvoke.core_bitwise_or(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            dst.Fix();
         }
         #endregion
         #region BitwiseXor
@@ -708,6 +710,7 @@ namespace OpenCvSharp.CPlusPlus
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             CppInvoke.core_bitwise_xor(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            dst.Fix();
         }
         #endregion
         #region BitwiseNot
@@ -726,6 +729,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             CppInvoke.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask));
+            dst.Fix();
         }
         #endregion
 

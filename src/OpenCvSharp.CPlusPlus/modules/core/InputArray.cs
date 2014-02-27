@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// 
+    /// Proxy datatype for passing Mat's and vector&lt;&gt;'s as input parameters
     /// </summary>
     public class InputArray : DisposableCvObject
     {
         private bool disposed;
+        private Mat mat;
 
         #region Init & Disposal
-        /// <summary>
-        /// 
-        /// </summary>
-        protected InputArray()
-        {
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -26,6 +22,7 @@ namespace OpenCvSharp.CPlusPlus
         internal InputArray(IntPtr ptr)
         {
             this.ptr = ptr;
+            this.mat = null;
         }
         /// <summary>
         /// 
@@ -35,7 +32,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(mat == null)
                 throw new ArgumentNullException("mat");
-            ptr = CppInvoke.core_InputArray_new_byMat(mat.CvPtr);
+            this.ptr = CppInvoke.core_InputArray_new_byMat(mat.CvPtr);
+            this.mat = mat;
         }
         /// <summary>
         /// 
@@ -45,7 +43,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (expr == null)
                 throw new ArgumentNullException("expr");
-            ptr = CppInvoke.core_InputArray_new_byMatExpr(expr.CvPtr);
+            this.ptr = CppInvoke.core_InputArray_new_byMatExpr(expr.CvPtr);
+            this.mat = null;
         }
 
         /// <summary>
@@ -66,6 +65,7 @@ namespace OpenCvSharp.CPlusPlus
                         CppInvoke.core_InputArray_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
+                    mat = null;
                     disposed = true;
                 }
                 finally
@@ -76,7 +76,8 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Casting
+        #region Cast
+        #region Mat
         /// <summary>
         /// 
         /// </summary>
@@ -84,7 +85,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static implicit operator InputArray(Mat mat)
         {
-            return new InputArray(mat);
+            return FromMat(mat);
         }
         /// <summary>
         /// 
@@ -95,7 +96,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new InputArray(mat);
         }
-
+        #endregion
+        #region MatExpr
         /// <summary>
         /// 
         /// </summary>
@@ -103,7 +105,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static implicit operator InputArray(MatExpr expr)
         {
-            return new InputArray(expr);
+            return FromMatExpr(expr);
         }
         /// <summary>
         /// 
@@ -114,6 +116,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new InputArray(expr);
         }
+        #endregion
         #endregion
 
         #region Operators
@@ -132,6 +135,61 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
 
+        /// <summary>
+        /// Creates a proxy class of the specified list
+        /// </summary>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static InputArray Create<T>(IEnumerable<T> enumerable)
+            where T : struct
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+            List<T> list = new List<T>(enumerable);
+            return Create(list.ToArray());
+        }
+
+        /// <summary>
+        /// Creates a proxy class of the specified list
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static InputArray Create<T>(T[] array)
+            where T : struct 
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            if (array.Length == 0)
+                throw new ArgumentException("array.Length == 0");
+
+            int rows = array.Length;
+            int depth = Marshal.SizeOf(typeof(T));
+            MatType type = MatType.MakeType(depth, 1);
+            Mat mat = new Mat(rows, 1, type, array);
+            return new InputArray(mat);
+        }
+
+        /// <summary>
+        /// Creates a proxy class of the specified list
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static InputArray Create<T>(T[,] array)
+            where T : struct 
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            int rows = array.GetLength(0);
+            int cols = array.GetLength(1);
+            if (rows == 0)
+                throw new ArgumentException("array.GetLength(0) == 0");
+            if (cols == 0)
+                throw new ArgumentException("array.GetLength(1) == 0");
+            int depth = Marshal.SizeOf(typeof(T));
+            MatType type = MatType.MakeType(depth, 1);
+            Mat mat = new Mat(rows, 1, type, array);
+            return new InputArray(mat);
+        }
         #endregion
     }
 }

@@ -24,6 +24,10 @@ namespace OpenCvSharp.Sandbox
             var memory = new List<long>(100);
             for (long i = 0; ; i++)
             {
+                var a = new List<byte> {1, 128, 255};
+                var b = new List<byte>();
+                Cv2.BitwiseNot(InputArray.Create(a), OutputArray.Create(b));
+
                 Stopwatch watch = new Stopwatch();
 
                 Mat mat = new Mat(@"img\lenna.png", LoadMode.Color);

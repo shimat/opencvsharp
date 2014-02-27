@@ -7,7 +7,7 @@ using OpenCvSharp.Utilities;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// 
+    /// OpenCV Functions of C++ I/F (cv::xxx) 
     /// </summary>
     public static partial class Cv2
     {
