@@ -8,7 +8,7 @@ using OpenCvSharp.Utilities;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// Proxy datatype for passing Mat's and vector<>'s as input parameters
+    /// Proxy datatype for passing Mat's and vector&lt;&gt;'s as input parameters
     /// </summary>
     public sealed class OutputArray<T> : OutputArray
         where T : struct
@@ -71,7 +71,7 @@ namespace OpenCvSharp.CPlusPlus
     }
 
     /// <summary>
-    /// Proxy datatype for passing Mat's and vector<>'s as input parameters
+    /// Proxy datatype for passing Mat's and vector&lt;&gt;'s as input parameters
     /// </summary>
     public class OutputArray : DisposableCvObject
     {
@@ -119,21 +119,13 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Casting
+        #region Cast
         /// <summary>
         /// 
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
         public static implicit operator OutputArray(Mat mat)
-        {
-            return new OutputArray(mat);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static new OutputArray FromMat(Mat mat)
         {
             return new OutputArray(mat);
         }
@@ -171,6 +163,8 @@ namespace OpenCvSharp.CPlusPlus
             // OutputArrayの実体が cv::Mat のとき
             if (IsMat())
             {
+                // 実は、何もしなくても結果入ってるっぽい？
+                /*
                 Mat mat = GetMat();
                 // OutputArrayからMatオブジェクトを取得
                 IntPtr outMat = CppInvoke.core_OutputArray_getMat(ptr);
@@ -179,6 +173,7 @@ namespace OpenCvSharp.CPlusPlus
                 CppInvoke.core_Mat_assignTo(outMat, mat.CvPtr);
                 // OutputArrayから取り出したMatをdelete
                 CppInvoke.core_Mat_delete(outMat);
+                */
             }
             else
             {
@@ -215,6 +210,15 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(!IsReady())
                 throw new OpenCvSharpException("Invalid OutputArray");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static OutputArray Create(Mat mat)
+        {
+            return new OutputArray(mat);
         }
 
         /// <summary>

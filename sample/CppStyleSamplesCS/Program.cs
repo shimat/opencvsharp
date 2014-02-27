@@ -19,8 +19,8 @@ namespace CPlusPlusSamplesCS
                 //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
-                //new MorphologySample();
-                new MergeSplitSample();
+                new MorphologySample();
+                //new MergeSplitSample();
             sample.Run();
         }
     }

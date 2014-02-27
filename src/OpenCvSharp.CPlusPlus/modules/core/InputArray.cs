@@ -77,7 +77,6 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Cast
-        #region Mat
         /// <summary>
         /// 
         /// </summary>
@@ -85,19 +84,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static implicit operator InputArray(Mat mat)
         {
-            return FromMat(mat);
+            return Create(mat);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static InputArray FromMat(Mat mat)
-        {
-            return new InputArray(mat);
-        }
-        #endregion
-        #region MatExpr
         /// <summary>
         /// 
         /// </summary>
@@ -105,18 +93,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static implicit operator InputArray(MatExpr expr)
         {
-            return FromMatExpr(expr);
+            return Create(expr);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="expr"></param>
-        /// <returns></returns>
-        public static InputArray FromMatExpr(MatExpr expr)
-        {
-            return new InputArray(expr);
-        }
-        #endregion
         #endregion
 
         #region Operators
@@ -133,6 +111,26 @@ namespace OpenCvSharp.CPlusPlus
                 ThrowIfDisposed();
                 return (InOutArrayKind)CppInvoke.core_InputArray_kind(ptr);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static InputArray Create(Mat mat)
+        {
+            return new InputArray(mat);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public static InputArray Create(MatExpr expr)
+        {
+            return new InputArray(expr);
         }
 
         /// <summary>
