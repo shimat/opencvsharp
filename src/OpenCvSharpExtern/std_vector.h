@@ -364,4 +364,51 @@ CVAPI(void) vector_vector_KeyPoint_delete(vector<vector<cv::KeyPoint>>* vec)
 }
 #pragma endregion
 
+#pragma region cv::Mat
+CVAPI(vector<cv::Mat>*) vector_Mat_new1()
+{
+	return new vector<cv::Mat>;
+}
+CVAPI(vector<cv::Mat>*) vector_Mat_new2(size_t size)
+{
+	return new vector<cv::Mat>(size);
+}
+CVAPI(vector<cv::Mat>*) vector_Mat_new3(cv::Mat *data, size_t dataLength)
+{
+	vector<cv::Mat>* vec = new vector<cv::Mat>(dataLength);
+	for (size_t i = 0; i<dataLength; i++)
+	{
+		vec->push_back(data[i]);
+	}
+	return vec;
+}
+CVAPI(size_t) vector_Mat_getSize(vector<cv::Mat>* vector)
+{
+	return vector->size();
+}
+CVAPI(cv::Mat*) vector_Mat_getPointer(vector<cv::Mat>* vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_Mat_assignToArray(vector<cv::Mat>* vector, cv::Mat** arr)
+{
+	for (int i = 0; i < vector->size(); i++)
+	{
+		(vector->at(i)).assignTo(*(arr[i]));
+	}
+}
+CVAPI(void) vector_Mat_addref(vector<cv::Mat>* vector)
+{
+	for (auto m = vector->begin(); m != vector->end(); m++)
+	{
+		m->addref();
+	}
+}
+CVAPI(void) vector_Mat_delete(vector<cv::Mat>* vector)
+{	
+	//vector->~vector();
+	delete vector;
+}
+#pragma endregion
+
 #endif

@@ -571,6 +571,163 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.core_minMaxIdx(src.CvPtr, out minVal, out maxVal, out minIdx, out maxIdx, ToPtr(mask));
         }
         #endregion
+        #region Reduce
+        /// <summary>
+        /// transforms 2D matrix to 1D row or column vector by taking sum, minimum, maximum or mean value over all the rows
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="dim"></param>
+        /// <param name="rtype"></param>
+        /// <param name="dtype"></param>
+        public static void Reduce(InputArray src, OutputArray dst, ReduceDimension dim, ReduceOperation rtype, int dtype)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_reduce(src.CvPtr, dst.CvPtr, (int)dim, (int)rtype, dtype);
+            dst.Fix();
+        }
+        #endregion
+        #region Merge
+        /// <summary>
+        /// makes multi-channel array out of several single-channel arrays
+        /// </summary>
+        /// <param name="mv"></param>
+        /// <param name="dst"></param>
+        public static void Merge(Mat[] mv, Mat dst)
+        {
+            if (mv == null)
+                throw new ArgumentNullException("mv");
+            if (mv.Length == 0)
+                throw new ArgumentException("mv.Length == 0");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            foreach (Mat m in mv)
+            {
+                if(m == null)
+                    throw new ArgumentException("mv contains null element");
+                m.ThrowIfDisposed();
+            }
+            dst.ThrowIfDisposed();
+
+            IntPtr[] mvPtr = new IntPtr[mv.Length];
+            for (int i = 0; i < mv.Length; i++)
+            {
+                mvPtr[i] = mv[i].CvPtr;
+            }
+            CppInvoke.core_merge(mvPtr, (uint)mvPtr.Length, dst.CvPtr);
+        }
+        #endregion
+        #region Split
+        /// <summary>
+        /// copies each plane of a multi-channel array to a dedicated array
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="mv"></param>
+        public static void Split(Mat src, out Mat[] mv)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+
+            IntPtr mvPtr;
+            CppInvoke.core_split(src.CvPtr, out mvPtr);
+
+            using (StdVectorMat vec = new StdVectorMat(mvPtr))
+            {
+                mv = vec.ToArray();
+            }
+        }
+        #endregion
+
+        #region BitwiseAnd
+        /// <summary>
+        /// computes bitwise conjunction of the two arrays (dst = src1 & src2)
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        /// <param name="mask"></param>
+        public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_bitwise_and(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+        }
+        #endregion
+        #region BitwiseOr
+        /// <summary>
+        /// computes bitwise disjunction of the two arrays (dst = src1 | src2)
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        /// <param name="mask"></param>
+        public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_bitwise_or(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+        }
+        #endregion
+        #region BitwiseXor
+        /// <summary>
+        /// computes bitwise exclusive-or of the two arrays (dst = src1 ^ src2)
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        /// <param name="mask"></param>
+        public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_bitwise_xor(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+        }
+        #endregion
+        #region BitwiseNot
+        /// <summary>
+        /// inverts each bit of array (dst = ~src)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="mask"></param>
+        public static void BitwiseNot(InputArray src, OutputArray dst, InputArray mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask));
+        }
+        #endregion
 
         #region Eigen
         /// <summary>

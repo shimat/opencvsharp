@@ -294,6 +294,50 @@ CVAPI(void) core_minMaxIdx2(cv::_InputArray *src, double* minVal, double* maxVal
 	cv::minMaxIdx(*src, minVal, maxVal, minIdx, maxIdx, maskVal);
 }
 
+CVAPI(void) core_reduce(cv::_InputArray *src, cv::_OutputArray *dst, int dim, int rtype, int dtype)
+{
+	cv::reduce(*src, *dst, dim, rtype, dtype);
+}
+CVAPI(void) core_merge(cv::Mat **mv, uint32 count, cv::Mat *dst)
+{
+	std::vector<cv::Mat> vec;
+	vec.resize((size_t)count);
+	for (int i = 0; i < count; i++)
+	{
+		vec[i] = *mv[i];
+	}
+	cv::merge(vec, *dst);
+}
+CVAPI(void) core_split(cv::Mat *src, std::vector<cv::Mat> **mv)
+{
+	*mv = new std::vector<cv::Mat>();
+	cv::split(*src, **mv);
+}
+
+
+
+CVAPI(void) core_bitwise_and(cv::_InputArray *src1, cv::_InputArray *src2,
+                        cv::_OutputArray *dst, cv::_InputArray *mask)
+{
+	cv::bitwise_and(*src1, *src2, *dst, entity(mask));
+}
+CVAPI(void) core_bitwise_or(cv::_InputArray *src1, cv::_InputArray *src2,
+                       cv::_OutputArray *dst, cv::_InputArray *mask)
+{
+	cv::bitwise_or(*src1, *src2, *dst, entity(mask));
+}
+CVAPI(void) core_bitwise_xor(cv::_InputArray *src1, cv::_InputArray *src2,
+                        cv::_OutputArray *dst, cv::_InputArray *mask)
+{
+	cv::bitwise_xor(*src1, *src2, *dst, entity(mask));
+}
+CVAPI(void) core_bitwise_not(cv::_InputArray *src, cv::_OutputArray *dst,
+                        cv::_InputArray *mask)
+{
+	cv::bitwise_not(*src, *dst, entity(mask));
+}
+
+
 CVAPI(int) core_eigen1(cv::_InputArray *src, cv::_OutputArray *eigenvalues, int lowindex, int highindex)
 {
 	return cv::eigen(*src, *eigenvalues, lowindex, highindex) ? 1 : 0;

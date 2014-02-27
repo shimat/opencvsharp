@@ -231,6 +231,7 @@
     <Compile Include="Vector\StdVectorVec2f.cs" />
     <Compile Include="Vector\StdVectorVec4i.cs" />
     <Compile Include="Vector\StdVectorVec3f.cs" />
+    <Compile Include="Vector\StdVectorMat.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OpenCvSharpExtern.dll">

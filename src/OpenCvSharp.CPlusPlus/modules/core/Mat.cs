@@ -308,6 +308,11 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Static
+        /// <summary>
+        /// sizeof(cv::Mat)
+        /// </summary>
+        public static readonly int SizeOf = (int)CppInvoke.core_Mat_sizeof();
+
         #region Diag
 
         /// <summary>
