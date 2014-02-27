@@ -235,6 +235,34 @@ CVAPI(void) core_findNonZero(cv::_InputArray *src, cv::_OutputArray *idx)
 	cv::findNonZero(*src, *idx);
 }
 
+CVAPI(CvScalar) core_mean(cv::_InputArray *src, cv::_InputArray *mask)
+{
+	return cv::mean(*src, entity(mask));
+}
+CVAPI(void) core_meanStdDev(cv::_InputArray *src, cv::_OutputArray *mean, 
+					   cv::_OutputArray *stddev, cv::_InputArray *mask)
+{
+	cv::meanStdDev(*src, *mean, *stddev, entity(mask));
+}
+
+CVAPI(double) core_norm1(cv::_InputArray *src1, int normType, cv::_InputArray *mask)
+{
+	return cv::norm(*src1, normType, entity(mask));
+}
+CVAPI(double) core_norm2(cv::_InputArray *src1, cv::_InputArray *src2,
+                         int normType, cv::_InputArray *mask)
+{
+	return cv::norm(*src1, *src2, normType, entity(mask));
+}
+
+CVAPI(void) core_batchDistance(cv::_InputArray *src1, cv::_InputArray *src2,
+                                cv::_OutputArray *dist, int dtype, cv::_OutputArray *nidx,
+                                int normType, int K, cv::_InputArray *mask, 
+								int update, int crosscheck)
+{
+	cv::batchDistance(*src1, *src2, *dist, dtype, *nidx, normType, K, entity(mask), update, crosscheck != 0);
+}
+
 CVAPI(void) core_normalize(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta,
 	int normType, int dtype, cv::_InputArray *mask)
 {
