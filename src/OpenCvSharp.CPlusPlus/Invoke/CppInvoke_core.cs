@@ -157,8 +157,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_insertImageCOI(IntPtr coiimg, IntPtr arr, int coi);
         #endregion
-
-
+        
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
@@ -207,7 +206,24 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_mixChannels(IntPtr[] src, uint nsrcs,
             IntPtr[] dst, uint ndsts, int[] fromTo, uint npairs);
-
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_extractChannel(IntPtr src, IntPtr dst, int coi);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_insertChannel(IntPtr src, IntPtr dst, int coi);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_flip(IntPtr src, IntPtr dst, int flipCode);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_repeat1")]
+        public static extern void core_repeat(IntPtr src, int ny, int nx, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_repeat2")]
+        public static extern IntPtr core_repeat(IntPtr src, int ny, int nx);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_hconcat1")]
+        public static extern void core_hconcat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_hconcat2")]
+        public static extern void core_hconcat(IntPtr src1, IntPtr src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_vconcat1")]
+        public static extern void core_vconcat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_vconcat2")]
+        public static extern void core_vconcat(IntPtr src1, IntPtr src2, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_bitwise_and(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

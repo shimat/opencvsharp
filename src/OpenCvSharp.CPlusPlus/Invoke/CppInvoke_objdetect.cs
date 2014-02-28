@@ -106,9 +106,5 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_nlevels_set(IntPtr self, int value);
         #endregion
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cv_FAST(IntPtr image, IntPtr keypoints, int threshold, [MarshalAs(UnmanagedType.Bool)] bool nonmaxSupression);
-
     }
 }

@@ -690,7 +690,186 @@ namespace OpenCvSharp.CPlusPlus
                 fromTo, (uint)(fromTo.Length / 2));
         }
         #endregion
-
+        #region ExtractChannel
+        /// <summary>
+        /// extracts a single channel from src (coi is 0-based index)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="coi"></param>
+        public static void ExtractChannel(InputArray src, OutputArray dst, int coi)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_extractChannel(src.CvPtr, dst.CvPtr, coi);
+            dst.Fix();
+        }
+        #endregion
+        #region InsertChannel
+        /// <summary>
+        /// inserts a single channel to dst (coi is 0-based index)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="coi"></param>
+        public static void InsertChannel(InputArray src, OutputArray dst, int coi)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_insertChannel(src.CvPtr, dst.CvPtr, coi);
+            dst.Fix();
+        }
+        #endregion
+        #region Flip
+        /// <summary>
+        /// reverses the order of the rows, columns or both in a matrix
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="flipCode"></param>
+        public static void Flip(InputArray src, OutputArray dst, FlipMode flipCode)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_flip(src.CvPtr, dst.CvPtr, (int)flipCode);
+            dst.Fix();
+        }
+        #endregion
+        #region Repeat
+        /// <summary>
+        /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="ny"></param>
+        /// <param name="nx"></param>
+        /// <param name="dst"></param>
+        public static void Repeat(InputArray src, int ny, int nx, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_repeat(src.CvPtr, ny, nx, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="ny"></param>
+        /// <param name="nx"></param>
+        /// <returns></returns>
+        public static Mat Repeat(Mat src, int ny, int nx)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            src.ThrowIfDisposed();
+            IntPtr matPtr = CppInvoke.core_repeat(src.CvPtr, ny, nx);
+            return new Mat(matPtr);
+        }
+        #endregion
+        #region HConcat
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        public static void HConcat(Mat[] src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (src.Length == 0)
+                throw new ArgumentException("src.Length == 0");
+            IntPtr[] srcPtr = new IntPtr[src.Length];
+            for (int i = 0; i < src.Length; i++)
+            {
+                src[i].ThrowIfDisposed();
+                srcPtr[i] = src[i].CvPtr;
+            }
+            CppInvoke.core_hconcat(srcPtr, (uint)src.Length, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void HConcat(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_hconcat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region VConcat
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        public static void VConcat(Mat[] src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (src.Length == 0)
+                throw new ArgumentException("src.Length == 0");
+            IntPtr[] srcPtr = new IntPtr[src.Length];
+            for (int i = 0; i < src.Length; i++)
+            {
+                src[i].ThrowIfDisposed();
+                srcPtr[i] = src[i].CvPtr;
+            }
+            CppInvoke.core_vconcat(srcPtr, (uint)src.Length, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void VConcat(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_vconcat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
         #region BitwiseAnd
         /// <summary>
         /// computes bitwise conjunction of the two arrays (dst = src1 &amp; src2)

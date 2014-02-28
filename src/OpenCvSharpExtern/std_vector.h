@@ -128,6 +128,38 @@ CVAPI(void) vector_Vec3f_delete(vector<cv::Vec3f>* vector)
 }
 #pragma endregion
 
+#pragma region cv::Vec4f
+CVAPI(vector<cv::Vec4f>*) vector_Vec4f_new1()
+{
+	return new vector<cv::Vec4f>;
+}
+CVAPI(vector<cv::Vec4f>*) vector_Vec4f_new2(size_t size)
+{
+	return new vector<cv::Vec4f>(size);
+}
+CVAPI(vector<cv::Vec4f>*) vector_Vec4f_new3(cv::Vec4f* data, size_t dataLength)
+{
+	vector<cv::Vec4f>* vec = new vector<cv::Vec4f>(dataLength);
+	for (size_t i = 0; i<dataLength; i++)
+	{
+		vec->push_back(data[i]);
+	}
+	return vec;
+}
+CVAPI(size_t) vector_Vec4f_getSize(vector<cv::Vec4f>* vector)
+{
+	return vector->size();
+}
+CVAPI(cv::Vec4f*) vector_Vec4f_getPointer(vector<cv::Vec4f>* vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_Vec4f_delete(vector<cv::Vec4f>* vector)
+{
+	delete vector;
+}
+#pragma endregion
+
 #pragma region cv::Vec4i
 CVAPI(vector<cv::Vec4i>*) vector_Vec4i_new1()
 {
@@ -155,6 +187,38 @@ CVAPI(cv::Vec4i*) vector_Vec4i_getPointer(vector<cv::Vec4i>* vector)
 	return &(vector->at(0));
 }
 CVAPI(void) vector_Vec4i_delete(vector<cv::Vec4i>* vector)
+{
+	delete vector;
+}
+#pragma endregion
+
+#pragma region cv::Vec6f
+CVAPI(vector<cv::Vec6f>*) vector_Vec6f_new1()
+{
+	return new vector<cv::Vec6f>;
+}
+CVAPI(vector<cv::Vec6f>*) vector_Vec6f_new2(size_t size)
+{
+	return new vector<cv::Vec6f>(size);
+}
+CVAPI(vector<cv::Vec6f>*) vector_Vec6f_new3(cv::Vec6f* data, size_t dataLength)
+{
+	vector<cv::Vec6f>* vec = new vector<cv::Vec6f>(dataLength);
+	for (size_t i = 0; i<dataLength; i++)
+	{
+		vec->push_back(data[i]);
+	}
+	return vec;
+}
+CVAPI(size_t) vector_Vec6f_getSize(vector<cv::Vec6f>* vector)
+{
+	return vector->size();
+}
+CVAPI(cv::Vec6f*) vector_Vec6f_getPointer(vector<cv::Vec6f>* vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_Vec6f_delete(vector<cv::Vec6f>* vector)
 {
 	delete vector;
 }

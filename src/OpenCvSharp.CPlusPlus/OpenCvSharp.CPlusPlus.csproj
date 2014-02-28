@@ -140,10 +140,12 @@
     <Compile Include="Cv2\Cv2_nonfree.cs" />
     <Compile Include="Invoke\CppInvoke_core_Ptr.cs" />
     <Compile Include="Invoke\CppInvoke_features2d.cs" />
+    <Compile Include="Invoke\CppInvoke_imgproc_Subdiv2D.cs" />
     <Compile Include="Invoke\CppInvoke_nonfree.cs" />
     <Compile Include="Invoke\CppInvoke_legacy.cs" />
     <Compile Include="Invoke\CppInvoke_contrib.cs" />
     <Compile Include="modules\features2d\FeatureDetector.cs" />
+    <Compile Include="modules\imgproc\Subdiv2D.cs" />
     <Compile Include="modules\video\BackgroundSubtractor.cs" />
     <Compile Include="modules\contrib\CvAdaptiveSkinDetector.cs" />
     <Compile Include="modules\legacy\CvCamShiftTracker.cs" />
@@ -216,6 +218,8 @@
     <Compile Include="modules\core\OutputArray.cs" />
     <Compile Include="Vector\IStdVector.cs" />
     <Compile Include="Vector\StdVectorByte.cs" />
+    <Compile Include="Vector\StdVectorVec6f.cs" />
+    <Compile Include="Vector\StdVectorVec4f.cs" />
     <Compile Include="Vector\StdVectorVectorKeyPoint.cs" />
     <Compile Include="Vector\StdVectorPoint3f.cs" />
     <Compile Include="modules\video\BackgroundSubtractorMOG.cs" />
