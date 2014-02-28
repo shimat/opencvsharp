@@ -300,12 +300,10 @@ CVAPI(void) core_reduce(cv::_InputArray *src, cv::_OutputArray *dst, int dim, in
 }
 CVAPI(void) core_merge(cv::Mat **mv, uint32 count, cv::Mat *dst)
 {
-	std::vector<cv::Mat> vec;
-	vec.resize((size_t)count);
-	for (int i = 0; i < count; i++)
-	{
+	std::vector<cv::Mat> vec((size_t)count);
+	for (int i = 0; i < count; i++)	
 		vec[i] = *mv[i];
-	}
+	
 	cv::merge(vec, *dst);
 }
 CVAPI(void) core_split(cv::Mat *src, std::vector<cv::Mat> **mv)
@@ -313,8 +311,61 @@ CVAPI(void) core_split(cv::Mat *src, std::vector<cv::Mat> **mv)
 	*mv = new std::vector<cv::Mat>();
 	cv::split(*src, **mv);
 }
+CVAPI(void) core_mixChannels(cv::Mat **src, uint32 nsrcs, cv::Mat **dst, uint32 ndsts, int *fromTo, uint32 npairs)
+{
+	std::vector<cv::Mat> srcVec((size_t)nsrcs);
+	std::vector<cv::Mat> dstVec((size_t)ndsts);
+	for (int i = 0; i < nsrcs; i++)	
+		srcVec[i] = *(src[i]);
+	for (int i = 0; i < ndsts; i++)	
+		dstVec[i] = *(dst[i]);
 
+	cv::mixChannels(srcVec, dstVec, fromTo, npairs);
+}
 
+CVAPI(void) core_extractChannel(cv::_InputArray *src, cv::_OutputArray *dst, int coi)
+{
+	cv::extractChannel(*src, *dst, coi);
+}
+CVAPI(void) core_insertChannel(cv::_InputArray *src, cv::_OutputArray *dst, int coi)
+{
+	cv::insertChannel(*src, *dst, coi);
+}
+CVAPI(void) core_flip(cv::_InputArray *src, cv::_OutputArray *dst, int flipCode)
+{
+	cv::flip(*src, *dst, flipCode);
+}
+CVAPI(void) core_repeat1(cv::_InputArray *src, int ny, int nx, cv::_OutputArray *dst)
+{
+	cv::repeat(*src, ny, nx, *dst);
+}
+CVAPI(cv::Mat*) core_repeat2(cv::Mat *src, int ny, int nx)
+{
+	cv::Mat ret = cv::repeat(*src, ny, nx);
+	return new cv::Mat(ret);
+}
+CVAPI(void) core_hconcat1(cv::Mat **src, uint32 nsrc, cv::_OutputArray *dst)
+{
+	std::vector<cv::Mat> srcVec((size_t)nsrc);
+	for (int i = 0; i < nsrc; i++)	
+		srcVec[i] = *(src[i]);
+	cv::hconcat(&srcVec[0], nsrc, *dst);
+}
+CVAPI(void) core_hconcat2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+{
+	cv::hconcat(*src1, *src2, *dst);
+}
+CVAPI(void) core_vconcat1(cv::Mat **src, uint32 nsrc, cv::_OutputArray *dst)
+{
+	std::vector<cv::Mat> srcVec((size_t)nsrc);
+	for (int i = 0; i < nsrc; i++)	
+		srcVec[i] = *(src[i]);
+	cv::vconcat(&srcVec[0], nsrc, *dst);
+}
+CVAPI(void) core_vconcat2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+{
+	cv::vconcat(*src1, *src2, *dst);
+}
 
 CVAPI(void) core_bitwise_and(cv::_InputArray *src1, cv::_InputArray *src2,
                         cv::_OutputArray *dst, cv::_InputArray *mask)

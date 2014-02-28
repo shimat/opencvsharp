@@ -345,7 +345,7 @@ namespace OpenCvSharp
         }
         #endregion
 
-        #region Overrided methods
+        #region Override
 #if LANG_JP
         /// <summary>
         /// Equalsのオーバーライド

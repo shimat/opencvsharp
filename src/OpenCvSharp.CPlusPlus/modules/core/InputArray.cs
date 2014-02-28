@@ -161,8 +161,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentException("array.Length == 0");
 
             int rows = array.Length;
-            int depth = Marshal.SizeOf(typeof(T));
-            MatType type = MatType.MakeType(depth, 1);
+            MatType type = EstimateType(typeof(T));
             Mat mat = new Mat(rows, 1, type, array);
             return new InputArray(mat);
         }
@@ -183,10 +182,39 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentException("array.GetLength(0) == 0");
             if (cols == 0)
                 throw new ArgumentException("array.GetLength(1) == 0");
-            int depth = Marshal.SizeOf(typeof(T));
-            MatType type = MatType.MakeType(depth, 1);
+            MatType type = EstimateType(typeof(T));
             Mat mat = new Mat(rows, 1, type, array);
             return new InputArray(mat);
+        }
+
+        private static MatType EstimateType(Type t)
+        {
+            if(!t.IsValueType)
+                throw new ArgumentException();
+
+            TypeCode code = Type.GetTypeCode(t);
+            switch (code)
+            {
+                case TypeCode.Byte:
+                    return MatType.CV_8UC(1);
+                case TypeCode.SByte:
+                    return MatType.CV_8SC(1);
+                case TypeCode.UInt16:
+                    return MatType.CV_16UC(1);
+                case TypeCode.Int16:
+                case TypeCode.Char:
+                    return MatType.CV_16SC(1);
+                case TypeCode.UInt32:
+                case TypeCode.Int32:
+                    return MatType.CV_32SC(1);
+                case TypeCode.Single:
+                    return MatType.CV_32FC(1);
+                case TypeCode.Double:
+                    return MatType.CV_64FC(1);
+                default:
+                    int elemSize = Marshal.SizeOf(t);
+                    return MatType.CV_8UC(elemSize);
+            }
         }
         #endregion
     }

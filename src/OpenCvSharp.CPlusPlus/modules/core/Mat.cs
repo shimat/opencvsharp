@@ -1054,6 +1054,10 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public class ColIndexer : MatRowColIndexer
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
             protected internal ColIndexer(Mat parent)
                 : base(parent)
             {
@@ -1131,6 +1135,10 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public class RowIndexer : MatRowColIndexer
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
             protected internal RowIndexer(Mat parent)
                 : base(parent)
             {
@@ -1439,15 +1447,8 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            try
-            {
-                IntPtr maskPtr = GetCvPtr(mask);
-                CppInvoke.core_Mat_copyTo(ptr, m.CvPtr, maskPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr maskPtr = Cv2.ToPtr(mask);
+            CppInvoke.core_Mat_copyTo(ptr, m.CvPtr, maskPtr);
         }
 
         #endregion
@@ -1888,15 +1889,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException();
-            try
-            {
-                IntPtr mPtr = GetCvPtr(m);
-                CppInvoke.core_Mat_push_back(ptr, mPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            CppInvoke.core_Mat_push_back(ptr, m.CvPtr);
         }
 
         #endregion
@@ -2055,17 +2048,10 @@ namespace OpenCvSharp.CPlusPlus
         public Mat SetTo(Scalar value, Mat mask)
         {
             ThrowIfDisposed();
-            try
-            {
-                IntPtr maskPtr = GetCvPtr(mask);
-                IntPtr retPtr = CppInvoke.core_Mat_setTo(ptr, value, maskPtr);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr maskPtr = Cv2.ToPtr(mask);
+            IntPtr retPtr = CppInvoke.core_Mat_setTo(ptr, value, maskPtr);
+            Mat retVal = new Mat(retPtr);
+            return retVal;
         }
 
         /// <summary>
@@ -2089,17 +2075,10 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (value == null)
                 throw new ArgumentNullException("value");
-            try
-            {
-                IntPtr maskPtr = GetCvPtr(mask);
-                IntPtr retPtr = CppInvoke.core_Mat_setTo(ptr, value.CvPtr, maskPtr);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr maskPtr = Cv2.ToPtr(mask);
+            IntPtr retPtr = CppInvoke.core_Mat_setTo(ptr, value.CvPtr, maskPtr);
+            Mat retVal = new Mat(retPtr);
+            return retVal;
         }
 
         #endregion
@@ -2410,9 +2389,18 @@ namespace OpenCvSharp.CPlusPlus
             /// <returns></returns>
             public abstract T this[params int[] idx] { get; set; }
 
+            /// <summary>
+            /// 
+            /// </summary>
             protected readonly Mat parent;
+            /// <summary>
+            /// 
+            /// </summary>
             protected readonly long[] steps;
-
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
             internal IndexerBase(Mat parent)
             {
                 this.parent = parent;
@@ -2867,7 +2855,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 2点を結ぶ線分を画像上に描画する．
         /// </summary>
-        /// <param name="img">画像</param>
         /// <param name="pt1">線分の1番目の端点</param>
         /// <param name="pt2">線分の2番目の端点</param>
         /// <param name="color">線分の色</param>
@@ -2878,7 +2865,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Draws a line segment connecting two points
         /// </summary>
-        /// <param name="img">The image. </param>
         /// <param name="pt1">First point of the line segment. </param>
         /// <param name="pt2">Second point of the line segment. </param>
         /// <param name="color">Line color. </param>
@@ -3037,7 +3023,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 枠だけの楕円，もしくは塗りつぶされた楕円を描画する
         /// </summary>
-        /// <param name="img">楕円が描かれる画像．</param>
         /// <param name="box">描画したい楕円を囲む矩形領域．</param>
         /// <param name="color">楕円の色．</param>
         /// <param name="thickness">楕円境界線の幅．[既定値は1]</param>
@@ -3047,7 +3032,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Draws simple or thick elliptic arc or fills ellipse sector
         /// </summary>
-        /// <param name="img">Image. </param>
         /// <param name="box">The enclosing box of the ellipse drawn </param>
         /// <param name="color">Ellipse color. </param>
         /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
@@ -3088,7 +3072,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 1つ，または複数のポリゴンで区切られた領域を塗りつぶします．
         /// </summary>
-        /// <param name="img">画像</param>
         /// <param name="pts">ポリゴンの配列．各要素は，点の配列で表現されます．</param>
         /// <param name="color">ポリゴンの色．</param>
         /// <param name="lineType">ポリゴンの枠線の種類，</param>
@@ -3098,7 +3081,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Fills the area bounded by one or more polygons
         /// </summary>
-        /// <param name="img">Image</param>
         /// <param name="pts">Array of polygons, each represented as an array of points</param>
         /// <param name="color">Polygon color</param>
         /// <param name="lineType">Type of the polygon boundaries</param>
@@ -3115,7 +3097,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// renders text string in the image
         /// </summary>
-        /// <param name="img"></param>
         /// <param name="text"></param>
         /// <param name="org"></param>
         /// <param name="fontFace"></param>
@@ -3126,7 +3107,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="bottomLeftOrigin"></param>
         public void PutText(string text, Point org,
             FontFace fontFace, double fontScale, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, bool bottomLeftOrigin = false)
+            int thickness = 1, 
+            LineType lineType = LineType.Link8, 
+            bool bottomLeftOrigin = false)
         {
             Cv2.PutText(this, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin);
         }

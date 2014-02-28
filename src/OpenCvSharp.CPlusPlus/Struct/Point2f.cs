@@ -36,8 +36,6 @@ namespace OpenCvSharp.CPlusPlus
             Y = y;
         }
 
-
-        #region Operators
         #region Cast
         /// <summary>
         /// 
@@ -76,6 +74,8 @@ namespace OpenCvSharp.CPlusPlus
             return new Point2f(point.X, point.Y);
         }
         #endregion
+
+        #region Operators
         #region == / !=
 #if LANG_JP
         /// <summary>
@@ -228,6 +228,167 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #endregion
 
+        #region Override
+#if LANG_JP
+        /// <summary>
+        /// Equalsのオーバーライド
+        /// </summary>
+        /// <param name="obj">比較するオブジェクト</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Specifies whether this object contains the same members as the specified Object.
+        /// </summary>
+        /// <param name="obj">The Object to test.</param>
+        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
+#endif
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+#if LANG_JP
+        /// <summary>
+        /// GetHashCodeのオーバーライド
+        /// </summary>
+        /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
+#else
+        /// <summary>
+        /// Returns a hash code for this object.
+        /// </summary>
+        /// <returns>An integer value that specifies a hash value for this object.</returns>
+#endif
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode();
+        }
+#if LANG_JP
+        /// <summary>
+        /// 文字列形式を返す 
+        /// </summary>
+        /// <returns>文字列形式</returns>
+#else
+        /// <summary>
+        /// Converts this object to a human readable string.
+        /// </summary>
+        /// <returns>A string that represents this object.</returns>
+#endif
+        public override string ToString()
+        {
+            return string.Format("(x:{0} y:{1})", X, Y);
+        }
+        #endregion
 
+        #region Methods
+#if LANG_JP
+        /// <summary>
+        /// 2点間の距離を求める
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Returns the distance between the specified two points
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+#endif
+        public static double Distance(Point2f p1, Point2f p2)
+        {
+            return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
+        }
+#if LANG_JP
+        /// <summary>
+        /// 2点間の距離を求める
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Returns the distance between the specified two points
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+#endif
+        public double DistanceTo(Point2f p)
+        {
+            return Distance(this, p);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// ベクトルの内積を求める
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Calculates the dot product of two 2D vectors.
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+#endif
+        public static double DotProduct(Point2f p1, Point2f p2)
+        {
+            return p1.X * p2.X + p1.Y * p2.Y;
+        }
+#if LANG_JP
+        /// <summary>
+        /// ベクトルの内積を求める
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Calculates the dot product of two 2D vectors.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+#endif
+        public double DotProduct(Point2f p)
+        {
+            return DotProduct(this, p);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// ベクトルの外積を求める
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Calculates the cross product of two 2D vectors.
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+#endif
+        public static double CrossProduct(Point2f p1, Point2f p2)
+        {
+            return p1.X * p2.Y - p2.X * p1.Y;
+        }
+#if LANG_JP
+        /// <summary>
+        /// ベクトルの外積を求める
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Calculates the cross product of two 2D vectors.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+#endif
+        public double CrossProduct(Point2f p)
+        {
+            return CrossProduct(this, p);
+        }
+        #endregion
     }
 }

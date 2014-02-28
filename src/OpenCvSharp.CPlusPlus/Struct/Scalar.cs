@@ -170,6 +170,80 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
+        #region Override
+#if LANG_JP
+        /// <summary>
+        /// Equalsのオーバーライド
+        /// </summary>
+        /// <param name="obj">比較するオブジェクト</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Specifies whether this object contains the same members as the specified Object.
+        /// </summary>
+        /// <param name="obj">The Object to test.</param>
+        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
+#endif
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+#if LANG_JP
+        /// <summary>
+        /// GetHashCodeのオーバーライド
+        /// </summary>
+        /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
+#else
+        /// <summary>
+        /// Returns a hash code for this object.
+        /// </summary>
+        /// <returns>An integer value that specifies a hash value for this object.</returns>
+#endif
+        public override int GetHashCode()
+        {
+            int result = Val0.GetHashCode() ^ Val1.GetHashCode() ^ Val2.GetHashCode() ^ Val3.GetHashCode();
+            return result;
+        }
+#if LANG_JP
+        /// <summary>
+        /// 文字列形式を返す 
+        /// </summary>
+        /// <returns>文字列形式</returns>
+#else
+        /// <summary>
+        /// Converts this object to a human readable string.
+        /// </summary>
+        /// <returns>A string that represents this object.</returns>
+#endif
+        public override string ToString()
+        {
+            return String.Format("[{0}, {1}, {2}, {3}]", Val0, Val1, Val2, Val3);
+        }
+        #endregion
+
+        #region Operators
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        public static bool operator ==(Scalar s1, Scalar s2)
+        {
+            return s1.Equals(s2);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        public static bool operator !=(Scalar s1, Scalar s2)
+        {
+            return !s1.Equals(s2);
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// 
@@ -236,15 +310,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            int result = Val0.GetHashCode() ^ Val1.GetHashCode() ^ Val2.GetHashCode() ^ Val3.GetHashCode();
-            return result;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
         public bool Equals(Scalar other)
@@ -253,36 +318,6 @@ namespace OpenCvSharp.CPlusPlus
                    Val1 == other.Val1 &&
                    Val2 == other.Val2 &&
                    Val3 == other.Val3;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <returns></returns>
-        public static bool operator ==(Scalar s1, Scalar s2)
-        {
-            return s1.Equals(s2);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <returns></returns>
-        public static bool operator !=(Scalar s1, Scalar s2)
-        {
-            return !s1.Equals(s2);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return String.Format("[{0}, {1}, {2}, {3}]", Val0, Val1, Val2, Val3);
         }
         #endregion
     }

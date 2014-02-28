@@ -16,7 +16,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private static IntPtr ToPtr(ICvPtrHolder obj)
+        public static IntPtr ToPtr(ICvPtrHolder obj)
         {
             return (obj == null) ? IntPtr.Zero : obj.CvPtr;
         }

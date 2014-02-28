@@ -154,6 +154,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="item2"></param>
         /// <param name="item3"></param>
         /// <param name="item4"></param>
+        /// <param name="item5"></param>
+        /// <param name="item6"></param>
         public Vec6d(double item1, double item2, double item3, double item4, double item5, double item6)
         {
             Item1 = item1;

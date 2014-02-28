@@ -4,6 +4,8 @@ using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
+#pragma warning disable 1591
+
     /// <summary>
     /// 
     /// </summary>

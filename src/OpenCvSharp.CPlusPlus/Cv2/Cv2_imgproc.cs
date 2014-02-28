@@ -466,7 +466,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Cannyアルゴリズムを用いて，画像のエッジを検出します．
         /// </summary>
-        /// <param name="image">8ビット，シングルチャンネルの入力画像</param>
+        /// <param name="src">8ビット，シングルチャンネルの入力画像</param>
         /// <param name="edges">出力されるエッジのマップ． image  と同じサイズ，同じ型</param>
         /// <param name="threshold1">ヒステリシスが存在する処理の，1番目の閾値</param>
         /// <param name="threshold2">ヒステリシスが存在する処理の，2番目の閾値</param>
@@ -476,7 +476,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Finds edges in an image using Canny algorithm.
         /// </summary>
-        /// <param name="image">Single-channel 8-bit input image</param>
+        /// <param name="src">Single-channel 8-bit input image</param>
         /// <param name="edges">The output edge map. It will have the same size and the same type as image</param>
         /// <param name="threshold1">The first threshold for the hysteresis procedure</param>
         /// <param name="threshold2">The second threshold for the hysteresis procedure</param>
@@ -516,7 +516,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region CornerEigenValsAndVecs
         /// <summary>
-        /// 
+        /// computes both eigenvalues and the eigenvectors of 2x2 derivative covariation matrix  at each pixel. The output is stored as 6-channel matrix.
         /// </summary>
         /// <param name="src"></param>
         /// <param name="dst"></param>
@@ -538,7 +538,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region PreCornerDetect
         /// <summary>
-        /// 
+        /// computes another complex cornerness criteria at each pixel
         /// </summary>
         /// <param name="src"></param>
         /// <param name="dst"></param>
@@ -559,7 +559,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region CornerSubPix
         /// <summary>
-        /// 
+        /// adjusts the corner locations with sub-pixel accuracy to maximize the certain cornerness criteria
         /// </summary>
         /// <param name="image"></param>
         /// <param name="inputCorners"></param>
@@ -588,10 +588,9 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region GoodFeaturesToTrack
         /// <summary>
-        /// 
+        /// finds the strong enough corners where the cornerMinEigenVal() or cornerHarris() report the local maxima
         /// </summary>
         /// <param name="src"></param>
-        /// <param name="corners"></param>
         /// <param name="maxCorners"></param>
         /// <param name="qualityLevel"></param>
         /// <param name="minDistance"></param>
@@ -609,7 +608,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (StdVectorPoint2f vector = new StdVectorPoint2f())
             {
-                IntPtr maskPtr = DisposableCvObject.GetCvPtr(mask);
+                IntPtr maskPtr = ToPtr(mask);
                 CppInvoke.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
                     minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k);
                 return vector.ToArray();
@@ -779,7 +778,7 @@ namespace OpenCvSharp.CPlusPlus
 
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-            IntPtr elementPtr = DisposableCvObject.GetCvPtr(element);
+            IntPtr elementPtr = ToPtr(element);
             CppInvoke.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             dst.Fix();
         }
@@ -820,7 +819,7 @@ namespace OpenCvSharp.CPlusPlus
 
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-            IntPtr elementPtr = DisposableCvObject.GetCvPtr(element);
+            IntPtr elementPtr = ToPtr(element);
             CppInvoke.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             dst.Fix();
         }
@@ -863,7 +862,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint anchor0 = anchor.GetValueOrDefault(new CvPoint(-1, -1));
             CvScalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-            IntPtr elementPtr = DisposableCvObject.GetCvPtr(element);
+            IntPtr elementPtr = ToPtr(element);
             CppInvoke.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             dst.Fix();
         }

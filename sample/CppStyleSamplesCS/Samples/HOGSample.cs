@@ -4,7 +4,7 @@ using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 //using GPU = OpenCvSharp.Gpu;
 
-namespace CPlusPlusSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
     /// samples/c/peopledetect.c

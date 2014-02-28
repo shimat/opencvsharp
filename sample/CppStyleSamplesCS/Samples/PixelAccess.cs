@@ -3,7 +3,7 @@ using System.Diagnostics;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace CPlusPlusSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
     /// Swaps B for R 

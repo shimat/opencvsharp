@@ -48,6 +48,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
         /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
         /// <param name="mask">8ビット，シングルチャンネル配列のオプションの処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>        
+        /// <param name="dtype"></param>
 #else
         /// <summary>
         /// Computes the per-element sum of two arrays or an array and a scalar.
@@ -56,6 +57,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
         /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+        /// <param name="dtype"></param>
 #endif
         public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null, int dtype = -1)
         {
@@ -81,6 +83,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
         /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
         /// <param name="mask">オプション．8ビット，シングルチャンネル配列の処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>
+        /// <param name="dtype"></param>
 #else
         /// <summary>
         /// Calculates per-element difference between two arrays or array and a scalar
@@ -89,6 +92,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
         /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+        /// <param name="dtype"></param>
 #endif
         public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null, int dtype = -1)
         {
@@ -114,6 +118,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
         /// <param name="dst">src1 と同じサイズ，同じ型の出力配列</param>
         /// <param name="scale">オプションであるスケールファクタ. [既定値は1]</param>
+        /// <param name="dtype"></param>
 #else
         /// <summary>
         /// Calculates the per-element scaled product of two arrays
@@ -122,6 +127,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2">The second source array of the same size and the same type as src1</param>
         /// <param name="dst">The destination array; will have the same size and the same type as src1</param>
         /// <param name="scale">The optional scale factor. [By default this is 1]</param>
+        /// <param name="dtype"></param>
 #endif
         public static void Multiply(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
         {
@@ -148,6 +154,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
         /// <param name="dst">src2 と同じサイズ，同じ型である出力配列</param>
         /// <param name="scale">スケールファクタ [既定値は1]</param>
+        /// <param name="dtype"></param>
 #else
         /// <summary>
         /// Performs per-element division of two arrays or a scalar by an array.
@@ -156,6 +163,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2">The second source array; should have the same size and same type as src1</param>
         /// <param name="dst">The destination array; will have the same size and same type as src2</param>
         /// <param name="scale">Scale factor [By default this is 1]</param>
+        /// <param name="dtype"></param>
 #endif
         public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
         {
@@ -178,6 +186,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="scale">スケールファクタ</param>
         /// <param name="src2">1番目の入力配列</param>
         /// <param name="dst">src2 と同じサイズ，同じ型である出力配列</param>
+        /// <param name="dtype"></param>
 #else
         /// <summary>
         /// Performs per-element division of two arrays or a scalar by an array.
@@ -185,6 +194,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="scale">Scale factor</param>
         /// <param name="src2">The first source array</param>
         /// <param name="dst">The destination array; will have the same size and same type as src2</param>
+        /// <param name="dtype"></param>
 #endif
         public static void Divide(double scale, InputArray src2, OutputArray dst, int dtype = -1)
         {
@@ -643,10 +653,47 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+        #region MixChannels
+        /// <summary>
+        /// copies selected channels from the input arrays to the selected channels of the output arrays
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="fromTo"></param>
+        public static void MixChannels(Mat[] src, Mat[] dst, int[] fromTo)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (fromTo == null)
+                throw new ArgumentNullException("fromTo");
+            if (src.Length == 0)
+                throw new ArgumentException("src.Length == 0");
+            if (dst.Length == 0)
+                throw new ArgumentException("dst.Length == 0");
+            if (fromTo.Length == 0 || fromTo.Length % 2 != 0)
+                throw new ArgumentException("fromTo.Length == 0");
+            IntPtr[] srcPtr = new IntPtr[src.Length];
+            IntPtr[] dstPtr = new IntPtr[dst.Length];
+            for (int i = 0; i < src.Length; i++)
+            {
+                src[i].ThrowIfDisposed();
+                srcPtr[i] = src[i].CvPtr;
+            }
+            for (int i = 0; i < dst.Length; i++)
+            {
+                dst[i].ThrowIfDisposed();
+                dstPtr[i] = dst[i].CvPtr;
+            }
+            CppInvoke.core_mixChannels(srcPtr, (uint)src.Length, dstPtr, (uint)dst.Length, 
+                fromTo, (uint)(fromTo.Length / 2));
+        }
+        #endregion
 
         #region BitwiseAnd
         /// <summary>
-        /// computes bitwise conjunction of the two arrays (dst = src1 & src2)
+        /// computes bitwise conjunction of the two arrays (dst = src1 &amp; src2)
         /// </summary>
         /// <param name="src1"></param>
         /// <param name="src2"></param>

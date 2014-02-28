@@ -204,6 +204,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_merge([MarshalAs(UnmanagedType.LPArray)] IntPtr[] mv, uint count, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_split(IntPtr src, out IntPtr mv);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_mixChannels(IntPtr[] src, uint nsrcs,
+            IntPtr[] dst, uint ndsts, int[] fromTo, uint npairs);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_bitwise_and(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);

@@ -13,13 +13,15 @@ namespace OpenCvSharp.CPlusPlus
     {
         #region FAST/FASTX
         /// <summary>
-        /// 
+        /// detects corners using FAST algorithm by E. Rosten
         /// </summary>
         /// <param name="image"></param>
         /// <param name="keypoints"></param>
         /// <param name="threshold"></param>
         /// <param name="nonmaxSupression"></param>
+// ReSharper disable InconsistentNaming
         public static void FAST(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression = true)
+// ReSharper restore InconsistentNaming
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -32,13 +34,16 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// detects corners using FAST algorithm by E. Rosten
         /// </summary>
         /// <param name="image"></param>
         /// <param name="keypoints"></param>
         /// <param name="threshold"></param>
         /// <param name="nonmaxSupression"></param>
+        /// <param name="type"></param>
+// ReSharper disable InconsistentNaming
         public static void FASTX(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression, int type)
+// ReSharper restore InconsistentNaming
         {
             if (image == null)
                 throw new ArgumentNullException("image");

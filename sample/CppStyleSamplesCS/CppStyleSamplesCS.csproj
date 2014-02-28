@@ -94,6 +94,7 @@
     <Compile Include="Samples\StarDetectorSample.cs" />
     <Compile Include="Samples\StereoCorrespondence.cs" />
     <Compile Include="Samples\MergeSplitSample.cs" />
+    <Compile Include="Samples\NormalArrayOperations.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\asahiyama.jpg">

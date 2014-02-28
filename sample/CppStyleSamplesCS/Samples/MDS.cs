@@ -5,7 +5,7 @@ using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace CPlusPlusSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
     /// Multidimensional Scaling (多次元尺度構成法)

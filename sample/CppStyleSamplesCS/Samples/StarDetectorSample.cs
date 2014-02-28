@@ -1,7 +1,7 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace CPlusPlusSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
     /// Retrieves keypoints using the StarDetector algorithm.

@@ -2,7 +2,7 @@
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 
-namespace CPlusPlusSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
     /// ハフ変換による直線検出

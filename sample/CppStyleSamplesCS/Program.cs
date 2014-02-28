@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CPlusPlusSamplesCS
+namespace CppStyleSamplesCS
 {
     class Program
     {
@@ -19,8 +19,9 @@ namespace CPlusPlusSamplesCS
                 //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
-                new MorphologySample();
-                //new MergeSplitSample();
+                //new MorphologySample();
+                new MergeSplitSample();
+                //new NormalArrayOperations();
             sample.Run();
         }
     }

@@ -97,9 +97,8 @@ namespace OpenCvSharp.CPlusPlus
             if (size == 0)
                 return new Mat[0];
 
-            // Matインスタンスをこちらで用意し、
-            // vectorの各要素をそこに代入する。
-            // 別インスタンスとはなるが、vector解放でMatが全部解放されてしまうので
+            // Matインスタンスをこちらで用意し、vectorの各要素をそこに代入する。
+            // 別インスタンスとはなるが、vector解放時にMatが全部解放されてしまうので
             // 致し方なしか・・・
             Mat[] dst = new Mat[size];
             IntPtr[] dstPtr = new IntPtr[size];

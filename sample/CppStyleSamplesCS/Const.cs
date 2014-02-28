@@ -1,4 +1,4 @@
-﻿namespace CPlusPlusSamplesCS
+﻿namespace CppStyleSamplesCS
 {
     /// <summary>
     /// Paths

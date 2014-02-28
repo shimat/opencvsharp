@@ -41,7 +41,7 @@ namespace OpenCvSharp.CPlusPlus
             distCoeffs.ThrowIfDisposed();
             rvec.ThrowIfDisposed();
             tvec.ThrowIfDisposed();
-            IntPtr distCoeffsPtr = DisposableCvObject.GetCvPtr(distCoeffs);
+            IntPtr distCoeffsPtr = ToPtr(distCoeffs);
             CppInvoke.imgproc_solvePnP(
                 objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr, 
                 rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0);
@@ -76,7 +76,7 @@ namespace OpenCvSharp.CPlusPlus
             using (StdVectorPoint3f objectPointsVec = new StdVectorPoint3f(objectPoints))
             using (StdVectorPoint2f imagePointssVec = new StdVectorPoint2f(imagePoints))
             {
-                IntPtr distCoeffsPtr = DisposableCvObject.GetCvPtr(distCoeffs);
+                IntPtr distCoeffsPtr = ToPtr(distCoeffs);
                 CppInvoke.imgproc_solvePnP(
                     objectPointsVec.CvPtr, imagePointssVec.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr, 
                     rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0);

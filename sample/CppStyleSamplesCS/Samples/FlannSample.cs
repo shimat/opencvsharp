@@ -3,7 +3,7 @@ using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 using OpenCvSharp.CPlusPlus.Flann;
 
-namespace CPlusPlusSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
     /// cv::flann

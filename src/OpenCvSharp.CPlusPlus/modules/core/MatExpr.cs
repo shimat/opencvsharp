@@ -701,10 +701,19 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public class ColIndexer : MatExprRowColIndexer
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
             protected internal ColIndexer(MatExpr parent)
                 : base(parent)
             {
             }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="x"></param>
+            /// <returns></returns>
             public override MatExpr this[int x]
             {
                 get
@@ -871,10 +880,19 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public class RowIndexer : MatExprRowColIndexer
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
             protected internal RowIndexer(MatExpr parent)
                 : base(parent)
             {
             }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="y"></param>
+            /// <returns></returns>
             public override MatExpr this[int y]
             {
                 get 

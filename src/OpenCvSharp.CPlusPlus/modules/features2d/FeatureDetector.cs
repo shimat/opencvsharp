@@ -13,11 +13,18 @@ namespace OpenCvSharp.CPlusPlus
         private bool disposed;
         private IntPtr detectorPtr;
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected FeatureDetector()
         {
             detectorPtr = IntPtr.Zero;
             ptr = IntPtr.Zero;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
         protected FeatureDetector(IntPtr p)
         {
             detectorPtr = p;
@@ -39,7 +46,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             using (StdVectorKeyPoint keypoints = new StdVectorKeyPoint())
             {
-                CppInvoke.features2d_FeatureDetector_detect(ptr, image.CvPtr, keypoints.CvPtr, GetCvPtr(mask));
+                CppInvoke.features2d_FeatureDetector_detect(ptr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask));
                 return keypoints.ToArray();
             }
         }

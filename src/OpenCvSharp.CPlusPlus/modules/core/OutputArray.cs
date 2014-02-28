@@ -213,7 +213,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Creates a proxy class of the specified matrix
         /// </summary>
         /// <returns></returns>
         public static OutputArray Create(Mat mat)
@@ -222,7 +222,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// Creates 
+        /// Creates a proxy class of the specified list
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
