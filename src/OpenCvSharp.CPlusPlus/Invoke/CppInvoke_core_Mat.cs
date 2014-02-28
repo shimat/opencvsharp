@@ -206,6 +206,8 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_IplImage(IntPtr self, IntPtr outImage);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_IplImage_alignment(IntPtr self, out IntPtr outImage);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_CvMat(IntPtr self, IntPtr outMat);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

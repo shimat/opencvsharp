@@ -1393,6 +1393,22 @@ namespace OpenCvSharp.CPlusPlus
             return CppInvoke.core_useOptimized() != 0;
         }
 
+        /// <summary>
+        /// Aligns buffer size by the certain number of bytes
+        /// This small inline function aligns a buffer size by 
+        /// the certian number of bytes by enlarging it.
+        /// </summary>
+        /// <param name="sz"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static int AlignSize(int sz, int n)
+        {
+            bool assert = ((n & (n - 1)) == 0); // n is a power of 2
+            if(!assert)
+                throw new ArgumentException();
+            return (sz + n - 1) & -n;
+        }
+
         #region CvArrToMat
         /// <summary>
         /// 

@@ -473,6 +473,25 @@ CVAPI(void) core_Mat_IplImage(cv::Mat *self, IplImage *outImage)
 	IplImage inImage = (IplImage)(*self);
 	memcpy(outImage, &inImage, sizeof(IplImage));
 }
+CVAPI(void) core_Mat_IplImage_alignment(cv::Mat *self, IplImage **outImage)
+{
+	// キャストの結果を参考に使う.
+    // メモリ管理の問題から、直接は使わない.
+    IplImage dummy = (IplImage)(*self);
+    // alignmentをそろえる
+    IplImage *img = cvCreateImage(cvSize(dummy.width, dummy.height), dummy.depth, dummy.nChannels);
+    int height = img->height;
+    int sstep = self->step;
+    int dstep = img->widthStep;
+    for (int i = 0; i < height; ++i)
+    {
+        char *dp = img->imageData + (dstep * i);
+        char *sp = (char*)(self->data) + (sstep * i);
+        memcpy(dp, sp, sstep);
+    }
+    *outImage = img;
+}
+
 CVAPI(void) core_Mat_CvMat(cv::Mat *self, CvMat *outMat)
 {
 	*outMat = CvMat();

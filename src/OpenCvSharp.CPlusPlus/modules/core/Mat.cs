@@ -449,7 +449,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Operators
-        #region Casting
+        #region Cast
 
         /// <summary>
         /// 
@@ -468,9 +468,28 @@ namespace OpenCvSharp.CPlusPlus
         public IplImage ToIplImage()
         {
             ThrowIfDisposed();
-            IplImage img = new IplImage(false);
-            CppInvoke.core_Mat_IplImage(ptr, img.CvPtr);
-            return img;
+
+            IntPtr imgPtr;
+            CppInvoke.core_Mat_IplImage_alignment(ptr, out imgPtr);
+            return new IplImage(imgPtr);
+            /*
+            // キャストの結果を参考に使う.
+            // メモリ管理の問題から、直接は使わない.
+            IplImage dummy = new IplImage(false);
+            CppInvoke.core_Mat_IplImage(ptr, dummy.CvPtr);
+
+            // alignmentをそろえる
+            IplImage img = new IplImage(dummy.Size, dummy.Depth, dummy.NChannels);
+            int height = img.Height;
+            int sstep = (int)Step();
+            int dstep = img.WidthStep;
+            for (int i = 0; i < height; ++i)
+            {
+                IntPtr dp = new IntPtr(img.ImageData.ToInt64() + (dstep * i));
+                IntPtr sp = new IntPtr(Data.ToInt64() + (sstep * i));
+                Util.CopyMemory(dp, sp, sstep);
+            }
+            return img;*/
         }
 
         /// <summary>
@@ -2814,6 +2833,20 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public Mat Alignment(int n = 4)
+        {
+            int newCols = Cv2.AlignSize(Cols, n);
+            Mat pMat = new Mat(Rows, newCols, Type());
+            Mat roiMat = new Mat(pMat, new Rect(0, 0, Cols, Rows));
+            CopyTo(roiMat);
+            return roiMat;
+        }
 
         #endregion
 

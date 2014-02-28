@@ -10,6 +10,7 @@ namespace CppStyleSamplesCS
         static void Main(string[] args)
         {
             ISample sample =
+                new MatToIplImage();
                 //new FASTSample();
                 //new FlannSample(); // Todo: crash
                 //new HOGSample();
@@ -20,7 +21,7 @@ namespace CppStyleSamplesCS
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
                 //new MorphologySample();
-                new MergeSplitSample();
+                //new MergeSplitSample();
                 //new NormalArrayOperations();
             sample.Run();
         }
