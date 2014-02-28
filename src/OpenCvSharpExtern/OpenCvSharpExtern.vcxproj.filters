@@ -79,9 +79,6 @@
     <ClCompile Include="std_vector.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="objdetect.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="calib3d.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
@@ -110,6 +107,15 @@
       <Filter>Sources\cpp</Filter>
     </ClCompile>
     <ClCompile Include="core_Ptr.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="objdetect_HOGDescriptor.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="objdetect.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="imgproc_Subdiv2D.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -180,9 +186,6 @@
     <ClInclude Include="std_vector.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
-    <ClInclude Include="objdetect.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
     <ClInclude Include="calib3d.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
@@ -211,6 +214,15 @@
       <Filter>Headers\cpp</Filter>
     </ClInclude>
     <ClInclude Include="core_Ptr.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect_HOGDescriptor.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="imgproc_Subdiv2D.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>
