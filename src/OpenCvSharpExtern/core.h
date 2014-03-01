@@ -388,6 +388,176 @@ CVAPI(void) core_bitwise_not(cv::_InputArray *src, cv::_OutputArray *dst,
 	cv::bitwise_not(*src, *dst, entity(mask));
 }
 
+CVAPI(void) core_absdiff(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+{
+	cv::absdiff(*src1, *src2, *dst);
+}
+CVAPI(void) core_inRange(cv::_InputArray *src, cv::_InputArray *lowerb, cv::_InputArray *upperb, cv::_OutputArray *dst)
+{
+	cv::inRange(*src, *lowerb, *upperb, *dst);
+}
+CVAPI(void) core_compare(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int cmpop)
+{
+	cv::compare(*src1, *src2, *dst, cmpop);
+}
+CVAPI(void) core_min1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+{
+	cv::min(*src1, *src2, *dst);
+}
+CVAPI(void) core_max1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+{
+	cv::max(*src1, *src2, *dst);
+}
+CVAPI(void) core_min_MatMat(cv::Mat *src1, cv::Mat *src2, cv::Mat *dst)
+{
+	cv::min(*src1, *src2, *dst);
+}
+CVAPI(void) core_min_MatDouble(cv::Mat *src1, double src2, cv::Mat *dst)
+{
+	cv::min(*src1, src2, *dst);
+}
+CVAPI(void) core_max_MatMat(cv::Mat *src1, const cv::Mat *src2, cv::Mat *dst)
+{
+	cv::max(*src1, *src2, *dst);
+}
+CVAPI(void) core_max_MatDouble(cv::Mat *src1, double src2, cv::Mat *dst)
+{
+	cv::max(*src1, src2, *dst);
+}
+CVAPI(void) core_sqrt(cv::_InputArray *src, cv::_OutputArray *dst)
+{
+	cv::sqrt(*src, *dst);
+}
+CVAPI(void) core_pow_Mat(cv::_InputArray *src, double power, cv::_OutputArray *dst)
+{
+	cv::pow(*src, power, *dst); 
+}
+CVAPI(void) core_exp_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
+{
+	cv::exp(*src, *dst);
+}
+CVAPI(void) core_log_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
+{
+	cv::log(*src, *dst);
+}
+CVAPI(float) core_cubeRoot(float val)
+{
+	return cv::cubeRoot(val);
+}
+CVAPI(float) core_fastAtan2(float y, float x)
+{
+	return cv::fastAtan2(y, x);
+}
+
+CVAPI(void) core_exp_Array(const float* src, float* dst, int n)
+{
+	cv::exp(src, dst, n);
+}
+CVAPI(void) core_log_Array(const float* src, float* dst, int n)
+{
+	cv::log(src, dst, n);
+}
+CVAPI(void) core_fastAtan2_Array(const float* y, const float* x, float* dst, int n, int angleInDegrees)
+{
+	cv::fastAtan2(y, x, dst, n, angleInDegrees != 0);
+}
+CVAPI(void) core_magnitude_Array(const float* x, const float* y, float* dst, int n)
+{
+	cv::magnitude(x, y, dst, n);
+}
+
+CVAPI(void) core_polarToCart(cv::_InputArray *magnitude, cv::_InputArray *angle,
+	cv::_OutputArray *x, cv::_OutputArray *y, int angleInDegrees)
+{
+	cv::polarToCart(*magnitude, *angle, *x, *y, angleInDegrees != 0);
+}
+CVAPI(void) core_cartToPolar(cv::_InputArray *x, cv::_InputArray *y,
+	cv::_OutputArray *magnitude, cv::_OutputArray *angle, int angleInDegrees)
+{
+	cv::cartToPolar(*x, *y, *magnitude, *angle, angleInDegrees != 0);
+}
+CVAPI(void) core_phase(cv::_InputArray *x, cv::_InputArray *y, cv::_OutputArray *angle, int angleInDegrees)
+{
+	cv::phase(*x, *y, *angle, angleInDegrees != 0);
+}
+CVAPI(void) core_magnitude_Mat(cv::_InputArray *x, cv::_InputArray *y, cv::_OutputArray *magnitude)
+{
+	cv::magnitude(*x, *y, *magnitude);
+}
+CVAPI(int) core_checkRange(cv::_InputArray *a, int quiet, CvPoint *pos, double minVal, double maxVal)
+{
+	cv::Point pos0;
+	int ret = cv::checkRange(*a, quiet != 0, &pos0, minVal, maxVal);
+	*pos = pos0;
+	return ret;
+}
+CVAPI(void) core_patchNaNs(cv::_OutputArray *a, double val)
+{
+	cv::patchNaNs(*a, val);
+}
+CVAPI(void) core_gemm(cv::_InputArray *src1, cv::_InputArray *src2, double alpha,
+	cv::_InputArray *src3, double gamma, cv::_OutputArray *dst, int flags)
+{
+	cv::gemm(*src1, *src2, alpha, *src3, gamma, *dst, flags);
+}
+CVAPI(void) core_mulTransposed(cv::_InputArray *src, cv::_OutputArray *dst, int aTa,
+	cv::_InputArray *delta, double scale, int dtype)
+{
+	cv::mulTransposed(*src, *dst, aTa != 0, entity(delta), scale, dtype);
+}
+CVAPI(void) core_transpose(cv::_InputArray *src, cv::_OutputArray *dst)
+{
+	cv::transpose(*src, *dst);
+}
+CVAPI(void) core_transform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
+{
+	cv::transform(*src, *dst, *m);
+}
+CVAPI(void) core_perspectiveTransform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
+{
+	cv::perspectiveTransform(*src, *dst, *m);
+}
+
+CVAPI(void) core_completeSymm(cv::_OutputArray *mtx, int lowerToUpper)
+{
+	cv::completeSymm(*mtx, lowerToUpper);
+}
+CVAPI(void) core_setIdentity(cv::_OutputArray *mtx, CvScalar s)
+{
+	cv::setIdentity(*mtx, s);
+}
+CVAPI(double) core_determinant(cv::_InputArray *mtx)
+{
+	return cv::determinant(*mtx);
+}
+CVAPI(CvScalar) core_trace(cv::_InputArray *mtx)
+{
+	return cv::trace(*mtx);
+}
+CVAPI(double) core_invert(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+{
+	return cv::invert(*src, *dst, flags);
+}
+CVAPI(int) core_solve(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int flags)
+{
+	return cv::solve(*src1, *src2, *dst, flags);
+}
+CVAPI(void) core_sort(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+{
+	cv::sort(*src, *dst, flags);
+}
+CVAPI(void) core_sortIdx(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+{
+	cv::sortIdx(*src, *dst, flags);
+}
+CVAPI(int) core_solveCubic(cv::_InputArray *coeffs, cv::_OutputArray *roots)
+{
+	return cv::solveCubic(*coeffs, *roots);
+}
+CVAPI(double) core_solvePoly(cv::_InputArray *coeffs, cv::_OutputArray *roots, int maxIters)
+{
+	return cv::solvePoly(*coeffs, *roots, maxIters);
+}
 
 CVAPI(int) core_eigen1(cv::_InputArray *src, cv::_OutputArray *eigenvalues, int lowindex, int highindex)
 {

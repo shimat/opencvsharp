@@ -141,7 +141,7 @@ namespace OpenCvSharp
         }
         #endregion
 
-        #region Overrided methods
+        #region Override
 #if LANG_JP
         /// <summary>
         /// Equalsのオーバーライド
@@ -172,7 +172,7 @@ namespace OpenCvSharp
 #endif
         public override int GetHashCode()
         {
-            return Width.GetHashCode() + Height.GetHashCode();
+            return Width.GetHashCode() ^ Height.GetHashCode();
         }
 #if LANG_JP
         /// <summary>
