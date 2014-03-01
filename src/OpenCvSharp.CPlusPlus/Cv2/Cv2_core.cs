@@ -958,7 +958,804 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
+        #region Absdiff
+        /// <summary>
+        /// computes element-wise absolute difference of two arrays (dst = abs(src1 - src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Absdiff(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_absdiff(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region InRange
+        /// <summary>
+        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src && src &lt; upperb)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="lowerb"></param>
+        /// <param name="upperb"></param>
+        /// <param name="dst"></param>
+        public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (lowerb == null)
+                throw new ArgumentNullException("lowerb");
+            if (upperb == null)
+                throw new ArgumentNullException("upperb");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            lowerb.ThrowIfDisposed();
+            upperb.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_inRange(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region Compare
+        /// <summary>
+        /// compares elements of two arrays (dst = src1 [cmpop] src2)
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        /// <param name="cmpop"></param>
+        public static void Compare(InputArray src1, InputArray src2, OutputArray dst, ArrComparison cmpop)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)cmpop);
+            dst.Fix();
+        }
+        #endregion
+        #region Min
+        /// <summary>
+        /// computes per-element minimum of two arrays (dst = min(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Min(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_min1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// computes per-element minimum of two arrays (dst = min(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Min(Mat src1, Mat src2, Mat dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+            CppInvoke.core_min_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+        }
+        /// <summary>
+        /// computes per-element minimum of array and scalar (dst = min(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Min(Mat src1, double src2, Mat dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+            CppInvoke.core_min_MatDouble(src1.CvPtr, src2, dst.CvPtr);
+        }
+        #endregion
+        #region Max
+        /// <summary>
+        /// computes per-element maximum of two arrays (dst = max(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Max(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_max1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// computes per-element maximum of two arrays (dst = max(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Max(Mat src1, Mat src2, Mat dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+            CppInvoke.core_max_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+        }
+        /// <summary>
+        /// computes per-element maximum of array and scalar (dst = max(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Max(Mat src1, double src2, Mat dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+            CppInvoke.core_max_MatDouble(src1.CvPtr, src2, dst.CvPtr);
+        }
+        #endregion
+        #region Sqrt
+        /// <summary>
+        /// computes square root of each matrix element (dst = src**0.5)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        public static void Sqrt(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_sqrt(src.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region Pow
+        /// <summary>
+        /// raises the input matrix elements to the specified power (b = a**power)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="power"></param>
+        /// <param name="dst"></param>
+        public static void Pow(InputArray src, double power, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_pow_Mat(src.CvPtr, power, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region Exp
+        /// <summary>
+        /// computes exponent of each matrix element (dst = e**src)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        public static void Exp(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_exp_Mat(src.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static float[] Exp(float[] src)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            float[] dst = new float[src.Length];
+            CppInvoke.core_exp_Array(src, dst, dst.Length);
+            return dst;
+        }
+        #endregion
+        #region Log
+        /// <summary>
+        /// computes natural logarithm of absolute value of each matrix element: dst = log(abs(src))
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        public static void Log(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_log_Mat(src.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static float[] Log(float[] src)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            float[] dst = new float[src.Length];
+            CppInvoke.core_log_Array(src, dst, dst.Length);
+            return dst;
+        }
+        #endregion
+        #region CubeRoot
+        /// <summary>
+        /// computes cube root of the argument
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static float CubeRoot(float val)
+        {
+            return CppInvoke.core_cubeRoot(val);
+        }
+        #endregion
+        #region FastAtan2
+        /// <summary>
+        /// computes the angle in degrees (0..360) of the vector (x,y)
+        /// </summary>
+        /// <param name="y"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static float FastAtan2(float y, float x)
+        {
+            return CppInvoke.core_fastAtan2(y, x);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="y"></param>
+        /// <param name="x"></param>
+        /// <param name="angleInDegrees"></param>
+        /// <returns></returns>
+        public static float[] FastAtan2(float[] y, float[] x, bool angleInDegrees)
+        {
+            if (y == null)
+                throw new ArgumentNullException("y");
+            if (x == null)
+                throw new ArgumentNullException("x");
+            if (y.Length != x.Length)
+                throw new ArgumentException("y.Length != x.Length");
+            if (y.Length  == 0)
+                throw new ArgumentException("y.Length == 0");
+            float[] dst = new float[y.Length];
+            CppInvoke.core_fastAtan2_Array(y, x, dst, dst.Length, angleInDegrees ? 1 : 0);
+            return dst;
+        }
+        #endregion
+        #region PolarToCart
+        /// <summary>
+        /// converts polar coordinates to Cartesian
+        /// </summary>
+        /// <param name="magnitude"></param>
+        /// <param name="angle"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="angleInDegrees"></param>
+        public static void PolarToCart(InputArray magnitude, InputArray angle,
+            OutputArray x, OutputArray y, bool angleInDegrees = false)
+        {
+            if (magnitude == null)
+                throw new ArgumentNullException("magnitude");
+            if (angle == null)
+                throw new ArgumentNullException("angle");
+            if (x == null)
+                throw new ArgumentNullException("x");
+            if (y == null)
+                throw new ArgumentNullException("y");
+            magnitude.ThrowIfDisposed();
+            angle.ThrowIfDisposed();
+            x.ThrowIfNotReady();
+            y.ThrowIfNotReady();
+            CppInvoke.core_polarToCart(magnitude.CvPtr, angle.CvPtr, x.CvPtr, y.CvPtr, angleInDegrees ? 1 : 0);
+            x.Fix();
+            y.Fix();
+        }
+        #endregion
+        #region CartToPolar
+        /// <summary>
+        /// converts Cartesian coordinates to polar
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="magnitude"></param>
+        /// <param name="angle"></param>
+        /// <param name="angleInDegrees"></param>
+        public static void CartToPolar(InputArray x, InputArray y,
+            OutputArray magnitude, OutputArray angle, bool angleInDegrees = false)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+            if (y == null)
+                throw new ArgumentNullException("y");
+            if (magnitude == null)
+                throw new ArgumentNullException("magnitude");
+            if (angle == null)
+                throw new ArgumentNullException("angle");
+            x.ThrowIfDisposed();
+            y.ThrowIfDisposed();
+            magnitude.ThrowIfNotReady();
+            angle.ThrowIfNotReady();
+            CppInvoke.core_cartToPolar(x.CvPtr, y.CvPtr, magnitude.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0);
+            magnitude.Fix();
+            angle.Fix();
+        }
+        #endregion
+        #region Phase
+        /// <summary>
+        /// computes angle (angle(i)) of each (x(i), y(i)) vector
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="angle"></param>
+        /// <param name="angleInDegrees"></param>
+        public static void Phase(InputArray x, InputArray y, OutputArray angle, bool angleInDegrees = false)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+            if (y == null)
+                throw new ArgumentNullException("y");
+            if (angle == null)
+                throw new ArgumentNullException("angle");
+            x.ThrowIfDisposed();
+            y.ThrowIfDisposed();
+            angle.ThrowIfNotReady();
+            CppInvoke.core_phase(x.CvPtr, y.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0);
+            angle.Fix();
+        }
+        #endregion
+        #region Magnitude
+        /// <summary>
+        /// computes magnitude (magnitude(i)) of each (x(i), y(i)) vector
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="magnitude"></param>
+        public static void Magnitude(InputArray x, InputArray y, OutputArray magnitude)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+            if (y == null)
+                throw new ArgumentNullException("y");
+            if (magnitude == null)
+                throw new ArgumentNullException("magnitude");
+            x.ThrowIfDisposed();
+            y.ThrowIfDisposed();
+            magnitude.ThrowIfNotReady();
+            CppInvoke.core_magnitude_Mat(x.CvPtr, y.CvPtr, magnitude.CvPtr);
+            magnitude.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static float[] Magnitude(float[] x, float[] y)
+        {
+            if (y == null)
+                throw new ArgumentNullException("y");
+            if (x == null)
+                throw new ArgumentNullException("x");
+            if (y.Length != x.Length)
+                throw new ArgumentException("y.Length != x.Length");
+            if (y.Length == 0)
+                throw new ArgumentException("y.Length == 0");
+            float[] dst = new float[y.Length];
+            CppInvoke.core_magnitude_Array(y, x, dst, dst.Length);
+            return dst;
+        }
+        #endregion
+        #region CheckRange
+        /// <summary>
+        /// checks that each matrix element is within the specified range.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="quiet"></param>
+        /// <returns></returns>
+        public static bool CheckRange(InputArray a, bool quiet = true)
+        {
+            Point pos;
+            return CheckRange(a, quiet, out pos);
+        }
+        /// <summary>
+        /// checks that each matrix element is within the specified range.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="quiet"></param>
+        /// <param name="pos"></param>
+        /// <param name="minVal"></param>
+        /// <param name="maxVal"></param>
+        /// <returns></returns>
+        public static bool CheckRange(InputArray a, bool quiet, out Point pos,
+            double minVal = double.MinValue, double maxVal = double.MaxValue)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfDisposed();
 
+            CvPoint pos0;
+            int ret = CppInvoke.core_checkRange(a.CvPtr, quiet ? 1 : 0, out pos0, minVal, maxVal);
+            pos = pos0;
+            return ret != 0;
+        }
+        #endregion
+        #region PatchNaNs
+        /// <summary>
+        /// converts NaN's to the given number
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="val"></param>
+        public static void PatchNaNs(OutputArray a, double val = 0)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            a.ThrowIfNotReady();
+            CppInvoke.core_patchNaNs(a.CvPtr, val);
+        }
+        #endregion
+        #region Gemm
+        /// <summary>
+        /// implements generalized matrix product algorithm GEMM from BLAS
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="alpha"></param>
+        /// <param name="src3"></param>
+        /// <param name="gamma"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        public static void Gemm(InputArray src1, InputArray src2, double alpha,
+            InputArray src3, double gamma, OutputArray dst, GemmOperation flags = GemmOperation.None)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (src3 == null)
+                throw new ArgumentNullException("src3");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            src3.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_gemm(src1.CvPtr, src2.CvPtr, alpha, src3.CvPtr, gamma, dst.CvPtr, (int)flags);
+            dst.Fix();
+        }
+        #endregion
+        #region MulTransposed
+        /// <summary>
+        /// multiplies matrix by its transposition from the left or from the right
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="aTa"></param>
+        /// <param name="delta"></param>
+        /// <param name="scale"></param>
+        /// <param name="dtype"></param>
+        public static void MulTransposed(InputArray src, OutputArray dst, bool aTa,
+            InputArray delta = null, double scale = 1, int dtype = -1)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0 , ToPtr(delta), scale, dtype);
+            dst.Fix();
+        }
+        #endregion
+        #region Transpose
+        /// <summary>
+        /// transposes the matrix
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        public static void Transpose(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_transpose(src.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region Transform
+        /// <summary>
+        /// performs affine transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="m"></param>
+        public static void Transform(InputArray src, OutputArray dst, InputArray m)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (m == null)
+                throw new ArgumentNullException("m");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            m.ThrowIfDisposed();
+            CppInvoke.core_transform(src.CvPtr, dst.CvPtr, m.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region PerspectiveTransform
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="m"></param>
+        public static void PerspectiveTransform(InputArray src, OutputArray dst, InputArray m)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (m == null)
+                throw new ArgumentNullException("m");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            m.ThrowIfDisposed();
+            CppInvoke.core_perspectiveTransform(src.CvPtr, dst.CvPtr, m.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region CompleteSymm
+        /// <summary>
+        /// extends the symmetrical matrix from the lower half or from the upper half
+        /// </summary>
+        /// <param name="mtx"></param>
+        /// <param name="lowerToUpper"></param>
+        public static void CompleteSymm(OutputArray mtx, bool lowerToUpper = false)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException("mtx");
+            mtx.ThrowIfNotReady();
+            CppInvoke.core_completeSymm(mtx.CvPtr, lowerToUpper ? 1 : 0);
+        }
+        #endregion
+        #region SetIdentity
+        /// <summary>
+        /// initializes scaled identity matrix
+        /// </summary>
+        /// <param name="mtx"></param>
+        /// <param name="s"></param>
+        public static void SetIdentity(OutputArray mtx, Scalar? s = null)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException("mtx");
+            mtx.ThrowIfNotReady();
+            Scalar s0 = s.GetValueOrDefault(new Scalar(1));
+            CppInvoke.core_setIdentity(mtx.CvPtr, s0);
+        }
+        #endregion
+        #region Determinant
+        /// <summary>
+        /// computes determinant of a square matrix
+        /// </summary>
+        /// <param name="mtx"></param>
+        /// <returns></returns>
+        public static double Determinant(InputArray mtx)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException("mtx");
+            mtx.ThrowIfDisposed();
+            return CppInvoke.core_determinant(mtx.CvPtr);
+        }
+        #endregion
+        #region Trace
+        /// <summary>
+        /// computes trace of a matrix
+        /// </summary>
+        /// <param name="mtx"></param>
+        /// <returns></returns>
+        public static Scalar Trace(InputArray mtx)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException("mtx");
+            mtx.ThrowIfDisposed();
+            return CppInvoke.core_trace(mtx.CvPtr);
+        }
+        #endregion
+        #region Invert
+        /// <summary>
+        /// computes inverse or pseudo-inverse matrix
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static double Invert(InputArray src, OutputArray dst, 
+            MatrixDecomposition flags = MatrixDecomposition.LU)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            double ret = CppInvoke.core_invert(src.CvPtr, dst.CvPtr, (int)flags);
+            dst.Fix();
+            return ret;
+        }
+        #endregion
+        #region Solve
+        /// <summary>
+        /// solves linear system or a least-square problem
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static bool Solve(InputArray src1, InputArray src2, OutputArray dst, 
+            MatrixDecomposition flags = MatrixDecomposition.LU)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            int ret = CppInvoke.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)flags);
+            dst.Fix();
+            return ret != 0;
+        }
+        #endregion
+        #region Sort
+        /// <summary>
+        /// sorts independently each matrix row or each matrix column
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        public static void Sort(InputArray src, OutputArray dst, SortFlag flags)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_sort(src.CvPtr, dst.CvPtr, (int)flags);
+            dst.Fix();
+        }
+        #endregion
+        #region SortIdx
+        /// <summary>
+        /// sorts independently each matrix row or each matrix column
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        public static void SortIdx(InputArray src, OutputArray dst, SortFlag flags)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_sortIdx(src.CvPtr, dst.CvPtr, (int)flags);
+            dst.Fix();
+        }
+        #endregion
+        #region SolveCubic
+        /// <summary>
+        /// finds real roots of a cubic polynomial
+        /// </summary>
+        /// <param name="coeffs"></param>
+        /// <param name="roots"></param>
+        /// <returns></returns>
+        public static int SolveCubic(InputArray coeffs, OutputArray roots)
+        {
+            if (coeffs == null)
+                throw new ArgumentNullException("coeffs");
+            if (roots == null)
+                throw new ArgumentNullException("roots");
+            coeffs.ThrowIfDisposed();
+            roots.ThrowIfNotReady();
+            int ret = CppInvoke.core_solveCubic(coeffs.CvPtr, roots.CvPtr);
+            roots.Fix();
+            return ret;
+        }
+        #endregion
+        #region SolvePoly
+        /// <summary>
+        /// finds real and complex roots of a polynomial
+        /// </summary>
+        /// <param name="coeffs"></param>
+        /// <param name="roots"></param>
+        /// <param name="maxIters"></param>
+        /// <returns></returns>
+        public static double SolvePoly(InputArray coeffs, OutputArray roots, int maxIters = 300)
+        {
+            if (coeffs == null)
+                throw new ArgumentNullException("coeffs");
+            if (roots == null)
+                throw new ArgumentNullException("roots");
+            coeffs.ThrowIfDisposed();
+            roots.ThrowIfNotReady();
+            double ret = CppInvoke.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters);
+            roots.Fix();
+            return ret;
+        }
+        #endregion
         #region Eigen
         /// <summary>
         /// finds eigenvalues of a symmetric matrix

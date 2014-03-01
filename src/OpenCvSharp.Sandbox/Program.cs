@@ -83,9 +83,9 @@ namespace OpenCvSharp.Sandbox
                             Vec3b item = mat.Get<Vec3b>(y, x);
                             Vec3b newItem = new Vec3b
                             {
-                                Item1 = item.Item3,
-                                Item2 = item.Item2,
-                                Item3 = item.Item1,
+                                Item0 = item.Item2,
+                                Item1 = item.Item1,
+                                Item2 = item.Item0,
                             };
                             mat.Set(y, x, newItem);
                         }

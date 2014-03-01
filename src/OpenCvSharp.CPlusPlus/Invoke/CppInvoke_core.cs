@@ -233,6 +233,86 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_bitwise_not(IntPtr src, IntPtr dst, IntPtr mask);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_absdiff(IntPtr src1, IntPtr src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_inRange(IntPtr src, IntPtr lowerb, IntPtr upperb, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_compare(IntPtr src1, IntPtr src2, IntPtr dst, int cmpop);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_min1(IntPtr src1, IntPtr src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_max1(IntPtr src1, IntPtr src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_min_MatMat(IntPtr src1, IntPtr src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_min_MatDouble(IntPtr src1, double src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)] 
+        public static extern void core_max_MatMat(IntPtr src1, IntPtr src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_max_MatDouble(IntPtr src1, double src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_sqrt(IntPtr src, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_pow_Mat(IntPtr src, double power, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_exp_Mat(IntPtr src, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_log_Mat(IntPtr src, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float core_cubeRoot(float val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float core_fastAtan2(float y, float x);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_exp_Array(float[] src, float[] dst, int n);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_log_Array(float[] src, float[] dst, int n);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_fastAtan2_Array(float[] y, float[] x, float[] dst, int n, int angleInDegrees);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_magnitude_Array(float[] x, float[] y, float[] dst, int n);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_polarToCart(IntPtr magnitude, IntPtr angle, IntPtr x, IntPtr y, int angleInDegrees);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_cartToPolar(IntPtr x, IntPtr y, IntPtr magnitude, IntPtr angle, int angleInDegrees);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_phase(IntPtr x, IntPtr y, IntPtr angle, int angleInDegrees);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_magnitude_Mat(IntPtr x, IntPtr y, IntPtr magnitude);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_checkRange(IntPtr a, int quiet, out CvPoint pos, double minVal, double maxVal);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_patchNaNs(IntPtr a, double val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_gemm(IntPtr src1, IntPtr src2, double alpha, IntPtr src3, double gamma, IntPtr dst, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_mulTransposed(IntPtr src, IntPtr dst, int aTa, IntPtr delta, double scale, int dtype);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_transpose(IntPtr src, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_transform(IntPtr src, IntPtr dst, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_perspectiveTransform(IntPtr src, IntPtr dst, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_completeSymm(IntPtr mtx, int lowerToUpper);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_setIdentity(IntPtr mtx, CvScalar s);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double core_determinant(IntPtr mtx);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvScalar core_trace(IntPtr mtx);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double core_invert(IntPtr src, IntPtr dst, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_solve(IntPtr src1, IntPtr src2, IntPtr dst, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_sort(IntPtr src, IntPtr dst, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_sortIdx(IntPtr src, IntPtr dst, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_solveCubic(IntPtr coeffs, IntPtr roots);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double core_solvePoly(IntPtr coeffs, IntPtr roots, int maxIters);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen1")]
         public static extern int core_eigen(IntPtr src, IntPtr eigenvalues, int lowindex, int highindex);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen2")]
