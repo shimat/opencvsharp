@@ -220,6 +220,7 @@
     <Compile Include="Vector\StdVectorByte.cs" />
     <Compile Include="Vector\StdVectorVec6f.cs" />
     <Compile Include="Vector\StdVectorVec4f.cs" />
+    <Compile Include="Vector\StdVectorVectorPoint2f.cs" />
     <Compile Include="Vector\StdVectorVectorKeyPoint.cs" />
     <Compile Include="Vector\StdVectorPoint3f.cs" />
     <Compile Include="modules\video\BackgroundSubtractorMOG.cs" />

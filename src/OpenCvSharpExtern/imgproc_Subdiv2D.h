@@ -62,7 +62,9 @@ CVAPI(void) imgproc_Subdiv2D_getTriangleList(cv::Subdiv2D *obj, std::vector<cv::
 CVAPI(void) imgproc_Subdiv2D_getVoronoiFacetList(cv::Subdiv2D *obj, int *idx, int idxCount,
 	std::vector<std::vector<cv::Point2f>> **facetList, std::vector<cv::Point2f> **facetCenters)
 {
-	std::vector<int> idxVec(idx, idx + idxCount);
+	std::vector<int> idxVec;
+	if (idx != NULL)
+		idxVec = std::vector<int>(idx, idx + idxCount);
 	*facetList = new std::vector<std::vector<cv::Point2f>>();
 	*facetCenters = new std::vector<cv::Point2f>();
 	obj->getVoronoiFacetList(idxVec, **facetList, **facetCenters);

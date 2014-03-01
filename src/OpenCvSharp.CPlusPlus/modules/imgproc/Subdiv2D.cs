@@ -14,11 +14,11 @@ namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
-    /// セミグローバルブロックマッチングアルゴリズムを用てステレオ対応点探索を行うためのクラス
+    /// 
     /// </summary>
 #else
     /// <summary>
-    /// Semi-Global Stereo Matching
+    /// 
     /// </summary>
 #endif
     public class Subdiv2D : DisposableCvObject
@@ -263,7 +263,28 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="facetCenters"></param>
         public void GetVoronoiFacetList(IEnumerable<int> idx, out Point2f[][] facetList, out Point2f[] facetCenters)
         {
-            throw new NotImplementedException();
+            if (disposed)
+                throw new ObjectDisposedException("Subdiv2D", "");
+
+            IntPtr facetListPtr, facetCentersPtr;
+            if (idx == null)
+            {
+                CppInvoke.imgproc_Subdiv2D_getVoronoiFacetList(ptr, IntPtr.Zero, 0, out facetListPtr, out facetCentersPtr);
+            }
+            else
+            {
+                int[] idxArray = new List<int>(idx).ToArray();
+                CppInvoke.imgproc_Subdiv2D_getVoronoiFacetList(ptr, idxArray, idxArray.Length, out facetListPtr, out facetCentersPtr);
+            }
+
+            using (StdVectorVectorPoint2f facetListVec = new StdVectorVectorPoint2f(facetListPtr))
+            {
+                facetList = facetListVec.ToArray();
+            }
+            using (StdVectorPoint2f facetCentersVec = new StdVectorPoint2f(facetCentersPtr))
+            {
+                facetCenters = facetCentersVec.ToArray();
+            }
         }
         #endregion
         #region GetVertex

@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class StdVectorVectorKeyPoint : DisposableCvObject, IStdVector
+    internal class StdVectorVectorPoint2f : DisposableCvObject, IStdVector
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,19 +19,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorVectorKeyPoint()
+        public StdVectorVectorPoint2f()
         {
-            ptr = CppInvoke.vector_vector_KeyPoint_new1();
+            ptr = CppInvoke.vector_vector_Point2f_new1();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptr"></param>
+        public StdVectorVectorPoint2f(IntPtr ptr)
+        {
+            this.ptr = ptr;
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorVectorKeyPoint(int size)
+        public StdVectorVectorPoint2f(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_vector_KeyPoint_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_vector_Point2f_new2(new IntPtr(size));
         }
 
         /// <summary>
@@ -49,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_vector_KeyPoint_delete(ptr);
+                        CppInvoke.vector_vector_Point2f_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -67,7 +75,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size1
         {
-            get { return CppInvoke.vector_vector_KeyPoint_getSize1(ptr).ToInt32(); }
+            get { return CppInvoke.vector_vector_Point2f_getSize1(ptr).ToInt32(); }
         }
         public int Size { get { return Size1; } }
         /// <summary>
@@ -79,7 +87,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 int size1 = Size1;
                 IntPtr[] size2Org = new IntPtr[size1];
-                CppInvoke.vector_vector_KeyPoint_getSize2(ptr, size2Org);
+                CppInvoke.vector_vector_Point2f_getSize2(ptr, size2Org);
                 long[] size2 = new long[size1];
                 for (int i = 0; i < size1; i++)
                 {
@@ -104,21 +112,21 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public KeyPoint[][] ToArray()
+        public Point2f[][] ToArray()
         {
             int size1 = Size1;
             if (size1 == 0)
-                return new KeyPoint[0][];
+                return new Point2f[0][];
             long[] size2 = Size2;
 
-            KeyPoint[][] ret = new KeyPoint[size1][];
+            Point2f[][] ret = new Point2f[size1][];
             for (int i = 0; i < size1; i++)
             {
-                ret[i] = new KeyPoint[size2[i]];
+                ret[i] = new Point2f[size2[i]];
             }
-            using (ArrayAddress2<KeyPoint> retPtr = new ArrayAddress2<KeyPoint>(ret))
+            using (ArrayAddress2<Point2f> retPtr = new ArrayAddress2<Point2f>(ret))
             {
-                CppInvoke.vector_vector_KeyPoint_copy(ptr, retPtr);
+                CppInvoke.vector_vector_Point2f_copy(ptr, retPtr);
             }
             return ret;
         }

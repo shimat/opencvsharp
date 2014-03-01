@@ -10,7 +10,8 @@ namespace CppStyleSamplesCS
         static void Main(string[] args)
         {
             ISample sample =
-                new MatToIplImage();
+                new Subdiv2DSample();
+                //new MatToIplImage();
                 //new FASTSample();
                 //new FlannSample(); // Todo: crash
                 //new HOGSample();

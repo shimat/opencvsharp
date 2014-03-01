@@ -30,7 +30,7 @@ namespace CppStyleSamplesCS
                     for (int x = 0; x < mat.Width; x++)
                     {
                         Vec3b color = mat.Get<Vec3b>(y, x);
-                        Swap(ref color.Item1, ref color.Item3);
+                        Swap(ref color.Item0, ref color.Item2);
                         mat.Set<Vec3b>(y, x, color);
                     }
                 }
@@ -53,7 +53,7 @@ namespace CppStyleSamplesCS
                     for (int x = 0; x < mat.Width; x++)
                     {
                         Vec3b color = indexer[y, x];
-                        Swap(ref color.Item1, ref color.Item3);
+                        Swap(ref color.Item0, ref color.Item2);
                         indexer[y, x] = color;
                     }
                 }
@@ -77,7 +77,7 @@ namespace CppStyleSamplesCS
                     for (int x = 0; x < mat.Width; x++)
                     {
                         Vec3b color = indexer[y, x];
-                        Swap(ref color.Item1, ref color.Item3);
+                        Swap(ref color.Item0, ref color.Item2);
                         indexer[y, x] = color;
                     }
                 }

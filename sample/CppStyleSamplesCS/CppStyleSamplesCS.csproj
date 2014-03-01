@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Const.cs" />
+    <Compile Include="Samples\Subdiv2DSample.cs" />
     <Compile Include="Samples\MorphologySample.cs" />
     <Compile Include="Samples\MDS.cs" />
     <Compile Include="Program.cs" />

@@ -25,6 +25,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="ptr"></param>
+        public StdVectorPoint2f(IntPtr ptr)
+        {
+            this.ptr = ptr;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="size"></param>
         public StdVectorPoint2f(int size)
         {

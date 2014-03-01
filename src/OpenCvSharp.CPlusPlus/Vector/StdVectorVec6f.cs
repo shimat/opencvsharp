@@ -114,7 +114,7 @@ namespace OpenCvSharp.CPlusPlus
         public T[] ToArray<T>() where T : struct
         {
             int typeSize = Marshal.SizeOf(typeof(T));
-            if (typeSize != sizeof(float) * 4)
+            if (typeSize != sizeof(float) * 6)
             {
                 throw new OpenCvSharpException();
             }

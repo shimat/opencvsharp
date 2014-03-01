@@ -46,6 +46,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_Subdiv2D_getVoronoiFacetList(IntPtr obj, [MarshalAs(UnmanagedType.LPArray)] int[] idx, int idxCount,
             out IntPtr facetList, out IntPtr facetCenters);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_Subdiv2D_getVoronoiFacetList(IntPtr obj, IntPtr idx, int idxCount,
+            out IntPtr facetList, out IntPtr facetCenters);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern CvPoint2D32f imgproc_Subdiv2D_getVertex(IntPtr obj, int vertex, out int firstEdge);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int imgproc_Subdiv2D_getEdge(IntPtr obj, int edge, int nextEdgeType);
