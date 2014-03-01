@@ -35,7 +35,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 
 ## Usage
 For more details, see the **[Wiki](https://github.com/shimat/opencvsharp/wiki)** page.
-### C-style
+### C style
 ```C#
 // Edge detection by Canny algorithm
 using OpenCvSharp;
@@ -59,7 +59,7 @@ class Program
 }
 ```
 
-### Wrapper-style
+### Wrapper-style (for OpenCV C Interface)
 
 ```C#
 // Edge detection by Canny algorithm
@@ -76,12 +76,37 @@ class Program
             using (new CvWindow("src image", src)) 
             using (new CvWindow("dst image", dst)) 
             {
-                CvWindow.WaitKey();
+                Cv.WaitKey();
             }
         }
     }
 }
 ```
+
+### C++ style
+
+```C#
+// Edge detection by Canny algorithm
+using OpenCvSharp;
+using OpenCvSharp.CPlusPlus;
+
+class Program 
+{
+    static void Main() 
+    {
+        Mat src = new Mat(ImagePath.Lenna, LoadMode.GrayScale);
+        Mat dst = new Mat(src.Size(), src.Type());
+        
+        Cv2.Canny(src, dst, 50, 200);
+        using (new Window("src image", src)) 
+        using (new Window("dst image", dst)) 
+        {
+            Cv2.WaitKey();
+        }
+    }
+}
+```
+
 
 ## License
 OpenCvSharp is released under the [LGPL](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt).
