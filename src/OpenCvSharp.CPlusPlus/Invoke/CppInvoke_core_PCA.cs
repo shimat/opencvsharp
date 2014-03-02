@@ -48,5 +48,11 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_PCA_backProject2")]
         public static extern void core_PCA_backProject(IntPtr obj, IntPtr vec, IntPtr result);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_PCA_eigenvectors(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_PCA_eigenvalues(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_PCA_mean(IntPtr obj);
     }
 }

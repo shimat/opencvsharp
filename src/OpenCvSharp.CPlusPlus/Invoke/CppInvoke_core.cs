@@ -327,7 +327,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_calcCovarMatrix_InputArray(IntPtr samples, IntPtr covar,
             IntPtr mean, int flags, int ctype);
 
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_PCACompute(IntPtr data, IntPtr mean, IntPtr eigenvectors, int maxComponents);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -336,6 +335,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_PCAProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_PCABackProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_SVDecomp(IntPtr src, IntPtr w, IntPtr u, IntPtr vt, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_SVBackSubst(IntPtr w, IntPtr u, IntPtr vt, IntPtr rhs, IntPtr dst);
 
     }
 }

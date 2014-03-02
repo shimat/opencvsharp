@@ -57,4 +57,20 @@ CVAPI(void) core_PCA_backProject2(cv::PCA *obj, cv::_InputArray *vec, cv::_Outpu
 	obj->backProject(*vec, *result);
 }
 
+//!< eigenvectors of the covariation matrix
+CVAPI(cv::Mat*) core_PCA_eigenvectors(cv::PCA *obj)
+{
+	return new cv::Mat(obj->eigenvectors);
+}
+//!< eigenvalues of the covariation matrix
+CVAPI(cv::Mat*) core_PCA_eigenvalues(cv::PCA *obj)
+{
+	return new cv::Mat(obj->eigenvalues);
+}
+//!< mean value subtracted before the projection and added after the back projection
+CVAPI(cv::Mat*) core_PCA_mean(cv::PCA *obj)
+{
+	return new cv::Mat(obj->mean);
+}
+
 #endif

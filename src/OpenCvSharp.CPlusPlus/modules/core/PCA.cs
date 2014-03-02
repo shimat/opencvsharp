@@ -82,6 +82,50 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// eigenvalues of the covariation matrix
+        /// </summary>
+        public Mat Eigenvectors
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("PCA");
+                IntPtr ret = CppInvoke.core_PCA_eigenvectors(ptr);
+                return new Mat(ret);
+            }
+        }
+
+        /// <summary>
+        /// eigenvalues of the covariation matrix
+        /// </summary>
+        public Mat Eigenvalues
+        {
+            get
+            {
+                if(disposed)
+                    throw new ObjectDisposedException("PCA");
+                IntPtr ret = CppInvoke.core_PCA_eigenvalues(ptr);
+                return new Mat(ret);
+            }
+        }
+
+        /// <summary>
+        /// mean value subtracted before the projection and added after the back projection
+        /// </summary>
+        public Mat Mean
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("PCA");
+                IntPtr ret = CppInvoke.core_PCA_eigenvalues(ptr);
+                return new Mat(ret);
+            }
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// operator that performs PCA. The previously stored data, if any, is released
@@ -93,6 +137,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public PCA Compute(InputArray data, InputArray mean, PCAFlag flags, int maxComponents = 0)
         {
+            if (disposed)
+                throw new ObjectDisposedException("PCA");
             if (data == null)
                 throw new ArgumentNullException("data");
             if (mean == null)
@@ -113,6 +159,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public PCA ComputeVar(InputArray data, InputArray mean, PCAFlag flags, double retainedVariance)
         {
+            if (disposed)
+                throw new ObjectDisposedException("PCA");
             if (data == null)
                 throw new ArgumentNullException("data");
             if (mean == null)
@@ -130,6 +178,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public Mat Project(InputArray vec)
         {
+            if (disposed)
+                throw new ObjectDisposedException("PCA");
             if (vec == null)
                 throw new ArgumentNullException("vec");
             vec.ThrowIfDisposed();
@@ -143,6 +193,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="result"></param>
         public void Project(InputArray vec, OutputArray result)
         {
+            if (disposed)
+                throw new ObjectDisposedException("PCA");
             if (vec == null)
                 throw new ArgumentNullException("vec");
             if (result == null)
@@ -150,6 +202,7 @@ namespace OpenCvSharp.CPlusPlus
             vec.ThrowIfDisposed();
             result.ThrowIfNotReady();
             CppInvoke.core_PCA_project(ptr, vec.CvPtr, result.CvPtr);
+            result.Fix();
         }
 
         /// <summary>
@@ -159,6 +212,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public Mat BackProject(InputArray vec)
         {
+            if (disposed)
+                throw new ObjectDisposedException("PCA");
             if (vec == null)
                 throw new ArgumentNullException("vec");
             vec.ThrowIfDisposed();
@@ -172,6 +227,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="result"></param>
         public void BackProject(InputArray vec, OutputArray result)
         {
+            if (disposed)
+                throw new ObjectDisposedException("PCA");
             if (vec == null)
                 throw new ArgumentNullException("vec");
             if (result == null)
@@ -179,6 +236,7 @@ namespace OpenCvSharp.CPlusPlus
             vec.ThrowIfDisposed();
             result.ThrowIfNotReady();
             CppInvoke.core_PCA_backProject(ptr, vec.CvPtr, result.CvPtr);
+            result.Fix();
         }
         #endregion
     }

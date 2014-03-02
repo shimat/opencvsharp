@@ -2007,6 +2007,66 @@ namespace OpenCvSharp.CPlusPlus
             result.Fix();
         }
         #endregion
+        #region SVD
+        /// <summary>
+        /// computes SVD of src
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="w"></param>
+        /// <param name="u"></param>
+        /// <param name="vt"></param>
+        /// <param name="flags"></param>
+        public static void SVDecomp(InputArray src, OutputArray w,
+            OutputArray u, OutputArray vt, SVDFlag flags = SVDFlag.None)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (w == null)
+                throw new ArgumentNullException("w");
+            if (u == null)
+                throw new ArgumentNullException("u");
+            if (vt == null)
+                throw new ArgumentNullException("vt");
+            src.ThrowIfDisposed();
+            w.ThrowIfNotReady();
+            u.ThrowIfNotReady();
+            vt.ThrowIfNotReady();
+            CppInvoke.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
+            w.Fix();
+            u.Fix();
+            vt.Fix();
+        }
+
+        /// <summary>
+        /// performs back substitution for the previously computed SVD
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="u"></param>
+        /// <param name="vt"></param>
+        /// <param name="rhs"></param>
+        /// <param name="dst"></param>
+        public static void SVBackSubst(InputArray w, InputArray u, InputArray vt,
+            InputArray rhs, OutputArray dst)
+        {
+            if (w == null)
+                throw new ArgumentNullException("w");
+            if (u == null)
+                throw new ArgumentNullException("u");
+            if (vt == null)
+                throw new ArgumentNullException("vt");
+            if (rhs == null)
+                throw new ArgumentNullException("rhs");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            w.ThrowIfDisposed();
+            u.ThrowIfDisposed();
+            vt.ThrowIfDisposed();
+            rhs.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_SVBackSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
 
         #region Drawing
         #region Line

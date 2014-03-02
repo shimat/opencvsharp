@@ -611,4 +611,17 @@ CVAPI(void) core_PCABackProject(cv::_InputArray *data, cv::_InputArray *mean,
 	cv::PCABackProject(*data, *mean, *eigenvectors, *result);
 }
 
+//! computes SVD of src
+CVAPI(void) core_SVDecomp(cv::_InputArray *src, cv::_OutputArray *w,
+	cv::_OutputArray *u, cv::_OutputArray *vt, int flags)
+{
+	cv::SVDecomp(*src, *w, *u, *vt, flags);
+}
+//! performs back substitution for the previously computed SVD
+CVAPI(void) core_SVBackSubst(cv::_InputArray *w, cv::_InputArray *u, cv::_InputArray *vt,
+	cv::_InputArray *rhs, cv::_OutputArray *dst)
+{
+	cv::SVBackSubst(*w, *u, *vt, *rhs, *dst);
+}
+
 #endif

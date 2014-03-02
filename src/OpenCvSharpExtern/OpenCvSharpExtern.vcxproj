@@ -220,6 +220,7 @@
     <ClCompile Include="core_OutputArray.cpp" />
     <ClCompile Include="core_PCA.cpp" />
     <ClCompile Include="core_Ptr.cpp" />
+    <ClCompile Include="core_SVD.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgproc.cpp" />
     <ClCompile Include="objdetect.cpp" />
@@ -288,6 +289,7 @@
     <ClInclude Include="contrib.h" />
     <ClInclude Include="features2d.h" />
     <ClInclude Include="legacy.h" />
+    <ClInclude Include="core_SVD.h" />
     <ClInclude Include="video.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
