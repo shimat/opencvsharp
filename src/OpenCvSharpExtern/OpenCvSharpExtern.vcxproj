@@ -218,6 +218,7 @@
     <ClCompile Include="core_Mat.cpp" />
     <ClCompile Include="core_MatExpr.cpp" />
     <ClCompile Include="core_OutputArray.cpp" />
+    <ClCompile Include="core_PCA.cpp" />
     <ClCompile Include="core_Ptr.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgproc.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />
     <ClInclude Include="core_OutputArray.h" />
+    <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_Ptr.h" />
     <ClInclude Include="highgui.h" />
     <ClInclude Include="imgproc.h" />
