@@ -1831,6 +1831,182 @@ namespace OpenCvSharp.CPlusPlus
             return ret != 0;
         }
         #endregion
+        #region CalcCovarMatrix
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="covar"></param>
+        /// <param name="mean"></param>
+        /// <param name="flags"></param>
+        public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean, CovarMatrixFlag flags)
+        {
+            CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
+        }
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="covar"></param>
+        /// <param name="mean"></param>
+        /// <param name="flags"></param>
+        /// <param name="ctype"></param>
+        public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean,
+            CovarMatrixFlag flags, MatType ctype)
+        {
+            if (samples == null)
+                throw new ArgumentNullException("samples");
+            if (covar == null)
+                throw new ArgumentNullException("covar");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            covar.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            IntPtr[] samplesPtr = EnumerableEx.SelectToArray(samples, delegate(Mat m)
+            {
+                if (m == null)
+                    throw new ArgumentException("samples contains null");
+                m.ThrowIfDisposed();
+                return m.CvPtr;
+            });
+            CppInvoke.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
+        }
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="covar"></param>
+        /// <param name="mean"></param>
+        /// <param name="flags"></param>
+        public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
+            OutputArray mean, CovarMatrixFlag flags)
+        {
+            CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
+        }
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="covar"></param>
+        /// <param name="mean"></param>
+        /// <param name="flags"></param>
+        /// <param name="ctype"></param>
+        public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
+            OutputArray mean, CovarMatrixFlag flags, MatType ctype)
+        {
+            if (samples == null)
+                throw new ArgumentNullException("samples");
+            if (covar == null)
+                throw new ArgumentNullException("covar");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            samples.ThrowIfDisposed();
+            covar.ThrowIfNotReady();
+            mean.ThrowIfNotReady();
+            CppInvoke.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
+            covar.Fix();
+            mean.Fix();
+        }
+        #endregion
+
+        #region PCA
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mean"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="maxComponents"></param>
+        public static void PCACompute(InputArray data, OutputArray mean,
+            OutputArray eigenvectors, int maxComponents = 0)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            data.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+            CppInvoke.core_PCACompute(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, maxComponents);
+            mean.Fix();
+            eigenvectors.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mean"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="retainedVariance"></param>
+        public static void PCAComputeVar(InputArray data, OutputArray mean,
+            OutputArray eigenvectors, double retainedVariance)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            data.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+            CppInvoke.core_PCAComputeVar(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, retainedVariance);
+            mean.Fix();
+            eigenvectors.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mean"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="result"></param>
+        public static void PCAProject(InputArray data, InputArray mean,
+            InputArray eigenvectors, OutputArray result)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            if (result == null)
+                throw new ArgumentNullException("result");
+            data.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            eigenvectors.ThrowIfDisposed();
+            result.ThrowIfNotReady();
+            CppInvoke.core_PCAProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
+            result.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mean"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="result"></param>
+        public static void PCABackProject(InputArray data, InputArray mean,
+            InputArray eigenvectors, OutputArray result)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            if (result == null)
+                throw new ArgumentNullException("result");
+            data.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            eigenvectors.ThrowIfDisposed();
+            result.ThrowIfNotReady();
+            CppInvoke.core_PCABackProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
+            result.Fix();
+        }
+        #endregion
 
         #region Drawing
         #region Line

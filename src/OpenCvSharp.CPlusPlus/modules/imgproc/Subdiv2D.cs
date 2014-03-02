@@ -174,11 +174,23 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="ptvec"></param>
-        public void Insert(params Point2f[] ptvec)
+        public void Insert(Point2f[] ptvec)
         {
             if(disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
+            if(ptvec == null)
+                throw new ArgumentNullException("ptvec");
             CppInvoke.imgproc_Subdiv2D_insert(ptr, ptvec, ptvec.Length);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptvec"></param>
+        public void Insert(IEnumerable<Point2f> ptvec)
+        {
+            if (ptvec == null)
+                throw new ArgumentNullException("ptvec");
+            Insert(new List<Point2f>(ptvec).ToArray());
         }
         #endregion
         #region Locate
@@ -273,7 +285,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             else
             {
-                int[] idxArray = new List<int>(idx).ToArray();
+                int[] idxArray = EnumerableEx.ToArray(idx);
                 CppInvoke.imgproc_Subdiv2D_getVoronoiFacetList(ptr, idxArray, idxArray.Length, out facetListPtr, out facetCentersPtr);
             }
 

@@ -232,7 +232,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_bitwise_xor(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_bitwise_not(IntPtr src, IntPtr dst, IntPtr mask);
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_absdiff(IntPtr src1, IntPtr src2, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -321,5 +320,22 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen3")]
         public static extern int core_eigen(IntPtr src, bool computeEigenvectors,
             IntPtr eigenvalues, IntPtr eigenvectors);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen3")]
+        public static extern void core_calcCovarMatrix_Mat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] samples, 
+            int nsamples, IntPtr covar, IntPtr mean, int flags, int ctype);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen3")]
+        public static extern void core_calcCovarMatrix_InputArray(IntPtr samples, IntPtr covar,
+            IntPtr mean, int flags, int ctype);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_PCACompute(IntPtr data, IntPtr mean, IntPtr eigenvectors, int maxComponents);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_PCAComputeVar(IntPtr data, IntPtr mean, IntPtr eigenvectors, double retainedVariance);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_PCAProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_PCABackProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
+
     }
 }

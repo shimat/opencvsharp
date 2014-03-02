@@ -574,4 +574,41 @@ CVAPI(int) core_eigen3(cv::_InputArray *src, bool computeEigenvectors,
 	return cv::eigen(*src, computeEigenvectors, *eigenvalues, *eigenvectors) ? 1 : 0;
 }
 
+CVAPI(void) core_calcCovarMatrix_Mat(cv::Mat **samples, int nsamples, cv::Mat *covar, 
+	cv::Mat *mean, int flags, int ctype)
+{
+	std::vector<cv::Mat> samplesVec(nsamples);
+	for (int i = 0; i < nsamples; i++)	
+		samplesVec[i] = *samples[i];
+	
+	cv::calcCovarMatrix(&samplesVec[0], nsamples, *covar, *mean, flags, ctype);
+}
+CVAPI(void) core_calcCovarMatrix_InputArray(cv::_InputArray *samples, cv::_OutputArray *covar, 
+	cv::_OutputArray *mean, int flags, int ctype)
+{
+	cv::calcCovarMatrix(*samples, *covar, *mean, flags, ctype);
+}
+
+
+CVAPI(void) core_PCACompute(cv::_InputArray *data, cv::_OutputArray *mean,
+	cv::_OutputArray *eigenvectors, int maxComponents)
+{
+	cv::PCACompute(*data, *mean, *eigenvectors, maxComponents);
+}
+CVAPI(void) core_PCAComputeVar(cv::_InputArray *data, cv::_OutputArray *mean,
+	cv::_OutputArray *eigenvectors, double retainedVariance)
+{
+	cv::PCAComputeVar(*data, *mean, *eigenvectors, retainedVariance);
+}
+CVAPI(void) core_PCAProject(cv::_InputArray *data, cv::_InputArray *mean,
+	cv::_InputArray *eigenvectors, cv::_OutputArray *result)
+{
+	cv::PCAProject(*data, *mean, *eigenvectors, *result);
+}
+CVAPI(void) core_PCABackProject(cv::_InputArray *data, cv::_InputArray *mean,
+	cv::_InputArray *eigenvectors, cv::_OutputArray *result)
+{
+	cv::PCABackProject(*data, *mean, *eigenvectors, *result);
+}
+
 #endif

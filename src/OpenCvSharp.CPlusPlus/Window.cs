@@ -13,7 +13,7 @@ namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
-    /// cvNamedWindow関数によるHighGUIウィンドウのラッパー
+    /// HighGUIウィンドウのラッパー
     /// </summary>
 #else
     /// <summary>
@@ -24,7 +24,7 @@ namespace OpenCvSharp.CPlusPlus
     {
         #region Field
         static internal Dictionary<string, Window> Windows = new Dictionary<string, Window>();
-        static private int windowCount = 0;
+        static private uint windowCount = 0;
 
         private string name;
         private Mat image;
@@ -273,7 +273,7 @@ namespace OpenCvSharp.CPlusPlus
                 //w.Dispose();
             }
             Windows.Clear();
-            CvInvoke.cvDestroyAllWindows();
+            CppInvoke.highgui_destroyAllWindows();
         }
         #endregion
 
