@@ -8,6 +8,7 @@ namespace CppStyleSamplesCS
 {
     /// <summary>
     /// Histogram sample
+    /// http://book.mynavi.jp/support/pc/opencv2/c3/opencv_img.html
     /// </summary>
     class HistSample : ISample
     {
