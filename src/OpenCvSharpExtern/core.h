@@ -122,96 +122,6 @@ CVAPI(void) core_addWeighted(cv::_InputArray *src1, double alpha, cv::_InputArra
 
 #pragma endregion
 
-#pragma region Drawing
-
-CVAPI(void) core_line(cv::Mat *img, CvPoint pt1, CvPoint pt2, CvScalar color,
-	int thickness, int lineType, int shift)
-{
-	cv::line(*img, pt1, pt2, color, thickness, lineType, shift);
-}
-
-CVAPI(void) core_rectangle1(cv::Mat *img, CvPoint pt1, CvPoint pt2,
-	CvScalar color, int thickness, int lineType, int shift)
-{
-	cv::rectangle(*img, pt1, pt2, color, thickness, shift);
-}
-CVAPI(void) core_rectangle2(cv::Mat *img, CvRect rect,
-	CvScalar color, int thickness, int lineType, int shift)
-{
-	cv::rectangle(*img, rect, color, thickness, shift);
-}
-
-CVAPI(void) core_circle(cv::Mat *img, CvPoint center, int radius,
-	CvScalar color, int thickness, int lineType, int shift)
-{
-	cv::circle(*img, center, radius, color, thickness, lineType, shift);
-}
-
-CVAPI(void) core_ellipse1(cv::Mat *img, CvPoint center, CvSize axes,
-	double angle, double startAngle, double endAngle,
-	CvScalar& color, int thickness,	int lineType, int shift)
-{
-	cv::ellipse(*img, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
-}
-CVAPI(void) core_ellipse2(cv::Mat *img, CvBox2D box, CvScalar color, int thickness, int lineType)
-{
-	cv::ellipse(*img, box, color, thickness, lineType);
-}
-
-CVAPI(void) core_fillConvexPoly(cv::Mat *img, cv::Point* pts, int npts,
-	CvScalar color, int lineType, int shift)
-{
-	cv::fillConvexPoly(*img, pts, npts, color, lineType, shift);
-}
-
-CVAPI(void) core_fillPoly(cv::Mat *img, const cv::Point **pts, const int* npts, 
-	int ncontours, CvScalar color, int lineType, int shift, CvPoint offset)
-{
-	cv::fillPoly(*img, pts, npts, ncontours, color, lineType, shift, offset);
-}
-
-CVAPI(void) core_polylines(cv::Mat *img, const cv::Point **pts, const int* npts,
-	int ncontours, int isClosed, CvScalar color,
-	int thickness, int lineType, int shift)
-{
-	cv::polylines(
-		*img, pts, npts, ncontours, isClosed != 0, color, thickness, lineType, shift);
-}
-
-CVAPI(int) core_clipLine1(CvSize imgSize, CvPoint *pt1, CvPoint *pt2)
-{
-	cv::Point pt1c = *pt1, pt2c = *pt2;
-	bool result = cv::clipLine(imgSize, pt1c, pt2c);
-	*pt1 = pt1c;
-	*pt2 = pt2c;
-	return result ? 1 : 0;
-}
-CVAPI(int) core_clipLine2(CvRect imgRect, CvPoint *pt1, CvPoint *pt2)
-{
-	cv::Point pt1c = *pt1, pt2c = *pt2;
-	bool result = cv::clipLine(imgRect, pt1c, pt2c);
-	*pt1 = pt1c;
-	*pt2 = pt2c;
-	return result ? 1 : 0;
-}
-
-//! renders text string in the image
-CVAPI(void) core_putText(cv::Mat *img, const char *text, CvPoint org,
-	int fontFace, double fontScale, CvScalar color,
-	int thickness, int lineType, int bottomLeftOrigin)
-{
-	cv::putText(*img, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin != 0);
-}
-
-//! returns bounding box of the text string
-CVAPI(CvSize) core_getTextSize(const char *text, int fontFace,
-	double fontScale, int thickness, int* baseLine)
-{
-	return cv::getTextSize(text, fontFace, fontScale, thickness, baseLine);
-}
-
-
-#pragma endregion
 
 CVAPI(void) core_convertScaleAbs(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta)
 {
@@ -611,17 +521,171 @@ CVAPI(void) core_PCABackProject(cv::_InputArray *data, cv::_InputArray *mean,
 	cv::PCABackProject(*data, *mean, *eigenvectors, *result);
 }
 
-//! computes SVD of src
 CVAPI(void) core_SVDecomp(cv::_InputArray *src, cv::_OutputArray *w,
 	cv::_OutputArray *u, cv::_OutputArray *vt, int flags)
 {
 	cv::SVDecomp(*src, *w, *u, *vt, flags);
 }
-//! performs back substitution for the previously computed SVD
+
 CVAPI(void) core_SVBackSubst(cv::_InputArray *w, cv::_InputArray *u, cv::_InputArray *vt,
 	cv::_InputArray *rhs, cv::_OutputArray *dst)
 {
 	cv::SVBackSubst(*w, *u, *vt, *rhs, *dst);
 }
+
+CVAPI(double) core_Mahalanobis(cv::_InputArray *v1, cv::_InputArray *v2, cv::_InputArray *icovar)
+{
+	return cv::Mahalanobis(*v1, *v2, *icovar);
+}
+CVAPI(double) core_Mahalonobis(cv::_InputArray *v1, cv::_InputArray *v2, cv::_InputArray *icovar)
+{
+	return cv::Mahalonobis(*v1, *v2, *icovar);
+}
+CVAPI(void) core_dft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
+{
+	cv::dft(*src, *dst, flags, nonzeroRows);
+}
+CVAPI(void) core_idft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
+{
+	cv::idft(*src, *dst, flags, nonzeroRows);
+}
+CVAPI(void) core_dct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+{
+	cv::dct(*src, *dst, flags); 
+}
+CVAPI(void) core_idct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+{
+	cv::idct(*src, *dst, flags);
+}
+CVAPI(void) core_mulSpectrums(cv::_InputArray *a, cv::_InputArray *b, cv::_OutputArray *c, int flags, int conjB)
+{
+	cv::mulSpectrums(*a, *b, *c, flags, conjB != 0);
+}
+CVAPI(int) core_getOptimalDFTSize(int vecsize)
+{
+	return cv::getOptimalDFTSize(vecsize);
+}
+
+CVAPI(double) core_kmeans(cv::_InputArray *data, int k, cv::_OutputArray *bestLabels,
+	CvTermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers)
+{
+	return cv::kmeans(*data, k, *bestLabels, criteria, attempts, flags, entity(centers));
+}
+
+CVAPI(uint64) core_theRNG()
+{
+	cv::RNG &rng = cv::theRNG();
+	return rng.state;
+}
+CVAPI(void) core_randu(cv::_OutputArray *dst, cv::_InputArray *low, cv::_InputArray *high)
+{
+	cv::randu(*dst, *low, *high);
+}
+CVAPI(void) core_randn(cv::_OutputArray *dst, cv::_InputArray *mean, cv::_InputArray *stddev)
+{
+	cv::randn(*dst, *mean, *stddev);
+}
+CVAPI(void) core_randShuffle(cv::_OutputArray *dst, double iterFactor, uint64 *rng)
+{
+	cv::RNG rng0;
+	cv::randShuffle(*dst, iterFactor, &rng0);
+	*rng = rng0.state;
+}
+CVAPI(void) core_randShuffle_(cv::_OutputArray *dst, double iterFactor)
+{
+	cv::randShuffle_(*dst, iterFactor);
+}
+
+
+#pragma region Drawing
+
+CVAPI(void) core_line(cv::Mat *img, CvPoint pt1, CvPoint pt2, CvScalar color,
+	int thickness, int lineType, int shift)
+{
+	cv::line(*img, pt1, pt2, color, thickness, lineType, shift);
+}
+
+CVAPI(void) core_rectangle1(cv::Mat *img, CvPoint pt1, CvPoint pt2,
+	CvScalar color, int thickness, int lineType, int shift)
+{
+	cv::rectangle(*img, pt1, pt2, color, thickness, shift);
+}
+CVAPI(void) core_rectangle2(cv::Mat *img, CvRect rect,
+	CvScalar color, int thickness, int lineType, int shift)
+{
+	cv::rectangle(*img, rect, color, thickness, shift);
+}
+
+CVAPI(void) core_circle(cv::Mat *img, CvPoint center, int radius,
+	CvScalar color, int thickness, int lineType, int shift)
+{
+	cv::circle(*img, center, radius, color, thickness, lineType, shift);
+}
+
+CVAPI(void) core_ellipse1(cv::Mat *img, CvPoint center, CvSize axes,
+	double angle, double startAngle, double endAngle,
+	CvScalar& color, int thickness, int lineType, int shift)
+{
+	cv::ellipse(*img, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
+}
+CVAPI(void) core_ellipse2(cv::Mat *img, CvBox2D box, CvScalar color, int thickness, int lineType)
+{
+	cv::ellipse(*img, box, color, thickness, lineType);
+}
+
+CVAPI(void) core_fillConvexPoly(cv::Mat *img, cv::Point* pts, int npts,
+	CvScalar color, int lineType, int shift)
+{
+	cv::fillConvexPoly(*img, pts, npts, color, lineType, shift);
+}
+
+CVAPI(void) core_fillPoly(cv::Mat *img, const cv::Point **pts, const int* npts,
+	int ncontours, CvScalar color, int lineType, int shift, CvPoint offset)
+{
+	cv::fillPoly(*img, pts, npts, ncontours, color, lineType, shift, offset);
+}
+
+CVAPI(void) core_polylines(cv::Mat *img, const cv::Point **pts, const int* npts,
+	int ncontours, int isClosed, CvScalar color,
+	int thickness, int lineType, int shift)
+{
+	cv::polylines(
+		*img, pts, npts, ncontours, isClosed != 0, color, thickness, lineType, shift);
+}
+
+CVAPI(int) core_clipLine1(CvSize imgSize, CvPoint *pt1, CvPoint *pt2)
+{
+	cv::Point pt1c = *pt1, pt2c = *pt2;
+	bool result = cv::clipLine(imgSize, pt1c, pt2c);
+	*pt1 = pt1c;
+	*pt2 = pt2c;
+	return result ? 1 : 0;
+}
+CVAPI(int) core_clipLine2(CvRect imgRect, CvPoint *pt1, CvPoint *pt2)
+{
+	cv::Point pt1c = *pt1, pt2c = *pt2;
+	bool result = cv::clipLine(imgRect, pt1c, pt2c);
+	*pt1 = pt1c;
+	*pt2 = pt2c;
+	return result ? 1 : 0;
+}
+
+//! renders text string in the image
+CVAPI(void) core_putText(cv::Mat *img, const char *text, CvPoint org,
+	int fontFace, double fontScale, CvScalar color,
+	int thickness, int lineType, int bottomLeftOrigin)
+{
+	cv::putText(*img, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin != 0);
+}
+
+//! returns bounding box of the text string
+CVAPI(CvSize) core_getTextSize(const char *text, int fontFace,
+	double fontScale, int thickness, int* baseLine)
+{
+	return cv::getTextSize(text, fontFace, fontScale, thickness, baseLine);
+}
+
+
+#pragma endregion
 
 #endif
