@@ -218,7 +218,10 @@
     <ClCompile Include="core_Mat.cpp" />
     <ClCompile Include="core_MatExpr.cpp" />
     <ClCompile Include="core_OutputArray.cpp" />
+    <ClCompile Include="core_PCA.cpp" />
     <ClCompile Include="core_Ptr.cpp" />
+    <ClCompile Include="core_RNG.cpp" />
+    <ClCompile Include="core_SVD.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgproc.cpp" />
     <ClCompile Include="objdetect.cpp" />
@@ -258,7 +261,9 @@
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />
     <ClInclude Include="core_OutputArray.h" />
+    <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_Ptr.h" />
+    <ClInclude Include="core_RNG.h" />
     <ClInclude Include="highgui.h" />
     <ClInclude Include="imgproc.h" />
     <ClInclude Include="imgproc_Subdiv2D.h" />
@@ -286,6 +291,7 @@
     <ClInclude Include="contrib.h" />
     <ClInclude Include="features2d.h" />
     <ClInclude Include="legacy.h" />
+    <ClInclude Include="core_SVD.h" />
     <ClInclude Include="video.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

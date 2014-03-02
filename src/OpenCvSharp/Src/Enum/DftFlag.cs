@@ -23,6 +23,19 @@ namespace OpenCvSharp
     {
 #if LANG_JP
 		/// <summary>
+		/// Zero
+        /// [0]
+		/// </summary>
+#else
+        /// <summary>
+        /// Zero
+        /// [0]
+        /// </summary>
+#endif
+        None = 0,
+
+#if LANG_JP
+		/// <summary>
 		/// 1次元または2次元の順変換を行う．結果のスケーリングは行わない. 
         /// [CV_DXT_FORWARD]
 		/// </summary>
