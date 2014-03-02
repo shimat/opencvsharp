@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Utilities;
@@ -1342,5 +1343,249 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
+        #region PyrDown/Up
+        /// <summary>
+        /// smooths and downsamples the image
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="dstSize"></param>
+        /// <param name="borderType"></param>
+        public static void PyrDown(InputArray src, OutputArray dst,
+            Size? dstSize = null, BorderType borderType = BorderType.Default)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            Size dstSize0 = dstSize.GetValueOrDefault(new Size());
+            CppInvoke.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            dst.Fix();
+        }
+        /// <summary>
+        /// upsamples and smoothes the image
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="dstSize"></param>
+        /// <param name="borderType"></param>
+        public static void PyrUp(InputArray src, OutputArray dst,
+            Size? dstSize = null, BorderType borderType = BorderType.Default)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            Size dstSize0 = dstSize.GetValueOrDefault(new Size());
+            CppInvoke.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            dst.Fix();
+        }
+        #endregion
+
+        #region Undistort
+        /// <summary>
+        /// corrects lens distortion for the given camera matrix and distortion coefficients
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <param name="newCameraMatrix"></param>
+        public static void Undistort(InputArray src, OutputArray dst,
+            InputArray cameraMatrix,
+            InputArray distCoeffs,
+            InputArray newCameraMatrix = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (distCoeffs == null)
+                throw new ArgumentNullException("distCoeffs");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            CppInvoke.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(newCameraMatrix));
+            dst.Fix();
+        }
+        #endregion
+        #region InitUndistortRectifyMap
+        /// <summary>
+        /// initializes maps for cv::remap() to correct lens distortion and optionally rectify the image
+        /// </summary>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <param name="r"></param>
+        /// <param name="newCameraMatrix"></param>
+        /// <param name="size"></param>
+        /// <param name="m1Type"></param>
+        /// <param name="map1"></param>
+        /// <param name="map2"></param>
+        public static void InitUndistortRectifyMap(InputArray cameraMatrix, InputArray distCoeffs,
+            InputArray r, InputArray newCameraMatrix,
+            Size size, MatType m1Type, OutputArray map1, OutputArray map2)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (distCoeffs == null)
+                throw new ArgumentNullException("distCoeffs");
+            if (r == null)
+                throw new ArgumentNullException("r");
+            if (newCameraMatrix == null)
+                throw new ArgumentNullException("newCameraMatrix");
+            if (map1 == null)
+                throw new ArgumentNullException("map1");
+            if (map2 == null)
+                throw new ArgumentNullException("map2");
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            r.ThrowIfDisposed();
+            newCameraMatrix.ThrowIfDisposed();
+            map1.ThrowIfNotReady();
+            map2.ThrowIfNotReady();
+            CppInvoke.imgproc_initUndistortRectifyMap(
+                cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr);
+            map1.Fix();
+            map2.Fix();
+        }
+        #endregion
+
+        /// <summary>
+        /// initializes maps for cv::remap() for wide-angle
+        /// </summary>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <param name="imageSize"></param>
+        /// <param name="destImageWidth"></param>
+        /// <param name="m1Type"></param>
+        /// <param name="map1"></param>
+        /// <param name="map2"></param>
+        /// <param name="projType"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public static float InitWideAngleProjMap(InputArray cameraMatrix, InputArray distCoeffs,
+            Size imageSize, int destImageWidth, MatType m1Type, OutputArray map1, OutputArray map2,
+            ProjectionType projType, double alpha = 0)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (distCoeffs == null)
+                throw new ArgumentNullException("distCoeffs");
+            if (map1 == null)
+                throw new ArgumentNullException("map1");
+            if (map2 == null)
+                throw new ArgumentNullException("map2");
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            map1.ThrowIfNotReady();
+            map2.ThrowIfNotReady();
+            float ret = CppInvoke.imgproc_initWideAngleProjMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
+                destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int)projType, alpha);
+            map1.Fix();
+            map2.Fix();
+            return ret;
+        }
+
+        /// <summary>
+        /// returns the default new camera matrix (by default it is the same as cameraMatrix unless centerPricipalPoint=true)
+        /// </summary>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="imgSize"></param>
+        /// <param name="centerPrincipalPoint"></param>
+        /// <returns></returns>
+        public static Mat GetDefaultNewCameraMatrix(InputArray cameraMatrix,
+            Size? imgSize = null, bool centerPrincipalPoint = false)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            cameraMatrix.ThrowIfDisposed();
+            Size imgSize0 = imgSize.GetValueOrDefault(new Size());
+            IntPtr matPtr = CppInvoke.imgproc_getDefaultNewCameraMatrix(cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
+            return new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// returns points' coordinates after lens distortion correction
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <param name="r"></param>
+        /// <param name="p"></param>
+        public static void UndistortPoints(InputArray src, OutputArray dst,
+            InputArray cameraMatrix, InputArray distCoeffs,
+            InputArray r = null, InputArray p = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (distCoeffs == null)
+                throw new ArgumentNullException("distCoeffs");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            CppInvoke.imgproc_undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(r), ToPtr(p));
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// computes the joint dense histogram for a set of images.
+        /// </summary>
+        /// <param name="images"></param>
+        /// <param name="channels"></param>
+        /// <param name="mask"></param>
+        /// <param name="hist"></param>
+        /// <param name="dims"></param>
+        /// <param name="histSize"></param>
+        /// <param name="ranges"></param>
+        /// <param name="uniform"></param>
+        /// <param name="accumulate"></param>
+        public static void CalcHist(Mat[] images, 
+            int[] channels, InputArray mask,
+            OutputArray hist, int dims, int[] histSize,
+            Rangef[] ranges, bool uniform = true, bool accumulate = false)
+        {
+            if (images == null)
+                throw new ArgumentNullException("images");
+            if (channels == null)
+                throw new ArgumentNullException("channels");
+            if (hist == null)
+                throw new ArgumentNullException("hist");
+            if (histSize == null)
+                throw new ArgumentNullException("histSize");
+            if (ranges == null)
+                throw new ArgumentNullException("ranges");
+            hist.ThrowIfNotReady();
+
+            IntPtr[] imagesPtr = EnumerableEx.SelectToArray(images, delegate(Mat m)
+            {
+                if(m == null)
+                    throw new ArgumentException();
+                m.ThrowIfDisposed();
+                return m.CvPtr;
+            });
+            float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, delegate(Rangef r)
+            {
+                return new float[2]{r.Start, r.End};
+            });
+            using (ArrayAddress2<float> rangesPtr = new ArrayAddress2<float>(rangesFloat))
+            {
+                CppInvoke.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr, 
+                    dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0);
+            }
+            hist.Fix();
+        }
     }
 }

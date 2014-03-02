@@ -18,6 +18,7 @@ namespace OpenCvSharp
     /// Flags for the window
     /// </summary>
 #endif
+    [Flags]
     public enum WindowMode : int
     {
 #if LANG_JP

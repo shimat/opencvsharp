@@ -72,5 +72,12 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public const int DCT_INVERSE = DFT_INVERSE,
             DCT_ROWS = DFT_ROWS;
+
+        /// <summary>
+        /// cv::initWideAngleProjMap flags
+        /// </summary>
+        public const int
+            PROJ_SPHERICAL_ORTHO = 0,
+            PROJ_SPHERICAL_EQRECT = 1;
     }
 }
