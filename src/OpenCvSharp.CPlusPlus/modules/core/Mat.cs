@@ -3126,6 +3126,22 @@ namespace OpenCvSharp.CPlusPlus
             Cv2.FillPoly(this, pts, color, lineType, shift, offset);
         }
         #endregion
+        #region Polylines
+        /// <summary>
+        /// draws one or more polygonal curves
+        /// </summary>
+        /// <param name="pts"></param>
+        /// <param name="isClosed"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="shift"></param>
+        public void Polylines(IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
+            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            Cv2.Polylines(this, pts, isClosed, color, thickness, lineType, shift);
+        }
+        #endregion
         #region PutText
         /// <summary>
         /// renders text string in the image

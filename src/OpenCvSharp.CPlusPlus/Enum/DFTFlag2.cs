@@ -7,19 +7,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
 	/// <summary>
-	/// cvDFTの変換フラグ
+	/// cv::dft の変換フラグ
 	/// </summary>
 #else
     /// <summary>
-    /// Transformation flags for cvDFT
+    /// Transformation flags for cv::dft
     /// </summary>
 #endif
     [Flags]
-    public enum DFTFlag : int
+    public enum DftFlag2 : int
     {
 #if LANG_JP
 		/// <summary>
@@ -34,65 +34,38 @@ namespace OpenCvSharp
 #endif
         None = 0,
 
-#if LANG_JP
-		/// <summary>
-		/// 1次元または2次元の順変換を行う．結果のスケーリングは行わない. 
-        /// [CV_DXT_FORWARD]
-		/// </summary>
-#else
         /// <summary>
-        /// Do forward 1D or 2D transform. The result is not scaled.
-        /// (Forward and Inverse are mutually exclusive, of course.)
-        /// [CV_DXT_FORWARD]
+        /// do an inverse 1D or 2D transform instead of the default forward transform.
+        /// [DFT_INVERSE]
         /// </summary>
-#endif
-        Forward = CvConst.CV_DXT_FORWARD,
-
-
 #if LANG_JP
 		/// <summary>
 		/// 1次元または2次元の逆変換を行う．結果のスケーリングは行わない． 
 		/// Forward と Inverse は，もちろん同時には指定できない．
-        /// [CV_DXT_INVERSE]
+        /// [DFT_INVERSE]
 		/// </summary>
 #else
         /// <summary>
         /// Do inverse 1D or 2D transform. The result is not scaled. 
         /// (Forward and Inverse are mutually exclusive, of course.)
-        /// [CV_DXT_INVERSE]
+        /// [DFT_INVERSE]
         /// </summary>
 #endif
-        Inverse = CvConst.CV_DXT_INVERSE,
-
+        Inverse = CppConst.DFT_INVERSE,
 
 #if LANG_JP
 		/// <summary>
 		/// 結果を配列要素数で割り，スケーリングする．通常は Inverse と同時に用いる．
 		/// ショートカットとして InvScale を用いても良い．
-        /// [CV_DXT_SCALE]
+        /// [DFT_SCALE]
 		/// </summary>
 #else
         /// <summary>
         /// Scale the result: divide it by the number of array elements. Usually, it is combined with Inverse.
-        /// [CV_DXT_SCALE]
+        /// [DFT_SCALE]
         /// </summary>
 #endif
-        Scale = CvConst.CV_DXT_SCALE,
-
-
-#if LANG_JP
-		/// <summary>
-		/// Inverse | Scale のショートカット. 
-        /// [CV_DXT_INVERSE_SCALE]
-		/// </summary>
-#else
-        /// <summary>
-        /// Shortcut of Inverse | Scale 
-        /// [CV_DXT_INVERSE_SCALE]
-        /// </summary>
-#endif
-        InverseScale = CvConst.CV_DXT_INVERSE_SCALE,
-
+        Scale = CppConst.DFT_SCALE,
 
 #if LANG_JP
 		/// <summary>
@@ -110,6 +83,29 @@ namespace OpenCvSharp
         /// [CV_DXT_ROWS]
         /// </summary>
 #endif
-        Rows = CvConst.CV_DXT_ROWS,
+        Rows = CppConst.DFT_ROWS,
+
+
+        /// <summary>
+        /// then the function performs forward transformation of 1D or 2D real array, the result, 
+        /// though being a complex array, has complex-conjugate symmetry ( CCS ), see the description below. 
+        /// Such an array can be packed into real array of the same size as input, which is the fastest option 
+        /// and which is what the function does by default. However, you may wish to get the full complex array 
+        /// (for simpler spectrum analysis etc.). Pass the flag to tell the function to produce full-size complex output array.
+        /// [DFT_COMPLEX_OUTPUT]
+        /// </summary>
+        ComplexOutput = CppConst.DFT_COMPLEX_OUTPUT,
+
+        /// <summary>
+        /// then the function performs inverse transformation of 1D or 2D complex array, the result is normally a complex array 
+        /// of the same size. However, if the source array has conjugate-complex symmetry (for example, it is a result of 
+        /// forward transformation with DFT_COMPLEX_OUTPUT flag), then the output is real array. While the function itself 
+        /// does not check whether the input is symmetrical or not, you can pass the flag and then the function will assume 
+        /// the symmetry and produce the real output array. Note that when the input is packed real array and 
+        /// inverse transformation is executed, the function treats the input as packed complex-conjugate symmetrical array, 
+        /// so the output will also be real array
+        /// [DFT_REAL_OUTPUT]
+        /// </summary>
+        RealOutput = CppConst.DFT_REAL_OUTPUT,
     }
 }

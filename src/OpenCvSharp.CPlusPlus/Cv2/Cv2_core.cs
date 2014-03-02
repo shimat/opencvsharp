@@ -11,6 +11,214 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public static partial class Cv2
     {
+        #region Miscellaneous
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nthreads"></param>
+        public static void SetNumThreads(int nthreads)
+        {
+            CppInvoke.core_setNumThreads(nthreads);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int GetNumThreads()
+        {
+            return CppInvoke.core_getNumThreads();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int GetThreadNum()
+        {
+            return CppInvoke.core_getThreadNum();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static string GetBuildInformation()
+        {
+            StringBuilder buf = new StringBuilder(1 << 16);
+            CppInvoke.core_getBuildInformation(buf, (uint)buf.Capacity);
+            return buf.ToString();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static long GetTickCount()
+        {
+            return CppInvoke.core_getTickCount();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static double GetTickFrequency()
+        {
+            return CppInvoke.core_getTickFrequency();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static long GetCpuTickCount()
+        {
+            return CppInvoke.core_getCPUTickCount();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="feature"></param>
+        /// <returns></returns>
+        public static bool CheckHardwareSupport(HardwareSupport feature)
+        {
+            return CppInvoke.core_checkHardwareSupport(feature) != 0;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int FetNumberOfCpus()
+        {
+            return CppInvoke.core_getNumberOfCPUs();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bufSize"></param>
+        /// <returns></returns>
+        public static IntPtr FastMalloc(long bufSize)
+        {
+            return CppInvoke.core_fastMalloc(new IntPtr(bufSize));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptr"></param>
+        public static void FastFree(IntPtr ptr)
+        {
+            CppInvoke.core_fastFree(ptr);
+        }
+
+        /// <summary>
+        /// Turns on/off available optimization.
+        /// The function turns on or off the optimized code in OpenCV. Some optimization can not be enabled
+        /// or disabled, but, for example, most of SSE code in OpenCV can be temporarily turned on or off this way.
+        /// </summary>
+        /// <param name="onoff"></param>
+        public static void SetUseOptimized(bool onoff)
+        {
+            CppInvoke.core_setUseOptimized(onoff ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Returns the current optimization status.
+        /// The function returns the current optimization status, which is controlled by cv::setUseOptimized().
+        /// </summary>
+        /// <returns></returns>
+        public static bool UseOptimized()
+        {
+            return CppInvoke.core_useOptimized() != 0;
+        }
+
+        /// <summary>
+        /// Aligns buffer size by the certain number of bytes
+        /// This small inline function aligns a buffer size by 
+        /// the certian number of bytes by enlarging it.
+        /// </summary>
+        /// <param name="sz"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static int AlignSize(int sz, int n)
+        {
+            bool assert = ((n & (n - 1)) == 0); // n is a power of 2
+            if(!assert)
+                throw new ArgumentException();
+            return (sz + n - 1) & -n;
+        }
+
+        #region CvArrToMat
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="copyData"></param>
+        /// <param name="allowND"></param>
+        /// <param name="coiMode"></param>
+        /// <returns></returns>
+        public static Mat CvArrToMat(CvArr arr, bool copyData = false, bool allowND = true, int coiMode = 0)
+        {
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            arr.ThrowIfDisposed();
+            IntPtr matPtr = CppInvoke.core_cvarrToMat(arr.CvPtr, copyData ? 1 : 0, allowND ? 1 : 0, coiMode);
+            return new Mat(matPtr);
+        }
+        #endregion
+        #region ExtractImageCOI
+#if LANG_JP
+        /// <summary>
+        /// 選択されたチャンネルの画像を取り出す
+        /// </summary>
+        /// <param name="arr">入力配列. CvMat または IplImage の参照.</param>
+        /// <param name="coiimg">出力行列. 1チャンネルで, 入力配列srcと同じサイズ・ビット深度を持つ.</param>
+        /// <param name="coi">0以上の場合, 指定されたチャンネルについて取り出される。
+        /// 0未満の場合, 入力配列srcがIplImageでCOIが指定されていれば, そのCOIについて取り出される. [既定値は-1]</param>
+#else
+        /// <summary>
+        /// Extract the selected image channel
+        /// </summary>
+        /// <param name="arr">The source array. It should be a pointer to CvMat or IplImage</param>
+        /// <param name="coiimg">The destination array; will have single-channel, and the same size and the same depth as src</param>
+        /// <param name="coi">If the parameter is &gt;=0, it specifies the channel to extract; 
+        /// If it is &lt;0, src must be a pointer to IplImage with valid COI set - then the selected COI is extracted. [By default this is -1]</param>
+#endif
+        public static void ExtractImageCOI(CvArr arr, OutputArray coiimg, int coi = -1)
+        {
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (coiimg == null)
+                throw new ArgumentNullException("coiimg");
+            arr.ThrowIfDisposed();
+            coiimg.ThrowIfNotReady();
+            CppInvoke.core_extractImageCOI(arr.CvPtr, coiimg.CvPtr, coi);
+            coiimg.Fix();
+        }
+        #endregion
+        #region InsertImageCOI
+#if LANG_JP
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="coiimg"></param>
+        /// <param name="arr"></param>
+        /// <param name="coi">[既定値は-1]</param>
+#else
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="coiimg"></param>
+        /// <param name="arr"></param>
+        /// <param name="coi">[By default this is -1]</param>
+#endif
+        public static void InsertImageCOI(InputArray coiimg, CvArr arr, int coi = -1)
+        {
+            if (coiimg == null)
+                throw new ArgumentNullException("coiimg");
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            coiimg.ThrowIfDisposed();
+            arr.ThrowIfDisposed();
+            CppInvoke.core_insertImageCOI(coiimg.CvPtr, arr.CvPtr, coi);
+        }
+        #endregion
+        #endregion
+
         #region Abs
         /// <summary>
         /// 
@@ -1831,6 +2039,502 @@ namespace OpenCvSharp.CPlusPlus
             return ret != 0;
         }
         #endregion
+        #region CalcCovarMatrix
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="covar"></param>
+        /// <param name="mean"></param>
+        /// <param name="flags"></param>
+        public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean, CovarMatrixFlag flags)
+        {
+            CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
+        }
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="covar"></param>
+        /// <param name="mean"></param>
+        /// <param name="flags"></param>
+        /// <param name="ctype"></param>
+        public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean,
+            CovarMatrixFlag flags, MatType ctype)
+        {
+            if (samples == null)
+                throw new ArgumentNullException("samples");
+            if (covar == null)
+                throw new ArgumentNullException("covar");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            covar.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            IntPtr[] samplesPtr = EnumerableEx.SelectToArray(samples, delegate(Mat m)
+            {
+                if (m == null)
+                    throw new ArgumentException("samples contains null");
+                m.ThrowIfDisposed();
+                return m.CvPtr;
+            });
+            CppInvoke.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
+        }
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="covar"></param>
+        /// <param name="mean"></param>
+        /// <param name="flags"></param>
+        public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
+            OutputArray mean, CovarMatrixFlag flags)
+        {
+            CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
+        }
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="covar"></param>
+        /// <param name="mean"></param>
+        /// <param name="flags"></param>
+        /// <param name="ctype"></param>
+        public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
+            OutputArray mean, CovarMatrixFlag flags, MatType ctype)
+        {
+            if (samples == null)
+                throw new ArgumentNullException("samples");
+            if (covar == null)
+                throw new ArgumentNullException("covar");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            samples.ThrowIfDisposed();
+            covar.ThrowIfNotReady();
+            mean.ThrowIfNotReady();
+            CppInvoke.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
+            covar.Fix();
+            mean.Fix();
+        }
+        #endregion
+
+        #region PCA
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mean"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="maxComponents"></param>
+        public static void PCACompute(InputArray data, OutputArray mean,
+            OutputArray eigenvectors, int maxComponents = 0)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            data.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+            CppInvoke.core_PCACompute(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, maxComponents);
+            mean.Fix();
+            eigenvectors.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mean"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="retainedVariance"></param>
+        public static void PCAComputeVar(InputArray data, OutputArray mean,
+            OutputArray eigenvectors, double retainedVariance)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            data.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+            CppInvoke.core_PCAComputeVar(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, retainedVariance);
+            mean.Fix();
+            eigenvectors.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mean"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="result"></param>
+        public static void PCAProject(InputArray data, InputArray mean,
+            InputArray eigenvectors, OutputArray result)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            if (result == null)
+                throw new ArgumentNullException("result");
+            data.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            eigenvectors.ThrowIfDisposed();
+            result.ThrowIfNotReady();
+            CppInvoke.core_PCAProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
+            result.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mean"></param>
+        /// <param name="eigenvectors"></param>
+        /// <param name="result"></param>
+        public static void PCABackProject(InputArray data, InputArray mean,
+            InputArray eigenvectors, OutputArray result)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (eigenvectors == null)
+                throw new ArgumentNullException("eigenvectors");
+            if (result == null)
+                throw new ArgumentNullException("result");
+            data.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            eigenvectors.ThrowIfDisposed();
+            result.ThrowIfNotReady();
+            CppInvoke.core_PCABackProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
+            result.Fix();
+        }
+        #endregion
+        #region SVD
+        /// <summary>
+        /// computes SVD of src
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="w"></param>
+        /// <param name="u"></param>
+        /// <param name="vt"></param>
+        /// <param name="flags"></param>
+        public static void SVDecomp(InputArray src, OutputArray w,
+            OutputArray u, OutputArray vt, SVDFlag flags = SVDFlag.None)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (w == null)
+                throw new ArgumentNullException("w");
+            if (u == null)
+                throw new ArgumentNullException("u");
+            if (vt == null)
+                throw new ArgumentNullException("vt");
+            src.ThrowIfDisposed();
+            w.ThrowIfNotReady();
+            u.ThrowIfNotReady();
+            vt.ThrowIfNotReady();
+            CppInvoke.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
+            w.Fix();
+            u.Fix();
+            vt.Fix();
+        }
+
+        /// <summary>
+        /// performs back substitution for the previously computed SVD
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="u"></param>
+        /// <param name="vt"></param>
+        /// <param name="rhs"></param>
+        /// <param name="dst"></param>
+        public static void SVBackSubst(InputArray w, InputArray u, InputArray vt,
+            InputArray rhs, OutputArray dst)
+        {
+            if (w == null)
+                throw new ArgumentNullException("w");
+            if (u == null)
+                throw new ArgumentNullException("u");
+            if (vt == null)
+                throw new ArgumentNullException("vt");
+            if (rhs == null)
+                throw new ArgumentNullException("rhs");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            w.ThrowIfDisposed();
+            u.ThrowIfDisposed();
+            vt.ThrowIfDisposed();
+            rhs.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_SVBackSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+
+        #region Mahalanobis/Mahalonobis
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <param name="icovar"></param>
+        /// <returns></returns>
+        public static double Mahalanobis(InputArray v1, InputArray v2, InputArray icovar)
+        {
+            if (v1 == null)
+                throw new ArgumentNullException("v1");
+            if (v2 == null)
+                throw new ArgumentNullException("v2");
+            if (icovar == null)
+                throw new ArgumentNullException("icovar");
+            v1.ThrowIfDisposed();
+            v2.ThrowIfDisposed();
+            icovar.ThrowIfDisposed();
+            return CppInvoke.core_Mahalanobis(v1.CvPtr, v2.CvPtr, icovar.CvPtr);
+        }
+        /// <summary>
+        /// computes Mahalanobis distance between two vectors: sqrt((v1-v2)'*icovar*(v1-v2)), where icovar is the inverse covariation matrix
+        /// </summary>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <param name="icovar"></param>
+        /// <returns></returns>
+        public static double Mahalonobis(InputArray v1, InputArray v2, InputArray icovar)
+        {
+            return Mahalanobis(v1, v2, icovar);
+        }
+        #endregion
+        #region Dft/Idft
+        /// <summary>
+        /// performs forward or inverse 1D or 2D Discrete Fourier Transformation
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        /// <param name="nonzeroRows"></param>
+        public static void Dft(InputArray src, OutputArray dst, DftFlag2 flags = DftFlag2.None, int nonzeroRows = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_dft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// performs inverse 1D or 2D Discrete Fourier Transformation
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        /// <param name="nonzeroRows"></param>
+        public static void Idft(InputArray src, OutputArray dst, DftFlag2 flags = DftFlag2.None, int nonzeroRows = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_idft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
+            dst.Fix();
+        }
+        #endregion
+        #region Dct/Idct
+        /// <summary>
+        /// performs forward or inverse 1D or 2D Discrete Cosine Transformation
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        public static void Dct(InputArray src, OutputArray dst, DctFlag2 flags = DctFlag2.None)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_dct(src.CvPtr, dst.CvPtr, (int)flags);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// performs inverse 1D or 2D Discrete Cosine Transformation
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        public static void Idct(InputArray src, OutputArray dst, DctFlag2 flags = DctFlag2.None)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.core_idct(src.CvPtr, dst.CvPtr, (int)flags);
+            dst.Fix();
+        }
+        #endregion
+        #region MulSpectrums
+        /// <summary>
+        /// computes element-wise product of the two Fourier spectrums. The second spectrum can optionally be conjugated before the multiplication
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
+        /// <param name="flags"></param>
+        /// <param name="conjB"></param>
+        public static void MulSpectrums(InputArray a, InputArray b, OutputArray c,
+            MulSpectrumsFlag flags, bool conjB = false)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            if (c == null)
+                throw new ArgumentNullException("c");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            c.ThrowIfNotReady();
+            CppInvoke.core_mulSpectrums(a.CvPtr, b.CvPtr, c.CvPtr, (int)flags, conjB ? 1 : 0);
+            c.Fix();
+        }
+        #endregion
+        #region GetOptimalDFTSize
+        /// <summary>
+        /// computes the minimal vector size vecsize1 >= vecsize so that the dft() of the vector of length vecsize1 can be computed efficiently
+        /// </summary>
+        /// <param name="vecsize"></param>
+        /// <returns></returns>
+        public static int GetOptimalDFTSize(int vecsize)
+        {
+            return CppInvoke.core_getOptimalDFTSize(vecsize);
+        }
+        #endregion
+        #region Kmeans
+        /// <summary>
+        /// clusters the input data using k-Means algorithm
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="k"></param>
+        /// <param name="bestLabels"></param>
+        /// <param name="criteria"></param>
+        /// <param name="attempts"></param>
+        /// <param name="flags"></param>
+        /// <param name="centers"></param>
+        /// <returns></returns>
+        public static double Kmeans(InputArray data, int k, OutputArray bestLabels,
+            TermCriteria criteria, int attempts, KMeansFlag flags, OutputArray centers = null)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (bestLabels == null)
+                throw new ArgumentNullException("bestLabels");
+            data.ThrowIfDisposed();
+            bestLabels.ThrowIfDisposed();
+            double ret = CppInvoke.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int)flags, ToPtr(centers));
+            bestLabels.Fix();
+            if(centers != null)
+                centers.Fix();
+            return ret;
+        }
+        #endregion
+        #region TheRNG
+        /// <summary>
+        /// returns the thread-local Random number generator
+        /// </summary>
+        /// <returns></returns>
+        public static RNG TheRNG()
+        {
+            ulong state = CppInvoke.core_theRNG();
+            return new RNG(state);
+        }
+        #endregion
+        #region Randu
+        /// <summary>
+        /// fills array with uniformly-distributed random numbers from the range [low, high)
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="low"></param>
+        /// <param name="high"></param>
+        public static void Randu(OutputArray dst, InputArray low, InputArray high)
+        {
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (low == null)
+                throw new ArgumentNullException("low");
+            if (high == null)
+                throw new ArgumentNullException("high");
+            dst.ThrowIfNotReady();
+            low.ThrowIfDisposed();
+            high.ThrowIfDisposed();
+            CppInvoke.core_randu(dst.CvPtr, low.CvPtr, high.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region Randn
+        /// <summary>
+        /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="mean"></param>
+        /// <param name="stddev"></param>
+        public static void Randn(OutputArray dst, InputArray mean, InputArray stddev)
+        {
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (mean == null)
+                throw new ArgumentNullException("mean");
+            if (stddev == null)
+                throw new ArgumentNullException("stddev");
+            dst.ThrowIfNotReady();
+            mean.ThrowIfDisposed();
+            stddev.ThrowIfDisposed();
+            CppInvoke.core_randn(dst.CvPtr, mean.CvPtr, stddev.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region RandShuffle
+        /// <summary>
+        /// shuffles the input array elements
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="iterFactor"></param>
+        /// <param name="rng"></param>
+        public static void RandShuffle(OutputArray dst, double iterFactor, out RNG rng)
+        {
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            dst.ThrowIfNotReady();
+            ulong state;
+            CppInvoke.core_randShuffle(dst.CvPtr, iterFactor, out state);
+            dst.Fix();
+            rng = new RNG(state);
+        }
+        /// <summary>
+        /// shuffles the input array elements
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="iterFactor"></param>
+        public static void RandShuffle(OutputArray dst, double iterFactor = 1.0)
+        {
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            dst.ThrowIfNotReady();
+            CppInvoke.core_randShuffle_(dst.CvPtr, iterFactor);
+            dst.Fix();
+        }
+        #endregion
 
         #region Drawing
         #region Line
@@ -2165,6 +2869,41 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+        #region Polylines
+        /// <summary>
+        /// draws one or more polygonal curves
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="pts"></param>
+        /// <param name="isClosed"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="shift"></param>
+        public static void Polylines(Mat img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color, 
+            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+
+            List<Point[]> ptsList = new List<Point[]>();
+            List<int> nptsList = new List<int>();
+            foreach (IEnumerable<Point> pts1 in pts)
+            {
+                Point[] pts1Arr = Util.ToArray(pts1);
+                ptsList.Add(pts1Arr);
+                nptsList.Add(pts1Arr.Length);
+            }
+            Point[][] ptsArr = ptsList.ToArray();
+            int[] npts = nptsList.ToArray();
+            int ncontours = ptsArr.Length;
+            using (ArrayAddress2<Point> ptsPtr = new ArrayAddress2<Point>(ptsArr))
+            {
+                CppInvoke.core_polylines(img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
+            }
+        }
+        #endregion
         #region ClipLine
 #if LANG_JP
         /// <summary>
@@ -2254,212 +2993,6 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #endregion
-        #region Miscellaneous
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="nthreads"></param>
-        public static void SetNumThreads(int nthreads)
-        {
-            CppInvoke.core_setNumThreads(nthreads);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static int GetNumThreads()
-        {
-            return CppInvoke.core_getNumThreads();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static int GetThreadNum()
-        {
-            return CppInvoke.core_getThreadNum();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static string GetBuildInformation()
-        {
-            StringBuilder buf = new StringBuilder(1 << 16);
-            CppInvoke.core_getBuildInformation(buf, (uint)buf.Capacity);
-            return buf.ToString();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static long GetTickCount()
-        {
-            return CppInvoke.core_getTickCount();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static double GetTickFrequency()
-        {
-            return CppInvoke.core_getTickFrequency();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static long GetCpuTickCount()
-        {
-            return CppInvoke.core_getCPUTickCount();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="feature"></param>
-        /// <returns></returns>
-        public static bool CheckHardwareSupport(HardwareSupport feature)
-        {
-            return CppInvoke.core_checkHardwareSupport(feature) != 0;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static int FetNumberOfCpus()
-        {
-            return CppInvoke.core_getNumberOfCPUs();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="bufSize"></param>
-        /// <returns></returns>
-        public static IntPtr FastMalloc(long bufSize)
-        {
-            return CppInvoke.core_fastMalloc(new IntPtr(bufSize));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public static void FastFree(IntPtr ptr)
-        {
-            CppInvoke.core_fastFree(ptr);
-        }
-
-        /// <summary>
-        /// Turns on/off available optimization.
-        /// The function turns on or off the optimized code in OpenCV. Some optimization can not be enabled
-        /// or disabled, but, for example, most of SSE code in OpenCV can be temporarily turned on or off this way.
-        /// </summary>
-        /// <param name="onoff"></param>
-        public static void SetUseOptimized(bool onoff)
-        {
-            CppInvoke.core_setUseOptimized(onoff ? 1 : 0);
-        }
-
-        /// <summary>
-        /// Returns the current optimization status.
-        /// The function returns the current optimization status, which is controlled by cv::setUseOptimized().
-        /// </summary>
-        /// <returns></returns>
-        public static bool UseOptimized()
-        {
-            return CppInvoke.core_useOptimized() != 0;
-        }
-
-        /// <summary>
-        /// Aligns buffer size by the certain number of bytes
-        /// This small inline function aligns a buffer size by 
-        /// the certian number of bytes by enlarging it.
-        /// </summary>
-        /// <param name="sz"></param>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        public static int AlignSize(int sz, int n)
-        {
-            bool assert = ((n & (n - 1)) == 0); // n is a power of 2
-            if(!assert)
-                throw new ArgumentException();
-            return (sz + n - 1) & -n;
-        }
-
-        #region CvArrToMat
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="arr"></param>
-        /// <param name="copyData"></param>
-        /// <param name="allowND"></param>
-        /// <param name="coiMode"></param>
-        /// <returns></returns>
-        public static Mat CvArrToMat(CvArr arr, bool copyData = false, bool allowND = true, int coiMode = 0)
-        {
-            if (arr == null)
-                throw new ArgumentNullException("arr");
-            arr.ThrowIfDisposed();
-            IntPtr matPtr = CppInvoke.core_cvarrToMat(arr.CvPtr, copyData ? 1 : 0, allowND ? 1 : 0, coiMode);
-            return new Mat(matPtr);
-        }
-        #endregion
-        #region ExtractImageCOI
-#if LANG_JP
-        /// <summary>
-        /// 選択されたチャンネルの画像を取り出す
-        /// </summary>
-        /// <param name="arr">入力配列. CvMat または IplImage の参照.</param>
-        /// <param name="coiimg">出力行列. 1チャンネルで, 入力配列srcと同じサイズ・ビット深度を持つ.</param>
-        /// <param name="coi">0以上の場合, 指定されたチャンネルについて取り出される。
-        /// 0未満の場合, 入力配列srcがIplImageでCOIが指定されていれば, そのCOIについて取り出される. [既定値は-1]</param>
-#else
-        /// <summary>
-        /// Extract the selected image channel
-        /// </summary>
-        /// <param name="arr">The source array. It should be a pointer to CvMat or IplImage</param>
-        /// <param name="coiimg">The destination array; will have single-channel, and the same size and the same depth as src</param>
-        /// <param name="coi">If the parameter is &gt;=0, it specifies the channel to extract; 
-        /// If it is &lt;0, src must be a pointer to IplImage with valid COI set - then the selected COI is extracted. [By default this is -1]</param>
-#endif
-        public static void ExtractImageCOI(CvArr arr, OutputArray coiimg, int coi = -1)
-        {
-            if (arr == null)
-                throw new ArgumentNullException("arr");
-            if (coiimg == null)
-                throw new ArgumentNullException("coiimg");
-            arr.ThrowIfDisposed();
-            coiimg.ThrowIfNotReady();
-            CppInvoke.core_extractImageCOI(arr.CvPtr, coiimg.CvPtr, coi);
-            coiimg.Fix();
-        }
-        #endregion
-        #region InsertImageCOI
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="coiimg"></param>
-        /// <param name="arr"></param>
-        /// <param name="coi">[既定値は-1]</param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="coiimg"></param>
-        /// <param name="arr"></param>
-        /// <param name="coi">[By default this is -1]</param>
-#endif
-        public static void InsertImageCOI(InputArray coiimg, CvArr arr, int coi = -1)
-        {
-            if (coiimg == null)
-                throw new ArgumentNullException("coiimg");
-            if (arr == null)
-                throw new ArgumentNullException("arr");
-            coiimg.ThrowIfDisposed();
-            arr.ThrowIfDisposed();
-            CppInvoke.core_insertImageCOI(coiimg.CvPtr, arr.CvPtr, coi);
-        }
-        #endregion
-        #endregion
+        
     }
 }

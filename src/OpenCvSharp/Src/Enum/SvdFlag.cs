@@ -33,6 +33,20 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         Zero = 0,
+
+#if LANG_JP
+		/// <summary>
+		/// フラグ指定なし 
+        /// [0]
+		/// </summary>
+#else
+        /// <summary>
+        /// No flags
+        /// [0]
+        /// </summary>
+#endif
+        None = 0,
+
 #if LANG_JP
 		/// <summary>
 		/// 計算中に行列Aの変更を行うことができる．このフラグの指定は処理速度を向上させる．
