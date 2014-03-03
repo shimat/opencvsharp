@@ -27,8 +27,6 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr imgproc_getStructuringElement(int shape, Size ksize, Point anchor);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_copyMakeBorder(IntPtr src, IntPtr dst, int top, int bottom, int left,
                                                          int right, int borderType, CvScalar value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -131,7 +129,12 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_accumulateWeighted(IntPtr src, IntPtr dst, double alpha, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_PSNR(IntPtr src1, IntPtr src2);
-
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvPoint2D64f imgproc_phaseCorrelate(IntPtr src1, IntPtr src2, IntPtr window);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvPoint2D64f imgproc_phaseCorrelateRes(IntPtr src1, IntPtr src2, IntPtr window, out double response);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_createHanningWindow(IntPtr dst, CvSize winSize, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_threshold(IntPtr src, IntPtr dst, double thresh, double maxval, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -163,6 +166,13 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_calcHist1(IntPtr[] images, int nimages,
             int[] channels, IntPtr mask, IntPtr hist, int dims, int[] histSize,
             IntPtr[] ranges, int uniform, int accumulate);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_calcBackProject(IntPtr[] images, int nimages,
+                                                          int[] channels, IntPtr hist, IntPtr backProject,
+                                                          IntPtr[] ranges, int uniform);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
 
     }
 }

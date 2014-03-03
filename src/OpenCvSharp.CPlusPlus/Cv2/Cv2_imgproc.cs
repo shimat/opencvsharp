@@ -54,43 +54,6 @@ namespace OpenCvSharp.CPlusPlus
             return new Mat(matPtr);
         }
         #endregion
-        #region CvtColor
-#if LANG_JP
-        /// <summary>
-        /// 画像の色空間を変換します．
-        /// </summary>
-        /// <param name="src">8ビット符号なし整数型，16ビット符号なし整数型，または単精度浮動小数型の入力画像</param>
-        /// <param name="dst">src と同じサイズ，同じタイプの出力画像</param>
-        /// <param name="code">色空間の変換コード．</param>
-        /// <param name="dstCn">出力画像のチャンネル数．この値が 0 の場合，チャンネル数は src と code から自動的に求められます</param>
-#else
-        /// <summary>
-        /// Converts image from one color space to another
-        /// </summary>
-        /// <param name="src">The source image, 8-bit unsigned, 16-bit unsigned or single-precision floating-point</param>
-        /// <param name="dst">The destination image; will have the same size and the same depth as src</param>
-        /// <param name="code">The color space conversion code</param>
-        /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
-#endif
-        public static void CvtColor(InputArray src, OutputArray dst, ColorConversion code, int dstCn = 0)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            try
-            {
-                CppInvoke.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
-                dst.Fix();
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-        #endregion
         #region CopyMakeBorder
         /// <summary>
         /// 
@@ -1296,6 +1259,78 @@ namespace OpenCvSharp.CPlusPlus
             return CppInvoke.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
         }
         #endregion
+        #region PhaseCorrelate
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="window"></param>
+        /// <returns></returns>
+        public static Point2d PhaseCorrelate(InputArray src1, InputArray src2,
+                                             InputArray window = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            return CppInvoke.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, ToPtr(window));
+        }
+        #endregion
+        #region PhaseCorrelateRes
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="window"></param>
+        /// <returns></returns>
+        public static Point2d PhaseCorrelateRes(InputArray src1, InputArray src2, InputArray window)
+        {
+            double response;
+            return PhaseCorrelateRes(src1, src2, window, out response);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="window"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        public static Point2d PhaseCorrelateRes(InputArray src1, InputArray src2,
+                                                InputArray window, out double response)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException("src1");
+            if (src2 == null)
+                throw new ArgumentNullException("src2");
+            if (window == null)
+                throw new ArgumentNullException("src2");
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            window.ThrowIfDisposed();
+            return CppInvoke.imgproc_phaseCorrelateRes(src1.CvPtr, src2.CvPtr, window.CvPtr, out response);
+        }
+        #endregion
+        #region CreateHanningWindow
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="winSize"></param>
+        /// <param name="type"></param>
+        public static void CreateHanningWindow(OutputArray dst, Size winSize, int type)
+        {
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            dst.ThrowIfNotReady();
+            CppInvoke.imgproc_createHanningWindow(dst.CvPtr, winSize, type);
+            dst.Fix();
+        }
+        #endregion
         #region Threshold
         /// <summary>
         /// 
@@ -1385,7 +1420,6 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
-
         #region Undistort
         /// <summary>
         /// corrects lens distortion for the given camera matrix and distortion coefficients
@@ -1456,7 +1490,7 @@ namespace OpenCvSharp.CPlusPlus
             map2.Fix();
         }
         #endregion
-
+        #region InitWideAngleProjMap
         /// <summary>
         /// initializes maps for cv::remap() for wide-angle
         /// </summary>
@@ -1492,7 +1526,8 @@ namespace OpenCvSharp.CPlusPlus
             map2.Fix();
             return ret;
         }
-
+        #endregion
+        #region GetDefaultNewCameraMatrix
         /// <summary>
         /// returns the default new camera matrix (by default it is the same as cameraMatrix unless centerPricipalPoint=true)
         /// </summary>
@@ -1510,7 +1545,8 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr matPtr = CppInvoke.imgproc_getDefaultNewCameraMatrix(cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
             return new Mat(matPtr);
         }
-
+        #endregion
+        #region UndistortPoints
         /// <summary>
         /// returns points' coordinates after lens distortion correction
         /// </summary>
@@ -1539,7 +1575,8 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.imgproc_undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(r), ToPtr(p));
             dst.Fix();
         }
-
+        #endregion
+        #region CalcHist
         /// <summary>
         /// computes the joint dense histogram for a set of images.
         /// </summary>
@@ -1587,5 +1624,90 @@ namespace OpenCvSharp.CPlusPlus
             }
             hist.Fix();
         }
+        #endregion
+        #region CalcBackProject
+        /// <summary>
+        /// computes the joint dense histogram for a set of images.
+        /// </summary>
+        /// <param name="images"></param>
+        /// <param name="channels"></param>
+        /// <param name="hist"></param>
+        /// <param name="backProject"></param>
+        /// <param name="ranges"></param>
+        /// <param name="uniform"></param>
+        public static void CalcBackProject(Mat[] images,
+            int[] channels, InputArray hist, OutputArray backProject, 
+            Rangef[] ranges, bool uniform = true)
+        {
+            if (images == null)
+                throw new ArgumentNullException("images");
+            if (channels == null)
+                throw new ArgumentNullException("channels");
+            if (hist == null)
+                throw new ArgumentNullException("hist");
+            if (backProject == null)
+                throw new ArgumentNullException("backProject");
+            if (ranges == null)
+                throw new ArgumentNullException("ranges");
+            hist.ThrowIfDisposed();
+            backProject.ThrowIfNotReady();
+
+            IntPtr[] imagesPtr = EnumerableEx.SelectToArray(images, delegate(Mat m)
+            {
+                if (m == null)
+                    throw new ArgumentException();
+                m.ThrowIfDisposed();
+                return m.CvPtr;
+            });
+            float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, delegate(Rangef r)
+            {
+                return new float[2] { r.Start, r.End };
+            });
+            using (ArrayAddress2<float> rangesPtr = new ArrayAddress2<float>(rangesFloat))
+            {
+                CppInvoke.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
+                    backProject.CvPtr, rangesPtr, uniform ? 1 : 0);
+            }
+            backProject.Fix();
+        }
+        #endregion
+
+        #region CvtColor
+#if LANG_JP
+        /// <summary>
+        /// 画像の色空間を変換します．
+        /// </summary>
+        /// <param name="src">8ビット符号なし整数型，16ビット符号なし整数型，または単精度浮動小数型の入力画像</param>
+        /// <param name="dst">src と同じサイズ，同じタイプの出力画像</param>
+        /// <param name="code">色空間の変換コード．</param>
+        /// <param name="dstCn">出力画像のチャンネル数．この値が 0 の場合，チャンネル数は src と code から自動的に求められます</param>
+#else
+        /// <summary>
+        /// Converts image from one color space to another
+        /// </summary>
+        /// <param name="src">The source image, 8-bit unsigned, 16-bit unsigned or single-precision floating-point</param>
+        /// <param name="dst">The destination image; will have the same size and the same depth as src</param>
+        /// <param name="code">The color space conversion code</param>
+        /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
+#endif
+        public static void CvtColor(InputArray src, OutputArray dst, ColorConversion code, int dstCn = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            try
+            {
+                CppInvoke.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
+                dst.Fix();
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
+        #endregion
     }
 }
