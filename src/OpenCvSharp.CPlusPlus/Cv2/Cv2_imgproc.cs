@@ -1671,6 +1671,152 @@ namespace OpenCvSharp.CPlusPlus
             backProject.Fix();
         }
         #endregion
+        #region CompareHist
+        /// <summary>
+        /// compares two histograms stored in dense arrays
+        /// </summary>
+        /// <param name="h1">The first compared histogram</param>
+        /// <param name="h2">The second compared histogram of the same size as h1</param>
+        /// <param name="method">The comparison method</param>
+        /// <returns></returns>
+        public static double CompareHist(InputArray h1, InputArray h2, HistogramComparison method)
+        {
+            if (h1 == null)
+                throw new ArgumentNullException("h1");
+            if (h2 == null)
+                throw new ArgumentNullException("h2");
+            h1.ThrowIfDisposed();
+            h2.ThrowIfDisposed();
+            return CppInvoke.imgproc_compareHist1(h1.CvPtr, h2.CvPtr, (int)method);
+        }
+        #endregion
+        #region EqualizeHist
+        /// <summary>
+        /// normalizes the grayscale image brightness and contrast by normalizing its histogram
+        /// </summary>
+        /// <param name="src">The source 8-bit single channel image</param>
+        /// <param name="dst">The destination image; will have the same size and the same type as src</param>
+        public static void EqualizeHist(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.imgproc_equalizeHist(src.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
+        #region EMD
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="signature1"></param>
+        /// <param name="signature2"></param>
+        /// <param name="distType"></param>
+        /// <returns></returns>
+        public static float EMD(InputArray signature1, InputArray signature2, DistanceType distType)
+        {
+            float lowerBound;
+            return EMD(signature1, signature1, distType, null, out lowerBound, null);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="signature1"></param>
+        /// <param name="signature2"></param>
+        /// <param name="distType"></param>
+        /// <param name="cost"></param>
+        /// <returns></returns>
+        public static float EMD(InputArray signature1, InputArray signature2,
+            DistanceType distType, InputArray cost)
+        {
+            float lowerBound;
+            return EMD(signature1, signature1, distType, cost, out lowerBound, null);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="signature1"></param>
+        /// <param name="signature2"></param>
+        /// <param name="distType"></param>
+        /// <param name="cost"></param>
+        /// <param name="lowerBound"></param>
+        /// <returns></returns>
+        public static float EMD(InputArray signature1, InputArray signature2,
+            DistanceType distType, InputArray cost, out float lowerBound)
+        {
+            return EMD(signature1, signature1, distType, cost, out lowerBound, null);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="signature1"></param>
+        /// <param name="signature2"></param>
+        /// <param name="distType"></param>
+        /// <param name="cost"></param>
+        /// <param name="lowerBound"></param>
+        /// <param name="flow"></param>
+        /// <returns></returns>
+        public static float EMD(InputArray signature1, InputArray signature2,
+            DistanceType distType, InputArray cost, out float lowerBound, OutputArray flow)
+        {
+            if (signature1 == null)
+                throw new ArgumentNullException("signature1");
+            if (signature2 == null)
+                throw new ArgumentNullException("signature2");
+            signature1.ThrowIfDisposed();
+            signature2.ThrowIfDisposed();
+            float ret = CppInvoke.imgproc_EMD(signature1.CvPtr, signature2.CvPtr, (int)distType, ToPtr(cost), out lowerBound, ToPtr(flow));
+            if(flow != null)
+                flow.Fix();
+            return ret;
+        }
+        #endregion
+        #region Watershed
+        /// <summary>
+        /// segments the image using watershed algorithm
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="markers"></param>
+        public static void Watershed(InputArray image, OutputArray markers)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (markers == null)
+                throw new ArgumentNullException("markers");
+            image.ThrowIfDisposed();
+            markers.ThrowIfNotReady();
+            CppInvoke.imgproc_watershed(image.CvPtr, markers.CvPtr);
+            markers.Fix();
+        }
+        #endregion
+        #region PyrMeanShiftFiltering
+        /// <summary>
+        /// filters image using meanshift algorithm
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="sp"></param>
+        /// <param name="sr"></param>
+        /// <param name="maxLevel"></param>
+        /// <param name="termcrit"></param>
+        public static void PyrMeanShiftFiltering(InputArray src, OutputArray dst,
+            double sp, double sr, int maxLevel = 1, TermCriteria? termcrit = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            TermCriteria termcrit0 = termcrit.GetValueOrDefault(
+                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 5, 1));
+            CppInvoke.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
+            dst.Fix();
+        }
+        #endregion
 
         #region CvtColor
 #if LANG_JP

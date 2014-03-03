@@ -170,6 +170,20 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_calcBackProject(IntPtr[] images, int nimages,
                                                           int[] channels, IntPtr hist, IntPtr backProject,
                                                           IntPtr[] ranges, int uniform);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double imgproc_compareHist1(IntPtr h1, IntPtr h2, int method);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_equalizeHist(IntPtr src, IntPtr dst);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float imgproc_EMD(IntPtr signature1, IntPtr signature2,
+            int distType, IntPtr cost, out float lowerBound, IntPtr flow);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_watershed(IntPtr image, IntPtr markers);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_pyrMeanShiftFiltering(IntPtr src, IntPtr dst,
+            double sp, double sr, int maxLevel, CvTermCriteria termcrit);
+    
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
