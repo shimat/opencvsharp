@@ -366,6 +366,30 @@ CVAPI(void) imgproc_calcBackProject(cv::Mat **images, int nimages,
 }
 
 
+CVAPI(double) imgproc_compareHist1(cv::_InputArray *h1, cv::_InputArray *h2, int method)
+{
+	return cv::compareHist(*h1, *h2, method);
+}
+CVAPI(void) imgproc_equalizeHist(cv::_InputArray *src, cv::_OutputArray *dst)
+{
+	cv::equalizeHist(*src, *dst);
+}
+
+CVAPI(float) imgproc_EMD(cv::_InputArray *signature1, cv::_InputArray *signature2,
+	int distType, cv::_InputArray *cost, float* lowerBound, cv::_OutputArray *flow)
+{
+	cv::EMD(*signature1, *signature2, distType, entity(cost), lowerBound, entity(flow));
+}
+CVAPI(void) imgproc_watershed(cv::_InputArray *image, cv::_OutputArray *markers)
+{
+	cv::watershed(*image, *markers);
+}
+CVAPI(void) imgproc_pyrMeanShiftFiltering(cv::_InputArray *src, cv::_OutputArray *dst,
+	double sp, double sr, int maxLevel, CvTermCriteria termcrit)
+{
+	cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, termcrit);
+}
+
 CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
 {
 	cv::cvtColor(*src, *dst, code, dstCn); 
