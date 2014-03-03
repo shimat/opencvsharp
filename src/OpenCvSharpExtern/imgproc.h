@@ -21,11 +21,6 @@ CVAPI(cv::Mat*) imgproc_getStructuringElement(int shape, CvSize ksize, CvPoint a
 	return new cv::Mat(ret);
 }
 
-CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
-{
-	cv::cvtColor(*src, *dst, code, dstCn); 
-}
-
 CVAPI(void) imgproc_copyMakeBorder(cv::_InputArray *src, cv::_OutputArray *dst, 
 	int top, int bottom, int left, int right, int borderType, CvScalar value)
 {
@@ -284,6 +279,22 @@ CVAPI(double) imgproc_PSNR(cv::_InputArray *src1, cv::_InputArray *src2)
 	return cv::PSNR(*src1, *src2);
 }
 
+CVAPI(CvPoint2D64f) imgproc_phaseCorrelate(cv::_InputArray *src1, cv::_InputArray *src2,
+                                  cv::_InputArray *window)
+{
+	cv::Point2d p = cv::phaseCorrelate(*src1, *src2, entity(window));
+	return cvPoint2D64f(p.x, p.y);
+}
+CVAPI(CvPoint2D64f) imgproc_phaseCorrelateRes(cv::_InputArray *src1, cv::_InputArray *src2,
+                                    cv::_InputArray *window, double* response)
+{
+	cv::Point2d p = cv::phaseCorrelateRes(*src1, *src2, *window, response);
+	return cvPoint2D64f(p.x, p.y);
+}
+CVAPI(void) imgproc_createHanningWindow(cv::_OutputArray *dst, CvSize winSize, int type)
+{
+	cv::createHanningWindow(*dst, winSize, type);
+}
 
 CVAPI(double) imgproc_threshold(cv::_InputArray *src, cv::_OutputArray *dst,
 	double thresh, double maxval, int type)
@@ -342,6 +353,22 @@ CVAPI(void) imgproc_calcHist1(cv::Mat **images, int nimages,
 	for (int i = 0; i < nimages; i++)
 		imagesVec[i] = *(images[i]);
 	cv::calcHist(&imagesVec[0], nimages, channels, entity(mask), *hist, dims, histSize, ranges, uniform != 0, accumulate != 0);
+}
+
+CVAPI(void) imgproc_calcBackProject(cv::Mat **images, int nimages,
+	const int* channels, cv::_InputArray *hist, cv::_OutputArray *backProject, 
+	const float** ranges, int uniform)
+{
+	std::vector<cv::Mat> imagesVec(nimages);
+	for (int i = 0; i < nimages; i++)
+		imagesVec[i] = *(images[i]);
+	cv::calcBackProject(&imagesVec[0], nimages, channels, *hist, *backProject, ranges, uniform != 0);
+}
+
+
+CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
+{
+	cv::cvtColor(*src, *dst, code, dstCn); 
 }
 
 #endif
