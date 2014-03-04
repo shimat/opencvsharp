@@ -389,6 +389,12 @@ CVAPI(void) imgproc_pyrMeanShiftFiltering(cv::_InputArray *src, cv::_OutputArray
 {
 	cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, termcrit);
 }
+CVAPI(void) imgproc_grabCut(cv::_InputArray *img, cv::_OutputArray *mask, CvRect rect,
+                           cv::_OutputArray *bgdModel, cv::_OutputArray *fgdModel,
+                           int iterCount, int mode )
+{
+	cv::grabCut(*img, *mask, rect, *bgdModel, *fgdModel, iterCount, mode);
+}
 
 CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
 {
