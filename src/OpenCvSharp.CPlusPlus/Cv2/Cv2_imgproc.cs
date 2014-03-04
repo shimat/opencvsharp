@@ -1172,7 +1172,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src"></param>
         /// <param name="dst"></param>
         /// <param name="mask"></param>
-        public static void Accumulate(InputArray src, OutputArray dst, InputArray mask)
+        public static void Accumulate(InputArray src, InputOutputArray dst, InputArray mask)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1189,7 +1189,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src"></param>
         /// <param name="dst"></param>
         /// <param name="mask"></param>
-        public static void AccumulateSquare(InputArray src, OutputArray dst, InputArray mask)
+        public static void AccumulateSquare(InputArray src, InputOutputArray dst, InputArray mask)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1207,7 +1207,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src2"></param>
         /// <param name="dst"></param>
         /// <param name="mask"></param>
-        public static void AccumulateProduct(InputArray src1, InputArray src2, OutputArray dst, InputArray mask)
+        public static void AccumulateProduct(InputArray src1, InputArray src2, InputOutputArray dst, InputArray mask)
         {
             if (src1 == null)
                 throw new ArgumentNullException("src1");
@@ -1228,7 +1228,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="dst"></param>
         /// <param name="alpha"></param>
         /// <param name="mask"></param>
-        public static void AccumulateWeighted(InputArray src, OutputArray dst, double alpha, InputArray mask)
+        public static void AccumulateWeighted(InputArray src, InputOutputArray dst, double alpha, InputArray mask)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1780,7 +1780,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="image"></param>
         /// <param name="markers"></param>
-        public static void Watershed(InputArray image, OutputArray markers)
+        public static void Watershed(InputArray image, InputOutputArray markers)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -1815,6 +1815,40 @@ namespace OpenCvSharp.CPlusPlus
                 new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 5, 1));
             CppInvoke.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
             dst.Fix();
+        }
+        #endregion
+        #region GrabCut
+        /// <summary>
+        /// segments the image using GrabCut algorithm
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="mask"></param>
+        /// <param name="rect"></param>
+        /// <param name="bgdModel"></param>
+        /// <param name="fgdModel"></param>
+        /// <param name="iterCount"></param>
+        /// <param name="mode"></param>
+        public static void GrabCut(InputArray img, InputOutputArray mask, Rect rect,
+                                   InputOutputArray bgdModel, InputOutputArray fgdModel,
+                                   int iterCount, GrabCutFlag mode)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (mask == null)
+                throw new ArgumentNullException("mask");
+            if (bgdModel == null)
+                throw new ArgumentNullException("bgdModel");
+            if (fgdModel == null)
+                throw new ArgumentNullException("fgdModel");
+            img.ThrowIfDisposed();
+            mask.ThrowIfNotReady();
+            bgdModel.ThrowIfNotReady();
+            fgdModel.ThrowIfNotReady();
+            CppInvoke.imgproc_grabCut(img.CvPtr, mask.CvPtr, rect,
+                bgdModel.CvPtr, fgdModel.CvPtr, iterCount, (int)mode);
+            mask.Fix();
+            bgdModel.Fix();
+            fgdModel.Fix();
         }
         #endregion
 

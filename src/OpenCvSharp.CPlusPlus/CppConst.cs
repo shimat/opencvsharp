@@ -79,5 +79,13 @@ namespace OpenCvSharp.CPlusPlus
         public const int
             PROJ_SPHERICAL_ORTHO = 0,
             PROJ_SPHERICAL_EQRECT = 1;
+
+        /// <summary>
+        /// GrabCut algorithm flags
+        /// </summary>
+        public const int
+            GC_INIT_WITH_RECT = 0,
+            GC_INIT_WITH_MASK = 1,
+            GC_EVAL = 2;
     }
 }

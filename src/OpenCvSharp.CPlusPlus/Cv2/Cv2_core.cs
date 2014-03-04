@@ -924,7 +924,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src"></param>
         /// <param name="dst"></param>
         /// <param name="coi"></param>
-        public static void InsertChannel(InputArray src, OutputArray dst, int coi)
+        public static void InsertChannel(InputArray src, InputOutputArray dst, int coi)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1657,7 +1657,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="a"></param>
         /// <param name="val"></param>
-        public static void PatchNaNs(OutputArray a, double val = 0)
+        public static void PatchNaNs(InputOutputArray a, double val = 0)
         {
             if (a == null)
                 throw new ArgumentNullException("a");
@@ -1786,7 +1786,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="mtx"></param>
         /// <param name="lowerToUpper"></param>
-        public static void CompleteSymm(OutputArray mtx, bool lowerToUpper = false)
+        public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
         {
             if (mtx == null)
                 throw new ArgumentNullException("mtx");
@@ -1800,7 +1800,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="mtx"></param>
         /// <param name="s"></param>
-        public static void SetIdentity(OutputArray mtx, Scalar? s = null)
+        public static void SetIdentity(InputOutputArray mtx, Scalar? s = null)
         {
             if (mtx == null)
                 throw new ArgumentNullException("mtx");
@@ -2125,7 +2125,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mean"></param>
         /// <param name="eigenvectors"></param>
         /// <param name="maxComponents"></param>
-        public static void PCACompute(InputArray data, OutputArray mean,
+        public static void PCACompute(InputArray data, InputOutputArray mean,
             OutputArray eigenvectors, int maxComponents = 0)
         {
             if (data == null)
@@ -2148,7 +2148,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mean"></param>
         /// <param name="eigenvectors"></param>
         /// <param name="retainedVariance"></param>
-        public static void PCAComputeVar(InputArray data, OutputArray mean,
+        public static void PCAComputeVar(InputArray data, InputOutputArray mean,
             OutputArray eigenvectors, double retainedVariance)
         {
             if (data == null)
@@ -2433,7 +2433,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="flags"></param>
         /// <param name="centers"></param>
         /// <returns></returns>
-        public static double Kmeans(InputArray data, int k, OutputArray bestLabels,
+        public static double Kmeans(InputArray data, int k, InputOutputArray bestLabels,
             TermCriteria criteria, int attempts, KMeansFlag flags, OutputArray centers = null)
         {
             if (data == null)
@@ -2467,7 +2467,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="dst"></param>
         /// <param name="low"></param>
         /// <param name="high"></param>
-        public static void Randu(OutputArray dst, InputArray low, InputArray high)
+        public static void Randu(InputOutputArray dst, InputArray low, InputArray high)
         {
             if (dst == null)
                 throw new ArgumentNullException("dst");
@@ -2489,7 +2489,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="dst"></param>
         /// <param name="mean"></param>
         /// <param name="stddev"></param>
-        public static void Randn(OutputArray dst, InputArray mean, InputArray stddev)
+        public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
         {
             if (dst == null)
                 throw new ArgumentNullException("dst");
@@ -2511,7 +2511,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="dst"></param>
         /// <param name="iterFactor"></param>
         /// <param name="rng"></param>
-        public static void RandShuffle(OutputArray dst, double iterFactor, out RNG rng)
+        public static void RandShuffle(InputOutputArray dst, double iterFactor, out RNG rng)
         {
             if (dst == null)
                 throw new ArgumentNullException("dst");
@@ -2526,7 +2526,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="dst"></param>
         /// <param name="iterFactor"></param>
-        public static void RandShuffle(OutputArray dst, double iterFactor = 1.0)
+        public static void RandShuffle(InputOutputArray dst, double iterFactor = 1.0)
         {
             if (dst == null)
                 throw new ArgumentNullException("dst");

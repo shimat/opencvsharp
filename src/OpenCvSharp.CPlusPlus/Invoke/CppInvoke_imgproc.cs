@@ -183,7 +183,10 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_pyrMeanShiftFiltering(IntPtr src, IntPtr dst,
             double sp, double sr, int maxLevel, CvTermCriteria termcrit);
-    
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_grabCut(IntPtr img, IntPtr mask, CvRect rect,
+                                                  IntPtr bgdModel, IntPtr fgdModel,
+                                                  int iterCount, int mode);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);

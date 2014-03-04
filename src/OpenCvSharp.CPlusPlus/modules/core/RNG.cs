@@ -192,7 +192,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <param name="saturateRange"></param>
-        public void Fill(OutputArray mat, DistributionType distType, InputArray a, InputArray b, bool saturateRange = false)
+        public void Fill(InputOutputArray mat, DistributionType distType, InputArray a, InputArray b, bool saturateRange = false)
         {
             if (mat == null)
                 throw new ArgumentNullException("mat");
