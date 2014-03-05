@@ -396,6 +396,18 @@ CVAPI(void) imgproc_grabCut(cv::_InputArray *img, cv::_OutputArray *mask, CvRect
 	cv::grabCut(*img, *mask, rect, *bgdModel, *fgdModel, iterCount, mode);
 }
 
+CVAPI(void) distanceTransformWithLabels(cv::_InputArray *src, cv::_OutputArray *dst,
+                                     cv::_OutputArray *labels, int distanceType, int maskSize,
+                                     int labelType)
+{
+	cv::distanceTransform(*src, *dst, *labels, distanceType, maskSize, labelType);
+}
+CVAPI(void) distanceTransform(cv::_InputArray *src, cv::_OutputArray *dst,
+                                     int distanceType, int maskSize )
+{
+	cv::distanceTransform(*src, *dst, distanceType, maskSize);
+}
+
 CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
 {
 	cv::cvtColor(*src, *dst, code, dstCn); 

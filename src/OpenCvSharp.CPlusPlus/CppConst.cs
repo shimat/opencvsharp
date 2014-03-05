@@ -87,5 +87,13 @@ namespace OpenCvSharp.CPlusPlus
             GC_INIT_WITH_RECT = 0,
             GC_INIT_WITH_MASK = 1,
             GC_EVAL = 2;
+
+        /// <summary>
+        /// Mask size for distance transform 
+        /// </summary>
+        public const int
+            CV_DIST_MASK_3 = 3,
+            CV_DIST_MASK_5 = 5,
+            CV_DIST_MASK_PRECISE = 0;
     }
 }

@@ -1850,6 +1850,80 @@ namespace OpenCvSharp.CPlusPlus
             bgdModel.Fix();
             fgdModel.Fix();
         }
+
+        // ReSharper disable InconsistentNaming
+        /// <summary>
+        /// GrabCut mask value [background]
+        /// </summary>
+        public const int GC_BGD = 0;
+        /// <summary>
+        /// GrabCut mask value [foreground]
+        /// </summary>
+        public const int GC_FGD = 1;
+        /// <summary>
+        /// GrabCut mask value [most probably background]
+        /// </summary>
+        public const int GC_PR_BGD = 2;
+        /// <summary>
+        /// GrabCut mask value [most probably foreground]
+        /// </summary>
+        public const int GC_PR_FGD = 3; 
+        // ReSharper restore InconsistentNaming
+        #endregion
+        #region DistanceTransform
+        /// <summary>
+        /// builds the discrete Voronoi diagram
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="labels"></param>
+        /// <param name="distanceType"></param>
+        /// <param name="maskSize"></param>
+        /// <param name="labelType"></param>
+        public static void DistanceTransformWithLabels(InputArray src,
+                                                       OutputArray dst,
+                                                       OutputArray labels,
+                                                       DistanceType distanceType,
+                                                       DistanceMaskSize maskSize,
+                                                       DistTransformLabelType labelType = DistTransformLabelType.CComp)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (labels == null)
+                throw new ArgumentNullException("labels");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            labels.ThrowIfNotReady();
+            CppInvoke.imgproc_distanceTransformWithLabels(
+                src.CvPtr, dst.CvPtr, labels.CvPtr, (int)distanceType, (int)maskSize, (int)labelType);
+            dst.Fix();
+            labels.Fix();
+        }
+
+        /// <summary>
+        /// computes the distance transform map
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="distanceType"></param>
+        /// <param name="maskSize"></param>
+        public static void DistanceTransform(InputArray src,
+                                             OutputArray dst,
+                                             DistanceType distanceType,
+                                             DistanceMaskSize maskSize)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.imgproc_distanceTransform(
+                src.CvPtr, dst.CvPtr, (int)distanceType, (int)maskSize);
+            dst.Fix();
+        }
         #endregion
 
         #region CvtColor

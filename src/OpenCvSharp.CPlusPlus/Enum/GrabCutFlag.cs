@@ -11,7 +11,7 @@ namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
-    /// cv::dct の変換フラグ
+    /// GrabCutの処理フラグ
     /// </summary>
 #else
     /// <summary>

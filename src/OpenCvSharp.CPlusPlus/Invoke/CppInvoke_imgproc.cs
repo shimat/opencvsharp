@@ -187,6 +187,12 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_grabCut(IntPtr img, IntPtr mask, CvRect rect,
                                                   IntPtr bgdModel, IntPtr fgdModel,
                                                   int iterCount, int mode);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void distanceTransformWithLabels(IntPtr src, IntPtr dst, IntPtr labels,
+                                                              int distanceType, int maskSize, int labelType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void distanceTransform(IntPtr src, IntPtr dst,
+                                                    int distanceType, int maskSize);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
