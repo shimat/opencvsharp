@@ -37,6 +37,33 @@ CVAPI(void) vector_uchar_delete(vector<uchar>* vector)
 }
 #pragma endregion
 
+#pragma region int
+CVAPI(vector<int>*) vector_int32_new1()
+{
+	return new vector<int>;
+}
+CVAPI(vector<int>*) vector_int32_new2(size_t size)
+{
+	return new vector<int>(size);
+}
+CVAPI(vector<int>*) vector_int32_new3(int* data, size_t dataLength)
+{
+	return new vector<int>(data, data + dataLength);
+}
+CVAPI(size_t) vector_int32_getSize(vector<int>* vector)
+{
+	return vector->size();
+}
+CVAPI(int*) vector_int32_getPointer(vector<int>* vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_int32_delete(vector<int>* vector)
+{
+	delete vector;
+}
+#pragma endregion
+
 #pragma region float
 CVAPI(vector<float>*) vector_float_new1()
 {

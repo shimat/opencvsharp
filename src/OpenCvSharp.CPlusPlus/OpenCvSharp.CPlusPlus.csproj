@@ -154,8 +154,10 @@
     <Compile Include="modules\core\InputOutputArray.cs" />
     <Compile Include="modules\imgproc\HierarchyIndex.cs" />
     <Compile Include="modules\imgproc\Moments.cs" />
+    <Compile Include="Struct\Point3i.cs" />
     <Compile Include="Struct\Rangef.cs" />
     <Compile Include="Struct\Point2d.cs" />
+    <Compile Include="Vector\StdVectorInt32.cs" />
     <Compile Include="Vector\StdVectorVectorPoint.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="Invoke\CppInvoke_core_Ptr.cs" />

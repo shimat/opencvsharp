@@ -2220,12 +2220,12 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static void DrawContours(
             InputOutputArray image,
-            Point[][] contours,
+            IEnumerable<IEnumerable<Point>> contours,
             int contourIdx,
             Scalar color,
             int thickness = 1,
             LineType lineType = LineType.Link8,
-            HiearchyIndex[] hierarchy = null,
+            IEnumerable<HiearchyIndex> hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
         {
@@ -2236,15 +2236,16 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfNotReady();
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
-            int[] contourSize2 = EnumerableEx.SelectToArray(contours, delegate(Point[] pts)
+            Point[][] contoursArray = EnumerableEx.SelectToArray(contours, EnumerableEx.ToArray);
+            int[] contourSize2 = EnumerableEx.SelectToArray(contoursArray, delegate(Point[] pts)
             {
                 return pts.Length;
             });
-            using (ArrayAddress2<Point> contoursPtr = new ArrayAddress2<Point>(contours))
+            using (ArrayAddress2<Point> contoursPtr = new ArrayAddress2<Point>(contoursArray))
             {
                 if (hierarchy == null)
                 {
-                    CppInvoke.imgproc_drawContours(image.CvPtr, contoursPtr.Pointer, contours.Length, contourSize2,
+                    CppInvoke.imgproc_drawContours(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int)lineType, IntPtr.Zero, 0, maxLevel, offset0);
                 }
                 else
@@ -2253,8 +2254,8 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         return hi.ToVec4i();
                     });
-                    CppInvoke.imgproc_drawContours(image.CvPtr, contoursPtr.Pointer, contours.Length, contourSize2,
-                        contourIdx, color, thickness, (int)lineType, hiearchyVecs, hierarchy.Length, maxLevel, offset0);
+                    CppInvoke.imgproc_drawContours(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                        contourIdx, color, thickness, (int)lineType, hiearchyVecs, hiearchyVecs.Length, maxLevel, offset0);
                 }
             }
 
@@ -2262,5 +2263,393 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+        #region ApproxPolyDP
+        /// <summary>
+        /// approximates contour or a curve using Douglas-Peucker algorithm
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="epsilon"></param>
+        /// <param name="closed"></param>
+        /// <returns></returns>
+        public static Point[] ApproxPolyDP(IEnumerable<Point> curve, double epsilon, bool closed)
+        {
+            if(curve == null)
+                throw new ArgumentNullException("curve");
+            Point[] curveArray = EnumerableEx.ToArray(curve);
+            IntPtr approxCurvePtr;
+            CppInvoke.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
+            using (StdVectorPoint2i approxCurveVec = new StdVectorPoint2i(approxCurvePtr))
+            {
+                return approxCurveVec.ToArray();
+            }
+        }
+        /// <summary>
+        /// approximates contour or a curve using Douglas-Peucker algorithm
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="epsilon"></param>
+        /// <param name="closed"></param>
+        /// <returns></returns>
+        public static Point2f[] ApproxPolyDP(IEnumerable<Point2f> curve, double epsilon, bool closed)
+        {
+            if (curve == null)
+                throw new ArgumentNullException("curve");
+            Point2f[] curveArray = EnumerableEx.ToArray(curve);
+            IntPtr approxCurvePtr;
+            CppInvoke.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
+            using (StdVectorPoint2f approxCurveVec = new StdVectorPoint2f(approxCurvePtr))
+            {
+                return approxCurveVec.ToArray();
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// computes the contour perimeter (closed=true) or a curve length
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="closed"></param>
+        /// <returns></returns>
+        public static double ArcLength(IEnumerable<Point> curve, bool closed)
+        {
+            if (curve == null)
+                throw new ArgumentNullException("curve");
+            Point[] curveArray = EnumerableEx.ToArray(curve);
+            return CppInvoke.imgproc_arcLength_Point(curveArray, curveArray.Length, closed ? 1 : 0);
+        }
+        /// <summary>
+        /// computes the contour perimeter (closed=true) or a curve length
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="closed"></param>
+        /// <returns></returns>
+        public static double ArcLength(IEnumerable<Point2f> curve, bool closed)
+        {
+            if (curve == null)
+                throw new ArgumentNullException("curve");
+            Point2f[] curveArray = EnumerableEx.ToArray(curve);
+            return CppInvoke.imgproc_arcLength_Point2f(curveArray, curveArray.Length, closed ? 1 : 0);
+        }
+
+        /// <summary>
+        /// computes the bounding rectangle for a contour
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <returns></returns>
+        public static Rect BoundingRect(IEnumerable<Point> curve)
+        {
+            if (curve == null)
+                throw new ArgumentNullException("curve");
+            Point[] curveArray = EnumerableEx.ToArray(curve);
+            return CppInvoke.imgproc_boundingRect_Point(curveArray, curveArray.Length);
+        }
+        /// <summary>
+        /// computes the bounding rectangle for a contour
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <returns></returns>
+        public static Rect BoundingRect(IEnumerable<Point2f> curve)
+        {
+            if (curve == null)
+                throw new ArgumentNullException("curve");
+            Point2f[] curveArray = EnumerableEx.ToArray(curve);
+            return CppInvoke.imgproc_boundingRect_Point2f(curveArray, curveArray.Length);
+        }
+
+        /// <summary>
+        /// computes the contour area
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="oriented"></param>
+        /// <returns></returns>
+        public static double ContourArea(IEnumerable<Point> contour, bool oriented = false)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            Point[] contourArray = EnumerableEx.ToArray(contour);
+            return CppInvoke.imgproc_contourArea_Point(contourArray, contourArray.Length, oriented ? 1 : 0);
+        }
+        /// <summary>
+        /// computes the contour area
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="oriented"></param>
+        /// <returns></returns>
+        public static double ContourArea(IEnumerable<Point2f> contour, bool oriented = false)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            Point2f[] contourArray = EnumerableEx.ToArray(contour);
+            return CppInvoke.imgproc_contourArea_Point2f(contourArray, contourArray.Length, oriented ? 1 : 0);
+        }
+
+        /// <summary>
+        /// computes the minimal rotated rectangle for a set of points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static RotatedRect MinAreaRect(IEnumerable<Point> points)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point[] pointsArray = EnumerableEx.ToArray(points);
+            return CppInvoke.imgproc_minAreaRect_Point(pointsArray, pointsArray.Length);
+        }
+        /// <summary>
+        /// computes the minimal rotated rectangle for a set of points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static RotatedRect MinAreaRect(IEnumerable<Point2f> points)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            return CppInvoke.imgproc_minAreaRect_Point2f(pointsArray, pointsArray.Length);
+        }
+
+        /// <summary>
+        /// computes the minimal enclosing circle for a set of points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        public static void MinEnclosingCircle(IEnumerable<Point> points, out Point2f center, out float radius)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point[] pointsArray = EnumerableEx.ToArray(points);
+            CppInvoke.imgproc_minEnclosingCircle_Point(pointsArray, pointsArray.Length, out center, out radius);
+        }
+        /// <summary>
+        /// computes the minimal enclosing circle for a set of points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        public static void MinEnclosingCircle(IEnumerable<Point2f> points, out Point2f center, out float radius)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            CppInvoke.imgproc_minEnclosingCircle_Point2f(pointsArray, pointsArray.Length, out center, out radius);
+        }
+
+        /// <summary>
+        /// matches two contours using one of the available algorithms
+        /// </summary>
+        /// <param name="contour1"></param>
+        /// <param name="contour2"></param>
+        /// <param name="method"></param>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public static double MatchShapes(InputArray contour1, InputArray contour2, MatchShapesMethod method, double parameter = 0)
+        {
+            if (contour1 == null)
+                throw new ArgumentNullException("contour1");
+            if (contour2 == null)
+                throw new ArgumentNullException("contour2");
+            return CppInvoke.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter);
+        }
+        /// <summary>
+        /// matches two contours using one of the available algorithms
+        /// </summary>
+        /// <param name="contour1"></param>
+        /// <param name="contour2"></param>
+        /// <param name="method"></param>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public static double MatchShapes(IEnumerable<Point> contour1, IEnumerable<Point> contour2,
+            MatchShapesMethod method, double parameter = 0)
+        {
+            if (contour1 == null)
+                throw new ArgumentNullException("contour1");
+            if (contour2 == null)
+                throw new ArgumentNullException("contour2");
+            Point[] contour1Array = EnumerableEx.ToArray(contour1);
+            Point[] contour2Array = EnumerableEx.ToArray(contour2);
+            return CppInvoke.imgproc_matchShapes_Point(contour1Array, contour1Array.Length, 
+                contour2Array, contour2Array.Length, (int)method, parameter);
+        }
+
+        /// <summary>
+        /// computes convex hull for a set of 2D points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="clockwise"></param>
+        /// <returns></returns>
+        public static Point[] ConvexHull(IEnumerable<Point> points, bool clockwise = false)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point[] pointsArray = EnumerableEx.ToArray(points);
+            IntPtr hullPtr;
+            CppInvoke.imgproc_convexHull_Point_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            using (StdVectorPoint2i hullVec = new StdVectorPoint2i(hullPtr))
+            {
+                return hullVec.ToArray();
+            }
+        }
+        /// <summary>
+        /// computes convex hull for a set of 2D points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="clockwise"></param>
+        /// <returns></returns>
+        public static Point2f[] ConvexHull(IEnumerable<Point2f> points, bool clockwise = false)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            IntPtr hullPtr;
+            CppInvoke.imgproc_convexHull_Point2f_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr,
+                clockwise ? 1 : 0);
+            using (StdVectorPoint2f hullVec = new StdVectorPoint2f(hullPtr))
+            {
+                return hullVec.ToArray();
+            }
+        }
+        /// <summary>
+        /// computes convex hull for a set of 2D points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="clockwise"></param>
+        /// <returns></returns>
+        public static int[] ConvexHullIndices(IEnumerable<Point> points, bool clockwise = false)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point[] pointsArray = EnumerableEx.ToArray(points);
+            IntPtr hullPtr;
+            CppInvoke.imgproc_convexHull_Point_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            using (StdVectorInt32 hullVec = new StdVectorInt32(hullPtr))
+            {
+                return hullVec.ToArray();
+            }
+        }
+        /// <summary>
+        /// computes convex hull for a set of 2D points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="clockwise"></param>
+        /// <returns></returns>
+        public static int[] ConvexHullIndices(IEnumerable<Point2f> points, bool clockwise = false)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            IntPtr hullPtr;
+            CppInvoke.imgproc_convexHull_Point2f_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            using (StdVectorInt32 hullVec = new StdVectorInt32(hullPtr))
+            {
+                return hullVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// computes the contour convexity defects
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="convexHull"></param>
+        /// <returns></returns>
+        public static Vec4i[] ConvexityDefects(IEnumerable<Point> contour, IEnumerable<int> convexHull)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            if (convexHull == null)
+                throw new ArgumentNullException("convexHull");
+            Point[] contourArray = EnumerableEx.ToArray(contour);
+            int[] convexHullArray = EnumerableEx.ToArray(convexHull);
+            IntPtr convexityDefectsPtr;
+            CppInvoke.imgproc_convexityDefects_Point(contourArray, contourArray.Length,
+                convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
+
+            using (StdVectorVec4i convexityDefects = new StdVectorVec4i(convexityDefectsPtr))
+            {
+                return convexityDefects.ToArray();
+            }
+        }
+        /// <summary>
+        /// computes the contour convexity defects
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="convexHull"></param>
+        /// <returns></returns>
+        public static Vec4i[] ConvexityDefects(IEnumerable<Point2f> contour, IEnumerable<int> convexHull)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            if (convexHull == null)
+                throw new ArgumentNullException("convexHull");
+            Point2f[] contourArray = EnumerableEx.ToArray(contour);
+            int[] convexHullArray = EnumerableEx.ToArray(convexHull);
+            IntPtr convexityDefectsPtr;
+            CppInvoke.imgproc_convexityDefects_Point2f(contourArray, contourArray.Length,
+                convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
+
+            using (StdVectorVec4i convexityDefects = new StdVectorVec4i(convexityDefectsPtr))
+            {
+                return convexityDefects.ToArray();
+            }
+        }
+
+        public static int imgproc_isContourConvex_Point(IEnumerable<Point> contour, int contourLength)
+{
+
+}
+public static int imgproc_isContourConvex_Point2f(IEnumerable<Point2f> contour, int contourLength)
+{
+
+}
+
+public static float imgproc_intersectConvexConvex_Point(IEnumerable<Point> p1, int p1Length, IEnumerable<Point> p2, int p2Length,
+	std::vector<cv::Point> **p12, int handleNested)
+{
+
+}
+public static float imgproc_intersectConvexConvex_Point2f(IEnumerable<Point2f> p1, int p1Length, IEnumerable<Point2f> p2, int p2Length,
+	std::vector<cv::Point2f> **p12, int handleNested)
+{
+
+}
+
+public static RotatedRect imgproc_fitEllipse_Point(IEnumerable<Point> points, int pointsLength)
+{
+
+}
+public static RotatedRect imgproc_fitEllipse_Point2f(IEnumerable<Point2f> points, int pointsLength)
+{
+
+}
+
+public static void imgproc_fitLine_Point(IEnumerable<Point> points, int pointsLength, float* line, int distType,
+	double param, double reps, double aeps)
+{
+
+}
+public static void imgproc_fitLine_Point2f(IEnumerable<Point2f> points, int pointsLength, float* line, int distType,
+	double param, double reps, double aeps)
+{
+
+}
+public static void imgproc_fitLine_Point3i(cv::Point3i *points, int pointsLength, float *line, int distType,
+	double param, double reps, double aeps)
+{
+
+}
+public static void imgproc_fitLine_Point3f(cv::Point3f *points, int pointsLength, float *line, int distType,
+	double param, double reps, double aeps)
+{
+
+}
+
+public static double imgproc_pointPolygonTest_Point(IEnumerable<Point> contour, int contourLength, Point2f pt, int measureDist)
+{
+
+}
+public static double imgproc_pointPolygonTest_Point2f(IEnumerable<Point2f> contour, int contourLength, Point2f pt, int measureDist)
+{
+
+}
     }
 }
