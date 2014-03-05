@@ -430,4 +430,10 @@ CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int co
 	cv::cvtColor(*src, *dst, code, dstCn); 
 }
 
+CVAPI(CvMoments) imgproc_moments(cv::_InputArray *arr, int binaryImage )
+{
+	cv::Moments m = cv::moments(*arr, binaryImage != 0);
+	return (CvMoments)m;
+}
+
 #endif
