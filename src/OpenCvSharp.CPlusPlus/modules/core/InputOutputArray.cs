@@ -13,9 +13,6 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public class InputOutputArray : OutputArray
     {
-        private bool disposed;
-        private readonly object obj;
-
         /// <summary>
         /// 
         /// </summary>

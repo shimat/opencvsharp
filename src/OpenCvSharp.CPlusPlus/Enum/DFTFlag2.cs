@@ -34,10 +34,6 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         None = 0,
 
-        /// <summary>
-        /// do an inverse 1D or 2D transform instead of the default forward transform.
-        /// [DFT_INVERSE]
-        /// </summary>
 #if LANG_JP
 		/// <summary>
 		/// 1次元または2次元の逆変換を行う．結果のスケーリングは行わない． 

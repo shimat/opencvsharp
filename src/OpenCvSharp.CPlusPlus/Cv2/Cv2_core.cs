@@ -1190,7 +1190,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region InRange
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src && src &lt; upperb)
+        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
         /// </summary>
         /// <param name="src"></param>
         /// <param name="lowerb"></param>

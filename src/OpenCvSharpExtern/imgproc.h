@@ -429,11 +429,48 @@ CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int co
 {
 	cv::cvtColor(*src, *dst, code, dstCn); 
 }
-
 CVAPI(CvMoments) imgproc_moments(cv::_InputArray *arr, int binaryImage )
 {
 	cv::Moments m = cv::moments(*arr, binaryImage != 0);
 	return (CvMoments)m;
+}
+CVAPI(void) imgproc_matchTemplate(cv::_InputArray *image, cv::_InputArray *templ,
+	cv::_OutputArray *result, int method)
+{
+	cv::matchTemplate(*image, *templ, *result, method);
+}
+CVAPI(void) imgproc_findContours1(cv::_OutputArray *image, std::vector<std::vector<cv::Point> > **contours,
+	std::vector<cv::Vec4i> **hierarchy, int mode,
+	int method, CvPoint offset)
+{
+	*contours = new std::vector<std::vector<cv::Point> >;
+	*hierarchy = new std::vector<cv::Vec4i>;
+	cv::findContours(*image, **contours, **hierarchy, mode, method, offset);
+}
+CVAPI(void) imgproc_findContours2(cv::_OutputArray *image, std::vector<std::vector<cv::Point> > **contours,
+	int mode, int method, CvPoint offset)
+{
+	*contours = new std::vector<std::vector<cv::Point> >;
+	cv::findContours(*image, **contours, mode, method, offset);
+}
+CVAPI(void) imgproc_drawContours(cv::_OutputArray *image,
+	cv::Point **contours, int contoursSize1, int *contoursSize2,
+	int contourIdx, CvScalar color, int thickness, int lineType,
+	cv::Vec4i *hierarchy, int hiearchyLength, int maxLevel, CvPoint offset)
+{
+	std::vector<std::vector<cv::Point> > contoursVec;
+	for (int i = 0; i < contoursSize1; i++)
+	{
+		std::vector<cv::Point> c1(contours[i], contours[i] + contoursSize2[i]);
+		contoursVec.push_back(c1);
+	}
+	std::vector<cv::Vec4i> hiearchyVec;
+	if (hierarchy != NULL)
+	{
+		hiearchyVec = std::vector<cv::Vec4i>(hierarchy, hierarchy + hiearchyLength);
+	}
+
+	cv::drawContours(*image, contoursVec, contourIdx, color, thickness, lineType, hiearchyVec, maxLevel, offset);
 }
 
 #endif

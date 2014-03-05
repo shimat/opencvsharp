@@ -205,6 +205,24 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern WCvMoments imgproc_moments(IntPtr arr, int binaryImage);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_matchTemplate(IntPtr image, IntPtr templ, IntPtr result, int method);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_findContours1")]
+        public static extern void imgproc_findContours(IntPtr image, out IntPtr contours,
+            out IntPtr hierarchy, int mode, int method, CvPoint offset);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_findContours2")]
+        public static extern void imgproc_findContours(IntPtr image, out IntPtr contours,
+            int mode, int method, CvPoint offset);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_drawContours(IntPtr image,
+            IntPtr[] contours, int contoursSize1, int[] contoursSize2,
+            int contourIdx, CvScalar color, int thickness, int lineType,
+            Vec4i[] hierarchy, int hiearchyLength, int maxLevel, CvPoint offset);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_drawContours(IntPtr image,
+            IntPtr[] contours, int contoursSize1, int[] contoursSize2,
+            int contourIdx, CvScalar color, int thickness, int lineType,
+            IntPtr hierarchy, int hiearchyLength, int maxLevel, CvPoint offset);
 
     }
 }
