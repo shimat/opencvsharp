@@ -378,7 +378,7 @@ CVAPI(void) imgproc_equalizeHist(cv::_InputArray *src, cv::_OutputArray *dst)
 CVAPI(float) imgproc_EMD(cv::_InputArray *signature1, cv::_InputArray *signature2,
 	int distType, cv::_InputArray *cost, float* lowerBound, cv::_OutputArray *flow)
 {
-	cv::EMD(*signature1, *signature2, distType, entity(cost), lowerBound, entity(flow));
+	return cv::EMD(*signature1, *signature2, distType, entity(cost), lowerBound, entity(flow));
 }
 CVAPI(void) imgproc_watershed(cv::_InputArray *image, cv::_OutputArray *markers)
 {
