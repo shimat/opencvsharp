@@ -2303,7 +2303,7 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
-
+        #region ArcLength
         /// <summary>
         /// computes the contour perimeter (closed=true) or a curve length
         /// </summary>
@@ -2330,7 +2330,8 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] curveArray = EnumerableEx.ToArray(curve);
             return CppInvoke.imgproc_arcLength_Point2f(curveArray, curveArray.Length, closed ? 1 : 0);
         }
-
+        #endregion
+        #region BoundingRect
         /// <summary>
         /// computes the bounding rectangle for a contour
         /// </summary>
@@ -2355,7 +2356,8 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] curveArray = EnumerableEx.ToArray(curve);
             return CppInvoke.imgproc_boundingRect_Point2f(curveArray, curveArray.Length);
         }
-
+        #endregion
+        #region ContourArea
         /// <summary>
         /// computes the contour area
         /// </summary>
@@ -2382,7 +2384,8 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] contourArray = EnumerableEx.ToArray(contour);
             return CppInvoke.imgproc_contourArea_Point2f(contourArray, contourArray.Length, oriented ? 1 : 0);
         }
-
+        #endregion
+        #region MinAreaRect
         /// <summary>
         /// computes the minimal rotated rectangle for a set of points
         /// </summary>
@@ -2407,7 +2410,8 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             return CppInvoke.imgproc_minAreaRect_Point2f(pointsArray, pointsArray.Length);
         }
-
+        #endregion
+        #region MinEnclosingCircle
         /// <summary>
         /// computes the minimal enclosing circle for a set of points
         /// </summary>
@@ -2434,7 +2438,8 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             CppInvoke.imgproc_minEnclosingCircle_Point2f(pointsArray, pointsArray.Length, out center, out radius);
         }
-
+        #endregion
+        #region MatchShapes
         /// <summary>
         /// matches two contours using one of the available algorithms
         /// </summary>
@@ -2471,7 +2476,8 @@ namespace OpenCvSharp.CPlusPlus
             return CppInvoke.imgproc_matchShapes_Point(contour1Array, contour1Array.Length, 
                 contour2Array, contour2Array.Length, (int)method, parameter);
         }
-
+        #endregion
+        #region ConvexHull
         /// <summary>
         /// computes convex hull for a set of 2D points.
         /// </summary>
@@ -2545,7 +2551,8 @@ namespace OpenCvSharp.CPlusPlus
                 return hullVec.ToArray();
             }
         }
-
+        #endregion
+        #region ConvexityDefects
         /// <summary>
         /// computes the contour convexity defects
         /// </summary>
@@ -2592,64 +2599,226 @@ namespace OpenCvSharp.CPlusPlus
                 return convexityDefects.ToArray();
             }
         }
+        #endregion
+        #region IsContourConvex
+        /// <summary>
+        /// returns true if the contour is convex. Does not support contours with self-intersection
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <returns></returns>
+        public static bool IsContourConvex(IEnumerable<Point> contour)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            Point[] contourArray = EnumerableEx.ToArray(contour);
+            int ret = CppInvoke.imgproc_isContourConvex_Point(contourArray, contourArray.Length);
+            return ret != 0;
+        }
+        /// <summary>
+        /// returns true if the contour is convex. Does not support contours with self-intersection
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <returns></returns>
+        public static bool IsContourConvex(IEnumerable<Point2f> contour)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            Point2f[] contourArray = EnumerableEx.ToArray(contour);
+            int ret = CppInvoke.imgproc_isContourConvex_Point2f(contourArray, contourArray.Length);
+            return ret != 0;
+        }
+        #endregion
+        #region IntersectConvexConvex
+        /// <summary>
+        /// finds intersection of two convex polygons
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="p12"></param>
+        /// <param name="handleNested"></param>
+        /// <returns></returns>
+        public static float IntersectConvexConvex(IEnumerable<Point> p1, IEnumerable<Point> p2,
+            out Point[] p12, bool handleNested = true)
+        {
+            if (p1 == null)
+                throw new ArgumentNullException("p1");
+            if (p2 == null)
+                throw new ArgumentNullException("p2");
+            Point[] p1Array = EnumerableEx.ToArray(p1);
+            Point[] p2Array = EnumerableEx.ToArray(p2);
+            IntPtr p12Ptr;
+            float ret = CppInvoke.imgproc_intersectConvexConvex_Point(p1Array, p1Array.Length, p2Array, p2Array.Length, 
+                out p12Ptr, handleNested ? 1 : 0);
 
-        public static int imgproc_isContourConvex_Point(IEnumerable<Point> contour, int contourLength)
-{
+            using (StdVectorPoint2i p12Vec = new StdVectorPoint2i(p12Ptr))
+            {
+                p12 = p12Vec.ToArray();
+            }
 
-}
-public static int imgproc_isContourConvex_Point2f(IEnumerable<Point2f> contour, int contourLength)
-{
+            return ret;
+        }
+        /// <summary>
+        /// finds intersection of two convex polygons
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="p12"></param>
+        /// <param name="handleNested"></param>
+        /// <returns></returns>
+        public static float IntersectConvexConvex(IEnumerable<Point2f> p1, IEnumerable<Point2f> p2,
+            out Point2f[] p12, bool handleNested = true)
+        {
+            if (p1 == null)
+                throw new ArgumentNullException("p1");
+            if (p2 == null)
+                throw new ArgumentNullException("p2");
+            Point2f[] p1Array = EnumerableEx.ToArray(p1);
+            Point2f[] p2Array = EnumerableEx.ToArray(p2);
+            IntPtr p12Ptr;
+            float ret = CppInvoke.imgproc_intersectConvexConvex_Point2f(p1Array, p1Array.Length, p2Array, p2Array.Length,
+                out p12Ptr, handleNested ? 1 : 0);
 
-}
+            using (StdVectorPoint2f p12Vec = new StdVectorPoint2f(p12Ptr))
+            {
+                p12 = p12Vec.ToArray();
+            }
 
-public static float imgproc_intersectConvexConvex_Point(IEnumerable<Point> p1, int p1Length, IEnumerable<Point> p2, int p2Length,
-	std::vector<cv::Point> **p12, int handleNested)
-{
-
-}
-public static float imgproc_intersectConvexConvex_Point2f(IEnumerable<Point2f> p1, int p1Length, IEnumerable<Point2f> p2, int p2Length,
-	std::vector<cv::Point2f> **p12, int handleNested)
-{
-
-}
-
-public static RotatedRect imgproc_fitEllipse_Point(IEnumerable<Point> points, int pointsLength)
-{
-
-}
-public static RotatedRect imgproc_fitEllipse_Point2f(IEnumerable<Point2f> points, int pointsLength)
-{
-
-}
-
-public static void imgproc_fitLine_Point(IEnumerable<Point> points, int pointsLength, float* line, int distType,
-	double param, double reps, double aeps)
-{
-
-}
-public static void imgproc_fitLine_Point2f(IEnumerable<Point2f> points, int pointsLength, float* line, int distType,
-	double param, double reps, double aeps)
-{
-
-}
-public static void imgproc_fitLine_Point3i(cv::Point3i *points, int pointsLength, float *line, int distType,
-	double param, double reps, double aeps)
-{
-
-}
-public static void imgproc_fitLine_Point3f(cv::Point3f *points, int pointsLength, float *line, int distType,
-	double param, double reps, double aeps)
-{
-
-}
-
-public static double imgproc_pointPolygonTest_Point(IEnumerable<Point> contour, int contourLength, Point2f pt, int measureDist)
-{
-
-}
-public static double imgproc_pointPolygonTest_Point2f(IEnumerable<Point2f> contour, int contourLength, Point2f pt, int measureDist)
-{
-
-}
+            return ret;
+        }
+        #endregion
+        #region FitEllipse
+        /// <summary>
+        /// fits ellipse to the set of 2D points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static RotatedRect FitEllipse(IEnumerable<Point> points)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point[] pointsArray = EnumerableEx.ToArray(points);
+            return (RotatedRect)CppInvoke.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length);
+        }
+        /// <summary>
+        /// fits ellipse to the set of 2D points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static RotatedRect FitEllipse(IEnumerable<Point2f> points)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            return (RotatedRect)CppInvoke.imgproc_fitEllipse_Point2f(pointsArray, pointsArray.Length);
+        }
+        #endregion
+        #region FitLine
+        /// <summary>
+        /// fits line to the set of 2D points using M-estimator algorithm
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="distType"></param>
+        /// <param name="param"></param>
+        /// <param name="reps"></param>
+        /// <param name="aeps"></param>
+        /// <returns></returns>
+        public static CvLine2D FitLine(IEnumerable<Point> points, DistanceType distType,
+            double param, double reps, double aeps)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point[] pointsArray = EnumerableEx.ToArray(points);
+            float[] line = new float[4];
+            CppInvoke.imgproc_fitLine_Point(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            return new CvLine2D(line);
+        }
+        /// <summary>
+        /// fits line to the set of 2D points using M-estimator algorithm
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="distType"></param>
+        /// <param name="param"></param>
+        /// <param name="reps"></param>
+        /// <param name="aeps"></param>
+        /// <returns></returns>
+        public static CvLine2D FitLine(IEnumerable<Point2f> points, DistanceType distType,
+            double param, double reps, double aeps)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            float[] line = new float[4];
+            CppInvoke.imgproc_fitLine_Point2f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            return new CvLine2D(line);
+        }
+        /// <summary>
+        /// fits line to the set of 2D points using M-estimator algorithm
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="distType"></param>
+        /// <param name="param"></param>
+        /// <param name="reps"></param>
+        /// <param name="aeps"></param>
+        /// <returns></returns>
+        public static CvLine3D FitLine(IEnumerable<Point3i> points, DistanceType distType,
+            double param, double reps, double aeps)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point3i[] pointsArray = EnumerableEx.ToArray(points);
+            float[] line = new float[6];
+            CppInvoke.imgproc_fitLine_Point3i(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            return new CvLine3D(line);
+        }
+        /// <summary>
+        /// fits line to the set of 2D points using M-estimator algorithm
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="distType"></param>
+        /// <param name="param"></param>
+        /// <param name="reps"></param>
+        /// <param name="aeps"></param>
+        /// <returns></returns>
+        public static CvLine3D FitLine(IEnumerable<Point3f> points, DistanceType distType,
+            double param, double reps, double aeps)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            Point3f[] pointsArray = EnumerableEx.ToArray(points);
+            float[] line = new float[6];
+            CppInvoke.imgproc_fitLine_Point3f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            return new CvLine3D(line);
+        }
+        #endregion
+        #region PointPolygonTest
+        /// <summary>
+        /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="pt"></param>
+        /// <param name="measureDist"></param>
+        /// <returns></returns>
+        public static double PointPolygonTest(IEnumerable<Point> contour, Point2f pt, bool measureDist)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            Point[] contourArray = EnumerableEx.ToArray(contour);
+            return CppInvoke.imgproc_pointPolygonTest_Point(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
+        }
+        /// <summary>
+        /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="pt"></param>
+        /// <param name="measureDist"></param>
+        /// <returns></returns>
+        public static double PointPolygonTest(IEnumerable<Point2f> contour, Point2f pt, bool measureDist)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            Point2f[] contourArray = EnumerableEx.ToArray(contour);
+            return CppInvoke.imgproc_pointPolygonTest_Point2f(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
+        }
+        #endregion
     }
 }
