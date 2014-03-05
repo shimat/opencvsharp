@@ -2014,6 +2014,18 @@ namespace OpenCvSharp.CPlusPlus
             mask.Fix();
             return ret;
         }
+
+        /// <summary>
+        /// computes moments of the rasterized shape or a vector of points
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="binaryImage"></param>
+        /// <returns></returns>
+        public static Moments Moments(InputArray array, bool binaryImage = false)
+        {
+            return new Moments(array, binaryImage);
+        }
+
         #endregion
 
         #region CvtColor

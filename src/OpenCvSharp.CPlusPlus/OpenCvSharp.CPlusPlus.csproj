@@ -152,6 +152,7 @@
     <Compile Include="modules\core\SVD.cs" />
     <Compile Include="modules\core\PCA.cs" />
     <Compile Include="modules\core\InputOutputArray.cs" />
+    <Compile Include="modules\core\Moments.cs" />
     <Compile Include="Struct\Rangef.cs" />
     <Compile Include="Struct\Point2d.cs" />
     <Compile Include="Window.cs" />

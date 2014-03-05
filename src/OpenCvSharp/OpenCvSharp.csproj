@@ -235,6 +235,7 @@
     <Compile Include="Src\PInvoke\Struct\Etc\WCvBGCodeBookModel.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvLatentSvmDetector.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvLSVMFilterObject.cs" />
+    <Compile Include="Src\PInvoke\Struct\Etc\WCvMoments.cs" />
     <Compile Include="Src\Struct\CvAttrList.cs" />
     <Compile Include="Src\Struct\CvBox2D.cs" />
     <Compile Include="Src\Class\CvChainPtReader.cs" />

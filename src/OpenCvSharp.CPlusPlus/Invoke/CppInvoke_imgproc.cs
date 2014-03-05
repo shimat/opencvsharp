@@ -203,6 +203,8 @@ namespace OpenCvSharp.CPlusPlus
                                                     CvScalar loDiff, CvScalar upDiff, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern WCvMoments imgproc_moments(IntPtr arr, int binaryImage);
 
     }
 }
