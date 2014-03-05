@@ -562,7 +562,7 @@ CVAPI(cv::Mat*) vector_Mat_getPointer(vector<cv::Mat>* vector)
 }
 CVAPI(void) vector_Mat_assignToArray(vector<cv::Mat>* vector, cv::Mat** arr)
 {
-	for (int i = 0; i < vector->size(); i++)
+	for (size_t i = 0; i < vector->size(); i++)
 	{
 		(vector->at(i)).assignTo(*(arr[i]));
 	}
