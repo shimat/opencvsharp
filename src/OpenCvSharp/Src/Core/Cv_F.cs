@@ -2330,91 +2330,95 @@ namespace OpenCvSharp
         /// 連結成分を指定した色で塗りつぶす
         /// </summary>
         /// <param name="image">入力画像．1チャンネルあるいは3チャンネル，8ビットあるいは浮動小数点型．CV_FLOODFILL_MASK_ONLYフラグがセットされたとき以外は，データが書き換えられる．</param>
-        /// <param name="seed_point">連結成分の開始点．シードピクセル． </param>
-        /// <param name="new_val">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
+        /// <param name="seedPoint">連結成分の開始点．シードピクセル． </param>
+        /// <param name="newVal">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
 #else
         /// <summary>
         /// Fills a connected component with given color.
         /// </summary>
         /// <param name="image">Input 1- or 3-channel, 8-bit or floating-point image. It is modified by the function unless CV_FLOODFILL_MASK_ONLY flag is set. </param>
-        /// <param name="seed_point">The starting point. </param>
-        /// <param name="new_val">New value of repainted domain pixels. </param>
+        /// <param name="seedPoint">The starting point. </param>
+        /// <param name="newVal">New value of repainted domain pixels. </param>
 #endif
-        public static void FloodFill(CvArr image, CvPoint seed_point, CvScalar new_val)
+        public static void FloodFill(CvArr image, CvPoint seedPoint, CvScalar newVal)
         {
             CvConnectedComp comp;
-            FloodFill(image, seed_point, new_val, CvScalar.ScalarAll(0), CvScalar.ScalarAll(0), out comp, 4, null);
+            FloodFill(image, seedPoint, newVal, CvScalar.ScalarAll(0), CvScalar.ScalarAll(0), 
+                out comp, FloodFillFlag.Link4, null);
         }
 #if LANG_JP
         /// <summary>
         /// 連結成分を指定した色で塗りつぶす
         /// </summary>
         /// <param name="image">入力画像．1チャンネルあるいは3チャンネル，8ビットあるいは浮動小数点型．CV_FLOODFILL_MASK_ONLYフラグがセットされたとき以外は，データが書き換えられる．</param>
-        /// <param name="seed_point">連結成分の開始点．シードピクセル． </param>
-        /// <param name="new_val">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
-        /// <param name="lo_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="seedPoint">連結成分の開始点．シードピクセル． </param>
+        /// <param name="newVal">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
+        /// <param name="loDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
 #else
         /// <summary>
         /// Fills a connected component with given color.
         /// </summary>
         /// <param name="image">Input 1- or 3-channel, 8-bit or floating-point image. It is modified by the function unless CV_FLOODFILL_MASK_ONLY flag is set. </param>
-        /// <param name="seed_point">The starting point. </param>
-        /// <param name="new_val">New value of repainted domain pixels. </param>
-        /// <param name="lo_diff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="seedPoint">The starting point. </param>
+        /// <param name="newVal">New value of repainted domain pixels. </param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
 #endif
-        public static void FloodFill(CvArr image, CvPoint seed_point, CvScalar new_val, CvScalar lo_diff)
+        public static void FloodFill(CvArr image, CvPoint seedPoint, CvScalar newVal, CvScalar loDiff)
         {
             CvConnectedComp comp;
-            FloodFill(image, seed_point, new_val, lo_diff, CvScalar.ScalarAll(0), out comp, 4, null);
+            FloodFill(image, seedPoint, newVal, loDiff, CvScalar.ScalarAll(0), 
+                out comp, FloodFillFlag.Link4, null);
         }
 #if LANG_JP
         /// <summary>
         /// 連結成分を指定した色で塗りつぶす
         /// </summary>
         /// <param name="image">入力画像．1チャンネルあるいは3チャンネル，8ビットあるいは浮動小数点型．CV_FLOODFILL_MASK_ONLYフラグがセットされたとき以外は，データが書き換えられる．</param>
-        /// <param name="seed_point">連結成分の開始点．シードピクセル． </param>
-        /// <param name="new_val">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
-        /// <param name="lo_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
-        /// <param name="up_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容上限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="seedPoint">連結成分の開始点．シードピクセル． </param>
+        /// <param name="newVal">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
+        /// <param name="loDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="upDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容上限値． 8ビットカラー画像のときは，パックされた値． </param>
 #else
         /// <summary>
         /// Fills a connected component with given color.
         /// </summary>
         /// <param name="image">Input 1- or 3-channel, 8-bit or floating-point image. It is modified by the function unless CV_FLOODFILL_MASK_ONLY flag is set. </param>
-        /// <param name="seed_point">The starting point. </param>
-        /// <param name="new_val">New value of repainted domain pixels. </param>
-        /// <param name="lo_diff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
-        /// <param name="up_diff">Maximal upper brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="seedPoint">The starting point. </param>
+        /// <param name="newVal">New value of repainted domain pixels. </param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
 #endif
-        public static void FloodFill(CvArr image, CvPoint seed_point, CvScalar new_val, CvScalar lo_diff, CvScalar up_diff)
+        public static void FloodFill(CvArr image, CvPoint seedPoint, CvScalar newVal, 
+            CvScalar loDiff, CvScalar upDiff)
         {
             CvConnectedComp comp;
-            FloodFill(image, seed_point, new_val, lo_diff, up_diff, out comp, 4, null);
+            FloodFill(image, seedPoint, newVal, loDiff, upDiff, out comp, FloodFillFlag.Link4, null);
         }
 #if LANG_JP
         /// <summary>
         /// 連結成分を指定した色で塗りつぶす
         /// </summary>
         /// <param name="image">入力画像．1チャンネルあるいは3チャンネル，8ビットあるいは浮動小数点型．CV_FLOODFILL_MASK_ONLYフラグがセットされたとき以外は，データが書き換えられる．</param>
-        /// <param name="seed_point">連結成分の開始点．シードピクセル． </param>
-        /// <param name="new_val">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
-        /// <param name="lo_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
-        /// <param name="up_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容上限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="seedPoint">連結成分の開始点．シードピクセル． </param>
+        /// <param name="newVal">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
+        /// <param name="loDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="upDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容上限値． 8ビットカラー画像のときは，パックされた値． </param>
         /// <param name="comp">構造体へのポインタ．この関数は，塗りつぶされた領域の情報を構造体に代入する． </param>
 #else
         /// <summary>
         /// Fills a connected component with given color.
         /// </summary>
         /// <param name="image">Input 1- or 3-channel, 8-bit or floating-point image. It is modified by the function unless CV_FLOODFILL_MASK_ONLY flag is set. </param>
-        /// <param name="seed_point">The starting point. </param>
-        /// <param name="new_val">New value of repainted domain pixels. </param>
-        /// <param name="lo_diff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
-        /// <param name="up_diff">Maximal upper brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="seedPoint">The starting point. </param>
+        /// <param name="newVal">New value of repainted domain pixels. </param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
         /// <param name="comp">Pointer to structure the function fills with the information about the repainted domain. </param>
 #endif
-        public static void FloodFill(CvArr image, CvPoint seed_point, CvScalar new_val, CvScalar lo_diff, CvScalar up_diff, out CvConnectedComp comp)
+        public static void FloodFill(CvArr image, CvPoint seedPoint, CvScalar newVal, 
+            CvScalar loDiff, CvScalar upDiff, out CvConnectedComp comp)
         {
-            FloodFill(image, seed_point, new_val, lo_diff, up_diff, out comp, 4, null);
+            FloodFill(image, seedPoint, newVal, loDiff, upDiff, out comp, FloodFillFlag.Link4, null);
         }
 #if LANG_JP
         /// <summary>
@@ -2422,9 +2426,9 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像．1チャンネルあるいは3チャンネル，8ビットあるいは浮動小数点型．CV_FLOODFILL_MASK_ONLYフラグがセットされたとき以外は，データが書き換えられる．</param>
         /// <param name="seed_point">連結成分の開始点．シードピクセル． </param>
-        /// <param name="new_val">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
-        /// <param name="lo_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
-        /// <param name="up_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容上限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="newVal">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
+        /// <param name="loDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="upDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容上限値． 8ビットカラー画像のときは，パックされた値． </param>
         /// <param name="comp">構造体へのポインタ．この関数は，塗りつぶされた領域の情報を構造体に代入する． </param>
         /// <param name="flags">操作フラグ．下位ビットは関数内で用いられる連結性に関する値4（デフォルト）または8が入っている． 
         /// 連結性は，どのピクセルを隣接ピクセルと見なすかを定義する．上位ビットは0，あるいはCv.FLOODFILL_FIXED_RANGE, Cv.FLOODFILL_MASK_ONLY との組み合わせである.</param>
@@ -2433,26 +2437,27 @@ namespace OpenCvSharp
         /// Fills a connected component with given color.
         /// </summary>
         /// <param name="image">Input 1- or 3-channel, 8-bit or floating-point image. It is modified by the function unless CV_FLOODFILL_MASK_ONLY flag is set. </param>
-        /// <param name="seed_point">The starting point. </param>
-        /// <param name="new_val">New value of repainted domain pixels. </param>
-        /// <param name="lo_diff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
-        /// <param name="up_diff">Maximal upper brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="seedPoint">The starting point. </param>
+        /// <param name="newVal">New value of repainted domain pixels. </param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
         /// <param name="comp">Pointer to structure the function fills with the information about the repainted domain. </param>
         /// <param name="flags">The operation flags. Lower bits contain connectivity value, 4 (by default) or 8, used within the function. Connectivity determines which neighbors of a pixel are considered. Upper bits can be 0 or combination of the flags</param>
 #endif
-        public static void FloodFill(CvArr image, CvPoint seed_point, CvScalar new_val, CvScalar lo_diff, CvScalar up_diff, out CvConnectedComp comp, int flags)
+        public static void FloodFill(CvArr image, CvPoint seedPoint, CvScalar newVal, 
+            CvScalar loDiff, CvScalar upDiff, out CvConnectedComp comp, FloodFillFlag flags)
         {
-            FloodFill(image, seed_point, new_val, lo_diff, up_diff, out comp, flags, null);
+            FloodFill(image, seedPoint, newVal, loDiff, upDiff, out comp, flags, null);
         }
 #if LANG_JP
         /// <summary>
         /// 連結成分を指定した色で塗りつぶす
         /// </summary>
         /// <param name="image">入力画像．1チャンネルあるいは3チャンネル，8ビットあるいは浮動小数点型．CV_FLOODFILL_MASK_ONLYフラグがセットされたとき以外は，データが書き換えられる．</param>
-        /// <param name="seed_point">連結成分の開始点．シードピクセル． </param>
-        /// <param name="new_val">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
-        /// <param name="lo_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
-        /// <param name="up_diff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容上限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="seedPoint">連結成分の開始点．シードピクセル． </param>
+        /// <param name="newVal">塗りつぶされる領域の新しいピクセル値（塗りつぶす値）．</param>
+        /// <param name="loDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容下限値． 8ビットカラー画像のときは，パックされた値． </param>
+        /// <param name="upDiff">現在の観測対象ピクセルと，その連結成分に属する隣接ピクセル， またはそのピクセルを連結成分に追加するためのシードピクセルとの，輝度値/色の差（違い）の許容上限値． 8ビットカラー画像のときは，パックされた値． </param>
         /// <param name="comp">構造体へのポインタ．この関数は，塗りつぶされた領域の情報を構造体に代入する． </param>
         /// <param name="flags">操作フラグ．下位ビットは関数内で用いられる連結性に関する値4（デフォルト）または8が入っている． 
         /// 連結性は，どのピクセルを隣接ピクセルと見なすかを定義する．上位ビットは0，あるいはCv.FLOODFILL_FIXED_RANGE, Cv.FLOODFILL_MASK_ONLY との組み合わせである.</param>
@@ -2462,15 +2467,16 @@ namespace OpenCvSharp
         /// Fills a connected component with given color.
         /// </summary>
         /// <param name="image">Input 1- or 3-channel, 8-bit or floating-point image. It is modified by the function unless CV_FLOODFILL_MASK_ONLY flag is set. </param>
-        /// <param name="seed_point">The starting point. </param>
-        /// <param name="new_val">New value of repainted domain pixels. </param>
-        /// <param name="lo_diff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
-        /// <param name="up_diff">Maximal upper brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="seedPoint">The starting point. </param>
+        /// <param name="newVal">New value of repainted domain pixels. </param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently observed pixel and one of its neighbor belong to the component or seed pixel to add the pixel to component. In case of 8-bit color images it is packed value. </param>
         /// <param name="comp">Pointer to structure the function fills with the information about the repainted domain. </param>
         /// <param name="flags">The operation flags. Lower bits contain connectivity value, 4 (by default) or 8, used within the function. Connectivity determines which neighbors of a pixel are considered. Upper bits can be 0 or combination of the flags</param>
         /// <param name="mask">Operation mask</param>
 #endif
-        public static void FloodFill(CvArr image, CvPoint seed_point, CvScalar new_val, CvScalar lo_diff, CvScalar up_diff, out CvConnectedComp comp, int flags, CvArr mask)
+        public static void FloodFill(CvArr image, CvPoint seedPoint, CvScalar newVal, 
+            CvScalar loDiff, CvScalar upDiff, out CvConnectedComp comp, FloodFillFlag flags, CvArr mask)
         {
             if (image == null)
             {
@@ -2480,7 +2486,7 @@ namespace OpenCvSharp
 
             comp = new CvConnectedComp();
 
-            CvInvoke.cvFloodFill(image.CvPtr, seed_point, new_val, lo_diff, up_diff, comp.CvPtr, flags, maskPtr);
+            CvInvoke.cvFloodFill(image.CvPtr, seedPoint, newVal, loDiff, upDiff, comp.CvPtr, (int)flags, maskPtr);
         }
         #endregion
         #region Floor

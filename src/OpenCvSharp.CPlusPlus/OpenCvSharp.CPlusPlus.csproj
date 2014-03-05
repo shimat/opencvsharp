@@ -143,6 +143,7 @@
     <Compile Include="Enum\DftFlag2.cs" />
     <Compile Include="Enum\ProjectionType.cs" />
     <Compile Include="Enum\GrabCutFlag.cs" />
+    <Compile Include="Enum\DistanceMaskSize.cs" />
     <Compile Include="Invoke\CppInvoke_core_Algorithm.cs" />
     <Compile Include="Invoke\CppInvoke_core_RNG.cs" />
     <Compile Include="Invoke\CppInvoke_core_SVD.cs" />

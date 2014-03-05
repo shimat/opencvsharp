@@ -1925,6 +1925,96 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
+        #region FloodFill
+        /// <summary>
+        /// fills the semi-uniform image region starting from the specified seed point
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="seedPoint"></param>
+        /// <param name="newVal"></param>
+        /// <returns></returns>
+        public static int FloodFill(InputOutputArray image, Point seedPoint, Scalar newVal)
+        {
+            Rect rect;
+            return FloodFill(image, seedPoint, newVal, out rect);
+        }
+        /// <summary>
+        /// fills the semi-uniform image region starting from the specified seed point
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="seedPoint"></param>
+        /// <param name="newVal"></param>
+        /// <param name="rect"></param>
+        /// <param name="loDiff"></param>
+        /// <param name="upDiff"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static int FloodFill(InputOutputArray image,
+                                    Point seedPoint, Scalar newVal, out Rect rect,
+                                    Scalar? loDiff = null, Scalar? upDiff = null,
+                                    FloodFillFlag flags = FloodFillFlag.Link4)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            image.ThrowIfNotReady();
+            Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
+            Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
+            CvRect rect0;
+            int ret = CppInvoke.imgproc_floodFill(image.CvPtr, seedPoint, newVal, out rect0,
+                loDiff0, upDiff0, (int)flags);
+            rect = rect0;
+            image.Fix();
+            return ret;
+        }
+
+        /// <summary>
+        /// fills the semi-uniform image region and/or the mask starting from the specified seed point
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="mask"></param>
+        /// <param name="seedPoint"></param>
+        /// <param name="newVal"></param>
+        /// <returns></returns>
+        public static int FloodFill(InputOutputArray image, InputOutputArray mask,
+                                    Point seedPoint, Scalar newVal)
+        {
+            Rect rect;
+            return FloodFill(image, mask, seedPoint, newVal, out rect);
+        }
+        /// <summary>
+        /// fills the semi-uniform image region and/or the mask starting from the specified seed point
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="mask"></param>
+        /// <param name="seedPoint"></param>
+        /// <param name="newVal"></param>
+        /// <param name="rect"></param>
+        /// <param name="loDiff"></param>
+        /// <param name="upDiff"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static int FloodFill(InputOutputArray image, InputOutputArray mask,
+                                    Point seedPoint, Scalar newVal, out Rect rect,
+                                    Scalar? loDiff = null, Scalar? upDiff = null,
+                                    FloodFillFlag flags = FloodFillFlag.Link4)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (mask == null)
+                throw new ArgumentNullException("mask");
+            image.ThrowIfNotReady();
+            mask.ThrowIfNotReady();
+            Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
+            Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
+            CvRect rect0;
+            int ret = CppInvoke.imgproc_floodFill(image.CvPtr, mask.CvPtr, seedPoint, 
+                newVal, out rect0, loDiff0, upDiff0, (int)flags);
+            rect = rect0;
+            image.Fix();
+            mask.Fix();
+            return ret;
+        }
+        #endregion
 
         #region CvtColor
 #if LANG_JP

@@ -188,12 +188,19 @@ namespace OpenCvSharp.CPlusPlus
                                                   IntPtr bgdModel, IntPtr fgdModel,
                                                   int iterCount, int mode);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void distanceTransformWithLabels(IntPtr src, IntPtr dst, IntPtr labels,
+        public static extern void imgproc_distanceTransformWithLabels(IntPtr src, IntPtr dst, IntPtr labels,
                                                               int distanceType, int maskSize, int labelType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void distanceTransform(IntPtr src, IntPtr dst,
+        public static extern void imgproc_distanceTransform(IntPtr src, IntPtr dst,
                                                     int distanceType, int maskSize);
-
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_floodFill1")]
+        public static extern int imgproc_floodFill(IntPtr image,
+                                                    CvPoint seedPoint, CvScalar newVal, out CvRect rect,
+                                                    CvScalar loDiff, CvScalar upDiff, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_floodFill2")]
+        public static extern int imgproc_floodFill(IntPtr image, IntPtr mask,
+                                                    CvPoint seedPoint, CvScalar newVal, out CvRect rect,
+                                                    CvScalar loDiff, CvScalar upDiff, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
 

@@ -3558,7 +3558,8 @@ namespace OpenCvSharp
         /// <param name="comp">Pointer to structure the function fills with the information about the repainted domain. </param>
         /// <param name="flags">The operation flags. Lower bits contain connectivity value, 4 (by default) or 8, used within the function. Connectivity determines which neighbors of a pixel are considered. Upper bits can be 0 or combination of the flags</param>
 #endif
-        public void FloodFill(CvPoint seedPoint, CvScalar newVal, CvScalar loDiff, CvScalar upDiff, out CvConnectedComp comp, int flags)
+        public void FloodFill(CvPoint seedPoint, CvScalar newVal, CvScalar loDiff, CvScalar upDiff, 
+            out CvConnectedComp comp, FloodFillFlag flags)
         {
             Cv.FloodFill(this, seedPoint, newVal, loDiff, upDiff, out comp, flags);
         }
@@ -3586,7 +3587,8 @@ namespace OpenCvSharp
         /// <param name="flags">The operation flags. Lower bits contain connectivity value, 4 (by default) or 8, used within the function. Connectivity determines which neighbors of a pixel are considered. Upper bits can be 0 or combination of the flags</param>
         /// <param name="mask">Operation mask</param>
 #endif
-        public void FloodFill(CvPoint seedPoint, CvScalar newVal, CvScalar loDiff, CvScalar upDiff, out CvConnectedComp comp, int flags, CvArr mask)
+        public void FloodFill(CvPoint seedPoint, CvScalar newVal, CvScalar loDiff, 
+            CvScalar upDiff, out CvConnectedComp comp, FloodFillFlag flags, CvArr mask)
         {
             Cv.FloodFill(this, seedPoint, newVal, loDiff, upDiff, out comp, flags, mask);
         }
