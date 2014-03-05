@@ -74,5 +74,19 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         Tree = CvConst.CV_RETR_TREE,
+
+
+#if LANG_JP
+		/// <summary>
+		/// 
+        /// [CV_RETR_FLOODFILL]
+		/// </summary>
+#else
+        /// <summary>
+        /// 
+        /// [CV_RETR_FLOODFILL]
+        /// </summary>
+#endif
+        FloodFill = CvConst.CV_RETR_FLOODFILL,
     }
 }

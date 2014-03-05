@@ -708,10 +708,11 @@ namespace OpenCvSharp
         public const int CV_CHAIN_APPROX_TC89_L1 = 3;
         public const int CV_CHAIN_APPROX_TC89_KCOS = 4;
         public const int CV_LINK_RUNS = 5;
-        public const int CV_RETR_EXTERNAL = 0;
-        public const int CV_RETR_LIST = 1;
-        public const int CV_RETR_CCOMP = 2;
-        public const int CV_RETR_TREE = 3;
+        public const int CV_RETR_EXTERNAL = 0,
+            CV_RETR_LIST = 1,
+            CV_RETR_CCOMP = 2,
+            CV_RETR_TREE = 3,
+            CV_RETR_FLOODFILL = 3;
         // cvFindDominantPoints
         public const int CV_DOMINANT_IPAN = 1;
         // cvFindFundamentalMat
