@@ -396,18 +396,35 @@ CVAPI(void) imgproc_grabCut(cv::_InputArray *img, cv::_OutputArray *mask, CvRect
 	cv::grabCut(*img, *mask, rect, *bgdModel, *fgdModel, iterCount, mode);
 }
 
-CVAPI(void) distanceTransformWithLabels(cv::_InputArray *src, cv::_OutputArray *dst,
+CVAPI(void) imgproc_distanceTransformWithLabels(cv::_InputArray *src, cv::_OutputArray *dst,
                                      cv::_OutputArray *labels, int distanceType, int maskSize,
                                      int labelType)
 {
 	cv::distanceTransform(*src, *dst, *labels, distanceType, maskSize, labelType);
 }
-CVAPI(void) distanceTransform(cv::_InputArray *src, cv::_OutputArray *dst,
+CVAPI(void) imgproc_distanceTransform(cv::_InputArray *src, cv::_OutputArray *dst,
                                      int distanceType, int maskSize )
 {
 	cv::distanceTransform(*src, *dst, distanceType, maskSize);
 }
-
+CVAPI(int) imgproc_floodFill1(cv::_OutputArray *image,
+                          CvPoint seedPoint, CvScalar newVal, CvRect *rect,
+                          CvScalar loDiff, CvScalar upDiff, int flags)
+{
+	cv::Rect rect0;
+	int ret = cv::floodFill(*image, seedPoint, newVal, &rect0, loDiff, upDiff, flags);
+	*rect = rect0;
+	return ret;
+}
+CVAPI(int) imgproc_floodFill2(cv::_OutputArray *image, cv::_OutputArray *mask,
+                            CvPoint seedPoint, CvScalar newVal, CvRect *rect,
+                            CvScalar loDiff, CvScalar upDiff, int flags)
+{
+	cv::Rect rect0;
+	int ret = cv::floodFill(*image, *mask, seedPoint, newVal, &rect0, loDiff, upDiff, flags);
+	*rect = rect0;
+	return ret;
+}
 CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
 {
 	cv::cvtColor(*src, *dst, code, dstCn); 

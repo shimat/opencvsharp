@@ -169,6 +169,7 @@
     <Compile Include="Src\Enum\ButtonType.cs" />
     <Compile Include="Src\Enum\CameraChannels.cs" />
     <Compile Include="Src\Enum\DistTransformLabelType.cs" />
+    <Compile Include="Src\Enum\FloodFillFlag.cs" />
     <Compile Include="Src\HighGUI\CvButton.cs" />
     <Compile Include="Src\ImageEncodingParam.cs" />
     <Compile Include="Src\PInvoke\PInvokeHelper.cs" />
