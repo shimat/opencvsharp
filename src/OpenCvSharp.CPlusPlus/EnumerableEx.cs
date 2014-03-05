@@ -22,9 +22,10 @@ namespace OpenCvSharp.CPlusPlus
         public static IEnumerable<TResult> Select<TSource, TResult>(
             IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
         {
-            if(enumerable == null)
-                throw new ArgumentNullException();
-
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+            if (selector == null)
+                throw new ArgumentNullException("selector");
             foreach (TSource elem in enumerable)
             {
                 yield return selector(elem);
@@ -56,8 +57,9 @@ namespace OpenCvSharp.CPlusPlus
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
             if (enumerable == null)
-                throw new ArgumentNullException();
-
+                throw new ArgumentNullException("enumerable");
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
             foreach (TSource elem in enumerable)
             {
                 if(predicate(elem))
@@ -88,6 +90,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (enumerable == null)
                 throw new ArgumentNullException();
+            TSource[] arr = enumerable as TSource[];
+            if (arr != null)
+                return arr;
             return new List<TSource>(enumerable).ToArray();
         }
     }

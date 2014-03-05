@@ -1652,6 +1652,24 @@ namespace OpenCvSharp
             return ret;
         }
         #endregion
+        #region EmptyClone
+#if LANG_JP
+        /// <summary>
+        /// このIplImageと同じサイズ・ビット深度・チャネル数を持つ
+        /// IplImageオブジェクトを新たに作成し、返す
+        /// </summary>
+        /// <returns>コピーされた画像</returns>
+#else
+        /// <summary>
+        /// Makes an image that have the same size, depth and channels as this image
+        /// </summary>
+        /// <returns></returns>
+#endif
+        public IplImage EmptyClone()
+        {
+            return new IplImage(Size, Depth, NChannels);
+        }
+        #endregion
         #region CreateHeader
 #if LANG_JP
         /// <summary>

@@ -142,6 +142,7 @@
     <Compile Include="Enum\DctFlag2.cs" />
     <Compile Include="Enum\DftFlag2.cs" />
     <Compile Include="Enum\ProjectionType.cs" />
+    <Compile Include="Enum\GrabCutFlag.cs" />
     <Compile Include="Invoke\CppInvoke_core_Algorithm.cs" />
     <Compile Include="Invoke\CppInvoke_core_RNG.cs" />
     <Compile Include="Invoke\CppInvoke_core_SVD.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="modules\core\RNG.cs" />
     <Compile Include="modules\core\SVD.cs" />
     <Compile Include="modules\core\PCA.cs" />
+    <Compile Include="modules\core\InputOutputArray.cs" />
     <Compile Include="Struct\Rangef.cs" />
     <Compile Include="Struct\Point2d.cs" />
     <Compile Include="Window.cs" />

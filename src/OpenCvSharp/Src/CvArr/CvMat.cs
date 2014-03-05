@@ -1898,6 +1898,24 @@ namespace OpenCvSharp
             return Clone();
         }
         #endregion
+        #region EmptyClone
+#if LANG_JP
+        /// <summary>
+        /// このCvMatと同じサイズ・ビット深度・チャネル数を持つ
+        /// CvMatオブジェクトを新たに作成し、返す
+        /// </summary>
+        /// <returns>コピーされた画像</returns>
+#else
+        /// <summary>
+        /// Makes an matrix that have the same size, depth and channels as this image
+        /// </summary>
+        /// <returns></returns>
+#endif
+        public CvMat EmptyClone()
+        {
+            return new CvMat(Rows, Cols, (MatrixType)Type);
+        }
+        #endregion
         #region CompleteSymm
 #if LANG_JP
         /// <summary>
