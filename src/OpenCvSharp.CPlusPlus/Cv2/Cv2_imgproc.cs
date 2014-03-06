@@ -2264,6 +2264,26 @@ namespace OpenCvSharp.CPlusPlus
 
         #endregion
         #region ApproxPolyDP
+
+        /// <summary>
+        /// approximates contour or a curve using Douglas-Peucker algorithm
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="approxCurve"></param>
+        /// <param name="epsilon"></param>
+        /// <param name="closed"></param>
+        /// <returns></returns>
+        public static void ApproxPolyDP(InputArray curve, OutputArray approxCurve, double epsilon, bool closed)
+        {
+            if (curve == null)
+                throw new ArgumentNullException("curve");
+            if (approxCurve == null)
+                throw new ArgumentNullException("approxCurve");
+            curve.ThrowIfDisposed();
+            approxCurve.ThrowIfNotReady();
+            CppInvoke.imgproc_approxPolyDP_InputArray(curve.CvPtr, approxCurve.CvPtr, epsilon, closed ? 1 : 0);
+            approxCurve.Fix();
+        }
         /// <summary>
         /// approximates contour or a curve using Douglas-Peucker algorithm
         /// </summary>
@@ -2310,6 +2330,19 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="curve"></param>
         /// <param name="closed"></param>
         /// <returns></returns>
+        public static double ArcLength(InputArray curve, bool closed)
+        {
+            if (curve == null)
+                throw new ArgumentNullException("curve");
+            curve.ThrowIfDisposed();
+            return CppInvoke.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
+        }
+        /// <summary>
+        /// computes the contour perimeter (closed=true) or a curve length
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="closed"></param>
+        /// <returns></returns>
         public static double ArcLength(IEnumerable<Point> curve, bool closed)
         {
             if (curve == null)
@@ -2337,6 +2370,18 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="curve"></param>
         /// <returns></returns>
+        public static Rect BoundingRect(InputArray curve)
+        {
+            if (curve == null)
+                throw new ArgumentNullException("curve");
+            curve.ThrowIfDisposed();
+            return CppInvoke.imgproc_boundingRect_InputArray(curve.CvPtr);
+        }
+        /// <summary>
+        /// computes the bounding rectangle for a contour
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <returns></returns>
         public static Rect BoundingRect(IEnumerable<Point> curve)
         {
             if (curve == null)
@@ -2358,6 +2403,19 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region ContourArea
+        /// <summary>
+        /// computes the contour area
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="oriented"></param>
+        /// <returns></returns>
+        public static double ContourArea(InputArray contour, bool oriented = false)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            contour.ThrowIfDisposed();
+            return CppInvoke.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
+        }
         /// <summary>
         /// computes the contour area
         /// </summary>
@@ -2391,6 +2449,18 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
+        public static RotatedRect MinAreaRect(InputArray points)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            points.ThrowIfDisposed();
+            return CppInvoke.imgproc_minAreaRect_InputArray(points.CvPtr);
+        }
+        /// <summary>
+        /// computes the minimal rotated rectangle for a set of points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
         public static RotatedRect MinAreaRect(IEnumerable<Point> points)
         {
             if (points == null)
@@ -2412,6 +2482,19 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region MinEnclosingCircle
+        /// <summary>
+        /// computes the minimal enclosing circle for a set of points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        public static void MinEnclosingCircle(InputArray points, out Point2f center, out float radius)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            points.ThrowIfDisposed();
+            CppInvoke.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius);
+        }
         /// <summary>
         /// computes the minimal enclosing circle for a set of points
         /// </summary>
@@ -2478,6 +2561,25 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region ConvexHull
+        /// <summary>
+        /// computes convex hull for a set of 2D points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="hull"></param>
+        /// <param name="clockwise"></param>
+        /// <param name="returnPoints"></param>
+        /// <returns></returns>
+        public static void ConvexHull(InputArray points, OutputArray hull, bool clockwise = false, bool returnPoints = true)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            if (hull == null)
+                throw new ArgumentNullException("hull");
+            points.ThrowIfDisposed();
+            hull.ThrowIfNotReady();
+            CppInvoke.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0);
+            hull.Fix();
+        }
         /// <summary>
         /// computes convex hull for a set of 2D points.
         /// </summary>
@@ -2553,6 +2655,28 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region ConvexityDefects
+
+        /// <summary>
+        /// computes the contour convexity defects
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="convexHull"></param>
+        /// <param name="convexityDefects"></param>
+        /// <returns></returns>
+        public static void ConvexityDefects(InputArray contour, InputArray convexHull, OutputArray convexityDefects)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            if (convexHull == null)
+                throw new ArgumentNullException("convexHull");
+            if (convexityDefects == null)
+                throw new ArgumentNullException("convexityDefects");
+            contour.ThrowIfDisposed();
+            convexHull.ThrowIfDisposed();
+            convexityDefects.ThrowIfNotReady();
+            CppInvoke.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr);
+            convexityDefects.Fix();
+        }
         /// <summary>
         /// computes the contour convexity defects
         /// </summary>
@@ -2606,6 +2730,19 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="contour"></param>
         /// <returns></returns>
+        public static bool IsContourConvex(InputArray contour)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            contour.ThrowIfDisposed();
+            int ret = CppInvoke.imgproc_isContourConvex_InputArray(contour.CvPtr);
+            return ret != 0;
+        }
+        /// <summary>
+        /// returns true if the contour is convex. Does not support contours with self-intersection
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <returns></returns>
         public static bool IsContourConvex(IEnumerable<Point> contour)
         {
             if (contour == null)
@@ -2629,6 +2766,29 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region IntersectConvexConvex
+        /// <summary>
+        /// finds intersection of two convex polygons
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="p12"></param>
+        /// <param name="handleNested"></param>
+        /// <returns></returns>
+        public static float IntersectConvexConvex(InputArray p1, InputArray p2, OutputArray p12, bool handleNested = true)
+        {
+            if (p1 == null)
+                throw new ArgumentNullException("p1");
+            if (p2 == null)
+                throw new ArgumentNullException("p2");
+            if (p12 == null)
+                throw new ArgumentNullException("p12");
+            p1.ThrowIfDisposed();
+            p2.ThrowIfDisposed();
+            p12.ThrowIfNotReady();
+            float ret = CppInvoke.imgproc_intersectConvexConvex_InputArray(p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0);
+            p12.Fix();
+            return ret;
+        }
         /// <summary>
         /// finds intersection of two convex polygons
         /// </summary>
@@ -2692,12 +2852,24 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
+        public static RotatedRect FitEllipse(InputArray points)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            points.ThrowIfDisposed();
+            return CppInvoke.imgproc_fitEllipse_InputArray(points.CvPtr);
+        }
+        /// <summary>
+        /// fits ellipse to the set of 2D points
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
         public static RotatedRect FitEllipse(IEnumerable<Point> points)
         {
             if (points == null)
                 throw new ArgumentNullException("points");
             Point[] pointsArray = EnumerableEx.ToArray(points);
-            return (RotatedRect)CppInvoke.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length);
+            return CppInvoke.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length);
         }
         /// <summary>
         /// fits ellipse to the set of 2D points
@@ -2709,10 +2881,33 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
-            return (RotatedRect)CppInvoke.imgproc_fitEllipse_Point2f(pointsArray, pointsArray.Length);
+            return CppInvoke.imgproc_fitEllipse_Point2f(pointsArray, pointsArray.Length);
         }
         #endregion
         #region FitLine
+
+        /// <summary>
+        /// fits line to the set of 2D points using M-estimator algorithm
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="line"></param>
+        /// <param name="distType"></param>
+        /// <param name="param"></param>
+        /// <param name="reps"></param>
+        /// <param name="aeps"></param>
+        /// <returns></returns>
+        public static void FitLine(InputArray points, OutputArray line, DistanceType distType,
+            double param, double reps, double aeps)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            if (line == null)
+                throw new ArgumentNullException("line");
+            points.ThrowIfDisposed();
+            line.ThrowIfNotReady();
+            CppInvoke.imgproc_fitLine_InputArray(points.CvPtr, line.CvPtr, (int)distType, param, reps, aeps);
+            line.Fix();
+        }
         /// <summary>
         /// fits line to the set of 2D points using M-estimator algorithm
         /// </summary>
@@ -2791,6 +2986,20 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region PointPolygonTest
+        /// <summary>
+        /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="pt"></param>
+        /// <param name="measureDist"></param>
+        /// <returns></returns>
+        public static double PointPolygonTest(InputArray contour, Point2f pt, bool measureDist)
+        {
+            if (contour == null)
+                throw new ArgumentNullException("contour");
+            contour.ThrowIfDisposed();
+            return CppInvoke.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
+        }
         /// <summary>
         /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
         /// </summary>
