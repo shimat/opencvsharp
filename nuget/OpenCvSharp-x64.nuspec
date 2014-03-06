@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-x64</id>
-        <version>2.4.8.20140226</version>
+        <version>2.4.8.20140305</version>
         <title>OpenCvSharp x64</title>
         <authors>shimat</authors>
         <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
@@ -10,7 +10,7 @@
         <iconUrl>http://opencvsharp.googlecode.com/files/Lenna.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <releaseNotes>2.4.8 support</releaseNotes>
+        <releaseNotes>Added C++ core and imgproc methods</releaseNotes>
         <copyright>Copyright 2008-2014</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
