@@ -15,6 +15,8 @@ namespace OpenCvSharp.ReleaseMaker
     /// </summary>
     public partial class MainForm : Form
     {
+        private const string VSVersion = "2012";
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -30,7 +32,7 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            textBox_Src.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Visual Studio 2013\Projects\OpenCvSharp");
+            textBox_Src.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Visual Studio " + VSVersion + @"\Projects\OpenCvSharp");
             textBox_Dst.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
 

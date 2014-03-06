@@ -2771,7 +2771,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="color">楕円の色．</param>
         /// <param name="thickness">楕円境界線の幅．[既定値は1]</param>
         /// <param name="lineType">楕円境界線の種類．[既定値はLineType.Link8]</param>
-        /// <param name="shift">矩形領域の頂点座標の小数点以下の桁を表すビット数．[既定値は0]</param>
 #else
         /// <summary>
         /// Draws simple or thick elliptic arc or fills ellipse sector

@@ -50,21 +50,23 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenCvSharp.Blob, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140226\lib\net40\OpenCvSharp.Blob.dll</HintPath>
+    <Reference Include="OpenCvSharp">
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140305\lib\net40\OpenCvSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140226\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
+    <Reference Include="OpenCvSharp.Blob">
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140305\lib\net40\OpenCvSharp.Blob.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.MachineLearning, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140226\lib\net40\OpenCvSharp.MachineLearning.dll</HintPath>
+    <Reference Include="OpenCvSharp.CPlusPlus">
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140305\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140226\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
+    <Reference Include="OpenCvSharp.Extensions">
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140305\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.MachineLearning">
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140305\lib\net40\OpenCvSharp.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.UserInterface">
+      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140305\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -274,16 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
-      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
-      <Name>OpenCvSharp.CPlusPlus</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj">
-      <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
-      <Name>OpenCvSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -500,7 +500,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// ウィンドウのプロパティを取得する
         /// </summary>
-        /// <param name="prop_id">プロパティの種類</param>
+        /// <param name="propId">プロパティの種類</param>
         /// <returns>プロパティの値</returns>
 #else
         /// <summary>
@@ -587,8 +587,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// ウィンドウのプロパティを設定する
         /// </summary>
-        /// <param name="prop_id">プロパティの種類</param>
-        /// <param name="prop_value">プロパティに設定する値</param>
+        /// <param name="propId">プロパティの種類</param>
+        /// <param name="propValue">プロパティに設定する値</param>
 #else
         /// <summary>
         /// Set Property of the window
