@@ -127,6 +127,9 @@
     <ClCompile Include="core_RNG.cpp">
       <Filter>Sources\cpp\core</Filter>
     </ClCompile>
+    <ClCompile Include="core_AlgorithmInfo.cpp">
+      <Filter>Sources\cpp\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -241,6 +244,9 @@
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
     <ClInclude Include="core_RNG.h">
+      <Filter>Headers\cpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core_AlgorithmInfo.h">
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -46,6 +46,29 @@ CVAPI(cv::Ptr<cv::FeatureDetector>*) features2d_FeatureDetector_create(const cha
 
 #pragma endregion
 
+#pragma region MSER
+CVAPI(cv::MSER*) features2d_MSER_new(int delta, int min_area, int max_area,
+          double max_variation, double min_diversity, int max_evolution, 
+		  double area_threshold, double min_margin, int edge_blur_size )
+{
+	return new cv::MSER(delta, min_area, max_area);
+}
+CVAPI(void) features2d_MSER_delete(cv::MSER *obj)
+{
+	delete obj;
+}
+CVAPI(void) features2d_MSER_detect(cv::MSER *obj, cv::Mat *image, 
+								   std::vector<std::vector<cv::Point> > **msers, cv::Mat *mask )
+{
+	*msers = new std::vector<std::vector<cv::Point> >;
+	(*obj)(*image, **msers, entity(mask));
+}
+CVAPI(cv::AlgorithmInfo*) features2d_MSER_info(cv::MSER *obj)
+{
+	return obj->info();
+}
+#pragma endregion
+
 CVAPI(void) features2d_FAST(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression)
 {
 	cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0);

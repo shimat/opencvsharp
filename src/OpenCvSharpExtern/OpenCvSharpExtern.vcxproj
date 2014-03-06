@@ -214,6 +214,7 @@
     <ClCompile Include="calib3d.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="core_Algorithm.cpp" />
+    <ClCompile Include="core_AlgorithmInfo.cpp" />
     <ClCompile Include="core_InputArray.cpp" />
     <ClCompile Include="core_Mat.cpp" />
     <ClCompile Include="core_MatExpr.cpp" />
@@ -257,6 +258,7 @@
   <ItemGroup>
     <ClInclude Include="calib3d.h" />
     <ClInclude Include="core.h" />
+    <ClInclude Include="core_AlgorithmInfo.h" />
     <ClInclude Include="core_InputArray.h" />
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />
