@@ -130,7 +130,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// predefined type constants
         /// </summary>
-        public static readonly MatType
+        public static readonly int
             CV_8UC1 = CV_8UC(1),
             CV_8UC2 = CV_8UC(2),
             CV_8UC3 = CV_8UC(3),
@@ -161,36 +161,36 @@ namespace OpenCvSharp.CPlusPlus
             CV_64FC4 = CV_64FC(4);
 
 
-        public static MatType CV_8UC(int ch)
+        public static int CV_8UC(int ch)
         {
             return MakeType(CV_8U, ch);
         }
-        public static MatType CV_8SC(int ch)
+        public static int CV_8SC(int ch)
         {
             return MakeType(CV_8S, ch);
         }
-        public static MatType CV_16UC(int ch)
+        public static int CV_16UC(int ch)
         {
             return MakeType(CV_16U, ch);
         }
-        public static MatType CV_16SC(int ch)
+        public static int CV_16SC(int ch)
         {
             return MakeType(CV_16S, ch);
         }
-        public static MatType CV_32SC(int ch)
+        public static int CV_32SC(int ch)
         {
             return MakeType(CV_32S, ch);
         }
-        public static MatType CV_32FC(int ch)
+        public static int CV_32FC(int ch)
         {
             return MakeType(CV_32F, ch);
         }
-        public static MatType CV_64FC(int ch)
+        public static int CV_64FC(int ch)
         {
             return MakeType(CV_64F, ch);
         }
 
-        public static MatType MakeType(int depth, int channels)
+        public static int MakeType(int depth, int channels)
         {
             if (channels <= 0 || channels >= CV_CN_MAX)
                 throw new OpenCvSharpException("Channels count should be 1.." + (CV_CN_MAX - 1));
