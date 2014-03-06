@@ -10,14 +10,14 @@ namespace CppStyleSamplesCS
         static void Main(string[] args)
         {
             ISample sample =
-                new HistSample();
+                //new HistSample();
                 //new Subdiv2DSample();
                 //new MatToIplImage();
                 //new FASTSample();
                 //new FlannSample(); // Todo: crash
                 //new HOGSample();
                 //new HoughLinesSample();
-                //new MSERSample();
+                new MSERSample();
                 //new MDS();
                 //new PixelAccess();
                 //new StarDetectorSample();

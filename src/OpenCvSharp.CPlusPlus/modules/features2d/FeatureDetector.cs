@@ -40,7 +40,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mask">Mask specifying where to look for keypoints (optional). 
         /// Must be a char matrix with non-zero values in the region of interest.</param>
         /// <returns>The detected keypoints.</returns>
-        public KeyPoint[] Detect(Mat image, Mat mask = null)
+        public  KeyPoint[] Detect(Mat image, Mat mask = null)
         {
             if(image == null)
                 throw new ArgumentNullException("image");
