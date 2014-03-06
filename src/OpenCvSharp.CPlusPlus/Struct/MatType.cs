@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
 #pragma warning disable 1591
 
     /// <summary>
-    /// 
+    /// Matrix data type (depth and number of channels)
     /// </summary>
     public struct MatType
     {

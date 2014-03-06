@@ -12,22 +12,25 @@ typedef unsigned short uint16;
 #include <fstream>
 #include <iostream>
 
-#if 0
+#if 1
+
 #ifdef _WIN32
 #include <Windows.h>
 #include <sstream>
-int p(const char* msg)
+static int p(const char* msg)
 {
 	return MessageBoxA(NULL, msg, "MessageBox", MB_OK);
 }
+#undef min
+#undef max
+#endif
 template <typename T>
-int p(T obj)
+static int p(T obj)
 {
 	std::stringstream ss;
 	ss << obj;
 	return p(ss.str().c_str());
 }
-#endif
 #endif
 
 static inline cv::InputArray entity(cv::_InputArray *obj)
