@@ -101,5 +101,36 @@ CVAPI(void) features2d_FASTX(cv::_InputArray *image, std::vector<cv::KeyPoint> *
 	cv::FASTX(*image, *keypoints, threshold, nonmaxSupression != 0, type);
 }
 
+#pragma region FastFeatureDetector
+CVAPI(cv::FastFeatureDetector*) features2d_FastFeatureDetector_new(int threshold, int nonmaxSuppression)
+{
+	return new cv::FastFeatureDetector(threshold, nonmaxSuppression != 0);
+}
+CVAPI(void) features2d_FastFeatureDetector_delete(cv::FastFeatureDetector *obj)
+{
+	delete obj;
+}
+CVAPI(cv::AlgorithmInfo*) features2d_FastFeatureDetector_info(cv::FastFeatureDetector *obj)
+{
+	return obj->info();
+}
+#pragma endregion
+
+#pragma region GFTTDetector
+CVAPI(cv::GFTTDetector*) features2d_GFTTDetector_new(int maxCorners, double qualityLevel, double minDistance,
+	int blockSize, int useHarrisDetector, double k)
+{
+	return new cv::GFTTDetector(maxCorners, qualityLevel, minDistance,
+		blockSize, useHarrisDetector != 0, k);
+}
+CVAPI(void) features2d_GFTTDetector_delete(cv::GFTTDetector *obj)
+{
+	delete obj;
+}
+CVAPI(cv::AlgorithmInfo*) features2d_GFTTDetector_info(cv::GFTTDetector *obj)
+{
+	return obj->info();
+}
+#pragma endregion
 
 #endif
