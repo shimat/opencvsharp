@@ -779,6 +779,11 @@ CVAPI(int) core_Mat_nSetVec3b(cv::Mat *obj, int row, int col, cv::Vec3b *vals, i
 	return internal_Mat_set<cv::Vec3b>(obj, row, col, (char*)vals, valsLength);
 }
 
+CVAPI(int) core_Mat_nSetPoint(cv::Mat *obj, int row, int col, cv::Point *vals, int valsLength)
+{
+	return internal_Mat_set<cv::Point>(obj, row, col, (char*)vals, valsLength);
+}
+
 
 CVAPI(int) core_Mat_nGetB(cv::Mat *obj, int row, int col, uchar *vals, int valsLength)
 {
@@ -803,6 +808,11 @@ CVAPI(int) core_Mat_nGetD(cv::Mat *obj, int row, int col, double *vals, int vals
 CVAPI(int) core_Mat_nGetVec3b(cv::Mat *obj, int row, int col, cv::Vec3b *vals, int valsLength)
 {
 	return internal_Mat_get<cv::Vec3b>(obj, row, col, (char*)vals, valsLength);
+}
+
+CVAPI(int) core_Mat_nGetPoint(cv::Mat *obj, int row, int col, cv::Point *vals, int valsLength)
+{
+	return internal_Mat_get<cv::Point>(obj, row, col, (char*)vals, valsLength);
 }
 
 #pragma endregion
