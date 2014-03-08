@@ -189,12 +189,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public byte[] ToArray()
         {
-            int num = CheckVector(ThisChannels, ThisDepth);
-            if (num < 0)
-                throw new OpenCvSharpException("Native Mat has unexpected type or size: " + ToString());
-            if (num == 0)
+            int numOfElems = Rows * Cols;
+            if (numOfElems == 0)
                 return new byte[0];
-            byte[] arr = new byte[num * ThisChannels];
+            byte[] arr = new byte[numOfElems];
             GetArray(0, 0, arr);
             return arr;
         }

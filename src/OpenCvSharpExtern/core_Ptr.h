@@ -26,4 +26,13 @@ CVAPI(void) core_Ptr_Feature2D_delete(cv::Ptr<cv::Feature2D>* ptr)
 	delete ptr;
 }
 
+CVAPI(cv::DescriptorMatcher*) core_Ptr_DescriptorMatcher_obj(cv::Ptr<cv::DescriptorMatcher>* ptr)
+{
+	return ptr->obj;
+}
+CVAPI(void) core_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::DescriptorMatcher>* ptr)
+{
+	delete ptr;
+}
+
 #endif

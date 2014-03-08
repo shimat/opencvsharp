@@ -2283,8 +2283,8 @@ namespace OpenCvSharp.CPlusPlus
             return "Mat [ " +
                    Rows + "*" + Cols + "*" + Type().ToString() +
                    ", IsContinuous=" + IsContinuous() + ", IsSubmatrix=" + IsSubmatrix() +
-                   ", NativeObject=0x" + Convert.ToString(ptr.ToInt64(), 16) +
-                   ", DataAddr=0x" + Convert.ToString(Data.ToInt64(), 16) +
+                   ", Ptr=0x" + Convert.ToString(ptr.ToInt64(), 16) +
+                   ", Data=0x" + Convert.ToString(Data.ToInt64(), 16) +
                    " ]";
         }
 

@@ -133,6 +133,9 @@
     <ClCompile Include="photo.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="features2d_DescriptorMatcher.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -253,6 +256,9 @@
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
     <ClInclude Include="photo.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="features2d_DescriptorMatcher.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>

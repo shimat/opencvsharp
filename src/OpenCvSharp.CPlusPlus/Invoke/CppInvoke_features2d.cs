@@ -72,5 +72,20 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_GFTTDetector_info(IntPtr obj);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_drawKeypoints(IntPtr image, KeyPoint[] keypoints, int keypointsLength,
+            IntPtr outImage, CvScalar color, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_drawMatches1(IntPtr img1, KeyPoint[] keypoints1, int keypoints1Length,
+            IntPtr img2, KeyPoint[] keypoints2, int keypoints2Length,
+            DMatch[] matches1to2, int matches1to2Length, IntPtr outImg,
+            CvScalar matchColor, CvScalar singlePointColor,
+            byte[] matchesMask, int matchesMaskLength, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_drawMatches2(IntPtr img1, KeyPoint[] keypoints1, int keypoints1Length,
+            IntPtr img2, KeyPoint[] keypoints2, int keypoints2Length,
+            IntPtr[] matches1to2, int matches1to2Size1, int[] matches1to2Size2,
+            IntPtr outImg, CvScalar matchColor, CvScalar singlePointColor,
+            IntPtr[] matchesMask, int matchesMaskSize1, int[] matchesMaskSize2, int flags);
     }
 }

@@ -135,18 +135,18 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
         /// <summary>
-        /// 高速なマルチスケール Hesian 検出器を用いて keypoint を検出します．
+        /// Extract features and computes their descriptors using SIFT algorithm
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
+        /// <param name="img">Input 8-bit grayscale image</param>
+        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
+        /// <returns>The output vector of keypoints</returns>
 #else
         /// <summary>
-        /// detects keypoints using fast multi-scale Hessian detector
+        /// Extract features and computes their descriptors using SIFT algorithm
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
+        /// <param name="img">Input 8-bit grayscale image</param>
+        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
+        /// <returns>The output vector of keypoints</returns>
 #endif
         public KeyPoint[] Run(InputArray img, InputArray mask)
         {
@@ -157,29 +157,31 @@ namespace OpenCvSharp.CPlusPlus
 
             using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
             {
-                CppInvoke.nonfree_SIFT_run(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
+                CppInvoke.nonfree_SIFT_run1(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
                 return keypointsVec.ToArray();
             }
         }
 
 #if LANG_JP
         /// <summary>
-        /// keypoint を検出し，その SURF ディスクリプタを計算します．[useProvidedKeypoints = true]
+        /// keypoint を検出し，その SIFT ディスクリプタを計算します．
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="mask"></param>
-        /// <param name="keypoints"></param>
-        /// <param name="descriptors"></param>
-        /// <param name="useProvidedKeypoints"></param>
+        /// <param name="img">Input 8-bit grayscale image</param>
+        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
+        /// <param name="keypoints">The input/output vector of keypoints</param>
+        /// <param name="descriptors">The output matrix of descriptors. </param>
+        /// <param name="useProvidedKeypoints">Boolean flag. If it is true, the keypoint detector is not run. 
+        /// Instead, the provided vector of keypoints is used and the algorithm just computes their descriptors.</param>
 #else
         /// <summary>
-        /// detects keypoints and computes the SURF descriptors for them. [useProvidedKeypoints = true]
+        /// detects keypoints and computes the SIFT descriptors for them. 
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="mask"></param>
-        /// <param name="keypoints"></param>
-        /// <param name="descriptors"></param>
-        /// <param name="useProvidedKeypoints"></param>
+        /// <param name="img">Input 8-bit grayscale image</param>
+        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
+        /// <param name="keypoints">The input/output vector of keypoints</param>
+        /// <param name="descriptors">The output matrix of descriptors. </param>
+        /// <param name="useProvidedKeypoints">Boolean flag. If it is true, the keypoint detector is not run. 
+        /// Instead, the provided vector of keypoints is used and the algorithm just computes their descriptors.</param>
 #endif
         public void Run(InputArray img, InputArray mask, out KeyPoint[] keypoints, OutputArray descriptors,
             bool useProvidedKeypoints = false)
@@ -193,15 +195,44 @@ namespace OpenCvSharp.CPlusPlus
             descriptors.ThrowIfNotReady();
 
             using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
-            //using (StdVectorFloat descriptorsVec = new StdVectorFloat())
             {
-                CppInvoke.nonfree_SIFT_run(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
+                CppInvoke.nonfree_SIFT_run2_OutputArray(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
                     descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
 
                 keypoints = keypointsVec.ToArray();
-                //descriptors = descriptorsVec.ToArray();
             }
             descriptors.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// keypoint を検出し，その SIFT ディスクリプタを計算します．
+        /// </summary>
+        /// <param name="img">Input 8-bit grayscale image</param>
+        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
+        /// <param name="keypoints">The input/output vector of keypoints</param>
+        /// <param name="descriptors">The output matrix of descriptors. </param>
+        /// <param name="useProvidedKeypoints">Boolean flag. If it is true, the keypoint detector is not run. 
+        /// Instead, the provided vector of keypoints is used and the algorithm just computes their descriptors.</param>
+#else
+        /// <summary>
+        /// detects keypoints and computes the SIFT descriptors for them. 
+        /// </summary>
+        /// <param name="img">Input 8-bit grayscale image</param>
+        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
+        /// <param name="keypoints">The input/output vector of keypoints</param>
+        /// <param name="descriptors">The output matrix of descriptors. </param>
+        /// <param name="useProvidedKeypoints">Boolean flag. If it is true, the keypoint detector is not run. 
+        /// Instead, the provided vector of keypoints is used and the algorithm just computes their descriptors.</param>
+#endif
+        public void Run(InputArray img, InputArray mask, out KeyPoint[] keypoints, out float[] descriptors,
+            bool useProvidedKeypoints = false)
+        {
+            // SIFTは std::vector<float> でdescriptorを受け取れないっぽいので、自前実装
+            MatOfFloat descriptorsMat = new MatOfFloat();
+            Run(img, mask, out keypoints, descriptorsMat, useProvidedKeypoints);
+
+            descriptors = descriptorsMat.ToArray();
         }
 
         /// <summary>

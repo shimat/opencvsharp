@@ -223,6 +223,7 @@
     <ClCompile Include="core_Ptr.cpp" />
     <ClCompile Include="core_RNG.cpp" />
     <ClCompile Include="core_SVD.cpp" />
+    <ClCompile Include="features2d_DescriptorMatcher.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgproc.cpp" />
     <ClCompile Include="objdetect.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_Ptr.h" />
     <ClInclude Include="core_RNG.h" />
+    <ClInclude Include="features2d_DescriptorMatcher.h" />
     <ClInclude Include="highgui.h" />
     <ClInclude Include="imgproc.h" />
     <ClInclude Include="imgproc_Subdiv2D.h" />

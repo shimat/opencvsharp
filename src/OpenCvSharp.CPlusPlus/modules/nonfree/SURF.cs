@@ -269,7 +269,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
             {
-                CppInvoke.nonfree_SURF_run(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
+                CppInvoke.nonfree_SURF_run1(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
                 return keypointsVec.ToArray();
             }
         }
@@ -304,11 +304,49 @@ namespace OpenCvSharp.CPlusPlus
             using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
             using (StdVectorFloat descriptorsVec = new StdVectorFloat())
             {
-                CppInvoke.nonfree_SURF_run(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
+                CppInvoke.nonfree_SURF_run2_vector(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
                     descriptorsVec.CvPtr, useProvidedKeypoints ? 1 : 0);
 
                 keypoints = keypointsVec.ToArray();
                 descriptors = descriptorsVec.ToArray();
+            }
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// keypoint を検出し，その SURF ディスクリプタを計算します．[useProvidedKeypoints = true]
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="mask"></param>
+        /// <param name="keypoints"></param>
+        /// <param name="descriptors"></param>
+        /// <param name="useProvidedKeypoints"></param>
+#else
+        /// <summary>
+        /// detects keypoints and computes the SURF descriptors for them. [useProvidedKeypoints = true]
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="mask"></param>
+        /// <param name="keypoints"></param>
+        /// <param name="descriptors"></param>
+        /// <param name="useProvidedKeypoints"></param>
+#endif
+        public void Run(InputArray img, InputArray mask, out KeyPoint[] keypoints, OutputArray descriptors,
+            bool useProvidedKeypoints = false)
+        {
+            ThrowIfDisposed();
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (descriptors == null)
+                throw new ArgumentNullException("descriptors");
+            img.ThrowIfDisposed();
+            descriptors.ThrowIfNotReady();
+
+            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
+            {
+                CppInvoke.nonfree_SURF_run2_OutputArray(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
+                    descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
+                keypoints = keypointsVec.ToArray();
             }
         }
 

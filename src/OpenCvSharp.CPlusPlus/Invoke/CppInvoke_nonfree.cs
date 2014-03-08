@@ -29,11 +29,13 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int nonfree_SURF_descriptorSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int nonfree_SURF_descriptorType(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "nonfree_SURF_run1")]
-        public static extern void nonfree_SURF_run(IntPtr obj, IntPtr img, IntPtr mask,
-            IntPtr keypoints);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "nonfree_SURF_run2")]
-        public static extern void nonfree_SURF_run(IntPtr obj, IntPtr img, IntPtr mask,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void nonfree_SURF_run1(IntPtr obj, IntPtr img, IntPtr mask, IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void nonfree_SURF_run2_vector(IntPtr obj, IntPtr img, IntPtr mask,
+            IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void nonfree_SURF_run2_OutputArray(IntPtr obj, IntPtr img, IntPtr mask,
             IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr nonfree_SURF_info(IntPtr obj);
@@ -67,11 +69,13 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int nonfree_SIFT_descriptorSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int nonfree_SIFT_descriptorType(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "nonfree_SIFT_run1")]
-        public static extern void nonfree_SIFT_run(IntPtr obj, IntPtr img, IntPtr mask,
-            IntPtr keypoints);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "nonfree_SIFT_run2")]
-        public static extern void nonfree_SIFT_run(IntPtr obj, IntPtr img, IntPtr mask,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void nonfree_SIFT_run1(IntPtr obj, IntPtr img, IntPtr mask, IntPtr keypoints);
+        /*[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void nonfree_SIFT_run2_vector(IntPtr obj, IntPtr img, IntPtr mask,
+            IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);*/
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void nonfree_SIFT_run2_OutputArray(IntPtr obj, IntPtr img, IntPtr mask,
             IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr nonfree_SIFT_info(IntPtr obj);

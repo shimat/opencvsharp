@@ -95,5 +95,14 @@ namespace OpenCvSharp.CPlusPlus
             CV_DIST_MASK_3 = 3,
             CV_DIST_MASK_5 = 5,
             CV_DIST_MASK_PRECISE = 0;
+
+        /// <summary>
+        /// DrawMatchesFlags
+        /// </summary>
+        public const int
+            DrawMatchesFlags_DEFAULT = 0,
+            DrawMatchesFlags_DRAW_OVER_OUTIMG = 1,
+            DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS = 2,
+            DrawMatchesFlags_DRAW_RICH_KEYPOINTS = 4;
     }
 }
