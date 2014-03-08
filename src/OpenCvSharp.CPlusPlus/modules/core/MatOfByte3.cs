@@ -12,6 +12,15 @@ namespace OpenCvSharp.CPlusPlus
         private const int ThisDepth = MatType.CV_8U;
         private const int ThisChannels = 3;
 
+        #region Init
+        /// <summary>
+        /// 
+        /// </summary>
+        public MatOfByte3()
+            : base()
+        {
+        }
+
         /// <summary>
         /// Initializes by cv::Mat* pointer
         /// </summary>
@@ -77,6 +86,7 @@ namespace OpenCvSharp.CPlusPlus
             : this(EnumerableEx.ToArray(enumerable))
         {
         }
+        #endregion
 
         #region Indexer
         /// <summary>
@@ -179,7 +189,7 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-
+        #region FromArray
         /// <summary>
         /// 
         /// </summary>
@@ -212,7 +222,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new MatOfByte3(enumerable);
         }
+        #endregion
 
+        #region ToArray
         /// <summary>
         /// 
         /// </summary>
@@ -245,5 +257,6 @@ namespace OpenCvSharp.CPlusPlus
             GetArray(0, 0, arr);
             return arr;
         }
+        #endregion
     }
 }

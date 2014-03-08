@@ -283,6 +283,10 @@ namespace OpenCvSharp.CPlusPlus
             [In, MarshalAs(UnmanagedType.LPArray)] Vec3b[] vals, int valsLength);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nSetPoint(IntPtr obj, int row, int col,
+            [In, MarshalAs(UnmanagedType.LPArray)] Point[] vals, int valsLength);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_nGetB(IntPtr obj, int row, int col, 
             [In, Out, MarshalAs(UnmanagedType.LPArray)] byte[] vals, int valsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -300,5 +304,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_nGetVec3b(IntPtr obj, int row, int col,
             [In, Out, MarshalAs(UnmanagedType.LPArray)] Vec3b[] vals, int valsLength);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nGetPoint(IntPtr obj, int row, int col,
+            [In, Out, MarshalAs(UnmanagedType.LPArray)] Point[] vals, int valsLength);
     }
 }

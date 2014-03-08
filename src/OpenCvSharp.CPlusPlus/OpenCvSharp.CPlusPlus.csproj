@@ -150,6 +150,7 @@
     <Compile Include="Invoke\CppInvoke_core_PCA.cs" />
     <Compile Include="Invoke\CppInvoke_core_AlgorithmInfo.cs" />
     <Compile Include="modules\core\ITypeSpecificMat.cs" />
+    <Compile Include="modules\core\MatOfPoint.cs" />
     <Compile Include="modules\core\RNG.cs" />
     <Compile Include="modules\core\SVD.cs" />
     <Compile Include="modules\core\PCA.cs" />

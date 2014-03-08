@@ -2259,7 +2259,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public static void FindContours(InputOutputArray image, out Mat[] contours,
+        public static void FindContours(InputOutputArray image, out MatOfPoint[] contours,
             ContourRetrieval mode, ContourChain method, Point? offset = null)
         {
             if (image == null)
@@ -2272,7 +2272,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (StdVectorMat contoursVec = new StdVectorMat(contoursPtr))
             {
-                contours = contoursVec.ToArray();
+                contours = contoursVec.ToArray<MatOfPoint>();
             }
 
             image.Fix();

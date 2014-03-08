@@ -93,18 +93,25 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public Mat[] ToArray()
         {
+            return ToArray<Mat>();
+        }
+
+        /// <summary>
+        /// Converts std::vector to managed array
+        /// </summary>
+        /// <returns></returns>
+        public T[] ToArray<T>()
+            where T : Mat, new()
+        {
             int size = Size;
             if (size == 0)
-                return new Mat[0];
+                return new T[0];
 
-            // Matインスタンスをこちらで用意し、vectorの各要素をそこに代入する。
-            // 別インスタンスとはなるが、vector解放時にMatが全部解放されてしまうので
-            // 致し方なしか・・・
-            Mat[] dst = new Mat[size];
+            T[] dst = new T[size];
             IntPtr[] dstPtr = new IntPtr[size];
             for (int i = 0; i < size; i++)
             {
-                Mat m = new Mat();
+                T m = new T();
                 dst[i] = m;
                 dstPtr[i] = m.CvPtr;
             }
