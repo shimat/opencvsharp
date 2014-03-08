@@ -95,5 +95,45 @@ namespace OpenCvSharp.CPlusPlus
                 return arr;
             return new List<TSource>(enumerable).ToArray();
         }
+
+        /// <summary>
+        /// Enumerable.Any
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static bool Any<TSource>(
+            IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+            foreach (TSource elem in enumerable)
+            {
+                if (predicate(elem))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Enumerable.All
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static bool All<TSource>(
+            IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+            foreach (TSource elem in enumerable)
+            {
+                if (!predicate(elem))
+                    return false;
+            }
+            return true;
+        }
     }
 }

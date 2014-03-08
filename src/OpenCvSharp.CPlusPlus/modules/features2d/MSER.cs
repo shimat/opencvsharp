@@ -123,7 +123,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mask"></param>
         /// <returns></returns>
 #endif
-        public Point[][] Extract(Mat image, Mat mask)
+        public Point[][] Run(Mat image, Mat mask)
         {
             if (image == null)
                 throw new ArgumentNullException("image");

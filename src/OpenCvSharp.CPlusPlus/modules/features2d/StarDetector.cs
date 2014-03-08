@@ -17,98 +17,15 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
 #else
     /// <summary>
-    /// Star Detector
+    /// The "Star" Detector
     /// </summary>
 #endif
     [Serializable]
-    public class StarDetector : CvStarDetectorParams, ICloneable
+    public class StarDetector : FeatureDetector
     {
-        #region Constructors
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-#else
-        /// <summary>
-        /// Constructor
-        /// </summary>
-#endif
-        public StarDetector()
-            : base()
-        {
-        }
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="maxSize"></param>
-#else
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="maxSize"></param>
-#endif
-        public StarDetector(int maxSize)
-            : base(maxSize)
-        {
-        }
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="maxSize"></param>
-        /// <param name="responseThreshold"></param>
-#else
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="maxSize"></param>
-        /// <param name="responseThreshold"></param>
-#endif
-        public StarDetector(int maxSize, int responseThreshold)
-            : base(maxSize, responseThreshold)
-        {
-        }
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="maxSize"></param>
-        /// <param name="responseThreshold"></param>
-        /// <param name="lineThresholdProjected"></param>
-#else
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="maxSize"></param>
-        /// <param name="responseThreshold"></param>
-        /// <param name="lineThresholdProjected"></param>
-#endif
-        public StarDetector(int maxSize, int responseThreshold, int lineThresholdProjected)
-            : base(maxSize, responseThreshold, lineThresholdProjected)
-        {
-        }
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="maxSize"></param>
-        /// <param name="responseThreshold"></param>
-        /// <param name="lineThresholdProjected"></param>
-        /// <param name="lineThresholdBinarized"></param>
-#else
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="maxSize"></param>
-        /// <param name="responseThreshold"></param>
-        /// <param name="lineThresholdProjected"></param>
-        /// <param name="lineThresholdBinarized"></param>
-#endif
-        public StarDetector(int maxSize, int responseThreshold, int lineThresholdProjected, int lineThresholdBinarized)
-            : base(maxSize, responseThreshold, lineThresholdProjected, lineThresholdBinarized)
-        {
-        }
+        private bool disposed;
+
+        #region Init & Disposal
 #if LANG_JP
         /// <summary>
         /// 初期化
@@ -128,9 +45,51 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="lineThresholdBinarized"></param>
         /// <param name="suppressNonmaxSize"></param>
 #endif
-        public StarDetector(int maxSize, int responseThreshold, int lineThresholdProjected, int lineThresholdBinarized, int suppressNonmaxSize)
-            : base(maxSize, responseThreshold, lineThresholdProjected, lineThresholdBinarized, suppressNonmaxSize)
+        public StarDetector(int maxSize = 45, int responseThreshold = 30, int lineThresholdProjected = 10, 
+            int lineThresholdBinarized = 8, int suppressNonmaxSize = 5)
         {
+            ptr = CppInvoke.features2d_StarDetector_new(
+                maxSize, responseThreshold, lineThresholdProjected, lineThresholdBinarized, suppressNonmaxSize);
+        }
+
+#if LANG_JP
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
+    /// <param name="disposing">
+    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+    ///</param>
+#else
+        /// <summary>
+        /// Releases the resources
+        /// </summary>
+        /// <param name="disposing">
+        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
+        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
+        /// </param>
+#endif
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                try
+                {
+                    // releases managed resources
+                    if (disposing)
+                    {
+                    }
+                    // releases unmanaged resources
+                    if (ptr != IntPtr.Zero)
+                        CppInvoke.features2d_StarDetector_delete(ptr);
+                    ptr = IntPtr.Zero;
+                    disposed = true;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
+            }
         }
         #endregion
 
@@ -148,49 +107,31 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="image">The input 8-bit grayscale image</param>
         /// <returns></returns>
 #endif
-        public KeyPoint[] GetKeyPoints(Mat image)
+        public KeyPoint[] Run(Mat image)
         {
             if (image == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException("image");
+            image.ThrowIfDisposed();
 
-            using (CvMemStorage storage = new CvMemStorage(0))
+            IntPtr keypoints;
+            CppInvoke.features2d_StarDetector_detect(ptr, image.CvPtr, out keypoints);
+
+            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint(keypoints))
             {
-                IntPtr ptr = CvInvoke.cvGetStarKeypoints(image.ToCvMat().CvPtr, storage.CvPtr, _p);
-                if (ptr == IntPtr.Zero)
-                {
-                    return new KeyPoint[0];
-                }
-                CvSeq<CvStarKeypoint> keypoints = new CvSeq<CvStarKeypoint>(ptr);
-                KeyPoint[] result = new KeyPoint[keypoints.Total];
-                for (int i = 0; i < keypoints.Total; i++)
-                {
-                    CvStarKeypoint kpt = keypoints[i].Value;
-                    result[i] = new KeyPoint(kpt.Pt, (float)kpt.Size, -1.0f, kpt.Response, 0);
-                }
-                return result;
+                return keypointsVec.ToArray();
             }
         }
-        #endregion
 
-        #region ICloneable Members
-#if LANG_JP
         /// <summary>
-        /// 現在のインスタンスのコピーである新しいオブジェクトを作成します。    
+        /// 
         /// </summary>
-        /// <returns>このインスタンスのコピーである新しいオブジェクト。</returns>
-#else
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>A new object that is a copy of this instance.</returns>
-#endif
-        public new StarDetector Clone()
+        public AlgorithmInfo Info
         {
-            return (StarDetector)MemberwiseClone();
-        }
-        object ICloneable.Clone()
-        {
-            return Clone();
+            get
+            {
+                IntPtr pInfo = CppInvoke.features2d_StarDetector_info(ptr);
+                return new AlgorithmInfo(pInfo);
+            }
         }
         #endregion
     }

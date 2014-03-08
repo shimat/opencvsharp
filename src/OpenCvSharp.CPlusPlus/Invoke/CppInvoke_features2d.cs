@@ -38,6 +38,16 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr features2d_MSER_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_StarDetector_new(int maxSize, int responseThreshold,
+            int lineThresholdProjected, int lineThresholdBinarized, int suppressNonmaxSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_StarDetector_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_StarDetector_detect(IntPtr obj, IntPtr image, out IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_StarDetector_info(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_FAST(IntPtr image, IntPtr keypoints, int threshold, int nonmaxSupression);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_FASTX(IntPtr image, IntPtr keypoints, int threshold, int nonmaxSupression, int type);

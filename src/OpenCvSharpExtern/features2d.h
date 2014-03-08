@@ -69,6 +69,28 @@ CVAPI(cv::AlgorithmInfo*) features2d_MSER_info(cv::MSER *obj)
 }
 #pragma endregion
 
+#pragma region StarDetector
+CVAPI(cv::StarDetector*) features2d_StarDetector_new(int maxSize, int responseThreshold,
+	int lineThresholdProjected,	int lineThresholdBinarized,	int suppressNonmaxSize)
+{
+	return new cv::StarDetector(maxSize, responseThreshold, lineThresholdProjected, lineThresholdBinarized, suppressNonmaxSize);
+}
+CVAPI(void) features2d_StarDetector_delete(cv::StarDetector *obj)
+{
+	delete obj;
+}
+CVAPI(void) features2d_StarDetector_detect(cv::StarDetector *obj, cv::Mat *image,
+	std::vector<cv::KeyPoint> **keypoints)
+{
+	*keypoints = new std::vector<cv::KeyPoint>;
+	(*obj)(*image, **keypoints);
+}
+CVAPI(cv::AlgorithmInfo*) features2d_StarDetector_info(cv::StarDetector *obj)
+{
+	return obj->info();
+}
+#pragma endregion
+
 CVAPI(void) features2d_FAST(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression)
 {
 	cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0);

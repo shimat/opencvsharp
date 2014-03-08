@@ -26,6 +26,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="ptr"></param>
+        public StdVectorKeyPoint(IntPtr ptr)
+        {
+            this.ptr = ptr;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="size"></param>
         public StdVectorKeyPoint(int size)
         {
