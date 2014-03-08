@@ -39,7 +39,14 @@ CVAPI(void) nonfree_SIFT_run1(cv::SIFT *obj, cv::_InputArray *img, cv::_InputArr
 {
 	(*obj)(*img, entity(mask), *keypoints);
 }
-CVAPI(void) nonfree_SIFT_run2(cv::SIFT *obj, cv::_InputArray *img, cv::_InputArray *mask,
+/*
+CVAPI(void) nonfree_SIFT_run2_vector(cv::SIFT *obj, cv::_InputArray *img, cv::_InputArray *mask,
+	std::vector<cv::KeyPoint> *keypoints, std::vector<float > *descriptors,
+	int useProvidedKeypoints)
+{
+	(*obj)(*img, entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
+}*/
+CVAPI(void) nonfree_SIFT_run2_OutputArray(cv::SIFT *obj, cv::_InputArray *img, cv::_InputArray *mask,
 	std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors,
 	int useProvidedKeypoints)
 {
@@ -105,8 +112,14 @@ CVAPI(void) nonfree_SURF_run1(cv::SURF *obj, cv::_InputArray *img, cv::_InputArr
 {
 	(*obj)(*img, entity(mask), *keypoints);
 }
-CVAPI(void) nonfree_SURF_run2(cv::SURF *obj, cv::_InputArray *img, cv::_InputArray *mask,
-	std::vector<cv::KeyPoint> *keypoints, std::vector<float> *descriptors,
+CVAPI(void) nonfree_SURF_run2_vector(cv::SURF *obj, cv::_InputArray *img, cv::_InputArray *mask,
+	std::vector<cv::KeyPoint> *keypoints, std::vector<float > *descriptors,
+	int useProvidedKeypoints)
+{
+	(*obj)(*img, entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
+}
+CVAPI(void) nonfree_SURF_run2_OutputArray(cv::SURF *obj, cv::_InputArray *img, cv::_InputArray *mask,
+	std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors,
 	int useProvidedKeypoints)
 {
 	(*obj)(*img, entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);

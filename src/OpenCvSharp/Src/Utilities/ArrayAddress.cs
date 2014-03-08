@@ -130,6 +130,7 @@ namespace OpenCvSharp.Utilities
     /// <typeparam name="T"></typeparam>
 #endif
     public class ArrayAddress2<T> : DisposableObject
+        where T : struct 
     {
         private bool disposed;
         private T[][] array;

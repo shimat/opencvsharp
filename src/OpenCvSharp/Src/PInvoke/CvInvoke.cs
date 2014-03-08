@@ -139,7 +139,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public static readonly CvErrorCallback ErrorHandlerThrowException =
-            delegate(CvStatus status, string func_name, string err_msg, string file_name, int line, IntPtr userdata)
+            delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
             {
                 try
                 {
@@ -148,8 +148,8 @@ namespace OpenCvSharp
                 }
                 finally
                 {
-                    
-                    throw new OpenCVException(status, func_name, err_msg, file_name, line);
+
+                    throw new OpenCVException(status, funcName, errMsg, fileName, line);
                 }
             };
 #if LANG_JP
@@ -162,7 +162,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public static readonly CvErrorCallback ErrorHandlerIgnorance =
-            delegate(CvStatus status, string func_name, string err_msg, string file_name, int line, IntPtr userdata)
+            delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
             {
                 cvSetErrStatus(CvStatus.StsOk);
                 return 0;

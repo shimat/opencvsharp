@@ -414,31 +414,103 @@ CVAPI(void) vector_KeyPoint_delete(vector<cv::KeyPoint>* vector)
 }
 #pragma endregion
 
-#pragma region vector<cv::KeyPoint>
-CVAPI(vector<vector<cv::KeyPoint>>*) vector_vector_KeyPoint_new1()
+#pragma region cv::DMatch
+CVAPI(vector<cv::DMatch>*) vector_DMatch_new1()
 {
-	return new vector<vector<cv::KeyPoint>>;
+	return new vector<cv::DMatch>;
 }
-CVAPI(vector<vector<cv::KeyPoint>>*) vector_vector_KeyPoint_new2(size_t size)
+CVAPI(vector<cv::DMatch>*) vector_DMatch_new2(size_t size)
 {
-	return new vector<vector<cv::KeyPoint>>(size);
+	return new vector<cv::DMatch>(size);
 }
-CVAPI(size_t) vector_vector_KeyPoint_getSize1(vector<vector<cv::KeyPoint>>* vec)
+CVAPI(vector<cv::DMatch>*) vector_DMatch_new3(cv::DMatch *data, size_t dataLength)
+{
+	vector<cv::DMatch>* vec = new vector<cv::DMatch>(dataLength);
+	for (size_t i = 0; i<dataLength; i++)
+	{
+		vec->push_back(data[i]);
+	}
+	return vec;
+}
+CVAPI(size_t) vector_DMatch_getSize(vector<cv::DMatch>* vector)
+{
+	return vector->size();
+}
+CVAPI(cv::DMatch*) vector_DMatch_getPointer(vector<cv::DMatch>* vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_DMatch_delete(vector<cv::DMatch>* vector)
+{
+	delete vector;
+}
+#pragma endregion
+
+#pragma region vector<float>
+CVAPI(vector<vector<float> >*) vector_vector_float_new1()
+{
+	return new vector<vector<float> >;
+}
+CVAPI(vector<vector<float> >*) vector_vector_float_new2(size_t size)
+{
+	return new vector<vector<float> >(size);
+}
+CVAPI(size_t) vector_vector_float_getSize1(vector<vector<float> >* vec)
 {
 	return vec->size();
 }
-CVAPI(void) vector_vector_KeyPoint_getSize2(vector<vector<cv::KeyPoint>>* vec, size_t *sizes)
+CVAPI(void) vector_vector_float_getSize2(vector<vector<float> >* vec, size_t *sizes)
 {
 	for (size_t i = 0; i < vec->size(); i++)
 	{
 		sizes[i] = vec->at(i).size();
 	}
 }
-CVAPI(vector<cv::KeyPoint>*) vector_vector_KeyPoint_getPointer(vector<vector<cv::KeyPoint>>* vec)
+CVAPI(vector<float>*) vector_vector_float_getPointer(vector<vector<float> >* vec)
 {
 	return &(vec->at(0));
 }
-CVAPI(void) vector_vector_KeyPoint_copy(vector<vector<cv::KeyPoint>> *vec, cv::KeyPoint **dst)
+CVAPI(void) vector_vector_float_copy(vector<vector<float> > *vec, float **dst)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		vector<float> &elem = vec->at(i);
+		void *src = &elem[0];
+		int length = sizeof(float) * elem.size();
+		memcpy(dst[i], src, length);
+	}
+}
+CVAPI(void) vector_vector_float_delete(vector<vector<float> >* vec)
+{
+	delete vec;
+}
+#pragma endregion
+
+#pragma region vector<cv::KeyPoint>
+CVAPI(vector<vector<cv::KeyPoint> >*) vector_vector_KeyPoint_new1()
+{
+	return new vector<vector<cv::KeyPoint> >;
+}
+CVAPI(vector<vector<cv::KeyPoint> >*) vector_vector_KeyPoint_new2(size_t size)
+{
+	return new vector<vector<cv::KeyPoint> >(size);
+}
+CVAPI(size_t) vector_vector_KeyPoint_getSize1(vector<vector<cv::KeyPoint> >* vec)
+{
+	return vec->size();
+}
+CVAPI(void) vector_vector_KeyPoint_getSize2(vector<vector<cv::KeyPoint> >* vec, size_t *sizes)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		sizes[i] = vec->at(i).size();
+	}
+}
+CVAPI(vector<cv::KeyPoint>*) vector_vector_KeyPoint_getPointer(vector<vector<cv::KeyPoint> >* vec)
+{
+	return &(vec->at(0));
+}
+CVAPI(void) vector_vector_KeyPoint_copy(vector<vector<cv::KeyPoint> > *vec, cv::KeyPoint **dst)
 {
 	for (size_t i = 0; i < vec->size(); i++)
 	{
@@ -448,37 +520,77 @@ CVAPI(void) vector_vector_KeyPoint_copy(vector<vector<cv::KeyPoint>> *vec, cv::K
 		memcpy(dst[i], src, length);
 	}
 }
-CVAPI(void) vector_vector_KeyPoint_delete(vector<vector<cv::KeyPoint>>* vec)
+CVAPI(void) vector_vector_KeyPoint_delete(vector<vector<cv::KeyPoint> >* vec)
 {
 	delete vec;
 }
 #pragma endregion
 
-#pragma region vector<cv::Point>
-CVAPI(vector<vector<cv::Point>>*) vector_vector_Point_new1()
+#pragma region vector<cv::DMatch>
+CVAPI(vector<vector<cv::DMatch> >*) vector_vector_DMatch_new1()
 {
-	return new vector<vector<cv::Point>>;
+	return new vector<vector<cv::DMatch> >;
 }
-CVAPI(vector<vector<cv::Point>>*) vector_vector_Point_new2(size_t size)
+CVAPI(vector<vector<cv::DMatch> >*) vector_vector_DMatch_new2(size_t size)
 {
-	return new vector<vector<cv::Point>>(size);
+	return new vector<vector<cv::DMatch> >(size);
 }
-CVAPI(size_t) vector_vector_Point_getSize1(vector<vector<cv::Point>>* vec)
+CVAPI(size_t) vector_vector_DMatch_getSize1(vector<vector<cv::DMatch> >* vec)
 {
 	return vec->size();
 }
-CVAPI(void) vector_vector_Point_getSize2(vector<vector<cv::Point>>* vec, size_t *sizes)
+CVAPI(void) vector_vector_DMatch_getSize2(vector<vector<cv::DMatch> >* vec, size_t *sizes)
 {
 	for (size_t i = 0; i < vec->size(); i++)
 	{
 		sizes[i] = vec->at(i).size();
 	}
 }
-CVAPI(vector<cv::Point>*) vector_vector_Point_getPointer(vector<vector<cv::Point>>* vec)
+CVAPI(vector<cv::DMatch>*) vector_vector_DMatch_getPointer(vector<vector<cv::DMatch> >* vec)
 {
 	return &(vec->at(0));
 }
-CVAPI(void) vector_vector_Point_copy(vector<vector<cv::Point>> *vec, cv::Point **dst)
+CVAPI(void) vector_vector_DMatch_copy(vector<vector<cv::DMatch> > *vec, cv::DMatch **dst)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		vector<cv::DMatch> &elem = vec->at(i);
+		void *src = &elem[0];
+		int length = sizeof(cv::DMatch) * elem.size();
+		memcpy(dst[i], src, length);
+	}
+}
+CVAPI(void) vector_vector_DMatch_delete(vector<vector<cv::DMatch> >* vec)
+{
+	delete vec;
+}
+#pragma endregion
+
+#pragma region vector<cv::Point>
+CVAPI(vector<vector<cv::Point> >*) vector_vector_Point_new1()
+{
+	return new vector<vector<cv::Point> >;
+}
+CVAPI(vector<vector<cv::Point> >*) vector_vector_Point_new2(size_t size)
+{
+	return new vector<vector<cv::Point> >(size);
+}
+CVAPI(size_t) vector_vector_Point_getSize1(vector<vector<cv::Point> >* vec)
+{
+	return vec->size();
+}
+CVAPI(void) vector_vector_Point_getSize2(vector<vector<cv::Point> >* vec, size_t *sizes)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		sizes[i] = vec->at(i).size();
+	}
+}
+CVAPI(vector<cv::Point>*) vector_vector_Point_getPointer(vector<vector<cv::Point> >* vec)
+{
+	return &(vec->at(0));
+}
+CVAPI(void) vector_vector_Point_copy(vector<vector<cv::Point> > *vec, cv::Point **dst)
 {
 	for (size_t i = 0; i < vec->size(); i++)
 	{
@@ -488,37 +600,37 @@ CVAPI(void) vector_vector_Point_copy(vector<vector<cv::Point>> *vec, cv::Point *
 		memcpy(dst[i], src, length);
 	}
 }
-CVAPI(void) vector_vector_Point_delete(vector<vector<cv::Point>>* vec)
+CVAPI(void) vector_vector_Point_delete(vector<vector<cv::Point> >* vec)
 {
 	delete vec;
 }
 #pragma endregion
 
 #pragma region vector<cv::Point2f>
-CVAPI(vector<vector<cv::Point2f>>*) vector_vector_Point2f_new1()
+CVAPI(vector<vector<cv::Point2f> >*) vector_vector_Point2f_new1()
 {
-	return new vector<vector<cv::Point2f>>;
+	return new vector<vector<cv::Point2f> >;
 }
-CVAPI(vector<vector<cv::Point2f>>*) vector_vector_Point2f_new2(size_t size)
+CVAPI(vector<vector<cv::Point2f> >*) vector_vector_Point2f_new2(size_t size)
 {
-	return new vector<vector<cv::Point2f>>(size);
+	return new vector<vector<cv::Point2f> >(size);
 }
-CVAPI(size_t) vector_vector_Point2f_getSize1(vector<vector<cv::Point2f>>* vec)
+CVAPI(size_t) vector_vector_Point2f_getSize1(vector<vector<cv::Point2f> >* vec)
 {
 	return vec->size();
 }
-CVAPI(void) vector_vector_Point2f_getSize2(vector<vector<cv::Point2f>>* vec, size_t *sizes)
+CVAPI(void) vector_vector_Point2f_getSize2(vector<vector<cv::Point2f> >* vec, size_t *sizes)
 {
 	for (size_t i = 0; i < vec->size(); i++)
 	{
 		sizes[i] = vec->at(i).size();
 	}
 }
-CVAPI(vector<cv::Point2f>*) vector_vector_Point2f_getPointer(vector<vector<cv::Point2f>>* vec)
+CVAPI(vector<cv::Point2f>*) vector_vector_Point2f_getPointer(vector<vector<cv::Point2f> >* vec)
 {
 	return &(vec->at(0));
 }
-CVAPI(void) vector_vector_Point2f_copy(vector<vector<cv::Point2f>> *vec, cv::Point2f **dst)
+CVAPI(void) vector_vector_Point2f_copy(vector<vector<cv::Point2f> > *vec, cv::Point2f **dst)
 {
 	for (size_t i = 0; i < vec->size(); i++)
 	{
@@ -528,7 +640,7 @@ CVAPI(void) vector_vector_Point2f_copy(vector<vector<cv::Point2f>> *vec, cv::Poi
 		memcpy(dst[i], src, length);
 	}
 }
-CVAPI(void) vector_vector_Point2f_delete(vector<vector<cv::Point2f>>* vec)
+CVAPI(void) vector_vector_Point2f_delete(vector<vector<cv::Point2f> >* vec)
 {
 	delete vec;
 }
