@@ -248,6 +248,7 @@
     <ClCompile Include="cvlabel.cpp" />
     <ClCompile Include="cvtrack.cpp" />
     <ClCompile Include="nonfree.cpp" />
+    <ClCompile Include="photo.cpp" />
     <ClCompile Include="std_vector.cpp" />
     <ClCompile Include="contrib.cpp" />
     <ClCompile Include="features2d.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="cvblob.h" />
     <ClInclude Include="CvBlobWrapper.h" />
     <ClInclude Include="nonfree.h" />
+    <ClInclude Include="photo.h" />
     <ClInclude Include="std_vector.h" />
     <ClInclude Include="contrib.h" />
     <ClInclude Include="features2d.h" />
