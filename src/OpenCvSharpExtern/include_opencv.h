@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/legacy/legacy.hpp>
+#include <opencv2/nonfree/nonfree.hpp>
 typedef unsigned int uint32;
 typedef unsigned short uint16;
 
@@ -12,11 +13,8 @@ typedef unsigned short uint16;
 #include <fstream>
 #include <iostream>
 
-#if 1
-
 #ifdef _WIN32
 #include <Windows.h>
-#include <sstream>
 static int p(const char* msg)
 {
 	return MessageBoxA(NULL, msg, "MessageBox", MB_OK);
@@ -24,6 +22,7 @@ static int p(const char* msg)
 #undef min
 #undef max
 #endif
+#include <sstream>
 template <typename T>
 static int p(T obj)
 {
@@ -31,7 +30,6 @@ static int p(T obj)
 	ss << obj;
 	return p(ss.str().c_str());
 }
-#endif
 
 static inline cv::_InputArray entity(cv::_InputArray *obj)
 {
