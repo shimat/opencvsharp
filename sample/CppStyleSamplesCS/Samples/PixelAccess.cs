@@ -70,7 +70,12 @@ namespace CppStyleSamplesCS
         {
             using (Mat mat = new Mat(ImagePath.Lenna, LoadMode.Color))
             {
-                Mat3b mat3 = new Mat3b(mat);
+                MatOfByte3 mat3 = new MatOfByte3(mat);
+                Vec3b[] arr1 = mat3.ToArray();
+                arr1.ToString();
+                byte[] arr2 = mat3.ToPrimitiveArray();
+                arr2.ToString();
+
                 var indexer = mat3.GetIndexer();
                 for (int y = 0; y < mat.Height; y++)
                 {

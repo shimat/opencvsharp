@@ -439,21 +439,33 @@ CVAPI(void) imgproc_matchTemplate(cv::_InputArray *image, cv::_InputArray *templ
 {
 	cv::matchTemplate(*image, *templ, *result, method);
 }
-CVAPI(void) imgproc_findContours1(cv::_OutputArray *image, std::vector<std::vector<cv::Point> > **contours,
-	std::vector<cv::Vec4i> **hierarchy, int mode,
-	int method, CvPoint offset)
+CVAPI(void) imgproc_findContours1_vector(cv::_OutputArray *image, std::vector<std::vector<cv::Point> > **contours,
+	std::vector<cv::Vec4i> **hierarchy, int mode, int method, CvPoint offset)
 {
 	*contours = new std::vector<std::vector<cv::Point> >;
 	*hierarchy = new std::vector<cv::Vec4i>;
 	cv::findContours(*image, **contours, **hierarchy, mode, method, offset);
 }
-CVAPI(void) imgproc_findContours2(cv::_OutputArray *image, std::vector<std::vector<cv::Point> > **contours,
+CVAPI(void) imgproc_findContours1_OutputArray(cv::_OutputArray *image, std::vector<cv::Mat> **contours,
+	cv::_OutputArray *hierarchy, int mode, int method, CvPoint offset)
+{
+	*contours = new std::vector<cv::Mat>;
+	cv::findContours(*image, **contours, *hierarchy, mode, method, offset);
+}
+CVAPI(void) imgproc_findContours2_vector(cv::_OutputArray *image, std::vector<std::vector<cv::Point> > **contours,
 	int mode, int method, CvPoint offset)
 {
 	*contours = new std::vector<std::vector<cv::Point> >;
 	cv::findContours(*image, **contours, mode, method, offset);
 }
-CVAPI(void) imgproc_drawContours(cv::_OutputArray *image,
+CVAPI(void) imgproc_findContours2_OutputArray(cv::_OutputArray *image, std::vector<cv::Mat> **contours,
+	int mode, int method, CvPoint offset)
+{
+	*contours = new std::vector<cv::Mat>;
+	cv::findContours(*image, **contours, mode, method, offset);
+}
+
+CVAPI(void) imgproc_drawContours_vector(cv::_OutputArray *image,
 	cv::Point **contours, int contoursSize1, int *contoursSize2,
 	int contourIdx, CvScalar color, int thickness, int lineType,
 	cv::Vec4i *hierarchy, int hiearchyLength, int maxLevel, CvPoint offset)
@@ -471,6 +483,16 @@ CVAPI(void) imgproc_drawContours(cv::_OutputArray *image,
 	}
 
 	cv::drawContours(*image, contoursVec, contourIdx, color, thickness, lineType, hiearchyVec, maxLevel, offset);
+}
+CVAPI(void) imgproc_drawContours_InputArray(cv::_OutputArray *image,
+	cv::Mat **contours, int contoursLength,
+	int contourIdx, CvScalar color, int thickness, int lineType,
+	cv::_InputArray *hierarchy, int maxLevel, CvPoint offset)
+{
+	std::vector<std::vector<cv::Point> > contoursVec(contoursLength);
+	for (int i = 0; i < contoursLength; i++)
+		contoursVec[i] = *contours[i];
+	cv::drawContours(*image, contoursVec, contourIdx, color, thickness, lineType, entity(hierarchy), maxLevel, offset);
 }
 
 CVAPI(void) imgproc_approxPolyDP_InputArray(cv::_InputArray *curve, cv::_OutputArray *approxCurve, double epsilon, int closed)

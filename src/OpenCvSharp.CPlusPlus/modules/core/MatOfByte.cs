@@ -1,28 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// 
+    /// A matrix whose element is 8UC1 (cv::Mat_&lt;uchar&gt;)
     /// </summary>
-    public class Mat1b : Mat
+    public class MatOfByte : Mat, ITypeSpecificMat<byte>
     {
+        private const int ThisDepth = MatType.CV_8U;
+        private const int ThisChannels = 1;
+
         /// <summary>
-        /// 
+        /// Initializes by cv::Mat* pointer
         /// </summary>
         /// <param name="ptr"></param>
-        public Mat1b(IntPtr ptr)
+        public MatOfByte(IntPtr ptr)
             : base(ptr)
         {
         }
 
         /// <summary>
-        /// 
+        /// Initializes by Mat object
         /// </summary>
         /// <param name="mat"></param>
-        public Mat1b(Mat mat)
+        public MatOfByte(Mat mat)
             : base(mat.CvPtr)
+        {
+        }
+        /// <summary>
+        /// Initializes and copys array data to this
+        /// </summary>
+        /// <param name="arr"></param>
+        public MatOfByte(params byte[] arr)
+            : base()
+        {
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+            int numElems = arr.Length / ThisChannels;
+            Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
+            SetArray(0, 0, arr);
+        }
+        /// <summary>
+        /// Initializes and copys array data to this
+        /// </summary>
+        /// <param name="enumerable"></param>
+        public MatOfByte(IEnumerable<byte> enumerable)
+            : this(EnumerableEx.ToArray(enumerable))
         {
         }
 
@@ -126,5 +153,38 @@ namespace OpenCvSharp.CPlusPlus
             return new Indexer(this);
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arr"></param>
+        public static MatOfByte FromArray(params byte[] arr)
+        {
+            return new MatOfByte(arr);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enumerable"></param>
+        public static MatOfByte FromArray(IEnumerable<byte> enumerable)
+        {
+            return new MatOfByte(enumerable);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public byte[] ToArray()
+        {
+            int num = CheckVector(ThisChannels, ThisDepth);
+            if (num < 0)
+                throw new OpenCvSharpException("Native Mat has unexpected type or size: " + ToString());
+            if (num == 0)
+                return new byte[0];
+            byte[] arr = new byte[num * ThisChannels];
+            GetArray(0, 0, arr);
+            return arr;
+        }
     }
 }

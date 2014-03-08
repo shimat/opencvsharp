@@ -211,7 +211,7 @@ CVAPI(void) core_reduce(cv::_InputArray *src, cv::_OutputArray *dst, int dim, in
 CVAPI(void) core_merge(cv::Mat **mv, uint32 count, cv::Mat *dst)
 {
 	std::vector<cv::Mat> vec((size_t)count);
-	for (int i = 0; i < count; i++)	
+	for (uint32 i = 0; i < count; i++)
 		vec[i] = *mv[i];
 	
 	cv::merge(vec, *dst);
@@ -225,9 +225,9 @@ CVAPI(void) core_mixChannels(cv::Mat **src, uint32 nsrcs, cv::Mat **dst, uint32 
 {
 	std::vector<cv::Mat> srcVec((size_t)nsrcs);
 	std::vector<cv::Mat> dstVec((size_t)ndsts);
-	for (int i = 0; i < nsrcs; i++)	
+	for (uint32 i = 0; i < nsrcs; i++)
 		srcVec[i] = *(src[i]);
-	for (int i = 0; i < ndsts; i++)	
+	for (uint32 i = 0; i < ndsts; i++)
 		dstVec[i] = *(dst[i]);
 
 	cv::mixChannels(srcVec, dstVec, fromTo, npairs);
@@ -257,7 +257,7 @@ CVAPI(cv::Mat*) core_repeat2(cv::Mat *src, int ny, int nx)
 CVAPI(void) core_hconcat1(cv::Mat **src, uint32 nsrc, cv::_OutputArray *dst)
 {
 	std::vector<cv::Mat> srcVec((size_t)nsrc);
-	for (int i = 0; i < nsrc; i++)	
+	for (uint32 i = 0; i < nsrc; i++)
 		srcVec[i] = *(src[i]);
 	cv::hconcat(&srcVec[0], nsrc, *dst);
 }
@@ -268,7 +268,7 @@ CVAPI(void) core_hconcat2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_Out
 CVAPI(void) core_vconcat1(cv::Mat **src, uint32 nsrc, cv::_OutputArray *dst)
 {
 	std::vector<cv::Mat> srcVec((size_t)nsrc);
-	for (int i = 0; i < nsrc; i++)	
+	for (uint32 i = 0; i < nsrc; i++)
 		srcVec[i] = *(src[i]);
 	cv::vconcat(&srcVec[0], nsrc, *dst);
 }
@@ -430,7 +430,7 @@ CVAPI(void) core_perspectiveTransform(cv::_InputArray *src, cv::_OutputArray *ds
 
 CVAPI(void) core_completeSymm(cv::_OutputArray *mtx, int lowerToUpper)
 {
-	cv::completeSymm(*mtx, lowerToUpper);
+	cv::completeSymm(*mtx, lowerToUpper != 0);
 }
 CVAPI(void) core_setIdentity(cv::_OutputArray *mtx, CvScalar s)
 {

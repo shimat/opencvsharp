@@ -740,6 +740,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #endregion
         #region Comparison
+#pragma warning disable 1591
         public static MatExpr operator <(Mat a, Mat b)
         {
             throw new NotImplementedException();
@@ -818,6 +819,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             throw new NotImplementedException();
         }
+#pragma warning restore 1591
         #endregion
         #region And
         /// <summary>
@@ -1140,12 +1142,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                if (col == null)
-                    col = new ColIndexer(this);
-                return col;
+                if (colIndexer == null)
+                    colIndexer = new ColIndexer(this);
+                return colIndexer;
             }
         }
-        private ColIndexer col = null;
+        private ColIndexer colIndexer = null;
         #endregion
         #region Row
 
@@ -1220,12 +1222,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                if (row == null)
-                    row = new RowIndexer(this);
-                return row;
+                if (rowIndexer == null)
+                    rowIndexer = new RowIndexer(this);
+                return rowIndexer;
             }
         }
-        private RowIndexer row = null;
+        private RowIndexer rowIndexer = null;
 
         #endregion
         #endregion
@@ -2806,6 +2808,339 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+        #region GetArray
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, params byte[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_8U && t.Depth != MatType.CV_8S)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nGetB(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, short[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_16U && t.Depth != MatType.CV_16S)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nGetS(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, int[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_32S)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nGetI(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, float[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_32F)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nGetF(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, double[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_64F)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nGetD(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public double[] GetArray(int row, int col)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+
+            double[] ret = new double[Channels()];
+            CppInvoke.core_Mat_nGetD(ptr, row, col, ret, ret.Length);
+            return ret;
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Vec3b[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t != MatType.CV_8UC3)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nGetVec3b(ptr, row, col, data, data.Length);
+        }
+
+        #endregion
+        #region SetArray
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params byte[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_8U && t.Depth != MatType.CV_8S)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nSetB(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params short[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_16U && t.Depth != MatType.CV_16S)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params int[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_32S)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nSetI(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params float[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t.Depth != MatType.CV_32F)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nSetF(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params double[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            CppInvoke.core_Mat_nSetD(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params Vec3b[] data)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || data.Length % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+            if (t != MatType.CV_8UC3)
+                throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            CppInvoke.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
+        }
+        #endregion
+        
 
         #region ToBitmap
 

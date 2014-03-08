@@ -2130,7 +2130,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr, hierarchyPtr;
-            CppInvoke.imgproc_findContours(image.CvPtr, out contoursPtr, out hierarchyPtr, (int)mode, (int)method, offset0);
+            CppInvoke.imgproc_findContours1_vector(image.CvPtr, out contoursPtr, out hierarchyPtr, (int)mode, (int)method, offset0);
 
             using (StdVectorVectorPoint contoursVec = new StdVectorVectorPoint(contoursPtr))
             using (StdVectorVec4i hierarchyVec = new StdVectorVec4i(hierarchyPtr))
@@ -2141,6 +2141,60 @@ namespace OpenCvSharp.CPlusPlus
             }
             image.Fix();
         }
+#if LANG_JP
+        /// <summary>
+        /// 2値画像中の輪郭を検出します．
+        /// </summary>
+        /// <param name="image">入力画像，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
+        /// また，この関数は，輪郭抽出処理中に入力画像 image の中身を書き換えます．</param>
+        /// <param name="contours">検出された輪郭．各輪郭は，点のベクトルとして格納されます．</param>
+        /// <param name="hierarchy">画像のトポロジーに関する情報を含む出力ベクトル．これは，輪郭数と同じ数の要素を持ちます．各輪郭 contours[i] に対して，
+        /// 要素 hierarchy[i]のメンバにはそれぞれ，同じ階層レベルに存在する前後の輪郭，最初の子輪郭，および親輪郭の 
+        /// contours インデックス（0 基準）がセットされます．また，輪郭 i において，前後，親，子の輪郭が存在しない場合，
+        /// それに対応する hierarchy[i] の要素は，負の値になります．</param>
+        /// <param name="mode">輪郭抽出モード</param>
+        /// <param name="method">輪郭の近似手法</param>
+        /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
+#else
+        /// <summary>
+        /// Finds contours in a binary image.
+        /// </summary>
+        /// <param name="image">Source, an 8-bit single-channel image. Non-zero pixels are treated as 1’s. 
+        /// Zero pixels remain 0’s, so the image is treated as binary.
+        /// The function modifies the image while extracting the contours.</param> 
+        /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
+        /// <param name="hierarchy">Optional output vector, containing information about the image topology. 
+        /// It has as many elements as the number of contours. For each i-th contour contours[i], 
+        /// the members of the elements hierarchy[i] are set to 0-based indices in contours of the next 
+        /// and previous contours at the same hierarchical level, the first child contour and the parent contour, respectively. 
+        /// If for the contour i there are no next, previous, parent, or nested contours, the corresponding elements of hierarchy[i] will be negative.</param>
+        /// <param name="mode">Contour retrieval mode</param>
+        /// <param name="method">Contour approximation method</param>
+        /// <param name="offset"> Optional offset by which every contour point is shifted. 
+        /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
+#endif
+        public static void FindContours(InputOutputArray image, out Mat[] contours,
+            OutputArray hierarchy, ContourRetrieval mode, ContourChain method, Point? offset = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (hierarchy == null)
+                throw new ArgumentNullException("hierarchy");
+            image.ThrowIfNotReady();
+            hierarchy.ThrowIfNotReady();
+
+            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            IntPtr contoursPtr;
+            CppInvoke.imgproc_findContours1_OutputArray(image.CvPtr, out contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
+
+            using (StdVectorMat contoursVec = new StdVectorMat(contoursPtr))
+            {
+                contours = contoursVec.ToArray();
+            }
+            image.Fix();
+            hierarchy.Fix();
+        }
+
 #if LANG_JP
         /// <summary>
         /// 2値画像中の輪郭を検出します．
@@ -2173,9 +2227,50 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
-            CppInvoke.imgproc_findContours(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
+            CppInvoke.imgproc_findContours2_vector(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
 
             using (StdVectorVectorPoint contoursVec = new StdVectorVectorPoint(contoursPtr))
+            {
+                contours = contoursVec.ToArray();
+            }
+
+            image.Fix();
+        }
+#if LANG_JP
+        /// <summary>
+        /// 2値画像中の輪郭を検出します．
+        /// </summary>
+        /// <param name="image">入力画像，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
+        /// また，この関数は，輪郭抽出処理中に入力画像 image の中身を書き換えます．</param>
+        /// <param name="contours">検出された輪郭．各輪郭は，点のベクトルとして格納されます．</param>
+        /// <param name="mode">輪郭抽出モード</param>
+        /// <param name="method">輪郭の近似手法</param>
+        /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
+#else
+        /// <summary>
+        /// Finds contours in a binary image.
+        /// </summary>
+        /// <param name="image">Source, an 8-bit single-channel image. Non-zero pixels are treated as 1’s. 
+        /// Zero pixels remain 0’s, so the image is treated as binary.
+        /// The function modifies the image while extracting the contours.</param> 
+        /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
+        /// <param name="mode">Contour retrieval mode</param>
+        /// <param name="method">Contour approximation method</param>
+        /// <param name="offset"> Optional offset by which every contour point is shifted. 
+        /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
+#endif
+        public static void FindContours(InputOutputArray image, out Mat[] contours,
+            ContourRetrieval mode, ContourChain method, Point? offset = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            image.ThrowIfNotReady();
+
+            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            IntPtr contoursPtr;
+            CppInvoke.imgproc_findContours2_OutputArray(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
+
+            using (StdVectorMat contoursVec = new StdVectorMat(contoursPtr))
             {
                 contours = contoursVec.ToArray();
             }
@@ -2245,7 +2340,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (hierarchy == null)
                 {
-                    CppInvoke.imgproc_drawContours(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                    CppInvoke.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int)lineType, IntPtr.Zero, 0, maxLevel, offset0);
                 }
                 else
@@ -2254,14 +2349,73 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         return hi.ToVec4i();
                     });
-                    CppInvoke.imgproc_drawContours(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                    CppInvoke.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int)lineType, hiearchyVecs, hiearchyVecs.Length, maxLevel, offset0);
                 }
             }
 
             image.Fix();
         }
+#if LANG_JP
+        /// <summary>
+        /// 輪郭線，または内側が塗りつぶされた輪郭を描きます．
+        /// </summary>
+        /// <param name="image">出力画像</param>
+        /// <param name="contours"> 入力される全輪郭．各輪郭は，点のベクトルとして格納されています．</param>
+        /// <param name="contourIdx">描かれる輪郭を示します．これが負値の場合，すべての輪郭が描画されます．</param>
+        /// <param name="color">輪郭の色．</param>
+        /// <param name="thickness">輪郭線の太さ．これが負値の場合（例えば thickness=CV_FILLED ），輪郭の内側が塗りつぶされます．</param>
+        /// <param name="lineType">線の連結性</param>
+        /// <param name="hierarchy">階層に関するオプションの情報．これは，特定の輪郭だけを描画したい場合にのみ必要になります．</param>
+        /// <param name="maxLevel">描画される輪郭の最大レベル．0ならば，指定された輪郭のみが描画されます．
+        /// 1ならば，指定された輪郭と，それに入れ子になったすべての輪郭が描画されます．2ならば，指定された輪郭と，
+        /// それに入れ子になったすべての輪郭，さらにそれに入れ子になったすべての輪郭が描画されます．このパラメータは， 
+        /// hierarchy が有効な場合のみ考慮されます．</param>
+        /// <param name="offset">輪郭をシフトするオプションパラメータ．指定された offset = (dx,dy) だけ，すべての描画輪郭がシフトされます．</param>
+#else
+        /// <summary>
+        /// draws contours in the image
+        /// </summary>
+        /// <param name="image">Destination image.</param>
+        /// <param name="contours">All the input contours. Each contour is stored as a point vector.</param>
+        /// <param name="contourIdx">Parameter indicating a contour to draw. If it is negative, all the contours are drawn.</param>
+        /// <param name="color">Color of the contours.</param>
+        /// <param name="thickness">Thickness of lines the contours are drawn with. If it is negative (for example, thickness=CV_FILLED ), 
+        /// the contour interiors are drawn.</param>
+        /// <param name="lineType">Line connectivity. </param>
+        /// <param name="hierarchy">Optional information about hierarchy. It is only needed if you want to draw only some of the contours</param>
+        /// <param name="maxLevel">Maximal level for drawn contours. If it is 0, only the specified contour is drawn. 
+        /// If it is 1, the function draws the contour(s) and all the nested contours. If it is 2, the function draws the contours, 
+        /// all the nested contours, all the nested-to-nested contours, and so on. This parameter is only taken into account 
+        /// when there is hierarchy available.</param>
+        /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
+#endif
+        public static void DrawContours(
+            InputOutputArray image,
+            IEnumerable<Mat> contours,
+            int contourIdx,
+            Scalar color,
+            int thickness = 1,
+            LineType lineType = LineType.Link8,
+            Mat hierarchy = null,
+            int maxLevel = Int32.MaxValue,
+            Point? offset = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (contours == null)
+                throw new ArgumentNullException("contours");
+            image.ThrowIfNotReady();
 
+            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            IntPtr[] contoursPtr = EnumerableEx.SelectToArray(contours, delegate(Mat m)
+            {
+                return m.CvPtr;
+            });
+            CppInvoke.imgproc_drawContours_InputArray(image.CvPtr, contoursPtr, contoursPtr.Length,
+                        contourIdx, color, thickness, (int)lineType, ToPtr(hierarchy), maxLevel, offset0);
+            image.Fix();
+        }
         #endregion
         #region ApproxPolyDP
 

@@ -55,7 +55,7 @@ Imports OpenCvSharp.CPlusPlus
         ''' Extracts MSER by C++-style code (cv::MSER)
         ''' </summary>
         ''' <param name="imgGray"></param>
-        ''' <param name="imgRender"></param>
+    ''' <param name="imgDst"></param>
         Private Sub CppStyleMSER(ByVal imgGray As IplImage, ByVal imgDst As IplImage)
             Dim mser As New MSER()
             Dim contours()() As CvPoint = mser.Extract(New Mat(imgGray, False), Nothing) ' operator()

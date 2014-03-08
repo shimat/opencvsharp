@@ -149,6 +149,7 @@
     <Compile Include="Invoke\CppInvoke_core_SVD.cs" />
     <Compile Include="Invoke\CppInvoke_core_PCA.cs" />
     <Compile Include="Invoke\CppInvoke_core_AlgorithmInfo.cs" />
+    <Compile Include="modules\core\ITypeSpecificMat.cs" />
     <Compile Include="modules\core\RNG.cs" />
     <Compile Include="modules\core\SVD.cs" />
     <Compile Include="modules\core\PCA.cs" />
@@ -199,7 +200,7 @@
     <Compile Include="Struct\Size2f.cs" />
     <Compile Include="Struct\TermCriteria.cs" />
     <Compile Include="Struct\Veci.cs" />
-    <Compile Include="modules\core\Mat1b.cs" />
+    <Compile Include="modules\core\MatOfByte.cs" />
     <Compile Include="modules\features2d\SURF.cs" />
     <Compile Include="modules\features2d\StarDetector.cs" />
     <Compile Include="modules\features2d\MSER.cs" />
@@ -236,7 +237,7 @@
     <Compile Include="Struct\Vecs.cs" />
     <Compile Include="Struct\Vecw.cs" />
     <Compile Include="Struct\Vecd.cs" />
-    <Compile Include="modules\core\Mat3b.cs" />
+    <Compile Include="modules\core\MatOfByte3.cs" />
     <Compile Include="modules\core\MatExprRowColIndexer.cs" />
     <Compile Include="modules\core\InputArray.cs" />
     <Compile Include="modules\core\OutputArray.cs" />

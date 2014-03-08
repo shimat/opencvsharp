@@ -259,8 +259,46 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorNot_Mat(IntPtr a);
 
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_abs_Mat(IntPtr e);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nSetB(IntPtr obj, int row, int col, 
+            [In, MarshalAs(UnmanagedType.LPArray)] byte[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nSetS(IntPtr obj, int row, int col, 
+            [In, MarshalAs(UnmanagedType.LPArray)] short[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nSetI(IntPtr obj, int row, int col, 
+            [In, MarshalAs(UnmanagedType.LPArray)] int[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nSetF(IntPtr obj, int row, int col, 
+            [In, MarshalAs(UnmanagedType.LPArray)] float[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nSetD(IntPtr obj, int row, int col, 
+            [In, MarshalAs(UnmanagedType.LPArray)] double[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nSetVec3b(IntPtr obj, int row, int col,
+            [In, MarshalAs(UnmanagedType.LPArray)] Vec3b[] vals, int valsLength);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nGetB(IntPtr obj, int row, int col, 
+            [In, Out, MarshalAs(UnmanagedType.LPArray)] byte[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nGetS(IntPtr obj, int row, int col, 
+            [In, Out, MarshalAs(UnmanagedType.LPArray)] short[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nGetI(IntPtr obj, int row, int col, 
+            [In, Out, MarshalAs(UnmanagedType.LPArray)] int[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nGetF(IntPtr obj, int row, int col, 
+            [In, Out, MarshalAs(UnmanagedType.LPArray)] float[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nGetD(IntPtr obj, int row, int col, 
+            [In, Out, MarshalAs(UnmanagedType.LPArray)] double[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nGetVec3b(IntPtr obj, int row, int col,
+            [In, Out, MarshalAs(UnmanagedType.LPArray)] Vec3b[] vals, int valsLength);
     }
 }

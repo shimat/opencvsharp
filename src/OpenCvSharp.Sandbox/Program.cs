@@ -31,7 +31,7 @@ namespace OpenCvSharp.Sandbox
                 Stopwatch watch = new Stopwatch();
 
                 Mat mat = new Mat(@"img\lenna.png", LoadMode.Color);
-                Mat3b mat3 = new Mat3b(mat);
+                MatOfByte3 mat3 = new MatOfByte3(mat);
                 //mat[new Rect(100, 100, 200, 200)] = 3;
                 //Console.WriteLine(mat.Dump());
                 //mat.Row(100).SetTo(Scalar.All(10));

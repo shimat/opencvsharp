@@ -17,9 +17,9 @@ namespace CppStyleSamplesCS
                 //new FlannSample(); // Todo: crash
                 //new HOGSample();
                 //new HoughLinesSample();
-                new MSERSample();
+                //new MSERSample();
                 //new MDS();
-                //new PixelAccess();
+                new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
                 //new MorphologySample();
