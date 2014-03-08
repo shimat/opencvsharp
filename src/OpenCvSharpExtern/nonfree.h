@@ -15,7 +15,7 @@ CVAPI(int) nonfree_initModule_nonfree()
 
 #pragma region SIFT
 
-CVAPI(cv::SIFT*) nonfree_SURF_new(int nfeatures, int nOctaveLayers,
+CVAPI(cv::SIFT*) nonfree_SIFT_new(int nfeatures, int nOctaveLayers,
 	double contrastThreshold, double edgeThreshold,	double sigma)
 {
 	return new cv::SIFT(nfeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
@@ -37,13 +37,13 @@ CVAPI(int) nonfree_SIFT_descriptorType(cv::SIFT *obj)
 CVAPI(void) nonfree_SIFT_run1(cv::SIFT *obj, cv::_InputArray *img, cv::_InputArray *mask,
 	std::vector<cv::KeyPoint> *keypoints)
 {
-	(*obj)(*img, *mask, *keypoints);
+	(*obj)(*img, entity(mask), *keypoints);
 }
 CVAPI(void) nonfree_SIFT_run2(cv::SIFT *obj, cv::_InputArray *img, cv::_InputArray *mask,
-	std::vector<cv::KeyPoint> *keypoints, std::vector<float> *descriptors,
+	std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors,
 	int useProvidedKeypoints)
 {
-	(*obj)(*img, *mask, *keypoints, *descriptors, useProvidedKeypoints != 0);
+	(*obj)(*img, entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
 }
 CVAPI(cv::AlgorithmInfo*) nonfree_SIFT_info(cv::SIFT *obj)
 {
@@ -103,13 +103,13 @@ CVAPI(int) nonfree_SURF_descriptorType(cv::SURF *obj)
 CVAPI(void) nonfree_SURF_run1(cv::SURF *obj, cv::_InputArray *img, cv::_InputArray *mask,
 	std::vector<cv::KeyPoint> *keypoints)
 {
-	(*obj)(*img, *mask, *keypoints);
+	(*obj)(*img, entity(mask), *keypoints);
 }
 CVAPI(void) nonfree_SURF_run2(cv::SURF *obj, cv::_InputArray *img, cv::_InputArray *mask,
 	std::vector<cv::KeyPoint> *keypoints, std::vector<float> *descriptors,
 	int useProvidedKeypoints)
 {
-	(*obj)(*img, *mask, *keypoints, *descriptors, useProvidedKeypoints != 0);
+	(*obj)(*img, entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
 }
 CVAPI(cv::AlgorithmInfo*) nonfree_SURF_info(cv::SURF *obj)
 {

@@ -148,7 +148,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mask"></param>
         /// <returns></returns>
 #endif
-        public KeyPoint[] Run(Mat img, Mat mask)
+        public KeyPoint[] Run(InputArray img, InputArray mask)
         {
             ThrowIfDisposed();
             if (img == null)
@@ -157,7 +157,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
             {
-                CppInvoke.nonfree_SIFT_run(ptr, img.CvPtr, keypointsVec.CvPtr, Cv2.ToPtr(mask));
+                CppInvoke.nonfree_SIFT_run(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
                 return keypointsVec.ToArray();
             }
         }
@@ -181,23 +181,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="descriptors"></param>
         /// <param name="useProvidedKeypoints"></param>
 #endif
-        public void Run(Mat img, Mat mask, out KeyPoint[] keypoints, out float[] descriptors,
+        public void Run(InputArray img, InputArray mask, out KeyPoint[] keypoints, OutputArray descriptors,
             bool useProvidedKeypoints = false)
         {
             ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException("img");
+            if (descriptors == null)
+                throw new ArgumentNullException("descriptors");
             img.ThrowIfDisposed();
+            descriptors.ThrowIfNotReady();
 
             using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
-            using (StdVectorFloat descriptorsVec = new StdVectorFloat())
+            //using (StdVectorFloat descriptorsVec = new StdVectorFloat())
             {
                 CppInvoke.nonfree_SIFT_run(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
-                    descriptorsVec.CvPtr, useProvidedKeypoints ? 1 : 0);
+                    descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
 
                 keypoints = keypointsVec.ToArray();
-                descriptors = descriptorsVec.ToArray();
+                //descriptors = descriptorsVec.ToArray();
             }
+            descriptors.Fix();
         }
 
         /// <summary>

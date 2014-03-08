@@ -260,7 +260,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mask"></param>
         /// <returns></returns>
 #endif
-        public KeyPoint[] Run(Mat img, Mat mask)
+        public KeyPoint[] Run(InputArray img, Mat mask)
         {
             ThrowIfDisposed();
             if (img == null)
@@ -269,7 +269,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
             {
-                CppInvoke.nonfree_SURF_run(ptr, img.CvPtr, keypointsVec.CvPtr, Cv2.ToPtr(mask));
+                CppInvoke.nonfree_SURF_run(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
                 return keypointsVec.ToArray();
             }
         }
@@ -293,7 +293,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="descriptors"></param>
         /// <param name="useProvidedKeypoints"></param>
 #endif
-        public void Run(Mat img, Mat mask, out KeyPoint[] keypoints, out float[] descriptors,
+        public void Run(InputArray img, InputArray mask, out KeyPoint[] keypoints, out float[] descriptors,
             bool useProvidedKeypoints = false)
         {
             ThrowIfDisposed();

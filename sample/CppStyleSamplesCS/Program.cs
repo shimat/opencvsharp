@@ -10,6 +10,7 @@ namespace CppStyleSamplesCS
         static void Main(string[] args)
         {
             ISample sample =
+                new SiftSurfSample();
                 //new HistSample();
                 //new Subdiv2DSample();
                 //new MatToIplImage();
@@ -19,7 +20,7 @@ namespace CppStyleSamplesCS
                 //new HoughLinesSample();
                 //new MSERSample();
                 //new MDS();
-                new PixelAccess();
+                //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
                 //new MorphologySample();
