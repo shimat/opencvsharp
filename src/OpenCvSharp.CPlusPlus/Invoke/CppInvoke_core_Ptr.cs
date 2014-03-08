@@ -26,5 +26,10 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_Ptr_FeatureDetector_obj(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Ptr_FeatureDetector_delete(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Ptr_Feature2D_obj(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Ptr_Feature2D_delete(IntPtr ptr);
     }
 }

@@ -27,6 +27,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr features2d_FeatureDetector_create([MarshalAs(UnmanagedType.LPStr)] string detectorType);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_Feature2D_compute(IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr descriptors);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_Feature2D_create([MarshalAs(UnmanagedType.LPStr)] string detectorType);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_MSER_new(int delta, int minArea, int maxArea,
                                                         double maxVariation, double minDiversity, int maxEvolution,
                                                         double areaThreshold, double minMargin, int edgeBlurSize);

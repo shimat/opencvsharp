@@ -129,6 +129,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
+                ThrowIfDisposed();
                 IntPtr pInfo = CppInvoke.features2d_StarDetector_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }

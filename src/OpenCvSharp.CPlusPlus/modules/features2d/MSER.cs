@@ -125,6 +125,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Point[][] Run(Mat image, Mat mask)
         {
+            ThrowIfDisposed();
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
@@ -146,6 +147,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
+                ThrowIfDisposed();
                 IntPtr pInfo = CppInvoke.features2d_MSER_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }

@@ -46,6 +46,20 @@ CVAPI(cv::Ptr<cv::FeatureDetector>*) features2d_FeatureDetector_create(const cha
 
 #pragma endregion
 
+#pragma region Feature2D
+CVAPI(void) features2d_Feature2D_compute(cv::Feature2D *obj,
+	cv::Mat *image, std::vector<cv::KeyPoint> *keypoints, cv::Mat *descriptors)
+{
+	obj->compute(*image, *keypoints, *descriptors);
+}
+
+CVAPI(cv::Ptr<cv::Feature2D>*) features2d_Feature2D_create(const char *name)
+{
+	cv::Ptr<cv::Feature2D> ret = cv::Feature2D::create(name);
+	return new cv::Ptr<cv::Feature2D>(ret);
+}
+#pragma endregion
+
 #pragma region MSER
 CVAPI(cv::MSER*) features2d_MSER_new(int delta, int min_area, int max_area,
           double max_variation, double min_diversity, int max_evolution, 

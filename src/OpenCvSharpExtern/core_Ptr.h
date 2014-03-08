@@ -12,8 +12,16 @@ CVAPI(cv::FeatureDetector*) core_Ptr_FeatureDetector_obj(cv::Ptr<cv::FeatureDete
 {
 	return ptr->obj;
 }
-
 CVAPI(void) core_Ptr_FeatureDetector_delete(cv::Ptr<cv::FeatureDetector>* ptr)
+{
+	delete ptr;
+}
+
+CVAPI(cv::Feature2D*) core_Ptr_Feature2D_obj(cv::Ptr<cv::Feature2D>* ptr)
+{
+	return ptr->obj;
+}
+CVAPI(void) core_Ptr_Feature2D_delete(cv::Ptr<cv::Feature2D>* ptr)
 {
 	delete ptr;
 }

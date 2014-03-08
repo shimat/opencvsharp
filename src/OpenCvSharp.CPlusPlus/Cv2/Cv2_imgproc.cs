@@ -100,14 +100,19 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region GaussianBlur
         /// <summary>
-        /// 
+        /// Blurs an image using a Gaussian filter.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ksize"></param>
-        /// <param name="sigmaX"></param>
-        /// <param name="sigmaY"></param>
-        /// <param name="borderType"></param>
+        /// <param name="src">input image; the image can have any number of channels, which are processed independently, 
+        /// but the depth should be CV_8U, CV_16U, CV_16S, CV_32F or CV_64F.</param>
+        /// <param name="dst">output image of the same size and type as src.</param>
+        /// <param name="ksize">Gaussian kernel size. ksize.width and ksize.height can differ but they both must be positive and odd. 
+        /// Or, they can be zero’s and then they are computed from sigma* .</param>
+        /// <param name="sigmaX">Gaussian kernel standard deviation in X direction.</param>
+        /// <param name="sigmaY">Gaussian kernel standard deviation in Y direction; if sigmaY is zero, it is set to be equal to sigmaX, 
+        /// if both sigmas are zeros, they are computed from ksize.width and ksize.height, 
+        /// respectively (see getGaussianKernel() for details); to fully control the result 
+        /// regardless of possible future modifications of all this semantics, it is recommended to specify all of ksize, sigmaX, and sigmaY.</param>
+        /// <param name="borderType">pixel extrapolation method</param>
         public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, 
             double sigmaY = 0, BorderType borderType = BorderType.Default)
         {

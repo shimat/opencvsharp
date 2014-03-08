@@ -11,7 +11,10 @@ namespace OpenCvSharp.CPlusPlus
     public class FeatureDetector : Algorithm
     {
         private bool disposed;
-        private IntPtr detectorPtr;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected IntPtr detectorPtr;
 
         /// <summary>
         /// 

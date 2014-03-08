@@ -84,6 +84,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public KeyPoint[] Run(Mat image, Mat mask)
         {
+            ThrowIfDisposed();
             return base.Detect(image, mask);
         }
 
@@ -94,6 +95,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
+                ThrowIfDisposed();
                 IntPtr pInfo = CppInvoke.features2d_GFTTDetector_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }

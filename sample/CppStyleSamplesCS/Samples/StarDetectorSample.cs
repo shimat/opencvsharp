@@ -35,7 +35,7 @@ namespace CppStyleSamplesCS
             Mat src = new Mat(img, false);
             Mat dst = new Mat(cimg, false);
             StarDetector detector = new StarDetector(45);
-            KeyPoint[] keypoints = detector.GetKeyPoints(src);
+            KeyPoint[] keypoints = detector.Run(src);
 
             if (keypoints != null)
             {

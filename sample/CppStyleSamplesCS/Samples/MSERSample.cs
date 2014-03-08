@@ -35,7 +35,7 @@ namespace CppStyleSamplesCS
         private void CppStyleMSER(Mat gray, Mat dst)
         {
             MSER mser = new MSER();
-            Point[][] contours = mser.Extract(gray, null);     // operator()
+            Point[][] contours = mser.Run(gray, null);     // operator()
             foreach (Point[] pts in contours)
             {
                 CvColor color = CvColor.Random();

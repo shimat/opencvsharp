@@ -158,8 +158,12 @@
     <Compile Include="modules\core\PCA.cs" />
     <Compile Include="modules\core\InputOutputArray.cs" />
     <Compile Include="modules\core\AlgorithmInfo.cs" />
+    <Compile Include="modules\features2d\Feature2D.cs" />
+    <Compile Include="modules\features2d\GFTTDetector.cs" />
+    <Compile Include="modules\features2d\FastFeatureDetector.cs" />
     <Compile Include="modules\imgproc\HierarchyIndex.cs" />
     <Compile Include="modules\imgproc\Moments.cs" />
+    <Compile Include="modules\nonfree\SIFT.cs" />
     <Compile Include="Struct\Point3i.cs" />
     <Compile Include="Struct\Rangef.cs" />
     <Compile Include="Struct\Point2d.cs" />
@@ -204,7 +208,7 @@
     <Compile Include="Struct\TermCriteria.cs" />
     <Compile Include="Struct\Veci.cs" />
     <Compile Include="modules\core\MatOfByte.cs" />
-    <Compile Include="modules\features2d\SURF.cs" />
+    <Compile Include="modules\nonfree\SURF.cs" />
     <Compile Include="modules\features2d\StarDetector.cs" />
     <Compile Include="modules\features2d\MSER.cs" />
     <Compile Include="Struct\KeyPoint.cs" />
