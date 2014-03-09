@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="ImagePath.cs" />
     <Compile Include="Samples\HistSample.cs" />
+    <Compile Include="Samples\MatToBitmap.cs" />
     <Compile Include="Samples\SiftSurfSample.cs" />
     <Compile Include="Samples\Subdiv2DSample.cs" />
     <Compile Include="Samples\MorphologySample.cs" />

@@ -7,13 +7,15 @@ namespace CppStyleSamplesCS
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             ISample sample =
-                new SiftSurfSample();
+                new MatToBitmap();
+                //new MatToIplImage();
+                //new SiftSurfSample();
                 //new HistSample();
                 //new Subdiv2DSample();
-                //new MatToIplImage();
                 //new FASTSample();
                 //new FlannSample(); // Todo: crash
                 //new HOGSample();
