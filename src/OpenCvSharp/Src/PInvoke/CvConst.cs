@@ -234,12 +234,15 @@ namespace OpenCvSharp
         public const int CV_CAP_ANDROID_COLOR_FRAME_RGBA = 4;
 
         // cv(Get/Set)WindowProperty
-        public const int CV_WND_PROP_FULLSCREEN = 0;
-        public const int CV_WND_PROP_AUTOSIZE = 1;
-        public const int CV_WINDOW_NORMAL = 0;
-        public const int CV_WINDOW_FULLSCREEN = 1;
-        public const int CV_WINDOW_FREERATIO = 4;
-        public const int CV_WINDOW_KEEPRATIO = 0;
+        public const int CV_WND_PROP_FULLSCREEN = 0,
+            CV_WND_PROP_AUTOSIZE = 1,
+            CV_WND_PROP_ASPECTRATIO = 2,
+            CV_WND_PROP_OPENGL = 3,
+            CV_WINDOW_NORMAL = 0,
+            CV_WINDOW_FULLSCREEN = 1,
+            CV_WINDOW_FREERATIO = 4,
+            CV_WINDOW_KEEPRATIO = 0;
+           
 
         // cvCheckArr
         public const int CV_CHECK_RANGE = 1;

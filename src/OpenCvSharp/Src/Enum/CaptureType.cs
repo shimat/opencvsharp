@@ -41,6 +41,12 @@ namespace OpenCvSharp
         /// Captures from digital camera
         /// </summary>
 #endif
-        Camera
+        Camera,
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        NotSpecified
     }
 }

@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
@@ -323,16 +322,15 @@ namespace OpenCvSharp
         /// Retrieves the specified property of camera or video file. 
         /// </summary>
         /// <param name="capture">video capturing structure. </param>
-        /// <param name="propertyID">property identifier.</param>
+        /// <param name="propertyId">property identifier.</param>
         /// <returns>property value</returns>
 #endif
-        public static double GetCaptureProperty(CvCapture capture, int propertyID)
+        public static double GetCaptureProperty(CvCapture capture, int propertyId)
         {
             if (capture == null)
-            {
                 throw new ArgumentNullException("capture");
-            }
-            return CvInvoke.cvGetCaptureProperty(capture.CvPtr, propertyID);
+            
+            return CvInvoke.cvGetCaptureProperty(capture.CvPtr, propertyId);
         }
 #if LANG_JP
         /// <summary>
@@ -668,8 +666,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvGetFileNode(fs.CvPtr, mapPtr, keyPtr, createMissing);
             if (result != IntPtr.Zero)
                 return new CvFileNode(result);
-            else
-                return null;
+            return null;
         }
         #endregion
         #region GetFileNodeName
@@ -751,8 +748,7 @@ namespace OpenCvSharp
 
             if (vtx == IntPtr.Zero)
                 return null;
-            else
-                return new CvGraphVtx(vtx);
+            return new CvGraphVtx(vtx);
         }
         #endregion
         #region GetHashedKey
@@ -960,15 +956,13 @@ namespace OpenCvSharp
         public static IplImage GetImage(CvArr arr, out IplImage imageHeader)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
+            
             imageHeader = new IplImage(false);
             IntPtr ptr = CvInvoke.cvGetImage(arr.CvPtr, imageHeader.CvPtr);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new IplImage(ptr, false);
+            return new IplImage(ptr, false);
         }
         #endregion
         #region GetImageCOI
@@ -989,9 +983,8 @@ namespace OpenCvSharp
         public static int GetImageCOI(IplImage image)
         {
             if (image == null)
-            {
                 throw new ArgumentNullException("image");
-            }
+            
             return CvInvoke.cvGetImageCOI(image.CvPtr);
         }
         #endregion
@@ -1739,8 +1732,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvGetRootFileNode(fs.CvPtr, streamIndex);
             if (result != IntPtr.Zero)
                 return new CvFileNode(result);
-            else
-                return null;
+            return null;
         }
         #endregion
         #region GetRotationMatrix2D
@@ -1921,8 +1913,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvGetSeqElem(seq.CvPtr, index);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return Util.ToObject<T>(result);
+            return Util.ToObject<T>(result);
         }
 #if LANG_JP
         /// <summary>
@@ -1993,8 +1984,7 @@ namespace OpenCvSharp
             IntPtr result = GetSetElemInternal(setHeader, index);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvSetElem(result);
+            return new CvSetElem(result);
         }
         internal static IntPtr GetSetElemInternal(CvSet setHeader, int index)
         {
@@ -2106,8 +2096,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvGetStarKeypoints(img.CvPtr, storage.CvPtr, @params.Struct);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvSeq<CvStarKeypoint>(result);
+            return new CvSeq<CvStarKeypoint>(result);
         }
         #endregion
         #region GetSubRect
@@ -2341,16 +2330,16 @@ namespace OpenCvSharp
         /// Get Property of the window
         /// </summary>
         /// <param name="name">Window name</param>
-        /// <param name="propID">Property identifier</param>
+        /// <param name="propId">Property identifier</param>
         /// <returns>Value of the specified property</returns>
 #endif
-        public static double GetWindowProperty(string name, WindowProperty propID)
+        public static WindowPropertyValue GetWindowProperty(string name, WindowProperty propId)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("name");
             }
-            return CvInvoke.cvGetWindowProperty(name, propID);
+            return (WindowPropertyValue)(int)CvInvoke.cvGetWindowProperty(name, propId);
         }
         #endregion
         #region GoodFeaturesToTrack
