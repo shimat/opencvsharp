@@ -636,7 +636,7 @@ CVAPI(cv::MatExpr*) core_abs_Mat(cv::Mat *m)
 	return new cv::MatExpr(ret);
 }
 
-#pragma region nPut/nGet
+#pragma region nSet/nGet
 
 template<typename T> 
 static int internal_Mat_set(cv::Mat *m, int row, int col, char *buff, int count)
@@ -778,12 +778,22 @@ CVAPI(int) core_Mat_nSetVec3b(cv::Mat *obj, int row, int col, cv::Vec3b *vals, i
 {
 	return internal_Mat_set<cv::Vec3b>(obj, row, col, (char*)vals, valsLength);
 }
-
+CVAPI(int) core_Mat_nSetVec4f(cv::Mat *obj, int row, int col, cv::Vec4f *vals, int valsLength)
+{
+	return internal_Mat_set<cv::Vec4f>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nSetVec6f(cv::Mat *obj, int row, int col, cv::Vec6f *vals, int valsLength)
+{
+	return internal_Mat_set<cv::Vec6f>(obj, row, col, (char*)vals, valsLength);
+}
 CVAPI(int) core_Mat_nSetPoint(cv::Mat *obj, int row, int col, cv::Point *vals, int valsLength)
 {
 	return internal_Mat_set<cv::Point>(obj, row, col, (char*)vals, valsLength);
 }
-
+CVAPI(int) core_Mat_nSetDMatch(cv::Mat *obj, int row, int col, cv::DMatch *vals, int valsLength)
+{
+	return internal_Mat_set<cv::DMatch>(obj, row, col, (char*)vals, valsLength);
+}
 
 CVAPI(int) core_Mat_nGetB(cv::Mat *obj, int row, int col, uchar *vals, int valsLength)
 {
@@ -809,10 +819,21 @@ CVAPI(int) core_Mat_nGetVec3b(cv::Mat *obj, int row, int col, cv::Vec3b *vals, i
 {
 	return internal_Mat_get<cv::Vec3b>(obj, row, col, (char*)vals, valsLength);
 }
-
+CVAPI(int) core_Mat_nGetVec4f(cv::Mat *obj, int row, int col, cv::Vec4f *vals, int valsLength)
+{
+	return internal_Mat_get<cv::Vec4f>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nGetVec6f(cv::Mat *obj, int row, int col, cv::Vec6f *vals, int valsLength)
+{
+	return internal_Mat_get<cv::Vec6f>(obj, row, col, (char*)vals, valsLength);
+}
 CVAPI(int) core_Mat_nGetPoint(cv::Mat *obj, int row, int col, cv::Point *vals, int valsLength)
 {
 	return internal_Mat_get<cv::Point>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nGetDMatch(cv::Mat *obj, int row, int col, cv::DMatch *vals, int valsLength)
+{
+	return internal_Mat_get<cv::DMatch>(obj, row, col, (char*)vals, valsLength);
 }
 
 #pragma endregion

@@ -155,6 +155,11 @@
     <Compile Include="Invoke\CppInvoke_features2d_DescriptorMatcher.cs" />
     <Compile Include="Invoke\CppInvoke_photo.cs" />
     <Compile Include="modules\core\ITypeSpecificMat.cs" />
+    <Compile Include="modules\core\MatOfFloat4.cs" />
+    <Compile Include="modules\core\MatOfDMatch.cs" />
+    <Compile Include="modules\core\MatOfUShort.cs" />
+    <Compile Include="modules\core\MatOfShort.cs" />
+    <Compile Include="modules\core\MatOfInt.cs" />
     <Compile Include="modules\core\MatOfFloat.cs" />
     <Compile Include="modules\core\MatOfPoint.cs" />
     <Compile Include="modules\core\RNG.cs" />
@@ -167,6 +172,7 @@
     <Compile Include="modules\features2d\DescriptorMatcher.cs" />
     <Compile Include="modules\features2d\GFTTDetector.cs" />
     <Compile Include="modules\features2d\FastFeatureDetector.cs" />
+    <Compile Include="modules\features2d\BRISK.cs" />
     <Compile Include="modules\highgui\VideoWriter.cs" />
     <Compile Include="modules\highgui\VideoCapture.cs" />
     <Compile Include="modules\imgproc\HierarchyIndex.cs" />
