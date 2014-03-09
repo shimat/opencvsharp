@@ -270,6 +270,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int core_Mat_nSetS(IntPtr obj, int row, int col, 
             [In, MarshalAs(UnmanagedType.LPArray)] short[] vals, int valsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nSetS(IntPtr obj, int row, int col,
+            [In, MarshalAs(UnmanagedType.LPArray)] ushort[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_nSetI(IntPtr obj, int row, int col, 
             [In, MarshalAs(UnmanagedType.LPArray)] int[] vals, int valsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -292,6 +295,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_nGetS(IntPtr obj, int row, int col, 
             [In, Out, MarshalAs(UnmanagedType.LPArray)] short[] vals, int valsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_Mat_nGetS(IntPtr obj, int row, int col,
+            [In, Out, MarshalAs(UnmanagedType.LPArray)] ushort[] vals, int valsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_nGetI(IntPtr obj, int row, int col, 
             [In, Out, MarshalAs(UnmanagedType.LPArray)] int[] vals, int valsLength);

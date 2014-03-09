@@ -130,9 +130,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
 
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             IntPtr msers;
-            CppInvoke.features2d_MSER_detect(ptr, image.CvPtr, out msers, maskPtr);
+            CppInvoke.features2d_MSER_detect(ptr, image.CvPtr, out msers, Cv2.ToPtr(mask));
 
             using (StdVectorVectorPoint msersVec = new StdVectorVectorPoint(msers))
             {

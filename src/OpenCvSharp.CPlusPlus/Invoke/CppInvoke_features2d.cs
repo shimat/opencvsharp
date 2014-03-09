@@ -17,6 +17,7 @@ namespace OpenCvSharp.CPlusPlus
 
     internal static partial class CppInvoke
     {
+        // FeatureDetector
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "features2d_FeatureDetector_detect1")]
         public static extern void features2d_FeatureDetector_detect(IntPtr detector, IntPtr image, IntPtr keypoints, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "features2d_FeatureDetector_detect2")]
@@ -25,12 +26,29 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int features2d_FeatureDetector_empty(IntPtr detector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_FeatureDetector_create([MarshalAs(UnmanagedType.LPStr)] string detectorType);
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Feature2D_compute(IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr descriptors);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Feature2D_create([MarshalAs(UnmanagedType.LPStr)] string detectorType);
 
+        // BRISK
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_BRISK_new(int thresh, int octaves, float patternScale);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_BRISK_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_BRISK_descriptorSize(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_BRISK_descriptorType(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_BRISK_run1(IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_BRISK_run2(IntPtr obj, IntPtr image, IntPtr mask,
+            IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_BRISK_info(IntPtr obj);
+
+        // MSER
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_MSER_new(int delta, int minArea, int maxArea,
                                                         double maxVariation, double minDiversity, int maxEvolution,
@@ -42,6 +60,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_MSER_info(IntPtr obj);
 
+        // StarDetector
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_StarDetector_new(int maxSize, int responseThreshold,
             int lineThresholdProjected, int lineThresholdBinarized, int suppressNonmaxSize);
@@ -52,6 +71,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_StarDetector_info(IntPtr obj);
 
+        // FAST
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_FAST(IntPtr image, IntPtr keypoints, int threshold, int nonmaxSupression);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -64,6 +84,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_FastFeatureDetector_info(IntPtr obj);
 
+        // GFTTDetector
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_GFTTDetector_new(int maxCorners, double qualityLevel, 
             double minDistance, int blockSize, int useHarrisDetector, double k);
@@ -71,6 +92,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void features2d_GFTTDetector_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_GFTTDetector_info(IntPtr obj);
+
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_drawKeypoints(IntPtr image, KeyPoint[] keypoints, int keypointsLength,

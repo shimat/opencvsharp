@@ -32,14 +32,14 @@ namespace CppStyleSamplesCS
                     Console.CursorLeft = 0;
                     Console.Write("{0} / {1}", capture.PosFrames, capture.FrameCount);
 
-                    // grayscale -> cabby -> resize
+                    // grayscale -> canny -> resize
                     Mat gray = new Mat();
                     Mat canny = new Mat();
                     Mat dst = new Mat();
                     Cv2.CvtColor(frame, gray, ColorConversion.BgrToGray);
                     Cv2.Canny(gray, canny, 100, 180);
                     Cv2.Resize(canny, dst, dsize, 0, 0, Interpolation.Linear);
-                    // Write to VideoWriter
+                    // Write mat to VideoWriter
                     writer.Write(dst);
                 } 
                 Console.WriteLine();
