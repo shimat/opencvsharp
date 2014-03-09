@@ -85,7 +85,6 @@ CVAPI(void) features2d_BRISK_run1(cv::BRISK *obj, cv::_InputArray *image, cv::_I
 {
 	(*obj)(*image, entity(mask), *keypoints);
 }
-
 CVAPI(void) features2d_BRISK_run2(cv::BRISK *obj, cv::_InputArray *image, cv::_InputArray *mask, 
 	std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors, int useProvidedKeypoints)
 {
@@ -109,6 +108,45 @@ CVAPI(cv::AlgorithmInfo*) features2d_BRISK_info(cv::BRISK *obj)
 		std::vector<int> &numberList, float dMax = 5.85f, float dMin = 8.2f,
 		std::vector<int> indexChange = std::vector<int>());
 */
+#pragma endregion
+
+#pragma region ORB
+
+CVAPI(cv::ORB*) features2d_ORB_new(int nFeatures, float scaleFactor, int nlevels, int edgeThreshold,
+	int firstLevel, int wtaK, int scoreType, int patchSize)
+{
+	return new cv::ORB(nFeatures, scaleFactor, nlevels, edgeThreshold,
+		firstLevel, wtaK, scoreType, patchSize);
+}
+CVAPI(void) features2d_ORB_delete(cv::ORB *obj)
+{
+	delete obj;
+}
+
+CVAPI(int) features2d_ORB_descriptorSize(cv::ORB *obj)
+{
+	return obj->descriptorSize();
+}
+CVAPI(int) features2d_ORB_descriptorType(cv::ORB *obj)
+{
+	return obj->descriptorType();
+}
+
+CVAPI(void) features2d_ORB_run1(cv::ORB *obj, cv::_InputArray *image, cv::_InputArray *mask,
+	std::vector<cv::KeyPoint> *keypoints)
+{
+	(*obj)(*image, entity(mask), *keypoints);
+}
+CVAPI(void) features2d_ORB_run2(cv::ORB *obj, cv::_InputArray *image, cv::_InputArray *mask,
+	std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors, int useProvidedKeypoints)
+{
+	(*obj)(*image, entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
+}
+
+CVAPI(cv::AlgorithmInfo*) features2d_ORB_info(cv::ORB *obj)
+{
+	return obj->info();
+}
 #pragma endregion
 
 #pragma region MSER

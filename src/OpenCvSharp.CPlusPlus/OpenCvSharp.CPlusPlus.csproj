@@ -144,6 +144,7 @@
     <Compile Include="Enum\DctFlag2.cs" />
     <Compile Include="Enum\DftFlag2.cs" />
     <Compile Include="Enum\DrawMatchesFlags.cs" />
+    <Compile Include="Enum\ORBScore.cs" />
     <Compile Include="Enum\ProjectionType.cs" />
     <Compile Include="Enum\GrabCutFlag.cs" />
     <Compile Include="Enum\DistanceMaskSize.cs" />
@@ -155,13 +156,15 @@
     <Compile Include="Invoke\CppInvoke_features2d_DescriptorMatcher.cs" />
     <Compile Include="Invoke\CppInvoke_photo.cs" />
     <Compile Include="modules\core\ITypeSpecificMat.cs" />
-    <Compile Include="modules\core\MatOfFloat4.cs" />
-    <Compile Include="modules\core\MatOfDMatch.cs" />
-    <Compile Include="modules\core\MatOfUShort.cs" />
-    <Compile Include="modules\core\MatOfShort.cs" />
-    <Compile Include="modules\core\MatOfInt.cs" />
-    <Compile Include="modules\core\MatOfFloat.cs" />
-    <Compile Include="modules\core\MatOfPoint.cs" />
+    <Compile Include="modules\core\Mat\MatOfDouble.cs" />
+    <Compile Include="modules\core\Mat\MatOfFloat6.cs" />
+    <Compile Include="modules\core\Mat\MatOfFloat4.cs" />
+    <Compile Include="modules\core\Mat\MatOfDMatch.cs" />
+    <Compile Include="modules\core\Mat\MatOfUShort.cs" />
+    <Compile Include="modules\core\Mat\MatOfShort.cs" />
+    <Compile Include="modules\core\Mat\MatOfInt.cs" />
+    <Compile Include="modules\core\Mat\MatOfFloat.cs" />
+    <Compile Include="modules\core\Mat\MatOfPoint.cs" />
     <Compile Include="modules\core\RNG.cs" />
     <Compile Include="modules\core\SVD.cs" />
     <Compile Include="modules\core\PCA.cs" />
@@ -225,7 +228,7 @@
     <Compile Include="Struct\Size2f.cs" />
     <Compile Include="Struct\TermCriteria.cs" />
     <Compile Include="Struct\Veci.cs" />
-    <Compile Include="modules\core\MatOfByte.cs" />
+    <Compile Include="modules\core\Mat\MatOfByte.cs" />
     <Compile Include="modules\nonfree\SURF.cs" />
     <Compile Include="modules\features2d\StarDetector.cs" />
     <Compile Include="modules\features2d\MSER.cs" />
@@ -249,7 +252,7 @@
     <Compile Include="Struct\Vecb.cs" />
     <Compile Include="CppConst.cs" />
     <Compile Include="Cv2\Cv2_highgui.cs" />
-    <Compile Include="modules\core\Mat.cs" />
+    <Compile Include="modules\core\Mat\Mat.cs" />
     <Compile Include="modules\core\MatExpr.cs" />
     <Compile Include="Struct\Point.cs" />
     <Compile Include="Struct\Range.cs" />
@@ -262,7 +265,7 @@
     <Compile Include="Struct\Vecs.cs" />
     <Compile Include="Struct\Vecw.cs" />
     <Compile Include="Struct\Vecd.cs" />
-    <Compile Include="modules\core\MatOfByte3.cs" />
+    <Compile Include="modules\core\Mat\MatOfByte3.cs" />
     <Compile Include="modules\core\MatExprRowColIndexer.cs" />
     <Compile Include="modules\core\InputArray.cs" />
     <Compile Include="modules\core\OutputArray.cs" />

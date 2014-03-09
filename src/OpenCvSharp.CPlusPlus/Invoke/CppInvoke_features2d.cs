@@ -48,6 +48,24 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_BRISK_info(IntPtr obj);
 
+        // ORB
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_ORB_new(int nFeatures, float scaleFactor, int nlevels, int edgeThreshold,
+            int firstLevel, int wtaK, int scoreType, int patchSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_ORB_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_ORB_descriptorSize(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_ORB_descriptorType(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_ORB_run1(IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_ORB_run2(IntPtr obj, IntPtr image, IntPtr mask,
+            IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_ORB_info(IntPtr obj);
+
         // MSER
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_MSER_new(int delta, int minArea, int maxArea,

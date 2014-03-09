@@ -104,5 +104,12 @@ namespace OpenCvSharp.CPlusPlus
             DrawMatchesFlags_DRAW_OVER_OUTIMG = 1,
             DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS = 2,
             DrawMatchesFlags_DRAW_RICH_KEYPOINTS = 4;
+
+        /// <summary>
+        /// cv::ORB
+        /// </summary>
+        public const int 
+            ORB_HARRIS_SCORE = 0,
+            ORB_FAST_SCORE = 1;
     }
 }
