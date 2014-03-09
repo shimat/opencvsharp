@@ -14,7 +14,7 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            Mat src = Cv2.ImRead(ImagePath.Lenna, LoadMode.GrayScale);
+            Mat src = Cv2.ImRead(FilePath.Lenna, LoadMode.GrayScale);
 
             // Histogram view
             const int Width = 260, Height = 200;

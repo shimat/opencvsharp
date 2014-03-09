@@ -10,7 +10,7 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            using (IplImage img = new IplImage(ImagePath.Lenna, LoadMode.GrayScale))
+            using (IplImage img = new IplImage(FilePath.Lenna, LoadMode.GrayScale))
             using (IplImage cimg = new IplImage(img.Size, BitDepth.U8, 3))
             {
                 Cv.CvtColor(img, cimg, ColorConversion.GrayToBgr);

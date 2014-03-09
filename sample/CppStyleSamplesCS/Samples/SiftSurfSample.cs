@@ -11,8 +11,8 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            Mat src1 = new Mat(ImagePath.Match1, LoadMode.Color);
-            Mat src2 = new Mat(ImagePath.Match2, LoadMode.Color);
+            Mat src1 = new Mat(FilePath.Match1, LoadMode.Color);
+            Mat src2 = new Mat(FilePath.Match2, LoadMode.Color);
 
             MatchBySift(src1, src2);
             MatchBySurf(src1, src2);

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace CppStyleSamplesCS
 {
     /// <summary>
-    /// Swaps B for R 
+    /// 
     /// </summary>
     class MatToBitmap : ISample
     {
@@ -22,7 +22,7 @@ namespace CppStyleSamplesCS
 
         public void ToBitmap()
         {
-            Mat img = new Mat(ImagePath.Lenna511, LoadMode.Color); // width % 4 != 0
+            Mat img = new Mat(FilePath.Lenna511, LoadMode.Color); // width % 4 != 0
 
             Bitmap bitmap = BitmapConverter2.ToBitmap(img);
             // Bitmap bitmap = img.ToBitmap();
@@ -49,7 +49,7 @@ namespace CppStyleSamplesCS
 
         public void ToBitmapGrayScale()
         {
-            Mat img = new Mat(ImagePath.Lenna511, LoadMode.GrayScale); // width % 4 != 0
+            Mat img = new Mat(FilePath.Lenna511, LoadMode.GrayScale); // width % 4 != 0
 
             Bitmap bitmap = BitmapConverter2.ToBitmap(img);
             // Bitmap bitmap = img.ToBitmap();
@@ -76,7 +76,7 @@ namespace CppStyleSamplesCS
 
         public void ToMat()
         {
-            Bitmap bitmap = new Bitmap(ImagePath.Lenna511); // width % 4 != 0
+            Bitmap bitmap = new Bitmap(FilePath.Lenna511); // width % 4 != 0
 
             Mat converted = BitmapConverter2.ToMat(bitmap);
             //Mat converted = Mat.FromBitmap(bitmap);
@@ -89,7 +89,7 @@ namespace CppStyleSamplesCS
 
         public void ToMatGrayScale()
         {
-            Mat img = new Mat(ImagePath.Lenna511, LoadMode.GrayScale);
+            Mat img = new Mat(FilePath.Lenna511, LoadMode.GrayScale);
             Bitmap bitmap = img.ToBitmap();
 
             Mat converted = BitmapConverter2.ToMat(bitmap);

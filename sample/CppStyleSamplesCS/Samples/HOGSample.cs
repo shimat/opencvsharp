@@ -17,7 +17,7 @@ namespace CppStyleSamplesCS
 
         public void Run()
         {
-            Mat img = Cv2.ImRead(ImagePath.Asahiyama, LoadMode.Color);
+            Mat img = Cv2.ImRead(FilePath.Asahiyama, LoadMode.Color);
 
             HOGDescriptor hog = new HOGDescriptor();
             hog.SetSVMDetector(HOGDescriptor.GetDefaultPeopleDetector());

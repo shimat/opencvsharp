@@ -11,7 +11,8 @@ namespace CppStyleSamplesCS
         static void Main(string[] args)
         {
             ISample sample =
-                new MatToBitmap();
+                new VideoCaptureSample();
+                //new MatToBitmap();
                 //new MatToIplImage();
                 //new SiftSurfSample();
                 //new HistSample();

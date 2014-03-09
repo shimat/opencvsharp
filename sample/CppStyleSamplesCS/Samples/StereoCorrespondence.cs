@@ -15,8 +15,8 @@ namespace CppStyleSamplesCS
         public void Run()
         {
             // Load left&right images
-            using (IplImage imgLeft = new IplImage(ImagePath.TsukubaLeft, LoadMode.GrayScale))
-            using (IplImage imgRight = new IplImage(ImagePath.TsukubaRight, LoadMode.GrayScale))
+            using (IplImage imgLeft = new IplImage(FilePath.TsukubaLeft, LoadMode.GrayScale))
+            using (IplImage imgRight = new IplImage(FilePath.TsukubaRight, LoadMode.GrayScale))
             {
                 // output image buffers
                 using (IplImage dispBM = new IplImage(imgLeft.Size, BitDepth.S16, 1))

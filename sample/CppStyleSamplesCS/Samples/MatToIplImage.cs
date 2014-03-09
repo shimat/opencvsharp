@@ -13,8 +13,8 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            Mat src = new Mat(ImagePath.Lenna511, LoadMode.Color);
-            Mat src511 = new Mat(ImagePath.Lenna511, LoadMode.Color);
+            Mat src = new Mat(FilePath.Lenna511, LoadMode.Color);
+            Mat src511 = new Mat(FilePath.Lenna511, LoadMode.Color);
 
             IplImage ipl = (IplImage)src;
             IplImage ipl511 = (IplImage)src511;
