@@ -25,6 +25,10 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void highgui_namedWindow([MarshalAs(UnmanagedType.LPStr)] string winname, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_destroyWindow([MarshalAs(UnmanagedType.LPStr)] string winName);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_destroyAllWindows();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void highgui_imshow([MarshalAs(UnmanagedType.LPStr)] string winname, IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr highgui_imread(string filename, int flags);
@@ -34,11 +38,56 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr highgui_imdecode(IntPtr buf, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void highgui_imencode([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr img, out IntPtr buf, [In] int[] @params, int paramsLength);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_startWindowThread();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int highgui_waitKey(int delay);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void highgui_destroyWindow([MarshalAs(UnmanagedType.LPStr)] string winName);
+        public static extern void highgui_resizeWindow([MarshalAs(UnmanagedType.LPStr)] string winName, int width, int height);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void highgui_destroyAllWindows();
+        public static extern void highgui_moveWindow([MarshalAs(UnmanagedType.LPStr)] string winName, int x, int y);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_setWindowProperty([MarshalAs(UnmanagedType.LPStr)] string winName, int propId, double propValue);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double highgui_getWindowProperty([MarshalAs(UnmanagedType.LPStr)] string winName, int propId);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_setMouseCallback(string winName, [MarshalAs(UnmanagedType.FunctionPtr)] CvMouseCallback onMouse, IntPtr userData);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_createTrackbar(string trackbarName, string winName,
+            ref int value, int count, [MarshalAs(UnmanagedType.FunctionPtr)] CvTrackbarCallback2 onChange, IntPtr userData);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_getTrackbarPos(string trackbarName, string winName);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_setTrackbarPos(string trackbarName, string winName, int pos);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr highgui_VideoCapture_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr highgui_VideoCapture_new_fromFile(string fileName);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr highgui_VideoCapture_new_fromDevice(int device);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_VideoCapture_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_VideoCapture_open_fromFile(IntPtr obj, string fileName);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_VideoCapture_open_fromDevice(IntPtr obj, int device);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_VideoCapture_isOpened(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_VideoCapture_release(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_VideoCapture_grab(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_VideoCapture_retrieve(IntPtr obj, IntPtr image, int channel);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_VideoCapture_read(IntPtr obj, IntPtr image);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_VideoCapture_set(IntPtr obj, int propId, double value);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double highgui_VideoCapture_get(IntPtr obj, int propId);
+
     }
 }

@@ -2164,7 +2164,7 @@ namespace OpenCvSharp
             CvWindow window = CvWindow.GetWindowByName(windowName);
             if (window != null)
             {
-                window.MouseCallback = onMouse;
+                window.OnMouseCallback += onMouse;
             }
         }
         #endregion
@@ -2526,15 +2526,15 @@ namespace OpenCvSharp
         /// Set Property of the window
         /// </summary>
         /// <param name="name">Window name</param>
-        /// <param name="propID">Property identifier</param>
+        /// <param name="propId">Property identifier</param>
         /// <param name="propValue">New value of the specified property</param>
 #endif
-        public static void SetWindowProperty(string name, WindowProperty propID, double propValue)
+        public static void SetWindowProperty(string name, WindowProperty propId, WindowPropertyValue propValue)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
             
-            CvInvoke.cvSetWindowProperty(name, propID, propValue);
+            CvInvoke.cvSetWindowProperty(name, propId, (double)propValue);
         }
         #endregion
         #region SetZero

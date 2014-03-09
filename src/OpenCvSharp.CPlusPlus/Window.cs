@@ -349,23 +349,25 @@ namespace OpenCvSharp.CPlusPlus
         {
             add
             {
+                if (value == null)
+                    throw new ArgumentNullException();
                 if (callbackHandle != null && callbackHandle.IsAllocated)
-                {
                     callbackHandle.Dispose();
-                }
+                
                 mouseCallback += value;
                 callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
-                CvInvoke.cvSetMouseCallback(name, mouseCallback);
+                CppInvoke.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
             }
             remove
             {
+                if (value == null)
+                    throw new ArgumentNullException();
                 if (callbackHandle != null && callbackHandle.IsAllocated)
-                {
                     callbackHandle.Dispose();
-                }
+                
                 mouseCallback -= value;
                 callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
-                CvInvoke.cvSetMouseCallback(name, mouseCallback);
+                CppInvoke.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
             }
         }
 
@@ -509,9 +511,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="propId">Property identifier</param>
         /// <returns>Value of the specified property</returns>
 #endif
-        public double GetProperty(WindowProperty propId)
+        public WindowPropertyValue GetProperty(WindowProperty propId)
         {
-            return CvInvoke.cvGetWindowProperty(name, propId);
+            return Cv2.GetWindowProperty(name, propId);
         }
         #endregion        
         #region LoadWindowParameters
@@ -545,7 +547,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void Move(int x, int y)
         {
-            CvInvoke.cvMoveWindow(name, x, y);
+            CppInvoke.highgui_moveWindow(name, x, y);
         }
         #endregion
         #region Resize
@@ -564,7 +566,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void Resize(int width, int height)
         {
-            CvInvoke.cvResizeWindow(name, width, height);
+            CppInvoke.highgui_resizeWindow(name, width, height);
         }
         #endregion
         #region SaveWindowParameters
@@ -596,9 +598,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="propId">Property identifier</param>
         /// <param name="propValue">New value of the specified property</param>
 #endif
-        public void SetProperty(WindowProperty propId, double propValue)
+        public void SetProperty(WindowProperty propId, WindowPropertyValue propValue)
         {
-            CvInvoke.cvSetWindowProperty(name, propId, propValue);
+            Cv2.SetWindowProperty(name, propId, propValue);
         }
         #endregion
         #region ShowImage

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Utilities;
@@ -40,6 +41,25 @@ namespace OpenCvSharp.CPlusPlus
             {
                 throw PInvokeHelper.CreateException(ex);
             }
+        }
+        #endregion
+        #region DestroyWindow
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="winName"></param>
+        public static void DestroyWindow(string winName)
+        {
+            if (String.IsNullOrEmpty("winName"))
+                throw new ArgumentNullException("winName");
+            CppInvoke.highgui_destroyWindow(winName);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void DestroyAllWindows()
+        {
+            CppInvoke.highgui_destroyAllWindows();
         }
         #endregion
         #region ImShow
@@ -200,6 +220,16 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+        #region StartWindowThread
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int StartWindowThread()
+        {
+            return CppInvoke.highgui_startWindowThread();
+        }
+        #endregion
         #region WaitKey
         /// <summary>
         /// Waits for a pressed key.
@@ -217,25 +247,86 @@ namespace OpenCvSharp.CPlusPlus
                 throw PInvokeHelper.CreateException(ex);
             }
         }
-
         #endregion
-        #region DestroyWindow
+
         /// <summary>
-        /// 
+        /// Resizes window to the specified size
         /// </summary>
-        /// <param name="winName"></param>
-        public static void DestroyWindow(string winName)
+        /// <param name="winName">Window name</param>
+        /// <param name="width">The new window width</param>
+        /// <param name="height">The new window height</param>
+        public static void ResizeWindow(string winName, int width, int height)
         {
-            if(String.IsNullOrEmpty("winName"))
+            if (String.IsNullOrEmpty(winName))
                 throw new ArgumentNullException("winName");
-            CppInvoke.highgui_destroyWindow(winName);
+            CppInvoke.highgui_resizeWindow(winName, width, height);
         }
+
         /// <summary>
-        /// 
+        /// Moves window to the specified position
         /// </summary>
-        public static void DestroyAllWindows()
+        /// <param name="winName">Window name</param>
+        /// <param name="x">The new x-coordinate of the window</param>
+        /// <param name="y">The new y-coordinate of the window</param>
+        public static void MoveWindow(string winName, int x, int y)
         {
-            CppInvoke.highgui_destroyAllWindows();
+            if (String.IsNullOrEmpty(winName))
+                throw new ArgumentNullException("winName");
+            CppInvoke.highgui_moveWindow(winName, x, y);
+        }
+
+        /// <summary>
+        /// Changes parameters of a window dynamically.
+        /// </summary>
+        /// <param name="winName">Name of the window.</param>
+        /// <param name="propId">Window property to retrieve.</param>
+        /// <param name="propValue">New value of the window property.</param>
+        public static void SetWindowProperty(string winName, WindowProperty propId, WindowPropertyValue propValue)
+        {
+            if (String.IsNullOrEmpty(winName))
+                throw new ArgumentNullException("winName");
+            CppInvoke.highgui_setWindowProperty(winName, (int)propId, (double)propValue);
+        }
+
+        /// <summary>
+        /// Provides parameters of a window.
+        /// </summary>
+        /// <param name="winName">Name of the window.</param>
+        /// <param name="propId">Window property to retrieve.</param>
+        /// <returns></returns>
+        public static WindowPropertyValue GetWindowProperty(string winName, WindowProperty propId)
+        {
+            if (String.IsNullOrEmpty(winName))
+                throw new ArgumentNullException("winName");
+            return (WindowPropertyValue)(int)CppInvoke.highgui_getWindowProperty(winName, (int)propId);
+        }
+
+        #region SetMouseCallback
+#if LANG_JP
+        /// <summary>
+        /// 指定されたウィンドウ内で発生するマウスイベントに対するコールバック関数を設定する
+        /// </summary>
+        /// <param name="windowName">ウィンドウの名前</param>
+        /// <param name="onMouse">指定されたウィンドウ内でマウスイベントが発生するたびに呼ばれるデリゲート</param>
+#else
+        /// <summary>
+        /// Sets the callback function for mouse events occuting within the specified window.
+        /// </summary>
+        /// <param name="windowName">Name of the window. </param>
+        /// <param name="onMouse">Reference to the function to be called every time mouse event occurs in the specified window. </param>
+#endif
+        public static void SetMouseCallback(string windowName, CvMouseCallback onMouse)
+        {
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException("windowName");
+            if (onMouse == null)
+                throw new ArgumentNullException("onMouse");
+
+            Window window = Window.GetWindowByName(windowName);
+            if (window != null)
+            {
+                window.OnMouseCallback += onMouse;
+            }
         }
         #endregion
     }

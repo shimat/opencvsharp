@@ -75,6 +75,82 @@ CVAPI(double) highgui_getWindowProperty(const char *winName, int propId)
 	return cv::getWindowProperty(winName, propId);
 }
 
+CVAPI(void) highgui_setMouseCallback(const char *winName, cv::MouseCallback onMouse, void* userData)
+{
+	cv::setMouseCallback(winName, onMouse, userData);
+}
+CVAPI(int) highgui_createTrackbar(const char *trackbarName, const char *winName,
+	int* value, int count, cv::TrackbarCallback onChange, void* userData)
+{
+	return cv::createTrackbar(trackbarName, winName, value, count, onChange, userData);
+}
+CVAPI(int) highgui_getTrackbarPos(const char *trackbarName, const char *winName)
+{
+	return cv::getTrackbarPos(trackbarName, winName);
+}
+CVAPI(void) highgui_setTrackbarPos(const char *trackbarName, const char *winName, int pos)
+{
+	cv::setTrackbarPos(trackbarName, winName, pos);
+}
 
+#pragma region VideoCapture
+
+CVAPI(cv::VideoCapture*) highgui_VideoCapture_new()
+{
+	return new cv::VideoCapture();
+}
+CVAPI(cv::VideoCapture*) highgui_VideoCapture_new_fromFile(const char *fileName)
+{
+	return new cv::VideoCapture(fileName);
+}
+CVAPI(cv::VideoCapture*) highgui_VideoCapture_new_fromDevice(int device)
+{
+	return new cv::VideoCapture(device);
+}
+CVAPI(void) highgui_VideoCapture_delete(cv::VideoCapture *obj)
+{
+	delete obj;
+}
+
+CVAPI(void) highgui_VideoCapture_open_fromFile(cv::VideoCapture *obj, const char *fileName)
+{
+	obj->open(fileName);
+}
+CVAPI(void) highgui_VideoCapture_open_fromDevice(cv::VideoCapture *obj, int device)
+{
+	obj->open(device);
+}
+CVAPI(int) highgui_VideoCapture_isOpened(cv::VideoCapture *obj)
+{
+	return obj->isOpened();
+}
+CVAPI(void) highgui_VideoCapture_release(cv::VideoCapture *obj)
+{
+	obj->release();
+}
+
+CVAPI(int) highgui_VideoCapture_grab(cv::VideoCapture *obj)
+{
+	return obj->grab() ? 1: 0;
+}
+CVAPI(int) highgui_VideoCapture_retrieve(cv::VideoCapture *obj, cv::Mat *image, int channel)
+{
+	return obj->retrieve(*image, channel) ? 1 : 0;
+}
+CVAPI(int) highgui_VideoCapture_read(cv::VideoCapture *obj, cv::Mat *image)
+{
+	return obj->read(*image) ? 1 : 0;
+}
+
+CVAPI(int) highgui_VideoCapture_set(cv::VideoCapture *obj, int propId, double value)
+{
+	return obj->set(propId, value) ? 1 : 0;
+}
+CVAPI(double) highgui_VideoCapture_get(cv::VideoCapture *obj, int propId)
+{
+	return obj->get(propId);
+}
+
+#pragma endregion
 
 #endif
