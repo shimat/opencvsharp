@@ -89,5 +89,22 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double highgui_VideoCapture_get(IntPtr obj, int propId);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr highgui_VideoWriter_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr highgui_VideoWriter_new2(string fileName, int fourcc,
+            double fps, CvSize frameSize, int isColor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_VideoWriter_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_VideoWriter_open(IntPtr obj, string fileName, int fourcc, double fps,
+            CvSize frameSize, int isColor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int highgui_VideoWriter_isOpened(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_VideoWriter_release(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void highgui_VideoWriter_write(IntPtr obj, IntPtr image);
+
     }
 }

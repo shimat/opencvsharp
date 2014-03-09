@@ -153,4 +153,38 @@ CVAPI(double) highgui_VideoCapture_get(cv::VideoCapture *obj, int propId)
 
 #pragma endregion
 
+#pragma region VideoWriter
+CVAPI(cv::VideoWriter*) highgui_VideoWriter_new1()
+{
+	return new cv::VideoWriter;
+}
+CVAPI(cv::VideoWriter*) highgui_VideoWriter_new2(const char *fileName, int fourcc,
+	double fps, CvSize frameSize, int isColor)
+{
+	return new cv::VideoWriter(fileName, fourcc, fps, frameSize, isColor != 0);
+}
+CVAPI(void) highgui_VideoWriter_delete(cv::VideoWriter *obj)
+{
+	delete obj;
+}
+CVAPI(int) highgui_VideoWriter_open(cv::VideoWriter *obj, const char *fileName, int fourcc, double fps,
+	CvSize frameSize, int isColor)
+{	
+	return obj->open(fileName, fourcc, fps, frameSize, isColor != 0) ? 1 : 0;
+}
+CVAPI(int) highgui_VideoWriter_isOpened(cv::VideoWriter *obj)
+{
+	return obj->isOpened() ? 1 : 0;
+}
+CVAPI(void) highgui_VideoWriter_release(cv::VideoWriter *obj)
+{
+	obj->release();
+}
+CVAPI(void) highgui_VideoWriter_write(cv::VideoWriter *obj, cv::Mat *image)
+{
+	obj->write(*image);
+}
+
+#pragma endregion
+
 #endif

@@ -75,8 +75,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImagePath.cs" />
+    <Compile Include="FilePath.cs" />
     <Compile Include="Samples\HistSample.cs" />
+    <Compile Include="Samples\VideoWriterSample.cs" />
     <Compile Include="Samples\VideoCaptureSample.cs" />
     <Compile Include="Samples\MatToBitmap.cs" />
     <Compile Include="Samples\SiftSurfSample.cs" />
@@ -99,6 +100,9 @@
     <Compile Include="Samples\MatToIplImage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="movie\bach.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="img\asahiyama.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

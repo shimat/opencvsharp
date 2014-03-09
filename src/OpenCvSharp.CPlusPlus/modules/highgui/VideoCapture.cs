@@ -2093,6 +2093,24 @@ namespace OpenCvSharp.CPlusPlus
             Open((int)device + index);
         }
         #endregion
+        #region Release
+#if LANG_JP
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+#endif
+        public void Release()
+        {
+            ThrowIfDisposed();
+            CppInvoke.highgui_VideoCapture_release(ptr);
+        }
+        #endregion
         #endregion
 
         /// <summary>

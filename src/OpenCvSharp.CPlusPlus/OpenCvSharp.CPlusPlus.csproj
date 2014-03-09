@@ -167,6 +167,7 @@
     <Compile Include="modules\features2d\DescriptorMatcher.cs" />
     <Compile Include="modules\features2d\GFTTDetector.cs" />
     <Compile Include="modules\features2d\FastFeatureDetector.cs" />
+    <Compile Include="modules\highgui\VideoWriter.cs" />
     <Compile Include="modules\highgui\VideoCapture.cs" />
     <Compile Include="modules\imgproc\HierarchyIndex.cs" />
     <Compile Include="modules\imgproc\Moments.cs" />

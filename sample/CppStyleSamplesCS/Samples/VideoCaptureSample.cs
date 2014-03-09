@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Drawing;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
-using System.Windows.Forms;
 
 namespace CppStyleSamplesCS
 {
@@ -25,12 +22,15 @@ namespace CppStyleSamplesCS
                 Mat image = new Mat();
 
                 // When the movie playback reaches end, Mat.data becomes NULL.
-                do
+                while (true)
                 {
-                    capture.Read(image); // same as cvQueryImage
+                    capture.Read(image); // same as cvQueryFrame
+                    if(image.Empty())
+                        break;
+
                     window.ShowImage(image);
                     Cv2.WaitKey(sleepTime);
-                } while (!image.Empty());
+                } 
             }
         }
 

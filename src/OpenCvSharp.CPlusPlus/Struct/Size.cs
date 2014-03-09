@@ -42,6 +42,14 @@ namespace OpenCvSharp.CPlusPlus
             Height = (int)height;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Size Zero
+        {
+            get { return new Size();}
+        }
+
         #region Cast
         /// <summary>
         /// 
