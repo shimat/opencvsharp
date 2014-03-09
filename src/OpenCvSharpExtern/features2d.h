@@ -60,12 +60,64 @@ CVAPI(cv::Ptr<cv::Feature2D>*) features2d_Feature2D_create(const char *name)
 }
 #pragma endregion
 
-#pragma region MSER
-CVAPI(cv::MSER*) features2d_MSER_new(int delta, int min_area, int max_area,
-          double max_variation, double min_diversity, int max_evolution, 
-		  double area_threshold, double min_margin, int edge_blur_size )
+#pragma region BRISK
+
+CVAPI(cv::BRISK*) features2d_BRISK_new(int thresh, int octaves, float patternScale)
 {
-	return new cv::MSER(delta, min_area, max_area);
+	return new cv::BRISK(thresh, octaves, patternScale);
+}
+CVAPI(void) features2d_BRISK_delete(cv::BRISK *obj)
+{
+	delete obj;
+}
+
+CVAPI(int) features2d_BRISK_descriptorSize(cv::BRISK *obj)
+{
+	return obj->descriptorSize();
+}
+CVAPI(int) features2d_BRISK_descriptorType(cv::BRISK *obj)
+{
+	return obj->descriptorType();
+}
+
+CVAPI(void) features2d_BRISK_run1(cv::BRISK *obj, cv::_InputArray *image, cv::_InputArray *mask, 
+	std::vector<cv::KeyPoint> *keypoints)
+{
+	(*obj)(*image, entity(mask), *keypoints);
+}
+
+CVAPI(void) features2d_BRISK_run2(cv::BRISK *obj, cv::_InputArray *image, cv::_InputArray *mask, 
+	std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors, int useProvidedKeypoints)
+{
+	(*obj)(*image, entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
+}
+
+CVAPI(cv::AlgorithmInfo*) features2d_BRISK_info(cv::BRISK *obj)
+{
+	return obj->info();
+}
+
+/*
+	// custom setup
+	CV_WRAP explicit BRISK(std::vector<float> &radiusList, std::vector<int> &numberList,
+		float dMax = 5.85f, float dMin = 8.2f, std::vector<int> indexChange = std::vector<int>());
+
+	// call this to generate the kernel:
+	// circle of radius r (pixels), with n points;
+	// short pairings with dMax, long pairings with dMin
+	CV_WRAP void generateKernel(std::vector<float> &radiusList,
+		std::vector<int> &numberList, float dMax = 5.85f, float dMin = 8.2f,
+		std::vector<int> indexChange = std::vector<int>());
+*/
+#pragma endregion
+
+#pragma region MSER
+CVAPI(cv::MSER*) features2d_MSER_new(int delta, int minArea, int maxArea,
+          double maxVariation, double minDiversity, int maxEvolution, 
+		  double areaThreshold, double minMargin, int edgeBlurSize )
+{
+	return new cv::MSER(delta, minArea, maxArea, maxVariation, minDiversity, maxEvolution, 
+		areaThreshold, minMargin, edgeBlurSize);
 }
 CVAPI(void) features2d_MSER_delete(cv::MSER *obj)
 {
