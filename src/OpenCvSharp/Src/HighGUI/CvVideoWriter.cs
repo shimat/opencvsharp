@@ -23,9 +23,9 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed = false;
 
-        #region Initialization and Disposal
+        #region Init and Disposal
 #if LANG_JP
         /// <summary>
         /// ビデオライタを作成し、返す.
@@ -36,8 +36,7 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
-        /// <returns>CvVideoWriter</returns>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
 #else
         /// <summary>
         /// Creates video writer structure. 
@@ -46,11 +45,10 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
-        /// <returns></returns>
+        /// <param name="frameSize">Size of video frames. </param>
 #endif
-	    public CvVideoWriter( string filename, string fourcc, double fps, CvSize frame_size )
-            : this(filename, Cv.FOURCC(fourcc), fps, frame_size, true)
+	    public CvVideoWriter(string filename, string fourcc, double fps, CvSize frameSize )
+            : this(filename, Cv.FOURCC(fourcc), fps, frameSize, true)
 	    {
 	    }
 #if LANG_JP
@@ -63,7 +61,7 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
         /// <param name="is_color">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
         /// <returns>CvVideoWriter</returns>
 #else
@@ -74,12 +72,11 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
-        /// <param name="is_color">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
-        /// <returns></returns>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
 #endif
-	    public CvVideoWriter( string filename, string fourcc, double fps, CvSize frame_size, bool is_color)
-            : this(filename, Cv.FOURCC(fourcc), fps, frame_size, is_color)
+	    public CvVideoWriter( string filename, string fourcc, double fps, CvSize frameSize, bool isColor)
+            : this(filename, Cv.FOURCC(fourcc), fps, frameSize, isColor)
 	    {
 	    }
 #if LANG_JP
@@ -92,7 +89,7 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
@@ -102,11 +99,11 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
+        /// <param name="frameSize">Size of video frames. </param>
         /// <returns></returns>
 #endif
-        public CvVideoWriter(string filename, FourCC fourcc, double fps, CvSize frame_size)
-            : this(filename, (int)fourcc, fps, frame_size, true)
+        public CvVideoWriter(string filename, FourCC fourcc, double fps, CvSize frameSize)
+            : this(filename, (int)fourcc, fps, frameSize, true)
         {
         }
 #if LANG_JP
@@ -119,8 +116,8 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
-        /// <param name="is_color">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
+        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
@@ -130,12 +127,12 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
-        /// <param name="is_color">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
 #endif
-        public CvVideoWriter(string filename, FourCC fourcc, double fps, CvSize frame_size, bool is_color)
-            : this(filename, (int)fourcc, fps, frame_size, is_color)
+        public CvVideoWriter(string filename, FourCC fourcc, double fps, CvSize frameSize, bool isColor)
+            : this(filename, (int)fourcc, fps, frameSize, isColor)
         {
         }
 #if LANG_JP
@@ -148,7 +145,7 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
@@ -158,11 +155,11 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
+        /// <param name="frameSize">Size of video frames. </param>
         /// <returns></returns>
 #endif
-        public CvVideoWriter(string filename, int fourcc, double fps, CvSize frame_size)
-            : this(filename, fourcc, fps, frame_size, true)
+        public CvVideoWriter(string filename, int fourcc, double fps, CvSize frameSize)
+            : this(filename, fourcc, fps, frameSize, true)
         {
         }
 #if LANG_JP
@@ -175,8 +172,8 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
-        /// <param name="is_color">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
+        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
@@ -186,11 +183,11 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
-        /// <param name="is_color">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
 #endif
-        public CvVideoWriter(string filename, int fourcc, double fps, CvSize frame_size, bool is_color)
+        public CvVideoWriter(string filename, int fourcc, double fps, CvSize frameSize, bool isColor)
         {
             if (filename == null)
             {
@@ -198,9 +195,9 @@ namespace OpenCvSharp
             }
             FileName = filename;
             Fps = fps;
-            FrameSize = frame_size;
-            IsColor = is_color;
-            ptr = CvInvoke.cvCreateVideoWriter(filename, fourcc, fps, frame_size, is_color);
+            FrameSize = frameSize;
+            IsColor = isColor;
+            ptr = CvInvoke.cvCreateVideoWriter(filename, fourcc, fps, frameSize, isColor);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvVideoWriter");
@@ -234,9 +231,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -246,11 +242,10 @@ namespace OpenCvSharp
                     {
                         CvInvoke.cvReleaseVideoWriter(ref ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -258,21 +253,45 @@ namespace OpenCvSharp
         #endregion
 
         #region Properties
+#if LANG_JP
         /// <summary>
         /// 出力するビデオファイルの名前を取得する
         /// </summary>
+#else
+        /// <summary>
+        /// Get output video file name
+        /// </summary>
+#endif
         public string FileName { get; private set; }
+#if LANG_JP
         /// <summary>
         /// 作成されたビデオストリームのフレームレートを取得する
         /// </summary>
+#else
+        /// <summary>
+        /// Frames per second of the output vide
+        /// </summary>
+#endif
         public double Fps { get; private set; }
+#if LANG_JP
         /// <summary>
         /// ビデオフレームのサイズを取得する
         /// </summary>
+#else
+        /// <summary>
+        /// Get size of frame image
+        /// </summary>
+#endif
         public CvSize FrameSize { get; private set; }
+#if LANG_JP
         /// <summary>
         /// カラーフレームかどうかの値を取得する
         /// </summary>
+#else
+        /// <summary>
+        /// Get whether output frames is color or not
+        /// </summary>
+#endif
         public bool IsColor { get; private set; }
         #endregion
 
