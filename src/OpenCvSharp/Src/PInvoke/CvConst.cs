@@ -842,7 +842,8 @@ namespace OpenCvSharp
         public const int CV_EVENT_FLAG_SHIFTKEY = 16;
         public const int CV_EVENT_FLAG_ALTKEY = 32;
         // cvNamedWindow
-        public const int CV_WINDOW_AUTOSIZE = 1;
+        public const int CV_WINDOW_AUTOSIZE = 1,
+            CV_WINDOW_OPENGL = 0x00001000;
 
         // cvNamedWindow(only for Qt)
         public const int CV_GUI_EXPANDED = 0;

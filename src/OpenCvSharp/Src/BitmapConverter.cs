@@ -80,7 +80,7 @@ namespace OpenCvSharp
         /// <param name="src">System.Drawing.Bitmap object to be converted</param>
         /// <param name="dst">An IplImage object which is converted from System.Drawing.Bitmap</param>
 #endif
-        public static void ToIplImage(Bitmap src, IplImage dst)
+        public static unsafe void ToIplImage(Bitmap src, IplImage dst)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -95,12 +95,13 @@ namespace OpenCvSharp
 
             int w = src.Width;
             int h = src.Height;
-
             Rectangle rect = new Rectangle(0, 0, w, h);
-            BitmapData bd = src.LockBits(rect, ImageLockMode.ReadOnly, src.PixelFormat);
-
-            unsafe
+            BitmapData bd = null;
+            try
             {
+                bd = src.LockBits(rect, ImageLockMode.ReadOnly, src.PixelFormat);
+
+
                 byte* p = (byte*)bd.Scan0.ToPointer();
                 int stride = bd.Stride;
                 int offset = stride - (w / 8);
@@ -110,68 +111,68 @@ namespace OpenCvSharp
                 switch (src.PixelFormat)
                 {
                     case PixelFormat.Format1bppIndexed:
+                    {
+                        if (dst.NChannels != 1)
                         {
-                            if (dst.NChannels != 1)
+                            throw new ArgumentException("Invalid nChannels");
+                        }
+                        int x = 0;
+                        int y;
+                        int bytePos;
+                        byte b;
+                        int i;
+                        for (y = 0; y < h; y++)
+                        {
+                            // 横は必ず4byte幅に切り上げられる。
+                            // この行の各バイトを調べていく
+                            for (bytePos = 0; bytePos < stride; bytePos++)
                             {
-                                throw new ArgumentException("Invalid nChannels");
-                            }
-                            int x = 0;
-                            int y;
-                            int bytePos;
-                            byte b;
-                            int i;
-                            for (y = 0; y < h; y++)
-                            {
-                                // 横は必ず4byte幅に切り上げられる。
-                                // この行の各バイトを調べていく
-                                for (bytePos = 0; bytePos < stride; bytePos++)
+                                if (x < w)
                                 {
-                                    if (x < w)
+                                    // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                                    b = p[bytePos];
+                                    for (i = 0; i < 8; i++)
                                     {
-                                        // 現在の位置のバイトからそれぞれのビット8つを取り出す
-                                        b = p[bytePos];
-                                        for (i = 0; i < 8; i++)
+                                        if (x >= w)
                                         {
-                                            if (x >= w)
-                                            {
-                                                break;
-                                            }
-                                            // IplImageは8bit/pixel
-                                            imageData[widthStep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
-                                            b <<= 1;
-                                            x++;
+                                            break;
                                         }
+                                        // IplImageは8bit/pixel
+                                        imageData[widthStep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
+                                        b <<= 1;
+                                        x++;
                                     }
                                 }
-                                // 次の行へ
-                                x = 0;
-                                p += stride;
                             }
+                            // 次の行へ
+                            x = 0;
+                            p += stride;
                         }
+                    }
                         break;
                     case PixelFormat.Format8bppIndexed:
+                    {
+                        if (dst.NChannels != 1)
                         {
-                            if (dst.NChannels != 1)
-                            {
-                                throw new ArgumentException("Invalid nChannels");
-                            }
-                            /*for (int y = 0; y < h; y++)
+                            throw new ArgumentException("Invalid nChannels");
+                        }
+                        /*for (int y = 0; y < h; y++)
                             {
                                 for (int x = 0; x < w; x++)
                                 {
                                     imageData[y * widthStep + x] = p[y * stride + x];
                                 }
                             }*/
-                            Util.CopyMemory(dst.ImageData, bd.Scan0, dst.ImageSize);
-                        }
+                        Util.CopyMemory(dst.ImageData, bd.Scan0, dst.ImageSize);
+                    }
                         break;
                     case PixelFormat.Format24bppRgb:
+                    {
+                        if (dst.NChannels != 3)
                         {
-                            if (dst.NChannels != 3)
-                            {
-                                throw new ArgumentException("Invalid nChannels");
-                            }
-                            /*for (int y = 0; y < h; y++)
+                            throw new ArgumentException("Invalid nChannels");
+                        }
+                        /*for (int y = 0; y < h; y++)
                             {
                                 for (int x = 0; x < w; x++)
                                 {
@@ -180,37 +181,41 @@ namespace OpenCvSharp
                                     imageData[y * widthStep + x * 3 + 2] = p[y * stride + x * 3 + 2];
                                 }
                             }*/
-                            Util.CopyMemory(dst.ImageData, bd.Scan0, dst.ImageSize);
-                        }
+                        Util.CopyMemory(dst.ImageData, bd.Scan0, dst.ImageSize);
+                    }
                         break;
                     case PixelFormat.Format32bppRgb:
                     case PixelFormat.Format32bppArgb:
                     case PixelFormat.Format32bppPArgb:
+                    {
+                        switch (dst.NChannels)
                         {
-                            switch (dst.NChannels)
-                            {
-                                case 4:
-                                    Util.CopyMemory(dst.ImageData, bd.Scan0, dst.ImageSize);
-                                    break;
-                                case 3:
-                                    for (int y = 0; y < h; y++)
+                            case 4:
+                                Util.CopyMemory(dst.ImageData, bd.Scan0, dst.ImageSize);
+                                break;
+                            case 3:
+                                for (int y = 0; y < h; y++)
+                                {
+                                    for (int x = 0; x < w; x++)
                                     {
-                                        for (int x = 0; x < w; x++)
-                                        {
-                                            imageData[y * widthStep + x * 3] = p[y * stride + x * 4 + 0];
-                                            imageData[y * widthStep + x * 3 + 1] = p[y * stride + x * 4 + 1];
-                                            imageData[y * widthStep + x * 3 + 2] = p[y * stride + x * 4 + 2];
-                                        }
+                                        imageData[y * widthStep + x * 3] = p[y * stride + x * 4 + 0];
+                                        imageData[y * widthStep + x * 3 + 1] = p[y * stride + x * 4 + 1];
+                                        imageData[y * widthStep + x * 3 + 2] = p[y * stride + x * 4 + 2];
                                     }
-                                    break;
-                                default:
-                                    throw new ArgumentException("Invalid nChannels");
-                            }
+                                }
+                                break;
+                            default:
+                                throw new ArgumentException("Invalid nChannels");
                         }
+                    }
                         break;
                 }
             }
-            src.UnlockBits(bd);
+            finally
+            {
+                if(bd != null)
+                    src.UnlockBits(bd);
+            }
         }
         #endregion
 
@@ -225,7 +230,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Converts IplImage to System.Drawing.Bitmap
         /// </summary>
-        /// <param name="src">System.Drawing.Bitmap</param>
+        /// <param name="src">Mat</param>
         /// <returns></returns>
 #endif
         public static Bitmap ToBitmap(IplImage src)
@@ -259,7 +264,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Converts IplImage to System.Drawing.Bitmap
         /// </summary>
-        /// <param name="src">System.Drawing.Bitmap</param>
+        /// <param name="src">Mat</param>
         /// <param name="pf">Pixel Depth</param>
         /// <returns></returns>
 #endif
@@ -289,11 +294,11 @@ namespace OpenCvSharp
         /// <summary>
         /// Converts IplImage to System.Drawing.Bitmap
         /// </summary>
-        /// <param name="src">System.Drawing.Bitmap</param>
+        /// <param name="src">Mat</param>
         /// <param name="dst">IplImage</param>
         /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
 #endif
-        public static void ToBitmap(IplImage src, Bitmap dst)
+        public static unsafe void ToBitmap(IplImage src, Bitmap dst)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -339,58 +344,61 @@ namespace OpenCvSharp
             }
             Bitmap _dst = dst;
 
-            unsafe
+            int w = _src.ROI.Width;
+            int h = _src.ROI.Height;
+            Rectangle rect = new Rectangle(0, 0, w, h);
+            BitmapData bd = null;
+
+            try
             {
-                int w = _src.ROI.Width;
-                int h = _src.ROI.Height;
-                Rectangle rect = new Rectangle(0, 0, w, h);
-                BitmapData bd = _dst.LockBits(rect, ImageLockMode.WriteOnly, pf);
+                bd = _dst.LockBits(rect, ImageLockMode.WriteOnly, pf);
+
                 byte* psrc = (byte*)(_src.ImageData.ToPointer());
                 byte* pdst = (byte*)(bd.Scan0.ToPointer());
                 int xo = _src.ROI.X;
                 int yo = _src.ROI.Y;
                 int widthStepSrc = _src.WidthStep;
-                int widthStepDst = ((_src.ROI.Width * _src.NChannels) + 3) / 4 * 4;    // 4の倍数に揃える
+                int widthStepDst = ((_src.ROI.Width * _src.NChannels) + 3) / 4 * 4; // 4の倍数に揃える
                 int stride = bd.Stride;
                 int ch = _src.NChannels;
 
                 switch (pf)
                 {
                     case PixelFormat.Format1bppIndexed:
+                    {
+                        // BitmapDataは4byte幅だが、IplImageは1byte幅
+                        // 手作業で移し替える				 
+                        //int offset = stride - (w / 8);
+                        int x = xo;
+                        int y;
+                        int bytePos;
+                        byte mask;
+                        byte b = 0;
+                        int i;
+                        for (y = yo; y < h; y++)
                         {
-                            // BitmapDataは4byte幅だが、IplImageは1byte幅
-                            // 手作業で移し替える				 
-                            //int offset = stride - (w / 8);
-                            int x = xo;
-                            int y;
-                            int bytePos;
-                            byte mask;
-                            byte b = 0;
-                            int i;
-                            for (y = yo; y < h; y++)
+                            for (bytePos = 0; bytePos < stride; bytePos++)
                             {
-                                for (bytePos = 0; bytePos < stride; bytePos++)
+                                if (x < w)
                                 {
-                                    if (x < w)
+                                    for (i = 0; i < 8; i++)
                                     {
-                                        for (i = 0; i < 8; i++)
-                                        {
-                                            mask = (byte)(0x80 >> i);
-                                            if (x < w && psrc[widthStepSrc * y + x] == 0)
-                                                b &= (byte)(mask ^ 0xff);
-                                            else
-                                                b |= mask;
+                                        mask = (byte)(0x80 >> i);
+                                        if (x < w && psrc[widthStepSrc * y + x] == 0)
+                                            b &= (byte)(mask ^ 0xff);
+                                        else
+                                            b |= mask;
 
-                                            x++;
-                                        }
-                                        pdst[bytePos] = b;
+                                        x++;
                                     }
+                                    pdst[bytePos] = b;
                                 }
-                                x = xo;
-                                pdst += stride;
                             }
-                            break;
+                            x = xo;
+                            pdst += stride;
                         }
+                        break;
+                    }
 
                     case PixelFormat.Format8bppIndexed:
                     case PixelFormat.Format24bppRgb:
@@ -421,20 +429,22 @@ namespace OpenCvSharp
                     default:
                         throw new NotImplementedException();
                 }
-
+            }
+            finally
+            {
                 _dst.UnlockBits(bd);
-                // 反転対策
-                if (src.Origin == ImageOrigin.BottomLeft)
-                {
-                    _dst.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                }
+            }
 
+            // 反転対策
+            if (src.Origin == ImageOrigin.BottomLeft)
+            {
+                _dst.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            }
 
-                // スケーリングのために余分に作ったインスタンスの破棄
-                if (_src != src)
-                {
-                    _src.Dispose();
-                }
+            // スケーリングのために余分に作ったインスタンスの破棄
+            if (_src != src)
+            {
+                _src.Dispose();
             }
         }
         #endregion
@@ -506,9 +516,9 @@ namespace OpenCvSharp
         /// <param name="y"></param>
         /// <param name="w"></param>
         /// <param name="h"></param>
-        /// <param name="from_x"></param>
-        /// <param name="from_y"></param>
-        public static void DrawToHdc(IplImage img, IntPtr hdc, int x, int y, int w, int h, int from_x, int from_y)
+        /// <param name="fromX"></param>
+        /// <param name="fromY"></param>
+        public static void DrawToHdc(IplImage img, IntPtr hdc, int x, int y, int w, int h, int fromX, int fromY)
         {
             if (Platform.OS == OS.Unix)
             {
@@ -533,15 +543,15 @@ namespace OpenCvSharp
 
                 FillBitmapInfo(ref bmi, bmpW, bmpH, img.Bpp, (int)img.Origin);
 
-                from_x = Math.Min(Math.Max(from_x, 0), bmpW - 1);
-                from_y = Math.Min(Math.Max(from_y, 0), bmpH - 1);
+                fromX = Math.Min(Math.Max(fromX, 0), bmpW - 1);
+                fromY = Math.Min(Math.Max(fromY, 0), bmpH - 1);
 
-                uint sw = (uint)Math.Max(Math.Min(bmpW - from_x, w), 0);
-                uint sh = (uint)Math.Max(Math.Min(bmpH - from_y, h), 0);
+                uint sw = (uint)Math.Max(Math.Min(bmpW - fromX, w), 0);
+                uint sh = (uint)Math.Max(Math.Min(bmpH - fromY, h), 0);
 
                 Win32API.SetDIBitsToDevice(
-                    hdc, x, y, sw, sh, from_x, from_y, (uint)from_y, sh,
-                    new IntPtr(img.ImageData.ToInt32() + from_y * img.WidthStep),
+                    hdc, x, y, sw, sh, fromX, fromY, (uint)fromY, sh,
+                    new IntPtr(img.ImageData.ToInt32() + fromY * img.WidthStep),
                     ref bmi, Win32API.DIB_RGB_COLORS);
 
                 Marshal.FreeHGlobal(buffer);
@@ -575,9 +585,9 @@ namespace OpenCvSharp
         /// <param name="y"></param>
         /// <param name="w"></param>
         /// <param name="h"></param>
-        /// <param name="from_x"></param>
-        /// <param name="from_y"></param>
-        public static void DrawToGraphics(IplImage img, Graphics g, int x, int y, int w, int h, int from_x, int from_y)
+        /// <param name="fromX"></param>
+        /// <param name="fromY"></param>
+        public static void DrawToGraphics(IplImage img, Graphics g, int x, int y, int w, int h, int fromX, int fromY)
         {
             if (Platform.OS == OS.Unix)
             {
@@ -585,7 +595,7 @@ namespace OpenCvSharp
             }
 
             IntPtr hdc = g.GetHdc();
-            DrawToHdc(img, hdc, x, y, w, h, from_x, from_y);
+            DrawToHdc(img, hdc, x, y, w, h, fromX, fromY);
             g.ReleaseHdc(hdc);
         }
 

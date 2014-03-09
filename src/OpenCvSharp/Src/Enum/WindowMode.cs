@@ -47,6 +47,11 @@ namespace OpenCvSharp
 #endif
         AutoSize = CvConst.CV_WINDOW_AUTOSIZE,
 
+        /// <summary>
+        /// window with opengl support
+        /// </summary>
+        OpenGL = CvConst.CV_WINDOW_OPENGL,
+
 #if LANG_JP
         /// <summary>
         /// 機能強化された新しいGUIを表示する（Qtバックエンドのみ）
