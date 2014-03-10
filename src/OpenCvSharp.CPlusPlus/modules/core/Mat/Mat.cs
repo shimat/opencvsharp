@@ -379,11 +379,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (imageBytes == null)
                 throw new ArgumentNullException("imageBytes");
-
-            using (Mat buf = new Mat(imageBytes.Length, 1, MatType.CV_8UC1, imageBytes))
-            {
-                return Cv2.ImDecode(buf, mode);
-            }
+            return Cv2.ImDecode(imageBytes, mode);
         }
         #endregion
 

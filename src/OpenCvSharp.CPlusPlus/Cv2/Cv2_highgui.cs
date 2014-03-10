@@ -157,15 +157,22 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (buf == null)
                 throw new ArgumentNullException("buf");
-            try
-            {
-                IntPtr matPtr = CppInvoke.highgui_imdecode(buf.CvPtr, (int)flags);
-                return new Mat(matPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr matPtr = CppInvoke.highgui_imdecode_Mat(buf.CvPtr, (int)flags);
+            return new Mat(matPtr);
+        }
+        /// <summary>
+        /// Reads image from the specified buffer in memory.
+        /// </summary>
+        /// <param name="buf">The input array of vector of bytes.</param>
+        /// <param name="flags">The same flags as in imread</param>
+        /// <returns></returns>
+        public static Mat ImDecode(byte[] buf, LoadMode flags)
+        {
+            if (buf == null)
+                throw new ArgumentNullException("buf");
+            IntPtr matPtr = CppInvoke.highgui_imdecode_vector(
+                buf, new IntPtr(buf.LongLength), (int)flags);
+            return new Mat(matPtr);
         }
         #endregion
         #region ImEncode
