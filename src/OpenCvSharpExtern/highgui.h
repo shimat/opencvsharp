@@ -35,9 +35,15 @@ CVAPI(int) highgui_imwrite(const char *filename, cv::Mat *img, int *params, int 
 	paramsVec.assign(params, params + paramsLength);
 	return cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
 }
-CVAPI(cv::Mat*) highgui_imdecode(cv::Mat *buf, int flags)
+CVAPI(cv::Mat*) highgui_imdecode_Mat(cv::Mat *buf, int flags)
 {
 	cv::Mat ret = cv::imdecode(*buf, flags);
+	return new cv::Mat(ret);
+}
+CVAPI(cv::Mat*) highgui_imdecode_vector(uchar *buf, size_t bufLength, int flags)
+{
+	std::vector<uchar> bufVec(buf, buf + bufLength);
+	cv::Mat ret = cv::imdecode(bufVec, flags);
 	return new cv::Mat(ret);
 }
 CVAPI(void) highgui_imencode_CvMat(const char *ext, cv::Mat *img, CvMat **buf, 
