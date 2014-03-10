@@ -40,13 +40,22 @@ CVAPI(cv::Mat*) highgui_imdecode(cv::Mat *buf, int flags)
 	cv::Mat ret = cv::imdecode(*buf, flags);
 	return new cv::Mat(ret);
 }
-CVAPI(void) highgui_imencode(const char *ext, cv::Mat *img, CvMat **buf, int *params, int paramsLength)
+CVAPI(void) highgui_imencode_CvMat(const char *ext, cv::Mat *img, CvMat **buf, 
+								   int *params, int paramsLength)
 {
 	//std::vector<int> paramsVec;
 	//paramsVec.assign(params, params + paramsLength);
 	//cv::imencode(ext, *img, paramsVec);
 	CvMat imgMat = (CvMat)(*img);
 	*buf = cvEncodeImage(ext, &imgMat, params);
+}
+CVAPI(int) highgui_imencode_vector(const char *ext, cv::_InputArray *img, 
+								   std::vector<uchar> *buf, int *params, int paramsLength)
+{
+	std::vector<int> paramsVec;
+	if(params != NULL)
+		paramsVec = std::vector<int>(params, params + paramsLength);
+	return cv::imencode(ext, *img, *buf, paramsVec) ? 1 : 0;
 }
 CVAPI(int) highgui_startWindowThread()
 {
