@@ -171,6 +171,7 @@
     <Compile Include="modules\core\InputOutputArray.cs" />
     <Compile Include="modules\core\AlgorithmInfo.cs" />
     <Compile Include="modules\features2d\BFMatcher.cs" />
+    <Compile Include="modules\features2d\FREAK.cs" />
     <Compile Include="modules\features2d\ORB.cs" />
     <Compile Include="modules\features2d\Feature2D.cs" />
     <Compile Include="modules\features2d\DescriptorMatcher.cs" />

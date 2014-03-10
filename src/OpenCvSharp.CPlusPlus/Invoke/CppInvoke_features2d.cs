@@ -66,6 +66,23 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_ORB_info(IntPtr obj);
 
+        // FREAK
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_FREAK_new(int orientationNormalized,
+            int scaleNormalized, float patternScale, int nOctaves,
+            int[] selectedPairs, int selectedPairsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_FREAK_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_FREAK_descriptorSize(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_FREAK_descriptorType(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_FREAK_selectPairs(IntPtr obj, IntPtr[] images, int imagesLength,
+            IntPtr keypoints, double corrThresh, int verbose, IntPtr outVal);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_FREAK_info(IntPtr obj);
+
         // MSER
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_MSER_new(int delta, int minArea, int maxArea,

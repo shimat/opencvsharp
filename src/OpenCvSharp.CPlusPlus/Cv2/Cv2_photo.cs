@@ -120,13 +120,7 @@ namespace OpenCvSharp.CPlusPlus
             if (dst == null)
                 throw new ArgumentNullException("dst");
             dst.ThrowIfNotReady();
-            IntPtr[] srcImgPtrs = EnumerableEx.SelectToArray(srcImgs, delegate(InputArray ia)
-            {
-                if(ia == null)
-                    throw new ArgumentException("One of srcImgs element is null");
-                ia.ThrowIfDisposed();
-                return ia.CvPtr;
-            });
+            IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
             CppInvoke.photo_fastNlMeansDenoisingMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex, 
                 templateWindowSize, h, templateWindowSize, searchWindowSize);
@@ -184,13 +178,7 @@ namespace OpenCvSharp.CPlusPlus
             if (dst == null)
                 throw new ArgumentNullException("dst");
             dst.ThrowIfNotReady();
-            IntPtr[] srcImgPtrs = EnumerableEx.SelectToArray(srcImgs, delegate(InputArray ia)
-            {
-                if (ia == null)
-                    throw new ArgumentException("One of srcImgs element is null");
-                ia.ThrowIfDisposed();
-                return ia.CvPtr;
-            });
+            IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
             CppInvoke.photo_fastNlMeansDenoisingColoredMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
                 templateWindowSize, h, hColor, templateWindowSize, searchWindowSize);

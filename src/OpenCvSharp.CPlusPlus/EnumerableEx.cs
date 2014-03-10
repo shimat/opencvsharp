@@ -47,6 +47,37 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
+        /// Enumerable.Select -> ToArray
+        /// </summary>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static IntPtr[] SelectPtrs(IEnumerable<Mat> enumerable)
+        {
+            return SelectToArray(enumerable, delegate(Mat obj)
+            {
+                if (obj == null)
+                    throw new ArgumentException("enumerable contains null");
+                obj.ThrowIfDisposed();
+                return obj.CvPtr;
+            });
+        }
+        /// <summary>
+        /// Enumerable.Select -> ToArray
+        /// </summary>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static IntPtr[] SelectPtrs(IEnumerable<InputArray> enumerable)
+        {
+            return SelectToArray(enumerable, delegate(InputArray obj)
+            {
+                if (obj == null)
+                    throw new ArgumentException("enumerable contains null");
+                obj.ThrowIfDisposed();
+                return obj.CvPtr;
+            });
+        }
+
+        /// <summary>
         /// Enumerable.Where
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
@@ -89,7 +120,7 @@ namespace OpenCvSharp.CPlusPlus
         public static TSource[] ToArray<TSource>(IEnumerable<TSource> enumerable)
         {
             if (enumerable == null)
-                throw new ArgumentNullException();
+                return null;
             TSource[] arr = enumerable as TSource[];
             if (arr != null)
                 return arr;
@@ -111,6 +142,27 @@ namespace OpenCvSharp.CPlusPlus
             foreach (TSource elem in enumerable)
             {
                 if (predicate(elem))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Enumerable.Any
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static bool AnyNull<TSource>(IEnumerable<TSource> enumerable)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+            if (typeof(TSource).IsValueType)
+                return false;
+
+            foreach (TSource elem in enumerable)
+            {
+                if (elem == null)
                     return true;
             }
             return false;

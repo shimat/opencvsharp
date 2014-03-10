@@ -114,13 +114,7 @@ namespace OpenCvSharp.CPlusPlus
             if (descriptors == null)
                 throw new ArgumentNullException("descriptors");
 
-            IntPtr[] descriptorsPtrs = EnumerableEx.SelectToArray(descriptors, delegate(Mat m)
-            {
-                if (m == null)
-                    throw new ArgumentException("One of descriptors is null");
-                m.ThrowIfDisposed();
-                return m.CvPtr;
-            });
+            IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptors);
             CppInvoke.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
         }
 

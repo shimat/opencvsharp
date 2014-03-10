@@ -2070,13 +2070,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("mean");
             covar.ThrowIfDisposed();
             mean.ThrowIfDisposed();
-            IntPtr[] samplesPtr = EnumerableEx.SelectToArray(samples, delegate(Mat m)
-            {
-                if (m == null)
-                    throw new ArgumentException("samples contains null");
-                m.ThrowIfDisposed();
-                return m.CvPtr;
-            });
+            IntPtr[] samplesPtr = EnumerableEx.SelectPtrs(samples);
             CppInvoke.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
         }
         /// <summary>

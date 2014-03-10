@@ -31,6 +31,11 @@ CVAPI(uchar*) vector_uchar_getPointer(vector<uchar>* vector)
 {
 	return &(vector->at(0));
 }
+CVAPI(void) vector_vector_uchar_copy(vector<uchar> *vector, uchar *dst)
+{
+	int length = sizeof(uchar) * vector->size();
+	memcpy(dst, &(vector->at(0)), length);
+}
 CVAPI(void) vector_uchar_delete(vector<uchar>* vector)
 {
 	delete vector;

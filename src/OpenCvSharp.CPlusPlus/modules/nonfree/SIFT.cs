@@ -266,13 +266,7 @@ namespace OpenCvSharp.CPlusPlus
             if (pyr == null)
                 throw new ArgumentNullException("pyr");
 
-            IntPtr[] pyrPtrs = EnumerableEx.SelectToArray(pyr, delegate(Mat m)
-            {
-                if (m == null)
-                    throw new ArgumentException("One of pyr element is null");
-                m.ThrowIfDisposed();
-                return m.CvPtr;
-            });
+            IntPtr[] pyrPtrs = EnumerableEx.SelectPtrs(pyr);
             using (StdVectorMat dogPyrVec = new StdVectorMat())
             {
                 CppInvoke.nonfree_SIFT_buildDoGPyramid(ptr, pyrPtrs, pyrPtrs.Length, dogPyrVec.CvPtr);
@@ -294,20 +288,8 @@ namespace OpenCvSharp.CPlusPlus
             if (dogPyr == null)
                 throw new ArgumentNullException("dogPyr");
 
-            IntPtr[] gaussPyrPtrs = EnumerableEx.SelectToArray(gaussPyr, delegate(Mat m)
-            {
-                if (m == null)
-                    throw new ArgumentException("One of gaussPyr element is null");
-                m.ThrowIfDisposed();
-                return m.CvPtr;
-            });
-            IntPtr[] dogPyrPtrs = EnumerableEx.SelectToArray(dogPyr, delegate(Mat m)
-            {
-                if (m == null)
-                    throw new ArgumentException("One of dogPyr element is null");
-                m.ThrowIfDisposed();
-                return m.CvPtr;
-            });
+            IntPtr[] gaussPyrPtrs = EnumerableEx.SelectPtrs(gaussPyr);
+            IntPtr[] dogPyrPtrs = EnumerableEx.SelectPtrs(dogPyr);
 
             using (StdVectorKeyPoint keyPointsVec = new StdVectorKeyPoint())
             {

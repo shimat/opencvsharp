@@ -1611,13 +1611,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("ranges");
             hist.ThrowIfNotReady();
 
-            IntPtr[] imagesPtr = EnumerableEx.SelectToArray(images, delegate(Mat m)
-            {
-                if(m == null)
-                    throw new ArgumentException();
-                m.ThrowIfDisposed();
-                return m.CvPtr;
-            });
+            IntPtr[] imagesPtr = EnumerableEx.SelectPtrs(images);
             float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, delegate(Rangef r)
             {
                 return new float[2]{r.Start, r.End};
@@ -1657,13 +1651,7 @@ namespace OpenCvSharp.CPlusPlus
             hist.ThrowIfDisposed();
             backProject.ThrowIfNotReady();
 
-            IntPtr[] imagesPtr = EnumerableEx.SelectToArray(images, delegate(Mat m)
-            {
-                if (m == null)
-                    throw new ArgumentException();
-                m.ThrowIfDisposed();
-                return m.CvPtr;
-            });
+            IntPtr[] imagesPtr = EnumerableEx.SelectPtrs(images);
             float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, delegate(Rangef r)
             {
                 return new float[2] { r.Start, r.End };
@@ -2413,10 +2401,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfNotReady();
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
-            IntPtr[] contoursPtr = EnumerableEx.SelectToArray(contours, delegate(Mat m)
-            {
-                return m.CvPtr;
-            });
+            IntPtr[] contoursPtr = EnumerableEx.SelectPtrs(contours);
             CppInvoke.imgproc_drawContours_InputArray(image.CvPtr, contoursPtr, contoursPtr.Length,
                         contourIdx, color, thickness, (int)lineType, ToPtr(hierarchy), maxLevel, offset0);
             image.Fix();
