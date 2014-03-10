@@ -177,7 +177,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="img">The image to be written</param>
         /// <param name="buf"></param>
         /// <param name="prms"></param>
-        public static void ImEncode(string ext, Mat img, out byte[] buf, int[] prms = null)
+        public static bool ImEncode(string ext, InputArray img, out byte[] buf, int[] prms = null)
         {
             if (string.IsNullOrEmpty(ext))
                 throw new ArgumentNullException("ext");
@@ -185,14 +185,13 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("img");
             if (prms == null)
                 prms = new int[0];
-            IntPtr bufMatPtr;
-            CppInvoke.highgui_imencode(ext, img.CvPtr, out bufMatPtr, prms, prms.Length);
+            img.ThrowIfDisposed();
+            using (StdVectorByte bufVec = new StdVectorByte())
             {
-                CvMat bufMat = new CvMat(bufMatPtr, false);
-                buf = new byte[bufMat.Rows * bufMat.Cols];
-                Marshal.Copy(bufMat.Data, buf, 0, buf.Length);
+                int ret = CppInvoke.highgui_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length);
+                buf = bufVec.ToArray();
+                return ret != 0;
             }
-            CvInvoke.cvReleaseMat(ref bufMatPtr);
         }
 
         /// <summary>
@@ -202,7 +201,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="img">The image to be written</param>
         /// <param name="buf"></param>
         /// <param name="prms"></param>
-        public static void ImEncode(string ext, Mat img, out byte[] buf, params ImageEncodingParam[] prms)
+        public static void ImEncode(string ext, InputArray img, out byte[] buf, params ImageEncodingParam[] prms)
         {
             if (prms != null)
             {

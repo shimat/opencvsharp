@@ -3672,6 +3672,52 @@ namespace OpenCvSharp.CPlusPlus
             Cv2.PutText(this, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin);
         }
         #endregion
+        #region ImEncode / ToBytes
+        /// <summary>
+        /// Encodes an image into a memory buffer.
+        /// </summary>
+        /// <param name="ext">Encodes an image into a memory buffer.</param>
+        /// <param name="prms">Format-specific parameters.</param>
+        /// <returns></returns>
+        public byte[] ImEncode(string ext = ".png", int[] prms = null)
+        {
+            byte[] buf;
+            Cv2.ImEncode(ext, this, out buf, prms);
+            return buf;
+        }
+        /// <summary>
+        /// Encodes an image into a memory buffer.
+        /// </summary>
+        /// <param name="ext">Encodes an image into a memory buffer.</param>
+        /// <param name="prms">Format-specific parameters.</param>
+        /// <returns></returns>
+        public byte[] ImEncode(string ext = ".png", params ImageEncodingParam[] prms)
+        {
+            byte[] buf;
+            Cv2.ImEncode(ext, this, out buf, prms);
+            return buf;
+        }
+        /// <summary>
+        /// Encodes an image into a memory buffer.
+        /// </summary>
+        /// <param name="ext">Encodes an image into a memory buffer.</param>
+        /// <param name="prms">Format-specific parameters.</param>
+        /// <returns></returns>
+        public byte[] ToBytes(string ext = ".png", int[] prms = null)
+        {
+            return ImEncode(ext, prms);
+        }
+        /// <summary>
+        /// Encodes an image into a memory buffer.
+        /// </summary>
+        /// <param name="ext">Encodes an image into a memory buffer.</param>
+        /// <param name="prms">Format-specific parameters.</param>
+        /// <returns></returns>
+        public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms)
+        {
+            return ImEncode(ext, prms);
+        }
+        #endregion
         #region ImWrite
         /// <summary>
         /// Saves an image to a specified file.
