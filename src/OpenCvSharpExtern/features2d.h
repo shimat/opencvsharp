@@ -149,6 +149,48 @@ CVAPI(cv::AlgorithmInfo*) features2d_ORB_info(cv::ORB *obj)
 }
 #pragma endregion
 
+#pragma region FREAK
+CVAPI(cv::FREAK*) features2d_FREAK_new(int orientationNormalized,
+	int scaleNormalized, float patternScale, int nOctaves,
+	int *selectedPairs, int selectedPairsLength)
+{
+	std::vector<int> selectedPairsVec;
+	if (selectedPairs != NULL)
+		selectedPairsVec = std::vector<int>(selectedPairs, selectedPairs + selectedPairsLength);
+	return new cv::FREAK(orientationNormalized != 0, scaleNormalized != 0,
+		patternScale, nOctaves, selectedPairsVec);
+}
+CVAPI(void) features2d_FREAK_delete(cv::FREAK *obj)
+{
+	delete obj;
+}
+CVAPI(int) features2d_FREAK_descriptorSize(cv::FREAK *obj)
+{
+	return obj->descriptorSize();
+}
+CVAPI(int) features2d_FREAK_descriptorType(cv::FREAK *obj)
+{
+	return obj->descriptorType();
+}
+
+CVAPI(void) features2d_FREAK_selectPairs(cv::FREAK *obj, cv::Mat **images, int imagesLength,
+	std::vector<std::vector<cv::KeyPoint> > *keypoints,
+	double corrThresh, int verbose, std::vector<int> *out)
+{
+	std::vector<cv::Mat> imagesVec(imagesLength);
+	for (int i = 0; i < imagesLength; i++)	
+		imagesVec[i] = *(images[i]);	
+	
+	std::vector<int> ret = obj->selectPairs(imagesVec, *keypoints, corrThresh, verbose != 0);
+	std::copy(ret.begin(), ret.end(), out->begin());
+}
+
+CVAPI(cv::AlgorithmInfo*) features2d_FREAK_info(cv::FREAK *obj)
+{
+	return obj->info();
+}
+#pragma endregion
+
 #pragma region MSER
 CVAPI(cv::MSER*) features2d_MSER_new(int delta, int minArea, int maxArea,
           double maxVariation, double minDiversity, int maxEvolution, 
