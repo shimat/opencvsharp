@@ -111,5 +111,12 @@ namespace OpenCvSharp.CPlusPlus
         public const int 
             ORB_HARRIS_SCORE = 0,
             ORB_FAST_SCORE = 1;
+
+        /// <summary>
+        /// cv::solvePnP
+        /// </summary>
+        public const int SolvePnP_ITERATIVE = 0,
+            SolvePnP_EPNP = 1,
+            SolvePnP_P3P = 2;
     }
 }

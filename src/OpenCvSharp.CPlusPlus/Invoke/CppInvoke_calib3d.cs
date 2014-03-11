@@ -19,12 +19,27 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_Rodrigues(IntPtr src, IntPtr dst, IntPtr jacobian);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess);
+        public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
+            IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr calib3d_findHomography_InputArray(IntPtr srcPoints, IntPtr dstPoints,
+            int method, double ransacReprojThreshold, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr calib3d_findHomography_vector(Point2f[] srcPoints, int srcPointsLength,
+            Point2f[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern Vec3d calib3d_RQDecomp3x3_InputArray(IntPtr src, IntPtr mtxR,
+            IntPtr mtxQ, IntPtr qx, IntPtr qy, IntPtr qz);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern Vec3d calib3d_RQDecomp3x3_array(double[,] src, double[,] mtxR, double[,] mtxQ,
+            double[,] qx, double[,] qy, double[,] qz);
+
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
                                                           Point2f[] imagePoints, int imagePointsLength,
                                                           IntPtr cameraMatrix, double[] distCoeffs, int distCoeffsLength,
-                                                          IntPtr rvec, IntPtr tvec, int useExtrinsicGuess);
+                                                          IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
 
         // StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

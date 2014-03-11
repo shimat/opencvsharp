@@ -122,8 +122,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (images == null)
                 throw new ArgumentNullException("images");
-            if (EnumerableEx.AnyNull(images))
-                throw new ArgumentException("One of images is null");
 
             IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
 

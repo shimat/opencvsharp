@@ -143,6 +143,7 @@
     <Compile Include="EnumerableEx.cs" />
     <Compile Include="Enum\DctFlag2.cs" />
     <Compile Include="Enum\DftFlag2.cs" />
+    <Compile Include="Enum\SolvePnPFlag.cs" />
     <Compile Include="Enum\DrawMatchesFlags.cs" />
     <Compile Include="Enum\ORBScore.cs" />
     <Compile Include="Enum\ProjectionType.cs" />
