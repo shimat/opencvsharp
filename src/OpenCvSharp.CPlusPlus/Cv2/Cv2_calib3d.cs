@@ -29,6 +29,56 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.calib3d_Rodrigues(src.CvPtr, dst.CvPtr, ToPtr(jacobian));
             dst.Fix();
         }
+
+        /// <summary>
+        /// converts rotation vector to rotation matrix using Rodrigues transformation
+        /// </summary>
+        /// <param name="vector">Input rotation vector (3x1).</param>
+        /// <param name="matrix">Output rotation matrix (3x3).</param>
+        /// <param name="jacobian">Optional output Jacobian matrix, 3x9, which is a matrix of partial derivatives of the output array components with respect to the input array components.</param>
+        public static void Rodrigues(double[] vector, out double[,] matrix, out double[,] jacobian)
+        {
+            if (vector == null)
+                throw new ArgumentNullException("vector");
+            matrix = new double[3, 3];
+            jacobian = new double[3, 9];
+            CppInvoke.calib3d_Rodrigues_VectorToMatrix(vector, matrix, jacobian);
+        }
+        /// <summary>
+        /// converts rotation vector to rotation matrix using Rodrigues transformation
+        /// </summary>
+        /// <param name="vector">Input rotation vector (3x1).</param>
+        /// <param name="matrix">Output rotation matrix (3x3).</param>
+        public static void Rodrigues(double[] vector, out double[,] matrix)
+        {
+            double[,] jacobian;
+            Rodrigues(vector, out matrix, out jacobian);
+        }
+
+        /// <summary>
+        /// converts rotation matrix to rotation vector using Rodrigues transformation
+        /// </summary>
+        /// <param name="matrix">Input rotation matrix (3x3).</param>
+        /// <param name="vector">Output rotation vector (3x1).</param>
+        /// <param name="jacobian">Optional output Jacobian matrix, 3x9, which is a matrix of partial derivatives of the output array components with respect to the input array components.</param>
+        public static void Rodrigues(double[,] matrix, out double[] vector, out double[,] jacobian)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+            vector = new double[3];
+            jacobian = new double[3, 9];
+            CppInvoke.calib3d_Rodrigues_MatrixToVector(matrix, vector, jacobian);
+        }
+        /// <summary>
+        /// converts rotation matrix to rotation vector using Rodrigues transformation
+        /// </summary>
+        /// <param name="matrix">Input rotation matrix (3x3).</param>
+        /// <param name="vector">Output rotation vector (3x1).</param>
+        public static void Rodrigues(double[,] matrix, out double[] vector)
+        {
+            double[,] jacobian;
+            Rodrigues(matrix, out vector, out jacobian);
+        }
         #endregion
         #region FindHomography
         /// <summary>

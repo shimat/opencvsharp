@@ -19,6 +19,10 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_Rodrigues(IntPtr src, IntPtr dst, IntPtr jacobian);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_Rodrigues_VectorToMatrix(double[] vector, double[,] matrix, double[,] jacobian);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_Rodrigues_MatrixToVector(double[,] matrix, double[] vector, double[,] jacobian);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
             IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
