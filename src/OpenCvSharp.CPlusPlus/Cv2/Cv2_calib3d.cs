@@ -40,6 +40,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (vector == null)
                 throw new ArgumentNullException("vector");
+            if (vector.Length != 3)
+                throw new ArgumentException("vector.Length != 3");
             matrix = new double[3, 3];
             jacobian = new double[3, 9];
             CppInvoke.calib3d_Rodrigues_VectorToMatrix(vector, matrix, jacobian);
@@ -65,6 +67,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
+            if (matrix.GetLength(0) != 3 || matrix.GetLength(1) != 3)
+                throw new ArgumentException("matrix must be double[3,3]");
             vector = new double[3];
             jacobian = new double[3, 9];
             CppInvoke.calib3d_Rodrigues_MatrixToVector(matrix, vector, jacobian);
@@ -160,9 +164,9 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             mtxR.ThrowIfNotReady();
             mtxQ.ThrowIfNotReady();
-
-            Vec3d ret = CppInvoke.calib3d_RQDecomp3x3_InputArray(src.CvPtr, mtxR.CvPtr, mtxQ.CvPtr, 
-                ToPtr(qx), ToPtr(qy), ToPtr(qz));
+            Vec3d ret;
+            CppInvoke.calib3d_RQDecomp3x3_InputArray(src.CvPtr, mtxR.CvPtr, mtxQ.CvPtr, 
+                ToPtr(qx), ToPtr(qy), ToPtr(qz), out ret);
             if (qx != null)
                 qx.Fix();
             if (qy != null)
@@ -207,7 +211,9 @@ namespace OpenCvSharp.CPlusPlus
             qx = new double[3, 3];
             qy = new double[3, 3];
             qz = new double[3, 3];
-            return CppInvoke.calib3d_RQDecomp3x3_array(src, mtxR, mtxQ, qx, qy, qz);
+            Vec3d ret;
+            CppInvoke.calib3d_RQDecomp3x3_array(src, mtxR, mtxQ, qx, qy, qz, out ret);
+            return ret;
         }
         #endregion
 

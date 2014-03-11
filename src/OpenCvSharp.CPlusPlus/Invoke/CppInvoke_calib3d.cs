@@ -19,9 +19,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_Rodrigues(IntPtr src, IntPtr dst, IntPtr jacobian);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_Rodrigues_VectorToMatrix(double[] vector, double[,] matrix, double[,] jacobian);
+        public static extern void calib3d_Rodrigues_VectorToMatrix([In] double[] vector, [In, Out] double[,] matrix, [In, Out] double[,] jacobian);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_Rodrigues_MatrixToVector(double[,] matrix, double[] vector, double[,] jacobian);
+        public static extern void calib3d_Rodrigues_MatrixToVector([In] double[,] matrix, [In, Out] double[] vector, [In, Out] double[,] jacobian);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
             IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
@@ -32,11 +32,20 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr calib3d_findHomography_vector(Point2f[] srcPoints, int srcPointsLength,
             Point2f[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern Vec3d calib3d_RQDecomp3x3_InputArray(IntPtr src, IntPtr mtxR,
-            IntPtr mtxQ, IntPtr qx, IntPtr qy, IntPtr qz);
+        public static extern void calib3d_RQDecomp3x3_InputArray(IntPtr src, IntPtr mtxR,
+            IntPtr mtxQ, IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern Vec3d calib3d_RQDecomp3x3_array(double[,] src, double[,] mtxR, double[,] mtxQ,
-            double[,] qx, double[,] qy, double[,] qz);
+        public static extern void calib3d_RQDecomp3x3_array([In] double[,] src, [In, Out] double[,] mtxR, [In, Out] double[,] mtxQ,
+            [In, Out] double[,] qx, [In, Out] double[,] qy, [In, Out] double[,] qz, out Vec3d outVal);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_decomposeProjectionMatrix_InputArray(IntPtr projMatrix,
+            IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, IntPtr rotMatrixX,
+            IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_decomposeProjectionMatrix_array([In] double[,] projMatrix, [In,Out] double[,] cameraMatrix,
+            [In, Out] double[,] rotMatrix, [In, Out] double[,] transVect, [In, Out] double[,] rotMatrixX,
+            [In, Out] double[,] rotMatrixY, [In, Out] double[,] rotMatrixZ, [In, Out] double[] eulerAngles);
+
 
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

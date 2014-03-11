@@ -32,12 +32,6 @@ static int p(T obj)
 }
 
 
-typedef struct MyVec3d
-{
-	double vals0, vals1, vals2;
-} MyVec3d;
-
-
 static inline cv::_InputArray entity(cv::_InputArray *obj)
 {
 	return (obj != NULL) ? *obj : cv::noArray();
