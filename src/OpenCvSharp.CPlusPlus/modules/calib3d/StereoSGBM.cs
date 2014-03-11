@@ -23,16 +23,10 @@ namespace OpenCvSharp.CPlusPlus
 #endif
     public class StereoSGBM : DisposableCvObject
     {
-        #region Fields
-        /// <summary>
-        /// sizeof(StereoSGBM)
-        /// </summary>
-        public static readonly int SizeOf = CppInvoke.calib3d_StereoSGBM_sizeof().ToInt32();
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed = false;
-        #endregion
 
         #region Init and Disposal
         #region Constructor
@@ -84,8 +78,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="speckleRange"></param>
         /// <param name="fullDP"></param>
 #endif
-        public StereoSGBM(int minDisparity, int numDisparities,
-            int sadWindowSize, int p1, int p2, int disp12MaxDiff, int preFilterCap, int uniquenessRatio, int speckleWindowSize, int speckleRange, bool fullDP)
+        public StereoSGBM(int minDisparity, int numDisparities,　int sadWindowSize, 
+            int p1 = 0, int p2 = 0, int disp12MaxDiff = 0, int preFilterCap = 0, 
+            int uniquenessRatio = 0, int speckleWindowSize = 0, int speckleRange = 0,
+            bool fullDP = false)
         {
             ptr = CppInvoke.calib3d_StereoSGBM_new2(minDisparity, numDisparities, sadWindowSize, p1, p2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, fullDP);
             if (ptr == IntPtr.Zero)
@@ -93,19 +89,6 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region Dispose
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-#endif
-        public void Release()
-        {
-            Dispose(true);
-        }
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -125,7 +108,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 // 継承したクラス独自の解放処理
                 try
@@ -137,7 +120,7 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         CppInvoke.calib3d_StereoSGBM_delete(ptr);
                     }
-                    this.disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
@@ -433,7 +416,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="right"></param>
         /// <param name="disp"></param>
 #endif
-        public void FindCorrespondence(InputArray left, InputArray right, OutputArray disp)
+        public void Compute(InputArray left, InputArray right, OutputArray disp)
         {
             if (disposed)
                 throw new ObjectDisposedException("StereoSGBM");
@@ -446,7 +429,7 @@ namespace OpenCvSharp.CPlusPlus
             left.ThrowIfDisposed();
             right.ThrowIfDisposed();
             disp.ThrowIfNotReady();
-            CppInvoke.calib3d_StereoSGBM_exec(ptr, left.CvPtr, right.CvPtr, disp.CvPtr);
+            CppInvoke.calib3d_StereoSGBM_compute(ptr, left.CvPtr, right.CvPtr, disp.CvPtr);
             disp.Fix();
         }
         #endregion

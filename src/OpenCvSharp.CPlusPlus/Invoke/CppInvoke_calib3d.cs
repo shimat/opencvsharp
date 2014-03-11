@@ -16,9 +16,23 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     static partial class CppInvoke
     {
-        #region StereoSGBM
+        // StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr calib3d_StereoSGBM_sizeof();
+        public static extern IntPtr calib3d_StereoBM_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr calib3d_StereoBM_new2(int preset, int ndisparities,
+                                                          int sadWindowSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_StereoBM_init(IntPtr obj, int preset, int ndisparities,
+                                                        int sadWindowSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_StereoBM_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_StereoBM_compute(IntPtr obj, IntPtr left,
+                                                           IntPtr right,
+                                                           IntPtr disp, int disptype);
+
+        // StereoSGBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_StereoSGBM_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -26,7 +40,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_StereoSGBM_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_StereoSGBM_exec(IntPtr obj, IntPtr left, IntPtr right, IntPtr disp);
+        public static extern void calib3d_StereoSGBM_compute(IntPtr obj, IntPtr left, IntPtr right, IntPtr disp);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int calib3d_StereoSGBM_minDisparity_get(IntPtr obj);
@@ -72,7 +86,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int calib3d_StereoSGBM_fullDP_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_StereoSGBM_fullDP_set(IntPtr obj, int value);
-        #endregion
+
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_solvePnP(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess);
