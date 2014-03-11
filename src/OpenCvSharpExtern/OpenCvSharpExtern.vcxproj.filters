@@ -136,6 +136,9 @@
     <ClCompile Include="features2d_DescriptorMatcher.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="features2d_FeatureDetector.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -259,6 +262,9 @@
       <Filter>Headers\cpp</Filter>
     </ClInclude>
     <ClInclude Include="features2d_DescriptorMatcher.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="features2d_FeatureDetector.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>
