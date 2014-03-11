@@ -13,15 +13,53 @@ CVAPI(void) calib3d_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_
 	cv::Rodrigues(*src, *dst, entity(jacobian));
 }
 
-CVAPI(void) calib3d_solvePnP_InputArray(cv::_InputArray* objectPoints, cv::_InputArray* imagePoints, cv::_InputArray* cameraMatrix, cv::_InputArray* distCoeffs,
-	cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess)
+CVAPI(cv::Mat*) calib3d_findHomography_InputArray(cv::_InputArray *srcPoints, cv::_InputArray *dstPoints,
+	int method, double ransacReprojThreshold, cv::_OutputArray *mask)
 {
-	cv::solvePnP(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec, useExtrinsicGuess != 0);
+	cv::Mat ret = cv::findHomography(*srcPoints, *dstPoints, method, ransacReprojThreshold, entity(mask));
+	return new cv::Mat(ret);
+}
+CVAPI(cv::Mat*) calib3d_findHomography_vector(cv::Point2f *srcPoints, int srcPointsLength,
+	cv::Point2f *dstPoints, int dstPointsLength,
+	int method, double ransacReprojThreshold, cv::_OutputArray *mask)
+{
+	std::vector<cv::Point2f> srcPointsVec(srcPoints, srcPoints + srcPointsLength);
+	std::vector<cv::Point2f> dstPointsVec(dstPoints, dstPoints + dstPointsLength);
+	cv::Mat ret = cv::findHomography(srcPointsVec, dstPointsVec, method, ransacReprojThreshold, entity(mask));
+	return new cv::Mat(ret);
+}
+
+CVAPI(MyVec3d) calib3d_RQDecomp3x3_InputArray(cv::_InputArray *src, cv::_OutputArray *mtxR, cv::_OutputArray *mtxQ,
+	cv::_OutputArray *qx, cv::_OutputArray *qy, cv::_OutputArray *qz)
+{
+	cv::Vec3d v = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, entity(qx), entity(qy), entity(qz));
+	MyVec3d ret = { v[0], v[1], v[2] };
+	return ret;
+}
+CVAPI(MyVec3d) calib3d_RQDecomp3x3_array(double *src, double *mtxR, double *mtxQ,
+	double *qx, double *qy, double *qz)
+{
+	cv::Mat srcM(3, 3, CV_64FC1, src);
+	cv::Mat mtxRM(3, 3, CV_64FC1, mtxR);
+	cv::Mat mtxQM(3, 3, CV_64FC1, mtxQ);
+	cv::Mat qxM(3, 3, CV_64FC1, qx);
+	cv::Mat qyM(3, 3, CV_64FC1, qy);
+	cv::Mat qzM(3, 3, CV_64FC1, qz);
+	cv::Vec3d v = cv::RQDecomp3x3(srcM, mtxRM, mtxQM, qxM, qyM, qzM);
+	MyVec3d ret = { v[0], v[1], v[2] };
+	return ret;
+}
+
+CVAPI(void) calib3d_solvePnP_InputArray(cv::_InputArray* objectPoints, cv::_InputArray* imagePoints, cv::_InputArray* cameraMatrix, cv::_InputArray* distCoeffs,
+	cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess, int flags)
+{
+	cv::solvePnP(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec, useExtrinsicGuess != 0, flags);
 }
 CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsLength,
 									cv::Point2f *imagePoints, int imagePointsLength,
 									cv::_InputArray* cameraMatrix, double *distCoeffs, int distCoeffsLength,
-									cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess)
+									cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess,
+									int flags)
 {
 	std::vector<cv::Point3f> objectPointsVec(objectPoints, objectPoints + objectPointsLength);
 	std::vector<cv::Point2f> imagePointsVec(imagePoints, imagePoints + imagePointsLength);
@@ -29,7 +67,7 @@ CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsL
 	if (distCoeffs != NULL)
 		distCoeffsVec = std::vector<double>(distCoeffs, distCoeffs + distCoeffsLength);
 
-	cv::solvePnP(objectPointsVec, imagePointsVec, *cameraMatrix, distCoeffsVec, *rvec, *tvec, useExtrinsicGuess != 0);
+	cv::solvePnP(objectPointsVec, imagePointsVec, *cameraMatrix, distCoeffsVec, *rvec, *tvec, useExtrinsicGuess != 0, flags);
 }
 
 #pragma region StereoBM
