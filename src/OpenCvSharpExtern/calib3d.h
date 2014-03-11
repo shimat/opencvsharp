@@ -12,6 +12,20 @@ CVAPI(void) calib3d_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_
 {
 	cv::Rodrigues(*src, *dst, entity(jacobian));
 }
+CVAPI(void) calib3d_Rodrigues_VectorToMatrix(double *vector, double* matrix, double *jacobian)
+{
+	cv::Mat vectorM(3, 1, CV_64FC1, vector);
+	cv::Mat matrixM(3, 3, CV_64FC1, matrix);
+	cv::Mat jacobianM(3, 9, CV_64FC1, jacobian);
+	cv::Rodrigues(vectorM, matrixM, jacobianM);
+}
+CVAPI(void) calib3d_Rodrigues_MatrixToVector(double *matrix, double* vector, double *jacobian)
+{
+	cv::Mat matrixM(3, 3, CV_64FC1, matrix);
+	cv::Mat vectorM(3, 1, CV_64FC1, vector);	
+	cv::Mat jacobianM(3, 9, CV_64FC1, jacobian);
+	cv::Rodrigues(matrixM, vectorM, jacobianM);
+}
 
 CVAPI(cv::Mat*) calib3d_findHomography_InputArray(cv::_InputArray *srcPoints, cv::_InputArray *dstPoints,
 	int method, double ransacReprojThreshold, cv::_OutputArray *mask)
