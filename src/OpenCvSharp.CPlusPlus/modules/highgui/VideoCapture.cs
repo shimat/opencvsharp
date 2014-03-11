@@ -2096,12 +2096,12 @@ namespace OpenCvSharp.CPlusPlus
         #region Release
 #if LANG_JP
         /// <summary>
-        /// 
+        /// Closes video file or capturing device.
         /// </summary>
         /// <returns></returns>
 #else
         /// <summary>
-        /// 
+        /// Closes video file or capturing device.
         /// </summary>
         /// <returns></returns>
 #endif
@@ -2109,6 +2109,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             ThrowIfDisposed();
             CppInvoke.highgui_VideoCapture_release(ptr);
+        }
+        #endregion
+        #region IsOpened
+        /// <summary>
+        /// Returns true if video capturing has been initialized already.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsOpened()
+        {
+            ThrowIfDisposed();
+            return CppInvoke.highgui_VideoCapture_isOpened(ptr) != 0;
         }
         #endregion
         #endregion

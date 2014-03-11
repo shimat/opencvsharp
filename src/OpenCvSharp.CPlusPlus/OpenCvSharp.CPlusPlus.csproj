@@ -178,6 +178,8 @@
     <Compile Include="modules\features2d\GFTTDetector.cs" />
     <Compile Include="modules\features2d\FastFeatureDetector.cs" />
     <Compile Include="modules\features2d\BRISK.cs" />
+    <Compile Include="modules\features2d\SimpleBlobDetector.cs" />
+    <Compile Include="modules\features2d\DenseFeatureDetector.cs" />
     <Compile Include="modules\highgui\VideoWriter.cs" />
     <Compile Include="modules\highgui\VideoCapture.cs" />
     <Compile Include="modules\imgproc\HierarchyIndex.cs" />

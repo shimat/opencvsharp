@@ -329,7 +329,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region IsOpened
         /// <summary>
-        /// 
+        /// Returns true if video writer has been successfully initialized.
         /// </summary>
         /// <returns></returns>
         public bool IsOpened()

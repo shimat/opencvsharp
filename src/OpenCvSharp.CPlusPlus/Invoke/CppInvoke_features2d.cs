@@ -128,6 +128,23 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_GFTTDetector_info(IntPtr obj);
 
+        // SimpleBlobDetector
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_SimpleBlobDetector_new(
+            ref SimpleBlobDetector.WParams parameters);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_SimpleBlobDetector_delete(IntPtr obj);
+
+        // DenseFeatureDetector
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_DenseFeatureDetector_new(
+            float initFeatureScale, int featureScaleLevels, float featureScaleMul,
+            int initXyStep, int initImgBound, int varyXyStepWithScale, int varyImgBoundWithScale);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_DenseFeatureDetector_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_DenseFeatureDetector_info(IntPtr obj);
+
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_drawKeypoints(IntPtr image, KeyPoint[] keypoints, int keypointsLength,

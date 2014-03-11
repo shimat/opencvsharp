@@ -102,7 +102,19 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Create feature detector by detector name.
         /// </summary>
-        /// <param name="detectorType"></param>
+        /// <param name="detectorType">
+        /// "FAST" – FastFeatureDetector, 
+        /// "STAR" – StarFeatureDetector,
+        /// "SIFT" – SIFT (nonfree module), 
+        /// "SURF" – SURF (nonfree module), 
+        /// "ORB" – ORB,
+        /// "BRISK" – BRISK,
+        /// "MSER" – MSER, 
+        /// "GFTT" – GoodFeaturesToTrackDetector, 
+        /// "HARRIS" – GoodFeaturesToTrackDetector with Harris detector enabled, 
+        /// "Dense" – DenseFeatureDetector, 
+        /// "SimpleBlob" – SimpleBlobDetector
+        /// </param>
         /// <returns></returns>
         public static FeatureDetector Create(string detectorType)
         {

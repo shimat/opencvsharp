@@ -11,27 +11,37 @@ using System.Text;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// Good Features To Track Detector
+    /// Class for generation of image features which are 
+    /// distributed densely and regularly over the image.
     /// </summary>
-    public class GFTTDetector : FeatureDetector
+    public class DenseFeatureDetector : FeatureDetector
     {
         private bool disposed;
 
         #region Init & Disposal
         /// <summary>
-        /// 
+        /// The detector generates several levels (in the amount of featureScaleLevels) of features. 
+        /// Features of each level are located in the nodes of a regular grid over the image 
+        /// (excluding the image boundary of given size). The level parameters (a feature scale, 
+        /// a node size, a size of boundary) are multiplied by featureScaleMul with level index 
+        /// growing depending on input flags, viz.:
         /// </summary>
-        /// <param name="maxCorners"></param>
-        /// <param name="qualityLevel"></param>
-        /// <param name="minDistance"></param>
-        /// <param name="blockSize"></param>
-        /// <param name="useHarrisDetector"></param>
-        /// <param name="k"></param>
-        public GFTTDetector(int maxCorners = 1000, double qualityLevel = 0.01, double minDistance = 1,
-                          int blockSize = 3, bool useHarrisDetector = false, double k = 0.04)
+        /// <param name="initFeatureScale"></param>
+        /// <param name="featureScaleLevels"></param>
+        /// <param name="featureScaleMul"></param>
+        /// <param name="initXyStep"></param>
+        /// <param name="initImgBound"></param>
+        /// <param name="varyXyStepWithScale">The grid node size is multiplied if this is true.</param>
+        /// <param name="varyImgBoundWithScale">Size of image boundary is multiplied if this is true.</param>
+        public DenseFeatureDetector( float initFeatureScale=1.0f, int featureScaleLevels=1,
+                                   float featureScaleMul=0.1f,
+                                   int initXyStep=6, int initImgBound=0,
+                                   bool varyXyStepWithScale=true,
+                                   bool varyImgBoundWithScale=false )
         {
-            ptr = CppInvoke.features2d_GFTTDetector_new(maxCorners, qualityLevel, minDistance, 
-                blockSize, useHarrisDetector ? 1 : 0, k);
+            ptr = CppInvoke.features2d_DenseFeatureDetector_new(
+                initFeatureScale, featureScaleLevels, featureScaleMul,initXyStep, initImgBound, 
+                varyXyStepWithScale ? 1 : 0, varyImgBoundWithScale ? 1 : 0);
         }
 
 #if LANG_JP
@@ -63,7 +73,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_GFTTDetector_delete(ptr);
+                        CppInvoke.features2d_DenseFeatureDetector_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -79,24 +89,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public KeyPoint[] Run(Mat image, Mat mask)
-        {
-            ThrowIfDisposed();
-            return base.Detect(image, mask);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public AlgorithmInfo Info
         {
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_GFTTDetector_info(ptr);
+                IntPtr pInfo = CppInvoke.features2d_DenseFeatureDetector_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }
