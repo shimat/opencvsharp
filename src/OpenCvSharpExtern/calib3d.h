@@ -16,12 +16,34 @@ CVAPI(void) imgproc_solvePnP(cv::_InputArray* objectPoints, cv::_InputArray* ima
 }
 
 
-#pragma region StereoSGBM
-CVAPI(size_t) calib3d_StereoSGBM_sizeof()
+#pragma region StereoBM
+
+CVAPI(cv::StereoBM*) calib3d_StereoBM_new1()
 {
-	return sizeof(cv::StereoSGBM);
+	return new cv::StereoBM();
+}
+CVAPI(cv::StereoBM*) calib3d_StereoBM_new2(int preset, int ndisparities, int SADWindowSize)
+{
+	return new cv::StereoBM(preset, ndisparities, SADWindowSize);
+}
+CVAPI(void) calib3d_StereoBM_init(cv::StereoBM *obj, int preset, int ndisparities, int SADWindowSize)
+{
+	obj->init(preset, ndisparities, SADWindowSize);
+}
+CVAPI(void) calib3d_StereoBM_delete(cv::StereoBM* obj)
+{
+	delete obj;
 }
 
+CVAPI(void) calib3d_StereoBM_compute(cv::StereoBM* obj, cv::_InputArray* left, cv::_InputArray* right, 
+									 cv::_OutputArray* disp, int disptype)
+{
+	(*obj)(*left, *right, *disp, disptype);
+}
+
+#pragma endregion
+
+#pragma region StereoSGBM
 
 CVAPI(void) calib3d_StereoSGBM_delete(cv::StereoSGBM* obj)
 {
@@ -36,7 +58,7 @@ CVAPI(cv::StereoSGBM*) calib3d_StereoSGBM_new2(int minDisparity, int numDisparit
 	return new cv::StereoSGBM(minDisparity, numDisparities, SADWindowSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, fullDP);
 }
 
-CVAPI(void) calib3d_StereoSGBM_exec(cv::StereoSGBM* obj, cv::_InputArray* left, cv::_InputArray* right, cv::_OutputArray* disp)
+CVAPI(void) calib3d_StereoSGBM_compute(cv::StereoSGBM* obj, cv::_InputArray* left, cv::_InputArray* right, cv::_OutputArray* disp)
 {
 	(*obj)(*left, *right, *disp);
 }
