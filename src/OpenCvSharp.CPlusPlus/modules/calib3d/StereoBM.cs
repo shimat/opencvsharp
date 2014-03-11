@@ -42,7 +42,7 @@ namespace OpenCvSharp.CPlusPlus
 #if LANG_JP
         /// <summary>
         /// デフォルトのパラメータで初期化.
-        /// 実際は numberOfDisparities だけは指定する必要がある.
+        /// あとでInitを呼ぶ必要がある。
         /// </summary>
 #else
         /// <summary>

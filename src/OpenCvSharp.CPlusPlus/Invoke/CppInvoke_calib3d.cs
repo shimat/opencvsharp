@@ -16,6 +16,16 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     static partial class CppInvoke
     {
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_Rodrigues(IntPtr src, IntPtr dst, IntPtr jacobian);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
+                                                          Point2f[] imagePoints, int imagePointsLength,
+                                                          IntPtr cameraMatrix, double[] distCoeffs, int distCoeffsLength,
+                                                          IntPtr rvec, IntPtr tvec, int useExtrinsicGuess);
+
         // StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_StereoBM_new1();
@@ -86,10 +96,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int calib3d_StereoSGBM_fullDP_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_StereoSGBM_fullDP_set(IntPtr obj, int value);
-
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_solvePnP(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess);
 
     }
 }

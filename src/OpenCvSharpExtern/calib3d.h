@@ -8,13 +8,29 @@
 
 #include "include_opencv.h"
 
+CVAPI(void) calib3d_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_OutputArray *jacobian)
+{
+	cv::Rodrigues(*src, *dst, entity(jacobian));
+}
 
-CVAPI(void) imgproc_solvePnP(cv::_InputArray* objectPoints, cv::_InputArray* imagePoints, cv::_InputArray* cameraMatrix, cv::_InputArray* distCoeffs,
+CVAPI(void) calib3d_solvePnP_InputArray(cv::_InputArray* objectPoints, cv::_InputArray* imagePoints, cv::_InputArray* cameraMatrix, cv::_InputArray* distCoeffs,
 	cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess)
 {
 	cv::solvePnP(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec, useExtrinsicGuess != 0);
 }
+CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsLength,
+									cv::Point2f *imagePoints, int imagePointsLength,
+									cv::_InputArray* cameraMatrix, double *distCoeffs, int distCoeffsLength,
+									cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess)
+{
+	std::vector<cv::Point3f> objectPointsVec(objectPoints, objectPoints + objectPointsLength);
+	std::vector<cv::Point2f> imagePointsVec(imagePoints, imagePoints + imagePointsLength);
+	std::vector<double> distCoeffsVec;
+	if (distCoeffs != NULL)
+		distCoeffsVec = std::vector<double>(distCoeffs, distCoeffs + distCoeffsLength);
 
+	cv::solvePnP(objectPointsVec, imagePointsVec, *cameraMatrix, distCoeffsVec, *rvec, *tvec, useExtrinsicGuess != 0);
+}
 
 #pragma region StereoBM
 

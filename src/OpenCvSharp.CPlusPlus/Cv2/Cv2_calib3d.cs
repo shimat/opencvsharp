@@ -11,6 +11,26 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public static partial class Cv2
     {
+        #region Rodrigues
+        /// <summary>
+        /// converts rotation vector to rotation matrix or vice versa using Rodrigues transformation
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="jacobian"></param>
+        public static void Rodrigues(InputArray src, OutputArray dst, OutputArray jacobian = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            CppInvoke.calib3d_Rodrigues(src.CvPtr, dst.CvPtr, ToPtr(jacobian));
+            dst.Fix();
+        }
+        #endregion
+
         #region SolvePnP
         /// <summary>
         /// 
@@ -42,7 +62,7 @@ namespace OpenCvSharp.CPlusPlus
             rvec.ThrowIfDisposed();
             tvec.ThrowIfDisposed();
             IntPtr distCoeffsPtr = ToPtr(distCoeffs);
-            CppInvoke.imgproc_solvePnP(
+            CppInvoke.calib3d_solvePnP_InputArray(
                 objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr, 
                 rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0);
         }
@@ -56,7 +76,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rvec"></param>
         /// <param name="tvec"></param>
         /// <param name="useExtrinsicGuess"></param>
-        public static void SolvePnP(IEnumerable<Point3f> objectPoints, IEnumerable<Point2f> imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
+        public static void SolvePnP(IEnumerable<Point3f> objectPoints, IEnumerable<Point2f> imagePoints, 
+            InputArray cameraMatrix, IEnumerable<double> distCoeffs,
             OutputArray rvec, OutputArray tvec, bool useExtrinsicGuess = false)
         {
             if (objectPoints == null)
@@ -73,14 +94,17 @@ namespace OpenCvSharp.CPlusPlus
             cameraMatrix.ThrowIfDisposed();
             rvec.ThrowIfDisposed();
             tvec.ThrowIfDisposed();
-            using (StdVectorPoint3f objectPointsVec = new StdVectorPoint3f(objectPoints))
-            using (StdVectorPoint2f imagePointssVec = new StdVectorPoint2f(imagePoints))
-            {
-                IntPtr distCoeffsPtr = ToPtr(distCoeffs);
-                CppInvoke.imgproc_solvePnP(
-                    objectPointsVec.CvPtr, imagePointssVec.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr, 
+
+            Point3f[] objectPointsArray = EnumerableEx.ToArray(objectPoints);
+            Point2f[] imagePointsArray = EnumerableEx.ToArray(imagePoints);
+            double[] distCoeffsArray = EnumerableEx.ToArray(distCoeffs);
+            int distCoeffsLength = (distCoeffs == null) ? 0 : distCoeffsArray.Length;
+
+            CppInvoke.calib3d_solvePnP_vector(
+                    objectPointsArray, objectPointsArray.Length, 
+                    imagePointsArray, imagePointsArray.Length,
+                    cameraMatrix.CvPtr, distCoeffsArray, distCoeffsLength, 
                     rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0);
-            }
         }
         #endregion
     }
