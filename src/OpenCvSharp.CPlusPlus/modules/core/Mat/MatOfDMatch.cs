@@ -168,7 +168,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region FromArray
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfDMatch FromArray(params DMatch[] arr)
@@ -176,7 +176,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfDMatch(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfDMatch FromArray(IEnumerable<DMatch> enumerable)
@@ -187,7 +187,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region ToArray
         /// <summary>
-        /// 
+        /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
         public DMatch[] ToArray()
@@ -196,6 +196,18 @@ namespace OpenCvSharp.CPlusPlus
             if (numOfElems == 0)
                 return new DMatch[0];
             DMatch[] arr = new DMatch[numOfElems];
+            GetArray(0, 0, arr);
+            return arr;
+        }
+        /// <summary>
+        /// Convert this mat to managed rectangular array
+        /// </summary>
+        /// <returns></returns>
+        public DMatch[,] ToRectangularArray()
+        {
+            if (Rows == 0 || Cols == 0)
+                return new DMatch[0, 0];
+            DMatch[,] arr = new DMatch[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }

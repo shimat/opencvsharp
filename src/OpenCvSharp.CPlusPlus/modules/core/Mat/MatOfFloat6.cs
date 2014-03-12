@@ -191,7 +191,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region FromArray
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfFloat6 FromArray(params Vec6f[] arr)
@@ -199,7 +199,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfFloat6(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfFloat6 FromArray(IEnumerable<Vec6f> enumerable)
@@ -207,7 +207,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfFloat6(enumerable);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfFloat6 FromPrimitiveArray(params float[] arr)
@@ -215,7 +215,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfFloat6(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfFloat6 FromPrimitiveArray(IEnumerable<float> enumerable)
@@ -226,14 +226,11 @@ namespace OpenCvSharp.CPlusPlus
 
         #region ToArray
         /// <summary>
-        /// 
+        /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
         public Vec6f[] ToArray()
         {
-            /*int num = CheckVector(ThisChannels, ThisDepth);
-            if (num < 0)
-                throw new OpenCvSharpException("Native Mat has unexpected type or size: " + ToString());*/
             int numOfElems = Rows * Cols;
             if (numOfElems == 0)
                 return new Vec6f[0];
@@ -247,13 +244,22 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public float[] ToPrimitiveArray()
         {
-            /*int num = CheckVector(ThisChannels, ThisDepth);
-            if (num < 0)
-                throw new OpenCvSharpException("Native Mat has unexpected type or size: " + ToString());*/
             int numOfElems = Rows * Cols;
             if (numOfElems == 0)
                 return new float[0];
             float[] arr = new float[numOfElems * ThisChannels];
+            GetArray(0, 0, arr);
+            return arr;
+        }
+        /// <summary>
+        /// Convert this mat to managed rectangular array
+        /// </summary>
+        /// <returns></returns>
+        public Vec6f[,] ToRectangularArray()
+        {
+            if (Rows == 0 || Cols == 0)
+                return new Vec6f[0, 0];
+            Vec6f[,] arr = new Vec6f[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }

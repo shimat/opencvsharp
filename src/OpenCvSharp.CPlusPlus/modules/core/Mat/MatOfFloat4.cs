@@ -191,7 +191,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region FromArray
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfFloat4 FromArray(params Vec4f[] arr)
@@ -199,7 +199,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfFloat4(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfFloat4 FromArray(IEnumerable<Vec4f> enumerable)
@@ -207,7 +207,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfFloat4(enumerable);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfFloat4 FromPrimitiveArray(params float[] arr)
@@ -215,7 +215,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfFloat4(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfFloat4 FromPrimitiveArray(IEnumerable<float> enumerable)
@@ -226,7 +226,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region ToArray
         /// <summary>
-        /// 
+        /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
         public Vec4f[] ToArray()
@@ -254,6 +254,18 @@ namespace OpenCvSharp.CPlusPlus
             if (numOfElems == 0)
                 return new float[0];
             float[] arr = new float[numOfElems * ThisChannels];
+            GetArray(0, 0, arr);
+            return arr;
+        }
+        /// <summary>
+        /// Convert this mat to managed rectangular array
+        /// </summary>
+        /// <returns></returns>
+        public Vec4f[,] ToRectangularArray()
+        {
+            if (Rows == 0 || Cols == 0)
+                return new Vec4f[0, 0];
+            Vec4f[,] arr = new Vec4f[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }

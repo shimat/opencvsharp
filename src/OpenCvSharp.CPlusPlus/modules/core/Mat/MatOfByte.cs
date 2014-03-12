@@ -167,7 +167,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region FromArray
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfByte FromArray(params byte[] arr)
@@ -175,16 +175,18 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfByte(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfByte FromArray(IEnumerable<byte> enumerable)
         {
             return new MatOfByte(enumerable);
         }
+        #endregion
 
+        #region ToArray
         /// <summary>
-        /// 
+        /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
         public byte[] ToArray()
@@ -193,6 +195,18 @@ namespace OpenCvSharp.CPlusPlus
             if (numOfElems == 0)
                 return new byte[0];
             byte[] arr = new byte[numOfElems];
+            GetArray(0, 0, arr);
+            return arr;
+        }
+        /// <summary>
+        /// Convert this mat to managed rectangular array
+        /// </summary>
+        /// <returns></returns>
+        public byte[,] ToRectangularArray()
+        {
+            if (Rows == 0 || Cols == 0)
+                return new byte[0, 0];
+            byte[,] arr = new byte[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }
