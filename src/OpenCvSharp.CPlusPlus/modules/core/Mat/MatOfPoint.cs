@@ -191,7 +191,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region FromArray
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfPoint FromArray(params Point[] arr)
@@ -199,7 +199,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfPoint(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfPoint FromArray(IEnumerable<Point> enumerable)
@@ -207,7 +207,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfPoint(enumerable);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfPoint FromPrimitiveArray(params int[] arr)
@@ -215,7 +215,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfPoint(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfPoint FromPrimitiveArray(IEnumerable<int> enumerable)
@@ -226,7 +226,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region ToArray
         /// <summary>
-        /// 
+        /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
         public Point[] ToArray()
@@ -239,7 +239,7 @@ namespace OpenCvSharp.CPlusPlus
             return arr;
         }
         /// <summary>
-        /// 
+        /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
         public int[] ToPrimitiveArray()
@@ -248,6 +248,18 @@ namespace OpenCvSharp.CPlusPlus
             if (numOfElems == 0)
                 return new int[0];
             int[] arr = new int[numOfElems * ThisChannels];
+            GetArray(0, 0, arr);
+            return arr;
+        }
+        /// <summary>
+        /// Convert this mat to managed rectangular array
+        /// </summary>
+        /// <returns></returns>
+        public Point[,] ToRectangularArray()
+        {
+            if (Rows == 0 || Cols == 0)
+                return new Point[0, 0];
+            Point[,] arr = new Point[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }

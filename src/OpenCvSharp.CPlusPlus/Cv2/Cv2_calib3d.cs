@@ -28,6 +28,8 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             CppInvoke.calib3d_Rodrigues(src.CvPtr, dst.CvPtr, ToPtr(jacobian));
             dst.Fix();
+            if (jacobian != null)
+                jacobian.Fix();
         }
 
         /// <summary>
@@ -215,6 +217,277 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.calib3d_RQDecomp3x3_array(src, mtxR, mtxQ, qx, qy, qz, out ret);
             return ret;
         }
+        #endregion
+        #region DecomposeProjectionMatrix
+        /// <summary>
+        /// Decomposes the projection matrix into camera matrix and the rotation martix and the translation vector
+        /// </summary>
+        /// <param name="projMatrix">3x4 input projection matrix P.</param>
+        /// <param name="cameraMatrix">Output 3x3 camera matrix K.</param>
+        /// <param name="rotMatrix">Output 3x3 external rotation matrix R.</param>
+        /// <param name="transVect">Output 4x1 translation vector T.</param>
+        /// <param name="rotMatrixX">Optional 3x3 rotation matrix around x-axis.</param>
+        /// <param name="rotMatrixY">Optional 3x3 rotation matrix around y-axis.</param>
+        /// <param name="rotMatrixZ">Optional 3x3 rotation matrix around z-axis.</param>
+        /// <param name="eulerAngles">ptional three-element vector containing three Euler angles of rotation in degrees.</param>
+        public static void DecomposeProjectionMatrix(InputArray projMatrix,
+                                                     OutputArray cameraMatrix,
+                                                     OutputArray rotMatrix,
+                                                     OutputArray transVect,
+                                                     OutputArray rotMatrixX = null,
+                                                     OutputArray rotMatrixY = null,
+                                                     OutputArray rotMatrixZ = null,
+                                                     OutputArray eulerAngles = null)
+        {
+            if (projMatrix == null)
+                throw new ArgumentNullException("projMatrix");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (rotMatrix == null)
+                throw new ArgumentNullException("rotMatrix");
+            projMatrix.ThrowIfDisposed();
+            cameraMatrix.ThrowIfNotReady();
+            rotMatrix.ThrowIfNotReady();
+            transVect.ThrowIfNotReady();
+
+            CppInvoke.calib3d_decomposeProjectionMatrix_InputArray(
+                projMatrix.CvPtr, cameraMatrix.CvPtr, rotMatrix.CvPtr, transVect.CvPtr,
+                ToPtr(rotMatrixX), ToPtr(rotMatrixY), ToPtr(rotMatrixZ), ToPtr(eulerAngles));
+
+            cameraMatrix.Fix();
+            rotMatrix.Fix();
+            transVect.Fix();
+            if (rotMatrixX != null)
+                rotMatrixX.Fix();
+            if (rotMatrixY != null)
+                rotMatrixY.Fix();
+            if (rotMatrixZ != null)
+                rotMatrixZ.Fix();
+            if (eulerAngles != null)
+                eulerAngles.Fix();
+        }
+
+        /// <summary>
+        /// Decomposes the projection matrix into camera matrix and the rotation martix and the translation vector
+        /// </summary>
+        /// <param name="projMatrix">3x4 input projection matrix P.</param>
+        /// <param name="cameraMatrix">Output 3x3 camera matrix K.</param>
+        /// <param name="rotMatrix">Output 3x3 external rotation matrix R.</param>
+        /// <param name="transVect">Output 4x1 translation vector T.</param>
+        /// <param name="rotMatrixX">Optional 3x3 rotation matrix around x-axis.</param>
+        /// <param name="rotMatrixY">Optional 3x3 rotation matrix around y-axis.</param>
+        /// <param name="rotMatrixZ">Optional 3x3 rotation matrix around z-axis.</param>
+        /// <param name="eulerAngles">ptional three-element vector containing three Euler angles of rotation in degrees.</param>
+        public static void DecomposeProjectionMatrix(double[,] projMatrix,
+                                                     out double[,] cameraMatrix,
+                                                     out double[,] rotMatrix,
+                                                     out double[] transVect,
+                                                     out double[,] rotMatrixX,
+                                                     out double[,] rotMatrixY,
+                                                     out double[,] rotMatrixZ,
+                                                     out double[] eulerAngles)
+        {
+            if (projMatrix == null)
+                throw new ArgumentNullException("projMatrix");
+            int dim0 = projMatrix.GetLength(0);
+            int dim1 = projMatrix.GetLength(1);
+            if (!((dim0 == 3 && dim1 == 4) || (dim0 == 4 && dim1 == 3)))
+                throw new ArgumentException("projMatrix must be double[3,4] or double[4,3]");
+
+            cameraMatrix = new double[3,3];
+            rotMatrix = new double[3,3];
+            transVect = new double[4];
+            rotMatrixX = new double[3,3];
+            rotMatrixY = new double[3,3];
+            rotMatrixZ = new double[3,3];
+            eulerAngles = new double[3];
+
+            CppInvoke.calib3d_decomposeProjectionMatrix_array(
+                projMatrix, cameraMatrix, rotMatrix, transVect,
+                rotMatrixX, rotMatrixY, rotMatrixZ, eulerAngles);
+        }
+        /// <summary>
+        /// Decomposes the projection matrix into camera matrix and the rotation martix and the translation vector
+        /// </summary>
+        /// <param name="projMatrix">3x4 input projection matrix P.</param>
+        /// <param name="cameraMatrix">Output 3x3 camera matrix K.</param>
+        /// <param name="rotMatrix">Output 3x3 external rotation matrix R.</param>
+        /// <param name="transVect">Output 4x1 translation vector T.</param>
+        public static void DecomposeProjectionMatrix(double[,] projMatrix,
+                                                     out double[,] cameraMatrix,
+                                                     out double[,] rotMatrix,
+                                                     out double[] transVect)
+        {
+            double[,] rotMatrixX, rotMatrixY, rotMatrixZ;
+            double[] eulerAngles;
+            DecomposeProjectionMatrix(projMatrix, out cameraMatrix, out rotMatrix, out transVect,
+                                      out rotMatrixX, out rotMatrixY, out rotMatrixZ, out eulerAngles);
+        }
+        #endregion
+        #region MatMulDeriv
+
+        /// <summary>
+        /// computes derivatives of the matrix product w.r.t each of the multiplied matrix coefficients
+        /// </summary>
+        /// <param name="a">First multiplied matrix.</param>
+        /// <param name="b">Second multiplied matrix.</param>
+        /// <param name="dABdA">First output derivative matrix d(A*B)/dA of size A.rows*B.cols X A.rows*A.cols .</param>
+        /// <param name="dABdB">Second output derivative matrix d(A*B)/dB of size A.rows*B.cols X B.rows*B.cols .</param>
+        public static void MatMulDeriv(InputArray a, InputArray b,
+                                       OutputArray dABdA,
+                                       OutputArray dABdB)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+            if (dABdA == null)
+                throw new ArgumentNullException("dABdA");
+            if (dABdB == null)
+                throw new ArgumentNullException("dABdB");
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            dABdA.ThrowIfNotReady();
+            dABdB.ThrowIfNotReady();
+            CppInvoke.calib3d_matMulDeriv(a.CvPtr, b.CvPtr, dABdA.CvPtr, dABdB.CvPtr);
+            dABdA.Fix();
+            dABdB.Fix();
+        }
+        #endregion
+        #region ComposeRT
+        /// <summary>
+        /// composes 2 [R|t] transformations together. Also computes the derivatives of the result w.r.t the arguments
+        /// </summary>
+        /// <param name="rvec1">First rotation vector.</param>
+        /// <param name="tvec1">First translation vector.</param>
+        /// <param name="rvec2">Second rotation vector.</param>
+        /// <param name="tvec2">Second translation vector.</param>
+        /// <param name="rvec3">Output rotation vector of the superposition.</param>
+        /// <param name="tvec3">Output translation vector of the superposition.</param>
+        /// <param name="dr3dr1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dr3dt1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dr3dr2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dr3dt2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dt3dr1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dt3dt1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dt3dr2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dt3dt2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        public static void ComposeRT(InputArray rvec1, InputArray tvec1,
+                                     InputArray rvec2, InputArray tvec2,
+                                     OutputArray rvec3, OutputArray tvec3,
+                                     OutputArray dr3dr1 = null, OutputArray dr3dt1 = null,
+                                     OutputArray dr3dr2 = null, OutputArray dr3dt2 = null,
+                                     OutputArray dt3dr1 = null, OutputArray dt3dt1 = null,
+                                     OutputArray dt3dr2 = null, OutputArray dt3dt2 = null)
+        {
+            if (rvec1 == null)
+                throw new ArgumentNullException("rvec1");
+            if (tvec1 == null)
+                throw new ArgumentNullException("tvec1");
+            if (rvec2 == null)
+                throw new ArgumentNullException("rvec2");
+            if (tvec2 == null)
+                throw new ArgumentNullException("tvec2");
+            rvec1.ThrowIfDisposed();
+            tvec1.ThrowIfDisposed();
+            rvec2.ThrowIfDisposed();
+            tvec2.ThrowIfDisposed();
+            rvec3.ThrowIfNotReady();
+            tvec3.ThrowIfNotReady();
+            CppInvoke.calib3d_composeRT_InputArray(rvec1.CvPtr, tvec1.CvPtr, rvec2.CvPtr, tvec2.CvPtr,
+                rvec3.CvPtr, tvec3.CvPtr, 
+                ToPtr(dr3dr1), ToPtr(dr3dt1), ToPtr(dr3dr2), ToPtr(dr3dt2),
+                ToPtr(dt3dr1), ToPtr(dt3dt1), ToPtr(dt3dr2), ToPtr(dt3dt2));
+        }
+
+        /// <summary>
+        /// composes 2 [R|t] transformations together. Also computes the derivatives of the result w.r.t the arguments
+        /// </summary>
+        /// <param name="rvec1">First rotation vector.</param>
+        /// <param name="tvec1">First translation vector.</param>
+        /// <param name="rvec2">Second rotation vector.</param>
+        /// <param name="tvec2">Second translation vector.</param>
+        /// <param name="rvec3">Output rotation vector of the superposition.</param>
+        /// <param name="tvec3">Output translation vector of the superposition.</param>
+        /// <param name="dr3dr1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dr3dt1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dr3dr2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dr3dt2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dt3dr1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dt3dt1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dt3dr2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        /// <param name="dt3dt2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
+        public static void ComposeRT(double[,] rvec1, double[] tvec1,
+                                     double[,] rvec2, double[] tvec2,
+                                     out double[,] rvec3, out double[] tvec3,
+                                     out double[,] dr3dr1, out double[,] dr3dt1,
+                                     out double[,] dr3dr2, out double[,] dr3dt2,
+                                     out double[,] dt3dr1, out double[,] dt3dt1,
+                                     out double[,] dt3dr2, out double[,] dt3dt2)
+        {
+            if (rvec1 == null)
+                throw new ArgumentNullException("rvec1");
+            if (tvec1 == null)
+                throw new ArgumentNullException("tvec1");
+            if (rvec2 == null)
+                throw new ArgumentNullException("rvec2");
+            if (tvec2 == null)
+                throw new ArgumentNullException("tvec2");
+
+            using (Mat rvec1M = new Mat())
+            using (Mat tvec1M = new Mat())
+            using (Mat rvec2M = new Mat())
+            using (Mat tvec2M = new Mat())
+            using (MatOfDouble rvec3M = new MatOfDouble())
+            using (MatOfDouble tvec3M = new MatOfDouble())
+            using (MatOfDouble dr3dr1M = new MatOfDouble())
+            using (MatOfDouble dr3dt1M = new MatOfDouble())
+            using (MatOfDouble dr3dr2M = new MatOfDouble())
+            using (MatOfDouble dr3dt2M = new MatOfDouble())
+            using (MatOfDouble dt3dr1M = new MatOfDouble())
+            using (MatOfDouble dt3dt1M = new MatOfDouble())
+            using (MatOfDouble dt3dr2M = new MatOfDouble())
+            using (MatOfDouble dt3dt2M = new MatOfDouble())
+            {
+                CppInvoke.calib3d_composeRT_Mat(rvec1M.CvPtr, tvec1M.CvPtr, rvec2M.CvPtr, tvec2M.CvPtr,
+                                                rvec3M.CvPtr, tvec3M.CvPtr,
+                                                dr3dr1M.CvPtr, dr3dt1M.CvPtr, dr3dr2M.CvPtr, dr3dt2M.CvPtr,
+                                                dt3dr1M.CvPtr, dt3dt1M.CvPtr, dt3dr2M.CvPtr, dt3dt2M.CvPtr);
+                rvec3 = rvec3M.ToRectangularArray();
+                tvec3 = tvec3M.ToArray();
+                dr3dr1 = dr3dr1M.ToRectangularArray();
+                dr3dt1 = dr3dt1M.ToRectangularArray();
+                dr3dr2 = dr3dr2M.ToRectangularArray();
+                dr3dt2 = dr3dt2M.ToRectangularArray();
+                dt3dr1 = dt3dr1M.ToRectangularArray();
+                dt3dt1 = dt3dt1M.ToRectangularArray();
+                dt3dr2 = dt3dr2M.ToRectangularArray();
+                dt3dt2 = dt3dt2M.ToRectangularArray();
+            }
+        }
+
+        /// <summary>
+        /// composes 2 [R|t] transformations together. Also computes the derivatives of the result w.r.t the arguments
+        /// </summary>
+        /// <param name="rvec1">First rotation vector.</param>
+        /// <param name="tvec1">First translation vector.</param>
+        /// <param name="rvec2">Second rotation vector.</param>
+        /// <param name="tvec2">Second translation vector.</param>
+        /// <param name="rvec3">Output rotation vector of the superposition.</param>
+        /// <param name="tvec3">Output translation vector of the superposition.</param>
+        public static void ComposeRT(double[,] rvec1, double[] tvec1,
+                                     double[,] rvec2, double[] tvec2,
+                                     out double[,] rvec3, out double[] tvec3)
+        {
+            double[,] dr3dr1, dr3dt1,
+                      dr3dr2, dr3dt2,
+                      dt3dr1, dt3dt1,
+                      dt3dr2, dt3dt2;
+            ComposeRT(rvec1, tvec2, rvec2, tvec2, out rvec3, out tvec3,
+                      out dr3dr1, out dr3dt1, out dr3dr2, out dr3dt2,
+                      out dt3dr1, out dt3dt1, out dt3dr2, out dt3dt2);
+        }
+
         #endregion
 
         #region SolvePnP

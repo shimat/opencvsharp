@@ -191,7 +191,7 @@ namespace OpenCvSharp.CPlusPlus
 
         #region FromArray
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfByte3 FromArray(params Vec3b[] arr)
@@ -199,7 +199,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfByte3(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfByte3 FromArray(IEnumerable<Vec3b> enumerable)
@@ -207,7 +207,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfByte3(enumerable);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfByte3 FromPrimitiveArray(params byte[] arr)
@@ -215,7 +215,7 @@ namespace OpenCvSharp.CPlusPlus
             return new MatOfByte3(arr);
         }
         /// <summary>
-        /// 
+        /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
         public static MatOfByte3 FromPrimitiveArray(IEnumerable<byte> enumerable)
@@ -226,14 +226,11 @@ namespace OpenCvSharp.CPlusPlus
 
         #region ToArray
         /// <summary>
-        /// 
+        /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
         public Vec3b[] ToArray()
         {
-            /*int num = CheckVector(ThisChannels, ThisDepth);
-            if (num < 0)
-                throw new OpenCvSharpException("Native Mat has unexpected type or size: " + ToString());*/
             int numOfElems = Rows * Cols;
             if (numOfElems == 0)
                 return new Vec3b[0];
@@ -247,13 +244,22 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public byte[] ToPrimitiveArray()
         {
-            /*int num = CheckVector(ThisChannels, ThisDepth);
-            if (num < 0)
-                throw new OpenCvSharpException("Native Mat has unexpected type or size: " + ToString());*/
             int numOfElems = Rows * Cols;
             if (numOfElems == 0)
                 return new byte[0];
             byte[] arr = new byte[numOfElems * ThisChannels];
+            GetArray(0, 0, arr);
+            return arr;
+        }
+        /// <summary>
+        /// Convert this mat to managed rectangular array
+        /// </summary>
+        /// <returns></returns>
+        public Vec3b[,] ToRectangularArray()
+        {
+            if (Rows == 0 || Cols == 0)
+                return new Vec3b[0, 0];
+            Vec3b[,] arr = new Vec3b[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }
