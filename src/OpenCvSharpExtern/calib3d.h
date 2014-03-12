@@ -12,19 +12,12 @@ CVAPI(void) calib3d_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_
 {
 	cv::Rodrigues(*src, *dst, entity(jacobian));
 }
-CVAPI(void) calib3d_Rodrigues_VectorToMatrix(double *vector, double* matrix, double *jacobian)
+CVAPI(void) calib3d_Rodrigues_Mat(cv::Mat *vector, cv::Mat *matrix, cv::Mat *jacobian)
 {
 	cv::Mat vectorM(3, 1, CV_64FC1, vector);
 	cv::Mat matrixM(3, 3, CV_64FC1, matrix);
 	cv::Mat jacobianM(3, 9, CV_64FC1, jacobian);
-	cv::Rodrigues(vectorM, matrixM, jacobianM);
-}
-CVAPI(void) calib3d_Rodrigues_MatrixToVector(double *matrix, double* vector, double *jacobian)
-{
-	cv::Mat matrixM(3, 3, CV_64FC1, matrix);
-	cv::Mat vectorM(3, 1, CV_64FC1, vector);	
-	cv::Mat jacobianM(3, 9, CV_64FC1, jacobian);
-	cv::Rodrigues(matrixM, vectorM, jacobianM);
+	cv::Rodrigues(*vector, *matrix, *jacobian);
 }
 
 CVAPI(cv::Mat*) calib3d_findHomography_InputArray(cv::_InputArray *srcPoints, cv::_InputArray *dstPoints,
@@ -48,16 +41,10 @@ CVAPI(void) calib3d_RQDecomp3x3_InputArray(cv::_InputArray *src, cv::_OutputArra
 {
 	*outVec = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, entity(qx), entity(qy), entity(qz));
 }
-CVAPI(void) calib3d_RQDecomp3x3_array(double *src, double *mtxR, double *mtxQ,
-	double *qx, double *qy, double *qz, cv::Vec3d *outVec)
+CVAPI(void) calib3d_RQDecomp3x3_Mat(cv::Mat *src, cv::Mat *mtxR, cv::Mat *mtxQ,
+	cv::Mat *qx, cv::Mat *qy, cv::Mat *qz, cv::Vec3d *outVec)
 {
-	cv::Mat srcM(3, 3, CV_64FC1, src);
-	cv::Mat mtxRM(3, 3, CV_64FC1, mtxR);
-	cv::Mat mtxQM(3, 3, CV_64FC1, mtxQ);
-	cv::Mat qxM(3, 3, CV_64FC1, qx);
-	cv::Mat qyM(3, 3, CV_64FC1, qy);
-	cv::Mat qzM(3, 3, CV_64FC1, qz);
-	*outVec = cv::RQDecomp3x3(srcM, mtxRM, mtxQM, qxM, qyM, qzM);
+	*outVec = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, *qx, *qy, *qz);
 }
 
 CVAPI(void) calib3d_decomposeProjectionMatrix_InputArray(cv::_InputArray *projMatrix, cv::_OutputArray *cameraMatrix,
@@ -67,20 +54,12 @@ CVAPI(void) calib3d_decomposeProjectionMatrix_InputArray(cv::_InputArray *projMa
 	cv::decomposeProjectionMatrix(*projMatrix, *cameraMatrix, *rotMatrix,
 		*transVect, entity(rotMatrixX), entity(rotMatrixY), entity(rotMatrixZ), entity(eulerAngles));
 }
-CVAPI(void) calib3d_decomposeProjectionMatrix_array(double *projMatrix, double *cameraMatrix,
-	double *rotMatrix, double *transVect, double *rotMatrixX,
-	double *rotMatrixY, double *rotMatrixZ, double *eulerAngles)
+CVAPI(void) calib3d_decomposeProjectionMatrix_Mat(cv::Mat *projMatrix, cv::Mat *cameraMatrix,
+	cv::Mat *rotMatrix, cv::Mat *transVect, cv::Mat *rotMatrixX,
+	cv::Mat *rotMatrixY, cv::Mat *rotMatrixZ, cv::Mat *eulerAngles)
 {
-	cv::Mat projMatrixM(3, 4, CV_64FC1, projMatrix);
-	cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
-	cv::Mat rotMatrixM(3, 3, CV_64FC1, rotMatrix);
-	cv::Mat transVectM(4, 1, CV_64FC1, transVect);
-	cv::Mat rotMatrixXM(3, 3, CV_64FC1, rotMatrixX);
-	cv::Mat rotMatrixYM(3, 3, CV_64FC1, rotMatrixY);
-	cv::Mat rotMatrixZM(3, 3, CV_64FC1, rotMatrixZ);
-	cv::Mat eulerAnglesM(3, 1, CV_64FC1, eulerAngles);
-	cv::decomposeProjectionMatrix(projMatrixM, cameraMatrixM, rotMatrixM,
-		transVectM, rotMatrixXM, rotMatrixYM, rotMatrixZM, eulerAnglesM);
+	cv::decomposeProjectionMatrix(*projMatrix, *cameraMatrix, *rotMatrix,
+		*transVect, *rotMatrixX, *rotMatrixY, *rotMatrixZ, *eulerAngles);
 }
 
 CVAPI(void) calib3d_matMulDeriv(cv::_InputArray *a, cv::_InputArray *b,
@@ -114,6 +93,28 @@ CVAPI(void) calib3d_composeRT_Mat(cv::Mat *rvec1, cv::Mat *tvec1,
 		entity(dr3dr1), entity(dr3dt1), entity(dr3dr2), entity(dr3dt2), 
 		entity(dt3dr1), entity(dt3dt1), entity(dt3dr2), entity(dt3dt2));
 }
+
+CVAPI(void) calib3d_projectPoints_InputArray( cv::_InputArray *objectPoints,
+                                 cv::_InputArray *rvec, cv::_InputArray *tvec,
+                                 cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+                                 cv::_OutputArray *imagePoints,
+                                 cv::_OutputArray *jacobian,
+                                 double aspectRatio )
+{
+	cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
+		*imagePoints, *jacobian, aspectRatio);
+}
+CVAPI(void) calib3d_projectPoints_Mat( cv::Mat *objectPoints,
+                                 cv::Mat *rvec, cv::Mat *tvec,
+                                 cv::Mat *cameraMatrix, cv::Mat *distCoeffs,
+                                 cv::Mat *imagePoints,
+                                 cv::Mat *jacobian,
+                                 double aspectRatio )
+{
+	cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
+		*imagePoints, *jacobian, aspectRatio);
+}
+
 
 CVAPI(void) calib3d_solvePnP_InputArray(cv::_InputArray* objectPoints, cv::_InputArray* imagePoints, cv::_InputArray* cameraMatrix, cv::_InputArray* distCoeffs,
 	cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess, int flags)
