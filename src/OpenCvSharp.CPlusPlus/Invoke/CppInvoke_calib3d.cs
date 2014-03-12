@@ -11,17 +11,15 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    /// <summary>
-    /// P/Invoke methods of OpenCV 2.x C++ interface
-    /// </summary>
+    // ReSharper disable InconsistentNaming
+
     static partial class CppInvoke
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_Rodrigues(IntPtr src, IntPtr dst, IntPtr jacobian);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_Rodrigues_VectorToMatrix([In] double[] vector, [In, Out] double[,] matrix, [In, Out] double[,] jacobian);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_Rodrigues_MatrixToVector([In] double[,] matrix, [In, Out] double[] vector, [In, Out] double[,] jacobian);
+        public static extern void calib3d_Rodrigues_Mat(IntPtr vector, IntPtr matrix, IntPtr jacobian);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_findHomography_InputArray(IntPtr srcPoints, IntPtr dstPoints,
             int method, double ransacReprojThreshold, IntPtr mask);
@@ -32,16 +30,16 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void calib3d_RQDecomp3x3_InputArray(IntPtr src, IntPtr mtxR,
             IntPtr mtxQ, IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_RQDecomp3x3_array([In] double[,] src, [In, Out] double[,] mtxR, [In, Out] double[,] mtxQ,
-            [In, Out] double[,] qx, [In, Out] double[,] qy, [In, Out] double[,] qz, out Vec3d outVal);
+        public static extern void calib3d_RQDecomp3x3_Mat(IntPtr src, IntPtr mtxR, IntPtr mtxQ,
+            IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_decomposeProjectionMatrix_InputArray(IntPtr projMatrix,
             IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, IntPtr rotMatrixX,
             IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_decomposeProjectionMatrix_array([In] double[,] projMatrix, [In,Out] double[,] cameraMatrix,
-            [In, Out] double[,] rotMatrix, [In, Out] double[] transVect, [In, Out] double[,] rotMatrixX,
-            [In, Out] double[,] rotMatrixY, [In, Out] double[,] rotMatrixZ, [In, Out] double[] eulerAngles);
+        public static extern void calib3d_decomposeProjectionMatrix_Mat(IntPtr projMatrix,
+            IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, IntPtr rotMatrixX,
+            IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_matMulDeriv(IntPtr a, IntPtr b,
@@ -63,6 +61,19 @@ namespace OpenCvSharp.CPlusPlus
                                                         IntPtr dr3dr2, IntPtr dr3dt2,
                                                         IntPtr dt3dr1, IntPtr dt3dt1,
                                                         IntPtr dt3dr2, IntPtr dt3dt2);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_projectPoints_InputArray(IntPtr objectPoints,
+                                                                   IntPtr rvec, IntPtr tvec,
+                                                                   IntPtr cameraMatrix, IntPtr distCoeffs,
+                                                                   IntPtr imagePoints, IntPtr jacobian,
+                                                                   double aspectRatio);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_projectPoints_Mat(IntPtr objectPoints,
+                                                            IntPtr rvec, IntPtr tvec,
+                                                            IntPtr cameraMatrix, IntPtr distCoeffs,
+                                                            IntPtr imagePoints, IntPtr jacobian,
+                                                            double aspectRatio);
 
 
                 [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

@@ -44,9 +44,15 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("vector");
             if (vector.Length != 3)
                 throw new ArgumentException("vector.Length != 3");
-            matrix = new double[3, 3];
-            jacobian = new double[3, 9];
-            CppInvoke.calib3d_Rodrigues_VectorToMatrix(vector, matrix, jacobian);
+
+            using (Mat vectorM = new Mat(3, 1, MatType.CV_64FC1, vector))
+            using (MatOfDouble matrixM = new MatOfDouble())
+            using (MatOfDouble jacobianM = new MatOfDouble())
+            {
+                CppInvoke.calib3d_Rodrigues_Mat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+                matrix = matrixM.ToRectangularArray();
+                jacobian = jacobianM.ToRectangularArray();
+            }
         }
         /// <summary>
         /// converts rotation vector to rotation matrix using Rodrigues transformation
@@ -71,9 +77,15 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("matrix");
             if (matrix.GetLength(0) != 3 || matrix.GetLength(1) != 3)
                 throw new ArgumentException("matrix must be double[3,3]");
-            vector = new double[3];
-            jacobian = new double[3, 9];
-            CppInvoke.calib3d_Rodrigues_MatrixToVector(matrix, vector, jacobian);
+
+            using (Mat matrixM = new Mat(3, 3, MatType.CV_64FC1, matrix))
+            using (MatOfDouble vectorM = new MatOfDouble())
+            using (MatOfDouble jacobianM = new MatOfDouble())
+            {
+                CppInvoke.calib3d_Rodrigues_Mat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+                vector = vectorM.ToArray();
+                jacobian = jacobianM.ToRectangularArray();
+            }
         }
         /// <summary>
         /// converts rotation matrix to rotation vector using Rodrigues transformation
@@ -208,14 +220,24 @@ namespace OpenCvSharp.CPlusPlus
             if (src.GetLength(0) != 3 || src.GetLength(1) != 3)
                 throw new ArgumentException("src must be double[3,3]");
 
-            mtxR = new double[3, 3];
-            mtxQ = new double[3, 3];
-            qx = new double[3, 3];
-            qy = new double[3, 3];
-            qz = new double[3, 3];
-            Vec3d ret;
-            CppInvoke.calib3d_RQDecomp3x3_array(src, mtxR, mtxQ, qx, qy, qz, out ret);
-            return ret;
+            using (Mat srcM = new Mat(3, 3, MatType.CV_64FC1))
+            using (MatOfDouble mtxRM = new MatOfDouble())
+            using (MatOfDouble mtxQM = new MatOfDouble())
+            using (MatOfDouble qxM = new MatOfDouble())
+            using (MatOfDouble qyM = new MatOfDouble())
+            using (MatOfDouble qzM = new MatOfDouble())
+            {
+                Vec3d ret;
+                CppInvoke.calib3d_RQDecomp3x3_Mat(srcM.CvPtr, 
+                    mtxRM.CvPtr, mtxQM.CvPtr, qxM.CvPtr, qyM.CvPtr, qzM.CvPtr, 
+                    out ret);
+                mtxR = mtxRM.ToRectangularArray();
+                mtxQ = mtxQM.ToRectangularArray();
+                qx = qxM.ToRectangularArray();
+                qy = qyM.ToRectangularArray();
+                qz = qzM.ToRectangularArray();
+                return ret;
+            }
         }
         #endregion
         #region DecomposeProjectionMatrix
@@ -294,17 +316,29 @@ namespace OpenCvSharp.CPlusPlus
             if (!((dim0 == 3 && dim1 == 4) || (dim0 == 4 && dim1 == 3)))
                 throw new ArgumentException("projMatrix must be double[3,4] or double[4,3]");
 
-            cameraMatrix = new double[3,3];
-            rotMatrix = new double[3,3];
-            transVect = new double[4];
-            rotMatrixX = new double[3,3];
-            rotMatrixY = new double[3,3];
-            rotMatrixZ = new double[3,3];
-            eulerAngles = new double[3];
+            using (Mat projMatrixM = new Mat(3, 4, MatType.CV_64FC1, projMatrix))
+            using (MatOfDouble cameraMatrixM = new MatOfDouble())
+            using (MatOfDouble rotMatrixM = new MatOfDouble())
+            using (MatOfDouble transVectM = new MatOfDouble())
+            using (MatOfDouble rotMatrixXM = new MatOfDouble())
+            using (MatOfDouble rotMatrixYM = new MatOfDouble())
+            using (MatOfDouble rotMatrixZM = new MatOfDouble())
+            using (MatOfDouble eulerAnglesM = new MatOfDouble())
+            {
+                CppInvoke.calib3d_decomposeProjectionMatrix_Mat(
+                    projMatrixM.CvPtr, 
+                    cameraMatrixM.CvPtr, rotMatrixM.CvPtr, transVectM.CvPtr,
+                    rotMatrixXM.CvPtr, rotMatrixYM.CvPtr, rotMatrixZM.CvPtr, 
+                    eulerAnglesM.CvPtr);
 
-            CppInvoke.calib3d_decomposeProjectionMatrix_array(
-                projMatrix, cameraMatrix, rotMatrix, transVect,
-                rotMatrixX, rotMatrixY, rotMatrixZ, eulerAngles);
+                cameraMatrix = cameraMatrixM.ToRectangularArray();
+                rotMatrix = rotMatrixM.ToRectangularArray();
+                transVect = transVectM.ToArray();
+                rotMatrixX = rotMatrixXM.ToRectangularArray();
+                rotMatrixY = rotMatrixYM.ToRectangularArray();
+                rotMatrixZ = rotMatrixZM.ToRectangularArray();
+                eulerAngles = eulerAnglesM.ToArray();
+            }
         }
         /// <summary>
         /// Decomposes the projection matrix into camera matrix and the rotation martix and the translation vector
@@ -417,9 +451,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="dt3dt1">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
         /// <param name="dt3dr2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
         /// <param name="dt3dt2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
-        public static void ComposeRT(double[,] rvec1, double[] tvec1,
-                                     double[,] rvec2, double[] tvec2,
-                                     out double[,] rvec3, out double[] tvec3,
+        public static void ComposeRT(double[] rvec1, double[] tvec1,
+                                     double[] rvec2, double[] tvec2,
+                                     out double[] rvec3, out double[] tvec3,
                                      out double[,] dr3dr1, out double[,] dr3dt1,
                                      out double[,] dr3dr2, out double[,] dr3dt2,
                                      out double[,] dt3dr1, out double[,] dt3dt1,
@@ -434,10 +468,10 @@ namespace OpenCvSharp.CPlusPlus
             if (tvec2 == null)
                 throw new ArgumentNullException("tvec2");
 
-            using (Mat rvec1M = new Mat())
-            using (Mat tvec1M = new Mat())
-            using (Mat rvec2M = new Mat())
-            using (Mat tvec2M = new Mat())
+            using (Mat rvec1M = new Mat(3, 1, MatType.CV_64FC1, rvec1))
+            using (Mat tvec1M = new Mat(3, 1, MatType.CV_64FC1, tvec1))
+            using (Mat rvec2M = new Mat(3, 1, MatType.CV_64FC1, rvec2))
+            using (Mat tvec2M = new Mat(3, 1, MatType.CV_64FC1, tvec2))
             using (MatOfDouble rvec3M = new MatOfDouble())
             using (MatOfDouble tvec3M = new MatOfDouble())
             using (MatOfDouble dr3dr1M = new MatOfDouble())
@@ -453,7 +487,7 @@ namespace OpenCvSharp.CPlusPlus
                                                 rvec3M.CvPtr, tvec3M.CvPtr,
                                                 dr3dr1M.CvPtr, dr3dt1M.CvPtr, dr3dr2M.CvPtr, dr3dt2M.CvPtr,
                                                 dt3dr1M.CvPtr, dt3dt1M.CvPtr, dt3dr2M.CvPtr, dt3dt2M.CvPtr);
-                rvec3 = rvec3M.ToRectangularArray();
+                rvec3 = rvec3M.ToArray();
                 tvec3 = tvec3M.ToArray();
                 dr3dr1 = dr3dr1M.ToRectangularArray();
                 dr3dt1 = dr3dt1M.ToRectangularArray();
@@ -475,9 +509,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="tvec2">Second translation vector.</param>
         /// <param name="rvec3">Output rotation vector of the superposition.</param>
         /// <param name="tvec3">Output translation vector of the superposition.</param>
-        public static void ComposeRT(double[,] rvec1, double[] tvec1,
-                                     double[,] rvec2, double[] tvec2,
-                                     out double[,] rvec3, out double[] tvec3)
+        public static void ComposeRT(double[] rvec1, double[] tvec1,
+                                     double[] rvec2, double[] tvec2,
+                                     out double[] rvec3, out double[] tvec3)
         {
             double[,] dr3dr1, dr3dt1,
                       dr3dr2, dr3dt2,
@@ -488,6 +522,123 @@ namespace OpenCvSharp.CPlusPlus
                       out dt3dr1, out dt3dt1, out dt3dr2, out dt3dt2);
         }
 
+        #endregion
+        #region ProjectPoints
+        /// <summary>
+        /// projects points from the model coordinate space to the image coordinates. 
+        /// Also computes derivatives of the image coordinates w.r.t the intrinsic 
+        /// and extrinsic camera parameters
+        /// </summary>
+        /// <param name="objectPoints">Array of object points, 3xN/Nx3 1-channel or 
+        /// 1xN/Nx1 3-channel, where N is the number of points in the view.</param>
+        /// <param name="rvec">Rotation vector (3x1).</param>
+        /// <param name="tvec">Translation vector (3x1).</param>
+        /// <param name="cameraMatrix">Camera matrix (3x3)</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients 
+        /// (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="imagePoints">Output array of image points, 2xN/Nx2 1-channel 
+        /// or 1xN/Nx1 2-channel</param>
+        /// <param name="jacobian">Optional output 2Nx(10 + numDistCoeffs) jacobian matrix 
+        /// of derivatives of image points with respect to components of the rotation vector, 
+        /// translation vector, focal lengths, coordinates of the principal point and 
+        /// the distortion coefficients. In the old interface different components of 
+        /// the jacobian are returned via different output parameters.</param>
+        /// <param name="aspectRatio">Optional “fixed aspect ratio” parameter. 
+        /// If the parameter is not 0, the function assumes that the aspect ratio (fx/fy) 
+        /// is fixed and correspondingly adjusts the jacobian matrix.</param>
+        public static void ProjectPoints(InputArray objectPoints,
+                                         InputArray rvec, InputArray tvec,
+                                         InputArray cameraMatrix, InputArray distCoeffs,
+                                         OutputArray imagePoints,
+                                         OutputArray jacobian = null,
+                                         double aspectRatio = 0)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (rvec == null)
+                throw new ArgumentNullException("rvec");
+            if (tvec == null)
+                throw new ArgumentNullException("tvec");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (imagePoints == null)
+                throw new ArgumentNullException("imagePoints");
+            objectPoints.ThrowIfDisposed();
+            rvec.ThrowIfDisposed();
+            tvec.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+            imagePoints.ThrowIfNotReady();
+
+            CppInvoke.calib3d_projectPoints_InputArray(objectPoints.CvPtr,
+                rvec.CvPtr, tvec.CvPtr, cameraMatrix.CvPtr, ToPtr(distCoeffs),
+                imagePoints.CvPtr, ToPtr(jacobian), aspectRatio);
+        }
+        /// <summary>
+        /// projects points from the model coordinate space to the image coordinates. 
+        /// Also computes derivatives of the image coordinates w.r.t the intrinsic 
+        /// and extrinsic camera parameters
+        /// </summary>
+        /// <param name="objectPoints">Array of object points, 3xN/Nx3 1-channel or 
+        /// 1xN/Nx1 3-channel, where N is the number of points in the view.</param>
+        /// <param name="rvec">Rotation vector (3x1).</param>
+        /// <param name="tvec">Translation vector (3x1).</param>
+        /// <param name="cameraMatrix">Camera matrix (3x3)</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients 
+        /// (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="imagePoints">Output array of image points, 2xN/Nx2 1-channel 
+        /// or 1xN/Nx1 2-channel</param>
+        /// <param name="jacobian">Optional output 2Nx(10 + numDistCoeffs) jacobian matrix 
+        /// of derivatives of image points with respect to components of the rotation vector, 
+        /// translation vector, focal lengths, coordinates of the principal point and 
+        /// the distortion coefficients. In the old interface different components of 
+        /// the jacobian are returned via different output parameters.</param>
+        /// <param name="aspectRatio">Optional “fixed aspect ratio” parameter. 
+        /// If the parameter is not 0, the function assumes that the aspect ratio (fx/fy) 
+        /// is fixed and correspondingly adjusts the jacobian matrix.</param>
+        public static void ProjectPoints(IEnumerable<Point3d> objectPoints,
+                                         double[] rvec, double[] tvec,
+                                         double[,] cameraMatrix, double[] distCoeffs,
+                                         out Point2d[] imagePoints,
+                                         out double[,] jacobian,
+                                         double aspectRatio = 0)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (rvec == null)
+                throw new ArgumentNullException("rvec");
+            if (rvec.Length != 3)
+                throw new ArgumentException("rvec.Length != 3");
+            if (tvec == null)
+                throw new ArgumentNullException("tvec");
+            if (tvec.Length != 3)
+                throw new ArgumentException("tvec.Length != 3");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
+                throw new ArgumentException("cameraMatrix must be double[3,3]");
+
+            Point3d[] objectPointsArray = EnumerableEx.ToArray(objectPoints);
+            using (Mat objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray))
+            using (Mat rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec))
+            using (Mat tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec))
+            using (Mat cameraMatrixM = new Mat(3, 3, MatType.CV_64FC1, cameraMatrix))
+            using (MatOfPoint2d imagePointsM = new MatOfPoint2d())
+            {
+                Mat distCoeffsM = new Mat();
+                if (distCoeffs != null)
+                    distCoeffsM = new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs);
+                MatOfDouble jacobianM = new MatOfDouble();
+
+                CppInvoke.calib3d_projectPoints_Mat(objectPointsM.CvPtr,
+                    rvecM.CvPtr, tvecM.CvPtr, cameraMatrixM.CvPtr, distCoeffsM.CvPtr,
+                    imagePointsM.CvPtr, jacobianM.CvPtr, aspectRatio);
+
+                imagePoints = imagePointsM.ToArray();
+                jacobian = jacobianM.ToRectangularArray();
+            }
+        }
         #endregion
 
         #region SolvePnP

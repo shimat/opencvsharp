@@ -57,6 +57,21 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Initializes and copys array data to this
         /// </summary>
+        /// <param name="arr"></param>
+        public MatOfDouble(double[,] arr)
+            : base()
+        {
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+            int numElems = arr.Length / ThisChannels;
+            Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
+            SetArray(0, 0, arr);
+        }
+        /// <summary>
+        /// Initializes and copys array data to this
+        /// </summary>
         /// <param name="enumerable"></param>
         public MatOfDouble(IEnumerable<double> enumerable)
             : this(EnumerableEx.ToArray(enumerable))
@@ -171,6 +186,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfDouble FromArray(params double[] arr)
+        {
+            return new MatOfDouble(arr);
+        }
+        /// <summary>
+        /// Convert managed array object to Mat
+        /// </summary>
+        /// <param name="arr"></param>
+        public static MatOfDouble FromArray(double[,] arr)
         {
             return new MatOfDouble(arr);
         }

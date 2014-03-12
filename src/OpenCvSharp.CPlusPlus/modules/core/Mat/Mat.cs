@@ -3012,6 +3012,52 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
+        public void GetArray(int row, int col, Point2f[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
+            CppInvoke.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point2f[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
+            CppInvoke.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point2d[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
+            CppInvoke.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point2d[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
+            CppInvoke.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
         public void GetArray(int row, int col, DMatch[] data)
         {
             CheckArgumentsForConvert(row, col, data);
@@ -3042,6 +3088,17 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_8U);
             CppInvoke.core_Mat_nSetB(ptr, row, col, data, data.Length);
         }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, byte[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_8U);
+            CppInvoke.core_Mat_nSetB(ptr, row, col, data, data.Length);
+        }
 
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3050,6 +3107,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="col"></param>
         /// <param name="data"></param>
         public void SetArray(int row, int col, params short[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
+            CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, short[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
             CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
@@ -3066,6 +3134,17 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
             CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
         }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, ushort[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
+            CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
+        }
 
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3074,6 +3153,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="col"></param>
         /// <param name="data"></param>
         public void SetArray(int row, int col, params int[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
+            CppInvoke.core_Mat_nSetI(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, int[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
             CppInvoke.core_Mat_nSetI(ptr, row, col, data, data.Length);
@@ -3090,6 +3180,17 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
             CppInvoke.core_Mat_nSetF(ptr, row, col, data, data.Length);
         }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, float[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
+            CppInvoke.core_Mat_nSetF(ptr, row, col, data, data.Length);
+        }
 
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3098,6 +3199,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="col"></param>
         /// <param name="data"></param>
         public void SetArray(int row, int col, params double[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
+            CppInvoke.core_Mat_nSetD(ptr, row, col, data, data.Length);
+        }     
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, double[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
             CppInvoke.core_Mat_nSetD(ptr, row, col, data, data.Length);
@@ -3114,6 +3226,17 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
             CppInvoke.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
         }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Vec3b[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
+            CppInvoke.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
+        }
 
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3122,6 +3245,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="col"></param>
         /// <param name="data"></param>
         public void SetArray(int row, int col, params Vec4f[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
+            CppInvoke.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Vec4f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
             CppInvoke.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
@@ -3138,6 +3272,17 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
             CppInvoke.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
         }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Vec6f[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
+            CppInvoke.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
+        }
 
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3150,6 +3295,63 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
             CppInvoke.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
         }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Point[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
+            CppInvoke.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params Point2f[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
+            CppInvoke.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Point2f[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
+            CppInvoke.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params Point2d[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
+            CppInvoke.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Point2d[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
+            CppInvoke.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
+        }
 
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3158,6 +3360,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="col"></param>
         /// <param name="data"></param>
         public void SetArray(int row, int col, params DMatch[] data)
+        {
+            CheckArgumentsForConvert(row, col, data);
+            CppInvoke.core_Mat_nSetDMatch(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, DMatch[,] data)
         {
             CheckArgumentsForConvert(row, col, data);
             CppInvoke.core_Mat_nSetDMatch(ptr, row, col, data, data.Length);

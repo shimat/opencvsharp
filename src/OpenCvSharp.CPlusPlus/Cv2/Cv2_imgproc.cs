@@ -7,9 +7,6 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static partial class Cv2
     {
         #region GetGaborKernel

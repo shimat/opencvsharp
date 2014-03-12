@@ -167,6 +167,8 @@
     <Compile Include="modules\core\Mat\MatOfInt.cs" />
     <Compile Include="modules\core\Mat\MatOfFloat.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint.cs" />
+    <Compile Include="modules\core\Mat\MatOfPoint2f.cs" />
+    <Compile Include="modules\core\Mat\MatOfPoint2d.cs" />
     <Compile Include="modules\core\RNG.cs" />
     <Compile Include="modules\core\SVD.cs" />
     <Compile Include="modules\core\PCA.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Struct\Point3i.cs" />
     <Compile Include="Struct\Rangef.cs" />
     <Compile Include="Struct\Point2d.cs" />
+    <Compile Include="Struct\Point3d.cs" />
     <Compile Include="Vector\StdVectorInt32.cs" />
     <Compile Include="Vector\StdVectorDMatch.cs" />
     <Compile Include="Vector\StdVectorVectorFloat.cs" />

@@ -57,6 +57,21 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Initializes and copys array data to this
         /// </summary>
+        /// <param name="arr"></param>
+        public MatOfByte3(Vec3b[,] arr)
+            : base()
+        {
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+            int numElems = arr.Length;
+            Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
+            SetArray(0, 0, arr);
+        }
+        /// <summary>
+        /// Initializes and copys array data to this
+        /// </summary>
         /// <param name="enumerable"></param>
         public MatOfByte3(IEnumerable<Vec3b> enumerable)
             : this(EnumerableEx.ToArray(enumerable))
@@ -195,6 +210,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfByte3 FromArray(params Vec3b[] arr)
+        {
+            return new MatOfByte3(arr);
+        }
+        /// <summary>
+        /// Convert enumerable object to Mat
+        /// </summary>
+        /// <param name="arr"></param>
+        public static MatOfByte3 FromArray(Vec3b[,] arr)
         {
             return new MatOfByte3(arr);
         }

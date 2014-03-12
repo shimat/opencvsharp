@@ -5,19 +5,18 @@ using System.Runtime.InteropServices;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// A matrix whose element is 32SC1 (cv::Mat_&lt;int&gt;)
+    /// A matrix whose element is cv::Point [CV_32FC2] (cv::Mat_&lt;cv::Point2f&gt;)
     /// </summary>
-    public class MatOfInt : Mat, ITypeSpecificMat<int>
+    public class MatOfPoint2f : Mat, ITypeSpecificMat<Point2f>
     {
-        private const int ThisDepth = MatType.CV_32S;
-        private const int ThisChannels = 1;
+        private const int ThisDepth = MatType.CV_32F;
+        private const int ThisChannels = 2;
 
         #region Init
-
         /// <summary>
-        /// 
+        /// Initializes by cv::Mat* pointer
         /// </summary>
-        public MatOfInt()
+        public MatOfPoint2f()
             : base()
         {
         }
@@ -26,7 +25,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Initializes by cv::Mat* pointer
         /// </summary>
         /// <param name="ptr"></param>
-        public MatOfInt(IntPtr ptr)
+        public MatOfPoint2f(IntPtr ptr)
             : base(ptr)
         {
         }
@@ -35,22 +34,22 @@ namespace OpenCvSharp.CPlusPlus
         /// Initializes by Mat object
         /// </summary>
         /// <param name="mat"></param>
-        public MatOfInt(Mat mat)
+        public MatOfPoint2f(Mat mat)
             : base(mat.CvPtr)
         {
         }
+
         /// <summary>
         /// Initializes and copys array data to this
         /// </summary>
         /// <param name="arr"></param>
-        public MatOfInt(params int[] arr)
-            : base()
+        public MatOfPoint2f(params Point2f[] arr)
         {
             if (arr == null)
                 throw new ArgumentNullException("arr");
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
-            int numElems = arr.Length / ThisChannels;
+            int numElems = arr.Length;
             Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
             SetArray(0, 0, arr);
         }
@@ -58,7 +57,30 @@ namespace OpenCvSharp.CPlusPlus
         /// Initializes and copys array data to this
         /// </summary>
         /// <param name="arr"></param>
-        public MatOfInt(int[,] arr)
+        public MatOfPoint2f(Point2f[,] arr)
+        {
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+            int numElems = arr.Length;
+            Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
+            SetArray(0, 0, arr);
+        }
+        /// <summary>
+        /// Initializes and copys array data to this
+        /// </summary>
+        /// <param name="enumerable"></param>
+        public MatOfPoint2f(IEnumerable<Point2f> enumerable)
+            : this(EnumerableEx.ToArray(enumerable))
+        {
+        }
+
+        /// <summary>
+        /// Initializes and copys array data to this
+        /// </summary>
+        /// <param name="arr"></param>
+        public MatOfPoint2f(params float[] arr)
             : base()
         {
             if (arr == null)
@@ -73,7 +95,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Initializes and copys array data to this
         /// </summary>
         /// <param name="enumerable"></param>
-        public MatOfInt(IEnumerable<int> enumerable)
+        public MatOfPoint2f(IEnumerable<float> enumerable)
             : this(EnumerableEx.ToArray(enumerable))
         {
         }
@@ -83,9 +105,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public sealed unsafe class Indexer : IndexerBase<int>
+        public sealed unsafe class Indexer : IndexerBase<Point2f>
         {
-            private readonly byte *ptr;
+            private readonly byte* ptr;
 
             internal Indexer(Mat parent)
                 : base(parent)
@@ -97,15 +119,15 @@ namespace OpenCvSharp.CPlusPlus
             /// </summary>
             /// <param name="i0"></param>
             /// <returns></returns>
-            public override int this[int i0]
+            public override Point2f this[int i0]
             {
                 get
                 {
-                    return *(int*)(ptr + (steps[0] * i0));
+                    return *(Point2f*)(ptr + (steps[0] * i0));
                 }
                 set
                 {
-                    *(int*)(ptr + (steps[0] * i0)) = value;
+                    *(Point2f*)(ptr + (steps[0] * i0)) = value;
                 }
             }
             /// <summary>
@@ -114,15 +136,15 @@ namespace OpenCvSharp.CPlusPlus
             /// <param name="i0"></param>
             /// <param name="i1"></param>
             /// <returns></returns>
-            public override int this[int i0, int i1]
+            public override Point2f this[int i0, int i1]
             {
                 get
                 {
-                    return *(int*)(ptr + (steps[0] * i0) + (steps[1] * i1));
+                    return *(Point2f*)(ptr + (steps[0] * i0) + (steps[1] * i1));
                 }
                 set
                 {
-                    *(int*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
+                    *(Point2f*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
                 }
             }
             /// <summary>
@@ -132,15 +154,15 @@ namespace OpenCvSharp.CPlusPlus
             /// <param name="i1"></param>
             /// <param name="i2"></param>
             /// <returns></returns>
-            public override int this[int i0, int i1, int i2]
+            public override Point2f this[int i0, int i1, int i2]
             {
                 get
                 {
-                    return *(int*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    return *(Point2f*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
                 }
                 set
                 {
-                    *(int*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
+                    *(Point2f*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
                 }
             }
             /// <summary>
@@ -148,7 +170,7 @@ namespace OpenCvSharp.CPlusPlus
             /// </summary>
             /// <param name="idx"></param>
             /// <returns></returns>
-            public override int this[params int[] idx]
+            public override Point2f this[params int[] idx]
             {
                 get
                 {
@@ -157,7 +179,7 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         offset += steps[i] * idx[i];
                     }
-                    return *(int*)(ptr + offset);
+                    return *(Point2f*)(ptr + offset);
                 }
                 set
                 {
@@ -166,7 +188,7 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         offset += steps[i] * idx[i];
                     }
-                    *(int*)(ptr + offset) = value;
+                    *(Point2f*)(ptr + offset) = value;
                 }
             }
         }
@@ -185,25 +207,41 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
-        public static MatOfInt FromArray(params int[] arr)
+        public static MatOfPoint2f FromArray(params Point2f[] arr)
         {
-            return new MatOfInt(arr);
-        }       
+            return new MatOfPoint2f(arr);
+        }
         /// <summary>
         /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="arr"></param>
-        public static MatOfInt FromArray(int[,] arr)
+        public static MatOfPoint2f FromArray(Point2f[,] arr)
         {
-            return new MatOfInt(arr);
+            return new MatOfPoint2f(arr);
         }
         /// <summary>
         /// Convert enumerable object to Mat
         /// </summary>
         /// <param name="enumerable"></param>
-        public static MatOfInt FromArray(IEnumerable<int> enumerable)
+        public static MatOfPoint2f FromArray(IEnumerable<Point2f> enumerable)
         {
-            return new MatOfInt(enumerable);
+            return new MatOfPoint2f(enumerable);
+        }
+        /// <summary>
+        /// Convert enumerable object to Mat
+        /// </summary>
+        /// <param name="arr"></param>
+        public static MatOfPoint2f FromPrimitiveArray(params float[] arr)
+        {
+            return new MatOfPoint2f(arr);
+        }
+        /// <summary>
+        /// Convert enumerable object to Mat
+        /// </summary>
+        /// <param name="enumerable"></param>
+        public static MatOfPoint2f FromPrimitiveArray(IEnumerable<float> enumerable)
+        {
+            return new MatOfPoint2f(enumerable);
         }
         #endregion
 
@@ -212,12 +250,25 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
-        public int[] ToArray()
+        public Point2f[] ToArray()
         {
             int numOfElems = Rows * Cols;
             if (numOfElems == 0)
-                return new int[0];
-            int[] arr = new int[numOfElems];
+                return new Point2f[0];
+            Point2f[] arr = new Point2f[numOfElems];
+            GetArray(0, 0, arr);
+            return arr;
+        }
+        /// <summary>
+        /// Convert this mat to managed array
+        /// </summary>
+        /// <returns></returns>
+        public float[] ToPrimitiveArray()
+        {
+            int numOfElems = Rows * Cols;
+            if (numOfElems == 0)
+                return new float[0];
+            float[] arr = new float[numOfElems * ThisChannels];
             GetArray(0, 0, arr);
             return arr;
         }
@@ -225,11 +276,11 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert this mat to managed rectangular array
         /// </summary>
         /// <returns></returns>
-        public int[,] ToRectangularArray()
+        public Point2f[,] ToRectangularArray()
         {
             if (Rows == 0 || Cols == 0)
-                return new int[0, 0];
-            int[,] arr = new int[Rows, Cols];
+                return new Point2f[0, 0];
+            Point2f[,] arr = new Point2f[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }

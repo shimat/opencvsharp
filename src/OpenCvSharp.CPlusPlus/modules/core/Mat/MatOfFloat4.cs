@@ -57,6 +57,21 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Initializes and copys array data to this
         /// </summary>
+        /// <param name="arr"></param>
+        public MatOfFloat4(Vec4f[,] arr)
+            : base()
+        {
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+            int numElems = arr.Length;
+            Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
+            SetArray(0, 0, arr);
+        }
+        /// <summary>
+        /// Initializes and copys array data to this
+        /// </summary>
         /// <param name="enumerable"></param>
         public MatOfFloat4(IEnumerable<Vec4f> enumerable)
             : this(EnumerableEx.ToArray(enumerable))
@@ -195,6 +210,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfFloat4 FromArray(params Vec4f[] arr)
+        {
+            return new MatOfFloat4(arr);
+        }
+        /// <summary>
+        /// Convert enumerable object to Mat
+        /// </summary>
+        /// <param name="arr"></param>
+        public static MatOfFloat4 FromArray(Vec4f[,] arr)
         {
             return new MatOfFloat4(arr);
         }

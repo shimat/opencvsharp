@@ -57,6 +57,21 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Initializes and copys array data to this
         /// </summary>
+        /// <param name="arr"></param>
+        public MatOfDMatch(DMatch[,] arr)
+            : base()
+        {
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+            int numElems = arr.Length;
+            Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
+            SetArray(0, 0, arr);
+        }
+        /// <summary>
+        /// Initializes and copys array data to this
+        /// </summary>
         /// <param name="enumerable"></param>
         public MatOfDMatch(IEnumerable<DMatch> enumerable)
             : this(EnumerableEx.ToArray(enumerable))
@@ -172,6 +187,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="arr"></param>
         public static MatOfDMatch FromArray(params DMatch[] arr)
+        {
+            return new MatOfDMatch(arr);
+        }
+        /// <summary>
+        /// Convert enumerable object to Mat
+        /// </summary>
+        /// <param name="arr"></param>
+        public static MatOfDMatch FromArray(DMatch[,] arr)
         {
             return new MatOfDMatch(arr);
         }
