@@ -15,18 +15,19 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        protected Feature2D()
+        internal Feature2D()
             : base()
         {
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="p"></param>
-        protected Feature2D(IntPtr p)
+        /// <param name="ptrObj"></param>
+        internal Feature2D(IntPtr ptrObj)
+            : base()
         {
-            detectorPtr = p;
-            ptr = CppInvoke.core_Ptr_Feature2D_obj(p);
+            detectorPtr = new PtrOfFeatureDetector(ptrObj);
+            ptr = detectorPtr.ObjPointer;
             if(ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid Feature2D pointer");
         }
@@ -99,9 +100,9 @@ namespace OpenCvSharp.CPlusPlus
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (detectorPtr != IntPtr.Zero)
-                            CppInvoke.core_Ptr_Feature2D_delete(detectorPtr);
-                        detectorPtr = IntPtr.Zero;
+                        if (detectorPtr != null)
+                            detectorPtr.Dispose();
+                        detectorPtr = null;
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;

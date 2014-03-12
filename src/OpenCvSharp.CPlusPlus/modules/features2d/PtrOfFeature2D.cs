@@ -7,13 +7,13 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// Template class for smart reference-counting pointers
     /// </summary>
-    public class PtrOfFeatureDetector : Ptr<FeatureDetector>
+    public class PtrOfFeature2D : Ptr<Feature2D>
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="ptr"></param>
-        public PtrOfFeatureDetector(IntPtr ptr)
+        public PtrOfFeature2D(IntPtr ptr)
             : base(ptr)
         {
         }
@@ -24,7 +24,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="self"></param>
         protected override void Release(IntPtr self)
         {
-            CppInvoke.core_Ptr_FeatureDetector_delete(self);
+            CppInvoke.core_Ptr_Feature2D_delete(self);
         }
 
         /// <summary>
@@ -34,17 +34,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         protected override IntPtr GetObjPtr(IntPtr self)
         {
-            return CppInvoke.core_Ptr_FeatureDetector_obj(self);
+            return CppInvoke.core_Ptr_Feature2D_obj(self);
         }
 
         /// <summary>
-        /// Converts raw pointer (not Ptr&lt;T&gt; but T*) to managed wrapper object
+        /// Converts raw pointer to managed wrapper object
         /// </summary>
         /// <param name="objPointer"></param>
         /// <returns></returns>
-        protected override FeatureDetector ObjPtrToValue(IntPtr objPointer)
+        protected override Feature2D ObjPtrToValue(IntPtr objPointer)
         {
-            return new FeatureDetector(objPointer);
+            return new Feature2D(objPointer);
         }
     }
 }

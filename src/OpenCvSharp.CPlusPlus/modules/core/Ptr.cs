@@ -83,7 +83,7 @@ namespace OpenCvSharp.CPlusPlus
         protected abstract IntPtr GetObjPtr(IntPtr self);
 
         /// <summary>
-        /// Converts raw pointer to managed wrapper object
+        /// Converts raw pointer (not Ptr&lt;T&gt; but T*) to managed wrapper object
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
