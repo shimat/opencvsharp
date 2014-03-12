@@ -83,6 +83,38 @@ CVAPI(void) calib3d_decomposeProjectionMatrix_array(double *projMatrix, double *
 		transVectM, rotMatrixXM, rotMatrixYM, rotMatrixZM, eulerAnglesM);
 }
 
+CVAPI(void) calib3d_matMulDeriv(cv::_InputArray *a, cv::_InputArray *b,
+                               cv::_OutputArray *dABdA, cv::_OutputArray *dABdB)
+{
+	cv::matMulDeriv(*a, *b, *dABdA, *dABdB);
+}
+
+CVAPI(void) calib3d_composeRT_InputArray( cv::_InputArray *rvec1, cv::_InputArray *tvec1,
+                             cv::_InputArray *rvec2, cv::_InputArray *tvec2,
+                             cv::_OutputArray *rvec3, cv::_OutputArray *tvec3,
+                             cv::_OutputArray *dr3dr1, cv::_OutputArray *dr3dt1,
+                             cv::_OutputArray *dr3dr2, cv::_OutputArray *dr3dt2,
+                             cv::_OutputArray *dt3dr1, cv::_OutputArray *dt3dt1,
+                             cv::_OutputArray *dt3dr2, cv::_OutputArray *dt3dt2 )
+{
+	cv::composeRT(*rvec1, *tvec1, *rvec2, *tvec2, *rvec3, *tvec3, 
+		entity(dr3dr1), entity(dr3dt1), entity(dr3dr2), entity(dr3dt2), 
+		entity(dt3dr1), entity(dt3dt1), entity(dt3dr2), entity(dt3dt2));
+}
+
+CVAPI(void) calib3d_composeRT_Mat(cv::Mat *rvec1, cv::Mat *tvec1,
+                             cv::Mat *rvec2, cv::Mat *tvec2,
+                             cv::Mat *rvec3, cv::Mat *tvec3,
+                             cv::Mat *dr3dr1, cv::Mat *dr3dt1,
+                             cv::Mat *dr3dr2, cv::Mat *dr3dt2,
+                             cv::Mat *dt3dr1, cv::Mat *dt3dt1,
+                             cv::Mat *dt3dr2, cv::Mat *dt3dt2 )
+{
+	cv::composeRT(*rvec1, *tvec1, *rvec2, *tvec2, *rvec3, *tvec3, 
+		entity(dr3dr1), entity(dr3dt1), entity(dr3dr2), entity(dr3dt2), 
+		entity(dt3dr1), entity(dt3dt1), entity(dt3dr2), entity(dt3dt2));
+}
+
 CVAPI(void) calib3d_solvePnP_InputArray(cv::_InputArray* objectPoints, cv::_InputArray* imagePoints, cv::_InputArray* cameraMatrix, cv::_InputArray* distCoeffs,
 	cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess, int flags)
 {
