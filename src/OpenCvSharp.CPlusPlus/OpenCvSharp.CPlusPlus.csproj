@@ -167,6 +167,8 @@
     <Compile Include="modules\core\Mat\MatOfInt.cs" />
     <Compile Include="modules\core\Mat\MatOfFloat.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint.cs" />
+    <Compile Include="modules\features2d\PtrOfFeatureDetector.cs" />
+    <Compile Include="modules\core\Ptr.cs" />
     <Compile Include="modules\core\RNG.cs" />
     <Compile Include="modules\core\SVD.cs" />
     <Compile Include="modules\core\PCA.cs" />

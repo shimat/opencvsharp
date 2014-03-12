@@ -14,26 +14,70 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        protected IntPtr detectorPtr;
+        protected PtrOfFeatureDetector detectorPtr;
 
         /// <summary>
         /// 
         /// </summary>
-        protected FeatureDetector()
+        internal FeatureDetector()
         {
-            detectorPtr = IntPtr.Zero;
+            detectorPtr = null;
             ptr = IntPtr.Zero;
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="p"></param>
-        protected FeatureDetector(IntPtr p)
+        /// <param name="ptrObj"></param>
+        internal FeatureDetector(IntPtr ptrObj)
         {
-            detectorPtr = p;
-            ptr = CppInvoke.core_Ptr_FeatureDetector_obj(p);
+            detectorPtr = new PtrOfFeatureDetector(ptrObj);
+            ptr = detectorPtr.ObjPointer;
             if(ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+        }
+
+#if LANG_JP
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
+    /// <param name="disposing">
+    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+    ///</param>
+#else
+        /// <summary>
+        /// Releases the resources
+        /// </summary>
+        /// <param name="disposing">
+        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
+        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
+        /// </param>
+#endif
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                try
+                {
+                    // releases managed resources
+                    if (disposing)
+                    {
+                    }
+                    // releases unmanaged resources
+                    if (IsEnabledDispose)
+                    {
+                        if (detectorPtr != null)
+                            detectorPtr.Dispose();
+                        detectorPtr = null;
+                        ptr = IntPtr.Zero;
+                    }
+                    disposed = true;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
+            }
         }
 
         /// <summary>
@@ -133,48 +177,6 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
-        /// <summary>
-        /// Releases the resources
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        if (detectorPtr != IntPtr.Zero)
-                            CppInvoke.core_Ptr_FeatureDetector_delete(detectorPtr);
-                        detectorPtr = IntPtr.Zero;
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
-        }
+
     }
 }
