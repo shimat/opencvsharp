@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class StdVectorVectorPoint : DisposableCvObject, IStdVector
+    internal class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,27 +19,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorVectorPoint()
+        public VectorOfMat()
         {
-            ptr = CppInvoke.vector_vector_Point_new1();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public StdVectorVectorPoint(IntPtr ptr)
-        {
-            this.ptr = ptr;
+            ptr = CppInvoke.vector_Mat_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorVectorPoint(int size)
+        public VectorOfMat(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_vector_Point_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Mat_new2(new IntPtr(size));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptr"></param>
+        public VectorOfMat(IntPtr ptr)
+        {
+            this.ptr = ptr;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_vector_Point_delete(ptr);
+                        CppInvoke.vector_Mat_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -73,37 +73,16 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// vector.size()
         /// </summary>
-        public int Size1
+        public int Size
         {
-            get { return CppInvoke.vector_vector_Point_getSize1(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Mat_getSize(ptr).ToInt32(); }
         }
-        public int Size { get { return Size1; } }
-        /// <summary>
-        /// vector.size()
-        /// </summary>
-        public long[] Size2
-        {
-            get
-            {
-                int size1 = Size1;
-                IntPtr[] size2Org = new IntPtr[size1];
-                CppInvoke.vector_vector_Point_getSize2(ptr, size2Org);
-                long[] size2 = new long[size1];
-                for (int i = 0; i < size1; i++)
-                {
-                    size2[i] = size2Org[i].ToInt64();
-                }
-                return size2;
-            }
-        }
-        
-
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_vector_KeyPoint_getPointer(ptr); }
+            get { return CppInvoke.vector_Mat_getPointer(ptr); }
         }
         #endregion
 
@@ -112,23 +91,41 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Point[][] ToArray()
+        public Mat[] ToArray()
         {
-            int size1 = Size1;
-            if (size1 == 0)
-                return new Point[0][];
-            long[] size2 = Size2;
+            return ToArray<Mat>();
+        }
 
-            Point[][] ret = new Point[size1][];
-            for (int i = 0; i < size1; i++)
+        /// <summary>
+        /// Converts std::vector to managed array
+        /// </summary>
+        /// <returns></returns>
+        public T[] ToArray<T>()
+            where T : Mat, new()
+        {
+            int size = Size;
+            if (size == 0)
+                return new T[0];
+
+            T[] dst = new T[size];
+            IntPtr[] dstPtr = new IntPtr[size];
+            for (int i = 0; i < size; i++)
             {
-                ret[i] = new Point[size2[i]];
+                T m = new T();
+                dst[i] = m;
+                dstPtr[i] = m.CvPtr;
             }
-            using (ArrayAddress2<Point> retPtr = new ArrayAddress2<Point>(ret))
-            {
-                CppInvoke.vector_vector_Point_copy(ptr, retPtr);
-            }
-            return ret;
+            CppInvoke.vector_Mat_assignToArray(ptr, dstPtr);
+
+            return dst;
+        }
+
+        /// <summary>
+        /// 各要素の参照カウントを1追加する
+        /// </summary>
+        public void AddRef()
+        {
+            CppInvoke.vector_Mat_addref(ptr);
         }
         #endregion
     }

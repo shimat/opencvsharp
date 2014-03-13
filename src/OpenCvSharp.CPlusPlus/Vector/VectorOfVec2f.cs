@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class StdVectorVectorFloat : DisposableCvObject, IStdVector
+    public class VectorOfVec2f : DisposableCvObject, IStdVector<Vec2f>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,19 +19,30 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorVectorFloat()
+        public VectorOfVec2f()
         {
-            ptr = CppInvoke.vector_vector_float_new1();
+            ptr = CppInvoke.vector_Vec2f_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorVectorFloat(int size)
+        public VectorOfVec2f(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_vector_float_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Vec2f_new2(new IntPtr(size));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public VectorOfVec2f(IEnumerable<Vec2f> data)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            Vec2f[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_Vec2f_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -49,7 +60,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_vector_float_delete(ptr);
+                        CppInvoke.vector_Vec2f_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -65,37 +76,16 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// vector.size()
         /// </summary>
-        public int Size1
+        public int Size
         {
-            get { return CppInvoke.vector_vector_float_getSize1(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Vec2f_getSize(ptr).ToInt32(); }
         }
-        public int Size { get { return Size1; } }
-        /// <summary>
-        /// vector.size()
-        /// </summary>
-        public long[] Size2
-        {
-            get
-            {
-                int size1 = Size1;
-                IntPtr[] size2Org = new IntPtr[size1];
-                CppInvoke.vector_vector_float_getSize2(ptr, size2Org);
-                long[] size2 = new long[size1];
-                for (int i = 0; i < size1; i++)
-                {
-                    size2[i] = size2Org[i].ToInt64();
-                }
-                return size2;
-            }
-        }
-        
-
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_vector_KeyPoint_getPointer(ptr); }
+            get { return CppInvoke.vector_Vec2f_getPointer(ptr); }
         }
         #endregion
 
@@ -104,23 +94,37 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public float[][] ToArray()
+        public Vec2f[] ToArray()
         {
-            int size1 = Size1;
-            if (size1 == 0)
-                return new float[0][];
-            long[] size2 = Size2;
+            return ToArray<Vec2f>();
+        }
+        /// <summary>
+        /// Converts std::vector to managed array
+        /// </summary>
+        /// <typeparam name="T">structure that has two float members (ex. CvLineSegmentPolar, CvPoint2D32f, PointF)</typeparam>
+        /// <returns></returns>
+        public T[] ToArray<T>() where T : struct
+        {
+            int typeSize = Marshal.SizeOf(typeof(T));
+            if (typeSize != sizeof(float) * 2)
+            {
+                throw new OpenCvSharpException();
+            }
 
-            float[][] ret = new float[size1][];
-            for (int i = 0; i < size1; i++)
+            int arySize = Size;
+            if (arySize == 0)
             {
-                ret[i] = new float[size2[i]];
+                return new T[0];
             }
-            using (ArrayAddress2<float> retPtr = new ArrayAddress2<float>(ret))
+            else
             {
-                CppInvoke.vector_vector_float_copy(ptr, retPtr);
+                T[] dst = new T[arySize];
+                using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
+                {
+                    Util.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
+                }
+                return dst;
             }
-            return ret;
         }
         #endregion
     }

@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class StdVectorRect : DisposableCvObject, IStdVector
+    public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -18,7 +18,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorRect()
+        public VectorOfRect()
         {
             ptr = CppInvoke.vector_Rect_new1();
         }
@@ -26,7 +26,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorRect(int size)
+        public VectorOfRect(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
@@ -36,7 +36,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorRect(IEnumerable<Rect> data)
+        public VectorOfRect(IEnumerable<Rect> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");

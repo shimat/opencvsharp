@@ -133,7 +133,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr msers;
             CppInvoke.features2d_MSER_detect(ptr, image.CvPtr, out msers, Cv2.ToPtr(mask));
 
-            using (StdVectorVectorPoint msersVec = new StdVectorVectorPoint(msers))
+            using (VectorOfVectorPoint msersVec = new VectorOfVectorPoint(msers))
             {
                 return msersVec.ToArray();
             }

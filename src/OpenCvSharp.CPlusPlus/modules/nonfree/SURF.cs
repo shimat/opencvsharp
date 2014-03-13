@@ -267,7 +267,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
 
-            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
                 CppInvoke.nonfree_SURF_run1(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
                 return keypointsVec.ToArray();
@@ -301,8 +301,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
 
-            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
-            using (StdVectorFloat descriptorsVec = new StdVectorFloat())
+            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
+            using (VectorOfFloat descriptorsVec = new VectorOfFloat())
             {
                 CppInvoke.nonfree_SURF_run2_vector(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
                     descriptorsVec.CvPtr, useProvidedKeypoints ? 1 : 0);
@@ -342,7 +342,7 @@ namespace OpenCvSharp.CPlusPlus
             img.ThrowIfDisposed();
             descriptors.ThrowIfNotReady();
 
-            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
                 CppInvoke.nonfree_SURF_run2_OutputArray(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
                     descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);

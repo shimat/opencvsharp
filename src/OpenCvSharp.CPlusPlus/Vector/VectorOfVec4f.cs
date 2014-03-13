@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class StdVectorVec4f : DisposableCvObject, IStdVector
+    public class VectorOfVec4f : DisposableCvObject, IStdVector<Vec4f>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorVec4f()
+        public VectorOfVec4f()
         {
             ptr = CppInvoke.vector_Vec4f_new1();
         }
@@ -27,7 +27,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorVec4f(int size)
+        public VectorOfVec4f(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
@@ -37,7 +37,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorVec4f(IEnumerable<Vec4f> data)
+        public VectorOfVec4f(IEnumerable<Vec4f> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
@@ -48,7 +48,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="p"></param>
-        public StdVectorVec4f(IntPtr p)
+        public VectorOfVec4f(IntPtr p)
         {
             ptr = p;
         }

@@ -545,7 +545,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] inputCornersSrc = Util.ToArray(inputCorners);
             Point2f[] inputCornersCopy = new Point2f[inputCornersSrc.Length];
             Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
-            using (StdVectorPoint2f vector = new StdVectorPoint2f(inputCornersCopy))
+            using (VectorOfPoint2f vector = new VectorOfPoint2f(inputCornersCopy))
             {
                 CppInvoke.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria);
                 return vector.ToArray();
@@ -572,7 +572,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
 
-            using (StdVectorPoint2f vector = new StdVectorPoint2f())
+            using (VectorOfPoint2f vector = new VectorOfPoint2f())
             {
                 IntPtr maskPtr = ToPtr(mask);
                 CppInvoke.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
@@ -613,7 +613,7 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
 
-            using (StdVectorVec2f vec = new StdVectorVec2f())
+            using (VectorOfVec2f vec = new VectorOfVec2f())
             {
                 CppInvoke.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
                 return vec.ToArray<CvLineSegmentPolar>();
@@ -650,7 +650,7 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            using (StdVectorVec4i vec = new StdVectorVec4i())
+            using (VectorOfVec4i vec = new VectorOfVec4i())
             {
                 CppInvoke.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
                 return vec.ToArray<CvLineSegmentPoint>();
@@ -691,7 +691,7 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            using (StdVectorVec3f vec = new StdVectorVec3f())
+            using (VectorOfVec3f vec = new VectorOfVec3f())
             {
                 CppInvoke.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
                 return vec.ToArray<CvCircleSegment>();
@@ -2122,8 +2122,8 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr contoursPtr, hierarchyPtr;
             CppInvoke.imgproc_findContours1_vector(image.CvPtr, out contoursPtr, out hierarchyPtr, (int)mode, (int)method, offset0);
 
-            using (StdVectorVectorPoint contoursVec = new StdVectorVectorPoint(contoursPtr))
-            using (StdVectorVec4i hierarchyVec = new StdVectorVec4i(hierarchyPtr))
+            using (VectorOfVectorPoint contoursVec = new VectorOfVectorPoint(contoursPtr))
+            using (VectorOfVec4i hierarchyVec = new VectorOfVec4i(hierarchyPtr))
             {
                 contours = contoursVec.ToArray();
                 Vec4i[] hierarchyOrg = hierarchyVec.ToArray();
@@ -2177,7 +2177,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr contoursPtr;
             CppInvoke.imgproc_findContours1_OutputArray(image.CvPtr, out contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
 
-            using (StdVectorMat contoursVec = new StdVectorMat(contoursPtr))
+            using (VectorOfMat contoursVec = new VectorOfMat(contoursPtr))
             {
                 contours = contoursVec.ToArray();
             }
@@ -2219,7 +2219,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr contoursPtr;
             CppInvoke.imgproc_findContours2_vector(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
 
-            using (StdVectorVectorPoint contoursVec = new StdVectorVectorPoint(contoursPtr))
+            using (VectorOfVectorPoint contoursVec = new VectorOfVectorPoint(contoursPtr))
             {
                 contours = contoursVec.ToArray();
             }
@@ -2260,7 +2260,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr contoursPtr;
             CppInvoke.imgproc_findContours2_OutputArray(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
 
-            using (StdVectorMat contoursVec = new StdVectorMat(contoursPtr))
+            using (VectorOfMat contoursVec = new VectorOfMat(contoursPtr))
             {
                 contours = contoursVec.ToArray<MatOfPoint>();
             }
@@ -2439,7 +2439,7 @@ namespace OpenCvSharp.CPlusPlus
             Point[] curveArray = EnumerableEx.ToArray(curve);
             IntPtr approxCurvePtr;
             CppInvoke.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
-            using (StdVectorPoint2i approxCurveVec = new StdVectorPoint2i(approxCurvePtr))
+            using (VectorOfPoint approxCurveVec = new VectorOfPoint(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();
             }
@@ -2458,7 +2458,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] curveArray = EnumerableEx.ToArray(curve);
             IntPtr approxCurvePtr;
             CppInvoke.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
-            using (StdVectorPoint2f approxCurveVec = new StdVectorPoint2f(approxCurvePtr))
+            using (VectorOfPoint2f approxCurveVec = new VectorOfPoint2f(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();
             }
@@ -2734,7 +2734,7 @@ namespace OpenCvSharp.CPlusPlus
             Point[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
             CppInvoke.imgproc_convexHull_Point_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
-            using (StdVectorPoint2i hullVec = new StdVectorPoint2i(hullPtr))
+            using (VectorOfPoint hullVec = new VectorOfPoint(hullPtr))
             {
                 return hullVec.ToArray();
             }
@@ -2753,7 +2753,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr hullPtr;
             CppInvoke.imgproc_convexHull_Point2f_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr,
                 clockwise ? 1 : 0);
-            using (StdVectorPoint2f hullVec = new StdVectorPoint2f(hullPtr))
+            using (VectorOfPoint2f hullVec = new VectorOfPoint2f(hullPtr))
             {
                 return hullVec.ToArray();
             }
@@ -2771,7 +2771,7 @@ namespace OpenCvSharp.CPlusPlus
             Point[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
             CppInvoke.imgproc_convexHull_Point_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
-            using (StdVectorInt32 hullVec = new StdVectorInt32(hullPtr))
+            using (VectorOfInt32 hullVec = new VectorOfInt32(hullPtr))
             {
                 return hullVec.ToArray();
             }
@@ -2789,7 +2789,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
             CppInvoke.imgproc_convexHull_Point2f_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
-            using (StdVectorInt32 hullVec = new StdVectorInt32(hullPtr))
+            using (VectorOfInt32 hullVec = new VectorOfInt32(hullPtr))
             {
                 return hullVec.ToArray();
             }
@@ -2836,7 +2836,7 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.imgproc_convexityDefects_Point(contourArray, contourArray.Length,
                 convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
 
-            using (StdVectorVec4i convexityDefects = new StdVectorVec4i(convexityDefectsPtr))
+            using (VectorOfVec4i convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
             {
                 return convexityDefects.ToArray();
             }
@@ -2859,7 +2859,7 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.imgproc_convexityDefects_Point2f(contourArray, contourArray.Length,
                 convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
 
-            using (StdVectorVec4i convexityDefects = new StdVectorVec4i(convexityDefectsPtr))
+            using (VectorOfVec4i convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
             {
                 return convexityDefects.ToArray();
             }
@@ -2951,7 +2951,7 @@ namespace OpenCvSharp.CPlusPlus
             float ret = CppInvoke.imgproc_intersectConvexConvex_Point(p1Array, p1Array.Length, p2Array, p2Array.Length, 
                 out p12Ptr, handleNested ? 1 : 0);
 
-            using (StdVectorPoint2i p12Vec = new StdVectorPoint2i(p12Ptr))
+            using (VectorOfPoint p12Vec = new VectorOfPoint(p12Ptr))
             {
                 p12 = p12Vec.ToArray();
             }
@@ -2979,7 +2979,7 @@ namespace OpenCvSharp.CPlusPlus
             float ret = CppInvoke.imgproc_intersectConvexConvex_Point2f(p1Array, p1Array.Length, p2Array, p2Array.Length,
                 out p12Ptr, handleNested ? 1 : 0);
 
-            using (StdVectorPoint2f p12Vec = new StdVectorPoint2f(p12Ptr))
+            using (VectorOfPoint2f p12Vec = new VectorOfPoint2f(p12Ptr))
             {
                 p12 = p12Vec.ToArray();
             }

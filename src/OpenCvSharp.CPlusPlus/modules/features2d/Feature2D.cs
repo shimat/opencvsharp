@@ -11,64 +11,50 @@ namespace OpenCvSharp.CPlusPlus
     public class Feature2D : FeatureDetector
     {
         private bool disposed;
+        /// <summary>
+        /// cv::Ptr&lt;Feature2D&gt;
+        /// </summary>
+        private PtrOfFeature2D detectorPtr;
 
         /// <summary>
         /// 
         /// </summary>
-        protected Feature2D()
+        internal Feature2D()
             : base()
         {
         }
         /// <summary>
-        /// 
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
         /// </summary>
-        /// <param name="p"></param>
-        protected Feature2D(IntPtr p)
+        /// <param name="ptr"></param>
+        internal static new Feature2D FromPtr(IntPtr ptr)
         {
-            detectorPtr = p;
-            ptr = CppInvoke.core_Ptr_Feature2D_obj(p);
-            if(ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid Feature2D pointer");
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+            Feature2D detector = new Feature2D();
+            PtrOfFeature2D ptrObj = new PtrOfFeature2D(ptr);
+            detector.detectorPtr = ptrObj;
+            detector.ptr = ptrObj.ObjPointer;
+            return detector;
+        }
+        /// <summary>
+        /// Creates instance from raw pointer T*
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new Feature2D FromRawPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+            Feature2D detector = new Feature2D
+                {
+                    detectorPtr = null, 
+                    ptr = ptr
+                };
+            return detector;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="keypoints"></param>
-        /// <param name="descriptors"></param>
-        public void Compute(Mat image, out KeyPoint[] keypoints, Mat descriptors)
-        {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
-            {
-                CppInvoke.features2d_Feature2D_compute(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
-                keypoints = keypointsVec.ToArray();
-            }
-        }
 
-        /// <summary>
-        /// Create feature detector by detector name.
-        /// </summary>
-        /// <param name="detectorType"></param>
-        /// <returns></returns>
-        public static new Feature2D Create(string detectorType)
-        {
-            if(String.IsNullOrEmpty(detectorType))
-                throw new ArgumentNullException("detectorType");
-            IntPtr ptr = CppInvoke.features2d_Feature2D_create(detectorType);
-            try
-            {
-                Feature2D detector = new Feature2D(ptr);
-                return detector;
-            }
-            catch (OpenCvSharpException)
-            {
-                throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
-            }
-        }
-        
 #if LANG_JP
     /// <summary>
     /// リソースの解放
@@ -99,9 +85,9 @@ namespace OpenCvSharp.CPlusPlus
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (detectorPtr != IntPtr.Zero)
-                            CppInvoke.core_Ptr_Feature2D_delete(detectorPtr);
-                        detectorPtr = IntPtr.Zero;
+                        if (detectorPtr != null)
+                            detectorPtr.Dispose();
+                        detectorPtr = null;
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -112,5 +98,45 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="keypoints"></param>
+        /// <param name="descriptors"></param>
+        public void Compute(Mat image, out KeyPoint[] keypoints, Mat descriptors)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
+            {
+                CppInvoke.features2d_Feature2D_compute(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
+                keypoints = keypointsVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Create feature detector by detector name.
+        /// </summary>
+        /// <param name="detectorType"></param>
+        /// <returns></returns>
+        public static new Feature2D Create(string detectorType)
+        {
+            if(String.IsNullOrEmpty(detectorType))
+                throw new ArgumentNullException("detectorType");
+            // gets cv::Ptr<Feature2D>
+            IntPtr ptr = CppInvoke.features2d_Feature2D_create(detectorType);
+            try
+            {
+                Feature2D detector = FromPtr(ptr);
+                return detector;
+            }
+            catch (OpenCvSharpException)
+            {
+                throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
+            }
+        }
+
     }
 }

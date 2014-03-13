@@ -848,7 +848,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// setSVMDetector parameter vector
         /// </summary>
-        private StdVectorFloat svmDetector = null;
+        private VectorOfFloat svmDetector = null;
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
@@ -1279,7 +1279,7 @@ namespace OpenCvSharp.CPlusPlus
 
             if (svmDetector != null)
                 svmDetector.Dispose();
-            svmDetector = new StdVectorFloat(svmdetector);            
+            svmDetector = new VectorOfFloat(svmdetector);            
             CppInvoke.objdetect_HOGDescriptor_setSVMDetector(ptr, svmDetector.CvPtr);
         }
 
@@ -1404,7 +1404,7 @@ namespace OpenCvSharp.CPlusPlus
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            using (StdVectorFloat flVec = new StdVectorFloat())
+            using (VectorOfFloat flVec = new VectorOfFloat())
             {
                 int length = (locations != null) ? locations.Length : 0;
                 CppInvoke.objdetect_HOGDescriptor_compute(ptr, img.CvPtr, flVec.CvPtr, winStride, padding, locations, length);
@@ -1472,7 +1472,7 @@ namespace OpenCvSharp.CPlusPlus
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            using (StdVectorPoint2i flVec = new StdVectorPoint2i())
+            using (VectorOfPoint flVec = new VectorOfPoint())
             {
                 int length = (searchLocations != null) ? searchLocations.Length : 0;
                 CppInvoke.objdetect_HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride, padding, searchLocations, length);
@@ -1502,7 +1502,7 @@ namespace OpenCvSharp.CPlusPlus
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
             Size padding0 = padding.GetValueOrDefault(new Size());
-            using (StdVectorRect flVec = new StdVectorRect())
+            using (VectorOfRect flVec = new VectorOfRect())
             {
                 CppInvoke.objdetect_HOGDescriptor_detectMultiScale(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride0, padding0, scale, groupThreshold);
                 // std::vector<cv::Rect>*からCvRect[]に移し替えて返す

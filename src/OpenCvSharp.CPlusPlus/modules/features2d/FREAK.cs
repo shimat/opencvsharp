@@ -125,8 +125,8 @@ namespace OpenCvSharp.CPlusPlus
 
             IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
 
-            using (StdVectorInt32 outVec = new StdVectorInt32())
-            using (StdVectorVectorKeyPoint keypointsVec = new StdVectorVectorKeyPoint())
+            using (VectorOfInt32 outVec = new VectorOfInt32())
+            using (VectorOfVectorKeyPoint keypointsVec = new VectorOfVectorKeyPoint())
             {
                 CppInvoke.features2d_FREAK_selectPairs(ptr, imagesPtrs, imagesPtrs.Length,
                     keypointsVec.CvPtr, corrThresh, verbose ? 1 : 0, outVec.CvPtr);

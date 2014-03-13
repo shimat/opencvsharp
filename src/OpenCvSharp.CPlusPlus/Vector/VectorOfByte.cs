@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class StdVectorByte : DisposableCvObject, IStdVector
+    internal class VectorOfByte : DisposableCvObject, IStdVector<byte>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorByte()
+        public VectorOfByte()
         {
             ptr = CppInvoke.vector_uchar_new1();
         }
@@ -27,7 +27,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorByte(int size)
+        public VectorOfByte(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
@@ -37,7 +37,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorByte(IEnumerable<byte> data)
+        public VectorOfByte(IEnumerable<byte> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");

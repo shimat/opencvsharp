@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
@@ -7,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class StdVectorPoint3f : DisposableCvObject, IStdVector
+    public class VectorOfFloat : DisposableCvObject, IStdVector<float>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -18,30 +19,30 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorPoint3f()
+        public VectorOfFloat()
         {
-            ptr = CppInvoke.vector_Point2f_new1();
+            ptr = CppInvoke.vector_float_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorPoint3f(int size)
+        public VectorOfFloat(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_Point3f_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_float_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorPoint3f(IEnumerable<Point3f> data)
+        public VectorOfFloat(IEnumerable<float> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Point3f[] array = Util.ToArray(data);
-            ptr = CppInvoke.vector_Point3f_new3(array, new IntPtr(array.Length));
+            float[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_float_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_Point3f_delete(ptr);
+                        CppInvoke.vector_float_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -77,14 +78,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_Point3f_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_float_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_Point3f_getPointer(ptr); }
+            get { return CppInvoke.vector_float_getPointer(ptr); }
         }
         #endregion
 
@@ -93,18 +94,15 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Point3f[] ToArray()
+        public float[] ToArray()
         {            
             int size = Size;
             if (size == 0)
             {
-                return new Point3f[0];
+                return new float[0];
             }
-            Point3f[] dst = new Point3f[size];
-            using (ArrayAddress1<Point3f> dstPtr = new ArrayAddress1<Point3f>(dst))
-            {
-                Util.CopyMemory(dstPtr, ElemPtr, Point3f.SizeOf * dst.Length);
-            }
+            float[] dst = new float[size];
+            Marshal.Copy(ElemPtr, dst, 0, dst.Length);
             return dst;
         }
         #endregion

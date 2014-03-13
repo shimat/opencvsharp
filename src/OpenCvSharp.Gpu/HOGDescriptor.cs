@@ -850,7 +850,7 @@ namespace OpenCvSharp.Gpu
         /// <summary>
         /// setSVMDetector parameter vector
         /// </summary>
-        private StdVectorFloat svmDetector = null;
+        private VectorOfFloat svmDetector = null;
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
@@ -1253,7 +1253,7 @@ namespace OpenCvSharp.Gpu
 
             if (svmDetector != null)
                 svmDetector.Dispose();
-            svmDetector = new StdVectorFloat(svmdetector);            
+            svmDetector = new VectorOfFloat(svmdetector);            
             GpuInvoke.HOGDescriptor_setSVMDetector(ptr, svmDetector.CvPtr);
         }
 
@@ -1338,7 +1338,7 @@ namespace OpenCvSharp.Gpu
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            using (StdVectorPoint2i flVec = new StdVectorPoint2i())
+            using (VectorOfPoint flVec = new VectorOfPoint())
             {
                 GpuInvoke.HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride, padding);
                 // std::vector<cv::Point>*からCvPoint[]に移し替えて返す
@@ -1367,7 +1367,7 @@ namespace OpenCvSharp.Gpu
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
             Size padding0 = padding.GetValueOrDefault(new Size());
-            using (StdVectorRect flVec = new StdVectorRect())
+            using (VectorOfRect flVec = new VectorOfRect())
             {
                 GpuInvoke.HOGDescriptor_detectMultiScale(ptr, img.CvPtr, flVec.CvPtr, hitThreshold, winStride0, padding0, scale, groupThreshold);
                 // std::vector<cv::Rect>*からCvRect[]に移し替えて返す

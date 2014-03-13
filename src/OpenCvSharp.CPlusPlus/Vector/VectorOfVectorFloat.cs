@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class StdVectorDMatch : DisposableCvObject, IStdVector
+    internal class VectorOfVectorFloat : DisposableCvObject, IStdVector<float[]>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,38 +19,19 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorDMatch()
+        public VectorOfVectorFloat()
         {
-            ptr = CppInvoke.vector_DMatch_new1();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public StdVectorDMatch(IntPtr ptr)
-        {
-            this.ptr = ptr;
+            ptr = CppInvoke.vector_vector_float_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorDMatch(int size)
+        public VectorOfVectorFloat(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_DMatch_new2(new IntPtr(size));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public StdVectorDMatch(IEnumerable<DMatch> data)
-        {
-            if (data == null)
-                throw new ArgumentNullException("data");
-            DMatch[] array = EnumerableEx.ToArray(data);
-            ptr = CppInvoke.vector_DMatch_new3(array, new IntPtr(array.Length));
+            ptr = CppInvoke.vector_vector_float_new2(new IntPtr(size));
         }
 
         /// <summary>
@@ -68,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_DMatch_delete(ptr);
+                        CppInvoke.vector_vector_float_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -84,16 +65,37 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// vector.size()
         /// </summary>
-        public int Size
+        public int Size1
         {
-            get { return CppInvoke.vector_DMatch_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_vector_float_getSize1(ptr).ToInt32(); }
         }
+        public int Size { get { return Size1; } }
+        /// <summary>
+        /// vector.size()
+        /// </summary>
+        public long[] Size2
+        {
+            get
+            {
+                int size1 = Size1;
+                IntPtr[] size2Org = new IntPtr[size1];
+                CppInvoke.vector_vector_float_getSize2(ptr, size2Org);
+                long[] size2 = new long[size1];
+                for (int i = 0; i < size1; i++)
+                {
+                    size2[i] = size2Org[i].ToInt64();
+                }
+                return size2;
+            }
+        }
+        
+
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_DMatch_getPointer(ptr); }
+            get { return CppInvoke.vector_vector_KeyPoint_getPointer(ptr); }
         }
         #endregion
 
@@ -102,19 +104,23 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public DMatch[] ToArray()
-        {            
-            int size = Size;
-            if (size == 0)
+        public float[][] ToArray()
+        {
+            int size1 = Size1;
+            if (size1 == 0)
+                return new float[0][];
+            long[] size2 = Size2;
+
+            float[][] ret = new float[size1][];
+            for (int i = 0; i < size1; i++)
             {
-                return new DMatch[0];
+                ret[i] = new float[size2[i]];
             }
-            DMatch[] dst = new DMatch[size];
-            using (ArrayAddress1<DMatch> dstPtr = new ArrayAddress1<DMatch>(dst))
+            using (ArrayAddress2<float> retPtr = new ArrayAddress2<float>(ret))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(DMatch)) * dst.Length);
+                CppInvoke.vector_vector_float_copy(ptr, retPtr);
             }
-            return dst;
+            return ret;
         }
         #endregion
     }

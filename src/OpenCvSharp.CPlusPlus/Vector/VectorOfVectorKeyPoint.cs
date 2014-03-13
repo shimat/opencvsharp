@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class StdVectorVectorKeyPoint : DisposableCvObject, IStdVector
+    internal class VectorOfVectorKeyPoint : DisposableCvObject, IStdVector<KeyPoint[]>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorVectorKeyPoint()
+        public VectorOfVectorKeyPoint()
         {
             ptr = CppInvoke.vector_vector_KeyPoint_new1();
         }
@@ -27,7 +27,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorVectorKeyPoint(int size)
+        public VectorOfVectorKeyPoint(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");

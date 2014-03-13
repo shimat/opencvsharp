@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
@@ -7,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class StdVectorPoint2i : DisposableCvObject, IStdVector
+    internal class VectorOfVectorPoint : DisposableCvObject, IStdVector<Point[]>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -18,38 +19,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorPoint2i()
+        public VectorOfVectorPoint()
         {
-            ptr = CppInvoke.vector_Point2i_new1();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="size"></param>
-        public StdVectorPoint2i(int size)
-        {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_Point2i_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_vector_Point_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ptr"></param>
-        public StdVectorPoint2i(IntPtr ptr)
+        public VectorOfVectorPoint(IntPtr ptr)
         {
             this.ptr = ptr;
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="data"></param>
-        public StdVectorPoint2i(IEnumerable<Point> data)
+        /// <param name="size"></param>
+        public VectorOfVectorPoint(int size)
         {
-            if (data == null)
-                throw new ArgumentNullException("data");
-            Point[] array = Util.ToArray(data);
-            ptr = CppInvoke.vector_Point2i_new3(array, new IntPtr(array.Length));
+            if (size < 0)
+                throw new ArgumentOutOfRangeException("size");
+            ptr = CppInvoke.vector_vector_Point_new2(new IntPtr(size));
         }
 
         /// <summary>
@@ -67,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_Point2i_delete(ptr);
+                        CppInvoke.vector_vector_Point_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -83,16 +73,37 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// vector.size()
         /// </summary>
-        public int Size
+        public int Size1
         {
-            get { return CppInvoke.vector_Point2i_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_vector_Point_getSize1(ptr).ToInt32(); }
         }
+        public int Size { get { return Size1; } }
+        /// <summary>
+        /// vector.size()
+        /// </summary>
+        public long[] Size2
+        {
+            get
+            {
+                int size1 = Size1;
+                IntPtr[] size2Org = new IntPtr[size1];
+                CppInvoke.vector_vector_Point_getSize2(ptr, size2Org);
+                long[] size2 = new long[size1];
+                for (int i = 0; i < size1; i++)
+                {
+                    size2[i] = size2Org[i].ToInt64();
+                }
+                return size2;
+            }
+        }
+        
+
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_Point2i_getPointer(ptr); }
+            get { return CppInvoke.vector_vector_KeyPoint_getPointer(ptr); }
         }
         #endregion
 
@@ -101,19 +112,23 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Point[] ToArray()
-        {            
-            int size = Size;
-            if (size == 0)
+        public Point[][] ToArray()
+        {
+            int size1 = Size1;
+            if (size1 == 0)
+                return new Point[0][];
+            long[] size2 = Size2;
+
+            Point[][] ret = new Point[size1][];
+            for (int i = 0; i < size1; i++)
             {
-                return new Point[0];
+                ret[i] = new Point[size2[i]];
             }
-            Point[] dst = new Point[size];
-            using (ArrayAddress1<Point> dstPtr = new ArrayAddress1<Point>(dst))
+            using (ArrayAddress2<Point> retPtr = new ArrayAddress2<Point>(ret))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, Point.SizeOf * dst.Length);
+                CppInvoke.vector_vector_Point_copy(ptr, retPtr);
             }
-            return dst;
+            return ret;
         }
         #endregion
     }

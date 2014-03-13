@@ -243,7 +243,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("Subdiv2D", "");
             IntPtr p;
             CppInvoke.imgproc_Subdiv2D_getEdgeList(ptr, out p);
-            using (StdVectorVec4f vec = new StdVectorVec4f(p))
+            using (VectorOfVec4f vec = new VectorOfVec4f(p))
             {
                 return vec.ToArray();
             }
@@ -260,7 +260,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("Subdiv2D", "");
             IntPtr p;
             CppInvoke.imgproc_Subdiv2D_getTriangleList(ptr, out p);
-            using (StdVectorVec6f vec = new StdVectorVec6f(p))
+            using (VectorOfVec6f vec = new VectorOfVec6f(p))
             {
                 return vec.ToArray();
             }
@@ -289,11 +289,11 @@ namespace OpenCvSharp.CPlusPlus
                 CppInvoke.imgproc_Subdiv2D_getVoronoiFacetList(ptr, idxArray, idxArray.Length, out facetListPtr, out facetCentersPtr);
             }
 
-            using (StdVectorVectorPoint2f facetListVec = new StdVectorVectorPoint2f(facetListPtr))
+            using (VectorOfVectorPoint2f facetListVec = new VectorOfVectorPoint2f(facetListPtr))
             {
                 facetList = facetListVec.ToArray();
             }
-            using (StdVectorPoint2f facetCentersVec = new StdVectorPoint2f(facetCentersPtr))
+            using (VectorOfPoint2f facetCentersVec = new VectorOfPoint2f(facetCentersPtr))
             {
                 facetCenters = facetCentersVec.ToArray();
             }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
@@ -8,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class StdVectorMat : DisposableCvObject, IStdVector
+    public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,27 +18,38 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorMat()
+        public VectorOfPoint2f()
         {
-            ptr = CppInvoke.vector_Mat_new1();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="size"></param>
-        public StdVectorMat(int size)
-        {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_Mat_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Point2f_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ptr"></param>
-        public StdVectorMat(IntPtr ptr)
+        public VectorOfPoint2f(IntPtr ptr)
         {
             this.ptr = ptr;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        public VectorOfPoint2f(int size)
+        {
+            if (size < 0)
+                throw new ArgumentOutOfRangeException("size");
+            ptr = CppInvoke.vector_Point2f_new2(new IntPtr(size));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public VectorOfPoint2f(IEnumerable<Point2f> data)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            Point2f[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_Point2f_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -57,7 +67,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_Mat_delete(ptr);
+                        CppInvoke.vector_Point2f_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -75,14 +85,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_Mat_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Point2f_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_Mat_getPointer(ptr); }
+            get { return CppInvoke.vector_Point2f_getPointer(ptr); }
         }
         #endregion
 
@@ -91,41 +101,19 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Mat[] ToArray()
-        {
-            return ToArray<Mat>();
-        }
-
-        /// <summary>
-        /// Converts std::vector to managed array
-        /// </summary>
-        /// <returns></returns>
-        public T[] ToArray<T>()
-            where T : Mat, new()
-        {
+        public Point2f[] ToArray()
+        {            
             int size = Size;
             if (size == 0)
-                return new T[0];
-
-            T[] dst = new T[size];
-            IntPtr[] dstPtr = new IntPtr[size];
-            for (int i = 0; i < size; i++)
             {
-                T m = new T();
-                dst[i] = m;
-                dstPtr[i] = m.CvPtr;
+                return new Point2f[0];
             }
-            CppInvoke.vector_Mat_assignToArray(ptr, dstPtr);
-
+            Point2f[] dst = new Point2f[size];
+            using (ArrayAddress1<Point2f> dstPtr = new ArrayAddress1<Point2f>(dst))
+            {
+                Util.CopyMemory(dstPtr, ElemPtr, Point2f.SizeOf * dst.Length);
+            }
             return dst;
-        }
-
-        /// <summary>
-        /// 各要素の参照カウントを1追加する
-        /// </summary>
-        public void AddRef()
-        {
-            CppInvoke.vector_Mat_addref(ptr);
         }
         #endregion
     }

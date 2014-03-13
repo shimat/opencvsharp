@@ -12,28 +12,92 @@ namespace OpenCvSharp.CPlusPlus
     {
         private bool disposed;
         /// <summary>
-        /// 
+        /// cv::Ptr&lt;FeatureDetector&gt;
         /// </summary>
-        protected IntPtr detectorPtr;
+        private PtrOfFeatureDetector detectorPtr;
 
         /// <summary>
         /// 
         /// </summary>
-        protected FeatureDetector()
+        internal FeatureDetector()
         {
-            detectorPtr = IntPtr.Zero;
+            detectorPtr = null;
             ptr = IntPtr.Zero;
         }
         /// <summary>
-        /// 
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
         /// </summary>
-        /// <param name="p"></param>
-        protected FeatureDetector(IntPtr p)
+        /// <param name="ptr"></param>
+        internal static FeatureDetector FromPtr(IntPtr ptr)
         {
-            detectorPtr = p;
-            ptr = CppInvoke.core_Ptr_FeatureDetector_obj(p);
-            if(ptr == IntPtr.Zero)
+            if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+            FeatureDetector detector = new FeatureDetector();
+            PtrOfFeatureDetector ptrObj = new PtrOfFeatureDetector(ptr);
+            detector.detectorPtr = ptrObj;
+            detector.ptr = ptrObj.ObjPointer;
+            return detector;
+        }
+        /// <summary>
+        /// Creates instance from raw T*
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static FeatureDetector FromRawPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+            FeatureDetector detector = new FeatureDetector
+                {
+                    detectorPtr = null,
+                    ptr = ptr
+                };
+            return detector;
+        }
+
+
+#if LANG_JP
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
+    /// <param name="disposing">
+    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+    ///</param>
+#else
+        /// <summary>
+        /// Releases the resources
+        /// </summary>
+        /// <param name="disposing">
+        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
+        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
+        /// </param>
+#endif
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                try
+                {
+                    // releases managed resources
+                    if (disposing)
+                    {
+                    }
+                    // releases unmanaged resources
+                    if (IsEnabledDispose)
+                    {
+                        if (detectorPtr != null)
+                            detectorPtr.Dispose();
+                        detectorPtr = null;
+                        ptr = IntPtr.Zero;
+                    }
+                    disposed = true;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
+            }
         }
 
         /// <summary>
@@ -47,7 +111,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(image == null)
                 throw new ArgumentNullException("image");
-            using (StdVectorKeyPoint keypoints = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint keypoints = new VectorOfKeyPoint())
             {
                 CppInvoke.features2d_FeatureDetector_detect(ptr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask));
                 return keypoints.ToArray();
@@ -70,7 +134,7 @@ namespace OpenCvSharp.CPlusPlus
             for (int i = 0; i < imagesArray.Length; i++)
                 imagesPtr[i] = imagesArray[i].CvPtr;
 
-            using (StdVectorVectorKeyPoint keypoints = new StdVectorVectorKeyPoint())
+            using (VectorOfVectorKeyPoint keypoints = new VectorOfVectorKeyPoint())
             {
                 if (masks == null)
                 {
@@ -120,10 +184,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(String.IsNullOrEmpty(detectorType))
                 throw new ArgumentNullException("detectorType");
+
+            // gets cv::Ptr<FeatureDetector>
             IntPtr ptr = CppInvoke.features2d_FeatureDetector_create(detectorType);
             try
             {
-                FeatureDetector detector = new FeatureDetector(ptr);
+                FeatureDetector detector = FromPtr(ptr);
                 return detector;
             }
             catch (OpenCvSharpException)
@@ -133,48 +199,6 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
-        /// <summary>
-        /// Releases the resources
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        if (detectorPtr != IntPtr.Zero)
-                            CppInvoke.core_Ptr_FeatureDetector_delete(detectorPtr);
-                        detectorPtr = IntPtr.Zero;
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
-        }
+
     }
 }

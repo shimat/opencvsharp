@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class StdVectorVec3f : DisposableCvObject, IStdVector
+    public class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,30 +19,38 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorVec3f()
+        public VectorOfVec6f()
         {
-            ptr = CppInvoke.vector_Vec3f_new1();
+            ptr = CppInvoke.vector_Vec6f_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorVec3f(int size)
+        public VectorOfVec6f(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_Vec3f_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Vec6f_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorVec3f(IEnumerable<Vec3f> data)
+        public VectorOfVec6f(IEnumerable<Vec6f> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Vec3f[] array = Util.ToArray(data);
-            ptr = CppInvoke.vector_Vec3f_new3(array, new IntPtr(array.Length));
+            Vec6f[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_Vec6f_new3(array, new IntPtr(array.Length));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        public VectorOfVec6f(IntPtr p)
+        {
+            ptr = p;
         }
 
         /// <summary>
@@ -60,7 +68,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_Vec2f_delete(ptr);
+                        CppInvoke.vector_Vec6f_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -78,14 +86,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_Vec3f_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Vec6f_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_Vec3f_getPointer(ptr); }
+            get { return CppInvoke.vector_Vec6f_getPointer(ptr); }
         }
         #endregion
 
@@ -94,19 +102,19 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Vec3f[] ToArray()
+        public Vec6f[] ToArray()
         {
-            return ToArray<Vec3f>();
+            return ToArray<Vec6f>();
         }
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
-        /// <typeparam name="T">structure that has two float members (ex. CvLineSegmentPolar, CvPoint2D32f, PointF)</typeparam>
+        /// <typeparam name="T">structure that has four int members (ex. CvLineSegmentPoint, CvRect)</typeparam>
         /// <returns></returns>
         public T[] ToArray<T>() where T : struct
         {
             int typeSize = Marshal.SizeOf(typeof(T));
-            if (typeSize != sizeof(float) * 3)
+            if (typeSize != sizeof(float) * 6)
             {
                 throw new OpenCvSharpException();
             }

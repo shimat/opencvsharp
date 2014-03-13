@@ -190,7 +190,7 @@ namespace OpenCvSharp.CPlusPlus
             if (prms == null)
                 prms = new int[0];
             img.ThrowIfDisposed();
-            using (StdVectorByte bufVec = new StdVectorByte())
+            using (VectorOfByte bufVec = new VectorOfByte())
             {
                 int ret = CppInvoke.highgui_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length);
                 buf = bufVec.ToArray();

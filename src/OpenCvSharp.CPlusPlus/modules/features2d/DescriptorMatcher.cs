@@ -125,7 +125,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat[] GetTrainDescriptors()
         {
             ThrowIfDisposed();
-            using (StdVectorMat matVec = new StdVectorMat())
+            using (VectorOfMat matVec = new VectorOfMat())
             {
                 CppInvoke.features2d_DescriptorMatcher_getTrainDescriptors(ptr, matVec.CvPtr);
                 return matVec.ToArray();
@@ -191,7 +191,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("queryDescriptors");
             if (trainDescriptors == null)
                 throw new ArgumentNullException("trainDescriptors");
-            using (StdVectorDMatch matchesVec = new StdVectorDMatch())
+            using (VectorOfDMatch matchesVec = new VectorOfDMatch())
             {
                 CppInvoke.features2d_DescriptorMatcher_match(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
@@ -220,7 +220,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("queryDescriptors");
             if (trainDescriptors == null)
                 throw new ArgumentNullException("trainDescriptors");
-            using (StdVectorVectorDMatch matchesVec = new StdVectorVectorDMatch())
+            using (VectorOfVectorDMatch matchesVec = new VectorOfVectorDMatch())
             {
                 CppInvoke.features2d_DescriptorMatcher_knnMatch(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
@@ -247,7 +247,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("queryDescriptors");
             if (trainDescriptors == null)
                 throw new ArgumentNullException("trainDescriptors");
-            using (StdVectorVectorDMatch matchesVec = new StdVectorVectorDMatch())
+            using (VectorOfVectorDMatch matchesVec = new VectorOfVectorDMatch())
             {
                 CppInvoke.features2d_DescriptorMatcher_radiusMatch(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,

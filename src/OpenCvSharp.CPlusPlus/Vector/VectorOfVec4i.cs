@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class StdVectorVec2f : DisposableCvObject, IStdVector
+    public class VectorOfVec4i : DisposableCvObject, IStdVector<Vec4i>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,30 +19,38 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public StdVectorVec2f()
+        public VectorOfVec4i()
         {
-            ptr = CppInvoke.vector_Vec2f_new1();
+            ptr = CppInvoke.vector_Vec4i_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public StdVectorVec2f(int size)
+        public VectorOfVec4i(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_Vec2f_new2(new IntPtr(size));
+            ptr = CppInvoke.vector_Vec4i_new2(new IntPtr(size));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptr"></param>
+        public VectorOfVec4i(IntPtr ptr)
+        {
+            this.ptr = ptr;
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public StdVectorVec2f(IEnumerable<Vec2f> data)
+        public VectorOfVec4i(IEnumerable<Vec4i> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Vec2f[] array = Util.ToArray(data);
-            ptr = CppInvoke.vector_Vec2f_new3(array, new IntPtr(array.Length));
+            Vec4i[] array = Util.ToArray(data);
+            ptr = CppInvoke.vector_Vec4i_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -60,7 +68,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_Vec2f_delete(ptr);
+                        CppInvoke.vector_Vec4i_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -78,14 +86,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_Vec2f_getSize(ptr).ToInt32(); }
+            get { return CppInvoke.vector_Vec4i_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_Vec2f_getPointer(ptr); }
+            get { return CppInvoke.vector_Vec4i_getPointer(ptr); }
         }
         #endregion
 
@@ -94,19 +102,19 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Vec2f[] ToArray()
+        public Vec4i[] ToArray()
         {
-            return ToArray<Vec2f>();
+            return ToArray<Vec4i>();
         }
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
-        /// <typeparam name="T">structure that has two float members (ex. CvLineSegmentPolar, CvPoint2D32f, PointF)</typeparam>
+        /// <typeparam name="T">structure that has four int members (ex. CvLineSegmentPoint, CvRect)</typeparam>
         /// <returns></returns>
         public T[] ToArray<T>() where T : struct
         {
             int typeSize = Marshal.SizeOf(typeof(T));
-            if (typeSize != sizeof(float) * 2)
+            if (typeSize != sizeof(int) * 4)
             {
                 throw new OpenCvSharpException();
             }
@@ -116,15 +124,12 @@ namespace OpenCvSharp.CPlusPlus
             {
                 return new T[0];
             }
-            else
+            T[] dst = new T[arySize];
+            using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
             {
-                T[] dst = new T[arySize];
-                using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
-                {
-                    Util.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
-                }
-                return dst;
+                Util.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
             }
+            return dst;
         }
         #endregion
     }

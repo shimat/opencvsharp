@@ -852,7 +852,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr mvPtr;
             CppInvoke.core_split(src.CvPtr, out mvPtr);
 
-            using (StdVectorMat vec = new StdVectorMat(mvPtr))
+            using (VectorOfMat vec = new VectorOfMat(mvPtr))
             {
                 mv = vec.ToArray();
             }

@@ -23,7 +23,7 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            using (StdVectorKeyPoint kp = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint kp = new VectorOfKeyPoint())
             {
                 CppInvoke.features2d_FAST(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
                 keypoints = kp.ToArray();
@@ -45,7 +45,7 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            using (StdVectorKeyPoint kp = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint kp = new VectorOfKeyPoint())
             {
                 CppInvoke.features2d_FASTX(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, type);
                 keypoints = kp.ToArray();

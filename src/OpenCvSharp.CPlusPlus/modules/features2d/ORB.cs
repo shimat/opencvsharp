@@ -117,7 +117,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
 
-            using (StdVectorKeyPoint keyPointsVec = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
             {
                 CppInvoke.features2d_ORB_run1(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr);
                 return keyPointsVec.ToArray();
@@ -143,7 +143,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             descriptors.ThrowIfNotReady();
 
-            using (StdVectorKeyPoint keyPointsVec = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
             {
                 CppInvoke.features2d_ORB_run2(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr,
                     descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);

@@ -116,7 +116,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr keypoints;
             CppInvoke.features2d_StarDetector_detect(ptr, image.CvPtr, out keypoints);
 
-            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint(keypoints))
+            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint(keypoints))
             {
                 return keypointsVec.ToArray();
             }

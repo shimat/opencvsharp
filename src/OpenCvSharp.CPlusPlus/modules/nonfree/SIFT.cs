@@ -155,7 +155,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
 
-            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
                 CppInvoke.nonfree_SIFT_run1(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
                 return keypointsVec.ToArray();
@@ -194,7 +194,7 @@ namespace OpenCvSharp.CPlusPlus
             img.ThrowIfDisposed();
             descriptors.ThrowIfNotReady();
 
-            using (StdVectorKeyPoint keypointsVec = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
                 CppInvoke.nonfree_SIFT_run2_OutputArray(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
                     descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
@@ -248,7 +248,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("baseMat");
             baseMat.ThrowIfDisposed();
 
-            using (StdVectorMat pyrVec = new StdVectorMat())
+            using (VectorOfMat pyrVec = new VectorOfMat())
             {
                 CppInvoke.nonfree_SIFT_buildGaussianPyramid(ptr, baseMat.CvPtr, pyrVec.CvPtr, nOctaves);
                 return pyrVec.ToArray();
@@ -267,7 +267,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("pyr");
 
             IntPtr[] pyrPtrs = EnumerableEx.SelectPtrs(pyr);
-            using (StdVectorMat dogPyrVec = new StdVectorMat())
+            using (VectorOfMat dogPyrVec = new VectorOfMat())
             {
                 CppInvoke.nonfree_SIFT_buildDoGPyramid(ptr, pyrPtrs, pyrPtrs.Length, dogPyrVec.CvPtr);
                 return dogPyrVec.ToArray();
@@ -291,7 +291,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr[] gaussPyrPtrs = EnumerableEx.SelectPtrs(gaussPyr);
             IntPtr[] dogPyrPtrs = EnumerableEx.SelectPtrs(dogPyr);
 
-            using (StdVectorKeyPoint keyPointsVec = new StdVectorKeyPoint())
+            using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
             {
                 CppInvoke.nonfree_SIFT_findScaleSpaceExtrema(ptr, gaussPyrPtrs, gaussPyrPtrs.Length,
                     dogPyrPtrs, dogPyrPtrs.Length, keyPointsVec.CvPtr);
