@@ -257,6 +257,51 @@ CVAPI(int) calib3d_findCirclesGrid_vector(cv::_InputArray *image, CvSize pattern
 	return cv::findCirclesGrid(*image, patternSize, *centers, flags, detectorPtr) ? 1 : 0;
 }
 
+CVAPI(double) calib3d_calibrateCamera_InputArray(
+	cv::Mat **objectPoints, int objectPointsSize,
+	cv::Mat **imagePoints, int imagePointsSize,
+	CvSize imageSize,
+	cv::_OutputArray *cameraMatrix,
+	cv::_OutputArray *distCoeffs,
+	std::vector<cv::Mat> *rvecs, cv::vector<cv::Mat> *tvecs,
+	int flags,
+	CvTermCriteria criteria)
+{
+	std::vector<cv::Mat> objectPointsVec(objectPointsSize);
+	for (int i = 0; i < objectPointsSize; i++)
+		objectPointsVec[i] = *objectPoints[i];
+	std::vector<cv::Mat> imagePointsVec(imagePointsSize);
+	for (int i = 0; i < imagePointsSize; i++)
+		imagePointsVec[i] = *imagePoints[i];
+
+	return cv::calibrateCamera(objectPointsVec, imagePointsVec, imageSize,
+		*cameraMatrix, *distCoeffs, *rvecs, *tvecs, flags, criteria);
+}
+CVAPI(double) calib3d_calibrateCamera_vector(
+	cv::Point3d **objectPoints, int opSize1, int *opSize2,
+	cv::Point2d **imagePoints, int ipSize1, int *ipSize2,
+	CvSize imageSize,
+	double *cameraMatrix,
+	double *distCoeffs, int distCoeffsSize,
+	std::vector<cv::Mat> *rvecs, cv::vector<cv::Mat> *tvecs,
+	int flags,
+	CvTermCriteria criteria)
+{
+	std::vector<std::vector<cv::Point3d> > objectPointsVec(opSize1);
+	for (int i = 0; i < opSize1; i++)	
+		objectPointsVec[i] = std::vector<cv::Point3d>(objectPoints[i], objectPoints[i] + opSize2[i]);
+
+	std::vector<std::vector<cv::Point2d> > imagePointsVec(ipSize1);
+	for (int i = 0; i < ipSize1; i++)
+		imagePointsVec[i] = std::vector<cv::Point2d>(imagePoints[i], imagePoints[i] + ipSize2[i]);
+	
+	cv::Mat cametaMatrixM(3, 3, CV_64FC1, cameraMatrix);
+	cv::Mat distCoeffsM(distCoeffsSize, 1, CV_64FC1, distCoeffs);
+
+	return cv::calibrateCamera(objectPointsVec, imagePointsVec, imageSize,
+		cametaMatrixM, distCoeffsM, *rvecs, *tvecs, flags, criteria);
+}
+
 #pragma region StereoBM
 
 CVAPI(cv::StereoBM*) calib3d_StereoBM_new1()

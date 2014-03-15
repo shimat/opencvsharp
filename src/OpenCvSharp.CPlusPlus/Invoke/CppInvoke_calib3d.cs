@@ -132,6 +132,24 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int calib3d_findCirclesGrid_vector(IntPtr image, CvSize patternSize,
             IntPtr centers, int flags, IntPtr blobDetector);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double calib3d_calibrateCamera_InputArray(
+            IntPtr[] objectPoints, int objectPointsSize,
+            IntPtr[] imagePoints, int imagePointsSize,
+            CvSize imageSize,
+            IntPtr cameraMatrix,IntPtr distCoeffs,
+            IntPtr rvecs, IntPtr tvecs,
+            int flags, CvTermCriteria criteria);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double calib3d_calibrateCamera_vector(
+            IntPtr[] objectPoints, int opSize1, int[] opSize2,
+            IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
+            CvSize imageSize,
+            [In, Out] double[,] cameraMatrix,
+            [In, Out] double[] distCoeffs, int distCoeffsSize,
+            IntPtr rvecs, IntPtr tvecs,
+            int flags, CvTermCriteria criteria);
+
 
         // StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

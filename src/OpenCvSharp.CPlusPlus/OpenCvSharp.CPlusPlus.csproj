@@ -143,6 +143,7 @@
     <Compile Include="EnumerableEx.cs" />
     <Compile Include="Enum\DctFlag2.cs" />
     <Compile Include="Enum\DftFlag2.cs" />
+    <Compile Include="Enum\FindCirclesGridFlag.cs" />
     <Compile Include="Enum\SolvePnPFlag.cs" />
     <Compile Include="Enum\DrawMatchesFlags.cs" />
     <Compile Include="Enum\ORBScore.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="modules\core\Mat\MatOfFloat6.cs" />
     <Compile Include="modules\core\Mat\MatOfFloat4.cs" />
     <Compile Include="modules\core\Mat\MatOfDMatch.cs" />
+    <Compile Include="modules\core\Mat\MatOfDouble3.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint2d.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint2f.cs" />
     <Compile Include="modules\core\Mat\MatOfUShort.cs" />

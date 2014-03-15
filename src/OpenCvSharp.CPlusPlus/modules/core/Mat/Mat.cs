@@ -2807,6 +2807,29 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
+        public void GetArray(int row, int col, Vec3d[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CppInvoke.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Vec3d[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CppInvoke.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
         public void GetArray(int row, int col, Vec4f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
@@ -3100,6 +3123,29 @@ namespace OpenCvSharp.CPlusPlus
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
             CppInvoke.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params Vec3d[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CppInvoke.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Vec3d[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CppInvoke.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
         }
 
         /// <summary>

@@ -1085,6 +1085,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CppInvoke.calib3d_drawChessboardCorners_InputArray(
                 image.CvPtr, patternSize, corners.CvPtr, patternWasFound ? 1 : 0);
+            image.Fix();
         }
         /// <summary>
         /// Renders the detected chessboard corners.
@@ -1106,6 +1107,7 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.calib3d_drawChessboardCorners_array(
                 image.CvPtr, patternSize, cornersArray, cornersArray.Length, 
                 patternWasFound ? 1 : 0);
+            image.Fix();
         }
         #endregion
         #region FindCirclesGrid
@@ -1134,6 +1136,7 @@ namespace OpenCvSharp.CPlusPlus
 
             int ret = CppInvoke.calib3d_findCirclesGrid_InputArray(
                 image.CvPtr, patternSize, centers.CvPtr, (int)flags, ToPtr(blobDetector));
+            centers.Fix();
             return ret != 0;
         }
         /// <summary>
@@ -1162,6 +1165,148 @@ namespace OpenCvSharp.CPlusPlus
                 image.CvPtr, patternSize, centersVec.CvPtr, (int)flags, ToPtr(blobDetector));
                 centers = centersVec.ToArray();
                 return ret != 0;
+            }
+        }
+        #endregion
+        #region CalibrateCamera
+        /// <summary>
+        /// finds intrinsic and extrinsic camera parameters from several fews of a known calibration pattern.
+        /// </summary>
+        /// <param name="objectPoints">In the new interface it is a vector of vectors of calibration pattern points in the calibration pattern coordinate space. 
+        /// The outer vector contains as many elements as the number of the pattern views. If the same calibration pattern is shown in each view and 
+        /// it is fully visible, all the vectors will be the same. Although, it is possible to use partially occluded patterns, or even different patterns 
+        /// in different views. Then, the vectors will be different. The points are 3D, but since they are in a pattern coordinate system, then, 
+        /// if the rig is planar, it may make sense to put the model to a XY coordinate plane so that Z-coordinate of each input object point is 0.
+        /// In the old interface all the vectors of object points from different views are concatenated together.</param>
+        /// <param name="imagePoints">In the new interface it is a vector of vectors of the projections of calibration pattern points. 
+        /// imagePoints.Count() and objectPoints.Count() and imagePoints[i].Count() must be equal to objectPoints[i].Count() for each i.</param>
+        /// <param name="imageSize">Size of the image used only to initialize the intrinsic camera matrix.</param>
+        /// <param name="cameraMatrix">Output 3x3 floating-point camera matrix. 
+        /// If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be 
+        /// initialized before calling the function.</param>
+        /// <param name="distCoeffs">Output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.</param>
+        /// <param name="rvecs">Output vector of rotation vectors (see Rodrigues() ) estimated for each pattern view. That is, each k-th rotation vector 
+        /// together with the corresponding k-th translation vector (see the next output parameter description) brings the calibration pattern 
+        /// from the model coordinate space (in which object points are specified) to the world coordinate space, that is, a real position of the 
+        /// calibration pattern in the k-th pattern view (k=0.. M -1)</param>
+        /// <param name="tvecs">Output vector of translation vectors estimated for each pattern view.</param>
+        /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
+        /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+        /// <returns></returns>
+        public static double CalibrateCamera(
+            IEnumerable<Mat> objectPoints,
+            IEnumerable<Mat> imagePoints,
+            Size imageSize,
+            InputOutputArray cameraMatrix,
+            InputOutputArray distCoeffs,
+            out Mat[] rvecs, 
+            out Mat[] tvecs,
+            CalibrationFlag flags = CalibrationFlag.Zero, 
+            TermCriteria? criteria = null)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (distCoeffs == null)
+                throw new ArgumentNullException("distCoeffs");
+            cameraMatrix.ThrowIfNotReady();
+            distCoeffs.ThrowIfNotReady();
+
+            TermCriteria criteria0 = criteria.GetValueOrDefault(
+                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 30, Double.Epsilon));
+
+            IntPtr[] objectPointsPtrs = EnumerableEx.SelectPtrs(objectPoints);
+            IntPtr[] imagePointsPtrs = EnumerableEx.SelectPtrs(imagePoints);
+
+            double ret;
+            using (VectorOfMat rvecsVec = new VectorOfMat())
+            using (VectorOfMat tvecsVec = new VectorOfMat())
+            {
+                ret = CppInvoke.calib3d_calibrateCamera_InputArray(
+                    objectPointsPtrs, objectPointsPtrs.Length,
+                    imagePointsPtrs, objectPointsPtrs.Length,
+                    imageSize, cameraMatrix.CvPtr, distCoeffs.CvPtr,
+                    rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteria0);
+                rvecs = rvecsVec.ToArray();
+                tvecs = tvecsVec.ToArray();
+            }
+
+            cameraMatrix.Fix();
+            distCoeffs.Fix();
+            return ret;
+        }
+
+        /// <summary>
+        /// finds intrinsic and extrinsic camera parameters from several fews of a known calibration pattern.
+        /// </summary>
+        /// <param name="objectPoints">In the new interface it is a vector of vectors of calibration pattern points in the calibration pattern coordinate space. 
+        /// The outer vector contains as many elements as the number of the pattern views. If the same calibration pattern is shown in each view and 
+        /// it is fully visible, all the vectors will be the same. Although, it is possible to use partially occluded patterns, or even different patterns 
+        /// in different views. Then, the vectors will be different. The points are 3D, but since they are in a pattern coordinate system, then, 
+        /// if the rig is planar, it may make sense to put the model to a XY coordinate plane so that Z-coordinate of each input object point is 0.
+        /// In the old interface all the vectors of object points from different views are concatenated together.</param>
+        /// <param name="imagePoints">In the new interface it is a vector of vectors of the projections of calibration pattern points. 
+        /// imagePoints.Count() and objectPoints.Count() and imagePoints[i].Count() must be equal to objectPoints[i].Count() for each i.</param>
+        /// <param name="imageSize">Size of the image used only to initialize the intrinsic camera matrix.</param>
+        /// <param name="cameraMatrix">Output 3x3 floating-point camera matrix. 
+        /// If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be 
+        /// initialized before calling the function.</param>
+        /// <param name="distCoeffs">Output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.</param>
+        /// <param name="rvecs">Output vector of rotation vectors (see Rodrigues() ) estimated for each pattern view. That is, each k-th rotation vector 
+        /// together with the corresponding k-th translation vector (see the next output parameter description) brings the calibration pattern 
+        /// from the model coordinate space (in which object points are specified) to the world coordinate space, that is, a real position of the 
+        /// calibration pattern in the k-th pattern view (k=0.. M -1)</param>
+        /// <param name="tvecs">Output vector of translation vectors estimated for each pattern view.</param>
+        /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
+        /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+        /// <returns></returns>
+        public static double CalibrateCamera(
+            IEnumerable<IEnumerable<Point3d>> objectPoints,
+            IEnumerable<IEnumerable<Point2d>> imagePoints,
+            Size imageSize,
+            double[,] cameraMatrix,
+            double[] distCoeffs,
+            out Vec3d[] rvecs,
+            out Vec3d[] tvecs,
+            CalibrationFlag flags = CalibrationFlag.Zero,
+            TermCriteria? criteria = null)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (distCoeffs == null)
+                throw new ArgumentNullException("distCoeffs");
+
+            TermCriteria criteria0 = criteria.GetValueOrDefault(
+                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 30, Double.Epsilon));
+
+            using (ArrayAddress2<Point3d> op = new ArrayAddress2<Point3d>(objectPoints))
+            using (ArrayAddress2<Point2d> ip = new ArrayAddress2<Point2d>(imagePoints))
+            using (VectorOfMat rvecsVec = new VectorOfMat())
+            using (VectorOfMat tvecsVec = new VectorOfMat())
+            {
+                double ret = CppInvoke.calib3d_calibrateCamera_vector(
+                    op.Pointer, op.Dim1Length, op.Dim2Lengths,
+                    ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
+                    imageSize, cameraMatrix, distCoeffs, distCoeffs.Length,
+                    rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteria0);
+                Mat[] rvecsM = rvecsVec.ToArray();
+                Mat[] tvecsM = tvecsVec.ToArray();
+                rvecs = EnumerableEx.SelectToArray(rvecsM, delegate(Mat m)
+                {
+                    return m.Get<Vec3d>(0);
+                });
+                tvecs = EnumerableEx.SelectToArray(tvecsM, delegate(Mat m)
+                {
+                    return m.Get<Vec3d>(0);
+                });
+                return ret;
             }
         }
         #endregion
