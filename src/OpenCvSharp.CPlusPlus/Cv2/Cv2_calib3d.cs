@@ -1310,5 +1310,59 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+        #region CalibrationMatrixValues
+        /// <summary>
+        /// computes several useful camera characteristics from the camera matrix, camera frame resolution and the physical sensor size.
+        /// </summary>
+        /// <param name="cameraMatrix">Input camera matrix that can be estimated by calibrateCamera() or stereoCalibrate() .</param>
+        /// <param name="imageSize">Input image size in pixels.</param>
+        /// <param name="apertureWidth">Physical width of the sensor.</param>
+        /// <param name="apertureHeight">Physical height of the sensor.</param>
+        /// <param name="fovx">Output field of view in degrees along the horizontal sensor axis.</param>
+        /// <param name="fovy">Output field of view in degrees along the vertical sensor axis.</param>
+        /// <param name="focalLength">Focal length of the lens in mm.</param>
+        /// <param name="principalPoint">Principal point in pixels.</param>
+        /// <param name="aspectRatio">fy / fx</param>
+        public static void CalibrationMatrixValues(
+            InputArray cameraMatrix, Size imageSize,
+            double apertureWidth, double apertureHeight,
+            out double fovx, out double fovy, out double focalLength,
+            out Point2d principalPoint, out double aspectRatio)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+
+            CppInvoke.calib3d_calibrationMatrixValues_InputArray(cameraMatrix.CvPtr,
+                imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
+                out principalPoint, out aspectRatio);
+        }
+        /// <summary>
+        /// computes several useful camera characteristics from the camera matrix, camera frame resolution and the physical sensor size.
+        /// </summary>
+        /// <param name="cameraMatrix">Input camera matrix that can be estimated by calibrateCamera() or stereoCalibrate() .</param>
+        /// <param name="imageSize">Input image size in pixels.</param>
+        /// <param name="apertureWidth">Physical width of the sensor.</param>
+        /// <param name="apertureHeight">Physical height of the sensor.</param>
+        /// <param name="fovx">Output field of view in degrees along the horizontal sensor axis.</param>
+        /// <param name="fovy">Output field of view in degrees along the vertical sensor axis.</param>
+        /// <param name="focalLength">Focal length of the lens in mm.</param>
+        /// <param name="principalPoint">Principal point in pixels.</param>
+        /// <param name="aspectRatio">fy / fx</param>
+        public static void CalibrationMatrixValues(
+            double[,] cameraMatrix, Size imageSize,
+            double apertureWidth, double apertureHeight,
+            out double fovx, out double fovy, out double focalLength,
+            out Point2d principalPoint, out double aspectRatio)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
+                throw new ArgumentException("cameraMatrix must be 3x3");
+
+            CppInvoke.calib3d_calibrationMatrixValues_array(cameraMatrix,
+                imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
+                out principalPoint, out aspectRatio);
+        }
+        #endregion
     }
 }

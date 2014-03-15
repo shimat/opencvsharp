@@ -150,6 +150,14 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr rvecs, IntPtr tvecs,
             int flags, CvTermCriteria criteria);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_calibrationMatrixValues_InputArray(IntPtr cameraMatrix,
+            Size imageSize, double apertureWidth, double apertureHeight, out double fovx, out double fovy, 
+            out double focalLength, out Point2d principalPoint, out double aspectRatio);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_calibrationMatrixValues_array(double[,] cameraMatrix, Size imageSize,
+            double apertureWidth, double apertureHeight, out double fovx, out double fovy, out double focalLength,
+            out Point2d principalPoint, out double aspectRatio);
 
         // StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

@@ -302,6 +302,31 @@ CVAPI(double) calib3d_calibrateCamera_vector(
 		cametaMatrixM, distCoeffsM, *rvecs, *tvecs, flags, criteria);
 }
 
+CVAPI(void) calib3d_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMatrix, cv::Size imageSize,
+	double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
+	cv::Point2d *principalPoint, double *aspectRatio)
+{
+	double fovx0, fovy0, focalLength0, aspectRatio0;
+	cv::Point2d principalPoint0;
+	cv::calibrationMatrixValues(*cameraMatrix, imageSize, apertureWidth, apertureHeight,
+		fovx0, fovy0, focalLength0, principalPoint0, aspectRatio0);
+	*fovx = fovx0;
+	*fovy = fovy0;
+	*principalPoint = principalPoint0;
+	*focalLength = focalLength0;
+	*aspectRatio = aspectRatio0;
+}
+CVAPI(void) calib3d_calibrationMatrixValues_array(double *cameraMatrix, cv::Size imageSize,
+	double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
+	cv::Point2d *principalPoint, double *aspectRatio)
+{
+	cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
+	cv::_InputArray cameraMatrixI(cameraMatrixM);
+	calib3d_calibrationMatrixValues_InputArray(&cameraMatrixI, imageSize, apertureWidth, apertureHeight,
+		fovx, fovy, focalLength, principalPoint, aspectRatio);
+}
+
+
 #pragma region StereoBM
 
 CVAPI(cv::StereoBM*) calib3d_StereoBM_new1()
