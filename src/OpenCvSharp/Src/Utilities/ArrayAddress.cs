@@ -134,8 +134,8 @@ namespace OpenCvSharp.Utilities
     {
         private bool disposed;
         private T[][] array;
-        private readonly GCHandle[] gch;
-        private readonly IntPtr[] ptr;
+        private GCHandle[] gch;
+        private IntPtr[] ptr;
 
 #if LANG_JP
         /// <summary>
@@ -150,9 +150,33 @@ namespace OpenCvSharp.Utilities
 #endif
         public ArrayAddress2(T[][] array)
         {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            this.array = array;
+            Initialize(array);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enumerable"></param>
+        public ArrayAddress2(IEnumerable<IEnumerable<T>> enumerable)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+
+            List<T[]> list = new List<T[]>();
+            foreach (IEnumerable<T> e in enumerable)
+            {
+                if(e == null)
+                    throw new ArgumentException("enumerable contains null");
+                list.Add( new List<T>(e).ToArray() );
+            }
+
+            Initialize(list.ToArray());
+        }
+
+        private void Initialize(T[][] target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            this.array = target;
 
             // T[][]をIntPtr[]に変換する
             ptr = new IntPtr[array.Length];
@@ -225,6 +249,30 @@ namespace OpenCvSharp.Utilities
         public static implicit operator IntPtr[](ArrayAddress2<T> self)
         {
             return self.Pointer;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Dim1Length
+        {
+            get { return array.Length; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int[] Dim2Lengths
+        {
+            get
+            {
+                List<int> lengths = new List<int>(array.Length);
+                for (int i = 0; i < array.Length; i++)
+                {
+                    lengths[i] = array[i].Length;
+                }
+                return lengths.ToArray();
+            }
         }
     }
 }

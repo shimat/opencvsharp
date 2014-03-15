@@ -135,7 +135,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="ransacReprojThreshold">Maximum allowed reprojection error to treat a point pair as an inlier (used in the RANSAC method only)</param>
         /// <param name="mask"> Optional output mask set by a robust method ( CV_RANSAC or CV_LMEDS ). Note that the input mask values are ignored.</param>
         /// <returns></returns>
-        public static Mat FindHomography(IEnumerable<Point2f> srcPoints, IEnumerable<Point2f> dstPoints,
+        public static Mat FindHomography(IEnumerable<Point2d> srcPoints, IEnumerable<Point2d> dstPoints,
             HomographyMethod method = HomographyMethod.Zero, double ransacReprojThreshold = 3,
             OutputArray mask = null)
         {
@@ -144,8 +144,8 @@ namespace OpenCvSharp.CPlusPlus
             if (dstPoints == null)
                 throw new ArgumentNullException("dstPoints");
 
-            Point2f[] srcPointsArray = EnumerableEx.ToArray(srcPoints);
-            Point2f[] dstPointsArray = EnumerableEx.ToArray(dstPoints);
+            Point2d[] srcPointsArray = EnumerableEx.ToArray(srcPoints);
+            Point2d[] dstPointsArray = EnumerableEx.ToArray(dstPoints);
 
             IntPtr mat = CppInvoke.calib3d_findHomography_vector(srcPointsArray, srcPointsArray.Length,
                 srcPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
@@ -887,6 +887,129 @@ namespace OpenCvSharp.CPlusPlus
                     rvec, tvec, useExtrinsicGuess ? 1 : 0, iterationsCount,
                     reprojectionError, minInliersCount, inliersVec.CvPtr, (int)flags);
                 inliers = inliersVec.ToArray();
+            }
+        }
+        #endregion
+        #region InitCameraMatrix2D
+        /// <summary>
+        /// initializes camera matrix from a few 3D points and the corresponding projections.
+        /// </summary>
+        /// <param name="objectPoints">Vector of vectors (vector&lt;vector&lt;Point3d&gt;&gt;) of the calibration pattern points in the calibration pattern coordinate space. In the old interface all the per-view vectors are concatenated.</param>
+        /// <param name="imagePoints">Vector of vectors (vector&lt;vector&lt;Point2d&gt;&gt;) of the projections of the calibration pattern points. In the old interface all the per-view vectors are concatenated.</param>
+        /// <param name="imageSize">Image size in pixels used to initialize the principal point.</param>
+        /// <param name="aspectRatio">If it is zero or negative, both f_x and f_y are estimated independently. Otherwise, f_x = f_y * aspectRatio .</param>
+        /// <returns></returns>
+        public static Mat InitCameraMatrix2D(
+            IEnumerable<Mat> objectPoints,
+            IEnumerable<Mat> imagePoints,
+            Size imageSize, 
+            double aspectRatio = 1.0)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (imagePoints == null)
+                throw new ArgumentNullException("imagePoints");
+            if (EnumerableEx.AnyNull(objectPoints))
+                throw new ArgumentException("One of objectPoints is null");
+            if (EnumerableEx.AnyNull(imagePoints))
+                throw new ArgumentException("One of imagePoints is null");
+
+            IntPtr[] objectPointsPtrs = EnumerableEx.SelectPtrs(objectPoints);
+            IntPtr[] imagePointsPtrs = EnumerableEx.SelectPtrs(imagePoints);
+
+            IntPtr matPtr = CppInvoke.calib3d_initCameraMatrix2D_Mat(objectPointsPtrs, objectPointsPtrs.Length,
+                imagePointsPtrs, imagePointsPtrs.Length, imageSize, aspectRatio);
+            return new Mat(matPtr);
+        }
+        /// <summary>
+        /// initializes camera matrix from a few 3D points and the corresponding projections.
+        /// </summary>
+        /// <param name="objectPoints">Vector of vectors of the calibration pattern points in the calibration pattern coordinate space. In the old interface all the per-view vectors are concatenated.</param>
+        /// <param name="imagePoints">Vector of vectors of the projections of the calibration pattern points. In the old interface all the per-view vectors are concatenated.</param>
+        /// <param name="imageSize">Image size in pixels used to initialize the principal point.</param>
+        /// <param name="aspectRatio">If it is zero or negative, both f_x and f_y are estimated independently. Otherwise, f_x = f_y * aspectRatio .</param>
+        /// <returns></returns>
+        public static Mat InitCameraMatrix2D(
+            IEnumerable<IEnumerable<Point3d>> objectPoints,
+            IEnumerable<IEnumerable<Point2d>> imagePoints,
+            Size imageSize,
+            double aspectRatio = 1.0)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (imagePoints == null)
+                throw new ArgumentNullException("imagePoints");
+            if (EnumerableEx.AnyNull(objectPoints))
+                throw new ArgumentException("One of objectPoints is null");
+            if (EnumerableEx.AnyNull(imagePoints))
+                throw new ArgumentException("One of imagePoints is null");
+
+            using (var opArray = new ArrayAddress2<Point3d>(objectPoints))
+            using (var ipArray = new ArrayAddress2<Point2d>(imagePoints))
+            {
+                IntPtr matPtr = CppInvoke.calib3d_initCameraMatrix2D_array(
+                    opArray, opArray.Dim1Length, opArray.Dim2Lengths,
+                    ipArray, ipArray.Dim1Length, ipArray.Dim2Lengths,
+                    imageSize, aspectRatio);
+                return new Mat(matPtr);
+            }
+        }
+        #endregion
+        #region FindChessboardCorners
+        /// <summary>
+        /// Finds the positions of internal corners of the chessboard.
+        /// </summary>
+        /// <param name="image">Source chessboard view. It must be an 8-bit grayscale or color image.</param>
+        /// <param name="patternSize">Number of inner corners per a chessboard row and column 
+        /// ( patternSize = Size(points_per_row,points_per_colum) = Size(columns, rows) ).</param>
+        /// <param name="corners">Output array of detected corners.</param>
+        /// <param name="flags">Various operation flags that can be zero or a combination of the ChessboardFlag values</param>
+        /// <returns>The function returns true if all of the corners are found and they are placed in a certain order (row by row, left to right in every row). 
+        /// Otherwise, if the function fails to find all the corners or reorder them, it returns false.</returns>
+        public static bool FindChessboardCorners(
+            InputArray image, 
+            Size patternSize,
+            OutputArray corners,
+            ChessboardFlag flags = ChessboardFlag.AdaptiveThresh | ChessboardFlag.NormalizeImage)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (corners == null)
+                throw new ArgumentNullException("corners");
+            image.ThrowIfDisposed();
+            corners.ThrowIfNotReady();
+
+            int ret = CppInvoke.calib3d_findChessboardCorners_InputArray(
+                image.CvPtr, patternSize, corners.CvPtr, (int)flags);
+            corners.Fix();
+            return ret != 0;
+        }
+        /// <summary>
+        /// Finds the positions of internal corners of the chessboard.
+        /// </summary>
+        /// <param name="image">Source chessboard view. It must be an 8-bit grayscale or color image.</param>
+        /// <param name="patternSize">Number of inner corners per a chessboard row and column 
+        /// ( patternSize = Size(points_per_row,points_per_colum) = Size(columns, rows) ).</param>
+        /// <param name="corners">Output array of detected corners.</param>
+        /// <param name="flags">Various operation flags that can be zero or a combination of the ChessboardFlag values</param>
+        /// <returns>The function returns true if all of the corners are found and they are placed in a certain order (row by row, left to right in every row). 
+        /// Otherwise, if the function fails to find all the corners or reorder them, it returns false.</returns>
+        public static bool FindChessboardCorners(
+            InputArray image,
+            Size patternSize,
+            out Point2f[] corners,
+            ChessboardFlag flags = ChessboardFlag.AdaptiveThresh | ChessboardFlag.NormalizeImage)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            image.ThrowIfDisposed();
+
+            using (VectorOfPoint2f cornersVec = new VectorOfPoint2f())
+            {
+                int ret = CppInvoke.calib3d_findChessboardCorners_InputArray(
+                    image.CvPtr, patternSize, cornersVec.CvPtr, (int)flags);
+                corners = cornersVec.ToArray();
+                return ret != 0;
             }
         }
         #endregion

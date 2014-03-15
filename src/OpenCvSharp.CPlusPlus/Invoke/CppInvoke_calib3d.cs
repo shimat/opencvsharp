@@ -26,8 +26,8 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr calib3d_findHomography_InputArray(IntPtr srcPoints, IntPtr dstPoints,
             int method, double ransacReprojThreshold, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr calib3d_findHomography_vector(Point2f[] srcPoints, int srcPointsLength,
-            Point2f[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask);
+        public static extern IntPtr calib3d_findHomography_vector(Point2d[] srcPoints, int srcPointsLength,
+            Point2d[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_RQDecomp3x3_InputArray(IntPtr src, IntPtr mtxR,
             IntPtr mtxQ, IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
@@ -77,7 +77,6 @@ namespace OpenCvSharp.CPlusPlus
                                                             IntPtr imagePoints, IntPtr jacobian,
                                                             double aspectRatio);
 
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
             IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
@@ -97,6 +96,23 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] imagePoints, int imagePointsLength, double[,] cameraMatrix, double[] distCoeffs, int distCoeffsLength,
             [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int iterationsCount, float reprojectionError, 
             int minInliersCount, IntPtr inliers, int flags);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr calib3d_initCameraMatrix2D_Mat(IntPtr[] objectPoints, int objectPointsLength,
+            IntPtr[] imagePoints, int imagePointsLength,
+            CvSize imageSize, double aspectRatio);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr calib3d_initCameraMatrix2D_array(IntPtr[] objectPoints, int opSize1, int[] opSize2,
+            IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
+            CvSize imageSize, double aspectRatio);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int calib3d_findChessboardCorners_InputArray(IntPtr image, CvSize patternSize,
+            IntPtr corners, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int calib3d_findChessboardCorners_vector(IntPtr image, CvSize patternSize,
+            IntPtr corners, int flags);
+
 
         // StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
