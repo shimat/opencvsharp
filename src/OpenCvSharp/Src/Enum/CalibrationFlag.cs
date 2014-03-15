@@ -30,6 +30,17 @@ namespace OpenCvSharp
         /// = 0
         /// </summary>
 #endif
+        Zero = 0,
+
+#if LANG_JP
+		/// <summary>
+		/// オプション無し (=0)
+		/// </summary>
+#else
+        /// <summary>
+        /// = 0
+        /// </summary>
+#endif
         Default = 0,
 
 
