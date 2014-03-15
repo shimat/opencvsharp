@@ -33,12 +33,12 @@ CVAPI(cv::Mat*) calib3d_findHomography_InputArray(cv::_InputArray *srcPoints, cv
 	cv::Mat ret = cv::findHomography(*srcPoints, *dstPoints, method, ransacReprojThreshold, entity(mask));
 	return new cv::Mat(ret);
 }
-CVAPI(cv::Mat*) calib3d_findHomography_vector(cv::Point2f *srcPoints, int srcPointsLength,
-	cv::Point2f *dstPoints, int dstPointsLength,
+CVAPI(cv::Mat*) calib3d_findHomography_vector(cv::Point2d *srcPoints, int srcPointsLength,
+	cv::Point2d *dstPoints, int dstPointsLength,
 	int method, double ransacReprojThreshold, cv::_OutputArray *mask)
 {
-	std::vector<cv::Point2f> srcPointsVec(srcPoints, srcPoints + srcPointsLength);
-	std::vector<cv::Point2f> dstPointsVec(dstPoints, dstPoints + dstPointsLength);
+	std::vector<cv::Point2d> srcPointsVec(srcPoints, srcPoints + srcPointsLength);
+	std::vector<cv::Point2d> dstPointsVec(dstPoints, dstPoints + dstPointsLength);
 	cv::Mat ret = cv::findHomography(srcPointsVec, dstPointsVec, method, ransacReprojThreshold, entity(mask));
 	return new cv::Mat(ret);
 }
@@ -175,6 +175,44 @@ CVAPI(void) calib3d_solvePnPRansac_vector(cv::Point3f *objectPoints, int objectP
 
 	memcpy(rvec, rvecM.val, sizeof(double)* 3);
 	memcpy(tvec, tvecM.val, sizeof(double)* 3);
+}
+
+CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_Mat(cv::Mat **objectPoints, int objectPointsLength,
+	cv::Mat **imagePoints, int imagePointsLength, CvSize imageSize, double aspectRatio)
+{
+	std::vector<cv::Mat> objectPointsVec(objectPointsLength);
+	for (int i = 0; i < objectPointsLength; i++)	
+		objectPointsVec[i] = *objectPoints[i];
+	std::vector<cv::Mat> imagePointsVec(imagePointsLength);
+	for (int i = 0; i < objectPointsLength; i++)
+		imagePointsVec[i] = *imagePoints[i];
+
+	cv::Mat ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, imageSize, aspectRatio);
+	return new cv::Mat(ret);
+}
+CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_array(cv::Point3d **objectPoints, int opSize1, int *opSize2,
+	cv::Point2d **imagePoints, int ipSize1, int *ipSize2, CvSize imageSize, double aspectRatio)
+{
+	std::vector<std::vector<cv::Point3d> > objectPointsVec(opSize1);
+	for (int i = 0; i < opSize1; i++)
+		objectPointsVec[i] = std::vector<cv::Point3d>(objectPoints[i], objectPoints[i] + opSize2[i]);
+	std::vector<std::vector<cv::Point3d> > imagePointsVec(ipSize1);
+	for (int i = 0; i < ipSize1; i++)
+		imagePointsVec[i] = std::vector<cv::Point3d>(imagePoints[i], imagePoints[i] + ipSize2[i]);
+
+	cv::Mat ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, imageSize, aspectRatio);
+	return new cv::Mat(ret);
+}
+
+CVAPI(int) calib3d_findChessboardCorners_InputArray(cv::_InputArray *image, CvSize patternSize,
+	cv::_OutputArray *corners, int flags)
+{
+	cv::findChessboardCorners(*image, patternSize, *corners, flags) ? 1 : 0;
+}
+CVAPI(int) calib3d_findChessboardCorners_vector(cv::_InputArray *image, CvSize patternSize,
+	std::vector<cv::Point2f> *corners, int flags)
+{
+	cv::findChessboardCorners(*image, patternSize, *corners, flags) ? 1 : 0;
 }
 
 #pragma region StereoBM
