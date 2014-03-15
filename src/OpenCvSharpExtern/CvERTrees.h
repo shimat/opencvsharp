@@ -6,10 +6,7 @@
 #ifndef _CVERTREES_H_
 #define _CVERTREES_H_
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4251)
-#endif
-#include <opencv2/ml/ml.hpp>
+#include "include_opencv.h"
 
 CVAPI(int) CvERTrees_sizeof()
 {

@@ -6,10 +6,7 @@
 #ifndef _CVSTATMODEL_H_
 #define _CVSTATMODEL_H_
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4251)
-#endif
-#include <opencv2/ml/ml.hpp>
+#include "include_opencv.h"
 
 CVAPI(void) CvStatModel_clear(CvStatModel* model)
 {

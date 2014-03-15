@@ -12,12 +12,19 @@ CVAPI(void) calib3d_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_
 {
 	cv::Rodrigues(*src, *dst, entity(jacobian));
 }
-CVAPI(void) calib3d_Rodrigues_Mat(cv::Mat *vector, cv::Mat *matrix, cv::Mat *jacobian)
+CVAPI(void) calib3d_Rodrigues_VecToMat(cv::Mat *vector, cv::Mat *matrix, cv::Mat *jacobian)
 {
 	cv::Mat vectorM(3, 1, CV_64FC1, vector);
 	cv::Mat matrixM(3, 3, CV_64FC1, matrix);
 	cv::Mat jacobianM(3, 9, CV_64FC1, jacobian);
 	cv::Rodrigues(*vector, *matrix, *jacobian);
+}
+CVAPI(void) calib3d_Rodrigues_MatToVec(cv::Mat *matrix, cv::Mat *vector, cv::Mat *jacobian)
+{
+	cv::Mat matrixM(3, 3, CV_64FC1, matrix);
+	cv::Mat vectorM(3, 1, CV_64FC1, vector);	
+	cv::Mat jacobianM(3, 9, CV_64FC1, jacobian);
+	cv::Rodrigues(*matrix, *vector, *jacobian);
 }
 
 CVAPI(cv::Mat*) calib3d_findHomography_InputArray(cv::_InputArray *srcPoints, cv::_InputArray *dstPoints,
@@ -116,15 +123,15 @@ CVAPI(void) calib3d_projectPoints_Mat( cv::Mat *objectPoints,
 }
 
 
-CVAPI(void) calib3d_solvePnP_InputArray(cv::_InputArray* objectPoints, cv::_InputArray* imagePoints, cv::_InputArray* cameraMatrix, cv::_InputArray* distCoeffs,
-	cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess, int flags)
+CVAPI(void) calib3d_solvePnP_InputArray(cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+	cv::_OutputArray *rvec, cv::_OutputArray *tvec, int useExtrinsicGuess, int flags)
 {
 	cv::solvePnP(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec, useExtrinsicGuess != 0, flags);
 }
 CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsLength,
 									cv::Point2f *imagePoints, int imagePointsLength,
-									cv::_InputArray* cameraMatrix, double *distCoeffs, int distCoeffsLength,
-									cv::_OutputArray* rvec, cv::_OutputArray* tvec, int useExtrinsicGuess,
+									double *cameraMatrix, double *distCoeffs, int distCoeffsLength,
+									double *rvec, double *tvec, int useExtrinsicGuess,
 									int flags)
 {
 	std::vector<cv::Point3f> objectPointsVec(objectPoints, objectPoints + objectPointsLength);
@@ -132,8 +139,42 @@ CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsL
 	std::vector<double> distCoeffsVec;
 	if (distCoeffs != NULL)
 		distCoeffsVec = std::vector<double>(distCoeffs, distCoeffs + distCoeffsLength);
+	
+	cv::Matx<double, 3, 1> rvecM, tvecM;
+	cv::solvePnP(objectPointsVec, imagePointsVec, *cameraMatrix, distCoeffsVec, rvecM, tvecM, useExtrinsicGuess != 0, flags);
+	memcpy(rvec, rvecM.val, sizeof(double) * 3);
+	memcpy(tvec, tvecM.val, sizeof(double) * 3);
+}
 
-	cv::solvePnP(objectPointsVec, imagePointsVec, *cameraMatrix, distCoeffsVec, *rvec, *tvec, useExtrinsicGuess != 0, flags);
+CVAPI(void) calib3d_solvePnPRansac_InputArray(cv::_InputArray *objectPoints, cv::_InputArray *imagePoints,
+	cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_OutputArray *rvec, cv::_OutputArray *tvec,
+	bool useExtrinsicGuess,	int iterationsCount, float reprojectionError, int minInliersCount,
+	cv::_OutputArray *inliers, int flags)
+{
+	cv::solvePnPRansac(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec,
+		useExtrinsicGuess != 0, iterationsCount, reprojectionError, minInliersCount, 
+		entity(inliers), flags);
+}
+CVAPI(void) calib3d_solvePnPRansac_vector(cv::Point3f *objectPoints, int objectPointsLength, 
+	cv::Point2f *imagePoints, int imagePointsLength,
+	double *cameraMatrix, double *distCoeffs, int distCoeffsLength,
+	double *rvec, double *tvec,
+	int useExtrinsicGuess, int iterationsCount, float reprojectionError, int minInliersCount,
+	std::vector<int> *inliers, int flags)
+{
+	std::vector<cv::Point3f> objectPointsVec(objectPoints, objectPoints + objectPointsLength);
+	std::vector<cv::Point2f> imagePointsVec(imagePoints, imagePoints + imagePointsLength);
+	std::vector<double> distCoeffsVec;
+	if (distCoeffs != NULL)
+		distCoeffsVec = std::vector<double>(distCoeffs, distCoeffs + distCoeffsLength);
+	cv::Matx<double, 3, 1> rvecM, tvecM;
+
+	cv::solvePnPRansac(objectPointsVec, imagePointsVec, *cameraMatrix, distCoeffsVec, rvecM, tvecM,
+		useExtrinsicGuess != 0, iterationsCount, reprojectionError, minInliersCount,
+		*inliers, flags);
+
+	memcpy(rvec, rvecM.val, sizeof(double)* 3);
+	memcpy(tvec, tvecM.val, sizeof(double)* 3);
 }
 
 #pragma region StereoBM

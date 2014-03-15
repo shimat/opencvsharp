@@ -6,10 +6,7 @@
 #ifndef _CVSVM_H_
 #define _CVSVM_H_
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4251)
-#endif
-#include <opencv2/ml/ml.hpp>
+#include "include_opencv.h"
 
 
 CVAPI(void) CvSVMParams_construct_default(CvSVMParams* p)

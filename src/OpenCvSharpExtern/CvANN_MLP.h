@@ -6,10 +6,7 @@
 #ifndef _CVANN_MLP_H_
 #define _CVANN_MLP_H_
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4251)
-#endif
-#include <opencv2/ml/ml.hpp>
+#include "include_opencv.h"
 
 // CvANN_MLP_TrainParams
 CVAPI(CvANN_MLP_TrainParams*) CvANN_MLP_TrainParams_construct_default()

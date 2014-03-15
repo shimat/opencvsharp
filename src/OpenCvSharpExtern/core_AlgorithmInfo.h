@@ -15,11 +15,11 @@ CVAPI(int) core_AlgorithmInfo_paramHelp(cv::AlgorithmInfo *obj, char *name, char
 		return 0;
 	const char *src = srcStr.c_str();
 	memcpy(dst, src, std::min(srcStr.size() + 1, (size_t)dstLength));
-	return srcStr.size();
+	return (int)srcStr.size();
 }
 CVAPI(int) core_AlgorithmInfo_paramType(cv::AlgorithmInfo *obj, char* name)
 {
-	return obj->paramType(name);
+	return (int)obj->paramType(name);
 }
 CVAPI(int) core_AlgorithmInfo_name(cv::AlgorithmInfo *obj, char *dst, int dstLength) 
 {
@@ -28,7 +28,7 @@ CVAPI(int) core_AlgorithmInfo_name(cv::AlgorithmInfo *obj, char *dst, int dstLen
 		return 0;
 	const char *src = srcStr.c_str();
 	memcpy(dst, src, std::min(srcStr.size() + 1, (size_t)dstLength));
-	return srcStr.size();
+	return (int)srcStr.size();
 }
 
 #endif
