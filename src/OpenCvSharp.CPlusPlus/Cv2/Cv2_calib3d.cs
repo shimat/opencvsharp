@@ -1013,5 +1013,157 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+        #region Find4QuadCornerSubpix
+        /// <summary>
+        /// finds subpixel-accurate positions of the chessboard corners
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="corners"></param>
+        /// <param name="regionSize"></param>
+        /// <returns></returns>
+        public static bool Find4QuadCornerSubpix(InputArray img, InputOutputArray corners, Size regionSize)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (corners == null)
+                throw new ArgumentNullException("corners");
+            img.ThrowIfDisposed();
+            corners.ThrowIfNotReady();
+
+            int ret = CppInvoke.calib3d_find4QuadCornerSubpix_InputArray(
+                img.CvPtr, corners.CvPtr, regionSize);
+            corners.Fix();
+            return ret != 0;
+        }
+        /// <summary>
+        /// finds subpixel-accurate positions of the chessboard corners
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="corners"></param>
+        /// <param name="regionSize"></param>
+        /// <returns></returns>
+        public static bool Find4QuadCornerSubpix(InputArray img, [In, Out] Point2f[] corners, Size regionSize)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (corners == null)
+                throw new ArgumentNullException("corners");
+            img.ThrowIfDisposed();
+
+            using (VectorOfPoint2f cornersVec = new VectorOfPoint2f(corners))
+            {
+                int ret = CppInvoke.calib3d_find4QuadCornerSubpix_InputArray(
+                    img.CvPtr, cornersVec.CvPtr, regionSize);
+
+                Point2f[] newCorners = cornersVec.ToArray();
+                for (int i = 0; i < corners.Length; i++)
+                {
+                    corners[i] = newCorners[i];
+                }
+
+                return ret != 0;
+            }
+        }
+        #endregion
+        #region DrawChessboardCorners
+        /// <summary>
+        /// Renders the detected chessboard corners.
+        /// </summary>
+        /// <param name="image">Destination image. It must be an 8-bit color image.</param>
+        /// <param name="patternSize">Number of inner corners per a chessboard row and column (patternSize = cv::Size(points_per_row,points_per_column)).</param>
+        /// <param name="corners">Array of detected corners, the output of findChessboardCorners.</param>
+        /// <param name="patternWasFound">Parameter indicating whether the complete board was found or not. The return value of findChessboardCorners() should be passed here.</param>
+        public static void DrawChessboardCorners(InputOutputArray image, Size patternSize,
+            InputArray corners, bool patternWasFound)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (corners == null)
+                throw new ArgumentNullException("corners");
+            image.ThrowIfNotReady();
+            corners.ThrowIfDisposed();
+
+            CppInvoke.calib3d_drawChessboardCorners_InputArray(
+                image.CvPtr, patternSize, corners.CvPtr, patternWasFound ? 1 : 0);
+        }
+        /// <summary>
+        /// Renders the detected chessboard corners.
+        /// </summary>
+        /// <param name="image">Destination image. It must be an 8-bit color image.</param>
+        /// <param name="patternSize">Number of inner corners per a chessboard row and column (patternSize = cv::Size(points_per_row,points_per_column)).</param>
+        /// <param name="corners">Array of detected corners, the output of findChessboardCorners.</param>
+        /// <param name="patternWasFound">Parameter indicating whether the complete board was found or not. The return value of findChessboardCorners() should be passed here.</param>
+        public static void DrawChessboardCorners(InputOutputArray image, Size patternSize,
+            IEnumerable<Point2f> corners, bool patternWasFound)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (corners == null)
+                throw new ArgumentNullException("corners");
+            image.ThrowIfNotReady();
+
+            Point2f[] cornersArray = EnumerableEx.ToArray(corners);
+            CppInvoke.calib3d_drawChessboardCorners_array(
+                image.CvPtr, patternSize, cornersArray, cornersArray.Length, 
+                patternWasFound ? 1 : 0);
+        }
+        #endregion
+        #region FindCirclesGrid
+        /// <summary>
+        /// Finds centers in the grid of circles.
+        /// </summary>
+        /// <param name="image">grid view of input circles; it must be an 8-bit grayscale or color image.</param>
+        /// <param name="patternSize">number of circles per row and column ( patternSize = Size(points_per_row, points_per_colum) ).</param>
+        /// <param name="centers">output array of detected centers.</param>
+        /// <param name="flags">various operation flags that can be one of the FindCirclesGridFlag values</param>
+        /// <param name="blobDetector">feature detector that finds blobs like dark circles on light background.</param>
+        /// <returns></returns>
+        public static bool FindCirclesGrid(
+            InputArray image, 
+            Size patternSize,
+            OutputArray centers, 
+            FindCirclesGridFlag flags = FindCirclesGridFlag.SymmetricGrid,
+            FeatureDetector blobDetector = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (centers == null)
+                throw new ArgumentNullException("centers");
+            image.ThrowIfDisposed();
+            centers.ThrowIfNotReady();
+
+            int ret = CppInvoke.calib3d_findCirclesGrid_InputArray(
+                image.CvPtr, patternSize, centers.CvPtr, (int)flags, ToPtr(blobDetector));
+            return ret != 0;
+        }
+        /// <summary>
+        /// Finds centers in the grid of circles.
+        /// </summary>
+        /// <param name="image">grid view of input circles; it must be an 8-bit grayscale or color image.</param>
+        /// <param name="patternSize">number of circles per row and column ( patternSize = Size(points_per_row, points_per_colum) ).</param>
+        /// <param name="centers">output array of detected centers.</param>
+        /// <param name="flags">various operation flags that can be one of the FindCirclesGridFlag values</param>
+        /// <param name="blobDetector">feature detector that finds blobs like dark circles on light background.</param>
+        /// <returns></returns>
+        public static bool FindCirclesGrid(
+            InputArray image,
+            Size patternSize,
+            out Point2f[] centers,
+            FindCirclesGridFlag flags = FindCirclesGridFlag.SymmetricGrid,
+            FeatureDetector blobDetector = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            image.ThrowIfDisposed();
+
+            using (VectorOfPoint2f centersVec = new VectorOfPoint2f())
+            {
+                int ret = CppInvoke.calib3d_findCirclesGrid_InputArray(
+                image.CvPtr, patternSize, centersVec.CvPtr, (int)flags, ToPtr(blobDetector));
+                centers = centersVec.ToArray();
+                return ret != 0;
+            }
+        }
+        #endregion
     }
 }

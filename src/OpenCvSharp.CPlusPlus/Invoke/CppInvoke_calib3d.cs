@@ -113,6 +113,25 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int calib3d_findChessboardCorners_vector(IntPtr image, CvSize patternSize,
             IntPtr corners, int flags);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int calib3d_find4QuadCornerSubpix_InputArray(IntPtr img, IntPtr corners, CvSize regionSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int calib3d_find4QuadCornerSubpix_vector(IntPtr img, IntPtr corners, CvSize regionSize);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_drawChessboardCorners_InputArray(IntPtr image, CvSize patternSize,
+            IntPtr corners, int patternWasFound);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_drawChessboardCorners_array(IntPtr image, CvSize patternSize,
+            Point2f[] corners, int cornersLength, int patternWasFound);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int calib3d_findCirclesGrid_InputArray(IntPtr image, CvSize patternSize,
+            IntPtr centers, int flags, IntPtr blobDetector);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int calib3d_findCirclesGrid_vector(IntPtr image, CvSize patternSize,
+            IntPtr centers, int flags, IntPtr blobDetector);
+
 
         // StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

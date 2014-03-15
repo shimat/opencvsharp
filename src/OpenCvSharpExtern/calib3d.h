@@ -207,12 +207,54 @@ CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_array(cv::Point3d **objectPoints, int
 CVAPI(int) calib3d_findChessboardCorners_InputArray(cv::_InputArray *image, CvSize patternSize,
 	cv::_OutputArray *corners, int flags)
 {
-	cv::findChessboardCorners(*image, patternSize, *corners, flags) ? 1 : 0;
+	return cv::findChessboardCorners(*image, patternSize, *corners, flags) ? 1 : 0;
 }
 CVAPI(int) calib3d_findChessboardCorners_vector(cv::_InputArray *image, CvSize patternSize,
 	std::vector<cv::Point2f> *corners, int flags)
 {
-	cv::findChessboardCorners(*image, patternSize, *corners, flags) ? 1 : 0;
+	return cv::findChessboardCorners(*image, patternSize, *corners, flags) ? 1 : 0;
+}
+
+CVAPI(int) calib3d_find4QuadCornerSubpix_InputArray(cv::_InputArray *img, cv::_OutputArray *corners, CvSize regionSize)
+{
+	return cv::find4QuadCornerSubpix(*img, *corners, regionSize) ? 1 : 0;
+}
+CVAPI(int) calib3d_find4QuadCornerSubpix_vector(cv::_InputArray *img, std::vector<cv::Point2f> *corners, CvSize regionSize)
+{
+	return cv::find4QuadCornerSubpix(*img, *corners, regionSize) ? 1 : 0;
+}
+
+CVAPI(void) calib3d_drawChessboardCorners_InputArray(cv::_OutputArray *image, CvSize patternSize,
+	cv::_InputArray *corners, int patternWasFound)
+{
+	cv::drawChessboardCorners(*image, patternSize, *corners, patternWasFound != 0);
+}
+CVAPI(void) calib3d_drawChessboardCorners_array(cv::_OutputArray *image, CvSize patternSize,
+	cv::Point2f *corners, int cornersLength, int patternWasFound)
+{
+	std::vector<cv::Point2f> cornersVec(corners, corners + cornersLength);
+	cv::drawChessboardCorners(*image, patternSize, cornersVec, patternWasFound != 0);
+}
+
+CVAPI(int) calib3d_findCirclesGrid_InputArray(cv::_InputArray *image, CvSize patternSize,
+	cv::_OutputArray *centers, int flags, cv::FeatureDetector* blobDetector)
+{
+	if (blobDetector == NULL)
+		return cv::findCirclesGrid(*image, patternSize, *centers, flags) ? 1 : 0;
+
+	cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector);
+	detectorPtr.addref();
+	return cv::findCirclesGrid(*image, patternSize, *centers, flags, detectorPtr) ? 1 : 0;
+}
+CVAPI(int) calib3d_findCirclesGrid_vector(cv::_InputArray *image, CvSize patternSize,
+	std::vector<cv::Point2f> *centers, int flags, cv::FeatureDetector* blobDetector)
+{
+	if (blobDetector == NULL)
+		return cv::findCirclesGrid(*image, patternSize, *centers, flags) ? 1 : 0;
+
+	cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector);
+	detectorPtr.addref();
+	return cv::findCirclesGrid(*image, patternSize, *centers, flags, detectorPtr) ? 1 : 0;
 }
 
 #pragma region StereoBM

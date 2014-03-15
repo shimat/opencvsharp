@@ -118,5 +118,9 @@ namespace OpenCvSharp.CPlusPlus
         public const int SolvePnP_ITERATIVE = 0,
             SolvePnP_EPNP = 1,
             SolvePnP_P3P = 2;
+
+        public const int CALIB_CB_SYMMETRIC_GRID = 1,
+            CALIB_CB_ASYMMETRIC_GRID = 2,
+            CALIB_CB_CLUSTERING = 4;
     }
 }
