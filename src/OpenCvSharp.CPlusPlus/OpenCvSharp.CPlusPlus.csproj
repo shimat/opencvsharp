@@ -158,6 +158,7 @@
     <Compile Include="Invoke\CppInvoke_photo.cs" />
     <Compile Include="modules\calib3d\StereoBM.cs" />
     <Compile Include="modules\core\Mat\ITypeSpecificMat.cs" />
+    <Compile Include="modules\core\Mat\MatIndexer.cs" />
     <Compile Include="modules\core\Mat\MatOfDouble.cs" />
     <Compile Include="modules\core\Mat\MatOfFloat6.cs" />
     <Compile Include="modules\core\Mat\MatOfFloat4.cs" />

@@ -49,7 +49,7 @@ namespace CppStyleSamplesCS
                         Cv.FindStereoCorrespondenceBM(imgLeft, imgRight, dispBM, stateBM);   
                         Cv.FindStereoCorrespondenceGC(imgLeft, imgRight, dispLeft, dispRight, stateGC, false); 
                         Cv.FindStereoCorrespondence(imgLeft, imgRight, DisparityMode.Birchfield, dstAux, 50, 25, 5, 12, 15, 25); // cvaux
-                        sgbm.FindCorrespondence(new Mat(imgLeft), new Mat(imgRight), dstSGBM);
+                        sgbm.Compute(new Mat(imgLeft), new Mat(imgRight), dstSGBM);
 
                         Cv.ConvertScale(dispBM, dstBM, 1);
                         Cv.ConvertScale(dispLeft, dstGC, -16);

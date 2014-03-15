@@ -15,8 +15,8 @@ namespace X64Samples
         public void Run()
         {
             // Load left&right images
-            using (IplImage imgLeft = new IplImage(ImagePath.TsukubaLeft, LoadMode.GrayScale))
-            using (IplImage imgRight = new IplImage(ImagePath.TsukubaRight, LoadMode.GrayScale))
+            using (IplImage imgLeft = new IplImage(FilePath.TsukubaLeft, LoadMode.GrayScale))
+            using (IplImage imgRight = new IplImage(FilePath.TsukubaRight, LoadMode.GrayScale))
             {
                 // output image buffers
                 using (IplImage dispBM = new IplImage(imgLeft.Size, BitDepth.S16, 1))
@@ -49,7 +49,7 @@ namespace X64Samples
                         Cv.FindStereoCorrespondenceBM(imgLeft, imgRight, dispBM, stateBM);   
                         Cv.FindStereoCorrespondenceGC(imgLeft, imgRight, dispLeft, dispRight, stateGC, false); 
                         Cv.FindStereoCorrespondence(imgLeft, imgRight, DisparityMode.Birchfield, dstAux, 50, 25, 5, 12, 15, 25); // cvaux
-                        sgbm.FindCorrespondence(new Mat(imgLeft), new Mat(imgRight), dstSGBM);
+                        sgbm.Compute(new Mat(imgLeft), new Mat(imgRight), dstSGBM);
 
                         Cv.ConvertScale(dispBM, dstBM, 1);
                         Cv.ConvertScale(dispLeft, dstGC, -16);

@@ -105,9 +105,9 @@ namespace OpenCvSharp.CPlusPlus
 
         #region Indexer
         /// <summary>
-        /// 
+        /// Matrix indexer
         /// </summary>
-        public sealed unsafe class Indexer : IndexerBase<Vec4f>
+        public sealed unsafe class Indexer : MatIndexer<Vec4f>
         {
             private readonly byte* ptr;
 
@@ -117,10 +117,10 @@ namespace OpenCvSharp.CPlusPlus
                 ptr = (byte*)parent.Data.ToPointer();
             }
             /// <summary>
-            /// 
+            /// 1-dimensional indexer
             /// </summary>
-            /// <param name="i0"></param>
-            /// <returns></returns>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <returns>A value to the specified array element.</returns>
             public override Vec4f this[int i0]
             {
                 get
@@ -133,11 +133,11 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
             /// <summary>
-            /// 
+            /// 2-dimensional indexer
             /// </summary>
-            /// <param name="i0"></param>
-            /// <param name="i1"></param>
-            /// <returns></returns>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <returns>A value to the specified array element.</returns>
             public override Vec4f this[int i0, int i1]
             {
                 get
@@ -150,12 +150,12 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
             /// <summary>
-            /// 
+            /// 3-dimensional indexer
             /// </summary>
-            /// <param name="i0"></param>
-            /// <param name="i1"></param>
-            /// <param name="i2"></param>
-            /// <returns></returns>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <param name="i2"> Index along the dimension 2</param>
+            /// <returns>A value to the specified array element.</returns>
             public override Vec4f this[int i0, int i1, int i2]
             {
                 get
@@ -168,10 +168,10 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
             /// <summary>
-            /// 
+            /// n-dimensional indexer
             /// </summary>
-            /// <param name="idx"></param>
-            /// <returns></returns>
+            /// <param name="idx">Array of Mat::dims indices.</param>
+            /// <returns>A value to the specified array element.</returns>
             public override Vec4f this[params int[] idx]
             {
                 get
@@ -195,7 +195,7 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         /// <summary>
-        /// 
+        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
         /// </summary>
         /// <returns></returns>
         public Indexer GetIndexer() 

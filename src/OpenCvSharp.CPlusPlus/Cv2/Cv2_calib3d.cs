@@ -49,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
             using (MatOfDouble matrixM = new MatOfDouble())
             using (MatOfDouble jacobianM = new MatOfDouble())
             {
-                CppInvoke.calib3d_Rodrigues_Mat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+                CppInvoke.calib3d_Rodrigues_VecToMat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
                 matrix = matrixM.ToRectangularArray();
                 jacobian = jacobianM.ToRectangularArray();
             }
@@ -82,7 +82,7 @@ namespace OpenCvSharp.CPlusPlus
             using (MatOfDouble vectorM = new MatOfDouble())
             using (MatOfDouble jacobianM = new MatOfDouble())
             {
-                CppInvoke.calib3d_Rodrigues_Mat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+                CppInvoke.calib3d_Rodrigues_MatToVec(matrixM.CvPtr, vectorM.CvPtr, jacobianM.CvPtr);
                 vector = vectorM.ToArray();
                 jacobian = jacobianM.ToRectangularArray();
             }
@@ -640,7 +640,6 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
-
         #region SolvePnP
 
         /// <summary>
@@ -659,8 +658,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="useExtrinsicGuess">If true, the function uses the provided rvec and tvec values as initial approximations of 
         /// the rotation and translation vectors, respectively, and further optimizes them.</param>
         /// <param name="flags">Method for solving a PnP problem:</param>
-        public static void SolvePnP(InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs, 
-            OutputArray rvec, OutputArray tvec, bool useExtrinsicGuess = false, SolvePnPFlag flags = SolvePnPFlag.Iterative)
+        public static void SolvePnP(
+            InputArray objectPoints,
+            InputArray imagePoints, 
+            InputArray cameraMatrix, 
+            InputArray distCoeffs, 
+            OutputArray rvec, OutputArray tvec,
+            bool useExtrinsicGuess = false, 
+            SolvePnPFlag flags = SolvePnPFlag.Iterative)
         {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
@@ -702,9 +707,73 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="useExtrinsicGuess">If true, the function uses the provided rvec and tvec values as initial approximations of 
         /// the rotation and translation vectors, respectively, and further optimizes them.</param>
         /// <param name="flags">Method for solving a PnP problem:</param>
-        public static void SolvePnP(IEnumerable<Point3f> objectPoints, IEnumerable<Point2f> imagePoints, 
-            InputArray cameraMatrix, IEnumerable<double> distCoeffs,
-            OutputArray rvec, OutputArray tvec, bool useExtrinsicGuess = false, SolvePnPFlag flags = SolvePnPFlag.Iterative)
+        public static void SolvePnP(
+            IEnumerable<Point3f> objectPoints, 
+            IEnumerable<Point2f> imagePoints, 
+            double[,] cameraMatrix, 
+            IEnumerable<double> distCoeffs,
+            out double[] rvec, out double[] tvec, 
+            bool useExtrinsicGuess = false, 
+            SolvePnPFlag flags = SolvePnPFlag.Iterative)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (imagePoints == null)
+                throw new ArgumentNullException("imagePoints");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
+                throw new ArgumentException("");
+
+            Point3f[] objectPointsArray = EnumerableEx.ToArray(objectPoints);
+            Point2f[] imagePointsArray = EnumerableEx.ToArray(imagePoints);
+            double[] distCoeffsArray = EnumerableEx.ToArray(distCoeffs);
+            int distCoeffsLength = (distCoeffs == null) ? 0 : distCoeffsArray.Length;
+            rvec = new double[3];
+            tvec = new double[3];
+
+            CppInvoke.calib3d_solvePnP_vector(
+                    objectPointsArray, objectPointsArray.Length, 
+                    imagePointsArray, imagePointsArray.Length,
+                    cameraMatrix, distCoeffsArray, distCoeffsLength, 
+                    rvec, tvec, useExtrinsicGuess ? 1 : 0, (int)flags);
+        }
+        #endregion
+        #region SolvePnPRansac
+        /// <summary>
+        /// computes the camera pose from a few 3D points and the corresponding projections. The outliers are possible.
+        /// </summary>
+        /// <param name="objectPoints">Array of object points in the object coordinate space, 3xN/Nx3 1-channel or 1xN/Nx1 3-channel, 
+        /// where N is the number of points. List&lt;Point3f&gt; can be also passed here.</param>
+        /// <param name="imagePoints">Array of corresponding image points, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel, where N is the number of points. 
+        /// List&lt;Point2f&gt; can be also passed here.</param>
+        /// <param name="cameraMatrix">Input 3x3 camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="rvec">Output rotation vector that, together with tvec , brings points from the model coordinate system 
+        /// to the camera coordinate system.</param>
+        /// <param name="tvec">Output translation vector.</param>
+        /// <param name="useExtrinsicGuess">If true, the function uses the provided rvec and tvec values as initial approximations 
+        /// of the rotation and translation vectors, respectively, and further optimizes them.</param>
+        /// <param name="iterationsCount">Number of iterations.</param>
+        /// <param name="reprojectionError">Inlier threshold value used by the RANSAC procedure. 
+        /// The parameter value is the maximum allowed distance between the observed and computed point projections to consider it an inlier.</param>
+        /// <param name="minInliersCount">Number of inliers. If the algorithm at some stage finds more inliers than minInliersCount , it finishes.</param>
+        /// <param name="inliers">Output vector that contains indices of inliers in objectPoints and imagePoints .</param>
+        /// <param name="flags">Method for solving a PnP problem</param>
+        public static void SolvePnPRansac(
+            InputArray objectPoints,
+            InputArray imagePoints,
+            InputArray cameraMatrix,
+            InputArray distCoeffs,
+            OutputArray rvec,
+            OutputArray tvec,
+            bool useExtrinsicGuess = false,
+            int iterationsCount = 100,
+            float reprojectionError = 8.0f,
+            int minInliersCount = 100,
+            OutputArray inliers = null,
+            SolvePnPFlag flags = SolvePnPFlag.Iterative)
         {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
@@ -716,23 +785,109 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("rvec");
             if (tvec == null)
                 throw new ArgumentNullException("tvec");
-
+            objectPoints.ThrowIfDisposed();
+            imagePoints.ThrowIfDisposed();
             cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
             rvec.ThrowIfDisposed();
             tvec.ThrowIfDisposed();
+            IntPtr distCoeffsPtr = ToPtr(distCoeffs);
+
+            CppInvoke.calib3d_solvePnPRansac_InputArray(
+                objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr,
+                rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, iterationsCount, 
+                reprojectionError, minInliersCount, ToPtr(inliers), (int)flags);
+
+            rvec.Fix();
+            tvec.Fix();
+            if(inliers != null)
+                inliers.Fix();
+        }
+
+        /// <summary>
+        /// computes the camera pose from a few 3D points and the corresponding projections. The outliers are possible.
+        /// </summary>
+        /// <param name="objectPoints">Array of object points in the object coordinate space, 3xN/Nx3 1-channel or 1xN/Nx1 3-channel, 
+        /// where N is the number of points. List&lt;Point3f&gt; can be also passed here.</param>
+        /// <param name="imagePoints">Array of corresponding image points, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel, where N is the number of points. 
+        /// List&lt;Point2f&gt; can be also passed here.</param>
+        /// <param name="cameraMatrix">Input 3x3 camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="rvec">Output rotation vector that, together with tvec , brings points from the model coordinate system 
+        /// to the camera coordinate system.</param>
+        /// <param name="tvec">Output translation vector.</param>
+        public static void SolvePnPRansac(
+            IEnumerable<Point3f> objectPoints,
+            IEnumerable<Point2f> imagePoints,
+            double[,] cameraMatrix,
+            IEnumerable<double> distCoeffs,
+            out double[] rvec, out double[] tvec)
+        {
+            int[] inliers;
+            SolvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, out rvec, out tvec, out inliers);
+        }
+        /// <summary>
+        /// computes the camera pose from a few 3D points and the corresponding projections. The outliers are possible.
+        /// </summary>
+        /// <param name="objectPoints">Array of object points in the object coordinate space, 3xN/Nx3 1-channel or 1xN/Nx1 3-channel, 
+        /// where N is the number of points. List&lt;Point3f&gt; can be also passed here.</param>
+        /// <param name="imagePoints">Array of corresponding image points, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel, where N is the number of points. 
+        /// List&lt;Point2f&gt; can be also passed here.</param>
+        /// <param name="cameraMatrix">Input 3x3 camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="rvec">Output rotation vector that, together with tvec , brings points from the model coordinate system 
+        /// to the camera coordinate system.</param>
+        /// <param name="tvec">Output translation vector.</param>
+        /// <param name="useExtrinsicGuess">If true, the function uses the provided rvec and tvec values as initial approximations 
+        /// of the rotation and translation vectors, respectively, and further optimizes them.</param>
+        /// <param name="iterationsCount">Number of iterations.</param>
+        /// <param name="reprojectionError">Inlier threshold value used by the RANSAC procedure. 
+        /// The parameter value is the maximum allowed distance between the observed and computed point projections to consider it an inlier.</param>
+        /// <param name="minInliersCount">Number of inliers. If the algorithm at some stage finds more inliers than minInliersCount , it finishes.</param>
+        /// <param name="inliers">Output vector that contains indices of inliers in objectPoints and imagePoints .</param>
+        /// <param name="flags">Method for solving a PnP problem</param>
+        public static void SolvePnPRansac(
+            IEnumerable<Point3f> objectPoints,
+            IEnumerable<Point2f> imagePoints,
+            double[,] cameraMatrix,
+            IEnumerable<double> distCoeffs,
+            out double[] rvec, out double[] tvec,
+            out int[] inliers,
+            bool useExtrinsicGuess = false,
+            int iterationsCount = 100,
+            float reprojectionError = 8.0f,
+            int minInliersCount = 100,
+            SolvePnPFlag flags = SolvePnPFlag.Iterative)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (imagePoints == null)
+                throw new ArgumentNullException("imagePoints");
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+
+            if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
+                throw new ArgumentException("");
 
             Point3f[] objectPointsArray = EnumerableEx.ToArray(objectPoints);
             Point2f[] imagePointsArray = EnumerableEx.ToArray(imagePoints);
             double[] distCoeffsArray = EnumerableEx.ToArray(distCoeffs);
             int distCoeffsLength = (distCoeffs == null) ? 0 : distCoeffsArray.Length;
+            rvec = new double[3];
+            tvec = new double[3];
 
-            CppInvoke.calib3d_solvePnP_vector(
-                    objectPointsArray, objectPointsArray.Length, 
+            using (VectorOfInt32 inliersVec = new VectorOfInt32())
+            {
+                CppInvoke.calib3d_solvePnPRansac_vector(
+                    objectPointsArray, objectPointsArray.Length,
                     imagePointsArray, imagePointsArray.Length,
-                    cameraMatrix.CvPtr, distCoeffsArray, distCoeffsLength, 
-                    rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, (int)flags);
-            rvec.Fix();
-            tvec.Fix();
+                    cameraMatrix, distCoeffsArray, distCoeffsLength,
+                    rvec, tvec, useExtrinsicGuess ? 1 : 0, iterationsCount,
+                    reprojectionError, minInliersCount, inliersVec.CvPtr, (int)flags);
+                inliers = inliersVec.ToArray();
+            }
         }
         #endregion
     }

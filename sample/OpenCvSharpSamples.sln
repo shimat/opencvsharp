@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CStyleSamplesCS", "CStyleSamplesCS\CStyleSamplesCS.csproj", "{B691EDEE-E08C-40A1-ACFC-91A8921F919D}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CStyleSamplesVB", "CStyleSamplesVB\CStyleSamplesVB.vbproj", "{402DE49C-230E-4952-94B1-E570E00B67A7}"
@@ -139,7 +141,6 @@ Global
 		{395A3246-3908-4DDD-9344-052361C9B159}.Release|x64.ActiveCfg = Release|x64
 		{395A3246-3908-4DDD-9344-052361C9B159}.Release|x64.Build.0 = Release|x64
 		{395A3246-3908-4DDD-9344-052361C9B159}.Release|x86.ActiveCfg = Release|x64
-		{395A3246-3908-4DDD-9344-052361C9B159}.Release|x86.Build.0 = Release|x64
 		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86

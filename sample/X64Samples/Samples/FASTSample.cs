@@ -10,7 +10,7 @@ namespace X64Samples
     {
         public void Run()
         {
-            using (Mat imgSrc = new Mat(ImagePath.Lenna, LoadMode.Color))
+            using (Mat imgSrc = new Mat(FilePath.Lenna, LoadMode.Color))
             using (Mat imgGray = new Mat())
             using (Mat imgDst = imgSrc.Clone())
             {

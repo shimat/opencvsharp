@@ -6,10 +6,7 @@
 #ifndef _CVBOOST_H_
 #define _CVBOOST_H_
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4251)
-#endif
-#include <opencv2/ml/ml.hpp>
+#include "include_opencv.h"
 
 // CvBoost
 CVAPI(int) CvBoost_sizeof()

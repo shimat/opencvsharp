@@ -1,11 +1,21 @@
 #ifndef _INCLUDE_OPENCV_H_
 #define _INCLUDE_OPENCV_H_
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#pragma warning(disable: 4996)
+#endif
 #include <opencv2/opencv.hpp>
 #include <opencv2/legacy/legacy.hpp>
 #include <opencv2/nonfree/nonfree.hpp>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
 typedef unsigned int uint32;
 typedef unsigned short uint16;
+
 
 #include <vector>
 #include <algorithm>

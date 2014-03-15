@@ -23,7 +23,7 @@ namespace X64Samples
         /// </summary>
         private void GetSet()
         {
-            using (Mat mat = new Mat(ImagePath.Lenna, LoadMode.Color))
+            using (Mat mat = new Mat(FilePath.Lenna, LoadMode.Color))
             {
                 for (int y = 0; y < mat.Height; y++)
                 {
@@ -45,7 +45,7 @@ namespace X64Samples
         /// </summary>
         private void GenericIndexer()
         {
-            using (Mat mat = new Mat(ImagePath.Lenna, LoadMode.Color))
+            using (Mat mat = new Mat(FilePath.Lenna, LoadMode.Color))
             {
                 var indexer = mat.GetGenericIndexer<Vec3b>();
                 for (int y = 0; y < mat.Height; y++)
@@ -68,9 +68,9 @@ namespace X64Samples
         /// </summary>
         private void TypeSpecificMat()
         {
-            using (Mat mat = new Mat(ImagePath.Lenna, LoadMode.Color))
+            using (Mat mat = new Mat(FilePath.Lenna, LoadMode.Color))
             {
-                Mat3b mat3 = new Mat3b(mat);
+                MatOfByte3 mat3 = new MatOfByte3(mat);
                 var indexer = mat3.GetIndexer();
                 for (int y = 0; y < mat.Height; y++)
                 {

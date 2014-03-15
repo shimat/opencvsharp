@@ -10,7 +10,7 @@ namespace X64Samples
     {
         public void Run()
         {
-            Mat gray = new Mat(ImagePath.Lenna, LoadMode.GrayScale);
+            Mat gray = new Mat(FilePath.Lenna, LoadMode.GrayScale);
             Mat binary = new Mat();
             Mat dilate1 = new Mat();
             Mat dilate2 = new Mat();

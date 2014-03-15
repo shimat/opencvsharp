@@ -21,8 +21,8 @@ namespace X64Samples
         private void SampleCpp()
         {
             // (1) Load the image
-            using (Mat imgGray = new Mat(ImagePath.Goryokaku, LoadMode.GrayScale))
-            using (Mat imgStd = new Mat(ImagePath.Goryokaku, LoadMode.Color))
+            using (Mat imgGray = new Mat(FilePath.Goryokaku, LoadMode.GrayScale))
+            using (Mat imgStd = new Mat(FilePath.Goryokaku, LoadMode.Color))
             using (Mat imgProb = imgStd.Clone())
             {
                 // Preprocess

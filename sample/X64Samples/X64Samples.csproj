@@ -76,10 +76,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-x64.2.4.8.20140305\lib\net40\OpenCvSharp.Blob.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.CPlusPlus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x64.2.4.8.20140305\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
-    </Reference>
     <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-x64.2.4.8.20140305\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
@@ -105,7 +101,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Const.cs" />
+    <Compile Include="FilePath.cs" />
     <Compile Include="Samples\MorphologySample.cs" />
     <Compile Include="Samples\MDS.cs" />
     <Compile Include="Program.cs" />
@@ -113,12 +109,16 @@
     <Compile Include="ISample.cs" />
     <Compile Include="Samples\PixelAccess.cs" />
     <Compile Include="Samples\FASTSample.cs" />
-    <Compile Include="Samples\FlannSample.cs" />
     <Compile Include="Samples\HOGSample.cs" />
     <Compile Include="Samples\HoughLinesSample.cs" />
-    <Compile Include="Samples\MSERSample.cs" />
+    <Compile Include="Samples\MSERSample.cs">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="Samples\StarDetectorSample.cs" />
     <Compile Include="Samples\StereoCorrespondence.cs" />
+    <Compile Include="Samples\VideoCaptureSample.cs" />
+    <Compile Include="Samples\VideoWriterSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\asahiyama.jpg">
@@ -223,6 +223,9 @@
     <Content Include="img\tsukuba_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="movie\bach.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="msvcp100.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -230,7 +233,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="OpenCvSharpExtern.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="opencv_calib3d248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -292,6 +295,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
+      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
+      <Name>OpenCvSharp.CPlusPlus</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

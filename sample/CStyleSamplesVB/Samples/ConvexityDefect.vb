@@ -12,66 +12,53 @@ Imports OpenCvSharp.Blob
     ''' </summary>
     Friend Module ConvexityDefect
         Public Sub Start()
-            Using imgSrc As New IplImage([Const].ImageHand, LoadMode.Color)
-                Using imgHSV As New IplImage(imgSrc.Size, BitDepth.U8, 3)
-                    Using imgH As New IplImage(imgSrc.Size, BitDepth.U8, 1)
-                        Using imgS As New IplImage(imgSrc.Size, BitDepth.U8, 1)
-                            Using imgV As New IplImage(imgSrc.Size, BitDepth.U8, 1)
-                                Using imgBackProjection As New IplImage(imgSrc.Size, BitDepth.U8, 1)
-                                    Using imgFlesh As New IplImage(imgSrc.Size, BitDepth.U8, 1)
-                                        Using imgHull As New IplImage(imgSrc.Size, BitDepth.U8, 1)
-                                            Using imgDefect As New IplImage(imgSrc.Size, BitDepth.U8, 3)
-                                                Using imgContour As New IplImage(imgSrc.Size, BitDepth.U8, 3)
-                                                    Using storage As New CvMemStorage()
-                                                        ' RGB -> HSV
-                                                        Cv.CvtColor(imgSrc, imgHSV, ColorConversion.BgrToHsv)
-                                                        Cv.CvtPixToPlane(imgHSV, imgH, imgS, imgV, Nothing)
-                                                        Dim hsvPlanes() As IplImage = {imgH, imgS, imgV}
+        Using imgSrc As New IplImage([Const].ImageHand, LoadMode.Color), _
+             imgHSV As New IplImage(imgSrc.Size, BitDepth.U8, 3), _
+         imgH As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
+             imgS As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
+             imgV As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
+            imgBackProjection As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
+            imgFlesh As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
+            imgHull As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
+            imgDefect As New IplImage(imgSrc.Size, BitDepth.U8, 3), _
+            imgContour As New IplImage(imgSrc.Size, BitDepth.U8, 3), _
+            storage As New CvMemStorage()
+            ' RGB -> HSV
+            Cv.CvtColor(imgSrc, imgHSV, ColorConversion.BgrToHsv)
+            Cv.CvtPixToPlane(imgHSV, imgH, imgS, imgV, Nothing)
+            Dim hsvPlanes() As IplImage = {imgH, imgS, imgV}
 
-                                                        ' 肌色領域を求める
-                                                        RetrieveFleshRegion(imgSrc, hsvPlanes, imgBackProjection)
-                                                        ' 最大の面積の領域を残す
-                                                        FilterByMaximalBlob(imgBackProjection, imgFlesh)
-                                                        Interpolate(imgFlesh)
+            RetrieveFleshRegion(imgSrc, hsvPlanes, imgBackProjection)
+            ' Get max area blob
+            FilterByMaximalBlob(imgBackProjection, imgFlesh)
+            Interpolate(imgFlesh)
 
-                                                        ' 輪郭を求める
-                                                        Dim contours As CvSeq(Of CvPoint) = FindContours(imgFlesh, storage)
-                                                        If contours IsNot Nothing Then
-                                                            Cv.DrawContours(imgContour, contours, CvColor.Red, CvColor.Green, 0, 3, LineType.AntiAlias)
+            ' find contours
+            Dim contours As CvSeq(Of CvPoint) = FindContours(imgFlesh, storage)
+            If contours IsNot Nothing Then
+                Cv.DrawContours(imgContour, contours, CvColor.Red, CvColor.Green, 0, 3, LineType.AntiAlias)
 
-                                                            ' 凸包を求める
-                                                            Dim hull() As Integer
-                                                            Cv.ConvexHull2(contours, hull, ConvexHullOrientation.Clockwise)
-                                                            Cv.Copy(imgFlesh, imgHull)
-                                                            DrawConvexHull(contours, hull, imgHull)
+                ' ConvexHull
+                Dim hull() As Integer
+                Cv.ConvexHull2(contours, hull, ConvexHullOrientation.Clockwise)
+                Cv.Copy(imgFlesh, imgHull)
+                DrawConvexHull(contours, hull, imgHull)
 
-                                                            ' 凹状欠損を求める
-                                                            Cv.Copy(imgContour, imgDefect)
-                                                            Dim defect As CvSeq(Of CvConvexityDefect) = Cv.ConvexityDefects(contours, hull)
-                                                            DrawDefects(imgDefect, defect)
-                                                        End If
+                ' ConvexityDefects
+                Cv.Copy(imgContour, imgDefect)
+                Dim defect As CvSeq(Of CvConvexityDefect) = Cv.ConvexityDefects(contours, hull)
+                DrawDefects(imgDefect, defect)
+            End If
 
-                                                        Using TempCvWindow As CvWindow = New CvWindow("src", imgSrc)
-                                                            Using TempCvWindowBack As CvWindow = New CvWindow("back projection", imgBackProjection)
-                                                                Using TempCvWindowHull As CvWindow = New CvWindow("hull", imgHull)
-                                                                    Using TempCvWindowDefect As CvWindow = New CvWindow("defect", imgDefect)
-                                                                        Cv.WaitKey()
-                                                                    End Using
-                                                                End Using
-                                                            End Using
-                                                        End Using
-                                                    End Using
-                                                End Using
-                                            End Using
-                                        End Using
-                                    End Using
-                                End Using
-                            End Using
-                        End Using
-                    End Using
-                End Using
+            Using TempCvWindow As CvWindow = New CvWindow("src", imgSrc), _
+                     TempCvWindowBack As CvWindow = New CvWindow("back projection", imgBackProjection), _
+                 TempCvWindowHull As CvWindow = New CvWindow("hull", imgHull), _
+                 TempCvWindowDefect As CvWindow = New CvWindow("defect", imgDefect)
+                Cv.WaitKey()
             End Using
-        End Sub
+
+        End Using
+    End Sub
 
         ''' <summary>
         ''' バックプロジェクションにより肌色領域を求める

@@ -10,8 +10,9 @@ namespace X64Samples
         static void Main(string[] args)
         {
             ISample sample =
+                new VideoWriterSample();
+                //new VideoCaptureSample();
                 //new FASTSample();
-                //new FlannSample(); // Todo: crash
                 //new HOGSample();
                 //new HoughLinesSample();
                 //new MSERSample();
@@ -19,7 +20,7 @@ namespace X64Samples
                 //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
-                new MorphologySample();
+                //new MorphologySample();
             sample.Run();
         }
     }

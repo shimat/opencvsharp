@@ -60,11 +60,23 @@ namespace OpenCvSharp.CPlusPlus
             }
             catch (DllNotFoundException e)
             {
-                throw PInvokeHelper.CreateException(e);
+                var exception = PInvokeHelper.CreateException(e);
+                try
+                {
+                    Console.WriteLine(exception.Message);
+                }
+                catch { }
+                throw exception;
             }
             catch (BadImageFormatException e)
             {
-                throw PInvokeHelper.CreateException(e);
+                var exception = PInvokeHelper.CreateException(e);
+                try
+                {
+                    Console.WriteLine(exception.Message);
+                }
+                catch { }
+                throw exception;
             }
         }
         private static bool tried = false;

@@ -9,7 +9,7 @@ using OpenCvSharp.Utilities;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// cv::Mat
+    /// OpenCV C++ n-dimensional dense array class (cv::Mat)
     /// </summary>
     public class Mat : DisposableCvObject, ICloneable
     {
@@ -413,7 +413,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Diag
 
         /// <summary>
-        /// 
+        /// Extracts a diagonal from a matrix, or creates a diagonal matrix.
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
@@ -426,10 +426,10 @@ namespace OpenCvSharp.CPlusPlus
         #region Eye
 
         /// <summary>
-        /// 
+        /// Returns an identity matrix of the specified size and type.
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
+        /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
+        /// <param name="type">Created matrix type.</param>
         /// <returns></returns>
         public static MatExpr Eye(Size size, MatType type)
         {
@@ -437,11 +437,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns an identity matrix of the specified size and type.
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
+        /// <param name="rows">Number of rows.</param>
+        /// <param name="cols">Number of columns.</param>
+        /// <param name="type">Created matrix type.</param>
         /// <returns></returns>
         public static MatExpr Eye(int rows, int cols, MatType type)
         {
@@ -454,11 +454,11 @@ namespace OpenCvSharp.CPlusPlus
         #region Ones
 
         /// <summary>
-        /// 
+        /// Returns an array of all 1’s of the specified size and type.
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
+        /// <param name="rows">Number of rows.</param>
+        /// <param name="cols">Number of columns.</param>
+        /// <param name="type">Created matrix type.</param>
         /// <returns></returns>
         public static MatExpr Ones(int rows, int cols, MatType type)
         {
@@ -468,10 +468,10 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns an array of all 1’s of the specified size and type.
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
+        /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
+        /// <param name="type">Created matrix type.</param>
         /// <returns></returns>
         public static MatExpr Ones(Size size, MatType type)
         {
@@ -479,32 +479,30 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns an array of all 1’s of the specified size and type.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="sizes"></param>
+        /// <param name="type">Created matrix type.</param>
+        /// <param name="sizes">Array of integers specifying the array shape.</param>
         /// <returns></returns>
         public static MatExpr Ones(MatType type, params int[] sizes)
         {
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
-            /*
+
             IntPtr retPtr = CppInvoke.core_Mat_ones(sizes.Length, sizes, (int)type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
-            */
-            throw new NotImplementedException(); // Undefined this in .lib file
         }
 
         #endregion
         #region Zeros
 
         /// <summary>
-        /// 
+        /// Returns a zero array of the specified size and type.
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
+        /// <param name="rows">Number of rows.</param>
+        /// <param name="cols">Number of columns.</param>
+        /// <param name="type">Created matrix type.</param>
         /// <returns></returns>
         public static MatExpr Zeros(int rows, int cols, MatType type)
         {
@@ -514,10 +512,10 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns a zero array of the specified size and type.
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
+        /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
+        /// <param name="type">Created matrix type.</param>
         /// <returns></returns>
         public static MatExpr Zeros(Size size, MatType type)
         {
@@ -525,21 +523,19 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns a zero array of the specified size and type.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">Created matrix type.</param>
         /// <param name="sizes"></param>
         /// <returns></returns>
         public static MatExpr Zeros(MatType type, params int[] sizes)
         {
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
-            /*
+
             IntPtr retPtr = CppInvoke.core_Mat_zeros(sizes.Length, sizes, (int)type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
-            */
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -549,7 +545,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Cast
 
         /// <summary>
-        /// 
+        /// Creates the IplImage clone instance for the matrix.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -559,38 +555,31 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Creates the IplImage clone instance or header for the matrix.
         /// </summary>
+        /// <param name="adjustAlignment">If true, this method returns an IplImage that is adjusted alignment;
+        /// otherwise, a header of IplImage is returned.</param>
         /// <returns></returns>
-        public IplImage ToIplImage()
+        public IplImage ToIplImage(bool adjustAlignment = true)
         {
             ThrowIfDisposed();
 
-            IntPtr imgPtr;
-            CppInvoke.core_Mat_IplImage_alignment(ptr, out imgPtr);
-            return new IplImage(imgPtr);
-            /*
-            // キャストの結果を参考に使う.
-            // メモリ管理の問題から、直接は使わない.
-            IplImage dummy = new IplImage(false);
-            CppInvoke.core_Mat_IplImage(ptr, dummy.CvPtr);
-
-            // alignmentをそろえる
-            IplImage img = new IplImage(dummy.Size, dummy.Depth, dummy.NChannels);
-            int height = img.Height;
-            int sstep = (int)Step();
-            int dstep = img.WidthStep;
-            for (int i = 0; i < height; ++i)
+            if (adjustAlignment)
             {
-                IntPtr dp = new IntPtr(img.ImageData.ToInt64() + (dstep * i));
-                IntPtr sp = new IntPtr(Data.ToInt64() + (sstep * i));
-                Util.CopyMemory(dp, sp, sstep);
+                IntPtr imgPtr;
+                CppInvoke.core_Mat_IplImage_alignment(ptr, out imgPtr);
+                return new IplImage(imgPtr);
             }
-            return img;*/
+            else
+            {
+                IplImage img = new IplImage(false);
+                CppInvoke.core_Mat_IplImage(ptr, img.CvPtr);
+                return img;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Creates the CvMat clone instance for the matrix.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -599,8 +588,9 @@ namespace OpenCvSharp.CPlusPlus
             return self.ToCvMat();
         }
 
+
         /// <summary>
-        /// 
+        /// Creates the CvMat header or clone instance for the matrix.
         /// </summary>
         /// <returns></returns>
         public CvMat ToCvMat()
@@ -609,6 +599,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CvMat mat = new CvMat(false);
             CppInvoke.core_Mat_CvMat(ptr, mat.CvPtr);
+
             return mat;
         }
 
@@ -1080,15 +1071,15 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Public Methods
-        #region Indexers
+        #region SubMat Indexers
         #region SubMat
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
-        /// <param name="rowStart"></param>
-        /// <param name="rowEnd"></param>
-        /// <param name="colStart"></param>
-        /// <param name="colEnd"></param>
+        /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
         /// <returns></returns>
         public MatExpr this[int rowStart, int rowEnd, int colStart, int colEnd]
         {
@@ -1106,10 +1097,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
-        /// <param name="rowRange"></param>
-        /// <param name="colRange"></param>
+        /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
+        /// To select all the rows, use Range.All().</param>
+        /// <param name="colRange">Start and end column of the extracted submatrix. 
+        /// The upper boundary is not included. To select all the columns, use Range.All().</param>
         /// <returns></returns>
         public MatExpr this[Range rowRange, Range colRange]
         {
@@ -1127,9 +1120,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
-        /// <param name="roi"></param>
+        /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
         /// <returns></returns>
         public MatExpr this[Rect roi]
         {
@@ -1147,9 +1140,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
-        /// <param name="ranges"></param>
+        /// <param name="ranges">Array of selected ranges along each array dimension.</param>
         /// <returns></returns>
         public MatExpr this[params Range[] ranges]
         {
@@ -1181,9 +1174,9 @@ namespace OpenCvSharp.CPlusPlus
             {
             }
             /// <summary>
-            /// 
+            /// Creates a matrix header for the specified matrix column.
             /// </summary>
-            /// <param name="x"></param>
+            /// <param name="x">A 0-based column index.</param>
             /// <returns></returns>
             public override MatExpr this[int x]
             {
@@ -1205,10 +1198,10 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
             /// <summary>
-            /// 
+            /// Creates a matrix header for the specified column span.
             /// </summary>
-            /// <param name="startCol"></param>
-            /// <param name="endCol"></param>
+            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
             /// <returns></returns>
             public override MatExpr this[int startCol, int endCol]
             {
@@ -1232,7 +1225,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Indexer to access Mat column
         /// </summary>
         /// <returns></returns>
         public ColIndexer Col
@@ -1262,9 +1255,9 @@ namespace OpenCvSharp.CPlusPlus
             {
             }
             /// <summary>
-            /// Mat::row
+            /// Creates a matrix header for the specified matrix row. [Mat::row]
             /// </summary>
-            /// <param name="y"></param>
+            /// <param name="y">A 0-based row index.</param>
             /// <returns></returns>
             public override MatExpr this[int y]
             {
@@ -1286,10 +1279,10 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
             /// <summary>
-            /// Mat::rowRange
+            /// Creates a matrix header for the specified row span. (Mat::rowRange)
             /// </summary>
-            /// <param name="startRow"></param>
-            /// <param name="endRow"></param>
+            /// <param name="startRow">An inclusive 0-based start index of the row span.</param>
+            /// <param name="endRow">An exclusive 0-based ending index of the row span.</param>
             /// <returns></returns>
             public override MatExpr this[int startRow, int endRow]
             {
@@ -1312,7 +1305,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Indexer to access Mat row
         /// </summary>
         /// <returns></returns>
         public RowIndexer Row
@@ -1332,12 +1325,12 @@ namespace OpenCvSharp.CPlusPlus
         #region AdjustROI
 
         /// <summary>
-        /// 
+        /// Adjusts a submatrix size and position within the parent matrix.
         /// </summary>
-        /// <param name="dtop"></param>
-        /// <param name="dbottom"></param>
-        /// <param name="dleft"></param>
-        /// <param name="dright"></param>
+        /// <param name="dtop">Shift of the top submatrix boundary upwards.</param>
+        /// <param name="dbottom">Shift of the bottom submatrix boundary downwards.</param>
+        /// <param name="dleft">Shift of the left submatrix boundary to the left.</param>
+        /// <param name="dright">Shift of the right submatrix boundary to the right.</param>
         /// <returns></returns>
         public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
@@ -1351,10 +1344,10 @@ namespace OpenCvSharp.CPlusPlus
         #region AssignTo
 
         /// <summary>
-        /// 
+        /// Provides a functional form of convertTo.
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="type"></param>
+        /// <param name="m">Destination array.</param>
+        /// <param name="type">Desired destination array depth (or -1 if it should be the same as the source type).</param>
         public void AssignTo(Mat m, MatType type)
         {
             ThrowIfDisposed();
@@ -1364,9 +1357,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Provides a functional form of convertTo.
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">Destination array.</param>
         public void AssignTo(Mat m)
         {
             CppInvoke.core_Mat_assignTo(ptr, m.CvPtr);
@@ -1376,7 +1369,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Channels
 
         /// <summary>
-        /// 
+        /// Returns the number of matrix channels.
         /// </summary>
         /// <returns></returns>
         public int Channels()
@@ -1429,7 +1422,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Clone
 
         /// <summary>
-        /// 
+        /// Creates a full copy of the matrix.
         /// </summary>
         /// <returns></returns>
         public Mat Clone()
@@ -1449,7 +1442,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Cols
 
         /// <summary>
-        /// 
+        /// the number of columns or -1 when the array has more than 2 dimensions
         /// </summary>
         /// <returns></returns>
         public int Cols
@@ -1465,7 +1458,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// the number of columns or -1 when the array has more than 2 dimensions
         /// </summary>
         /// <returns></returns>
         public int Width
@@ -1486,7 +1479,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Dims
 
         /// <summary>
-        /// 
+        /// the array dimensionality, >= 2
         /// </summary>
         public int Dims
         {
@@ -1501,12 +1494,13 @@ namespace OpenCvSharp.CPlusPlus
         #region ConvertTo
 
         /// <summary>
-        /// 
+        /// Converts an array to another data type with optional scaling.
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="rtype"></param>
-        /// <param name="alpha"></param>
-        /// <param name="beta"></param>
+        /// <param name="m">output matrix; if it does not have a proper size or type before the operation, it is reallocated.</param>
+        /// <param name="rtype">desired output matrix type or, rather, the depth since the number of channels are the same as the input has; 
+        /// if rtype is negative, the output matrix will have the same type as the input.</param>
+        /// <param name="alpha">optional scale factor.</param>
+        /// <param name="beta">optional delta added to the scaled values.</param>
         public void ConvertTo(Mat m, MatType rtype, double alpha = 1, double beta = 0)
         {
             ThrowIfDisposed();
@@ -1519,19 +1513,19 @@ namespace OpenCvSharp.CPlusPlus
         #region CopyTo
 
         /// <summary>
-        /// 
+        /// Copies the matrix to another one.
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
         public void CopyTo(Mat m)
         {
             CopyTo(m, null);
         }
 
         /// <summary>
-        /// 
+        /// Copies the matrix to another one.
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="mask"></param>
+        /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
+        /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
         public void CopyTo(Mat m, Mat mask)
         {
             ThrowIfDisposed();
@@ -1545,11 +1539,11 @@ namespace OpenCvSharp.CPlusPlus
         #region Create
 
         /// <summary>
-        /// 
+        /// Allocates new array data if needed.
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
+        /// <param name="rows">New number of rows.</param>
+        /// <param name="cols">New number of columns.</param>
+        /// <param name="type">New matrix type.</param>
         public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
@@ -1557,22 +1551,36 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Allocates new array data if needed.
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
+        /// <param name="size">Alternative new matrix size specification: Size(cols, rows)</param>
+        /// <param name="type">New matrix type.</param>
         public void Create(Size size, MatType type)
         {
             Create(size.Width, size.Height, type);
+        }
+
+        /// <summary>
+        /// Allocates new array data if needed.
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying a new array shape.</param>
+        /// <param name="type">New matrix type.</param>
+        public void Create(MatType type, params int[] sizes)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("sizes");
+            if (sizes.Length < 2)
+                throw new ArgumentException("sizes.Length < 2");
+            CppInvoke.core_Mat_create(ptr, sizes.Length, sizes, type);
         }
 
         #endregion
         #region Cross
 
         /// <summary>
-        /// 
+        /// Computes a cross-product of two 3-element vectors.
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">Another cross-product operand.</param>
         /// <returns></returns>
         public Mat Cross(Mat m)
         {
@@ -1588,7 +1596,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Data
 
         /// <summary>
-        /// 
+        /// pointer to the data
         /// </summary>
         public IntPtr Data
         {
@@ -1602,7 +1610,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// unsafe pointer to the data
         /// </summary>
         public unsafe byte* DataPointer
         {
@@ -1614,7 +1622,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// The pointer that is possible to compute a relative sub-array position in the main container array using locateROI()
         /// </summary>
         public IntPtr DataStart
         {
@@ -1626,7 +1634,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// The pointer that is possible to compute a relative sub-array position in the main container array using locateROI()
         /// </summary>
         public IntPtr DataEnd
         {
@@ -1641,7 +1649,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Depth
 
         /// <summary>
-        /// 
+        /// Returns the depth of a matrix element.
         /// </summary>
         /// <returns></returns>
         public int Depth()
@@ -1654,23 +1662,11 @@ namespace OpenCvSharp.CPlusPlus
         #region Diag
 
         /// <summary>
-        /// 
+        /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
         /// </summary>
+        /// <param name="d">Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:</param>
         /// <returns></returns>
-        public Mat Diag()
-        {
-            ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_diag(ptr);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public Mat Diag(MatDiagType d)
+        public Mat Diag(MatDiagType d = MatDiagType.Main)
         {
             ThrowIfDisposed();
             IntPtr retPtr = CppInvoke.core_Mat_diag(ptr, (int)d);
@@ -1682,9 +1678,9 @@ namespace OpenCvSharp.CPlusPlus
         #region Dot
 
         /// <summary>
-        /// 
+        /// Computes a dot-product of two vectors.
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">another dot-product operand.</param>
         /// <returns></returns>
         public double Dot(Mat m)
         {
@@ -1698,47 +1694,33 @@ namespace OpenCvSharp.CPlusPlus
         #region ElemSize
 
         /// <summary>
-        /// 
+        /// Returns the matrix element size in bytes.
         /// </summary>
         /// <returns></returns>
         public ulong ElemSize()
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_elemSize(ptr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_elemSize(ptr);
         }
 
         #endregion
         #region ElemSize1
 
         /// <summary>
-        /// 
+        /// Returns the size of each matrix element channel in bytes.
         /// </summary>
         /// <returns></returns>
         public ulong ElemSize1()
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_elemSize1(ptr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_elemSize1(ptr);
         }
 
         #endregion
         #region Empty
 
         /// <summary>
-        /// 
+        /// Returns true if the array has no elements.
         /// </summary>
         /// <returns></returns>
         public bool Empty()
@@ -1751,23 +1733,11 @@ namespace OpenCvSharp.CPlusPlus
         #region Inv
 
         /// <summary>
-        /// 
+        /// Inverses a matrix.
         /// </summary>
+        /// <param name="method">Matrix inversion method</param>
         /// <returns></returns>
-        public Mat Inv()
-        {
-            ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_inv(ptr);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        public Mat Inv(MatrixDecomposition method)
+        public Mat Inv(MatrixDecomposition method = MatrixDecomposition.LU)
         {
             ThrowIfDisposed();
             IntPtr retPtr = CppInvoke.core_Mat_inv(ptr, (int)method);
@@ -1779,7 +1749,7 @@ namespace OpenCvSharp.CPlusPlus
         #region IsContinuous
 
         /// <summary>
-        /// 
+        /// Reports whether the matrix is continuous or not.
         /// </summary>
         /// <returns></returns>
         public bool IsContinuous()
@@ -1789,10 +1759,10 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
-        #region IsSubmatirx
+        #region IsSubmatrix
 
         /// <summary>
-        /// 
+        /// Returns whether this matrix is a part of other matrix or not.
         /// </summary>
         /// <returns></returns>
         public bool IsSubmatrix()
@@ -1805,10 +1775,10 @@ namespace OpenCvSharp.CPlusPlus
         #region LocateROI
 
         /// <summary>
-        /// 
+        /// Locates the matrix header within a parent matrix.
         /// </summary>
-        /// <param name="wholeSize"></param>
-        /// <param name="ofs"></param>
+        /// <param name="wholeSize">Output parameter that contains the size of the whole matrix containing *this as a part.</param>
+        /// <param name="ofs">Output parameter that contains an offset of *this inside the whole matrix.</param>
         public void LocateROI(out Size wholeSize, out Point ofs)
         {
             ThrowIfDisposed();
@@ -1823,28 +1793,12 @@ namespace OpenCvSharp.CPlusPlus
         #region Mul
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
-        public MatExpr Mul(Mat m)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException();
-            m.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_mul(ptr, m.CvPtr);
-            MatExpr retVal = new MatExpr(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// 
+        /// Performs an element-wise multiplication or division of the two matrices.
         /// </summary>
         /// <param name="m"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public MatExpr Mul(Mat m, double scale)
+        public MatExpr Mul(Mat m, double scale = 1)
         {
             ThrowIfDisposed();
             if (m == null)
@@ -1859,14 +1813,15 @@ namespace OpenCvSharp.CPlusPlus
         #region PushBack
 
         /// <summary>
-        /// 
+        /// Adds elements to the bottom of the matrix.
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">Added line</param>
         public void PushBack(Mat m)
         {
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException();
+            m.ThrowIfDisposed();
             CppInvoke.core_Mat_push_back(ptr, m.CvPtr);
         }
 
@@ -1874,25 +1829,12 @@ namespace OpenCvSharp.CPlusPlus
         #region Reshape
 
         /// <summary>
-        /// 
+        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
         /// </summary>
-        /// <param name="cn"></param>
+        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
+        /// <param name="rows">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
         /// <returns></returns>
-        public Mat Reshape(int cn)
-        {
-            ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cn"></param>
-        /// <param name="rows"></param>
-        /// <returns></returns>
-        public Mat Reshape(int cn, int rows)
+        public Mat Reshape(int cn, int rows = 0)
         {
             ThrowIfDisposed();
             IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn, rows);
@@ -1901,26 +1843,19 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
         /// </summary>
-        /// <param name="cn"></param>
-        /// <param name="newDims"></param>
+        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
+        /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
         /// <returns></returns>
         public Mat Reshape(int cn, params int[] newDims)
         {
             ThrowIfDisposed();
             if (newDims == null)
                 throw new ArgumentNullException("newDims");
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn, newDims.Length, newDims);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn, newDims.Length, newDims);
+            Mat retVal = new Mat(retPtr);
+            return retVal;
         }
 
         #endregion
@@ -1951,7 +1886,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Rows
 
         /// <summary>
-        /// 
+        /// the number of rows or -1 when the array has more than 2 dimensions
         /// </summary>
         public int Rows
         {
@@ -1966,7 +1901,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// the number of rows or -1 when the array has more than 2 dimensions
         /// </summary>
         /// <returns></returns>
         public int Height
@@ -1987,22 +1922,12 @@ namespace OpenCvSharp.CPlusPlus
         #region SetTo
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public Mat SetTo(Scalar value)
-        {
-            return SetTo(value, null);
-        }
-
-        /// <summary>
-        /// 
+        /// Sets all or some of the array elements to the specified value.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public Mat SetTo(Scalar value, Mat mask)
+        public Mat SetTo(Scalar value, Mat mask = null)
         {
             ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
@@ -2012,22 +1937,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public Mat SetTo(Mat value)
-        {
-            return SetTo(value, null);
-        }
-
-        /// <summary>
-        /// 
+        /// Sets all or some of the array elements to the specified value.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public Mat SetTo(Mat value, Mat mask)
+        public Mat SetTo(Mat value, Mat mask = null)
         {
             ThrowIfDisposed();
             if (value == null)
@@ -2042,7 +1957,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Size
 
         /// <summary>
-        /// 
+        /// Returns a matrix size.
         /// </summary>
         /// <returns></returns>
         public Size Size()
@@ -2052,21 +1967,14 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns a matrix size.
         /// </summary>
         /// <param name="dim"></param>
         /// <returns></returns>
         public int Size(int dim)
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_sizeAt(ptr, dim);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_sizeAt(ptr, dim);
         }
 
         #endregion
@@ -2090,21 +1998,14 @@ namespace OpenCvSharp.CPlusPlus
         public ulong Step(int i)
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_stepAt(ptr, i);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_stepAt(ptr, i);
         }
 
         #endregion
         #region Step1
 
         /// <summary>
-        /// 
+        /// Returns a normalized step.
         /// </summary>
         /// <returns></returns>
         public ulong Step1()
@@ -2114,28 +2015,21 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns a normalized step.
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
         public ulong Step1(int i)
         {
             ThrowIfDisposed();
-            try
-            {
-                return CppInvoke.core_Mat_step1(ptr, i);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return CppInvoke.core_Mat_step1(ptr, i);
         }
 
         #endregion
         #region T
 
         /// <summary>
-        /// 
+        /// Transposes a matrix.
         /// </summary>
         /// <returns></returns>
         public Mat T()
@@ -2150,7 +2044,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Total
 
         /// <summary>
-        /// 
+        /// Returns the total number of array elements.
         /// </summary>
         /// <returns></returns>
         public ulong Total()
@@ -2163,7 +2057,7 @@ namespace OpenCvSharp.CPlusPlus
         #region Type
 
         /// <summary>
-        /// 
+        /// Returns the type of a matrix element.
         /// </summary>
         /// <returns></returns>
         public MatType Type()
@@ -2176,7 +2070,7 @@ namespace OpenCvSharp.CPlusPlus
         #region ToString
 
         /// <summary>
-        /// 
+        /// Returns a string that represents this Mat.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -2194,8 +2088,10 @@ namespace OpenCvSharp.CPlusPlus
         #region Dump
 
         /// <summary>
-        /// 
+        /// Returns a string that represents each element value of Mat.
+        /// This method corresponds to std::ostream &lt;&lt; Mat
         /// </summary>
+        /// <param name="format"></param>
         /// <returns></returns>
         public string Dump(DumpFormat format = DumpFormat.Default)
         {
@@ -2215,7 +2111,7 @@ namespace OpenCvSharp.CPlusPlus
             if (format == DumpFormat.Default)
                 return null;
 
-            string name = Enum.GetName(typeof (DumpFormat), format);
+            string name = Enum.GetName(typeof(DumpFormat), format);
             if(name == null)
                 throw new ArgumentException();
             return name.ToLower();
@@ -2243,9 +2139,9 @@ namespace OpenCvSharp.CPlusPlus
         #region Ptr*D
 
         /// <summary>
-        /// 
+        /// Returns a pointer to the specified matrix row.
         /// </summary>
-        /// <param name="i0"></param>
+        /// <param name="i0">Index along the dimension 0</param>
         /// <returns></returns>
         public IntPtr Ptr(int i0)
         {
@@ -2254,10 +2150,10 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns a pointer to the specified matrix element.
         /// </summary>
-        /// <param name="i0"></param>
-        /// <param name="i1"></param>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
         /// <returns></returns>
         public IntPtr Ptr(int i0, int i1)
         {
@@ -2266,11 +2162,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns a pointer to the specified matrix element.
         /// </summary>
-        /// <param name="i0"></param>
-        /// <param name="i1"></param>
-        /// <param name="i2"></param>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
         /// <returns></returns>
         public IntPtr Ptr(int i0, int i1, int i2)
         {
@@ -2279,9 +2175,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Returns a pointer to the specified matrix element.
         /// </summary>
-        /// <param name="idx"></param>
+        /// <param name="idx">Array of Mat::dims indices.</param>
         /// <returns></returns>
         public IntPtr Ptr(params int[] idx)
         {
@@ -2290,75 +2186,13 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
-        #region At
+        #region Element Indexer
 
         /// <summary>
-        /// 
+        /// Mat Indexer
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public abstract class IndexerBase<T> where T : struct
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="i0"></param>
-            /// <returns></returns>
-            public abstract T this[int i0] { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="i0"></param>
-            /// <param name="i1"></param>
-            /// <returns></returns>
-            public abstract T this[int i0, int i1] { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="i0"></param>
-            /// <param name="i1"></param>
-            /// <param name="i2"></param>
-            /// <returns></returns>
-            public abstract T this[int i0, int i1, int i2] { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="idx"></param>
-            /// <returns></returns>
-            public abstract T this[params int[] idx] { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            protected readonly Mat parent;
-            /// <summary>
-            /// 
-            /// </summary>
-            protected readonly long[] steps;
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            internal IndexerBase(Mat parent)
-            {
-                this.parent = parent;
-
-                int dims = parent.Dims;
-                steps = new long[dims];
-                for (int i = 0; i < dims; i++)
-                {
-                    steps[i] = (long)parent.Step(i);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public sealed class Indexer<T> : IndexerBase<T> where T : struct
+        public sealed class Indexer<T> : MatIndexer<T> where T : struct
         {
             private readonly long ptrVal;
 
@@ -2369,10 +2203,10 @@ namespace OpenCvSharp.CPlusPlus
             }
 
             /// <summary>
-            /// 
+            /// 1-dimensional indexer
             /// </summary>
-            /// <param name="i0"></param>
-            /// <returns></returns>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <returns>A value to the specified array element.</returns>
             public override T this[int i0]
             {
                 get
@@ -2388,11 +2222,11 @@ namespace OpenCvSharp.CPlusPlus
             }
 
             /// <summary>
-            /// 
+            /// 2-dimensional indexer
             /// </summary>
-            /// <param name="i0"></param>
-            /// <param name="i1"></param>
-            /// <returns></returns>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <returns>A value to the specified array element.</returns>
             public override T this[int i0, int i1]
             {
                 get
@@ -2408,12 +2242,12 @@ namespace OpenCvSharp.CPlusPlus
             }
 
             /// <summary>
-            /// 
+            /// 3-dimensional indexer
             /// </summary>
-            /// <param name="i0"></param>
-            /// <param name="i1"></param>
-            /// <param name="i2"></param>
-            /// <returns></returns>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <param name="i2"> Index along the dimension 2</param>
+            /// <returns>A value to the specified array element.</returns>
             public override T this[int i0, int i1, int i2]
             {
                 get
@@ -2429,10 +2263,10 @@ namespace OpenCvSharp.CPlusPlus
             }
 
             /// <summary>
-            /// 
+            /// n-dimensional indexer
             /// </summary>
-            /// <param name="idx"></param>
-            /// <returns></returns>
+            /// <param name="idx">Array of Mat::dims indices.</param>
+            /// <returns>A value to the specified array element.</returns>
             public override T this[params int[] idx]
             {
                 get
@@ -2459,7 +2293,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -2472,98 +2306,142 @@ namespace OpenCvSharp.CPlusPlus
         #region Get/Set
 
         /// <summary>
-        /// 
+        /// Returns a value to the specified array element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="i0"></param>
-        /// <returns></returns>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0) where T : struct
         {
             return new Indexer<T>(this)[i0];
         }
 
         /// <summary>
-        /// 
+        /// Returns a value to the specified array element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="i0"></param>
-        /// <param name="i1"></param>
-        /// <returns></returns>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0, int i1) where T : struct
         {
             return new Indexer<T>(this)[i0, i1];
         }
 
         /// <summary>
-        /// 
+        /// Returns a value to the specified array element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="i0"></param>
-        /// <param name="i1"></param>
-        /// <param name="i2"></param>
-        /// <returns></returns>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
+        /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0, int i1, int i2) where T : struct
         {
             return new Indexer<T>(this)[i0, i1, i2];
         }
 
         /// <summary>
-        /// 
+        /// Returns a value to the specified array element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="idx"></param>
-        /// <returns></returns>
+        /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <returns>A value to the specified array element.</returns>
         public T Get<T>(params int[] idx) where T : struct
         {
             return new Indexer<T>(this)[idx];
         }
 
         /// <summary>
-        /// 
+        /// Returns a value to the specified array element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="i0"></param>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <returns>A value to the specified array element.</returns>
+        public T At<T>(int i0) where T : struct
+        {
+            return new Indexer<T>(this)[i0];
+        }
+
+        /// <summary>
+        /// Returns a value to the specified array element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <returns>A value to the specified array element.</returns>
+        public T At<T>(int i0, int i1) where T : struct
+        {
+            return new Indexer<T>(this)[i0, i1];
+        }
+
+        /// <summary>
+        /// Returns a value to the specified array element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
+        /// <returns>A value to the specified array element.</returns>
+        public T At<T>(int i0, int i1, int i2) where T : struct
+        {
+            return new Indexer<T>(this)[i0, i1, i2];
+        }
+
+        /// <summary>
+        /// Returns a value to the specified array element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <returns>A value to the specified array element.</returns>
+        public T At<T>(params int[] idx) where T : struct
+        {
+            return new Indexer<T>(this)[idx];
+        }
+
+
+        /// <summary>
+        /// Set a value to the specified array element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0">Index along the dimension 0</param>
         /// <param name="value"></param>
-        /// <returns></returns>
         public void Set<T>(int i0, T value) where T : struct
         {
             (new Indexer<T>(this))[i0] = value;
         }
 
         /// <summary>
-        /// 
+        /// Set a value to the specified array element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="i0"></param>
-        /// <param name="i1"></param>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
         /// <param name="value"></param>
-        /// <returns></returns>
         public void Set<T>(int i0, int i1, T value) where T : struct
         {
             (new Indexer<T>(this))[i0, i1] = value;
         }
 
         /// <summary>
-        /// 
+        /// Set a value to the specified array element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="i0"></param>
-        /// <param name="i1"></param>
-        /// <param name="i2"></param>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
         /// <param name="value"></param>
-        /// <returns></returns>
         public void Set<T>(int i0, int i1, int i2, T value) where T : struct
         {
             (new Indexer<T>(this)[i0, i1, i2]) = value;
         }
 
         /// <summary>
-        /// 
+        /// Set a value to the specified array element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="idx"></param>
+        /// <param name="idx">Array of Mat::dims indices.</param>
         /// <param name="value"></param>
-        /// <returns></returns>
         public void Set<T>(int[] idx, T value) where T : struct
         {
             (new Indexer<T>(this)[idx]) = value;
@@ -2664,16 +2542,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentException("colStart >= colEnd");
 
             ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, rowStart, rowEnd, colStart, colEnd);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, rowStart, rowEnd, colStart, colEnd);
+            Mat retVal = new Mat(retPtr);
+            return retVal;
         }
 
         /// <summary>
@@ -2708,22 +2579,15 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException();
 
             ThrowIfDisposed();
-            try
+            CvSlice[] slices = new CvSlice[ranges.Length];
+            for (int i = 0; i < ranges.Length; i++)
             {
-                CvSlice[] slices = new CvSlice[ranges.Length];
-                for (int i = 0; i < ranges.Length; i++)
-                {
-                    slices[i] = ranges[i];
-                }
+                slices[i] = ranges[i];
+            }
 
-                IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, slices.Length, slices);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, slices.Length, slices);
+            Mat retVal = new Mat(retPtr);
+            return retVal;
         }
 
         #endregion
@@ -3380,7 +3244,7 @@ namespace OpenCvSharp.CPlusPlus
         #region ToBitmap
 
         /// <summary>
-        /// 
+        /// Converts Mat to byte array using cv::imencode
         /// </summary>
         /// <param name="ext"></param>
         /// <param name="prms"></param>
@@ -3393,7 +3257,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Converts Mat to System.Drawing.Bitmap
         /// </summary>
         /// <returns></returns>
         public Bitmap ToBitmap()
@@ -3401,7 +3265,7 @@ namespace OpenCvSharp.CPlusPlus
             return ToBitmap(".png");
         }
         /// <summary>
-        /// 
+        /// Converts Mat to System.Drawing.Bitmap
         /// </summary>
         /// <param name="ext"></param>
         /// <param name="prms"></param>

@@ -6,10 +6,7 @@
 #ifndef _CVRTREES_H_
 #define _CVRTREES_H_
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4251)
-#endif
-#include <opencv2/ml/ml.hpp>
+#include "include_opencv.h"
 
 // CvRTParams
 CVAPI(CvRTParams*) CvRTParams_construct_default()

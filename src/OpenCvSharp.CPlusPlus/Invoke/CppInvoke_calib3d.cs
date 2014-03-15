@@ -18,7 +18,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_Rodrigues(IntPtr src, IntPtr dst, IntPtr jacobian);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_Rodrigues_Mat(IntPtr vector, IntPtr matrix, IntPtr jacobian);
+        public static extern void calib3d_Rodrigues_VecToMat(IntPtr vector, IntPtr matrix, IntPtr jacobian);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_Rodrigues_MatToVec(IntPtr vector, IntPtr matrix, IntPtr jacobian);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_findHomography_InputArray(IntPtr srcPoints, IntPtr dstPoints,
@@ -76,14 +78,25 @@ namespace OpenCvSharp.CPlusPlus
                                                             double aspectRatio);
 
 
-                [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
             IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
                                                           Point2f[] imagePoints, int imagePointsLength,
-                                                          IntPtr cameraMatrix, double[] distCoeffs, int distCoeffsLength,
-                                                          IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
+                                                          double[,] cameraMatrix, double[] distCoeffs, int distCoeffsLength,
+                                                          [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_solvePnPRansac_InputArray(IntPtr objectPoints, IntPtr imagePoints,
+            IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec,
+            int useExtrinsicGuess, int iterationsCount, float reprojectionError, int minInliersCount,
+            IntPtr inliers, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_solvePnPRansac_vector(Point3f[] objectPoints, int objectPointsLength,
+            Point2f[] imagePoints, int imagePointsLength, double[,] cameraMatrix, double[] distCoeffs, int distCoeffsLength,
+            [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int iterationsCount, float reprojectionError, 
+            int minInliersCount, IntPtr inliers, int flags);
 
         // StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
