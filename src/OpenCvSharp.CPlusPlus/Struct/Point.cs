@@ -8,6 +8,14 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
+    public interface IValueType
+    {
+        MatType Type { get; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Point : IEquatable<Point>

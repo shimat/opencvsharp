@@ -98,6 +98,8 @@
     <Compile Include="Samples\MergeSplitSample.cs" />
     <Compile Include="Samples\NormalArrayOperations.cs" />
     <Compile Include="Samples\MatToIplImage.cs" />
+    <Compile Include="Samples\MatOperations.cs" />
+    <Compile Include="Samples\SolveEquation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="movie\bach.mp4">

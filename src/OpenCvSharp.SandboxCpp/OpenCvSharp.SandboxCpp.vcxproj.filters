@@ -27,9 +27,6 @@
     <ClInclude Include="AdaptiveBilateralTest.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PSNR.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Noise.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -50,9 +47,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="AdaptiveBilateralTest.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PSNR.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Noise.cpp">

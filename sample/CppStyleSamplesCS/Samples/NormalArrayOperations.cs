@@ -26,12 +26,13 @@ namespace CppStyleSamplesCS
         private void Threshold1()
         {
             const int T = 3;
+            const int Max = 5;
 
             byte[] input = {1, 2, 3, 4, 5, };
             List<byte> output = new List<byte>();
 
             Cv2.Threshold(InputArray.Create(input), OutputArray.Create(output),
-                T, 5, ThresholdType.Binary);
+                T, Max, ThresholdType.Binary);
 
             Console.WriteLine("Threshold: {0}", T);
             Console.WriteLine("input:  {0}", String.Join(",", input));
@@ -44,12 +45,13 @@ namespace CppStyleSamplesCS
         private void Threshold2()
         {
             const int T = 150;
+            const int Max = 250;
 
             short[] input = { 50, 100, 150, 200, 250, };
             List<short> output = new List<short>();
 
             Cv2.Threshold(InputArray.Create(input), OutputArray.Create(output),
-                T, 250, ThresholdType.Binary);
+                T, Max, ThresholdType.Binary);
 
             Console.WriteLine("Threshold: {0}", T);
             Console.WriteLine("input:  {0}", String.Join(",", input));
@@ -61,13 +63,19 @@ namespace CppStyleSamplesCS
         /// </summary>
         private void Threshold3()
         {
-            const int T = 3;
+            const double T = 2000;
+            const double Max = 5000;
 
-            Point[] input = { new Point(3, 5), new Point(1, 2), new Point(4,5), };
-            List<Point> output = new List<Point>();
+            // threshol does not support Point (int)    
+            Point2f[] input = { 
+                                  new Point2f(1000, 1500),
+                                  new Point2f(2000, 2001),
+                                  new Point2f(500, 5000), 
+                              };
+            List<Point2f> output = new List<Point2f>();
 
             Cv2.Threshold(InputArray.Create(input), OutputArray.Create(output),
-                T, 5, ThresholdType.Binary);
+                T, Max, ThresholdType.Binary);
 
             Console.WriteLine("Threshold: {0}", T);
             Console.WriteLine("input:  {0}", String.Join(",", input));

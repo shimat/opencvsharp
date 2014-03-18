@@ -1335,13 +1335,13 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Threshold
         /// <summary>
-        /// 
+        /// Applies a fixed-level threshold to each array element.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="thresh"></param>
-        /// <param name="maxval"></param>
-        /// <param name="type"></param>
+        /// <param name="src">input array (single-channel, 8-bit or 32-bit floating point).</param>
+        /// <param name="dst">output array of the same size and type as src.</param>
+        /// <param name="thresh">threshold value.</param>
+        /// <param name="maxval">maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types.</param>
+        /// <param name="type">thresholding type (see the details below).</param>
         /// <returns></returns>
         public static double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdType type)
         {

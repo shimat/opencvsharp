@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public abstract class MatRowColIndexer
+    public abstract class MatRowColExprIndexer
     {
         /// <summary>
         /// 
@@ -18,7 +18,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="parent"></param>
-        protected internal MatRowColIndexer(Mat parent)
+        protected internal MatRowColExprIndexer(Mat parent)
         {
             this.parent = parent;
         }
@@ -28,7 +28,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public abstract Mat this[int pos] { get; }
+        public abstract MatExpr this[int pos] { get; set; }
 
         /// <summary>
         /// Creates a matrix header for the specified row/column span.
@@ -36,16 +36,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public abstract Mat this[int start, int end] { get; }
+        public abstract MatExpr this[int start, int end] { get; set; }
 
         /// <summary>
         /// Creates a matrix header for the specified row/column span.
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public virtual Mat this[Range range]
+        public virtual MatExpr this[Range range]
         {
             get { return this[range.Start, range.End]; }
+            set { this[range.Start, range.End] = value; }
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public Mat Get(int pos)
+        public MatExpr Get(int pos)
         {
             return this[pos];
         }
@@ -77,5 +78,37 @@ namespace OpenCvSharp.CPlusPlus
             return this[range];
         }
 
+        /// <summary>
+        /// Sets a matrix header for the specified matrix row/column.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public void Set(int pos, MatExpr value)
+        {
+            this[pos] = value;
+        }
+
+        /// <summary>
+        /// Sets a matrix header for the specified matrix row/column span.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public void Set(int start, int end, MatExpr value)
+        {
+            this[start, end] = value;
+        }
+        /// <summary>
+        /// Sets a matrix header for the specified matrix row/column span.
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public void Set(Range range, MatExpr value)
+        {
+            this[range] = value;
+        }
     }
 }

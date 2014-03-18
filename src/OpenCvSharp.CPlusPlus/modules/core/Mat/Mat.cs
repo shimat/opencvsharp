@@ -1071,8 +1071,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Public Methods
-        #region SubMat Indexers
-        #region SubMat
+        #region Mat Indexers
         /// <summary>
         /// Extracts a rectangular submatrix.
         /// </summary>
@@ -1081,18 +1080,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
         /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
         /// <returns></returns>
-        public MatExpr this[int rowStart, int rowEnd, int colStart, int colEnd]
+        public Mat this[int rowStart, int rowEnd, int colStart, int colEnd]
         {
             get
             {
                 return SubMat(rowStart, rowEnd, colStart, colEnd);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                Mat submat = SubMat(rowStart, rowEnd, colStart, colEnd);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
             }
         }
 
@@ -1110,13 +1102,6 @@ namespace OpenCvSharp.CPlusPlus
             {
                 return SubMat(rowRange, colRange);
             }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                Mat submat = SubMat(rowRange, colRange);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-            }
         }
 
         /// <summary>
@@ -1124,18 +1109,11 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
         /// <returns></returns>
-        public MatExpr this[Rect roi]
+        public Mat this[Rect roi]
         {
             get
             {
                 return SubMat(roi);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                Mat submat = SubMat(roi);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
             }
         }
 
@@ -1144,32 +1122,132 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="ranges">Array of selected ranges along each array dimension.</param>
         /// <returns></returns>
-        public MatExpr this[params Range[] ranges]
+        public Mat this[params Range[] ranges]
         {
             get
             {
                 return SubMat(ranges);
             }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                Mat submat = SubMat(ranges);
-                CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-            }
         }
         #endregion
-        #region Col
+        #region MatExpr Indexers
+        #region SubMat
         /// <summary>
-        /// Mat column's indexer object
+        /// 
         /// </summary>
-        public class ColIndexer : MatRowColIndexer
+        public class MatExprIndexer : MatRangeExprIndexer
         {
             /// <summary>
             /// 
             /// </summary>
             /// <param name="parent"></param>
-            protected internal ColIndexer(Mat parent)
+            protected internal MatExprIndexer(Mat parent)
+                : base(parent)
+            {
+            }
+
+            /// <summary>
+            /// Extracts a rectangular submatrix.
+            /// </summary>
+            /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
+            /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
+            /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
+            /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
+            /// <returns></returns>
+            public override MatExpr this[int rowStart, int rowEnd, int colStart, int colEnd]
+            {
+                get { return parent.SubMat(rowStart, rowEnd, colStart, colEnd); }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    Mat submat = parent.SubMat(rowStart, rowEnd, colStart, colEnd);
+                    CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                }
+            }
+
+            /// <summary>
+            /// Extracts a rectangular submatrix.
+            /// </summary>
+            /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
+            /// To select all the rows, use Range.All().</param>
+            /// <param name="colRange">Start and end column of the extracted submatrix. 
+            /// The upper boundary is not included. To select all the columns, use Range.All().</param>
+            /// <returns></returns>
+            public override MatExpr this[Range rowRange, Range colRange]
+            {
+                get { return parent.SubMat(rowRange, colRange); }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    Mat submat = parent.SubMat(rowRange, colRange);
+                    CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                }
+            }
+
+            /// <summary>
+            /// Extracts a rectangular submatrix.
+            /// </summary>
+            /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
+            /// <returns></returns>
+            public override MatExpr this[Rect roi]
+            {
+                get { return parent.SubMat(roi); }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    Mat submat = parent.SubMat(roi);
+                    CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                }
+            }
+
+            /// <summary>
+            /// Extracts a rectangular submatrix.
+            /// </summary>
+            /// <param name="ranges">Array of selected ranges along each array dimension.</param>
+            /// <returns></returns>
+            public override MatExpr this[params Range[] ranges]
+            {
+                get { return parent.SubMat(ranges); }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    Mat submat = parent.SubMat(ranges);
+                    CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indexer to access partial Mat as MatExpr
+        /// </summary>
+        /// <returns></returns>
+        public MatExprIndexer Expr
+        {
+            get
+            {
+                if (matExprIndexer == null)
+                    matExprIndexer = new MatExprIndexer(this);
+                return matExprIndexer;
+            }
+        }
+        private MatExprIndexer matExprIndexer = null;
+
+        #endregion
+        #region ColExpr
+        /// <summary>
+        /// Mat column's indexer object
+        /// </summary>
+        public class ColExprIndexer : MatRowColExprIndexer
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
+            protected internal ColExprIndexer(Mat parent)
                 : base(parent)
             {
             }
@@ -1225,32 +1303,32 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// Indexer to access Mat column
+        /// Indexer to access Mat column as MatExpr
         /// </summary>
         /// <returns></returns>
-        public ColIndexer Col
+        public ColExprIndexer ColExpr
         {
             get
             {
-                if (colIndexer == null)
-                    colIndexer = new ColIndexer(this);
-                return colIndexer;
+                if (colExprIndexer == null)
+                    colExprIndexer = new ColExprIndexer(this);
+                return colExprIndexer;
             }
         }
-        private ColIndexer colIndexer = null;
+        private ColExprIndexer colExprIndexer = null;
         #endregion
-        #region Row
+        #region RowExpr
 
         /// <summary>
         /// Mat row's indexer object
         /// </summary>
-        public class RowIndexer : MatRowColIndexer
+        public class RowExprIndexer : MatRowColExprIndexer
         {
             /// <summary>
             /// 
             /// </summary>
             /// <param name="parent"></param>
-            protected internal RowIndexer(Mat parent)
+            protected internal RowExprIndexer(Mat parent)
                 : base(parent)
             {
             }
@@ -1305,19 +1383,19 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// Indexer to access Mat row
+        /// Indexer to access Mat row as MatExpr
         /// </summary>
         /// <returns></returns>
-        public RowIndexer Row
+        public RowExprIndexer RowExpr
         {
             get
             {
-                if (rowIndexer == null)
-                    rowIndexer = new RowIndexer(this);
-                return rowIndexer;
+                if (rowExprIndexer == null)
+                    rowExprIndexer = new RowExprIndexer(this);
+                return rowExprIndexer;
             }
         }
-        private RowIndexer rowIndexer = null;
+        private RowExprIndexer rowExprIndexer = null;
 
         #endregion
         #endregion
@@ -2448,14 +2526,14 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
-        #region GetCol/GetColRange
+        #region Col/ColRange
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public Mat GetCol(int x)
+        public Mat Col(int x)
         {
             ThrowIfDisposed();
             IntPtr matPtr = CppInvoke.core_Mat_col_toMat(ptr, x);
@@ -2468,7 +2546,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="startCol"></param>
         /// <param name="endCol"></param>
         /// <returns></returns>
-        public Mat GetColRange(int startCol, int endCol)
+        public Mat ColRange(int startCol, int endCol)
         {
             ThrowIfDisposed();
             IntPtr matPtr = CppInvoke.core_Mat_colRange_toMat(ptr, startCol, endCol);
@@ -2480,20 +2558,20 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public Mat GetColRange(Range range)
+        public Mat ColRange(Range range)
         {
-            return GetColRange(range.Start, range.End);
+            return ColRange(range.Start, range.End);
         }
 
         #endregion
-        #region GetRow/GetRowRange
+        #region Row/RowRange
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Mat GetRow(int y)
+        public Mat Row(int y)
         {
             ThrowIfDisposed();
             IntPtr matPtr = CppInvoke.core_Mat_row_toMat(ptr, y);
@@ -2506,7 +2584,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="startRow"></param>
         /// <param name="endRow"></param>
         /// <returns></returns>
-        public Mat GetRowRange(int startRow, int endRow)
+        public Mat RowRange(int startRow, int endRow)
         {
             ThrowIfDisposed();
             IntPtr matPtr = CppInvoke.core_Mat_rowRange_toMat(ptr, startRow, endRow);
@@ -2518,9 +2596,9 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public Mat GetRowRange(Range range)
+        public Mat RowRange(Range range)
         {
-            return GetRowRange(range.Start, range.End);
+            return RowRange(range.Start, range.End);
         }
 
         #endregion

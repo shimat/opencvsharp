@@ -8,7 +8,7 @@ using OpenCvSharp.Utilities;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// Proxy datatype for passing Mat's and vector&lt;&gt;'s as input parameters
+    /// Proxy datatype for passing Mat's and List&lt;&gt;'s as output parameters
     /// </summary>
     public sealed class OutputArray<T> : OutputArray
         where T : struct
@@ -71,7 +71,7 @@ namespace OpenCvSharp.CPlusPlus
     }
 
     /// <summary>
-    /// Proxy datatype for passing Mat's and vector&lt;&gt;'s as input parameters
+    /// Proxy datatype for passing Mat's and List&lt;&gt;'s as output parameters
     /// </summary>
     public class OutputArray : DisposableCvObject
     {

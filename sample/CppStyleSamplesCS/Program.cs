@@ -11,7 +11,7 @@ namespace CppStyleSamplesCS
         static void Main(string[] args)
         {
             ISample sample =
-                new VideoWriterSample();
+                //new VideoWriterSample();
                 //new VideoCaptureSample();
                 //new MatToBitmap();
                 //new MatToIplImage();
@@ -30,6 +30,8 @@ namespace CppStyleSamplesCS
                 //new MorphologySample();
                 //new MergeSplitSample();
                 //new NormalArrayOperations();
+               // new SolveEquation();
+                new MatOperations();
             sample.Run();
         }
     }

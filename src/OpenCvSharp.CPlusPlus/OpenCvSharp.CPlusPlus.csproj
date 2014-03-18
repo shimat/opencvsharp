@@ -172,6 +172,8 @@
     <Compile Include="modules\core\Mat\MatOfInt.cs" />
     <Compile Include="modules\core\Mat\MatOfFloat.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint.cs" />
+    <Compile Include="modules\core\MatRowColExprIndexer.cs" />
+    <Compile Include="modules\core\MatRangeExprIndexer.cs" />
     <Compile Include="modules\features2d\PtrOfFeature2D.cs" />
     <Compile Include="modules\features2d\PtrOfFeatureDetector.cs" />
     <Compile Include="modules\core\Ptr.cs" />
