@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -179,6 +180,10 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Indexer(this);
         }
+        MatIndexer<ushort> ITypeSpecificMat<ushort>.GetIndexer() 
+        {
+            return GetIndexer();
+        }
         #endregion
 
         #region FromArray
@@ -233,6 +238,41 @@ namespace OpenCvSharp.CPlusPlus
             ushort[,] arr = new ushort[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
+        }
+        #endregion
+
+        #region GetEnumerator
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<ushort> GetEnumerator()
+        {
+            ThrowIfDisposed();
+            Indexer indexer = new Indexer(this);
+
+            int dims = Dims;
+            if (dims == 2)
+            {
+                int rows = Rows;
+                int cols = Cols;
+                for (int r = 0; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        yield return indexer[r, c];
+                    }
+                }
+            }
+            else
+            {
+                throw new NotImplementedException("GetEnumerator supports only 2-dimentional Mat");
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
         #endregion
     }

@@ -134,13 +134,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_Mat_ones(int rows, int cols, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_ones2")]
         public static extern IntPtr core_Mat_ones(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sz, int type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back(IntPtr self, IntPtr m);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_push_back1")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_reshape1")]
         public static extern IntPtr core_Mat_reshape(IntPtr self, int cn);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_push_back2")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_reshape2")]
         public static extern IntPtr core_Mat_reshape(IntPtr self, int cn, int rows);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_push_back3")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_reshape3")]
         public static extern IntPtr core_Mat_reshape(IntPtr self, int cn, int newndims, [MarshalAs(UnmanagedType.LPArray)] int[] newsz);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_rows(IntPtr self);
@@ -152,9 +150,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_Mat_rowRange_toMat(IntPtr self, int startRow, int endRow);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_rowRange_toMatExpr(IntPtr self, int startRow, int endRow);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_setTo1")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_setTo_Scalar")]
         public static extern IntPtr core_Mat_setTo(IntPtr self, CvScalar value, IntPtr mask);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_setTo2")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_setTo_InputArray")]
         public static extern IntPtr core_Mat_setTo(IntPtr self, IntPtr value, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern CvSize core_Mat_size(IntPtr self);
@@ -457,5 +455,92 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_nGetDMatch(IntPtr obj, int row, int col,
             [In, Out, MarshalAs(UnmanagedType.LPArray)] DMatch[,] vals, int valsLength);
+
+
+        // push_back
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Mat(IntPtr self, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_char(IntPtr self, sbyte val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_uchar(IntPtr self, byte val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_short(IntPtr self, short val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_ushort(IntPtr self, ushort val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_int(IntPtr self, int val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_float(IntPtr self, float val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_double(IntPtr self, double val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec2b(IntPtr self, Vec2b val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec3b(IntPtr self, Vec3b val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec4b(IntPtr self, Vec4b val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec6b(IntPtr self, Vec6b val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec2s(IntPtr self, Vec2s val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec3s(IntPtr self, Vec3s val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec4s(IntPtr self, Vec4s val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec6s(IntPtr self, Vec6s val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec2w(IntPtr self, Vec2w val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec3w(IntPtr self, Vec3w val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec4w(IntPtr self, Vec4w val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec6w(IntPtr self, Vec6w val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec2i(IntPtr self, Vec2i val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec3i(IntPtr self, Vec3i val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec4i(IntPtr self, Vec4i val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec6i(IntPtr self, Vec6i val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec2f(IntPtr self, Vec2f val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec3f(IntPtr self, Vec3f val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec4f(IntPtr self, Vec4f val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec6f(IntPtr self, Vec6f val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec2d(IntPtr self, Vec2d val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec3d(IntPtr self, Vec3d val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Vec6d(IntPtr self, Vec6d val);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Point(IntPtr self, Point val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Point2f(IntPtr self, Point2f val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Point2d(IntPtr self, Point2d val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Point3i(IntPtr self, Point3i val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Point3f(IntPtr self, Point3f val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Point3d(IntPtr self, Point3d val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Size(IntPtr self, Size val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Size2f(IntPtr self, Size2f val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_push_back_Rect(IntPtr self, Rect val);
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace OpenCvSharp.Sandbox
 
         static void Run()
         {
+            MatOfFloat mm = new MatOfFloat(0, 0) { 2f, 3f, 4f, 5f };
+            MatOfFloat mmm = mm.Reshape(0, 2);
+            Console.WriteLine(mm.Dump(DumpFormat.C));
+            mmm.ToString();
+
             var memory = new List<long>(100);
             for (long i = 0; ; i++)
             {
@@ -42,7 +48,7 @@ namespace OpenCvSharp.Sandbox
                 Mat gray = new Mat();
                 Cv2.CvtColor(mat, gray, ColorConversion.BgrToGray);
 
-                Cv2.GaussianBlur(mat.GetRowRange(100, 200), mat.GetRowRange(100, 200), new Size(25, 25), -1);
+                Cv2.GaussianBlur(mat.RowRange(100, 200), mat.RowRange(100, 200), new Size(25, 25), -1);
 
 
                 

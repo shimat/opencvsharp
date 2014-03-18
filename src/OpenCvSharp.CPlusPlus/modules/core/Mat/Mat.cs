@@ -1888,22 +1888,6 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
-        #region PushBack
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix.
-        /// </summary>
-        /// <param name="m">Added line</param>
-        public void PushBack(Mat m)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException();
-            m.ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back(ptr, m.CvPtr);
-        }
-
-        #endregion
         #region Reshape
 
         /// <summary>
@@ -2005,7 +1989,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public Mat SetTo(Scalar value, Mat mask = null)
+        public Mat SetTo(Scalar value, InputArray mask = null)
         {
             ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
@@ -2020,11 +2004,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public Mat SetTo(Mat value, Mat mask = null)
+        public Mat SetTo(InputArray value, InputArray mask = null)
         {
             ThrowIfDisposed();
             if (value == null)
                 throw new ArgumentNullException("value");
+            value.ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
             IntPtr retPtr = CppInvoke.core_Mat_setTo(ptr, value.CvPtr, maskPtr);
             Mat retVal = new Mat(retPtr);
@@ -3362,6 +3347,52 @@ namespace OpenCvSharp.CPlusPlus
         {
             CheckArgumentsForConvert(row, col, data);
             CppInvoke.core_Mat_nSetDMatch(ptr, row, col, data, data.Length);
+        }
+        #endregion
+
+        #region Add
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="m">Added line(s)</param>
+        public void Add(Mat m)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException();
+            m.ThrowIfDisposed();
+            CppInvoke.core_Mat_push_back_Mat(ptr, m.CvPtr);
+        }
+
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element(s)</param>
+        public void Add(ushort value)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_push_back_ushort(ptr, value);
+        }
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element(s)</param>
+        public void Add(int value)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_push_back_int(ptr, value);
+        }
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element(s)</param>
+        public void Add(double value)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_push_back_double(ptr, value);
         }
         #endregion
 

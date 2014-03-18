@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -23,6 +24,16 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        public MatOfByte(int rows, int cols)
+            : base(rows, cols, MatType.CV_8UC1)
+        {
+        }
+
+        /// <summary>
         /// Initializes by cv::Mat* pointer
         /// </summary>
         /// <param name="ptr"></param>
@@ -43,7 +54,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Initializes and copys array data to this
         /// </summary>
         /// <param name="arr"></param>
-        public MatOfByte(params byte[] arr)
+        public MatOfByte(byte[] arr)
             : base()
         {
             if (arr == null)
@@ -180,6 +191,10 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Indexer(this);
         }
+        MatIndexer<byte> ITypeSpecificMat<byte>.GetIndexer()
+        {
+            return GetIndexer();
+        }
         #endregion
 
         #region FromArray
@@ -236,5 +251,59 @@ namespace OpenCvSharp.CPlusPlus
             return arr;
         }
         #endregion
+
+        #region GetEnumerator
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<byte> GetEnumerator()
+        {
+            ThrowIfDisposed();
+            Indexer indexer = new Indexer(this);
+
+            int dims = Dims;
+            if (dims == 2)
+            {
+                int rows = Rows;
+                int cols = Cols;
+                for (int r = 0; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        yield return indexer[r, c];
+                    }
+                }
+            }
+            else
+            {
+                throw new NotImplementedException("GetEnumerator supports only 2-dimentional Mat");
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        #endregion
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element(s)</param>
+        public void Add(byte value)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_push_back_uchar(ptr, value);
+        }
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element(s)</param>
+        public void Add(short value)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_push_back_short(ptr, value);
+        }
     }
 }

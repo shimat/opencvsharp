@@ -719,16 +719,8 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    try
-                    {
-                        IntPtr retPtr = CppInvoke.core_MatExpr_col(parent.CvPtr, x);
-                        return new MatExpr(retPtr);
-                    }
-                    catch (BadImageFormatException ex)
-                    {
-                        throw PInvokeHelper.CreateException(ex);
-                    }
-
+                    IntPtr retPtr = CppInvoke.core_MatExpr_col(parent.CvPtr, x);
+                    return new MatExpr(retPtr);
                 }
             }
         }
@@ -898,16 +890,8 @@ namespace OpenCvSharp.CPlusPlus
                 get 
                 {
                     parent.ThrowIfDisposed();
-                    try
-                    {
-                        IntPtr retPtr = CppInvoke.core_MatExpr_row(parent.CvPtr, y);
-                        return new MatExpr(retPtr);
-                    }
-                    catch (BadImageFormatException ex)
-                    {
-                        throw PInvokeHelper.CreateException(ex);
-                    }
-
+                    IntPtr retPtr = CppInvoke.core_MatExpr_row(parent.CvPtr, y);
+                    return new MatExpr(retPtr);
                 }
             }
         }

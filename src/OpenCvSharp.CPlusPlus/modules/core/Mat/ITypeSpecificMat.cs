@@ -8,7 +8,8 @@ namespace OpenCvSharp.CPlusPlus
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    interface ITypeSpecificMat<out T> where T : struct
+    interface ITypeSpecificMat<T> : IEnumerable<T> 
+        where T : struct
     {
         /// <summary>
         /// Convert this mat to managed array
@@ -21,5 +22,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <returns></returns>
         T[,] ToRectangularArray();
+
+        MatIndexer<T> GetIndexer();
     }
 }
