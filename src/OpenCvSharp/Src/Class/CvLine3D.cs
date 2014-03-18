@@ -11,7 +11,7 @@ namespace OpenCvSharp
     /// </summary>
 #else
     /// <summary>
-    /// A 3-dimentional line object
+    /// A 3-dimensional line object
     /// </summary>
 #endif
     public class CvLine3D

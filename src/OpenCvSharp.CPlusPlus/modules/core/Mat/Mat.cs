@@ -27,7 +27,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Creates empty Mat
         /// </summary>
         public Mat()
         {
@@ -52,9 +52,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
         public Mat(int rows, int cols, MatType type)
         {
             ptr = CppInvoke.core_Mat_new2(rows, cols, type);
@@ -63,8 +64,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
+        /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
+        /// the number of rows and the number of columns go in the reverse order.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
         public Mat(Size size, MatType type)
         {
             ptr = CppInvoke.core_Mat_new2(size.Width, size.Height, type);
@@ -73,10 +76,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
-        /// <param name="s"></param>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
         public Mat(int rows, int cols, MatType type, Scalar s)
         {
             ptr = CppInvoke.core_Mat_new3(rows, cols, type, s);
@@ -85,9 +90,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
-        /// <param name="s"></param>
+        /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
+        /// the number of rows and the number of columns go in the reverse order.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
         public Mat(Size size, MatType type, Scalar s)
         {
             ptr = CppInvoke.core_Mat_new3(size.Width, size.Height, type, s);
@@ -96,69 +104,96 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="rowRange"></param>
-        /// <param name="colRange"></param>
-        public Mat(Mat m, Range rowRange, Range colRange)
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix. 
+        /// No data is copied by these constructors. Instead, the header pointing to m data or its sub-array 
+        /// is constructed and associated with it. The reference counter, if any, is incremented. 
+        /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
+        /// If you want to have an independent copy of the sub-array, use Mat::clone() .</param>
+        /// <param name="rowRange">Range of the m rows to take. As usual, the range start is inclusive and the range end is exclusive. 
+        /// Use Range.All to take all the rows.</param>
+        /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
+        public Mat(Mat m, Range rowRange, Range? colRange = null)
         {
-            ptr = CppInvoke.core_Mat_new4(m.ptr, rowRange, colRange);
+            if (colRange.HasValue)
+                ptr = CppInvoke.core_Mat_new4(m.ptr, rowRange, colRange.Value);
+            else
+                ptr = CppInvoke.core_Mat_new5(m.ptr, rowRange);
+        }
+
+        /// <summary>
+        /// creates a matrix header for a part of the bigger matrix
+        /// </summary>
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix. 
+        /// No data is copied by these constructors. Instead, the header pointing to m data or its sub-array 
+        /// is constructed and associated with it. The reference counter, if any, is incremented. 
+        /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
+        /// If you want to have an independent copy of the sub-array, use Mat::clone() .</param>
+        /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
+        public Mat(Mat m, params Range[] ranges)
+        {
+            ptr = CppInvoke.core_Mat_new6(m.ptr, ranges);
         }
 
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
         /// <param name="m"></param>
-        /// <param name="rowRange"></param>
-        public Mat(Mat m, Range rowRange)
-        {
-            ptr = CppInvoke.core_Mat_new5(m.ptr, rowRange);
-        }
-
-        /// <summary>
-        /// creates a matrix header for a part of the bigger matrix
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="roi"></param>
+        /// <param name="roi">Region of interest.</param>
         public Mat(Mat m, Rect roi)
         {
-            ptr = CppInvoke.core_Mat_new6(m.ptr, roi);
+            ptr = CppInvoke.core_Mat_new7(m.ptr, roi);
         }
 
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
-        /// <param name="step"></param>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
         public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
         {
-            ptr = CppInvoke.core_Mat_new7(rows, cols, type, data, new IntPtr(step));
+            ptr = CppInvoke.core_Mat_new8(rows, cols, type, data, new IntPtr(step));
         }
 
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
-        /// <param name="step"></param>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
         public Mat(int rows, int cols, MatType type, Array data, long step = 0)
         {
             GCHandle handle = AllocGCHandle(data);
-            ptr = CppInvoke.core_Mat_new7(rows, cols, type,
+            ptr = CppInvoke.core_Mat_new8(rows, cols, type,
                 handle.AddrOfPinnedObject(), new IntPtr(step));
         }
 
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
-        /// <param name="sizes"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
-        /// <param name="steps"></param>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
+        /// If not specified, the matrix is assumed to be continuous.</param>
         public Mat(IEnumerable<int> sizes, MatType type, IntPtr data, IEnumerable<long> steps = null)
         {
             if (sizes == null)
@@ -168,7 +203,7 @@ namespace OpenCvSharp.CPlusPlus
             int[] sizesArray = EnumerableEx.ToArray(sizes);
             if (steps == null)
             {
-                ptr = CppInvoke.core_Mat_new8(sizesArray.Length, sizesArray, type, data, IntPtr.Zero);
+                ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero);
             }
             else
             {
@@ -176,17 +211,22 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     return new IntPtr(s);
                 });
-                ptr = CppInvoke.core_Mat_new8(sizesArray.Length, sizesArray, type, data, stepsArray);
+                ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray);
             }
         }
 
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
-        /// <param name="sizes"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
-        /// <param name="steps"></param>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
+        /// If not specified, the matrix is assumed to be continuous.</param>
         public Mat(IEnumerable<int> sizes, MatType type, Array data, IEnumerable<long> steps = null)
         {
             if (sizes == null)
@@ -198,7 +238,7 @@ namespace OpenCvSharp.CPlusPlus
             int[] sizesArray = EnumerableEx.ToArray(sizes);
             if (steps == null)
             {
-                ptr = CppInvoke.core_Mat_new8(sizesArray.Length, sizesArray,
+                ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, handle.AddrOfPinnedObject(), IntPtr.Zero);
             }
             else
@@ -207,7 +247,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     return new IntPtr(s);
                 });
-                ptr = CppInvoke.core_Mat_new8(sizesArray.Length, sizesArray,
+                ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, handle.AddrOfPinnedObject(), stepsArray);
             }
         }
@@ -215,36 +255,42 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// constructs n-dimensional matrix
         /// </summary>
-        /// <param name="sizes"></param>
-        /// <param name="type"></param>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
         public Mat(IEnumerable<int> sizes, MatType type)
         {
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
 
             int[] sizesArray = EnumerableEx.ToArray(sizes);
-            ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray, type);
+            ptr = CppInvoke.core_Mat_new10(sizesArray.Length, sizesArray, type);
         }
 
         /// <summary>
         /// constructs n-dimensional matrix
         /// </summary>
         /// <param name="sizes"></param>
-        /// <param name="type"></param>
-        /// <param name="s"></param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
         public Mat(IEnumerable<int> sizes, MatType type, Scalar s)
         {
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
             int[] sizesArray = EnumerableEx.ToArray(sizes);
-            ptr = CppInvoke.core_Mat_new10(sizesArray.Length, sizesArray, type, s);
+            ptr = CppInvoke.core_Mat_new11(sizesArray.Length, sizesArray, type, s);
         }
 
         /// <summary>
         /// converts old-style CvMat to the new matrix; the data is not copied by default
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="copyData"></param>
+        /// <param name="m">Old style CvMat object</param>
+        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style CvMat should be 
+        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
+        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
+        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
         public Mat(CvMat m, bool copyData = false)
         {
             if (m == null)
@@ -258,8 +304,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// converts old-style IplImage to the new matrix; the data is not copied by default
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="copyData"></param>
+        /// <param name="img">Old style IplImage object</param>
+        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style IplImage should be 
+        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
+        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
+        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
         public Mat(IplImage img, bool copyData = false)
         {
             if (img == null)

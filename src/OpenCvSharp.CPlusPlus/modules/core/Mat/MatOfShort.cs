@@ -265,7 +265,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             else
             {
-                throw new NotImplementedException("GetEnumerator supports only 2-dimentional Mat");
+                throw new NotImplementedException("GetEnumerator supports only 2-dimensional Mat");
             }
         }
 

@@ -27,32 +27,36 @@ CVAPI(cv::Mat*) core_Mat_new3(int rows, int cols, int type, CvScalar scalar)
 {
 	return new cv::Mat(rows, cols, type, scalar);
 }
-CVAPI(cv::Mat*) core_Mat_new4(cv::Mat *mat, CvSlice rowRange, CvSlice colRange)
+CVAPI(cv::Mat*) core_Mat_new4(cv::Mat *mat, cv::Range rowRange, cv::Range colRange)
 {
 	return new cv::Mat(*mat, rowRange, colRange);
 }
-CVAPI(cv::Mat*) core_Mat_new5(cv::Mat *mat, CvSlice rowRange)
+CVAPI(cv::Mat*) core_Mat_new5(cv::Mat *mat, cv::Range rowRange)
 {
 	return new cv::Mat(*mat, rowRange);
 }
-CVAPI(cv::Mat*) core_Mat_new6(cv::Mat *mat, CvRect roi)
+CVAPI(cv::Mat*) core_Mat_new6(cv::Mat *mat, cv::Range *ranges)
+{
+	return new cv::Mat(*mat, ranges);
+}
+CVAPI(cv::Mat*) core_Mat_new7(cv::Mat *mat, CvRect roi)
 {
 	return new cv::Mat(*mat, roi);
 }
-CVAPI(cv::Mat*) core_Mat_new7(int rows, int cols, int type, void* data, size_t step)
+CVAPI(cv::Mat*) core_Mat_new8(int rows, int cols, int type, void* data, size_t step)
 {
 	return new cv::Mat(rows, cols, type, data, step);
 }
-CVAPI(cv::Mat*) core_Mat_new8(int ndims, const int* sizes, int type, void* data, const size_t* steps)
+CVAPI(cv::Mat*) core_Mat_new9(int ndims, const int* sizes, int type, void* data, const size_t* steps)
 {
 	return new cv::Mat(ndims, sizes, type, data, steps);
 }
 
-CVAPI(cv::Mat*) core_Mat_new9(int ndims, int* sizes, int type)
+CVAPI(cv::Mat*) core_Mat_new10(int ndims, int* sizes, int type)
 {
 	return new cv::Mat(ndims, sizes, type);
 }
-CVAPI(cv::Mat*) core_Mat_new10(int ndims, int* sizes, int type, CvScalar s)
+CVAPI(cv::Mat*) core_Mat_new11(int ndims, int* sizes, int type, CvScalar s)
 {
 	return new cv::Mat(ndims, sizes, type, s);
 }

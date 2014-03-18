@@ -10,28 +10,11 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public class MatOfFloat : Mat<float, MatOfFloat>
     {
+        private static readonly MatType ThisType = MatType.CV_32FC1;
         private const int ThisDepth = MatType.CV_32F;
         private const int ThisChannels = 1;
 
         #region Init
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public MatOfFloat()
-            : base()
-        {
-        }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        public MatOfFloat(int rows, int cols)
-            : base(rows, cols, MatType.CV_32FC1)
-        {
-        }
 
         /// <summary>
         /// Initializes by cv::Mat* pointer
@@ -50,6 +33,237 @@ namespace OpenCvSharp.CPlusPlus
             : base(mat.CvPtr)
         {
         }
+
+        /// <summary>
+        /// Creates empty Mat
+        /// </summary>
+        public MatOfFloat()
+            : base()
+        {
+        }
+
+        /// <summary>
+        /// constructs 2D matrix of the specified size and type
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        public MatOfFloat(int rows, int cols)
+            : base(rows, cols, ThisType)
+        {
+        }
+
+        
+        /// <summary>
+        /// constructs 2D matrix of the specified size and type
+        /// </summary>
+        /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
+        /// the number of rows and the number of columns go in the reverse order.</param>
+        public MatOfFloat(Size size)
+            : base(size, ThisType)
+        {
+        }
+
+        /// <summary>
+        /// constucts 2D matrix and fills it with the specified Scalar value.
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+        public MatOfFloat(int rows, int cols, Scalar s)
+            : base(rows, cols, ThisType, s)
+        {
+        }
+
+        /// <summary>
+        /// constucts 2D matrix and fills it with the specified Scalar value.
+        /// </summary>
+        /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
+        /// the number of rows and the number of columns go in the reverse order.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+        public MatOfFloat(Size size, Scalar s)
+            : base(size, ThisType, s)
+        {
+        }
+
+        /// <summary>
+        /// creates a matrix header for a part of the bigger matrix
+        /// </summary>
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix. 
+        /// No data is copied by these constructors. Instead, the header pointing to m data or its sub-array 
+        /// is constructed and associated with it. The reference counter, if any, is incremented. 
+        /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
+        /// If you want to have an independent copy of the sub-array, use Mat::clone() .</param>
+        /// <param name="rowRange">Range of the m rows to take. As usual, the range start is inclusive and the range end is exclusive. 
+        /// Use Range.All to take all the rows.</param>
+        /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
+        public MatOfFloat(MatOfFloat m, Range rowRange, Range? colRange = null)
+            : base(m, rowRange, colRange)
+        {
+        }
+
+        /// <summary>
+        /// creates a matrix header for a part of the bigger matrix
+        /// </summary>
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix. 
+        /// No data is copied by these constructors. Instead, the header pointing to m data or its sub-array 
+        /// is constructed and associated with it. The reference counter, if any, is incremented. 
+        /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
+        /// If you want to have an independent copy of the sub-array, use Mat::clone() .</param>
+        /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
+        public MatOfFloat(MatOfFloat m, params Range[] ranges)
+            : base(m, ranges)
+        {
+        }
+
+        /// <summary>
+        /// creates a matrix header for a part of the bigger matrix
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="roi">Region of interest.</param>
+        public MatOfFloat(MatOfFloat m, Rect roi)
+            : base(m, roi)
+        {
+        }
+
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+        public MatOfFloat(int rows, int cols, IntPtr data, long step = 0)
+            : base(rows, cols, ThisType, data, step)
+        {
+        }
+
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+        public MatOfFloat(int rows, int cols, float[] data, long step = 0)
+            : base(rows, cols, ThisType, data, step)
+        {
+        }
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+        public MatOfFloat(int rows, int cols, float[,] data, long step = 0)
+            : base(rows, cols, ThisType, data, step)
+        {
+        }
+
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
+        /// If not specified, the matrix is assumed to be continuous.</param>
+        public MatOfFloat(IEnumerable<int> sizes, IntPtr data, IEnumerable<long> steps = null)
+            : base(sizes, ThisType, data, steps)
+        {
+        }
+
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
+        /// If not specified, the matrix is assumed to be continuous.</param>
+        public MatOfFloat(IEnumerable<int> sizes, float[] data, IEnumerable<long> steps = null)
+            : base(sizes, ThisType, data, steps)
+        {
+        }
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
+        /// If not specified, the matrix is assumed to be continuous.</param>
+        public MatOfFloat(IEnumerable<int> sizes, float[,] data, IEnumerable<long> steps = null)
+            : base(sizes, ThisType, data, steps)
+        {
+        }
+
+        /// <summary>
+        /// constructs n-dimensional matrix
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        public MatOfFloat(IEnumerable<int> sizes)
+            : base(sizes, ThisType)
+        {
+        }
+
+        /// <summary>
+        /// constructs n-dimensional matrix
+        /// </summary>
+        /// <param name="sizes"></param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+        public MatOfFloat(IEnumerable<int> sizes, Scalar s)
+            : base(sizes, ThisType, s)
+        {
+        }
+
+        /// <summary>
+        /// converts old-style CvMat to the new matrix; the data is not copied by default
+        /// </summary>
+        /// <param name="m">Old style CvMat object</param>
+        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style CvMat should be 
+        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
+        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
+        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
+        public MatOfFloat(CvMat m, bool copyData = false)
+            : base(m, copyData)
+        {
+        }
+
+        /// <summary>
+        /// converts old-style IplImage to the new matrix; the data is not copied by default
+        /// </summary>
+        /// <param name="img">Old style IplImage object</param>
+        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style IplImage should be 
+        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
+        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
+        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
+        public MatOfFloat(IplImage img, bool copyData = false)
+            : base(img, copyData)
+        {
+        } 
+
         /// <summary>
         /// Initializes and copys array data to this
         /// </summary>
@@ -271,7 +485,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             else
             {
-                throw new NotImplementedException("GetEnumerator supports only 2-dimentional Mat");
+                throw new NotImplementedException("GetEnumerator supports only 2-dimensional Mat");
             }
         }
         #endregion

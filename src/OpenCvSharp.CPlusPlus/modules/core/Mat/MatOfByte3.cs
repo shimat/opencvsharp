@@ -8,19 +8,13 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// A matrix whose element is 8UC3 (cv::Mat_&lt;cv::Vec3b&gt;)
     /// </summary>
-    public class MatOfByte3 : Mat, ITypeSpecificMat<Vec3b>
+    public class MatOfByte3 : Mat<Vec3b, MatOfByte3>
     {
+        private static readonly MatType ThisType = MatType.CV_32FC1;
         private const int ThisDepth = MatType.CV_8U;
         private const int ThisChannels = 3;
 
         #region Init
-        /// <summary>
-        /// 
-        /// </summary>
-        public MatOfByte3()
-            : base()
-        {
-        }
 
         /// <summary>
         /// Initializes by cv::Mat* pointer
@@ -41,10 +35,240 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
+        /// Creates empty Mat
+        /// </summary>
+        public MatOfByte3()
+            : base()
+        {
+        }
+
+        /// <summary>
+        /// constructs 2D matrix of the specified size and type
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        public MatOfByte3(int rows, int cols)
+            : base(rows, cols, ThisType)
+        {
+        }
+
+        
+        /// <summary>
+        /// constructs 2D matrix of the specified size and type
+        /// </summary>
+        /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
+        /// the number of rows and the number of columns go in the reverse order.</param>
+        public MatOfByte3(Size size)
+            : base(size, ThisType)
+        {
+        }
+
+        /// <summary>
+        /// constucts 2D matrix and fills it with the specified Scalar value.
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+        public MatOfByte3(int rows, int cols, Scalar s)
+            : base(rows, cols, ThisType, s)
+        {
+        }
+
+        /// <summary>
+        /// constucts 2D matrix and fills it with the specified Scalar value.
+        /// </summary>
+        /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
+        /// the number of rows and the number of columns go in the reverse order.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+        public MatOfByte3(Size size, Vec3b s)
+            : base(size, ThisType, new Scalar(s.Item0, s.Item1, s.Item2))
+        {
+        }
+
+        /// <summary>
+        /// creates a matrix header for a part of the bigger matrix
+        /// </summary>
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix. 
+        /// No data is copied by these constructors. Instead, the header pointing to m data or its sub-array 
+        /// is constructed and associated with it. The reference counter, if any, is incremented. 
+        /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
+        /// If you want to have an independent copy of the sub-array, use Mat::clone() .</param>
+        /// <param name="rowRange">Range of the m rows to take. As usual, the range start is inclusive and the range end is exclusive. 
+        /// Use Range.All to take all the rows.</param>
+        /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
+        public MatOfByte3(MatOfByte3 m, Range rowRange, Range? colRange = null)
+            : base(m, rowRange, colRange)
+        {
+        }
+
+        /// <summary>
+        /// creates a matrix header for a part of the bigger matrix
+        /// </summary>
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix. 
+        /// No data is copied by these constructors. Instead, the header pointing to m data or its sub-array 
+        /// is constructed and associated with it. The reference counter, if any, is incremented. 
+        /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
+        /// If you want to have an independent copy of the sub-array, use Mat::clone() .</param>
+        /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
+        public MatOfByte3(MatOfByte3 m, params Range[] ranges)
+            : base(m, ranges)
+        {
+        }
+
+        /// <summary>
+        /// creates a matrix header for a part of the bigger matrix
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="roi">Region of interest.</param>
+        public MatOfByte3(MatOfByte3 m, Rect roi)
+            : base(m, roi)
+        {
+        }
+
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+        public MatOfByte3(int rows, int cols, IntPtr data, long step = 0)
+            : base(rows, cols, ThisType, data, step)
+        {
+        }
+
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+        public MatOfByte3(int rows, int cols, Vec3b[] data, long step = 0)
+            : base(rows, cols, ThisType, data, step)
+        {
+        }
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+        public MatOfByte3(int rows, int cols, Vec3b[,] data, long step = 0)
+            : base(rows, cols, ThisType, data, step)
+        {
+        }
+
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
+        /// If not specified, the matrix is assumed to be continuous.</param>
+        public MatOfByte3(IEnumerable<int> sizes, IntPtr data, IEnumerable<long> steps = null)
+            : base(sizes, ThisType, data, steps)
+        {
+        }
+
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
+        /// If not specified, the matrix is assumed to be continuous.</param>
+        public MatOfByte3(IEnumerable<int> sizes, Vec3b[] data, IEnumerable<long> steps = null)
+            : base(sizes, ThisType, data, steps)
+        {
+        }
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
+        /// If not specified, the matrix is assumed to be continuous.</param>
+        public MatOfByte3(IEnumerable<int> sizes, Vec3b[,] data, IEnumerable<long> steps = null)
+            : base(sizes, ThisType, data, steps)
+        {
+        }
+
+        /// <summary>
+        /// constructs n-dimensional matrix
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        public MatOfByte3(IEnumerable<int> sizes)
+            : base(sizes, ThisType)
+        {
+        }
+
+        /// <summary>
+        /// constructs n-dimensional matrix
+        /// </summary>
+        /// <param name="sizes"></param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+        public MatOfByte3(IEnumerable<int> sizes, Vec3b s)
+            : base(sizes, ThisType, new Scalar(s.Item0, s.Item1, s.Item2))
+        {
+        }
+
+        /// <summary>
+        /// converts old-style CvMat to the new matrix; the data is not copied by default
+        /// </summary>
+        /// <param name="m">Old style CvMat object</param>
+        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style CvMat should be 
+        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
+        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
+        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
+        public MatOfByte3(CvMat m, bool copyData = false)
+            : base(m, copyData)
+        {
+        }
+
+        /// <summary>
+        /// converts old-style IplImage to the new matrix; the data is not copied by default
+        /// </summary>
+        /// <param name="img">Old style IplImage object</param>
+        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style IplImage should be 
+        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
+        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
+        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
+        public MatOfByte3(IplImage img, bool copyData = false)
+            : base(img, copyData)
+        {
+        } 
+
+        /// <summary>
         /// Initializes and copys array data to this
         /// </summary>
         /// <param name="arr"></param>
-        public MatOfByte3(params Vec3b[] arr)
+        public MatOfByte3(Vec3b[] arr)
             : base()
         {
             if (arr == null)
@@ -83,7 +307,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Initializes and copys array data to this
         /// </summary>
         /// <param name="arr"></param>
-        public MatOfByte3(params byte[] arr)
+        public MatOfByte3(byte[] arr)
             : base()
         {
             if (arr == null)
@@ -115,7 +339,7 @@ namespace OpenCvSharp.CPlusPlus
             internal Indexer(Mat parent)
                 : base(parent)
             {
-                this.ptr = (byte*)parent.Data.ToPointer();
+                ptr = (byte*)parent.Data.ToPointer();
             }
             /// <summary>
             /// 1-dimensional indexer
@@ -199,13 +423,9 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <returns></returns>
-        public Indexer GetIndexer() 
+        public override MatIndexer<Vec3b> GetIndexer() 
         {
             return new Indexer(this);
-        }
-        MatIndexer<Vec3b> ITypeSpecificMat<Vec3b>.GetIndexer()
-        {
-            return GetIndexer();
         }
         #endregion
 
@@ -257,7 +477,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
-        public Vec3b[] ToArray()
+        public override Vec3b[] ToArray()
         {
             int numOfElems = Rows * Cols;
             if (numOfElems == 0)
@@ -283,7 +503,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert this mat to managed rectangular array
         /// </summary>
         /// <returns></returns>
-        public Vec3b[,] ToRectangularArray()
+        public override Vec3b[,] ToRectangularArray()
         {
             if (Rows == 0 || Cols == 0)
                 return new Vec3b[0, 0];
@@ -298,7 +518,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<Vec3b> GetEnumerator()
+        public override IEnumerator<Vec3b> GetEnumerator()
         {
             ThrowIfDisposed();
             Indexer indexer = new Indexer(this);
@@ -318,14 +538,20 @@ namespace OpenCvSharp.CPlusPlus
             }
             else
             {
-                throw new NotImplementedException("GetEnumerator supports only 2-dimentional Mat");
+                throw new NotImplementedException("GetEnumerator supports only 2-dimensional Mat");
             }
         }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
         #endregion
+
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element(s)</param>
+        public override void Add(Vec3b value)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_push_back_Vec3b(ptr, value);
+        }
     }
 }
