@@ -75,7 +75,11 @@ namespace CppStyleSamplesCS
            
             src.ColExpr[100] = ~src.ColExpr[200] * 2 / 3;
 
-            src.RowExpr[100] = src.RowExpr[101] + src.RowExpr[102];
+            src.RowExpr[100] += src.RowExpr[102];
+
+            // set constant value...
+            src.RowExpr[450,460] = src.RowExpr[450,460] * 0 + new Scalar(0,0,255);
+
 
             using (new Window("RowColOperation", src))
             {
