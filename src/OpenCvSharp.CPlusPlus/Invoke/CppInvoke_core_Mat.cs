@@ -25,26 +25,32 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong core_Mat_sizeof();
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new1")]
-        public static extern IntPtr core_Mat_new();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new2")]
-        public static extern IntPtr core_Mat_new(int rows, int cols, int type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new3")]
-        public static extern IntPtr core_Mat_new(int rows, int cols, int type, CvScalar scalar);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new4")]
-        public static extern IntPtr core_Mat_new(IntPtr mat, CvSlice rowRange, CvSlice colRange);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new5")]
-        public static extern IntPtr core_Mat_new(IntPtr mat, CvSlice rowRange);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new6")]
-        public static extern IntPtr core_Mat_new(IntPtr mat, CvRect roi);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new7")]
-        public static extern IntPtr core_Mat_new(int rows, int cols, int type, IntPtr data, IntPtr step);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new8")]
-        public static extern IntPtr core_Mat_new(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new2(int rows, int cols, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new3(int rows, int cols, int type, CvScalar scalar);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new4(IntPtr mat, CvSlice rowRange, CvSlice colRange);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new5(IntPtr mat, CvSlice rowRange);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new6(IntPtr mat, CvRect roi);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new7(int rows, int cols, int type, IntPtr data, IntPtr step);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new8(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, 
             int type, IntPtr data, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] steps);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_new8")]
-        public static extern IntPtr core_Mat_new(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes,
-                                int type, IntPtr data, [MarshalAs(UnmanagedType.LPArray)] IntPtr steps);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new8(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes,
+                                int type, IntPtr data, IntPtr steps);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new9(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_new10(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type, CvScalar s);
+
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_new_FromIplImage(IntPtr img, int copyData);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

@@ -47,6 +47,16 @@ CVAPI(cv::Mat*) core_Mat_new8(int ndims, const int* sizes, int type, void* data,
 {
 	return new cv::Mat(ndims, sizes, type, data, steps);
 }
+
+CVAPI(cv::Mat*) core_Mat_new9(int ndims, int* sizes, int type)
+{
+	return new cv::Mat(ndims, sizes, type);
+}
+CVAPI(cv::Mat*) core_Mat_new10(int ndims, int* sizes, int type, CvScalar s)
+{
+	return new cv::Mat(ndims, sizes, type, s);
+}
+
 CVAPI(cv::Mat*) core_Mat_new_FromIplImage(IplImage *img, int copyData)
 {
 	return new cv::Mat(img, copyData != 0);

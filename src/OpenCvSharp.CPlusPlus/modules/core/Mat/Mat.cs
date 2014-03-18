@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -33,7 +31,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public Mat()
         {
-            ptr = CppInvoke.core_Mat_new();
+            ptr = CppInvoke.core_Mat_new1();
         }
 
 
@@ -52,28 +50,28 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// constructs 2D matrix of the specified size and type
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="cols"></param>
         /// <param name="type"></param>
         public Mat(int rows, int cols, MatType type)
         {
-            ptr = CppInvoke.core_Mat_new(rows, cols, (int)type);
+            ptr = CppInvoke.core_Mat_new2(rows, cols, type);
         }
 
         /// <summary>
-        /// 
+        /// constructs 2D matrix of the specified size and type
         /// </summary>
         /// <param name="size"></param>
         /// <param name="type"></param>
         public Mat(Size size, MatType type)
         {
-            ptr = CppInvoke.core_Mat_new(size.Width, size.Height, type);
+            ptr = CppInvoke.core_Mat_new2(size.Width, size.Height, type);
         }
 
         /// <summary>
-        /// 
+        /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="cols"></param>
@@ -81,53 +79,53 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="s"></param>
         public Mat(int rows, int cols, MatType type, Scalar s)
         {
-            ptr = CppInvoke.core_Mat_new(rows, cols, type, s);
+            ptr = CppInvoke.core_Mat_new3(rows, cols, type, s);
         }
 
         /// <summary>
-        /// 
+        /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <param name="s"></param>
         public Mat(Size size, MatType type, Scalar s)
         {
-            ptr = CppInvoke.core_Mat_new(size.Width, size.Height, (int)type, s);
+            ptr = CppInvoke.core_Mat_new3(size.Width, size.Height, type, s);
         }
 
         /// <summary>
-        /// 
+        /// creates a matrix header for a part of the bigger matrix
         /// </summary>
         /// <param name="m"></param>
         /// <param name="rowRange"></param>
         /// <param name="colRange"></param>
         public Mat(Mat m, Range rowRange, Range colRange)
         {
-            ptr = CppInvoke.core_Mat_new(m.ptr, rowRange, colRange);
+            ptr = CppInvoke.core_Mat_new4(m.ptr, rowRange, colRange);
         }
 
         /// <summary>
-        /// 
+        /// creates a matrix header for a part of the bigger matrix
         /// </summary>
         /// <param name="m"></param>
         /// <param name="rowRange"></param>
         public Mat(Mat m, Range rowRange)
         {
-            ptr = CppInvoke.core_Mat_new(m.ptr, rowRange);
+            ptr = CppInvoke.core_Mat_new5(m.ptr, rowRange);
         }
 
         /// <summary>
-        /// 
+        /// creates a matrix header for a part of the bigger matrix
         /// </summary>
         /// <param name="m"></param>
         /// <param name="roi"></param>
         public Mat(Mat m, Rect roi)
         {
-            ptr = CppInvoke.core_Mat_new(m.ptr, roi);
+            ptr = CppInvoke.core_Mat_new6(m.ptr, roi);
         }
 
         /// <summary>
-        /// 
+        /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="cols"></param>
@@ -136,11 +134,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="step"></param>
         public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
         {
-            ptr = CppInvoke.core_Mat_new(rows, cols, (int)type, data, new IntPtr(step));
+            ptr = CppInvoke.core_Mat_new7(rows, cols, type, data, new IntPtr(step));
         }
 
         /// <summary>
-        /// 
+        /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="cols"></param>
@@ -150,12 +148,12 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(int rows, int cols, MatType type, Array data, long step = 0)
         {
             GCHandle handle = AllocGCHandle(data);
-            ptr = CppInvoke.core_Mat_new(rows, cols, (int)type,
+            ptr = CppInvoke.core_Mat_new7(rows, cols, type,
                 handle.AddrOfPinnedObject(), new IntPtr(step));
         }
 
         /// <summary>
-        /// 
+        /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
         /// <param name="sizes"></param>
         /// <param name="type"></param>
@@ -164,27 +162,26 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(IEnumerable<int> sizes, MatType type, IntPtr data, IEnumerable<long> steps = null)
         {
             if (sizes == null)
-                throw new ArgumentNullException("steps");
+                throw new ArgumentNullException("sizes");
             if (data == IntPtr.Zero)
                 throw new ArgumentNullException("data");
-            int[] sizesArray = new List<int>(sizes).ToArray();
+            int[] sizesArray = EnumerableEx.ToArray(sizes);
             if (steps == null)
             {
-                ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, (int)type, data, IntPtr.Zero);
+                ptr = CppInvoke.core_Mat_new8(sizesArray.Length, sizesArray, type, data, IntPtr.Zero);
             }
             else
             {
-                List<IntPtr> stepsList = new List<IntPtr>();
-                foreach (long step in steps)
+                IntPtr[] stepsArray = EnumerableEx.SelectToArray(steps, delegate(long s)
                 {
-                    stepsList.Add(new IntPtr(step));
-                }
-                ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray, (int)type, data, stepsList.ToArray());
+                    return new IntPtr(s);
+                });
+                ptr = CppInvoke.core_Mat_new8(sizesArray.Length, sizesArray, type, data, stepsArray);
             }
         }
 
         /// <summary>
-        /// 
+        /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
         /// <param name="sizes"></param>
         /// <param name="type"></param>
@@ -193,31 +190,58 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(IEnumerable<int> sizes, MatType type, Array data, IEnumerable<long> steps = null)
         {
             if (sizes == null)
-                throw new ArgumentNullException("steps");
+                throw new ArgumentNullException("sizes");
             if (data == null)
                 throw new ArgumentNullException("data");
 
             GCHandle handle = AllocGCHandle(data);
-            int[] sizesArray = new List<int>(sizes).ToArray();
+            int[] sizesArray = EnumerableEx.ToArray(sizes);
             if (steps == null)
             {
-                ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray,
-                    (int)type, handle.AddrOfPinnedObject(), IntPtr.Zero);
+                ptr = CppInvoke.core_Mat_new8(sizesArray.Length, sizesArray,
+                    type, handle.AddrOfPinnedObject(), IntPtr.Zero);
             }
             else
             {
-                List<IntPtr> stepsList = new List<IntPtr>();
-                foreach (long step in steps)
+                IntPtr[] stepsArray = EnumerableEx.SelectToArray(steps, delegate(long s)
                 {
-                    stepsList.Add(new IntPtr(step));
-                }
-                ptr = CppInvoke.core_Mat_new(sizesArray.Length, sizesArray,
-                    (int)type, handle.AddrOfPinnedObject(), stepsList.ToArray());
+                    return new IntPtr(s);
+                });
+                ptr = CppInvoke.core_Mat_new8(sizesArray.Length, sizesArray,
+                    type, handle.AddrOfPinnedObject(), stepsArray);
             }
         }
 
         /// <summary>
-        /// 
+        /// constructs n-dimensional matrix
+        /// </summary>
+        /// <param name="sizes"></param>
+        /// <param name="type"></param>
+        public Mat(IEnumerable<int> sizes, MatType type)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("sizes");
+
+            int[] sizesArray = EnumerableEx.ToArray(sizes);
+            ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray, type);
+        }
+
+        /// <summary>
+        /// constructs n-dimensional matrix
+        /// </summary>
+        /// <param name="sizes"></param>
+        /// <param name="type"></param>
+        /// <param name="s"></param>
+        public Mat(IEnumerable<int> sizes, MatType type, Scalar s)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("sizes");
+            int[] sizesArray = EnumerableEx.ToArray(sizes);
+            ptr = CppInvoke.core_Mat_new10(sizesArray.Length, sizesArray, type, s);
+        }
+
+        /// <summary>
+        /// converts old-style CvMat to the new matrix; the data is not copied by default
         /// </summary>
         /// <param name="m"></param>
         /// <param name="copyData"></param>
@@ -232,7 +256,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// converts old-style IplImage to the new matrix; the data is not copied by default
         /// </summary>
         /// <param name="img"></param>
         /// <param name="copyData"></param>
@@ -325,11 +349,6 @@ namespace OpenCvSharp.CPlusPlus
             if (bmp == null)
                 throw new ArgumentNullException("bmp");
 
-            // TODO: Mat-specific converter
-            /*using (IplImage img = BitmapConverter.ToIplImage(bmp))
-            {
-                return new Mat(img, true);
-            }*/
             return BitmapConverter2.ToMat(bmp);
         }
 
@@ -489,7 +508,7 @@ namespace OpenCvSharp.CPlusPlus
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
 
-            IntPtr retPtr = CppInvoke.core_Mat_ones(sizes.Length, sizes, (int)type);
+            IntPtr retPtr = CppInvoke.core_Mat_ones(sizes.Length, sizes, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -533,7 +552,7 @@ namespace OpenCvSharp.CPlusPlus
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
 
-            IntPtr retPtr = CppInvoke.core_Mat_zeros(sizes.Length, sizes, (int)type);
+            IntPtr retPtr = CppInvoke.core_Mat_zeros(sizes.Length, sizes, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -570,12 +589,10 @@ namespace OpenCvSharp.CPlusPlus
                 CppInvoke.core_Mat_IplImage_alignment(ptr, out imgPtr);
                 return new IplImage(imgPtr);
             }
-            else
-            {
-                IplImage img = new IplImage(false);
-                CppInvoke.core_Mat_IplImage(ptr, img.CvPtr);
-                return img;
-            }
+
+            IplImage img = new IplImage(false);
+            CppInvoke.core_Mat_IplImage(ptr, img.CvPtr);
+            return img;
         }
 
         /// <summary>
@@ -1227,14 +1244,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public MatExprIndexer Expr
         {
-            get
-            {
-                if (matExprIndexer == null)
-                    matExprIndexer = new MatExprIndexer(this);
-                return matExprIndexer;
-            }
+            get { return matExprIndexer ?? (matExprIndexer = new MatExprIndexer(this)); }
         }
-        private MatExprIndexer matExprIndexer = null;
+        private MatExprIndexer matExprIndexer;
 
         #endregion
         #region ColExpr
@@ -1308,14 +1320,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public ColExprIndexer ColExpr
         {
-            get
-            {
-                if (colExprIndexer == null)
-                    colExprIndexer = new ColExprIndexer(this);
-                return colExprIndexer;
-            }
+            get { return colExprIndexer ?? (colExprIndexer = new ColExprIndexer(this)); }
         }
-        private ColExprIndexer colExprIndexer = null;
+        private ColExprIndexer colExprIndexer;
         #endregion
         #region RowExpr
 
@@ -1388,14 +1395,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public RowExprIndexer RowExpr
         {
-            get
-            {
-                if (rowExprIndexer == null)
-                    rowExprIndexer = new RowExprIndexer(this);
-                return rowExprIndexer;
-            }
+            get { return rowExprIndexer ?? (rowExprIndexer = new RowExprIndexer(this)); }
         }
-        private RowExprIndexer rowExprIndexer = null;
+        private RowExprIndexer rowExprIndexer;
 
         #endregion
         #endregion
@@ -1431,7 +1433,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            CppInvoke.core_Mat_assignTo(ptr, m.CvPtr, (int)type);
+            CppInvoke.core_Mat_assignTo(ptr, m.CvPtr, type);
         }
 
         /// <summary>
@@ -1625,7 +1627,7 @@ namespace OpenCvSharp.CPlusPlus
         public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_create(ptr, rows, cols, (int)type);
+            CppInvoke.core_Mat_create(ptr, rows, cols, type);
         }
 
         /// <summary>
@@ -2126,7 +2128,7 @@ namespace OpenCvSharp.CPlusPlus
         public MatType Type()
         {
             ThrowIfDisposed();
-            return (MatType)CppInvoke.core_Mat_type(ptr);
+            return CppInvoke.core_Mat_type(ptr);
         }
 
         #endregion
