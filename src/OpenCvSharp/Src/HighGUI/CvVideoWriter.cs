@@ -62,7 +62,7 @@ namespace OpenCvSharp
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
         /// <param name="frameSize">ビデオフレームのサイズ</param>
-        /// <param name="is_color">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
+        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
