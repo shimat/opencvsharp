@@ -108,6 +108,25 @@ namespace OpenCvSharp.CPlusPlus
         {
             return d1.Distance > d2.Distance;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static explicit operator Vec4f(DMatch self)
+        {
+            return new Vec4f(self.QueryIdx, self.TrainIdx, self.ImgIdx, self.Distance);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator DMatch(Vec4f v)
+        {
+            return new DMatch((int)v.Item0, (int)v.Item1, (int)v.Item2, v.Item3);
+        }
     }
 
 }

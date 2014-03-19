@@ -359,12 +359,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int core_Mat_nSetPoint2d(IntPtr obj, int row, int col,
             [In, MarshalAs(UnmanagedType.LPArray)] Point2d[,] vals, int valsLength);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_nSetDMatch(IntPtr obj, int row, int col,
-            [In, MarshalAs(UnmanagedType.LPArray)] DMatch[] vals, int valsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_nSetDMatch(IntPtr obj, int row, int col,
-            [In, MarshalAs(UnmanagedType.LPArray)] DMatch[,] vals, int valsLength);
 
         // nGet
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -457,13 +451,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int core_Mat_nGetPoint2d(IntPtr obj, int row, int col,
             [In, Out, MarshalAs(UnmanagedType.LPArray)] Point2d[,] vals, int valsLength);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_nGetDMatch(IntPtr obj, int row, int col,
-            [In, Out, MarshalAs(UnmanagedType.LPArray)] DMatch[] vals, int valsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Mat_nGetDMatch(IntPtr obj, int row, int col,
-            [In, Out, MarshalAs(UnmanagedType.LPArray)] DMatch[,] vals, int valsLength);
-
 
         // push_back
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -529,7 +516,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_Mat_push_back_Vec3d(IntPtr self, Vec3d val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_push_back_Vec6d(IntPtr self, Vec6d val);
-
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_push_back_Point(IntPtr self, Point val);

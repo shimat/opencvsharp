@@ -168,6 +168,44 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Scalar(color.B, color.G, color.R, 0);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(DMatch d)
+        {
+            return new Scalar(d.QueryIdx, d.TrainIdx, d.ImgIdx, d.Distance);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static explicit operator DMatch(Scalar self)
+        {
+            return new DMatch((int)self.Val0, (int)self.Val1, (int)self.Val2, (float)self.Val3);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Vec3b v)
+        {
+            return new Scalar(v.Item0, v.Item1, v.Item2);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Point p)
+        {
+            return new Scalar(p.X, p.Y);
+        }
         #endregion
 
         #region Override

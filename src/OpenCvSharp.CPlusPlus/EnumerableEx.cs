@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -44,6 +45,24 @@ namespace OpenCvSharp.CPlusPlus
             IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
         {
             return ToArray(Select(enumerable, selector));
+        }
+        /// <summary>
+        /// Enumerable.Select -> ToArray
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        public static TResult[] SelectToArray<TSource, TResult>(
+            IEnumerable enumerable, Func<TSource, TResult> selector)
+        {
+            List<TResult> result = new List<TResult>();
+            foreach (TSource source in enumerable)
+            {
+                result.Add(selector(source));
+            }
+            return ToArray(result);
         }
 
         /// <summary>

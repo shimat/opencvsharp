@@ -3333,7 +3333,12 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, DMatch[] data)
         {
             CheckArgumentsForConvert(row, col, data);
-            CppInvoke.core_Mat_nGetDMatch(ptr, row, col, data, data.Length);
+            Vec4f[] dataV = new Vec4f[data.Length];
+            CppInvoke.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = (DMatch)dataV[i];
+            }
         }
 
         /// <summary>
@@ -3345,7 +3350,17 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, DMatch[,] data)
         {
             CheckArgumentsForConvert(row, col, data);
-            CppInvoke.core_Mat_nGetDMatch(ptr, row, col, data, data.Length);
+            int dim0 = data.GetLength(0);
+            int dim1 = data.GetLength(1);
+            Vec4f[,] dataV = new Vec4f[dim0, dim1];
+            CppInvoke.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
+            for (int i = 0; i < dim0; i++)
+            {
+                for (int j = 0; j < dim1; j++)
+                {
+                    data[i, j] = (DMatch)dataV[i, j];
+                }
+            }
         }
         #endregion
         #region SetArray
@@ -3657,7 +3672,11 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params DMatch[] data)
         {
             CheckArgumentsForConvert(row, col, data);
-            CppInvoke.core_Mat_nSetDMatch(ptr, row, col, data, data.Length);
+            Vec4f[] dataV = EnumerableEx.SelectToArray(data, delegate(DMatch d)
+            {
+                return (Vec4f)d;
+            });
+            CppInvoke.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3668,7 +3687,11 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, DMatch[,] data)
         {
             CheckArgumentsForConvert(row, col, data);
-            CppInvoke.core_Mat_nSetDMatch(ptr, row, col, data, data.Length);
+            Vec4f[] dataV = EnumerableEx.SelectToArray(data, delegate(DMatch d)
+            {
+                return (Vec4f)d;
+            });
+            CppInvoke.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
         }
         #endregion
 

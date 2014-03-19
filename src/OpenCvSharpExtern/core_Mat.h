@@ -809,10 +809,6 @@ CVAPI(int) core_Mat_nSetPoint2d(cv::Mat *obj, int row, int col, cv::Point2d *val
 {
 	return internal_Mat_set<cv::Point2d>(obj, row, col, (char*)vals, valsLength);
 }
-CVAPI(int) core_Mat_nSetDMatch(cv::Mat *obj, int row, int col, cv::DMatch *vals, int valsLength)
-{
-	return internal_Mat_set<cv::DMatch>(obj, row, col, (char*)vals, valsLength);
-}
 
 CVAPI(int) core_Mat_nGetB(cv::Mat *obj, int row, int col, uchar *vals, int valsLength)
 {
@@ -861,10 +857,6 @@ CVAPI(int) core_Mat_nGetPoint2f(cv::Mat *obj, int row, int col, cv::Point2f *val
 CVAPI(int) core_Mat_nGetPoint2d(cv::Mat *obj, int row, int col, cv::Point2d *vals, int valsLength)
 {
 	return internal_Mat_get<cv::Point2d>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetDMatch(cv::Mat *obj, int row, int col, cv::DMatch *vals, int valsLength)
-{
-	return internal_Mat_get<cv::DMatch>(obj, row, col, (char*)vals, valsLength);
 }
 
 #pragma endregion

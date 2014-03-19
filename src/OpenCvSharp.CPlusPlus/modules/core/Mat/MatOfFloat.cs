@@ -444,7 +444,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
 #endif
-        public MatOfFloat(IEnumerable<int> sizes, int s)
+        public MatOfFloat(IEnumerable<int> sizes, float s)
             : base(sizes, ThisType, s)
         {
         }
