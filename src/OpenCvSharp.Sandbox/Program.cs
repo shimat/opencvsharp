@@ -24,7 +24,8 @@ namespace OpenCvSharp.Sandbox
         static void Run()
         {
             MatOfByte mm = new MatOfByte(0, 0) { 2, 3, 4, 5 };
-            MatOfByte mmm = mm.Reshape(0, 2);
+            MatOfByte mmm = mm.Reshape(2);
+            
             Console.WriteLine(mm.Dump(DumpFormat.C));
             mmm.ToString();
 

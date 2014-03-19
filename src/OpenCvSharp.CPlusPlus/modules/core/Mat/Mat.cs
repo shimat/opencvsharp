@@ -1381,6 +1381,21 @@ namespace OpenCvSharp.CPlusPlus
             {
                 return SubMat(rowStart, rowEnd, colStart, colEnd);
             }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                value.ThrowIfDisposed();
+                //if (Type() != value.Type())
+                //    throw new ArgumentException("Mat type mismatch");
+                if (Dims != value.Dims)
+                    throw new ArgumentException("Dimension mismatch");
+
+                Mat sub = SubMat(rowStart, rowEnd, colStart, colEnd);
+                if (sub.Size() != value.Size())
+                    throw new ArgumentException("Specified ROI != mat.Size()");
+                value.AssignTo(sub);
+            }
         }
 
         /// <summary>
@@ -1391,11 +1406,26 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="colRange">Start and end column of the extracted submatrix. 
         /// The upper boundary is not included. To select all the columns, use Range.All().</param>
         /// <returns></returns>
-        public MatExpr this[Range rowRange, Range colRange]
+        public Mat this[Range rowRange, Range colRange]
         {
             get
             {
                 return SubMat(rowRange, colRange);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                value.ThrowIfDisposed();
+                //if (Type() != value.Type())
+                //    throw new ArgumentException("Mat type mismatch");
+                if (Dims != value.Dims)
+                    throw new ArgumentException("Dimension mismatch");
+
+                Mat sub = SubMat(rowRange, colRange);
+                if (sub.Size() != value.Size())
+                    throw new ArgumentException("Specified ROI != mat.Size()");
+                value.AssignTo(sub);
             }
         }
 
@@ -1410,6 +1440,21 @@ namespace OpenCvSharp.CPlusPlus
             {
                 return SubMat(roi);
             }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                value.ThrowIfDisposed();
+                //if (Type() != value.Type())
+                //    throw new ArgumentException("Mat type mismatch");
+                if (Dims != value.Dims)
+                    throw new ArgumentException("Dimension mismatch");
+
+                if (roi.Size != value.Size())
+                    throw new ArgumentException("Specified ROI != mat.Size()");
+                Mat sub = SubMat(roi);
+                value.AssignTo(sub);
+            }
         }
 
         /// <summary>
@@ -1422,6 +1467,27 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 return SubMat(ranges);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                value.ThrowIfDisposed();
+                //if (Type() != value.Type())
+                //    throw new ArgumentException("Mat type mismatch");
+
+                Mat sub = SubMat(ranges);
+
+                int dims = Dims;
+                if (dims != value.Dims)
+                    throw new ArgumentException("Dimension mismatch");
+                for (int i = 0; i < dims; i++)
+                {
+                    if (sub.Size(i) != value.Size(i))
+                        throw new ArgumentException("Size mismatch at dimension " + i);
+                }
+
+                value.AssignTo(sub);
             }
         }
         #endregion
@@ -2200,30 +2266,6 @@ namespace OpenCvSharp.CPlusPlus
             return retVal;
         }
 
-        #endregion
-        #region RowRange
-        /*
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="startRow"></param>
-        /// <param name="endRow"></param>
-        /// <returns></returns>
-        public Mat RowRange(int startRow, int endRow)
-        {
-            return Row[startRow, endRow];
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="range"></param>
-        /// <returns></returns>
-        public Mat RowRange(Range range)
-        {
-            return Row[range];
-        }
-        */
         #endregion
         #region Rows
 
@@ -3644,16 +3686,7 @@ namespace OpenCvSharp.CPlusPlus
             m.ThrowIfDisposed();
             CppInvoke.core_Mat_push_back_Mat(ptr, m.CvPtr);
         }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element(s)</param>
-        public void Add(double value)
-        {
-            ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back_double(ptr, value);
-        }
+
         #endregion
 
         #region ToBitmap

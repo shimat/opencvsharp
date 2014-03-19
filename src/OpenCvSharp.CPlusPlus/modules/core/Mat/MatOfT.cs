@@ -538,33 +538,186 @@ namespace OpenCvSharp.CPlusPlus
             mat.AssignTo(ret);
             return ret;
         }
+        
+        #region Clone
 
+        /// <summary>
+        /// Creates a full copy of the matrix.
+        /// </summary>
+        /// <returns></returns>
+        public new TInherit Clone()
+        {
+            Mat result = base.Clone();
+            return Wrap(result);
+        }
+        #endregion
         #region Reshape
 
         /// <summary>
-        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
+        /// Changes the shape of channels of a 2D matrix without copying the data.
         /// </summary>
-        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
         /// <param name="rows">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
         /// <returns></returns>
-        public new TInherit Reshape(int cn, int rows = 0)
+        public TInherit Reshape(int rows)
         {
-            Mat result = base.Reshape(cn, rows);
+            Mat result = base.Reshape(0, rows);
             return Wrap(result);
         }
 
         /// <summary>
-        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
+        /// Changes the shape of a 2D matrix without copying the data.
         /// </summary>
-        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
         /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
         /// <returns></returns>
-        public new TInherit Reshape(int cn, params int[] newDims)
+        public TInherit Reshape(params int[] newDims)
         {
-            Mat result = base.Reshape(cn, newDims);
+            Mat result = base.Reshape(0, newDims);
             return Wrap(result);
         }
 
+        #endregion
+        #region T
+
+        /// <summary>
+        /// Transposes a matrix.
+        /// </summary>
+        /// <returns></returns>
+        public new TInherit T()
+        {
+            Mat result = base.T();
+            return Wrap(result);
+        }
+
+        #endregion
+
+        #region SubMat
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
+        /// <returns></returns>
+        public new TInherit SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
+        {
+            Mat result = base.SubMat(rowStart, rowEnd, colStart, colEnd);
+            return Wrap(result);
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
+        /// To select all the rows, use Range.All().</param>
+        /// <param name="colRange">Start and end column of the extracted submatrix. 
+        /// The upper boundary is not included. To select all the columns, use Range.All().</param>
+        /// <returns></returns>
+        public new TInherit SubMat(Range rowRange, Range colRange)
+        {
+            return this.SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
+        }
+        
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
+        /// <returns></returns>
+        public new TInherit SubMat(Rect roi)
+        {
+            return this.SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="ranges">Array of selected ranges along each array dimension.</param>
+        /// <returns></returns>
+        public new TInherit SubMat(params Range[] ranges)
+        {
+            Mat result = base.SubMat(ranges);
+            return Wrap(result);
+        }
+
+        #endregion
+        #region Mat Indexers
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
+        /// <returns></returns>
+        public new TInherit this[int rowStart, int rowEnd, int colStart, int colEnd]
+        {
+            get
+            {
+                Mat result = base[rowStart, rowEnd, colStart, colEnd];
+                return Wrap(result);
+            }
+            set
+            {
+                base[rowStart, rowEnd, colStart, colEnd] = value;
+            }
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
+        /// To select all the rows, use Range.All().</param>
+        /// <param name="colRange">Start and end column of the extracted submatrix. 
+        /// The upper boundary is not included. To select all the columns, use Range.All().</param>
+        /// <returns></returns>
+        public new TInherit this[Range rowRange, Range colRange]
+        {
+            get
+            {
+                Mat result = base[rowRange, colRange];
+                return Wrap(result);
+            }
+            set
+            {
+                base[rowRange, colRange] = value;
+            }
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
+        /// <returns></returns>
+        public new TInherit this[Rect roi]
+        {
+            get
+            {
+                Mat result = base[roi];
+                return Wrap(result);
+            }
+            set
+            {
+                base[roi] = value;
+            }
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="ranges">Array of selected ranges along each array dimension.</param>
+        /// <returns></returns>
+        public new TInherit this[params Range[] ranges]
+        {
+            get
+            {
+                Mat result = base[ranges];
+                return Wrap(result);
+            }
+            set
+            {
+                base[ranges] = value;
+            }
+        }
         #endregion
         #endregion
     }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -16,53 +14,97 @@ namespace OpenCvSharp.CPlusPlus
 
         #region Init
 
-        /// <summary>
-        /// Initializes by cv::Mat* pointer
-        /// </summary>
-        /// <param name="ptr"></param>
-        public MatOfFloat(IntPtr ptr)
-            : base(ptr)
-        {
-        }
-
-        /// <summary>
-        /// Initializes by Mat object
-        /// </summary>
-        /// <param name="mat"></param>
-        public MatOfFloat(Mat mat)
-            : base(mat.CvPtr)
-        {
-        }
-
+#if LANG_JP
         /// <summary>
         /// Creates empty Mat
         /// </summary>
+#else
+        /// <summary>
+        /// Creates empty Mat
+        /// </summary>
+#endif
         public MatOfFloat()
             : base()
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// OpenCVネイティブの cv::Mat* ポインタから初期化
+        /// </summary>
+        /// <param name="ptr"></param>
+#else
+        /// <summary>
+        /// Creates from native cv::Mat* pointer
+        /// </summary>
+        /// <param name="ptr"></param>
+#endif
+        public MatOfFloat(IntPtr ptr)
+            : base(ptr)
+        {
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// Matオブジェクトから初期化 
+        /// </summary>
+        /// <param name="mat">Matオブジェクト</param>
+#else
+        /// <summary>
+        /// Initializes by Mat object
+        /// </summary>
+        /// <param name="mat">Managed Mat object</param>
+#endif
+        public MatOfFloat(Mat mat)
+            : base(mat.CvPtr)
+        {
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 指定したサイズ・型の2次元の行列として初期化
+        /// </summary>
+        /// <param name="rows">2次元配列における行数．</param>
+        /// <param name="cols">2次元配列における列数．</param>
+#else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
         /// <param name="rows">Number of rows in a 2D array.</param>
         /// <param name="cols">Number of columns in a 2D array.</param>
+#endif
         public MatOfFloat(int rows, int cols)
             : base(rows, cols, ThisType)
         {
         }
 
-        
+#if LANG_JP
+        /// <summary>
+        /// 指定したサイズ・型の2次元の行列として初期化
+        /// </summary>
+        /// <param name="size">2次元配列のサイズ： Size(cols, rows) ． 
+        /// Size コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
+#else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
         /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
         /// the number of rows and the number of columns go in the reverse order.</param>
+#endif
         public MatOfFloat(Size size)
             : base(size, ThisType)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
+        /// </summary>
+        /// <param name="rows">2次元配列における行数．</param>
+        /// <param name="cols">2次元配列における列数．</param>
+        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+#else
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
@@ -70,11 +112,20 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="cols">Number of columns in a 2D array.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-        public MatOfFloat(int rows, int cols, Scalar s)
+#endif
+        public MatOfFloat(int rows, int cols, float s)
             : base(rows, cols, ThisType, s)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
+        /// </summary>
+        /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) ． Size() コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
+        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+#else
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
@@ -82,11 +133,26 @@ namespace OpenCvSharp.CPlusPlus
         /// the number of rows and the number of columns go in the reverse order.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-        public MatOfFloat(Size size, Scalar s)
+#endif
+        public MatOfFloat(Size size, float s)
             : base(size, ThisType, s)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 他の行列の部分行列として初期化
+        /// </summary>
+        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+        /// これらのコンストラクタによってデータがコピーされる事はありません．
+        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+        /// 関連した参照カウンタがあれば，それがインクリメントされます．
+        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+        /// Mat.Clone() を利用してください．</param>
+        /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
+        /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
+#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -98,11 +164,25 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rowRange">Range of the m rows to take. As usual, the range start is inclusive and the range end is exclusive. 
         /// Use Range.All to take all the rows.</param>
         /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
+#endif
         public MatOfFloat(MatOfFloat m, Range rowRange, Range? colRange = null)
             : base(m, rowRange, colRange)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 他の行列の部分行列として初期化
+        /// </summary>
+        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+        /// これらのコンストラクタによってデータがコピーされる事はありません．
+        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+        /// 関連した参照カウンタがあれば，それがインクリメントされます．
+        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+        /// Mat.Clone() を利用してください．</param>
+        /// <param name="ranges">多次元行列の各次元毎の選択範囲を表す配列．</param>
+#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -110,23 +190,58 @@ namespace OpenCvSharp.CPlusPlus
         /// No data is copied by these constructors. Instead, the header pointing to m data or its sub-array 
         /// is constructed and associated with it. The reference counter, if any, is incremented. 
         /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
-        /// If you want to have an independent copy of the sub-array, use Mat::clone() .</param>
+        /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
+#endif
         public MatOfFloat(MatOfFloat m, params Range[] ranges)
             : base(m, ranges)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 他の行列の部分行列として初期化
+        /// </summary>
+        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+        /// これらのコンストラクタによってデータがコピーされる事はありません．
+        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+        /// 関連した参照カウンタがあれば，それがインクリメントされます．
+        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+        /// Mat.Clone() を利用してください．</param>
+        /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
+#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix. 
+        /// No data is copied by these constructors. Instead, the header pointing to m data or its sub-array 
+        /// is constructed and associated with it. The reference counter, if any, is incremented. 
+        /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
+        /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="roi">Region of interest.</param>
+#endif
         public MatOfFloat(MatOfFloat m, Rect roi)
             : base(m, roi)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 利用者が別に確保したデータで初期化
+        /// </summary>
+        /// <param name="rows">2次元配列における行数．</param>
+        /// <param name="cols">2次元配列における列数．</param>
+        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+        /// <param name="step">行列の各行が占めるバイト数を指定できます．
+        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+        /// 実際の step は cols*elemSize() として計算されます．</param>
+#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -138,11 +253,28 @@ namespace OpenCvSharp.CPlusPlus
         /// The external data is not automatically deallocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+#endif
         public MatOfFloat(int rows, int cols, IntPtr data, long step = 0)
             : base(rows, cols, ThisType, data, step)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 利用者が別に確保したデータで初期化
+        /// </summary>
+        /// <param name="rows">2次元配列における行数．</param>
+        /// <param name="cols">2次元配列における列数．</param>
+        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+        /// <param name="step">行列の各行が占めるバイト数を指定できます．
+        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+        /// 実際の step は cols*elemSize() として計算されます．</param>
+#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -154,10 +286,27 @@ namespace OpenCvSharp.CPlusPlus
         /// The external data is not automatically deallocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+#endif
         public MatOfFloat(int rows, int cols, float[] data, long step = 0)
             : base(rows, cols, ThisType, data, step)
         {
         }
+#if LANG_JP
+        /// <summary>
+        /// 利用者が別に確保したデータで初期化
+        /// </summary>
+        /// <param name="rows">2次元配列における行数．</param>
+        /// <param name="cols">2次元配列における列数．</param>
+        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+        /// <param name="step">行列の各行が占めるバイト数を指定できます．
+        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+        /// 実際の step は cols*elemSize() として計算されます．</param>
+#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -169,11 +318,26 @@ namespace OpenCvSharp.CPlusPlus
         /// The external data is not automatically deallocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+#endif
         public MatOfFloat(int rows, int cols, float[,] data, long step = 0)
             : base(rows, cols, ThisType, data, step)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 利用者が別に確保したデータで初期化
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
+        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
+        /// 行列は連続したものとみなされます．</param>
+#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -184,11 +348,26 @@ namespace OpenCvSharp.CPlusPlus
         /// The external data is not automatically deallocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
+#endif
         public MatOfFloat(IEnumerable<int> sizes, IntPtr data, IEnumerable<long> steps = null)
             : base(sizes, ThisType, data, steps)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// 利用者が別に確保したデータで初期化
+        /// </summary>
+        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
+        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
+        /// 行列は連続したものとみなされます．</param>
+#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -199,10 +378,25 @@ namespace OpenCvSharp.CPlusPlus
         /// The external data is not automatically deallocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
+#endif
         public MatOfFloat(IEnumerable<int> sizes, float[] data, IEnumerable<long> steps = null)
             : base(sizes, ThisType, data, steps)
         {
         }
+#if LANG_JP
+        /// <summary>
+        /// 利用者が別に確保したデータで初期化
+        /// </summary>
+        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
+        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
+        /// 行列は連続したものとみなされます．</param>
+#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -213,31 +407,61 @@ namespace OpenCvSharp.CPlusPlus
         /// The external data is not automatically deallocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
-        public MatOfFloat(IEnumerable<int> sizes, float[,] data, IEnumerable<long> steps = null)
+#endif
+        public MatOfFloat(IEnumerable<int> sizes, Array data, IEnumerable<long> steps = null)
             : base(sizes, ThisType, data, steps)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// N次元行列として初期化
+        /// </summary>
+        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+#else
         /// <summary>
         /// constructs n-dimensional matrix
         /// </summary>
         /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+#endif
         public MatOfFloat(IEnumerable<int> sizes)
             : base(sizes, ThisType)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// N次元行列として初期化
+        /// </summary>
+        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+#else
         /// <summary>
         /// constructs n-dimensional matrix
         /// </summary>
-        /// <param name="sizes"></param>
+        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-        public MatOfFloat(IEnumerable<int> sizes, Scalar s)
+#endif
+        public MatOfFloat(IEnumerable<int> sizes, int s)
             : base(sizes, ThisType, s)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// CvMatデータから初期化
+        /// </summary>
+        /// <param name="m">CvMat 行列構造体へのポインタ．
+        /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
+        /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
+        /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
+        /// コピーする（true）か，共有する（false）かを指定するフラグです．
+        /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
+        /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
+        /// デストラクトされない限り，データを解放するべきではありません．</param>
+#else
         /// <summary>
         /// converts old-style CvMat to the new matrix; the data is not copied by default
         /// </summary>
@@ -246,11 +470,25 @@ namespace OpenCvSharp.CPlusPlus
         /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
         /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
         /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
+#endif
         public MatOfFloat(CvMat m, bool copyData = false)
             : base(m, copyData)
         {
         }
 
+#if LANG_JP
+        /// <summary>
+        /// IplImageデータから初期化
+        /// </summary>
+        /// <param name="img">IplImage 画像構造体へのポインタ．
+        /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
+        /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
+        /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
+        /// コピーする（true）か，共有する（false）かを指定するフラグです．
+        /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
+        /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
+        /// デストラクトされない限り，データを解放するべきではありません．</param>
+#else
         /// <summary>
         /// converts old-style IplImage to the new matrix; the data is not copied by default
         /// </summary>
@@ -259,47 +497,9 @@ namespace OpenCvSharp.CPlusPlus
         /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
         /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
         /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
+#endif
         public MatOfFloat(IplImage img, bool copyData = false)
             : base(img, copyData)
-        {
-        } 
-
-        /// <summary>
-        /// Initializes and copys array data to this
-        /// </summary>
-        /// <param name="arr"></param>
-        public MatOfFloat(float[] arr)
-            : base()
-        {
-            if (arr == null)
-                throw new ArgumentNullException("arr");
-            if (arr.Length == 0)
-                throw new ArgumentException("arr.Length == 0");
-            int numElems = arr.Length / ThisChannels;
-            Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
-            SetArray(0, 0, arr);
-        }
-        /// <summary>
-        /// Initializes and copys array data to this
-        /// </summary>
-        /// <param name="arr"></param>
-        public MatOfFloat(float[,] arr)
-            : base()
-        {
-            if (arr == null)
-                throw new ArgumentNullException("arr");
-            if (arr.Length == 0)
-                throw new ArgumentException("arr.Length == 0");
-            int numElems = arr.Length / ThisChannels;
-            Create(numElems, 1, MatType.MakeType(ThisDepth, ThisChannels));
-            SetArray(0, 0, arr);
-        }
-        /// <summary>
-        /// Initializes and copys array data to this
-        /// </summary>
-        /// <param name="enumerable"></param>
-        public MatOfFloat(IEnumerable<float> enumerable)
-            : this(EnumerableEx.ToArray(enumerable))
         {
         }
         #endregion
@@ -406,29 +606,67 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region FromArray
+#if LANG_JP
         /// <summary>
-        /// Convert enumerable object to Mat
+        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
         /// </summary>
-        /// <param name="arr"></param>
+        /// <param name="arr">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as N x 1 matrix and copys array data to this
+        /// </summary>
+        /// <param name="arr">Source array data to be copied to this</param>
+#endif
         public static MatOfFloat FromArray(params float[] arr)
         {
-            return new MatOfFloat(arr);
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+
+            int numElems = arr.Length / ThisChannels;
+            var mat = new MatOfFloat(numElems, 1);
+            mat.SetArray(0, 0, arr);
+            return mat;
         }
+#if LANG_JP
         /// <summary>
-        /// Convert enumerable object to Mat
+        /// M x N の行列として初期化し、指定した配列からデータをコピーする
         /// </summary>
-        /// <param name="arr"></param>
+        /// <param name="arr">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as M x N matrix and copys array data to this
+        /// </summary>
+        /// <param name="arr">Source array data to be copied to this</param>
+#endif
         public static MatOfFloat FromArray(float[,] arr)
         {
-            return new MatOfFloat(arr);
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+
+            int rows = arr.GetLength(0);
+            int cols = arr.GetLength(1);
+            var mat = new MatOfFloat(rows, cols);
+            mat.SetArray(0, 0, arr);
+            return mat;
         }
+#if LANG_JP
         /// <summary>
-        /// Convert enumerable object to Mat
+        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
         /// </summary>
-        /// <param name="enumerable"></param>
+        /// <param name="enumerable">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as N x 1 matrix and copys array data to this
+        /// </summary>
+        /// <param name="enumerable">Source array data to be copied to this</param>
+#endif
         public static MatOfFloat FromArray(IEnumerable<float> enumerable)
         {
-            return new MatOfFloat(enumerable);
+            return FromArray(EnumerableEx.ToArray(enumerable));
         }
         #endregion
 
