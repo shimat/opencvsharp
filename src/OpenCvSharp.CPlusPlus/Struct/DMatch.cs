@@ -4,23 +4,51 @@ using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
+#if LANG_JP
+    /// <summary>
+    /// 2つのキーポイントディスクリプタ同士のマッチング情報
+    /// </summary>
+#else
     /// <summary>
     /// Struct for matching: query descriptor index, train descriptor index, train image index and distance between descriptors.
     /// </summary>
+#endif
     public struct DMatch
     {
+#if LANG_JP
+        /// <summary>
+        /// クエリディスクリプタインデックス
+        /// </summary>
+#else
         /// <summary>
         /// query descriptor index
         /// </summary>
+#endif
         public int QueryIdx; 
+
+#if LANG_JP
+        /// <summary>
+        /// 訓練ディスクリプタインデックス
+        /// </summary>
+#else
         /// <summary>
         /// train descriptor index
         /// </summary>
+#endif
         public int TrainIdx; 
+
+#if LANG_JP
+        /// <summary>
+        /// 訓練画像インデックス
+        /// </summary>
+#else
         /// <summary>
         /// train image index
         /// </summary>
+#endif
         public int ImgIdx; 
+
+
         /// <summary>
         /// 
         /// </summary>

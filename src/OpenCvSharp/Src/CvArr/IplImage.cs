@@ -70,22 +70,22 @@ namespace OpenCvSharp
         /// <summary>
         /// 画像ファイルから初期化
         /// </summary>
-        /// <param name="filename">ファイル名</param>
+        /// <param name="fileName">ファイル名</param>
 #else
         /// <summary>
         /// Loads an image from the specified file. 
         /// </summary>
-        /// <param name="filename">Name of file to be loaded. </param>
+        /// <param name="fileName">Name of file to be loaded. </param>
 #endif
-        public IplImage(string filename)
-            : this(filename, LoadMode.Color)
+        public IplImage(string fileName)
+            : this(fileName, LoadMode.Color)
         {
         }
 #if LANG_JP
         /// <summary>
         /// 画像ファイルから初期化
         /// </summary>
-        /// <param name="filename">ファイル名</param>
+        /// <param name="fileName">ファイル名</param>
         /// <param name="flags">読み込む画像がカラー/グレースケールのどちらか，とビット深度を指定する</param>
         /// <returns>画像へのポインタ</returns>
 #else

@@ -315,7 +315,7 @@ namespace OpenCvSharp
         /// ビデオキャプチャのプロパティを取得する
         /// </summary>
         /// <param name="capture">ビデオキャプチャクラス</param>
-        /// <param name="propertyID">プロパティID</param>
+        /// <param name="propertyId">プロパティID</param>
         /// <returns>プロパティの値</returns>
 #else
         /// <summary>
@@ -337,19 +337,19 @@ namespace OpenCvSharp
         /// ビデオキャプチャのプロパティを取得する
         /// </summary>
         /// <param name="capture">ビデオキャプチャクラス</param>
-        /// <param name="propertyID">プロパティID</param>
+        /// <param name="propertyId">プロパティID</param>
         /// <returns>プロパティの値</returns>
 #else
         /// <summary>
         /// Retrieves the specified property of camera or video file. 
         /// </summary>
         /// <param name="capture">video capturing structure. </param>
-        /// <param name="propertyID">property identifier.</param>
+        /// <param name="propertyId">property identifier.</param>
         /// <returns>property value</returns>
 #endif
-        public static double GetCaptureProperty(CvCapture capture, CaptureProperty propertyID)
+        public static double GetCaptureProperty(CvCapture capture, CaptureProperty propertyId)
         {
-            return GetCaptureProperty(capture, (int)propertyID);
+            return GetCaptureProperty(capture, (int)propertyId);
         }
         #endregion
         #region GetCentralMoment
@@ -2323,7 +2323,7 @@ namespace OpenCvSharp
         /// ウィンドウのプロパティを取得する
         /// </summary>
         /// <param name="name">ウィンドウ名</param>
-        /// <param name="propID">プロパティの種類</param>
+        /// <param name="propId">プロパティの種類</param>
         /// <returns>プロパティの値</returns>
 #else
         /// <summary>

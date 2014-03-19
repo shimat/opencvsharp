@@ -8,6 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [Obsolete]
     interface ITypeSpecificMat<T> : IEnumerable<T> 
         where T : struct
     {

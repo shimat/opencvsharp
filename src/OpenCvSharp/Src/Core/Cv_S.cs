@@ -2519,7 +2519,7 @@ namespace OpenCvSharp
         /// ウィンドウのプロパティを設定する
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="propID">プロパティの種類</param>
+        /// <param name="propId">プロパティの種類</param>
         /// <param name="propValue">プロパティに設定する値</param>
 #else
         /// <summary>
