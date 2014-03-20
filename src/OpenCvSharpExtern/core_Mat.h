@@ -456,6 +456,23 @@ CVAPI(uchar*) core_Mat_ptrnd(cv::Mat *self, int *idx)
 {
 	return self->ptr(idx);
 }
+
+CVAPI(void) core_Mat_reserve(cv::Mat *obj, size_t sz)
+{
+	obj->reserve(sz);
+}
+CVAPI(void) core_Mat_resize1(cv::Mat *obj, size_t sz)
+{
+	obj->resize(sz);
+}
+CVAPI(void) core_Mat_resize2(cv::Mat *obj, size_t sz, CvScalar s)
+{
+	obj->resize(sz, s);
+}
+CVAPI(void) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
+{
+	obj->pop_back(nelems);
+}
         
 #pragma endregion
 
@@ -1063,22 +1080,5 @@ CVAPI(void) core_Mat_push_back_Rect(cv::Mat *self, cv::Rect val)
 }
 
 #pragma endregion
-
-CVAPI(void) core_Mat_reserve(cv::Mat *obj, size_t sz)
-{
-	obj->reserve(sz);
-}
-CVAPI(void) core_Mat_resize1(cv::Mat *obj, size_t sz)
-{
-	obj->resize(sz);
-}
-CVAPI(void) core_Mat_resize2(cv::Mat *obj, size_t sz, CvScalar s)
-{
-	obj->resize(sz, s);
-}
-CVAPI(void) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
-{
-	obj->pop_back(nelems);
-}
 
 #endif
