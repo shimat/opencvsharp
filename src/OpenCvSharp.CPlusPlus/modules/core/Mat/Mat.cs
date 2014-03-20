@@ -2484,14 +2484,21 @@ namespace OpenCvSharp.CPlusPlus
             string formatStr = GetDumpFormatString(format);
             unsafe
             {
-                sbyte* buf = CppInvoke.core_Mat_dump(ptr, formatStr);
-                string ret = new string(buf);
-                CppInvoke.core_Mat_dump_delete(buf);
-                return ret;
+                sbyte* buf = null;
+                try
+                {
+                    buf = CppInvoke.core_Mat_dump(ptr, formatStr);
+                    return new string(buf);
+                }
+                finally
+                {
+                    if (buf != null)
+                        CppInvoke.core_Mat_dump_delete(buf);
+                }
             }
         }
 
-        private string GetDumpFormatString(DumpFormat format)
+        private static string GetDumpFormatString(DumpFormat format)
         {
             if (format == DumpFormat.Default)
                 return null;
