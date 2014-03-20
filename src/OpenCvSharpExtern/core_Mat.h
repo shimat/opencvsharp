@@ -809,6 +809,22 @@ CVAPI(int) core_Mat_nSetPoint2d(cv::Mat *obj, int row, int col, cv::Point2d *val
 {
 	return internal_Mat_set<cv::Point2d>(obj, row, col, (char*)vals, valsLength);
 }
+CVAPI(int) core_Mat_nSetPoint3i(cv::Mat *obj, int row, int col, cv::Point3i *vals, int valsLength)
+{
+	return internal_Mat_set<cv::Point3i>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nSetPoint3f(cv::Mat *obj, int row, int col, cv::Point3f *vals, int valsLength)
+{
+	return internal_Mat_set<cv::Point3f>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nSetPoint3d(cv::Mat *obj, int row, int col, cv::Point3d *vals, int valsLength)
+{
+	return internal_Mat_set<cv::Point3d>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nSetRect(cv::Mat *obj, int row, int col, cv::Rect *vals, int valsLength)
+{
+	return internal_Mat_set<cv::Rect>(obj, row, col, (char*)vals, valsLength);
+}
 
 CVAPI(int) core_Mat_nGetB(cv::Mat *obj, int row, int col, uchar *vals, int valsLength)
 {
@@ -857,6 +873,22 @@ CVAPI(int) core_Mat_nGetPoint2f(cv::Mat *obj, int row, int col, cv::Point2f *val
 CVAPI(int) core_Mat_nGetPoint2d(cv::Mat *obj, int row, int col, cv::Point2d *vals, int valsLength)
 {
 	return internal_Mat_get<cv::Point2d>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nGetPoint3i(cv::Mat *obj, int row, int col, cv::Point3i *vals, int valsLength)
+{
+	return internal_Mat_get<cv::Point3i>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nGetPoint3f(cv::Mat *obj, int row, int col, cv::Point3f *vals, int valsLength)
+{
+	return internal_Mat_get<cv::Point3f>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nGetPoint3d(cv::Mat *obj, int row, int col, cv::Point3d *vals, int valsLength)
+{
+	return internal_Mat_get<cv::Point3d>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nGetRect(cv::Mat *obj, int row, int col, cv::Rect *vals, int valsLength)
+{
+	return internal_Mat_get<cv::Rect>(obj, row, col, (char*)vals, valsLength);
 }
 
 #pragma endregion
@@ -1031,5 +1063,22 @@ CVAPI(void) core_Mat_push_back_Rect(cv::Mat *self, cv::Rect val)
 }
 
 #pragma endregion
+
+CVAPI(void) core_Mat_reserve(cv::Mat *obj, size_t sz)
+{
+	obj->reserve(sz);
+}
+CVAPI(void) core_Mat_resize1(cv::Mat *obj, size_t sz)
+{
+	obj->resize(sz);
+}
+CVAPI(void) core_Mat_resize2(cv::Mat *obj, size_t sz, CvScalar s)
+{
+	obj->resize(sz, s);
+}
+CVAPI(void) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
+{
+	obj->pop_back(nelems);
+}
 
 #endif

@@ -679,7 +679,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override byte[] ToArray()
         {
-            int numOfElems = Rows * Cols;
+            long numOfElems = (long)Total();
             if (numOfElems == 0)
                 return new byte[0];
             byte[] arr = new byte[numOfElems];

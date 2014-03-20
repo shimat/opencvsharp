@@ -10,7 +10,7 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public class MatOfPoint : Mat<Point, MatOfPoint>
     {
-        private static readonly MatType ThisType = MatType.CV_32SC1;
+        private static readonly MatType ThisType = MatType.CV_32SC2;
         private const int ThisDepth = MatType.CV_32S;
         private const int ThisChannels = 2;
 
@@ -608,45 +608,67 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region FromArray
+#if LANG_JP
         /// <summary>
-        /// Convert enumerable object to Mat
+        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
         /// </summary>
-        /// <param name="arr"></param>
+        /// <param name="arr">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as N x 1 matrix and copys array data to this
+        /// </summary>
+        /// <param name="arr">Source array data to be copied to this</param>
+#endif
         public static MatOfPoint FromArray(params Point[] arr)
         {
-            return new MatOfPoint(arr);
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+
+            int numElems = arr.Length / ThisChannels;
+            var mat = new MatOfPoint(numElems, 1);
+            mat.SetArray(0, 0, arr);
+            return mat;
         }
+#if LANG_JP
         /// <summary>
-        /// Convert enumerable object to Mat
+        /// M x N の行列として初期化し、指定した配列からデータをコピーする
         /// </summary>
-        /// <param name="arr"></param>
+        /// <param name="arr">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as M x N matrix and copys array data to this
+        /// </summary>
+        /// <param name="arr">Source array data to be copied to this</param>
+#endif
         public static MatOfPoint FromArray(Point[,] arr)
         {
-            return new MatOfPoint(arr);
+            if (arr == null)
+                throw new ArgumentNullException("arr");
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+
+            int rows = arr.GetLength(0);
+            int cols = arr.GetLength(1);
+            var mat = new MatOfPoint(rows, cols);
+            mat.SetArray(0, 0, arr);
+            return mat;
         }
+#if LANG_JP
         /// <summary>
-        /// Convert enumerable object to Mat
+        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
         /// </summary>
-        /// <param name="enumerable"></param>
+        /// <param name="enumerable">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as N x 1 matrix and copys array data to this
+        /// </summary>
+        /// <param name="enumerable">Source array data to be copied to this</param>
+#endif
         public static MatOfPoint FromArray(IEnumerable<Point> enumerable)
         {
-            return new MatOfPoint(enumerable);
-        }
-        /// <summary>
-        /// Convert enumerable object to Mat
-        /// </summary>
-        /// <param name="arr"></param>
-        public static MatOfPoint FromPrimitiveArray(params int[] arr)
-        {
-            return new MatOfPoint(arr);
-        }
-        /// <summary>
-        /// Convert enumerable object to Mat
-        /// </summary>
-        /// <param name="enumerable"></param>
-        public static MatOfPoint FromPrimitiveArray(IEnumerable<int> enumerable)
-        {
-            return new MatOfPoint(enumerable);
+            return FromArray(EnumerableEx.ToArray(enumerable));
         }
         #endregion
 
@@ -655,12 +677,12 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
-        public Point[] ToArray()
+        public override Point[] ToArray()
         {
-            int numOfElems = Rows * Cols;
+            long numOfElems = (long)Total();
             if (numOfElems == 0)
                 return new Point[0];
-            Point[] arr = new Point[numOfElems];
+            var arr = new Point[numOfElems];
             GetArray(0, 0, arr);
             return arr;
         }
@@ -670,7 +692,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public int[] ToPrimitiveArray()
         {
-            int numOfElems = Rows * Cols;
+            long numOfElems = (long)Total();
             if (numOfElems == 0)
                 return new int[0];
             int[] arr = new int[numOfElems * ThisChannels];
@@ -681,11 +703,11 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert this mat to managed rectangular array
         /// </summary>
         /// <returns></returns>
-        public Point[,] ToRectangularArray()
+        public override Point[,] ToRectangularArray()
         {
             if (Rows == 0 || Cols == 0)
                 return new Point[0, 0];
-            Point[,] arr = new Point[Rows, Cols];
+            var arr = new Point[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }

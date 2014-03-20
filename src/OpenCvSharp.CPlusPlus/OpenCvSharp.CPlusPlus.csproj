@@ -158,7 +158,6 @@
     <Compile Include="Invoke\CppInvoke_features2d_DescriptorMatcher.cs" />
     <Compile Include="Invoke\CppInvoke_photo.cs" />
     <Compile Include="modules\calib3d\StereoBM.cs" />
-    <Compile Include="modules\core\Mat\ITypeSpecificMat.cs" />
     <Compile Include="modules\core\Mat\MatIndexer.cs" />
     <Compile Include="modules\core\Mat\MatOfDouble.cs" />
     <Compile Include="modules\core\Mat\MatOfFloat6.cs" />
@@ -175,6 +174,10 @@
     <Compile Include="modules\core\MatRowColExprIndexer.cs" />
     <Compile Include="modules\core\MatRangeExprIndexer.cs" />
     <Compile Include="modules\core\Mat\MatOfT.cs" />
+    <Compile Include="modules\core\Mat\MatOfRect.cs" />
+    <Compile Include="modules\core\Mat\MatOfPoint3i.cs" />
+    <Compile Include="modules\core\Mat\MatOfPoint3f.cs" />
+    <Compile Include="modules\core\Mat\MatOfPoint3d.cs" />
     <Compile Include="modules\features2d\PtrOfFeature2D.cs" />
     <Compile Include="modules\features2d\PtrOfFeatureDetector.cs" />
     <Compile Include="modules\core\Ptr.cs" />

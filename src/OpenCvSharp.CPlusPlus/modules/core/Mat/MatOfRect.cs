@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// A matrix whose element is 16UC1 (cv::Mat_&lt;ushort&gt;)
+    /// A matrix whose element is cv::Rect [CV_32SC4] (cv::Mat_&lt;cv::Rect&gt;)
     /// </summary>
-    public class MatOfUShort : Mat<ushort, MatOfUShort>
+    public class MatOfRect : Mat<Rect, MatOfRect>
     {
-        private static readonly MatType ThisType = MatType.CV_16UC1;
-        private const int ThisDepth = MatType.CV_16U;
-        private const int ThisChannels = 1;
+        private static readonly MatType ThisType = MatType.CV_32SC4;
+        private const int ThisDepth = MatType.CV_32S;
+        private const int ThisChannels = 4;
 
         #region Init
 
@@ -23,7 +25,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates empty Mat
         /// </summary>
 #endif
-        public MatOfUShort()
+        public MatOfRect()
             : base()
         {
         }
@@ -39,7 +41,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="ptr"></param>
 #endif
-        public MatOfUShort(IntPtr ptr)
+        public MatOfRect(IntPtr ptr)
             : base(ptr)
         {
         }
@@ -55,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="mat">Managed Mat object</param>
 #endif
-        public MatOfUShort(Mat mat)
+        public MatOfRect(Mat mat)
             : base(mat.CvPtr)
         {
         }
@@ -73,7 +75,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rows">Number of rows in a 2D array.</param>
         /// <param name="cols">Number of columns in a 2D array.</param>
 #endif
-        public MatOfUShort(int rows, int cols)
+        public MatOfRect(int rows, int cols)
             : base(rows, cols, ThisType)
         {
         }
@@ -91,7 +93,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
         /// the number of rows and the number of columns go in the reverse order.</param>
 #endif
-        public MatOfUShort(Size size)
+        public MatOfRect(Size size)
             : base(size, ThisType)
         {
         }
@@ -113,8 +115,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
 #endif
-        public MatOfUShort(int rows, int cols, ushort s)
-            : base(rows, cols, ThisType, s)
+        public MatOfRect(int rows, int cols, Rect s)
+            : base(rows, cols, ThisType, (Scalar)s)
         {
         }
 
@@ -134,8 +136,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
 #endif
-        public MatOfUShort(Size size, ushort s)
-            : base(size, ThisType, s)
+        public MatOfRect(Size size, Rect s)
+            : base(size, ThisType, (Scalar)s)
         {
         }
 
@@ -165,7 +167,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Use Range.All to take all the rows.</param>
         /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
 #endif
-        public MatOfUShort(MatOfUShort m, Range rowRange, Range? colRange = null)
+        public MatOfRect(MatOfRect m, Range rowRange, Range? colRange = null)
             : base(m, rowRange, colRange)
         {
         }
@@ -193,7 +195,7 @@ namespace OpenCvSharp.CPlusPlus
         /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
 #endif
-        public MatOfUShort(MatOfUShort m, params Range[] ranges)
+        public MatOfRect(MatOfRect m, params Range[] ranges)
             : base(m, ranges)
         {
         }
@@ -221,7 +223,7 @@ namespace OpenCvSharp.CPlusPlus
         /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="roi">Region of interest.</param>
 #endif
-        public MatOfUShort(MatOfUShort m, Rect roi)
+        public MatOfRect(MatOfRect m, Rect roi)
             : base(m, roi)
         {
         }
@@ -254,7 +256,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
 #endif
-        public MatOfUShort(int rows, int cols, IntPtr data, long step = 0)
+        public MatOfRect(int rows, int cols, IntPtr data, long step = 0)
             : base(rows, cols, ThisType, data, step)
         {
         }
@@ -287,7 +289,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
 #endif
-        public MatOfUShort(int rows, int cols, ushort[] data, long step = 0)
+        public MatOfRect(int rows, int cols, Rect[] data, long step = 0)
             : base(rows, cols, ThisType, data, step)
         {
         }
@@ -319,7 +321,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
 #endif
-        public MatOfUShort(int rows, int cols, ushort[,] data, long step = 0)
+        public MatOfRect(int rows, int cols, Rect[,] data, long step = 0)
             : base(rows, cols, ThisType, data, step)
         {
         }
@@ -349,7 +351,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        public MatOfUShort(IEnumerable<int> sizes, IntPtr data, IEnumerable<long> steps = null)
+        public MatOfRect(IEnumerable<int> sizes, IntPtr data, IEnumerable<long> steps = null)
             : base(sizes, ThisType, data, steps)
         {
         }
@@ -379,7 +381,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        public MatOfUShort(IEnumerable<int> sizes, ushort[] data, IEnumerable<long> steps = null)
+        public MatOfRect(IEnumerable<int> sizes, Rect[] data, IEnumerable<long> steps = null)
             : base(sizes, ThisType, data, steps)
         {
         }
@@ -408,7 +410,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        public MatOfUShort(IEnumerable<int> sizes, Array data, IEnumerable<long> steps = null)
+        public MatOfRect(IEnumerable<int> sizes, Array data, IEnumerable<long> steps = null)
             : base(sizes, ThisType, data, steps)
         {
         }
@@ -424,7 +426,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
 #endif
-        public MatOfUShort(IEnumerable<int> sizes)
+        public MatOfRect(IEnumerable<int> sizes)
             : base(sizes, ThisType)
         {
         }
@@ -444,8 +446,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
 #endif
-        public MatOfUShort(IEnumerable<int> sizes, ushort s)
-            : base(sizes, ThisType, s)
+        public MatOfRect(IEnumerable<int> sizes, Rect s)
+            : base(sizes, ThisType, (Scalar)s)
         {
         }
 
@@ -471,7 +473,7 @@ namespace OpenCvSharp.CPlusPlus
         /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
         /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
 #endif
-        public MatOfUShort(CvMat m, bool copyData = false)
+        public MatOfRect(CvMat m, bool copyData = false)
             : base(m, copyData)
         {
         }
@@ -498,19 +500,19 @@ namespace OpenCvSharp.CPlusPlus
         /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
         /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
 #endif
-        public MatOfUShort(IplImage img, bool copyData = false)
+        public MatOfRect(IplImage img, bool copyData = false)
             : base(img, copyData)
         {
         }
         #endregion
-        
+
         #region Indexer
         /// <summary>
-        /// Matrix indexer
+        /// 
         /// </summary>
-        public sealed unsafe class Indexer : MatIndexer<ushort>
+        public sealed unsafe class Indexer : MatIndexer<Rect>
         {
-            private readonly byte *ptr;
+            private readonly byte* ptr;
 
             internal Indexer(Mat parent)
                 : base(parent)
@@ -522,15 +524,15 @@ namespace OpenCvSharp.CPlusPlus
             /// </summary>
             /// <param name="i0">Index along the dimension 0</param>
             /// <returns>A value to the specified array element.</returns>
-            public override ushort this[int i0]
+            public override Rect this[int i0]
             {
                 get
                 {
-                    return *(ushort*)(ptr + (steps[0] * i0));
+                    return *(Rect*)(ptr + (steps[0] * i0));
                 }
                 set
                 {
-                    *(ushort*)(ptr + (steps[0] * i0)) = value;
+                    *(Rect*)(ptr + (steps[0] * i0)) = value;
                 }
             }
             /// <summary>
@@ -539,15 +541,15 @@ namespace OpenCvSharp.CPlusPlus
             /// <param name="i0">Index along the dimension 0</param>
             /// <param name="i1">Index along the dimension 1</param>
             /// <returns>A value to the specified array element.</returns>
-            public override ushort this[int i0, int i1]
+            public override Rect this[int i0, int i1]
             {
                 get
                 {
-                    return *(ushort*)(ptr + (steps[0] * i0) + (steps[1] * i1));
+                    return *(Rect*)(ptr + (steps[0] * i0) + (steps[1] * i1));
                 }
                 set
                 {
-                    *(ushort*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
+                    *(Rect*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
                 }
             }
             /// <summary>
@@ -557,24 +559,23 @@ namespace OpenCvSharp.CPlusPlus
             /// <param name="i1">Index along the dimension 1</param>
             /// <param name="i2"> Index along the dimension 2</param>
             /// <returns>A value to the specified array element.</returns>
-            public override ushort this[int i0, int i1, int i2]
+            public override Rect this[int i0, int i1, int i2]
             {
                 get
                 {
-                    return *(ushort*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    return *(Rect*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
                 }
                 set
                 {
-                    *(ushort*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
+                    *(Rect*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
                 }
             }
-
             /// <summary>
             /// n-dimensional indexer
             /// </summary>
             /// <param name="idx">Array of Mat::dims indices.</param>
             /// <returns>A value to the specified array element.</returns>
-            public override ushort this[params int[] idx]
+            public override Rect this[params int[] idx]
             {
                 get
                 {
@@ -583,7 +584,7 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         offset += steps[i] * idx[i];
                     }
-                    return *(ushort*)(ptr + offset);
+                    return *(Rect*)(ptr + offset);
                 }
                 set
                 {
@@ -592,7 +593,7 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         offset += steps[i] * idx[i];
                     }
-                    *(ushort*)(ptr + offset) = value;
+                    *(Rect*)(ptr + offset) = value;
                 }
             }
         }
@@ -600,7 +601,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
         /// </summary>
         /// <returns></returns>
-        public override MatIndexer<ushort> GetIndexer() 
+        public override MatIndexer<Rect> GetIndexer() 
         {
             return new Indexer(this);
         }
@@ -618,7 +619,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="arr">Source array data to be copied to this</param>
 #endif
-        public static MatOfUShort FromArray(params ushort[] arr)
+        public static MatOfRect FromArray(params Rect[] arr)
         {
             if (arr == null)
                 throw new ArgumentNullException("arr");
@@ -626,7 +627,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentException("arr.Length == 0");
 
             int numElems = arr.Length / ThisChannels;
-            var mat = new MatOfUShort(numElems, 1);
+            var mat = new MatOfRect(numElems, 1);
             mat.SetArray(0, 0, arr);
             return mat;
         }
@@ -641,7 +642,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="arr">Source array data to be copied to this</param>
 #endif
-        public static MatOfUShort FromArray(ushort[,] arr)
+        public static MatOfRect FromArray(Rect[,] arr)
         {
             if (arr == null)
                 throw new ArgumentNullException("arr");
@@ -650,7 +651,7 @@ namespace OpenCvSharp.CPlusPlus
 
             int rows = arr.GetLength(0);
             int cols = arr.GetLength(1);
-            var mat = new MatOfUShort(rows, cols);
+            var mat = new MatOfRect(rows, cols);
             mat.SetArray(0, 0, arr);
             return mat;
         }
@@ -665,7 +666,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="enumerable">Source array data to be copied to this</param>
 #endif
-        public static MatOfUShort FromArray(IEnumerable<ushort> enumerable)
+        public static MatOfRect FromArray(IEnumerable<Rect> enumerable)
         {
             return FromArray(EnumerableEx.ToArray(enumerable));
         }
@@ -676,12 +677,25 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
-        public override ushort[] ToArray()
+        public override Rect[] ToArray()
         {
             long numOfElems = (long)Total();
             if (numOfElems == 0)
-                return new ushort[0];
-            ushort[] arr = new ushort[numOfElems];
+                return new Rect[0];
+            var arr = new Rect[numOfElems];
+            GetArray(0, 0, arr);
+            return arr;
+        }
+        /// <summary>
+        /// Convert this mat to managed array
+        /// </summary>
+        /// <returns></returns>
+        public int[] ToPrimitiveArray()
+        {
+            long numOfElems = (long)Total();
+            if (numOfElems == 0)
+                return new int[0];
+            int[] arr = new int[numOfElems * ThisChannels];
             GetArray(0, 0, arr);
             return arr;
         }
@@ -689,11 +703,11 @@ namespace OpenCvSharp.CPlusPlus
         /// Convert this mat to managed rectangular array
         /// </summary>
         /// <returns></returns>
-        public override ushort[,] ToRectangularArray()
+        public override Rect[,] ToRectangularArray()
         {
             if (Rows == 0 || Cols == 0)
-                return new ushort[0, 0];
-            ushort[,] arr = new ushort[Rows, Cols];
+                return new Rect[0, 0];
+            var arr = new Rect[Rows, Cols];
             GetArray(0, 0, arr);
             return arr;
         }
@@ -704,7 +718,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <returns></returns>
-        public override IEnumerator<ushort> GetEnumerator()
+        public override IEnumerator<Rect> GetEnumerator()
         {
             ThrowIfDisposed();
             Indexer indexer = new Indexer(this);
@@ -733,10 +747,10 @@ namespace OpenCvSharp.CPlusPlus
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
         /// </summary>
         /// <param name="value">Added element(s)</param>
-        public override void Add(ushort value)
+        public override void Add(Rect value)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back_ushort(ptr, value);
+            CppInvoke.core_Mat_push_back_Rect(ptr, value);
         }
     }
 }

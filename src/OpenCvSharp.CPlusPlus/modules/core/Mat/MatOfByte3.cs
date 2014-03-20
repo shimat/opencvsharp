@@ -679,7 +679,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override Vec3b[] ToArray()
         {
-            int numOfElems = Rows * Cols;
+            long numOfElems = (long)Total();
             if (numOfElems == 0)
                 return new Vec3b[0];
             Vec3b[] arr = new Vec3b[numOfElems];
@@ -692,7 +692,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public byte[] ToPrimitiveArray()
         {
-            int numOfElems = Rows * Cols;
+            long numOfElems = (long)Total();
             if (numOfElems == 0)
                 return new byte[0];
             byte[] arr = new byte[numOfElems * ThisChannels];

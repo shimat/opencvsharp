@@ -197,6 +197,63 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Scalar(v.Item0, v.Item1, v.Item2);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Vec3f v)
+        {
+            return new Scalar(v.Item0, v.Item1, v.Item2);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Vec4f v)
+        {
+            return new Scalar(v.Item0, v.Item1, v.Item2, v.Item3);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Vec6f v)
+        {
+            return new Scalar(v.Item0, v.Item1, v.Item2, v.Item3);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Vec3d v)
+        {
+            return new Scalar(v.Item0, v.Item1, v.Item2);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Vec4d v)
+        {
+            return new Scalar(v.Item0, v.Item1, v.Item2, v.Item3);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Vec6d v)
+        {
+            return new Scalar(v.Item0, v.Item1, v.Item2, v.Item3);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -205,6 +262,62 @@ namespace OpenCvSharp.CPlusPlus
         public static explicit operator Scalar(Point p)
         {
             return new Scalar(p.X, p.Y);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Point2f p)
+        {
+            return new Scalar(p.X, p.Y);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Point2d p)
+        {
+            return new Scalar(p.X, p.Y);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Point3i p)
+        {
+            return new Scalar(p.X, p.Y, p.Z);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Point3f p)
+        {
+            return new Scalar(p.X, p.Y, p.Z);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Point3d p)
+        {
+            return new Scalar(p.X, p.Y, p.Z);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static explicit operator Scalar(Rect p)
+        {
+            return new Scalar(p.X, p.Y, p.Width, p.Height);
         }
         #endregion
 

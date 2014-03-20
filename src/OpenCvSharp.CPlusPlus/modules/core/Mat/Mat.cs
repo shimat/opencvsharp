@@ -3263,7 +3263,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point[] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC(2));
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
             CppInvoke.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
         }
         /// <summary>
@@ -3274,7 +3274,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC(2));
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
             CppInvoke.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
         }
 
@@ -3322,6 +3322,99 @@ namespace OpenCvSharp.CPlusPlus
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
             CppInvoke.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point3i[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
+            CppInvoke.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point3i[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
+            CppInvoke.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
+        }
+
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point3f[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
+            CppInvoke.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point3f[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
+            CppInvoke.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point3d[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CppInvoke.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Point3d[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CppInvoke.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Rect[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            CppInvoke.core_Mat_nGetRect(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Rect[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            CppInvoke.core_Mat_nGetRect(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3669,6 +3762,99 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
+        public void SetArray(int row, int col, params Point3i[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
+            CppInvoke.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Point3i[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
+            CppInvoke.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params Point3f[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
+            CppInvoke.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Point3f[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
+            CppInvoke.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params Point3d[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CppInvoke.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Point3d[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CppInvoke.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
+        }
+
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params Rect[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            CppInvoke.core_Mat_nSetRect(ptr, row, col, data, data.Length);
+        }
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Rect[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            CppInvoke.core_Mat_nSetRect(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
         public void SetArray(int row, int col, params DMatch[] data)
         {
             CheckArgumentsForConvert(row, col, data);
@@ -3695,10 +3881,42 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Add
+        #region Reserve
+        /// <summary>
+        /// reserves enough space to fit sz hyper-planes
+        /// </summary>
+        /// <param name="sz"></param>
+        public void Reserve(long sz)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_reserve(ptr, new IntPtr(sz));
+        }
+        #endregion
+        #region Resize
+        /// <summary>
+        /// resizes matrix to the specified number of hyper-planes
+        /// </summary>
+        /// <param name="sz"></param>
+        public void Resize(long sz)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_resize1(ptr, new IntPtr(sz));
+        }
+        /// <summary>
+        /// resizes matrix to the specified number of hyper-planes; initializes the newly added elements
+        /// </summary>
+        /// <param name="sz"></param>
+        /// <param name="s"></param>
+        public void Resize(long sz, Scalar s)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_resize2(ptr, new IntPtr(sz), s);
+        }
+        #endregion
+        #region PushBack
 
         /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// Adds elements to the bottom of the matrix. (Mat.push_back)
         /// </summary>
         /// <param name="m">Added line(s)</param>
         public void Add(Mat m)
@@ -3710,6 +3928,26 @@ namespace OpenCvSharp.CPlusPlus
             CppInvoke.core_Mat_push_back_Mat(ptr, m.CvPtr);
         }
 
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat.push_back)
+        /// </summary>
+        /// <param name="m">Added line(s)</param>
+        public void PushBack(Mat m)
+        {
+            Add(m);
+        }
+
+        #endregion
+        #region PopBack
+        /// <summary>
+        /// removes several hyper-planes from bottom of the matrix (Mat.pop_back)
+        /// </summary>
+        /// <param name="nElems"></param>
+        public void PopBack(long nElems = 1)
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_pop_back(ptr, new IntPtr(nElems));
+        }
         #endregion
 
         #region ToBitmap

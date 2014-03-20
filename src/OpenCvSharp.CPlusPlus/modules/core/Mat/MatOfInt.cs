@@ -679,7 +679,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override int[] ToArray()
         {
-            int numOfElems = Rows * Cols;
+            long numOfElems = (long)Total();
             if (numOfElems == 0)
                 return new int[0];
             int[] arr = new int[numOfElems];

@@ -438,7 +438,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override DMatch[] ToArray()
         {
-            int numOfElems = Rows * Cols;
+            long numOfElems = (long)Total();
             if (numOfElems == 0)
                 return new DMatch[0];
             DMatch[] arr = new DMatch[numOfElems];

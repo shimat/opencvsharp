@@ -10,7 +10,7 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     /// <typeparam name="TElem">Element Type</typeparam>
     /// <typeparam name="TInherit">For return value type of re-defined Mat methods</typeparam>
-    public abstract class Mat<TElem, TInherit> : Mat, IEnumerable<TElem> 
+    public abstract class Mat<TElem, TInherit> : Mat, ICollection<TElem> 
         where TElem : struct
         where TInherit : Mat, new()
     {
@@ -518,12 +518,6 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <returns></returns>
         public abstract TElem[,] ToRectangularArray();
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element(s)</param>
-        public abstract void Add(TElem value);
         #endregion
 
         #region Mat Methods
@@ -719,6 +713,92 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+        #endregion
+
+        #region ICollection<T>
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element(s)</param>
+        public abstract void Add(TElem value);
+
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the ICollection&lt;T&gt;.
+        /// </summary>
+        /// <param name="item">The object to remove from the ICollection&lt;T&gt;.</param>
+        /// <returns> true if item was successfully removed from the ICollection&lt;T&gt; otherwise, false. 
+        /// This method also returns false if item is not found in the original ICollection&lt;T&gt;. </returns>
+        public bool Remove(TElem item)
+        {
+            throw new NotImplementedException();
+        }
+        
+        /// <summary>
+        /// Determines whether the ICollection&lt;T&gt; contains a specific value.
+        /// </summary>
+        /// <param name="item">The object to locate in the ICollection&lt;T&gt;.</param>
+        /// <returns> true if item is found in the ICollection&lt;T&gt; otherwise, false.</returns>
+        public bool Contains(TElem item)
+        {
+            return IndexOf(item) >= 0;
+        }
+
+        /// <summary>
+        /// Determines the index of a specific item in the list.
+        /// </summary>
+        /// <param name="item">The object to locate in the list. </param>
+        /// <returns>The index of value if found in the list; otherwise, -1.</returns>
+        public int IndexOf(TElem item)
+        {
+            TElem[] array = ToArray();
+            return Array.IndexOf(array, item);
+        }
+
+        /// <summary>
+        /// Removes all items from the ICollection&lt;T&gt;.
+        /// </summary>
+        public void Clear()
+        {
+            ThrowIfDisposed();
+            CppInvoke.core_Mat_pop_back(ptr, new IntPtr((long)Total()));
+        }
+
+        /// <summary>
+        /// Copies the elements of the ICollection&lt;T&gt; to an Array, starting at a particular Array index.
+        /// </summary>
+        /// <param name="array">The one-dimensional Array that is the destination of the elements copied from ICollection&lt;T&gt;. 
+        /// The Array must have zero-based indexing. </param>
+        /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+        public void CopyTo(TElem[] array, int arrayIndex)
+        {
+            ThrowIfDisposed();
+
+            if (array == null)
+                throw new ArgumentNullException("array");
+            TElem[] result = ToArray();
+            if(array.Length >= result.Length + arrayIndex)
+                throw new ArgumentException("Too short array.Length");
+            Array.Copy(result, 0, array, arrayIndex, result.Length);
+        }
+
+        /// <summary>
+        /// Returns the total number of matrix elements (Mat.total)
+        /// </summary>
+        /// <returns>Total number of list(Mat) elements</returns>
+        public int Count
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return (int)CppInvoke.core_Mat_total(ptr);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the IList is read-only.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsReadOnly { get { return false; }}
         #endregion
     }
 }

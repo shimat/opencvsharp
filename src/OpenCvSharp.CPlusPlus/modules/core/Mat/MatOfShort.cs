@@ -677,7 +677,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override short[] ToArray()
         {
-            int numOfElems = Rows * Cols;
+            long numOfElems = (long)Total();
             if (numOfElems == 0)
                 return new short[0];
             short[] arr = new short[numOfElems];
