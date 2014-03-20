@@ -13,6 +13,9 @@ namespace OpenCvSharp.CPlusPlus
         where TElem : struct
         where TInherit : Mat, new()
     {
+        private bool disposed;
+        private Mat sourceMat;
+
         #region Init
 
 #if LANG_JP
@@ -59,8 +62,10 @@ namespace OpenCvSharp.CPlusPlus
         protected Mat(Mat mat)
             : base(mat.CvPtr)
         {
+            // 作成元への参照を残す。元がGCに回収されないように。
+            sourceMat = mat;
         }
-
+        
 #if LANG_JP
         /// <summary>
         /// 指定したサイズ・型の2次元の行列として初期化
@@ -481,7 +486,44 @@ namespace OpenCvSharp.CPlusPlus
         protected Mat(IplImage img, bool copyData = false)
             : base(img, copyData)
         {
-        }  
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// リソースの解放
+        /// </summary>
+        /// <param name="disposing">
+        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+        ///</param>
+#else
+        /// <summary>
+        /// Releases the resources
+        /// </summary>
+        /// <param name="disposing">
+        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
+        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
+        /// </param>
+#endif
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                try
+                {
+                    // releases managed resources
+                    if (disposing)
+                    {
+                    }
+                    sourceMat = null;
+                    disposed = true;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
+            }
+        }
 
         #endregion
 

@@ -23,51 +23,21 @@ namespace OpenCvSharp.Sandbox
 
         static void Run()
         {
-            Mat src = new Mat("img/lenna.png");
-            Mat small = new Mat();
-
-            Cv2.Resize(src, small, new Size(100, 100));
-            src[100, 200, 100, 200] = small;
-
-            Window.ShowImages(src, small);
-
-            MatOfByte mm = new MatOfByte(0, 0) { 2, 3, 4, 5 };
-            MatOfByte mmm = mm.Reshape(2);
-            
-            Console.WriteLine(mm.Dump(DumpFormat.C));
-            mmm.ToString();
-
+            var src = new Mat("img/lenna.png");
+            var rand = new Random();
             var memory = new List<long>(100);
+
             for (long i = 0; ; i++)
             {
-                var a = new List<byte> {1, 128, 255};
-                var b = new List<byte>();
-                Cv2.BitwiseNot(InputArray.Create(a), OutputArray.Create(b));
-
-                Stopwatch watch = new Stopwatch();
-
-                Mat mat = new Mat(@"img\lenna.png", LoadMode.Color);
-                MatOfByte3 mat3 = new MatOfByte3(mat);
-                //mat[new Rect(100, 100, 200, 200)] = 3;
-                //Console.WriteLine(mat.Dump());
-                //mat.Row(100).SetTo(Scalar.All(10));
-                //subMat.SetTo(subMat.Clone() / 3);
-                //mat[ new Rect(100, 100, 200, 200)] = mat[new Rect(100, 100, 200, 200)].T();
-                //mat.Col[100] = ~mat.Col[200] * 2 / 3;
-                mat.ImWrite("C:\\temp\\hoge.png");
-                Mat gray = new Mat();
-                Cv2.CvtColor(mat, gray, ColorConversion.BgrToGray);
-
-                Cv2.GaussianBlur(mat.RowRange(100, 200), mat.RowRange(100, 200), new Size(25, 25), -1);
-
-
                 
-                ///*
-                Cv2.ImShow("window1", mat);
-                Cv2.ImShow("window2", gray);
-                //Cv2.ImShow("subMat", subMat);
-                Cv2.WaitKey();
-                //*/
+                for (int j = 0; j < 200; j++)
+                {
+                    int c1 = rand.Next(100, 400);
+                    int c2 = rand.Next(100, 400);
+                    Mat temp = src.Row[c1];
+                    src.Row[c1] = src.Row[c2];
+                    src.Row[c2] = temp;
+                }
 
                 memory.Add(MyProcess.WorkingSet64);
                 if (memory.Count >= 100)

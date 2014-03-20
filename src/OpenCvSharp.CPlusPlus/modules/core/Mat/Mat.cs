@@ -1425,7 +1425,7 @@ namespace OpenCvSharp.CPlusPlus
                 Mat sub = SubMat(rowRange, colRange);
                 if (sub.Size() != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
-                value.AssignTo(sub);
+                value.CopyTo(sub);
             }
         }
 
@@ -1453,7 +1453,7 @@ namespace OpenCvSharp.CPlusPlus
                 if (roi.Size != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
                 Mat sub = SubMat(roi);
-                value.AssignTo(sub);
+                value.CopyTo(sub);
             }
         }
 
@@ -1487,7 +1487,7 @@ namespace OpenCvSharp.CPlusPlus
                         throw new ArgumentException("Size mismatch at dimension " + i);
                 }
 
-                value.AssignTo(sub);
+                value.CopyTo(sub);
             }
         }
         #endregion
@@ -2121,10 +2121,10 @@ namespace OpenCvSharp.CPlusPlus
         /// Returns the matrix element size in bytes.
         /// </summary>
         /// <returns></returns>
-        public ulong ElemSize()
+        public long ElemSize()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_elemSize(ptr);
+            return (long)CppInvoke.core_Mat_elemSize(ptr);
         }
 
         #endregion
@@ -2134,10 +2134,10 @@ namespace OpenCvSharp.CPlusPlus
         /// Returns the size of each matrix element channel in bytes.
         /// </summary>
         /// <returns></returns>
-        public ulong ElemSize1()
+        public long ElemSize1()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_elemSize1(ptr);
+            return (long)CppInvoke.core_Mat_elemSize1(ptr);
         }
 
         #endregion
@@ -2380,10 +2380,10 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public ulong Step(int i)
+        public long Step(int i)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_stepAt(ptr, i);
+            return (long)CppInvoke.core_Mat_stepAt(ptr, i);
         }
 
         #endregion
@@ -2393,10 +2393,10 @@ namespace OpenCvSharp.CPlusPlus
         /// Returns a normalized step.
         /// </summary>
         /// <returns></returns>
-        public ulong Step1()
+        public long Step1()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_step1(ptr);
+            return (long)CppInvoke.core_Mat_step1(ptr);
         }
 
         /// <summary>
@@ -2404,10 +2404,10 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public ulong Step1(int i)
+        public long Step1(int i)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_step1(ptr, i);
+            return (long)CppInvoke.core_Mat_step1(ptr, i);
         }
 
         #endregion
@@ -2432,10 +2432,10 @@ namespace OpenCvSharp.CPlusPlus
         /// Returns the total number of array elements.
         /// </summary>
         /// <returns></returns>
-        public ulong Total()
+        public long Total()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_total(ptr);
+            return (long)CppInvoke.core_Mat_total(ptr);
         }
 
         #endregion
@@ -2835,6 +2835,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Col/ColRange
 
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -2846,7 +2847,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr matPtr = CppInvoke.core_Mat_col_toMat(ptr, x);
             return new Mat(matPtr);
         }
-
+        */
         /// <summary>
         /// 
         /// </summary>
@@ -2869,10 +2870,98 @@ namespace OpenCvSharp.CPlusPlus
         {
             return ColRange(range.Start, range.End);
         }
+        
+
+        /// <summary>
+        /// Mat column's indexer object
+        /// </summary>
+        public class ColIndexer : MatRowColIndexer
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
+            protected internal ColIndexer(Mat parent)
+                : base(parent)
+            {
+            }
+            /// <summary>
+            /// Creates a matrix header for the specified matrix column.
+            /// </summary>
+            /// <param name="x">A 0-based column index.</param>
+            /// <returns></returns>
+            public override Mat this[int x]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    IntPtr matPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
+                    Mat mat = new Mat(matPtr);
+                    return mat;
+                }
+                set
+                {
+                    parent.ThrowIfDisposed();
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    value.ThrowIfDisposed();
+                    if (parent.Dims != value.Dims)
+                        throw new ArgumentException("Dimension mismatch");
+
+                    IntPtr matPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
+                    Mat mat = new Mat(matPtr);
+                    if (mat.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(mat);
+                }
+            }
+            /// <summary>
+            /// Creates a matrix header for the specified column span.
+            /// </summary>
+            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
+            /// <returns></returns>
+            public override Mat this[int startCol, int endCol]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    IntPtr matPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    Mat mat = new Mat(matPtr);
+                    return mat;
+                }
+                set
+                {
+                    parent.ThrowIfDisposed();
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    value.ThrowIfDisposed();
+                    if (parent.Dims != value.Dims)
+                        throw new ArgumentException("Dimension mismatch");
+
+                    IntPtr colMatPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    Mat colMat = new Mat(colMatPtr);
+                    if (colMat.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(colMat);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indexer to access Mat column as Mat
+        /// </summary>
+        /// <returns></returns>
+        public ColIndexer Col
+        {
+            get { return colIndexer ?? (colIndexer = new ColIndexer(this)); }
+        }
+        private ColIndexer colIndexer;
 
         #endregion
         #region Row/RowRange
 
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -2884,7 +2973,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr matPtr = CppInvoke.core_Mat_row_toMat(ptr, y);
             return new Mat(matPtr);
         }
-
+        */
         /// <summary>
         /// 
         /// </summary>
@@ -2907,6 +2996,92 @@ namespace OpenCvSharp.CPlusPlus
         {
             return RowRange(range.Start, range.End);
         }
+
+        /// <summary>
+        /// Mat row's indexer object
+        /// </summary>
+        public class RowIndexer : MatRowColIndexer
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
+            protected internal RowIndexer(Mat parent)
+                : base(parent)
+            {
+            }
+            /// <summary>
+            /// Creates a matrix header for the specified matrix column.
+            /// </summary>
+            /// <param name="x">A 0-based column index.</param>
+            /// <returns></returns>
+            public override Mat this[int x]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    IntPtr matPtr = CppInvoke.core_Mat_row_toMat(parent.ptr, x);
+                    Mat mat = new Mat(matPtr);
+                    return mat;
+                }
+                set
+                {
+                    parent.ThrowIfDisposed();
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    value.ThrowIfDisposed();
+                    if (parent.Dims != value.Dims)
+                        throw new ArgumentException("Dimension mismatch");
+
+                    IntPtr matPtr = CppInvoke.core_Mat_row_toMat(parent.ptr, x);
+                    Mat mat = new Mat(matPtr);
+                    if (mat.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(mat);
+                }
+            }
+            /// <summary>
+            /// Creates a matrix header for the specified column span.
+            /// </summary>
+            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
+            /// <returns></returns>
+            public override Mat this[int startCol, int endCol]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    IntPtr matPtr = CppInvoke.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
+                    Mat mat = new Mat(matPtr);
+                    return mat;
+                }
+                set
+                {
+                    parent.ThrowIfDisposed();
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    value.ThrowIfDisposed();
+                    if (parent.Dims != value.Dims)
+                        throw new ArgumentException("Dimension mismatch");
+
+                    IntPtr matPtr = CppInvoke.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
+                    Mat mat = new Mat(matPtr);
+                    if (mat.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(mat);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indexer to access Mat row as Mat
+        /// </summary>
+        /// <returns></returns>
+        public RowIndexer Row
+        {
+            get { return rowIndexer ?? (rowIndexer = new RowIndexer(this)); }
+        }
+        private RowIndexer rowIndexer;
 
         #endregion
         #region SubMat

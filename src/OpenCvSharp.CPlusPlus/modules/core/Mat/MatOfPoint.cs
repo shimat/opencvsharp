@@ -677,7 +677,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override Point[] ToArray()
         {
-            long numOfElems = (long)Total();
+            long numOfElems = Total();
             if (numOfElems == 0)
                 return new Point[0];
             var arr = new Point[numOfElems];
@@ -690,7 +690,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public int[] ToPrimitiveArray()
         {
-            long numOfElems = (long)Total();
+            long numOfElems = Total();
             if (numOfElems == 0)
                 return new int[0];
             int[] arr = new int[numOfElems * ThisChannels];

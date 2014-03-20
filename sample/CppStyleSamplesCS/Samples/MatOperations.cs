@@ -13,8 +13,8 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            SubMat();
-            RowColRangeOperation();
+            //SubMat();
+            //RowColRangeOperation();
             RowColOperation();
         }
 
@@ -25,13 +25,21 @@ namespace CppStyleSamplesCS
         {
             Mat src = Cv2.ImRead(FilePath.Lenna);
 
+            // Assign small image to mat
+            Mat small = new Mat();
+            Cv2.Resize(src, small, new Size(100, 100));
+            src[10, 110, 10, 110] = small;
+            src[370, 470, 400, 500] = small.T();
+            // ↑ This is same as the following:
+            //small.T().CopyTo(src[370, 470, 400, 500]);
+
             // Get partial mat (similar to cvSetImageROI)
-            Mat part = src[200, 400, 200, 400];
+            Mat part = src[200, 400, 200, 360];
             // Invert partial pixel values
             Cv2.BitwiseNot(part, part);
 
             // Fill the region (50..100, 100..150) with color (128, 0, 0)
-            part = src.SubMat(50, 100, 100, 150);
+            part = src.SubMat(50, 100, 400, 450);
             part.SetTo(128);
 
             using (new Window("SubMat", src))
@@ -70,17 +78,22 @@ namespace CppStyleSamplesCS
         {
             Mat src = Cv2.ImRead(FilePath.Lenna);
 
-            src.Expr[new Rect(100, 100, 200, 200)] = 
-                src.Expr[new Rect(100, 100, 200, 200)].T();
-           
-            src.ColExpr[100,200] = ~src.ColExpr[0, 100];
+            Random rand = new Random();
+            for (int i = 0; i < 200; i++)
+            {
+                int c1 = rand.Next(100, 400);
+                int c2 = rand.Next(100, 400);
+                Mat temp = src.Row[c1];
+                src.Row[c1] = src.Row[c2];
+                src.Row[c2] = temp;
+            }
 
-            src.RowExpr[100] += src.RowExpr[102];
-
+            src.Col[0, 50] = ~src.Col[450, 500];
+            
             // set constant value (not recommended)
-            //src.RowExpr[450,460] = src.RowExpr[450,460] * 0 + new Scalar(0,0,255);
+            src.Row[450,460] = src.Row[450,460] * 0 + new Scalar(0,0,255);
             // recommended way
-            src.RowRange(450, 460).SetTo(new Scalar(0, 0, 255));
+            //src.RowRange(450, 460).SetTo(new Scalar(0, 0, 255));
 
             using (new Window("RowColOperation", src))
             {
