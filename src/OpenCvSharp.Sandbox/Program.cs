@@ -23,6 +23,14 @@ namespace OpenCvSharp.Sandbox
 
         static void Run()
         {
+            Mat src = new Mat("img/lenna.png");
+            Mat small = new Mat();
+
+            Cv2.Resize(src, small, new Size(100, 100));
+            src[100, 200, 100, 200] = small;
+
+            Window.ShowImages(src, small);
+
             MatOfByte mm = new MatOfByte(0, 0) { 2, 3, 4, 5 };
             MatOfByte mmm = mm.Reshape(2);
             

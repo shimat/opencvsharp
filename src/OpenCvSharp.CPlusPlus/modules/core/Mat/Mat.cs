@@ -1394,7 +1394,7 @@ namespace OpenCvSharp.CPlusPlus
                 Mat sub = SubMat(rowStart, rowEnd, colStart, colEnd);
                 if (sub.Size() != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
-                value.AssignTo(sub);
+                value.CopyTo(sub);
             }
         }
 
