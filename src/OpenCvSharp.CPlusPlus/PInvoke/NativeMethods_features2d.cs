@@ -19,11 +19,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void features2d_FeatureDetector_detect(IntPtr detector, IntPtr[] images, int imageLength, IntPtr keypoints, IntPtr[] mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int features2d_FeatureDetector_empty(IntPtr detector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern IntPtr features2d_FeatureDetector_create([MarshalAs(UnmanagedType.LPStr)] string detectorType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Feature2D_compute(IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr descriptors);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern IntPtr features2d_Feature2D_create([MarshalAs(UnmanagedType.LPStr)] string detectorType);
 
         // BRISK

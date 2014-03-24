@@ -37,8 +37,8 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void features2d_DescriptorMatcher_radiusMatch(IntPtr obj,
             IntPtr queryDescriptors,IntPtr trainDescriptors, IntPtr matches, float maxDistance,
             IntPtr mask, int compactResult);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_DescriptorMatcher_create(string descriptorMatcherType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern IntPtr features2d_DescriptorMatcher_create([MarshalAs(UnmanagedType.LPStr)] string descriptorMatcherType);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_BFMatcher_new(int normType, int crossCheck);

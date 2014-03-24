@@ -20,7 +20,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int core_getNumThreads();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_getThreadNum();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern void core_getBuildInformation([MarshalAs(UnmanagedType.LPStr)] StringBuilder buf, uint maxLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern long core_getTickCount();
@@ -312,12 +312,12 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_clipLine2")]
         public static extern int core_clipLine(Rect imgRect, ref Point pt1, ref Point pt2);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_putText(IntPtr img, string text, CvPoint org,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern void core_putText(IntPtr img, [MarshalAs(UnmanagedType.LPStr)] string text, CvPoint org,
             int fontFace, double fontScale, CvScalar color,
             int thickness, int lineType, int bottomLeftOrigin);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize core_getTextSize(string text, int fontFace,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern CvSize core_getTextSize([MarshalAs(UnmanagedType.LPStr)] string text, int fontFace,
 	        double fontScale, int thickness, out int baseLine);
 
         #endregion
