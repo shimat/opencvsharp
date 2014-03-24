@@ -4,8 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -15,7 +13,7 @@ namespace OpenCvSharp
     /// </summary>
 #else
     /// <summary>
-    /// Mosue events
+    /// Mouse events
     /// </summary>
 #endif
     [Flags]
