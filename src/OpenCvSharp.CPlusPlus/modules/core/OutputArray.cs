@@ -37,7 +37,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new NotSupportedException();
 
             // Matで結果取得
-            IntPtr matPtr = CppInvoke.core_OutputArray_getMat(ptr);
+            IntPtr matPtr = NativeMethods.core_OutputArray_getMat(ptr);
             using (Mat mat = new Mat(matPtr))
             {
                 // 配列サイズ
@@ -87,7 +87,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(mat == null)
                 throw new ArgumentNullException("mat");
-            ptr = CppInvoke.core_OutputArray_new_byMat(mat.CvPtr);
+            ptr = NativeMethods.core_OutputArray_new_byMat(mat.CvPtr);
             obj = mat;
         }
 
@@ -106,7 +106,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (ptr != IntPtr.Zero)
                     {
-                        CppInvoke.core_OutputArray_delete(ptr);
+                        NativeMethods.core_OutputArray_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -167,12 +167,12 @@ namespace OpenCvSharp.CPlusPlus
                 /*
                 Mat mat = GetMat();
                 // OutputArrayからMatオブジェクトを取得
-                IntPtr outMat = CppInvoke.core_OutputArray_getMat(ptr);
+                IntPtr outMat = NativeMethods.core_OutputArray_getMat(ptr);
                 // ポインタをセット
-                //CppInvoke.core_Mat_assignment_FromMat(mat.CvPtr, outMat);
-                CppInvoke.core_Mat_assignTo(outMat, mat.CvPtr);
+                //NativeMethods.core_Mat_assignment_FromMat(mat.CvPtr, outMat);
+                NativeMethods.core_Mat_assignTo(outMat, mat.CvPtr);
                 // OutputArrayから取り出したMatをdelete
-                CppInvoke.core_Mat_delete(outMat);
+                NativeMethods.core_Mat_delete(outMat);
                 */
             }
             else

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <summary>
         /// sizeof(cv::flann::Index)
         /// </summary>
-        public static readonly int SizeOf = FlannInvoke.flann_Index_sizeof();
+        public static readonly int SizeOf = NativeMethods.flann_Index_sizeof();
 
         private bool disposed = false;
         #endregion
@@ -45,7 +45,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
             if (@params == null)
                 throw new ArgumentNullException("params");
 
-            ptr = FlannInvoke.flann_Index_construct(features.CvPtr, @params.CvPtr);
+            ptr = NativeMethods.flann_Index_construct(features.CvPtr, @params.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create Index");
         }
@@ -78,7 +78,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
                     }
                     if (IsEnabledDispose)
                     {
-                        FlannInvoke.flann_Index_destruct(ptr);
+                        NativeMethods.flann_Index_destruct(ptr);
                     }
                     disposed = true;
                 }
@@ -125,7 +125,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
             indices = new int[knn];
             dists = new float[knn];
 
-            FlannInvoke.flann_Index_knnSearch1(ptr, queries, queries.Length, indices, dists, knn, @params.CvPtr);
+            NativeMethods.flann_Index_knnSearch1(ptr, queries, queries.Length, indices, dists, knn, @params.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -157,7 +157,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
             if (@params == null)
                 throw new ArgumentNullException("params");
 
-            FlannInvoke.flann_Index_knnSearch2(ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, knn, @params.CvPtr);
+            NativeMethods.flann_Index_knnSearch2(ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, knn, @params.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -190,7 +190,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
             indices = new int[knn];
             dists = new float[knn];
 
-            FlannInvoke.flann_Index_knnSearch3(ptr, queries.CvPtr, indices, dists, knn, @params.CvPtr);
+            NativeMethods.flann_Index_knnSearch3(ptr, queries.CvPtr, indices, dists, knn, @params.CvPtr);
         }
         #endregion
         #region RadiusSearch
@@ -226,7 +226,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
             if (@params == null)
                 throw new ArgumentNullException("params");
 
-            FlannInvoke.flann_Index_radiusSearch1(ptr, queries, queries.Length, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr);
+            NativeMethods.flann_Index_radiusSearch1(ptr, queries, queries.Length, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -260,7 +260,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
             if (@params == null)
                 throw new ArgumentNullException("params");
 
-            FlannInvoke.flann_Index_radiusSearch2(ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, radius, maxResults, @params.CvPtr);
+            NativeMethods.flann_Index_radiusSearch2(ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, radius, maxResults, @params.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -294,7 +294,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
             if (@params == null)
                 throw new ArgumentNullException("params");
 
-            FlannInvoke.flann_Index_radiusSearch3(ptr, queries.CvPtr, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr);
+            NativeMethods.flann_Index_radiusSearch3(ptr, queries.CvPtr, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr);
         }
         #endregion
         #region Save
@@ -313,7 +313,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         {
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
-            FlannInvoke.flann_Index_save(ptr, filename);
+            NativeMethods.flann_Index_save(ptr, filename);
         }
         #endregion
         /*

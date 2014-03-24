@@ -32,7 +32,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(mat == null)
                 throw new ArgumentNullException("mat");
-            this.ptr = CppInvoke.core_InputArray_new_byMat(mat.CvPtr);
+            this.ptr = NativeMethods.core_InputArray_new_byMat(mat.CvPtr);
             this.mat = mat;
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (expr == null)
                 throw new ArgumentNullException("expr");
-            this.ptr = CppInvoke.core_InputArray_new_byMatExpr(expr.CvPtr);
+            this.ptr = NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr);
             this.mat = null;
         }
 
@@ -62,7 +62,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (ptr != IntPtr.Zero)
                     {
-                        CppInvoke.core_InputArray_delete(ptr);
+                        NativeMethods.core_InputArray_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     mat = null;
@@ -109,7 +109,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return (InOutArrayKind)CppInvoke.core_InputArray_kind(ptr);
+                return (InOutArrayKind)NativeMethods.core_InputArray_kind(ptr);
             }
         }
 

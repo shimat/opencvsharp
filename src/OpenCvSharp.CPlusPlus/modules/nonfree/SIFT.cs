@@ -42,7 +42,7 @@ namespace OpenCvSharp.CPlusPlus
             double sigma = 1.6)
             : base()
         {
-            ptr = CppInvoke.nonfree_SIFT_new(nFeatures, nOctaveLayers, 
+            ptr = NativeMethods.nonfree_SIFT_new(nFeatures, nOctaveLayers, 
                 contrastThreshold, edgeThreshold, sigma);
         }
 
@@ -75,7 +75,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.nonfree_SIFT_delete(ptr);
+                        NativeMethods.nonfree_SIFT_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -99,7 +99,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SIFT_descriptorSize(ptr);
+                return NativeMethods.nonfree_SIFT_descriptorSize(ptr);
             }
         }
 
@@ -112,7 +112,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SIFT_descriptorType(ptr);
+                return NativeMethods.nonfree_SIFT_descriptorType(ptr);
             }
         }
 
@@ -124,7 +124,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.nonfree_SIFT_info(ptr);
+                IntPtr pInfo = NativeMethods.nonfree_SIFT_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }
@@ -157,7 +157,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.nonfree_SIFT_run1(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
+                NativeMethods.nonfree_SIFT_run1(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
                 return keypointsVec.ToArray();
             }
         }
@@ -196,7 +196,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.nonfree_SIFT_run2_OutputArray(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
+                NativeMethods.nonfree_SIFT_run2_OutputArray(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
                     descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
 
                 keypoints = keypointsVec.ToArray();
@@ -250,7 +250,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfMat pyrVec = new VectorOfMat())
             {
-                CppInvoke.nonfree_SIFT_buildGaussianPyramid(ptr, baseMat.CvPtr, pyrVec.CvPtr, nOctaves);
+                NativeMethods.nonfree_SIFT_buildGaussianPyramid(ptr, baseMat.CvPtr, pyrVec.CvPtr, nOctaves);
                 return pyrVec.ToArray();
             }
         }
@@ -269,7 +269,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr[] pyrPtrs = EnumerableEx.SelectPtrs(pyr);
             using (VectorOfMat dogPyrVec = new VectorOfMat())
             {
-                CppInvoke.nonfree_SIFT_buildDoGPyramid(ptr, pyrPtrs, pyrPtrs.Length, dogPyrVec.CvPtr);
+                NativeMethods.nonfree_SIFT_buildDoGPyramid(ptr, pyrPtrs, pyrPtrs.Length, dogPyrVec.CvPtr);
                 return dogPyrVec.ToArray();
             }
         }
@@ -293,7 +293,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.nonfree_SIFT_findScaleSpaceExtrema(ptr, gaussPyrPtrs, gaussPyrPtrs.Length,
+                NativeMethods.nonfree_SIFT_findScaleSpaceExtrema(ptr, gaussPyrPtrs, gaussPyrPtrs.Length,
                     dogPyrPtrs, dogPyrPtrs.Length, keyPointsVec.CvPtr);
                 return keyPointsVec.ToArray();
             }

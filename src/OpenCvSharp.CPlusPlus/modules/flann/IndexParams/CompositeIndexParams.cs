@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <summary>
         /// sizeof(cv::flann::CompositeIndexParams)
         /// </summary>
-        public static readonly new int SizeOf = FlannInvoke.flann_CompositeIndexParams_sizeof();
+        public static readonly new int SizeOf = NativeMethods.flann_CompositeIndexParams_sizeof();
 
         private bool disposed = false;
         #endregion
@@ -185,7 +185,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
 #endif
         public CompositeIndexParams(int trees = 4, int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
         {
-            ptr = FlannInvoke.flann_CompositeIndexParams_construct(trees, branching, iterations, centersInit, cbIndex);
+            ptr = NativeMethods.flann_CompositeIndexParams_construct(trees, branching, iterations, centersInit, cbIndex);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CompositeIndexParams");
         }
@@ -218,7 +218,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
                     }
                     if (IsEnabledDispose)
                     {
-                        FlannInvoke.flann_CompositeIndexParams_destruct(ptr);
+                        NativeMethods.flann_CompositeIndexParams_destruct(ptr);
                     }
                     disposed = true;
                 }

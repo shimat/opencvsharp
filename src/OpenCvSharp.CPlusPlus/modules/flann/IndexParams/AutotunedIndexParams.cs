@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <summary>
         /// sizeof(cv::flann::AutotunedIndexParams)
         /// </summary>
-        public static readonly new int SizeOf = FlannInvoke.flann_AutotunedIndexParams_sizeof();
+        public static readonly new int SizeOf = NativeMethods.flann_AutotunedIndexParams_sizeof();
 
         private bool disposed = false;
         #endregion
@@ -175,7 +175,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
 #endif
         public AutotunedIndexParams(float targetPrecision = 0.9f, float buildWeight = 0.01f, float memoryWeight = 0, float sampleFraction = 0.1f)
         {
-            ptr = FlannInvoke.flann_AutotunedIndexParams_construct(targetPrecision, buildWeight, memoryWeight, sampleFraction);
+            ptr = NativeMethods.flann_AutotunedIndexParams_construct(targetPrecision, buildWeight, memoryWeight, sampleFraction);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create AutotunedIndexParams");
         }
@@ -208,7 +208,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
                     }
                     if (IsEnabledDispose)
                     {
-                        FlannInvoke.flann_AutotunedIndexParams_destruct(ptr);
+                        NativeMethods.flann_AutotunedIndexParams_destruct(ptr);
                     }
                     disposed = true;
                 }

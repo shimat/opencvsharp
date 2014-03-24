@@ -48,7 +48,7 @@ namespace OpenCvSharp.CPlusPlus
         public StarDetector(int maxSize = 45, int responseThreshold = 30, int lineThresholdProjected = 10, 
             int lineThresholdBinarized = 8, int suppressNonmaxSize = 5)
         {
-            ptr = CppInvoke.features2d_StarDetector_new(
+            ptr = NativeMethods.features2d_StarDetector_new(
                 maxSize, responseThreshold, lineThresholdProjected, lineThresholdBinarized, suppressNonmaxSize);
         }
 
@@ -81,7 +81,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_StarDetector_delete(ptr);
+                        NativeMethods.features2d_StarDetector_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -114,7 +114,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
 
             IntPtr keypoints;
-            CppInvoke.features2d_StarDetector_detect(ptr, image.CvPtr, out keypoints);
+            NativeMethods.features2d_StarDetector_detect(ptr, image.CvPtr, out keypoints);
 
             using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint(keypoints))
             {
@@ -130,7 +130,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_StarDetector_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_StarDetector_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

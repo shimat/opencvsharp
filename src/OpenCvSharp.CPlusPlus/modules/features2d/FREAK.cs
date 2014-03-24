@@ -42,7 +42,7 @@ namespace OpenCvSharp.CPlusPlus
             int[] selectedPairsArray = EnumerableEx.ToArray(selectedPairs);
             int selectedPairslength = selectedPairs == null ? 0 : selectedPairsArray.Length;
 
-            ptr = CppInvoke.features2d_FREAK_new(orientationNormalized ? 1 : 0,
+            ptr = NativeMethods.features2d_FREAK_new(orientationNormalized ? 1 : 0,
                 scaleNormalized ? 1 : 0, patternScale, nOctaves, 
                 selectedPairsArray, selectedPairslength);
         }
@@ -76,7 +76,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_FREAK_delete(ptr);
+                        NativeMethods.features2d_FREAK_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -96,7 +96,7 @@ namespace OpenCvSharp.CPlusPlus
         public int DescriptorSize()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_FREAK_descriptorSize(ptr);
+            return NativeMethods.features2d_FREAK_descriptorSize(ptr);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace OpenCvSharp.CPlusPlus
         public int DescriptorType()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_FREAK_descriptorType(ptr);
+            return NativeMethods.features2d_FREAK_descriptorType(ptr);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace OpenCvSharp.CPlusPlus
             using (VectorOfInt32 outVec = new VectorOfInt32())
             using (VectorOfVectorKeyPoint keypointsVec = new VectorOfVectorKeyPoint())
             {
-                CppInvoke.features2d_FREAK_selectPairs(ptr, imagesPtrs, imagesPtrs.Length,
+                NativeMethods.features2d_FREAK_selectPairs(ptr, imagesPtrs, imagesPtrs.Length,
                     keypointsVec.CvPtr, corrThresh, verbose ? 1 : 0, outVec.CvPtr);
                 keypoints = keypointsVec.ToArray();
                 return outVec.ToArray();
@@ -143,7 +143,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_FREAK_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_FREAK_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

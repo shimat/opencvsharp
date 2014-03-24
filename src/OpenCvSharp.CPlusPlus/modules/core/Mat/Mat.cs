@@ -44,7 +44,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat()
         {
-            ptr = CppInvoke.core_Mat_new1();
+            ptr = NativeMethods.core_Mat_new1();
         }
 
 #if LANG_JP
@@ -66,7 +66,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("fileName");
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
-            ptr = CppInvoke.highgui_imread(fileName, (int)flags);
+            ptr = NativeMethods.highgui_imread(fileName, (int)flags);
         }
 
 #if LANG_JP
@@ -88,7 +88,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat(int rows, int cols, MatType type)
         {
-            ptr = CppInvoke.core_Mat_new2(rows, cols, type);
+            ptr = NativeMethods.core_Mat_new2(rows, cols, type);
         }
 
 #if LANG_JP
@@ -109,7 +109,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat(Size size, MatType type)
         {
-            ptr = CppInvoke.core_Mat_new2(size.Width, size.Height, type);
+            ptr = NativeMethods.core_Mat_new2(size.Width, size.Height, type);
         }
 
 #if LANG_JP
@@ -135,7 +135,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat(int rows, int cols, MatType type, Scalar s)
         {
-            ptr = CppInvoke.core_Mat_new3(rows, cols, type, s);
+            ptr = NativeMethods.core_Mat_new3(rows, cols, type, s);
         }
 
 #if LANG_JP
@@ -160,7 +160,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat(Size size, MatType type, Scalar s)
         {
-            ptr = CppInvoke.core_Mat_new3(size.Width, size.Height, type, s);
+            ptr = NativeMethods.core_Mat_new3(size.Width, size.Height, type, s);
         }
 
 #if LANG_JP
@@ -192,9 +192,9 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(Mat m, Range rowRange, Range? colRange = null)
         {
             if (colRange.HasValue)
-                ptr = CppInvoke.core_Mat_new4(m.ptr, rowRange, colRange.Value);
+                ptr = NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value);
             else
-                ptr = CppInvoke.core_Mat_new5(m.ptr, rowRange);
+                ptr = NativeMethods.core_Mat_new5(m.ptr, rowRange);
         }
 
 #if LANG_JP
@@ -222,7 +222,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat(Mat m, params Range[] ranges)
         {
-            ptr = CppInvoke.core_Mat_new6(m.ptr, ranges);
+            ptr = NativeMethods.core_Mat_new6(m.ptr, ranges);
         }
 
 #if LANG_JP
@@ -250,7 +250,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat(Mat m, Rect roi)
         {
-            ptr = CppInvoke.core_Mat_new7(m.ptr, roi);
+            ptr = NativeMethods.core_Mat_new7(m.ptr, roi);
         }
 
 #if LANG_JP
@@ -287,7 +287,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
         {
-            ptr = CppInvoke.core_Mat_new8(rows, cols, type, data, new IntPtr(step));
+            ptr = NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step));
         }
 
 #if LANG_JP
@@ -325,7 +325,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(int rows, int cols, MatType type, Array data, long step = 0)
         {
             GCHandle handle = AllocGCHandle(data);
-            ptr = CppInvoke.core_Mat_new8(rows, cols, type,
+            ptr = NativeMethods.core_Mat_new8(rows, cols, type,
                 handle.AddrOfPinnedObject(), new IntPtr(step));
         }
         
@@ -367,7 +367,7 @@ namespace OpenCvSharp.CPlusPlus
             int[] sizesArray = EnumerableEx.ToArray(sizes);
             if (steps == null)
             {
-                ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero);
+                ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero);
             }
             else
             {
@@ -375,7 +375,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     return new IntPtr(s);
                 });
-                ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray);
+                ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray);
             }
         }
 
@@ -419,7 +419,7 @@ namespace OpenCvSharp.CPlusPlus
             int[] sizesArray = EnumerableEx.ToArray(sizes);
             if (steps == null)
             {
-                ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray,
+                ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, handle.AddrOfPinnedObject(), IntPtr.Zero);
             }
             else
@@ -428,7 +428,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     return new IntPtr(s);
                 });
-                ptr = CppInvoke.core_Mat_new9(sizesArray.Length, sizesArray,
+                ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, handle.AddrOfPinnedObject(), stepsArray);
             }
         }
@@ -454,7 +454,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("sizes");
 
             int[] sizesArray = EnumerableEx.ToArray(sizes);
-            ptr = CppInvoke.core_Mat_new10(sizesArray.Length, sizesArray, type);
+            ptr = NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type);
         }
 
 #if LANG_JP
@@ -481,7 +481,7 @@ namespace OpenCvSharp.CPlusPlus
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
             int[] sizesArray = EnumerableEx.ToArray(sizes);
-            ptr = CppInvoke.core_Mat_new11(sizesArray.Length, sizesArray, type, s);
+            ptr = NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s);
         }
 
 #if LANG_JP
@@ -511,7 +511,7 @@ namespace OpenCvSharp.CPlusPlus
             if (m == null)
                 throw new ArgumentNullException("m");
             m.ThrowIfDisposed();
-            ptr = CppInvoke.core_Mat_new_FromCvMat(m.CvPtr, copyData ? 1 : 0);
+            ptr = NativeMethods.core_Mat_new_FromCvMat(m.CvPtr, copyData ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -543,7 +543,7 @@ namespace OpenCvSharp.CPlusPlus
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
-            ptr = CppInvoke.core_Mat_new_FromIplImage(img.CvPtr, copyData ? 1 : 0);
+            ptr = NativeMethods.core_Mat_new_FromIplImage(img.CvPtr, copyData ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }  
@@ -594,7 +594,7 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         if (ptr != IntPtr.Zero)
                         {
-                            CppInvoke.core_Mat_delete(ptr);
+                            NativeMethods.core_Mat_delete(ptr);
                         }
                     }
                     disposed = true;
@@ -705,7 +705,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// sizeof(cv::Mat)
         /// </summary>
-        public static readonly int SizeOf = (int)CppInvoke.core_Mat_sizeof();
+        public static readonly int SizeOf = (int)NativeMethods.core_Mat_sizeof();
 
         #region Diag
 
@@ -742,7 +742,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static MatExpr Eye(int rows, int cols, MatType type)
         {
-            IntPtr retPtr = CppInvoke.core_Mat_eye(rows, cols, type);
+            IntPtr retPtr = NativeMethods.core_Mat_eye(rows, cols, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -759,7 +759,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static MatExpr Ones(int rows, int cols, MatType type)
         {
-            IntPtr retPtr = CppInvoke.core_Mat_ones(rows, cols, type);
+            IntPtr retPtr = NativeMethods.core_Mat_ones(rows, cols, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -786,7 +786,7 @@ namespace OpenCvSharp.CPlusPlus
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
 
-            IntPtr retPtr = CppInvoke.core_Mat_ones(sizes.Length, sizes, type);
+            IntPtr retPtr = NativeMethods.core_Mat_ones(sizes.Length, sizes, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -803,7 +803,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static MatExpr Zeros(int rows, int cols, MatType type)
         {
-            IntPtr retPtr = CppInvoke.core_Mat_zeros(rows, cols, type);
+            IntPtr retPtr = NativeMethods.core_Mat_zeros(rows, cols, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -830,7 +830,7 @@ namespace OpenCvSharp.CPlusPlus
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
 
-            IntPtr retPtr = CppInvoke.core_Mat_zeros(sizes.Length, sizes, type);
+            IntPtr retPtr = NativeMethods.core_Mat_zeros(sizes.Length, sizes, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -864,12 +864,12 @@ namespace OpenCvSharp.CPlusPlus
             if (adjustAlignment)
             {
                 IntPtr imgPtr;
-                CppInvoke.core_Mat_IplImage_alignment(ptr, out imgPtr);
+                NativeMethods.core_Mat_IplImage_alignment(ptr, out imgPtr);
                 return new IplImage(imgPtr);
             }
 
             IplImage img = new IplImage(false);
-            CppInvoke.core_Mat_IplImage(ptr, img.CvPtr);
+            NativeMethods.core_Mat_IplImage(ptr, img.CvPtr);
             return img;
         }
 
@@ -893,7 +893,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
 
             CvMat mat = new CvMat(false);
-            CppInvoke.core_Mat_CvMat(ptr, mat.CvPtr);
+            NativeMethods.core_Mat_CvMat(ptr, mat.CvPtr);
 
             return mat;
         }
@@ -908,7 +908,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static MatExpr operator -(Mat mat)
         {
-            IntPtr expr = CppInvoke.core_operatorUnaryMinus_Mat(mat.CvPtr);
+            IntPtr expr = NativeMethods.core_operatorUnaryMinus_Mat(mat.CvPtr);
             return new MatExpr(expr);
         }
         /// <summary>
@@ -940,7 +940,7 @@ namespace OpenCvSharp.CPlusPlus
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
 
-            IntPtr retPtr = CppInvoke.core_operatorAdd_MatMat(a.CvPtr, b.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorAdd_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
 
@@ -956,7 +956,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
             
-            IntPtr retPtr = CppInvoke.core_operatorAdd_MatScalar(a.CvPtr, s);
+            IntPtr retPtr = NativeMethods.core_operatorAdd_MatScalar(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -970,7 +970,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorAdd_ScalarMat(s, a.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorAdd_ScalarMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
 
@@ -990,7 +990,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1004,7 +1004,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorSubtract_MatScalar(a.CvPtr, s);
+            IntPtr retPtr = NativeMethods.core_operatorSubtract_MatScalar(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1018,7 +1018,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorSubtract_ScalarMat(s, a.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorSubtract_ScalarMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
 
@@ -1039,7 +1039,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1053,7 +1053,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorMultiply_MatDouble(a.CvPtr, s);
+            IntPtr retPtr = NativeMethods.core_operatorMultiply_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1067,7 +1067,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorMultiply_DoubleMat(s, a.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorMultiply_DoubleMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
 
@@ -1087,7 +1087,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorDivide_MatMat(a.CvPtr, b.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorDivide_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
 
@@ -1102,7 +1102,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorDivide_MatDouble(a.CvPtr, s);
+            IntPtr retPtr = NativeMethods.core_operatorDivide_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
 
@@ -1117,7 +1117,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorDivide_DoubleMat(s, a.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorDivide_DoubleMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
 
@@ -1219,7 +1219,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1233,7 +1233,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorAnd_MatDouble(a.CvPtr, s);
+            IntPtr retPtr = NativeMethods.core_operatorAnd_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1247,7 +1247,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorAnd_DoubleMat(s, a.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorAnd_DoubleMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
         #endregion
@@ -1266,7 +1266,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorOr_MatMat(a.CvPtr, b.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorOr_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1280,7 +1280,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorOr_MatDouble(a.CvPtr, s);
+            IntPtr retPtr = NativeMethods.core_operatorOr_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1294,7 +1294,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorOr_DoubleMat(s, a.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorOr_DoubleMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
         #endregion
@@ -1313,7 +1313,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("b");
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorXor_MatMat(a.CvPtr, b.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorXor_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1327,7 +1327,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorXor_MatDouble(a.CvPtr, s);
+            IntPtr retPtr = NativeMethods.core_operatorXor_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -1341,7 +1341,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorXor_DoubleMat(s, a.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorXor_DoubleMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
         #endregion
@@ -1356,7 +1356,7 @@ namespace OpenCvSharp.CPlusPlus
             if (m == null)
                 throw new ArgumentNullException("m");
             m.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_operatorNot_Mat(m.CvPtr);
+            IntPtr retPtr = NativeMethods.core_operatorNot_Mat(m.CvPtr);
             return new MatExpr(retPtr);
         }
 
@@ -1523,7 +1523,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     Mat submat = parent.SubMat(rowStart, rowEnd, colStart, colEnd);
-                    CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                 }
             }
 
@@ -1543,7 +1543,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     Mat submat = parent.SubMat(rowRange, colRange);
-                    CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                 }
             }
 
@@ -1560,7 +1560,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     Mat submat = parent.SubMat(roi);
-                    CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                 }
             }
 
@@ -1577,7 +1577,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     Mat submat = parent.SubMat(ranges);
-                    CppInvoke.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                 }
             }
         }
@@ -1617,7 +1617,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matExprPtr = CppInvoke.core_Mat_col_toMatExpr(parent.ptr, x);
+                    IntPtr matExprPtr = NativeMethods.core_Mat_col_toMatExpr(parent.ptr, x);
                     MatExpr matExpr = new MatExpr(matExprPtr);
                     return matExpr;
                 }
@@ -1626,9 +1626,9 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     parent.ThrowIfDisposed();
-                    IntPtr colMatPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
-                    CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
-                    CppInvoke.core_Mat_delete(colMatPtr);
+                    IntPtr colMatPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
+                    NativeMethods.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
+                    NativeMethods.core_Mat_delete(colMatPtr);
                 }
             }
             /// <summary>
@@ -1642,7 +1642,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matExprPtr = CppInvoke.core_Mat_colRange_toMatExpr(parent.ptr, startCol, endCol);
+                    IntPtr matExprPtr = NativeMethods.core_Mat_colRange_toMatExpr(parent.ptr, startCol, endCol);
                     MatExpr matExpr = new MatExpr(matExprPtr);
                     return matExpr;
                 }
@@ -1651,9 +1651,9 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     parent.ThrowIfDisposed();
-                    IntPtr colMatPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
-                    CppInvoke.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
-                    CppInvoke.core_Mat_delete(colMatPtr);
+                    IntPtr colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    NativeMethods.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
+                    NativeMethods.core_Mat_delete(colMatPtr);
                 }
             }
         }
@@ -1693,7 +1693,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matExprPtr = CppInvoke.core_Mat_row_toMatExpr(parent.ptr, y);
+                    IntPtr matExprPtr = NativeMethods.core_Mat_row_toMatExpr(parent.ptr, y);
                     MatExpr matExpr = new MatExpr(matExprPtr);
                     return matExpr;
                 }
@@ -1702,9 +1702,9 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     parent.ThrowIfDisposed();
-                    IntPtr rowMatPtr = CppInvoke.core_Mat_row_toMat(parent.ptr, y);
-                    CppInvoke.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
-                    CppInvoke.core_Mat_delete(rowMatPtr);
+                    IntPtr rowMatPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, y);
+                    NativeMethods.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
+                    NativeMethods.core_Mat_delete(rowMatPtr);
                 }
             }
             /// <summary>
@@ -1718,7 +1718,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matExprPtr = CppInvoke.core_Mat_rowRange_toMatExpr(parent.ptr, startRow, endRow);
+                    IntPtr matExprPtr = NativeMethods.core_Mat_rowRange_toMatExpr(parent.ptr, startRow, endRow);
                     MatExpr matExpr = new MatExpr(matExprPtr);
                     return matExpr;
                 }
@@ -1727,8 +1727,8 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     parent.ThrowIfDisposed();
-                    IntPtr rowMatPtr = CppInvoke.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
-                    CppInvoke.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
+                    IntPtr rowMatPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                    NativeMethods.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
                 }
             }
         }
@@ -1759,7 +1759,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
+            IntPtr retPtr = NativeMethods.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -1777,7 +1777,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            CppInvoke.core_Mat_assignTo(ptr, m.CvPtr, type);
+            NativeMethods.core_Mat_assignTo(ptr, m.CvPtr, type);
         }
 
         /// <summary>
@@ -1786,7 +1786,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="m">Destination array.</param>
         public void AssignTo(Mat m)
         {
-            CppInvoke.core_Mat_assignTo(ptr, m.CvPtr);
+            NativeMethods.core_Mat_assignTo(ptr, m.CvPtr);
         }
 
         #endregion
@@ -1799,7 +1799,7 @@ namespace OpenCvSharp.CPlusPlus
         public int Channels()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_channels(ptr);
+            return NativeMethods.core_Mat_channels(ptr);
         }
 
         #endregion
@@ -1813,7 +1813,7 @@ namespace OpenCvSharp.CPlusPlus
         public int CheckVector(int elemChannels)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_checkVector(ptr, elemChannels);
+            return NativeMethods.core_Mat_checkVector(ptr, elemChannels);
         }
 
         /// <summary>
@@ -1825,7 +1825,7 @@ namespace OpenCvSharp.CPlusPlus
         public int CheckVector(int elemChannels, int depth)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_checkVector(ptr, elemChannels, depth);
+            return NativeMethods.core_Mat_checkVector(ptr, elemChannels, depth);
         }
 
         /// <summary>
@@ -1838,7 +1838,7 @@ namespace OpenCvSharp.CPlusPlus
         public int CheckVector(int elemChannels, int depth, bool requireContinuous)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_checkVector(
+            return NativeMethods.core_Mat_checkVector(
                     ptr, elemChannels, depth, requireContinuous ? 1 : 0);
         }
 
@@ -1852,7 +1852,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Clone()
         {
             ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_clone(ptr);
+            IntPtr retPtr = NativeMethods.core_Mat_clone(ptr);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -1875,7 +1875,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (colsVal == int.MinValue)
                 {
-                    colsVal = CppInvoke.core_Mat_cols(ptr);
+                    colsVal = NativeMethods.core_Mat_cols(ptr);
                 }
                 return colsVal;
             }
@@ -1910,7 +1910,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.core_Mat_dims(ptr);
+                return NativeMethods.core_Mat_dims(ptr);
             }
         }
 
@@ -1930,7 +1930,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            CppInvoke.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha, beta);
+            NativeMethods.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha, beta);
         }
 
         #endregion
@@ -1956,7 +1956,7 @@ namespace OpenCvSharp.CPlusPlus
             if (m == null)
                 throw new ArgumentNullException("m");
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            CppInvoke.core_Mat_copyTo(ptr, m.CvPtr, maskPtr);
+            NativeMethods.core_Mat_copyTo(ptr, m.CvPtr, maskPtr);
         }
 
         #endregion
@@ -1971,7 +1971,7 @@ namespace OpenCvSharp.CPlusPlus
         public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_create(ptr, rows, cols, type);
+            NativeMethods.core_Mat_create(ptr, rows, cols, type);
         }
 
         /// <summary>
@@ -1995,7 +1995,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("sizes");
             if (sizes.Length < 2)
                 throw new ArgumentException("sizes.Length < 2");
-            CppInvoke.core_Mat_create(ptr, sizes.Length, sizes, type);
+            NativeMethods.core_Mat_create(ptr, sizes.Length, sizes, type);
         }
 
         #endregion
@@ -2011,7 +2011,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            IntPtr retPtr = CppInvoke.core_Mat_cross(ptr, m.CvPtr);
+            IntPtr retPtr = NativeMethods.core_Mat_cross(ptr, m.CvPtr);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2041,7 +2041,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.core_Mat_data(ptr);
+                return NativeMethods.core_Mat_data(ptr);
             }
         }
 
@@ -2053,7 +2053,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.core_Mat_datastart(ptr);
+                return NativeMethods.core_Mat_datastart(ptr);
             }
         }
 
@@ -2065,7 +2065,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.core_Mat_dataend(ptr);
+                return NativeMethods.core_Mat_dataend(ptr);
             }
         }
 
@@ -2079,7 +2079,7 @@ namespace OpenCvSharp.CPlusPlus
         public int Depth()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_depth(ptr);
+            return NativeMethods.core_Mat_depth(ptr);
         }
 
         #endregion
@@ -2093,7 +2093,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Diag(MatDiagType d = MatDiagType.Main)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_diag(ptr, (int)d);
+            IntPtr retPtr = NativeMethods.core_Mat_diag(ptr, (int)d);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2111,7 +2111,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            return CppInvoke.core_Mat_dot(ptr, m.CvPtr);
+            return NativeMethods.core_Mat_dot(ptr, m.CvPtr);
         }
 
         #endregion
@@ -2124,7 +2124,7 @@ namespace OpenCvSharp.CPlusPlus
         public long ElemSize()
         {
             ThrowIfDisposed();
-            return (long)CppInvoke.core_Mat_elemSize(ptr);
+            return (long)NativeMethods.core_Mat_elemSize(ptr);
         }
 
         #endregion
@@ -2137,7 +2137,7 @@ namespace OpenCvSharp.CPlusPlus
         public long ElemSize1()
         {
             ThrowIfDisposed();
-            return (long)CppInvoke.core_Mat_elemSize1(ptr);
+            return (long)NativeMethods.core_Mat_elemSize1(ptr);
         }
 
         #endregion
@@ -2150,7 +2150,7 @@ namespace OpenCvSharp.CPlusPlus
         public bool Empty()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_empty(ptr) != 0;
+            return NativeMethods.core_Mat_empty(ptr) != 0;
         }
 
         #endregion
@@ -2164,7 +2164,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Inv(MatrixDecomposition method = MatrixDecomposition.LU)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_inv(ptr, (int)method);
+            IntPtr retPtr = NativeMethods.core_Mat_inv(ptr, (int)method);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2179,7 +2179,7 @@ namespace OpenCvSharp.CPlusPlus
         public bool IsContinuous()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_isContinuous(ptr) != 0;
+            return NativeMethods.core_Mat_isContinuous(ptr) != 0;
         }
 
         #endregion
@@ -2192,7 +2192,7 @@ namespace OpenCvSharp.CPlusPlus
         public bool IsSubmatrix()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_isSubmatrix(ptr) != 0;
+            return NativeMethods.core_Mat_isSubmatrix(ptr) != 0;
         }
 
         #endregion
@@ -2208,7 +2208,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             CvSize wholeSize2;
             CvPoint ofs2;
-            CppInvoke.core_Mat_locateROI(ptr, out wholeSize2, out ofs2);
+            NativeMethods.core_Mat_locateROI(ptr, out wholeSize2, out ofs2);
             wholeSize = wholeSize2;
             ofs = ofs2;
         }
@@ -2228,7 +2228,7 @@ namespace OpenCvSharp.CPlusPlus
             if (m == null)
                 throw new ArgumentNullException();
             IntPtr mPtr = m.CvPtr;
-            IntPtr retPtr = CppInvoke.core_Mat_mul(ptr, mPtr, scale);
+            IntPtr retPtr = NativeMethods.core_Mat_mul(ptr, mPtr, scale);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -2245,7 +2245,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Reshape(int cn, int rows = 0)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn, rows);
+            IntPtr retPtr = NativeMethods.core_Mat_reshape(ptr, cn, rows);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2261,7 +2261,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (newDims == null)
                 throw new ArgumentNullException("newDims");
-            IntPtr retPtr = CppInvoke.core_Mat_reshape(ptr, cn, newDims.Length, newDims);
+            IntPtr retPtr = NativeMethods.core_Mat_reshape(ptr, cn, newDims.Length, newDims);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2278,7 +2278,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (rowsVal == int.MinValue)
                 {
-                    rowsVal = CppInvoke.core_Mat_rows(ptr);
+                    rowsVal = NativeMethods.core_Mat_rows(ptr);
                 }
                 return rowsVal;
             }
@@ -2315,7 +2315,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = CppInvoke.core_Mat_setTo(ptr, value, maskPtr);
+            IntPtr retPtr = NativeMethods.core_Mat_setTo(ptr, value, maskPtr);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2333,7 +2333,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("value");
             value.ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = CppInvoke.core_Mat_setTo(ptr, value.CvPtr, maskPtr);
+            IntPtr retPtr = NativeMethods.core_Mat_setTo(ptr, value.CvPtr, maskPtr);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2348,7 +2348,7 @@ namespace OpenCvSharp.CPlusPlus
         public Size Size()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_size(ptr);
+            return NativeMethods.core_Mat_size(ptr);
         }
 
         /// <summary>
@@ -2359,7 +2359,7 @@ namespace OpenCvSharp.CPlusPlus
         public int Size(int dim)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_sizeAt(ptr, dim);
+            return NativeMethods.core_Mat_sizeAt(ptr, dim);
         }
 
         #endregion
@@ -2372,7 +2372,7 @@ namespace OpenCvSharp.CPlusPlus
         public long Step()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_step(ptr);
+            return NativeMethods.core_Mat_step(ptr);
         }
 
         /// <summary>
@@ -2383,7 +2383,7 @@ namespace OpenCvSharp.CPlusPlus
         public long Step(int i)
         {
             ThrowIfDisposed();
-            return (long)CppInvoke.core_Mat_stepAt(ptr, i);
+            return (long)NativeMethods.core_Mat_stepAt(ptr, i);
         }
 
         #endregion
@@ -2396,7 +2396,7 @@ namespace OpenCvSharp.CPlusPlus
         public long Step1()
         {
             ThrowIfDisposed();
-            return (long)CppInvoke.core_Mat_step1(ptr);
+            return (long)NativeMethods.core_Mat_step1(ptr);
         }
 
         /// <summary>
@@ -2407,7 +2407,7 @@ namespace OpenCvSharp.CPlusPlus
         public long Step1(int i)
         {
             ThrowIfDisposed();
-            return (long)CppInvoke.core_Mat_step1(ptr, i);
+            return (long)NativeMethods.core_Mat_step1(ptr, i);
         }
 
         #endregion
@@ -2420,7 +2420,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat T()
         {
             ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_t(ptr);
+            IntPtr retPtr = NativeMethods.core_Mat_t(ptr);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2435,7 +2435,7 @@ namespace OpenCvSharp.CPlusPlus
         public long Total()
         {
             ThrowIfDisposed();
-            return (long)CppInvoke.core_Mat_total(ptr);
+            return (long)NativeMethods.core_Mat_total(ptr);
         }
 
         #endregion
@@ -2448,7 +2448,7 @@ namespace OpenCvSharp.CPlusPlus
         public MatType Type()
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_type(ptr);
+            return NativeMethods.core_Mat_type(ptr);
         }
 
         #endregion
@@ -2487,13 +2487,13 @@ namespace OpenCvSharp.CPlusPlus
                 sbyte* buf = null;
                 try
                 {
-                    buf = CppInvoke.core_Mat_dump(ptr, formatStr);
+                    buf = NativeMethods.core_Mat_dump(ptr, formatStr);
                     return new string(buf);
                 }
                 finally
                 {
                     if (buf != null)
-                        CppInvoke.core_Mat_dump_delete(buf);
+                        NativeMethods.core_Mat_dump_delete(buf);
                 }
             }
         }
@@ -2538,7 +2538,7 @@ namespace OpenCvSharp.CPlusPlus
         public IntPtr Ptr(int i0)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_ptr1d(ptr, i0);
+            return NativeMethods.core_Mat_ptr1d(ptr, i0);
         }
 
         /// <summary>
@@ -2550,7 +2550,7 @@ namespace OpenCvSharp.CPlusPlus
         public IntPtr Ptr(int i0, int i1)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_ptr2d(ptr, i0, i1);
+            return NativeMethods.core_Mat_ptr2d(ptr, i0, i1);
         }
 
         /// <summary>
@@ -2563,7 +2563,7 @@ namespace OpenCvSharp.CPlusPlus
         public IntPtr Ptr(int i0, int i1, int i2)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_ptr3d(ptr, i0, i1, i2);
+            return NativeMethods.core_Mat_ptr3d(ptr, i0, i1, i2);
         }
 
         /// <summary>
@@ -2574,7 +2574,7 @@ namespace OpenCvSharp.CPlusPlus
         public IntPtr Ptr(params int[] idx)
         {
             ThrowIfDisposed();
-            return CppInvoke.core_Mat_ptrnd(ptr, idx);
+            return NativeMethods.core_Mat_ptrnd(ptr, idx);
         }
 
         #endregion
@@ -2851,7 +2851,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Col(int x)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = CppInvoke.core_Mat_col_toMat(ptr, x);
+            IntPtr matPtr = NativeMethods.core_Mat_col_toMat(ptr, x);
             return new Mat(matPtr);
         }
         */
@@ -2864,7 +2864,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat ColRange(int startCol, int endCol)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = CppInvoke.core_Mat_colRange_toMat(ptr, startCol, endCol);
+            IntPtr matPtr = NativeMethods.core_Mat_colRange_toMat(ptr, startCol, endCol);
             return new Mat(matPtr);
         }
 
@@ -2902,7 +2902,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
+                    IntPtr matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
                     Mat mat = new Mat(matPtr);
                     return mat;
                 }
@@ -2915,7 +2915,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (parent.Dims != value.Dims)
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr matPtr = CppInvoke.core_Mat_col_toMat(parent.ptr, x);
+                    IntPtr matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
                     Mat mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
                         throw new ArgumentException("Specified ROI != mat.Size()");
@@ -2933,7 +2933,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    IntPtr matPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
                     Mat mat = new Mat(matPtr);
                     return mat;
                 }
@@ -2946,7 +2946,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (parent.Dims != value.Dims)
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr colMatPtr = CppInvoke.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    IntPtr colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
                     Mat colMat = new Mat(colMatPtr);
                     if (colMat.Size() != value.Size())
                         throw new ArgumentException("Specified ROI != mat.Size()");
@@ -2977,7 +2977,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Row(int y)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = CppInvoke.core_Mat_row_toMat(ptr, y);
+            IntPtr matPtr = NativeMethods.core_Mat_row_toMat(ptr, y);
             return new Mat(matPtr);
         }
         */
@@ -2990,7 +2990,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat RowRange(int startRow, int endRow)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = CppInvoke.core_Mat_rowRange_toMat(ptr, startRow, endRow);
+            IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(ptr, startRow, endRow);
             return new Mat(matPtr);
         }
 
@@ -3027,7 +3027,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matPtr = CppInvoke.core_Mat_row_toMat(parent.ptr, x);
+                    IntPtr matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
                     Mat mat = new Mat(matPtr);
                     return mat;
                 }
@@ -3040,7 +3040,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (parent.Dims != value.Dims)
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr matPtr = CppInvoke.core_Mat_row_toMat(parent.ptr, x);
+                    IntPtr matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
                     Mat mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
                         throw new ArgumentException("Specified ROI != mat.Size()");
@@ -3058,7 +3058,7 @@ namespace OpenCvSharp.CPlusPlus
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matPtr = CppInvoke.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
+                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
                     Mat mat = new Mat(matPtr);
                     return mat;
                 }
@@ -3071,7 +3071,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (parent.Dims != value.Dims)
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr matPtr = CppInvoke.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
+                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
                     Mat mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
                         throw new ArgumentException("Specified ROI != mat.Size()");
@@ -3109,7 +3109,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentException("colStart >= colEnd");
 
             ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, rowStart, rowEnd, colStart, colEnd);
+            IntPtr retPtr = NativeMethods.core_Mat_subMat(ptr, rowStart, rowEnd, colStart, colEnd);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -3152,7 +3152,7 @@ namespace OpenCvSharp.CPlusPlus
                 slices[i] = ranges[i];
             }
 
-            IntPtr retPtr = CppInvoke.core_Mat_subMat(ptr, slices.Length, slices);
+            IntPtr retPtr = NativeMethods.core_Mat_subMat(ptr, slices.Length, slices);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -3197,7 +3197,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, byte[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8S, MatType.CV_8U);
-            CppInvoke.core_Mat_nGetB(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetB(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3208,7 +3208,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, byte[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8S, MatType.CV_8U);
-            CppInvoke.core_Mat_nGetB(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetB(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3220,7 +3220,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, short[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            CppInvoke.core_Mat_nGetS(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3231,7 +3231,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, short[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            CppInvoke.core_Mat_nGetS(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3243,7 +3243,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, ushort[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            CppInvoke.core_Mat_nGetS(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3254,7 +3254,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, ushort[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            CppInvoke.core_Mat_nGetS(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3266,7 +3266,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, int[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
-            CppInvoke.core_Mat_nGetI(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetI(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3277,7 +3277,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, int[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
-            CppInvoke.core_Mat_nGetI(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetI(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3289,7 +3289,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, float[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
-            CppInvoke.core_Mat_nGetF(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetF(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3300,7 +3300,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, float[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
-            CppInvoke.core_Mat_nGetF(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetF(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3312,7 +3312,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, double[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
-            CppInvoke.core_Mat_nGetD(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetD(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3323,7 +3323,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, double[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
-            CppInvoke.core_Mat_nGetD(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetD(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3341,7 +3341,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentOutOfRangeException("col");
 
             double[] ret = new double[Channels()];
-            CppInvoke.core_Mat_nGetD(ptr, row, col, ret, ret.Length);
+            NativeMethods.core_Mat_nGetD(ptr, row, col, ret, ret.Length);
             return ret;
         }
 
@@ -3354,7 +3354,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Vec3b[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
-            CppInvoke.core_Mat_nGetVec3b(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetVec3b(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3365,7 +3365,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Vec3b[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
-            CppInvoke.core_Mat_nGetVec3b(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetVec3b(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3377,7 +3377,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Vec3d[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            CppInvoke.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3388,7 +3388,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Vec3d[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            CppInvoke.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3400,7 +3400,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Vec4f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
-            CppInvoke.core_Mat_nGetVec4f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetVec4f(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3411,7 +3411,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Vec4f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
-            CppInvoke.core_Mat_nGetVec4f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetVec4f(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3423,7 +3423,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Vec6f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
-            CppInvoke.core_Mat_nGetVec6f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetVec6f(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3434,7 +3434,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Vec6f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
-            CppInvoke.core_Mat_nGetVec6f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetVec6f(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3446,7 +3446,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
-            CppInvoke.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3457,7 +3457,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
-            CppInvoke.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3469,7 +3469,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point2f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
-            CppInvoke.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3480,7 +3480,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point2f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
-            CppInvoke.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3492,7 +3492,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point2d[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
-            CppInvoke.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3503,7 +3503,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point2d[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
-            CppInvoke.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3515,7 +3515,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point3i[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
-            CppInvoke.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3526,7 +3526,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point3i[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
-            CppInvoke.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
         }
 
 
@@ -3539,7 +3539,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point3f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
-            CppInvoke.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3550,7 +3550,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point3f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
-            CppInvoke.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3562,7 +3562,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point3d[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            CppInvoke.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3573,7 +3573,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Point3d[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            CppInvoke.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3585,7 +3585,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Rect[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
-            CppInvoke.core_Mat_nGetRect(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetRect(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Get the data of this matrix as array
@@ -3596,7 +3596,7 @@ namespace OpenCvSharp.CPlusPlus
         public void GetArray(int row, int col, Rect[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
-            CppInvoke.core_Mat_nGetRect(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nGetRect(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3609,7 +3609,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             CheckArgumentsForConvert(row, col, data);
             Vec4f[] dataV = new Vec4f[data.Length];
-            CppInvoke.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
+            NativeMethods.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
             for (int i = 0; i < data.Length; i++)
             {
                 data[i] = (DMatch)dataV[i];
@@ -3628,7 +3628,7 @@ namespace OpenCvSharp.CPlusPlus
             int dim0 = data.GetLength(0);
             int dim1 = data.GetLength(1);
             Vec4f[,] dataV = new Vec4f[dim0, dim1];
-            CppInvoke.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
+            NativeMethods.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
             for (int i = 0; i < dim0; i++)
             {
                 for (int j = 0; j < dim1; j++)
@@ -3648,7 +3648,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params byte[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8U);
-            CppInvoke.core_Mat_nSetB(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetB(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3659,7 +3659,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, byte[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8U);
-            CppInvoke.core_Mat_nSetB(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetB(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3671,7 +3671,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params short[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3682,7 +3682,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, short[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3694,7 +3694,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params ushort[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3705,7 +3705,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, ushort[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            CppInvoke.core_Mat_nSetS(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3717,7 +3717,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params int[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
-            CppInvoke.core_Mat_nSetI(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetI(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3728,7 +3728,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, int[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
-            CppInvoke.core_Mat_nSetI(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetI(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3740,7 +3740,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params float[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
-            CppInvoke.core_Mat_nSetF(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetF(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3751,7 +3751,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, float[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
-            CppInvoke.core_Mat_nSetF(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetF(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3763,7 +3763,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params double[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
-            CppInvoke.core_Mat_nSetD(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetD(ptr, row, col, data, data.Length);
         }     
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3774,7 +3774,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, double[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
-            CppInvoke.core_Mat_nSetD(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetD(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3786,7 +3786,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Vec3b[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
-            CppInvoke.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3797,7 +3797,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Vec3b[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
-            CppInvoke.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3809,7 +3809,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Vec3d[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            CppInvoke.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3820,7 +3820,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Vec3d[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            CppInvoke.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3832,7 +3832,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Vec4f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
-            CppInvoke.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3843,7 +3843,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Vec4f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
-            CppInvoke.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3855,7 +3855,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Vec6f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
-            CppInvoke.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3866,7 +3866,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Vec6f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
-            CppInvoke.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3878,7 +3878,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Point[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
-            CppInvoke.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3889,7 +3889,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Point[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
-            CppInvoke.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3901,7 +3901,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Point2f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
-            CppInvoke.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3912,7 +3912,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Point2f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
-            CppInvoke.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3924,7 +3924,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Point2d[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
-            CppInvoke.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3935,7 +3935,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Point2d[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
-            CppInvoke.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3947,7 +3947,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Point3i[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
-            CppInvoke.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3958,7 +3958,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Point3i[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
-            CppInvoke.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3970,7 +3970,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Point3f[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
-            CppInvoke.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -3981,7 +3981,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Point3f[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
-            CppInvoke.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -3993,7 +3993,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Point3d[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            CppInvoke.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -4004,7 +4004,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Point3d[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            CppInvoke.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
         }
 
 
@@ -4017,7 +4017,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, params Rect[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
-            CppInvoke.core_Mat_nSetRect(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetRect(ptr, row, col, data, data.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -4028,7 +4028,7 @@ namespace OpenCvSharp.CPlusPlus
         public void SetArray(int row, int col, Rect[,] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
-            CppInvoke.core_Mat_nSetRect(ptr, row, col, data, data.Length);
+            NativeMethods.core_Mat_nSetRect(ptr, row, col, data, data.Length);
         }
 
         /// <summary>
@@ -4044,7 +4044,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 return (Vec4f)d;
             });
-            CppInvoke.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
+            NativeMethods.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
         }
         /// <summary>
         /// Set the specified array data to this matrix
@@ -4059,7 +4059,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 return (Vec4f)d;
             });
-            CppInvoke.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
+            NativeMethods.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
         }
         #endregion
 
@@ -4071,7 +4071,7 @@ namespace OpenCvSharp.CPlusPlus
         public void Reserve(long sz)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_reserve(ptr, new IntPtr(sz));
+            NativeMethods.core_Mat_reserve(ptr, new IntPtr(sz));
         }
         #endregion
         #region Resize
@@ -4082,7 +4082,7 @@ namespace OpenCvSharp.CPlusPlus
         public void Resize(long sz)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_resize1(ptr, new IntPtr(sz));
+            NativeMethods.core_Mat_resize1(ptr, new IntPtr(sz));
         }
         /// <summary>
         /// resizes matrix to the specified number of hyper-planes; initializes the newly added elements
@@ -4092,7 +4092,7 @@ namespace OpenCvSharp.CPlusPlus
         public void Resize(long sz, Scalar s)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_resize2(ptr, new IntPtr(sz), s);
+            NativeMethods.core_Mat_resize2(ptr, new IntPtr(sz), s);
         }
         #endregion
         #region PushBack
@@ -4107,7 +4107,7 @@ namespace OpenCvSharp.CPlusPlus
             if (m == null)
                 throw new ArgumentNullException();
             m.ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back_Mat(ptr, m.CvPtr);
+            NativeMethods.core_Mat_push_back_Mat(ptr, m.CvPtr);
         }
 
         /// <summary>
@@ -4128,7 +4128,7 @@ namespace OpenCvSharp.CPlusPlus
         public void PopBack(long nElems = 1)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_pop_back(ptr, new IntPtr(nElems));
+            NativeMethods.core_Mat_pop_back(ptr, new IntPtr(nElems));
         }
         #endregion
 

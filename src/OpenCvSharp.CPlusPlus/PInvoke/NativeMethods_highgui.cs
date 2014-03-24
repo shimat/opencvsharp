@@ -4,13 +4,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
-using System.Text;
-using OpenCvSharp;
-using OpenCvSharp.Utilities;
 
 #pragma warning disable 1591
 
@@ -20,7 +16,7 @@ namespace OpenCvSharp.CPlusPlus
     /// P/Invoke methods of OpenCV 2.x C++ interface
     /// </summary>
     [SuppressUnmanagedCodeSecurity]
-    internal static partial class CppInvoke
+    internal static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void highgui_namedWindow([MarshalAs(UnmanagedType.LPStr)] string winname, int flags);

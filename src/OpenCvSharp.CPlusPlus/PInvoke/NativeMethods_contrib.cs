@@ -4,17 +4,13 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
 namespace OpenCvSharp.CPlusPlus
 {
-    /// <summary>
-    /// P/Invoke methods of OpenCV 2.x C++ interface
-    /// </summary>
-    static partial class CppInvoke
+    static partial class NativeMethods
     {
         #region CvAdaptiveSkinDetector
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

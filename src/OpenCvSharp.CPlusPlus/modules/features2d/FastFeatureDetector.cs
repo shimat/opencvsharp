@@ -31,7 +31,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="nonmaxSuppression"></param>
         public FastFeatureDetector(int threshold = 10, bool nonmaxSuppression = true)
         {
-            ptr = CppInvoke.features2d_FastFeatureDetector_new(threshold, nonmaxSuppression ? 1 : 0);
+            ptr = NativeMethods.features2d_FastFeatureDetector_new(threshold, nonmaxSuppression ? 1 : 0);
         }
 
 #if LANG_JP
@@ -63,7 +63,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_FastFeatureDetector_delete(ptr);
+                        NativeMethods.features2d_FastFeatureDetector_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -96,7 +96,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_FastFeatureDetector_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_FastFeatureDetector_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

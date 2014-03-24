@@ -14,7 +14,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// sizeof(BackgroundSubtractor)
         /// </summary>
-        public static readonly int SizeOf = CppInvoke.core_Algorithm_sizeof();
+        public static readonly int SizeOf = NativeMethods.core_Algorithm_sizeof();
         /// <summary>
         /// 
         /// </summary>
@@ -25,7 +25,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public Algorithm()
         {
-            ptr = CppInvoke.core_Algorithm_new();
+            ptr = NativeMethods.core_Algorithm_new();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -80,7 +80,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.core_Algorithm_delete(ptr);
+                        NativeMethods.core_Algorithm_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -98,7 +98,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 StringBuilder buf = new StringBuilder(1024);
-                CppInvoke.core_Algorithm_name(ptr, buf);
+                NativeMethods.core_Algorithm_name(ptr, buf);
                 return buf.ToString();
             }
         }
@@ -106,20 +106,20 @@ namespace OpenCvSharp.CPlusPlus
         #region Get
         public int GetInt(string name)
         {
-            return CppInvoke.core_Algorithm_getInt(ptr, name);            
+            return NativeMethods.core_Algorithm_getInt(ptr, name);            
         }
         public double GetDouble(string name)
         {
-            return CppInvoke.core_Algorithm_getDouble(ptr, name);
+            return NativeMethods.core_Algorithm_getDouble(ptr, name);
         }
         public bool GetBool(string name)
         {
-            return CppInvoke.core_Algorithm_getBool(ptr, name);
+            return NativeMethods.core_Algorithm_getBool(ptr, name);
         }
         public string GetString(string name)
         {
             StringBuilder buf = new StringBuilder(1024);
-            CppInvoke.core_Algorithm_getString(ptr, name, buf);
+            NativeMethods.core_Algorithm_getString(ptr, name, buf);
             return buf.ToString();
         }
         public Mat GetMat(string name)
@@ -132,7 +132,7 @@ namespace OpenCvSharp.CPlusPlus
         }
         public Algorithm GetAlgorithm(string name)
         {
-            IntPtr p = CppInvoke.core_Algorithm_getAlgorithm(ptr, name);
+            IntPtr p = NativeMethods.core_Algorithm_getAlgorithm(ptr, name);
             return new Algorithm(p);
         }
         #endregion
@@ -140,19 +140,19 @@ namespace OpenCvSharp.CPlusPlus
         #region Set
         public void SetInt(string name, int value)
         {
-            CppInvoke.core_Algorithm_setInt(ptr, name, value);
+            NativeMethods.core_Algorithm_setInt(ptr, name, value);
         }
         public void SetDouble(string name, double value)
         {
-            CppInvoke.core_Algorithm_setDouble(ptr, name, value);
+            NativeMethods.core_Algorithm_setDouble(ptr, name, value);
         }
         public void SetBool(string name, bool value)
         {
-            CppInvoke.core_Algorithm_setBool(ptr, name, value);
+            NativeMethods.core_Algorithm_setBool(ptr, name, value);
         }
         public void SetString(string name, string value)
         {
-            CppInvoke.core_Algorithm_setString(ptr, name, value);
+            NativeMethods.core_Algorithm_setString(ptr, name, value);
         }
         public void SetMat(string name, Mat value)
         {
@@ -164,7 +164,7 @@ namespace OpenCvSharp.CPlusPlus
         }
         public void SetAlgorithm(string name, Algorithm value)
         {
-            CppInvoke.core_Algorithm_setAlgorithm(ptr, name, value.CvPtr);
+            NativeMethods.core_Algorithm_setAlgorithm(ptr, name, value.CvPtr);
         }
         #endregion
     }

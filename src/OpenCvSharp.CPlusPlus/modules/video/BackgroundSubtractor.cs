@@ -22,7 +22,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// sizeof(BackgroundSubtractor)
         /// </summary>
-        public static readonly int SizeOf = CppInvoke.video_BackgroundSubtractor_sizeof().ToInt32();
+        public static readonly int SizeOf = NativeMethods.video_BackgroundSubtractor_sizeof().ToInt32();
         /// <summary>
         /// 
         /// </summary>
@@ -45,7 +45,7 @@ namespace OpenCvSharp.CPlusPlus
             if (backgroundImage == null)
                 throw new ArgumentNullException("backgroundImage");
             backgroundImage.ThrowIfNotReady();
-            CppInvoke.video_BackgroundSubtractor_getBackgroundImage(ptr, backgroundImage.CvPtr);
+            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(ptr, backgroundImage.CvPtr);
             backgroundImage.Fix();
         }
     }

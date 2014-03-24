@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
     /// 
@@ -13,7 +13,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <summary>
         /// sizeof(cv::flann::IndexParams)
         /// </summary>
-        public static readonly int SizeOf = FlannInvoke.flann_IndexParams_sizeof();
+        public static readonly int SizeOf = NativeMethods.flann_IndexParams_sizeof();
 
         private bool disposed = false;
         #endregion
@@ -34,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
 #endif
         public IndexParams()
         {
-            ptr = FlannInvoke.flann_IndexParams_construct();
+            ptr = NativeMethods.flann_IndexParams_construct();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create IndexParams");
         }
@@ -67,7 +67,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
                     }
                     if (IsEnabledDispose)
                     {
-                        FlannInvoke.flann_IndexParams_destruct(ptr);
+                        NativeMethods.flann_IndexParams_destruct(ptr);
                     }
                     disposed = true;
                 }
@@ -90,7 +90,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         public string GetString(string key, string defaultVal)
         {
             StringBuilder sb = new StringBuilder(1024);
-            FlannInvoke.flann_IndexParams_getString(ptr, key, defaultVal, sb);
+            NativeMethods.flann_IndexParams_getString(ptr, key, defaultVal, sb);
             return sb.ToString();
         }
         /// <summary>
@@ -111,7 +111,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <returns></returns>
         public int GetInt(string key, int defaultVal)
         {
-            return FlannInvoke.flann_IndexParams_getInt(ptr, key, defaultVal);
+            return NativeMethods.flann_IndexParams_getInt(ptr, key, defaultVal);
         }
         /// <summary>
         /// 
@@ -130,7 +130,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <returns></returns>
         public double GetDouble(string key, double defaultVal)
         {
-            return FlannInvoke.flann_IndexParams_getDouble(ptr, key, defaultVal);
+            return NativeMethods.flann_IndexParams_getDouble(ptr, key, defaultVal);
         }
         /// <summary>
         /// 
@@ -150,7 +150,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <param name="value"></param>
         public void SetString(string key, string value)
         {
-            FlannInvoke.flann_IndexParams_setString(ptr, key, value);
+            NativeMethods.flann_IndexParams_setString(ptr, key, value);
         }
         /// <summary>
         /// 
@@ -159,7 +159,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <param name="value"></param>
         public void SetInt(string key, int value)
         {
-            FlannInvoke.flann_IndexParams_setInt(ptr, key, value);
+            NativeMethods.flann_IndexParams_setInt(ptr, key, value);
         }
         /// <summary>
         /// 
@@ -168,7 +168,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <param name="value"></param>
         public void SetDouble(string key, double value)
         {
-            FlannInvoke.flann_IndexParams_setDouble(ptr, key, value);
+            NativeMethods.flann_IndexParams_setDouble(ptr, key, value);
         }
         /// <summary>
         /// 
@@ -177,7 +177,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <param name="value"></param>
         public void SetFloat(string key, float value)
         {
-            FlannInvoke.flann_IndexParams_setFloat(ptr, key, value);
+            NativeMethods.flann_IndexParams_setFloat(ptr, key, value);
         }
         /// <summary>
         /// 
@@ -186,7 +186,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <param name="value"></param>
         public void SetBool(string key, bool value)
         {
-            FlannInvoke.flann_IndexParams_setBool(ptr, key, value ? 1 : 0);
+            NativeMethods.flann_IndexParams_setBool(ptr, key, value ? 1 : 0);
         }
         /// <summary>
         /// 
@@ -194,7 +194,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <param name="value"></param>
         public void SetAlgorithm(int value)
         {
-            FlannInvoke.flann_IndexParams_setAlgorithm(ptr, value);
+            NativeMethods.flann_IndexParams_setAlgorithm(ptr, value);
         }
         #endregion
         #endregion

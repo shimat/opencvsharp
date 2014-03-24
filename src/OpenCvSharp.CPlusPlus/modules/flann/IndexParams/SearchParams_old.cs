@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
 
 #if LANG_JP

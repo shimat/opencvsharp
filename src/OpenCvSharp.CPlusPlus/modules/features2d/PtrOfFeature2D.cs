@@ -24,7 +24,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="self"></param>
         protected override void Release(IntPtr self)
         {
-            CppInvoke.core_Ptr_Feature2D_delete(self);
+            NativeMethods.core_Ptr_Feature2D_delete(self);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         protected override IntPtr GetObjPtr(IntPtr self)
         {
-            return CppInvoke.core_Ptr_Feature2D_obj(self);
+            return NativeMethods.core_Ptr_Feature2D_obj(self);
         }
 
         /// <summary>

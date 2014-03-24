@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public VectorOfVectorFloat()
         {
-            ptr = CppInvoke.vector_vector_float_new1();
+            ptr = NativeMethods.vector_vector_float_new1();
         }
         /// <summary>
         /// 
@@ -31,7 +31,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_vector_float_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_vector_float_new2(new IntPtr(size));
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_vector_float_delete(ptr);
+                        NativeMethods.vector_vector_float_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -67,7 +67,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size1
         {
-            get { return CppInvoke.vector_vector_float_getSize1(ptr).ToInt32(); }
+            get { return NativeMethods.vector_vector_float_getSize1(ptr).ToInt32(); }
         }
         public int Size { get { return Size1; } }
         /// <summary>
@@ -79,7 +79,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 int size1 = Size1;
                 IntPtr[] size2Org = new IntPtr[size1];
-                CppInvoke.vector_vector_float_getSize2(ptr, size2Org);
+                NativeMethods.vector_vector_float_getSize2(ptr, size2Org);
                 long[] size2 = new long[size1];
                 for (int i = 0; i < size1; i++)
                 {
@@ -95,7 +95,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_vector_KeyPoint_getPointer(ptr); }
+            get { return NativeMethods.vector_vector_KeyPoint_getPointer(ptr); }
         }
         #endregion
 
@@ -118,7 +118,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             using (ArrayAddress2<float> retPtr = new ArrayAddress2<float>(ret))
             {
-                CppInvoke.vector_vector_float_copy(ptr, retPtr);
+                NativeMethods.vector_vector_float_copy(ptr, retPtr);
             }
             return ret;
         }

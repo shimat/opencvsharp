@@ -4,18 +4,13 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
 namespace OpenCvSharp.CPlusPlus
 {
-    /// <summary>
-    /// P/Invoke methods of OpenCV 2.x C++ interface
-    /// </summary>
-
-    internal static partial class CppInvoke
+    internal static partial class NativeMethods
     {
         // FeatureDetector
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "features2d_FeatureDetector_detect1")]

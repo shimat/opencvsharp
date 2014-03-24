@@ -748,7 +748,7 @@ namespace OpenCvSharp.CPlusPlus
         public override void Add(Point value)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back_Point(ptr, value);
+            NativeMethods.core_Mat_push_back_Point(ptr, value);
         }
     }
 }

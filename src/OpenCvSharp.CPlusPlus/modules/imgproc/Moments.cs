@@ -64,7 +64,7 @@ namespace OpenCvSharp.CPlusPlus
             if(array == null)
                 throw new ArgumentNullException("array");
             array.ThrowIfDisposed();
-            WCvMoments m = CppInvoke.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0);
+            WCvMoments m = NativeMethods.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0);
             Initialize(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
         }
 

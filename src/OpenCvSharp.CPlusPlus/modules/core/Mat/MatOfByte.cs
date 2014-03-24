@@ -737,7 +737,7 @@ namespace OpenCvSharp.CPlusPlus
         public override void Add(byte value)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back_uchar(ptr, value);
+            NativeMethods.core_Mat_push_back_uchar(ptr, value);
         }
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
@@ -746,7 +746,7 @@ namespace OpenCvSharp.CPlusPlus
         public void Add(sbyte value)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back_char(ptr, value);
+            NativeMethods.core_Mat_push_back_char(ptr, value);
         }
     }
 }

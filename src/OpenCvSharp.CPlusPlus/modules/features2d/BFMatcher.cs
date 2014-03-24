@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="crossCheck"></param>
         public BFMatcher(NormType normType = NormType.L2, bool crossCheck = false)
         {
-            ptr = CppInvoke.features2d_BFMatcher_new((int)normType, crossCheck ? 1 : 0);
+            ptr = NativeMethods.features2d_BFMatcher_new((int)normType, crossCheck ? 1 : 0);
         }
 
 #if LANG_JP
@@ -53,7 +53,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_BFMatcher_delete(ptr);
+                        NativeMethods.features2d_BFMatcher_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -73,7 +73,7 @@ namespace OpenCvSharp.CPlusPlus
         public override bool IsMaskSupported()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_BFMatcher_isMaskSupported(ptr) != 0;
+            return NativeMethods.features2d_BFMatcher_isMaskSupported(ptr) != 0;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_BFMatcher_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_BFMatcher_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

@@ -751,7 +751,7 @@ namespace OpenCvSharp.CPlusPlus
         public override void Add(Vec3b value)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back_Vec3b(ptr, value);
+            NativeMethods.core_Mat_push_back_Vec3b(ptr, value);
         }
     }
 }

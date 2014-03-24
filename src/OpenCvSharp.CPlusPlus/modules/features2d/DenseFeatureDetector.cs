@@ -39,7 +39,7 @@ namespace OpenCvSharp.CPlusPlus
                                    bool varyXyStepWithScale=true,
                                    bool varyImgBoundWithScale=false )
         {
-            ptr = CppInvoke.features2d_DenseFeatureDetector_new(
+            ptr = NativeMethods.features2d_DenseFeatureDetector_new(
                 initFeatureScale, featureScaleLevels, featureScaleMul,initXyStep, initImgBound, 
                 varyXyStepWithScale ? 1 : 0, varyImgBoundWithScale ? 1 : 0);
         }
@@ -73,7 +73,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_DenseFeatureDetector_delete(ptr);
+                        NativeMethods.features2d_DenseFeatureDetector_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -94,7 +94,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_DenseFeatureDetector_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_DenseFeatureDetector_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

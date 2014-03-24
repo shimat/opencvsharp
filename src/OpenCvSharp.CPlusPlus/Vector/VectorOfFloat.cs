@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public VectorOfFloat()
         {
-            ptr = CppInvoke.vector_float_new1();
+            ptr = NativeMethods.vector_float_new1();
         }
         /// <summary>
         /// 
@@ -31,7 +31,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_float_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_float_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
@@ -42,7 +42,7 @@ namespace OpenCvSharp.CPlusPlus
             if (data == null)
                 throw new ArgumentNullException("data");
             float[] array = Util.ToArray(data);
-            ptr = CppInvoke.vector_float_new3(array, new IntPtr(array.Length));
+            ptr = NativeMethods.vector_float_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_float_delete(ptr);
+                        NativeMethods.vector_float_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -78,14 +78,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_float_getSize(ptr).ToInt32(); }
+            get { return NativeMethods.vector_float_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_float_getPointer(ptr); }
+            get { return NativeMethods.vector_float_getPointer(ptr); }
         }
         #endregion
 

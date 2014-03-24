@@ -30,7 +30,7 @@ namespace OpenCvSharp.CPlusPlus
         public GFTTDetector(int maxCorners = 1000, double qualityLevel = 0.01, double minDistance = 1,
                           int blockSize = 3, bool useHarrisDetector = false, double k = 0.04)
         {
-            ptr = CppInvoke.features2d_GFTTDetector_new(maxCorners, qualityLevel, minDistance, 
+            ptr = NativeMethods.features2d_GFTTDetector_new(maxCorners, qualityLevel, minDistance, 
                 blockSize, useHarrisDetector ? 1 : 0, k);
         }
 
@@ -63,7 +63,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_GFTTDetector_delete(ptr);
+                        NativeMethods.features2d_GFTTDetector_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -96,7 +96,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_GFTTDetector_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_GFTTDetector_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

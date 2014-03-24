@@ -36,7 +36,7 @@ namespace OpenCvSharp.CPlusPlus
         public SURF()
             : base()
         {
-            ptr = CppInvoke.nonfree_SURF_new();
+            ptr = NativeMethods.nonfree_SURF_new();
         }
 
 #if LANG_JP
@@ -65,7 +65,7 @@ namespace OpenCvSharp.CPlusPlus
             bool extended = true, bool upright = false)
             : base()
         {
-            ptr = CppInvoke.nonfree_SURF_new(hessianThreshold, nOctaves, nOctaveLayers,
+            ptr = NativeMethods.nonfree_SURF_new(hessianThreshold, nOctaves, nOctaveLayers,
                 extended ? 1 : 0, upright ? 1 : 0);
         }
 
@@ -98,7 +98,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.nonfree_SURF_delete(ptr);
+                        NativeMethods.nonfree_SURF_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -122,7 +122,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SURF_descriptorSize(ptr);
+                return NativeMethods.nonfree_SURF_descriptorSize(ptr);
             }
         }
 
@@ -135,7 +135,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SURF_descriptorType(ptr);
+                return NativeMethods.nonfree_SURF_descriptorType(ptr);
             }
         }
 
@@ -149,12 +149,12 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SURF_hessianThreshold_get(ptr);
+                return NativeMethods.nonfree_SURF_hessianThreshold_get(ptr);
             }
             set
             {
                 ThrowIfDisposed();
-                CppInvoke.nonfree_SURF_hessianThreshold_set(ptr, value);
+                NativeMethods.nonfree_SURF_hessianThreshold_set(ptr, value);
             }
         }
         /// <summary>
@@ -166,12 +166,12 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SURF_nOctaves_get(ptr);
+                return NativeMethods.nonfree_SURF_nOctaves_get(ptr);
             }
             set
             {
                 ThrowIfDisposed();
-                CppInvoke.nonfree_SURF_nOctaves_set(ptr, value);
+                NativeMethods.nonfree_SURF_nOctaves_set(ptr, value);
             }
         }
         /// <summary>
@@ -182,12 +182,12 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SURF_nOctaveLayers_get(ptr);
+                return NativeMethods.nonfree_SURF_nOctaveLayers_get(ptr);
             }
             set
             {
                 ThrowIfDisposed();
-                CppInvoke.nonfree_SURF_nOctaveLayers_set(ptr, value);
+                NativeMethods.nonfree_SURF_nOctaveLayers_set(ptr, value);
             }
         }
         /// <summary>
@@ -199,12 +199,12 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SURF_extended_get(ptr) != 0;
+                return NativeMethods.nonfree_SURF_extended_get(ptr) != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                CppInvoke.nonfree_SURF_extended_set(ptr, value ? 1 : 0);
+                NativeMethods.nonfree_SURF_extended_set(ptr, value ? 1 : 0);
             }
         }
         /// <summary>
@@ -218,12 +218,12 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return CppInvoke.nonfree_SURF_upright_get(ptr) != 0;
+                return NativeMethods.nonfree_SURF_upright_get(ptr) != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                CppInvoke.nonfree_SURF_upright_set(ptr, value ? 1 : 0);
+                NativeMethods.nonfree_SURF_upright_set(ptr, value ? 1 : 0);
             }
         }
 
@@ -236,7 +236,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.nonfree_SURF_info(ptr);
+                IntPtr pInfo = NativeMethods.nonfree_SURF_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }
@@ -269,7 +269,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.nonfree_SURF_run1(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
+                NativeMethods.nonfree_SURF_run1(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr);
                 return keypointsVec.ToArray();
             }
         }
@@ -304,7 +304,7 @@ namespace OpenCvSharp.CPlusPlus
             using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             using (VectorOfFloat descriptorsVec = new VectorOfFloat())
             {
-                CppInvoke.nonfree_SURF_run2_vector(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
+                NativeMethods.nonfree_SURF_run2_vector(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
                     descriptorsVec.CvPtr, useProvidedKeypoints ? 1 : 0);
 
                 keypoints = keypointsVec.ToArray();
@@ -344,7 +344,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.nonfree_SURF_run2_OutputArray(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
+                NativeMethods.nonfree_SURF_run2_OutputArray(ptr, img.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr,
                     descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
                 keypoints = keypointsVec.ToArray();
             }

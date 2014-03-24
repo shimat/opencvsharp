@@ -25,7 +25,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             using (VectorOfKeyPoint kp = new VectorOfKeyPoint())
             {
-                CppInvoke.features2d_FAST(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
+                NativeMethods.features2d_FAST(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
                 keypoints = kp.ToArray();
             }
         }
@@ -47,7 +47,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             using (VectorOfKeyPoint kp = new VectorOfKeyPoint())
             {
-                CppInvoke.features2d_FASTX(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, type);
+                NativeMethods.features2d_FASTX(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, type);
                 keypoints = kp.ToArray();
             }
         }
@@ -75,7 +75,7 @@ namespace OpenCvSharp.CPlusPlus
 
             KeyPoint[] keypointsArray = EnumerableEx.ToArray(keypoints);
             Scalar color0 = color.GetValueOrDefault(Scalar.All(-1));
-            CppInvoke.features2d_drawKeypoints(image.CvPtr, keypointsArray, keypointsArray.Length,
+            NativeMethods.features2d_drawKeypoints(image.CvPtr, keypointsArray, keypointsArray.Length,
                 outImage.CvPtr, color0, (int)flags);
         }
 
@@ -128,7 +128,7 @@ namespace OpenCvSharp.CPlusPlus
                 matchesMaskLength = matchesMaskArray.Length;
             }
 
-            CppInvoke.features2d_drawMatches1(img1.CvPtr, keypoints1Array, keypoints1Array.Length,
+            NativeMethods.features2d_drawMatches1(img1.CvPtr, keypoints1Array, keypoints1Array.Length,
                 img2.CvPtr, keypoints2Array, keypoints2Array.Length,
                 matches1To2Array, matches1To2Array.Length, outImg.CvPtr,
                 matchColor0, singlePointColor0, matchesMaskArray, matchesMaskLength, (int)flags);
@@ -185,7 +185,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (matchesMask == null)
                 {
-                    CppInvoke.features2d_drawMatches2(img1.CvPtr, keypoints1Array, keypoints1Array.Length,
+                    NativeMethods.features2d_drawMatches2(img1.CvPtr, keypoints1Array, keypoints1Array.Length,
                         img2.CvPtr, keypoints2Array, keypoints2Array.Length,
                         matches1To2Ptr, matches1To2Size1, matches1To2Size2,
                         outImg.CvPtr, matchColor0, singlePointColor0, 
@@ -201,7 +201,7 @@ namespace OpenCvSharp.CPlusPlus
                     });
                     using (ArrayAddress2<byte> matchesMaskPtr = new ArrayAddress2<byte>(matchesMaskArray))
                     {
-                        CppInvoke.features2d_drawMatches2(img1.CvPtr, keypoints1Array, keypoints1Array.Length,
+                        NativeMethods.features2d_drawMatches2(img1.CvPtr, keypoints1Array, keypoints1Array.Length,
                             img2.CvPtr, keypoints2Array, keypoints2Array.Length,
                             matches1To2Ptr.Pointer, matches1To2Size1, matches1To2Size2,
                             outImg.CvPtr, matchColor0, singlePointColor0,

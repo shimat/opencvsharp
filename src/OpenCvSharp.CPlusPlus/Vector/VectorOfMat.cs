@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public VectorOfMat()
         {
-            ptr = CppInvoke.vector_Mat_new1();
+            ptr = NativeMethods.vector_Mat_new1();
         }
         /// <summary>
         /// 
@@ -31,7 +31,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = CppInvoke.vector_Mat_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_Mat_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
@@ -57,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.vector_Mat_delete(ptr);
+                        NativeMethods.vector_Mat_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -75,14 +75,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return CppInvoke.vector_Mat_getSize(ptr).ToInt32(); }
+            get { return NativeMethods.vector_Mat_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return CppInvoke.vector_Mat_getPointer(ptr); }
+            get { return NativeMethods.vector_Mat_getPointer(ptr); }
         }
         #endregion
 
@@ -115,7 +115,7 @@ namespace OpenCvSharp.CPlusPlus
                 dst[i] = m;
                 dstPtr[i] = m.CvPtr;
             }
-            CppInvoke.vector_Mat_assignToArray(ptr, dstPtr);
+            NativeMethods.vector_Mat_assignToArray(ptr, dstPtr);
 
             return dst;
         }
@@ -125,7 +125,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public void AddRef()
         {
-            CppInvoke.vector_Mat_addref(ptr);
+            NativeMethods.vector_Mat_addref(ptr);
         }
         #endregion
     }

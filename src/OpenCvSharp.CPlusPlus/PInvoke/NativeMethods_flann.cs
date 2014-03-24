@@ -1,68 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security;
-using System.Security.Permissions;
 using System.Text;
-using OpenCvSharp;
-using OpenCvSharp.Utilities;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
-    /// <summary>
-    /// P/Invoke methods of OpenCV FLANN interface
-    /// </summary>
-    [SuppressUnmanagedCodeSecurity]
-    internal static class FlannInvoke
+    static partial class NativeMethods
     {
-        /// <summary>
-        /// DLL file name
-        /// </summary>
-        public const string DllExtern = "OpenCvSharpExtern";
-
-        #region Static constructor
-        /// <summary>
-        /// Static constructor
-        /// </summary>
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        static FlannInvoke()
-        {
-            // call cv to enable redirecting
-            Cv.GetTickCount();
-            TryPInvoke();
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// PInvokeが正常に行えるかチェックする
-        /// </summary>
-#else
-        /// <summary>
-        /// Checks whether PInvoke functions can be called
-        /// </summary>
-#endif
-        private static void TryPInvoke()
-        {
-            // call cv to enable redirecting 
-            Cv.GetTickCount();
-            try
-            {
-                flann_Index_sizeof();
-            }
-            catch (DllNotFoundException e)
-            {
-                throw PInvokeHelper.CreateException(e);
-            }
-            catch (BadImageFormatException e)
-            {
-                throw PInvokeHelper.CreateException(e);
-            }
-        }
-        #endregion
-
-        #region DllImport
         #region Index
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int flann_Index_sizeof();
@@ -209,6 +154,5 @@ namespace OpenCvSharp.CPlusPlus.Flann
         #endregion
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         //public static extern int flann_hierarchicalClustering(IntPtr features, IntPtr centers, IntPtr @params);
-        #endregion
     }
 }

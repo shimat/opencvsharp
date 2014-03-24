@@ -32,7 +32,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="patternScale"></param>
         public BRISK(int thresh = 30, int octaves = 3, float patternScale = 1.0f)
         {
-            ptr = CppInvoke.features2d_BRISK_new(thresh, octaves, patternScale);
+            ptr = NativeMethods.features2d_BRISK_new(thresh, octaves, patternScale);
         }
 
 #if LANG_JP
@@ -64,7 +64,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_BRISK_delete(ptr);
+                        NativeMethods.features2d_BRISK_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -84,7 +84,7 @@ namespace OpenCvSharp.CPlusPlus
         public int DescriptorSize()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_BRISK_descriptorSize(ptr);
+            return NativeMethods.features2d_BRISK_descriptorSize(ptr);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace OpenCvSharp.CPlusPlus
         public int DescriptorType()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_BRISK_descriptorType(ptr);
+            return NativeMethods.features2d_BRISK_descriptorType(ptr);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.features2d_BRISK_run1(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr);
+                NativeMethods.features2d_BRISK_run1(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr);
                 return keyPointsVec.ToArray();
             }
         }
@@ -138,7 +138,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.features2d_BRISK_run2(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr,
+                NativeMethods.features2d_BRISK_run2(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr,
                     descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
                 keyPoints = keyPointsVec.ToArray();
             }
@@ -168,7 +168,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_BRISK_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_BRISK_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

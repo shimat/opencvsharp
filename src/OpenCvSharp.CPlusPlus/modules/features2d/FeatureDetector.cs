@@ -113,7 +113,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             using (VectorOfKeyPoint keypoints = new VectorOfKeyPoint())
             {
-                CppInvoke.features2d_FeatureDetector_detect(ptr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask));
+                NativeMethods.features2d_FeatureDetector_detect(ptr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask));
                 return keypoints.ToArray();
             }
         }
@@ -138,7 +138,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (masks == null)
                 {
-                    CppInvoke.features2d_FeatureDetector_detect(ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, null);
+                    NativeMethods.features2d_FeatureDetector_detect(ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, null);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ namespace OpenCvSharp.CPlusPlus
                     IntPtr[] masksPtr = new IntPtr[masksArray.Length];
                     for (int i = 0; i < masksArray.Length; i++)
                         masksPtr[i] = masksArray[i].CvPtr;
-                    CppInvoke.features2d_FeatureDetector_detect(ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, masksPtr);
+                    NativeMethods.features2d_FeatureDetector_detect(ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, masksPtr);
                 }
                 return keypoints.ToArray();
             }
@@ -160,7 +160,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public virtual bool Empty()
         {
-            return CppInvoke.features2d_FeatureDetector_empty(ptr) != 0;
+            return NativeMethods.features2d_FeatureDetector_empty(ptr) != 0;
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("detectorType");
 
             // gets cv::Ptr<FeatureDetector>
-            IntPtr ptr = CppInvoke.features2d_FeatureDetector_create(detectorType);
+            IntPtr ptr = NativeMethods.features2d_FeatureDetector_create(detectorType);
             try
             {
                 FeatureDetector detector = FromPtr(ptr);

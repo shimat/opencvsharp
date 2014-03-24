@@ -4,7 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -13,7 +12,7 @@ namespace OpenCvSharp.CPlusPlus
 {
     // ReSharper disable InconsistentNaming
 
-    static partial class CppInvoke
+    static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_Rodrigues(IntPtr src, IntPtr dst, IntPtr jacobian);

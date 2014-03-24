@@ -801,7 +801,7 @@ namespace OpenCvSharp.CPlusPlus
         public void Clear()
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_pop_back(ptr, new IntPtr((long)Total()));
+            NativeMethods.core_Mat_pop_back(ptr, new IntPtr((long)Total()));
         }
 
         /// <summary>
@@ -831,7 +831,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                return (int)CppInvoke.core_Mat_total(ptr);
+                return (int)NativeMethods.core_Mat_total(ptr);
             }
         }
 

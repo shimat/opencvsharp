@@ -750,7 +750,7 @@ namespace OpenCvSharp.CPlusPlus
         public override void Add(Rect value)
         {
             ThrowIfDisposed();
-            CppInvoke.core_Mat_push_back_Rect(ptr, value);
+            NativeMethods.core_Mat_push_back_Rect(ptr, value);
         }
     }
 }

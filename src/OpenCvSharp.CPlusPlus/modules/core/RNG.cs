@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public RNG()
         {
-            State = CppInvoke.core_RNG_new();
+            State = NativeMethods.core_RNG_new();
         }
         /// <summary>
         /// 
@@ -29,7 +29,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="state"></param>
         public RNG(ulong state)
         {
-            State = CppInvoke.core_RNG_new(state);
+            State = NativeMethods.core_RNG_new(state);
         }
         #endregion
 
@@ -43,7 +43,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(self == null)
                 throw new ArgumentNullException("self");
-            return CppInvoke.core_RNG_operator_uchar(self.State);
+            return NativeMethods.core_RNG_operator_uchar(self.State);
         }
         /// <summary>
         /// 
@@ -54,7 +54,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (self == null)
                 throw new ArgumentNullException("self");
-            return CppInvoke.core_RNG_operator_schar(self.State);
+            return NativeMethods.core_RNG_operator_schar(self.State);
         }
         /// <summary>
         /// 
@@ -65,7 +65,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (self == null)
                 throw new ArgumentNullException("self");
-            return CppInvoke.core_RNG_operator_ushort(self.State);
+            return NativeMethods.core_RNG_operator_ushort(self.State);
         }
         /// <summary>
         /// 
@@ -76,7 +76,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (self == null)
                 throw new ArgumentNullException("self");
-            return CppInvoke.core_RNG_operator_short(self.State);
+            return NativeMethods.core_RNG_operator_short(self.State);
         }
         /// <summary>
         /// 
@@ -87,7 +87,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (self == null)
                 throw new ArgumentNullException("self");
-            return CppInvoke.core_RNG_operator_uint(self.State);
+            return NativeMethods.core_RNG_operator_uint(self.State);
         }
         /// <summary>
         /// 
@@ -98,7 +98,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (self == null)
                 throw new ArgumentNullException("self");
-            return CppInvoke.core_RNG_operator_int(self.State);
+            return NativeMethods.core_RNG_operator_int(self.State);
         }
         /// <summary>
         /// 
@@ -109,7 +109,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (self == null)
                 throw new ArgumentNullException("self");
-            return CppInvoke.core_RNG_operator_float(self.State);
+            return NativeMethods.core_RNG_operator_float(self.State);
         }
         /// <summary>
         /// 
@@ -120,7 +120,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (self == null)
                 throw new ArgumentNullException("self");
-            return CppInvoke.core_RNG_operator_double(self.State);
+            return NativeMethods.core_RNG_operator_double(self.State);
         }
         #endregion
 
@@ -131,7 +131,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public uint Next()
         {
-            return CppInvoke.core_RNG_next(State);
+            return NativeMethods.core_RNG_next(State);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public uint Run(uint n)
         {
-            return CppInvoke.core_RNG_operatorThis(State, n);
+            return NativeMethods.core_RNG_operatorThis(State, n);
         }
         /// <summary>
         /// 
@@ -149,7 +149,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public uint Run()
         {
-            return CppInvoke.core_RNG_operatorThis(State);
+            return NativeMethods.core_RNG_operatorThis(State);
         }
 
     //! 
@@ -161,7 +161,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public int Uniform(int a, int b)
         {
-            return CppInvoke.core_RNG_uniform(State, a, b);
+            return NativeMethods.core_RNG_uniform(State, a, b);
         }
         /// <summary>
         /// returns uniformly distributed floating-point random number from [a,b) range
@@ -171,7 +171,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public float Uniform(float a, float b)
         {
-            return CppInvoke.core_RNG_uniform(State, a, b);
+            return NativeMethods.core_RNG_uniform(State, a, b);
         }
         /// <summary>
         /// returns uniformly distributed double-precision floating-point random number from [a,b) range
@@ -181,7 +181,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public double Uniform(double a, double b)
         {
-            return CppInvoke.core_RNG_uniform(State, a, b);
+            return NativeMethods.core_RNG_uniform(State, a, b);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace OpenCvSharp.CPlusPlus
             mat.ThrowIfNotReady();
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            CppInvoke.core_RNG_fill(State, mat.CvPtr, (int)distType, a.CvPtr, b.CvPtr, saturateRange ? 1 : 0);
+            NativeMethods.core_RNG_fill(State, mat.CvPtr, (int)distType, a.CvPtr, b.CvPtr, saturateRange ? 1 : 0);
             mat.Fix();
         }
 
@@ -214,7 +214,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public double Gaussian(double sigma)
         {
-            return CppInvoke.core_RNG_gaussian(State, sigma);
+            return NativeMethods.core_RNG_gaussian(State, sigma);
         }
         #endregion
     }

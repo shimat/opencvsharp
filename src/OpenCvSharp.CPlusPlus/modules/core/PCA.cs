@@ -17,7 +17,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public PCA()
         {
-            ptr = CppInvoke.core_PCA_new1();
+            ptr = NativeMethods.core_PCA_new1();
         }
         /// <summary>
         /// 
@@ -34,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("mean");
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
-            ptr = CppInvoke.core_PCA_new2(data.CvPtr, mean.CvPtr, (int)flags, maxComponents);
+            ptr = NativeMethods.core_PCA_new2(data.CvPtr, mean.CvPtr, (int)flags, maxComponents);
         }
         /// <summary>
         /// 
@@ -51,7 +51,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("mean");
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
-            ptr = CppInvoke.core_PCA_new3(data.CvPtr, mean.CvPtr, (int)flags, retainedVariance);
+            ptr = NativeMethods.core_PCA_new3(data.CvPtr, mean.CvPtr, (int)flags, retainedVariance);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (ptr != IntPtr.Zero)
                     {
-                        CppInvoke.core_PCA_delete(ptr);
+                        NativeMethods.core_PCA_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -92,7 +92,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("PCA");
-                IntPtr ret = CppInvoke.core_PCA_eigenvectors(ptr);
+                IntPtr ret = NativeMethods.core_PCA_eigenvectors(ptr);
                 return new Mat(ret);
             }
         }
@@ -106,7 +106,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if(disposed)
                     throw new ObjectDisposedException("PCA");
-                IntPtr ret = CppInvoke.core_PCA_eigenvalues(ptr);
+                IntPtr ret = NativeMethods.core_PCA_eigenvalues(ptr);
                 return new Mat(ret);
             }
         }
@@ -120,7 +120,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("PCA");
-                IntPtr ret = CppInvoke.core_PCA_eigenvalues(ptr);
+                IntPtr ret = NativeMethods.core_PCA_eigenvalues(ptr);
                 return new Mat(ret);
             }
         }
@@ -145,7 +145,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("mean");
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
-            CppInvoke.core_PCA_operatorThis(ptr, data.CvPtr, mean.CvPtr, (int)flags, maxComponents);
+            NativeMethods.core_PCA_operatorThis(ptr, data.CvPtr, mean.CvPtr, (int)flags, maxComponents);
             return this;
         }
 
@@ -167,7 +167,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("mean");
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
-            CppInvoke.core_PCA_computeVar(ptr, data.CvPtr, mean.CvPtr, (int)flags, retainedVariance);
+            NativeMethods.core_PCA_computeVar(ptr, data.CvPtr, mean.CvPtr, (int)flags, retainedVariance);
             return this;
         }
 
@@ -183,7 +183,7 @@ namespace OpenCvSharp.CPlusPlus
             if (vec == null)
                 throw new ArgumentNullException("vec");
             vec.ThrowIfDisposed();
-            IntPtr ret = CppInvoke.core_PCA_project(ptr, vec.CvPtr);
+            IntPtr ret = NativeMethods.core_PCA_project(ptr, vec.CvPtr);
             return new Mat(ret);
         }
         /// <summary>
@@ -201,7 +201,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("result");
             vec.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            CppInvoke.core_PCA_project(ptr, vec.CvPtr, result.CvPtr);
+            NativeMethods.core_PCA_project(ptr, vec.CvPtr, result.CvPtr);
             result.Fix();
         }
 
@@ -217,7 +217,7 @@ namespace OpenCvSharp.CPlusPlus
             if (vec == null)
                 throw new ArgumentNullException("vec");
             vec.ThrowIfDisposed();
-            IntPtr ret = CppInvoke.core_PCA_backProject(ptr, vec.CvPtr);
+            IntPtr ret = NativeMethods.core_PCA_backProject(ptr, vec.CvPtr);
             return new Mat(ret);
         }
         /// <summary>
@@ -235,7 +235,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("result");
             vec.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            CppInvoke.core_PCA_backProject(ptr, vec.CvPtr, result.CvPtr);
+            NativeMethods.core_PCA_backProject(ptr, vec.CvPtr, result.CvPtr);
             result.Fix();
         }
         #endregion

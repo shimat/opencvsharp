@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -20,7 +20,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <summary>
         /// sizeof(cv::flann::KDTreeIndexParams)
         /// </summary>
-        public static readonly new int SizeOf = FlannInvoke.flann_KDTreeIndexParams_sizeof();
+        public static readonly new int SizeOf = NativeMethods.flann_KDTreeIndexParams_sizeof();
 
         private bool disposed = false;
         #endregion
@@ -70,7 +70,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
 #endif
         public KDTreeIndexParams(int trees = 4)
         {
-            ptr = FlannInvoke.flann_KDTreeIndexParams_construct(trees);
+            ptr = NativeMethods.flann_KDTreeIndexParams_construct(trees);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create KDTreeIndexParams");
         }
@@ -103,7 +103,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
                     }
                     if (IsEnabledDispose)
                     {
-                        FlannInvoke.flann_KDTreeIndexParams_destruct(ptr);
+                        NativeMethods.flann_KDTreeIndexParams_destruct(ptr);
                     }
                     disposed = true;
                 }

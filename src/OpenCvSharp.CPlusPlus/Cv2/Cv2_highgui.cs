@@ -32,7 +32,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("winname");
             try
             {
-                CppInvoke.highgui_namedWindow(winname, (int)flags);
+                NativeMethods.highgui_namedWindow(winname, (int)flags);
             }
             catch (BadImageFormatException ex)
             {
@@ -49,14 +49,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty("winName"))
                 throw new ArgumentNullException("winName");
-            CppInvoke.highgui_destroyWindow(winName);
+            NativeMethods.highgui_destroyWindow(winName);
         }
         /// <summary>
         /// 
         /// </summary>
         public static void DestroyAllWindows()
         {
-            CppInvoke.highgui_destroyAllWindows();
+            NativeMethods.highgui_destroyAllWindows();
         }
         #endregion
         #region ImShow
@@ -73,7 +73,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("mat");
             try
             {
-                CppInvoke.highgui_imshow(winname, mat.CvPtr);
+                NativeMethods.highgui_imshow(winname, mat.CvPtr);
             }
             catch (BadImageFormatException ex)
             {
@@ -111,7 +111,7 @@ namespace OpenCvSharp.CPlusPlus
                 prms = new int[0];
             try
             {
-                return CppInvoke.highgui_imwrite(fileName, img.CvPtr, prms, prms.Length) != 0;
+                return NativeMethods.highgui_imwrite(fileName, img.CvPtr, prms, prms.Length) != 0;
             }
             catch (BadImageFormatException ex)
             {
@@ -154,7 +154,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (buf == null)
                 throw new ArgumentNullException("buf");
-            IntPtr matPtr = CppInvoke.highgui_imdecode_Mat(buf.CvPtr, (int)flags);
+            IntPtr matPtr = NativeMethods.highgui_imdecode_Mat(buf.CvPtr, (int)flags);
             return new Mat(matPtr);
         }
         /// <summary>
@@ -167,7 +167,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (buf == null)
                 throw new ArgumentNullException("buf");
-            IntPtr matPtr = CppInvoke.highgui_imdecode_vector(
+            IntPtr matPtr = NativeMethods.highgui_imdecode_vector(
                 buf, new IntPtr(buf.LongLength), (int)flags);
             return new Mat(matPtr);
         }
@@ -192,7 +192,7 @@ namespace OpenCvSharp.CPlusPlus
             img.ThrowIfDisposed();
             using (VectorOfByte bufVec = new VectorOfByte())
             {
-                int ret = CppInvoke.highgui_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length);
+                int ret = NativeMethods.highgui_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length);
                 buf = bufVec.ToArray();
                 return ret != 0;
             }
@@ -230,7 +230,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static int StartWindowThread()
         {
-            return CppInvoke.highgui_startWindowThread();
+            return NativeMethods.highgui_startWindowThread();
         }
         #endregion
         #region WaitKey
@@ -243,7 +243,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             try
             {
-                return CppInvoke.highgui_waitKey(delay);
+                return NativeMethods.highgui_waitKey(delay);
             }
             catch (BadImageFormatException ex)
             {
@@ -262,7 +262,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(winName))
                 throw new ArgumentNullException("winName");
-            CppInvoke.highgui_resizeWindow(winName, width, height);
+            NativeMethods.highgui_resizeWindow(winName, width, height);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(winName))
                 throw new ArgumentNullException("winName");
-            CppInvoke.highgui_moveWindow(winName, x, y);
+            NativeMethods.highgui_moveWindow(winName, x, y);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(winName))
                 throw new ArgumentNullException("winName");
-            CppInvoke.highgui_setWindowProperty(winName, (int)propId, (double)propValue);
+            NativeMethods.highgui_setWindowProperty(winName, (int)propId, (double)propValue);
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(winName))
                 throw new ArgumentNullException("winName");
-            return (WindowPropertyValue)(int)CppInvoke.highgui_getWindowProperty(winName, (int)propId);
+            return (WindowPropertyValue)(int)NativeMethods.highgui_getWindowProperty(winName, (int)propId);
         }
 
         #region SetMouseCallback

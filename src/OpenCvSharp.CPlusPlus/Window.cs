@@ -157,7 +157,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("name");
             
             this.name = name;
-            CppInvoke.highgui_namedWindow(name, (int)flags);
+            NativeMethods.highgui_namedWindow(name, (int)flags);
             
             this.image = image;
             ShowImage(image);
@@ -220,7 +220,7 @@ namespace OpenCvSharp.CPlusPlus
                             callbackHandle.Dispose();
                         }
                     }
-                    CppInvoke.highgui_destroyWindow(name);
+                    NativeMethods.highgui_destroyWindow(name);
                     disposed = true;
                 }
                 finally
@@ -262,7 +262,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     continue;
                 }
-                CppInvoke.highgui_destroyWindow(w.name);
+                NativeMethods.highgui_destroyWindow(w.name);
                 foreach (KeyValuePair<string, CvTrackbar> tpair in w.trackbars)
                 {
                     if (tpair.Value != null)
@@ -273,7 +273,7 @@ namespace OpenCvSharp.CPlusPlus
                 //w.Dispose();
             }
             Windows.Clear();
-            CppInvoke.highgui_destroyAllWindows();
+            NativeMethods.highgui_destroyAllWindows();
         }
         #endregion
 
@@ -356,7 +356,7 @@ namespace OpenCvSharp.CPlusPlus
                 
                 mouseCallback += value;
                 callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
-                CppInvoke.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
+                NativeMethods.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
             }
             remove
             {
@@ -367,7 +367,7 @@ namespace OpenCvSharp.CPlusPlus
                 
                 mouseCallback -= value;
                 callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
-                CppInvoke.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
+                NativeMethods.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
             }
         }
 
@@ -547,7 +547,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void Move(int x, int y)
         {
-            CppInvoke.highgui_moveWindow(name, x, y);
+            NativeMethods.highgui_moveWindow(name, x, y);
         }
         #endregion
         #region Resize
@@ -566,7 +566,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void Resize(int width, int height)
         {
-            CppInvoke.highgui_resizeWindow(name, width, height);
+            NativeMethods.highgui_resizeWindow(name, width, height);
         }
         #endregion
         #region SaveWindowParameters
@@ -622,7 +622,7 @@ namespace OpenCvSharp.CPlusPlus
             if (img != null)
             {
                 this.image = img;
-                CppInvoke.highgui_imshow(name, img.CvPtr);
+                NativeMethods.highgui_imshow(name, img.CvPtr);
             }
         }
         #endregion
@@ -640,7 +640,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         static public int WaitKey()
         {
-            return CppInvoke.highgui_waitKey(0);
+            return NativeMethods.highgui_waitKey(0);
         }
 #if LANG_JP
 	    /// <summary>
@@ -657,7 +657,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         static public int WaitKey(int delay)
         {
-            return CppInvoke.highgui_waitKey(delay);
+            return NativeMethods.highgui_waitKey(delay);
         }
         #endregion
 

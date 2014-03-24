@@ -4,16 +4,11 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    internal static partial class CppInvoke
+    internal static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void photo_inpaint(IntPtr src, IntPtr inpaintMask,

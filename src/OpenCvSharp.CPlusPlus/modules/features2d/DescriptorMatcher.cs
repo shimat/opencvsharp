@@ -32,7 +32,7 @@ namespace OpenCvSharp.CPlusPlus
         protected DescriptorMatcher(IntPtr p)
         {
             detectorPtr = p;
-            ptr = CppInvoke.core_Ptr_DescriptorMatcher_obj(p);
+            ptr = NativeMethods.core_Ptr_DescriptorMatcher_obj(p);
             if(ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
         }
@@ -46,7 +46,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(descriptorMatcherType))
                 throw new ArgumentNullException("descriptorMatcherType");
-            IntPtr ptr = CppInvoke.features2d_FeatureDetector_create(descriptorMatcherType);
+            IntPtr ptr = NativeMethods.features2d_FeatureDetector_create(descriptorMatcherType);
             try
             {
                 DescriptorMatcher detector = new DescriptorMatcher(ptr);
@@ -89,7 +89,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (IsEnabledDispose)
                     {
                         if (detectorPtr != IntPtr.Zero)
-                            CppInvoke.core_Ptr_FeatureDetector_delete(detectorPtr);
+                            NativeMethods.core_Ptr_FeatureDetector_delete(detectorPtr);
                         detectorPtr = IntPtr.Zero;
                         ptr = IntPtr.Zero;
                     }
@@ -115,7 +115,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("descriptors");
 
             IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptors);
-            CppInvoke.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
+            NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             using (VectorOfMat matVec = new VectorOfMat())
             {
-                CppInvoke.features2d_DescriptorMatcher_getTrainDescriptors(ptr, matVec.CvPtr);
+                NativeMethods.features2d_DescriptorMatcher_getTrainDescriptors(ptr, matVec.CvPtr);
                 return matVec.ToArray();
             }
         }
@@ -138,7 +138,7 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Clear()
         {
             ThrowIfDisposed();
-            CppInvoke.features2d_DescriptorMatcher_clear(ptr);
+            NativeMethods.features2d_DescriptorMatcher_clear(ptr);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace OpenCvSharp.CPlusPlus
         public virtual bool Empty()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_DescriptorMatcher_empty(ptr) != 0;
+            return NativeMethods.features2d_DescriptorMatcher_empty(ptr) != 0;
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace OpenCvSharp.CPlusPlus
         public virtual bool IsMaskSupported()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_DescriptorMatcher_isMaskSupported(ptr) != 0;
+            return NativeMethods.features2d_DescriptorMatcher_isMaskSupported(ptr) != 0;
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Train()
         {
             ThrowIfDisposed();
-            CppInvoke.features2d_DescriptorMatcher_train(ptr);
+            NativeMethods.features2d_DescriptorMatcher_train(ptr);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("trainDescriptors");
             using (VectorOfDMatch matchesVec = new VectorOfDMatch())
             {
-                CppInvoke.features2d_DescriptorMatcher_match(
+                NativeMethods.features2d_DescriptorMatcher_match(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                     matchesVec.CvPtr, Cv2.ToPtr(mask));
                 return matchesVec.ToArray();
@@ -222,7 +222,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("trainDescriptors");
             using (VectorOfVectorDMatch matchesVec = new VectorOfVectorDMatch())
             {
-                CppInvoke.features2d_DescriptorMatcher_knnMatch(
+                NativeMethods.features2d_DescriptorMatcher_knnMatch(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                     matchesVec.CvPtr, k, Cv2.ToPtr(mask), compactResult ? 1 : 0);
                 return matchesVec.ToArray();
@@ -249,7 +249,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("trainDescriptors");
             using (VectorOfVectorDMatch matchesVec = new VectorOfVectorDMatch())
             {
-                CppInvoke.features2d_DescriptorMatcher_radiusMatch(
+                NativeMethods.features2d_DescriptorMatcher_radiusMatch(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                     matchesVec.CvPtr, maxDistance, Cv2.ToPtr(mask), compactResult ? 1 : 0);
                 return matchesVec.ToArray();

@@ -15,7 +15,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="nthreads"></param>
         public static void SetNumThreads(int nthreads)
         {
-            CppInvoke.core_setNumThreads(nthreads);
+            NativeMethods.core_setNumThreads(nthreads);
         }
         /// <summary>
         /// 
@@ -23,7 +23,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static int GetNumThreads()
         {
-            return CppInvoke.core_getNumThreads();
+            return NativeMethods.core_getNumThreads();
         }
         /// <summary>
         /// 
@@ -31,7 +31,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static int GetThreadNum()
         {
-            return CppInvoke.core_getThreadNum();
+            return NativeMethods.core_getThreadNum();
         }
         /// <summary>
         /// 
@@ -40,7 +40,7 @@ namespace OpenCvSharp.CPlusPlus
         public static string GetBuildInformation()
         {
             StringBuilder buf = new StringBuilder(1 << 16);
-            CppInvoke.core_getBuildInformation(buf, (uint)buf.Capacity);
+            NativeMethods.core_getBuildInformation(buf, (uint)buf.Capacity);
             return buf.ToString();
         }
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static long GetTickCount()
         {
-            return CppInvoke.core_getTickCount();
+            return NativeMethods.core_getTickCount();
         }
         /// <summary>
         /// 
@@ -57,7 +57,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static double GetTickFrequency()
         {
-            return CppInvoke.core_getTickFrequency();
+            return NativeMethods.core_getTickFrequency();
         }
         /// <summary>
         /// 
@@ -65,7 +65,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static long GetCpuTickCount()
         {
-            return CppInvoke.core_getCPUTickCount();
+            return NativeMethods.core_getCPUTickCount();
         }
         /// <summary>
         /// 
@@ -74,7 +74,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static bool CheckHardwareSupport(HardwareSupport feature)
         {
-            return CppInvoke.core_checkHardwareSupport(feature) != 0;
+            return NativeMethods.core_checkHardwareSupport(feature) != 0;
         }
         /// <summary>
         /// 
@@ -82,7 +82,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static int FetNumberOfCpus()
         {
-            return CppInvoke.core_getNumberOfCPUs();
+            return NativeMethods.core_getNumberOfCPUs();
         }
         /// <summary>
         /// 
@@ -91,7 +91,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static IntPtr FastMalloc(long bufSize)
         {
-            return CppInvoke.core_fastMalloc(new IntPtr(bufSize));
+            return NativeMethods.core_fastMalloc(new IntPtr(bufSize));
         }
         /// <summary>
         /// 
@@ -99,7 +99,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="ptr"></param>
         public static void FastFree(IntPtr ptr)
         {
-            CppInvoke.core_fastFree(ptr);
+            NativeMethods.core_fastFree(ptr);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="onoff"></param>
         public static void SetUseOptimized(bool onoff)
         {
-            CppInvoke.core_setUseOptimized(onoff ? 1 : 0);
+            NativeMethods.core_setUseOptimized(onoff ? 1 : 0);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static bool UseOptimized()
         {
-            return CppInvoke.core_useOptimized() != 0;
+            return NativeMethods.core_useOptimized() != 0;
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace OpenCvSharp.CPlusPlus
             if (arr == null)
                 throw new ArgumentNullException("arr");
             arr.ThrowIfDisposed();
-            IntPtr matPtr = CppInvoke.core_cvarrToMat(arr.CvPtr, copyData ? 1 : 0, allowND ? 1 : 0, coiMode);
+            IntPtr matPtr = NativeMethods.core_cvarrToMat(arr.CvPtr, copyData ? 1 : 0, allowND ? 1 : 0, coiMode);
             return new Mat(matPtr);
         }
         #endregion
@@ -183,7 +183,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("coiimg");
             arr.ThrowIfDisposed();
             coiimg.ThrowIfNotReady();
-            CppInvoke.core_extractImageCOI(arr.CvPtr, coiimg.CvPtr, coi);
+            NativeMethods.core_extractImageCOI(arr.CvPtr, coiimg.CvPtr, coi);
             coiimg.Fix();
         }
         #endregion
@@ -211,7 +211,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("arr");
             coiimg.ThrowIfDisposed();
             arr.ThrowIfDisposed();
-            CppInvoke.core_insertImageCOI(coiimg.CvPtr, arr.CvPtr, coi);
+            NativeMethods.core_insertImageCOI(coiimg.CvPtr, arr.CvPtr, coi);
         }
         #endregion
         #endregion
@@ -227,7 +227,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_abs_Mat(src.CvPtr);
+            IntPtr retPtr = NativeMethods.core_abs_Mat(src.CvPtr);
             return new MatExpr(retPtr);
         }
         /// <summary>
@@ -240,7 +240,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            IntPtr retPtr = CppInvoke.core_abs_MatExpr(src.CvPtr);
+            IntPtr retPtr = NativeMethods.core_abs_MatExpr(src.CvPtr);
             return new MatExpr(retPtr);
         }
         #endregion
@@ -275,7 +275,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_add(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
+            NativeMethods.core_add(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
             dst.Fix();
         }
         #endregion
@@ -310,7 +310,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_subtract(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
+            NativeMethods.core_subtract(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
             dst.Fix();
         }
         #endregion
@@ -345,7 +345,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_multiply(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype);
+            NativeMethods.core_multiply(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype);
             dst.Fix();
 
         }
@@ -381,7 +381,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_divide(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype);
+            NativeMethods.core_divide(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype);
             dst.Fix();
         }
 #if LANG_JP
@@ -409,7 +409,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_divide(scale, src2.CvPtr, dst.CvPtr, dtype);
+            NativeMethods.core_divide(scale, src2.CvPtr, dst.CvPtr, dtype);
             dst.Fix();
         }
         #endregion
@@ -432,7 +432,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_scaleAdd(src1.CvPtr, alpha, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_scaleAdd(src1.CvPtr, alpha, src2.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -459,7 +459,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_addWeighted(src1.CvPtr, alpha, src2.CvPtr, beta, gamma, dst.CvPtr, dtype);
+            NativeMethods.core_addWeighted(src1.CvPtr, alpha, src2.CvPtr, beta, gamma, dst.CvPtr, dtype);
             dst.Fix();
         }
         #endregion
@@ -490,7 +490,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_convertScaleAbs(src.CvPtr, dst.CvPtr, alpha, beta);
+            NativeMethods.core_convertScaleAbs(src.CvPtr, dst.CvPtr, alpha, beta);
             dst.Fix();
         }
         #endregion
@@ -513,7 +513,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             lut.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr, interpolation);
+            NativeMethods.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr, interpolation);
         }
         /// <summary>
         /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
@@ -545,7 +545,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            return CppInvoke.core_sum(src.CvPtr);
+            return NativeMethods.core_sum(src.CvPtr);
         }
         #endregion
         #region CountNonZero
@@ -559,7 +559,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            return CppInvoke.core_countNonZero(src.CvPtr);
+            return NativeMethods.core_countNonZero(src.CvPtr);
         }
         #endregion
         #region FindNonZero
@@ -576,7 +576,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("idx");
             src.ThrowIfDisposed();
             idx.ThrowIfNotReady();
-            CppInvoke.core_findNonZero(src.CvPtr, idx.CvPtr);
+            NativeMethods.core_findNonZero(src.CvPtr, idx.CvPtr);
             idx.Fix();
         }
         #endregion
@@ -592,7 +592,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            return CppInvoke.core_mean(src.CvPtr, ToPtr(mask));
+            return NativeMethods.core_mean(src.CvPtr, ToPtr(mask));
         }
         #endregion
         #region MeanStdDev
@@ -615,7 +615,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             mean.ThrowIfNotReady();
             stddev.ThrowIfNotReady();
-            CppInvoke.core_meanStdDev(src.CvPtr, mean.CvPtr, stddev.CvPtr, ToPtr(mask));
+            NativeMethods.core_meanStdDev(src.CvPtr, mean.CvPtr, stddev.CvPtr, ToPtr(mask));
             mean.Fix();
             stddev.Fix();
         }
@@ -634,7 +634,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src1 == null)
                 throw new ArgumentNullException("src1");
             src1.ThrowIfDisposed();
-            return CppInvoke.core_norm(src1.CvPtr, (int)normType, ToPtr(mask));
+            return NativeMethods.core_norm(src1.CvPtr, (int)normType, ToPtr(mask));
         }
         /// <summary>
         /// computes norm of selected part of the difference between two arrays
@@ -653,7 +653,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("src2");
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            return CppInvoke.core_norm(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask));
+            return NativeMethods.core_norm(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask));
         }
         #endregion
         #region BatchDistance
@@ -688,7 +688,7 @@ namespace OpenCvSharp.CPlusPlus
             src2.ThrowIfDisposed();
             dist.ThrowIfNotReady();
             nidx.ThrowIfNotReady();
-            CppInvoke.core_batchDistance(src1.CvPtr, src2.CvPtr, dist.CvPtr, dtype, nidx.CvPtr,
+            NativeMethods.core_batchDistance(src1.CvPtr, src2.CvPtr, dist.CvPtr, dtype, nidx.CvPtr,
                 (int)normType, k, ToPtr(mask), update, crosscheck ? 1 : 0);
             dist.Fix();
             nidx.Fix();
@@ -715,7 +715,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_normalize(src.CvPtr, dst.CvPtr, alpha, beta, (int)normType, dtype, ToPtr(mask));
+            NativeMethods.core_normalize(src.CvPtr, dst.CvPtr, alpha, beta, (int)normType, dtype, ToPtr(mask));
             dst.Fix();
         }
         #endregion
@@ -731,7 +731,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            CppInvoke.core_minMaxLoc(src.CvPtr, out minVal, out maxVal);
+            NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal);
         }
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
@@ -749,7 +749,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
             CvPoint minLoc0, maxLoc0;
-            CppInvoke.core_minMaxLoc(src.CvPtr, out minVal, out maxVal, out minLoc0, out maxLoc0, ToPtr(mask));
+            NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal, out minLoc0, out maxLoc0, ToPtr(mask));
             minLoc = minLoc0;
             maxLoc = maxLoc0;
         }
@@ -766,7 +766,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            CppInvoke.core_minMaxIdx(src.CvPtr, out minVal, out maxVal);
+            NativeMethods.core_minMaxIdx(src.CvPtr, out minVal, out maxVal);
         }
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
@@ -783,7 +783,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            CppInvoke.core_minMaxIdx(src.CvPtr, out minVal, out maxVal, out minIdx, out maxIdx, ToPtr(mask));
+            NativeMethods.core_minMaxIdx(src.CvPtr, out minVal, out maxVal, out minIdx, out maxIdx, ToPtr(mask));
         }
         #endregion
         #region Reduce
@@ -803,7 +803,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_reduce(src.CvPtr, dst.CvPtr, (int)dim, (int)rtype, dtype);
+            NativeMethods.core_reduce(src.CvPtr, dst.CvPtr, (int)dim, (int)rtype, dtype);
             dst.Fix();
         }
         #endregion
@@ -834,7 +834,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 mvPtr[i] = mv[i].CvPtr;
             }
-            CppInvoke.core_merge(mvPtr, (uint)mvPtr.Length, dst.CvPtr);
+            NativeMethods.core_merge(mvPtr, (uint)mvPtr.Length, dst.CvPtr);
         }
         #endregion
         #region Split
@@ -850,7 +850,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
 
             IntPtr mvPtr;
-            CppInvoke.core_split(src.CvPtr, out mvPtr);
+            NativeMethods.core_split(src.CvPtr, out mvPtr);
 
             using (VectorOfMat vec = new VectorOfMat(mvPtr))
             {
@@ -891,7 +891,7 @@ namespace OpenCvSharp.CPlusPlus
                 dst[i].ThrowIfDisposed();
                 dstPtr[i] = dst[i].CvPtr;
             }
-            CppInvoke.core_mixChannels(srcPtr, (uint)src.Length, dstPtr, (uint)dst.Length, 
+            NativeMethods.core_mixChannels(srcPtr, (uint)src.Length, dstPtr, (uint)dst.Length, 
                 fromTo, (uint)(fromTo.Length / 2));
         }
         #endregion
@@ -910,7 +910,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_extractChannel(src.CvPtr, dst.CvPtr, coi);
+            NativeMethods.core_extractChannel(src.CvPtr, dst.CvPtr, coi);
             dst.Fix();
         }
         #endregion
@@ -929,7 +929,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_insertChannel(src.CvPtr, dst.CvPtr, coi);
+            NativeMethods.core_insertChannel(src.CvPtr, dst.CvPtr, coi);
             dst.Fix();
         }
         #endregion
@@ -948,7 +948,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_flip(src.CvPtr, dst.CvPtr, (int)flipCode);
+            NativeMethods.core_flip(src.CvPtr, dst.CvPtr, (int)flipCode);
             dst.Fix();
         }
         #endregion
@@ -968,7 +968,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_repeat(src.CvPtr, ny, nx, dst.CvPtr);
+            NativeMethods.core_repeat(src.CvPtr, ny, nx, dst.CvPtr);
             dst.Fix();
         }
         /// <summary>
@@ -983,7 +983,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            IntPtr matPtr = CppInvoke.core_repeat(src.CvPtr, ny, nx);
+            IntPtr matPtr = NativeMethods.core_repeat(src.CvPtr, ny, nx);
             return new Mat(matPtr);
         }
         #endregion
@@ -1007,7 +1007,7 @@ namespace OpenCvSharp.CPlusPlus
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
             }
-            CppInvoke.core_hconcat(srcPtr, (uint)src.Length, dst.CvPtr);
+            NativeMethods.core_hconcat(srcPtr, (uint)src.Length, dst.CvPtr);
             dst.Fix();
         }
         /// <summary>
@@ -1027,7 +1027,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_hconcat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_hconcat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1051,7 +1051,7 @@ namespace OpenCvSharp.CPlusPlus
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
             }
-            CppInvoke.core_vconcat(srcPtr, (uint)src.Length, dst.CvPtr);
+            NativeMethods.core_vconcat(srcPtr, (uint)src.Length, dst.CvPtr);
             dst.Fix();
         }
         /// <summary>
@@ -1071,7 +1071,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_vconcat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_vconcat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1094,7 +1094,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_bitwise_and(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            NativeMethods.core_bitwise_and(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
             dst.Fix();
         }
         #endregion
@@ -1117,7 +1117,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_bitwise_or(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            NativeMethods.core_bitwise_or(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
             dst.Fix();
         }
         #endregion
@@ -1140,7 +1140,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_bitwise_xor(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            NativeMethods.core_bitwise_xor(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
             dst.Fix();
         }
         #endregion
@@ -1159,7 +1159,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask));
+            NativeMethods.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask));
             dst.Fix();
         }
         #endregion
@@ -1181,7 +1181,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_absdiff(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_absdiff(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1207,7 +1207,7 @@ namespace OpenCvSharp.CPlusPlus
             lowerb.ThrowIfDisposed();
             upperb.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_inRange(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr);
+            NativeMethods.core_inRange(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1230,7 +1230,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)cmpop);
+            NativeMethods.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)cmpop);
             dst.Fix();
         }
         #endregion
@@ -1252,7 +1252,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_min1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_min1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         /// <summary>
@@ -1272,7 +1272,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            CppInvoke.core_min_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_min_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
         }
         /// <summary>
         /// computes per-element minimum of array and scalar (dst = min(src1, src2))
@@ -1288,7 +1288,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src1.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            CppInvoke.core_min_MatDouble(src1.CvPtr, src2, dst.CvPtr);
+            NativeMethods.core_min_MatDouble(src1.CvPtr, src2, dst.CvPtr);
         }
         #endregion
         #region Max
@@ -1309,7 +1309,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_max1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_max1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         /// <summary>
@@ -1329,7 +1329,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            CppInvoke.core_max_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_max_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
         }
         /// <summary>
         /// computes per-element maximum of array and scalar (dst = max(src1, src2))
@@ -1345,7 +1345,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src1.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            CppInvoke.core_max_MatDouble(src1.CvPtr, src2, dst.CvPtr);
+            NativeMethods.core_max_MatDouble(src1.CvPtr, src2, dst.CvPtr);
         }
         #endregion
         #region Sqrt
@@ -1362,7 +1362,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_sqrt(src.CvPtr, dst.CvPtr);
+            NativeMethods.core_sqrt(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1381,7 +1381,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_pow_Mat(src.CvPtr, power, dst.CvPtr);
+            NativeMethods.core_pow_Mat(src.CvPtr, power, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1399,7 +1399,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_exp_Mat(src.CvPtr, dst.CvPtr);
+            NativeMethods.core_exp_Mat(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         /// <summary>
@@ -1412,7 +1412,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             float[] dst = new float[src.Length];
-            CppInvoke.core_exp_Array(src, dst, dst.Length);
+            NativeMethods.core_exp_Array(src, dst, dst.Length);
             return dst;
         }
         #endregion
@@ -1430,7 +1430,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_log_Mat(src.CvPtr, dst.CvPtr);
+            NativeMethods.core_log_Mat(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         /// <summary>
@@ -1443,7 +1443,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             float[] dst = new float[src.Length];
-            CppInvoke.core_log_Array(src, dst, dst.Length);
+            NativeMethods.core_log_Array(src, dst, dst.Length);
             return dst;
         }
         #endregion
@@ -1455,7 +1455,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static float CubeRoot(float val)
         {
-            return CppInvoke.core_cubeRoot(val);
+            return NativeMethods.core_cubeRoot(val);
         }
         #endregion
         #region FastAtan2
@@ -1467,7 +1467,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static float FastAtan2(float y, float x)
         {
-            return CppInvoke.core_fastAtan2(y, x);
+            return NativeMethods.core_fastAtan2(y, x);
         }
         /// <summary>
         /// 
@@ -1487,7 +1487,7 @@ namespace OpenCvSharp.CPlusPlus
             if (y.Length  == 0)
                 throw new ArgumentException("y.Length == 0");
             float[] dst = new float[y.Length];
-            CppInvoke.core_fastAtan2_Array(y, x, dst, dst.Length, angleInDegrees ? 1 : 0);
+            NativeMethods.core_fastAtan2_Array(y, x, dst, dst.Length, angleInDegrees ? 1 : 0);
             return dst;
         }
         #endregion
@@ -1515,7 +1515,7 @@ namespace OpenCvSharp.CPlusPlus
             angle.ThrowIfDisposed();
             x.ThrowIfNotReady();
             y.ThrowIfNotReady();
-            CppInvoke.core_polarToCart(magnitude.CvPtr, angle.CvPtr, x.CvPtr, y.CvPtr, angleInDegrees ? 1 : 0);
+            NativeMethods.core_polarToCart(magnitude.CvPtr, angle.CvPtr, x.CvPtr, y.CvPtr, angleInDegrees ? 1 : 0);
             x.Fix();
             y.Fix();
         }
@@ -1544,7 +1544,7 @@ namespace OpenCvSharp.CPlusPlus
             y.ThrowIfDisposed();
             magnitude.ThrowIfNotReady();
             angle.ThrowIfNotReady();
-            CppInvoke.core_cartToPolar(x.CvPtr, y.CvPtr, magnitude.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0);
+            NativeMethods.core_cartToPolar(x.CvPtr, y.CvPtr, magnitude.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0);
             magnitude.Fix();
             angle.Fix();
         }
@@ -1568,7 +1568,7 @@ namespace OpenCvSharp.CPlusPlus
             x.ThrowIfDisposed();
             y.ThrowIfDisposed();
             angle.ThrowIfNotReady();
-            CppInvoke.core_phase(x.CvPtr, y.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0);
+            NativeMethods.core_phase(x.CvPtr, y.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0);
             angle.Fix();
         }
         #endregion
@@ -1590,7 +1590,7 @@ namespace OpenCvSharp.CPlusPlus
             x.ThrowIfDisposed();
             y.ThrowIfDisposed();
             magnitude.ThrowIfNotReady();
-            CppInvoke.core_magnitude_Mat(x.CvPtr, y.CvPtr, magnitude.CvPtr);
+            NativeMethods.core_magnitude_Mat(x.CvPtr, y.CvPtr, magnitude.CvPtr);
             magnitude.Fix();
         }
         /// <summary>
@@ -1610,7 +1610,7 @@ namespace OpenCvSharp.CPlusPlus
             if (y.Length == 0)
                 throw new ArgumentException("y.Length == 0");
             float[] dst = new float[y.Length];
-            CppInvoke.core_magnitude_Array(y, x, dst, dst.Length);
+            NativeMethods.core_magnitude_Array(y, x, dst, dst.Length);
             return dst;
         }
         #endregion
@@ -1643,7 +1643,7 @@ namespace OpenCvSharp.CPlusPlus
             a.ThrowIfDisposed();
 
             CvPoint pos0;
-            int ret = CppInvoke.core_checkRange(a.CvPtr, quiet ? 1 : 0, out pos0, minVal, maxVal);
+            int ret = NativeMethods.core_checkRange(a.CvPtr, quiet ? 1 : 0, out pos0, minVal, maxVal);
             pos = pos0;
             return ret != 0;
         }
@@ -1659,7 +1659,7 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfNotReady();
-            CppInvoke.core_patchNaNs(a.CvPtr, val);
+            NativeMethods.core_patchNaNs(a.CvPtr, val);
         }
         #endregion
         #region Gemm
@@ -1688,7 +1688,7 @@ namespace OpenCvSharp.CPlusPlus
             src2.ThrowIfDisposed();
             src3.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_gemm(src1.CvPtr, src2.CvPtr, alpha, src3.CvPtr, gamma, dst.CvPtr, (int)flags);
+            NativeMethods.core_gemm(src1.CvPtr, src2.CvPtr, alpha, src3.CvPtr, gamma, dst.CvPtr, (int)flags);
             dst.Fix();
         }
         #endregion
@@ -1711,7 +1711,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0 , ToPtr(delta), scale, dtype);
+            NativeMethods.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0 , ToPtr(delta), scale, dtype);
             dst.Fix();
         }
         #endregion
@@ -1729,7 +1729,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_transpose(src.CvPtr, dst.CvPtr);
+            NativeMethods.core_transpose(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1751,7 +1751,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             m.ThrowIfDisposed();
-            CppInvoke.core_transform(src.CvPtr, dst.CvPtr, m.CvPtr);
+            NativeMethods.core_transform(src.CvPtr, dst.CvPtr, m.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1773,7 +1773,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             m.ThrowIfDisposed();
-            CppInvoke.core_perspectiveTransform(src.CvPtr, dst.CvPtr, m.CvPtr);
+            NativeMethods.core_perspectiveTransform(src.CvPtr, dst.CvPtr, m.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1788,7 +1788,7 @@ namespace OpenCvSharp.CPlusPlus
             if (mtx == null)
                 throw new ArgumentNullException("mtx");
             mtx.ThrowIfNotReady();
-            CppInvoke.core_completeSymm(mtx.CvPtr, lowerToUpper ? 1 : 0);
+            NativeMethods.core_completeSymm(mtx.CvPtr, lowerToUpper ? 1 : 0);
         }
         #endregion
         #region SetIdentity
@@ -1803,7 +1803,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("mtx");
             mtx.ThrowIfNotReady();
             Scalar s0 = s.GetValueOrDefault(new Scalar(1));
-            CppInvoke.core_setIdentity(mtx.CvPtr, s0);
+            NativeMethods.core_setIdentity(mtx.CvPtr, s0);
         }
         #endregion
         #region Determinant
@@ -1817,7 +1817,7 @@ namespace OpenCvSharp.CPlusPlus
             if (mtx == null)
                 throw new ArgumentNullException("mtx");
             mtx.ThrowIfDisposed();
-            return CppInvoke.core_determinant(mtx.CvPtr);
+            return NativeMethods.core_determinant(mtx.CvPtr);
         }
         #endregion
         #region Trace
@@ -1831,7 +1831,7 @@ namespace OpenCvSharp.CPlusPlus
             if (mtx == null)
                 throw new ArgumentNullException("mtx");
             mtx.ThrowIfDisposed();
-            return CppInvoke.core_trace(mtx.CvPtr);
+            return NativeMethods.core_trace(mtx.CvPtr);
         }
         #endregion
         #region Invert
@@ -1851,7 +1851,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            double ret = CppInvoke.core_invert(src.CvPtr, dst.CvPtr, (int)flags);
+            double ret = NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int)flags);
             dst.Fix();
             return ret;
         }
@@ -1877,7 +1877,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            int ret = CppInvoke.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)flags);
+            int ret = NativeMethods.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)flags);
             dst.Fix();
             return ret != 0;
         }
@@ -1897,7 +1897,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_sort(src.CvPtr, dst.CvPtr, (int)flags);
+            NativeMethods.core_sort(src.CvPtr, dst.CvPtr, (int)flags);
             dst.Fix();
         }
         #endregion
@@ -1916,7 +1916,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_sortIdx(src.CvPtr, dst.CvPtr, (int)flags);
+            NativeMethods.core_sortIdx(src.CvPtr, dst.CvPtr, (int)flags);
             dst.Fix();
         }
         #endregion
@@ -1935,7 +1935,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("roots");
             coeffs.ThrowIfDisposed();
             roots.ThrowIfNotReady();
-            int ret = CppInvoke.core_solveCubic(coeffs.CvPtr, roots.CvPtr);
+            int ret = NativeMethods.core_solveCubic(coeffs.CvPtr, roots.CvPtr);
             roots.Fix();
             return ret;
         }
@@ -1956,7 +1956,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("roots");
             coeffs.ThrowIfDisposed();
             roots.ThrowIfNotReady();
-            double ret = CppInvoke.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters);
+            double ret = NativeMethods.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters);
             roots.Fix();
             return ret;
         }
@@ -1979,7 +1979,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("eigenvalues");
             src.ThrowIfDisposed();
             eigenvalues.ThrowIfNotReady();
-            int ret = CppInvoke.core_eigen(src.CvPtr, eigenvalues.CvPtr, lowindex, highindex);
+            int ret = NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, lowindex, highindex);
             eigenvalues.Fix();
             return ret != 0;
         }
@@ -2005,7 +2005,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             eigenvalues.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
-            int ret = CppInvoke.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr, lowindex, highindex);
+            int ret = NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr, lowindex, highindex);
             eigenvalues.Fix();
             eigenvectors.Fix();
             return ret != 0;
@@ -2030,7 +2030,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             eigenvalues.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
-            int ret = CppInvoke.core_eigen(src.CvPtr, computeEigenvectors, eigenvalues.CvPtr, eigenvectors.CvPtr);
+            int ret = NativeMethods.core_eigen(src.CvPtr, computeEigenvectors, eigenvalues.CvPtr, eigenvectors.CvPtr);
             eigenvalues.Fix();
             eigenvectors.Fix();
             return ret != 0;
@@ -2068,7 +2068,7 @@ namespace OpenCvSharp.CPlusPlus
             covar.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             IntPtr[] samplesPtr = EnumerableEx.SelectPtrs(samples);
-            CppInvoke.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
+            NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
         }
         /// <summary>
         /// computes covariation matrix of a set of samples
@@ -2102,7 +2102,7 @@ namespace OpenCvSharp.CPlusPlus
             samples.ThrowIfDisposed();
             covar.ThrowIfNotReady();
             mean.ThrowIfNotReady();
-            CppInvoke.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
+            NativeMethods.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
             covar.Fix();
             mean.Fix();
         }
@@ -2128,7 +2128,7 @@ namespace OpenCvSharp.CPlusPlus
             data.ThrowIfDisposed();
             mean.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
-            CppInvoke.core_PCACompute(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, maxComponents);
+            NativeMethods.core_PCACompute(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, maxComponents);
             mean.Fix();
             eigenvectors.Fix();
         }
@@ -2151,7 +2151,7 @@ namespace OpenCvSharp.CPlusPlus
             data.ThrowIfDisposed();
             mean.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
-            CppInvoke.core_PCAComputeVar(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, retainedVariance);
+            NativeMethods.core_PCAComputeVar(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, retainedVariance);
             mean.Fix();
             eigenvectors.Fix();
         }
@@ -2177,7 +2177,7 @@ namespace OpenCvSharp.CPlusPlus
             mean.ThrowIfDisposed();
             eigenvectors.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            CppInvoke.core_PCAProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
+            NativeMethods.core_PCAProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
             result.Fix();
         }
         /// <summary>
@@ -2202,7 +2202,7 @@ namespace OpenCvSharp.CPlusPlus
             mean.ThrowIfDisposed();
             eigenvectors.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            CppInvoke.core_PCABackProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
+            NativeMethods.core_PCABackProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
             result.Fix();
         }
         #endregion
@@ -2230,7 +2230,7 @@ namespace OpenCvSharp.CPlusPlus
             w.ThrowIfNotReady();
             u.ThrowIfNotReady();
             vt.ThrowIfNotReady();
-            CppInvoke.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
+            NativeMethods.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
             w.Fix();
             u.Fix();
             vt.Fix();
@@ -2262,7 +2262,7 @@ namespace OpenCvSharp.CPlusPlus
             vt.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_SVBackSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
+            NativeMethods.core_SVBackSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -2286,7 +2286,7 @@ namespace OpenCvSharp.CPlusPlus
             v1.ThrowIfDisposed();
             v2.ThrowIfDisposed();
             icovar.ThrowIfDisposed();
-            return CppInvoke.core_Mahalanobis(v1.CvPtr, v2.CvPtr, icovar.CvPtr);
+            return NativeMethods.core_Mahalanobis(v1.CvPtr, v2.CvPtr, icovar.CvPtr);
         }
         /// <summary>
         /// computes Mahalanobis distance between two vectors: sqrt((v1-v2)'*icovar*(v1-v2)), where icovar is the inverse covariation matrix
@@ -2316,7 +2316,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_dft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
+            NativeMethods.core_dft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
             dst.Fix();
         }
 
@@ -2335,7 +2335,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_idft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
+            NativeMethods.core_idft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
             dst.Fix();
         }
         #endregion
@@ -2354,7 +2354,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_dct(src.CvPtr, dst.CvPtr, (int)flags);
+            NativeMethods.core_dct(src.CvPtr, dst.CvPtr, (int)flags);
             dst.Fix();
         }
 
@@ -2372,7 +2372,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_idct(src.CvPtr, dst.CvPtr, (int)flags);
+            NativeMethods.core_idct(src.CvPtr, dst.CvPtr, (int)flags);
             dst.Fix();
         }
         #endregion
@@ -2397,7 +2397,7 @@ namespace OpenCvSharp.CPlusPlus
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
             c.ThrowIfNotReady();
-            CppInvoke.core_mulSpectrums(a.CvPtr, b.CvPtr, c.CvPtr, (int)flags, conjB ? 1 : 0);
+            NativeMethods.core_mulSpectrums(a.CvPtr, b.CvPtr, c.CvPtr, (int)flags, conjB ? 1 : 0);
             c.Fix();
         }
         #endregion
@@ -2409,7 +2409,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static int GetOptimalDFTSize(int vecsize)
         {
-            return CppInvoke.core_getOptimalDFTSize(vecsize);
+            return NativeMethods.core_getOptimalDFTSize(vecsize);
         }
         #endregion
         #region Kmeans
@@ -2433,7 +2433,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("bestLabels");
             data.ThrowIfDisposed();
             bestLabels.ThrowIfDisposed();
-            double ret = CppInvoke.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int)flags, ToPtr(centers));
+            double ret = NativeMethods.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int)flags, ToPtr(centers));
             bestLabels.Fix();
             if(centers != null)
                 centers.Fix();
@@ -2447,7 +2447,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static RNG TheRNG()
         {
-            ulong state = CppInvoke.core_theRNG();
+            ulong state = NativeMethods.core_theRNG();
             return new RNG(state);
         }
         #endregion
@@ -2469,7 +2469,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             low.ThrowIfDisposed();
             high.ThrowIfDisposed();
-            CppInvoke.core_randu(dst.CvPtr, low.CvPtr, high.CvPtr);
+            NativeMethods.core_randu(dst.CvPtr, low.CvPtr, high.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -2491,7 +2491,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             mean.ThrowIfDisposed();
             stddev.ThrowIfDisposed();
-            CppInvoke.core_randn(dst.CvPtr, mean.CvPtr, stddev.CvPtr);
+            NativeMethods.core_randn(dst.CvPtr, mean.CvPtr, stddev.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -2508,7 +2508,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             dst.ThrowIfNotReady();
             ulong state;
-            CppInvoke.core_randShuffle(dst.CvPtr, iterFactor, out state);
+            NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, out state);
             dst.Fix();
             rng = new RNG(state);
         }
@@ -2522,7 +2522,7 @@ namespace OpenCvSharp.CPlusPlus
             if (dst == null)
                 throw new ArgumentNullException("dst");
             dst.ThrowIfNotReady();
-            CppInvoke.core_randShuffle_(dst.CvPtr, iterFactor);
+            NativeMethods.core_randShuffle_(dst.CvPtr, iterFactor);
             dst.Fix();
         }
         #endregion
@@ -2590,7 +2590,7 @@ namespace OpenCvSharp.CPlusPlus
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
-            CppInvoke.core_line(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            NativeMethods.core_line(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
         }
         #endregion
         #region Rectangle
@@ -2621,7 +2621,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            CppInvoke.core_rectangle(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            NativeMethods.core_rectangle(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
         }
 
 #if LANG_JP
@@ -2647,7 +2647,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static void Rectangle(Mat img, Rect rect, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
-            CppInvoke.core_rectangle(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            NativeMethods.core_rectangle(img.CvPtr, rect, color, thickness, (int)lineType, shift);
         }
         #endregion
         #region Circle
@@ -2711,7 +2711,7 @@ namespace OpenCvSharp.CPlusPlus
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
-            CppInvoke.core_circle(img.CvPtr, center, radius, color, thickness, (int)lineType, shift);
+            NativeMethods.core_circle(img.CvPtr, center, radius, color, thickness, (int)lineType, shift);
         }
         #endregion
         #region Ellipse
@@ -2750,7 +2750,7 @@ namespace OpenCvSharp.CPlusPlus
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
-            CppInvoke.core_ellipse(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, (int)lineType, shift);
+            NativeMethods.core_ellipse(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, (int)lineType, shift);
         }
 
 #if LANG_JP
@@ -2778,7 +2778,7 @@ namespace OpenCvSharp.CPlusPlus
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
-            CppInvoke.core_ellipse(img.CvPtr, box, color, thickness, (int)lineType);
+            NativeMethods.core_ellipse(img.CvPtr, box, color, thickness, (int)lineType);
         }
         #endregion
         #region FillConvexPoly
@@ -2809,7 +2809,7 @@ namespace OpenCvSharp.CPlusPlus
             img.ThrowIfDisposed();
 
             Point[] ptsArray = Util.ToArray(pts);
-            CppInvoke.core_fillConvexPoly(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
+            NativeMethods.core_fillConvexPoly(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
         }
         #endregion
         #region FillPoly
@@ -2855,7 +2855,7 @@ namespace OpenCvSharp.CPlusPlus
             int ncontours = ptsArr.Length;
             using (ArrayAddress2<Point> ptsPtr = new ArrayAddress2<Point>(ptsArr))
             {
-                CppInvoke.core_fillPoly(img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int)lineType, shift, offset0);
+                NativeMethods.core_fillPoly(img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int)lineType, shift, offset0);
             }
         }
         #endregion
@@ -2890,7 +2890,7 @@ namespace OpenCvSharp.CPlusPlus
             int ncontours = ptsArr.Length;
             using (ArrayAddress2<Point> ptsPtr = new ArrayAddress2<Point>(ptsArr))
             {
-                CppInvoke.core_polylines(img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
+                NativeMethods.core_polylines(img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
             }
         }
         #endregion
@@ -2914,7 +2914,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static bool ClipLine(Size imgSize, ref Point pt1, ref Point pt2)
         {
-            return CppInvoke.core_clipLine(imgSize, ref pt1, ref pt2) != 0;
+            return NativeMethods.core_clipLine(imgSize, ref pt1, ref pt2) != 0;
         }
 #if LANG_JP
         /// <summary>
@@ -2935,7 +2935,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static bool ClipLine(Rect imgRect, ref Point pt1, ref Point pt2)
         {
-            return CppInvoke.core_clipLine(imgRect, ref pt1, ref pt2) != 0;
+            return NativeMethods.core_clipLine(imgRect, ref pt1, ref pt2) != 0;
         }
         #endregion
         #region PutText
@@ -2960,7 +2960,7 @@ namespace OpenCvSharp.CPlusPlus
             if (String.IsNullOrEmpty(text))
                 throw new ArgumentNullException(text); 
             img.ThrowIfDisposed();
-            CppInvoke.core_putText(img.CvPtr, text, org, (int)fontFace, fontScale, color, 
+            NativeMethods.core_putText(img.CvPtr, text, org, (int)fontFace, fontScale, color, 
                 thickness, (int)lineType, bottomLeftOrigin ? 1 : 0);
         }
         #endregion
@@ -2979,7 +2979,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(text))
                 throw new ArgumentNullException(text);
-            return CppInvoke.core_getTextSize(text, (int)fontFace, fontScale, thickness, out baseLine);
+            return NativeMethods.core_getTextSize(text, (int)fontFace, fontScale, thickness, out baseLine);
         }
         #endregion
         #endregion

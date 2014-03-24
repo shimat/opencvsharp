@@ -23,7 +23,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static Mat GetGaborKernel(Size ksize, double sigma, double theta, double lambd, double gamma, double psi, int ktype)
         {
-            IntPtr matPtr = CppInvoke.imgproc_getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype);
+            IntPtr matPtr = NativeMethods.imgproc_getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype);
             return new Mat(matPtr);
         }
         #endregion
@@ -47,7 +47,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static Mat GetStructuringElement(StructuringElementShape shape, Size ksize, Point anchor)
         {
-            IntPtr matPtr = CppInvoke.imgproc_getStructuringElement((int)shape, ksize, anchor);
+            IntPtr matPtr = NativeMethods.imgproc_getStructuringElement((int)shape, ksize, anchor);
             return new Mat(matPtr);
         }
         #endregion
@@ -72,7 +72,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             Scalar value0 = value.GetValueOrDefault(new Scalar());
-            CppInvoke.imgproc_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0);
+            NativeMethods.imgproc_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0);
             dst.Fix();
         }
         #endregion
@@ -91,7 +91,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize);
+            NativeMethods.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize);
             dst.Fix();
         }
         #endregion
@@ -119,7 +119,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
+            NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -141,7 +141,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, (int)borderType);
+            NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -201,7 +201,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_adaptiveBilateralFilter(src.CvPtr, dst.CvPtr, ksize, sigmaSpace, maxSigmaColor, anchor, (int)borderType);
+            NativeMethods.imgproc_adaptiveBilateralFilter(src.CvPtr, dst.CvPtr, ksize, sigmaSpace, maxSigmaColor, anchor, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -236,7 +236,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor, normalize ? 1 : 0, (int)borderType);
+            NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor, normalize ? 1 : 0, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -267,7 +267,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor, (int)borderType);
+            NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -305,7 +305,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             kernel.ThrowIfDisposed();
-            CppInvoke.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, anchor, delta, (int)borderType);
+            NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, anchor, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -348,7 +348,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             kernelX.ThrowIfDisposed();
             kernelY.ThrowIfDisposed();
-            CppInvoke.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth, kernelX.CvPtr, kernelY.CvPtr, anchor, delta, (int)borderType);
+            NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth, kernelX.CvPtr, kernelY.CvPtr, anchor, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -374,7 +374,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, dx, dy, ksize, scale, delta, (int)borderType);
+            NativeMethods.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, dx, dy, ksize, scale, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -399,7 +399,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, dx, dy, scale, delta, (int)borderType);
+            NativeMethods.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, dx, dy, scale, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -423,7 +423,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_Laplacian(src.CvPtr, dst.CvPtr, ddepth, ksize, scale, delta, (int)borderType);
+            NativeMethods.imgproc_Laplacian(src.CvPtr, dst.CvPtr, ddepth, ksize, scale, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -458,7 +458,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("edges");
             src.ThrowIfDisposed();
             edges.ThrowIfNotReady();
-            CppInvoke.imgproc_Canny(src.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0);
+            NativeMethods.imgproc_Canny(src.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0);
             edges.Fix();
         }
         #endregion
@@ -476,7 +476,7 @@ namespace OpenCvSharp.CPlusPlus
             if(a.GetLength(0) != 2 || a.GetLength(1) != 2)
                 throw new ArgumentException("Dimension of 'a' != 2");
             float[,] e = new float[2,2];
-            CppInvoke.imgproc_eigen2x2(a, e, n);
+            NativeMethods.imgproc_eigen2x2(a, e, n);
             return e;
         }
         #endregion
@@ -498,7 +498,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_cornerEigenValsAndVecs(src.CvPtr, dst.CvPtr, blockSize, ksize, (int)borderType);
+            NativeMethods.imgproc_cornerEigenValsAndVecs(src.CvPtr, dst.CvPtr, blockSize, ksize, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -519,7 +519,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_preCornerDetect(src.CvPtr, dst.CvPtr, ksize, (int)borderType);
+            NativeMethods.imgproc_preCornerDetect(src.CvPtr, dst.CvPtr, ksize, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -547,7 +547,7 @@ namespace OpenCvSharp.CPlusPlus
             Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
             using (VectorOfPoint2f vector = new VectorOfPoint2f(inputCornersCopy))
             {
-                CppInvoke.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria);
+                NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria);
                 return vector.ToArray();
             }
         }
@@ -575,7 +575,7 @@ namespace OpenCvSharp.CPlusPlus
             using (VectorOfPoint2f vector = new VectorOfPoint2f())
             {
                 IntPtr maskPtr = ToPtr(mask);
-                CppInvoke.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
+                NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
                     minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k);
                 return vector.ToArray();
             }
@@ -615,7 +615,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfVec2f vec = new VectorOfVec2f())
             {
-                CppInvoke.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
+                NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
                 return vec.ToArray<CvLineSegmentPolar>();
             }
         }
@@ -652,7 +652,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             using (VectorOfVec4i vec = new VectorOfVec4i())
             {
-                CppInvoke.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
+                NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
                 return vec.ToArray<CvLineSegmentPoint>();
             }
         }
@@ -693,7 +693,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             using (VectorOfVec3f vec = new VectorOfVec3f())
             {
-                CppInvoke.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
+                NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
                 return vec.ToArray<CvCircleSegment>();
             }
         }
@@ -745,7 +745,7 @@ namespace OpenCvSharp.CPlusPlus
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
-            CppInvoke.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            NativeMethods.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             dst.Fix();
         }
         #endregion
@@ -786,7 +786,7 @@ namespace OpenCvSharp.CPlusPlus
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
-            CppInvoke.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            NativeMethods.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             dst.Fix();
         }
         #endregion
@@ -829,7 +829,7 @@ namespace OpenCvSharp.CPlusPlus
             CvPoint anchor0 = anchor.GetValueOrDefault(new CvPoint(-1, -1));
             CvScalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
-            CppInvoke.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            NativeMethods.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             dst.Fix();
         }
         #endregion
@@ -852,7 +852,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_resize(src.CvPtr, dst.CvPtr, dsize, fx, fy, (int)interpolation);
+            NativeMethods.imgproc_resize(src.CvPtr, dst.CvPtr, dsize, fx, fy, (int)interpolation);
             dst.Fix();
         }
         #endregion
@@ -880,7 +880,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
             CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
-            CppInvoke.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
             dst.Fix();
         }
         #endregion
@@ -908,7 +908,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
             CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
-            CppInvoke.imgproc_warpPerspective(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            NativeMethods.imgproc_warpPerspective(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
             dst.Fix();
         }
         #endregion
@@ -939,7 +939,7 @@ namespace OpenCvSharp.CPlusPlus
             map1.ThrowIfDisposed();
             map2.ThrowIfDisposed();
             CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
-            CppInvoke.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int)interpolation, (int)borderMode, borderValue0);
+            NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int)interpolation, (int)borderMode, borderValue0);
             dst.Fix();
         }
         #endregion
@@ -967,7 +967,7 @@ namespace OpenCvSharp.CPlusPlus
             map2.ThrowIfDisposed();
             dstmap1.ThrowIfDisposed();
             dstmap2.ThrowIfDisposed();
-            CppInvoke.imgproc_convertMaps(map1.CvPtr, map2.CvPtr, dstmap1.CvPtr, dstmap2.CvPtr, dstmap1Type, nnInterpolation ? 1 : 0);
+            NativeMethods.imgproc_convertMaps(map1.CvPtr, map2.CvPtr, dstmap1.CvPtr, dstmap2.CvPtr, dstmap1Type, nnInterpolation ? 1 : 0);
             dstmap1.Fix();
             dstmap2.Fix();
         }
@@ -983,7 +983,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static Mat GetRotationMatrix2D(Point2f center, double angle, double scale)
         {
-            IntPtr ret = CppInvoke.imgproc_getRotationMatrix2D(center, angle, scale);
+            IntPtr ret = NativeMethods.imgproc_getRotationMatrix2D(center, angle, scale);
             return new Mat(ret);
 
         }
@@ -1002,7 +1002,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("im");
             m.ThrowIfDisposed();
             im.ThrowIfNotReady();
-            CppInvoke.imgproc_invertAffineTransform(m.CvPtr, im.CvPtr);
+            NativeMethods.imgproc_invertAffineTransform(m.CvPtr, im.CvPtr);
         }
         #endregion
         #region GetPerspectiveTransform
@@ -1020,7 +1020,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             Point2f[] srcArray = Util.ToArray(src);
             Point2f[] dstArray = Util.ToArray(dst);
-            IntPtr ret = CppInvoke.imgproc_getPerspectiveTransform(srcArray, dstArray);
+            IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform(srcArray, dstArray);
             return new Mat(ret);
         }
         /// <summary>
@@ -1037,7 +1037,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            IntPtr ret = CppInvoke.imgproc_getPerspectiveTransform(src.CvPtr, dst.CvPtr);
+            IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform(src.CvPtr, dst.CvPtr);
             return new Mat(ret);
         }
         #endregion
@@ -1056,7 +1056,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             Point2f[] srcArray = Util.ToArray(src);
             Point2f[] dstArray = Util.ToArray(dst);
-            IntPtr ret = CppInvoke.imgproc_getAffineTransform(srcArray, dstArray);
+            IntPtr ret = NativeMethods.imgproc_getAffineTransform(srcArray, dstArray);
             return new Mat(ret);
         }
         /// <summary>
@@ -1073,7 +1073,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            IntPtr ret = CppInvoke.imgproc_getAffineTransform(src.CvPtr, dst.CvPtr);
+            IntPtr ret = NativeMethods.imgproc_getAffineTransform(src.CvPtr, dst.CvPtr);
             return new Mat(ret);
         }
         #endregion
@@ -1095,7 +1095,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("patch");
             image.ThrowIfDisposed();
             patch.ThrowIfNotReady();
-            CppInvoke.imgproc_getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType);
+            NativeMethods.imgproc_getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType);
             patch.Fix();
         }
         #endregion
@@ -1114,7 +1114,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("sum");
             src.ThrowIfDisposed();
             sum.ThrowIfNotReady();
-            CppInvoke.imgproc_integral(src.CvPtr, sum.CvPtr, sdepth);
+            NativeMethods.imgproc_integral(src.CvPtr, sum.CvPtr, sdepth);
             sum.Fix();
         }
         /// <summary>
@@ -1135,7 +1135,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             sum.ThrowIfNotReady();
             sqsum.ThrowIfNotReady();
-            CppInvoke.imgproc_integral(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth);
+            NativeMethods.imgproc_integral(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth);
             sum.Fix();
             sqsum.Fix();
         }
@@ -1161,7 +1161,7 @@ namespace OpenCvSharp.CPlusPlus
             sum.ThrowIfNotReady();
             sqsum.ThrowIfNotReady();
             tilted.ThrowIfNotReady();
-            CppInvoke.imgproc_integral(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth);
+            NativeMethods.imgproc_integral(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth);
             sum.Fix();
             sqsum.Fix();
             tilted.Fix();
@@ -1182,7 +1182,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_accumulate(src.CvPtr, dst.CvPtr, ToPtr(mask));
+            NativeMethods.imgproc_accumulate(src.CvPtr, dst.CvPtr, ToPtr(mask));
             dst.Fix();
         }
         /// <summary>
@@ -1199,7 +1199,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_accumulateSquare(src.CvPtr, dst.CvPtr, ToPtr(mask));
+            NativeMethods.imgproc_accumulateSquare(src.CvPtr, dst.CvPtr, ToPtr(mask));
             dst.Fix();
         }
         /// <summary>
@@ -1220,7 +1220,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_accumulateProduct(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            NativeMethods.imgproc_accumulateProduct(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
             dst.Fix();
         }
         /// <summary>
@@ -1238,7 +1238,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_accumulateWeighted(src.CvPtr, dst.CvPtr, alpha, ToPtr(mask));
+            NativeMethods.imgproc_accumulateWeighted(src.CvPtr, dst.CvPtr, alpha, ToPtr(mask));
             dst.Fix();
         }
         #endregion
@@ -1258,7 +1258,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("src2");
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            return CppInvoke.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
+            return NativeMethods.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
         }
         #endregion
         #region PhaseCorrelate
@@ -1278,7 +1278,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("src2");
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            return CppInvoke.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, ToPtr(window));
+            return NativeMethods.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, ToPtr(window));
         }
         #endregion
         #region PhaseCorrelateRes
@@ -1314,7 +1314,7 @@ namespace OpenCvSharp.CPlusPlus
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             window.ThrowIfDisposed();
-            return CppInvoke.imgproc_phaseCorrelateRes(src1.CvPtr, src2.CvPtr, window.CvPtr, out response);
+            return NativeMethods.imgproc_phaseCorrelateRes(src1.CvPtr, src2.CvPtr, window.CvPtr, out response);
         }
         #endregion
         #region CreateHanningWindow
@@ -1329,7 +1329,7 @@ namespace OpenCvSharp.CPlusPlus
             if (dst == null)
                 throw new ArgumentNullException("dst");
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_createHanningWindow(dst.CvPtr, winSize, type);
+            NativeMethods.imgproc_createHanningWindow(dst.CvPtr, winSize, type);
             dst.Fix();
         }
         #endregion
@@ -1351,7 +1351,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            double ret = CppInvoke.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
+            double ret = NativeMethods.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
             dst.Fix();
             return ret;
         }
@@ -1376,7 +1376,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)adaptiveMethod, (int)thresholdType, blockSize, c);
+            NativeMethods.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)adaptiveMethod, (int)thresholdType, blockSize, c);
             dst.Fix();
         }
         #endregion
@@ -1398,7 +1398,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             Size dstSize0 = dstSize.GetValueOrDefault(new Size());
-            CppInvoke.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            NativeMethods.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
             dst.Fix();
         }
         /// <summary>
@@ -1418,7 +1418,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             Size dstSize0 = dstSize.GetValueOrDefault(new Size());
-            CppInvoke.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            NativeMethods.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
             dst.Fix();
         }
         #endregion
@@ -1448,7 +1448,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             cameraMatrix.ThrowIfDisposed();
             distCoeffs.ThrowIfDisposed();
-            CppInvoke.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(newCameraMatrix));
+            NativeMethods.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(newCameraMatrix));
             dst.Fix();
         }
         #endregion
@@ -1486,7 +1486,7 @@ namespace OpenCvSharp.CPlusPlus
             newCameraMatrix.ThrowIfDisposed();
             map1.ThrowIfNotReady();
             map2.ThrowIfNotReady();
-            CppInvoke.imgproc_initUndistortRectifyMap(
+            NativeMethods.imgproc_initUndistortRectifyMap(
                 cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr);
             map1.Fix();
             map2.Fix();
@@ -1522,7 +1522,7 @@ namespace OpenCvSharp.CPlusPlus
             distCoeffs.ThrowIfDisposed();
             map1.ThrowIfNotReady();
             map2.ThrowIfNotReady();
-            float ret = CppInvoke.imgproc_initWideAngleProjMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
+            float ret = NativeMethods.imgproc_initWideAngleProjMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
                 destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int)projType, alpha);
             map1.Fix();
             map2.Fix();
@@ -1544,7 +1544,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("cameraMatrix");
             cameraMatrix.ThrowIfDisposed();
             Size imgSize0 = imgSize.GetValueOrDefault(new Size());
-            IntPtr matPtr = CppInvoke.imgproc_getDefaultNewCameraMatrix(cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
+            IntPtr matPtr = NativeMethods.imgproc_getDefaultNewCameraMatrix(cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
             return new Mat(matPtr);
         }
         #endregion
@@ -1574,7 +1574,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             cameraMatrix.ThrowIfDisposed();
             distCoeffs.ThrowIfDisposed();
-            CppInvoke.imgproc_undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(r), ToPtr(p));
+            NativeMethods.imgproc_undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(r), ToPtr(p));
             dst.Fix();
         }
         #endregion
@@ -1615,7 +1615,7 @@ namespace OpenCvSharp.CPlusPlus
             });
             using (ArrayAddress2<float> rangesPtr = new ArrayAddress2<float>(rangesFloat))
             {
-                CppInvoke.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr, 
+                NativeMethods.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr, 
                     dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0);
             }
             hist.Fix();
@@ -1655,7 +1655,7 @@ namespace OpenCvSharp.CPlusPlus
             });
             using (ArrayAddress2<float> rangesPtr = new ArrayAddress2<float>(rangesFloat))
             {
-                CppInvoke.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
+                NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
                     backProject.CvPtr, rangesPtr, uniform ? 1 : 0);
             }
             backProject.Fix();
@@ -1677,7 +1677,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("h2");
             h1.ThrowIfDisposed();
             h2.ThrowIfDisposed();
-            return CppInvoke.imgproc_compareHist1(h1.CvPtr, h2.CvPtr, (int)method);
+            return NativeMethods.imgproc_compareHist1(h1.CvPtr, h2.CvPtr, (int)method);
         }
         #endregion
         #region EqualizeHist
@@ -1694,7 +1694,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_equalizeHist(src.CvPtr, dst.CvPtr);
+            NativeMethods.imgproc_equalizeHist(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1758,7 +1758,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("signature2");
             signature1.ThrowIfDisposed();
             signature2.ThrowIfDisposed();
-            float ret = CppInvoke.imgproc_EMD(signature1.CvPtr, signature2.CvPtr, (int)distType, ToPtr(cost), out lowerBound, ToPtr(flow));
+            float ret = NativeMethods.imgproc_EMD(signature1.CvPtr, signature2.CvPtr, (int)distType, ToPtr(cost), out lowerBound, ToPtr(flow));
             if(flow != null)
                 flow.Fix();
             return ret;
@@ -1778,7 +1778,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("markers");
             image.ThrowIfDisposed();
             markers.ThrowIfNotReady();
-            CppInvoke.imgproc_watershed(image.CvPtr, markers.CvPtr);
+            NativeMethods.imgproc_watershed(image.CvPtr, markers.CvPtr);
             markers.Fix();
         }
         #endregion
@@ -1803,7 +1803,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             TermCriteria termcrit0 = termcrit.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 5, 1));
-            CppInvoke.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
+            NativeMethods.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
             dst.Fix();
         }
         #endregion
@@ -1834,7 +1834,7 @@ namespace OpenCvSharp.CPlusPlus
             mask.ThrowIfNotReady();
             bgdModel.ThrowIfNotReady();
             fgdModel.ThrowIfNotReady();
-            CppInvoke.imgproc_grabCut(img.CvPtr, mask.CvPtr, rect,
+            NativeMethods.imgproc_grabCut(img.CvPtr, mask.CvPtr, rect,
                 bgdModel.CvPtr, fgdModel.CvPtr, iterCount, (int)mode);
             mask.Fix();
             bgdModel.Fix();
@@ -1886,7 +1886,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             labels.ThrowIfNotReady();
-            CppInvoke.imgproc_distanceTransformWithLabels(
+            NativeMethods.imgproc_distanceTransformWithLabels(
                 src.CvPtr, dst.CvPtr, labels.CvPtr, (int)distanceType, (int)maskSize, (int)labelType);
             dst.Fix();
             labels.Fix();
@@ -1910,7 +1910,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.imgproc_distanceTransform(
+            NativeMethods.imgproc_distanceTransform(
                 src.CvPtr, dst.CvPtr, (int)distanceType, (int)maskSize);
             dst.Fix();
         }
@@ -1950,7 +1950,7 @@ namespace OpenCvSharp.CPlusPlus
             Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
             CvRect rect0;
-            int ret = CppInvoke.imgproc_floodFill(image.CvPtr, seedPoint, newVal, out rect0,
+            int ret = NativeMethods.imgproc_floodFill(image.CvPtr, seedPoint, newVal, out rect0,
                 loDiff0, upDiff0, (int)flags);
             rect = rect0;
             image.Fix();
@@ -1997,7 +1997,7 @@ namespace OpenCvSharp.CPlusPlus
             Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
             CvRect rect0;
-            int ret = CppInvoke.imgproc_floodFill(image.CvPtr, mask.CvPtr, seedPoint, 
+            int ret = NativeMethods.imgproc_floodFill(image.CvPtr, mask.CvPtr, seedPoint, 
                 newVal, out rect0, loDiff0, upDiff0, (int)flags);
             rect = rect0;
             image.Fix();
@@ -2033,7 +2033,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             try
             {
-                CppInvoke.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
+                NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
                 dst.Fix();
             }
             catch (BadImageFormatException ex)
@@ -2074,7 +2074,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             templ.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            CppInvoke.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int)method);
+            NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int)method);
             result.Fix();
         }
         #endregion
@@ -2120,7 +2120,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr, hierarchyPtr;
-            CppInvoke.imgproc_findContours1_vector(image.CvPtr, out contoursPtr, out hierarchyPtr, (int)mode, (int)method, offset0);
+            NativeMethods.imgproc_findContours1_vector(image.CvPtr, out contoursPtr, out hierarchyPtr, (int)mode, (int)method, offset0);
 
             using (VectorOfVectorPoint contoursVec = new VectorOfVectorPoint(contoursPtr))
             using (VectorOfVec4i hierarchyVec = new VectorOfVec4i(hierarchyPtr))
@@ -2175,7 +2175,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
-            CppInvoke.imgproc_findContours1_OutputArray(image.CvPtr, out contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
+            NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, out contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
 
             using (VectorOfMat contoursVec = new VectorOfMat(contoursPtr))
             {
@@ -2217,7 +2217,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
-            CppInvoke.imgproc_findContours2_vector(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
+            NativeMethods.imgproc_findContours2_vector(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
 
             using (VectorOfVectorPoint contoursVec = new VectorOfVectorPoint(contoursPtr))
             {
@@ -2258,7 +2258,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
-            CppInvoke.imgproc_findContours2_OutputArray(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
+            NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
 
             using (VectorOfMat contoursVec = new VectorOfMat(contoursPtr))
             {
@@ -2330,7 +2330,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (hierarchy == null)
                 {
-                    CppInvoke.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                    NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int)lineType, IntPtr.Zero, 0, maxLevel, offset0);
                 }
                 else
@@ -2339,7 +2339,7 @@ namespace OpenCvSharp.CPlusPlus
                     {
                         return hi.ToVec4i();
                     });
-                    CppInvoke.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                    NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int)lineType, hiearchyVecs, hiearchyVecs.Length, maxLevel, offset0);
                 }
             }
@@ -2399,7 +2399,7 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr[] contoursPtr = EnumerableEx.SelectPtrs(contours);
-            CppInvoke.imgproc_drawContours_InputArray(image.CvPtr, contoursPtr, contoursPtr.Length,
+            NativeMethods.imgproc_drawContours_InputArray(image.CvPtr, contoursPtr, contoursPtr.Length,
                         contourIdx, color, thickness, (int)lineType, ToPtr(hierarchy), maxLevel, offset0);
             image.Fix();
         }
@@ -2422,7 +2422,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("approxCurve");
             curve.ThrowIfDisposed();
             approxCurve.ThrowIfNotReady();
-            CppInvoke.imgproc_approxPolyDP_InputArray(curve.CvPtr, approxCurve.CvPtr, epsilon, closed ? 1 : 0);
+            NativeMethods.imgproc_approxPolyDP_InputArray(curve.CvPtr, approxCurve.CvPtr, epsilon, closed ? 1 : 0);
             approxCurve.Fix();
         }
         /// <summary>
@@ -2438,7 +2438,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("curve");
             Point[] curveArray = EnumerableEx.ToArray(curve);
             IntPtr approxCurvePtr;
-            CppInvoke.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
+            NativeMethods.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
             using (VectorOfPoint approxCurveVec = new VectorOfPoint(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();
@@ -2457,7 +2457,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("curve");
             Point2f[] curveArray = EnumerableEx.ToArray(curve);
             IntPtr approxCurvePtr;
-            CppInvoke.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
+            NativeMethods.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
             using (VectorOfPoint2f approxCurveVec = new VectorOfPoint2f(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();
@@ -2476,7 +2476,7 @@ namespace OpenCvSharp.CPlusPlus
             if (curve == null)
                 throw new ArgumentNullException("curve");
             curve.ThrowIfDisposed();
-            return CppInvoke.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
+            return NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
         }
         /// <summary>
         /// computes the contour perimeter (closed=true) or a curve length
@@ -2489,7 +2489,7 @@ namespace OpenCvSharp.CPlusPlus
             if (curve == null)
                 throw new ArgumentNullException("curve");
             Point[] curveArray = EnumerableEx.ToArray(curve);
-            return CppInvoke.imgproc_arcLength_Point(curveArray, curveArray.Length, closed ? 1 : 0);
+            return NativeMethods.imgproc_arcLength_Point(curveArray, curveArray.Length, closed ? 1 : 0);
         }
         /// <summary>
         /// computes the contour perimeter (closed=true) or a curve length
@@ -2502,7 +2502,7 @@ namespace OpenCvSharp.CPlusPlus
             if (curve == null)
                 throw new ArgumentNullException("curve");
             Point2f[] curveArray = EnumerableEx.ToArray(curve);
-            return CppInvoke.imgproc_arcLength_Point2f(curveArray, curveArray.Length, closed ? 1 : 0);
+            return NativeMethods.imgproc_arcLength_Point2f(curveArray, curveArray.Length, closed ? 1 : 0);
         }
         #endregion
         #region BoundingRect
@@ -2516,7 +2516,7 @@ namespace OpenCvSharp.CPlusPlus
             if (curve == null)
                 throw new ArgumentNullException("curve");
             curve.ThrowIfDisposed();
-            return CppInvoke.imgproc_boundingRect_InputArray(curve.CvPtr);
+            return NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr);
         }
         /// <summary>
         /// computes the bounding rectangle for a contour
@@ -2528,7 +2528,7 @@ namespace OpenCvSharp.CPlusPlus
             if (curve == null)
                 throw new ArgumentNullException("curve");
             Point[] curveArray = EnumerableEx.ToArray(curve);
-            return CppInvoke.imgproc_boundingRect_Point(curveArray, curveArray.Length);
+            return NativeMethods.imgproc_boundingRect_Point(curveArray, curveArray.Length);
         }
         /// <summary>
         /// computes the bounding rectangle for a contour
@@ -2540,7 +2540,7 @@ namespace OpenCvSharp.CPlusPlus
             if (curve == null)
                 throw new ArgumentNullException("curve");
             Point2f[] curveArray = EnumerableEx.ToArray(curve);
-            return CppInvoke.imgproc_boundingRect_Point2f(curveArray, curveArray.Length);
+            return NativeMethods.imgproc_boundingRect_Point2f(curveArray, curveArray.Length);
         }
         #endregion
         #region ContourArea
@@ -2555,7 +2555,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
-            return CppInvoke.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
+            return NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
         }
         /// <summary>
         /// computes the contour area
@@ -2568,7 +2568,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             Point[] contourArray = EnumerableEx.ToArray(contour);
-            return CppInvoke.imgproc_contourArea_Point(contourArray, contourArray.Length, oriented ? 1 : 0);
+            return NativeMethods.imgproc_contourArea_Point(contourArray, contourArray.Length, oriented ? 1 : 0);
         }
         /// <summary>
         /// computes the contour area
@@ -2581,7 +2581,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             Point2f[] contourArray = EnumerableEx.ToArray(contour);
-            return CppInvoke.imgproc_contourArea_Point2f(contourArray, contourArray.Length, oriented ? 1 : 0);
+            return NativeMethods.imgproc_contourArea_Point2f(contourArray, contourArray.Length, oriented ? 1 : 0);
         }
         #endregion
         #region MinAreaRect
@@ -2595,7 +2595,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
-            return CppInvoke.imgproc_minAreaRect_InputArray(points.CvPtr);
+            return NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr);
         }
         /// <summary>
         /// computes the minimal rotated rectangle for a set of points
@@ -2607,7 +2607,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             Point[] pointsArray = EnumerableEx.ToArray(points);
-            return CppInvoke.imgproc_minAreaRect_Point(pointsArray, pointsArray.Length);
+            return NativeMethods.imgproc_minAreaRect_Point(pointsArray, pointsArray.Length);
         }
         /// <summary>
         /// computes the minimal rotated rectangle for a set of points
@@ -2619,7 +2619,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
-            return CppInvoke.imgproc_minAreaRect_Point2f(pointsArray, pointsArray.Length);
+            return NativeMethods.imgproc_minAreaRect_Point2f(pointsArray, pointsArray.Length);
         }
         #endregion
         #region MinEnclosingCircle
@@ -2634,7 +2634,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
-            CppInvoke.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius);
+            NativeMethods.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius);
         }
         /// <summary>
         /// computes the minimal enclosing circle for a set of points
@@ -2647,7 +2647,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             Point[] pointsArray = EnumerableEx.ToArray(points);
-            CppInvoke.imgproc_minEnclosingCircle_Point(pointsArray, pointsArray.Length, out center, out radius);
+            NativeMethods.imgproc_minEnclosingCircle_Point(pointsArray, pointsArray.Length, out center, out radius);
         }
         /// <summary>
         /// computes the minimal enclosing circle for a set of points
@@ -2660,7 +2660,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
-            CppInvoke.imgproc_minEnclosingCircle_Point2f(pointsArray, pointsArray.Length, out center, out radius);
+            NativeMethods.imgproc_minEnclosingCircle_Point2f(pointsArray, pointsArray.Length, out center, out radius);
         }
         #endregion
         #region MatchShapes
@@ -2678,7 +2678,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("contour1");
             if (contour2 == null)
                 throw new ArgumentNullException("contour2");
-            return CppInvoke.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter);
+            return NativeMethods.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter);
         }
         /// <summary>
         /// matches two contours using one of the available algorithms
@@ -2697,7 +2697,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("contour2");
             Point[] contour1Array = EnumerableEx.ToArray(contour1);
             Point[] contour2Array = EnumerableEx.ToArray(contour2);
-            return CppInvoke.imgproc_matchShapes_Point(contour1Array, contour1Array.Length, 
+            return NativeMethods.imgproc_matchShapes_Point(contour1Array, contour1Array.Length, 
                 contour2Array, contour2Array.Length, (int)method, parameter);
         }
         #endregion
@@ -2718,7 +2718,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("hull");
             points.ThrowIfDisposed();
             hull.ThrowIfNotReady();
-            CppInvoke.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0);
+            NativeMethods.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0);
             hull.Fix();
         }
         /// <summary>
@@ -2733,7 +2733,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("points");
             Point[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
-            CppInvoke.imgproc_convexHull_Point_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            NativeMethods.imgproc_convexHull_Point_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
             using (VectorOfPoint hullVec = new VectorOfPoint(hullPtr))
             {
                 return hullVec.ToArray();
@@ -2751,7 +2751,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("points");
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
-            CppInvoke.imgproc_convexHull_Point2f_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr,
+            NativeMethods.imgproc_convexHull_Point2f_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr,
                 clockwise ? 1 : 0);
             using (VectorOfPoint2f hullVec = new VectorOfPoint2f(hullPtr))
             {
@@ -2770,7 +2770,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("points");
             Point[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
-            CppInvoke.imgproc_convexHull_Point_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            NativeMethods.imgproc_convexHull_Point_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
             using (VectorOfInt32 hullVec = new VectorOfInt32(hullPtr))
             {
                 return hullVec.ToArray();
@@ -2788,7 +2788,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("points");
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
-            CppInvoke.imgproc_convexHull_Point2f_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            NativeMethods.imgproc_convexHull_Point2f_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
             using (VectorOfInt32 hullVec = new VectorOfInt32(hullPtr))
             {
                 return hullVec.ToArray();
@@ -2815,7 +2815,7 @@ namespace OpenCvSharp.CPlusPlus
             contour.ThrowIfDisposed();
             convexHull.ThrowIfDisposed();
             convexityDefects.ThrowIfNotReady();
-            CppInvoke.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr);
+            NativeMethods.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr);
             convexityDefects.Fix();
         }
         /// <summary>
@@ -2833,7 +2833,7 @@ namespace OpenCvSharp.CPlusPlus
             Point[] contourArray = EnumerableEx.ToArray(contour);
             int[] convexHullArray = EnumerableEx.ToArray(convexHull);
             IntPtr convexityDefectsPtr;
-            CppInvoke.imgproc_convexityDefects_Point(contourArray, contourArray.Length,
+            NativeMethods.imgproc_convexityDefects_Point(contourArray, contourArray.Length,
                 convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
 
             using (VectorOfVec4i convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
@@ -2856,7 +2856,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] contourArray = EnumerableEx.ToArray(contour);
             int[] convexHullArray = EnumerableEx.ToArray(convexHull);
             IntPtr convexityDefectsPtr;
-            CppInvoke.imgproc_convexityDefects_Point2f(contourArray, contourArray.Length,
+            NativeMethods.imgproc_convexityDefects_Point2f(contourArray, contourArray.Length,
                 convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
 
             using (VectorOfVec4i convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
@@ -2876,7 +2876,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
-            int ret = CppInvoke.imgproc_isContourConvex_InputArray(contour.CvPtr);
+            int ret = NativeMethods.imgproc_isContourConvex_InputArray(contour.CvPtr);
             return ret != 0;
         }
         /// <summary>
@@ -2889,7 +2889,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             Point[] contourArray = EnumerableEx.ToArray(contour);
-            int ret = CppInvoke.imgproc_isContourConvex_Point(contourArray, contourArray.Length);
+            int ret = NativeMethods.imgproc_isContourConvex_Point(contourArray, contourArray.Length);
             return ret != 0;
         }
         /// <summary>
@@ -2902,7 +2902,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             Point2f[] contourArray = EnumerableEx.ToArray(contour);
-            int ret = CppInvoke.imgproc_isContourConvex_Point2f(contourArray, contourArray.Length);
+            int ret = NativeMethods.imgproc_isContourConvex_Point2f(contourArray, contourArray.Length);
             return ret != 0;
         }
         #endregion
@@ -2926,7 +2926,7 @@ namespace OpenCvSharp.CPlusPlus
             p1.ThrowIfDisposed();
             p2.ThrowIfDisposed();
             p12.ThrowIfNotReady();
-            float ret = CppInvoke.imgproc_intersectConvexConvex_InputArray(p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0);
+            float ret = NativeMethods.imgproc_intersectConvexConvex_InputArray(p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0);
             p12.Fix();
             return ret;
         }
@@ -2948,7 +2948,7 @@ namespace OpenCvSharp.CPlusPlus
             Point[] p1Array = EnumerableEx.ToArray(p1);
             Point[] p2Array = EnumerableEx.ToArray(p2);
             IntPtr p12Ptr;
-            float ret = CppInvoke.imgproc_intersectConvexConvex_Point(p1Array, p1Array.Length, p2Array, p2Array.Length, 
+            float ret = NativeMethods.imgproc_intersectConvexConvex_Point(p1Array, p1Array.Length, p2Array, p2Array.Length, 
                 out p12Ptr, handleNested ? 1 : 0);
 
             using (VectorOfPoint p12Vec = new VectorOfPoint(p12Ptr))
@@ -2976,7 +2976,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] p1Array = EnumerableEx.ToArray(p1);
             Point2f[] p2Array = EnumerableEx.ToArray(p2);
             IntPtr p12Ptr;
-            float ret = CppInvoke.imgproc_intersectConvexConvex_Point2f(p1Array, p1Array.Length, p2Array, p2Array.Length,
+            float ret = NativeMethods.imgproc_intersectConvexConvex_Point2f(p1Array, p1Array.Length, p2Array, p2Array.Length,
                 out p12Ptr, handleNested ? 1 : 0);
 
             using (VectorOfPoint2f p12Vec = new VectorOfPoint2f(p12Ptr))
@@ -2998,7 +2998,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
-            return CppInvoke.imgproc_fitEllipse_InputArray(points.CvPtr);
+            return NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr);
         }
         /// <summary>
         /// fits ellipse to the set of 2D points
@@ -3010,7 +3010,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             Point[] pointsArray = EnumerableEx.ToArray(points);
-            return CppInvoke.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length);
+            return NativeMethods.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length);
         }
         /// <summary>
         /// fits ellipse to the set of 2D points
@@ -3022,7 +3022,7 @@ namespace OpenCvSharp.CPlusPlus
             if (points == null)
                 throw new ArgumentNullException("points");
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
-            return CppInvoke.imgproc_fitEllipse_Point2f(pointsArray, pointsArray.Length);
+            return NativeMethods.imgproc_fitEllipse_Point2f(pointsArray, pointsArray.Length);
         }
         #endregion
         #region FitLine
@@ -3046,7 +3046,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("line");
             points.ThrowIfDisposed();
             line.ThrowIfNotReady();
-            CppInvoke.imgproc_fitLine_InputArray(points.CvPtr, line.CvPtr, (int)distType, param, reps, aeps);
+            NativeMethods.imgproc_fitLine_InputArray(points.CvPtr, line.CvPtr, (int)distType, param, reps, aeps);
             line.Fix();
         }
         /// <summary>
@@ -3065,7 +3065,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("points");
             Point[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[4];
-            CppInvoke.imgproc_fitLine_Point(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            NativeMethods.imgproc_fitLine_Point(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new CvLine2D(line);
         }
         /// <summary>
@@ -3084,7 +3084,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("points");
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[4];
-            CppInvoke.imgproc_fitLine_Point2f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            NativeMethods.imgproc_fitLine_Point2f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new CvLine2D(line);
         }
         /// <summary>
@@ -3103,7 +3103,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("points");
             Point3i[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[6];
-            CppInvoke.imgproc_fitLine_Point3i(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            NativeMethods.imgproc_fitLine_Point3i(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new CvLine3D(line);
         }
         /// <summary>
@@ -3122,7 +3122,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("points");
             Point3f[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[6];
-            CppInvoke.imgproc_fitLine_Point3f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            NativeMethods.imgproc_fitLine_Point3f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new CvLine3D(line);
         }
         #endregion
@@ -3139,7 +3139,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
-            return CppInvoke.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
+            return NativeMethods.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
         }
         /// <summary>
         /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
@@ -3153,7 +3153,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             Point[] contourArray = EnumerableEx.ToArray(contour);
-            return CppInvoke.imgproc_pointPolygonTest_Point(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
+            return NativeMethods.imgproc_pointPolygonTest_Point(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
         }
         /// <summary>
         /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
@@ -3167,7 +3167,7 @@ namespace OpenCvSharp.CPlusPlus
             if (contour == null)
                 throw new ArgumentNullException("contour");
             Point2f[] contourArray = EnumerableEx.ToArray(contour);
-            return CppInvoke.imgproc_pointPolygonTest_Point2f(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
+            return NativeMethods.imgproc_pointPolygonTest_Point2f(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
         }
         #endregion
     }

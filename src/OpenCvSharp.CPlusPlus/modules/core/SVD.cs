@@ -17,7 +17,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public SVD()
         {
-            ptr = CppInvoke.core_SVD_new();
+            ptr = NativeMethods.core_SVD_new();
         }
         /// <summary>
         /// the constructor that performs SVD
@@ -29,7 +29,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            ptr = CppInvoke.core_SVD_new(src.CvPtr, (int)flags);
+            ptr = NativeMethods.core_SVD_new(src.CvPtr, (int)flags);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (ptr != IntPtr.Zero)
                     {
-                        CppInvoke.core_SVD_delete(ptr);
+                        NativeMethods.core_SVD_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -70,7 +70,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("SVD");
-                IntPtr ret = CppInvoke.core_SVD_u(ptr);
+                IntPtr ret = NativeMethods.core_SVD_u(ptr);
                 return new Mat(ret);
             }
         }
@@ -84,7 +84,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if(disposed)
                     throw new ObjectDisposedException("SVD");
-                IntPtr ret = CppInvoke.core_SVD_w(ptr);
+                IntPtr ret = NativeMethods.core_SVD_w(ptr);
                 return new Mat(ret);
             }
         }
@@ -98,7 +98,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (disposed)
                     throw new ObjectDisposedException("SVD");
-                IntPtr ret = CppInvoke.core_SVD_vt(ptr);
+                IntPtr ret = NativeMethods.core_SVD_vt(ptr);
                 return new Mat(ret);
             }
         }
@@ -118,7 +118,7 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            CppInvoke.core_SVD_operatorThis(ptr, src.CvPtr, (int)flags);
+            NativeMethods.core_SVD_operatorThis(ptr, src.CvPtr, (int)flags);
             return this;
         }
 
@@ -138,7 +138,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             rhs.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_SVD_backSubst(ptr, rhs.CvPtr, dst.CvPtr);
+            NativeMethods.core_SVD_backSubst(ptr, rhs.CvPtr, dst.CvPtr);
         }
         #endregion
 
@@ -167,7 +167,7 @@ namespace OpenCvSharp.CPlusPlus
             w.ThrowIfNotReady();
             u.ThrowIfNotReady();
             vt.ThrowIfNotReady();
-            CppInvoke.core_SVD_static_compute(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
+            NativeMethods.core_SVD_static_compute(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
             w.Fix();
             u.Fix();
             vt.Fix();
@@ -187,7 +187,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("w");
             src.ThrowIfDisposed();
             w.ThrowIfNotReady();
-            CppInvoke.core_SVD_static_compute(src.CvPtr, w.CvPtr, (int)flags);
+            NativeMethods.core_SVD_static_compute(src.CvPtr, w.CvPtr, (int)flags);
             w.Fix();
         }
 
@@ -217,7 +217,7 @@ namespace OpenCvSharp.CPlusPlus
             vt.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_SVD_static_backSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
+            NativeMethods.core_SVD_static_backSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
             dst.Fix();
         }
 
@@ -234,7 +234,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.core_SVD_static_solveZ(src.CvPtr, dst.CvPtr);
+            NativeMethods.core_SVD_static_solveZ(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
 

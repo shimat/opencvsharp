@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static bool InitModule_NonFree()
         {
-            return CppInvoke.nonfree_initModule_nonfree() != 0;
+            return NativeMethods.nonfree_initModule_nonfree() != 0;
         }
     }
 }

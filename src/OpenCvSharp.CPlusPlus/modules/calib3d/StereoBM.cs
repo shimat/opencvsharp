@@ -51,7 +51,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public StereoBM()
         {
-            ptr = CppInvoke.calib3d_StereoBM_new1();
+            ptr = NativeMethods.calib3d_StereoBM_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -64,7 +64,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="sadWindowSize"></param>
         public StereoBM(int preset, int nDisparities=0, int sadWindowSize=21)
         {
-            ptr = CppInvoke.calib3d_StereoBM_new2(preset, nDisparities, sadWindowSize);
+            ptr = NativeMethods.calib3d_StereoBM_new2(preset, nDisparities, sadWindowSize);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -99,7 +99,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.calib3d_StereoBM_delete(ptr);
+                        NativeMethods.calib3d_StereoBM_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -123,7 +123,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="sadWindowSize"></param>
         public void Init(int preset, int nDisparities = 0, int sadWindowSize = 21)
         {
-            CppInvoke.calib3d_StereoBM_init(ptr, preset, nDisparities, sadWindowSize);
+            NativeMethods.calib3d_StereoBM_init(ptr, preset, nDisparities, sadWindowSize);
         }
 #if LANG_JP
         /// <summary>
@@ -157,7 +157,7 @@ namespace OpenCvSharp.CPlusPlus
             left.ThrowIfDisposed();
             right.ThrowIfDisposed();
             disp.ThrowIfNotReady();
-            CppInvoke.calib3d_StereoBM_compute(ptr, left.CvPtr, right.CvPtr, disp.CvPtr, dispType);
+            NativeMethods.calib3d_StereoBM_compute(ptr, left.CvPtr, right.CvPtr, disp.CvPtr, dispType);
             disp.Fix();
         }
         #endregion

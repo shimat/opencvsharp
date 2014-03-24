@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <summary>
         /// sizeof(cv::flann::LinearIndexParams)
         /// </summary>
-        public static readonly new int SizeOf = FlannInvoke.flann_LinearIndexParams_sizeof();
+        public static readonly new int SizeOf = NativeMethods.flann_LinearIndexParams_sizeof();
 
         private bool disposed = false;
         #endregion
@@ -36,7 +36,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
 #endif
         public LinearIndexParams()
         {
-            ptr = FlannInvoke.flann_LinearIndexParams_construct();
+            ptr = NativeMethods.flann_LinearIndexParams_construct();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create LinearIndexParams");
         }
@@ -69,7 +69,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
                     }
                     if (IsEnabledDispose)
                     {
-                        FlannInvoke.flann_LinearIndexParams_destruct(ptr);
+                        NativeMethods.flann_LinearIndexParams_destruct(ptr);
                     }
                     disposed = true;
                 }

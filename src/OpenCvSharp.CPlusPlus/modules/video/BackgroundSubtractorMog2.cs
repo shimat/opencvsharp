@@ -13,7 +13,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// sizeof(BackgroundSubtractorMOG2)
         /// </summary>
-        public static new readonly int SizeOf = CppInvoke.video_BackgroundSubtractorMOG2_sizeof().ToInt32();
+        public static new readonly int SizeOf = NativeMethods.video_BackgroundSubtractorMOG2_sizeof().ToInt32();
 
         #region Init
         /// <summary>
@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public BackgroundSubtractorMog2()
         {
-            ptr = CppInvoke.video_BackgroundSubtractorMOG2_new1();
+            ptr = NativeMethods.video_BackgroundSubtractorMOG2_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -33,7 +33,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="bShadowDetection"></param>
         public BackgroundSubtractorMog2(int history, float varThreshold, bool bShadowDetection = true)
         {
-            ptr = CppInvoke.video_BackgroundSubtractorMOG2_new2(history, varThreshold, bShadowDetection ? 1 : 0);
+            ptr = NativeMethods.video_BackgroundSubtractorMOG2_new2(history, varThreshold, bShadowDetection ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -81,7 +81,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.video_BackgroundSubtractorMOG2_delete(ptr);
+                        NativeMethods.video_BackgroundSubtractorMOG2_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -106,7 +106,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             if (fgmask == null)
                 throw new ArgumentNullException("fgmask");
-            CppInvoke.video_BackgroundSubtractorMOG2_operator(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
+            NativeMethods.video_BackgroundSubtractorMOG2_operator(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (backgroundImage == null)
                 throw new ArgumentNullException("backgroundImage");
-            CppInvoke.video_BackgroundSubtractorMOG2_getBackgroundImage(ptr, backgroundImage.CvPtr);
+            NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundImage(ptr, backgroundImage.CvPtr);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frameType"></param>
         public virtual void Initialize(CvSize frameSize, int frameType)
         {
-            CppInvoke.video_BackgroundSubtractorMOG2_initialize(ptr, frameSize, frameType);
+            NativeMethods.video_BackgroundSubtractorMOG2_initialize(ptr, frameSize, frameType);
         }
 
         #region Properties
@@ -139,11 +139,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                return CppInvoke.BackgroundSubtractorMOG2_frameSize_get(_ptr);
+                return NativeMethods.BackgroundSubtractorMOG2_frameSize_get(_ptr);
             }
             set
             {
-                CppInvoke.BackgroundSubtractorMOG2_frameSize_set(_ptr, value);
+                NativeMethods.BackgroundSubtractorMOG2_frameSize_set(_ptr, value);
             }
         }
         /// <summary>
@@ -155,14 +155,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_frameType(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_frameType(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_frameType(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_frameType(_ptr) = value;
                 }
             }
         }
@@ -175,7 +175,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return new Mat(CppInvoke.BackgroundSubtractorMOG2_bgmodel(_ptr));
+                    return new Mat(NativeMethods.BackgroundSubtractorMOG2_bgmodel(_ptr));
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return new Mat(CppInvoke.BackgroundSubtractorMOG2_bgmodelUsedModes(_ptr));
+                    return new Mat(NativeMethods.BackgroundSubtractorMOG2_bgmodelUsedModes(_ptr));
                 }
             }
         }
@@ -201,14 +201,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_nframes(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_nframes(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_nframes(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_nframes(_ptr) = value;
                 }
             }
         }
@@ -221,14 +221,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_history(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_history(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_history(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_history(_ptr) = value;
                 }
             }
         }
@@ -241,14 +241,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_nmixtures(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_nmixtures(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_nmixtures(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_nmixtures(_ptr) = value;
                 }
             }
         }
@@ -262,14 +262,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_varThreshold(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_varThreshold(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_varThreshold(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_varThreshold(_ptr) = value;
                 }
             }
         }
@@ -282,14 +282,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_backgroundRatio(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_backgroundRatio(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_backgroundRatio(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_backgroundRatio(_ptr) = value;
                 }
             }
         }
@@ -302,14 +302,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_varThresholdGen(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_varThresholdGen(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_varThresholdGen(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_varThresholdGen(_ptr) = value;
                 }
             }
         }
@@ -322,14 +322,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_fVarInit(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fVarInit(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_fVarInit(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fVarInit(_ptr) = value;
                 }
             }
         }
@@ -342,14 +342,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_fVarMin(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fVarMin(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_fVarMin(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fVarMin(_ptr) = value;
                 }
             }
         }
@@ -362,14 +362,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_fVarMax(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fVarMax(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_fVarMax(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fVarMax(_ptr) = value;
                 }
             }
         }
@@ -382,14 +382,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_fCT(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fCT(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_fCT(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fCT(_ptr) = value;
                 }
             }
         }
@@ -402,14 +402,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_bShadowDetection(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_bShadowDetection(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_bShadowDetection(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_bShadowDetection(_ptr) = value;
                 }
             }
         }//
@@ -422,14 +422,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_nShadowDetection(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_nShadowDetection(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_nShadowDetection(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_nShadowDetection(_ptr) = value;
                 }
             }
         }
@@ -442,14 +442,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *CppInvoke.BackgroundSubtractorMOG2_fTau(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fTau(_ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *CppInvoke.BackgroundSubtractorMOG2_fTau(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fTau(_ptr) = value;
                 }
             }
         }

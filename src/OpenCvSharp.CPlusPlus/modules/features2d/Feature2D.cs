@@ -111,7 +111,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.features2d_Feature2D_compute(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
+                NativeMethods.features2d_Feature2D_compute(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
                 keypoints = keypointsVec.ToArray();
             }
         }
@@ -126,7 +126,7 @@ namespace OpenCvSharp.CPlusPlus
             if(String.IsNullOrEmpty(detectorType))
                 throw new ArgumentNullException("detectorType");
             // gets cv::Ptr<Feature2D>
-            IntPtr ptr = CppInvoke.features2d_Feature2D_create(detectorType);
+            IntPtr ptr = NativeMethods.features2d_Feature2D_create(detectorType);
             try
             {
                 Feature2D detector = FromPtr(ptr);

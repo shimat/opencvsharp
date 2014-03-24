@@ -62,7 +62,7 @@ namespace OpenCvSharp.CPlusPlus
             double minMargin = 0.003, 
             int edgeBlurSize = 5)
         {
-            ptr = CppInvoke.features2d_MSER_new(delta, minArea, maxArea, maxVariation, minDiversity,
+            ptr = NativeMethods.features2d_MSER_new(delta, minArea, maxArea, maxVariation, minDiversity,
                                                 maxEvolution, areaThreshold, minMargin, edgeBlurSize);
         }
 
@@ -95,7 +95,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_MSER_delete(ptr);
+                        NativeMethods.features2d_MSER_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -131,7 +131,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
 
             IntPtr msers;
-            CppInvoke.features2d_MSER_detect(ptr, image.CvPtr, out msers, Cv2.ToPtr(mask));
+            NativeMethods.features2d_MSER_detect(ptr, image.CvPtr, out msers, Cv2.ToPtr(mask));
 
             using (VectorOfVectorPoint msersVec = new VectorOfVectorPoint(msers))
             {
@@ -147,7 +147,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_MSER_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_MSER_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

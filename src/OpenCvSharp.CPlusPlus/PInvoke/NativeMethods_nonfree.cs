@@ -4,16 +4,11 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    /// <summary>
-    /// P/Invoke methods of OpenCV 2.x C++ interface
-    /// </summary>
-    internal static partial class CppInvoke
+    internal static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int nonfree_initModule_nonfree();

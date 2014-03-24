@@ -4,18 +4,13 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
 namespace OpenCvSharp.CPlusPlus
 {
-    /// <summary>
-    /// 
-    /// </summary>
-
-    internal static partial class CppInvoke
+    internal static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_DescriptorMatcher_add(IntPtr obj, IntPtr[] descriptors,

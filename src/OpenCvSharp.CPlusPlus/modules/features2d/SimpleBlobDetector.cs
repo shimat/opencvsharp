@@ -188,7 +188,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (parameters == null)
                 parameters = new Params();
-            ptr = CppInvoke.features2d_SimpleBlobDetector_new(ref parameters.data);
+            ptr = NativeMethods.features2d_SimpleBlobDetector_new(ref parameters.data);
         }
 
 #if LANG_JP
@@ -220,7 +220,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_SimpleBlobDetector_delete(ptr);
+                        NativeMethods.features2d_SimpleBlobDetector_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -253,7 +253,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_GFTTDetector_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_GFTTDetector_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

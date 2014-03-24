@@ -40,7 +40,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 StringBuilder buf = new StringBuilder(1024);
-                CppInvoke.core_AlgorithmInfo_name(ptr, buf, buf.Capacity);
+                NativeMethods.core_AlgorithmInfo_name(ptr, buf, buf.Capacity);
                 return buf.ToString();
             }
         }
@@ -53,7 +53,7 @@ namespace OpenCvSharp.CPlusPlus
         public string ParamHelp(string name)
         {
             StringBuilder buf = new StringBuilder(4096);
-            CppInvoke.core_AlgorithmInfo_paramHelp(ptr, name, buf, buf.Capacity);
+            NativeMethods.core_AlgorithmInfo_paramHelp(ptr, name, buf, buf.Capacity);
             return buf.ToString();
         }
 
@@ -64,7 +64,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public int ParamType(string name)
         {
-            return CppInvoke.core_AlgorithmInfo_paramType(ptr, name);
+            return NativeMethods.core_AlgorithmInfo_paramType(ptr, name);
         }
     }
 }

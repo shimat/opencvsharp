@@ -26,7 +26,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.calib3d_Rodrigues(src.CvPtr, dst.CvPtr, ToPtr(jacobian));
+            NativeMethods.calib3d_Rodrigues(src.CvPtr, dst.CvPtr, ToPtr(jacobian));
             dst.Fix();
             if (jacobian != null)
                 jacobian.Fix();
@@ -49,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
             using (MatOfDouble matrixM = new MatOfDouble())
             using (MatOfDouble jacobianM = new MatOfDouble())
             {
-                CppInvoke.calib3d_Rodrigues_VecToMat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+                NativeMethods.calib3d_Rodrigues_VecToMat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
                 matrix = matrixM.ToRectangularArray();
                 jacobian = jacobianM.ToRectangularArray();
             }
@@ -82,7 +82,7 @@ namespace OpenCvSharp.CPlusPlus
             using (MatOfDouble vectorM = new MatOfDouble())
             using (MatOfDouble jacobianM = new MatOfDouble())
             {
-                CppInvoke.calib3d_Rodrigues_MatToVec(matrixM.CvPtr, vectorM.CvPtr, jacobianM.CvPtr);
+                NativeMethods.calib3d_Rodrigues_MatToVec(matrixM.CvPtr, vectorM.CvPtr, jacobianM.CvPtr);
                 vector = vectorM.ToArray();
                 jacobian = jacobianM.ToRectangularArray();
             }
@@ -119,7 +119,7 @@ namespace OpenCvSharp.CPlusPlus
             srcPoints.ThrowIfDisposed();
             dstPoints.ThrowIfDisposed();
 
-            IntPtr mat = CppInvoke.calib3d_findHomography_InputArray(srcPoints.CvPtr, dstPoints.CvPtr, (int)method,
+            IntPtr mat = NativeMethods.calib3d_findHomography_InputArray(srcPoints.CvPtr, dstPoints.CvPtr, (int)method,
                 ransacReprojThreshold, ToPtr(mask));
 
             if (mask != null)
@@ -147,7 +147,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2d[] srcPointsArray = EnumerableEx.ToArray(srcPoints);
             Point2d[] dstPointsArray = EnumerableEx.ToArray(dstPoints);
 
-            IntPtr mat = CppInvoke.calib3d_findHomography_vector(srcPointsArray, srcPointsArray.Length,
+            IntPtr mat = NativeMethods.calib3d_findHomography_vector(srcPointsArray, srcPointsArray.Length,
                 srcPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
 
             if (mask != null)
@@ -179,7 +179,7 @@ namespace OpenCvSharp.CPlusPlus
             mtxR.ThrowIfNotReady();
             mtxQ.ThrowIfNotReady();
             Vec3d ret;
-            CppInvoke.calib3d_RQDecomp3x3_InputArray(src.CvPtr, mtxR.CvPtr, mtxQ.CvPtr, 
+            NativeMethods.calib3d_RQDecomp3x3_InputArray(src.CvPtr, mtxR.CvPtr, mtxQ.CvPtr, 
                 ToPtr(qx), ToPtr(qy), ToPtr(qz), out ret);
             if (qx != null)
                 qx.Fix();
@@ -228,7 +228,7 @@ namespace OpenCvSharp.CPlusPlus
             using (MatOfDouble qzM = new MatOfDouble())
             {
                 Vec3d ret;
-                CppInvoke.calib3d_RQDecomp3x3_Mat(srcM.CvPtr, 
+                NativeMethods.calib3d_RQDecomp3x3_Mat(srcM.CvPtr, 
                     mtxRM.CvPtr, mtxQM.CvPtr, qxM.CvPtr, qyM.CvPtr, qzM.CvPtr, 
                     out ret);
                 mtxR = mtxRM.ToRectangularArray();
@@ -272,7 +272,7 @@ namespace OpenCvSharp.CPlusPlus
             rotMatrix.ThrowIfNotReady();
             transVect.ThrowIfNotReady();
 
-            CppInvoke.calib3d_decomposeProjectionMatrix_InputArray(
+            NativeMethods.calib3d_decomposeProjectionMatrix_InputArray(
                 projMatrix.CvPtr, cameraMatrix.CvPtr, rotMatrix.CvPtr, transVect.CvPtr,
                 ToPtr(rotMatrixX), ToPtr(rotMatrixY), ToPtr(rotMatrixZ), ToPtr(eulerAngles));
 
@@ -325,7 +325,7 @@ namespace OpenCvSharp.CPlusPlus
             using (MatOfDouble rotMatrixZM = new MatOfDouble())
             using (MatOfDouble eulerAnglesM = new MatOfDouble())
             {
-                CppInvoke.calib3d_decomposeProjectionMatrix_Mat(
+                NativeMethods.calib3d_decomposeProjectionMatrix_Mat(
                     projMatrixM.CvPtr, 
                     cameraMatrixM.CvPtr, rotMatrixM.CvPtr, transVectM.CvPtr,
                     rotMatrixXM.CvPtr, rotMatrixYM.CvPtr, rotMatrixZM.CvPtr, 
@@ -383,7 +383,7 @@ namespace OpenCvSharp.CPlusPlus
             b.ThrowIfDisposed();
             dABdA.ThrowIfNotReady();
             dABdB.ThrowIfNotReady();
-            CppInvoke.calib3d_matMulDeriv(a.CvPtr, b.CvPtr, dABdA.CvPtr, dABdB.CvPtr);
+            NativeMethods.calib3d_matMulDeriv(a.CvPtr, b.CvPtr, dABdA.CvPtr, dABdB.CvPtr);
             dABdA.Fix();
             dABdB.Fix();
         }
@@ -428,7 +428,7 @@ namespace OpenCvSharp.CPlusPlus
             tvec2.ThrowIfDisposed();
             rvec3.ThrowIfNotReady();
             tvec3.ThrowIfNotReady();
-            CppInvoke.calib3d_composeRT_InputArray(rvec1.CvPtr, tvec1.CvPtr, rvec2.CvPtr, tvec2.CvPtr,
+            NativeMethods.calib3d_composeRT_InputArray(rvec1.CvPtr, tvec1.CvPtr, rvec2.CvPtr, tvec2.CvPtr,
                 rvec3.CvPtr, tvec3.CvPtr, 
                 ToPtr(dr3dr1), ToPtr(dr3dt1), ToPtr(dr3dr2), ToPtr(dr3dt2),
                 ToPtr(dt3dr1), ToPtr(dt3dt1), ToPtr(dt3dr2), ToPtr(dt3dt2));
@@ -483,7 +483,7 @@ namespace OpenCvSharp.CPlusPlus
             using (MatOfDouble dt3dr2M = new MatOfDouble())
             using (MatOfDouble dt3dt2M = new MatOfDouble())
             {
-                CppInvoke.calib3d_composeRT_Mat(rvec1M.CvPtr, tvec1M.CvPtr, rvec2M.CvPtr, tvec2M.CvPtr,
+                NativeMethods.calib3d_composeRT_Mat(rvec1M.CvPtr, tvec1M.CvPtr, rvec2M.CvPtr, tvec2M.CvPtr,
                                                 rvec3M.CvPtr, tvec3M.CvPtr,
                                                 dr3dr1M.CvPtr, dr3dt1M.CvPtr, dr3dr2M.CvPtr, dr3dt2M.CvPtr,
                                                 dt3dr1M.CvPtr, dt3dt1M.CvPtr, dt3dr2M.CvPtr, dt3dt2M.CvPtr);
@@ -570,7 +570,7 @@ namespace OpenCvSharp.CPlusPlus
             cameraMatrix.ThrowIfDisposed();
             imagePoints.ThrowIfNotReady();
 
-            CppInvoke.calib3d_projectPoints_InputArray(objectPoints.CvPtr,
+            NativeMethods.calib3d_projectPoints_InputArray(objectPoints.CvPtr,
                 rvec.CvPtr, tvec.CvPtr, cameraMatrix.CvPtr, ToPtr(distCoeffs),
                 imagePoints.CvPtr, ToPtr(jacobian), aspectRatio);
         }
@@ -631,7 +631,7 @@ namespace OpenCvSharp.CPlusPlus
                     distCoeffsM = new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs);
                 MatOfDouble jacobianM = new MatOfDouble();
 
-                CppInvoke.calib3d_projectPoints_Mat(objectPointsM.CvPtr,
+                NativeMethods.calib3d_projectPoints_Mat(objectPointsM.CvPtr,
                     rvecM.CvPtr, tvecM.CvPtr, cameraMatrixM.CvPtr, distCoeffsM.CvPtr,
                     imagePointsM.CvPtr, jacobianM.CvPtr, aspectRatio);
 
@@ -684,7 +684,7 @@ namespace OpenCvSharp.CPlusPlus
             rvec.ThrowIfDisposed();
             tvec.ThrowIfDisposed();
             IntPtr distCoeffsPtr = ToPtr(distCoeffs);
-            CppInvoke.calib3d_solvePnP_InputArray(
+            NativeMethods.calib3d_solvePnP_InputArray(
                 objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr, 
                 rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, (int)flags);
             rvec.Fix();
@@ -732,7 +732,7 @@ namespace OpenCvSharp.CPlusPlus
             rvec = new double[3];
             tvec = new double[3];
 
-            CppInvoke.calib3d_solvePnP_vector(
+            NativeMethods.calib3d_solvePnP_vector(
                     objectPointsArray, objectPointsArray.Length, 
                     imagePointsArray, imagePointsArray.Length,
                     cameraMatrix, distCoeffsArray, distCoeffsLength, 
@@ -793,7 +793,7 @@ namespace OpenCvSharp.CPlusPlus
             tvec.ThrowIfDisposed();
             IntPtr distCoeffsPtr = ToPtr(distCoeffs);
 
-            CppInvoke.calib3d_solvePnPRansac_InputArray(
+            NativeMethods.calib3d_solvePnPRansac_InputArray(
                 objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr,
                 rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, iterationsCount, 
                 reprojectionError, minInliersCount, ToPtr(inliers), (int)flags);
@@ -880,7 +880,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfInt32 inliersVec = new VectorOfInt32())
             {
-                CppInvoke.calib3d_solvePnPRansac_vector(
+                NativeMethods.calib3d_solvePnPRansac_vector(
                     objectPointsArray, objectPointsArray.Length,
                     imagePointsArray, imagePointsArray.Length,
                     cameraMatrix, distCoeffsArray, distCoeffsLength,
@@ -917,7 +917,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr[] objectPointsPtrs = EnumerableEx.SelectPtrs(objectPoints);
             IntPtr[] imagePointsPtrs = EnumerableEx.SelectPtrs(imagePoints);
 
-            IntPtr matPtr = CppInvoke.calib3d_initCameraMatrix2D_Mat(objectPointsPtrs, objectPointsPtrs.Length,
+            IntPtr matPtr = NativeMethods.calib3d_initCameraMatrix2D_Mat(objectPointsPtrs, objectPointsPtrs.Length,
                 imagePointsPtrs, imagePointsPtrs.Length, imageSize, aspectRatio);
             return new Mat(matPtr);
         }
@@ -947,7 +947,7 @@ namespace OpenCvSharp.CPlusPlus
             using (var opArray = new ArrayAddress2<Point3d>(objectPoints))
             using (var ipArray = new ArrayAddress2<Point2d>(imagePoints))
             {
-                IntPtr matPtr = CppInvoke.calib3d_initCameraMatrix2D_array(
+                IntPtr matPtr = NativeMethods.calib3d_initCameraMatrix2D_array(
                     opArray, opArray.Dim1Length, opArray.Dim2Lengths,
                     ipArray, ipArray.Dim1Length, ipArray.Dim2Lengths,
                     imageSize, aspectRatio);
@@ -979,7 +979,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             corners.ThrowIfNotReady();
 
-            int ret = CppInvoke.calib3d_findChessboardCorners_InputArray(
+            int ret = NativeMethods.calib3d_findChessboardCorners_InputArray(
                 image.CvPtr, patternSize, corners.CvPtr, (int)flags);
             corners.Fix();
             return ret != 0;
@@ -1006,7 +1006,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfPoint2f cornersVec = new VectorOfPoint2f())
             {
-                int ret = CppInvoke.calib3d_findChessboardCorners_InputArray(
+                int ret = NativeMethods.calib3d_findChessboardCorners_InputArray(
                     image.CvPtr, patternSize, cornersVec.CvPtr, (int)flags);
                 corners = cornersVec.ToArray();
                 return ret != 0;
@@ -1030,7 +1030,7 @@ namespace OpenCvSharp.CPlusPlus
             img.ThrowIfDisposed();
             corners.ThrowIfNotReady();
 
-            int ret = CppInvoke.calib3d_find4QuadCornerSubpix_InputArray(
+            int ret = NativeMethods.calib3d_find4QuadCornerSubpix_InputArray(
                 img.CvPtr, corners.CvPtr, regionSize);
             corners.Fix();
             return ret != 0;
@@ -1052,7 +1052,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfPoint2f cornersVec = new VectorOfPoint2f(corners))
             {
-                int ret = CppInvoke.calib3d_find4QuadCornerSubpix_InputArray(
+                int ret = NativeMethods.calib3d_find4QuadCornerSubpix_InputArray(
                     img.CvPtr, cornersVec.CvPtr, regionSize);
 
                 Point2f[] newCorners = cornersVec.ToArray();
@@ -1083,7 +1083,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfNotReady();
             corners.ThrowIfDisposed();
 
-            CppInvoke.calib3d_drawChessboardCorners_InputArray(
+            NativeMethods.calib3d_drawChessboardCorners_InputArray(
                 image.CvPtr, patternSize, corners.CvPtr, patternWasFound ? 1 : 0);
             image.Fix();
         }
@@ -1104,7 +1104,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfNotReady();
 
             Point2f[] cornersArray = EnumerableEx.ToArray(corners);
-            CppInvoke.calib3d_drawChessboardCorners_array(
+            NativeMethods.calib3d_drawChessboardCorners_array(
                 image.CvPtr, patternSize, cornersArray, cornersArray.Length, 
                 patternWasFound ? 1 : 0);
             image.Fix();
@@ -1134,7 +1134,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             centers.ThrowIfNotReady();
 
-            int ret = CppInvoke.calib3d_findCirclesGrid_InputArray(
+            int ret = NativeMethods.calib3d_findCirclesGrid_InputArray(
                 image.CvPtr, patternSize, centers.CvPtr, (int)flags, ToPtr(blobDetector));
             centers.Fix();
             return ret != 0;
@@ -1161,7 +1161,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfPoint2f centersVec = new VectorOfPoint2f())
             {
-                int ret = CppInvoke.calib3d_findCirclesGrid_InputArray(
+                int ret = NativeMethods.calib3d_findCirclesGrid_InputArray(
                 image.CvPtr, patternSize, centersVec.CvPtr, (int)flags, ToPtr(blobDetector));
                 centers = centersVec.ToArray();
                 return ret != 0;
@@ -1225,7 +1225,7 @@ namespace OpenCvSharp.CPlusPlus
             using (VectorOfMat rvecsVec = new VectorOfMat())
             using (VectorOfMat tvecsVec = new VectorOfMat())
             {
-                ret = CppInvoke.calib3d_calibrateCamera_InputArray(
+                ret = NativeMethods.calib3d_calibrateCamera_InputArray(
                     objectPointsPtrs, objectPointsPtrs.Length,
                     imagePointsPtrs, objectPointsPtrs.Length,
                     imageSize, cameraMatrix.CvPtr, distCoeffs.CvPtr,
@@ -1291,7 +1291,7 @@ namespace OpenCvSharp.CPlusPlus
             using (VectorOfMat rvecsVec = new VectorOfMat())
             using (VectorOfMat tvecsVec = new VectorOfMat())
             {
-                double ret = CppInvoke.calib3d_calibrateCamera_vector(
+                double ret = NativeMethods.calib3d_calibrateCamera_vector(
                     op.Pointer, op.Dim1Length, op.Dim2Lengths,
                     ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
                     imageSize, cameraMatrix, distCoeffs, distCoeffs.Length,
@@ -1332,7 +1332,7 @@ namespace OpenCvSharp.CPlusPlus
             if (cameraMatrix == null)
                 throw new ArgumentNullException("cameraMatrix");
 
-            CppInvoke.calib3d_calibrationMatrixValues_InputArray(cameraMatrix.CvPtr,
+            NativeMethods.calib3d_calibrationMatrixValues_InputArray(cameraMatrix.CvPtr,
                 imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
                 out principalPoint, out aspectRatio);
         }
@@ -1359,7 +1359,7 @@ namespace OpenCvSharp.CPlusPlus
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("cameraMatrix must be 3x3");
 
-            CppInvoke.calib3d_calibrationMatrixValues_array(cameraMatrix,
+            NativeMethods.calib3d_calibrationMatrixValues_array(cameraMatrix,
                 imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
                 out principalPoint, out aspectRatio);
         }

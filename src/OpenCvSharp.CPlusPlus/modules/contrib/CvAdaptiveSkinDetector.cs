@@ -37,7 +37,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="morphingMethod"></param>
         public CvAdaptiveSkinDetector(int samplingDivider, MorphingMethod morphingMethod)
         {
-            ptr = CppInvoke.contrib_CvAdaptiveSkinDetector_new(samplingDivider, (int)morphingMethod);
+            ptr = NativeMethods.contrib_CvAdaptiveSkinDetector_new(samplingDivider, (int)morphingMethod);
         }
 
 #if LANG_JP
@@ -69,7 +69,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.contrib_CvAdaptiveSkinDetector_delete(ptr);
+                        NativeMethods.contrib_CvAdaptiveSkinDetector_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -96,7 +96,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("outputHueMask");
             inputBgrImage.ThrowIfDisposed();
             outputHueMask.ThrowIfDisposed();
-            CppInvoke.contrib_CvAdaptiveSkinDetector_process(ptr, inputBgrImage.CvPtr, outputHueMask.CvPtr);
+            NativeMethods.contrib_CvAdaptiveSkinDetector_process(ptr, inputBgrImage.CvPtr, outputHueMask.CvPtr);
         }
     }
 }

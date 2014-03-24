@@ -38,7 +38,7 @@ namespace OpenCvSharp.CPlusPlus
         public ORB(int nFeatures = 500, float scaleFactor = 1.2f, int nLevels = 8, int edgeThreshold = 31,
             int firstLevel = 0, int wtaK = 2, ORBScore scoreType = ORBScore.Harris, int patchSize = 31)
         {
-            ptr = CppInvoke.features2d_ORB_new(nFeatures, scaleFactor, nLevels, edgeThreshold,
+            ptr = NativeMethods.features2d_ORB_new(nFeatures, scaleFactor, nLevels, edgeThreshold,
                 firstLevel, wtaK, (int)scoreType, patchSize);
         }
 
@@ -71,7 +71,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     // releases unmanaged resources
                     if (ptr != IntPtr.Zero)
-                        CppInvoke.features2d_ORB_delete(ptr);
+                        NativeMethods.features2d_ORB_delete(ptr);
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -91,7 +91,7 @@ namespace OpenCvSharp.CPlusPlus
         public int DescriptorSize()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_ORB_descriptorSize(ptr);
+            return NativeMethods.features2d_ORB_descriptorSize(ptr);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace OpenCvSharp.CPlusPlus
         public int DescriptorType()
         {
             ThrowIfDisposed();
-            return CppInvoke.features2d_ORB_descriptorType(ptr);
+            return NativeMethods.features2d_ORB_descriptorType(ptr);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.features2d_ORB_run1(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr);
+                NativeMethods.features2d_ORB_run1(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr);
                 return keyPointsVec.ToArray();
             }
         }
@@ -145,7 +145,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
             {
-                CppInvoke.features2d_ORB_run2(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr,
+                NativeMethods.features2d_ORB_run2(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr,
                     descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
                 keyPoints = keyPointsVec.ToArray();
             }
@@ -175,7 +175,7 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 ThrowIfDisposed();
-                IntPtr pInfo = CppInvoke.features2d_ORB_info(ptr);
+                IntPtr pInfo = NativeMethods.features2d_ORB_info(ptr);
                 return new AlgorithmInfo(pInfo);
             }
         }

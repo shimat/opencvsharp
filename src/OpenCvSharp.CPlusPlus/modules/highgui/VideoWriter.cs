@@ -35,7 +35,7 @@ namespace OpenCvSharp.CPlusPlus
             Fps = -1;
             FrameSize = Size.Zero;
             IsColor = true;
-            ptr = CppInvoke.highgui_VideoWriter_new1();
+            ptr = NativeMethods.highgui_VideoWriter_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoWriter");
         }
@@ -133,7 +133,7 @@ namespace OpenCvSharp.CPlusPlus
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
-            ptr = CppInvoke.highgui_VideoWriter_new2(fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
+            ptr = NativeMethods.highgui_VideoWriter_new2(fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoWriter");
         }
@@ -174,7 +174,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        CppInvoke.highgui_VideoWriter_delete(ptr);
+                        NativeMethods.highgui_VideoWriter_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -324,7 +324,7 @@ namespace OpenCvSharp.CPlusPlus
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
-            CppInvoke.highgui_VideoWriter_open(ptr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
+            NativeMethods.highgui_VideoWriter_open(ptr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
         }
         #endregion
         #region IsOpened
@@ -335,7 +335,7 @@ namespace OpenCvSharp.CPlusPlus
         public bool IsOpened()
         {
             ThrowIfDisposed();
-            return CppInvoke.highgui_VideoWriter_isOpened(ptr) != 0;
+            return NativeMethods.highgui_VideoWriter_isOpened(ptr) != 0;
         }
         #endregion
         #region Release
@@ -346,7 +346,7 @@ namespace OpenCvSharp.CPlusPlus
         public void Release()
         {
             ThrowIfDisposed();
-            CppInvoke.highgui_VideoWriter_release(ptr);
+            NativeMethods.highgui_VideoWriter_release(ptr);
         }
         #endregion
         #region Write
@@ -369,7 +369,7 @@ namespace OpenCvSharp.CPlusPlus
             if(image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            CppInvoke.highgui_VideoWriter_write(ptr, image.CvPtr);
+            NativeMethods.highgui_VideoWriter_write(ptr, image.CvPtr);
         }
         #endregion
         #endregion

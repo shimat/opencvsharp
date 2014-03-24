@@ -29,7 +29,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             inpaintMask.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.photo_inpaint(src.CvPtr, inpaintMask.CvPtr, dst.CvPtr, inpaintRadius, (int)flags);
+            NativeMethods.photo_inpaint(src.CvPtr, inpaintMask.CvPtr, dst.CvPtr, inpaintRadius, (int)flags);
             dst.Fix();
         }
         #endregion
@@ -58,7 +58,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.photo_fastNlMeansDenoising(src.CvPtr, dst.CvPtr, h, templateWindowSize, searchWindowSize);
+            NativeMethods.photo_fastNlMeansDenoising(src.CvPtr, dst.CvPtr, h, templateWindowSize, searchWindowSize);
             dst.Fix();
         }
         #endregion
@@ -88,7 +88,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            CppInvoke.photo_fastNlMeansDenoisingColored(src.CvPtr, dst.CvPtr, h, hColor, templateWindowSize, searchWindowSize);
+            NativeMethods.photo_fastNlMeansDenoisingColored(src.CvPtr, dst.CvPtr, h, hColor, templateWindowSize, searchWindowSize);
             dst.Fix();
         }
         #endregion
@@ -119,7 +119,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
-            CppInvoke.photo_fastNlMeansDenoisingMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex, 
+            NativeMethods.photo_fastNlMeansDenoisingMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex, 
                 templateWindowSize, h, templateWindowSize, searchWindowSize);
             dst.Fix();
         }
@@ -177,7 +177,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
-            CppInvoke.photo_fastNlMeansDenoisingColoredMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
+            NativeMethods.photo_fastNlMeansDenoisingColoredMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
                 templateWindowSize, h, hColor, templateWindowSize, searchWindowSize);
             dst.Fix();
         }

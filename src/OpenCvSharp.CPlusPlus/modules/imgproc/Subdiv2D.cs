@@ -42,7 +42,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Subdiv2D()
         {
-            ptr = CppInvoke.imgproc_Subdiv2D_new();
+            ptr = NativeMethods.imgproc_Subdiv2D_new();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -60,7 +60,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Subdiv2D(Rect rect)
         {
-            ptr = CppInvoke.imgproc_Subdiv2D_new(rect);
+            ptr = NativeMethods.imgproc_Subdiv2D_new(rect);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -107,7 +107,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (ptr != IntPtr.Zero)
                     {
-                        CppInvoke.imgproc_Subdiv2D_delete(ptr);
+                        NativeMethods.imgproc_Subdiv2D_delete(ptr);
                     }
                     ptr = IntPtr.Zero;
                     disposed = true;
@@ -155,7 +155,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            CppInvoke.imgproc_Subdiv2D_initDelaunay(ptr, rect);
+            NativeMethods.imgproc_Subdiv2D_initDelaunay(ptr, rect);
         }
         #endregion
         #region Insert
@@ -168,7 +168,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_insert(ptr, pt);
+            return NativeMethods.imgproc_Subdiv2D_insert(ptr, pt);
         }
         /// <summary>
         /// 
@@ -180,7 +180,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("Subdiv2D", "");
             if(ptvec == null)
                 throw new ArgumentNullException("ptvec");
-            CppInvoke.imgproc_Subdiv2D_insert(ptr, ptvec, ptvec.Length);
+            NativeMethods.imgproc_Subdiv2D_insert(ptr, ptvec, ptvec.Length);
         }
         /// <summary>
         /// 
@@ -205,7 +205,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_locate(ptr, pt, out edge, out vertex);
+            return NativeMethods.imgproc_Subdiv2D_locate(ptr, pt, out edge, out vertex);
         }
         #endregion
         #region FindNearest
@@ -229,7 +229,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_findNearest(ptr, pt, out nearestPt);
+            return NativeMethods.imgproc_Subdiv2D_findNearest(ptr, pt, out nearestPt);
         }
         #endregion
         #region GetEdgeList
@@ -242,7 +242,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
             IntPtr p;
-            CppInvoke.imgproc_Subdiv2D_getEdgeList(ptr, out p);
+            NativeMethods.imgproc_Subdiv2D_getEdgeList(ptr, out p);
             using (VectorOfVec4f vec = new VectorOfVec4f(p))
             {
                 return vec.ToArray();
@@ -259,7 +259,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
             IntPtr p;
-            CppInvoke.imgproc_Subdiv2D_getTriangleList(ptr, out p);
+            NativeMethods.imgproc_Subdiv2D_getTriangleList(ptr, out p);
             using (VectorOfVec6f vec = new VectorOfVec6f(p))
             {
                 return vec.ToArray();
@@ -281,12 +281,12 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr facetListPtr, facetCentersPtr;
             if (idx == null)
             {
-                CppInvoke.imgproc_Subdiv2D_getVoronoiFacetList(ptr, IntPtr.Zero, 0, out facetListPtr, out facetCentersPtr);
+                NativeMethods.imgproc_Subdiv2D_getVoronoiFacetList(ptr, IntPtr.Zero, 0, out facetListPtr, out facetCentersPtr);
             }
             else
             {
                 int[] idxArray = EnumerableEx.ToArray(idx);
-                CppInvoke.imgproc_Subdiv2D_getVoronoiFacetList(ptr, idxArray, idxArray.Length, out facetListPtr, out facetCentersPtr);
+                NativeMethods.imgproc_Subdiv2D_getVoronoiFacetList(ptr, idxArray, idxArray.Length, out facetListPtr, out facetCentersPtr);
             }
 
             using (VectorOfVectorPoint2f facetListVec = new VectorOfVectorPoint2f(facetListPtr))
@@ -320,7 +320,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_getVertex(ptr, vertex, out firstEdge);
+            return NativeMethods.imgproc_Subdiv2D_getVertex(ptr, vertex, out firstEdge);
         }
         #endregion
         #region GetEdge
@@ -334,7 +334,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_getEdge(ptr, edge, nextEdgeType);
+            return NativeMethods.imgproc_Subdiv2D_getEdge(ptr, edge, nextEdgeType);
         }
         #endregion
         #region NextEdge
@@ -347,7 +347,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_nextEdge(ptr, edge);
+            return NativeMethods.imgproc_Subdiv2D_nextEdge(ptr, edge);
         }
         #endregion
         #region RotateEdge
@@ -361,7 +361,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_rotateEdge(ptr, edge, rotate);
+            return NativeMethods.imgproc_Subdiv2D_rotateEdge(ptr, edge, rotate);
         }
         #endregion
         #region SymEdge
@@ -374,7 +374,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_symEdge(ptr, edge);
+            return NativeMethods.imgproc_Subdiv2D_symEdge(ptr, edge);
         }
         #endregion
         #region EdgeOrg
@@ -398,7 +398,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_edgeOrg(ptr, edge, out orgpt);
+            return NativeMethods.imgproc_Subdiv2D_edgeOrg(ptr, edge, out orgpt);
         }
         #endregion
         #region EdgeDst
@@ -422,7 +422,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
-            return CppInvoke.imgproc_Subdiv2D_edgeDst(ptr, edge, out dstpt);
+            return NativeMethods.imgproc_Subdiv2D_edgeDst(ptr, edge, out dstpt);
         }
         #endregion
         #endregion

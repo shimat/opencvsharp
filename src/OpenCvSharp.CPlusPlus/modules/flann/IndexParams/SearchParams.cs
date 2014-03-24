@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Flann
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
         /// <summary>
         /// sizeof(cv::flann::SearchParams)
         /// </summary>
-        public static readonly new int SizeOf = FlannInvoke.flann_SearchParams_sizeof();
+        public static readonly new int SizeOf = NativeMethods.flann_SearchParams_sizeof();
 
         private bool disposed = false;
         #endregion
@@ -90,7 +90,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
 #endif
         public SearchParams(int checks, float eps, bool sorted)
         {
-            ptr = FlannInvoke.flann_SearchParams_construct(checks, eps, sorted ? 1 : 0);
+            ptr = NativeMethods.flann_SearchParams_construct(checks, eps, sorted ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create SearchParams");
         }
@@ -123,7 +123,7 @@ namespace OpenCvSharp.CPlusPlus.Flann
                     }
                     if (IsEnabledDispose)
                     {
-                        FlannInvoke.flann_SearchParams_destruct(ptr);
+                        NativeMethods.flann_SearchParams_destruct(ptr);
                     }
                     disposed = true;
                 }
