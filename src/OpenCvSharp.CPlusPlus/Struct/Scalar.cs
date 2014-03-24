@@ -39,11 +39,11 @@ namespace OpenCvSharp.CPlusPlus
                     case 0:
                         return Val0;
                     case 1:
-                        return Val0;
+                        return Val1;
                     case 2:
-                        return Val0;
+                        return Val2;
                     case 3:
-                        return Val0;
+                        return Val3;
                     default:
                         throw new IndexOutOfRangeException();
                 }
