@@ -184,6 +184,27 @@ namespace OpenCvSharp.CPlusPlus
                                                              IntPtr R, IntPtr T,
                                                              IntPtr E, IntPtr F,
                                                              CvTermCriteria criteria, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_stereoRectify_InputArray(
+            IntPtr cameraMatrix1, IntPtr distCoeffs1,
+            IntPtr cameraMatrix2, IntPtr distCoeffs2,
+            CvSize imageSize, IntPtr R, IntPtr T,
+            IntPtr R1, IntPtr R2,
+            IntPtr P1, IntPtr P2,
+            IntPtr Q, int flags,
+            double alpha, Size newImageSize,
+            out Rect validPixROI1, out Rect validPixROI2);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_stereoRectify_array(double[,] cameraMatrix1,
+                                                              double[] distCoeffs1, int dc1Size,
+                                                              double[,] cameraMatrix2,
+                                                              double[] distCoeffs2, int dc2Size,
+                                                              CvSize imageSize,
+                                                              double[,] R, double[] T,
+                                                              double[,] R1, double[,] R2, double[,] P1, double[,] P2,
+                                                              double[,] Q, int flags, double alpha, Size newImageSize,
+                                                              out Rect validPixROI1, out Rect validPixROI2);
 
 
         #region StereoBM

@@ -1415,6 +1415,10 @@ namespace OpenCvSharp.CPlusPlus
             distCoeffs1.ThrowIfDisposed();
             cameraMatrix2.ThrowIfDisposed();
             distCoeffs2.ThrowIfDisposed();
+            cameraMatrix1.ThrowIfNotReady();
+            cameraMatrix2.ThrowIfNotReady();
+            distCoeffs1.ThrowIfNotReady();
+            distCoeffs2.ThrowIfNotReady();
 
             IntPtr[] opPtrs = EnumerableEx.SelectPtrs(objectPoints);
             IntPtr[] ip1Ptrs = EnumerableEx.SelectPtrs(imagePoints1);
@@ -1437,6 +1441,14 @@ namespace OpenCvSharp.CPlusPlus
             distCoeffs1.Fix();
             cameraMatrix2.Fix();
             distCoeffs2.Fix();
+            if (R != null)
+                R.Fix();
+            if (T != null)
+                T.Fix();
+            if (E != null)
+                E.Fix();
+            if (F != null)
+                F.Fix();
 
             return result;
         }
@@ -1501,6 +1513,248 @@ namespace OpenCvSharp.CPlusPlus
                         imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
                         criteria0, (int)flags);
             }
+        }
+
+// ReSharper restore InconsistentNaming
+        #endregion
+
+        #region StereoRectify
+// ReSharper disable InconsistentNaming
+
+        /// <summary>
+        /// computes the rectification transformation for a stereo camera from its intrinsic and extrinsic parameters
+        /// </summary>
+        /// <param name="cameraMatrix1">First camera matrix.</param>
+        /// <param name="distCoeffs1">First camera distortion parameters.</param>
+        /// <param name="cameraMatrix2">Second camera matrix.</param>
+        /// <param name="distCoeffs2">Second camera distortion parameters.</param>
+        /// <param name="imageSize">Size of the image used for stereo calibration.</param>
+        /// <param name="R">Rotation matrix between the coordinate systems of the first and the second cameras.</param>
+        /// <param name="T">Translation vector between coordinate systems of the cameras.</param>
+        /// <param name="R1">Output 3x3 rectification transform (rotation matrix) for the first camera.</param>
+        /// <param name="R2"> Output 3x3 rectification transform (rotation matrix) for the second camera.</param>
+        /// <param name="P1">Output 3x4 projection matrix in the new (rectified) coordinate systems for the first camera.</param>
+        /// <param name="P2">Output 3x4 projection matrix in the new (rectified) coordinate systems for the second camera.</param>
+        /// <param name="Q">Output 4x4 disparity-to-depth mapping matrix (see reprojectImageTo3D() ).</param>
+        /// <param name="flags">Operation flags that may be zero or CV_CALIB_ZERO_DISPARITY. 
+        /// If the flag is set, the function makes the principal points of each camera have the same pixel coordinates in the rectified views. 
+        /// And if the flag is not set, the function may still shift the images in the horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the useful image area.</param>
+        /// <param name="alpha">Free scaling parameter. 
+        /// If it is -1 or absent, the function performs the default scaling. Otherwise, the parameter should be between 0 and 1. 
+        /// alpha=0 means that the rectified images are zoomed and shifted so that only valid pixels are visible (no black areas after rectification). 
+        /// alpha=1 means that the rectified image is decimated and shifted so that all the pixels from the original images from the cameras are retained 
+        /// in the rectified images (no source image pixels are lost). Obviously, any intermediate value yields an intermediate result between those two extreme cases.</param>
+        /// <param name="newImageSize">New image resolution after rectification. The same size should be passed to initUndistortRectifyMap(). When (0,0) is passed (default), it is set to the original imageSize . 
+        /// Setting it to larger value can help you preserve details in the original image, especially when there is a big radial distortion.</param>
+        public static void StereoRectify(InputArray cameraMatrix1, InputArray distCoeffs1,
+                                         InputArray cameraMatrix2, InputArray distCoeffs2,
+                                         Size imageSize, InputArray R, InputArray T,
+                                         OutputArray R1, OutputArray R2,
+                                         OutputArray P1, OutputArray P2,
+                                         OutputArray Q, 
+            StereoRectificationFlag flags = StereoRectificationFlag.ZeroDisparity,
+                                         double alpha = -1, Size? newImageSize = null)
+        {
+            Size newImageSize0 = newImageSize.GetValueOrDefault(new Size(0, 0));
+            Rect validPixROI1, validPixROI2;
+            StereoRectify(cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2,
+                imageSize, R, T, R1, R2, P1, P2, Q, flags, alpha, newImageSize0, 
+                out validPixROI1, out validPixROI2);
+        }
+        /// <summary>
+        /// computes the rectification transformation for a stereo camera from its intrinsic and extrinsic parameters
+        /// </summary>
+        /// <param name="cameraMatrix1">First camera matrix.</param>
+        /// <param name="distCoeffs1">First camera distortion parameters.</param>
+        /// <param name="cameraMatrix2">Second camera matrix.</param>
+        /// <param name="distCoeffs2">Second camera distortion parameters.</param>
+        /// <param name="imageSize">Size of the image used for stereo calibration.</param>
+        /// <param name="R">Rotation matrix between the coordinate systems of the first and the second cameras.</param>
+        /// <param name="T">Translation vector between coordinate systems of the cameras.</param>
+        /// <param name="R1">Output 3x3 rectification transform (rotation matrix) for the first camera.</param>
+        /// <param name="R2"> Output 3x3 rectification transform (rotation matrix) for the second camera.</param>
+        /// <param name="P1">Output 3x4 projection matrix in the new (rectified) coordinate systems for the first camera.</param>
+        /// <param name="P2">Output 3x4 projection matrix in the new (rectified) coordinate systems for the second camera.</param>
+        /// <param name="Q">Output 4x4 disparity-to-depth mapping matrix (see reprojectImageTo3D() ).</param>
+        /// <param name="flags">Operation flags that may be zero or CV_CALIB_ZERO_DISPARITY. 
+        /// If the flag is set, the function makes the principal points of each camera have the same pixel coordinates in the rectified views. 
+        /// And if the flag is not set, the function may still shift the images in the horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the useful image area.</param>
+        /// <param name="alpha">Free scaling parameter. 
+        /// If it is -1 or absent, the function performs the default scaling. Otherwise, the parameter should be between 0 and 1. 
+        /// alpha=0 means that the rectified images are zoomed and shifted so that only valid pixels are visible (no black areas after rectification). 
+        /// alpha=1 means that the rectified image is decimated and shifted so that all the pixels from the original images from the cameras are retained 
+        /// in the rectified images (no source image pixels are lost). Obviously, any intermediate value yields an intermediate result between those two extreme cases.</param>
+        /// <param name="newImageSize">New image resolution after rectification. The same size should be passed to initUndistortRectifyMap(). When (0,0) is passed (default), it is set to the original imageSize . 
+        /// Setting it to larger value can help you preserve details in the original image, especially when there is a big radial distortion.</param>
+        /// <param name="validPixROI1">Optional output rectangles inside the rectified images where all the pixels are valid. If alpha=0 , the ROIs cover the whole images. 
+        /// Otherwise, they are likely to be smaller.</param>
+        /// <param name="validPixROI2">Optional output rectangles inside the rectified images where all the pixels are valid. If alpha=0 , the ROIs cover the whole images. 
+        /// Otherwise, they are likely to be smaller.</param>
+        public static void StereoRectify(InputArray cameraMatrix1, InputArray distCoeffs1,
+                                         InputArray cameraMatrix2, InputArray distCoeffs2,
+                                         Size imageSize, InputArray R, InputArray T,
+                                         OutputArray R1, OutputArray R2,
+                                         OutputArray P1, OutputArray P2,
+                                         OutputArray Q, StereoRectificationFlag flags,
+                                         double alpha, Size newImageSize,
+                                         out Rect validPixROI1, out Rect validPixROI2)
+        {
+            if (cameraMatrix1 == null)
+                throw new ArgumentNullException("cameraMatrix1");
+            if (distCoeffs1 == null)
+                throw new ArgumentNullException("distCoeffs1");
+            if (cameraMatrix2 == null)
+                throw new ArgumentNullException("cameraMatrix2");
+            if (distCoeffs2 == null)
+                throw new ArgumentNullException("distCoeffs2");
+            if (R == null)
+                throw new ArgumentNullException("R");
+            if (T == null)
+                throw new ArgumentNullException("T");
+            if (R1 == null)
+                throw new ArgumentNullException("R1");
+            if (R2 == null)
+                throw new ArgumentNullException("R2");
+            if (P1 == null)
+                throw new ArgumentNullException("P1");
+            if (P2 == null)
+                throw new ArgumentNullException("P2");
+            if (Q == null)
+                throw new ArgumentNullException("Q");
+            cameraMatrix1.ThrowIfDisposed();
+            distCoeffs1.ThrowIfDisposed();
+            cameraMatrix2.ThrowIfDisposed();
+            distCoeffs2.ThrowIfDisposed();
+            R.ThrowIfDisposed();
+            T.ThrowIfDisposed();
+            R1.ThrowIfNotReady();
+            R2.ThrowIfNotReady();
+            P1.ThrowIfNotReady();
+            P2.ThrowIfNotReady();
+            Q.ThrowIfNotReady();
+
+            NativeMethods.calib3d_stereoRectify_InputArray(
+                    cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
+                    cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
+                    imageSize, R.CvPtr, T.CvPtr, 
+                    R1.CvPtr, R2.CvPtr, P1.CvPtr, P2.CvPtr, Q.CvPtr,
+                    (int)flags, alpha, newImageSize, out validPixROI1, out validPixROI2);
+
+            R1.Fix();
+            R2.Fix();
+            P1.Fix();
+            P2.Fix();
+            Q.Fix();
+        }
+
+
+        /// <summary>
+        /// computes the rectification transformation for a stereo camera from its intrinsic and extrinsic parameters
+        /// </summary>
+        /// <param name="cameraMatrix1">First camera matrix.</param>
+        /// <param name="distCoeffs1">First camera distortion parameters.</param>
+        /// <param name="cameraMatrix2">Second camera matrix.</param>
+        /// <param name="distCoeffs2">Second camera distortion parameters.</param>
+        /// <param name="imageSize">Size of the image used for stereo calibration.</param>
+        /// <param name="R">Rotation matrix between the coordinate systems of the first and the second cameras.</param>
+        /// <param name="T">Translation vector between coordinate systems of the cameras.</param>
+        /// <param name="R1">Output 3x3 rectification transform (rotation matrix) for the first camera.</param>
+        /// <param name="R2"> Output 3x3 rectification transform (rotation matrix) for the second camera.</param>
+        /// <param name="P1">Output 3x4 projection matrix in the new (rectified) coordinate systems for the first camera.</param>
+        /// <param name="P2">Output 3x4 projection matrix in the new (rectified) coordinate systems for the second camera.</param>
+        /// <param name="Q">Output 4x4 disparity-to-depth mapping matrix (see reprojectImageTo3D() ).</param>
+        /// <param name="flags">Operation flags that may be zero or CV_CALIB_ZERO_DISPARITY. 
+        /// If the flag is set, the function makes the principal points of each camera have the same pixel coordinates in the rectified views. 
+        /// And if the flag is not set, the function may still shift the images in the horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the useful image area.</param>
+        /// <param name="alpha">Free scaling parameter. 
+        /// If it is -1 or absent, the function performs the default scaling. Otherwise, the parameter should be between 0 and 1. 
+        /// alpha=0 means that the rectified images are zoomed and shifted so that only valid pixels are visible (no black areas after rectification). 
+        /// alpha=1 means that the rectified image is decimated and shifted so that all the pixels from the original images from the cameras are retained 
+        /// in the rectified images (no source image pixels are lost). Obviously, any intermediate value yields an intermediate result between those two extreme cases.</param>
+        /// <param name="newImageSize">New image resolution after rectification. The same size should be passed to initUndistortRectifyMap(). When (0,0) is passed (default), it is set to the original imageSize . 
+        /// Setting it to larger value can help you preserve details in the original image, especially when there is a big radial distortion.</param>
+        public static void StereoRectify(double[,] cameraMatrix1, double[] distCoeffs1,
+                                         double[,] cameraMatrix2, double[] distCoeffs2,
+                                         Size imageSize, double[,] R, double[] T,
+                                         out double[,] R1, out double[,] R2,
+                                         out double[,] P1, out double[,] P2,
+                                         out double[,] Q,
+                                         StereoRectificationFlag flags = StereoRectificationFlag.ZeroDisparity,
+                                         double alpha = -1, Size? newImageSize = null)
+        {
+            Size newImageSize0 = newImageSize.GetValueOrDefault(new Size(0, 0));
+            Rect validPixROI1, validPixROI2;
+            StereoRectify(
+                cameraMatrix1, distCoeffs1,
+                cameraMatrix2, distCoeffs2,
+                imageSize, R, T,
+                out R1, out R2, out P1, out P2, out Q,
+                flags, alpha, newImageSize0, out validPixROI1, out validPixROI2);
+        }
+
+        /// <summary>
+        /// computes the rectification transformation for a stereo camera from its intrinsic and extrinsic parameters
+        /// </summary>
+        /// <param name="cameraMatrix1">First camera matrix.</param>
+        /// <param name="distCoeffs1">First camera distortion parameters.</param>
+        /// <param name="cameraMatrix2">Second camera matrix.</param>
+        /// <param name="distCoeffs2">Second camera distortion parameters.</param>
+        /// <param name="imageSize">Size of the image used for stereo calibration.</param>
+        /// <param name="R">Rotation matrix between the coordinate systems of the first and the second cameras.</param>
+        /// <param name="T">Translation vector between coordinate systems of the cameras.</param>
+        /// <param name="R1">Output 3x3 rectification transform (rotation matrix) for the first camera.</param>
+        /// <param name="R2"> Output 3x3 rectification transform (rotation matrix) for the second camera.</param>
+        /// <param name="P1">Output 3x4 projection matrix in the new (rectified) coordinate systems for the first camera.</param>
+        /// <param name="P2">Output 3x4 projection matrix in the new (rectified) coordinate systems for the second camera.</param>
+        /// <param name="Q">Output 4x4 disparity-to-depth mapping matrix (see reprojectImageTo3D() ).</param>
+        /// <param name="flags">Operation flags that may be zero or CV_CALIB_ZERO_DISPARITY. 
+        /// If the flag is set, the function makes the principal points of each camera have the same pixel coordinates in the rectified views. 
+        /// And if the flag is not set, the function may still shift the images in the horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the useful image area.</param>
+        /// <param name="alpha">Free scaling parameter. 
+        /// If it is -1 or absent, the function performs the default scaling. Otherwise, the parameter should be between 0 and 1. 
+        /// alpha=0 means that the rectified images are zoomed and shifted so that only valid pixels are visible (no black areas after rectification). 
+        /// alpha=1 means that the rectified image is decimated and shifted so that all the pixels from the original images from the cameras are retained 
+        /// in the rectified images (no source image pixels are lost). Obviously, any intermediate value yields an intermediate result between those two extreme cases.</param>
+        /// <param name="newImageSize">New image resolution after rectification. The same size should be passed to initUndistortRectifyMap(). When (0,0) is passed (default), it is set to the original imageSize . 
+        /// Setting it to larger value can help you preserve details in the original image, especially when there is a big radial distortion.</param>
+        /// <param name="validPixROI1">Optional output rectangles inside the rectified images where all the pixels are valid. If alpha=0 , the ROIs cover the whole images. 
+        /// Otherwise, they are likely to be smaller.</param>
+        /// <param name="validPixROI2">Optional output rectangles inside the rectified images where all the pixels are valid. If alpha=0 , the ROIs cover the whole images. 
+        /// Otherwise, they are likely to be smaller.</param>
+        public static void StereoRectify(double[,] cameraMatrix1, double[] distCoeffs1,
+                                         double[,] cameraMatrix2, double[] distCoeffs2,
+                                         Size imageSize, double[,] R, double[] T,
+                                         out double[,] R1, out double[,] R2,
+                                         out double[,] P1, out double[,] P2,
+                                         out double[,] Q, StereoRectificationFlag flags,
+                                         double alpha, Size newImageSize,
+                                         out Rect validPixROI1, out Rect validPixROI2)
+        {
+            if (cameraMatrix1 == null)
+                throw new ArgumentNullException("cameraMatrix1");
+            if (distCoeffs1 == null)
+                throw new ArgumentNullException("distCoeffs1");
+            if (cameraMatrix2 == null)
+                throw new ArgumentNullException("cameraMatrix2");
+            if (distCoeffs2 == null)
+                throw new ArgumentNullException("distCoeffs2");
+            if (R == null)
+                throw new ArgumentNullException("R");
+            if (T == null)
+                throw new ArgumentNullException("T");
+            
+            R1 = new double[3, 3];
+            R2 = new double[3, 3];
+            P1 = new double[3, 4];
+            P2 = new double[3, 4];
+            Q = new double[4, 4];
+
+            NativeMethods.calib3d_stereoRectify_array(
+                    cameraMatrix1, distCoeffs1, distCoeffs1.Length,
+                    cameraMatrix2, distCoeffs2, distCoeffs2.Length,
+                    imageSize, R, T,
+                    R1, R2, P1, P2, Q,
+                    (int)flags, alpha, newImageSize, out validPixROI1, out validPixROI2);
         }
 
 // ReSharper restore InconsistentNaming
