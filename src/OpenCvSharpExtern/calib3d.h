@@ -391,6 +391,48 @@ CVAPI(double) calib3d_stereoCalibrate_array(cv::Point3d **objectPoints, int opSi
 		imageSize, entity(R), entity(T), entity(E), entity(F), criteria, flags);
 }
 
+CVAPI(void) calib3d_stereoRectify_InputArray( 
+								cv::_InputArray *cameraMatrix1, cv::_InputArray *distCoeffs1,
+                               cv::_InputArray *cameraMatrix2, cv::_InputArray *distCoeffs2,
+                               CvSize imageSize, cv::_InputArray *R, cv::_InputArray *T,
+                               cv::_OutputArray *R1, cv::_OutputArray *R2,
+                               cv::_OutputArray *P1, cv::_OutputArray *P2,
+                               cv::_OutputArray *Q, int flags,
+                               double alpha, cv::Size newImageSize,
+                               cv::Rect* validPixROI1, cv::Rect* validPixROI2 )
+{
+	cv::stereoRectify(*cameraMatrix1, *distCoeffs1, *cameraMatrix2, *distCoeffs2,
+		imageSize, *R, *T, *R1, *R2, *P1, *P2, *Q, flags, alpha, newImageSize,
+		validPixROI1, validPixROI2);
+}
+CVAPI(void) calib3d_stereoRectify_array( double *cameraMatrix1, 
+										 double *distCoeffs1, int dc1Size,
+										 double *cameraMatrix2,
+										 double *distCoeffs2, int dc2Size,
+										 CvSize imageSize, 
+										 double *R, double *T,
+									     double *R1, double *R2, double *P1, double *P2,
+									     double *Q, int flags, double alpha, cv::Size newImageSize,
+									     cv::Rect* validPixROI1, cv::Rect* validPixROI2 )
+{
+	cv::Mat cameraMatrix1M(3, 3, CV_64FC1, cameraMatrix1);
+	cv::Mat cameraMatrix2M(3, 3, CV_64FC1, cameraMatrix2);
+	cv::Mat distCoeffs1M(dc1Size, 1, CV_64FC1, distCoeffs1);
+	cv::Mat distCoeffs2M(dc1Size, 1, CV_64FC1, distCoeffs2);
+	cv::Mat RM(3, 3, CV_64FC1, R);
+	cv::Mat TM(1, 3, CV_64FC1, T);
+
+	cv::Mat R1M(3, 3, CV_64FC1, R1);
+	cv::Mat R2M(3, 3, CV_64FC1, R2);
+	cv::Mat P1M(3, 4, CV_64FC1, P1);
+	cv::Mat P2M(3, 4, CV_64FC1, P2);
+	cv::Mat QM(3, 4, CV_64FC1, Q);
+
+	cv::stereoRectify(cameraMatrix1M, distCoeffs1M, cameraMatrix2M, distCoeffs2M,
+		imageSize, RM, TM, R1M, R2M, P1M, P2M, QM, flags, alpha, newImageSize,
+		validPixROI1, validPixROI2);
+}
+
 
 #pragma region StereoBM
 
