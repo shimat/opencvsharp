@@ -158,7 +158,35 @@ namespace OpenCvSharp.CPlusPlus
             double apertureWidth, double apertureHeight, out double fovx, out double fovy, out double focalLength,
             out Point2d principalPoint, out double aspectRatio);
 
-        // StereoBM
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double calib3d_stereoCalibrate_InputArray(IntPtr[] objectPoints, int opSize,
+                                                             IntPtr[] imagePoints1, int ip1Size,
+                                                             IntPtr[] imagePoints2, int ip2Size,
+                                                             IntPtr cameraMatrix1,
+                                                             IntPtr distCoeffs1,
+                                                             IntPtr cameraMatrix2,
+                                                             IntPtr distCoeffs2,
+                                                             CvSize imageSize,
+                                                             IntPtr R, IntPtr T,
+                                                             IntPtr E, IntPtr F,
+                                                             CvTermCriteria criteria, int flags);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double calib3d_stereoCalibrate_array(IntPtr[] objectPoints, int opSize1, int[] opSizes2,
+                                                             IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,
+                                                             IntPtr[] imagePoints2, int ip2Size1, int[] ip2Sizes2,
+                                                             [In, Out] double[,] cameraMatrix1,
+                                                             [In, Out] double[] distCoeffs1, int dc1Size,
+                                                             [In, Out] double[,] cameraMatrix2,
+                                                             [In, Out] double[] distCoeffs2, int dc2Size,
+                                                             CvSize imageSize,
+                                                             IntPtr R, IntPtr T,
+                                                             IntPtr E, IntPtr F,
+                                                             CvTermCriteria criteria, int flags);
+
+
+        #region StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_StereoBM_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -173,8 +201,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void calib3d_StereoBM_compute(IntPtr obj, IntPtr left,
                                                            IntPtr right,
                                                            IntPtr disp, int disptype);
+        #endregion
 
-        // StereoSGBM
+        #region StereoSGBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_StereoSGBM_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -228,6 +257,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int calib3d_StereoSGBM_fullDP_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_StereoSGBM_fullDP_set(IntPtr obj, int value);
-
+        #endregion
     }
 }

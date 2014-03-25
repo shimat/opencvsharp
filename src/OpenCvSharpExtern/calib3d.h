@@ -326,6 +326,71 @@ CVAPI(void) calib3d_calibrationMatrixValues_array(double *cameraMatrix, cv::Size
 		fovx, fovy, focalLength, principalPoint, aspectRatio);
 }
 
+CVAPI(double) calib3d_stereoCalibrate_InputArray(cv::_InputArray **objectPoints, int opSize,
+                                     cv::_InputArray **imagePoints1, int ip1Size,
+                                     cv::_InputArray **imagePoints2, int ip2Size,
+                                     cv::_OutputArray *cameraMatrix1,
+                                     cv::_OutputArray *distCoeffs1,
+                                     cv::_OutputArray *cameraMatrix2,
+                                     cv::_OutputArray *distCoeffs2,
+                                     CvSize imageSize, 
+									 cv::_OutputArray *R, cv::_OutputArray *T, 
+									 cv::_OutputArray *E, cv::_OutputArray *F,
+                                     CvTermCriteria criteria,                              
+									 int flags )
+{
+	std::vector<cv::_InputArray> objectPointsVec(opSize);
+	std::vector<cv::_InputArray> imagePoints1Vec(ip1Size);
+	std::vector<cv::_InputArray> imagePoints2Vec(ip2Size);
+	for (int i = 0; i < opSize; i++)	
+		objectPointsVec[i] = *objectPoints[i];
+	for (int i = 0; i < ip1Size; i++)	
+		imagePoints1Vec[i] = *imagePoints1[i];
+	for (int i = 0; i < ip2Size; i++)	
+		imagePoints2Vec[i] = *imagePoints2[i];
+	
+	return cv::stereoCalibrate(objectPointsVec, imagePoints1Vec, imagePoints2Vec,
+		*cameraMatrix1, *distCoeffs1,
+		*cameraMatrix2, *distCoeffs2,
+		imageSize, entity(R), entity(T), entity(E), entity(F), criteria, flags);
+}
+CVAPI(double) calib3d_stereoCalibrate_array(cv::Point3d **objectPoints, int opSize1, int *opSizes2,
+                                     cv::Point2d **imagePoints1, int ip1Size1, int *ip1Sizes2,
+                                     cv::Point2d **imagePoints2, int ip2Size1, int *ip2Sizes2,
+                                     double *cameraMatrix1,
+                                     double *distCoeffs1, int dc1Size,
+                                     double *cameraMatrix2,
+                                     double *distCoeffs2, int dc2Size,
+                                     CvSize imageSize, 
+									 cv::_OutputArray *R, cv::_OutputArray *T, 
+									 cv::_OutputArray *E, cv::_OutputArray *F,
+                                     CvTermCriteria criteria,                              
+									 int flags )
+{
+	std::vector<std::vector<cv::Point3d>> objectPointsVec(opSize1);
+	std::vector<std::vector<cv::Point2d>> imagePoints1Vec(ip1Size1);
+	std::vector<std::vector<cv::Point2d>> imagePoints2Vec(ip2Size1);
+	for (int i = 0; i < opSize1; i++)
+		objectPointsVec[i] = std::vector<cv::Point3d>(
+			objectPoints[i], objectPoints[i] + opSizes2[i]);
+	for (int i = 0; i < ip1Size1; i++)
+		imagePoints1Vec[i] = std::vector<cv::Point2d>(
+			imagePoints1[i], imagePoints1[i] + ip1Sizes2[i]);
+	for (int i = 0; i < ip2Size1; i++)
+		imagePoints2Vec[i] = std::vector<cv::Point2d>(
+			imagePoints2[i], imagePoints2[i] + ip2Sizes2[i]);
+	
+	cv::Mat cameraMatrix1M(3, 3, CV_64FC1, cameraMatrix1);
+	cv::Mat cameraMatrix2M(3, 3, CV_64FC1, cameraMatrix2);
+	cv::Mat distCoeffs1M(dc1Size, 1, CV_64FC1, distCoeffs1);
+	cv::Mat distCoeffs2M(dc2Size, 1, CV_64FC1, distCoeffs2);
+
+	return cv::stereoCalibrate(objectPointsVec, imagePoints1Vec, imagePoints2Vec,
+		cameraMatrix1M, distCoeffs1M,
+		cameraMatrix2M, distCoeffs2M,
+		imageSize, entity(R), entity(T), entity(E), entity(F), criteria, flags);
+}
+
 
 #pragma region StereoBM
 

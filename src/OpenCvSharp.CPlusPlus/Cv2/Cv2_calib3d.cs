@@ -1331,6 +1331,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (cameraMatrix == null)
                 throw new ArgumentNullException("cameraMatrix");
+            cameraMatrix.ThrowIfDisposed();
 
             NativeMethods.calib3d_calibrationMatrixValues_InputArray(cameraMatrix.CvPtr,
                 imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
@@ -1363,6 +1364,146 @@ namespace OpenCvSharp.CPlusPlus
                 imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
                 out principalPoint, out aspectRatio);
         }
+        #endregion
+        #region StereoCalibrate
+// ReSharper disable InconsistentNaming
+
+        /// <summary>
+        /// finds intrinsic and extrinsic parameters of a stereo camera
+        /// </summary>
+        /// <param name="objectPoints">Vector of vectors of the calibration pattern points.</param>
+        /// <param name="imagePoints1">Vector of vectors of the projections of the calibration pattern points, observed by the first camera.</param>
+        /// <param name="imagePoints2">Vector of vectors of the projections of the calibration pattern points, observed by the second camera.</param>
+        /// <param name="cameraMatrix1">Input/output first camera matrix</param>
+        /// <param name="distCoeffs1">Input/output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// The output vector length depends on the flags.</param>
+        /// <param name="cameraMatrix2"> Input/output second camera matrix. The parameter is similar to cameraMatrix1 .</param>
+        /// <param name="distCoeffs2">Input/output lens distortion coefficients for the second camera. The parameter is similar to distCoeffs1 .</param>
+        /// <param name="imageSize">Size of the image used only to initialize intrinsic camera matrix.</param>
+        /// <param name="R">Output rotation matrix between the 1st and the 2nd camera coordinate systems.</param>
+        /// <param name="T">Output translation vector between the coordinate systems of the cameras.</param>
+        /// <param name="E">Output essential matrix.</param>
+        /// <param name="F">Output fundamental matrix.</param>
+        /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+        /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
+        /// <returns></returns>
+        public static double StereoCalibrate(IEnumerable<InputArray> objectPoints,
+                                             IEnumerable<InputArray> imagePoints1,
+                                             IEnumerable<InputArray> imagePoints2,
+                                             InputOutputArray cameraMatrix1, InputOutputArray distCoeffs1,
+                                             InputOutputArray cameraMatrix2, InputOutputArray distCoeffs2,
+                                             Size imageSize, OutputArray R,
+                                             OutputArray T, OutputArray E, OutputArray F,
+                                             TermCriteria? criteria = null,
+                                             CalibrationFlag flags = CalibrationFlag.FixIntrinsic)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (imagePoints1 == null)
+                throw new ArgumentNullException("imagePoints1");
+            if (imagePoints2 == null)
+                throw new ArgumentNullException("imagePoints2");
+            if (cameraMatrix1 == null)
+                throw new ArgumentNullException("cameraMatrix1");
+            if (distCoeffs1 == null)
+                throw new ArgumentNullException("distCoeffs1");
+            if (cameraMatrix2 == null)
+                throw new ArgumentNullException("cameraMatrix2");
+            if (distCoeffs2 == null)
+                throw new ArgumentNullException("distCoeffs2");
+            cameraMatrix1.ThrowIfDisposed();
+            distCoeffs1.ThrowIfDisposed();
+            cameraMatrix2.ThrowIfDisposed();
+            distCoeffs2.ThrowIfDisposed();
+
+            IntPtr[] opPtrs = EnumerableEx.SelectPtrs(objectPoints);
+            IntPtr[] ip1Ptrs = EnumerableEx.SelectPtrs(imagePoints1);
+            IntPtr[] ip2Ptrs = EnumerableEx.SelectPtrs(imagePoints2);
+
+            TermCriteria criteria0 = criteria.GetValueOrDefault(
+                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 30, 1e-6));
+
+            double result =
+                NativeMethods.calib3d_stereoCalibrate_InputArray(
+                    opPtrs, opPtrs.Length,
+                    ip1Ptrs, ip1Ptrs.Length, ip2Ptrs, ip2Ptrs.Length,
+                    cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
+                    cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
+                    imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
+                    criteria0, (int)flags
+                    );
+
+            cameraMatrix1.Fix();
+            distCoeffs1.Fix();
+            cameraMatrix2.Fix();
+            distCoeffs2.Fix();
+
+            return result;
+        }
+
+        /// <summary>
+        /// finds intrinsic and extrinsic parameters of a stereo camera
+        /// </summary>
+        /// <param name="objectPoints">Vector of vectors of the calibration pattern points.</param>
+        /// <param name="imagePoints1">Vector of vectors of the projections of the calibration pattern points, observed by the first camera.</param>
+        /// <param name="imagePoints2">Vector of vectors of the projections of the calibration pattern points, observed by the second camera.</param>
+        /// <param name="cameraMatrix1">Input/output first camera matrix</param>
+        /// <param name="distCoeffs1">Input/output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// The output vector length depends on the flags.</param>
+        /// <param name="cameraMatrix2"> Input/output second camera matrix. The parameter is similar to cameraMatrix1 .</param>
+        /// <param name="distCoeffs2">Input/output lens distortion coefficients for the second camera. The parameter is similar to distCoeffs1 .</param>
+        /// <param name="imageSize">Size of the image used only to initialize intrinsic camera matrix.</param>
+        /// <param name="R">Output rotation matrix between the 1st and the 2nd camera coordinate systems.</param>
+        /// <param name="T">Output translation vector between the coordinate systems of the cameras.</param>
+        /// <param name="E">Output essential matrix.</param>
+        /// <param name="F">Output fundamental matrix.</param>
+        /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+        /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
+        /// <returns></returns>
+        public static double StereoCalibrate(IEnumerable<IEnumerable<Point3d>> objectPoints,
+                                             IEnumerable<IEnumerable<Point2d>> imagePoints1,
+                                             IEnumerable<IEnumerable<Point2d>> imagePoints2,
+                                             double[,] cameraMatrix1, double[] distCoeffs1,
+                                             double[,] cameraMatrix2, double[] distCoeffs2,
+                                             Size imageSize, OutputArray R,
+                                             OutputArray T, OutputArray E, OutputArray F,
+                                             TermCriteria? criteria = null,
+                                             CalibrationFlag flags = CalibrationFlag.FixIntrinsic)
+        {
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (imagePoints1 == null)
+                throw new ArgumentNullException("imagePoints1");
+            if (imagePoints2 == null)
+                throw new ArgumentNullException("imagePoints2");
+            if (cameraMatrix1 == null)
+                throw new ArgumentNullException("cameraMatrix1");
+            if (distCoeffs1 == null)
+                throw new ArgumentNullException("distCoeffs1");
+            if (cameraMatrix2 == null)
+                throw new ArgumentNullException("cameraMatrix2");
+            if (distCoeffs2 == null)
+                throw new ArgumentNullException("distCoeffs2");
+
+            TermCriteria criteria0 = criteria.GetValueOrDefault(
+                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 30, 1e-6));
+
+            using (ArrayAddress2<Point3d> op = new ArrayAddress2<Point3d>(objectPoints))
+            using (ArrayAddress2<Point2d> ip1 = new ArrayAddress2<Point2d>(imagePoints1))
+            using (ArrayAddress2<Point2d> ip2 = new ArrayAddress2<Point2d>(imagePoints2))
+            {
+                return NativeMethods.calib3d_stereoCalibrate_array(
+                        op.Pointer, op.Dim1Length, op.Dim2Lengths,
+                        ip1.Pointer, ip1.Dim1Length, ip1.Dim2Lengths,
+                        ip2.Pointer, ip2.Dim1Length, ip2.Dim2Lengths,
+                        cameraMatrix1, distCoeffs1, distCoeffs1.Length,
+                        cameraMatrix2, distCoeffs2, distCoeffs2.Length,
+                        imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
+                        criteria0, (int)flags);
+            }
+        }
+
+// ReSharper restore InconsistentNaming
         #endregion
     }
 }

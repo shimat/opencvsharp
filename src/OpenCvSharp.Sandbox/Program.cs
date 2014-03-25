@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -29,7 +28,6 @@ namespace OpenCvSharp.Sandbox
 
             for (long i = 0; ; i++)
             {
-                
                 for (int j = 0; j < 200; j++)
                 {
                     int c1 = rand.Next(100, 400);
