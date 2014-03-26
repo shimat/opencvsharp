@@ -274,6 +274,15 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_convertPointsHomogeneous(
             IntPtr src, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr calib3d_findFundamentalMat_InputArray(
+            IntPtr points1, IntPtr points2,
+            int method, double param1, double param2, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr calib3d_findFundamentalMat_array(
+            Point2d[] points1, int points1Size,
+            Point2d[] points2, int points2Size,
+            int method, double param1, double param2, IntPtr mask);
 
 
         #region StereoBM

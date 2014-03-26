@@ -2139,5 +2139,77 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
+        #region FindFundamentalMat
+        /// <summary>
+        /// Calculates a fundamental matrix from the corresponding points in two images.
+        /// </summary>
+        /// <param name="points1">Array of N points from the first image. 
+        /// The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1 .</param>
+        /// <param name="method">Method for computing a fundamental matrix.</param>
+        /// <param name="param1">Parameter used for RANSAC. 
+        /// It is the maximum distance from a point to an epipolar line in pixels, beyond which the point is 
+        /// considered an outlier and is not used for computing the final fundamental matrix. It can be set to 
+        /// something like 1-3, depending on the accuracy of the point localization, image resolution, and the image noise.</param>
+        /// <param name="param2">Parameter used for the RANSAC or LMedS methods only. 
+        /// It specifies a desirable level of confidence (probability) that the estimated matrix is correct.</param>
+        /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and 
+        /// to 1 for the other points. The array is computed only in the RANSAC and LMedS methods. For other methods, it is set to all 1’s.</param>
+        /// <returns>fundamental matrix</returns>
+        public static Mat FindFundamentalMat(
+            InputArray points1, InputArray points2,
+            FundamentalMatMethod method = FundamentalMatMethod.Ransac,
+            double param1 = 3.0, double param2 = 0.99,
+            OutputArray mask = null)
+        {
+            if (points1 == null)
+                throw new ArgumentNullException("points1");
+            if (points2 == null)
+                throw new ArgumentNullException("points2");
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+
+            IntPtr mat = NativeMethods.calib3d_findFundamentalMat_InputArray(
+                points1.CvPtr, points2.CvPtr, (int)method,
+                param1, param2, ToPtr(mask));
+            return new Mat(mat);
+        }
+        /// <summary>
+        /// Calculates a fundamental matrix from the corresponding points in two images.
+        /// </summary>
+        /// <param name="points1">Array of N points from the first image. 
+        /// The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1 .</param>
+        /// <param name="method">Method for computing a fundamental matrix.</param>
+        /// <param name="param1">Parameter used for RANSAC. 
+        /// It is the maximum distance from a point to an epipolar line in pixels, beyond which the point is 
+        /// considered an outlier and is not used for computing the final fundamental matrix. It can be set to 
+        /// something like 1-3, depending on the accuracy of the point localization, image resolution, and the image noise.</param>
+        /// <param name="param2">Parameter used for the RANSAC or LMedS methods only. 
+        /// It specifies a desirable level of confidence (probability) that the estimated matrix is correct.</param>
+        /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and 
+        /// to 1 for the other points. The array is computed only in the RANSAC and LMedS methods. For other methods, it is set to all 1’s.</param>
+        /// <returns>fundamental matrix</returns>
+        public static Mat FindFundamentalMat(
+            IEnumerable<Point2d> points1, IEnumerable<Point2d> points2,
+            FundamentalMatMethod method = FundamentalMatMethod.Ransac,
+            double param1 = 3.0, double param2 = 0.99,
+            OutputArray mask = null)
+        {
+            if (points1 == null)
+                throw new ArgumentNullException("points1");
+            if (points2 == null)
+                throw new ArgumentNullException("points2");
+
+            Point2d[] points1Array = EnumerableEx.ToArray(points1);
+            Point2d[] points2Array = EnumerableEx.ToArray(points2);
+
+            IntPtr mat = NativeMethods.calib3d_findFundamentalMat_array(
+                points1Array, points1Array.Length,
+                points2Array, points2Array.Length, (int)method,
+                param1, param2, ToPtr(mask));
+            return new Mat(mat);
+        }
+        #endregion
     }
 }
