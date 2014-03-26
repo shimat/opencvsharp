@@ -37,9 +37,10 @@ CVAPI(cv::Mat*) calib3d_findHomography_vector(cv::Point2d *srcPoints, int srcPoi
 	cv::Point2d *dstPoints, int dstPointsLength,
 	int method, double ransacReprojThreshold, cv::_OutputArray *mask)
 {
-	std::vector<cv::Point2d> srcPointsVec(srcPoints, srcPoints + srcPointsLength);
-	std::vector<cv::Point2d> dstPointsVec(dstPoints, dstPoints + dstPointsLength);
-	cv::Mat ret = cv::findHomography(srcPointsVec, dstPointsVec, method, ransacReprojThreshold, entity(mask));
+	cv::Mat srcPointsMat(srcPointsLength, 1, CV_64FC2, srcPoints);
+	cv::Mat dstPointsMat(dstPointsLength, 1, CV_64FC2, dstPoints);
+
+	cv::Mat ret = cv::findHomography(srcPointsMat, dstPointsMat, method, ransacReprojThreshold, entity(mask));
 	return new cv::Mat(ret);
 }
 
@@ -134,14 +135,14 @@ CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsL
 									double *rvec, double *tvec, int useExtrinsicGuess,
 									int flags)
 {
-	std::vector<cv::Point3f> objectPointsVec(objectPoints, objectPoints + objectPointsLength);
-	std::vector<cv::Point2f> imagePointsVec(imagePoints, imagePoints + imagePointsLength);
-	std::vector<double> distCoeffsVec;
+	cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
+	cv::Mat imagePointsMat(imagePointsLength, 1, CV_64FC2, imagePoints);
+	cv::Mat distCoeffsMat;
 	if (distCoeffs != NULL)
-		distCoeffsVec = std::vector<double>(distCoeffs, distCoeffs + distCoeffsLength);
+		distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
 	
 	cv::Matx<double, 3, 1> rvecM, tvecM;
-	cv::solvePnP(objectPointsVec, imagePointsVec, *cameraMatrix, distCoeffsVec, rvecM, tvecM, useExtrinsicGuess != 0, flags);
+	cv::solvePnP(objectPointsMat, imagePointsMat, *cameraMatrix, distCoeffsMat, rvecM, tvecM, useExtrinsicGuess != 0, flags);
 	memcpy(rvec, rvecM.val, sizeof(double) * 3);
 	memcpy(tvec, tvecM.val, sizeof(double) * 3);
 }
@@ -162,14 +163,15 @@ CVAPI(void) calib3d_solvePnPRansac_vector(cv::Point3f *objectPoints, int objectP
 	int useExtrinsicGuess, int iterationsCount, float reprojectionError, int minInliersCount,
 	std::vector<int> *inliers, int flags)
 {
-	std::vector<cv::Point3f> objectPointsVec(objectPoints, objectPoints + objectPointsLength);
-	std::vector<cv::Point2f> imagePointsVec(imagePoints, imagePoints + imagePointsLength);
-	std::vector<double> distCoeffsVec;
+	cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
+	cv::Mat imagePointsMat(imagePointsLength, 1, CV_64FC2, imagePoints);
+	cv::Mat distCoeffsMat;
 	if (distCoeffs != NULL)
-		distCoeffsVec = std::vector<double>(distCoeffs, distCoeffs + distCoeffsLength);
+		distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
+
 	cv::Matx<double, 3, 1> rvecM, tvecM;
 
-	cv::solvePnPRansac(objectPointsVec, imagePointsVec, *cameraMatrix, distCoeffsVec, rvecM, tvecM,
+	cv::solvePnPRansac(objectPointsMat, imagePointsMat, *cameraMatrix, distCoeffsMat, rvecM, tvecM,
 		useExtrinsicGuess != 0, iterationsCount, reprojectionError, minInliersCount,
 		*inliers, flags);
 
@@ -446,11 +448,11 @@ CVAPI(int) calib3d_stereoRectifyUncalibrated_array( cv::Point2d *points1, int po
                                              double *H1, double *H2,
                                              double threshold )
 {
-	std::vector<cv::Point2d> points1Vec(points1, points1 + points1Size);
-	std::vector<cv::Point2d> points2Vec(points2, points2 + points2Size);
+	cv::Mat points1Mat(points1Size, 1, CV_64FC2, points1);
+	cv::Mat points2Mat(points2Size, 1, CV_64FC2, points2);
 	cv::Mat H1M(3, 3, CV_64FC1, H1);
 	cv::Mat H2M(3, 3, CV_64FC1, H2);
-	return cv::stereoRectifyUncalibrated(points1Vec, points2Vec, *F, imgSize, H1M, H2M, threshold) ? 1 : 0;
+	return cv::stereoRectifyUncalibrated(points1Mat, points2Mat, *F, imgSize, H1M, H2M, threshold) ? 1 : 0;
 }
 
 CVAPI(float) calib3d_rectify3Collinear_InputArray( 
@@ -511,17 +513,15 @@ CVAPI(void) calib3d_convertPointsToHomogeneous_InputArray( cv::_InputArray *src,
 }
 CVAPI(void) calib3d_convertPointsToHomogeneous_array1( cv::Vec2f *src, cv::Vec3f *dst, int length )
 {
-	std::vector<cv::Vec2f> srcVec(src, src + length);
-	std::vector<cv::Vec3f> dstVec;
-	cv::convertPointsToHomogeneous(srcVec, dstVec);
-	memcpy(dst, &dstVec[0], sizeof(cv::Vec3f) * length);
+	cv::Mat srcMat(length, 1, CV_64FC2, src);
+	cv::Mat dstMat(length, 1, CV_64FC3, dst);
+	cv::convertPointsFromHomogeneous(srcMat, dstMat);
 }
 CVAPI(void) calib3d_convertPointsToHomogeneous_array2( cv::Vec3f *src, cv::Vec4f *dst, int length )
 {
-	std::vector<cv::Vec3f> srcVec(src, src + length);
-	std::vector<cv::Vec4f> dstVec;
-	cv::convertPointsToHomogeneous(srcVec, dstVec);
-	memcpy(dst, &dstVec[0], sizeof(cv::Vec4f) * length);
+	cv::Mat srcMat(length, 1, CV_64FC3, src);
+	cv::Mat dstMat(length, 1, CV_64FC4, dst);
+	cv::convertPointsFromHomogeneous(srcMat, dstMat);
 }
 
 CVAPI(void) calib3d_convertPointsFromHomogeneous_InputArray( cv::_InputArray *src, cv::_OutputArray *dst )
@@ -530,22 +530,61 @@ CVAPI(void) calib3d_convertPointsFromHomogeneous_InputArray( cv::_InputArray *sr
 }
 CVAPI(void) calib3d_convertPointsFromHomogeneous_array1( cv::Vec3f *src, cv::Vec2f *dst, int length )
 {
-	std::vector<cv::Vec3f> srcVec(src, src + length);
-	std::vector<cv::Vec2f> dstVec;
-	cv::convertPointsFromHomogeneous(srcVec, dstVec);
-	memcpy(dst, &dstVec[0], sizeof(cv::Vec2f) * length);
+	cv::Mat srcMat(length, 1, CV_64FC3, src);
+	cv::Mat dstMat(length, 1, CV_64FC2, dst);
+	cv::convertPointsFromHomogeneous(srcMat, dstMat);
 }
 CVAPI(void) calib3d_convertPointsFromHomogeneous_array2( cv::Vec4f *src, cv::Vec3f *dst, int length )
 {
-	std::vector<cv::Vec4f> srcVec(src, src + length);
-	std::vector<cv::Vec3f> dstVec;
-	cv::convertPointsFromHomogeneous(srcVec, dstVec);
-	memcpy(dst, &dstVec[0], sizeof(cv::Vec3f) * length);
+	cv::Mat srcMat(length, 1, CV_64FC4, src);
+	cv::Mat dstMat(length, 1, CV_64FC3, dst);
+	cv::convertPointsFromHomogeneous(srcMat, dstMat);
 }
 
 CVAPI(void) calib3d_convertPointsHomogeneous( cv::_InputArray *src, cv::_OutputArray *dst )
 {
 	cv::convertPointsHomogeneous(*src, *dst);
+}
+
+CVAPI(cv::Mat*) calib3d_findFundamentalMat_InputArray(
+									cv::_InputArray *points1, cv::_InputArray *points2,
+                                    int method, double param1, double param2,
+                                    cv::_OutputArray *mask)
+{
+	cv::Mat mat = cv::findFundamentalMat(
+		*points1, *points2, method, param1, param2, entity(mask));
+	return new cv::Mat(mat);
+}
+CVAPI(cv::Mat*) calib3d_findFundamentalMat_array(
+									cv::Point2d *points1, int points1Size,
+									cv::Point2d *points2, int points2Size,
+                                    int method, double param1, double param2,
+                                    cv::_OutputArray *mask)
+{
+	cv::Mat points1M(points1Size, 1, CV_64FC2, points1);
+	cv::Mat points2M(points2Size, 1, CV_64FC2, points2);
+	cv::Mat mat = cv::findFundamentalMat(
+		points1M, points2M, method, param1, param2, entity(mask));
+	return new cv::Mat(mat);
+}
+
+CVAPI(void) calib3d_computeCorrespondEpilines( cv::_InputArray *points,
+                                             int whichImage, cv::_InputArray *F,
+                                             cv::_OutputArray *lines )
+{
+}
+
+CVAPI(void) calib3d_triangulatePoints( 
+						cv::_InputArray *projMatr1, cv::_InputArray *projMatr2,
+                        cv::_InputArray *projPoints1, cv::_InputArray *projPoints2,
+                        cv::_OutputArray *points4D )
+{
+}
+
+CVAPI(void) calib3d_correctMatches( 
+					cv::_InputArray *F, cv::_InputArray *points1, cv::_InputArray *points2,
+                    cv::_OutputArray *newPoints1, cv::_OutputArray *newPoints2 )
+{
 }
 
 #pragma region StereoBM
