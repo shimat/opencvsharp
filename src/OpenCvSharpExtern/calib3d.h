@@ -596,17 +596,49 @@ CVAPI(void) calib3d_computeCorrespondEpilines_array3d(
 	cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
 }
 
-CVAPI(void) calib3d_triangulatePoints( 
+CVAPI(void) calib3d_triangulatePoints_InputArray( 
 						cv::_InputArray *projMatr1, cv::_InputArray *projMatr2,
                         cv::_InputArray *projPoints1, cv::_InputArray *projPoints2,
                         cv::_OutputArray *points4D )
 {
+	cv::triangulatePoints(*projMatr1, *projMatr2, *projPoints1, *projPoints2, *points4D);
+}
+CVAPI(void) calib3d_triangulatePoints_array( 
+						double *projMatr1, double *projMatr2,
+						cv::Point2d *projPoints1, int projPoints1Size,
+						cv::Point2d *projPoints2, int projPoints2Size,
+                        cv::Vec4d *points4D )
+{
+	cv::Mat_<double> projMatr1M(3, 4, projMatr1);
+	cv::Mat_<double> projMatr2M(3, 4, projMatr2);
+	cv::Mat_<cv::Point2d> projPoints1M(projPoints1Size, 1, projPoints1);
+	cv::Mat_<cv::Point2d> projPoints2M(projPoints2Size, 1, projPoints2);
+	cv::Mat_<cv::Vec4d> points4DM(1, projPoints1Size, points4D);
+	cv::triangulatePoints(projMatr1M, projMatr2M, 
+		projPoints1M, projPoints2M, points4DM);
 }
 
-CVAPI(void) calib3d_correctMatches( 
+CVAPI(void) calib3d_correctMatches_InputArray( 
 					cv::_InputArray *F, cv::_InputArray *points1, cv::_InputArray *points2,
                     cv::_OutputArray *newPoints1, cv::_OutputArray *newPoints2 )
 {
+	cv::correctMatches(*F, *points1, *points2, *newPoints1, *newPoints2);
+}
+CVAPI(void) calib3d_correctMatches_array( double *F, 
+					cv::Point2d *points1, int points1Size,
+					cv::Point2d *points2, int points2Size,
+                    cv::Point2d *newPoints1, cv::Point2d *newPoints2 )
+{
+	cv::Mat_<double> FM(3, 3, F);
+	cv::Mat_<cv::Point2d> points1M(points1Size, 1, points1);
+	cv::Mat_<cv::Point2d> points2M(points2Size, 1, points2);
+	cv::Mat_<double> points1MM = points1M.reshape(2);
+	cv::Mat_<double> points2MM = points2M.reshape(2);
+	cv::Mat_<cv::Point2d> newPoints1M(points1Size, 1, newPoints1);
+	cv::Mat_<cv::Point2d> newPoints2M(points2Size, 1, newPoints2);
+	cv::Mat_<double> newPoints1MM = points1M.reshape(2);
+	cv::Mat_<double> newPoints2MM = points2M.reshape(2);
+	cv::correctMatches(FM, points1MM, points2MM, newPoints1MM, newPoints2MM);
 }
 
 #pragma region StereoBM

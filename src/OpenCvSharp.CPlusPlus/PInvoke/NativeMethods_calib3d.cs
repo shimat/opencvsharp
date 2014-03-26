@@ -295,6 +295,26 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void calib3d_computeCorrespondEpilines_array3d(
             [In] Point3d[] points, int pointsSize,
             int whichImage, double[,] F, [In, Out] Point3f[] lines);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_triangulatePoints_InputArray(
+            IntPtr projMatr1, IntPtr projMatr2,
+            IntPtr projPoints1, IntPtr projPoints2,
+            IntPtr points4D);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_triangulatePoints_array(
+            [In] double[,] projMatr1, [In] double[,] projMatr2,
+            [In] Point2d[] projPoints1, int projPoints1Size,
+            [In] Point2d[] projPoints2, int projPoints2Size,
+            [In, Out] Vec4d[] points4D);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_correctMatches_InputArray(
+            IntPtr F, IntPtr points1, IntPtr points2,
+            IntPtr newPoints1, IntPtr newPoints2);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_correctMatches_array(
+            double[,] F, Point2d[] points1, int points1Size,
+            Point2d[] points2, int points2Size,
+            Point2d[] newPoints1, Point2d[] newPoints2);
 
         #region StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

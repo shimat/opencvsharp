@@ -2215,7 +2215,7 @@ namespace OpenCvSharp.CPlusPlus
             return new Mat(mat);
         }
         #endregion
-
+        #region ComputeCorrespondEpilines
         /// <summary>
         /// For points in an image of a stereo pair, computes the corresponding epilines in the other image.
         /// </summary>
@@ -2297,5 +2297,150 @@ namespace OpenCvSharp.CPlusPlus
 
             return lines;
         }
+        #endregion
+        #region TriangulatePoints
+        /// <summary>
+        /// Reconstructs points by triangulation.
+        /// </summary>
+        /// <param name="projMatr1">3x4 projection matrix of the first camera.</param>
+        /// <param name="projMatr2">3x4 projection matrix of the second camera.</param>
+        /// <param name="projPoints1">2xN array of feature points in the first image. In case of c++ version 
+        /// it can be also a vector of feature points or two-channel matrix of size 1xN or Nx1.</param>
+        /// <param name="projPoints2">2xN array of corresponding points in the second image. In case of c++ version 
+        /// it can be also a vector of feature points or two-channel matrix of size 1xN or Nx1.</param>
+        /// <param name="points4D">4xN array of reconstructed points in homogeneous coordinates.</param>
+        public static void TriangulatePoints(
+            InputArray projMatr1, InputArray projMatr2,
+            InputArray projPoints1, InputArray projPoints2,
+            OutputArray points4D)
+        {
+            if (projMatr1 == null)
+                throw new ArgumentNullException("projMatr1");
+            if (projMatr2 == null)
+                throw new ArgumentNullException("projMatr2");
+            if (projPoints1 == null)
+                throw new ArgumentNullException("projPoints1");
+            if (projPoints2 == null)
+                throw new ArgumentNullException("projPoints2");
+            if (points4D == null)
+                throw new ArgumentNullException("points4D");
+            projMatr1.ThrowIfDisposed();
+            projMatr2.ThrowIfDisposed();
+            projPoints1.ThrowIfDisposed();
+            projPoints2.ThrowIfDisposed();
+            points4D.ThrowIfNotReady();
+
+            NativeMethods.calib3d_triangulatePoints_InputArray(
+                projMatr1.CvPtr, projMatr2.CvPtr, 
+                projPoints1.CvPtr, projPoints2.CvPtr, points4D.CvPtr);
+
+            points4D.Fix();
+        }
+        /// <summary>
+        /// Reconstructs points by triangulation.
+        /// </summary>
+        /// <param name="projMatr1">3x4 projection matrix of the first camera.</param>
+        /// <param name="projMatr2">3x4 projection matrix of the second camera.</param>
+        /// <param name="projPoints1">2xN array of feature points in the first image. In case of c++ version 
+        /// it can be also a vector of feature points or two-channel matrix of size 1xN or Nx1.</param>
+        /// <param name="projPoints2">2xN array of corresponding points in the second image. In case of c++ version 
+        /// it can be also a vector of feature points or two-channel matrix of size 1xN or Nx1.</param>
+        /// <returns>4xN array of reconstructed points in homogeneous coordinates.</returns>
+        public static Vec4d[] TriangulatePoints(
+            double[,] projMatr1, double[,] projMatr2,
+            IEnumerable<Point2d> projPoints1, IEnumerable<Point2d> projPoints2)
+        {
+            if (projMatr1 == null)
+                throw new ArgumentNullException("projMatr1");
+            if (projMatr2 == null)
+                throw new ArgumentNullException("projMatr2");
+            if (projPoints1 == null)
+                throw new ArgumentNullException("projPoints1");
+            if (projPoints2 == null)
+                throw new ArgumentNullException("projPoints2");
+            if (projMatr1.GetLength(0) != 3 && projMatr1.GetLength(1) != 4)
+                throw new ArgumentException("projMatr1 != double[3,4]");
+            if (projMatr2.GetLength(0) != 3 && projMatr2.GetLength(1) != 4)
+                throw new ArgumentException("projMatr2 != double[3,4]");
+            
+            Point2d[] projPoints1Array = EnumerableEx.ToArray(projPoints1);
+            Point2d[] projPoints2Array = EnumerableEx.ToArray(projPoints2);
+            Vec4d[] points4D = new Vec4d[projPoints1Array.Length];
+
+            NativeMethods.calib3d_triangulatePoints_array(
+                projMatr1, projMatr2,
+                projPoints1Array, projPoints1Array.Length,
+                projPoints2Array, projPoints2Array.Length,
+                points4D);
+
+            return points4D;
+        }
+        #endregion
+        #region CorrectMatches
+        /// <summary>
+        /// Refines coordinates of corresponding points.
+        /// </summary>
+        /// <param name="F">3x3 fundamental matrix.</param>
+        /// <param name="points1">1xN array containing the first set of points.</param>
+        /// <param name="points2">1xN array containing the second set of points.</param>
+        /// <param name="newPoints1">The optimized points1.</param>
+        /// <param name="newPoints2">The optimized points2.</param>
+        public static void CorrectMatches(
+            InputArray F, InputArray points1, InputArray points2,
+            OutputArray newPoints1, OutputArray newPoints2)
+        {
+            if (F == null)
+                throw new ArgumentNullException("F");
+            if (points1 == null)
+                throw new ArgumentNullException("points1");
+            if (points2 == null)
+                throw new ArgumentNullException("points2");
+            if (newPoints1 == null)
+                throw new ArgumentNullException("newPoints1");
+            if (newPoints2 == null)
+                throw new ArgumentNullException("newPoints2");
+            F.ThrowIfDisposed();
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            newPoints1.ThrowIfNotReady();
+            newPoints2.ThrowIfNotReady();
+
+            NativeMethods.calib3d_correctMatches_InputArray(
+                F.CvPtr, points1.CvPtr, points2.CvPtr, 
+                newPoints1.CvPtr, newPoints2.CvPtr);
+
+            newPoints1.Fix();
+            newPoints2.Fix();
+        }
+        /// <summary>
+        /// Refines coordinates of corresponding points.
+        /// </summary>
+        /// <param name="F">3x3 fundamental matrix.</param>
+        /// <param name="points1">1xN array containing the first set of points.</param>
+        /// <param name="points2">1xN array containing the second set of points.</param>
+        /// <param name="newPoints1">The optimized points1.</param>
+        /// <param name="newPoints2">The optimized points2.</param>
+        public static void CorrectMatches(
+            double[,] F, IEnumerable<Point2d> points1, IEnumerable<Point2d> points2,
+            out Point2d[] newPoints1, out Point2d[] newPoints2)
+        {
+            if (F == null)
+                throw new ArgumentNullException("F");
+            if (points1 == null)
+                throw new ArgumentNullException("points1");
+            if (points2 == null)
+                throw new ArgumentNullException("points2");
+
+            Point2d[] points1Array = EnumerableEx.ToArray(points1);
+            Point2d[] points2Array = EnumerableEx.ToArray(points2);
+            newPoints1 = new Point2d[points1Array.Length];
+            newPoints2 = new Point2d[points2Array.Length];
+
+            NativeMethods.calib3d_correctMatches_array(
+                F, points1Array, points1Array.Length,
+                points2Array, points2Array.Length,
+                newPoints1, newPoints2);
+        }
+        #endregion
     }
 }
