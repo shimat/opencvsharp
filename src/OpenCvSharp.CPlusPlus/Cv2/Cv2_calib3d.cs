@@ -6,6 +6,8 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable InconsistentNaming
+
     /// <summary>
     /// 
     /// </summary>
@@ -1366,7 +1368,6 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region StereoCalibrate
-// ReSharper disable InconsistentNaming
 
         /// <summary>
         /// finds intrinsic and extrinsic parameters of a stereo camera
@@ -1515,12 +1516,9 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
 
-// ReSharper restore InconsistentNaming
         #endregion
-
         #region StereoRectify
-// ReSharper disable InconsistentNaming
-
+        
         /// <summary>
         /// computes the rectification transformation for a stereo camera from its intrinsic and extrinsic parameters
         /// </summary>
@@ -1757,7 +1755,216 @@ namespace OpenCvSharp.CPlusPlus
                     (int)flags, alpha, newImageSize, out validPixROI1, out validPixROI2);
         }
 
-// ReSharper restore InconsistentNaming
+
+        #endregion
+        #region StereoRectifyUncalibrated
+
+        /// <summary>
+        /// computes the rectification transformation for an uncalibrated stereo camera (zero distortion is assumed)
+        /// </summary>
+        /// <param name="points1">Array of feature points in the first image.</param>
+        /// <param name="points2">The corresponding points in the second image. 
+        /// The same formats as in findFundamentalMat() are supported.</param>
+        /// <param name="F">Input fundamental matrix. It can be computed from the same set 
+        /// of point pairs using findFundamentalMat() .</param>
+        /// <param name="imgSize">Size of the image.</param>
+        /// <param name="H1">Output rectification homography matrix for the first image.</param>
+        /// <param name="H2">Output rectification homography matrix for the second image.</param>
+        /// <param name="threshold">Optional threshold used to filter out the outliers. 
+        /// If the parameter is greater than zero, all the point pairs that do not comply 
+        /// with the epipolar geometry (that is, the points for which |points2[i]^T * F * points1[i]| > threshold ) 
+        /// are rejected prior to computing the homographies. Otherwise, all the points are considered inliers.</param>
+        /// <returns></returns>
+        public static bool StereoRectifyUncalibrated(InputArray points1, InputArray points2,
+                                                     InputArray F, Size imgSize,
+                                                     OutputArray H1, OutputArray H2,
+                                                     double threshold = 5)
+        {
+            if (points1 == null)
+                throw new ArgumentNullException("points1");
+            if (points2 == null)
+                throw new ArgumentNullException("points2");
+            if (F == null)
+                throw new ArgumentNullException("F");
+            if (H1 == null)
+                throw new ArgumentNullException("H1");
+            if (H2 == null)
+                throw new ArgumentNullException("H2");
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            F.ThrowIfDisposed();
+            H1.ThrowIfNotReady();
+            H2.ThrowIfNotReady();
+
+            int ret = NativeMethods.calib3d_stereoRectifyUncalibrated_InputArray(
+                points1.CvPtr, points2.CvPtr, F.CvPtr, imgSize, H1.CvPtr, H2.CvPtr, threshold);
+            H1.Fix();
+            H2.Fix();
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// computes the rectification transformation for an uncalibrated stereo camera (zero distortion is assumed)
+        /// </summary>
+        /// <param name="points1">Array of feature points in the first image.</param>
+        /// <param name="points2">The corresponding points in the second image. 
+        /// The same formats as in findFundamentalMat() are supported.</param>
+        /// <param name="F">Input fundamental matrix. It can be computed from the same set 
+        /// of point pairs using findFundamentalMat() .</param>
+        /// <param name="imgSize">Size of the image.</param>
+        /// <param name="H1">Output rectification homography matrix for the first image.</param>
+        /// <param name="H2">Output rectification homography matrix for the second image.</param>
+        /// <param name="threshold">Optional threshold used to filter out the outliers. 
+        /// If the parameter is greater than zero, all the point pairs that do not comply 
+        /// with the epipolar geometry (that is, the points for which |points2[i]^T * F * points1[i]| > threshold ) 
+        /// are rejected prior to computing the homographies. Otherwise, all the points are considered inliers.</param>
+        /// <returns></returns>
+        public static bool StereoRectifyUncalibrated(IEnumerable<Point2d> points1,
+                                                     IEnumerable<Point2d> points2,
+                                                     double[,] F, Size imgSize,
+                                                     out double[,] H1, out double[,] H2,
+                                                     double threshold = 5
+            )
+        {
+            if (points1 == null)
+                throw new ArgumentNullException("points1");
+            if (points2 == null)
+                throw new ArgumentNullException("points2");
+            if (F == null)
+                throw new ArgumentNullException("F");
+            if (F.GetLength(0) != 3 || F.GetLength(1) != 3)
+                throw new ArgumentException("F != double[3,3]");
+
+            Point2d[] points1Array = EnumerableEx.ToArray(points1);
+            Point2d[] points2Array = EnumerableEx.ToArray(points2);
+
+            H1 = new double[3,3];
+            H2 = new double[3,3];
+
+            int ret = NativeMethods.calib3d_stereoRectifyUncalibrated_array(
+                points1Array, points1Array.Length,
+                points2Array, points2Array.Length,
+                F, imgSize, H1, H2, threshold);
+            return ret != 0;
+        }
+
+        #endregion
+        #region Rectify3Collinear
+        /// <summary>
+        /// computes the rectification transformations for 3-head camera, where all the heads are on the same line.
+        /// </summary>
+        /// <param name="cameraMatrix1"></param>
+        /// <param name="distCoeffs1"></param>
+        /// <param name="cameraMatrix2"></param>
+        /// <param name="distCoeffs2"></param>
+        /// <param name="cameraMatrix3"></param>
+        /// <param name="distCoeffs3"></param>
+        /// <param name="imgpt1"></param>
+        /// <param name="imgpt3"></param>
+        /// <param name="imageSize"></param>
+        /// <param name="R12"></param>
+        /// <param name="T12"></param>
+        /// <param name="R13"></param>
+        /// <param name="T13"></param>
+        /// <param name="R1"></param>
+        /// <param name="R2"></param>
+        /// <param name="R3"></param>
+        /// <param name="P1"></param>
+        /// <param name="P2"></param>
+        /// <param name="P3"></param>
+        /// <param name="Q"></param>
+        /// <param name="alpha"></param>
+        /// <param name="newImgSize"></param>
+        /// <param name="roi1"></param>
+        /// <param name="roi2"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static float Rectify3Collinear(InputArray cameraMatrix1, InputArray distCoeffs1,
+                                              InputArray cameraMatrix2, InputArray distCoeffs2,
+                                              InputArray cameraMatrix3, InputArray distCoeffs3,
+                                              IEnumerable<InputArray> imgpt1, IEnumerable<InputArray> imgpt3,
+                                              Size imageSize, InputArray R12, InputArray T12,
+                                              InputArray R13, InputArray T13,
+                                              OutputArray R1, OutputArray R2, OutputArray R3,
+                                              OutputArray P1, OutputArray P2, OutputArray P3,
+                                              OutputArray Q, double alpha, Size newImgSize,
+                                              out Rect roi1, out Rect roi2, StereoRectificationFlag flags)
+        {
+            if (cameraMatrix1 == null)
+                throw new ArgumentNullException("cameraMatrix1");
+            if (distCoeffs1 == null)
+                throw new ArgumentNullException("distCoeffs1");
+            if (cameraMatrix2 == null)
+                throw new ArgumentNullException("cameraMatrix2");
+            if (distCoeffs2 == null)
+                throw new ArgumentNullException("distCoeffs2");
+            if (cameraMatrix3 == null)
+                throw new ArgumentNullException("cameraMatrix3");
+            if (distCoeffs3 == null)
+                throw new ArgumentNullException("distCoeffs3");
+            if (imgpt1 == null)
+                throw new ArgumentNullException("imgpt1");
+            if (imgpt3 == null)
+                throw new ArgumentNullException("imgpt3");
+            if (R12 == null)
+                throw new ArgumentNullException("R12");
+            if (T12 == null)
+                throw new ArgumentNullException("T12");
+            if (R13 == null)
+                throw new ArgumentNullException("R13");
+            if (T13 == null)
+                throw new ArgumentNullException("T13");
+            if (R1 == null)
+                throw new ArgumentNullException("R1");
+            if (R2 == null)
+                throw new ArgumentNullException("R2");
+            if (R3 == null)
+                throw new ArgumentNullException("R3");
+            if (P1 == null)
+                throw new ArgumentNullException("P1");
+            if (P2 == null)
+                throw new ArgumentNullException("P2");
+            if (P3 == null)
+                throw new ArgumentNullException("P3");
+            if (Q == null)
+                throw new ArgumentNullException("Q");
+            cameraMatrix1.ThrowIfDisposed();
+            distCoeffs1.ThrowIfDisposed();
+            cameraMatrix2.ThrowIfDisposed();
+            distCoeffs2.ThrowIfDisposed();
+            cameraMatrix3.ThrowIfDisposed();
+            distCoeffs3.ThrowIfDisposed();
+            R12.ThrowIfDisposed();
+            T12.ThrowIfDisposed();
+            R13.ThrowIfDisposed();
+            T13.ThrowIfDisposed();
+            R1.ThrowIfNotReady();
+            R2.ThrowIfNotReady();
+            R3.ThrowIfNotReady();
+            P1.ThrowIfNotReady();
+            P2.ThrowIfNotReady();
+            P3.ThrowIfNotReady();
+            Q.ThrowIfNotReady();
+
+            IntPtr[] imgpt1Ptrs = EnumerableEx.SelectPtrs(imgpt1);
+            IntPtr[] imgpt3Ptrs = EnumerableEx.SelectPtrs(imgpt3);
+            float ret = NativeMethods.calib3d_rectify3Collinear_InputArray(
+                cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
+                cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
+                cameraMatrix3.CvPtr, distCoeffs3.CvPtr,
+                imgpt1Ptrs, imgpt1Ptrs.Length, imgpt3Ptrs, imgpt3Ptrs.Length,
+                imageSize, R12.CvPtr, T12.CvPtr, R13.CvPtr, T13.CvPtr,
+                R1.CvPtr, R2.CvPtr, R3.CvPtr, P1.CvPtr, P2.CvPtr, P3.CvPtr,
+                Q.CvPtr, alpha, newImgSize, out roi1, out roi2, (int)flags);
+            R1.Fix();
+            R2.Fix();
+            R3.Fix();
+            P1.Fix();
+            P2.Fix();
+            P3.Fix();
+            Q.Fix();
+            return ret;
+        }
         #endregion
     }
 }

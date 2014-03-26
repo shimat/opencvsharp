@@ -150,40 +150,44 @@ namespace OpenCvSharp.CPlusPlus
             int flags, CvTermCriteria criteria);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_calibrationMatrixValues_InputArray(IntPtr cameraMatrix,
-            Size imageSize, double apertureWidth, double apertureHeight, out double fovx, out double fovy, 
+        public static extern void calib3d_calibrationMatrixValues_InputArray(
+            IntPtr cameraMatrix,
+            Size imageSize, double apertureWidth, double apertureHeight, out double fovx, out double fovy,
             out double focalLength, out Point2d principalPoint, out double aspectRatio);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_calibrationMatrixValues_array(double[,] cameraMatrix, Size imageSize,
+        public static extern void calib3d_calibrationMatrixValues_array(
+            double[,] cameraMatrix, Size imageSize,
             double apertureWidth, double apertureHeight, out double fovx, out double fovy, out double focalLength,
             out Point2d principalPoint, out double aspectRatio);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double calib3d_stereoCalibrate_InputArray(
+            IntPtr[] objectPoints, int opSize,
+            IntPtr[] imagePoints1, int ip1Size,
+            IntPtr[] imagePoints2, int ip2Size,
+            IntPtr cameraMatrix1,
+            IntPtr distCoeffs1,
+            IntPtr cameraMatrix2,
+            IntPtr distCoeffs2,
+            CvSize imageSize,
+            IntPtr R, IntPtr T,
+            IntPtr E, IntPtr F,
+            CvTermCriteria criteria, int flags);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double calib3d_stereoCalibrate_InputArray(IntPtr[] objectPoints, int opSize,
-                                                             IntPtr[] imagePoints1, int ip1Size,
-                                                             IntPtr[] imagePoints2, int ip2Size,
-                                                             IntPtr cameraMatrix1,
-                                                             IntPtr distCoeffs1,
-                                                             IntPtr cameraMatrix2,
-                                                             IntPtr distCoeffs2,
-                                                             CvSize imageSize,
-                                                             IntPtr R, IntPtr T,
-                                                             IntPtr E, IntPtr F,
-                                                             CvTermCriteria criteria, int flags);
+        public static extern double calib3d_stereoCalibrate_array(
+            IntPtr[] objectPoints, int opSize1, int[] opSizes2,
+            IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,
+            IntPtr[] imagePoints2, int ip2Size1, int[] ip2Sizes2,
+            [In, Out] double[,] cameraMatrix1,
+            [In, Out] double[] distCoeffs1, int dc1Size,
+            [In, Out] double[,] cameraMatrix2,
+            [In, Out] double[] distCoeffs2, int dc2Size,
+            CvSize imageSize,
+            IntPtr R, IntPtr T,
+            IntPtr E, IntPtr F,
+            CvTermCriteria criteria, int flags);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double calib3d_stereoCalibrate_array(IntPtr[] objectPoints, int opSize1, int[] opSizes2,
-                                                             IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,
-                                                             IntPtr[] imagePoints2, int ip2Size1, int[] ip2Sizes2,
-                                                             [In, Out] double[,] cameraMatrix1,
-                                                             [In, Out] double[] distCoeffs1, int dc1Size,
-                                                             [In, Out] double[,] cameraMatrix2,
-                                                             [In, Out] double[] distCoeffs2, int dc2Size,
-                                                             CvSize imageSize,
-                                                             IntPtr R, IntPtr T,
-                                                             IntPtr E, IntPtr F,
-                                                             CvTermCriteria criteria, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_stereoRectify_InputArray(
             IntPtr cameraMatrix1, IntPtr distCoeffs1,
@@ -194,17 +198,47 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr Q, int flags,
             double alpha, Size newImageSize,
             out Rect validPixROI1, out Rect validPixROI2);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_stereoRectify_array(
+            double[,] cameraMatrix1,
+            double[] distCoeffs1, int dc1Size,
+            double[,] cameraMatrix2,
+            double[] distCoeffs2, int dc2Size,
+            CvSize imageSize,
+            double[,] R, double[] T,
+            double[,] R1, double[,] R2, double[,] P1, double[,] P2,
+            double[,] Q, int flags, double alpha, Size newImageSize,
+            out Rect validPixROI1, out Rect validPixROI2);
+
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_stereoRectify_array(double[,] cameraMatrix1,
-                                                              double[] distCoeffs1, int dc1Size,
-                                                              double[,] cameraMatrix2,
-                                                              double[] distCoeffs2, int dc2Size,
-                                                              CvSize imageSize,
-                                                              double[,] R, double[] T,
-                                                              double[,] R1, double[,] R2, double[,] P1, double[,] P2,
-                                                              double[,] Q, int flags, double alpha, Size newImageSize,
-                                                              out Rect validPixROI1, out Rect validPixROI2);
+        public static extern int calib3d_stereoRectifyUncalibrated_InputArray(
+            IntPtr points1, IntPtr points2,
+            IntPtr F, CvSize imgSize,
+            IntPtr H1, IntPtr H2,
+            double threshold);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int calib3d_stereoRectifyUncalibrated_array(
+            Point2d[] points1, int points1Size,
+            Point2d[] points2, int points2Size,
+            [In] double[,] F, CvSize imgSize,
+            [In, Out] double[,] H1, [In, Out] double[,] H2,
+            double threshold);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float calib3d_rectify3Collinear_InputArray(
+            IntPtr cameraMatrix1, IntPtr distCoeffs1,
+            IntPtr cameraMatrix2, IntPtr distCoeffs2,
+            IntPtr cameraMatrix3, IntPtr distCoeffs3,
+            IntPtr[] imgpt1, int imgpt1Size,
+            IntPtr[] imgpt3, int imgpt3Size,
+            Size imageSize, IntPtr R12, IntPtr T12,
+            IntPtr R13, IntPtr T13,
+            IntPtr R1, IntPtr R2, IntPtr R3,
+            IntPtr P1, IntPtr P2, IntPtr P3,
+            IntPtr Q, double alpha, Size newImgSize,
+            out Rect roi1, out Rect roi2, int flags);
 
 
         #region StereoBM
