@@ -284,6 +284,17 @@ namespace OpenCvSharp.CPlusPlus
             Point2d[] points2, int points2Size,
             int method, double param1, double param2, IntPtr mask);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_computeCorrespondEpilines_InputArray(
+            IntPtr points, int whichImage, IntPtr F, IntPtr lines);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_computeCorrespondEpilines_array2d(
+            [In] Point2d[] points, int pointsSize,
+            int whichImage, double[,] F, [In, Out] Point3f[] lines);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_computeCorrespondEpilines_array3d(
+            [In] Point3d[] points, int pointsSize,
+            int whichImage, double[,] F, [In, Out] Point3f[] lines);
 
         #region StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

@@ -568,10 +568,32 @@ CVAPI(cv::Mat*) calib3d_findFundamentalMat_array(
 	return new cv::Mat(mat);
 }
 
-CVAPI(void) calib3d_computeCorrespondEpilines( cv::_InputArray *points,
-                                             int whichImage, cv::_InputArray *F,
-                                             cv::_OutputArray *lines )
+CVAPI(void) calib3d_computeCorrespondEpilines_InputArray( 
+									cv::_InputArray *points,
+                                    int whichImage, cv::_InputArray *F,
+                                    cv::_OutputArray *lines )
 {
+	cv::computeCorrespondEpilines(*points, whichImage, *F, *lines);
+}
+CVAPI(void) calib3d_computeCorrespondEpilines_array2d( 
+									cv::Point2d *points, int pointsSize,
+                                    int whichImage, double *F,
+                                    cv::Point3f *lines )
+{
+	cv::Mat_<cv::Point2d> pointsM(pointsSize, 1, points);
+	cv::Mat_<double> FM(3, 3, F);
+	cv::Mat_<cv::Point3f> linesM(pointsSize, 1, lines);
+	cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
+}
+CVAPI(void) calib3d_computeCorrespondEpilines_array3d( 
+									cv::Point3d *points, int pointsSize,
+                                    int whichImage, double *F,
+                                    cv::Point3f *lines )
+{
+	cv::Mat_<cv::Point3d> pointsM(pointsSize, 1, points);
+	cv::Mat_<double> FM(3, 3, F);
+	cv::Mat_<cv::Point3f> linesM(pointsSize, 1, lines);
+	cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
 }
 
 CVAPI(void) calib3d_triangulatePoints( 

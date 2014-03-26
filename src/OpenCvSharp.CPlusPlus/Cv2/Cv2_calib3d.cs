@@ -2172,6 +2172,8 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr mat = NativeMethods.calib3d_findFundamentalMat_InputArray(
                 points1.CvPtr, points2.CvPtr, (int)method,
                 param1, param2, ToPtr(mask));
+            if (mask != null)
+                mask.Fix();
             return new Mat(mat);
         }
         /// <summary>
@@ -2208,8 +2210,92 @@ namespace OpenCvSharp.CPlusPlus
                 points1Array, points1Array.Length,
                 points2Array, points2Array.Length, (int)method,
                 param1, param2, ToPtr(mask));
+            if (mask != null)
+                mask.Fix();
             return new Mat(mat);
         }
         #endregion
+
+        /// <summary>
+        /// For points in an image of a stereo pair, computes the corresponding epilines in the other image.
+        /// </summary>
+        /// <param name="points">Input points. N \times 1 or 1 x N matrix of type CV_32FC2 or CV_64FC2.</param>
+        /// <param name="whichImage">Index of the image (1 or 2) that contains the points .</param>
+        /// <param name="F">Fundamental matrix that can be estimated using findFundamentalMat() or stereoRectify() .</param>
+        /// <param name="lines">Output vector of the epipolar lines corresponding to the points in the other image.
+        ///  Each line ax + by + c=0 is encoded by 3 numbers (a, b, c) .</param>
+        public static void ComputeCorrespondEpilines(InputArray points,
+                                                     int whichImage,
+                                                     InputArray F,
+                                                     OutputArray lines)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            if (F == null)
+                throw new ArgumentNullException("F");
+            if (lines == null)
+                throw new ArgumentNullException("lines");
+            points.ThrowIfDisposed();
+            F.ThrowIfDisposed();
+            lines.ThrowIfNotReady();
+
+            NativeMethods.calib3d_computeCorrespondEpilines_InputArray(
+                points.CvPtr, whichImage, F.CvPtr, lines.CvPtr);
+            lines.Fix();
+        }
+        /// <summary>
+        /// For points in an image of a stereo pair, computes the corresponding epilines in the other image.
+        /// </summary>
+        /// <param name="points">Input points. N \times 1 or 1 x N matrix of type CV_32FC2 or CV_64FC2.</param>
+        /// <param name="whichImage">Index of the image (1 or 2) that contains the points .</param>
+        /// <param name="F">Fundamental matrix that can be estimated using findFundamentalMat() or stereoRectify() .</param>
+        /// <returns>Output vector of the epipolar lines corresponding to the points in the other image.
+        ///  Each line ax + by + c=0 is encoded by 3 numbers (a, b, c) .</returns>
+        public static Point3f[] ComputeCorrespondEpilines(IEnumerable<Point2d> points,
+                                                     int whichImage, double[,] F)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            if (F == null)
+                throw new ArgumentNullException("F");
+            if (F.GetLength(0) != 3 && F.GetLength(1) != 3)
+                throw new ArgumentException("F != double[3,3]");
+
+            Point2d[] pointsArray = EnumerableEx.ToArray(points);
+            Point3f[] lines = new Point3f[pointsArray.Length];
+
+            NativeMethods.calib3d_computeCorrespondEpilines_array2d(
+                pointsArray, pointsArray.Length,
+                whichImage, F, lines);
+
+            return lines;
+        }
+        /// <summary>
+        /// For points in an image of a stereo pair, computes the corresponding epilines in the other image.
+        /// </summary>
+        /// <param name="points">Input points. N \times 1 or 1 x N matrix of type CV_32FC2 or CV_64FC2.</param>
+        /// <param name="whichImage">Index of the image (1 or 2) that contains the points .</param>
+        /// <param name="F">Fundamental matrix that can be estimated using findFundamentalMat() or stereoRectify() .</param>
+        /// <returns>Output vector of the epipolar lines corresponding to the points in the other image.
+        ///  Each line ax + by + c=0 is encoded by 3 numbers (a, b, c) .</returns>
+        public static Point3f[] ComputeCorrespondEpilines(IEnumerable<Point3d> points,
+                                                     int whichImage, double[,] F)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+            if (F == null)
+                throw new ArgumentNullException("F");
+            if (F.GetLength(0) != 3 && F.GetLength(1) != 3)
+                throw new ArgumentException("F != double[3,3]");
+
+            Point3d[] pointsArray = EnumerableEx.ToArray(points);
+            Point3f[] lines = new Point3f[pointsArray.Length];
+
+            NativeMethods.calib3d_computeCorrespondEpilines_array3d(
+                pointsArray, pointsArray.Length,
+                whichImage, F, lines);
+
+            return lines;
+        }
     }
 }
