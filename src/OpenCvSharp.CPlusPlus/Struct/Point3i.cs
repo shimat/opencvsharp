@@ -42,6 +42,27 @@ namespace OpenCvSharp.CPlusPlus
             Z = z;
         }
 
+        #region Cast
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static implicit operator Vec3i(Point3i point)
+        {
+            return new Vec3i(point.X, point.Y, point.Z);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns></returns>
+        public static implicit operator Point3i(Vec3i vec)
+        {
+            return new Point3i(vec.Item0, vec.Item1, vec.Item2);
+        }
+        #endregion
+
         #region Operators
         #region == / !=
 #if LANG_JP

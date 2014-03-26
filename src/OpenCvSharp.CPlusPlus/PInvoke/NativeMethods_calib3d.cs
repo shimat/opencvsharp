@@ -240,6 +240,41 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr Q, double alpha, Size newImgSize,
             out Rect roi1, out Rect roi2, int flags);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr calib3d_getOptimalNewCameraMatrix_InputArray(
+            IntPtr cameraMatrix, IntPtr distCoeffs,
+            Size imageSize, double alpha, Size newImgSize,
+            out Rect validPixROI, int centerPrincipalPoint);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_getOptimalNewCameraMatrix_array(
+            [In] double[,] cameraMatrix,
+            [In] double[] distCoeffs, int distCoeffsSize,
+            CvSize imageSize, double alpha, CvSize newImgSize,
+            out Rect validPixROI, int centerPrincipalPoint,
+            [In, Out] double[,] outValues);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_convertPointsToHomogeneous_InputArray(
+            IntPtr src, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_convertPointsToHomogeneous_array1(
+            [In] Vec2f[] src, [In, Out] Vec3f[] dst, int length);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_convertPointsToHomogeneous_array2(
+            [In] Vec3f[] src, [In, Out] Vec4f[] dst, int length);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_convertPointsFromHomogeneous_InputArray(
+            IntPtr src, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_convertPointsFromHomogeneous_array1(
+            [In] Vec3f[] src, [In, Out] Vec2f[] dst, int length);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_convertPointsFromHomogeneous_array2(
+            [In] Vec4f[] src, [In, Out] Vec3f[] dst, int length);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_convertPointsHomogeneous(
+            IntPtr src, IntPtr dst);
+
 
         #region StereoBM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

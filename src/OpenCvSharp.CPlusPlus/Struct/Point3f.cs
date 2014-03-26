@@ -61,6 +61,25 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Point3f(point.X, point.Y, point.Z);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static implicit operator Vec3f(Point3f point)
+        {
+            return new Vec3f(point.X, point.Y, point.Z);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns></returns>
+        public static implicit operator Point3f(Vec3f vec)
+        {
+            return new Point3f(vec.Item0, vec.Item1, vec.Item2);
+        }
         #endregion
 
         #region Operators

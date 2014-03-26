@@ -1966,5 +1966,178 @@ namespace OpenCvSharp.CPlusPlus
             return ret;
         }
         #endregion
+        #region GetOptimalNewCameraMatrix
+
+        /// <summary>
+        /// Returns the new camera matrix based on the free scaling parameter.
+        /// </summary>
+        /// <param name="cameraMatrix">Input camera matrix.</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the array is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="imageSize">Original image size.</param>
+        /// <param name="alpha">Free scaling parameter between 0 (when all the pixels in the undistorted image are valid) 
+        /// and 1 (when all the source image pixels are retained in the undistorted image). </param>
+        /// <param name="newImgSize">Image size after rectification. By default,it is set to imageSize .</param>
+        /// <param name="validPixROI">Optional output rectangle that outlines all-good-pixels region in the undistorted image. See roi1, roi2 description in stereoRectify() .</param>
+        /// <param name="centerPrincipalPoint">Optional flag that indicates whether in the new camera matrix the principal point 
+        /// should be at the image center or not. By default, the principal point is chosen to best fit a 
+        /// subset of the source image (determined by alpha) to the corrected image.</param>
+        /// <returns>optimal new camera matrix</returns>
+        public static Mat GetOptimalNewCameraMatrix(InputArray cameraMatrix, InputArray distCoeffs,
+                                                    Size imageSize, double alpha, Size newImgSize,
+                                                    out Rect validPixROI, bool centerPrincipalPoint = false)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException();
+            cameraMatrix.ThrowIfDisposed();
+
+            IntPtr mat = NativeMethods.calib3d_getOptimalNewCameraMatrix_InputArray(
+                cameraMatrix.CvPtr, ToPtr(distCoeffs), imageSize, alpha, newImgSize,
+                out validPixROI, centerPrincipalPoint ? 1 : 0);
+            return new Mat(mat);
+        }
+        /// <summary>
+        /// Returns the new camera matrix based on the free scaling parameter.
+        /// </summary>
+        /// <param name="cameraMatrix">Input camera matrix.</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the array is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="imageSize">Original image size.</param>
+        /// <param name="alpha">Free scaling parameter between 0 (when all the pixels in the undistorted image are valid) 
+        /// and 1 (when all the source image pixels are retained in the undistorted image). </param>
+        /// <param name="newImgSize">Image size after rectification. By default,it is set to imageSize .</param>
+        /// <param name="validPixROI">Optional output rectangle that outlines all-good-pixels region in the undistorted image. See roi1, roi2 description in stereoRectify() .</param>
+        /// <param name="centerPrincipalPoint">Optional flag that indicates whether in the new camera matrix the principal point 
+        /// should be at the image center or not. By default, the principal point is chosen to best fit a 
+        /// subset of the source image (determined by alpha) to the corrected image.</param>
+        /// <returns>optimal new camera matrix</returns>
+        public static double[,] GetOptimalNewCameraMatrix(double[,] cameraMatrix, double[] distCoeffs,
+                                                    Size imageSize, double alpha, Size newImgSize,
+                                                    out Rect validPixROI, bool centerPrincipalPoint = false)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException();
+
+            double[,] newCameraMatrix = new double[3,3];
+            NativeMethods.calib3d_getOptimalNewCameraMatrix_array(
+                cameraMatrix, distCoeffs, distCoeffs.Length,
+                imageSize, alpha, newImgSize,
+                out validPixROI, centerPrincipalPoint ? 1 : 0,
+                newCameraMatrix);
+            return newCameraMatrix;
+        }
+        #endregion
+        #region ConvertPointsHomogeneous
+        /// <summary>
+        /// converts point coordinates from normal pixel coordinates to homogeneous coordinates ((x,y)->(x,y,1))
+        /// </summary>
+        /// <param name="src">Input vector of N-dimensional points.</param>
+        /// <param name="dst">Output vector of N+1-dimensional points.</param>
+        public static void ConvertPointsToHomogeneous(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            NativeMethods.calib3d_convertPointsToHomogeneous_InputArray(src.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// converts point coordinates from normal pixel coordinates to homogeneous coordinates ((x,y)->(x,y,1))
+        /// </summary>
+        /// <param name="src">Input vector of N-dimensional points.</param>
+        /// <returns>Output vector of N+1-dimensional points.</returns>
+        public static Vec3f[] ConvertPointsToHomogeneous(IEnumerable<Vec2f> src)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+
+            Vec2f[] srcA = EnumerableEx.ToArray(src);
+            Vec3f[] dstA = new Vec3f[srcA.Length];
+            NativeMethods.calib3d_convertPointsToHomogeneous_array1(srcA, dstA, srcA.Length);
+            return dstA;
+        }
+        /// <summary>
+        /// converts point coordinates from normal pixel coordinates to homogeneous coordinates ((x,y)->(x,y,1))
+        /// </summary>
+        /// <param name="src">Input vector of N-dimensional points.</param>
+        /// <returns>Output vector of N+1-dimensional points.</returns>
+        public static Vec4f[] ConvertPointsToHomogeneous(IEnumerable<Vec3f> src)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+
+            Vec3f[] srcA = EnumerableEx.ToArray(src);
+            Vec4f[] dstA = new Vec4f[srcA.Length];
+            NativeMethods.calib3d_convertPointsToHomogeneous_array2(srcA, dstA, srcA.Length);
+            return dstA;
+        }
+
+        /// <summary>
+        /// converts point coordinates from homogeneous to normal pixel coordinates ((x,y,z)->(x/z, y/z))
+        /// </summary>
+        /// <param name="src">Input vector of N-dimensional points.</param>
+        /// <param name="dst">Output vector of N-1-dimensional points.</param>
+        public static void ConvertPointsFromHomogeneous(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            NativeMethods.calib3d_convertPointsFromHomogeneous_InputArray(src.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        /// <summary>
+        /// converts point coordinates from homogeneous to normal pixel coordinates ((x,y,z)->(x/z, y/z))
+        /// </summary>
+        /// <param name="src">Input vector of N-dimensional points.</param>
+        /// <returns>Output vector of N-1-dimensional points.</returns>
+        public static Vec2f[] ConvertPointsFromHomogeneous(IEnumerable<Vec3f> src)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+
+            Vec3f[] srcA = EnumerableEx.ToArray(src);
+            Vec2f[] dstA = new Vec2f[srcA.Length];
+            NativeMethods.calib3d_convertPointsFromHomogeneous_array1(srcA, dstA, srcA.Length);
+            return dstA;
+        }
+        /// <summary>
+        /// converts point coordinates from homogeneous to normal pixel coordinates ((x,y,z)->(x/z, y/z))
+        /// </summary>
+        /// <param name="src">Input vector of N-dimensional points.</param>
+        /// <returns>Output vector of N-1-dimensional points.</returns>
+        public static Vec3f[] ConvertPointsFromHomogeneous(IEnumerable<Vec4f> src)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+
+            Vec4f[] srcA = EnumerableEx.ToArray(src);
+            Vec3f[] dstA = new Vec3f[srcA.Length];
+            NativeMethods.calib3d_convertPointsFromHomogeneous_array2(srcA, dstA, srcA.Length);
+            return dstA;
+        }
+
+        /// <summary>
+        /// Converts points to/from homogeneous coordinates.
+        /// </summary>
+        /// <param name="src">Input array or vector of 2D, 3D, or 4D points.</param>
+        /// <param name="dst">Output vector of 2D, 3D, or 4D points.</param>
+        public static void ConvertPointsHomogeneous(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            NativeMethods.calib3d_convertPointsHomogeneous(src.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+        #endregion
     }
 }

@@ -206,5 +206,53 @@ namespace OpenCvSharp.CPlusPlus
             }
             return true;
         }
+
+        /// <summary>
+        /// Enumerable.Count
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static int Count<TSource>(
+            IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+
+            int count = 0;
+            foreach (TSource elem in enumerable)
+            {
+                if (predicate(elem))
+                    count++;
+            }
+            return count;
+        }
+        /// <summary>
+        /// Enumerable.Count
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static int Count<TSource>(IEnumerable<TSource> enumerable)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+
+            TSource[] array = enumerable as TSource[];
+            if (array != null)
+                return array.Length;
+
+            ICollection<TSource> collection = enumerable as ICollection<TSource>;
+            if (collection != null)
+                return collection.Count;
+
+            int count = 0;
+            foreach (TSource elem in enumerable)
+            {
+                count++;
+            }
+            return count;
+        }
     }
 }

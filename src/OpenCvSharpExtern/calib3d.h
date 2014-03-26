@@ -480,6 +480,74 @@ CVAPI(float) calib3d_rectify3Collinear_InputArray(
 		roi1, roi2, flags);
 }
 
+CVAPI(cv::Mat*) calib3d_getOptimalNewCameraMatrix_InputArray(
+											cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+                                            cv::Size imageSize, double alpha, cv::Size newImgSize,
+                                            cv::Rect* validPixROI, int centerPrincipalPoint)
+{
+	cv::Mat mat = cv::getOptimalNewCameraMatrix(*cameraMatrix, entity(distCoeffs), 
+		imageSize, alpha, newImgSize, validPixROI, centerPrincipalPoint != 0);
+	return new cv::Mat(mat);
+}
+CVAPI(void) calib3d_getOptimalNewCameraMatrix_array(
+											double *cameraMatrix, 
+											double *distCoeffs, int distCoeffsSize,
+                                            CvSize imageSize, double alpha, CvSize newImgSize,
+                                            CvRect* validPixROI, int centerPrincipalPoint,
+											double *outValues)
+{
+	CvMat cameraMatrixM = cvMat(3, 3, CV_64FC1, cameraMatrix);
+	CvMat distCoeffsM = cvMat(distCoeffsSize, 1, CV_64FC1, distCoeffs);
+	CvMat *pdistCoeffsM = (distCoeffs == NULL) ? NULL : &distCoeffsM;
+	CvMat newCameraMatrix = cvMat(3, 3, CV_64FC1, outValues);
+
+	cvGetOptimalNewCameraMatrix(&cameraMatrixM, pdistCoeffsM, imageSize, 
+		alpha, &newCameraMatrix, newImgSize, validPixROI, centerPrincipalPoint != 0);
+}
+
+CVAPI(void) calib3d_convertPointsToHomogeneous_InputArray( cv::_InputArray *src, cv::_OutputArray *dst )
+{
+	cv::convertPointsToHomogeneous(*src, *dst);
+}
+CVAPI(void) calib3d_convertPointsToHomogeneous_array1( cv::Vec2f *src, cv::Vec3f *dst, int length )
+{
+	std::vector<cv::Vec2f> srcVec(src, src + length);
+	std::vector<cv::Vec3f> dstVec;
+	cv::convertPointsToHomogeneous(srcVec, dstVec);
+	memcpy(dst, &dstVec[0], sizeof(cv::Vec3f) * length);
+}
+CVAPI(void) calib3d_convertPointsToHomogeneous_array2( cv::Vec3f *src, cv::Vec4f *dst, int length )
+{
+	std::vector<cv::Vec3f> srcVec(src, src + length);
+	std::vector<cv::Vec4f> dstVec;
+	cv::convertPointsToHomogeneous(srcVec, dstVec);
+	memcpy(dst, &dstVec[0], sizeof(cv::Vec4f) * length);
+}
+
+CVAPI(void) calib3d_convertPointsFromHomogeneous_InputArray( cv::_InputArray *src, cv::_OutputArray *dst )
+{
+	cv::convertPointsFromHomogeneous(*src, *dst);
+}
+CVAPI(void) calib3d_convertPointsFromHomogeneous_array1( cv::Vec3f *src, cv::Vec2f *dst, int length )
+{
+	std::vector<cv::Vec3f> srcVec(src, src + length);
+	std::vector<cv::Vec2f> dstVec;
+	cv::convertPointsFromHomogeneous(srcVec, dstVec);
+	memcpy(dst, &dstVec[0], sizeof(cv::Vec2f) * length);
+}
+CVAPI(void) calib3d_convertPointsFromHomogeneous_array2( cv::Vec4f *src, cv::Vec3f *dst, int length )
+{
+	std::vector<cv::Vec4f> srcVec(src, src + length);
+	std::vector<cv::Vec3f> dstVec;
+	cv::convertPointsFromHomogeneous(srcVec, dstVec);
+	memcpy(dst, &dstVec[0], sizeof(cv::Vec3f) * length);
+}
+
+CVAPI(void) calib3d_convertPointsHomogeneous( cv::_InputArray *src, cv::_OutputArray *dst )
+{
+	cv::convertPointsHomogeneous(*src, *dst);
+}
+
 #pragma region StereoBM
 
 CVAPI(cv::StereoBM*) calib3d_StereoBM_new1()
