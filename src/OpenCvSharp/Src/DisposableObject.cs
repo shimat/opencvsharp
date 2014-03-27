@@ -245,17 +245,15 @@ namespace OpenCvSharp
         protected void NotifyMemoryPressure(long size)
         {
             if (!IsEnabledDispose)
-            {
                 return;
-            }
+            if (size == 0)
+                return;
             if (size <= 0)
-            {
                 throw new ArgumentOutOfRangeException("size");
-            }
+            
             if (AllocatedMemorySize > 0)
-            {
                 GC.RemoveMemoryPressure(AllocatedMemorySize);
-            }
+            
             AllocatedMemorySize = size;
             GC.AddMemoryPressure(size);
         }
