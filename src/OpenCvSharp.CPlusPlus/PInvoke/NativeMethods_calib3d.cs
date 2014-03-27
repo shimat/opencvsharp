@@ -388,5 +388,23 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_StereoSGBM_fullDP_set(IntPtr obj, int value);
         #endregion
+
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_filterSpeckles(IntPtr img, double newVal, int maxSpeckleSize,
+            double maxDiff, IntPtr buf);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvRect calib3d_getValidDisparityROI(CvRect roi1, CvRect roi2,
+            int minDisparity, int numberOfDisparities, int SADWindowSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_validateDisparity(IntPtr disparity, IntPtr cost,
+            int minDisparity, int numberOfDisparities, int disp12MaxDisp);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void calib3d_reprojectImageTo3D(IntPtr disparity, IntPtr _3dImage,
+            IntPtr Q, int handleMissingValues, int ddepth);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int calib3d_estimateAffine3D(IntPtr src, IntPtr dst,
+            IntPtr outVal, IntPtr inliers, double ransacThreshold, double confidence);
+
     }
 }

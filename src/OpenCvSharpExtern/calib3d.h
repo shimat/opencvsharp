@@ -779,4 +779,36 @@ CVAPI(void) calib3d_StereoSGBM_fullDP_set(cv::StereoSGBM* obj, int value)
 }
 #pragma endregion
 
+
+CVAPI(void) calib3d_filterSpeckles(cv::_OutputArray *img, double newVal, int maxSpeckleSize, double maxDiff,
+	cv::_OutputArray *buf)
+{
+	cv::filterSpeckles(*img, newVal, maxSpeckleSize, maxDiff, entity(buf));
+}
+
+CVAPI(CvRect) calib3d_getValidDisparityROI(CvRect roi1, CvRect roi2,
+	int minDisparity, int numberOfDisparities, int SADWindowSize)
+{
+	return cv::getValidDisparityROI(roi1, roi2, minDisparity, numberOfDisparities, SADWindowSize);
+}
+
+CVAPI(void) calib3d_validateDisparity(cv::_OutputArray *disparity, cv::_InputArray *cost,
+	int minDisparity, int numberOfDisparities, int disp12MaxDisp)
+{
+	cv::validateDisparity(*disparity, *cost, minDisparity, numberOfDisparities, disp12MaxDisp);
+}
+
+CVAPI(void) calib3d_reprojectImageTo3D(cv::_InputArray *disparity, cv::_OutputArray *_3dImage, 
+	cv::_InputArray *Q, int handleMissingValues, int ddepth)
+{
+	cv::reprojectImageTo3D(*disparity, *_3dImage, *Q, handleMissingValues, ddepth);
+}
+
+CVAPI(int) calib3d_estimateAffine3D(cv::_InputArray *src, cv::_InputArray *dst,
+	cv::_OutputArray *out, cv::_OutputArray *inliers,
+	double ransacThreshold, double confidence)
+{
+	return cv::estimateAffine3D(*src, *dst, *out, *inliers, ransacThreshold, confidence);
+}
+
 #endif

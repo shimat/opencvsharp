@@ -2442,5 +2442,127 @@ namespace OpenCvSharp.CPlusPlus
                 newPoints1, newPoints2);
         }
         #endregion
+
+        /// <summary>
+        /// filters off speckles (small regions of incorrectly computed disparity)
+        /// </summary>
+        /// <param name="img">The input 16-bit signed disparity image</param>
+        /// <param name="newVal">The disparity value used to paint-off the speckles</param>
+        /// <param name="maxSpeckleSize">The maximum speckle size to consider it a speckle. Larger blobs are not affected by the algorithm</param>
+        /// <param name="maxDiff">Maximum difference between neighbor disparity pixels to put them into the same blob. 
+        /// Note that since StereoBM, StereoSGBM and may be other algorithms return a fixed-point disparity map, where disparity values 
+        /// are multiplied by 16, this scale factor should be taken into account when specifying this parameter value.</param>
+        /// <param name="buf">The optional temporary buffer to avoid memory allocation within the function.</param>
+        public static void FilterSpeckles(InputOutputArray img, double newVal, int maxSpeckleSize, double maxDiff,
+            InputOutputArray buf = null)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfNotReady();
+
+            NativeMethods.calib3d_filterSpeckles(img.CvPtr, newVal, maxSpeckleSize, maxDiff, ToPtr(buf));
+            img.Fix();
+        }
+
+        /// <summary>
+        /// computes valid disparity ROI from the valid ROIs of the rectified images (that are returned by cv::stereoRectify())
+        /// </summary>
+        /// <param name="roi1"></param>
+        /// <param name="roi2"></param>
+        /// <param name="minDisparity"></param>
+        /// <param name="numberOfDisparities"></param>
+        /// <param name="SADWindowSize"></param>
+        /// <returns></returns>
+        public static Rect GetValidDisparityROI(Rect roi1, Rect roi2,
+            int minDisparity, int numberOfDisparities, int SADWindowSize)
+        {
+            return NativeMethods.calib3d_getValidDisparityROI(
+                roi1, roi2, minDisparity, numberOfDisparities, SADWindowSize);
+        }
+
+        /// <summary>
+        /// validates disparity using the left-right check. The matrix "cost" should be computed by the stereo correspondence algorithm
+        /// </summary>
+        /// <param name="disparity"></param>
+        /// <param name="cost"></param>
+        /// <param name="minDisparity"></param>
+        /// <param name="numberOfDisparities"></param>
+        /// <param name="disp12MaxDisp"></param>
+        public static void ValidateDisparity(InputOutputArray disparity, InputArray cost,
+            int minDisparity, int numberOfDisparities, int disp12MaxDisp = 1)
+        {
+            if (disparity == null)
+                throw new ArgumentNullException("disparity");
+            if (cost == null)
+                throw new ArgumentNullException("cost");
+            disparity.ThrowIfNotReady();
+            cost.ThrowIfDisposed();
+
+            NativeMethods.calib3d_validateDisparity(
+                disparity.CvPtr, cost.CvPtr, minDisparity, numberOfDisparities, disp12MaxDisp);
+        }
+
+        /// <summary>
+        /// reprojects disparity image to 3D: (x,y,d)->(X,Y,Z) using the matrix Q returned by cv::stereoRectify
+        /// </summary>
+        /// <param name="disparity">Input single-channel 8-bit unsigned, 16-bit signed, 32-bit signed or 32-bit floating-point disparity image.</param>
+        /// <param name="_3dImage">Output 3-channel floating-point image of the same size as disparity. 
+        /// Each element of _3dImage(x,y) contains 3D coordinates of the point (x,y) computed from the disparity map.</param>
+        /// <param name="Q">4 x 4 perspective transformation matrix that can be obtained with stereoRectify().</param>
+        /// <param name="handleMissingValues">Indicates, whether the function should handle missing values (i.e. points where the disparity was not computed). 
+        /// If handleMissingValues=true, then pixels with the minimal disparity that corresponds to the outliers (see StereoBM::operator() ) are 
+        /// transformed to 3D points with a very large Z value (currently set to 10000).</param>
+        /// <param name="ddepth">he optional output array depth. If it is -1, the output image will have CV_32F depth. 
+        /// ddepth can also be set to CV_16S, CV_32S or CV_32F.</param>
+        public static void ReprojectImageTo3D(InputArray disparity,
+            OutputArray _3dImage, InputArray Q,
+            bool handleMissingValues = false, int ddepth = -1)
+        {
+            if (disparity == null)
+                throw new ArgumentNullException("disparity");
+            if (_3dImage == null)
+                throw new ArgumentNullException("_3dImage");
+            if (Q == null)
+                throw new ArgumentNullException("Q");
+            disparity.ThrowIfDisposed();
+            _3dImage.ThrowIfNotReady();
+            Q.ThrowIfDisposed();
+
+            NativeMethods.calib3d_reprojectImageTo3D(
+                disparity.CvPtr, _3dImage.CvPtr, Q.CvPtr, handleMissingValues ? 1 : 0, ddepth);
+        }
+
+        /// <summary>
+        /// Computes an optimal affine transformation between two 3D point sets.
+        /// </summary>
+        /// <param name="src">First input 3D point set.</param>
+        /// <param name="dst">Second input 3D point set.</param>
+        /// <param name="outVal">Output 3D affine transformation matrix 3 x 4 .</param>
+        /// <param name="inliers">Output vector indicating which points are inliers.</param>
+        /// <param name="ransacThreshold">Maximum reprojection error in the RANSAC algorithm to consider a point as an inlier.</param>
+        /// <param name="confidence">Confidence level, between 0 and 1, for the estimated transformation. 
+        /// Anything between 0.95 and 0.99 is usually good enough. Values too close to 1 can slow down the estimation significantly. 
+        /// Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.</param>
+        /// <returns></returns>
+        public static int EstimateAffine3D(InputArray src, InputArray dst,
+            OutputArray outVal, OutputArray inliers,
+            double ransacThreshold = 3, double confidence = 0.99)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (outVal == null)
+                throw new ArgumentNullException("outVal");
+            if (inliers == null)
+                throw new ArgumentNullException("inliers");
+            src.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+            outVal.ThrowIfNotReady();
+            inliers.ThrowIfNotReady();
+
+            return NativeMethods.calib3d_estimateAffine3D(
+                src.CvPtr, dst.CvPtr, outVal.CvPtr, inliers.CvPtr, ransacThreshold, confidence);
+        }
     }
 }
