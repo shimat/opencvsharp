@@ -60,6 +60,29 @@ namespace OpenCvSharp.CPlusPlus
             Width = width;
             Height = height;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        public static Rect FromLTRB(int left, int top, int right, int bottom)
+        {
+            Rect r = new Rect
+            {
+                X = left,
+                Y = top,
+                Width = right - left,
+                Height = bottom - top
+            };
+
+            if (r.Width < 0)
+                throw new ArgumentException("right > left");
+            if (r.Width < 0)
+                throw new ArgumentException("bottom > top");
+            return r;
+        }
 
         #region Cast
         /// <summary>

@@ -79,6 +79,7 @@ CVAPI(void) core_Mat_delete(cv::Mat *self)
 {
 	delete self;
 }
+
 #pragma endregion
 
 #pragma region Functions
@@ -180,7 +181,10 @@ CVAPI(cv::Mat*) core_Mat_cross(cv::Mat *self, cv::Mat *m)
     return new cv::Mat(ret);
 }
 
-
+CVAPI(int*) core_Mat_refcount(cv::Mat *self)
+{
+	return self->refcount;
+}
 CVAPI(uchar*) core_Mat_data(cv::Mat *self)
 {
 	return self->data;
@@ -193,6 +197,11 @@ CVAPI(uchar*) core_Mat_dataend(cv::Mat *self)
 {
 	return self->dataend;
 }
+CVAPI(uchar*) core_Mat_datalimit(cv::Mat *self)
+{
+	return self->datalimit;
+}
+
 
 CVAPI(int) core_Mat_depth(cv::Mat *self)
 {

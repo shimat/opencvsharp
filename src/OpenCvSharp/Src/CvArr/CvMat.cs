@@ -72,7 +72,7 @@ namespace OpenCvSharp
             ptr = CvInvoke.cvCreateMat(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
-            NotifyMemoryPressure(SizeOf);
+            NotifyMemoryPressure(MemorySize());
         }
 #if LANG_JP
         /// <summary>
@@ -131,7 +131,7 @@ namespace OpenCvSharp
             else
                 data = elements;
             
-            GCHandle gch = base.AllocGCHandle(data);
+            GCHandle gch = AllocGCHandle(data);
             CvInvoke.cvSetData(ptr, gch.AddrOfPinnedObject(), Cv.AUTOSTEP);
             NotifyMemoryPressure(SizeOf);
         }
@@ -159,10 +159,9 @@ namespace OpenCvSharp
         {
             ptr = CvInvoke.cvCreateMatHeader(rows, cols, type);
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create CvMat");
-            }
             CvInvoke.cvSetData(ptr, data, Cv.AUTOSTEP);
+            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
@@ -191,7 +190,7 @@ namespace OpenCvSharp
                 throw new OpenCvSharpException("Failed to create CvMat");
             }
             CvInvoke.cvSet(ptr, value, IntPtr.Zero);
-            NotifyMemoryPressure(SizeOf);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -236,7 +235,7 @@ namespace OpenCvSharp
             {
                 throw new OpenCvSharpException("Failed to create CvMat");
             }
-            NotifyMemoryPressure(SizeOf);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -271,7 +270,8 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             ptr = p;
-            NotifyMemoryPressure(SizeOf);
+            if(isEnabledDispose)
+                NotifyMemoryPressure(MemorySize());
         }
 #if LANG_JP
         /// <summary>
@@ -300,7 +300,19 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             ptr = AllocMemory(SizeOf);
-            NotifyMemoryPressure(SizeOf);
+            if(isEnabledDispose)
+                NotifyMemoryPressure(MemorySize());
+        }
+
+        /// <summary>
+        /// sizeof(CvMat) + mat.data.length 
+        /// </summary>
+        /// <returns></returns>
+        private long MemorySize()
+        {
+            int elemSize = Cv.ELEM_SIZE(Type);
+            long dataSize = elemSize * Rows * Cols;
+            return SizeOf + dataSize;
         }
 
         #region Static initializer

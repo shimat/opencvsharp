@@ -26,6 +26,11 @@ namespace OpenCvSharp.Sandbox
             var rand = new Random();
             var memory = new List<long>(100);
 
+            var a1 = new Mat(src, Rect.FromLTRB(0, 0, 30, 40));
+            var a2 = new Mat(src, Rect.FromLTRB(0, 0, 30, 40));
+            var a3 = new Mat(src, Rect.FromLTRB(0, 0, 30, 40));
+            a3.ToString();
+
             for (long i = 0; ; i++)
             {
                 for (int j = 0; j < 200; j++)

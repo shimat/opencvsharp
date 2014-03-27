@@ -63,7 +63,6 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             ptr = AllocMemory(SizeOf);
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -100,14 +99,14 @@ namespace OpenCvSharp
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
-            if (!File.Exists(fileName))
+            if (!File.Exists(fileName)) 
                 throw new FileNotFoundException(String.Format("Not found '{0}'", fileName), fileName);
 
             ptr = CvInvoke.cvLoadImage(fileName, flags);
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create IplImage");
-            }
+
+            NotifyMemoryPressure(SizeOf + ImageSize);
         }
 #if LANG_JP
         /// <summary>
@@ -128,9 +127,9 @@ namespace OpenCvSharp
         {
             ptr = CvInvoke.cvCreateImage(size, depth, channels);
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create IplImage");
-            }
+
+            NotifyMemoryPressure(SizeOf + ImageSize);
         }
 #if LANG_JP
         /// <summary>
@@ -185,29 +184,8 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             this.ptr = ptr;
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stream"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stream"></param>
-#endif
-        public IplImage(Stream stream)
-        {
-            if (stream == null)
-                throw new ArgumentNullException("stream");
-            using (Bitmap bitmap = new Bitmap(stream))
-            {
-                IplImage img = BitmapConverter.ToIplImage(bitmap);
-                img.IsEnabledDispose = false;
-                ptr = img.CvPtr;
-            }
+            if (isEnabledDispose)
+                NotifyMemoryPressure(SizeOf + ImageSize);
         }
 
 #if LANG_JP
@@ -850,13 +828,6 @@ namespace OpenCvSharp
                     return new IntPtr(((WIplImage*)ptr)->imageData);
                 }
             }
-            set
-            {
-                unsafe
-                {
-                    ((WIplImage*)ptr)->imageData = (byte*)value;
-                }
-            }
         }
 #if LANG_JP
         /// <summary>
@@ -872,10 +843,6 @@ namespace OpenCvSharp
             get
             {
                 return ((WIplImage*)ptr)->imageData; 
-            }
-            set
-            {
-                ((WIplImage*)ptr)->imageData = value;
             }
         }
 #if LANG_JP
@@ -896,13 +863,6 @@ namespace OpenCvSharp
                 unsafe
                 {
                     return new IntPtr(((WIplImage*)ptr)->imageDataOrigin);
-                }
-            }
-            private set
-            {
-                unsafe
-                {
-                     ((WIplImage*)ptr)->imageDataOrigin = (byte*)value;
                 }
             }
         }

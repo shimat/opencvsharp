@@ -41,8 +41,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_Mat_new10(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_new11(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type, CvScalar s);
-
-
+        
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_new_FromIplImage(IntPtr img, int copyData);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -92,12 +91,19 @@ namespace OpenCvSharp.CPlusPlus
             [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_cross(IntPtr self, IntPtr m);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_refcount(IntPtr self);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe byte* core_Mat_data(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_datastart(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_dataend(IntPtr self);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Mat_datalimit(IntPtr self);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_Mat_depth(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_diag1")]

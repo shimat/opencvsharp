@@ -20,17 +20,30 @@ namespace OpenCvSharp.CPlusPlus
         /// OpenCVネイティブの cv::Mat* ポインタから初期化
         /// </summary>
         /// <param name="ptr"></param>
+        /// <param name="initialAlloc"></param>
 #else
         /// <summary>
         /// Creates from native cv::Mat* pointer
         /// </summary>
         /// <param name="ptr"></param>
+        /// <param name="initialAlloc"></param>
 #endif
-        public Mat(IntPtr ptr)
+        public Mat(IntPtr ptr, bool initialAlloc = true)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
             this.ptr = ptr;
+
+            //if (initialAlloc)
+            //    NotifyMemoryPressure(MemorySize());
+            NotifyMemoryPressure(SizeOf);
+        }
+
+        private long MemorySize()
+        {
+            long elemSize = ElemSize();
+            long dataLength = DataEnd.ToInt64() - DataStart.ToInt64();
+            return SizeOf + (elemSize * dataLength);
         }
 
 #if LANG_JP
@@ -45,6 +58,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat()
         {
             ptr = NativeMethods.core_Mat_new1();
+            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -67,6 +81,7 @@ namespace OpenCvSharp.CPlusPlus
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
             ptr = NativeMethods.highgui_imread(fileName, (int)flags);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -89,6 +104,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(int rows, int cols, MatType type)
         {
             ptr = NativeMethods.core_Mat_new2(rows, cols, type);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -110,6 +126,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(Size size, MatType type)
         {
             ptr = NativeMethods.core_Mat_new2(size.Width, size.Height, type);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -136,6 +153,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(int rows, int cols, MatType type, Scalar s)
         {
             ptr = NativeMethods.core_Mat_new3(rows, cols, type, s);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -161,6 +179,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(Size size, MatType type, Scalar s)
         {
             ptr = NativeMethods.core_Mat_new3(size.Width, size.Height, type, s);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -288,6 +307,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
         {
             ptr = NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step));
+            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -327,6 +347,7 @@ namespace OpenCvSharp.CPlusPlus
             GCHandle handle = AllocGCHandle(data);
             ptr = NativeMethods.core_Mat_new8(rows, cols, type,
                 handle.AddrOfPinnedObject(), new IntPtr(step));
+            NotifyMemoryPressure(SizeOf);
         }
         
 #if LANG_JP
@@ -377,6 +398,7 @@ namespace OpenCvSharp.CPlusPlus
                 });
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray);
             }
+            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -431,6 +453,7 @@ namespace OpenCvSharp.CPlusPlus
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, handle.AddrOfPinnedObject(), stepsArray);
             }
+            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -455,6 +478,7 @@ namespace OpenCvSharp.CPlusPlus
 
             int[] sizesArray = EnumerableEx.ToArray(sizes);
             ptr = NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -482,6 +506,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("sizes");
             int[] sizesArray = EnumerableEx.ToArray(sizes);
             ptr = NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s);
+            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -514,6 +539,7 @@ namespace OpenCvSharp.CPlusPlus
             ptr = NativeMethods.core_Mat_new_FromCvMat(m.CvPtr, copyData ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -546,6 +572,7 @@ namespace OpenCvSharp.CPlusPlus
             ptr = NativeMethods.core_Mat_new_FromIplImage(img.CvPtr, copyData ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            NotifyMemoryPressure(SizeOf);
         }  
 
 #if LANG_JP
@@ -2068,6 +2095,17 @@ namespace OpenCvSharp.CPlusPlus
                 return NativeMethods.core_Mat_dataend(ptr);
             }
         }
+        /// <summary>
+        /// The pointer that is possible to compute a relative sub-array position in the main container array using locateROI()
+        /// </summary>
+        public IntPtr DataLimit
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return NativeMethods.core_Mat_datalimit(ptr);
+            }
+        }
 
         #endregion
         #region Depth
@@ -2233,6 +2271,22 @@ namespace OpenCvSharp.CPlusPlus
             return retVal;
         }
 
+        #endregion
+        #region Refcount
+
+        /// <summary>
+        /// pointer to the reference counter;
+        /// when matrix points to user-allocated data, the pointer is NULL
+        /// </summary>
+        /// <returns>pointer to the reference counter</returns>
+        public IntPtr Refcount
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return NativeMethods.core_Mat_refcount(ptr);
+            }
+        }
         #endregion
         #region Reshape
 
