@@ -2561,8 +2561,12 @@ namespace OpenCvSharp.CPlusPlus
             outVal.ThrowIfNotReady();
             inliers.ThrowIfNotReady();
 
-            return NativeMethods.calib3d_estimateAffine3D(
+            int ret = NativeMethods.calib3d_estimateAffine3D(
                 src.CvPtr, dst.CvPtr, outVal.CvPtr, inliers.CvPtr, ransacThreshold, confidence);
+
+            outVal.Fix();
+            inliers.Fix();
+            return ret;
         }
     }
 }
