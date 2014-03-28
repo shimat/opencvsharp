@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using OpenCvSharp.Extensions;
 
 namespace OpenCvSharp.UserInterface
 {
@@ -18,7 +19,7 @@ namespace OpenCvSharp.UserInterface
 #endif
     public class PictureBoxIpl : PictureBox
     {
-        private IplImage _imageIpl;
+        private IplImage imageIpl;
 
 
 #if LANG_JP
@@ -32,7 +33,7 @@ namespace OpenCvSharp.UserInterface
 #endif
         public PictureBoxIpl() : base()
         {
-            _imageIpl = null;
+            imageIpl = null;
         }
 
 
@@ -52,7 +53,7 @@ namespace OpenCvSharp.UserInterface
         [DefaultValue(null)]
         public IplImage ImageIpl
         {
-            get { return _imageIpl; }
+            get { return imageIpl; }
             set
             {
                 if (value != null && value.IsDisposed)
@@ -60,7 +61,7 @@ namespace OpenCvSharp.UserInterface
                     throw new ArgumentException("the image is disposed.", "value");
                 }
 
-                _imageIpl = value;
+                imageIpl = value;
                 if (Image != null)
                 {
                     Image.Dispose();
@@ -124,7 +125,7 @@ namespace OpenCvSharp.UserInterface
             }
             else
             {
-                _imageIpl = img;
+                imageIpl = img;
                 BitmapConverter.ToBitmap(img, (Bitmap)Image);
             }
             Refresh();
