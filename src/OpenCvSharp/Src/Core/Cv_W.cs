@@ -4,13 +4,12 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
     public static partial class Cv
     {
         #region WaitKey
