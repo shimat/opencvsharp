@@ -5,8 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
@@ -979,7 +977,7 @@ namespace OpenCvSharp
 
                 _Dk = new CvMat(_distCoeffs.Rows, _distCoeffs.Cols, (MatrixType)MAKETYPE(CvConst.CV_64F, MAT_CN(_distCoeffs.Type)), k);
 
-                Cv.Convert(_distCoeffs, _Dk);
+                Convert(_distCoeffs, _Dk);
                 iters = 5;
             }
 
