@@ -4,9 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
@@ -135,18 +132,20 @@ namespace OpenCvSharp
         /// <param name="ranges">Histogram bin ranges, see CreateHist. </param>
         /// <param name="uniform">Uniformity flag, see CreateHist. </param>
 #endif
-        public static CvHistogram MakeHistHeaderForArray(int dims, int[] sizes, CvHistogram hist, float[] data, float[][] ranges, bool uniform)
+        public static CvHistogram MakeHistHeaderForArray(int dims, int[] sizes, CvHistogram hist, float[] data,
+                                                         float[][] ranges, bool uniform)
         {
             if (ranges == null)
+                return new CvHistogram(CvInvoke.cvMakeHistHeaderForArray(dims, sizes, hist.CvPtr, data, IntPtr.Zero,
+                                                                      uniform));
+            using (var rangesPtr = new ArrayAddress2<float>(ranges))
             {
-                return new CvHistogram(CvInvoke.cvMakeHistHeaderForArray(dims, sizes, hist.CvPtr, data, IntPtr.Zero, uniform));
-            }
-            else
-            {
-                ArrayAddress2<float> rangesPtr = new ArrayAddress2<float>(ranges);
-                return new CvHistogram(CvInvoke.cvMakeHistHeaderForArray(dims, sizes, hist.CvPtr, data, rangesPtr, uniform));
+                IntPtr ptr = CvInvoke.cvMakeHistHeaderForArray(
+                    dims, sizes, hist.CvPtr, data, rangesPtr, uniform);
+                return new CvHistogram(ptr);
             }
         }
+
         #endregion
         #region MakeScanlines
         #if LANG_JP

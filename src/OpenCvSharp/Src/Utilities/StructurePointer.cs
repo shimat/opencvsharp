@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp.Utilities
 {
@@ -70,10 +68,10 @@ namespace OpenCvSharp.Utilities
             {
                 throw new ArgumentNullException("obj");
             }
-            this.SrcObj = obj;
-            this.Size = Marshal.SizeOf(obj.GetType());
-            this.Ptr = Marshal.AllocHGlobal(this.Size);
-            Marshal.StructureToPtr(obj, this.Ptr, false);
+            SrcObj = obj;
+            Size = Marshal.SizeOf(obj.GetType());
+            Ptr = Marshal.AllocHGlobal(Size);
+            Marshal.StructureToPtr(obj, Ptr, false);
         }
 #if LANG_JP
         /// <summary>
@@ -86,9 +84,9 @@ namespace OpenCvSharp.Utilities
 #endif
         public StructurePointer()
         {
-            this.SrcObj = null;
-            this.Size = 0;
-            this.Ptr = IntPtr.Zero;
+            SrcObj = null;
+            Size = 0;
+            Ptr = IntPtr.Zero;
         }
 
 #if LANG_JP
@@ -169,10 +167,10 @@ namespace OpenCvSharp.Utilities
 #endif
         public StructurePointer(T obj)
         {
-            this.SrcObj = obj;
-            this.Size = Marshal.SizeOf(typeof(T));
-            this.Ptr = Marshal.AllocHGlobal(this.Size);
-            Marshal.StructureToPtr(obj, this.Ptr, false);
+            SrcObj = obj;
+            Size = Marshal.SizeOf(typeof(T));
+            Ptr = Marshal.AllocHGlobal(Size);
+            Marshal.StructureToPtr(obj, Ptr, false);
         }
 #if LANG_JP
         /// <summary>
@@ -185,9 +183,9 @@ namespace OpenCvSharp.Utilities
 #endif
         public StructurePointer()
         {
-            this.SrcObj = default(T);
-            this.Size = Marshal.SizeOf(typeof(T));
-            this.Ptr = Marshal.AllocHGlobal(this.Size);
+            SrcObj = default(T);
+            Size = Marshal.SizeOf(typeof(T));
+            Ptr = Marshal.AllocHGlobal(Size);
         }
 
 #if LANG_JP

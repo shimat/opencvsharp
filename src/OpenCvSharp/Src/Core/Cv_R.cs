@@ -4,14 +4,14 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
     public static partial class Cv
     {
         #region Rand
@@ -685,7 +685,7 @@ namespace OpenCvSharp
         public static double ReadReal(CvFileNode node, double defaultValue)
         {
             return (node == null) ? defaultValue 
-                : NODE_IS_INT(node.Tag) ? (double)node.DataI 
+                : NODE_IS_INT(node.Tag) ? node.DataI 
                 : NODE_IS_REAL(node.Tag) ? node.DataF 
                 : 1e300;
         }
@@ -2467,7 +2467,8 @@ namespace OpenCvSharp
         /// <param name="new_sizes">Array of new dimension sizes. Only new_dims-1 values are used, because the total number of elements must remain the same. Thus, if new_dims = 1, new_sizes array is not used </param>
         /// <returns></returns>
 #endif
-        public static T ReshapeMatND<T>(CvArr arr, int sizeof_header, T header, int new_cn, int new_dims, int[] new_sizes) where T : CvArr
+        public static T ReshapeMatND<T>(CvArr arr, int sizeof_header, T header, int new_cn, int new_dims,
+                                        int[] new_sizes) where T : CvArr
         {
             if (arr == null)
                 throw new ArgumentNullException("arr");
@@ -2480,22 +2481,15 @@ namespace OpenCvSharp
 
             Type t = typeof(T);
             if (t == typeof(IplImage))
-            {
                 return (T)(object)new IplImage(result, false);
-            }
-            else if (t == typeof(CvMat))
-            {
+            if (t == typeof(CvMat))
                 return (T)(object)new CvMat(result, false);
-            }
-            else if (t == typeof(CvMatND))
-            {
+            if (t == typeof(CvMatND))
                 return (T)(object)new CvMatND(result, false);
-            }
-            else
-            {
-                throw new InvalidCastException();
-            }
+
+            throw new InvalidCastException();
         }
+
 #if LANG_JP
         /// <summary>
         /// cvReshape の拡張バージョン．
@@ -2528,10 +2522,8 @@ namespace OpenCvSharp
                 int size = (int)info.GetRawConstantValue();
                 return ReshapeMatND<T>(arr, size, header, new_cn, new_dims, new_sizes);
             }
-            else
-            {
-                throw new OpenCvSharpException();
-            }
+            
+            throw new OpenCvSharpException("T has no static field 'SizeOf'");
         }
         #endregion
         #region Resize
@@ -2662,18 +2654,13 @@ namespace OpenCvSharp
         public static IplImage RetrieveFrame(CvCapture capture, int streamIdx)
         {
             if (capture == null)
-            {
                 throw new ArgumentNullException("capture");
-            }
+            
             IntPtr ptr = CvInvoke.cvRetrieveFrame(capture.CvPtr, streamIdx);
             if (ptr == IntPtr.Zero)
-            {
                 return null;
-            }
             else
-            {
                 return new IplImage(ptr, false);
-            }
         }
 #if LANG_JP
         /// <summary>

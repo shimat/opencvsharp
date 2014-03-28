@@ -4,9 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
@@ -663,14 +660,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("storage");
             IntPtr resultPtr = CvInvoke.cvApproxChains(srcSeq.CvPtr, storage.CvPtr, method, parameter, minimalPerimeter, recursive);
             if (resultPtr == IntPtr.Zero)
-            {
                 return null;
-            }
-            else
-            {
-                CvSeq<CvPoint> result = new CvSeq<CvPoint>(resultPtr);
-                return result;
-            }
+            
+            CvSeq<CvPoint> result = new CvSeq<CvPoint>(resultPtr);
+            return result;
         }
         #endregion
         #region ApproxPoly
@@ -734,8 +727,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvApproxPoly(srcSeq.CvPtr, headerSize, storagePtr, method, parameter, parameter2);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvSeq<CvPoint>(result);
+            return new CvSeq<CvPoint>(result);
         }
         #endregion
         #region ArcLength
