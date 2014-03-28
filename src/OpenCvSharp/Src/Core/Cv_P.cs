@@ -4,13 +4,12 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
     public static partial class Cv
     {
         #region PerspectiveTransform
@@ -32,11 +31,11 @@ namespace OpenCvSharp
         public static void PerspectiveTransform(CvArr src, CvArr dst, CvMat mat)
         {
             if (src == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException("src");
             if (dst == null)
-                throw new ArgumentNullException("pts");
+                throw new ArgumentNullException("dst");
             if (mat == null)
-                throw new ArgumentNullException("pts");
+                throw new ArgumentNullException("mat");
             CvInvoke.cvPerspectiveTransform(src.CvPtr, dst.CvPtr, mat.CvPtr);
         }
         #endregion
@@ -1060,17 +1059,17 @@ namespace OpenCvSharp
         /// <param name="idx">Array of the element indices </param>
         /// <param name="type">Type of matrix elements </param>
         /// <param name="createNode">Optional input parameter for sparse matrices. Non-zero value of the parameter means that the requested element is created if it does not exist already. </param>
-        /// <param name="precalcHashval">Optional input parameter for sparse matrices. If the pointer is not NULL, the function does not recalculate the node hash value, but takes it from the specified location. It is useful for speeding up pair-wise operations (TODO: provide an example) </param>
+        /// <param name="precalcHashval">Optional input parameter for sparse matrices. If the pointer is not NULL, the function does not recalculate the node hash value, but takes it from the specified location. It is useful for speeding up pair-wise operations </param>
         /// <returns>pointer to the particular array element</returns>
 #endif
         public static IntPtr PtrND(CvArr arr, int[] idx, out MatrixType type, bool createNode, uint? precalcHashval)
         {
-            if (precalcHashval.HasValue)
+            if (!precalcHashval.HasValue)
             {
                 return CvInvoke.cvPtrND(arr.CvPtr, idx, out type, createNode, IntPtr.Zero);
             }
 
-            using (StructurePointer<uint> precalcHashvalPtr = new StructurePointer<uint>(precalcHashval.Value))
+            using (var precalcHashvalPtr = new StructurePointer<uint>(precalcHashval.Value))
             {
                 return CvInvoke.cvPtrND(arr.CvPtr, idx, out type, createNode, precalcHashvalPtr);
             }

@@ -10,6 +10,8 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
     public static partial class Cv
     {
         #region CalcAffineFlowPyrLK
@@ -617,8 +619,8 @@ namespace OpenCvSharp
 
             int nObjects = input.Length;
 
-            using (ScopedGCHandle inputHandle = ScopedGCHandle.Alloc(inputPtr, GCHandleType.Pinned))
-            using (ScopedGCHandle outputHandle = ScopedGCHandle.Alloc(outputPtr, GCHandleType.Pinned))
+            using (var inputHandle = ScopedGCHandle.Alloc(inputPtr, GCHandleType.Pinned))
+            using (var outputHandle = ScopedGCHandle.Alloc(outputPtr, GCHandleType.Pinned))
             {
                 CvInvoke.cvCalcEigenObjects(nObjects, inputHandle.AddrOfPinnedObject(), outputHandle.AddrOfPinnedObject(), EigenObjectsIOFlag.NoCallback, 0, IntPtr.Zero, ref calcLimit, avg.CvPtr, eigVals);
             }
@@ -663,8 +665,7 @@ namespace OpenCvSharp
                 inputPtr[i] = input[i].CvPtr;
             }
 
-            using (ScopedGCHandle inputHandle = ScopedGCHandle.Alloc(inputPtr, GCHandleType.Pinned))
-            using (ScopedGCHandle outputHandle = ScopedGCHandle.Alloc(output, GCHandleType.Normal))
+            using (var inputHandle = ScopedGCHandle.Alloc(inputPtr, GCHandleType.Pinned))
             {
                 CvInvoke.cvCalcEigenObjects(nObjects, inputHandle.AddrOfPinnedObject(), output, EigenObjectsIOFlag.OutputCallback, ioBufSize, userData, ref calcLimit, avg.CvPtr, eigVals);
             }
@@ -709,7 +710,6 @@ namespace OpenCvSharp
                 outputPtr[i] = output[i].CvPtr;
             }
 
-            using (ScopedGCHandle inputHandle = ScopedGCHandle.Alloc(input, GCHandleType.Normal))
             using (ScopedGCHandle outputHandle = ScopedGCHandle.Alloc(outputPtr, GCHandleType.Pinned))
             {
                 CvInvoke.cvCalcEigenObjects(nObjects, input, outputHandle.AddrOfPinnedObject(), EigenObjectsIOFlag.InputCallback, ioBufSize, userData, ref calcLimit, avg.CvPtr, eigVals);
@@ -747,11 +747,7 @@ namespace OpenCvSharp
             if (avg == null)
                 throw new ArgumentNullException("avg");
 
-            using (ScopedGCHandle inputHandle = ScopedGCHandle.Alloc(input, GCHandleType.Normal))
-            using (ScopedGCHandle outputHandle = ScopedGCHandle.Alloc(output, GCHandleType.Normal))
-            {
-                CvInvoke.cvCalcEigenObjects(nObjects, input, output, EigenObjectsIOFlag.InputCallback, ioBufSize, userData, ref calcLimit, avg.CvPtr, eigVals);
-            }
+            CvInvoke.cvCalcEigenObjects(nObjects, input, output, EigenObjectsIOFlag.InputCallback, ioBufSize, userData, ref calcLimit, avg.CvPtr, eigVals);
         }
         #endregion
         #region CalcEMD2
@@ -970,7 +966,7 @@ namespace OpenCvSharp
 #endif
         public static void CalcHist(IplImage image, CvHistogram hist)
         {
-            CalcArrHist(image, hist);
+            CalcArrHist(image, hist, false);
         }
 #if LANG_JP
         /// <summary>
@@ -1033,7 +1029,9 @@ namespace OpenCvSharp
 #endif
         public static void CalcHist(IplImage[] image, CvHistogram hist)
         {
-            CalcArrHist(image, hist);
+// ReSharper disable CoVariantArrayConversion
+            CalcArrHist(image, hist, false);
+// ReSharper restore CoVariantArrayConversion
         }
 #if LANG_JP
         /// <summary>
@@ -1054,7 +1052,10 @@ namespace OpenCvSharp
 #endif
         public static void CalcHist(IplImage[] image, CvHistogram hist, bool accumulate)
         {
-            CvArr[] arr = Array.ConvertAll(image, delegate(IplImage img) { return (CvArr)img; });
+            CvArr[] arr = Array.ConvertAll(image, delegate(IplImage img)
+                {
+                    return (CvArr)img;
+                });
             CalcArrHist(arr, hist, accumulate, null);
         }
 #if LANG_JP
@@ -1082,7 +1083,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
             if (hist == null)
                 throw new ArgumentNullException("hist");
-            CvArr[] arr = Array.ConvertAll(image, delegate(IplImage img) { return (CvArr)img; });
+            CvArr[] arr = Array.ConvertAll(image, delegate(IplImage img)
+                {
+                    return (CvArr)img;
+                });
             CalcArrHist(arr, hist, accumulate, mask);
         }
         #endregion
@@ -1860,7 +1864,7 @@ namespace OpenCvSharp
 #endif
         public static int CamShift(CvArr prob_image, CvRect window, CvTermCriteria criteria)
         {
-            CvConnectedComp comp = new CvConnectedComp();
+            CvConnectedComp comp;
             CvBox2D box;
             return CamShift(prob_image, window, criteria, out comp, out box);
         }
@@ -2908,10 +2912,9 @@ namespace OpenCvSharp
         public static T Clone<T>(T structPtr)
             where T : ICvPtrHolder
         {
-            if (structPtr == null)
-            {
+            if (!typeof(T).IsValueType && structPtr == null)
                 throw new ArgumentNullException("structPtr");
-            }
+            
             IntPtr result = CvInvoke.cvClone(structPtr.CvPtr);
             try
             {
@@ -3085,7 +3088,7 @@ namespace OpenCvSharp
 #endif
         public static CvSeq<T> CloneSeq<T>(CvSeq<T> seq) where T : struct
         {
-            return CloneSeq<T>(seq, null);
+            return CloneSeq(seq, null);
         }
 #if LANG_JP
         /// <summary>
@@ -3109,7 +3112,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("seq");
             }
-            return SeqSlice<T>(seq, CvSlice.WholeSeq, storage, true);
+            return SeqSlice(seq, CvSlice.WholeSeq, storage, true);
         }
         #endregion
         #region CloneSparseMat
@@ -3463,8 +3466,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvContourFromContourTree(tree.CvPtr, storage.CvPtr, criteria);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvSeq(result);
+            return new CvSeq(result);
         }
         #endregion
         #region ContoursMoments
@@ -3587,7 +3589,7 @@ namespace OpenCvSharp
 #endif
         public static void ConvertPointsHomogenious(CvMat src, CvMat dst)
         {
-            ConvertPointsHomogenious(src, dst);
+            ConvertPointsHomogeneous(src, dst);
         }
 #if LANG_JP
         /// <summary>
@@ -3965,8 +3967,8 @@ namespace OpenCvSharp
 
                 hull = new int[hullMat.Rows + hullMat.Cols - 1];
                 Array.Copy(hullData, 0, hull, 0, hull.Length);
-            }
         }
+            }
 #if LANG_JP
         /// <summary>
         /// Sklanskyのアルゴリズムを使って2次元の点列の凸包を見つける
@@ -4612,8 +4614,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateBGCodeBookModel();
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvBGCodeBookModel(ptr);
+            return new CvBGCodeBookModel(ptr);
         }
         #endregion
         #region CreateButton
@@ -4797,8 +4798,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateChildMemStorage(parent.CvPtr);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvMemStorage(ptr);
+            return new CvMemStorage(ptr);
         }
         #endregion
         #region CreateConDensation
@@ -4849,8 +4849,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvCreateContourTree(contour.CvPtr, storage.CvPtr, threshold);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvContourTree(result);
+            return new CvContourTree(result);
         }
         #endregion
         #region CreateData
@@ -4897,8 +4896,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvCreateFeatureTree(desc.CvPtr);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvFeatureTree(result);
+            return new CvFeatureTree(result);
         }
         #endregion
         #region CreateFileCapture
@@ -4992,9 +4990,8 @@ namespace OpenCvSharp
         public static CvHistogram CreateHist(int[] sizes, HistogramFormat type, float[][] ranges, bool uniform)
         {
             if (sizes == null)
-            {
-                throw new ArgumentNullException("dims");
-            }
+                throw new ArgumentNullException("sizes");
+            
             return new CvHistogram(sizes, type, ranges, uniform);
         }
         #endregion
@@ -5052,8 +5049,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvCreateGraph(graph_flags, header_size, vtx_size, edge_size, storage.CvPtr);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvGraph(result);
+            return new CvGraph(result);
         }
         #endregion
         #region CreateGraphScanner
@@ -5144,8 +5140,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateImage(size, depth, channels);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new IplImage(ptr);
+            return new IplImage(ptr);
         }
         #endregion
         #region CreateImageHeader
@@ -5171,8 +5166,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateImageHeader(size, depth, channels);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new IplImage(ptr);
+            return new IplImage(ptr);
         }
         #endregion
         #region CreateKalman
@@ -5241,8 +5235,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateKDTree(desc.CvPtr);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvFeatureTree(ptr);
+            return new CvFeatureTree(ptr);
         }
         #endregion
         #region CreateLSH
@@ -5403,8 +5396,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateLSH(ops, d, l, k, type, r, seed);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvLSH(ptr);
+            return new CvLSH(ptr);
         }
         #endregion
         #region CreateMat
@@ -5430,8 +5422,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateMat(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvMat(ptr);
+            return new CvMat(ptr);
         }
         #endregion
         #region CreateMatHeader
@@ -5458,8 +5449,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateMatHeader(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvMat(ptr);
+            return new CvMat(ptr);
         }
         #endregion
         #region CreateMatND
@@ -5489,8 +5479,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateMatND(dims, sizes, type);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvMatND(ptr);
+            return new CvMatND(ptr);
         }
         #endregion
         #region CreateMatNDHeader
@@ -5522,8 +5511,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateMatNDHeader(dims, sizes, type);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvMatND(ptr);
+            return new CvMatND(ptr);
         }
         #endregion
         #region CreateMemoryLSH
@@ -5672,8 +5660,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateMemoryLSH(d, n, l, k, type, r, seed);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvLSH(ptr);
+            return new CvLSH(ptr);
         }
         #endregion
         #region CreateMemStorage
@@ -5712,8 +5699,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateMemStorage(blockSize);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvMemStorage(ptr);
+            return new CvMemStorage(ptr);
         }
         #endregion
         #region CreatePOSITObject
@@ -5759,8 +5745,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreatePOSITObject(points, pointCount);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvPOSITObject(ptr);
+            return new CvPOSITObject(ptr);
         }
         // ReSharper restore InconsistentNaming
         #endregion
@@ -5790,32 +5775,29 @@ namespace OpenCvSharp
         /// <param name="filter"></param>
         /// <returns></returns>
 #endif
-        public static CvMat[] CreatePyramid(CvArr img, int extraLayers, double rate, CvSize[] layerSizes, CvArr bufarr, bool calc, CvFilter filter)
+        public static CvMat[] CreatePyramid(CvArr img, int extraLayers, double rate, CvSize[] layerSizes, CvArr bufarr,
+                                            bool calc, CvFilter filter)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
             if (extraLayers < 0)
                 throw new ArgumentOutOfRangeException("extraLayers", "The number of extra layers must be non negative");
 
-            IntPtr bufarrPtr = (bufarr == null) ? IntPtr.Zero : bufarr.CvPtr;
-
-            IntPtr result = CvInvoke.cvCreatePyramid(img.CvPtr, extraLayers, rate, layerSizes, bufarrPtr, calc, filter);
+            IntPtr result = CvInvoke.cvCreatePyramid(
+                img.CvPtr, extraLayers, rate, layerSizes, ToPtr(bufarr), calc, filter);
             if (result == IntPtr.Zero)
-            {
                 return null;
-            }
-            else
+
+            int length = extraLayers + 1;
+            CvMat[] pyramid = new CvMat[length];
+            for (int i = 0; i < length; i++)
             {
-                int length = extraLayers + 1;
-                CvMat[] pyramid = new CvMat[length];
-                for (int i = 0; i < length; i++)
-                {
-                    IntPtr p = new IntPtr(result.ToInt32() + (CvMat.SizeOf * i));
-                    pyramid[i] = new CvMat(p, false);
-                }
-                return pyramid;
+                IntPtr p = new IntPtr(result.ToInt32() + (CvMat.SizeOf * i));
+                pyramid[i] = new CvMat(p, false);
             }
+            return pyramid;
         }
+
         #endregion
         #region CreateSpillTree
 #if LANG_JP
@@ -5903,8 +5885,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateSpillTree(rawData.CvPtr, naive, rho, tau);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvFeatureTree(ptr);
+            return new CvFeatureTree(ptr);
         }
         #endregion
         #region CreateSeq
@@ -5936,8 +5917,7 @@ namespace OpenCvSharp
             IntPtr ptr = CvInvoke.cvCreateSeq(seqFlags, headerSize, elemSize, storage.CvPtr);
             if (ptr == IntPtr.Zero)
                 return null;
-            else
-                return new CvSeq(ptr);
+            return new CvSeq(ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -5963,8 +5943,7 @@ namespace OpenCvSharp
             CvSeq seq = CreateSeq(seqFlags, headerSize, Marshal.SizeOf(typeof(T)), storage);
             if (seq == null)
                 return null;
-            else
-                return new CvSeq<T>(seq);
+            return new CvSeq<T>(seq);
         }
         #endregion
         #region CreateSeqBlock
@@ -6017,8 +5996,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvCreateSet(setFlags, headerSize, elemSize, storage.CvPtr);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvSet(result);
+            return new CvSet(result);
         }
 #if LANG_JP
         /// <summary>
@@ -6050,8 +6028,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvCreateSet(setFlags, headerSize, elemSize, storage.CvPtr);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvSet<T>(result);
+            return new CvSet<T>(result);
         }
         #endregion
         #region CreateSparseMat
@@ -6081,8 +6058,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvCreateSparseMat(dims, sizes, type);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvSparseMat(result);
+            return new CvSparseMat(result);
         }
         #endregion
         #region CreateStereoBMState
@@ -6250,8 +6226,7 @@ namespace OpenCvSharp
             IntPtr result = CvInvoke.cvCreateSubdiv2D(subdivType, headerSize, vtxSize, quadedgeSize, storage.CvPtr);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvSubdiv2D(result);
+            return new CvSubdiv2D(result);
         }
         #endregion
         #region CreateSubdivDelaunay2D
