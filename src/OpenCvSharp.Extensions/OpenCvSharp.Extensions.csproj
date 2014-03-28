@@ -127,9 +127,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binarizer.cs" />
-    <Compile Include="BitmapExtension.cs" />
+    <Compile Include="BitmapConverter.cs" />
     <Compile Include="CvExtensions.cs" />
     <Compile Include="MyParallel.cs" />
+    <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WriteableBitmapConverter.cs" />
     <Compile Include="BitmapSourceConverter.cs" />

@@ -114,8 +114,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\Class\CvLine2D.cs" />
@@ -297,7 +295,6 @@
     <Compile Include="Src\Class\CvStringHashNode.cs" />
     <Compile Include="Src\Class\IplConvKernel.cs" />
     <Compile Include="Src\Class\CvStereoGCState.cs" />
-    <Compile Include="Src\BitmapConverter.cs" />
     <Compile Include="Src\Class\CvFont.cs" />
     <Compile Include="Src\Class\CvQuadEdge2D.cs" />
     <Compile Include="Src\Class\CvRNG.cs" />

@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Extensions
 {
 #if LANG_JP
     /// <summary>
@@ -39,7 +39,7 @@ namespace OpenCvSharp
         /// <param name="src">System.Drawing.Bitmap object to be converted</param>
         /// <returns>An IplImage object which is converted from System.Drawing.Bitmap</returns>
 #endif
-        public static IplImage ToIplImage(Bitmap src)
+        public static IplImage ToIplImage(this Bitmap src)
         {
             if (src == null)
             {
@@ -80,7 +80,7 @@ namespace OpenCvSharp
         /// <param name="src">System.Drawing.Bitmap object to be converted</param>
         /// <param name="dst">An IplImage object which is converted from System.Drawing.Bitmap</param>
 #endif
-        public static unsafe void ToIplImage(Bitmap src, IplImage dst)
+        public static unsafe void ToIplImage(this Bitmap src, IplImage dst)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -233,7 +233,7 @@ namespace OpenCvSharp
         /// <param name="src">Mat</param>
         /// <returns></returns>
 #endif
-        public static Bitmap ToBitmap(IplImage src)
+        public static Bitmap ToBitmap(this IplImage src)
         {
             if (src == null)
             {
@@ -268,7 +268,7 @@ namespace OpenCvSharp
         /// <param name="pf">Pixel Depth</param>
         /// <returns></returns>
 #endif
-        public static Bitmap ToBitmap(IplImage src, PixelFormat pf)
+        public static Bitmap ToBitmap(this IplImage src, PixelFormat pf)
         {
             if (src == null)
             {
@@ -298,7 +298,7 @@ namespace OpenCvSharp
         /// <param name="dst">IplImage</param>
         /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
 #endif
-        public static unsafe void ToBitmap(IplImage src, Bitmap dst)
+        public static unsafe void ToBitmap(this IplImage src, Bitmap dst)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -456,7 +456,7 @@ namespace OpenCvSharp
         /// <param name="img"></param>
         /// <param name="hdc"></param>
         /// <param name="dstRect"></param>
-        public static void DrawToHdc(IplImage img, IntPtr hdc, CvRect dstRect)
+        public static void DrawToHdc(this IplImage img, IntPtr hdc, CvRect dstRect)
         {
             if (Platform.OS == OS.Unix)
             {
@@ -518,7 +518,7 @@ namespace OpenCvSharp
         /// <param name="h"></param>
         /// <param name="fromX"></param>
         /// <param name="fromY"></param>
-        public static void DrawToHdc(IplImage img, IntPtr hdc, int x, int y, int w, int h, int fromX, int fromY)
+        public static void DrawToHdc(this IplImage img, IntPtr hdc, int x, int y, int w, int h, int fromX, int fromY)
         {
             if (Platform.OS == OS.Unix)
             {
@@ -564,7 +564,7 @@ namespace OpenCvSharp
         /// <param name="img"></param>
         /// <param name="g"></param>
         /// <param name="dstRect"></param>
-        public static void DrawToGraphics(IplImage img, Graphics g, CvRect dstRect)
+        public static void DrawToGraphics(this IplImage img, Graphics g, CvRect dstRect)
         {
             if (Platform.OS == OS.Unix)
             {
@@ -587,7 +587,7 @@ namespace OpenCvSharp
         /// <param name="h"></param>
         /// <param name="fromX"></param>
         /// <param name="fromY"></param>
-        public static void DrawToGraphics(IplImage img, Graphics g, int x, int y, int w, int h, int fromX, int fromY)
+        public static void DrawToGraphics(this IplImage img, Graphics g, int x, int y, int w, int h, int fromX, int fromY)
         {
             if (Platform.OS == OS.Unix)
             {

@@ -5,14 +5,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
@@ -285,6 +282,13 @@ namespace OpenCvSharp
                 return new IplImage(ptr);
             }
 
+            byte[] fileBytes = File.ReadAllBytes(fileName);
+            using (CvMat mat = new CvMat(fileBytes.Length, 1, MatrixType.S8C1, fileBytes))
+            {
+                return Cv.DecodeImage(mat, flags);
+            }
+            
+            /*
             // 失敗した場合は、GDI+での読み込みを試みる
             try
             {
@@ -322,29 +326,7 @@ namespace OpenCvSharp
             {
                 throw new OpenCvSharpException("Failed to create IplImage");
             }
-        }
-        #endregion
-        #region FromBitmap
-#if LANG_JP
-        /// <summary>
-        /// System.Drawing.BitmapのインスタンスからIplImageを生成する
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Creates the IplImage instance from System.Drawing.Bitmap
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
-#endif
-        public static IplImage FromBitmap(Bitmap bmp)
-        {
-            if (bmp == null)
-            {
-                throw new ArgumentNullException("bmp");
-            }
-            return BitmapConverter.ToIplImage(bmp);
+            //*/
         }
         #endregion
         #region FromImageData
@@ -2124,29 +2106,6 @@ namespace OpenCvSharp
         }
         #endregion
 
-        #region CopyFrom
-#if LANG_JP
-        /// <summary>
-        /// System.Drawing.Bitmapからこのインスタンスへデータをコピーする
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Copies pixel data from System.Drawing.Bitmap to this instance
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
-#endif
-        public void CopyFrom(Bitmap bmp)
-        {
-            if (bmp == null)
-            {
-                throw new ArgumentNullException("bmp");
-            }
-            BitmapConverter.ToIplImage(bmp, this);
-        }
-        #endregion
         #region CopyPixelData
 #if LANG_JP
         /// <summary>
@@ -2193,108 +2152,7 @@ namespace OpenCvSharp
             }
             Util.CopyMemory(ImageData, data, ImageSize);
         }
-        #endregion
-        #region ToBitmap
-#if LANG_JP
-        /// <summary>
-        /// OpenCVのIplImageをSystem.Drawing.Bitmapに変換する
-        /// </summary>
-        /// <returns>System.Drawing.Bitmap</returns>
-#else
-        /// <summary>
-        /// Converts IplImage to System.Drawing.Bitmap
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public Bitmap ToBitmap()
-        {
-            return BitmapConverter.ToBitmap(this);
-        }
-#if LANG_JP
-        /// <summary>
-        /// OpenCVのIplImageをSystem.Drawing.Bitmapに変換する
-        /// </summary>
-        /// <param name="pf">ピクセル深度</param>
-        /// <returns>System.Drawing.Bitmap</returns>
-#else
-        /// <summary>
-        /// Converts IplImage to System.Drawing.Bitmap
-        /// </summary>
-        /// <param name="pf">Pixel Depth</param>
-        /// <returns></returns>
-#endif
-        public Bitmap ToBitmap(PixelFormat pf)
-        {
-            return BitmapConverter.ToBitmap(this, pf);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// OpenCVのIplImageを指定した出力先にSystem.Drawing.Bitmapとして変換する
-        /// </summary>
-        /// <param name="dst">出力先のSystem.Drawing.Bitmap</param>
-#else
-        /// <summary>
-        /// Converts IplImage to System.Drawing.Bitmap
-        /// </summary>
-        /// <param name="dst">Bitmap</param>
-#endif
-        public void ToBitmap(Bitmap dst)
-        {
-            BitmapConverter.ToBitmap(this, dst);
-        }
-        #endregion
-        #region DrawToHDC
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="hdc"></param>
-        /// <param name="dstRect"></param>
-        public void DrawToHDC(IntPtr hdc, CvRect dstRect)
-        {
-            BitmapConverter.DrawToHdc(this, hdc, dstRect);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="hdc"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <param name="fromX"></param>
-        /// <param name="fromY"></param>
-        public void DrawToHDC(IntPtr hdc, int x, int y, int w, int h, int fromX, int fromY)
-        {
-            BitmapConverter.DrawToHdc(this, hdc, x, y, w, h, fromX, fromY);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="dstRect"></param>
-        public void DrawToGraphics(Graphics g, CvRect dstRect)
-        {
-            BitmapConverter.DrawToGraphics(this, g, dstRect);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <param name="fromX"></param>
-        /// <param name="fromY"></param>
-        public void DrawToGraphics(Graphics g, int x, int y, int w, int h, int fromX, int fromY)
-        {
-            BitmapConverter.DrawToGraphics(this, g, x, y, w, h, fromX, fromY);
-        }
-        #endregion        
+        #endregion    
         #region GetSubImage
 #if LANG_JP
         /// <summary>

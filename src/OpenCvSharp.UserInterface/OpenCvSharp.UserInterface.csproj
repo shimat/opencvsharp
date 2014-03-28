@@ -10,12 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenCvSharp.UserInterface</RootNamespace>
     <AssemblyName>OpenCvSharp.UserInterface</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -142,6 +143,10 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj">
+      <Project>{f1110c7b-46b1-4504-871e-135b57f9de67}</Project>
+      <Name>OpenCvSharp.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
       <Project>{4C2356B8-1A1E-4F92-A51C-A49CA116867F}</Project>
       <Name>OpenCvSharp</Name>
