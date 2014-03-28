@@ -2500,6 +2500,7 @@ namespace OpenCvSharp.CPlusPlus
 
             NativeMethods.calib3d_validateDisparity(
                 disparity.CvPtr, cost.CvPtr, minDisparity, numberOfDisparities, disp12MaxDisp);
+            disparity.Fix();
         }
 
         /// <summary>
@@ -2530,6 +2531,8 @@ namespace OpenCvSharp.CPlusPlus
 
             NativeMethods.calib3d_reprojectImageTo3D(
                 disparity.CvPtr, _3dImage.CvPtr, Q.CvPtr, handleMissingValues ? 1 : 0, ddepth);
+
+            _3dImage.Fix();
         }
 
         /// <summary>
