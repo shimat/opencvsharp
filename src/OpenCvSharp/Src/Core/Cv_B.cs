@@ -5,10 +5,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
     public static partial class Cv
     {
         #region BackProjectPCA
