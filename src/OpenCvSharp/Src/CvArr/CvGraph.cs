@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -32,7 +30,6 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         protected CvGraph()
-            : base()
         {
             ptr = IntPtr.Zero;
         }

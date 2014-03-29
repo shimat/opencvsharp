@@ -316,7 +316,6 @@
     <Compile Include="Src\Class\CvSeqReaderT.cs" />
     <Compile Include="Src\CvArr\CvSparseMat.cs" />
     <Compile Include="Src\CvArr\CvSeq.cs" />
-    <Compile Include="Src\CvArr\CvSetT.cs" />
     <Compile Include="Src\Delegate\CvCmpFunc.cs" />
     <Compile Include="Src\Delegate\CvMouseCallback.cs" />
     <Compile Include="Src\Delegate\CvTrackbarCallback.cs" />

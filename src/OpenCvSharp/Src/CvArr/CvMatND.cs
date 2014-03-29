@@ -4,9 +4,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp
 {
@@ -25,7 +25,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
         /// <summary>
         /// 
         /// </summary>
@@ -69,15 +69,13 @@ namespace OpenCvSharp
         public CvMatND(int dims, int[] sizes, MatrixType type)
         {
             if (sizes == null)
-            {
                 throw new ArgumentNullException("sizes");
-            }
-            this.ptr = CvInvoke.cvCreateMatND(dims, sizes, type);
-            if (this.ptr == IntPtr.Zero)
-            {
+            
+            ptr = CvInvoke.cvCreateMatND(dims, sizes, type);
+            if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
-            }
-            base.NotifyMemoryPressure(SizeOf);
+            
+            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
@@ -101,7 +99,7 @@ namespace OpenCvSharp
         public CvMatND(int dims, int[] sizes, MatrixType type, Array data)
             : this(dims, sizes, type)
         {
-            GCHandle gch = base.AllocGCHandle(data);
+            GCHandle gch = AllocGCHandle(data);
             CvInvoke.cvInitMatNDHeader(CvPtr, dims, sizes, type, gch.AddrOfPinnedObject());
         }
 
@@ -137,7 +135,7 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             this.ptr = ptr;
-            base.NotifyMemoryPressure(SizeOf);
+            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
@@ -166,8 +164,7 @@ namespace OpenCvSharp
         internal CvMatND(bool isEnabledDispose)
             : base(isEnabledDispose)
         {
-            this.ptr = base.AllocMemory(SizeOf);
-            base.NotifyMemoryPressure(SizeOf);
+            ptr = AllocMemory(SizeOf);
         }
 
 #if LANG_JP
@@ -189,7 +186,7 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
                 // 継承したクラス独自の解放処理
                 try
@@ -201,7 +198,7 @@ namespace OpenCvSharp
                     {
                         CvInvoke.cvReleaseMat(ref ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
@@ -448,13 +445,10 @@ namespace OpenCvSharp
         public static CvMatND operator /(CvMatND a, double b)
         {
             if (a == null)
-            {
                 throw new ArgumentNullException("a");
-            }
             if (b == 0)
-            {
                 throw new DivideByZeroException();
-            }
+
             CvMatND result = a.Clone();
             Cv.AddWeighted(a, 1.0 / b, a, 0, 0, result);
             return result;
@@ -630,10 +624,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvMatND*)ptr)->dims;
-                }
+                return ((WCvMatND*)ptr)->dims;
             }
         }
 #if LANG_JP
@@ -649,10 +640,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvMatND*)ptr)->type;
-                }
+                return ((WCvMatND*)ptr)->type;
             }
         }
 #if LANG_JP
@@ -668,10 +656,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return new IntPtr(((WCvMatND*)ptr)->refcount);
-                }
+                return new IntPtr(((WCvMatND*)ptr)->refcount);
             }
             internal set
             {
@@ -692,17 +677,14 @@ namespace OpenCvSharp
             get 
             {
                 Dimension[] result = new Dimension[CvConst.CV_MAX_DIM];
-                unsafe
+                int* dim = ((WCvMatND*)ptr)->dim;
+                for (int i = 0; i < result.Length; i++)
                 {
-                    int* dim = ((WCvMatND*)ptr)->dim;
-                    for (int i = 0; i < result.Length; i++)
+                    result[i] = new Dimension
                     {
-                        result[i] = new Dimension
-                        {
-                            Size = dim[i * 2 + 0],
-                            Step = dim[i * 2 + 1]
-                        };
-                    }
+                        Size = dim[i * 2 + 0],
+                        Step = dim[i * 2 + 1]
+                    };
                 }
                 return result;
             }
@@ -740,17 +722,11 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return new IntPtr(((WCvMatND*)ptr)->data);
-                }
+                return new IntPtr(((WCvMatND*)ptr)->data);
             }
             internal set
             {
-                unsafe
-                {
-                    ((WCvMatND*)ptr)->data = value.ToPointer();
-                }
+                ((WCvMatND*)ptr)->data = value.ToPointer();
             }
         }
 #if LANG_JP
@@ -766,10 +742,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return (byte*)(((WCvMatND*)ptr)->data);
-                }
+                return (byte*)(((WCvMatND*)ptr)->data);
             }
         }
 #if LANG_JP
@@ -785,10 +758,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return (short*)(((WCvMatND*)ptr)->data);
-                }
+                return (short*)(((WCvMatND*)ptr)->data);
             }
         }
 #if LANG_JP
@@ -804,10 +774,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return (int*)(((WCvMatND*)ptr)->data);
-                }
+                return (int*)(((WCvMatND*)ptr)->data);
             }
         }
 #if LANG_JP
@@ -823,10 +790,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return (float*)(((WCvMatND*)ptr)->data);
-                }
+                return (float*)(((WCvMatND*)ptr)->data);
             }
         }
 #if LANG_JP
@@ -842,10 +806,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return (double*)(((WCvMatND*)ptr)->data);
-                }
+                return (double*)(((WCvMatND*)ptr)->data);
             }
         }
 #if LANG_JP
@@ -863,11 +824,8 @@ namespace OpenCvSharp
             {                
                 if (_dataArrayByte == null)
                 {
-                    unsafe
-                    {
-                        byte* p = (byte*)(((WCvMatND*)ptr)->data);
-                        _dataArrayByte = new PointerAccessor1D_Byte(p);
-                    }
+                    byte* p = (byte*)(((WCvMatND*)ptr)->data);
+                    _dataArrayByte = new PointerAccessor1D_Byte(p);
                 }
                 return _dataArrayByte;
             }
@@ -887,11 +845,8 @@ namespace OpenCvSharp
             {
                 if (_dataArrayInt16 == null)
                 {
-                    unsafe
-                    {
-                        short* p = (short*)(((WCvMatND*)ptr)->data);
-                        _dataArrayInt16 = new PointerAccessor1D_Int16(p);
-                    }
+                    short* p = (short*)(((WCvMatND*)ptr)->data);
+                    _dataArrayInt16 = new PointerAccessor1D_Int16(p);
                 }
                 return _dataArrayInt16;
             }
@@ -911,11 +866,8 @@ namespace OpenCvSharp
             {
                 if (_dataArrayInt32 == null)
                 {
-                    unsafe
-                    {
-                        int* p = (int*)(((WCvMatND*)ptr)->data);
-                        _dataArrayInt32 = new PointerAccessor1D_Int32(p);
-                    }
+                    int* p = (int*)(((WCvMatND*)ptr)->data);
+                    _dataArrayInt32 = new PointerAccessor1D_Int32(p);
                 }
                 return _dataArrayInt32;
             }
@@ -935,11 +887,8 @@ namespace OpenCvSharp
             {
                 if (_dataArraySingle == null)
                 {
-                    unsafe
-                    {
-                        float* p = (float*)(((WCvMatND*)ptr)->data);
-                        _dataArraySingle = new PointerAccessor1D_Single(p);
-                    }
+                    float* p = (float*)(((WCvMatND*)ptr)->data);
+                    _dataArraySingle = new PointerAccessor1D_Single(p);
                 }
                 return _dataArraySingle;
             }
@@ -959,11 +908,8 @@ namespace OpenCvSharp
             {
                 if (_dataArrayDouble == null)
                 {
-                    unsafe
-                    {
-                        double* p = (double*)(((WCvMatND*)ptr)->data);
-                        _dataArrayDouble = new PointerAccessor1D_Double(p);
-                    }
+                    double* p = (double*)(((WCvMatND*)ptr)->data);
+                    _dataArrayDouble = new PointerAccessor1D_Double(p);
                 }
                 return _dataArrayDouble;
             }

@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -24,9 +22,9 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
 
-        #region Initialization and Disposal
+        #region Init and Disposal
 #if LANG_JP
         /// <summary>
         /// ポインタから初期化
@@ -51,7 +49,7 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             this.ptr = ptr;
-            base.NotifyMemoryPressure(SizeOf);
+            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -76,13 +74,13 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("sizes");
             }
-            IntPtr ptr = CvInvoke.cvCreateSparseMat(dims, sizes, type);
-            if (ptr == IntPtr.Zero)
+            IntPtr p = CvInvoke.cvCreateSparseMat(dims, sizes, type);
+            if (p == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvSparseMat");
             }
-            this.ptr = ptr;
-            base.NotifyMemoryPressure(SizeOf);
+            ptr = p;
+            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -104,7 +102,7 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
                 // 継承したクラス独自の解放処理
                 try
@@ -116,7 +114,7 @@ namespace OpenCvSharp
                     {
                         CvInvoke.cvReleaseSparseMat(ref ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
@@ -546,10 +544,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvSparseMat*)ptr)->dims;
-                }
+                return ((WCvSparseMat*)ptr)->dims;
             }
         }
 #if LANG_JP
@@ -565,10 +560,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvSparseMat*)ptr)->type;
-                }
+                return ((WCvSparseMat*)ptr)->type;
             }
         }
 #if LANG_JP
@@ -584,10 +576,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvSparseMat*)ptr)->hashsize;
-                }
+                return ((WCvSparseMat*)ptr)->hashsize;
             }
         }
 #if LANG_JP
@@ -603,10 +592,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return new IntPtr(((WCvSparseMat*)ptr)->hashtable);
-                }
+                return new IntPtr(((WCvSparseMat*)ptr)->hashtable);
             }
         }
 #if LANG_JP
@@ -622,10 +608,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return new IntPtr(((WCvSparseMat*)ptr)->heap);
-                }
+                return new IntPtr(((WCvSparseMat*)ptr)->heap);
             }
         }
 #if LANG_JP
@@ -641,10 +624,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvSparseMat*)ptr)->idxoffset;
-                }
+                return ((WCvSparseMat*)ptr)->idxoffset;
             }
         }
 #if LANG_JP
@@ -660,10 +640,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvSparseMat*)ptr)->valoffset;
-                }
+                return ((WCvSparseMat*)ptr)->valoffset;
             }
         }
 #if LANG_JP
@@ -679,13 +656,10 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    int[] dst = new int[CvConst.CV_MAX_DIM];
-                    IntPtr src = new IntPtr(((WCvSparseMat*)ptr)->size);
-                    Marshal.Copy(src, dst, 0, dst.Length);
-                    return dst;
-                }
+                int[] dst = new int[CvConst.CV_MAX_DIM];
+                IntPtr src = new IntPtr(((WCvSparseMat*)ptr)->size);
+                Marshal.Copy(src, dst, 0, dst.Length);
+                return dst;
             }
         }
         #endregion

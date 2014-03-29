@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -34,8 +32,8 @@ namespace OpenCvSharp
         public CvContour()
             : this(Marshal.AllocHGlobal(SizeOf))
         {
-            base.AllocatedMemory = this.ptr;
-            base.NotifyMemoryPressure(SizeOf);
+            AllocatedMemory = ptr;
+            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
     partial class CvArr
     {
         #region AbsDiff

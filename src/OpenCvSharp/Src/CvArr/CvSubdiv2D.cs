@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -32,9 +30,8 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         protected CvSubdiv2D()
-            : base()
         {
-            this.ptr = IntPtr.Zero;
+            ptr = IntPtr.Zero;
         }
 #if LANG_JP
         /// <summary>
@@ -57,7 +54,7 @@ namespace OpenCvSharp
             }
 
             IntPtr subdiv = CvInvoke.cvCreateSubdiv2D(
-                SeqType.KindSubdiv2D, CvSubdiv2D.SizeOf, CvSubdiv2DPoint.SizeOf, CvQuadEdge2D.SizeOf, storage.CvPtr
+                SeqType.KindSubdiv2D, SizeOf, CvSubdiv2DPoint.SizeOf, CvQuadEdge2D.SizeOf, storage.CvPtr
             );
 
             if (subdiv == IntPtr.Zero)

@@ -4,9 +4,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp
 {
@@ -154,8 +154,7 @@ namespace OpenCvSharp
 
                     if (p != IntPtr.Zero)
                         return new CvSeq(p);
-                    else
-                        return null;
+                    return null;
                 }
             }
         }

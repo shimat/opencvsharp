@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -32,36 +30,34 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         protected CvSet()
-            : base()
         {
-            this.ptr = IntPtr.Zero;
+            ptr = IntPtr.Zero;
         }
 #if LANG_JP
         /// <summary>
         /// 空のセットを生成する
         /// </summary>
-        /// <param name="set_flags">生成するセットのタイプ． </param>
-        /// <param name="header_size">セットのヘッダのサイズ（sizeof(CvSet)以上）． </param>
-        /// <param name="elem_size">セットの要素のサイズ（CvSetElem 以上）． </param>
+        /// <param name="setFlags">生成するセットのタイプ． </param>
+        /// <param name="headerSize">セットのヘッダのサイズ（sizeof(CvSet)以上）． </param>
+        /// <param name="elemSize">セットの要素のサイズ（CvSetElem 以上）． </param>
         /// <param name="storage">セットのためのコンテナ． </param>
 #else
         /// <summary>
         /// Creates empty set
         /// </summary>
-        /// <param name="set_flags">Type of the created set. </param>
-        /// <param name="header_size">Set header size; may not be less than sizeof(CvSet). </param>
-        /// <param name="elem_size">Set element size; may not be less than CvSetElem. </param>
+        /// <param name="setFlags">Type of the created set. </param>
+        /// <param name="headerSize">Set header size; may not be less than sizeof(CvSet). </param>
+        /// <param name="elemSize">Set element size; may not be less than CvSetElem. </param>
         /// <param name="storage">Container for the set. </param>
 #endif
-        public CvSet(SeqType set_flags, int header_size, int elem_size, CvMemStorage storage)
+        public CvSet(SeqType setFlags, int headerSize, int elemSize, CvMemStorage storage)
         {
             if (storage == null)
-            {
                 throw new ArgumentNullException();
-            }
-            IntPtr ptr = CvInvoke.cvCreateSet(set_flags, header_size, elem_size, storage.CvPtr);
-            Initialize(ptr);
-            this.holdingStorage = storage;
+            
+            IntPtr p = CvInvoke.cvCreateSet(setFlags, headerSize, elemSize, storage.CvPtr);
+            Initialize(p);
+            holdingStorage = storage;
         }
 
 #if LANG_JP
@@ -80,7 +76,6 @@ namespace OpenCvSharp
             Initialize(ptr);
         }
         #endregion
-
 
         #region Properties
         /// <summary>
@@ -132,7 +127,6 @@ namespace OpenCvSharp
             }
         }
         #endregion
-
 
         #region Methods
         #region ClearSet
@@ -209,19 +203,19 @@ namespace OpenCvSharp
         /// セットに新しいノード（要素）を追加する
         /// </summary>
         /// <param name="elem">挿入する要素． nullでない場合，新たに確保したノードにデータをコピーする （コピーした後，先頭の整数フィールドの最上位ビットはクリアされる）． </param>
-        /// <param name="inserted_elem">割り当てられた要素への参照</param>
+        /// <param name="insertedElem">割り当てられた要素への参照</param>
         /// <returns>ノードへのインデックス</returns>
 #else
         /// <summary>
         /// Occupies a node in the set
         /// </summary>
         /// <param name="elem">Optional input argument, inserted element. If not null, the function copies the data to the allocated node (The MSB of the first integer field is cleared after copying). </param>
-        /// <param name="inserted_elem">Optional output argument; the pointer to the allocated cell. </param>
+        /// <param name="insertedElem">Optional output argument; the pointer to the allocated cell. </param>
         /// <returns>the index to the node</returns>
 #endif
-        public int SetAdd(CvSetElem elem, out CvSetElem inserted_elem)
+        public int SetAdd(CvSetElem elem, out CvSetElem insertedElem)
         {
-            return Cv.SetAdd(this, elem, out inserted_elem);
+            return Cv.SetAdd(this, elem, out insertedElem);
         }
         #endregion
         #region SetNew
