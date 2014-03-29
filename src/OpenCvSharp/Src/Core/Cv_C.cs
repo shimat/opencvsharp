@@ -5998,38 +5998,6 @@ namespace OpenCvSharp
                 return null;
             return new CvSet(result);
         }
-#if LANG_JP
-        /// <summary>
-        /// 空のセットを生成する
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="setFlags">生成するセットのタイプ． </param>
-        /// <param name="headerSize">セットのヘッダのサイズ（sizeof(CvSet)以上）． </param>
-        /// <param name="elemSize">セットの要素のサイズ（CvSetElem 以上）． </param>
-        /// <param name="storage">セットのためのコンテナ． </param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Creates empty set
-        /// </summary>
-        /// <typeparam name="T">Element type</typeparam>
-        /// <param name="setFlags">Type of the created set. </param>
-        /// <param name="headerSize">Set header size; may not be less than sizeof(CvSet). </param>
-        /// <param name="elemSize">Set element size; may not be less than CvSetElem. </param>
-        /// <param name="storage">Container for the set. </param>
-        /// <returns></returns>
-#endif
-        public static CvSet<T> CreateSet<T>(SeqType setFlags, int headerSize, int elemSize, CvMemStorage storage) where T : struct
-        {
-            if (storage == null)
-            {
-                throw new ArgumentNullException("storage");
-            }
-            IntPtr result = CvInvoke.cvCreateSet(setFlags, headerSize, elemSize, storage.CvPtr);
-            if (result == IntPtr.Zero)
-                return null;
-            return new CvSet<T>(result);
-        }
         #endregion
         #region CreateSparseMat
 #if LANG_JP
