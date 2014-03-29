@@ -26,7 +26,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public CvContourChainCode(IntPtr ptr)
         {
-            _ptr = ptr;
+            base.ptr = ptr;
         }
 #if LANG_JP
         /// <summary>
@@ -58,11 +58,11 @@ namespace OpenCvSharp.Blob.Old
         {
             get
             {
-                return CvBlobInvoke.CvContourChainCode_startingPoint_get(_ptr);
+                return CvBlobInvoke.CvContourChainCode_startingPoint_get(ptr);
             }
             set
             {
-                CvBlobInvoke.CvContourChainCode_startingPoint_set(_ptr, value);
+                CvBlobInvoke.CvContourChainCode_startingPoint_set(ptr, value);
             }
         }
 
@@ -73,7 +73,7 @@ namespace OpenCvSharp.Blob.Old
         {
             get
             {
-                IntPtr ptr = CvBlobInvoke.CvContourChainCode_chainCode_get(_ptr);
+                IntPtr ptr = CvBlobInvoke.CvContourChainCode_chainCode_get(base.ptr);
                 return new CvChainCodes(ptr);
             }
         }

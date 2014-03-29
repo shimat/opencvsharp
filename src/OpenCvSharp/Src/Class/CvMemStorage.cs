@@ -55,7 +55,7 @@ namespace OpenCvSharp
 #endif
         public CvMemStorage(int block_size)
         {
-            this.ptr = CvInvoke.cvCreateMemStorage(block_size);
+            this.ptr = NativeMethods.cvCreateMemStorage(block_size);
             if (this.ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvMemStorage");
@@ -130,7 +130,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseMemStorage(ref ptr);  
+                        NativeMethods.cvReleaseMemStorage(ref ptr);  
                     }
                     this._disposed = true;
                 }

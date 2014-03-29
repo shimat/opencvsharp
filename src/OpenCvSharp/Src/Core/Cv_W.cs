@@ -27,7 +27,7 @@ namespace OpenCvSharp
 #endif
         public static int WaitKey()
         {
-            return CvInvoke.cvWaitKey(0);
+            return NativeMethods.cvWaitKey(0);
         }
 #if JANG_JP
         /// <summary>
@@ -45,7 +45,7 @@ namespace OpenCvSharp
 #endif
         public static int WaitKey(int delay)
         {
-            return CvInvoke.cvWaitKey(delay);
+            return NativeMethods.cvWaitKey(delay);
         }
         #endregion
         #region WarpAffine
@@ -116,7 +116,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("dst");
             if (mapMatrix == null)
                 throw new ArgumentNullException("mapMatrix");
-            CvInvoke.cvWarpAffine(src.CvPtr, dst.CvPtr, mapMatrix.CvPtr, flags, fillval);
+            NativeMethods.cvWarpAffine(src.CvPtr, dst.CvPtr, mapMatrix.CvPtr, flags, fillval);
         }
         #endregion
         #region WarpPerspective
@@ -187,7 +187,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("dst");
             if (mapMatrix == null)
                 throw new ArgumentNullException("mapMatrix");
-            CvInvoke.cvWarpPerspective(src.CvPtr, dst.CvPtr, mapMatrix.CvPtr, flags, fillval);
+            NativeMethods.cvWarpPerspective(src.CvPtr, dst.CvPtr, mapMatrix.CvPtr, flags, fillval);
         }
         #endregion
         #region Watershed
@@ -211,7 +211,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
             if (markers == null)
                 throw new ArgumentNullException("markers");
-            CvInvoke.cvWatershed(image.CvPtr, markers.CvPtr);
+            NativeMethods.cvWatershed(image.CvPtr, markers.CvPtr);
         }
         #endregion
         #region Write
@@ -257,7 +257,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fs");
             if (ptr == null)
                 throw new ArgumentNullException("ptr");
-            CvInvoke.cvWrite(fs.CvPtr, name, ptr.CvPtr, attributes);
+            NativeMethods.cvWrite(fs.CvPtr, name, ptr.CvPtr, attributes);
         }
         #endregion
         #region WriteComment
@@ -303,7 +303,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fs");
             if (comment == null)
                 throw new ArgumentNullException("comment");
-            CvInvoke.cvWriteComment(fs.CvPtr, comment, eolComment);
+            NativeMethods.cvWriteComment(fs.CvPtr, comment, eolComment);
         }
         #endregion
         #region WriteFileNode
@@ -337,7 +337,7 @@ namespace OpenCvSharp
             if (node == null)
                 throw new ArgumentNullException("node");
 
-            CvInvoke.cvWriteFileNode(fs.CvPtr, newNodeName, node.CvPtr, embed);
+            NativeMethods.cvWriteFileNode(fs.CvPtr, newNodeName, node.CvPtr, embed);
         }
         #endregion
         #region WriteFrame
@@ -362,7 +362,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("writer");
             if (image == null)
                 throw new ArgumentNullException("image");
-            return CvInvoke.cvWriteFrame(writer.CvPtr, image.CvPtr);
+            return NativeMethods.cvWriteFrame(writer.CvPtr, image.CvPtr);
         }
         #endregion
         #region WriteInt
@@ -387,7 +387,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fs");
             if (name == null)
                 throw new ArgumentNullException("name");
-            CvInvoke.cvWriteInt(fs.CvPtr, name, value);
+            NativeMethods.cvWriteInt(fs.CvPtr, name, value);
         }
         #endregion
         #region WriteRawData
@@ -419,7 +419,7 @@ namespace OpenCvSharp
 
             using (var srcPtr = new ArrayAddress1<T>(src))
             {
-                CvInvoke.cvWriteRawData(fs.CvPtr, srcPtr.Pointer, src.Length, dt);
+                NativeMethods.cvWriteRawData(fs.CvPtr, srcPtr.Pointer, src.Length, dt);
             }
         }
         #endregion
@@ -446,7 +446,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fs");
             if (name == null)
                 throw new ArgumentNullException("name");
-            CvInvoke.cvWriteReal(fs.CvPtr, name, value);
+            NativeMethods.cvWriteReal(fs.CvPtr, name, value);
         }
         #endregion
         #region WriteString
@@ -494,7 +494,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fs");
             if (str == null)
                 throw new ArgumentNullException("str");
-            CvInvoke.cvWriteString(fs.CvPtr, name, str, quote);
+            NativeMethods.cvWriteString(fs.CvPtr, name, str, quote);
         }
         #endregion
     }

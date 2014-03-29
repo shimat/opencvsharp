@@ -4,8 +4,6 @@
  */
 
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Security;
@@ -30,7 +28,7 @@ namespace OpenCvSharp
 #if SUPPRESS_SECURITY
     [SuppressUnmanagedCodeSecurity]
 #endif
-    public static class CvInvoke
+    public static class NativeMethods
     {
         #region Fields
         /// <summary>
@@ -62,7 +60,7 @@ namespace OpenCvSharp
 #if SUPPRESS_SECURITY
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 #endif
-        static CvInvoke()
+        static NativeMethods()
         {
             cvLoadCalled = false;            
 

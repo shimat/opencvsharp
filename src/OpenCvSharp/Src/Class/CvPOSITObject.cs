@@ -43,7 +43,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("points");
             }
-            this.ptr = CvInvoke.cvCreatePOSITObject(points, points.Length);
+            this.ptr = NativeMethods.cvCreatePOSITObject(points, points.Length);
             if (this.ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException();
@@ -93,7 +93,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleasePOSITObject(ref ptr);
+                        NativeMethods.cvReleasePOSITObject(ref ptr);
                     }
                     this._disposed = true;
                 }

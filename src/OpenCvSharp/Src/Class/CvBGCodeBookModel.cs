@@ -58,7 +58,7 @@ namespace OpenCvSharp
 #endif
         public CvBGCodeBookModel()
         {
-            ptr = CvInvoke.cvCreateBGCodeBookModel();
+            ptr = NativeMethods.cvCreateBGCodeBookModel();
             NotifyMemoryPressure(SizeOf);
         }
 
@@ -91,7 +91,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseBGCodeBookModel(ref ptr);
+                        NativeMethods.cvReleaseBGCodeBookModel(ref ptr);
                     }
                     disposed = true;
                 }

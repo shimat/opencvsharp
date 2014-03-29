@@ -784,7 +784,7 @@ namespace OpenCvSharp
             reader.Ptr = new IntPtr(reader.Ptr.ToInt32() + elem_size);
             if (reader.Ptr.ToInt32() >= reader.BlockMax.ToInt32())
             {
-                CvInvoke.cvChangeSeqBlock(reader.CvPtr, 1);                
+                NativeMethods.cvChangeSeqBlock(reader.CvPtr, 1);                
             }
         }
         #endregion
@@ -1103,7 +1103,7 @@ namespace OpenCvSharp
             reader.Ptr = new IntPtr(reader.Ptr.ToInt32() - elem_size);
             if (reader.Ptr.ToInt32() < reader.BlockMin.ToInt32())
             {
-                CvInvoke.cvChangeSeqBlock(reader.CvPtr, -1);
+                NativeMethods.cvChangeSeqBlock(reader.CvPtr, -1);
             }
         }
         #endregion
@@ -1311,7 +1311,7 @@ namespace OpenCvSharp
             int elemSize = writer.Seq.ElemSize;
             if (writer.Ptr.ToInt64() >= writer.BlockMax.ToInt64())
             {
-                CvInvoke.cvCreateSeqBlock(writer.CvPtr);
+                NativeMethods.cvCreateSeqBlock(writer.CvPtr);
             }
             Util.CopyMemory(writer.Ptr, elem_ptr, elemSize);
             writer.Ptr = new IntPtr(writer.Ptr.ToInt64() + elemSize);
@@ -1341,7 +1341,7 @@ namespace OpenCvSharp
             
             if (writer.Ptr.ToInt64() >= writer.BlockMax.ToInt64())
             {
-                CvInvoke.cvCreateSeqBlock(writer.CvPtr);
+                NativeMethods.cvCreateSeqBlock(writer.CvPtr);
             }
 
             if (writer.Ptr.ToInt64() > writer.BlockMax.ToInt64() - size)

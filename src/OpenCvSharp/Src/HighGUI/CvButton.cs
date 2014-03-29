@@ -194,7 +194,7 @@ namespace OpenCvSharp
                 callbackPtr = IntPtr.Zero;
             }
 
-            _result = CvInvoke.cvCreateButton(name, callbackPtr, userdataPtr, button_type, initial_button_state);
+            _result = NativeMethods.cvCreateButton(name, callbackPtr, userdataPtr, button_type, initial_button_state);
             if (_result == 0)
                 throw new OpenCvSharpException("Failed to create CvButton.");
 

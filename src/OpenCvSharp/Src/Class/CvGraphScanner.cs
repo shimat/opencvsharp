@@ -96,7 +96,7 @@ namespace OpenCvSharp
         ///  <br/> * CV_GRAPH_BACKTRACKING - stop at every already visited vertex during backtracking - returning to already visited vertexes of the traversal tree.</param>
 #endif
         public CvGraphScanner(CvGraph graph, CvGraphVtx vtx, GraphScannerMask mask)
-            : this(CvInvoke.cvCreateGraphScanner(graph.CvPtr, (vtx == null) ? IntPtr.Zero : vtx.CvPtr, mask))
+            : this(NativeMethods.cvCreateGraphScanner(graph.CvPtr, (vtx == null) ? IntPtr.Zero : vtx.CvPtr, mask))
         {
         }
 
@@ -129,7 +129,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseGraphScanner(ref ptr);
+                        NativeMethods.cvReleaseGraphScanner(ref ptr);
                     }
                     this._disposed = true;
                 }

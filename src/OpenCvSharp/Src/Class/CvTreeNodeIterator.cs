@@ -84,7 +84,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("first");
             }
-            CvInvoke.cvInitTreeNodeIterator(this, first, max_level);
+            NativeMethods.cvInitTreeNodeIterator(this, first, max_level);
         }
         /// <summary>
         /// Construct by cvInitTreeNodeIterator
@@ -97,7 +97,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("first");
             }
-            CvInvoke.cvInitTreeNodeIterator(this, first.CvPtr, max_level);
+            NativeMethods.cvInitTreeNodeIterator(this, first.CvPtr, max_level);
         }
         #endregion
 

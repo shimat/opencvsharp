@@ -74,7 +74,7 @@ namespace OpenCvSharp.MachineLearning
 	    /// <param name="_coef0">poly/sigmoid 用</param>
 	    /// <param name="_C">SVMType.CSvc, SVMType.EpsSvr, SVMType.NuSvr 用</param>
 	    /// <param name="_nu">SVMType.NuSvc, SVMType.OneClass, SVMType.NuSvr 用</param>
-	    /// <param name="_p">SVMType.EpsSvr 用</param>
+	    /// <param name="p">SVMType.EpsSvr 用</param>
 	    /// <param name="_class_weights">SVMType.CSvc 用</param>
 	    /// <param name="_term_crit">終了条件</param>
 #else

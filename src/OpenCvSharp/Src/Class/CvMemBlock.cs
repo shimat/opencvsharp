@@ -35,7 +35,7 @@ namespace OpenCvSharp
 #endif
         public CvMemBlock(IntPtr ptr)
         {
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
         #endregion
 
@@ -62,7 +62,7 @@ namespace OpenCvSharp
                 IntPtr p;
                 unsafe
                 {
-                    p = new IntPtr(((WCvMemBlock*)_ptr)->prev);
+                    p = new IntPtr(((WCvMemBlock*)ptr)->prev);
                 }
                 if (p == IntPtr.Zero)
                     return null;
@@ -86,7 +86,7 @@ namespace OpenCvSharp
                 IntPtr p;
                 unsafe
                 {
-                    p = new IntPtr(((WCvMemBlock*)_ptr)->next);
+                    p = new IntPtr(((WCvMemBlock*)ptr)->next);
                 }
                 if (p == IntPtr.Zero)
                     return null;

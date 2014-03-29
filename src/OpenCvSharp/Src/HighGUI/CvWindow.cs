@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
@@ -26,15 +25,15 @@ namespace OpenCvSharp
         static internal Dictionary<string, CvWindow> Windows = new Dictionary<string, CvWindow>();
         static private int windowCount = 0;
 
-        private string _name;
-        private CvArr _image;
-        private CvMouseCallback _mouseCallback;
-        private Dictionary<string, CvTrackbar> _trackbars;        
-        private ScopedGCHandle _callbackHandle;
+        private string name;
+        private CvArr image;
+        private CvMouseCallback mouseCallback;
+        private Dictionary<string, CvTrackbar> trackbars;        
+        private ScopedGCHandle callbackHandle;
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
         #endregion
 
         #region Init and Disposal
@@ -156,20 +155,20 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException();
             }
-            _name = name;
-            int status = CvInvoke.cvNamedWindow(name, flags);
+            this.name = name;
+            int status = NativeMethods.cvNamedWindow(name, flags);
             if (status == 0)
             {
                 throw new OpenCvSharpException("Failed to create CvWindow");
             }
-            _image = image;
+            this.image = image;
             ShowImage(image);
-            _trackbars = new Dictionary<string, CvTrackbar>();
+            trackbars = new Dictionary<string, CvTrackbar>();
             if (!Windows.ContainsKey(name))
             {
                 Windows.Add(name, this);
             }
-            this._callbackHandle = null;
+            callbackHandle = null;
         }
         /// <summary>
         /// ウィンドウ名が指定されなかったときに、適当な名前を作成して返す.
@@ -199,14 +198,14 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!this.disposed)
             {
                 // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
                     {
-                        foreach (KeyValuePair<string, CvTrackbar> pair in _trackbars)
+                        foreach (KeyValuePair<string, CvTrackbar> pair in trackbars)
                         {
                             if (pair.Value != null)
                             {
@@ -215,16 +214,16 @@ namespace OpenCvSharp
                         }
                         try
                         {
-                            Windows.Remove(_name);
+                            Windows.Remove(name);
                         }
                         catch (Exception) { }
-                        if (_callbackHandle != null && _callbackHandle.IsAllocated)
+                        if (callbackHandle != null && callbackHandle.IsAllocated)
                         {
-                            _callbackHandle.Dispose();
+                            callbackHandle.Dispose();
                         }
                     }
-                    CvInvoke.cvDestroyWindow(_name);
-                    this._disposed = true;
+                    NativeMethods.cvDestroyWindow(name);
+                    this.disposed = true;
                 }
                 finally
                 {
@@ -265,8 +264,8 @@ namespace OpenCvSharp
                 {
                     continue;
                 }
-                CvInvoke.cvDestroyWindow(w._name);
-                foreach (KeyValuePair<string, CvTrackbar> tpair in w._trackbars)
+                NativeMethods.cvDestroyWindow(w.name);
+                foreach (KeyValuePair<string, CvTrackbar> tpair in w.trackbars)
                 {
                     if (tpair.Value != null)
                     {
@@ -276,7 +275,7 @@ namespace OpenCvSharp
                 //w.Dispose();
             }
             Windows.Clear();
-            CvInvoke.cvDestroyAllWindows();
+            NativeMethods.cvDestroyAllWindows();
         }
         #endregion
 
@@ -292,7 +291,7 @@ namespace OpenCvSharp
 #endif
         public CvArr Image
         {
-            get { return _image; }
+            get { return image; }
             set { ShowImage(value); }
         }
 #if LANG_JP
@@ -306,8 +305,8 @@ namespace OpenCvSharp
 #endif
         public string Name
         {
-            get { return _name; }
-            private set { _name = value; }
+            get { return name; }
+            private set { name = value; }
         }
 #if LANG_JP
 		/// <summary>
@@ -320,7 +319,7 @@ namespace OpenCvSharp
 #endif
         public IntPtr Handle
         {
-            get { return CvInvoke.cvGetWindowHandle(_name); }
+            get { return NativeMethods.cvGetWindowHandle(name); }
         }
 
         /// <summary>
@@ -328,15 +327,15 @@ namespace OpenCvSharp
         /// </summary>
         internal CvMouseCallback MouseCallback
         {
-            get { return _mouseCallback; }
+            get { return mouseCallback; }
             set
             {
-                if (_callbackHandle != null && _callbackHandle.IsAllocated)
+                if (callbackHandle != null && callbackHandle.IsAllocated)
                 {
-                    _callbackHandle.Dispose();
+                    callbackHandle.Dispose();
                 }
-                _mouseCallback = value;
-                _callbackHandle = new ScopedGCHandle(_mouseCallback, GCHandleType.Normal);
+                mouseCallback = value;
+                callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
             }
         }
 #if LANG_JP
@@ -352,23 +351,23 @@ namespace OpenCvSharp
         {
             add
             {
-                if (_callbackHandle != null && _callbackHandle.IsAllocated)
+                if (callbackHandle != null && callbackHandle.IsAllocated)
                 {
-                    _callbackHandle.Dispose();
+                    callbackHandle.Dispose();
                 }
-                _mouseCallback += value;
-                _callbackHandle = new ScopedGCHandle(_mouseCallback, GCHandleType.Normal);
-                CvInvoke.cvSetMouseCallback(_name, _mouseCallback);
+                mouseCallback += value;
+                callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
+                NativeMethods.cvSetMouseCallback(name, mouseCallback);
             }
             remove
             {
-                if (_callbackHandle != null && _callbackHandle.IsAllocated)
+                if (callbackHandle != null && callbackHandle.IsAllocated)
                 {
-                    _callbackHandle.Dispose();
+                    callbackHandle.Dispose();
                 }
-                _mouseCallback -= value;
-                _callbackHandle = new ScopedGCHandle(_mouseCallback, GCHandleType.Normal);
-                CvInvoke.cvSetMouseCallback(_name, _mouseCallback);
+                mouseCallback -= value;
+                callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
+                NativeMethods.cvSetMouseCallback(name, mouseCallback);
             }
         }
 
@@ -383,7 +382,7 @@ namespace OpenCvSharp
 #endif
         public static bool HasQt
         {
-            get { return CvInvoke.HasQt; }
+            get { return NativeMethods.HasQt; }
         }
         #endregion
 
@@ -393,27 +392,27 @@ namespace OpenCvSharp
         /// <summary>
         /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
         /// </summary>
-        /// <param name="name">トラックバーの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
         /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
         /// </summary>
-        /// <param name="name">Name of created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
-        public CvTrackbar CreateTrackbar(string name, CvTrackbarCallback callback)
+        public CvTrackbar CreateTrackbar(string trackbarName, CvTrackbarCallback callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this._name, callback);
-            _trackbars.Add(name, trackbar);
+            CvTrackbar trackbar = new CvTrackbar(trackbarName, name, callback);
+            trackbars.Add(trackbarName, trackbar);
             return trackbar;
         }
 #if LANG_JP
         /// <summary>
         /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
         /// </summary>
-        /// <param name="name">トラックバーの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
         /// <param name="value">スライダの初期位置</param>
         /// <param name="max">スライダの最大値．最小値は常に 0.</param>
         /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
@@ -421,23 +420,23 @@ namespace OpenCvSharp
         /// <summary>
         /// Creates the trackbar and attaches it to this window
         /// </summary>
-        /// <param name="name">Name of created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
         /// <param name="value">The position of the slider</param>
         /// <param name="max">Maximal position of the slider. Minimal position is always 0. </param>
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
-        public CvTrackbar CreateTrackbar(string name, int value, int max, CvTrackbarCallback callback)
+        public CvTrackbar CreateTrackbar(string trackbarName, int value, int max, CvTrackbarCallback callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this._name, value, max, callback);
-            _trackbars.Add(name, trackbar);
+            CvTrackbar trackbar = new CvTrackbar(trackbarName, name, value, max, callback);
+            trackbars.Add(trackbarName, trackbar);
             return trackbar;
         }
 #if LANG_JP
         /// <summary>
         /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
         /// </summary>
-        /// <param name="name">トラックバーの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
         /// <param name="value">スライダの初期位置</param>
         /// <param name="max">スライダの最大値．最小値は常に 0.</param>
         /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
@@ -446,17 +445,17 @@ namespace OpenCvSharp
         /// <summary>
         /// Creates the trackbar and attaches it to this window
         /// </summary>
-        /// <param name="name">Name of created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
         /// <param name="value">The position of the slider</param>
         /// <param name="max">Maximal position of the slider. Minimal position is always 0. </param>
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <param name="userdata"></param>
         /// <returns></returns>
 #endif
-        public CvTrackbar CreateTrackbar2(string name, int value, int max, CvTrackbarCallback2 callback, object userdata)
+        public CvTrackbar CreateTrackbar2(string trackbarName, int value, int max, CvTrackbarCallback2 callback, object userdata)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this._name, value, max, callback, userdata);
-            _trackbars.Add(name, trackbar);
+            CvTrackbar trackbar = new CvTrackbar(trackbarName, name, value, max, callback, userdata);
+            trackbars.Add(trackbarName, trackbar);
             return trackbar;
         }
         #endregion
@@ -476,7 +475,7 @@ namespace OpenCvSharp
 #endif
         public void DisplayOverlay(string text, int delayms)
         {
-            Cv.DisplayOverlay(_name, text, delayms);
+            Cv.DisplayOverlay(name, text, delayms);
         }
         #endregion
         #region DisplayStatusBar
@@ -495,7 +494,7 @@ namespace OpenCvSharp
 #endif
         public void DisplayStatusBar(string text, int delayms)
         {
-            Cv.DisplayStatusBar(_name, text, delayms);
+            Cv.DisplayStatusBar(name, text, delayms);
         }
         #endregion
         #region GetProperty
@@ -503,18 +502,18 @@ namespace OpenCvSharp
         /// <summary>
         /// ウィンドウのプロパティを取得する
         /// </summary>
-        /// <param name="prop_id">プロパティの種類</param>
+        /// <param name="propId">プロパティの種類</param>
         /// <returns>プロパティの値</returns>
 #else
         /// <summary>
         /// Get Property of the window
         /// </summary>
-        /// <param name="prop_id">Property identifier</param>
+        /// <param name="propId">Property identifier</param>
         /// <returns>Value of the specified property</returns>
 #endif
-        public double GetProperty(WindowProperty prop_id)
+        public double GetProperty(WindowProperty propId)
         {
-            return CvInvoke.cvGetWindowProperty(_name, prop_id);
+            return NativeMethods.cvGetWindowProperty(name, propId);
         }
         #endregion        
         #region LoadWindowParameters
@@ -529,7 +528,7 @@ namespace OpenCvSharp
 #endif
         public void LoadWindowParameters()
         {
-            Cv.LoadWindowParameters(_name);
+            Cv.LoadWindowParameters(name);
         }
         #endregion
         #region Move
@@ -548,7 +547,7 @@ namespace OpenCvSharp
 #endif
         public void Move(int x, int y)
         {
-            CvInvoke.cvMoveWindow(_name, x, y);
+            NativeMethods.cvMoveWindow(name, x, y);
         }
         #endregion
         #region Resize
@@ -567,7 +566,7 @@ namespace OpenCvSharp
 #endif
         public void Resize(int width, int height)
         {
-            CvInvoke.cvResizeWindow(_name, width, height);
+            NativeMethods.cvResizeWindow(name, width, height);
         }
         #endregion
         #region SaveWindowParameters
@@ -582,7 +581,7 @@ namespace OpenCvSharp
 #endif
         public void SaveWindowParameters()
         {
-            Cv.SaveWindowParameters(_name);
+            Cv.SaveWindowParameters(name);
         }
         #endregion
         #region SetProperty
@@ -590,18 +589,18 @@ namespace OpenCvSharp
         /// <summary>
         /// ウィンドウのプロパティを設定する
         /// </summary>
-        /// <param name="prop_id">プロパティの種類</param>
-        /// <param name="prop_value">プロパティに設定する値</param>
+        /// <param name="propId">プロパティの種類</param>
+        /// <param name="propValue">プロパティに設定する値</param>
 #else
         /// <summary>
         /// Set Property of the window
         /// </summary>
-        /// <param name="prop_id">Property identifier</param>
-        /// <param name="prop_value">New value of the specified property</param>
+        /// <param name="propId">Property identifier</param>
+        /// <param name="propValue">New value of the specified property</param>
 #endif
-        public void SetProperty(WindowProperty prop_id, double prop_value)
+        public void SetProperty(WindowProperty propId, double propValue)
         {
-            CvInvoke.cvSetWindowProperty(_name, prop_id, prop_value);
+            NativeMethods.cvSetWindowProperty(name, propId, propValue);
         }
         #endregion
         #region ShowImage
@@ -622,8 +621,8 @@ namespace OpenCvSharp
         {
             if (img != null)
             {
-                this._image = img;
-                CvInvoke.cvShowImage(_name, img.CvPtr);
+                image = img;
+                NativeMethods.cvShowImage(name, img.CvPtr);
             }
         }
         #endregion
@@ -641,7 +640,7 @@ namespace OpenCvSharp
 #endif
         static public int WaitKey()
         {
-            return CvInvoke.cvWaitKey(0);
+            return NativeMethods.cvWaitKey(0);
         }
 #if LANG_JP
 	    /// <summary>
@@ -658,7 +657,7 @@ namespace OpenCvSharp
 #endif
         static public int WaitKey(int delay)
         {
-            return CvInvoke.cvWaitKey(delay);
+            return NativeMethods.cvWaitKey(delay);
         }
         #endregion
 

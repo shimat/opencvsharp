@@ -168,9 +168,9 @@ namespace OpenCvSharp
             this.offset = offset;
             if (ptr != IntPtr.Zero)
             {
-                CvInvoke.cvEndFindContours(ref ptr);
+                NativeMethods.cvEndFindContours(ref ptr);
             }
-            ptr = CvInvoke.cvStartFindContours(image.CvPtr, storage.CvPtr, headerSize, mode, method, offset);
+            ptr = NativeMethods.cvStartFindContours(image.CvPtr, storage.CvPtr, headerSize, mode, method, offset);
         }
         /// <summary>
         /// Initializes contour scanning process
@@ -325,7 +325,7 @@ namespace OpenCvSharp
                     if (disposing)
                     {
                     }
-                    CvInvoke.cvEndFindContours(ref ptr);
+                    NativeMethods.cvEndFindContours(ref ptr);
                     disposed = true;
                 }
                 finally
@@ -353,7 +353,7 @@ namespace OpenCvSharp
         public CvSeq<CvPoint> EndFindContours()
         {
             IntPtr ptr = CvPtr;
-            IntPtr result = CvInvoke.cvEndFindContours(ref ptr);
+            IntPtr result = NativeMethods.cvEndFindContours(ref ptr);
             disposed = true;
             if (result == IntPtr.Zero)
                 return null;

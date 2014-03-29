@@ -48,7 +48,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("arr");
             }
-            CvInvoke.cvMoments(arr.CvPtr, this, binary);
+            NativeMethods.cvMoments(arr.CvPtr, this, binary);
         }
         #endregion
 

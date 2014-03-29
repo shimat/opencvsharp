@@ -64,7 +64,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("distortionCoeffs");
 
             IntPtr newCameraMatrixPtr = (newCameraMatrix == null) ? IntPtr.Zero : newCameraMatrix.CvPtr;
-            CvInvoke.cvUndistort2(src.CvPtr, dst.CvPtr, intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, newCameraMatrixPtr);
+            NativeMethods.cvUndistort2(src.CvPtr, dst.CvPtr, intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, newCameraMatrixPtr);
         }
         #endregion
         #region UndistortPoints
@@ -103,7 +103,7 @@ namespace OpenCvSharp
             IntPtr Rptr = (R == null) ? IntPtr.Zero : R.CvPtr;
             IntPtr Pptr = (P == null) ? IntPtr.Zero : P.CvPtr;
 
-            CvInvoke.cvUndistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, Rptr, Pptr);
+            NativeMethods.cvUndistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, Rptr, Pptr);
         }
         #endregion
         #region UnregisterType
@@ -124,7 +124,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("typeName");
             }
-            CvInvoke.cvUnregisterType(typeName);
+            NativeMethods.cvUnregisterType(typeName);
         }
         #endregion
         #region UpdateMotionHistory
@@ -151,7 +151,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("silhouette");
             if (mhi == null)
                 throw new ArgumentNullException("mhi");
-            CvInvoke.cvUpdateMotionHistory(silhouette.CvPtr, mhi.CvPtr, timestamp, duration);
+            NativeMethods.cvUpdateMotionHistory(silhouette.CvPtr, mhi.CvPtr, timestamp, duration);
         }
         #endregion
         #region UseOptimized
@@ -170,7 +170,7 @@ namespace OpenCvSharp
 #endif
         public static int UseOptimized(bool onOff)
         {
-            return CvInvoke.cvUseOptimized(onOff);
+            return NativeMethods.cvUseOptimized(onOff);
         }
         #endregion
     }

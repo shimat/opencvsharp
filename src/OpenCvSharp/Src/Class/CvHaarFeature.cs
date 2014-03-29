@@ -39,7 +39,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("ptr");
             }
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
         #endregion
 
@@ -65,7 +65,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvHaarFeature*)_ptr)->tilted;
+                    return ((WCvHaarFeature*)ptr)->tilted;
                 }
             }
 		}
@@ -85,7 +85,7 @@ namespace OpenCvSharp
             {                
                 unsafe
                 {
-                    WCvHaarFeature* p = (WCvHaarFeature*)_ptr;
+                    WCvHaarFeature* p = (WCvHaarFeature*)ptr;
                     CvHaarFeature.Rect[] result = new CvHaarFeature.Rect[CvConst.CV_HAAR_FEATURE_MAX]
                     {
                         new CvHaarFeature.Rect(){ R = p->rect1_r, Weight = p->rect1_weight },

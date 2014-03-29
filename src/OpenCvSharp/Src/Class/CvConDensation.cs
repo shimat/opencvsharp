@@ -63,7 +63,7 @@ namespace OpenCvSharp
 #endif
         public CvConDensation(int dynamParams, int measureParams, int sampleCount)
         {
-            ptr = CvInvoke.cvCreateConDensation(dynamParams, measureParams, sampleCount);
+            ptr = NativeMethods.cvCreateConDensation(dynamParams, measureParams, sampleCount);
             NotifyMemoryPressure(SizeOf);
         }
 
@@ -96,7 +96,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseConDensation(ref ptr);
+                        NativeMethods.cvReleaseConDensation(ref ptr);
                     }
                     disposed = true;
                 }

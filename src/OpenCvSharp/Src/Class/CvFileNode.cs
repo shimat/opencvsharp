@@ -35,7 +35,7 @@ namespace OpenCvSharp
 #endif
         public CvFileNode(IntPtr ptr)
         {
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
 #if LANG_JP
         /// <summary>
@@ -75,7 +75,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return (NodeType)((WCvFileNode*)_ptr)->tag;
+                    return (NodeType)((WCvFileNode*)ptr)->tag;
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    CvString s = ((WCvFileNode*)_ptr)->data;
+                    CvString s = ((WCvFileNode*)ptr)->data;
                     byte[] b1 = BitConverter.GetBytes(s.Len);
                     byte[] b2;
                     if (IntPtr.Size == 4)
@@ -126,7 +126,7 @@ namespace OpenCvSharp
                     // CvStringはx86で8バイト、x64で12バイト。
                     // doubleの分の8バイトを抽出する。                    
                     return BitConverter.Int64BitsToDouble(DataHead);
-                    //return ((WCvFileNode*)_ptr)->data_f;
+                    //return ((WCvFileNode*)ptr)->data_f;
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    CvString s = ((WCvFileNode*)_ptr)->data;
+                    CvString s = ((WCvFileNode*)ptr)->data;
                     return s.Len;
                     //return ((WCvFileNode*)_ptr)->data_i;
                 }
@@ -168,7 +168,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvFileNode*)_ptr)->data;
+                    return ((WCvFileNode*)ptr)->data;
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    //seq = new IntPtr(((WCvFileNode*)_ptr)->data_seq);
+                    //seq = new IntPtr(((WCvFileNode*)ptr)->data_seq);
                     IntPtr seq = new IntPtr(DataHead);
                     if (seq == IntPtr.Zero)
                         return null;
@@ -215,7 +215,7 @@ namespace OpenCvSharp
                 {
                     IntPtr seq = new IntPtr(DataHead);
                     return new IntPtr(DataHead);
-                    //return new IntPtr(((WCvFileNode*)_ptr)->data_map);
+                    //return new IntPtr(((WCvFileNode*)ptr)->data_map);
                 }
             }
         }

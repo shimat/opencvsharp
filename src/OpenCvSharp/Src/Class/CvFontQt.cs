@@ -145,7 +145,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("nameFont");
 
             ptr = base.AllocMemory(SizeOf);
-            WCvFont font = CvInvoke.cvFontQt(nameFont, pointSize, color, weight, style, spacing);
+            WCvFont font = NativeMethods.cvFontQt(nameFont, pointSize, color, weight, style, spacing);
             using (ScopedGCHandle gch = new ScopedGCHandle(font, GCHandleType.Pinned))
             {
                 Util.CopyMemory(ptr, gch.AddrOfPinnedObject(), SizeOf);

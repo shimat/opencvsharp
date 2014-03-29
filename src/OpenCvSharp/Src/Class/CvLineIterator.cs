@@ -137,7 +137,7 @@ namespace OpenCvSharp
             this._pt2 = pt2;
             this._connectivity = connectivity;
             this._left_to_right = left_to_right;
-            this._count = CvInvoke.cvInitLineIterator(image.CvPtr, pt1, pt2, this.CvPtr, connectivity, left_to_right);
+            this._count = NativeMethods.cvInitLineIterator(image.CvPtr, pt1, pt2, this.CvPtr, connectivity, left_to_right);
         }
         /// <summary>
         /// Initializes line iterator

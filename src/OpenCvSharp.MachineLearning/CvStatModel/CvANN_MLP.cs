@@ -148,7 +148,7 @@ namespace OpenCvSharp.MachineLearning
                     if (IsEnabledDispose)
                     {
                         MLInvoke.CvANN_MLP_destruct(ptr);
-                        //ML.CvANN_MLP_clear(_ptr);
+                        //ML.CvANN_MLP_clear(ptr);
                     }
                     this.disposed = true;
                 }

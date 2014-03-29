@@ -43,7 +43,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("ptr");
             }
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
         #endregion
 
@@ -69,7 +69,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvHaarClassifier*)_ptr)->count;
+                    return ((WCvHaarClassifier*)ptr)->count;
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    WCvHaarClassifier* p = (WCvHaarClassifier*)_ptr;
+                    WCvHaarClassifier* p = (WCvHaarClassifier*)ptr;
                     WCvHaarFeature* haar_feature = (WCvHaarFeature*)p->haar_feature;
 
                     int length = p->count;
@@ -118,7 +118,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    float* p = ((WCvHaarClassifier*)_ptr)->threshold;
+                    float* p = ((WCvHaarClassifier*)ptr)->threshold;
                     return new PointerAccessor1D_Single(p);
                 }
             }
@@ -139,7 +139,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    int* p = ((WCvHaarClassifier*)_ptr)->left;
+                    int* p = ((WCvHaarClassifier*)ptr)->left;
                     return new PointerAccessor1D_Int32(p);
                 }
             }
@@ -160,7 +160,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    int* p = ((WCvHaarClassifier*)_ptr)->right;
+                    int* p = ((WCvHaarClassifier*)ptr)->right;
                     return new PointerAccessor1D_Int32(p);
                 }
             }
@@ -181,7 +181,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    float* p = ((WCvHaarClassifier*)_ptr)->alpha;
+                    float* p = ((WCvHaarClassifier*)ptr)->alpha;
                     return new PointerAccessor1D_Single(p);
                 }
             }

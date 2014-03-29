@@ -853,7 +853,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
-            CppInvoke.gpu_GpuMat_release(_ptr);
+            CppInvoke.gpu_GpuMat_release(ptr);
         }
         //*/
         /// <summary>

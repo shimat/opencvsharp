@@ -79,7 +79,7 @@ namespace OpenCvSharp
 #endif
 	    public IplConvKernel(int cols, int rows, int anchorX, int anchorY, ElementShape shape, int[,] values)
 	    {
-		    ptr = CvInvoke.cvCreateStructuringElementEx(cols, rows, anchorX, anchorY, shape, values);
+		    ptr = NativeMethods.cvCreateStructuringElementEx(cols, rows, anchorX, anchorY, shape, values);
             if (ptr == null)
             {
                 throw new OpenCvSharpException("IplConvKernelの生成に失敗しました。");
@@ -133,7 +133,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseStructuringElement(ref ptr);
+                        NativeMethods.cvReleaseStructuringElement(ref ptr);
                     }
                     disposed = true;
                 }

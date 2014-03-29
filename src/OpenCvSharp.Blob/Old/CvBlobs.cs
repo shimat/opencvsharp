@@ -426,7 +426,7 @@ namespace OpenCvSharp.Blob.Old
             if (Disposed)
                 throw new ObjectDisposedException("CvBlobs");
             CvBlobInvoke.cvb_cvReleaseBlobs(ptr);
-            //CvBlobInvoke.CvBlobs_Clear(_ptr);
+            //CvBlobInvoke.CvBlobs_Clear(ptr);
         }
 #if LANG_JP
         /// <summary>

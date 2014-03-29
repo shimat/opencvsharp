@@ -53,7 +53,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("hist");
             }
-            CvInvoke.cvThreshHist(hist.CvPtr, threshold);
+            NativeMethods.cvThreshHist(hist.CvPtr, threshold);
         }
         #endregion
         #region Threshold
@@ -82,7 +82,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvThreshold(src.CvPtr, dst.CvPtr, threshold, maxValue, thresholdType);
+            NativeMethods.cvThreshold(src.CvPtr, dst.CvPtr, threshold, maxValue, thresholdType);
         }
         #endregion
         #region Trace
@@ -105,7 +105,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("mat");
             }
-            return CvInvoke.cvTrace(mat.CvPtr);
+            return NativeMethods.cvTrace(mat.CvPtr);
         }
         #endregion
         #region TrackFace
@@ -129,7 +129,7 @@ namespace OpenCvSharp
             if (pRects.Length < 3)
                 throw new ArgumentException("pRects.Length >= 3");
 
-            return CvInvoke.cvTrackFace(pFaceTracker.CvPtr, imgGray.CvPtr, pRects, pRects.Length, out ptRotate, out dbAngleRotate);
+            return NativeMethods.cvTrackFace(pFaceTracker.CvPtr, imgGray.CvPtr, pRects, pRects.Length, out ptRotate, out dbAngleRotate);
         }
         #endregion
         #region Transform
@@ -178,7 +178,7 @@ namespace OpenCvSharp
             if (transmat == null)
                 throw new ArgumentNullException("transmat");
             IntPtr shiftvecPtr = (shiftvec == null) ? IntPtr.Zero : shiftvec.CvPtr;
-            CvInvoke.cvTransform(src.CvPtr, dst.CvPtr, transmat.CvPtr, shiftvecPtr);
+            NativeMethods.cvTransform(src.CvPtr, dst.CvPtr, transmat.CvPtr, shiftvecPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -241,7 +241,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvTranspose(src.CvPtr, dst.CvPtr);
+            NativeMethods.cvTranspose(src.CvPtr, dst.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -262,7 +262,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvTranspose(src.CvPtr, dst.CvPtr);
+            NativeMethods.cvTranspose(src.CvPtr, dst.CvPtr);
         }
         #endregion
         #region TreeToNodeSeq
@@ -293,7 +293,7 @@ namespace OpenCvSharp
             if (storage == null)
                 throw new ArgumentNullException("storage");
 
-            IntPtr result = CvInvoke.cvTreeToNodeSeq(first.CvPtr, headerSize, storage);
+            IntPtr result = NativeMethods.cvTreeToNodeSeq(first.CvPtr, headerSize, storage);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -333,7 +333,7 @@ namespace OpenCvSharp
             if (points4D == null)
                 throw new ArgumentNullException("points4D");
 
-            CvInvoke.cvTriangulatePoints(projMatr1.CvPtr, projMatr2.CvPtr, projPoints1.CvPtr, projPoints2.CvPtr, points4D.CvPtr);
+            NativeMethods.cvTriangulatePoints(projMatr1.CvPtr, projMatr2.CvPtr, projPoints1.CvPtr, projPoints2.CvPtr, points4D.CvPtr);
         }
         #endregion
         #region TypeOf
@@ -352,7 +352,7 @@ namespace OpenCvSharp
 #endif
         public static CvTypeInfo TypeOf(IntPtr structPtr)
         {
-            IntPtr result = CvInvoke.cvTypeOf(structPtr);
+            IntPtr result = NativeMethods.cvTypeOf(structPtr);
             if (result == IntPtr.Zero)
                 return null;
             else

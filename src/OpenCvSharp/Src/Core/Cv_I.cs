@@ -238,7 +238,7 @@ namespace OpenCvSharp
         public static IplImage InitImageHeader(out IplImage image, CvSize size, BitDepth depth, int channels, ImageOrigin origin, int align)
         {
             image = new IplImage();
-            CvInvoke.cvInitImageHeader(image.CvPtr, size, depth, channels, origin, align);
+            NativeMethods.cvInitImageHeader(image.CvPtr, size, depth, channels, origin, align);
             return image;
         }
         #endregion
@@ -297,7 +297,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("npoints");
             if (cameraMatrix == null)
                 throw new ArgumentNullException("cameraMatrix");
-            CvInvoke.cvInitIntrinsicParams2D(objectPoints.CvPtr, imagePoints.CvPtr, npoints.CvPtr, imageSize, cameraMatrix.CvPtr, aspectRatio);
+            NativeMethods.cvInitIntrinsicParams2D(objectPoints.CvPtr, imagePoints.CvPtr, npoints.CvPtr, imageSize, cameraMatrix.CvPtr, aspectRatio);
         }
         #endregion
         #region InitLineIterator
@@ -465,13 +465,13 @@ namespace OpenCvSharp
             IntPtr result;
             if (data == null)
             {
-                result = CvInvoke.cvInitMatHeader(mat.CvPtr, rows, cols, type, IntPtr.Zero, step);
+                result = NativeMethods.cvInitMatHeader(mat.CvPtr, rows, cols, type, IntPtr.Zero, step);
             }
             else
             {
                 using (var dataPtr = new ArrayAddress1<T>(data))
                 {
-                    result = CvInvoke.cvInitMatHeader(mat.CvPtr, rows, cols, type, dataPtr, step);
+                    result = NativeMethods.cvInitMatHeader(mat.CvPtr, rows, cols, type, dataPtr, step);
                 }
             }
             if (result == IntPtr.Zero)
@@ -536,13 +536,13 @@ namespace OpenCvSharp
             IntPtr result;
             if (data == null)
             {
-                result = CvInvoke.cvInitMatNDHeader(mat.CvPtr, dims, sizes, type, IntPtr.Zero);
+                result = NativeMethods.cvInitMatNDHeader(mat.CvPtr, dims, sizes, type, IntPtr.Zero);
             }
             else
             {
                 using (var dataPtr = new ArrayAddress1<T>(data))
                 {
-                    result = CvInvoke.cvInitMatNDHeader(mat.CvPtr, dims, sizes, type, dataPtr);
+                    result = NativeMethods.cvInitMatNDHeader(mat.CvPtr, dims, sizes, type, dataPtr);
                 }
             }
             if (result == IntPtr.Zero)
@@ -597,7 +597,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("subdiv");
             }
-            CvInvoke.cvInitSubdivDelaunay2D(subdiv.CvPtr, rect);
+            NativeMethods.cvInitSubdivDelaunay2D(subdiv.CvPtr, rect);
         }
         #endregion
         #region InitTreeNodeIterator
@@ -624,7 +624,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("first");
             
             treeIterator = new CvTreeNodeIterator();
-            CvInvoke.cvInitTreeNodeIterator(treeIterator, first.CvPtr, maxLevel);
+            NativeMethods.cvInitTreeNodeIterator(treeIterator, first.CvPtr, maxLevel);
         }
         #endregion
         #region InitUndistortMap
@@ -656,7 +656,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("mapx");
             if (mapy == null)
                 throw new ArgumentNullException("mapy");
-            CvInvoke.cvInitUndistortMap(intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, mapx.CvPtr, mapy.CvPtr);
+            NativeMethods.cvInitUndistortMap(intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, mapx.CvPtr, mapy.CvPtr);
         }
         #endregion
         #region InitUndistortRectifyMap
@@ -694,7 +694,7 @@ namespace OpenCvSharp
             if (mapy == null)
                 throw new ArgumentNullException("mapy");
             IntPtr Rptr = (R == null) ? IntPtr.Zero : R.CvPtr;
-            CvInvoke.cvInitUndistortRectifyMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, Rptr, newCameraMatrix.CvPtr, mapx.CvPtr, mapy.CvPtr);
+            NativeMethods.cvInitUndistortRectifyMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, Rptr, newCameraMatrix.CvPtr, mapx.CvPtr, mapy.CvPtr);
         }
         #endregion
         #region Inpaint
@@ -725,7 +725,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("mask");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvInpaint(src.CvPtr, mask.CvPtr, dst.CvPtr, inpaintRange, flags);
+            NativeMethods.cvInpaint(src.CvPtr, mask.CvPtr, dst.CvPtr, inpaintRange, flags);
         }
         #endregion
         #region InRange
@@ -756,7 +756,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("upper");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvInRange(src.CvPtr, lower.CvPtr, upper.CvPtr, dst.CvPtr);
+            NativeMethods.cvInRange(src.CvPtr, lower.CvPtr, upper.CvPtr, dst.CvPtr);
         }
         #endregion
         #region InRangeS
@@ -783,7 +783,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvInRangeS(src.CvPtr, lower, upper, dst.CvPtr);
+            NativeMethods.cvInRangeS(src.CvPtr, lower, upper, dst.CvPtr);
         }
         #endregion
         #region InsertNodeIntoTree
@@ -813,7 +813,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("parent");
             if (frame == null)
                 throw new ArgumentNullException("frame");
-            CvInvoke.cvInsertNodeIntoTree(node.CvPtr, parent.CvPtr, frame.CvPtr);
+            NativeMethods.cvInsertNodeIntoTree(node.CvPtr, parent.CvPtr, frame.CvPtr);
         }
         #endregion
         #region Integral
@@ -878,7 +878,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("sum");
             IntPtr sqsumPtr = (sqsum == null) ? IntPtr.Zero : sqsum.CvPtr;
             IntPtr tiltedSumPtr = (tiltedSum == null) ? IntPtr.Zero : tiltedSum.CvPtr;
-            CvInvoke.cvIntegral(image.CvPtr, sum.CvPtr, sqsumPtr, tiltedSumPtr);
+            NativeMethods.cvIntegral(image.CvPtr, sum.CvPtr, sqsumPtr, tiltedSumPtr);
         }
         #endregion
         #region Invert
@@ -928,7 +928,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            return CvInvoke.cvInvert(src.CvPtr, dst.CvPtr, method);
+            return NativeMethods.cvInvert(src.CvPtr, dst.CvPtr, method);
         }
 #if LANG_JP
         /// <summary>

@@ -66,7 +66,7 @@ namespace OpenCvSharp
 #endif
         public CvStereoBMState(StereoBMPreset preset, int numberOfDisparities)
         {
-            this.ptr = CvInvoke.cvCreateStereoBMState(preset, numberOfDisparities);
+            this.ptr = NativeMethods.cvCreateStereoBMState(preset, numberOfDisparities);
             if (this.ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvStereoBMState");
@@ -119,7 +119,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseStereoBMState(ref ptr);
+                        NativeMethods.cvReleaseStereoBMState(ref ptr);
                     }
                     this._disposed = true;
                 }

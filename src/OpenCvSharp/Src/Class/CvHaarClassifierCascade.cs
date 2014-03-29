@@ -105,7 +105,7 @@ namespace OpenCvSharp
         {
             if (string.IsNullOrEmpty(directory))
                 throw new ArgumentNullException("directory");
-            IntPtr result = CvInvoke.cvLoadHaarClassifierCascade(directory, origWindowSize);
+            IntPtr result = NativeMethods.cvLoadHaarClassifierCascade(directory, origWindowSize);
             if (result == IntPtr.Zero)
                 return null;
             return new CvHaarClassifierCascade(result);
@@ -140,7 +140,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseHaarClassifierCascade(ref ptr);
+                        NativeMethods.cvReleaseHaarClassifierCascade(ref ptr);
                     }
                     disposed = true;
                 }

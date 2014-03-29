@@ -63,7 +63,7 @@ namespace OpenCvSharp.Blob.Old
             if (item == null)
                 throw new ArgumentNullException("item");
 
-            CvBlobInvoke.CvContoursChainCode_PushBack(_ptr, item.CvPtr);
+            CvBlobInvoke.CvContoursChainCode_PushBack(ptr, item.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -76,7 +76,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public void Clear()
         {
-            CvBlobInvoke.CvContoursChainCode_Clear(_ptr);
+            CvBlobInvoke.CvContoursChainCode_Clear(ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -96,7 +96,7 @@ namespace OpenCvSharp.Blob.Old
             if (item == null)
                 throw new ArgumentNullException("item");
 
-            return CvBlobInvoke.CvContoursChainCode_Contains(_ptr, item.CvPtr);
+            return CvBlobInvoke.CvContoursChainCode_Contains(ptr, item.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -117,7 +117,7 @@ namespace OpenCvSharp.Blob.Old
                 throw new ArgumentNullException("array");
 
             IntPtr[] ptrArray = new IntPtr[array.Length];
-            CvBlobInvoke.CvContoursChainCode_CopyTo(_ptr, ptrArray, arrayIndex);
+            CvBlobInvoke.CvContoursChainCode_CopyTo(ptr, ptrArray, arrayIndex);
             for (int i = arrayIndex; i < ptrArray.Length; i++)
             {
                 array[i] = new CvContourChainCode(ptrArray[i]);
@@ -136,7 +136,7 @@ namespace OpenCvSharp.Blob.Old
         {
             get
             {
-                return CvBlobInvoke.CvContoursChainCode_Count(_ptr);
+                return CvBlobInvoke.CvContoursChainCode_Count(ptr);
             }
         }
 #if LANG_JP
@@ -170,7 +170,7 @@ namespace OpenCvSharp.Blob.Old
             if (item == null)
                 throw new ArgumentNullException("item");
 
-            return CvBlobInvoke.CvContoursChainCode_Remove(_ptr, item.CvPtr);
+            return CvBlobInvoke.CvContoursChainCode_Remove(ptr, item.CvPtr);
         }
         #endregion
         #region IEnumerable<CvContourChainCode> Members
