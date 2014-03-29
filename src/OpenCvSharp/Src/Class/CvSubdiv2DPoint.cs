@@ -179,6 +179,13 @@ namespace OpenCvSharp
                     return ((WCvSubdiv2DPoint*)ptr)->id;
                 }
             }
+            set
+            {
+                unsafe
+                {
+                    ((WCvSubdiv2DPoint*)ptr)->id = value;
+                }
+            }
         }
         #endregion
     }
