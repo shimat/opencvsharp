@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
@@ -15,7 +11,10 @@ namespace OpenCvSharp.ReleaseMaker
     /// </summary>
     public partial class MainForm : Form
     {
-        private const string VSVersion = "2012";
+        /// <summary>
+        /// 2012 / 2013
+        /// </summary>
+        private const string VSVersion = "2013";
 
         /// <summary>
         /// Constructor
@@ -87,7 +86,7 @@ namespace OpenCvSharp.ReleaseMaker
             {
                 MakeBinaryPackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
                 MakeSamplePackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
-                MessageBox.Show("生成成功");
+                MessageBox.Show(@"生成成功");
             }
             /*catch (Exception ex)
             {
@@ -103,7 +102,7 @@ namespace OpenCvSharp.ReleaseMaker
         /// <summary>
         /// 
         /// </summary>
-        private static readonly string[] DllFiles = new string[]{
+        private static readonly string[] DllFiles = {
             @"OpenCvSharp\bin\Release\OpenCvSharp.dll", 
             @"OpenCvSharp\bin\Release\OpenCvSharp.dll.config", 
             @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll", 
@@ -122,7 +121,7 @@ namespace OpenCvSharp.ReleaseMaker
         /// <summary>
         /// 
         /// </summary>
-        private static readonly string[] XmlFiles = new string[]{
+        private static readonly string[] XmlFiles = {
             @"OpenCvSharp\bin\{0}\OpenCvSharp.xml", 
             @"OpenCvSharp.Blob\bin\{0}\OpenCvSharp.Blob.xml", 
             @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.xml", 
@@ -131,11 +130,11 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp.UserInterface\bin\{0}\OpenCvSharp.UserInterface.xml", 
         };
 
-        private static readonly string[] Platforms = new string[] { 
+        private static readonly string[] Platforms = { 
             "x86", 
             "x64" 
         };
-        private static readonly string[] Languages = new string[] { 
+        private static readonly string[] Languages = { 
             "Release", 
             "Release JP" 
         };
@@ -143,10 +142,9 @@ namespace OpenCvSharp.ReleaseMaker
         /// <summary>
         /// バイナリのzipパッケージを作成
         /// </summary>
-        /// <param name="dirSrc"></param>
+        /// <param name="dir"></param>
         /// <param name="dirDst"></param>
-        /// <param name="language"></param>
-        /// <param name="platform"></param>
+        /// <param name="version"></param>
         private void MakeBinaryPackage(string dir, string dirDst, string version)
         {
             string dirSrc = Path.Combine(dir, "src");
@@ -247,13 +245,13 @@ namespace OpenCvSharp.ReleaseMaker
         }
 
 
-        private static readonly string[] InvalidExt = new string[] { 
+        private static readonly string[] InvalidExt = { 
             ".pdb", 
             ".bak",
             ".user",
             ".suo",
         };
-        private static readonly string[] InvalidDir = new string[] { 
+        private static readonly string[] InvalidDir = { 
             ".svn", 
             ".git", 
             "bin",
