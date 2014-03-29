@@ -32,7 +32,7 @@ namespace OpenCvSharp
             if (capture == null)
                 throw new ArgumentNullException("capture");
             
-            IntPtr ptr = CvInvoke.cvQueryFrame(capture.CvPtr);
+            IntPtr ptr = NativeMethods.cvQueryFrame(capture.CvPtr);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -58,7 +58,7 @@ namespace OpenCvSharp
 #endif
         public static double QueryHistValue_1D(CvHistogram hist, int idx0)
         {
-            return CvInvoke.cvGetReal1D(hist.BinsPtr, idx0);
+            return NativeMethods.cvGetReal1D(hist.BinsPtr, idx0);
         }
 #if LANG_JP
         /// <summary>
@@ -80,7 +80,7 @@ namespace OpenCvSharp
 #endif
         public static double QueryHistValue_2D(CvHistogram hist, int idx0, int idx1)
         {
-            return CvInvoke.cvGetReal2D(hist.BinsPtr, idx0, idx1);
+            return NativeMethods.cvGetReal2D(hist.BinsPtr, idx0, idx1);
         }
 #if LANG_JP
         /// <summary>
@@ -104,7 +104,7 @@ namespace OpenCvSharp
 #endif
         public static double QueryHistValue_3D(CvHistogram hist, int idx0, int idx1, int idx2)
         {
-            return CvInvoke.cvGetReal3D(hist.BinsPtr, idx0, idx1, idx2);
+            return NativeMethods.cvGetReal3D(hist.BinsPtr, idx0, idx1, idx2);
         }
 #if LANG_JP
         /// <summary>
@@ -124,7 +124,7 @@ namespace OpenCvSharp
 #endif
         public static double QueryHistValue_nD(CvHistogram hist, params int[] idx)
         {
-            return CvInvoke.cvGetRealND(hist.BinsPtr, idx);
+            return NativeMethods.cvGetRealND(hist.BinsPtr, idx);
         }
         #endregion
     }

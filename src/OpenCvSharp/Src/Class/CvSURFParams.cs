@@ -133,7 +133,7 @@ namespace OpenCvSharp
 #endif
         public CvSURFParams(double hessianThreshold, bool extended)
         {
-            _p = CvInvoke.cvSURFParams(hessianThreshold, extended);
+            _p = NativeMethods.cvSURFParams(hessianThreshold, extended);
         }
         #endregion
 

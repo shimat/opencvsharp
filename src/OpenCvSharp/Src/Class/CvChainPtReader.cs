@@ -178,7 +178,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("target");
             
             chain = target;            
-            CvInvoke.cvStartReadChainPoints(chain.CvPtr, CvPtr);
+            NativeMethods.cvStartReadChainPoints(chain.CvPtr, CvPtr);
         }
 
         #region ReadChainPoint

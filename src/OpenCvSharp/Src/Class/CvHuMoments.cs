@@ -46,7 +46,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("moments");
             }
-            CvInvoke.cvGetHuMoments(moments, this);
+            NativeMethods.cvGetHuMoments(moments, this);
         }
     }
 }

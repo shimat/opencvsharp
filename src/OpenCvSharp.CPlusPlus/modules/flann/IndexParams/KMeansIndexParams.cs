@@ -41,14 +41,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_KMeansIndexParams_branching(_ptr);
+                    return *FlannInvoke.flann_KMeansIndexParams_branching(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_KMeansIndexParams_branching(_ptr) = value;
+                    *FlannInvoke.flann_KMeansIndexParams_branching(ptr) = value;
                 }
             }
         }
@@ -68,14 +68,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_KMeansIndexParams_iterations(_ptr);
+                    return *FlannInvoke.flann_KMeansIndexParams_iterations(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_KMeansIndexParams_iterations(_ptr) = value;
+                    *FlannInvoke.flann_KMeansIndexParams_iterations(ptr) = value;
                 }
             }
         }
@@ -94,14 +94,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_KMeansIndexParams_centers_init(_ptr);
+                    return *FlannInvoke.flann_KMeansIndexParams_centers_init(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_KMeansIndexParams_centers_init(_ptr) = value;
+                    *FlannInvoke.flann_KMeansIndexParams_centers_init(ptr) = value;
                 }
             }
         }
@@ -123,14 +123,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_KMeansIndexParams_cb_index(_ptr);
+                    return *FlannInvoke.flann_KMeansIndexParams_cb_index(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_KMeansIndexParams_cb_index(_ptr) = value;
+                    *FlannInvoke.flann_KMeansIndexParams_cb_index(ptr) = value;
                 }
             }
         }
@@ -230,7 +230,7 @@ namespace OpenCvSharp.CPlusPlus
             if (centers == null)
                 throw new ArgumentNullException("centers");
 
-            return FlannInvoke.flann_hierarchicalClustering(features.CvPtr, centers.CvPtr, _ptr);
+            return FlannInvoke.flann_hierarchicalClustering(features.CvPtr, centers.CvPtr, ptr);
         }
         */
         #endregion

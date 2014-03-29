@@ -36,8 +36,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Point2f Pt;
         /*{
-            get { return _p.pt; }
-            set { _p.pt = value; }
+            get { return p.pt; }
+            set { p.pt = value; }
         }*/
 #if LANG_JP
         /// <summary>
@@ -50,8 +50,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public float Size;
         /*{
-            get { return _p.size; }
-            set { _p.size = value; }
+            get { return p.size; }
+            set { p.size = value; }
         }*/
 #if LANG_JP
         /// <summary>
@@ -64,8 +64,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public float Angle;
         /*{
-            get { return _p.angle; }
-            set { _p.angle = value; }
+            get { return p.angle; }
+            set { p.angle = value; }
         }*/
 #if LANG_JP
         /// <summary>
@@ -78,8 +78,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public float Response;
         /*{
-            get { return _p.response; }
-            set { _p.response = value; }
+            get { return p.response; }
+            set { p.response = value; }
         }*/
 #if LANG_JP
         /// <summary>
@@ -92,8 +92,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int Octave;
         /*{
-            get { return _p.octave; }
-            set { _p.octave = value; }
+            get { return p.octave; }
+            set { p.octave = value; }
         }*/
 #if LANG_JP
         /// <summary>
@@ -106,8 +106,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int ClassID;
         /*{
-            get { return _p.class_id; }
-            set { _p.class_id = value; }
+            get { return p.class_id; }
+            set { p.class_id = value; }
         }*/
         #endregion
 

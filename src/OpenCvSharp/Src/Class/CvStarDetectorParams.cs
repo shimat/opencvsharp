@@ -25,7 +25,8 @@ namespace OpenCvSharp
         /// <summary>
         /// field data
         /// </summary>
-        protected WCvStarDetectorParams _p;
+        [NonSerialized]
+        protected WCvStarDetectorParams p;
 
         #region Properties
 #if LANG_JP
@@ -39,7 +40,7 @@ namespace OpenCvSharp
 #endif
         internal WCvStarDetectorParams Struct
         {
-            get { return _p; }
+            get { return p; }
         }
 
 #if LANG_JP
@@ -53,8 +54,8 @@ namespace OpenCvSharp
 #endif
         public int MaxSize
         {
-            get { return _p.maxSize; }
-            set { _p.maxSize = value; }
+            get { return p.maxSize; }
+            set { p.maxSize = value; }
         }
 #if LANG_JP
         /// <summary>
@@ -67,8 +68,8 @@ namespace OpenCvSharp
 #endif
         public int ResponseThreshold
         {
-            get { return _p.responseThreshold; }
-            set { _p.responseThreshold = value; }
+            get { return p.responseThreshold; }
+            set { p.responseThreshold = value; }
         }
 #if LANG_JP
         /// <summary>
@@ -81,8 +82,8 @@ namespace OpenCvSharp
 #endif
         public int LineThresholdProjected
         {
-            get { return _p.lineThresholdProjected; }
-            set { _p.lineThresholdProjected = value; }
+            get { return p.lineThresholdProjected; }
+            set { p.lineThresholdProjected = value; }
         }
 #if LANG_JP
         /// <summary>
@@ -95,8 +96,8 @@ namespace OpenCvSharp
 #endif
         public int LineThresholdBinarized
         {
-            get { return _p.lineThresholdBinarized; }
-            set { _p.lineThresholdBinarized = value; }
+            get { return p.lineThresholdBinarized; }
+            set { p.lineThresholdBinarized = value; }
         }
 #if LANG_JP
         /// <summary>
@@ -109,8 +110,8 @@ namespace OpenCvSharp
 #endif
         public int SuppressNonmaxSize
         {
-            get { return _p.suppressNonmaxSize; }
-            set { _p.suppressNonmaxSize = value; }
+            get { return p.suppressNonmaxSize; }
+            set { p.suppressNonmaxSize = value; }
         }
         #endregion
 
@@ -221,12 +222,12 @@ namespace OpenCvSharp
 #endif
         public CvStarDetectorParams(int maxSize, int responseThreshold, int lineThresholdProjected, int lineThresholdBinarized, int suppressNonmaxSize)
         {
-            _p = new WCvStarDetectorParams();
-            _p.maxSize = maxSize;
-            _p.responseThreshold = responseThreshold;
-            _p.lineThresholdProjected = lineThresholdProjected;
-            _p.lineThresholdBinarized = lineThresholdBinarized;
-            _p.suppressNonmaxSize = suppressNonmaxSize;
+            p = new WCvStarDetectorParams();
+            p.maxSize = maxSize;
+            p.responseThreshold = responseThreshold;
+            p.lineThresholdProjected = lineThresholdProjected;
+            p.lineThresholdBinarized = lineThresholdBinarized;
+            p.suppressNonmaxSize = suppressNonmaxSize;
         }
         #endregion
 
@@ -323,8 +324,8 @@ namespace OpenCvSharp
 #endif
         public override int GetHashCode()
         {
-            return _p.maxSize.GetHashCode() + _p.responseThreshold.GetHashCode() + _p.lineThresholdProjected.GetHashCode()
-                + _p.lineThresholdBinarized.GetHashCode() + _p.suppressNonmaxSize.GetHashCode();
+            return p.maxSize.GetHashCode() + p.responseThreshold.GetHashCode() + p.lineThresholdProjected.GetHashCode()
+                + p.lineThresholdBinarized.GetHashCode() + p.suppressNonmaxSize.GetHashCode();
         }
 #if LANG_JP
         /// <summary>
@@ -340,7 +341,7 @@ namespace OpenCvSharp
         public override string ToString()
         {
             return string.Format("CvStarDetectorParams (MaxSize:{0} RespomseThreshold:{1} LineThresholdProjected:{2} LineThresholdBinarized:{3} SuppressNonmaxSize:{4})",
-                _p.maxSize, _p.responseThreshold, _p.lineThresholdProjected, _p.lineThresholdBinarized, _p.suppressNonmaxSize);
+                p.maxSize, p.responseThreshold, p.lineThresholdProjected, p.lineThresholdBinarized, p.suppressNonmaxSize);
         }
         #endregion
 

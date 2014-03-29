@@ -65,7 +65,7 @@ namespace OpenCvSharp
 #endif
         public CvKalman(int dynam_params, int measure_params, int control_params)
         {
-            this.ptr = CvInvoke.cvCreateKalman(dynam_params, measure_params, control_params);
+            this.ptr = NativeMethods.cvCreateKalman(dynam_params, measure_params, control_params);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvKalman");
@@ -132,7 +132,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseKalman(ref ptr);
+                        NativeMethods.cvReleaseKalman(ref ptr);
                     }
                     this._disposed = true;
                 }

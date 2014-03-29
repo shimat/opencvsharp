@@ -27,6 +27,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Native structure field
         /// </summary>
+        [NonSerialized]
         public WCvMSERParams Struct;
 
 #if LANG_JP

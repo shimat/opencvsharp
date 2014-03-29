@@ -44,14 +44,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_AutotunedIndexParams_target_precision(_ptr);
+                    return *FlannInvoke.flann_AutotunedIndexParams_target_precision(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_AutotunedIndexParams_target_precision(_ptr) = value;
+                    *FlannInvoke.flann_AutotunedIndexParams_target_precision(ptr) = value;
                 }
             }
         }
@@ -74,14 +74,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_AutotunedIndexParams_build_weight(_ptr);
+                    return *FlannInvoke.flann_AutotunedIndexParams_build_weight(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_AutotunedIndexParams_build_weight(_ptr) = value;
+                    *FlannInvoke.flann_AutotunedIndexParams_build_weight(ptr) = value;
                 }
             }
         }
@@ -102,14 +102,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_AutotunedIndexParams_memory_weight(_ptr);
+                    return *FlannInvoke.flann_AutotunedIndexParams_memory_weight(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_AutotunedIndexParams_memory_weight(_ptr) = value;
+                    *FlannInvoke.flann_AutotunedIndexParams_memory_weight(ptr) = value;
                 }
             }
         }
@@ -131,14 +131,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_AutotunedIndexParams_sample_fraction(_ptr);
+                    return *FlannInvoke.flann_AutotunedIndexParams_sample_fraction(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_AutotunedIndexParams_sample_fraction(_ptr) = value;
+                    *FlannInvoke.flann_AutotunedIndexParams_sample_fraction(ptr) = value;
                 }
             }
         }

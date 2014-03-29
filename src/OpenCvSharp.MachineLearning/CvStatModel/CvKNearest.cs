@@ -117,7 +117,7 @@ namespace OpenCvSharp.MachineLearning
                     if (IsEnabledDispose)
                     {
                         MLInvoke.CvKNearest_destruct(ptr);
-                        //ML.CvKNearest_clear(_ptr);
+                        //ML.CvKNearest_clear(ptr);
                     }
                     disposed = true;
                 }

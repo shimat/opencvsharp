@@ -83,7 +83,7 @@ namespace OpenCvSharp
             if (storage == null)
                 throw new ArgumentNullException();
             
-            IntPtr p = CvInvoke.cvCreateSeq(seqFlags, headerSize, elemSize, storage.CvPtr);
+            IntPtr p = NativeMethods.cvCreateSeq(seqFlags, headerSize, elemSize, storage.CvPtr);
             Initialize(p);
             holdingStorage = storage;
         }

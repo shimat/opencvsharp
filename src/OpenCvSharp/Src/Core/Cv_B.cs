@@ -41,7 +41,7 @@ namespace OpenCvSharp
             if (eigenvects == null)
                 throw new ArgumentNullException("eigenvects");
             
-            CvInvoke.cvBackProjectPCA(proj.CvPtr, avg.CvPtr, eigenvects.CvPtr, result.CvPtr);
+            NativeMethods.cvBackProjectPCA(proj.CvPtr, avg.CvPtr, eigenvects.CvPtr, result.CvPtr);
         }
         #endregion
         #region BGCodeBookClearStale
@@ -104,7 +104,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("model");
 
             IntPtr maskPtr = ToPtr(mask);
-            CvInvoke.cvBGCodeBookClearStale(model.CvPtr, staleThresh, roi, maskPtr);
+            NativeMethods.cvBGCodeBookClearStale(model.CvPtr, staleThresh, roi, maskPtr);
         }
         #endregion
         #region BGCodeBookDiff
@@ -157,7 +157,7 @@ namespace OpenCvSharp
             if (fgmask == null)
                 throw new ArgumentNullException("fgmask");
 
-            return CvInvoke.cvBGCodeBookDiff(model.CvPtr, image.CvPtr, fgmask.CvPtr, roi);
+            return NativeMethods.cvBGCodeBookDiff(model.CvPtr, image.CvPtr, fgmask.CvPtr, roi);
         }
         #endregion
         #region BGCodeBookUpdate
@@ -222,7 +222,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
 
             IntPtr maskPtr = ToPtr(mask);
-            CvInvoke.cvBGCodeBookUpdate(model.CvPtr, image.CvPtr, roi, maskPtr);
+            NativeMethods.cvBGCodeBookUpdate(model.CvPtr, image.CvPtr, roi, maskPtr);
         }
         #endregion
         #region BoundingRect
@@ -269,7 +269,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("points");
             }
-            return CvInvoke.cvBoundingRect(points.CvPtr, update);
+            return NativeMethods.cvBoundingRect(points.CvPtr, update);
         }
 #if LANG_JP
         /// <summary>
@@ -297,7 +297,7 @@ namespace OpenCvSharp
                 {
                     SeqPush(seq, p);
                 }
-                result = CvInvoke.cvBoundingRect(seq.CvPtr, false);
+                result = NativeMethods.cvBoundingRect(seq.CvPtr, false);
             }
             
             return result;
@@ -321,7 +321,7 @@ namespace OpenCvSharp
         public static void BoxPoints(CvBox2D box, out CvPoint2D32f[] pt)
         {
             pt = new CvPoint2D32f[4];
-            CvInvoke.cvBoxPoints(box, pt);
+            NativeMethods.cvBoxPoints(box, pt);
 
             // cvgeometry.cpp  line 89~103
             /*

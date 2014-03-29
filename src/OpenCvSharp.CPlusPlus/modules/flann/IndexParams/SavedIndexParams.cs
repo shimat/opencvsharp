@@ -41,14 +41,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return FlannInvoke.flann_SavedIndexParams_filename_get(_ptr);
+                    return FlannInvoke.flann_SavedIndexParams_filename_get(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    FlannInvoke.flann_SavedIndexParams_filename_set(_ptr, value);
+                    FlannInvoke.flann_SavedIndexParams_filename_set(ptr, value);
                 }
             }
         }

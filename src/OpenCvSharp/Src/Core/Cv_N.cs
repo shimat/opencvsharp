@@ -84,7 +84,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("scanner");
             }
 
-            return CvInvoke.cvNextGraphItem(scanner.CvPtr);
+            return NativeMethods.cvNextGraphItem(scanner.CvPtr);
         }
         #endregion
         #region NextLinePoint
@@ -125,7 +125,7 @@ namespace OpenCvSharp
             if (treeIterator == null)
                 throw new ArgumentNullException("treeIterator");
             
-            return CvInvoke.cvNextTreeNode(treeIterator);
+            return NativeMethods.cvNextTreeNode(treeIterator);
         }
 #if LANG_JP
         /// <summary>
@@ -146,7 +146,7 @@ namespace OpenCvSharp
             if (treeIterator == null)
                 throw new ArgumentNullException("treeIterator");
             
-            IntPtr result = CvInvoke.cvNextTreeNode(treeIterator);
+            IntPtr result = NativeMethods.cvNextTreeNode(treeIterator);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -256,7 +256,7 @@ namespace OpenCvSharp
             }
             IntPtr arr2Ptr = (arr2 == null) ? IntPtr.Zero : arr2.CvPtr;
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            return CvInvoke.cvNorm(arr1.CvPtr, arr2Ptr, normType, maskPtr);
+            return NativeMethods.cvNorm(arr1.CvPtr, arr2Ptr, normType, maskPtr);
         }
         #endregion
         #region Normalize
@@ -349,7 +349,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            CvInvoke.cvNormalize(src.CvPtr, dst.CvPtr, a, b, normType, maskPtr);
+            NativeMethods.cvNormalize(src.CvPtr, dst.CvPtr, a, b, normType, maskPtr);
         }
         #endregion
         #region NormalizeHist
@@ -373,7 +373,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("hist");
             }
-            CvInvoke.cvNormalizeHist(hist.CvPtr, factor);
+            NativeMethods.cvNormalizeHist(hist.CvPtr, factor);
         }
         #endregion
         #region Not
@@ -396,7 +396,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvNot(src.CvPtr, dst.CvPtr);
+            NativeMethods.cvNot(src.CvPtr, dst.CvPtr);
         }
         #endregion
     }

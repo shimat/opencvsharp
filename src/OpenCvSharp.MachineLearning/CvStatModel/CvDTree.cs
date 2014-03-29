@@ -91,7 +91,7 @@ namespace OpenCvSharp.MachineLearning
                     if (IsEnabledDispose)
                     {
 				        MLInvoke.CvDTree_destruct(ptr);
-                        //ML.CvDTree_clear(_ptr);
+                        //ML.CvDTree_clear(ptr);
                     }
                     disposed = true;
                 }

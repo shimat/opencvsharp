@@ -51,7 +51,7 @@ namespace OpenCvSharp
 
             using (ScopedGCHandle eigInputHandle = ScopedGCHandle.Alloc(eigInputPtr, GCHandleType.Pinned))
             {
-                CvInvoke.cvEigenDecomposite(obj.CvPtr, eigenvecCount, eigInputHandle.AddrOfPinnedObject(), EigenObjectsIOFlag.NoCallback, IntPtr.Zero, avg.CvPtr, coeffs);
+                NativeMethods.cvEigenDecomposite(obj.CvPtr, eigenvecCount, eigInputHandle.AddrOfPinnedObject(), EigenObjectsIOFlag.NoCallback, IntPtr.Zero, avg.CvPtr, coeffs);
             }
         }
 #if LANG_JP
@@ -86,7 +86,7 @@ namespace OpenCvSharp
 
             using (ScopedGCHandle eigInputhandle = ScopedGCHandle.Alloc(eigInput, GCHandleType.Normal))
             {
-                CvInvoke.cvEigenDecomposite(obj.CvPtr, eigenvecCount, eigInputhandle.AddrOfPinnedObject(), ioFlags, userData, avg.CvPtr, coeffs);
+                NativeMethods.cvEigenDecomposite(obj.CvPtr, eigenvecCount, eigInputhandle.AddrOfPinnedObject(), ioFlags, userData, avg.CvPtr, coeffs);
             }
         }
         #endregion
@@ -129,7 +129,7 @@ namespace OpenCvSharp
 
             using (ScopedGCHandle inputVecsHandle = ScopedGCHandle.Alloc(inputVecsPtr, GCHandleType.Pinned))
             {
-                CvInvoke.cvEigenProjection(inputVecsHandle.AddrOfPinnedObject(), eigenvecCount, EigenObjectsIOFlag.NoCallback, IntPtr.Zero, coeffs, avg.CvPtr, proj.CvPtr);
+                NativeMethods.cvEigenProjection(inputVecsHandle.AddrOfPinnedObject(), eigenvecCount, EigenObjectsIOFlag.NoCallback, IntPtr.Zero, coeffs, avg.CvPtr, proj.CvPtr);
             }
         }
 #if LANG_JP
@@ -164,7 +164,7 @@ namespace OpenCvSharp
 
             using (ScopedGCHandle inputVecsHandle = ScopedGCHandle.Alloc(inputVecs, GCHandleType.Normal))
             {
-                CvInvoke.cvEigenProjection(inputVecsHandle.AddrOfPinnedObject(), eigenvecCount, ioFlags, userdata, coeffs, avg.CvPtr, proj.CvPtr);
+                NativeMethods.cvEigenProjection(inputVecsHandle.AddrOfPinnedObject(), eigenvecCount, ioFlags, userdata, coeffs, avg.CvPtr, proj.CvPtr);
             }
         }
         #endregion
@@ -262,7 +262,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("evects");
             if (evals == null)
                 throw new ArgumentNullException("evals");
-            CvInvoke.cvEigenVV(mat.CvPtr, evects.CvPtr, evals.CvPtr, eps, lowindex, highindex);
+            NativeMethods.cvEigenVV(mat.CvPtr, evects.CvPtr, evals.CvPtr, eps, lowindex, highindex);
         }
         // ReSharper restore InconsistentNaming
         #endregion
@@ -389,7 +389,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("img");
             }
-            CvInvoke.cvEllipse(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
+            NativeMethods.cvEllipse(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
         }
 #if LANG_JP
         /// <summary>
@@ -642,7 +642,7 @@ namespace OpenCvSharp
         {
             int nbPts = (int)Math.Ceiling(((arcEnd - arcStart) / (float)delta) + 1);
             pts = new CvPoint[nbPts];
-            nbPts = CvInvoke.cvEllipse2Poly(center, axes, angle, arcStart, arcEnd, pts, delta);
+            nbPts = NativeMethods.cvEllipse2Poly(center, axes, angle, arcStart, arcEnd, pts, delta);
             //pts = new CvPoint[nb_pts];
             //Array.ConstrainedCopy(pts2, 0, pts, 0, nb_pts);       
             return nbPts;
@@ -672,7 +672,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("ext");
             if (image == null)
                 throw new ArgumentNullException("image");
-            IntPtr ptr = CvInvoke.cvEncodeImage(ext, image.CvPtr, prms);
+            IntPtr ptr = NativeMethods.cvEncodeImage(ext, image.CvPtr, prms);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -777,7 +777,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("fs");
             }
-            CvInvoke.cvEndWriteStruct(fs.CvPtr);
+            NativeMethods.cvEndWriteStruct(fs.CvPtr);
         }
         #endregion
         #region EqualizeHist
@@ -800,7 +800,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvEqualizeHist(src.CvPtr, dst.CvPtr);
+            NativeMethods.cvEqualizeHist(src.CvPtr, dst.CvPtr);
         }
         #endregion
         #region Erode
@@ -870,7 +870,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             IntPtr elemPtr = (element == null) ? IntPtr.Zero : element.CvPtr;
-            CvInvoke.cvErode(src.CvPtr, dst.CvPtr, elemPtr, iterations);
+            NativeMethods.cvErode(src.CvPtr, dst.CvPtr, elemPtr, iterations);
         }
         #endregion
         #region Error
@@ -901,7 +901,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("errMsg");
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
-            CvInvoke.cvError(status, funcName, errMsg, fileName, line);
+            NativeMethods.cvError(status, funcName, errMsg, fileName, line);
         }
         #endregion
         #region ErrorStr
@@ -920,7 +920,7 @@ namespace OpenCvSharp
 #endif
         public static string ErrorStr(CvStatus status)
         {
-            return CvInvoke.cvErrorStr(status);
+            return NativeMethods.cvErrorStr(status);
         }
         #endregion
         #region EstimateRigidTransform
@@ -952,7 +952,7 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException("m");
 
-            return CvInvoke.cvEstimateRigidTransform(a.CvPtr, b.CvPtr, m.CvPtr, fullAffine);
+            return NativeMethods.cvEstimateRigidTransform(a.CvPtr, b.CvPtr, m.CvPtr, fullAffine);
         }
         #endregion
         #region Exp
@@ -975,7 +975,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvExp(src.CvPtr, dst.CvPtr);
+            NativeMethods.cvExp(src.CvPtr, dst.CvPtr);
         }
         #endregion
         #region ExtractMSER
@@ -1008,7 +1008,7 @@ namespace OpenCvSharp
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             IntPtr contoursPtr = IntPtr.Zero;
 
-            CvInvoke.cvExtractMSER(img.CvPtr, maskPtr, ref contoursPtr, storage.CvPtr, @params.Struct);
+            NativeMethods.cvExtractMSER(img.CvPtr, maskPtr, ref contoursPtr, storage.CvPtr, @params.Struct);
 
             CvSeq<IntPtr> seq = new CvSeq<IntPtr>(contoursPtr);
             contours = Array.ConvertAll<IntPtr, CvContour>(
@@ -1081,12 +1081,12 @@ namespace OpenCvSharp
             {
                 keypoints = new CvSeq<CvSURFPoint>(SeqType.Zero, storage);
                 keypointsPtr = keypoints.CvPtr;
-                CvInvoke.cvExtractSURF(image.CvPtr, maskPtr, ref keypointsPtr, ref descriptorsPtr, storage.CvPtr, param.Struct, true);
+                NativeMethods.cvExtractSURF(image.CvPtr, maskPtr, ref keypointsPtr, ref descriptorsPtr, storage.CvPtr, param.Struct, true);
                 descriptors = new CvSeq<IntPtr>(descriptorsPtr);
             }
             else
             {
-                CvInvoke.cvExtractSURF(image.CvPtr, maskPtr, ref keypointsPtr, ref descriptorsPtr, storage.CvPtr, param.Struct, false);
+                NativeMethods.cvExtractSURF(image.CvPtr, maskPtr, ref keypointsPtr, ref descriptorsPtr, storage.CvPtr, param.Struct, false);
                 keypoints = new CvSeq<CvSURFPoint>(keypointsPtr);
                 descriptors = new CvSeq<IntPtr>(descriptorsPtr);
             }
@@ -1124,7 +1124,7 @@ namespace OpenCvSharp
                 IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
                 IntPtr descriptorsPtr = IntPtr.Zero;
                 IntPtr keypointsPtr = IntPtr.Zero;
-                CvInvoke.cvExtractSURF(image.CvPtr, maskPtr, ref keypointsPtr, ref descriptorsPtr, storage.CvPtr, param.Struct, false);
+                NativeMethods.cvExtractSURF(image.CvPtr, maskPtr, ref keypointsPtr, ref descriptorsPtr, storage.CvPtr, param.Struct, false);
                 CvSeq<CvSURFPoint> keypointsSeq = new CvSeq<CvSURFPoint>(keypointsPtr);
                 keypoints = keypointsSeq.ToArray();
 
@@ -1174,7 +1174,7 @@ namespace OpenCvSharp
                 IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
                 IntPtr descriptorsPtr = IntPtr.Zero;
                 IntPtr keypointsPtr = keypointsSeqIn.CvPtr;
-                CvInvoke.cvExtractSURF(image.CvPtr, maskPtr, ref keypointsPtr, ref descriptorsPtr, storage.CvPtr, param.Struct, false);
+                NativeMethods.cvExtractSURF(image.CvPtr, maskPtr, ref keypointsPtr, ref descriptorsPtr, storage.CvPtr, param.Struct, false);
                 
                 CvSeq<CvSURFPoint> keypointsSeqOut = new CvSeq<CvSURFPoint>(keypointsPtr);
                 keypoints = keypointsSeqOut.ToArray();

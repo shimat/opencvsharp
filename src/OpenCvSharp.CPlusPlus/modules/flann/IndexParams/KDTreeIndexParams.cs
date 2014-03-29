@@ -42,14 +42,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_KDTreeIndexParams_trees(_ptr);
+                    return *FlannInvoke.flann_KDTreeIndexParams_trees(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_KDTreeIndexParams_trees(_ptr) = value;
+                    *FlannInvoke.flann_KDTreeIndexParams_trees(ptr) = value;
                 }
             }
         }

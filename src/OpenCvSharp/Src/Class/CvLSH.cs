@@ -170,7 +170,7 @@ namespace OpenCvSharp
 #endif
         public CvLSH(IntPtr ops, int d, int l, int k, MatrixType type, double r, Int64 seed)
         {
-            ptr = CvInvoke.cvCreateLSH(ops, d, l, k, type, r, seed);
+            ptr = NativeMethods.cvCreateLSH(ops, d, l, k, type, r, seed);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvLSH");
@@ -468,7 +468,7 @@ namespace OpenCvSharp
 #endif
         public CvLSH(int d, int n, int l, int k, MatrixType type, double r, Int64 seed)
         {
-            ptr = CvInvoke.cvCreateMemoryLSH(d, n, l, k, type, r, seed);
+            ptr = NativeMethods.cvCreateMemoryLSH(d, n, l, k, type, r, seed);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvLSH");
@@ -683,7 +683,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseLSH(ref ptr);
+                        NativeMethods.cvReleaseLSH(ref ptr);
                     }
                     disposed = true;
                 }

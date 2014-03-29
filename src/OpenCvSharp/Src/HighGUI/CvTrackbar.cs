@@ -97,9 +97,9 @@ namespace OpenCvSharp
             _gchCallback = GCHandle.Alloc(callback);
             IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callback);
 #if DEBUG
-            int result = CvInvoke.cvCreateTrackbar(name, window, ref value, max, callback);
+            int result = NativeMethods.cvCreateTrackbar(name, window, ref value, max, callback);
 #else
-            _result = CvInvoke.cvCreateTrackbar(name, window, ref value, max, callbackPtr);
+            _result = NativeMethods.cvCreateTrackbar(name, window, ref value, max, callbackPtr);
 #endif
             if (_result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
@@ -177,9 +177,9 @@ namespace OpenCvSharp
 
             _gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
 #if DEBUG
-            int result = CvInvoke.cvCreateTrackbar2(name, window, ref value, max, _callbackNative, userdataPtr);
+            int result = NativeMethods.cvCreateTrackbar2(name, window, ref value, max, _callbackNative, userdataPtr);
 #else
-            _result = CvInvoke.cvCreateTrackbar2(name, window, ref value, max, callbackPtr, userdataPtr);
+            _result = NativeMethods.cvCreateTrackbar2(name, window, ref value, max, callbackPtr, userdataPtr);
 #endif
             if (_result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
@@ -270,8 +270,8 @@ namespace OpenCvSharp
 #endif
         public int Pos
         {
-            get { return CvInvoke.cvGetTrackbarPos(_name, _window); }
-            set { CvInvoke.cvSetTrackbarPos(_name, _window, value); }
+            get { return NativeMethods.cvGetTrackbarPos(_name, _window); }
+            set { NativeMethods.cvSetTrackbarPos(_name, _window, value); }
         }
 
 #if LANG_JP

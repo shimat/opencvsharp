@@ -74,7 +74,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("sizes");
             }
-            IntPtr p = CvInvoke.cvCreateSparseMat(dims, sizes, type);
+            IntPtr p = NativeMethods.cvCreateSparseMat(dims, sizes, type);
             if (p == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvSparseMat");
@@ -112,7 +112,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseSparseMat(ref ptr);
+                        NativeMethods.cvReleaseSparseMat(ref ptr);
                     }
                     disposed = true;
                 }

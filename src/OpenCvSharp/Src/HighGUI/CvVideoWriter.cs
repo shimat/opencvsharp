@@ -197,7 +197,7 @@ namespace OpenCvSharp
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
-            ptr = CvInvoke.cvCreateVideoWriter(filename, fourcc, fps, frameSize, isColor);
+            ptr = NativeMethods.cvCreateVideoWriter(filename, fourcc, fps, frameSize, isColor);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvVideoWriter");
@@ -240,7 +240,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseVideoWriter(ref ptr);
+                        NativeMethods.cvReleaseVideoWriter(ref ptr);
                     }
                     disposed = true;
                 }

@@ -60,7 +60,7 @@ namespace OpenCvSharp
         {
             try
             {
-                this.ptr = CvInvoke.cvCreateCameraCapture(index);
+                this.ptr = NativeMethods.cvCreateCameraCapture(index);
             }
             catch (AccessViolationException e)
             {
@@ -198,7 +198,7 @@ namespace OpenCvSharp
             if (!File.Exists(filename))
                 throw new FileNotFoundException("File not found", filename);
 
-            this.ptr = CvInvoke.cvCreateFileCapture(filename);
+            this.ptr = NativeMethods.cvCreateFileCapture(filename);
 
             if (this.ptr == IntPtr.Zero)
             {
@@ -263,7 +263,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseCapture(ref ptr);
+                        NativeMethods.cvReleaseCapture(ref ptr);
                     }
                     this._disposed = true;
                 }
@@ -305,11 +305,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.PosMsec);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.PosMsec);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.PosMsec, (double)value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.PosMsec, (double)value);
             }
         }
 
@@ -326,7 +326,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.PosFrames);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.PosFrames);
             }
             set
             {
@@ -334,7 +334,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for video files");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.PosFrames, (double)value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.PosFrames, (double)value);
             }
         }
 
@@ -351,7 +351,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return (CapturePosAviRatio)(int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.PosAviRatio);
+                return (CapturePosAviRatio)(int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.PosAviRatio);
             }
             set
             {
@@ -359,7 +359,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for video files");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.PosAviRatio, (double)(int)value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.PosAviRatio, (double)(int)value);
             }
         }
 
@@ -376,7 +376,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.FrameWidth);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.FrameWidth);
             }
             set
             {
@@ -384,7 +384,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.FrameWidth, (double)value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.FrameWidth, (double)value);
             }
         }
 
@@ -401,7 +401,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.FrameHeight);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.FrameHeight);
             }
             set
             {
@@ -409,7 +409,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.FrameHeight, (double)value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.FrameHeight, (double)value);
             }
         }
 
@@ -426,7 +426,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Fps);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Fps);
             }
             set
             {
@@ -434,7 +434,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Fps, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Fps, value);
             }
         }
 
@@ -453,7 +453,7 @@ namespace OpenCvSharp
         {
             get
             {
-                int src = (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.FourCC);
+                int src = (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.FourCC);
                 IntBytes bytes = new IntBytes { Value = src };
                 char[] fourcc = new char[]{
                     Convert.ToChar(bytes.B1),
@@ -478,7 +478,7 @@ namespace OpenCvSharp
                 byte c3 = Convert.ToByte(value[2]);
                 byte c4 = Convert.ToByte(value[3]);
                 int v = Cv.FOURCC(c1, c2, c3, c4);
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.FourCC, (double)v);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.FourCC, (double)v);
             }
         }
 
@@ -495,7 +495,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.FrameCount);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.FrameCount);
             }
         }
 
@@ -516,7 +516,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Brightness);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Brightness);
             }
             set
             {
@@ -524,7 +524,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Brightness, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Brightness, value);
             }
         }
 
@@ -545,7 +545,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Contrast);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Contrast);
             }
             set
             {
@@ -553,7 +553,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Contrast, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Contrast, value);
             }
         }
 
@@ -574,7 +574,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Saturation);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Saturation);
             }
             set
             {
@@ -582,7 +582,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Saturation, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Saturation, value);
             }
         }
 
@@ -603,7 +603,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Hue);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Hue);
             }
             set
             {
@@ -611,7 +611,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Hue, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Hue, value);
             }
         }
 
@@ -628,11 +628,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Format);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Format);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Format, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Format, value);
             }
         }
 
@@ -650,11 +650,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Mode);
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Mode);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Mode, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Mode, value);
             }
         }
 
@@ -676,7 +676,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Gain);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Gain);
             }
             set
             {
@@ -684,7 +684,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Gain, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Gain, value);
             }
         }
 
@@ -706,7 +706,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Exposure);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Exposure);
             }
             set
             {
@@ -714,7 +714,7 @@ namespace OpenCvSharp
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Exposure, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Exposure, value);
             }
         }
 
@@ -732,11 +732,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.ConvertRgb) != 0;
+                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.ConvertRgb) != 0;
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.ConvertRgb, value ? 0 : 1);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.ConvertRgb, value ? 0 : 1);
             }
         }
 
@@ -754,11 +754,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.WhiteBalance);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.WhiteBalance);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.WhiteBalance, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.WhiteBalance, value);
             }
         }
 
@@ -776,11 +776,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Rectification);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Rectification);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Rectification, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Rectification, value);
             }
         }
 
@@ -798,11 +798,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Monocrome);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Monocrome);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Monocrome, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Monocrome, value);
             }
         }
         #endregion
@@ -822,11 +822,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Sharpness);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Sharpness);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Sharpness, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Sharpness, value);
             }
         }
 
@@ -847,11 +847,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.AutoExposure);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.AutoExposure);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.AutoExposure, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.AutoExposure, value);
             }
         }
 
@@ -870,11 +870,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Gamma);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Gamma);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Gamma, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Gamma, value);
             }
         }
 
@@ -893,11 +893,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Temperature);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Temperature);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Temperature, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Temperature, value);
             }
         }
 
@@ -916,11 +916,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.Trigger);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Trigger);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.Trigger, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Trigger, value);
             }
         }
 
@@ -939,11 +939,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.TriggerDelay);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.TriggerDelay);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.TriggerDelay, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.TriggerDelay, value);
             }
         }
 
@@ -962,11 +962,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.WhiteBalanceRedV);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.WhiteBalanceRedV);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.WhiteBalanceRedV, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.WhiteBalanceRedV, value);
             }
         }
 
@@ -985,11 +985,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.MaxDC1394);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.MaxDC1394);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.MaxDC1394, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.MaxDC1394, value);
             }
         }
 
@@ -1008,11 +1008,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.AutoGrab);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.AutoGrab);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.AutoGrab, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.AutoGrab, value);
             }
         }
 
@@ -1032,7 +1032,7 @@ namespace OpenCvSharp
             get
             {
                 // double to const char*
-                double d = CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.SupportedPreviewSizesString);
+                double d = NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.SupportedPreviewSizesString);
                 unsafe
                 {
                     char* p = (char*)(long)d;  // problematic cast
@@ -1057,7 +1057,7 @@ namespace OpenCvSharp
             get
             {
                 // double to const char*
-                double d = CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.PreviewFormat);
+                double d = NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.PreviewFormat);
                 unsafe
                 {
                     char* p = (char*)(long)d;  // problematic cast
@@ -1084,11 +1084,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_OutputMode);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_OutputMode);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_OutputMode, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_OutputMode, value);
             }
         }
 
@@ -1107,11 +1107,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_FrameMaxDepth);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_FrameMaxDepth);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_FrameMaxDepth, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_FrameMaxDepth, value);
             }
         }
 
@@ -1130,11 +1130,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_Baseline);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_Baseline);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_Baseline, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_Baseline, value);
             }
         }
 
@@ -1153,11 +1153,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_FocalLength);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_FocalLength);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_FocalLength, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_FocalLength, value);
             }
         }
 
@@ -1176,11 +1176,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_RegistrationON);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_RegistrationON);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_RegistrationON, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_RegistrationON, value);
             }
         }
 
@@ -1203,11 +1203,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_Registratiob);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_Registratiob);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_Registratiob, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_Registratiob, value);
             }
         }
 
@@ -1226,11 +1226,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_ImageGeneratorOutputMode);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_ImageGeneratorOutputMode);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_ImageGeneratorOutputMode, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_ImageGeneratorOutputMode, value);
             }
         }
 
@@ -1249,11 +1249,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorBaseline);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorBaseline);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorBaseline, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorBaseline, value);
             }
         }
 
@@ -1272,11 +1272,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorFocalLength);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorFocalLength);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorFocalLength, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorFocalLength, value);
             }
         }
 
@@ -1295,11 +1295,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorRegistrationON);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorRegistrationON);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorRegistrationON, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorRegistrationON, value);
             }
         }
         #endregion
@@ -1321,11 +1321,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.GStreamerQueueLength);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.GStreamerQueueLength);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.GStreamerQueueLength, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.GStreamerQueueLength, value);
             }
         }
 
@@ -1344,11 +1344,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.PvAPIMulticastIP);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.PvAPIMulticastIP);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.PvAPIMulticastIP, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.PvAPIMulticastIP, value);
             }
         }
         #endregion
@@ -1370,11 +1370,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_Downsampling);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_Downsampling);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_Downsampling, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_Downsampling, value);
             }
         }
 
@@ -1393,7 +1393,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_DataFormat);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_DataFormat);
             }
         }
 
@@ -1412,11 +1412,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_OffsetX);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_OffsetX);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_OffsetX, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_OffsetX, value);
             }
         }
 
@@ -1435,11 +1435,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_OffsetY);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_OffsetY);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_OffsetY, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_OffsetY, value);
             }
         }
 
@@ -1458,11 +1458,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_TrgSource);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_TrgSource);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_TrgSource, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_TrgSource, value);
             }
         }
 
@@ -1481,11 +1481,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_TrgSoftware);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_TrgSoftware);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_TrgSoftware, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_TrgSoftware, value);
             }
         }
 
@@ -1504,11 +1504,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpiSelector);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpiSelector);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpiSelector, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpiSelector, value);
             }
         }
 
@@ -1527,11 +1527,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpiMode);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpiMode);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpiMode, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpiMode, value);
             }
         }
 
@@ -1550,11 +1550,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpiLevel);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpiLevel);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpiLevel, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpiLevel, value);
             }
         }
 
@@ -1573,11 +1573,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpoSelector);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpoSelector);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpoSelector, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpoSelector, value);
             }
         }
 
@@ -1596,11 +1596,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpoMode);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_GpoMode);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpoMode, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_GpoMode, value);
             }
         }
 
@@ -1619,11 +1619,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_LedSelector);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_LedSelector);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_LedSelector, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_LedSelector, value);
             }
         }
 
@@ -1642,11 +1642,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_LedMode);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_LedMode);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_LedMode, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_LedMode, value);
             }
         }
 
@@ -1665,11 +1665,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_ManualWB);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_ManualWB);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_ManualWB, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_ManualWB, value);
             }
         }
 
@@ -1688,11 +1688,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_AutoWB);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_AutoWB);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_AutoWB, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_AutoWB, value);
             }
         }
 
@@ -1711,11 +1711,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_AEAG);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_AEAG);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_AEAG, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_AEAG, value);
             }
         }
 
@@ -1734,11 +1734,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_ExpPriority);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_ExpPriority);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_ExpPriority, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_ExpPriority, value);
             }
         }
 
@@ -1757,11 +1757,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_AEMaxLimit);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_AEMaxLimit);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_AEMaxLimit, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_AEMaxLimit, value);
             }
         }
 
@@ -1780,11 +1780,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_AGMaxLimit);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_AGMaxLimit);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_AGMaxLimit, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_AGMaxLimit, value);
             }
         }
 
@@ -1803,11 +1803,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_AEAGLevel);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_AEAGLevel);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_AEAGLevel, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_AEAGLevel, value);
             }
         }
 
@@ -1826,11 +1826,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return CvInvoke.cvGetCaptureProperty(ptr, CaptureProperty.XI_Timeout);
+                return NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.XI_Timeout);
             }
             set
             {
-                CvInvoke.cvSetCaptureProperty(ptr, CaptureProperty.XI_Timeout, value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_Timeout, value);
             }
         }
         #endregion

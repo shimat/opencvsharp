@@ -42,7 +42,7 @@ namespace OpenCvSharp
 #endif        
         public CvStereoGCState(int numberOfDisparities, int maxIters)
         {
-            ptr = CvInvoke.cvCreateStereoGCState(numberOfDisparities, maxIters);
+            ptr = NativeMethods.cvCreateStereoGCState(numberOfDisparities, maxIters);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvStereoBMState");
@@ -95,7 +95,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseStereoGCState(ref ptr);
+                        NativeMethods.cvReleaseStereoGCState(ref ptr);
                     }
                     disposed = true;
                 }

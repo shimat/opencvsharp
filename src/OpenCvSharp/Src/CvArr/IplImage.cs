@@ -99,7 +99,7 @@ namespace OpenCvSharp
             if (!File.Exists(fileName)) 
                 throw new FileNotFoundException(String.Format("Not found '{0}'", fileName), fileName);
 
-            ptr = CvInvoke.cvLoadImage(fileName, flags);
+            ptr = NativeMethods.cvLoadImage(fileName, flags);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create IplImage");
 
@@ -122,7 +122,7 @@ namespace OpenCvSharp
 #endif
         public IplImage(CvSize size, BitDepth depth, int channels)
         {
-            ptr = CvInvoke.cvCreateImage(size, depth, channels);
+            ptr = NativeMethods.cvCreateImage(size, depth, channels);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create IplImage");
 
@@ -217,7 +217,7 @@ namespace OpenCvSharp
                         // C#で領域を確保したときを除外する
                         if (AllocatedMemorySize == 0)
                         {
-                            CvInvoke.cvReleaseImage(ref ptr);
+                            NativeMethods.cvReleaseImage(ref ptr);
                         }
                     }
                     disposed = true;
@@ -274,7 +274,7 @@ namespace OpenCvSharp
                 throw new FileNotFoundException("", fileName);
 
             // cvLoadImageで画像読み込み
-            IntPtr ptr = CvInvoke.cvLoadImage(fileName, flags);
+            IntPtr ptr = NativeMethods.cvLoadImage(fileName, flags);
 
             // 読み込み成功
             if (ptr != IntPtr.Zero)
@@ -2319,7 +2319,7 @@ namespace OpenCvSharp
             byte[] imageData = (byte[])info.GetValue("ImageData", typeof(byte[]));
 
             // 画像領域を準備
-            ptr = CvInvoke.cvCreateImage(size, depth, nChannels);
+            ptr = NativeMethods.cvCreateImage(size, depth, nChannels);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create IplImage");
             

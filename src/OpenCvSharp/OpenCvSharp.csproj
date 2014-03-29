@@ -413,7 +413,7 @@
     <Compile Include="Src\CvArr\IplImage.cs" />
     <Compile Include="Src\Enum\MouseEvent.cs" />
     <Compile Include="Src\Enum\WindowMode.cs" />
-    <Compile Include="Src\PInvoke\CvInvoke.cs" />
+    <Compile Include="Src\PInvoke\NativeMethods.cs" />
     <Compile Include="Src\Exception\OpenCvSharpException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\Struct\CvRect.cs" />

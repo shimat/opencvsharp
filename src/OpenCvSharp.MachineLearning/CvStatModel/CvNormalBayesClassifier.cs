@@ -110,7 +110,7 @@ namespace OpenCvSharp.MachineLearning
                     if (IsEnabledDispose)
                     {
                         MLInvoke.CvNormalBayesClassifier_destruct(ptr);
-                        //ML.CvNormalBayesClassifier_clear(_ptr);
+                        //ML.CvNormalBayesClassifier_clear(ptr);
                     }
                     disposed = true;
                 }

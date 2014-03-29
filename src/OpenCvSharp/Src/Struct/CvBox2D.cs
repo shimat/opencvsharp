@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -135,9 +133,9 @@ namespace OpenCvSharp
 #endif
         public bool Equals(CvBox2D other)
         {
-            return Math.Abs(this.Angle - other.Angle) < 1e-9 &&
-                   this.Center == other.Center &&
-                   this.Size == other.Size;
+            return Math.Abs(Angle - other.Angle) < 1e-9 &&
+                   Center == other.Center &&
+                   Size == other.Size;
         }
 #if LANG_JP
         /// <summary>
@@ -156,8 +154,48 @@ namespace OpenCvSharp
         {
             if (obj is CvBox2D)
                 return Equals((CvBox2D)obj);
-            return Equals(obj);
+            return Equals(this, obj);
         }
+
+#if LANG_JP
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="obj">比較するオブジェクト</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="obj">The Object to test.</param>
+        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
+#endif
+        public static bool operator ==(CvBox2D self, CvBox2D obj)
+        {
+            return self.Equals(obj);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="obj">比較するオブジェクト</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="obj">The Object to test.</param>
+        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
+#endif
+        public static bool operator !=(CvBox2D self, CvBox2D obj)
+        {
+            return !self.Equals(obj);
+        }
+
 #if LANG_JP
         /// <summary>
         /// GetHashCodeのオーバーライド

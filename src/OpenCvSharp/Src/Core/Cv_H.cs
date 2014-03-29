@@ -139,7 +139,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("cascade");
             if (storage == null)
                 throw new ArgumentNullException("storage");
-            IntPtr result = CvInvoke.cvHaarDetectObjects(image.CvPtr, cascade.CvPtr, storage.CvPtr, scaleFactor, minNeighbors, flags, minSize);
+            IntPtr result = NativeMethods.cvHaarDetectObjects(image.CvPtr, cascade.CvPtr, storage.CvPtr, scaleFactor, minNeighbors, flags, minSize);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -295,7 +295,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
             if (circleStorage == null)
                 throw new ArgumentNullException("circleStorage");
-            IntPtr result = CvInvoke.cvHoughCircles(image.CvPtr, circleStorage.CvPtr, method, dp, minDist, param1, param2, minRadius, maxRadius);
+            IntPtr result = NativeMethods.cvHoughCircles(image.CvPtr, circleStorage.CvPtr, method, dp, minDist, param1, param2, minRadius, maxRadius);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -450,7 +450,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
             if (circleStorage == null)
                 throw new ArgumentNullException("circleStorage");
-            IntPtr result = CvInvoke.cvHoughCircles(image.CvPtr, circleStorage.CvPtr, method, dp, minDist, param1, param2, minRadius, maxRadius);
+            IntPtr result = NativeMethods.cvHoughCircles(image.CvPtr, circleStorage.CvPtr, method, dp, minDist, param1, param2, minRadius, maxRadius);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -519,7 +519,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
             if (lineStorage == null)
                 throw new ArgumentNullException("lineStorage");
-            IntPtr result = CvInvoke.cvHoughLines2(image.CvPtr, lineStorage.CvPtr, method, rho, theta, threshold, param1, param2);
+            IntPtr result = NativeMethods.cvHoughLines2(image.CvPtr, lineStorage.CvPtr, method, rho, theta, threshold, param1, param2);
             return new CvSeq(result);
         }
 #if LANG_JP
@@ -582,7 +582,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
             if (lineStorage == null)
                 throw new ArgumentNullException("lineStorage");
-            IntPtr result = CvInvoke.cvHoughLines2(image.CvPtr, lineStorage.CvPtr, method, rho, theta, threshold, param1, param2);
+            IntPtr result = NativeMethods.cvHoughLines2(image.CvPtr, lineStorage.CvPtr, method, rho, theta, threshold, param1, param2);
             return new CvSeq(result);
         }
         #endregion

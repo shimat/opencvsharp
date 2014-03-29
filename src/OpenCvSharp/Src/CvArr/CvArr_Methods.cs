@@ -3609,7 +3609,7 @@ namespace OpenCvSharp
 #endif
         public CvScalar Get1D(int idx0)
         {
-            return CvInvoke.cvGet1D(CvPtr, idx0);
+            return NativeMethods.cvGet1D(CvPtr, idx0);
         }
 #if LANG_JP
         /// <summary>
@@ -3628,7 +3628,7 @@ namespace OpenCvSharp
 #endif
         public CvScalar Get2D(int idx0, int idx1)
         {
-            return CvInvoke.cvGet2D(CvPtr, idx0, idx1);
+            return NativeMethods.cvGet2D(CvPtr, idx0, idx1);
         }
 #if LANG_JP
         /// <summary>
@@ -3649,7 +3649,7 @@ namespace OpenCvSharp
 #endif
         public CvScalar Get3D(int idx0, int idx1, int idx2)
         {
-            return CvInvoke.cvGet3D(CvPtr, idx0, idx1, idx2);
+            return NativeMethods.cvGet3D(CvPtr, idx0, idx1, idx2);
         }
 #if LANG_JP
         /// <summary>
@@ -3666,7 +3666,7 @@ namespace OpenCvSharp
 #endif
         public CvScalar GetND(params int[] idx)
         {
-            return CvInvoke.cvGetND(CvPtr, idx);
+            return NativeMethods.cvGetND(CvPtr, idx);
         }
         #endregion
         #region GetCol
@@ -3907,7 +3907,7 @@ namespace OpenCvSharp
 #endif
         public double GetReal1D(int idx0)
         {
-            return CvInvoke.cvGetReal1D(CvPtr, idx0);
+            return NativeMethods.cvGetReal1D(CvPtr, idx0);
         }
 #if LANG_JP
         /// <summary>
@@ -3926,7 +3926,7 @@ namespace OpenCvSharp
 #endif
         public double GetReal2D(int idx0, int idx1)
         {
-            return CvInvoke.cvGetReal2D(CvPtr, idx0, idx1);
+            return NativeMethods.cvGetReal2D(CvPtr, idx0, idx1);
         }
 #if LANG_JP
         /// <summary>
@@ -3947,7 +3947,7 @@ namespace OpenCvSharp
 #endif
         public double GetReal3D(int idx0, int idx1, int idx2)
         {
-            return CvInvoke.cvGetReal3D(CvPtr, idx0, idx1, idx2);
+            return NativeMethods.cvGetReal3D(CvPtr, idx0, idx1, idx2);
         }
 #if LANG_JP
         /// <summary>
@@ -3964,7 +3964,7 @@ namespace OpenCvSharp
 #endif
         public double GetRealND(params int[] idx)
         {
-            return CvInvoke.cvGetRealND(CvPtr, idx);
+            return NativeMethods.cvGetRealND(CvPtr, idx);
         }
         #endregion
         #region GetRectSubPix
@@ -7810,7 +7810,7 @@ namespace OpenCvSharp
 #endif
         public void Set1D(int idx0, CvScalar value)
         {
-            CvInvoke.cvSet1D(CvPtr, idx0, value);
+            NativeMethods.cvSet1D(CvPtr, idx0, value);
         }
 #if LANG_JP
         /// <summary>
@@ -7830,7 +7830,7 @@ namespace OpenCvSharp
 #endif
         public void Set2D(int idx0, int idx1, CvScalar value)
         {
-            CvInvoke.cvSet2D(CvPtr, idx0, idx1, value);
+            NativeMethods.cvSet2D(CvPtr, idx0, idx1, value);
         }
 #if LANG_JP
         /// <summary>
@@ -7852,7 +7852,7 @@ namespace OpenCvSharp
 #endif
         public void Set3D(int idx0, int idx1, int idx2, CvScalar value)
         {
-            CvInvoke.cvSet3D(CvPtr, idx0, idx1, idx2, value);
+            NativeMethods.cvSet3D(CvPtr, idx0, idx1, idx2, value);
         }
 #if LANG_JP
         /// <summary>
@@ -7870,7 +7870,7 @@ namespace OpenCvSharp
 #endif
         public void SetND(CvScalar value, params int[] idx)
         {
-            CvInvoke.cvSetND(CvPtr, idx, value);
+            NativeMethods.cvSetND(CvPtr, idx, value);
         }
         #endregion
         #region SetData
@@ -7962,7 +7962,7 @@ namespace OpenCvSharp
 #endif
         public void SetReal1D(int idx0, double value)
         {
-            CvInvoke.cvSetReal1D(CvPtr, idx0, value);
+            NativeMethods.cvSetReal1D(CvPtr, idx0, value);
         }
 #if LANG_JP
         /// <summary>
@@ -7982,7 +7982,7 @@ namespace OpenCvSharp
 #endif
         public void SetReal2D(int idx0, int idx1, double value)
         {
-            CvInvoke.cvSetReal2D(CvPtr, idx0, idx1, value);
+            NativeMethods.cvSetReal2D(CvPtr, idx0, idx1, value);
         }
 #if LANG_JP
         /// <summary>
@@ -8004,7 +8004,7 @@ namespace OpenCvSharp
 #endif
         public void SetReal3D(int idx0, int idx1, int idx2, double value)
         {
-            CvInvoke.cvSetReal3D(CvPtr, idx0, idx1, idx2, value);
+            NativeMethods.cvSetReal3D(CvPtr, idx0, idx1, idx2, value);
         }
 #if LANG_JP
         /// <summary>
@@ -8022,7 +8022,7 @@ namespace OpenCvSharp
 #endif
         public void SetRealND(double value, params int[] idx)
         {
-            CvInvoke.cvSetRealND(CvPtr, idx, value);
+            NativeMethods.cvSetRealND(CvPtr, idx, value);
         }
         #endregion
         #region SetZero

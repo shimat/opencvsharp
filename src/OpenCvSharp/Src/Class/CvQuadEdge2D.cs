@@ -35,7 +35,7 @@ namespace OpenCvSharp
 #endif
         public CvQuadEdge2D(IntPtr ptr)
         {
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
 #if LANG_JP
         /// <summary>
@@ -150,7 +150,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    WCvQuadEdge2D* p = ((WCvQuadEdge2D*)_ptr);
+                    WCvQuadEdge2D* p = ((WCvQuadEdge2D*)ptr);
                     return new CvSubdiv2DPoint[] {
                         new CvSubdiv2DPoint(p->pt0), 
                         new CvSubdiv2DPoint(p->pt1), 
@@ -169,7 +169,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    WCvQuadEdge2D* p = ((WCvQuadEdge2D*)_ptr);
+                    WCvQuadEdge2D* p = ((WCvQuadEdge2D*)ptr);
                     return new CvSubdiv2DEdge[] { p->next0, p->next1, p->next2, p->next3 };
                 }
             }

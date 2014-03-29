@@ -55,7 +55,7 @@ namespace OpenCvSharp
             if (storage == null)
                 throw new ArgumentNullException();
             
-            IntPtr p = CvInvoke.cvCreateSet(setFlags, headerSize, elemSize, storage.CvPtr);
+            IntPtr p = NativeMethods.cvCreateSet(setFlags, headerSize, elemSize, storage.CvPtr);
             Initialize(p);
             holdingStorage = storage;
         }

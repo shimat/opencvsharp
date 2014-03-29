@@ -23,7 +23,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Data pointer
         /// </summary>
-        protected IntPtr _ptr;
+        protected IntPtr ptr;
 
 
         #region Constructors
@@ -52,7 +52,7 @@ namespace OpenCvSharp
 #endif
         protected CvObject(IntPtr ptr)
         {
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
         #endregion
 
@@ -68,7 +68,7 @@ namespace OpenCvSharp
 #endif
         public IntPtr CvPtr
         {
-            get { return _ptr; }
+            get { return ptr; }
         }
     }
 }

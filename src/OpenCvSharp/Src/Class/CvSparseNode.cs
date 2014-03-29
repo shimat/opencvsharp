@@ -35,7 +35,7 @@ namespace OpenCvSharp
 #endif
         public CvSparseNode(IntPtr ptr)
         {
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
         #endregion
 
@@ -61,7 +61,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvSparseNode*)_ptr)->hashval;
+                    return ((WCvSparseNode*)ptr)->hashval;
                 }
             }
 		}
@@ -81,7 +81,7 @@ namespace OpenCvSharp
                 IntPtr p;
                 unsafe
                 {
-                    p = new IntPtr(((WCvSparseNode*)_ptr)->next);
+                    p = new IntPtr(((WCvSparseNode*)ptr)->next);
                 }
                 if (p == IntPtr.Zero)
                     return null;

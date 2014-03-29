@@ -43,7 +43,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("desc");
             }
-            IntPtr ptr = CvInvoke.cvCreateFeatureTree(desc.CvPtr);
+            IntPtr ptr = NativeMethods.cvCreateFeatureTree(desc.CvPtr);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvFeatureTree");
@@ -218,7 +218,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseFeatureTree(ptr);
+                        NativeMethods.cvReleaseFeatureTree(ptr);
                     }
                     this._disposed = true;
                 }

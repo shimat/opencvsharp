@@ -54,7 +54,7 @@ namespace OpenCvSharp
         /// <returns></returns>
 #endif
         public CvContourTree(CvSeq contour, CvMemStorage storage, double threshold)
-            : base( CvInvoke.cvCreateContourTree(contour.CvPtr, storage.CvPtr, threshold) )
+            : base( NativeMethods.cvCreateContourTree(contour.CvPtr, storage.CvPtr, threshold) )
         {
         }
 

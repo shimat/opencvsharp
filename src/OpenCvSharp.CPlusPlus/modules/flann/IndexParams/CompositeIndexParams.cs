@@ -41,14 +41,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_CompositeIndexParams_trees(_ptr);
+                    return *FlannInvoke.flann_CompositeIndexParams_trees(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_CompositeIndexParams_trees(_ptr) = value;
+                    *FlannInvoke.flann_CompositeIndexParams_trees(ptr) = value;
                 }
             }
         }
@@ -67,14 +67,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_CompositeIndexParams_branching(_ptr);
+                    return *FlannInvoke.flann_CompositeIndexParams_branching(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_CompositeIndexParams_branching(_ptr) = value;
+                    *FlannInvoke.flann_CompositeIndexParams_branching(ptr) = value;
                 }
             }
         }
@@ -94,14 +94,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_CompositeIndexParams_iterations(_ptr);
+                    return *FlannInvoke.flann_CompositeIndexParams_iterations(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_CompositeIndexParams_iterations(_ptr) = value;
+                    *FlannInvoke.flann_CompositeIndexParams_iterations(ptr) = value;
                 }
             }
         }
@@ -120,14 +120,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_CompositeIndexParams_centers_init(_ptr);
+                    return *FlannInvoke.flann_CompositeIndexParams_centers_init(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_CompositeIndexParams_centers_init(_ptr) = value;
+                    *FlannInvoke.flann_CompositeIndexParams_centers_init(ptr) = value;
                 }
             }
         }
@@ -149,14 +149,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *FlannInvoke.flann_CompositeIndexParams_cb_index(_ptr);
+                    return *FlannInvoke.flann_CompositeIndexParams_cb_index(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *FlannInvoke.flann_CompositeIndexParams_cb_index(_ptr) = value;
+                    *FlannInvoke.flann_CompositeIndexParams_cb_index(ptr) = value;
                 }
             }
         }

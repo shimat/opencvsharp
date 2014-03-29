@@ -34,7 +34,7 @@ namespace OpenCvSharp
 #endif
         public CvStringHashNode(IntPtr ptr)
         {
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
 
 
@@ -54,7 +54,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvStringHashNode*)_ptr)->hashval;
+                    return ((WCvStringHashNode*)ptr)->hashval;
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvStringHashNode*)_ptr)->str;
+                    return ((WCvStringHashNode*)ptr)->str;
                 }
             }
         }
@@ -80,7 +80,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return new IntPtr(((WCvStringHashNode*)_ptr)->next);
+                    return new IntPtr(((WCvStringHashNode*)ptr)->next);
                 }
             }
         }

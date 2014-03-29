@@ -40,7 +40,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("ptr");
             }
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
         #endregion
 
@@ -65,7 +65,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    WCvBGCodeBookElem* p = ((WCvBGCodeBookElem*)_ptr)->next;
+                    WCvBGCodeBookElem* p = ((WCvBGCodeBookElem*)ptr)->next;
                     if (p == null)
                         return null;
                     else
@@ -77,7 +77,7 @@ namespace OpenCvSharp
                 unsafe
                 {
                     WCvBGCodeBookElem* p = (value == null) ? null : (WCvBGCodeBookElem*)value.CvPtr;
-                    ((WCvBGCodeBookElem*)_ptr)->next = p;
+                    ((WCvBGCodeBookElem*)ptr)->next = p;
                 }
             }
         }
@@ -97,14 +97,14 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvBGCodeBookElem*)_ptr)->tLastUpdate;
+                    return ((WCvBGCodeBookElem*)ptr)->tLastUpdate;
                 }
             }
             set
             {
                 unsafe
                 {
-                    ((WCvBGCodeBookElem*)_ptr)->tLastUpdate = value;
+                    ((WCvBGCodeBookElem*)ptr)->tLastUpdate = value;
                 }
             }
         }
@@ -124,14 +124,14 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvBGCodeBookElem*)_ptr)->stale;
+                    return ((WCvBGCodeBookElem*)ptr)->stale;
                 }
             }
             set
             {
                 unsafe
                 {
-                    ((WCvBGCodeBookElem*)_ptr)->stale = value;
+                    ((WCvBGCodeBookElem*)ptr)->stale = value;
                 }
             }
         }
@@ -151,7 +151,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    byte* p = ((WCvBGCodeBookElem*)_ptr)->boxMin;
+                    byte* p = ((WCvBGCodeBookElem*)ptr)->boxMin;
                     return new byte[] { p[0], p[1], p[2] };
                 }
             }
@@ -164,7 +164,7 @@ namespace OpenCvSharp
 
                 unsafe
                 {
-                    byte* p = ((WCvBGCodeBookElem*)_ptr)->boxMin;
+                    byte* p = ((WCvBGCodeBookElem*)ptr)->boxMin;
                     p[0] = value[0];
                     p[1] = value[1];
                     p[2] = value[2];
@@ -186,7 +186,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    byte* p = ((WCvBGCodeBookElem*)_ptr)->boxMax;
+                    byte* p = ((WCvBGCodeBookElem*)ptr)->boxMax;
                     return new byte[] { p[0], p[1], p[2] };
                 }
             }
@@ -199,7 +199,7 @@ namespace OpenCvSharp
 
                 unsafe
                 {
-                    byte* p = ((WCvBGCodeBookElem*)_ptr)->boxMax;
+                    byte* p = ((WCvBGCodeBookElem*)ptr)->boxMax;
                     p[0] = value[0];
                     p[1] = value[1];
                     p[2] = value[2];
@@ -222,7 +222,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    byte* p = ((WCvBGCodeBookElem*)_ptr)->learnMin;
+                    byte* p = ((WCvBGCodeBookElem*)ptr)->learnMin;
                     return new byte[] { p[0], p[1], p[2] };
                 }
             }
@@ -235,7 +235,7 @@ namespace OpenCvSharp
 
                 unsafe
                 {
-                    byte* p = ((WCvBGCodeBookElem*)_ptr)->learnMin;
+                    byte* p = ((WCvBGCodeBookElem*)ptr)->learnMin;
                     p[0] = value[0];
                     p[1] = value[1];
                     p[2] = value[2];
@@ -257,7 +257,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    byte* p = ((WCvBGCodeBookElem*)_ptr)->learnMax;
+                    byte* p = ((WCvBGCodeBookElem*)ptr)->learnMax;
                     return new byte[] { p[0], p[1], p[2] };
                 }
             }
@@ -270,7 +270,7 @@ namespace OpenCvSharp
 
                 unsafe
                 {
-                    byte* p = ((WCvBGCodeBookElem*)_ptr)->learnMax;
+                    byte* p = ((WCvBGCodeBookElem*)ptr)->learnMax;
                     p[0] = value[0];
                     p[1] = value[1];
                     p[2] = value[2];

@@ -100,7 +100,7 @@ namespace OpenCvSharp
 #endif
         public virtual MatrixType ElemType
         {
-            get { return (MatrixType)CvInvoke.cvGetElemType(CvPtr); }
+            get { return (MatrixType)NativeMethods.cvGetElemType(CvPtr); }
         }
 #if LANG_JP
         /// <summary>
@@ -150,8 +150,7 @@ namespace OpenCvSharp
                     case MatrixType.U8C4:
                         return 4;
                     default:
-                        // んなバカな
-                        throw new OpenCvSharpException();
+                        return -1;
                 }
             }
         }
@@ -337,7 +336,7 @@ namespace OpenCvSharp
         {
             using (CvMemStorage lineStorage = new CvMemStorage())
             {
-                IntPtr result = CvInvoke.cvHoughLines2(CvPtr, lineStorage.CvPtr, HoughLinesMethod.Standard, rho, theta, threshold, param1, param2);
+                IntPtr result = NativeMethods.cvHoughLines2(CvPtr, lineStorage.CvPtr, HoughLinesMethod.Standard, rho, theta, threshold, param1, param2);
                 if (result == IntPtr.Zero)
                     throw new OpenCvSharpException();
                 
@@ -393,7 +392,7 @@ namespace OpenCvSharp
         {
             using (CvMemStorage lineStorage = new CvMemStorage())
             {
-                IntPtr result = CvInvoke.cvHoughLines2(CvPtr, lineStorage.CvPtr, HoughLinesMethod.Probabilistic, rho, theta, threshold, param1, param2);
+                IntPtr result = NativeMethods.cvHoughLines2(CvPtr, lineStorage.CvPtr, HoughLinesMethod.Probabilistic, rho, theta, threshold, param1, param2);
                 if (result == IntPtr.Zero)
                     throw new OpenCvSharpException();
                 

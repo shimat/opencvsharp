@@ -53,7 +53,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException();
             }
 
-            IntPtr subdiv = CvInvoke.cvCreateSubdiv2D(
+            IntPtr subdiv = NativeMethods.cvCreateSubdiv2D(
                 SeqType.KindSubdiv2D, SizeOf, CvSubdiv2DPoint.SizeOf, CvQuadEdge2D.SizeOf, storage.CvPtr
             );
 
@@ -62,7 +62,7 @@ namespace OpenCvSharp
                 throw new OpenCvSharpException("Failed to create CvSubdiv2D");
             }
 
-            CvInvoke.cvInitSubdivDelaunay2D(subdiv, rect);
+            NativeMethods.cvInitSubdivDelaunay2D(subdiv, rect);
 
             Initialize(subdiv);
             holdingStorage = storage;
@@ -218,7 +218,7 @@ namespace OpenCvSharp
 #endif
         public void ClearVoronoi2D()
         {
-            CvInvoke.cvClearSubdivVoronoi2D(ptr);
+            NativeMethods.cvClearSubdivVoronoi2D(ptr);
         }
         #endregion
         #region FindNearestPoint2D

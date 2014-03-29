@@ -44,7 +44,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("ptr");
             }
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
         #endregion
 
@@ -70,7 +70,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvHaarStageClassifier*)_ptr)->count;
+                    return ((WCvHaarStageClassifier*)ptr)->count;
                 }
             }
 		}
@@ -90,7 +90,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvHaarStageClassifier*)_ptr)->threshold;
+                    return ((WCvHaarStageClassifier*)ptr)->threshold;
                 }
             }
 		}
@@ -110,7 +110,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    WCvHaarStageClassifier* p = (WCvHaarStageClassifier*)_ptr;
+                    WCvHaarStageClassifier* p = (WCvHaarStageClassifier*)ptr;
                     WCvHaarClassifier* classifier = (WCvHaarClassifier*)p->classifier;
 
                     int length = p->count;
@@ -139,7 +139,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvHaarStageClassifier*)_ptr)->next;
+                    return ((WCvHaarStageClassifier*)ptr)->next;
                 }
             }
 		}
@@ -159,7 +159,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvHaarStageClassifier*)_ptr)->child;
+                    return ((WCvHaarStageClassifier*)ptr)->child;
                 }
             }
 		}
@@ -179,7 +179,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvHaarStageClassifier*)_ptr)->parent;
+                    return ((WCvHaarStageClassifier*)ptr)->parent;
                 }
             }
 		}

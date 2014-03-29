@@ -1277,7 +1277,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
-            return GpuInvoke.HOGDescriptor_checkDetectorSize(_ptr) != 0;
+            return GpuInvoke.HOGDescriptor_checkDetectorSize(ptr) != 0;
         }
 
         /// <summary>
@@ -1288,7 +1288,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
-            return GpuInvoke.HOGDescriptor_getWinSigma(_ptr);
+            return GpuInvoke.HOGDescriptor_getWinSigma(ptr);
         }
         */
 

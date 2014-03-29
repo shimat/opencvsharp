@@ -34,7 +34,7 @@ namespace OpenCvSharp
             if (pRects.Length != 3)
                 throw new ArgumentException("pRects.Length must be 3");
 
-            ptr = CvInvoke.cvInitFaceTracker(IntPtr.Zero, imgGray.CvPtr, pRects, 3);
+            ptr = NativeMethods.cvInitFaceTracker(IntPtr.Zero, imgGray.CvPtr, pRects, 3);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvFaceTracker");
         }
@@ -88,7 +88,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseFaceTracker(ref ptr);
+                        NativeMethods.cvReleaseFaceTracker(ref ptr);
                     }
                     disposed = true;
                 }

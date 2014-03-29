@@ -65,7 +65,7 @@ namespace OpenCvSharp
             if (arr == null)
                 throw new ArgumentNullException("arr");
             UInt64 rngVal = rng.Seed;
-            CvInvoke.cvRandArr(ref rngVal, arr.CvPtr, distType, param1, param2);
+            NativeMethods.cvRandArr(ref rngVal, arr.CvPtr, distType, param1, param2);
             rng.Seed = rngVal;
         }
         #endregion
@@ -197,7 +197,7 @@ namespace OpenCvSharp
 #endif
         public static int RANSACUpdateNumIters(double p, double errProb, int modelPoints, int maxIters)
         {
-            return CvInvoke.cvRANSACUpdateNumIters(p, errProb, modelPoints, maxIters);
+            return NativeMethods.cvRANSACUpdateNumIters(p, errProb, modelPoints, maxIters);
         }
         #endregion
         #region RandSetRange
@@ -321,12 +321,12 @@ namespace OpenCvSharp
             if (rng == null)
             {
                 UInt64 rngVal = 0;
-                CvInvoke.cvRandShuffle(mat.CvPtr, ref rngVal, iterFactor);
+                NativeMethods.cvRandShuffle(mat.CvPtr, ref rngVal, iterFactor);
             }
             else
             {
                 UInt64 rngVal = rng.Seed;
-                CvInvoke.cvRandShuffle(mat.CvPtr, ref rngVal, iterFactor);
+                NativeMethods.cvRandShuffle(mat.CvPtr, ref rngVal, iterFactor);
                 rng.Seed = rngVal;
             }
         }
@@ -355,7 +355,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("mat");
             }
-            CvInvoke.cvRange(mat.CvPtr, start, end);
+            NativeMethods.cvRange(mat.CvPtr, start, end);
         }
         #endregion
         #region Read
@@ -383,7 +383,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fs");
             }
             IntPtr nodePtr = (node == null) ? IntPtr.Zero : node.CvPtr;
-            IntPtr result = CvInvoke.cvRead(fs.CvPtr, nodePtr, IntPtr.Zero);
+            IntPtr result = NativeMethods.cvRead(fs.CvPtr, nodePtr, IntPtr.Zero);
 
             Type t = typeof(T);
             if (t == typeof(IplImage))
@@ -433,7 +433,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fs");
             }
             IntPtr mapPtr = (map == null) ? IntPtr.Zero : map.CvPtr;
-            IntPtr result = CvInvoke.cvRead(fs.CvPtr, CvInvoke.cvGetFileNodeByName(fs.CvPtr, mapPtr, name), IntPtr.Zero);
+            IntPtr result = NativeMethods.cvRead(fs.CvPtr, NativeMethods.cvGetFileNodeByName(fs.CvPtr, mapPtr, name), IntPtr.Zero);
 
             Type t = typeof(T);
             if (t == typeof(IplImage))
@@ -476,7 +476,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("reader");
             }
-            return CvInvoke.cvReadChainPoint(reader.CvPtr);
+            return NativeMethods.cvReadChainPoint(reader.CvPtr);
         }
         #endregion      
         #region ReadInt
@@ -606,7 +606,7 @@ namespace OpenCvSharp
 
             using (var dstPtr = new ArrayAddress1<T>(dst))
             {
-                CvInvoke.cvReadRawData(fs.CvPtr, src.CvPtr, dstPtr.Pointer, dt);
+                NativeMethods.cvReadRawData(fs.CvPtr, src.CvPtr, dstPtr.Pointer, dt);
             }
         }
         #endregion
@@ -645,7 +645,7 @@ namespace OpenCvSharp
             dst = new T[count];
             using (var dstPtr = new ArrayAddress1<T>(dst))
             {
-                CvInvoke.cvReadRawDataSlice(fs.CvPtr, reader.CvPtr, count, dstPtr, dt);
+                NativeMethods.cvReadRawDataSlice(fs.CvPtr, reader.CvPtr, count, dstPtr, dt);
             }
         }
         #endregion
@@ -1063,7 +1063,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("img");
             }
-            CvInvoke.cvRectangle(img.CvPtr, pt1, pt2, color, thickness, lineType, shift);
+            NativeMethods.cvRectangle(img.CvPtr, pt1, pt2, color, thickness, lineType, shift);
         }
 #if LANG_JP
         /// <summary>
@@ -1489,7 +1489,7 @@ namespace OpenCvSharp
 #endif
         public static CvErrorCallback RedirectError(CvErrorCallback error_handler, IntPtr userdata, ref IntPtr prev_userdata)
         {
-            IntPtr handler = CvInvoke.cvRedirectError(error_handler, userdata, ref prev_userdata);
+            IntPtr handler = NativeMethods.cvRedirectError(error_handler, userdata, ref prev_userdata);
             if (handler == IntPtr.Zero)
                 return null;
             else
@@ -1511,7 +1511,7 @@ namespace OpenCvSharp
         public static IntPtr RedirectError(IntPtr error_handler)
         {
             IntPtr zero = IntPtr.Zero;
-            return CvInvoke.cvRedirectError(error_handler, zero, ref zero);
+            return NativeMethods.cvRedirectError(error_handler, zero, ref zero);
         }
 #if LANG_JP
         /// <summary>
@@ -1532,7 +1532,7 @@ namespace OpenCvSharp
 #endif
         public static IntPtr RedirectError(IntPtr error_handler, IntPtr userdata, ref IntPtr prev_userdata)
         {
-            return CvInvoke.cvRedirectError(error_handler, userdata, ref prev_userdata);
+            return NativeMethods.cvRedirectError(error_handler, userdata, ref prev_userdata);
         }
         #endregion
         #region Reduce
@@ -1595,7 +1595,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvReduce(src.CvPtr, dst.CvPtr, dim, type);
+            NativeMethods.cvReduce(src.CvPtr, dst.CvPtr, dim, type);
         }
         #endregion
         #region RegisterType
@@ -1616,7 +1616,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("info");
             }
-            CvInvoke.cvRegisterType(info.CvPtr);
+            NativeMethods.cvRegisterType(info.CvPtr);
         }
         #endregion
         #region Release
@@ -1633,7 +1633,7 @@ namespace OpenCvSharp
 #endif
         public static void Release(ref IntPtr struct_ptr)
         {
-            CvInvoke.cvRelease(ref struct_ptr);
+            NativeMethods.cvRelease(ref struct_ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -1651,7 +1651,7 @@ namespace OpenCvSharp
             if (struct_ptr != null)
             {
                 IntPtr ptr = struct_ptr.CvPtr;
-                CvInvoke.cvRelease(ref ptr);
+                NativeMethods.cvRelease(ref ptr);
                 struct_ptr = null;
             }
         }
@@ -1732,7 +1732,7 @@ namespace OpenCvSharp
         {
             if (arr != null)
             {
-                CvInvoke.cvReleaseData(arr.CvPtr);
+                NativeMethods.cvReleaseData(arr.CvPtr);
             }
         }
         #endregion
@@ -1888,7 +1888,7 @@ namespace OpenCvSharp
             if (image != null)
             {
                 IntPtr ptr = image.CvPtr;
-                CvInvoke.cvReleaseImageHeader(ref ptr);
+                NativeMethods.cvReleaseImageHeader(ref ptr);
             }
         }
         #endregion
@@ -2051,7 +2051,7 @@ namespace OpenCvSharp
             if (pyramid != null && pyramid[0] != null)
             {
                 IntPtr ptr = pyramid[0].CvPtr;
-                CvInvoke.cvReleasePyramid(ref ptr, extra_layers);
+                NativeMethods.cvReleasePyramid(ref ptr, extra_layers);
             }
         }
         #endregion
@@ -2238,7 +2238,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("mapx");
             if (mapy == null)
                 throw new ArgumentNullException("mapy");
-            CvInvoke.cvRemap(src.CvPtr, dst.CvPtr, mapx.CvPtr, mapy.CvPtr, flags, fillval);
+            NativeMethods.cvRemap(src.CvPtr, dst.CvPtr, mapx.CvPtr, mapy.CvPtr, flags, fillval);
         }
         #endregion
         #region RemoveNodeFromTree
@@ -2264,7 +2264,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("node");
             if (frame == null)
                 throw new ArgumentNullException("frame");
-            CvInvoke.cvRemoveNodeFromTree(node.CvPtr, frame.CvPtr);
+            NativeMethods.cvRemoveNodeFromTree(node.CvPtr, frame.CvPtr);
         }
         #endregion
         #region Repeat
@@ -2287,7 +2287,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvRepeat(src.CvPtr, dst.CvPtr);
+            NativeMethods.cvRepeat(src.CvPtr, dst.CvPtr);
         }
         #endregion
         #region ReprojectImageTo3D
@@ -2314,7 +2314,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("_3dImage");
             if (Q == null)
                 throw new ArgumentNullException("Q");
-            CvInvoke.cvReprojectImageTo3D(disparityImage.CvPtr, _3dImage.CvPtr, Q.CvPtr);
+            NativeMethods.cvReprojectImageTo3D(disparityImage.CvPtr, _3dImage.CvPtr, Q.CvPtr);
         }
         #endregion
         #region ResetImageROI
@@ -2335,7 +2335,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("image");
             }
-            CvInvoke.cvResetImageROI(image.CvPtr);
+            NativeMethods.cvResetImageROI(image.CvPtr);
         }
         #endregion
         #region Reshape
@@ -2433,7 +2433,7 @@ namespace OpenCvSharp
             if(header == null)
                 throw new ArgumentNullException("header");
 
-            IntPtr result = CvInvoke.cvReshape(arr.CvPtr, header.CvPtr, new_cn, new_rows);
+            IntPtr result = NativeMethods.cvReshape(arr.CvPtr, header.CvPtr, new_cn, new_rows);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -2477,7 +2477,7 @@ namespace OpenCvSharp
             if (new_sizes == null)
                 throw new ArgumentNullException("new_sizes");
 
-            IntPtr result = CvInvoke.cvReshapeMatND(arr.CvPtr, sizeof_header, header.CvPtr, new_cn, new_dims, new_sizes);
+            IntPtr result = NativeMethods.cvReshapeMatND(arr.CvPtr, sizeof_header, header.CvPtr, new_cn, new_dims, new_sizes);
 
             Type t = typeof(T);
             if (t == typeof(IplImage))
@@ -2567,7 +2567,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            CvInvoke.cvResize(src.CvPtr, dst.CvPtr, interpolation);
+            NativeMethods.cvResize(src.CvPtr, dst.CvPtr, interpolation);
         }
         #endregion
         #region ResizeWindow
@@ -2588,7 +2588,7 @@ namespace OpenCvSharp
 #endif
         public static void ResizeWindow(string name, int width, int height)
         {
-            CvInvoke.cvResizeWindow(name, width, height);
+            NativeMethods.cvResizeWindow(name, width, height);
         }
         #endregion
         #region RestoreMemStoragePos
@@ -2611,7 +2611,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("storage");
             if (pos == null)
                 throw new ArgumentNullException("pos");
-            CvInvoke.cvRestoreMemStoragePos(storage.CvPtr, pos.CvPtr);
+            NativeMethods.cvRestoreMemStoragePos(storage.CvPtr, pos.CvPtr);
         }
         #endregion
         #region RetrieveFrame
@@ -2656,7 +2656,7 @@ namespace OpenCvSharp
             if (capture == null)
                 throw new ArgumentNullException("capture");
             
-            IntPtr ptr = CvInvoke.cvRetrieveFrame(capture.CvPtr, streamIdx);
+            IntPtr ptr = NativeMethods.cvRetrieveFrame(capture.CvPtr, streamIdx);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -2762,7 +2762,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             IntPtr jacobianPtr = (jacobian == null) ? IntPtr.Zero : jacobian.CvPtr;
-            return CvInvoke.cvRodrigues2(src.CvPtr, dst.CvPtr, jacobianPtr);
+            return NativeMethods.cvRodrigues2(src.CvPtr, dst.CvPtr, jacobianPtr);
         }
         #endregion
         #region Round
@@ -2870,7 +2870,7 @@ namespace OpenCvSharp
             IntPtr matrixQzPtr = (matrixQz == null) ? IntPtr.Zero : matrixQz.CvPtr;
             eulerAngles = new CvPoint3D64f();
 
-            CvInvoke.cvRQDecomp3x3(matrixM.CvPtr, matrixR.CvPtr, matrixQ.CvPtr, matrixQxPtr, matrixQyPtr, matrixQzPtr, ref eulerAngles);
+            NativeMethods.cvRQDecomp3x3(matrixM.CvPtr, matrixR.CvPtr, matrixQ.CvPtr, matrixQxPtr, matrixQyPtr, matrixQzPtr, ref eulerAngles);
         }
         #endregion
         #region RunHaarClassifierCascade
@@ -2916,7 +2916,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("cascade");
             }
-            return CvInvoke.cvRunHaarClassifierCascade(cascade.CvPtr, pt, start_stage) > 0;
+            return NativeMethods.cvRunHaarClassifierCascade(cascade.CvPtr, pt, start_stage) > 0;
         }
         #endregion
         #region RunningAvg
@@ -2967,7 +2967,7 @@ namespace OpenCvSharp
             if (acc == null)
                 throw new ArgumentNullException("acc");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            CvInvoke.cvRunningAvg(image.CvPtr, acc.CvPtr, alpha, maskPtr);
+            NativeMethods.cvRunningAvg(image.CvPtr, acc.CvPtr, alpha, maskPtr);
         }
         #endregion
     }

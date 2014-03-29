@@ -139,11 +139,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                return NativeMethods.BackgroundSubtractorMOG2_frameSize_get(_ptr);
+                return NativeMethods.BackgroundSubtractorMOG2_frameSize_get(ptr);
             }
             set
             {
-                NativeMethods.BackgroundSubtractorMOG2_frameSize_set(_ptr, value);
+                NativeMethods.BackgroundSubtractorMOG2_frameSize_set(ptr, value);
             }
         }
         /// <summary>
@@ -155,14 +155,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_frameType(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_frameType(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_frameType(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_frameType(ptr) = value;
                 }
             }
         }
@@ -175,7 +175,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return new Mat(NativeMethods.BackgroundSubtractorMOG2_bgmodel(_ptr));
+                    return new Mat(NativeMethods.BackgroundSubtractorMOG2_bgmodel(ptr));
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return new Mat(NativeMethods.BackgroundSubtractorMOG2_bgmodelUsedModes(_ptr));
+                    return new Mat(NativeMethods.BackgroundSubtractorMOG2_bgmodelUsedModes(ptr));
                 }
             }
         }
@@ -201,14 +201,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_nframes(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_nframes(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_nframes(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_nframes(ptr) = value;
                 }
             }
         }
@@ -221,14 +221,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_history(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_history(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_history(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_history(ptr) = value;
                 }
             }
         }
@@ -241,14 +241,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_nmixtures(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_nmixtures(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_nmixtures(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_nmixtures(ptr) = value;
                 }
             }
         }
@@ -262,14 +262,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_varThreshold(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_varThreshold(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_varThreshold(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_varThreshold(ptr) = value;
                 }
             }
         }
@@ -282,14 +282,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_backgroundRatio(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_backgroundRatio(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_backgroundRatio(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_backgroundRatio(ptr) = value;
                 }
             }
         }
@@ -302,14 +302,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_varThresholdGen(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_varThresholdGen(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_varThresholdGen(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_varThresholdGen(ptr) = value;
                 }
             }
         }
@@ -322,14 +322,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fVarInit(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fVarInit(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_fVarInit(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fVarInit(ptr) = value;
                 }
             }
         }
@@ -342,14 +342,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fVarMin(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fVarMin(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_fVarMin(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fVarMin(ptr) = value;
                 }
             }
         }
@@ -362,14 +362,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fVarMax(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fVarMax(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_fVarMax(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fVarMax(ptr) = value;
                 }
             }
         }
@@ -382,14 +382,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fCT(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fCT(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_fCT(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fCT(ptr) = value;
                 }
             }
         }
@@ -402,14 +402,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_bShadowDetection(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_bShadowDetection(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_bShadowDetection(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_bShadowDetection(ptr) = value;
                 }
             }
         }//
@@ -422,14 +422,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_nShadowDetection(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_nShadowDetection(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_nShadowDetection(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_nShadowDetection(ptr) = value;
                 }
             }
         }
@@ -442,14 +442,14 @@ namespace OpenCvSharp.CPlusPlus
             {
                 unsafe
                 {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fTau(_ptr);
+                    return *NativeMethods.BackgroundSubtractorMOG2_fTau(ptr);
                 }
             }
             set
             {
                 unsafe
                 {
-                    *NativeMethods.BackgroundSubtractorMOG2_fTau(_ptr) = value;
+                    *NativeMethods.BackgroundSubtractorMOG2_fTau(ptr) = value;
                 }
             }
         }

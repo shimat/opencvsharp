@@ -30,7 +30,7 @@ namespace OpenCvSharp
 #endif
         public CvGraphEdge(IntPtr ptr)
         {
-            this._ptr = ptr;
+            this.ptr = ptr;
         }
 #if LANG_JP
         /// <summary>
@@ -71,7 +71,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return (GraphEdgeVtxFlag)((WCvGraphEdge*)_ptr)->flags;
+                    return (GraphEdgeVtxFlag)((WCvGraphEdge*)ptr)->flags;
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    return ((WCvGraphEdge*)_ptr)->weight;
+                    return ((WCvGraphEdge*)ptr)->weight;
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    WCvGraphEdge* p = (WCvGraphEdge*)_ptr;
+                    WCvGraphEdge* p = (WCvGraphEdge*)ptr;
                     return new CvGraphEdge[2] { new CvGraphEdge(p->next1), new CvGraphEdge(p->next2) };
                 }
             }
@@ -129,7 +129,7 @@ namespace OpenCvSharp
             {
                 unsafe
                 {
-                    WCvGraphEdge* p = (WCvGraphEdge*)_ptr;
+                    WCvGraphEdge* p = (WCvGraphEdge*)ptr;
                     return new CvGraphVtx[2] { new CvGraphVtx(p->vtx1), new CvGraphVtx(p->vtx2) };
                 }
             }

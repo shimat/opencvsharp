@@ -194,7 +194,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("m");
             }
             mat = m;
-            IntPtr result = CvInvoke.cvInitSparseMatIterator(mat.CvPtr, CvPtr);
+            IntPtr result = NativeMethods.cvInitSparseMatIterator(mat.CvPtr, CvPtr);
             if (result == IntPtr.Zero)
                 return null;
             return new CvSparseNode(result);

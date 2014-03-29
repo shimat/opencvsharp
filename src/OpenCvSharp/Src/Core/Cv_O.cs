@@ -107,7 +107,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            CvInvoke.cvOr(src1.CvPtr, src2.CvPtr, dst.CvPtr, maskPtr);
+            NativeMethods.cvOr(src1.CvPtr, src2.CvPtr, dst.CvPtr, maskPtr);
         }
         #endregion
         #region OrS
@@ -158,7 +158,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            CvInvoke.cvOrS(src1.CvPtr, value, dst.CvPtr, maskPtr);
+            NativeMethods.cvOrS(src1.CvPtr, value, dst.CvPtr, maskPtr);
         }
         #endregion
     }

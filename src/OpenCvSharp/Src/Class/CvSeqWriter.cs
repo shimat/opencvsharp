@@ -61,7 +61,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("seq");
             }
-            CvInvoke.cvStartAppendToSeq(seq.CvPtr, ptr);
+            NativeMethods.cvStartAppendToSeq(seq.CvPtr, ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -86,7 +86,7 @@ namespace OpenCvSharp
             if (storage == null)
                 throw new ArgumentNullException("storage");
            
-            CvInvoke.cvStartWriteSeq(seqFlags, headerSize, elemSize, storage.CvPtr, ptr);
+            NativeMethods.cvStartWriteSeq(seqFlags, headerSize, elemSize, storage.CvPtr, ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -135,7 +135,7 @@ namespace OpenCvSharp
                     {
                         try
                         {
-                            CvInvoke.cvEndWriteSeq(ptr);
+                            NativeMethods.cvEndWriteSeq(ptr);
                         }
                         catch { }
                     }
@@ -277,7 +277,7 @@ namespace OpenCvSharp
             {
                 return null;
             }
-            IntPtr result = CvInvoke.cvEndWriteSeq(CvPtr);
+            IntPtr result = NativeMethods.cvEndWriteSeq(CvPtr);
             IsDisposed = true;
             if (result == IntPtr.Zero)
                 return null;
@@ -296,7 +296,7 @@ namespace OpenCvSharp
 #endif
         public void Flush()
         {
-            CvInvoke.cvFlushSeqWriter(ptr);
+            NativeMethods.cvFlushSeqWriter(ptr);
         }
         #endregion
         #region WriteSeqElemVar

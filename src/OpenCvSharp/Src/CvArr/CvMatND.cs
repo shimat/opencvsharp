@@ -71,7 +71,7 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
             
-            ptr = CvInvoke.cvCreateMatND(dims, sizes, type);
+            ptr = NativeMethods.cvCreateMatND(dims, sizes, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
             
@@ -100,7 +100,7 @@ namespace OpenCvSharp
             : this(dims, sizes, type)
         {
             GCHandle gch = AllocGCHandle(data);
-            CvInvoke.cvInitMatNDHeader(CvPtr, dims, sizes, type, gch.AddrOfPinnedObject());
+            NativeMethods.cvInitMatNDHeader(CvPtr, dims, sizes, type, gch.AddrOfPinnedObject());
         }
 
 #if LANG_JP
@@ -196,7 +196,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseMat(ref ptr);
+                        NativeMethods.cvReleaseMat(ref ptr);
                     }
                     disposed = true;
                 }

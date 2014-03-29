@@ -317,7 +317,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public IntPtr Handle
         {
-            get { return CvInvoke.cvGetWindowHandle(name); }
+            get { return OpenCvSharp.NativeMethods.cvGetWindowHandle(name); }
         }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static bool HasQt
         {
-            get { return CvInvoke.HasQt; }
+            get { return OpenCvSharp.NativeMethods.HasQt; }
         }
         #endregion
 

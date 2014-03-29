@@ -331,7 +331,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int VecLen()
         {
-            return FlannInvoke.flann_Index_veclen(_ptr);
+            return FlannInvoke.flann_Index_veclen(ptr);
         }
         #endregion
         #region Size
@@ -348,7 +348,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int Size()
         {
-            return FlannInvoke.flann_Index_size(_ptr);
+            return FlannInvoke.flann_Index_size(ptr);
         }
         #endregion
         //*/

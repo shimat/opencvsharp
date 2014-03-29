@@ -115,7 +115,7 @@ namespace OpenCvSharp
         public CvFont(FontFace fontFace, double hscale, double vscale, double shear, int thickness, LineType lineType)
         {
             ptr = AllocMemory(SizeOf);
-            CvInvoke.cvInitFont(ptr, fontFace, hscale, vscale, shear, thickness, lineType);
+            NativeMethods.cvInitFont(ptr, fontFace, hscale, vscale, shear, thickness, lineType);
         }
 
 #if LANG_JP

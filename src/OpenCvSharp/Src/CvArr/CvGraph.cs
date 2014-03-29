@@ -80,7 +80,7 @@ namespace OpenCvSharp
             if (storage == null)
                 throw new ArgumentNullException();
             
-            IntPtr p = CvInvoke.cvCreateGraph(graphFlags, headerSize, vtxSize, edgeSize, storage.CvPtr);
+            IntPtr p = NativeMethods.cvCreateGraph(graphFlags, headerSize, vtxSize, edgeSize, storage.CvPtr);
             Initialize(p);
             holdingStorage = storage;
         }

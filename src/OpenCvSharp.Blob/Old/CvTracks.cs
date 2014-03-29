@@ -364,7 +364,7 @@ namespace OpenCvSharp.Blob.Old
         public virtual void Clear()
         {
             CvBlobInvoke.CvTracks_cvReleaseTracks(ptr);
-            //CvBlobInvoke.CvTracks_Clear(_ptr);
+            //CvBlobInvoke.CvTracks_Clear(ptr);
         }
 #if LANG_JP
         /// <summary>

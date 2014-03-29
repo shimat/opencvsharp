@@ -74,7 +74,7 @@ namespace OpenCvSharp
 
             IntPtr memstoragePtr = (memstorage == null) ? IntPtr.Zero : memstorage.CvPtr;
 
-            ptr = CvInvoke.cvOpenFileStorage(filename, memstoragePtr, flags, encoding);
+            ptr = NativeMethods.cvOpenFileStorage(filename, memstoragePtr, flags, encoding);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvFileStorage");
@@ -126,7 +126,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseFileStorage(ref ptr);
+                        NativeMethods.cvReleaseFileStorage(ref ptr);
                     }
                     disposed = true;
                 }

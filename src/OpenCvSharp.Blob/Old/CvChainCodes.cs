@@ -60,7 +60,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public void Add(CvChainCode item)
         {
-            CvBlobInvoke.CvChainCodes_PushBack(_ptr, item);
+            CvBlobInvoke.CvChainCodes_PushBack(ptr, item);
         }
 #if LANG_JP
         /// <summary>
@@ -73,7 +73,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public void Clear()
         {
-            CvBlobInvoke.CvChainCodes_Clear(_ptr);
+            CvBlobInvoke.CvChainCodes_Clear(ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -90,7 +90,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public bool Contains(CvChainCode item)
         {
-            return CvBlobInvoke.CvChainCodes_Contains(_ptr, item);
+            return CvBlobInvoke.CvChainCodes_Contains(ptr, item);
         }
 #if LANG_JP
         /// <summary>
@@ -107,7 +107,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public void CopyTo(CvChainCode[] array, int arrayIndex)
         {
-            CvBlobInvoke.CvChainCodes_CopyTo(_ptr, array, arrayIndex);
+            CvBlobInvoke.CvChainCodes_CopyTo(ptr, array, arrayIndex);
         }
 #if LANG_JP
         /// <summary>
@@ -122,7 +122,7 @@ namespace OpenCvSharp.Blob.Old
         {
             get
             {
-                return CvBlobInvoke.CvChainCodes_Count(_ptr);
+                return CvBlobInvoke.CvChainCodes_Count(ptr);
             }
         }
 #if LANG_JP
@@ -153,7 +153,7 @@ namespace OpenCvSharp.Blob.Old
 #endif
         public bool Remove(CvChainCode item)
         {
-            return CvBlobInvoke.CvChainCodes_Remove(_ptr, item);
+            return CvBlobInvoke.CvChainCodes_Remove(ptr, item);
         }
         #endregion
         #region IEnumerable<CvChainCode> Members

@@ -40,7 +40,7 @@ namespace OpenCvSharp
 #endif
         public CvLatentSvmDetector(string filename)
         {
-            ptr = CvInvoke.cvLoadLatentSvmDetector(filename);
+            ptr = NativeMethods.cvLoadLatentSvmDetector(filename);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvLatentSvmDetector");
@@ -106,7 +106,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseLatentSvmDetector(ref ptr);
+                        NativeMethods.cvReleaseLatentSvmDetector(ref ptr);
                     }
                     this._disposed = true;
                 }

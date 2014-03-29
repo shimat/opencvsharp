@@ -141,7 +141,7 @@ namespace OpenCvSharp.MachineLearning
                     if (IsEnabledDispose)
                     {
                         MLInvoke.cv_EM_delete(ptr);
-                        //ML.CvEM_clear(_ptr);
+                        //ML.CvEM_clear(ptr);
                     }
                     disposed = true;
                 }
@@ -172,7 +172,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 	    public int GetNClusters()
 	    {
-            return MLInvoke.CvEM_get_nclusters(_ptr);
+            return MLInvoke.CvEM_get_nclusters(ptr);
 	    }
 #if LANG_JP
         /// <summary>
@@ -187,7 +187,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public CvMat GetMeans()
         {
-            IntPtr p = MLInvoke.CvEM_get_means(_ptr);
+            IntPtr p = MLInvoke.CvEM_get_means(ptr);
             if (p == IntPtr.Zero)
                 return null;
             else
@@ -208,9 +208,9 @@ namespace OpenCvSharp.MachineLearning
         {
             int nclusters = GetNClusters();
             IntPtr[] src = new IntPtr[nclusters];
-            MLInvoke.CvEM_get_covs2(_ptr, src, nclusters);
+            MLInvoke.CvEM_get_covs2(ptr, src, nclusters);
             CvMat[] result = new CvMat[nclusters];
-            //IntPtr p = MLInvoke.CvEM_get_covs(_ptr);
+            //IntPtr p = MLInvoke.CvEM_get_covs(ptr);
             //p.ToString();
             for (int i = 0; i < nclusters; i++)
             {
@@ -231,7 +231,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public IntPtr GetCovsPtr()
         {
-            return MLInvoke.CvEM_get_covs(_ptr);
+            return MLInvoke.CvEM_get_covs(ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -246,7 +246,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public CvMat GetWeights()
         {
-            IntPtr p = MLInvoke.CvEM_get_weights(_ptr);
+            IntPtr p = MLInvoke.CvEM_get_weights(ptr);
             if (p == IntPtr.Zero)
                 return null;
             else
@@ -265,7 +265,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public CvMat GetProbs()
         {
-            IntPtr p = MLInvoke.CvEM_get_probs(_ptr);
+            IntPtr p = MLInvoke.CvEM_get_probs(ptr);
             if (p == IntPtr.Zero)
                 return null;
             else

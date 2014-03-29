@@ -69,7 +69,7 @@ namespace OpenCvSharp
 #endif
         public CvMat(int rows, int cols, MatrixType type)
         {
-            ptr = CvInvoke.cvCreateMat(rows, cols, type);
+            ptr = NativeMethods.cvCreateMat(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
             NotifyMemoryPressure(MemorySize());
@@ -121,7 +121,7 @@ namespace OpenCvSharp
         public CvMat(int rows, int cols, MatrixType type, Array elements, bool copyData)
             //: this(rows, cols, type)
         {
-            ptr = CvInvoke.cvCreateMatHeader(rows, cols, type);
+            ptr = NativeMethods.cvCreateMatHeader(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
             
@@ -132,7 +132,7 @@ namespace OpenCvSharp
                 data = elements;
             
             GCHandle gch = AllocGCHandle(data);
-            CvInvoke.cvSetData(ptr, gch.AddrOfPinnedObject(), Cv.AUTOSTEP);
+            NativeMethods.cvSetData(ptr, gch.AddrOfPinnedObject(), Cv.AUTOSTEP);
             NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
@@ -157,10 +157,10 @@ namespace OpenCvSharp
         public CvMat(int rows, int cols, MatrixType type, IntPtr data)
             : this(rows, cols, type)
         {
-            ptr = CvInvoke.cvCreateMatHeader(rows, cols, type);
+            ptr = NativeMethods.cvCreateMatHeader(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
-            CvInvoke.cvSetData(ptr, data, Cv.AUTOSTEP);
+            NativeMethods.cvSetData(ptr, data, Cv.AUTOSTEP);
             NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
@@ -184,12 +184,12 @@ namespace OpenCvSharp
 #endif
         public CvMat(int rows, int cols, MatrixType type, CvScalar value)
         {
-            ptr = CvInvoke.cvCreateMat(rows, cols, type);
+            ptr = NativeMethods.cvCreateMat(rows, cols, type);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvMat");
             }
-            CvInvoke.cvSet(ptr, value, IntPtr.Zero);
+            NativeMethods.cvSet(ptr, value, IntPtr.Zero);
             NotifyMemoryPressure(MemorySize());
         }
 
@@ -230,7 +230,7 @@ namespace OpenCvSharp
             if (!File.Exists(filename))
                 throw new FileNotFoundException("", filename);
             
-            ptr = CvInvoke.cvLoadImageM(filename, flags);
+            ptr = NativeMethods.cvLoadImageM(filename, flags);
             if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvMat");
@@ -765,9 +765,9 @@ namespace OpenCvSharp
 #endif
         public static CvMat Identity(int rows, int cols, MatrixType type, CvScalar value)
         {
-            IntPtr ptr = CvInvoke.cvCreateMatHeader(rows, cols, type);
-            CvInvoke.cvCreateData(ptr);
-            CvInvoke.cvSetIdentity(ptr, value);
+            IntPtr ptr = NativeMethods.cvCreateMatHeader(rows, cols, type);
+            NativeMethods.cvCreateData(ptr);
+            NativeMethods.cvSetIdentity(ptr, value);
             return new CvMat(ptr);
         }
 #if LANG_JP
@@ -823,7 +823,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseMat(ref ptr);
+                        NativeMethods.cvReleaseMat(ref ptr);
                     }
                     disposed = true;
                 }
@@ -2482,7 +2482,7 @@ namespace OpenCvSharp
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    result[r * cols + c] = CvInvoke.cvGet2D(p, r, c);
+                    result[r * cols + c] = NativeMethods.cvGet2D(p, r, c);
                 }
             }
 
@@ -2510,7 +2510,7 @@ namespace OpenCvSharp
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    result[r, c] = CvInvoke.cvGet2D(p, r, c);
+                    result[r, c] = NativeMethods.cvGet2D(p, r, c);
                 }
             }  
           
@@ -2564,7 +2564,7 @@ namespace OpenCvSharp
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    yield return CvInvoke.cvGet2D(ptr, r, c);
+                    yield return NativeMethods.cvGet2D(ptr, r, c);
                 }
             }
         }

@@ -24,9 +24,9 @@ namespace OpenCvSharp.Utilities
             {
                 IntPtr zero = IntPtr.Zero;
                 // cxcore
-                CvInvoke.cvReleaseImage(ref zero);
+                NativeMethods.cvReleaseImage(ref zero);
                 // cv                
-                CvInvoke.cvReleaseHist(ref zero);
+                NativeMethods.cvReleaseHist(ref zero);
             }
             catch (DllNotFoundException e)
             {

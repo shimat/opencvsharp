@@ -120,14 +120,14 @@ namespace OpenCvSharp
 
             if (ranges == null)
             {
-                ptr = CvInvoke.cvCreateHist(sizes.Length, sizes, type, IntPtr.Zero, uniform);
+                ptr = NativeMethods.cvCreateHist(sizes.Length, sizes, type, IntPtr.Zero, uniform);
             }
             else
             {
                 // float[][]をIntPtr[]に変換する
                 using (var rangesPtr = new ArrayAddress2<float>(ranges))
                 {
-                    ptr = CvInvoke.cvCreateHist(sizes.Length, sizes, type, rangesPtr.Pointer, uniform);
+                    ptr = NativeMethods.cvCreateHist(sizes.Length, sizes, type, rangesPtr.Pointer, uniform);
                 }
             }
             if (ptr == IntPtr.Zero)
@@ -172,7 +172,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        CvInvoke.cvReleaseHist(ref ptr);
+                        NativeMethods.cvReleaseHist(ref ptr);
                     }
                     disposed = true;
                 }
@@ -232,7 +232,7 @@ namespace OpenCvSharp
                     case HistogramFormat.Sparse:
                         return new CvSparseMat(bins, false);
                     default:
-                        throw new OpenCvSharpException();
+                        return null;
                 }
             }
         }
@@ -788,7 +788,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("hist");
             }
-            return CvInvoke.cvCompareHist(ptr, hist.CvPtr, method);
+            return NativeMethods.cvCompareHist(ptr, hist.CvPtr, method);
         }
         #endregion
         #region Copy
