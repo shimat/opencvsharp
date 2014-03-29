@@ -251,17 +251,17 @@ namespace OpenCvSharp.Extensions
 
             }
         }
-        #region CopyFrom
+
 #if LANG_JP
         /// <summary>
-        /// System.Windows.Media.Imaging.WriteableBitmapからこのインスタンスへデータをコピーする
+        /// System.Windows.Media.Imaging.WriteableBitmap から IplImage へピクセルデータをコピーする
         /// </summary>
         /// <param name="ipl"></param>
         /// <param name="wb"></param>
         /// <returns></returns>
 #else
         /// <summary>
-        /// Copies pixel data from System.Windows.Media.Imaging.WriteableBitmap to this instance
+        /// Copies pixel data from System.Windows.Media.Imaging.WriteableBitmap to IplImage instance
         /// </summary>
         /// <param name="ipl"></param>
         /// <param name="wb"></param>
@@ -275,7 +275,7 @@ namespace OpenCvSharp.Extensions
             }
             ToIplImage(wb, ipl);
         }
-        #endregion
+
         #endregion
 
         #region ToWriteableBitmap

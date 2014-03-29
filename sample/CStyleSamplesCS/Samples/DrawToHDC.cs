@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using OpenCvSharp;
+using OpenCvSharp.Extensions;
 
 namespace CStyleSamplesCS
 {

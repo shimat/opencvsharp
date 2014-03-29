@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using OpenCvSharp;
+using OpenCvSharp.Extensions;
 using VideoInputSharp;
 
 namespace CStyleSamplesCS

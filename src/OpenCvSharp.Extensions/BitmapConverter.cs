@@ -217,6 +217,31 @@ namespace OpenCvSharp.Extensions
                     src.UnlockBits(bd);
             }
         }
+
+#if LANG_JP
+        /// <summary>
+        /// System.Drawing.Bitmap から IplImage へピクセルデータをコピーする
+        /// </summary>
+        /// <param name="ipl"></param>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Copies pixel data from System.Drawing.Bitmap to IplImage instance
+        /// </summary>
+        /// <param name="ipl"></param>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+#endif
+        public static void CopyFrom(this IplImage ipl, Bitmap bitmap)
+        {
+            if (bitmap == null)
+            {
+                throw new ArgumentNullException("bitmap");
+            }
+            ToIplImage(bitmap, ipl);
+        }
+
         #endregion
 
         #region ToBitmap
