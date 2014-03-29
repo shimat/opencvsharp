@@ -11,24 +11,21 @@ Imports OpenCvSharp.CPlusPlus
     ''' </summary>
     Friend Module MSERSample
         Public Sub Start()
-            Using imgSrc As New IplImage([Const].ImageDistortion, LoadMode.Color)
-                Using imgGray As New IplImage(imgSrc.Size, BitDepth.U8, 1)
-                    Using imgDst As IplImage = imgSrc.Clone()
-                        Cv.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray)
+        Using imgSrc As New IplImage([Const].ImageDistortion, LoadMode.Color), _
+             imgGray As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
+         imgDst As IplImage = imgSrc.Clone()
+            Cv.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray)
 
-                        'CStyleMSER(imgGray, imgRender);  // C style
-                        CppStyleMSER(imgGray, imgDst) ' C++ style
+            'CStyleMSER(imgGray, imgRender);  // C style
+            CppStyleMSER(imgGray, imgDst) ' C++ style
 
-                        Using TempCvWindow As CvWindow = New CvWindow("MSER src", imgSrc)
-                            Using TempCvWindowGray As CvWindow = New CvWindow("MSER gray", imgGray)
-                                Using TempCvWindowDst As CvWindow = New CvWindow("MSER dst", imgDst)
-                                    Cv.WaitKey()
-                                End Using
-                            End Using
-                        End Using
-                    End Using
-                End Using
+            Using TempCvWindow As CvWindow = New CvWindow("MSER src", imgSrc), _
+                 TempCvWindowGray As CvWindow = New CvWindow("MSER gray", imgGray), _
+                 TempCvWindowDst As CvWindow = New CvWindow("MSER dst", imgDst)
+                Cv.WaitKey()
             End Using
+        End Using
+
         End Sub
 
         ''' <summary>
@@ -58,13 +55,13 @@ Imports OpenCvSharp.CPlusPlus
     ''' <param name="imgDst"></param>
         Private Sub CppStyleMSER(ByVal imgGray As IplImage, ByVal imgDst As IplImage)
             Dim mser As New MSER()
-            Dim contours()() As CvPoint = mser.Extract(New Mat(imgGray, False), Nothing) ' operator()
-            For Each p As CvPoint() In contours
-                Dim color As CvColor = CvColor.Random()
-                For i As Integer = 0 To p.Length - 1
-                    imgDst.Circle(p(i), 1, color)
-                Next i
-            Next p
+        Dim contours()() As Point = mser.Run(New Mat(imgGray, False), Nothing) ' operator()
+        For Each p As Point() In contours
+            Dim color As CvColor = CvColor.Random()
+            For i As Integer = 0 To p.Length - 1
+                imgDst.Circle(p(i), 1, color)
+            Next i
+        Next p
         End Sub
     End Module
 ' End Namespace

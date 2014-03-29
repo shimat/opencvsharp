@@ -9,7 +9,7 @@ namespace CppStyleSamplesCS
 {
     /// <summary>
     /// Multidimensional Scaling (多次元尺度構成法)
-    /// for C++ cv::Mat test 
+    /// for C++ cv::Mat testing
     /// </summary>
     class MDS : ISample
     {
@@ -19,7 +19,7 @@ namespace CppStyleSamplesCS
         /// <example>
         /// * The linear distance between Atlanta and Chicago is 587km.
         /// </example>
-        static readonly double[,] CityDistance = new double[,]
+        static readonly double[,] CityDistance = 
         {
             /*Atlanta*/         {0,      587,    1212,   701,    1936,   604,    748,    2139,   2182,   543},
             /*Chicago*/         {587,    0,      920,    940,    1745,   1188,   713,    1858,   1737,   597},
@@ -35,7 +35,7 @@ namespace CppStyleSamplesCS
         /// <summary>
         /// City names
         /// </summary>
-        static readonly string[] CityNames = new string[]
+        static readonly string[] CityNames = 
         {
                 "Atlanta","Chicago","Denver","Houston","Los Angeles","Miami","New York","San Francisco","Seattle","Washington D.C."
         };
@@ -89,7 +89,7 @@ namespace CppStyleSamplesCS
 
             // opens a window
             using (Mat img = Mat.Zeros(600, 800, MatType.CV_8UC3))
-            using (CvWindow window = new CvWindow("City Location Estimation"))
+            using (Window window = new Window("City Location Estimation"))
             {
                 var at = result.GetGenericIndexer<double>();
                 for (int c = 0; c < size; c++)
@@ -103,8 +103,8 @@ namespace CppStyleSamplesCS
                     img.PutText(CityNames[c], textPos, FontFace.HersheySimplex, 0.5, CvColor.White);
                 }
                 img.ImWrite("C:\\temp\\hoge.png");
-                window.Image = (IplImage)img;
-                Cv.WaitKey();
+                window.Image = img;
+                Cv2.WaitKey();
             }
         }
 

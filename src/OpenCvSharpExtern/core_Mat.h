@@ -514,8 +514,8 @@ CVAPI(void) core_Mat_IplImage_alignment(cv::Mat *self, IplImage **outImage)
     // alignment‚ð‚»‚ë‚¦‚é
     IplImage *img = cvCreateImage(cvSize(dummy.width, dummy.height), dummy.depth, dummy.nChannels);
     int height = img->height;
-    int sstep = self->step;
-    int dstep = img->widthStep;
+    size_t sstep = self->step;
+	size_t dstep = img->widthStep;
     for (int i = 0; i < height; ++i)
     {
         char *dp = img->imageData + (dstep * i);

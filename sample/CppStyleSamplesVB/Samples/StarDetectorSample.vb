@@ -33,7 +33,7 @@ Friend Module StarDetectorSample
         Dim src As New Mat(img, False)
         Dim dst As New Mat(cimg, False)
         Dim detector As New StarDetector(45)
-        Dim keypoints() As KeyPoint = detector.GetKeyPoints(src)
+        Dim keypoints() As KeyPoint = detector.Run(src)
 
         If keypoints IsNot Nothing Then
             For Each kpt As KeyPoint In keypoints

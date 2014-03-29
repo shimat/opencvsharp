@@ -72,7 +72,7 @@ namespace X64Samples
             //Console.WriteLine(values.Dump());
 
             // multiplies sqrt(eigenvalue) by eigenvector
-            Mat result = vectors.GetRowRange(0, 2);
+            Mat result = vectors.RowRange(0, 2);
             {
                 var at = result.GetGenericIndexer<double>();
                 for (int r = 0; r < result.Rows; r++)

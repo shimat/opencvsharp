@@ -5,6 +5,7 @@ Imports System.Linq
 Imports System.Text
 Imports System.Windows.Forms
 Imports OpenCvSharp
+Imports OpenCvSharp.Extensions
 
 ' Namespace OpenCvSharpSamplesVB
     ''' <summary>

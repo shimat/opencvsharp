@@ -66,7 +66,7 @@ namespace CppStyleSamplesCS
             const double T = 2000;
             const double Max = 5000;
 
-            // threshol does not support Point (int)    
+            // threshold does not support Point (int)    
             Point2f[] input = { 
                                   new Point2f(1000, 1500),
                                   new Point2f(2000, 2001),

@@ -4,7 +4,6 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
-Imports OpenCvSharp.CPlusPlus.Flann
 
 ' Namespace OpenCvSharpSamplesVB
     ''' <summary>
