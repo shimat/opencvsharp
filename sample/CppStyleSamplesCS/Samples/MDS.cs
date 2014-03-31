@@ -102,7 +102,6 @@ namespace CppStyleSamplesCS
                     Point textPos = new Point(x + 5, y + 10);
                     img.PutText(CityNames[c], textPos, FontFace.HersheySimplex, 0.5, CvColor.White);
                 }
-                img.ImWrite("C:\\temp\\hoge.png");
                 window.Image = img;
                 Cv2.WaitKey();
             }
@@ -153,7 +152,7 @@ namespace CppStyleSamplesCS
         /// <returns></returns>
         private Mat CenteringMatrix(int n)
         {
-            return (Mat.Eye(n, n, MatType.CV_64FC1) - new Mat(n, n, MatType.CV_64FC1, 1.0 / n));
+            return (Mat.Eye(n, n, MatType.CV_64FC1) - 1.0 / n);
         }
     }
 }

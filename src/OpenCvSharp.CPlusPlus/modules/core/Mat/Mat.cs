@@ -1523,7 +1523,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public class MatExprIndexer : MatRangeExprIndexer
+        public class MatExprIndexer : MatExprRangeIndexer
         {
             /// <summary>
             /// 

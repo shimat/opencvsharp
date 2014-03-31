@@ -4,13 +4,13 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
 using OpenCvSharp;
 using OpenCvSharp.Utilities;
 
-#pragma warning disable 1591
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -25,7 +25,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public const string DllExtern = "OpenCvSharpExtern";
 
-        #region Static constructor
+
         /// <summary>
         /// Static constructor
         /// </summary>
@@ -64,6 +64,11 @@ namespace OpenCvSharp.CPlusPlus
                     Console.WriteLine(exception.Message);
                 }
                 catch { }
+                try
+                {
+                    Debug.WriteLine(exception.Message);
+                }
+                catch { }
                 throw exception;
             }
             catch (BadImageFormatException e)
@@ -74,10 +79,15 @@ namespace OpenCvSharp.CPlusPlus
                     Console.WriteLine(exception.Message);
                 }
                 catch { }
+                try
+                {
+                    Debug.WriteLine(exception.Message);
+                }
+                catch { }
                 throw exception;
             }
         }
         private static bool tried = false;
-        #endregion
+
     }
 }

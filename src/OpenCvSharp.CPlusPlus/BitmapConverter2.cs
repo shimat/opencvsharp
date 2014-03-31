@@ -406,5 +406,5 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
-        }
+    }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -45,6 +42,22 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("expr");
             this.ptr = NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr);
             this.mat = null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        internal InputArray(Scalar val)
+        {
+            this.ptr = NativeMethods.core_InputArray_new_byScalar(val);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        internal InputArray(double val)
+        {
+            this.ptr = NativeMethods.core_InputArray_new_byDouble(val);
         }
 
         /// <summary>
@@ -95,6 +108,24 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Create(expr);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static implicit operator InputArray(Scalar val)
+        {
+            return Create(val);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static implicit operator InputArray(double val)
+        {
+            return Create(val);
+        }
         #endregion
 
         #region Operators
@@ -131,6 +162,26 @@ namespace OpenCvSharp.CPlusPlus
         public static InputArray Create(MatExpr expr)
         {
             return new InputArray(expr);
+        }
+
+        /// <summary>
+        /// Creates a proxy class of the specified Scalar
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static InputArray Create(Scalar val)
+        {
+            return new InputArray(val);
+        }
+
+        /// <summary>
+        /// Creates a proxy class of the specified double
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static InputArray Create(double val)
+        {
+            return new InputArray(val);
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public abstract class MatRangeExprIndexer
+    public abstract class MatExprRangeIndexer
     {
         /// <summary>
         /// 
@@ -18,7 +18,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="parent"></param>
-        protected internal MatRangeExprIndexer(Mat parent)
+        protected internal MatExprRangeIndexer(Mat parent)
         {
             this.parent = parent;
         }
