@@ -20,6 +20,18 @@ CVAPI(cv::_InputArray*) core_InputArray_new_byMatExpr(cv::MatExpr *expr)
 	return new cv::_InputArray(ia);
 }
 
+CVAPI(cv::_InputArray*) core_InputArray_new_byScalar(cv::Scalar val)
+{
+	cv::_InputArray ia(val);
+	return new cv::_InputArray(ia);
+}
+
+CVAPI(cv::_InputArray*) core_InputArray_new_byDouble(double val)
+{
+	cv::_InputArray ia(val);
+	return new cv::_InputArray(ia);
+}
+
 CVAPI(void) core_InputArray_delete(cv::_InputArray *ia)
 {
 	delete ia;
