@@ -150,7 +150,9 @@
     <Compile Include="Enum\ProjectionType.cs" />
     <Compile Include="Enum\GrabCutFlag.cs" />
     <Compile Include="Enum\DistanceMaskSize.cs" />
+    <Compile Include="modules\core\SparseMat.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Algorithm.cs" />
+    <Compile Include="PInvoke\NativeMethods_core_SparseMat.cs" />
     <Compile Include="PInvoke\NativeMethods_core_RNG.cs" />
     <Compile Include="PInvoke\NativeMethods_core_SVD.cs" />
     <Compile Include="PInvoke\NativeMethods_core_PCA.cs" />
@@ -172,7 +174,7 @@
     <Compile Include="modules\core\Mat\MatOfFloat.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint.cs" />
     <Compile Include="modules\core\MatRowColExprIndexer.cs" />
-    <Compile Include="modules\core\MatRangeExprIndexer.cs" />
+    <Compile Include="modules\core\MatExprRangeIndexer.cs" />
     <Compile Include="modules\core\Mat\MatOfT.cs" />
     <Compile Include="modules\core\Mat\MatOfRect.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint3i.cs" />
@@ -316,7 +318,6 @@
     <Content Include="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
