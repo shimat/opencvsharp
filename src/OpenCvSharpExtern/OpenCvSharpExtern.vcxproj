@@ -222,6 +222,7 @@
     <ClCompile Include="core_PCA.cpp" />
     <ClCompile Include="core_Ptr.cpp" />
     <ClCompile Include="core_RNG.cpp" />
+    <ClCompile Include="core_SparseMat.cpp" />
     <ClCompile Include="core_SVD.cpp" />
     <ClCompile Include="features2d_DescriptorMatcher.cpp" />
     <ClCompile Include="features2d_FeatureDetector.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_Ptr.h" />
     <ClInclude Include="core_RNG.h" />
+    <ClInclude Include="core_SparseMat.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />
     <ClInclude Include="features2d_FeatureDetector.h" />
     <ClInclude Include="highgui.h" />
