@@ -5,11 +5,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
@@ -90,7 +88,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentException("The specified dst is disposed.", "dst");
             if (dst.Depth() != MatType.CV_8U)
                 throw new NotSupportedException("Mat depth != CV_8U");
-            if (dst.Dims != 2)
+            if (dst.Dims() != 2)
                 throw new NotSupportedException("Mat dims != 2");
             //if (dst.IsSubmatrix())
             //    throw new NotSupportedException("Submatrix is not supported");

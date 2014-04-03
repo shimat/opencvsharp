@@ -150,6 +150,7 @@
     <Compile Include="Enum\ProjectionType.cs" />
     <Compile Include="Enum\GrabCutFlag.cs" />
     <Compile Include="Enum\DistanceMaskSize.cs" />
+    <Compile Include="modules\core\SparseMatIndexer.cs" />
     <Compile Include="modules\core\SparseMat.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Algorithm.cs" />
     <Compile Include="PInvoke\NativeMethods_core_SparseMat.cs" />

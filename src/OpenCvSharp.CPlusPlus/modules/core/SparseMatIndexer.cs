@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// Abstract definition of Mat indexer
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class MatIndexer<T> where T : struct
+    public abstract class SparseMatIndexer<T> where T : struct
     {
         /// <summary>
         /// 1-dimensional indexer
@@ -44,27 +44,15 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Parent matrix object
         /// </summary>
-        protected readonly Mat parent;
-
-        /// <summary>
-        /// Step byte length for each dimension
-        /// </summary>
-        protected readonly long[] steps;
+        protected readonly SparseMat parent;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="parent"></param>
-        internal MatIndexer(Mat parent)
+        internal SparseMatIndexer(SparseMat parent)
         {
             this.parent = parent;
-
-            int dims = parent.Dims();
-            steps = new long[dims];
-            for (int i = 0; i < dims; i++)
-            {
-                steps[i] = (long)parent.Step(i);
-            }
         }
     }
 }

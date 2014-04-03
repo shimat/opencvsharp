@@ -149,21 +149,33 @@ CVAPI(size_t) core_SparseMat_hash_nd(cv::SparseMat *obj, const int* idx)
 	return obj->hash(idx);
 }
 
-CVAPI(uchar*) core_SparseMat_ptr_1d(cv::SparseMat *obj, int i0, int createMissing, size_t* hashval)
+CVAPI(uchar*) core_SparseMat_ptr_1d(cv::SparseMat *obj, int i0, int createMissing, uint64* hashval)
 {
-	return obj->ptr(i0, createMissing != 0, hashval);
+    if (hashval == NULL)
+        return obj->ptr(i0, createMissing != 0);    
+    size_t hashval0 = static_cast<size_t>(*hashval);
+	return obj->ptr(i0, createMissing != 0, &hashval0);
 }
-CVAPI(uchar*) core_SparseMat_ptr_2d(cv::SparseMat *obj, int i0, int i1, int createMissing, size_t* hashval)
+CVAPI(uchar*) core_SparseMat_ptr_2d(cv::SparseMat *obj, int i0, int i1, int createMissing, uint64* hashval)
 {
-	return obj->ptr(i0, i1, createMissing != 0, hashval);
+	if (hashval == NULL)
+        return obj->ptr(i0, i1, createMissing != 0);    
+    size_t hashval0 = static_cast<size_t>(*hashval);
+	return obj->ptr(i0, i1, createMissing != 0, &hashval0);
 }
-CVAPI(uchar*) core_SparseMat_ptr_3d(cv::SparseMat *obj, int i0, int i1, int i2, int createMissing, size_t* hashval)
+CVAPI(uchar*) core_SparseMat_ptr_3d(cv::SparseMat *obj, int i0, int i1, int i2, int createMissing, uint64* hashval)
 {
-	return obj->ptr(i0, i1, i2, createMissing != 0, hashval);
+	if (hashval == NULL)
+        return obj->ptr(i0, i1, i2, createMissing != 0);    
+    size_t hashval0 = static_cast<size_t>(*hashval);
+	return obj->ptr(i0, i1, i2, createMissing != 0, &hashval0);
 }
-CVAPI(uchar*) core_SparseMat_ptr_nd(cv::SparseMat *obj, const int* idx, int createMissing, size_t* hashval)
+CVAPI(uchar*) core_SparseMat_ptr_nd(cv::SparseMat *obj, const int* idx, int createMissing, uint64* hashval)
 {
-	return obj->ptr(idx, createMissing != 0, hashval);
+	if (hashval == NULL)
+        return obj->ptr(idx, createMissing != 0);    
+    size_t hashval0 = static_cast<size_t>(*hashval);
+	return obj->ptr(idx, createMissing != 0, &hashval0);
 }
 
 #endif

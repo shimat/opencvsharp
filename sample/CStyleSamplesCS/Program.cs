@@ -67,7 +67,7 @@ namespace CStyleSamplesCS
 
             //new ConvexHull();                  // Building convex hull for ra sequence or array of points
 
-            new ConvexityDefect();             // Convexity Defect
+            //new ConvexityDefect();             // Convexity Defect
 
             //new CopyMakeBorder();              // 境界線の作成 
 
@@ -92,7 +92,7 @@ namespace CStyleSamplesCS
             // todo: does not work
             //new EM();                          // EMアルゴリズム
 
-            //new FaceDetect();                  // 顔の検出
+            new FaceDetect();                  // 顔の検出
 
             //new FAST();                        // cv::FAST
 

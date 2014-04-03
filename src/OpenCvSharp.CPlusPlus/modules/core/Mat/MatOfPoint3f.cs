@@ -723,7 +723,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             Indexer indexer = new Indexer(this);
 
-            int dims = Dims;
+            int dims = Dims();
             if (dims == 2)
             {
                 int rows = Rows;

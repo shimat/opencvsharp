@@ -334,160 +334,99 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="type"></param>
         public void AssignTo(SparseMat m, int type = -1)
         {
-
-        }
-
-
-        #region Mat Indexers
-        /// <summary>
-        /// Extracts a rectangular submatrix.
-        /// </summary>
-        /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
-        /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
-        /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
-        /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
-        /// <returns></returns>
-        public Mat this[int rowStart, int rowEnd, int colStart, int colEnd]
-        {
-            get
-            {
-                return SubMat(rowStart, rowEnd, colStart, colEnd);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                value.ThrowIfDisposed();
-                //if (Type() != value.Type())
-                //    throw new ArgumentException("Mat type mismatch");
-                if (Dims != value.Dims)
-                    throw new ArgumentException("Dimension mismatch");
-
-                Mat sub = SubMat(rowStart, rowEnd, colStart, colEnd);
-                if (sub.Size() != value.Size())
-                    throw new ArgumentException("Specified ROI != mat.Size()");
-                value.CopyTo(sub);
-            }
+            ThrowIfDisposed();
+            NativeMethods.core_SparseMat_assignTo(ptr, m.CvPtr, type);
         }
 
         /// <summary>
-        /// Extracts a rectangular submatrix.
+        /// Reallocates sparse matrix.
+        /// If the matrix already had the proper size and type,
+        /// it is simply cleared with clear(), otherwise,
+        /// the old matrix is released (using release()) and the new one is allocated.
         /// </summary>
-        /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
-        /// To select all the rows, use Range.All().</param>
-        /// <param name="colRange">Start and end column of the extracted submatrix. 
-        /// The upper boundary is not included. To select all the columns, use Range.All().</param>
-        /// <returns></returns>
-        public Mat this[Range rowRange, Range colRange]
-        {
-            get
-            {
-                return SubMat(rowRange, colRange);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                value.ThrowIfDisposed();
-                //if (Type() != value.Type())
-                //    throw new ArgumentException("Mat type mismatch");
-                if (Dims != value.Dims)
-                    throw new ArgumentException("Dimension mismatch");
-
-                Mat sub = SubMat(rowRange, colRange);
-                if (sub.Size() != value.Size())
-                    throw new ArgumentException("Specified ROI != mat.Size()");
-                value.CopyTo(sub);
-            }
-        }
-
-        /// <summary>
-        /// Extracts a rectangular submatrix.
-        /// </summary>
-        /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
-        /// <returns></returns>
-        public Mat this[Rect roi]
-        {
-            get
-            {
-                return SubMat(roi);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                value.ThrowIfDisposed();
-                //if (Type() != value.Type())
-                //    throw new ArgumentException("Mat type mismatch");
-                if (Dims != value.Dims)
-                    throw new ArgumentException("Dimension mismatch");
-
-                if (roi.Size != value.Size())
-                    throw new ArgumentException("Specified ROI != mat.Size()");
-                Mat sub = SubMat(roi);
-                value.CopyTo(sub);
-            }
-        }
-
-        /// <summary>
-        /// Extracts a rectangular submatrix.
-        /// </summary>
-        /// <param name="ranges">Array of selected ranges along each array dimension.</param>
-        /// <returns></returns>
-        public Mat this[params Range[] ranges]
-        {
-            get
-            {
-                return SubMat(ranges);
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                value.ThrowIfDisposed();
-                //if (Type() != value.Type())
-                //    throw new ArgumentException("Mat type mismatch");
-
-                Mat sub = SubMat(ranges);
-
-                int dims = Dims;
-                if (dims != value.Dims)
-                    throw new ArgumentException("Dimension mismatch");
-                for (int i = 0; i < dims; i++)
-                {
-                    if (sub.Size(i) != value.Size(i))
-                        throw new ArgumentException("Size mismatch at dimension " + i);
-                }
-
-                value.CopyTo(sub);
-            }
-        }
-        #endregion
-
-        #region AdjustROI
-
-        /// <summary>
-        /// Adjusts a submatrix size and position within the parent matrix.
-        /// </summary>
-        /// <param name="dtop">Shift of the top submatrix boundary upwards.</param>
-        /// <param name="dbottom">Shift of the bottom submatrix boundary downwards.</param>
-        /// <param name="dleft">Shift of the left submatrix boundary to the left.</param>
-        /// <param name="dright">Shift of the right submatrix boundary to the right.</param>
-        /// <returns></returns>
-        public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
+        /// <param name="type"></param>
+        /// <param name="sizes"></param>
+        public void Create(MatType type, params int[] sizes)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
+            if (sizes == null)
+                throw new ArgumentNullException("sizes");
+            if (sizes.Length == 1)
+                throw new ArgumentException("sizes is empty");
+            NativeMethods.core_SparseMat_create(ptr, sizes.Length, sizes, type);
         }
 
-        #endregion
-        
-        #region Channels
+        /// <summary>
+        /// sets all the sparse matrix elements to 0, which means clearing the hash table.
+        /// </summary>
+        public void Clear()
+        {
+            ThrowIfDisposed();
+            NativeMethods.core_SparseMat_clear(ptr);
+        }
 
         /// <summary>
-        /// Returns the number of matrix channels.
+        /// manually increments the reference counter to the header.
+        /// </summary>
+        public void Addref()
+        {
+            ThrowIfDisposed();
+            NativeMethods.core_SparseMat_addref(ptr);
+        }
+
+        /// <summary>
+        /// returns the size of each element in bytes (not including the overhead - the space occupied by SparseMat::Node elements)
+        /// </summary>
+        /// <returns></returns>
+        public int ElemSize()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_SparseMat_elemSize(ptr);
+
+        }
+
+        /// <summary>
+        /// returns elemSize()/channels()
+        /// </summary>
+        /// <returns></returns>
+        public int ElemSize1()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_SparseMat_elemSize1(ptr);
+
+        }
+
+        /// <summary>
+        /// Returns the type of sparse matrix element.
+        /// </summary>
+        /// <returns></returns>
+        public MatType Type()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_SparseMat_type(ptr);
+        }
+
+        /// <summary>
+        /// Returns the depth of sparse matrix element.
+        /// </summary>
+        /// <returns></returns>
+        public int Depth()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_SparseMat_depth(ptr);
+        }
+
+        /// <summary>
+        /// Returns the matrix dimensionality
+        /// </summary>
+        public int Dims()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_Mat_dims(ptr);
+        }
+
+        /// <summary>
+        /// Returns the number of sparse matrix channels.
         /// </summary>
         /// <returns></returns>
         public int Channels()
@@ -496,614 +435,172 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.core_Mat_channels(ptr);
         }
 
-        #endregion
-        #region CheckVector
-
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="elemChannels"></param>
-        /// <returns></returns>
-        public int CheckVector(int elemChannels)
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_checkVector(ptr, elemChannels);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="elemChannels"></param>
-        /// <param name="depth"></param>
-        /// <returns></returns>
-        public int CheckVector(int elemChannels, int depth)
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_checkVector(ptr, elemChannels, depth);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="elemChannels"></param>
-        /// <param name="depth"></param>
-        /// <param name="requireContinuous"></param>
-        /// <returns></returns>
-        public int CheckVector(int elemChannels, int depth, bool requireContinuous)
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_checkVector(
-                    ptr, elemChannels, depth, requireContinuous ? 1 : 0);
-        }
-
-        #endregion
-
-        #region Cols
-
-        /// <summary>
-        /// the number of columns or -1 when the array has more than 2 dimensions
+        /// Returns the array of sizes, or null if the matrix is not allocated
         /// </summary>
         /// <returns></returns>
-        public int Cols
-        {
-            get
-            {
-                if (colsVal == int.MinValue)
-                {
-                    colsVal = NativeMethods.core_Mat_cols(ptr);
-                }
-                return colsVal;
-            }
-        }
-
-        /// <summary>
-        /// the number of columns or -1 when the array has more than 2 dimensions
-        /// </summary>
-        /// <returns></returns>
-        public int Width
-        {
-            get
-            {
-                if (colsVal == int.MinValue)
-                {
-                    colsVal = Cols;
-                }
-                return colsVal;
-            }
-        }
-
-        private int colsVal = int.MinValue;
-
-        #endregion
-        #region Dims
-
-        /// <summary>
-        /// the array dimensionality, >= 2
-        /// </summary>
-        public int Dims
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.core_Mat_dims(ptr);
-            }
-        }
-
-        #endregion
-        #region ConvertTo
-
-        /// <summary>
-        /// Converts an array to another data type with optional scaling.
-        /// </summary>
-        /// <param name="m">output matrix; if it does not have a proper size or type before the operation, it is reallocated.</param>
-        /// <param name="rtype">desired output matrix type or, rather, the depth since the number of channels are the same as the input has; 
-        /// if rtype is negative, the output matrix will have the same type as the input.</param>
-        /// <param name="alpha">optional scale factor.</param>
-        /// <param name="beta">optional delta added to the scaled values.</param>
-        public void ConvertTo(Mat m, MatType rtype, double alpha = 1, double beta = 0)
+        public int[] Size()
         {
             ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException("m");
-            NativeMethods.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha, beta);
-        }
 
-        #endregion
-        
-        #region Create
+            IntPtr sizePtr = NativeMethods.core_SparseMat_size1(ptr);
+            if (sizePtr == IntPtr.Zero)
+                return null;
 
-        /// <summary>
-        /// Allocates new array data if needed.
-        /// </summary>
-        /// <param name="rows">New number of rows.</param>
-        /// <param name="cols">New number of columns.</param>
-        /// <param name="type">New matrix type.</param>
-        public void Create(int rows, int cols, MatType type)
-        {
-            ThrowIfDisposed();
-            NativeMethods.core_Mat_create(ptr, rows, cols, type);
+            int length = Dims();
+            int[] size = new int[length];
+            Marshal.Copy(sizePtr, size, 0, length);
+            return size;
         }
 
         /// <summary>
-        /// Allocates new array data if needed.
-        /// </summary>
-        /// <param name="size">Alternative new matrix size specification: Size(cols, rows)</param>
-        /// <param name="type">New matrix type.</param>
-        public void Create(Size size, MatType type)
-        {
-            Create(size.Width, size.Height, type);
-        }
-
-        /// <summary>
-        /// Allocates new array data if needed.
-        /// </summary>
-        /// <param name="sizes">Array of integers specifying a new array shape.</param>
-        /// <param name="type">New matrix type.</param>
-        public void Create(MatType type, params int[] sizes)
-        {
-            if (sizes == null)
-                throw new ArgumentNullException("sizes");
-            if (sizes.Length < 2)
-                throw new ArgumentException("sizes.Length < 2");
-            NativeMethods.core_Mat_create(ptr, sizes.Length, sizes, type);
-        }
-
-        #endregion
-        #region Cross
-
-        /// <summary>
-        /// Computes a cross-product of two 3-element vectors.
-        /// </summary>
-        /// <param name="m">Another cross-product operand.</param>
-        /// <returns></returns>
-        public Mat Cross(Mat m)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException("m");
-            IntPtr retPtr = NativeMethods.core_Mat_cross(ptr, m.CvPtr);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-        #region Data
-
-        /// <summary>
-        /// pointer to the data
-        /// </summary>
-        public IntPtr Data
-        {
-            get
-            {
-                unsafe
-                {
-                    return new IntPtr(DataPointer);
-                }
-            }
-        }
-
-        /// <summary>
-        /// unsafe pointer to the data
-        /// </summary>
-        public unsafe byte* DataPointer
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.core_Mat_data(ptr);
-            }
-        }
-
-        /// <summary>
-        /// The pointer that is possible to compute a relative sub-array position in the main container array using locateROI()
-        /// </summary>
-        public IntPtr DataStart
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.core_Mat_datastart(ptr);
-            }
-        }
-
-        /// <summary>
-        /// The pointer that is possible to compute a relative sub-array position in the main container array using locateROI()
-        /// </summary>
-        public IntPtr DataEnd
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.core_Mat_dataend(ptr);
-            }
-        }
-        /// <summary>
-        /// The pointer that is possible to compute a relative sub-array position in the main container array using locateROI()
-        /// </summary>
-        public IntPtr DataLimit
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.core_Mat_datalimit(ptr);
-            }
-        }
-
-        #endregion
-        #region Depth
-
-        /// <summary>
-        /// Returns the depth of a matrix element.
-        /// </summary>
-        /// <returns></returns>
-        public int Depth()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_depth(ptr);
-        }
-
-        #endregion
-        #region Diag
-
-        /// <summary>
-        /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
-        /// </summary>
-        /// <param name="d">Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:</param>
-        /// <returns></returns>
-        public Mat Diag(MatDiagType d = MatDiagType.Main)
-        {
-            ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_diag(ptr, (int)d);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-        #region Dot
-
-        /// <summary>
-        /// Computes a dot-product of two vectors.
-        /// </summary>
-        /// <param name="m">another dot-product operand.</param>
-        /// <returns></returns>
-        public double Dot(Mat m)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException("m");
-            return NativeMethods.core_Mat_dot(ptr, m.CvPtr);
-        }
-
-        #endregion
-        #region ElemSize
-
-        /// <summary>
-        /// Returns the matrix element size in bytes.
-        /// </summary>
-        /// <returns></returns>
-        public long ElemSize()
-        {
-            ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_elemSize(ptr);
-        }
-
-        #endregion
-        #region ElemSize1
-
-        /// <summary>
-        /// Returns the size of each matrix element channel in bytes.
-        /// </summary>
-        /// <returns></returns>
-        public long ElemSize1()
-        {
-            ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_elemSize1(ptr);
-        }
-
-        #endregion
-        #region Empty
-
-        /// <summary>
-        /// Returns true if the array has no elements.
-        /// </summary>
-        /// <returns></returns>
-        public bool Empty()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_empty(ptr) != 0;
-        }
-
-        #endregion
-        #region Inv
-
-        /// <summary>
-        /// Inverses a matrix.
-        /// </summary>
-        /// <param name="method">Matrix inversion method</param>
-        /// <returns></returns>
-        public Mat Inv(MatrixDecomposition method = MatrixDecomposition.LU)
-        {
-            ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_inv(ptr, (int)method);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-
-        #region LocateROI
-
-        /// <summary>
-        /// Locates the matrix header within a parent matrix.
-        /// </summary>
-        /// <param name="wholeSize">Output parameter that contains the size of the whole matrix containing *this as a part.</param>
-        /// <param name="ofs">Output parameter that contains an offset of *this inside the whole matrix.</param>
-        public void LocateROI(out Size wholeSize, out Point ofs)
-        {
-            ThrowIfDisposed();
-            CvSize wholeSize2;
-            CvPoint ofs2;
-            NativeMethods.core_Mat_locateROI(ptr, out wholeSize2, out ofs2);
-            wholeSize = wholeSize2;
-            ofs = ofs2;
-        }
-
-        #endregion
-        #region Mul
-
-        /// <summary>
-        /// Performs an element-wise multiplication or division of the two matrices.
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="scale"></param>
-        /// <returns></returns>
-        public MatExpr Mul(Mat m, double scale = 1)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException();
-            IntPtr mPtr = m.CvPtr;
-            IntPtr retPtr = NativeMethods.core_Mat_mul(ptr, mPtr, scale);
-            MatExpr retVal = new MatExpr(retPtr);
-            return retVal;
-        }
-
-        #endregion
-        #region Refcount
-
-        /// <summary>
-        /// pointer to the reference counter;
-        /// when matrix points to user-allocated data, the pointer is NULL
-        /// </summary>
-        /// <returns>pointer to the reference counter</returns>
-        public IntPtr Refcount
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.core_Mat_refcount(ptr);
-            }
-        }
-        #endregion
-        #region Reshape
-
-        /// <summary>
-        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
-        /// </summary>
-        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
-        /// <param name="rows">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
-        /// <returns></returns>
-        public Mat Reshape(int cn, int rows = 0)
-        {
-            ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_reshape(ptr, cn, rows);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
-        /// </summary>
-        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
-        /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
-        /// <returns></returns>
-        public Mat Reshape(int cn, params int[] newDims)
-        {
-            ThrowIfDisposed();
-            if (newDims == null)
-                throw new ArgumentNullException("newDims");
-            IntPtr retPtr = NativeMethods.core_Mat_reshape(ptr, cn, newDims.Length, newDims);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-        #region Rows
-
-        /// <summary>
-        /// the number of rows or -1 when the array has more than 2 dimensions
-        /// </summary>
-        public int Rows
-        {
-            get
-            {
-                if (rowsVal == int.MinValue)
-                {
-                    rowsVal = NativeMethods.core_Mat_rows(ptr);
-                }
-                return rowsVal;
-            }
-        }
-
-        /// <summary>
-        /// the number of rows or -1 when the array has more than 2 dimensions
-        /// </summary>
-        /// <returns></returns>
-        public int Height
-        {
-            get
-            {
-                if (rowsVal == int.MinValue)
-                {
-                    rowsVal = Rows;
-                }
-                return rowsVal;
-            }
-        }
-
-        private int rowsVal = int.MinValue;
-
-        #endregion
-        #region SetTo
-
-        /// <summary>
-        /// Sets all or some of the array elements to the specified value.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public Mat SetTo(Scalar value, InputArray mask = null)
-        {
-            ThrowIfDisposed();
-            IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = NativeMethods.core_Mat_setTo(ptr, value, maskPtr);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Sets all or some of the array elements to the specified value.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public Mat SetTo(InputArray value, InputArray mask = null)
-        {
-            ThrowIfDisposed();
-            if (value == null)
-                throw new ArgumentNullException("value");
-            value.ThrowIfDisposed();
-            IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = NativeMethods.core_Mat_setTo(ptr, value.CvPtr, maskPtr);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-        #region Size
-
-        /// <summary>
-        /// Returns a matrix size.
-        /// </summary>
-        /// <returns></returns>
-        public Size Size()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_size(ptr);
-        }
-
-        /// <summary>
-        /// Returns a matrix size.
+        /// Returns the size of i-th matrix dimension (or 0)
         /// </summary>
         /// <param name="dim"></param>
         /// <returns></returns>
         public int Size(int dim)
         {
             ThrowIfDisposed();
-            return NativeMethods.core_Mat_sizeAt(ptr, dim);
+            return NativeMethods.core_SparseMat_size2(ptr, dim);
+        }
+
+        #region Hash
+
+        /// <summary>
+        /// Computes the element hash value (1D case)
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <returns></returns>
+        public long Hash(int i0)
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_SparseMat_hash_1d(ptr, i0).ToInt64();
+        }
+
+        /// <summary>
+        /// Computes the element hash value (2D case)
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <returns></returns>
+        public long Hash(int i0, int i1)
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_SparseMat_hash_2d(ptr, i0, i1).ToInt64();
+        }
+
+        /// <summary>
+        /// Computes the element hash value (3D case)
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
+        /// <returns></returns>
+        public long Hash(int i0, int i1, int i2)
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_SparseMat_hash_3d(ptr, i0, i1, i2).ToInt64();
+        }
+
+        /// <summary>
+        /// Computes the element hash value (nD case)
+        /// </summary>
+        /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <returns></returns>
+        public long Hash(params int[] idx)
+        {
+            ThrowIfDisposed();
+            return NativeMethods.core_SparseMat_hash_nd(ptr, idx).ToInt64();
         }
 
         #endregion
-        #region Step
+        #region Ptr*D
 
         /// <summary>
-        /// 
+        /// Low-level element-access function.
         /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public long Step()
+        public IntPtr Ptr(int i0, bool createMissing, long? hashVal = null)
         {
             ThrowIfDisposed();
-            return NativeMethods.core_Mat_step(ptr);
+            if (hashVal.HasValue)
+            {
+                ulong hashVal0 = (ulong)hashVal.Value;
+                return NativeMethods.core_SparseMat_ptr_1d(
+                    ptr, i0, createMissing ? 1 : 0, ref hashVal0);
+            }
+            return NativeMethods.core_SparseMat_ptr_1d(
+                    ptr, i0, createMissing ? 1 : 0, IntPtr.Zero);
         }
 
         /// <summary>
-        /// 
+        /// Low-level element-access function.
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public long Step(int i)
+        public IntPtr Ptr(int i0, int i1, bool createMissing, long? hashVal = null)
         {
             ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_stepAt(ptr, i);
-        }
-
-        #endregion
-        #region Step1
-
-        /// <summary>
-        /// Returns a normalized step.
-        /// </summary>
-        /// <returns></returns>
-        public long Step1()
-        {
-            ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_step1(ptr);
+            if (hashVal.HasValue)
+            {
+                ulong hashVal0 = (ulong)hashVal.Value;
+                return NativeMethods.core_SparseMat_ptr_2d(
+                    ptr, i0, i1, createMissing ? 1 : 0, ref hashVal0);
+            }
+            return NativeMethods.core_SparseMat_ptr_2d(
+                    ptr, i0, i1, createMissing ? 1 : 0, IntPtr.Zero);
         }
 
         /// <summary>
-        /// Returns a normalized step.
+        /// Low-level element-access function.
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
+        /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public long Step1(int i)
+        public IntPtr Ptr(int i0, int i1, int i2, bool createMissing, long? hashVal = null)
         {
             ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_step1(ptr, i);
+            if (hashVal.HasValue)
+            {
+                ulong hashVal0 = (ulong)hashVal.Value;
+                return NativeMethods.core_SparseMat_ptr_3d(
+                    ptr, i0, i1, i2, createMissing ? 1 : 0, ref hashVal0);
+            }
+            return NativeMethods.core_SparseMat_ptr_3d(
+                    ptr, i0, i1, i2, createMissing ? 1 : 0, IntPtr.Zero);
         }
 
-        #endregion
-        #region T
-
         /// <summary>
-        /// Transposes a matrix.
+        /// Low-level element-access function.
         /// </summary>
+        /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public Mat T()
+        public IntPtr Ptr(int[] idx, bool createMissing, long? hashVal = null)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_t(ptr);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-        #region Total
-
-        /// <summary>
-        /// Returns the total number of array elements.
-        /// </summary>
-        /// <returns></returns>
-        public long Total()
-        {
-            ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_total(ptr);
-        }
-
-        #endregion
-        #region Type
-
-        /// <summary>
-        /// Returns the type of a matrix element.
-        /// </summary>
-        /// <returns></returns>
-        public MatType Type()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_type(ptr);
+            if (hashVal.HasValue)
+            {
+                ulong hashVal0 = (ulong)hashVal.Value;
+                return NativeMethods.core_SparseMat_ptr_nd(
+                    ptr, idx, createMissing ? 1 : 0, ref hashVal0);
+            }
+            return NativeMethods.core_SparseMat_ptr_nd(
+                    ptr, idx, createMissing ? 1 : 0, IntPtr.Zero);
         }
 
         #endregion
+
         #region ToString
 
         /// <summary>
@@ -1113,137 +610,24 @@ namespace OpenCvSharp.CPlusPlus
         public override string ToString()
         {
             return "Mat [ " +
-                   Rows + "*" + Cols + "*" + Type().ToString() +
-                   ", IsContinuous=" + IsContinuous() + ", IsSubmatrix=" + IsSubmatrix() +
-                   ", Ptr=0x" + Convert.ToString(ptr.ToInt64(), 16) +
-                   ", Data=0x" + Convert.ToString(Data.ToInt64(), 16) +
+                   "Dims=" + Dims() + 
+                   "Type=" + Type().ToString() +
                    " ]";
         }
         
         #endregion
 
-        #region Dump
-
-        /// <summary>
-        /// Returns a string that represents each element value of Mat.
-        /// This method corresponds to std::ostream &lt;&lt; Mat
-        /// </summary>
-        /// <param name="format"></param>
-        /// <returns></returns>
-        public string Dump(DumpFormat format = DumpFormat.Default)
-        {
-            ThrowIfDisposed();
-            string formatStr = GetDumpFormatString(format);
-            unsafe
-            {
-                sbyte* buf = null;
-                try
-                {
-                    buf = NativeMethods.core_Mat_dump(ptr, formatStr);
-                    return new string(buf);
-                }
-                finally
-                {
-                    if (buf != null)
-                        NativeMethods.core_Mat_dump_delete(buf);
-                }
-            }
-        }
-
-        private static string GetDumpFormatString(DumpFormat format)
-        {
-            if (format == DumpFormat.Default)
-                return null;
-
-            string name = Enum.GetName(typeof(DumpFormat), format);
-            if(name == null)
-                throw new ArgumentException();
-            return name.ToLower();
-        }
-        #endregion
-        #region EmptyClone
-#if LANG_JP
-        /// <summary>
-        /// このMatと同じサイズ・ビット深度・チャネル数を持つ
-        /// Matオブジェクトを新たに作成し、返す
-        /// </summary>
-        /// <returns>コピーされた画像</returns>
-#else
-        /// <summary>
-        /// Makes a Mat that have the same size, depth and channels as this image
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public Mat EmptyClone()
-        {
-            return new Mat(Size(), Type());
-        }
-        #endregion
-
-        #region Ptr*D
-
-        /// <summary>
-        /// Returns a pointer to the specified matrix row.
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <returns></returns>
-        public IntPtr Ptr(int i0)
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_ptr1d(ptr, i0);
-        }
-
-        /// <summary>
-        /// Returns a pointer to the specified matrix element.
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <returns></returns>
-        public IntPtr Ptr(int i0, int i1)
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_ptr2d(ptr, i0, i1);
-        }
-
-        /// <summary>
-        /// Returns a pointer to the specified matrix element.
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <param name="i2">Index along the dimension 2</param>
-        /// <returns></returns>
-        public IntPtr Ptr(int i0, int i1, int i2)
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_ptr3d(ptr, i0, i1, i2);
-        }
-
-        /// <summary>
-        /// Returns a pointer to the specified matrix element.
-        /// </summary>
-        /// <param name="idx">Array of Mat::dims indices.</param>
-        /// <returns></returns>
-        public IntPtr Ptr(params int[] idx)
-        {
-            ThrowIfDisposed();
-            return NativeMethods.core_Mat_ptrnd(ptr, idx);
-        }
-
-        #endregion
         #region Element Indexer
 
         /// <summary>
         /// Mat Indexer
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public sealed class Indexer<T> : MatIndexer<T> where T : struct
+        public sealed class Indexer<T> : SparseMatIndexer<T> where T : struct
         {
-            private readonly long ptrVal;
-
-            internal Indexer(Mat parent)
+            internal Indexer(SparseMat parent)
                 : base(parent)
             {
-                ptrVal = parent.Data.ToInt64();
             }
 
             /// <summary>
@@ -1255,13 +639,11 @@ namespace OpenCvSharp.CPlusPlus
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    throw new NotImplementedException();
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
-                    Marshal.StructureToPtr(value, p, false);
+                    throw new NotImplementedException();
                 }
             }
 
@@ -1275,13 +657,11 @@ namespace OpenCvSharp.CPlusPlus
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    throw new NotImplementedException();
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
-                    Marshal.StructureToPtr(value, p, false);
+                    throw new NotImplementedException();
                 }
             }
 
@@ -1296,13 +676,11 @@ namespace OpenCvSharp.CPlusPlus
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
-                    return (T)Marshal.PtrToStructure(p, typeof (T));
+                    throw new NotImplementedException();
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
-                    Marshal.StructureToPtr(value, p, false);
+                    throw new NotImplementedException();
                 }
             }
 
@@ -1315,23 +693,11 @@ namespace OpenCvSharp.CPlusPlus
             {
                 get
                 {
-                    long offset = 0;
-                    for (int i = 0; i < idx.Length; i++)
-                    {
-                        offset += steps[i] * idx[i];
-                    }
-                    IntPtr p = new IntPtr(ptrVal + offset);
-                    return (T)Marshal.PtrToStructure(p, typeof (T));
+                    throw new NotImplementedException();
                 }
                 set
                 {
-                    long offset = 0;
-                    for (int i = 0; i < idx.Length; i++)
-                    {
-                        offset += steps[i] * idx[i];
-                    }
-                    IntPtr p = new IntPtr(ptrVal + offset);
-                    Marshal.StructureToPtr(value, p, false);
+                    throw new NotImplementedException();
                 }
             }
         }
@@ -1492,1229 +858,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
-        #region Col/ColRange
-
-        /*
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        public Mat Col(int x)
-        {
-            ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_Mat_col_toMat(ptr, x);
-            return new Mat(matPtr);
-        }
-        */
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="startCol"></param>
-        /// <param name="endCol"></param>
-        /// <returns></returns>
-        public Mat ColRange(int startCol, int endCol)
-        {
-            ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_Mat_colRange_toMat(ptr, startCol, endCol);
-            return new Mat(matPtr);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="range"></param>
-        /// <returns></returns>
-        public Mat ColRange(Range range)
-        {
-            return ColRange(range.Start, range.End);
-        }
         
-
-        /// <summary>
-        /// Mat column's indexer object
-        /// </summary>
-        public class ColIndexer : MatRowColIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal ColIndexer(Mat parent)
-                : base(parent)
-            {
-            }
-            /// <summary>
-            /// Creates a matrix header for the specified matrix column.
-            /// </summary>
-            /// <param name="x">A 0-based column index.</param>
-            /// <returns></returns>
-            public override Mat this[int x]
-            {
-                get
-                {
-                    parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
-                    Mat mat = new Mat(matPtr);
-                    return mat;
-                }
-                set
-                {
-                    parent.ThrowIfDisposed();
-                    if (value == null)
-                        throw new ArgumentNullException("value");
-                    value.ThrowIfDisposed();
-                    if (parent.Dims != value.Dims)
-                        throw new ArgumentException("Dimension mismatch");
-
-                    IntPtr matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
-                    Mat mat = new Mat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
-                }
-            }
-            /// <summary>
-            /// Creates a matrix header for the specified column span.
-            /// </summary>
-            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
-            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
-            /// <returns></returns>
-            public override Mat this[int startCol, int endCol]
-            {
-                get
-                {
-                    parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
-                    Mat mat = new Mat(matPtr);
-                    return mat;
-                }
-                set
-                {
-                    parent.ThrowIfDisposed();
-                    if (value == null)
-                        throw new ArgumentNullException("value");
-                    value.ThrowIfDisposed();
-                    if (parent.Dims != value.Dims)
-                        throw new ArgumentException("Dimension mismatch");
-
-                    IntPtr colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
-                    Mat colMat = new Mat(colMatPtr);
-                    if (colMat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(colMat);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Indexer to access Mat column as Mat
-        /// </summary>
-        /// <returns></returns>
-        public ColIndexer Col
-        {
-            get { return colIndexer ?? (colIndexer = new ColIndexer(this)); }
-        }
-        private ColIndexer colIndexer;
-
-        #endregion
-        #region Row/RowRange
-
-        /*
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public Mat Row(int y)
-        {
-            ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_Mat_row_toMat(ptr, y);
-            return new Mat(matPtr);
-        }
-        */
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="startRow"></param>
-        /// <param name="endRow"></param>
-        /// <returns></returns>
-        public Mat RowRange(int startRow, int endRow)
-        {
-            ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(ptr, startRow, endRow);
-            return new Mat(matPtr);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="range"></param>
-        /// <returns></returns>
-        public Mat RowRange(Range range)
-        {
-            return RowRange(range.Start, range.End);
-        }
-
-        /// <summary>
-        /// Mat row's indexer object
-        /// </summary>
-        public class RowIndexer : MatRowColIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal RowIndexer(Mat parent)
-                : base(parent)
-            {
-            }
-            /// <summary>
-            /// Creates a matrix header for the specified matrix column.
-            /// </summary>
-            /// <param name="x">A 0-based column index.</param>
-            /// <returns></returns>
-            public override Mat this[int x]
-            {
-                get
-                {
-                    parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
-                    Mat mat = new Mat(matPtr);
-                    return mat;
-                }
-                set
-                {
-                    parent.ThrowIfDisposed();
-                    if (value == null)
-                        throw new ArgumentNullException("value");
-                    value.ThrowIfDisposed();
-                    if (parent.Dims != value.Dims)
-                        throw new ArgumentException("Dimension mismatch");
-
-                    IntPtr matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
-                    Mat mat = new Mat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
-                }
-            }
-            /// <summary>
-            /// Creates a matrix header for the specified column span.
-            /// </summary>
-            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
-            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
-            /// <returns></returns>
-            public override Mat this[int startCol, int endCol]
-            {
-                get
-                {
-                    parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
-                    Mat mat = new Mat(matPtr);
-                    return mat;
-                }
-                set
-                {
-                    parent.ThrowIfDisposed();
-                    if (value == null)
-                        throw new ArgumentNullException("value");
-                    value.ThrowIfDisposed();
-                    if (parent.Dims != value.Dims)
-                        throw new ArgumentException("Dimension mismatch");
-
-                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
-                    Mat mat = new Mat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Indexer to access Mat row as Mat
-        /// </summary>
-        /// <returns></returns>
-        public RowIndexer Row
-        {
-            get { return rowIndexer ?? (rowIndexer = new RowIndexer(this)); }
-        }
-        private RowIndexer rowIndexer;
-
-        #endregion
-        #region SubMat
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rowStart"></param>
-        /// <param name="rowEnd"></param>
-        /// <param name="colStart"></param>
-        /// <param name="colEnd"></param>
-        /// <returns></returns>
-        public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
-        {
-            if (rowStart >= rowEnd)
-                throw new ArgumentException("rowStart >= rowEnd");
-            if (colStart >= colEnd)
-                throw new ArgumentException("colStart >= colEnd");
-
-            ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_subMat(ptr, rowStart, rowEnd, colStart, colEnd);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rowRange"></param>
-        /// <param name="colRange"></param>
-        /// <returns></returns>
-        public Mat SubMat(Range rowRange, Range colRange)
-        {
-            return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="roi"></param>
-        /// <returns></returns>
-        public Mat SubMat(Rect roi)
-        {
-            return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ranges"></param>
-        /// <returns></returns>
-        public Mat SubMat(params Range[] ranges)
-        {
-            if (ranges == null)
-                throw new ArgumentNullException();
-
-            ThrowIfDisposed();
-            CvSlice[] slices = new CvSlice[ranges.Length];
-            for (int i = 0; i < ranges.Length; i++)
-            {
-                slices[i] = ranges[i];
-            }
-
-            IntPtr retPtr = NativeMethods.core_Mat_subMat(ptr, slices.Length, slices);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-        #region GetArray
-
-        private void CheckArgumentsForConvert(int row, int col, Array data, 
-            params MatType[] acceptableTypes)
-        {
-            ThrowIfDisposed();
-            if (row < 0 || row >= Rows)
-                throw new ArgumentOutOfRangeException("row");
-            if (col < 0 || col >= Cols)
-                throw new ArgumentOutOfRangeException("col");
-            if (data == null)
-                throw new ArgumentNullException("data");
-
-            MatType t = Type();
-            if (data == null || data.Length % t.Channels != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    data.Length, t.Channels);
-
-            if (acceptableTypes != null && acceptableTypes.Length > 0)
-            {
-                bool isValidDepth = EnumerableEx.Any(acceptableTypes, delegate(MatType type)
-                    {
-                        return type == t;
-                    });
-                if (!isValidDepth)
-                    throw new OpenCvSharpException("Mat data type is not compatible: " + t);
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, byte[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_8S, MatType.CV_8U);
-            NativeMethods.core_Mat_nGetB(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, byte[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_8S, MatType.CV_8U);
-            NativeMethods.core_Mat_nGetB(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, short[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, short[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, ushort[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, ushort[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, int[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
-            NativeMethods.core_Mat_nGetI(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, int[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
-            NativeMethods.core_Mat_nGetI(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, float[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
-            NativeMethods.core_Mat_nGetF(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, float[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
-            NativeMethods.core_Mat_nGetF(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, double[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
-            NativeMethods.core_Mat_nGetD(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, double[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
-            NativeMethods.core_Mat_nGetD(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <returns></returns>
-        public double[] GetArray(int row, int col)
-        {
-            ThrowIfDisposed();
-            if (row < 0 || row >= Rows)
-                throw new ArgumentOutOfRangeException("row");
-            if (col < 0 || col >= Cols)
-                throw new ArgumentOutOfRangeException("col");
-
-            double[] ret = new double[Channels()];
-            NativeMethods.core_Mat_nGetD(ptr, row, col, ret, ret.Length);
-            return ret;
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Vec3b[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
-            NativeMethods.core_Mat_nGetVec3b(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Vec3b[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
-            NativeMethods.core_Mat_nGetVec3b(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Vec3d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            NativeMethods.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Vec3d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            NativeMethods.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Vec4f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
-            NativeMethods.core_Mat_nGetVec4f(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Vec4f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
-            NativeMethods.core_Mat_nGetVec4f(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Vec6f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
-            NativeMethods.core_Mat_nGetVec6f(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Vec6f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
-            NativeMethods.core_Mat_nGetVec6f(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
-            NativeMethods.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
-            NativeMethods.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point2f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
-            NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point2f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
-            NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point2d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
-            NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point2d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
-            NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point3i[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
-            NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point3i[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
-            NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
-        }
-
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point3f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
-            NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point3f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
-            NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point3d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Point3d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Rect[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
-            NativeMethods.core_Mat_nGetRect(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, Rect[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
-            NativeMethods.core_Mat_nGetRect(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, DMatch[] data)
-        {
-            CheckArgumentsForConvert(row, col, data);
-            Vec4f[] dataV = new Vec4f[data.Length];
-            NativeMethods.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = (DMatch)dataV[i];
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void GetArray(int row, int col, DMatch[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data);
-            int dim0 = data.GetLength(0);
-            int dim1 = data.GetLength(1);
-            Vec4f[,] dataV = new Vec4f[dim0, dim1];
-            NativeMethods.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
-            for (int i = 0; i < dim0; i++)
-            {
-                for (int j = 0; j < dim1; j++)
-                {
-                    data[i, j] = (DMatch)dataV[i, j];
-                }
-            }
-        }
-        #endregion
-        #region SetArray
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params byte[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_8U);
-            NativeMethods.core_Mat_nSetB(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, byte[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_8U);
-            NativeMethods.core_Mat_nSetB(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params short[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, short[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params ushort[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, ushort[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
-            NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params int[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
-            NativeMethods.core_Mat_nSetI(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, int[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
-            NativeMethods.core_Mat_nSetI(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params float[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
-            NativeMethods.core_Mat_nSetF(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, float[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
-            NativeMethods.core_Mat_nSetF(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params double[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
-            NativeMethods.core_Mat_nSetD(ptr, row, col, data, data.Length);
-        }     
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, double[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
-            NativeMethods.core_Mat_nSetD(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec3b[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
-            NativeMethods.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Vec3b[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
-            NativeMethods.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec3d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            NativeMethods.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Vec3d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            NativeMethods.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec4f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
-            NativeMethods.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Vec4f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
-            NativeMethods.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec6f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
-            NativeMethods.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Vec6f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
-            NativeMethods.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
-            NativeMethods.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Point[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
-            NativeMethods.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point2f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
-            NativeMethods.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Point2f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
-            NativeMethods.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point2d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
-            NativeMethods.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Point2d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
-            NativeMethods.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point3i[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
-            NativeMethods.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Point3i[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
-            NativeMethods.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point3f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
-            NativeMethods.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Point3f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
-            NativeMethods.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point3d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            NativeMethods.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Point3d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
-            NativeMethods.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
-        }
-
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params Rect[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
-            NativeMethods.core_Mat_nSetRect(ptr, row, col, data, data.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, Rect[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
-            NativeMethods.core_Mat_nSetRect(ptr, row, col, data, data.Length);
-        }
-
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, params DMatch[] data)
-        {
-            CheckArgumentsForConvert(row, col, data);
-            Vec4f[] dataV = EnumerableEx.SelectToArray(data, delegate(DMatch d)
-            {
-                return (Vec4f)d;
-            });
-            NativeMethods.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
-        }
-        /// <summary>
-        /// Set the specified array data to this matrix
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        public void SetArray(int row, int col, DMatch[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data);
-            Vec4f[] dataV = EnumerableEx.SelectToArray(data, delegate(DMatch d)
-            {
-                return (Vec4f)d;
-            });
-            NativeMethods.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
-        }
-        #endregion
-
         #endregion
     }
 

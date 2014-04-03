@@ -71,7 +71,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int core_SparseMat_channels(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* core_SparseMat_size1(IntPtr obj);
+        public static extern IntPtr core_SparseMat_size1(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_SparseMat_size2(IntPtr obj, int i);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -89,16 +89,28 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_SparseMat_hash_nd(IntPtr obj, int[] idx);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* core_SparseMat_ptr_1d(IntPtr obj, int i0,
-            int createMissing, out IntPtr hashval);
+        public static extern IntPtr core_SparseMat_ptr_1d(IntPtr obj, int i0,
+            int createMissing, ref ulong hashval);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* core_SparseMat_ptr_2d(IntPtr obj, int i0, int i1,
-            int createMissing, out IntPtr hashval);
+        public static extern IntPtr core_SparseMat_ptr_1d(IntPtr obj, int i0,
+            int createMissing, IntPtr hashval);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* core_SparseMat_ptr_3d(IntPtr obj, int i0, int i1, int i2,
-            int createMissing, out IntPtr hashval);
+        public static extern IntPtr core_SparseMat_ptr_2d(IntPtr obj, int i0, int i1,
+            int createMissing, ref ulong hashval);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* core_SparseMat_ptr_nd(IntPtr obj, int[] idx,
-            int createMissing, out IntPtr hashval);
+        public static extern IntPtr core_SparseMat_ptr_2d(IntPtr obj, int i0, int i1,
+            int createMissing, IntPtr hashval);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_SparseMat_ptr_3d(IntPtr obj, int i0, int i1, int i2,
+            int createMissing, ref ulong hashval);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_SparseMat_ptr_3d(IntPtr obj, int i0, int i1, int i2,
+            int createMissing, IntPtr hashval);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_SparseMat_ptr_nd(IntPtr obj, int[] idx,
+            int createMissing, ref ulong hashval);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_SparseMat_ptr_nd(IntPtr obj, int[] idx,
+            int createMissing, IntPtr hashval);
     }
 }
