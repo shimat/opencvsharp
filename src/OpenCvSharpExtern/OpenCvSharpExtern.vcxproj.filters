@@ -139,6 +139,9 @@
     <ClCompile Include="features2d_FeatureDetector.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="core_SparseMat.cpp">
+      <Filter>Sources\cpp\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -267,13 +270,18 @@
     <ClInclude Include="features2d_FeatureDetector.h">
       <Filter>Headers\cpp</Filter>
     </ClInclude>
+    <ClInclude Include="core_SparseMat.h">
+      <Filter>Headers\cpp\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
       <UniqueIdentifier>{efcab9f5-3ffb-4ad1-a7b2-283fb4f489c5}</UniqueIdentifier>
+      <Extensions>*.h</Extensions>
     </Filter>
     <Filter Include="Sources">
       <UniqueIdentifier>{6d645e3a-f10b-484e-a30a-37751d2a962c}</UniqueIdentifier>
+      <Extensions>*.cpp</Extensions>
     </Filter>
     <Filter Include="Headers\cvblob">
       <UniqueIdentifier>{41971b60-14a9-4bbe-8be9-45e7db666c14}</UniqueIdentifier>
