@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Blob;
 using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.Extensions;
 
 namespace OpenCvSharp.Sandbox
 {

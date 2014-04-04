@@ -152,7 +152,6 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.core_RNG_operatorThis(State);
         }
 
-    //! 
         /// <summary>
         /// returns uniformly distributed integer random number from [a,b) range
         /// </summary>

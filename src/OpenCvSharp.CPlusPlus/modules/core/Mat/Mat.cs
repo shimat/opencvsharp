@@ -1415,7 +1415,7 @@ namespace OpenCvSharp.CPlusPlus
                 value.ThrowIfDisposed();
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
-                if (Dims != value.Dims)
+                if (Dims() != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
 
                 Mat sub = SubMat(rowStart, rowEnd, colStart, colEnd);
@@ -1446,7 +1446,7 @@ namespace OpenCvSharp.CPlusPlus
                 value.ThrowIfDisposed();
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
-                if (Dims != value.Dims)
+                if (Dims() != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
 
                 Mat sub = SubMat(rowRange, colRange);
@@ -1474,7 +1474,7 @@ namespace OpenCvSharp.CPlusPlus
                 value.ThrowIfDisposed();
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
-                if (Dims != value.Dims)
+                if (Dims() != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
 
                 if (roi.Size != value.Size())
@@ -1505,8 +1505,8 @@ namespace OpenCvSharp.CPlusPlus
 
                 Mat sub = SubMat(ranges);
 
-                int dims = Dims;
-                if (dims != value.Dims)
+                int dims = Dims();
+                if (dims != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
                 for (int i = 0; i < dims; i++)
                 {
@@ -1523,7 +1523,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public class MatExprIndexer : MatRangeExprIndexer
+        public class MatExprIndexer : MatExprRangeIndexer
         {
             /// <summary>
             /// 
@@ -1932,13 +1932,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// the array dimensionality, >= 2
         /// </summary>
-        public int Dims
+        public int Dims()
         {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.core_Mat_dims(ptr);
-            }
+            ThrowIfDisposed();
+            return NativeMethods.core_Mat_dims(ptr);
         }
 
         #endregion
@@ -2159,10 +2156,10 @@ namespace OpenCvSharp.CPlusPlus
         /// Returns the matrix element size in bytes.
         /// </summary>
         /// <returns></returns>
-        public long ElemSize()
+        public int ElemSize()
         {
             ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_elemSize(ptr);
+            return (int)NativeMethods.core_Mat_elemSize(ptr);
         }
 
         #endregion
@@ -2172,10 +2169,10 @@ namespace OpenCvSharp.CPlusPlus
         /// Returns the size of each matrix element channel in bytes.
         /// </summary>
         /// <returns></returns>
-        public long ElemSize1()
+        public int ElemSize1()
         {
             ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_elemSize1(ptr);
+            return (int)NativeMethods.core_Mat_elemSize1(ptr);
         }
 
         #endregion
@@ -2582,7 +2579,7 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Ptr*D
+        #region Ptr
 
         /// <summary>
         /// Returns a pointer to the specified matrix row.
@@ -2966,7 +2963,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     value.ThrowIfDisposed();
-                    if (parent.Dims != value.Dims)
+                    if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
                     IntPtr matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
@@ -2997,7 +2994,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     value.ThrowIfDisposed();
-                    if (parent.Dims != value.Dims)
+                    if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
                     IntPtr colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
@@ -3091,7 +3088,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     value.ThrowIfDisposed();
-                    if (parent.Dims != value.Dims)
+                    if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
                     IntPtr matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
@@ -3122,7 +3119,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (value == null)
                         throw new ArgumentNullException("value");
                     value.ThrowIfDisposed();
-                    if (parent.Dims != value.Dims)
+                    if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
                     IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);

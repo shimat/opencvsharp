@@ -59,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             this.parent = parent;
 
-            int dims = parent.Dims;
+            int dims = parent.Dims();
             steps = new long[dims];
             for (int i = 0; i < dims; i++)
             {
