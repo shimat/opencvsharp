@@ -2579,7 +2579,7 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Ptr*D
+        #region Ptr
 
         /// <summary>
         /// Returns a pointer to the specified matrix row.

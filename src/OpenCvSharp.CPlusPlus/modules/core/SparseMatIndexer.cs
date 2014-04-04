@@ -14,16 +14,18 @@ namespace OpenCvSharp.CPlusPlus
         /// 1-dimensional indexer
         /// </summary>
         /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns>A value to the specified array element.</returns>
-        public abstract T this[int i0] { get; set; }
+        public abstract T this[int i0, long? hashVal = null] { get; set; }
 
         /// <summary>
         /// 2-dimensional indexer
         /// </summary>
         /// <param name="i0">Index along the dimension 0</param>
         /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns>A value to the specified array element.</returns>
-        public abstract T this[int i0, int i1] { get; set; }
+        public abstract T this[int i0, int i1, long? hashVal = null] { get; set; }
 
         /// <summary>
         /// 3-dimensional indexer
@@ -31,15 +33,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="i0">Index along the dimension 0</param>
         /// <param name="i1">Index along the dimension 1</param>
         /// <param name="i2"> Index along the dimension 2</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns>A value to the specified array element.</returns>
-        public abstract T this[int i0, int i1, int i2] { get; set; }
+        public abstract T this[int i0, int i1, int i2, long? hashVal = null] { get; set; }
 
         /// <summary>
         /// n-dimensional indexer
         /// </summary>
         /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns>A value to the specified array element.</returns>
-        public abstract T this[params int[] idx] { get; set; }
+        public abstract T this[int[] idx, long? hashVal = null] { get; set; }
 
         /// <summary>
         /// Parent matrix object

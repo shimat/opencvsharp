@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
@@ -514,7 +512,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
-        #region Ptr*D
+        #region Ptr
 
         /// <summary>
         /// Low-level element-access function.
@@ -525,7 +523,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public IntPtr Ptr(int i0, bool createMissing, long? hashVal = null)
         {
-            ThrowIfDisposed();
+            //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
                 ulong hashVal0 = (ulong)hashVal.Value;
@@ -546,7 +544,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public IntPtr Ptr(int i0, int i1, bool createMissing, long? hashVal = null)
         {
-            ThrowIfDisposed();
+            //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
                 ulong hashVal0 = (ulong)hashVal.Value;
@@ -568,7 +566,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public IntPtr Ptr(int i0, int i1, int i2, bool createMissing, long? hashVal = null)
         {
-            ThrowIfDisposed();
+            //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
                 ulong hashVal0 = (ulong)hashVal.Value;
@@ -588,7 +586,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public IntPtr Ptr(int[] idx, bool createMissing, long? hashVal = null)
         {
-            ThrowIfDisposed();
+            //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
                 ulong hashVal0 = (ulong)hashVal.Value;
@@ -600,23 +598,146 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
-
-        #region ToString
+        #region Find
 
         /// <summary>
-        /// Returns a string that represents this Mat.
+        /// Return pthe specified sparse matrix element if it exists; otherwise, null.
         /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public override string ToString()
+        public T? Find<T>(int i0, long? hashVal = null)
+            where T : struct
         {
-            return "Mat [ " +
-                   "Dims=" + Dims() + 
-                   "Type=" + Type().ToString() +
-                   " ]";
-        }
-        
-        #endregion
+            IntPtr p = Ptr(i0, false, hashVal);
+            if (p == IntPtr.Zero)
+                return null;
 
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+        }
+
+        /// <summary>
+        /// Return pthe specified sparse matrix element if it exists; otherwise, null.
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        /// <returns></returns>
+        public T? Find<T>(int i0, int i1, long? hashVal = null)
+            where T : struct 
+        {
+            IntPtr p = Ptr(i0, i1, false, hashVal);
+            if (p == IntPtr.Zero)
+                return null;
+
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+        }
+
+        /// <summary>
+        /// Return pthe specified sparse matrix element if it exists; otherwise, null.
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        /// <returns></returns>
+        public T? Find<T>(int i0, int i1, int i2, long? hashVal = null)
+            where T : struct 
+        {
+            IntPtr p = Ptr(i0, i1, i2, false, hashVal);
+            if (p == IntPtr.Zero)
+                return null;
+
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+        }
+
+        /// <summary>
+        /// Return pthe specified sparse matrix element if it exists; otherwise, null.
+        /// </summary>
+        /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        /// <returns></returns>
+        public T? Find<T>(int[] idx, long? hashVal = null)
+            where T : struct 
+        {
+            IntPtr p = Ptr(idx, false, hashVal);
+            if (p == IntPtr.Zero)
+                return null;
+
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+        }
+
+        #endregion
+        #region Value
+
+        /// <summary>
+        /// Return pthe specified sparse matrix element if it exists; otherwise, default(T).
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        /// <returns></returns>
+        public T Value<T>(int i0, long? hashVal = null)
+            where T : struct
+        {
+            IntPtr p = Ptr(i0, false, hashVal);
+            if (p == IntPtr.Zero)
+                return default(T);
+
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+        }
+
+        /// <summary>
+        /// Return pthe specified sparse matrix element if it exists; otherwise, default(T).
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        /// <returns></returns>
+        public T Value<T>(int i0, int i1, long? hashVal = null)
+            where T : struct
+        {
+            IntPtr p = Ptr(i0, i1, false, hashVal);
+            if (p == IntPtr.Zero)
+                return default(T);
+
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+        }
+
+        /// <summary>
+        /// Return pthe specified sparse matrix element if it exists; otherwise, default(T).
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        /// <returns></returns>
+        public T Value<T>(int i0, int i1, int i2, long? hashVal = null)
+            where T : struct
+        {
+            IntPtr p = Ptr(i0, i1, i2, false, hashVal);
+            if (p == IntPtr.Zero)
+                return default(T);
+
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+        }
+
+        /// <summary>
+        /// Return pthe specified sparse matrix element if it exists; otherwise, default(T).
+        /// </summary>
+        /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        /// <returns></returns>
+        public T Value<T>(int[] idx, long? hashVal = null)
+            where T : struct
+        {
+            IntPtr p = Ptr(idx, false, hashVal);
+            if (p == IntPtr.Zero)
+                return default(T);
+
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+        }
+
+        #endregion
         #region Element Indexer
 
         /// <summary>
@@ -634,16 +755,19 @@ namespace OpenCvSharp.CPlusPlus
             /// 1-dimensional indexer
             /// </summary>
             /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
             /// <returns>A value to the specified array element.</returns>
-            public override T this[int i0]
+            public override T this[int i0, long? hashVal = null]
             {
                 get
                 {
-                    throw new NotImplementedException();
+                    IntPtr p = parent.Ptr(i0, true, hashVal);
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
                 }
                 set
                 {
-                    throw new NotImplementedException();
+                    IntPtr p = parent.Ptr(i0, true, hashVal);
+                    Marshal.StructureToPtr(value, p, false);
                 }
             }
 
@@ -652,16 +776,19 @@ namespace OpenCvSharp.CPlusPlus
             /// </summary>
             /// <param name="i0">Index along the dimension 0</param>
             /// <param name="i1">Index along the dimension 1</param>
+            /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
             /// <returns>A value to the specified array element.</returns>
-            public override T this[int i0, int i1]
+            public override T this[int i0, int i1, long? hashVal = null]
             {
                 get
                 {
-                    throw new NotImplementedException();
+                    IntPtr p = parent.Ptr(i0, i1, true, hashVal);
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
                 }
                 set
                 {
-                    throw new NotImplementedException();
+                    IntPtr p = parent.Ptr(i0, i1, true, hashVal);
+                    Marshal.StructureToPtr(value, p, false);
                 }
             }
 
@@ -671,16 +798,19 @@ namespace OpenCvSharp.CPlusPlus
             /// <param name="i0">Index along the dimension 0</param>
             /// <param name="i1">Index along the dimension 1</param>
             /// <param name="i2"> Index along the dimension 2</param>
+            /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
             /// <returns>A value to the specified array element.</returns>
-            public override T this[int i0, int i1, int i2]
+            public override T this[int i0, int i1, int i2, long? hashVal = null]
             {
                 get
                 {
-                    throw new NotImplementedException();
+                    IntPtr p = parent.Ptr(i0, i1, i2, true, hashVal);
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
                 }
                 set
                 {
-                    throw new NotImplementedException();
+                    IntPtr p = parent.Ptr(i0, i1, i2, true, hashVal);
+                    Marshal.StructureToPtr(value, p, false);
                 }
             }
 
@@ -688,26 +818,40 @@ namespace OpenCvSharp.CPlusPlus
             /// n-dimensional indexer
             /// </summary>
             /// <param name="idx">Array of Mat::dims indices.</param>
+            /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
             /// <returns>A value to the specified array element.</returns>
-            public override T this[params int[] idx]
+            public override T this[int[] idx, long? hashVal = null]
             {
                 get
                 {
-                    throw new NotImplementedException();
+                    IntPtr p = parent.Ptr(idx, true, hashVal);
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
                 }
                 set
                 {
-                    throw new NotImplementedException();
+                    IntPtr p = parent.Ptr(idx, true, hashVal);
+                    Marshal.StructureToPtr(value, p, false);
                 }
             }
         }
 
         /// <summary>
-        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
+        /// Gets a type-specific indexer. 
+        /// The indexer has getters/setters to access each matrix element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public Indexer<T> GetGenericIndexer<T>() where T : struct
+        public Indexer<T> Ref<T>() where T : struct
+        {
+            return new Indexer<T>(this);
+        }
+        /// <summary>
+        /// Gets a type-specific indexer. 
+        /// The indexer has getters/setters to access each matrix element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Indexer<T> GetIndexer<T>() where T : struct
         {
             return new Indexer<T>(this);
         }
@@ -720,10 +864,11 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns>A value to the specified array element.</returns>
-        public T Get<T>(int i0) where T : struct
+        public T Get<T>(int i0, long? hashVal = null) where T : struct
         {
-            return new Indexer<T>(this)[i0];
+            return new Indexer<T>(this)[i0, hashVal];
         }
 
         /// <summary>
@@ -732,57 +877,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <typeparam name="T"></typeparam>
         /// <param name="i0">Index along the dimension 0</param>
         /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns>A value to the specified array element.</returns>
-        public T Get<T>(int i0, int i1) where T : struct
+        public T Get<T>(int i0, int i1, long? hashVal = null) where T : struct
         {
-            return new Indexer<T>(this)[i0, i1];
-        }
-
-        /// <summary>
-        /// Returns a value to the specified array element.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <param name="i2">Index along the dimension 2</param>
-        /// <returns>A value to the specified array element.</returns>
-        public T Get<T>(int i0, int i1, int i2) where T : struct
-        {
-            return new Indexer<T>(this)[i0, i1, i2];
-        }
-
-        /// <summary>
-        /// Returns a value to the specified array element.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="idx">Array of Mat::dims indices.</param>
-        /// <returns>A value to the specified array element.</returns>
-        public T Get<T>(params int[] idx) where T : struct
-        {
-            return new Indexer<T>(this)[idx];
-        }
-
-        /// <summary>
-        /// Returns a value to the specified array element.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0) where T : struct
-        {
-            return new Indexer<T>(this)[i0];
-        }
-
-        /// <summary>
-        /// Returns a value to the specified array element.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0, int i1) where T : struct
-        {
-            return new Indexer<T>(this)[i0, i1];
+            return new Indexer<T>(this)[i0, i1, hashVal];
         }
 
         /// <summary>
@@ -792,10 +891,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="i0">Index along the dimension 0</param>
         /// <param name="i1">Index along the dimension 1</param>
         /// <param name="i2">Index along the dimension 2</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0, int i1, int i2) where T : struct
+        public T Get<T>(int i0, int i1, int i2, long? hashVal = null) where T : struct
         {
-            return new Indexer<T>(this)[i0, i1, i2];
+            return new Indexer<T>(this)[i0, i1, i2, hashVal];
         }
 
         /// <summary>
@@ -803,12 +903,12 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(params int[] idx) where T : struct
+        public T Get<T>(int[] idx, long? hashVal = null) where T : struct
         {
-            return new Indexer<T>(this)[idx];
+            return new Indexer<T>(this)[idx, hashVal];
         }
-
 
         /// <summary>
         /// Set a value to the specified array element.
@@ -816,9 +916,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <typeparam name="T"></typeparam>
         /// <param name="i0">Index along the dimension 0</param>
         /// <param name="value"></param>
-        public void Set<T>(int i0, T value) where T : struct
+        /// <param name="hashVal"></param>
+        public void Set<T>(int i0, T value, long? hashVal = null) where T : struct
         {
-            (new Indexer<T>(this))[i0] = value;
+            (new Indexer<T>(this))[i0, hashVal] = value;
         }
 
         /// <summary>
@@ -828,9 +929,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="i0">Index along the dimension 0</param>
         /// <param name="i1">Index along the dimension 1</param>
         /// <param name="value"></param>
-        public void Set<T>(int i0, int i1, T value) where T : struct
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        public void Set<T>(int i0, int i1, T value, long? hashVal = null) where T : struct
         {
-            (new Indexer<T>(this))[i0, i1] = value;
+            (new Indexer<T>(this))[i0, i1, hashVal] = value;
         }
 
         /// <summary>
@@ -841,9 +943,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="i1">Index along the dimension 1</param>
         /// <param name="i2">Index along the dimension 2</param>
         /// <param name="value"></param>
-        public void Set<T>(int i0, int i1, int i2, T value) where T : struct
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        public void Set<T>(int i0, int i1, int i2, T value, long? hashVal = null) where T : struct
         {
-            (new Indexer<T>(this)[i0, i1, i2]) = value;
+            (new Indexer<T>(this)[i0, i1, i2, hashVal]) = value;
         }
 
         /// <summary>
@@ -852,9 +955,26 @@ namespace OpenCvSharp.CPlusPlus
         /// <typeparam name="T"></typeparam>
         /// <param name="idx">Array of Mat::dims indices.</param>
         /// <param name="value"></param>
-        public void Set<T>(int[] idx, T value) where T : struct
+        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
+        public void Set<T>(int[] idx, T value, long? hashVal = null) where T : struct
         {
-            (new Indexer<T>(this)[idx]) = value;
+            (new Indexer<T>(this)[idx, hashVal]) = value;
+        }
+
+        #endregion
+
+        #region ToString
+
+        /// <summary>
+        /// Returns a string that represents this Mat.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "Mat [ " +
+                   "Dims=" + Dims() +
+                   "Type=" + Type().ToString() +
+                   " ]";
         }
 
         #endregion
