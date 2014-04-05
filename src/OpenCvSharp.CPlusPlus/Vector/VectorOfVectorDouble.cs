@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class VectorOfVectorFloat : DisposableCvObject, IStdVector<float[]>
+    internal class VectorOfVectorDouble : DisposableCvObject, IStdVector<double[]>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,19 +19,19 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public VectorOfVectorFloat()
+        public VectorOfVectorDouble()
         {
-            ptr = NativeMethods.vector_vector_float_new1();
+            ptr = NativeMethods.vector_vector_double_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfVectorFloat(int size)
+        public VectorOfVectorDouble(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = NativeMethods.vector_vector_float_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_vector_double_new2(new IntPtr(size));
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.vector_vector_float_delete(ptr);
+                        NativeMethods.vector_vector_double_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -67,7 +67,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size1
         {
-            get { return NativeMethods.vector_vector_float_getSize1(ptr).ToInt32(); }
+            get { return NativeMethods.vector_vector_double_getSize1(ptr).ToInt32(); }
         }
         public int Size { get { return Size1; } }
         /// <summary>
@@ -79,7 +79,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 int size1 = Size1;
                 IntPtr[] size2Org = new IntPtr[size1];
-                NativeMethods.vector_vector_float_getSize2(ptr, size2Org);
+                NativeMethods.vector_vector_double_getSize2(ptr, size2Org);
                 long[] size2 = new long[size1];
                 for (int i = 0; i < size1; i++)
                 {
@@ -95,7 +95,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_vector_float_getPointer(ptr); }
+            get { return NativeMethods.vector_vector_double_getPointer(ptr); }
         }
         #endregion
 
@@ -104,21 +104,21 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public float[][] ToArray()
+        public double[][] ToArray()
         {
             int size1 = Size1;
             if (size1 == 0)
-                return new float[0][];
+                return new double[0][];
             long[] size2 = Size2;
 
-            var ret = new float[size1][];
+            var ret = new double[size1][];
             for (int i = 0; i < size1; i++)
             {
-                ret[i] = new float[size2[i]];
+                ret[i] = new double[size2[i]];
             }
-            using (var retPtr = new ArrayAddress2<float>(ret))
+            using (var retPtr = new ArrayAddress2<double>(ret))
             {
-                NativeMethods.vector_vector_float_copy(ptr, retPtr);
+                NativeMethods.vector_vector_double_copy(ptr, retPtr);
             }
             return ret;
         }

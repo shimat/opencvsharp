@@ -209,8 +209,10 @@
     <Compile Include="Struct\Point3i.cs" />
     <Compile Include="Struct\Rangef.cs" />
     <Compile Include="Struct\Point2d.cs" />
+    <Compile Include="Vector\VectorOfDouble.cs" />
     <Compile Include="Vector\VectorOfInt32.cs" />
     <Compile Include="Vector\VectorOfDMatch.cs" />
+    <Compile Include="Vector\VectorOfVectorDouble.cs" />
     <Compile Include="Vector\VectorOfVectorFloat.cs" />
     <Compile Include="Vector\VectorOfVectorDMatch.cs" />
     <Compile Include="Vector\VectorOfVectorPoint.cs" />

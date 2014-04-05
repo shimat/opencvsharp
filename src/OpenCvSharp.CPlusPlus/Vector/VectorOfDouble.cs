@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class VectorOfVectorFloat : DisposableCvObject, IStdVector<float[]>
+    public class VectorOfDouble : DisposableCvObject, IStdVector<double>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,19 +19,30 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public VectorOfVectorFloat()
+        public VectorOfDouble()
         {
-            ptr = NativeMethods.vector_vector_float_new1();
+            ptr = NativeMethods.vector_double_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfVectorFloat(int size)
+        public VectorOfDouble(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = NativeMethods.vector_vector_float_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_double_new2(new IntPtr(size));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public VectorOfDouble(IEnumerable<double> data)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            double[] array = EnumerableEx.ToArray(data);
+            ptr = NativeMethods.vector_double_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -49,7 +60,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.vector_vector_float_delete(ptr);
+                        NativeMethods.vector_double_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -65,37 +76,16 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// vector.size()
         /// </summary>
-        public int Size1
+        public int Size
         {
-            get { return NativeMethods.vector_vector_float_getSize1(ptr).ToInt32(); }
+            get { return NativeMethods.vector_double_getSize(ptr).ToInt32(); }
         }
-        public int Size { get { return Size1; } }
-        /// <summary>
-        /// vector.size()
-        /// </summary>
-        public long[] Size2
-        {
-            get
-            {
-                int size1 = Size1;
-                IntPtr[] size2Org = new IntPtr[size1];
-                NativeMethods.vector_vector_float_getSize2(ptr, size2Org);
-                long[] size2 = new long[size1];
-                for (int i = 0; i < size1; i++)
-                {
-                    size2[i] = size2Org[i].ToInt64();
-                }
-                return size2;
-            }
-        }
-        
-
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_vector_float_getPointer(ptr); }
+            get { return NativeMethods.vector_double_getPointer(ptr); }
         }
         #endregion
 
@@ -104,23 +94,16 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public float[][] ToArray()
-        {
-            int size1 = Size1;
-            if (size1 == 0)
-                return new float[0][];
-            long[] size2 = Size2;
-
-            var ret = new float[size1][];
-            for (int i = 0; i < size1; i++)
+        public double[] ToArray()
+        {            
+            int size = Size;
+            if (size == 0)
             {
-                ret[i] = new float[size2[i]];
+                return new double[0];
             }
-            using (var retPtr = new ArrayAddress2<float>(ret))
-            {
-                NativeMethods.vector_vector_float_copy(ptr, retPtr);
-            }
-            return ret;
+            double[] dst = new double[size];
+            Marshal.Copy(ElemPtr, dst, 0, dst.Length);
+            return dst;
         }
         #endregion
     }
