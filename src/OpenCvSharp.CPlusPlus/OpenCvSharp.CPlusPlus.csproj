@@ -152,6 +152,8 @@
     <Compile Include="Enum\DistanceMaskSize.cs" />
     <Compile Include="modules\core\SparseMatIndexer.cs" />
     <Compile Include="modules\core\SparseMat.cs" />
+    <Compile Include="modules\objdetect\CascadeClassifier.cs" />
+    <Compile Include="modules\objdetect\SimilarRects.cs" />
     <Compile Include="modules\objdetect\LatendSvmDetector.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Algorithm.cs" />
     <Compile Include="PInvoke\NativeMethods_core_SparseMat.cs" />
@@ -218,7 +220,7 @@
     <Compile Include="Vector\VectorOfVectorFloat.cs" />
     <Compile Include="Vector\VectorOfVectorDMatch.cs" />
     <Compile Include="Vector\VectorOfVectorPoint.cs" />
-    <Compile Include="Vector\VectorOfVectorString.cs" />
+    <Compile Include="Vector\VectorOfString.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Ptr.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d.cs" />

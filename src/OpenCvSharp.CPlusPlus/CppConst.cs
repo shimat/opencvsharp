@@ -120,5 +120,13 @@ namespace OpenCvSharp.CPlusPlus
         public const int CALIB_CB_SYMMETRIC_GRID = 1,
             CALIB_CB_ASYMMETRIC_GRID = 2,
             CALIB_CB_CLUSTERING = 4;
+
+        /// <summary>
+        /// CascadeClassifier
+        /// </summary>
+        public const int CASCADE_DO_CANNY_PRUNING = 1,
+            CASCADE_SCALE_IMAGE = 2,
+            CASCADE_FIND_BIGGEST_OBJECT = 4,
+            CASCADE_DO_ROUGH_SEARCH = 8;
     }
 }

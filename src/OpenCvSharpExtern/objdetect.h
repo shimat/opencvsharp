@@ -73,4 +73,72 @@ CVAPI(size_t) objdetect_LatentSvmDetector_getClassCount(cv::LatentSvmDetector *o
 
 #pragma endregion
 
+#pragma region CascadeClassifier
+
+CVAPI(cv::CascadeClassifier*) objdetect_CascadeClassifier_new()
+{
+	return new cv::CascadeClassifier();
+}
+CVAPI(cv::CascadeClassifier*) objdetect_CascadeClassifier_newFromFile(const char *fileName)
+{
+	return new cv::CascadeClassifier(fileName);
+}
+CVAPI(void) objdetect_CascadeClassifier_delete(cv::CascadeClassifier *obj)
+{
+	delete obj;
+}
+
+CVAPI(int) objdetect_CascadeClassifier_empty(cv::CascadeClassifier *obj)
+{
+	return obj->empty() ? 1 : 0;
+}
+CVAPI(int) objdetect_CascadeClassifier_load(
+	cv::CascadeClassifier *obj, const char *fileName)
+{
+	return obj->load(fileName) ? 1 : 0;
+}
+
+//CVAPI(int) objdetect_CascadeClassifier_read(const FileNode& node);
+
+CVAPI(void) objdetect_CascadeClassifier_detectMultiScale1(
+	cv::CascadeClassifier *obj,
+	cv::Mat *image, std::vector<cv::Rect> *objects,
+	double scaleFactor, int minNeighbors, int flags, cv::Size minSize, cv::Size maxSize)
+{
+	obj->detectMultiScale(*image, *objects,
+		scaleFactor, minNeighbors, flags, minSize, maxSize);
+}
+
+CVAPI(void) objdetect_CascadeClassifier_detectMultiScale2(
+	cv::CascadeClassifier *obj,
+	cv::Mat *image, std::vector<cv::Rect> *objects,
+	std::vector<int> *rejectLevels,
+	std::vector<double> *levelWeights,
+	double scaleFactor, int minNeighbors, int flags,
+	cv::Size minSize, cv::Size maxSize, int outputRejectLevels)
+{
+	obj->detectMultiScale(*image, *objects, *rejectLevels, *levelWeights,
+		scaleFactor, minNeighbors, flags, minSize, maxSize, outputRejectLevels != 0);
+}
+
+
+CVAPI(int) objdetect_CascadeClassifier_isOldFormatCascade(cv::CascadeClassifier *obj)
+{
+	return obj->isOldFormatCascade() ? 1 : 0;
+}
+CVAPI(CvSize) objdetect_CascadeClassifier_getOriginalWindowSize(cv::CascadeClassifier *obj)
+{
+	return obj->getOriginalWindowSize();
+}
+CVAPI(int) objdetect_CascadeClassifier_getFeatureType(cv::CascadeClassifier *obj)
+{
+	return obj->getFeatureType();
+}
+CVAPI(int) objdetect_CascadeClassifier_setImage(cv::CascadeClassifier *obj, cv::Mat *img)
+{
+	return obj->setImage(*img) ? 1 : 0;
+}
+
+#pragma endregion
+
 #endif

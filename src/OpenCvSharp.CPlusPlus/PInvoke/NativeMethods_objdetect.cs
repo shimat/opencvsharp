@@ -38,6 +38,41 @@ namespace OpenCvSharp.CPlusPlus
 
         #endregion
 
+        #region CascadeClassfier
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr objdetect_CascadeClassifier_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern IntPtr objdetect_CascadeClassifier_newFromFile([MarshalAs(UnmanagedType.LPStr)] string fileName);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void objdetect_CascadeClassifier_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int objdetect_CascadeClassifier_empty(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern int objdetect_CascadeClassifier_load(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fileName);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_CascadeClassifier_detectMultiScale1")]
+        public static extern void objdetect_CascadeClassifier_detectMultiScale(
+            IntPtr obj, IntPtr image, IntPtr objects,
+            double scaleFactor, int minNeighbors, int flags, Size minSize, Size maxSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_CascadeClassifier_detectMultiScale2")]
+        public static extern void objdetect_CascadeClassifier_detectMultiScale(
+            IntPtr obj, IntPtr image, IntPtr objects,
+            IntPtr rejectLevels, IntPtr levelWeights,
+            double scaleFactor, int minNeighbors, int flags,
+            Size minSize, Size maxSize, int outputRejectLevels);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int objdetect_CascadeClassifier_isOldFormatCascade(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvSize objdetect_CascadeClassifier_getOriginalWindowSize(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int objdetect_CascadeClassifier_getFeatureType(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int objdetect_CascadeClassifier_setImage(IntPtr obj, IntPtr img);
+
+        #endregion
+
         #region HOGDescriptor
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int objdetect_HOGDescriptor_sizeof();

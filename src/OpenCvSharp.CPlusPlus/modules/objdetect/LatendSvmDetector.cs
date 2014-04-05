@@ -99,7 +99,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -113,7 +112,6 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
