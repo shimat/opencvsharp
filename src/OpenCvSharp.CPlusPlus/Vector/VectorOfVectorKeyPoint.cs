@@ -13,7 +13,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and Dispose
         /// <summary>
@@ -111,12 +111,12 @@ namespace OpenCvSharp.CPlusPlus
                 return new KeyPoint[0][];
             long[] size2 = Size2;
 
-            KeyPoint[][] ret = new KeyPoint[size1][];
+            var ret = new KeyPoint[size1][];
             for (int i = 0; i < size1; i++)
             {
                 ret[i] = new KeyPoint[size2[i]];
             }
-            using (ArrayAddress2<KeyPoint> retPtr = new ArrayAddress2<KeyPoint>(ret))
+            using (var retPtr = new ArrayAddress2<KeyPoint>(ret))
             {
                 NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr);
             }

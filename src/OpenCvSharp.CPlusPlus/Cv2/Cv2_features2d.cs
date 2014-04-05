@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
+
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -16,14 +16,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="keypoints"></param>
         /// <param name="threshold"></param>
         /// <param name="nonmaxSupression"></param>
-// ReSharper disable InconsistentNaming
         public static void FAST(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression = true)
-// ReSharper restore InconsistentNaming
         {
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            using (VectorOfKeyPoint kp = new VectorOfKeyPoint())
+            using (var kp = new VectorOfKeyPoint())
             {
                 NativeMethods.features2d_FAST(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
                 keypoints = kp.ToArray();
@@ -38,14 +36,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="threshold"></param>
         /// <param name="nonmaxSupression"></param>
         /// <param name="type"></param>
-// ReSharper disable InconsistentNaming
         public static void FASTX(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression, int type)
-// ReSharper restore InconsistentNaming
         {
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            using (VectorOfKeyPoint kp = new VectorOfKeyPoint())
+            using (var kp = new VectorOfKeyPoint())
             {
                 NativeMethods.features2d_FASTX(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, type);
                 keypoints = kp.ToArray();
@@ -174,14 +170,11 @@ namespace OpenCvSharp.CPlusPlus
             KeyPoint[] keypoints2Array = EnumerableEx.ToArray(keypoints2);
             DMatch[][] matches1To2Array = EnumerableEx.SelectToArray(matches1To2, EnumerableEx.ToArray);
             int matches1To2Size1 = matches1To2Array.Length;
-            int[] matches1To2Size2 = EnumerableEx.SelectToArray(matches1To2Array, delegate(DMatch[] dm)
-            {
-                return dm.Length;
-            });
+            int[] matches1To2Size2 = EnumerableEx.SelectToArray(matches1To2Array, dm => dm.Length);
             Scalar matchColor0 = matchColor.GetValueOrDefault(Scalar.All(-1));
             Scalar singlePointColor0 = singlePointColor.GetValueOrDefault(Scalar.All(-1));
-            
-            using (ArrayAddress2<DMatch> matches1To2Ptr = new ArrayAddress2<DMatch>(matches1To2Array))
+
+            using (var matches1To2Ptr = new ArrayAddress2<DMatch>(matches1To2Array))
             {
                 if (matchesMask == null)
                 {
@@ -195,11 +188,8 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     byte[][] matchesMaskArray = EnumerableEx.SelectToArray(matchesMask, EnumerableEx.ToArray);
                     int matchesMaskSize1 = matches1To2Array.Length;
-                    int[] matchesMaskSize2 = EnumerableEx.SelectToArray(matchesMaskArray, delegate(byte[] dm)
-                    {
-                        return dm.Length;
-                    });
-                    using (ArrayAddress2<byte> matchesMaskPtr = new ArrayAddress2<byte>(matchesMaskArray))
+                    int[] matchesMaskSize2 = EnumerableEx.SelectToArray(matchesMaskArray, dm => dm.Length);
+                    using (var matchesMaskPtr = new ArrayAddress2<byte>(matchesMaskArray))
                     {
                         NativeMethods.features2d_drawMatches2(img1.CvPtr, keypoints1Array, keypoints1Array.Length,
                             img2.CvPtr, keypoints2Array, keypoints2Array.Length,

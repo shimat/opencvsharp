@@ -32,8 +32,9 @@ namespace CppStyleSamplesCS
                 //new MorphologySample();
                 //new MergeSplitSample();
                 //new NormalArrayOperations();
-               // new SolveEquation();
-                new MatOperations();
+                //new SolveEquation();
+                //new MatOperations();
+                new FaceDetection();
             sample.Run();
         }
     }

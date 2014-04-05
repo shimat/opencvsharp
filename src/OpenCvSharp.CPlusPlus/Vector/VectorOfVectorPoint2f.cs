@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
@@ -13,7 +11,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and Dispose
         /// <summary>
@@ -86,9 +84,9 @@ namespace OpenCvSharp.CPlusPlus
             get
             {
                 int size1 = Size1;
-                IntPtr[] size2Org = new IntPtr[size1];
+                var size2Org = new IntPtr[size1];
                 NativeMethods.vector_vector_Point2f_getSize2(ptr, size2Org);
-                long[] size2 = new long[size1];
+                var size2 = new long[size1];
                 for (int i = 0; i < size1; i++)
                 {
                     size2[i] = size2Org[i].ToInt64();
@@ -103,7 +101,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_vector_KeyPoint_getPointer(ptr); }
+            get { return NativeMethods.vector_vector_Point2f_getPointer(ptr); }
         }
         #endregion
 
@@ -119,12 +117,12 @@ namespace OpenCvSharp.CPlusPlus
                 return new Point2f[0][];
             long[] size2 = Size2;
 
-            Point2f[][] ret = new Point2f[size1][];
+            var ret = new Point2f[size1][];
             for (int i = 0; i < size1; i++)
             {
                 ret[i] = new Point2f[size2[i]];
             }
-            using (ArrayAddress2<Point2f> retPtr = new ArrayAddress2<Point2f>(ret))
+            using (var retPtr = new ArrayAddress2<Point2f>(ret))
             {
                 NativeMethods.vector_vector_Point2f_copy(ptr, retPtr);
             }

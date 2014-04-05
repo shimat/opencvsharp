@@ -142,10 +142,7 @@ namespace OpenCvSharp.CPlusPlus
             int imgToDenoiseIndex, int temporalWindowSize,
             float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, delegate(Mat m)
-            {
-                return new InputArray(m);
-            });
+            IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
             FastNlMeansDenoisingMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, templateWindowSize, 
                 h, templateWindowSize, searchWindowSize);
         }
@@ -200,10 +197,7 @@ namespace OpenCvSharp.CPlusPlus
             int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, delegate(Mat m)
-            {
-                return new InputArray(m);
-            });
+            IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
             FastNlMeansDenoisingColoredMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, templateWindowSize,
                 h, hColor, templateWindowSize, searchWindowSize);
         }

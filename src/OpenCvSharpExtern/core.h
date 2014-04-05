@@ -624,7 +624,7 @@ CVAPI(void) core_circle(cv::Mat *img, CvPoint center, int radius,
 
 CVAPI(void) core_ellipse1(cv::Mat *img, CvPoint center, CvSize axes,
 	double angle, double startAngle, double endAngle,
-	CvScalar& color, int thickness, int lineType, int shift)
+	CvScalar color, int thickness, int lineType, int shift)
 {
 	cv::ellipse(*img, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
 }

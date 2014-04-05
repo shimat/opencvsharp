@@ -124,8 +124,8 @@ namespace OpenCvSharp.CPlusPlus
             {
                 return new T[0];
             }
-            T[] dst = new T[arySize];
-            using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
+            var dst = new T[arySize];
+            using (var dstPtr = new ArrayAddress1<T>(dst))
             {
                 Util.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
             }

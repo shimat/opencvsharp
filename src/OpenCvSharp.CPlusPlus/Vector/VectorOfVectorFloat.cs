@@ -95,7 +95,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_vector_KeyPoint_getPointer(ptr); }
+            get { return NativeMethods.vector_vector_float_getPointer(ptr); }
         }
         #endregion
 
@@ -111,12 +111,12 @@ namespace OpenCvSharp.CPlusPlus
                 return new float[0][];
             long[] size2 = Size2;
 
-            float[][] ret = new float[size1][];
+            var ret = new float[size1][];
             for (int i = 0; i < size1; i++)
             {
                 ret[i] = new float[size2[i]];
             }
-            using (ArrayAddress2<float> retPtr = new ArrayAddress2<float>(ret))
+            using (var retPtr = new ArrayAddress2<float>(ret))
             {
                 NativeMethods.vector_vector_float_copy(ptr, retPtr);
             }

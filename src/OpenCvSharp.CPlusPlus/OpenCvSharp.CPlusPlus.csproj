@@ -152,6 +152,9 @@
     <Compile Include="Enum\DistanceMaskSize.cs" />
     <Compile Include="modules\core\SparseMatIndexer.cs" />
     <Compile Include="modules\core\SparseMat.cs" />
+    <Compile Include="modules\objdetect\CascadeClassifier.cs" />
+    <Compile Include="modules\objdetect\SimilarRects.cs" />
+    <Compile Include="modules\objdetect\LatendSvmDetector.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Algorithm.cs" />
     <Compile Include="PInvoke\NativeMethods_core_SparseMat.cs" />
     <Compile Include="PInvoke\NativeMethods_core_RNG.cs" />
@@ -209,11 +212,15 @@
     <Compile Include="Struct\Point3i.cs" />
     <Compile Include="Struct\Rangef.cs" />
     <Compile Include="Struct\Point2d.cs" />
+    <Compile Include="Vector\VectorOfDouble.cs" />
     <Compile Include="Vector\VectorOfInt32.cs" />
     <Compile Include="Vector\VectorOfDMatch.cs" />
+    <Compile Include="Vector\VectorOfVec6d.cs" />
+    <Compile Include="Vector\VectorOfVectorDouble.cs" />
     <Compile Include="Vector\VectorOfVectorFloat.cs" />
     <Compile Include="Vector\VectorOfVectorDMatch.cs" />
     <Compile Include="Vector\VectorOfVectorPoint.cs" />
+    <Compile Include="Vector\VectorOfString.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Ptr.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d.cs" />
