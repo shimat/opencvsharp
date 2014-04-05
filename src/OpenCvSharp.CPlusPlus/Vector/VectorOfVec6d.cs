@@ -8,47 +8,47 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
+    public class VectorOfVec6d : DisposableCvObject, IStdVector<Vec6d>
     {
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and Dispose
         /// <summary>
         /// 
         /// </summary>
-        public VectorOfVec6f()
+        public VectorOfVec6d()
         {
-            ptr = NativeMethods.vector_Vec6f_new1();
+            ptr = NativeMethods.vector_Vec6d_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfVec6f(int size)
+        public VectorOfVec6d(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = NativeMethods.vector_Vec6f_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_Vec6d_new2(new IntPtr(size));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public VectorOfVec6f(IEnumerable<Vec6f> data)
+        public VectorOfVec6d(IEnumerable<Vec6d> data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Vec6f[] array = Util.ToArray(data);
-            ptr = NativeMethods.vector_Vec6f_new3(array, new IntPtr(array.Length));
+            Vec6d[] array = EnumerableEx.ToArray(data);
+            ptr = NativeMethods.vector_Vec6d_new3(array, new IntPtr(array.Length));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="p"></param>
-        public VectorOfVec6f(IntPtr p)
+        public VectorOfVec6d(IntPtr p)
         {
             ptr = p;
         }
@@ -68,7 +68,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.vector_Vec6f_delete(ptr);
+                        NativeMethods.vector_Vec6d_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -86,14 +86,14 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Size
         {
-            get { return NativeMethods.vector_Vec6f_getSize(ptr).ToInt32(); }
+            get { return NativeMethods.vector_Vec6d_getSize(ptr).ToInt32(); }
         }
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_Vec6f_getPointer(ptr); }
+            get { return NativeMethods.vector_Vec6d_getPointer(ptr); }
         }
         #endregion
 
@@ -102,9 +102,9 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Vec6f[] ToArray()
+        public Vec6d[] ToArray()
         {
-            return ToArray<Vec6f>();
+            return ToArray<Vec6d>();
         }
         /// <summary>
         /// Converts std::vector to managed array
@@ -114,7 +114,7 @@ namespace OpenCvSharp.CPlusPlus
         public T[] ToArray<T>() where T : struct
         {
             int typeSize = Marshal.SizeOf(typeof(T));
-            if (typeSize != sizeof(float) * 6)
+            if (typeSize != sizeof(double) * 6)
             {
                 throw new OpenCvSharpException();
             }

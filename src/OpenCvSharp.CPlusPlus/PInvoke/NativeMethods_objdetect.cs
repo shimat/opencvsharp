@@ -13,6 +13,31 @@ namespace OpenCvSharp.CPlusPlus
 {
     internal static partial class NativeMethods
     {
+        #region LatendSvmDetector
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr objdetect_LatentSvmDetector_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void objdetect_LatentSvmDetector_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void objdetect_LatentSvmDetector_clear(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int objdetect_LatentSvmDetector_empty(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int objdetect_LatentSvmDetector_load(IntPtr obj,
+            IntPtr[] fileNames, int fileNamesLength,
+            IntPtr[] classNames, int classNamesLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void objdetect_LatentSvmDetector_detect(
+            IntPtr obj, IntPtr image, IntPtr objectDetections,
+            float overlapThreshold, int numThreads);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void objdetect_LatentSvmDetector_getClassNames(IntPtr obj, IntPtr outValues);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr objdetect_LatentSvmDetector_getClassCount(IntPtr obj);
+
+        #endregion
+
         #region HOGDescriptor
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int objdetect_HOGDescriptor_sizeof();

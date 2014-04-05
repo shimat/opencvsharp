@@ -134,12 +134,7 @@ CVAPI(vector<cv::Vec2f>*) vector_Vec2f_new2(size_t size)
 }
 CVAPI(vector<cv::Vec2f>*) vector_Vec2f_new3(cv::Vec2f* data, size_t dataLength)
 {
-	vector<cv::Vec2f>* vec = new vector<cv::Vec2f>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Vec2f>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Vec2f_getSize(vector<cv::Vec2f>* vector)
 {
@@ -166,12 +161,7 @@ CVAPI(vector<cv::Vec3f>*) vector_Vec3f_new2(size_t size)
 }
 CVAPI(vector<cv::Vec3f>*) vector_Vec3f_new3(cv::Vec3f* data, size_t dataLength)
 {
-	vector<cv::Vec3f>* vec = new vector<cv::Vec3f>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Vec3f>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Vec3f_getSize(vector<cv::Vec3f>* vector)
 {
@@ -198,12 +188,7 @@ CVAPI(vector<cv::Vec4f>*) vector_Vec4f_new2(size_t size)
 }
 CVAPI(vector<cv::Vec4f>*) vector_Vec4f_new3(cv::Vec4f* data, size_t dataLength)
 {
-	vector<cv::Vec4f>* vec = new vector<cv::Vec4f>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Vec4f>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Vec4f_getSize(vector<cv::Vec4f>* vector)
 {
@@ -230,12 +215,7 @@ CVAPI(vector<cv::Vec4i>*) vector_Vec4i_new2(size_t size)
 }
 CVAPI(vector<cv::Vec4i>*) vector_Vec4i_new3(cv::Vec4i* data, size_t dataLength)
 {
-	vector<cv::Vec4i>* vec = new vector<cv::Vec4i>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Vec4i>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Vec4i_getSize(vector<cv::Vec4i>* vector)
 {
@@ -262,12 +242,7 @@ CVAPI(vector<cv::Vec6f>*) vector_Vec6f_new2(size_t size)
 }
 CVAPI(vector<cv::Vec6f>*) vector_Vec6f_new3(cv::Vec6f* data, size_t dataLength)
 {
-	vector<cv::Vec6f>* vec = new vector<cv::Vec6f>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Vec6f>(data, data + dataLength);;
 }
 CVAPI(size_t) vector_Vec6f_getSize(vector<cv::Vec6f>* vector)
 {
@@ -283,6 +258,33 @@ CVAPI(void) vector_Vec6f_delete(vector<cv::Vec6f>* vector)
 }
 #pragma endregion
 
+#pragma region cv::Vec6d
+CVAPI(vector<cv::Vec6d>*) vector_Vec6d_new1()
+{
+	return new vector<cv::Vec6d>;
+}
+CVAPI(vector<cv::Vec6d>*) vector_Vec6d_new2(size_t size)
+{
+	return new vector<cv::Vec6d>(size);
+}
+CVAPI(vector<cv::Vec6d>*) vector_Vec6d_new3(cv::Vec6d* data, size_t dataLength)
+{
+	return new vector<cv::Vec6d>(data, data + dataLength);
+}
+CVAPI(size_t) vector_Vec6d_getSize(vector<cv::Vec6d>* vector)
+{
+	return vector->size();
+}
+CVAPI(cv::Vec6d*) vector_Vec6d_getPointer(vector<cv::Vec6d>* vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_Vec6d_delete(vector<cv::Vec6d>* vector)
+{
+	delete vector;
+}
+#pragma endregion
+
 #pragma region cv::Point2i
 CVAPI(vector<cv::Point>*) vector_Point2i_new1()
 {
@@ -292,14 +294,9 @@ CVAPI(vector<cv::Point>*) vector_Point2i_new2(size_t size)
 {
 	return new vector<cv::Point>(size);
 }
-CVAPI(vector<cv::Point>*) vector_Point2i_new3(CvPoint* data, size_t dataLength)
+CVAPI(vector<cv::Point>*) vector_Point2i_new3(cv::Point* data, size_t dataLength)
 {
-	vector<cv::Point>* vec = new vector<cv::Point>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Point>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Point2i_getSize(vector<cv::Point>* vector)
 {
@@ -324,14 +321,9 @@ CVAPI(vector<cv::Point2f>*) vector_Point2f_new2(size_t size)
 {
 	return new vector<cv::Point2f>(size);
 }
-CVAPI(vector<cv::Point2f>*) vector_Point2f_new3(CvPoint2D32f* data, size_t dataLength)
+CVAPI(vector<cv::Point2f>*) vector_Point2f_new3(cv::Point2f* data, size_t dataLength)
 {
-	vector<cv::Point2f>* vec = new vector<cv::Point2f>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Point2f>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Point2f_getSize(vector<cv::Point2f>* vector)
 {
@@ -356,14 +348,9 @@ CVAPI(vector<cv::Point3f>*) vector_Point3f_new2(size_t size)
 {
 	return new vector<cv::Point3f>(size);
 }
-CVAPI(vector<cv::Point3f>*) vector_Point3f_new3(CvPoint3D32f* data, size_t dataLength)
+CVAPI(vector<cv::Point3f>*) vector_Point3f_new3(cv::Point3f* data, size_t dataLength)
 {
-	vector<cv::Point3f>* vec = new vector<cv::Point3f>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Point3f>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Point3f_getSize(vector<cv::Point3f>* vector)
 {
@@ -388,14 +375,9 @@ CVAPI(vector<cv::Rect>*) vector_Rect_new2(size_t size)
 {
 	return new vector<cv::Rect>(size);
 }
-CVAPI(vector<cv::Rect>*) vector_Rect_new3(CvRect* data, size_t dataLength)
+CVAPI(vector<cv::Rect>*) vector_Rect_new3(cv::Rect* data, size_t dataLength)
 {
-	vector<cv::Rect>* vec = new vector<cv::Rect>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::Rect>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Rect_getSize(vector<cv::Rect>* vector)
 {
@@ -424,12 +406,7 @@ CVAPI(vector<cv::KeyPoint>*) vector_KeyPoint_new2(size_t size)
 }
 CVAPI(vector<cv::KeyPoint>*) vector_KeyPoint_new3(cv::KeyPoint *data, size_t dataLength)
 {
-	vector<cv::KeyPoint>* vec = new vector<cv::KeyPoint>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::KeyPoint>(data, data + dataLength);
 }
 CVAPI(size_t) vector_KeyPoint_getSize(vector<cv::KeyPoint>* vector)
 {
@@ -457,12 +434,7 @@ CVAPI(vector<cv::DMatch>*) vector_DMatch_new2(size_t size)
 }
 CVAPI(vector<cv::DMatch>*) vector_DMatch_new3(cv::DMatch *data, size_t dataLength)
 {
-	vector<cv::DMatch>* vec = new vector<cv::DMatch>(dataLength);
-	for (size_t i = 0; i<dataLength; i++)
-	{
-		vec->push_back(data[i]);
-	}
-	return vec;
+	return new vector<cv::DMatch>(data, data + dataLength);
 }
 CVAPI(size_t) vector_DMatch_getSize(vector<cv::DMatch>* vector)
 {
@@ -718,6 +690,33 @@ CVAPI(void) vector_vector_Point2f_delete(vector<vector<cv::Point2f> >* vec)
 }
 #pragma endregion
 
+#pragma region std::string
+CVAPI(vector<string>*) vector_string_new1()
+{
+	return new vector<string>;
+}
+CVAPI(vector<string>*) vector_string_new2(size_t size)
+{
+	return new vector<string>(size);
+}
+CVAPI(size_t) vector_string_getSize(vector<string> *vec)
+{
+	return vec->size();
+}
+CVAPI(string*) vector_string_getPointer(vector<string> *vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(const char*) vector_string_elemAt(vector<string> *vector, int i)
+{
+	return vector->at(i).c_str();
+}
+CVAPI(void) vector_string_delete(vector<string> *vector)
+{	
+	delete vector;
+}
+#pragma endregion
+
 #pragma region cv::Mat
 CVAPI(vector<cv::Mat>*) vector_Mat_new1()
 {
@@ -759,7 +758,7 @@ CVAPI(void) vector_Mat_addref(vector<cv::Mat>* vector)
 	}
 }
 CVAPI(void) vector_Mat_delete(vector<cv::Mat>* vector)
-{	
+{
 	//vector->~vector();
 	delete vector;
 }

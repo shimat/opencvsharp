@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using OpenCvSharp;
 
 namespace OpenCvSharp.UserInterface
 {
@@ -226,11 +223,11 @@ namespace OpenCvSharp.UserInterface
 #endif
         public TrackbarWithLabel CreateTrackbar(string name, int value, int count, CvTrackbarCallback onChange)
         {
-            TrackbarWithLabel t = new TrackbarWithLabel(name, value, count, 0);
+            var t = new TrackbarWithLabel(name, value, count, 0);
             t.Dock = DockStyle.Top;
-            t.Trackbar.ValueChanged += delegate(object _o, EventArgs _e)
+            t.Trackbar.ValueChanged += (o, e) =>
             {
-                int pos = ((TrackBar)_o).Value;
+                int pos = ((TrackBar)o).Value;
                 onChange(pos);
             };
             SetClientSize(new CvSize(ClientSize.Width, ClientSize.Height + t.Height));
@@ -320,7 +317,7 @@ namespace OpenCvSharp.UserInterface
             {
                 return;
             }
-            List<CvWindowEx> windows = new List<CvWindowEx>();
+            var windows = new List<CvWindowEx>();
             foreach (IplImage img in images)
             {
                 windows.Add(new CvWindowEx(img));

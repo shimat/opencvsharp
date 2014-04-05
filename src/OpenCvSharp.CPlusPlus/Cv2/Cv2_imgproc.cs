@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
+
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -475,7 +474,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("a");
             if(a.GetLength(0) != 2 || a.GetLength(1) != 2)
                 throw new ArgumentException("Dimension of 'a' != 2");
-            float[,] e = new float[2,2];
+            var e = new float[2, 2];
             NativeMethods.imgproc_eigen2x2(a, e, n);
             return e;
         }
@@ -542,10 +541,10 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("inputCorners");
             image.ThrowIfDisposed();
 
-            Point2f[] inputCornersSrc = Util.ToArray(inputCorners);
-            Point2f[] inputCornersCopy = new Point2f[inputCornersSrc.Length];
+            var inputCornersSrc = Util.ToArray(inputCorners);
+            var inputCornersCopy = new Point2f[inputCornersSrc.Length];
             Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
-            using (VectorOfPoint2f vector = new VectorOfPoint2f(inputCornersCopy))
+            using (var vector = new VectorOfPoint2f(inputCornersCopy))
             {
                 NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria);
                 return vector.ToArray();
@@ -572,7 +571,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
 
-            using (VectorOfPoint2f vector = new VectorOfPoint2f())
+            using (var vector = new VectorOfPoint2f())
             {
                 IntPtr maskPtr = ToPtr(mask);
                 NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
@@ -613,7 +612,7 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
 
-            using (VectorOfVec2f vec = new VectorOfVec2f())
+            using (var vec = new VectorOfVec2f())
             {
                 NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
                 return vec.ToArray<CvLineSegmentPolar>();
@@ -650,7 +649,7 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            using (VectorOfVec4i vec = new VectorOfVec4i())
+            using (var vec = new VectorOfVec4i())
             {
                 NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
                 return vec.ToArray<CvLineSegmentPoint>();
@@ -691,7 +690,7 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            using (VectorOfVec3f vec = new VectorOfVec3f())
+            using (var vec = new VectorOfVec3f())
             {
                 NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
                 return vec.ToArray<CvCircleSegment>();
@@ -1609,11 +1608,8 @@ namespace OpenCvSharp.CPlusPlus
             hist.ThrowIfNotReady();
 
             IntPtr[] imagesPtr = EnumerableEx.SelectPtrs(images);
-            float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, delegate(Rangef r)
-            {
-                return new float[2]{r.Start, r.End};
-            });
-            using (ArrayAddress2<float> rangesPtr = new ArrayAddress2<float>(rangesFloat))
+            float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, r => new float[2] {r.Start, r.End});
+            using (var rangesPtr = new ArrayAddress2<float>(rangesFloat))
             {
                 NativeMethods.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr, 
                     dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0);
@@ -1649,11 +1645,8 @@ namespace OpenCvSharp.CPlusPlus
             backProject.ThrowIfNotReady();
 
             IntPtr[] imagesPtr = EnumerableEx.SelectPtrs(images);
-            float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, delegate(Rangef r)
-            {
-                return new float[2] { r.Start, r.End };
-            });
-            using (ArrayAddress2<float> rangesPtr = new ArrayAddress2<float>(rangesFloat))
+            float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, r => new float[2] {r.Start, r.End});
+            using (var rangesPtr = new ArrayAddress2<float>(rangesFloat))
             {
                 NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
                     backProject.CvPtr, rangesPtr, uniform ? 1 : 0);
@@ -1706,6 +1699,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="signature2"></param>
         /// <param name="distType"></param>
         /// <returns></returns>
+
         public static float EMD(InputArray signature1, InputArray signature2, DistanceType distType)
         {
             float lowerBound;
@@ -2122,8 +2116,8 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr contoursPtr, hierarchyPtr;
             NativeMethods.imgproc_findContours1_vector(image.CvPtr, out contoursPtr, out hierarchyPtr, (int)mode, (int)method, offset0);
 
-            using (VectorOfVectorPoint contoursVec = new VectorOfVectorPoint(contoursPtr))
-            using (VectorOfVec4i hierarchyVec = new VectorOfVec4i(hierarchyPtr))
+            using (var contoursVec = new VectorOfVectorPoint(contoursPtr))
+            using (var hierarchyVec = new VectorOfVec4i(hierarchyPtr))
             {
                 contours = contoursVec.ToArray();
                 Vec4i[] hierarchyOrg = hierarchyVec.ToArray();
@@ -2177,7 +2171,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr contoursPtr;
             NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, out contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
 
-            using (VectorOfMat contoursVec = new VectorOfMat(contoursPtr))
+            using (var contoursVec = new VectorOfMat(contoursPtr))
             {
                 contours = contoursVec.ToArray();
             }
@@ -2322,11 +2316,8 @@ namespace OpenCvSharp.CPlusPlus
 
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             Point[][] contoursArray = EnumerableEx.SelectToArray(contours, EnumerableEx.ToArray);
-            int[] contourSize2 = EnumerableEx.SelectToArray(contoursArray, delegate(Point[] pts)
-            {
-                return pts.Length;
-            });
-            using (ArrayAddress2<Point> contoursPtr = new ArrayAddress2<Point>(contoursArray))
+            int[] contourSize2 = EnumerableEx.SelectToArray(contoursArray, pts => pts.Length);
+            using (var contoursPtr = new ArrayAddress2<Point>(contoursArray))
             {
                 if (hierarchy == null)
                 {
@@ -2335,10 +2326,7 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 else
                 {
-                    Vec4i[] hiearchyVecs = EnumerableEx.SelectToArray(hierarchy, delegate(HiearchyIndex hi)
-                    {
-                        return hi.ToVec4i();
-                    });
+                    Vec4i[] hiearchyVecs = EnumerableEx.SelectToArray(hierarchy, hi => hi.ToVec4i());
                     NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int)lineType, hiearchyVecs, hiearchyVecs.Length, maxLevel, offset0);
                 }
@@ -2734,7 +2722,7 @@ namespace OpenCvSharp.CPlusPlus
             Point[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
             NativeMethods.imgproc_convexHull_Point_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
-            using (VectorOfPoint hullVec = new VectorOfPoint(hullPtr))
+            using (var hullVec = new VectorOfPoint(hullPtr))
             {
                 return hullVec.ToArray();
             }
@@ -2753,7 +2741,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr hullPtr;
             NativeMethods.imgproc_convexHull_Point2f_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr,
                 clockwise ? 1 : 0);
-            using (VectorOfPoint2f hullVec = new VectorOfPoint2f(hullPtr))
+            using (var hullVec = new VectorOfPoint2f(hullPtr))
             {
                 return hullVec.ToArray();
             }
@@ -2771,7 +2759,7 @@ namespace OpenCvSharp.CPlusPlus
             Point[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
             NativeMethods.imgproc_convexHull_Point_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
-            using (VectorOfInt32 hullVec = new VectorOfInt32(hullPtr))
+            using (var hullVec = new VectorOfInt32(hullPtr))
             {
                 return hullVec.ToArray();
             }
@@ -2789,7 +2777,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             IntPtr hullPtr;
             NativeMethods.imgproc_convexHull_Point2f_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
-            using (VectorOfInt32 hullVec = new VectorOfInt32(hullPtr))
+            using (var hullVec = new VectorOfInt32(hullPtr))
             {
                 return hullVec.ToArray();
             }

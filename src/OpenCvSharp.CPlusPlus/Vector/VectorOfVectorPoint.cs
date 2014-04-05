@@ -103,7 +103,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_vector_KeyPoint_getPointer(ptr); }
+            get { return NativeMethods.vector_vector_Point_getPointer(ptr); }
         }
         #endregion
 

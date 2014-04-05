@@ -6,7 +6,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    internal class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
+    internal class VectorOfString : DisposableCvObject, IStdVector<string>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -17,15 +17,15 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public VectorOfVectorPoint2f()
+        public VectorOfString()
         {
-            ptr = NativeMethods.vector_vector_Point2f_new1();
+            ptr = NativeMethods.vector_string_new1();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ptr"></param>
-        public VectorOfVectorPoint2f(IntPtr ptr)
+        public VectorOfString(IntPtr ptr)
         {
             this.ptr = ptr;
         }
@@ -33,11 +33,11 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfVectorPoint2f(int size)
+        public VectorOfString(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = NativeMethods.vector_vector_Point2f_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_string_new2(new IntPtr(size));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.vector_vector_Point2f_delete(ptr);
+                        NativeMethods.vector_string_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -71,37 +71,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// vector.size()
         /// </summary>
-        public int Size1
+        public int Size
         {
-            get { return NativeMethods.vector_vector_Point2f_getSize1(ptr).ToInt32(); }
+            get { return NativeMethods.vector_string_getSize(ptr).ToInt32(); }
         }
-        public int Size { get { return Size1; } }
-        /// <summary>
-        /// vector.size()
-        /// </summary>
-        public long[] Size2
-        {
-            get
-            {
-                int size1 = Size1;
-                var size2Org = new IntPtr[size1];
-                NativeMethods.vector_vector_Point2f_getSize2(ptr, size2Org);
-                var size2 = new long[size1];
-                for (int i = 0; i < size1; i++)
-                {
-                    size2[i] = size2Org[i].ToInt64();
-                }
-                return size2;
-            }
-        }
-        
 
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_vector_Point2f_getPointer(ptr); }
+            get { return NativeMethods.vector_string_getPointer(ptr); }
         }
         #endregion
 
@@ -110,21 +90,20 @@ namespace OpenCvSharp.CPlusPlus
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Point2f[][] ToArray()
+        public string[] ToArray()
         {
-            int size1 = Size1;
-            if (size1 == 0)
-                return new Point2f[0][];
-            long[] size2 = Size2;
+            int size = Size;
+            if (size == 0)
+                return new string[0];
 
-            var ret = new Point2f[size1][];
-            for (int i = 0; i < size1; i++)
+            var ret = new string[size];
+            for (int i = 0; i < size; i++)
             {
-                ret[i] = new Point2f[size2[i]];
-            }
-            using (var retPtr = new ArrayAddress2<Point2f>(ret))
-            {
-                NativeMethods.vector_vector_Point2f_copy(ptr, retPtr);
+                unsafe
+                {
+                    sbyte* p = NativeMethods.vector_string_elemAt(ptr, i);
+                    ret[i] = new string(p);
+                }
             }
             return ret;
         }

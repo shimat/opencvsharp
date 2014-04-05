@@ -1711,7 +1711,6 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.objdetect_HOGDescriptor_getWinSigma(ptr);
         }
 
-        #region Compute
         /// <summary>
         /// 
         /// </summary>
@@ -1736,8 +1735,8 @@ namespace OpenCvSharp.CPlusPlus
                 return flVec.ToArray();
             }
         }
-        #endregion
-        #region Detect
+
+
         /// <summary>
         /// Performs object detection without a multi-scale window.
         /// </summary>
@@ -1760,7 +1759,7 @@ namespace OpenCvSharp.CPlusPlus
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
             Size padding0 = padding.GetValueOrDefault(new Size());
-            using (VectorOfPoint flVec = new VectorOfPoint())
+            using (var flVec = new VectorOfPoint())
             {
                 int slLength = (searchLocations != null) ? searchLocations.Length : 0;
                 NativeMethods.objdetect_HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, 
@@ -1792,8 +1791,8 @@ namespace OpenCvSharp.CPlusPlus
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
             Size padding0 = padding.GetValueOrDefault(new Size());
-            using (VectorOfPoint flVec = new VectorOfPoint())
-            using (VectorOfDouble weightsVec = new VectorOfDouble())
+            using (var flVec = new VectorOfPoint())
+            using (var weightsVec = new VectorOfDouble())
             {
                 int slLength = (searchLocations != null) ? searchLocations.Length : 0;
                 NativeMethods.objdetect_HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, weightsVec.CvPtr,
@@ -1802,8 +1801,8 @@ namespace OpenCvSharp.CPlusPlus
                 return flVec.ToArray();
             }
         }
-        #endregion
-        #region DetectMultiScale
+
+
         /// <summary>
         /// Performs object detection with a multi-scale window.
         /// </summary>
@@ -1866,8 +1865,8 @@ namespace OpenCvSharp.CPlusPlus
                 return flVec.ToArray();
             }
         }
-        #endregion
-        #region ComputeGradient
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -1876,7 +1875,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="angleOfs"></param>
         /// <param name="paddingTL"></param>
         /// <param name="paddingBR"></param>
-
         public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, Size? paddingTL = null, Size? paddingBR = null)
         {
             if (disposed)
@@ -1895,7 +1893,6 @@ namespace OpenCvSharp.CPlusPlus
             Size paddingBR0 = paddingBR.GetValueOrDefault(new Size());
             NativeMethods.objdetect_HOGDescriptor_computeGradient(ptr, img.CvPtr, grad.CvPtr, angleOfs.CvPtr, paddingTL0, paddingBR0);
         }
-        #endregion
 
 
         /// <summary>

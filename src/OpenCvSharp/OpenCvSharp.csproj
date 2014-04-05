@@ -282,6 +282,7 @@
     <Compile Include="Src\Struct\CvFaceData.cs" />
     <Compile Include="Src\Struct\CvLSVMFilterPosition.cs" />
     <Compile Include="Src\Struct\CvObjectDetection.cs" />
+    <Compile Include="Src\Utilities\StringArrayAddress.cs" />
     <Compile Include="Src\Utilities\ArrayAddress.cs" />
     <Compile Include="Src\Class\CvConnectedComp.cs" />
     <Compile Include="Src\Class\CvContourScanner.cs" />
