@@ -96,6 +96,33 @@ CVAPI(void) vector_float_delete(vector<float>* vector)
 }
 #pragma endregion
 
+#pragma region double
+CVAPI(vector<double>*) vector_double_new1()
+{
+	return new vector<double>;
+}
+CVAPI(vector<double>*) vector_double_new2(size_t size)
+{
+	return new vector<double>(size);
+}
+CVAPI(vector<double>*) vector_double_new3(float* data, size_t dataLength)
+{
+	return new vector<double>(data, data + dataLength);
+}
+CVAPI(size_t) vector_double_getSize(vector<double>* vector)
+{
+	return vector->size();
+}
+CVAPI(double*) vector_double_getPointer(vector<double>* vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_double_delete(vector<double>* vector)
+{
+	delete vector;
+}
+#pragma endregion
+
 #pragma region cv::Vec2f
 CVAPI(vector<cv::Vec2f>*) vector_Vec2f_new1()
 {
@@ -486,6 +513,46 @@ CVAPI(void) vector_vector_float_copy(vector<vector<float> > *vec, float **dst)
 	}
 }
 CVAPI(void) vector_vector_float_delete(vector<vector<float> >* vec)
+{
+	delete vec;
+}
+#pragma endregion
+
+#pragma region vector<double>
+CVAPI(vector<vector<double> >*) vector_vector_double_new1()
+{
+	return new vector<vector<double> >;
+}
+CVAPI(vector<vector<double> >*) vector_vector_double_new2(size_t size)
+{
+	return new vector<vector<double> >(size);
+}
+CVAPI(size_t) vector_vector_double_getSize1(vector<vector<double> >* vec)
+{
+	return vec->size();
+}
+CVAPI(void) vector_vector_double_getSize2(vector<vector<double> >* vec, size_t *sizes)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		sizes[i] = vec->at(i).size();
+	}
+}
+CVAPI(vector<double>*) vector_vector_double_getPointer(vector<vector<double> >* vec)
+{
+	return &(vec->at(0));
+}
+CVAPI(void) vector_vector_double_copy(vector<vector<double> > *vec, double **dst)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		vector<double> &elem = vec->at(i);
+		void *src = &elem[0];
+		size_t length = sizeof(double) * elem.size();
+		memcpy(dst[i], src, length);
+	}
+}
+CVAPI(void) vector_vector_double_delete(vector<vector<double> >* vec)
 {
 	delete vec;
 }
