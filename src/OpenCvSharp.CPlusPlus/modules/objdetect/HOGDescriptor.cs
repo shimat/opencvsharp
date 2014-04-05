@@ -1633,7 +1633,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 線形SVM分類器に，係数をセットします．
         /// </summary>
-        /// <param name="svmdetector"></param>
+        /// <param name="svmDetector"></param>
 #else
         /// <summary>
         /// 

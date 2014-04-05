@@ -38,7 +38,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
-            if (File.Exists(fileName))
+            if (!File.Exists(fileName))
                 throw new FileNotFoundException("\""+ fileName + "\"not found", fileName);
             ptr = NativeMethods.objdetect_CascadeClassifier_newFromFile(fileName);  
         }
@@ -107,6 +107,10 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("CascadeClassifier");
+            if (String.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException("\"" + fileName + "\"not found", fileName);
             return NativeMethods.objdetect_CascadeClassifier_load(ptr, fileName) != 0;
         }
 
