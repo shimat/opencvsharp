@@ -6,37 +6,26 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+
+#pragma warning disable 1591
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp.Utilities
 {
-#if LANG_JP
-    /// <summary>
-    /// 1次元配列のアドレスを得るためのクラス
-    /// </summary>
-#else
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-#endif
     public class ArrayAddress1<T> : DisposableObject
     {
-        private Array array;
-        private GCHandle gch;
+        protected Array array;
+        protected GCHandle gch;
         private bool disposed;
-
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="array"></param>
-#else
+        
         /// <summary>
         /// 
         /// </summary>
         /// <param name="array"></param>
-#endif
         public ArrayAddress1(T[] array)
         {
             if (array == null)
@@ -44,17 +33,11 @@ namespace OpenCvSharp.Utilities
             this.array = array;
             this.gch = GCHandle.Alloc(array, GCHandleType.Pinned);
         }
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="array"></param>
-#else
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="array"></param>
-#endif
         public ArrayAddress1(T[,] array)
         {
             if (array == null)
@@ -63,15 +46,9 @@ namespace OpenCvSharp.Utilities
             this.gch = GCHandle.Alloc(array, GCHandleType.Pinned);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-#else
         /// <summary>
         /// 
         /// </summary>
-#endif
         protected override void Dispose(bool disposing)
         {
             if (!disposed)
@@ -85,33 +62,19 @@ namespace OpenCvSharp.Utilities
             }
         }
 
-#if LANG_JP
-        /// <summary>
-        /// ポインタを得る
-        /// </summary>
-        /// <returns></returns>
-#else
         /// <summary>
         /// 
         /// </summary>
-#endif
         public IntPtr Pointer
         {
             get { return gch.AddrOfPinnedObject(); }
         }
-#if LANG_JP
-        /// <summary>
-        /// ポインタへの暗黙のキャスト
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-#else
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-#endif
         public static implicit operator IntPtr(ArrayAddress1<T> self)
         {
             return self.Pointer;
@@ -119,35 +82,28 @@ namespace OpenCvSharp.Utilities
     }
 
 
-#if LANG_JP
-    /// <summary>
-    /// 2次元ジャグ配列のアドレスを得るためのクラス
-    /// </summary>
-#else
     /// <summary>
     /// Class to get address of specified jagged array 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-#endif
     public class ArrayAddress2<T> : DisposableObject
         where T : struct 
     {
         private bool disposed;
-        private T[][] array;
-        private GCHandle[] gch;
-        private IntPtr[] ptr;
+        protected T[][] array;
+        protected GCHandle[] gch;
+        protected IntPtr[] ptr;
 
-#if LANG_JP
         /// <summary>
-        /// 初期化
+        /// 
         /// </summary>
-        /// <param name="array">T[][]</param>
-#else
+        public ArrayAddress2()
+        {
+        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="array"></param>
-#endif
         public ArrayAddress2(T[][] array)
         {
             Initialize(array);
@@ -161,7 +117,7 @@ namespace OpenCvSharp.Utilities
             if (enumerable == null)
                 throw new ArgumentNullException("enumerable");
 
-            List<T[]> list = new List<T[]>();
+            var list = new List<T[]>();
             foreach (IEnumerable<T> e in enumerable)
             {
                 if(e == null)
@@ -172,11 +128,11 @@ namespace OpenCvSharp.Utilities
             Initialize(list.ToArray());
         }
 
-        private void Initialize(T[][] target)
+        protected void Initialize(T[][] target)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            this.array = target;
+            array = target;
 
             // T[][]をIntPtr[]に変換する
             ptr = new IntPtr[array.Length];
@@ -194,15 +150,9 @@ namespace OpenCvSharp.Utilities
             }
         }
 
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-#else
         /// <summary>
         /// 
         /// </summary>
-#endif
         protected override void Dispose(bool disposing)
         {
             if (!disposed)
@@ -266,7 +216,7 @@ namespace OpenCvSharp.Utilities
         {
             get
             {
-                List<int> lengths = new List<int>(array.Length);
+                var lengths = new List<int>(array.Length);
                 for (int i = 0; i < array.Length; i++)
                 {
                     lengths[i] = array[i].Length;
