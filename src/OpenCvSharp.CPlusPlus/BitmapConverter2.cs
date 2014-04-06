@@ -379,7 +379,7 @@ namespace OpenCvSharp.CPlusPlus
                     case PixelFormat.Format32bppArgb:
                         if (sstep == dstep)
                         {
-                            uint imageSize = (uint)(src.DataEnd.ToInt64() - src.DataEnd.ToInt64());
+                            uint imageSize = (uint)(src.DataEnd.ToInt64() - src.DataStart.ToInt64());
                             Util.CopyMemory(pdst, psrc, imageSize);
                         }
                         else
