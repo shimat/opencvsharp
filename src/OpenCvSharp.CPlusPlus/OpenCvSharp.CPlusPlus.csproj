@@ -156,6 +156,12 @@
     <Compile Include="modules\objdetect\CascadeClassifier.cs" />
     <Compile Include="modules\objdetect\SimilarRects.cs" />
     <Compile Include="modules\objdetect\LatendSvmDetector.cs" />
+    <Compile Include="modules\superres\FrameSource.cs" />
+    <Compile Include="modules\superres\PtrOfFrameSource.cs" />
+    <Compile Include="modules\superres\SuperResolution.cs" />
+    <Compile Include="modules\superres\PtrOfSuperResolution.cs" />
+    <Compile Include="modules\superres\SuperResolutionImpl.cs" />
+    <Compile Include="modules\superres\FrameSourceImpl.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Algorithm.cs" />
     <Compile Include="PInvoke\NativeMethods_core_SparseMat.cs" />
     <Compile Include="PInvoke\NativeMethods_core_RNG.cs" />
@@ -358,6 +364,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

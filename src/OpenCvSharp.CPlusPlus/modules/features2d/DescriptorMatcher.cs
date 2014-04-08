@@ -55,7 +55,7 @@ namespace OpenCvSharp.CPlusPlus
         internal static DescriptorMatcher FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+                throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
             var detector = new DescriptorMatcher();
             var ptrObj = new PtrOfDescriptorMatcher(ptr);
             detector.detectorPtr = ptrObj;
@@ -69,7 +69,7 @@ namespace OpenCvSharp.CPlusPlus
         internal static DescriptorMatcher FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+                throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
             var detector = new DescriptorMatcher
             {
                 detectorPtr = null,

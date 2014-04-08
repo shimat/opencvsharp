@@ -17,6 +17,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void superres_FrameSource_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void superres_FrameSource_nextFrame(IntPtr obj, IntPtr frame);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void superres_FrameSource_reset(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr superres_createFrameSource_Empty();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern IntPtr superres_createFrameSource_Video(
@@ -47,6 +52,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr superres_createSuperResolution_BTVL1_GPU();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr superres_createSuperResolution_BTVL1_OCL();
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_Ptr_SuperResolution_obj(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void superres_Ptr_SuperResolution_delete(IntPtr ptr);
 
     }
 }
