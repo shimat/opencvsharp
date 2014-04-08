@@ -12,11 +12,11 @@ CVAPI(cv::Algorithm*) core_Algorithm_new()
 {
 	return new cv::Algorithm();
 }
-CVAPI(void) core_Algorithm_delete(cv::Algorithm* obj)
+CVAPI(void) core_Algorithm_delete(cv::Algorithm *obj)
 {
 	delete obj;
 }
-CVAPI(void) core_Algorithm_name(cv::Algorithm* obj, char* buf)
+CVAPI(void) core_Algorithm_name(cv::Algorithm *obj, char *buf)
 {
 	strcpy(buf, obj->name().c_str());
 }
@@ -25,65 +25,65 @@ CVAPI(int) core_Algorithm_sizeof()
 	return sizeof(cv::Algorithm);
 }
 
-CVAPI(int) core_Algorithm_getInt(cv::Algorithm* obj, const char* name)
+CVAPI(int) core_Algorithm_getInt(cv::Algorithm *obj, const char *name)
 {
 	return obj->getInt(name);
 }
-CVAPI(double) core_Algorithm_getDouble(cv::Algorithm* obj, const char* name)
+CVAPI(double) core_Algorithm_getDouble(cv::Algorithm *obj, const char *name)
 {
 	return obj->getDouble(name);
 }
-CVAPI(bool) core_Algorithm_getBool(cv::Algorithm* obj, const char* name)
+CVAPI(bool) core_Algorithm_getBool(cv::Algorithm *obj, const char *name)
 {
 	return obj->getBool(name);
 }
-CVAPI(void) core_Algorithm_getString(cv::Algorithm* obj, const char* name, char* buf) 
+CVAPI(void) core_Algorithm_getString(cv::Algorithm *obj, const char *name, char *buf) 
 {
 	std::string str = obj->getString(name);
 	strcpy(buf, str.c_str());
 }
-CVAPI(void) core_Algorithm_getMat(cv::Algorithm* obj, const char* name, cv::Mat* outMat) 
+CVAPI(void) core_Algorithm_getMat(cv::Algorithm *obj, const char *name, cv::Mat *outMat) 
 {
 	cv::Mat mat = obj->getMat(name);
 	outMat = new cv::Mat(mat);
 }
-CVAPI(void) core_Algorithm_getMatVector(cv::Algorithm* obj, const char* name, std::vector<cv::Mat>* outVec)
+CVAPI(void) core_Algorithm_getMatVector(cv::Algorithm *obj, const char *name, std::vector<cv::Mat> *outVec)
 {
 	std::vector<cv::Mat> vec = obj->getMatVector(name);
 	outVec = new std::vector<cv::Mat>(vec.size());
 	std::copy(vec.begin(), vec.end(), std::back_inserter(*outVec));
 }
-CVAPI(cv::Algorithm*) core_Algorithm_getAlgorithm(cv::Algorithm* obj, const char* name)
+CVAPI(cv::Algorithm*) core_Algorithm_getAlgorithm(cv::Algorithm *obj, const char *name)
 {
 	return obj->getAlgorithm(name);
 }
 
-CVAPI(void) core_Algorithm_setInt(cv::Algorithm* obj, const char* name, int value)
+CVAPI(void) core_Algorithm_setInt(cv::Algorithm *obj, const char *name, int value)
 {
 	obj->set(name, value);
 }
-CVAPI(void) core_Algorithm_setDouble(cv::Algorithm* obj, const char* name, double value)
+CVAPI(void) core_Algorithm_setDouble(cv::Algorithm *obj, const char *name, double value)
 {
 	obj->set(name, value);
 }
-CVAPI(void) core_Algorithm_setBool(cv::Algorithm* obj, const char* name, bool value)
+CVAPI(void) core_Algorithm_setBool(cv::Algorithm *obj, const char *name, bool value)
 {
 	obj->set(name, value);
 }
-CVAPI(void) core_Algorithm_setString(cv::Algorithm* obj, const char* name, const char* value)
+CVAPI(void) core_Algorithm_setString(cv::Algorithm *obj, const char *name, const char *value)
 {
 	std::string str(value);
 	obj->set(name, str);
 }
-CVAPI(void) core_Algorithm_setMat(cv::Algorithm* obj, const char* name, const cv::Mat* value)
+CVAPI(void) core_Algorithm_setMat(cv::Algorithm *obj, const char *name, const cv::Mat *value)
 {
 	obj->set(name, *value);
 }
-CVAPI(void) core_Algorithm_setMatVector(cv::Algorithm* obj, const char* name, const std::vector<cv::Mat>* value)
+CVAPI(void) core_Algorithm_setMatVector(cv::Algorithm *obj, const char *name, const std::vector<cv::Mat> *value)
 {
 	obj->set(name, *value);
 }
-CVAPI(void) core_Algorithm_setAlgorithm(cv::Algorithm* obj, const char* name, const cv::Algorithm* value)
+CVAPI(void) core_Algorithm_setAlgorithm(cv::Algorithm *obj, const char *name, const cv::Algorithm *value)
 {
 	obj->set(name, value);
 }

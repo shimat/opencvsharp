@@ -9,6 +9,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/legacy/legacy.hpp>
 #include <opencv2/nonfree/nonfree.hpp>
+#include <opencv2/superres/superres.hpp>
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
@@ -25,7 +26,7 @@ typedef unsigned short uint16;
 
 #ifdef _WIN32
 #include <Windows.h>
-static int p(const char* msg)
+static int p(const char *msg)
 {
 	return MessageBoxA(NULL, msg, "MessageBox", MB_OK);
 }

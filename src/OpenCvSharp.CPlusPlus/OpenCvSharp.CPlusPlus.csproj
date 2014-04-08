@@ -152,6 +152,7 @@
     <Compile Include="Enum\DistanceMaskSize.cs" />
     <Compile Include="modules\core\SparseMatIndexer.cs" />
     <Compile Include="modules\core\SparseMat.cs" />
+    <Compile Include="modules\features2d\PtrOfDescriptorMatcher.cs" />
     <Compile Include="modules\objdetect\CascadeClassifier.cs" />
     <Compile Include="modules\objdetect\SimilarRects.cs" />
     <Compile Include="modules\objdetect\LatendSvmDetector.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="modules\imgproc\HierarchyIndex.cs" />
     <Compile Include="modules\imgproc\Moments.cs" />
     <Compile Include="modules\nonfree\SIFT.cs" />
+    <Compile Include="PInvoke\NativeMethods_superres.cs" />
     <Compile Include="Struct\DMatch.cs" />
     <Compile Include="Struct\Point3d.cs" />
     <Compile Include="Struct\Point3i.cs" />
@@ -222,7 +224,7 @@
     <Compile Include="Vector\VectorOfVectorPoint.cs" />
     <Compile Include="Vector\VectorOfString.cs" />
     <Compile Include="Window.cs" />
-    <Compile Include="PInvoke\NativeMethods_core_Ptr.cs" />
+    <Compile Include="PInvoke\NativeMethods_Ptr.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d.cs" />
     <Compile Include="PInvoke\NativeMethods_imgproc_Subdiv2D.cs" />
     <Compile Include="PInvoke\NativeMethods_nonfree.cs" />

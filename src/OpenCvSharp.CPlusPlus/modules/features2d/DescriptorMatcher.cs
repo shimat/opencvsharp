@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -14,7 +13,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        protected IntPtr detectorPtr;
+        private PtrOfDescriptorMatcher detectorPtr;
 
         #region Init & Disposal
         /// <summary>
@@ -22,19 +21,8 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         protected DescriptorMatcher()
         {
-            detectorPtr = IntPtr.Zero;
+            detectorPtr = null;
             ptr = IntPtr.Zero;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        protected DescriptorMatcher(IntPtr p)
-        {
-            detectorPtr = p;
-            ptr = NativeMethods.core_Ptr_DescriptorMatcher_obj(p);
-            if(ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
         }
 
         /// <summary>
@@ -46,17 +34,50 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(descriptorMatcherType))
                 throw new ArgumentNullException("descriptorMatcherType");
-            IntPtr ptr = NativeMethods.features2d_FeatureDetector_create(descriptorMatcherType);
+            IntPtr ptr;
             try
             {
-                DescriptorMatcher detector = new DescriptorMatcher(ptr);
-                return detector;
+                ptr = NativeMethods.features2d_FeatureDetector_create(descriptorMatcherType);
             }
             catch (OpenCvSharpException)
             {
-                throw new OpenCvSharpException("matcher name '{0}' is not valid.", descriptorMatcherType);
+                throw new OpenCvSharpException(
+                    "matcher name '{0}' is not valid.", descriptorMatcherType);
             }
+            return FromPtr(ptr);
         }
+
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static DescriptorMatcher FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+            var detector = new DescriptorMatcher();
+            var ptrObj = new PtrOfDescriptorMatcher(ptr);
+            detector.detectorPtr = ptrObj;
+            detector.ptr = ptrObj.ObjPointer;
+            return detector;
+        }
+        /// <summary>
+        /// Creates instance from raw pointer T*
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static DescriptorMatcher FromRawPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
+            var detector = new DescriptorMatcher
+            {
+                detectorPtr = null,
+                ptr = ptr
+            };
+            return detector;
+        }
+
 
 #if LANG_JP
     /// <summary>
@@ -88,9 +109,9 @@ namespace OpenCvSharp.CPlusPlus
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (detectorPtr != IntPtr.Zero)
-                            NativeMethods.core_Ptr_FeatureDetector_delete(detectorPtr);
-                        detectorPtr = IntPtr.Zero;
+                        if (detectorPtr != null)
+                            detectorPtr.Dispose();
+                        detectorPtr = null;
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;

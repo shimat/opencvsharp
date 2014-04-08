@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
     /// Template class for smart reference-counting pointers
     /// </summary>
-    internal class PtrOfFeature2D : Ptr<Feature2D>
+    internal class PtrOfDescriptorMatcher : Ptr<DescriptorMatcher>
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="ptr"></param>
-        public PtrOfFeature2D(IntPtr ptr)
+        public PtrOfDescriptorMatcher(IntPtr ptr)
             : base(ptr)
         {
         }
@@ -24,7 +22,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="self"></param>
         protected override void Release(IntPtr self)
         {
-            NativeMethods.features2d_Ptr_Feature2D_delete(self);
+            NativeMethods.features2d_Ptr_DescriptorMatcher_delete(self);
         }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         protected override IntPtr GetObjPtr(IntPtr self)
         {
-            return NativeMethods.features2d_Ptr_Feature2D_obj(self);
+            return NativeMethods.features2d_Ptr_DescriptorMatcher_obj(self);
         }
 
         /// <summary>
@@ -42,9 +40,9 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
-        protected override Feature2D ObjPtrToValue(IntPtr ptr)
+        protected override DescriptorMatcher ObjPtrToValue(IntPtr ptr)
         {
-            return Feature2D.FromRawPtr(ptr);
+            return DescriptorMatcher.FromRawPtr(ptr);
         }
     }
 }
