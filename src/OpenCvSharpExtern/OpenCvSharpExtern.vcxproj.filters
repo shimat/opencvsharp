@@ -118,9 +118,6 @@
     <ClCompile Include="core_PCA.cpp">
       <Filter>Sources\cpp\core</Filter>
     </ClCompile>
-    <ClCompile Include="core_Ptr.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
     <ClCompile Include="core_SVD.cpp">
       <Filter>Sources\cpp\core</Filter>
     </ClCompile>
@@ -141,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="core_SparseMat.cpp">
       <Filter>Sources\cpp\core</Filter>
+    </ClCompile>
+    <ClCompile Include="superres.cpp">
+      <Filter>Sources\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,12 +246,6 @@
     <ClInclude Include="core_MatExpr.h">
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="core_PCA.h">
-      <Filter>Headers\cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="core_Ptr.h">
-      <Filter>Headers\cpp\core</Filter>
-    </ClInclude>
     <ClInclude Include="core_SVD.h">
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
@@ -271,6 +265,12 @@
       <Filter>Headers\cpp</Filter>
     </ClInclude>
     <ClInclude Include="core_SparseMat.h">
+      <Filter>Headers\cpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="superres.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="core_PCA.h">
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -801,7 +801,7 @@ CVAPI(void) calib3d_validateDisparity(cv::_OutputArray *disparity, cv::_InputArr
 CVAPI(void) calib3d_reprojectImageTo3D(cv::_InputArray *disparity, cv::_OutputArray *_3dImage, 
 	cv::_InputArray *Q, int handleMissingValues, int ddepth)
 {
-	cv::reprojectImageTo3D(*disparity, *_3dImage, *Q, handleMissingValues, ddepth);
+	cv::reprojectImageTo3D(*disparity, *_3dImage, *Q, handleMissingValues != 0, ddepth);
 }
 
 CVAPI(int) calib3d_estimateAffine3D(cv::_InputArray *src, cv::_InputArray *dst,

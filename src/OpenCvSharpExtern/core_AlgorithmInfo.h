@@ -17,7 +17,7 @@ CVAPI(int) core_AlgorithmInfo_paramHelp(cv::AlgorithmInfo *obj, char *name, char
 	memcpy(dst, src, std::min(srcStr.size() + 1, (size_t)dstLength));
 	return (int)srcStr.size();
 }
-CVAPI(int) core_AlgorithmInfo_paramType(cv::AlgorithmInfo *obj, char* name)
+CVAPI(int) core_AlgorithmInfo_paramType(cv::AlgorithmInfo *obj, char *name)
 {
 	return (int)obj->paramType(name);
 }

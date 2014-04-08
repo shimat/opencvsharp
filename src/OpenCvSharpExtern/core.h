@@ -23,10 +23,10 @@ CVAPI(int) core_getThreadNum()
 	return cv::getThreadNum();
 }
 
-CVAPI(void) core_getBuildInformation(char* buf, uint32 maxLength)
+CVAPI(void) core_getBuildInformation(char *buf, uint32 maxLength)
 {
 	const std::string& str = cv::getBuildInformation();
-	const char* srcPtr = str.c_str(); 
+	const char *srcPtr = str.c_str(); 
 	uint32 length = (uint32)std::max<uint64>(str.length() + 1, maxLength);
 	memcpy(buf, srcPtr, length);
 }
@@ -58,7 +58,7 @@ CVAPI(void*) core_fastMalloc(size_t bufSize)
 {
 	return cv::fastMalloc(bufSize);
 }
-CVAPI(void) core_fastFree(void* ptr)
+CVAPI(void) core_fastFree(void *ptr)
 {
 	return cv::fastFree(ptr);
 }
@@ -72,7 +72,7 @@ CVAPI(int) core_useOptimized()
 	return cv::useOptimized() ? 1 : 0;
 }
 
-CVAPI(cv::Mat*) core_cvarrToMat(CvArr* arr, int copyData, int allowND, int coiMode)
+CVAPI(cv::Mat*) core_cvarrToMat(CvArr *arr, int copyData, int allowND, int coiMode)
 {
 	cv::Mat ret = cv::cvarrToMat(arr, copyData != 0, allowND != 0, coiMode);
 	return new cv::Mat(ret);
@@ -81,7 +81,7 @@ CVAPI(void) core_extractImageCOI(CvArr *arr, cv::_OutputArray *coiimg, int coi)
 {
 	cv::extractImageCOI(arr, *coiimg, coi);
 }
-CVAPI(void) core_insertImageCOI(cv::_InputArray *coiimg, CvArr* arr, int coi)
+CVAPI(void) core_insertImageCOI(cv::_InputArray *coiimg, CvArr *arr, int coi)
 {
 	cv::insertImageCOI(*coiimg, arr, coi);
 }
@@ -89,19 +89,19 @@ CVAPI(void) core_insertImageCOI(cv::_InputArray *coiimg, CvArr* arr, int coi)
 
 #pragma region Array Operations
 
-CVAPI(void) core_add(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, cv::_InputArray *mask, int dtype)
+CVAPI(void) core_add(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
 {
 	cv::add(*src1, *src2, *dst, entity(mask), dtype);
 }
-CVAPI(void) core_subtract(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, cv::_InputArray *mask, int dtype)
+CVAPI(void) core_subtract(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
 {
 	cv::subtract(*src1, *src2, *dst, entity(mask), dtype);
 }
-CVAPI(void) core_multiply(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray* dst, double scale, int dtype)
+CVAPI(void) core_multiply(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
 {
 	cv::multiply(*src1, *src2, *dst, scale, dtype);
 }
-CVAPI(void) core_divide1(double scale, cv::_InputArray *src2, cv::_OutputArray* dst, int dtype)
+CVAPI(void) core_divide1(double scale, cv::_InputArray *src2, cv::_OutputArray *dst, int dtype)
 {
 	cv::divide(scale, *src2, *dst, dtype);
 }
@@ -180,12 +180,12 @@ CVAPI(void) core_normalize(cv::_InputArray *src, cv::_OutputArray *dst, double a
 	cv::normalize(*src, *dst, alpha, beta, normType, dtype, maskVal);
 }
 
-CVAPI(void) core_minMaxLoc1(cv::_InputArray *src, double* minVal, double* maxVal)
+CVAPI(void) core_minMaxLoc1(cv::_InputArray *src, double *minVal, double *maxVal)
 {
 	cv::minMaxLoc(*src, minVal, maxVal);
 }
-CVAPI(void) core_minMaxLoc2(cv::_InputArray *src, double* minVal, double* maxVal,
-	CvPoint* minLoc, CvPoint* maxLoc, cv::_InputArray* mask)
+CVAPI(void) core_minMaxLoc2(cv::_InputArray *src, double *minVal, double *maxVal,
+	CvPoint *minLoc, CvPoint *maxLoc, cv::_InputArray *mask)
 {
 	cv::InputArray maskVal = entity(mask);
 	cv::Point minLoc0, maxLoc0;
@@ -193,12 +193,12 @@ CVAPI(void) core_minMaxLoc2(cv::_InputArray *src, double* minVal, double* maxVal
 	*minLoc = minLoc0;
 	*maxLoc = maxLoc0;
 }
-CVAPI(void) core_minMaxIdx1(cv::_InputArray *src, double* minVal, double* maxVal)
+CVAPI(void) core_minMaxIdx1(cv::_InputArray *src, double *minVal, double *maxVal)
 {
 	cv::minMaxIdx(*src, minVal, maxVal);
 }
-CVAPI(void) core_minMaxIdx2(cv::_InputArray *src, double* minVal, double* maxVal,
-	int* minIdx, int* maxIdx, cv::_InputArray *mask)
+CVAPI(void) core_minMaxIdx2(cv::_InputArray *src, double *minVal, double *maxVal,
+	int *minIdx, int *maxIdx, cv::_InputArray *mask)
 {
 	cv::InputArray maskVal = entity(mask);
 	cv::minMaxIdx(*src, minVal, maxVal, minIdx, maxIdx, maskVal);
@@ -359,19 +359,19 @@ CVAPI(float) core_fastAtan2(float y, float x)
 	return cv::fastAtan2(y, x);
 }
 
-CVAPI(void) core_exp_Array(const float* src, float* dst, int n)
+CVAPI(void) core_exp_Array(const float *src, float *dst, int n)
 {
 	cv::exp(src, dst, n);
 }
-CVAPI(void) core_log_Array(const float* src, float* dst, int n)
+CVAPI(void) core_log_Array(const float *src, float *dst, int n)
 {
 	cv::log(src, dst, n);
 }
-CVAPI(void) core_fastAtan2_Array(const float* y, const float* x, float* dst, int n, int angleInDegrees)
+CVAPI(void) core_fastAtan2_Array(const float *y, const float *x, float *dst, int n, int angleInDegrees)
 {
 	cv::fastAtan2(y, x, dst, n, angleInDegrees != 0);
 }
-CVAPI(void) core_magnitude_Array(const float* x, const float* y, float* dst, int n)
+CVAPI(void) core_magnitude_Array(const float *x, const float *y, float *dst, int n)
 {
 	cv::magnitude(x, y, dst, n);
 }
@@ -633,19 +633,19 @@ CVAPI(void) core_ellipse2(cv::Mat *img, CvBox2D box, CvScalar color, int thickne
 	cv::ellipse(*img, box, color, thickness, lineType);
 }
 
-CVAPI(void) core_fillConvexPoly(cv::Mat *img, cv::Point* pts, int npts,
+CVAPI(void) core_fillConvexPoly(cv::Mat *img, cv::Point *pts, int npts,
 	CvScalar color, int lineType, int shift)
 {
 	cv::fillConvexPoly(*img, pts, npts, color, lineType, shift);
 }
 
-CVAPI(void) core_fillPoly(cv::Mat *img, const cv::Point **pts, const int* npts,
+CVAPI(void) core_fillPoly(cv::Mat *img, const cv::Point **pts, const int *npts,
 	int ncontours, CvScalar color, int lineType, int shift, CvPoint offset)
 {
 	cv::fillPoly(*img, pts, npts, ncontours, color, lineType, shift, offset);
 }
 
-CVAPI(void) core_polylines(cv::Mat *img, const cv::Point **pts, const int* npts,
+CVAPI(void) core_polylines(cv::Mat *img, const cv::Point **pts, const int *npts,
 	int ncontours, int isClosed, CvScalar color,
 	int thickness, int lineType, int shift)
 {
@@ -680,7 +680,7 @@ CVAPI(void) core_putText(cv::Mat *img, const char *text, CvPoint org,
 
 //! returns bounding box of the text string
 CVAPI(CvSize) core_getTextSize(const char *text, int fontFace,
-	double fontScale, int thickness, int* baseLine)
+	double fontScale, int thickness, int *baseLine)
 {
 	return cv::getTextSize(text, fontFace, fontScale, thickness, baseLine);
 }
