@@ -140,6 +140,7 @@
     <Compile Include="Cv2\Cv2_features2d.cs" />
     <Compile Include="Cv2\Cv2_photo.cs" />
     <Compile Include="Cv2\Cv2_nonfree.cs" />
+    <Compile Include="Cv2\Cv2_superres.cs" />
     <Compile Include="EnumerableEx.cs" />
     <Compile Include="Enum\DctFlag2.cs" />
     <Compile Include="Enum\DftFlag2.cs" />
