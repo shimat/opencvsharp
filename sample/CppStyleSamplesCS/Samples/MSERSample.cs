@@ -11,7 +11,7 @@ namespace CppStyleSamplesCS
         public void Run()
         {
             using (Mat src = new Mat(FilePath.Distortion, LoadMode.Color))
-            using (Mat gray = new Mat(src.Size(), MatType.CV_8UC1))
+            using (Mat gray = new Mat())
             using (Mat dst = src.Clone())
             {
                 Cv2.CvtColor(src, gray, ColorConversion.BgrToGray);

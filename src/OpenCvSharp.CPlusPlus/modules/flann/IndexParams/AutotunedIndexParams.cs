@@ -6,11 +6,11 @@ namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
-    /// 階層型 k-means tree でインデックスが表現されます．
+    /// 階層型 k-means tree で表現されるインデックス．
     /// </summary>
 #else
     /// <summary>
-    /// When passing an object of this type the index constructed will be a hierarchical k-means tree.
+    /// hierarchical k-means tree.
     /// </summary>
 #endif
     public class AutotunedIndexParams : IndexParams
