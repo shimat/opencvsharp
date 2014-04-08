@@ -18,6 +18,15 @@ CVAPI(void) superres_FrameSource_delete(cv::superres::FrameSource *obj)
     delete obj;
 }
 
+CVAPI(void) superres_FrameSource_nextFrame(cv::superres::FrameSource *obj, cv::_OutputArray *frame)
+{
+    obj->nextFrame(*frame);
+}
+CVAPI(void) superres_FrameSource_reset(cv::superres::FrameSource *obj)
+{
+    obj->reset();
+}
+
 CVAPI(cv::Ptr<cv::superres::FrameSource>*) superres_createFrameSource_Empty()
 {
     cv::Ptr<cv::superres::FrameSource> obj = cv::superres::createFrameSource_Empty();
@@ -92,5 +101,13 @@ CVAPI(cv::Ptr<cv::superres::SuperResolution>*) superres_createSuperResolution_BT
     return ret;
 }
 
+CVAPI(cv::superres::SuperResolution*) superres_Ptr_SuperResolution_obj(cv::Ptr<cv::superres::SuperResolution> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) superres_Ptr_SuperResolution_delete(cv::Ptr<cv::superres::SuperResolution> *ptr)
+{
+	delete ptr;
+}
 
 #endif
