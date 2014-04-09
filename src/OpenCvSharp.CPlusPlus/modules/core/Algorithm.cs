@@ -80,7 +80,9 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.core_Algorithm_delete(ptr);
+                        if(ptr != IntPtr.Zero)
+                            NativeMethods.core_Algorithm_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

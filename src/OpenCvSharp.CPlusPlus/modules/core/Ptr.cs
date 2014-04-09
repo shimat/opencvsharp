@@ -36,7 +36,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (ptr != IntPtr.Zero)
                     {
-                        Release(ptr);
+                        Release();
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -50,43 +50,34 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Calls native release function
         /// </summary>
-        /// <param name="self"></param>
-        protected abstract void Release(IntPtr self);
+        protected abstract void Release();
 
         /// <summary>
         /// Returns Ptr&lt;T&gt;.obj 
         /// </summary>
-        public T Obj
+        public T WrapperObject
         {
-            get
-            {
-                IntPtr obj = GetObjPtr(ptr);
-                return ObjPtrToValue(obj);
-            }
-        }
-        /// <summary>
-        /// Returns Ptr&lt;T&gt;.obj pointer
-        /// </summary>
-        public IntPtr ObjPointer
-        {
-            get
-            {
-                return GetObjPtr(ptr);
-            }
+            get { return ToWrapperObject(); }
         }
 
         /// <summary>
         /// Returns Ptr&lt;T&gt;.obj pointer
         /// </summary>
-        /// <param name="self"></param>
+        public IntPtr Obj
+        {
+            get { return GetObj(); }
+        }
+
+        /// <summary>
+        /// Returns Ptr&lt;T&gt;.obj pointer
+        /// </summary>
         /// <returns></returns>
-        protected abstract IntPtr GetObjPtr(IntPtr self);
+        protected abstract IntPtr GetObj();
 
         /// <summary>
         /// Converts raw pointer (not Ptr&lt;T&gt; but T*) to managed wrapper object
         /// </summary>
-        /// <param name="obj"></param>
         /// <returns></returns>
-        protected abstract T ObjPtrToValue(IntPtr obj);
+        protected abstract T ToWrapperObject();
     }
 }

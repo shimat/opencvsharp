@@ -59,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus
             var detector = new DescriptorMatcher();
             var ptrObj = new PtrOfDescriptorMatcher(ptr);
             detector.detectorPtr = ptrObj;
-            detector.ptr = ptrObj.ObjPointer;
+            detector.ptr = ptrObj.Obj;
             return detector;
         }
         /// <summary>

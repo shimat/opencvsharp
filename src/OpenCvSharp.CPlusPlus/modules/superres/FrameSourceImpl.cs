@@ -40,7 +40,7 @@ namespace OpenCvSharp.CPlusPlus
             var obj = new FrameSourceImpl();
             var ptrObj = new PtrOfFrameSource(ptr);
             obj.detectorPtr = ptrObj;
-            obj.ptr = ptrObj.ObjPointer;
+            obj.ptr = ptrObj.Obj;
             return obj;
         }
 

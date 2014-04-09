@@ -36,7 +36,7 @@ namespace OpenCvSharp.CPlusPlus
             FeatureDetector detector = new FeatureDetector();
             PtrOfFeatureDetector ptrObj = new PtrOfFeatureDetector(ptr);
             detector.detectorPtr = ptrObj;
-            detector.ptr = ptrObj.ObjPointer;
+            detector.ptr = ptrObj.Obj;
             return detector;
         }
         /// <summary>

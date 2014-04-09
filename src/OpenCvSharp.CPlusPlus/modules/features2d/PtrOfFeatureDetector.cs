@@ -21,30 +21,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Calls native release function
         /// </summary>
-        /// <param name="self"></param>
-        protected override void Release(IntPtr self)
+        protected override void Release()
         {
-            NativeMethods.features2d_Ptr_FeatureDetector_delete(self);
+            NativeMethods.features2d_Ptr_FeatureDetector_delete(ptr);
         }
 
         /// <summary>
         /// Returns Ptr&lt;T&gt;.obj 
         /// </summary>
-        /// <param name="self"></param>
         /// <returns></returns>
-        protected override IntPtr GetObjPtr(IntPtr self)
+        protected override IntPtr GetObj()
         {
-            return NativeMethods.features2d_Ptr_FeatureDetector_obj(self);
+            return NativeMethods.features2d_Ptr_FeatureDetector_obj(ptr);
         }
 
         /// <summary>
         /// Converts raw pointer (not Ptr&lt;T&gt; but T*) to managed wrapper object
         /// </summary>
-        /// <param name="ptr"></param>
         /// <returns></returns>
-        protected override FeatureDetector ObjPtrToValue(IntPtr ptr)
+        protected override FeatureDetector ToWrapperObject()
         {
-            return FeatureDetector.FromRawPtr(ptr);
+            return FeatureDetector.FromRawPtr(GetObj());
         }
     }
 }

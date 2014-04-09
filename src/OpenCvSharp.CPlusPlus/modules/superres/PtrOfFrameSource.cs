@@ -19,28 +19,25 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Calls native release function
         /// </summary>
-        /// <param name="self"></param>
-        protected override void Release(IntPtr self)
+        protected override void Release()
         {
-            NativeMethods.superres_Ptr_FrameSource_delete(self);
+            NativeMethods.superres_Ptr_FrameSource_delete(ptr);
         }
 
         /// <summary>
         /// Returns Ptr&lt;T&gt;.obj 
         /// </summary>
-        /// <param name="self"></param>
         /// <returns></returns>
-        protected override IntPtr GetObjPtr(IntPtr self)
+        protected override IntPtr GetObj()
         {
-            return NativeMethods.superres_Ptr_FrameSource_obj(self);
+            return NativeMethods.superres_Ptr_FrameSource_obj(ptr);
         }
 
         /// <summary>
         /// Converts raw pointer to managed wrapper object
         /// </summary>
-        /// <param name="ptr"></param>
         /// <returns></returns>
-        protected override FrameSource ObjPtrToValue(IntPtr ptr)
+        protected override FrameSource ToWrapperObject()
         {
             return FrameSourceImpl.FromRawPtr(ptr);
         }

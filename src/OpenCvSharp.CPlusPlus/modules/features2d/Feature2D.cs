@@ -35,7 +35,7 @@ namespace OpenCvSharp.CPlusPlus
             Feature2D detector = new Feature2D();
             PtrOfFeature2D ptrObj = new PtrOfFeature2D(ptr);
             detector.detectorPtr = ptrObj;
-            detector.ptr = ptrObj.ObjPointer;
+            detector.ptr = ptrObj.Obj;
             return detector;
         }
         /// <summary>
