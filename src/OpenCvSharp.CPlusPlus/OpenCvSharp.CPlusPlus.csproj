@@ -151,6 +151,7 @@
     <Compile Include="Enum\ProjectionType.cs" />
     <Compile Include="Enum\GrabCutFlag.cs" />
     <Compile Include="Enum\DistanceMaskSize.cs" />
+    <Compile Include="modules\core\PtrOfAlgorithm.cs" />
     <Compile Include="modules\core\SparseMatIndexer.cs" />
     <Compile Include="modules\core\SparseMat.cs" />
     <Compile Include="modules\features2d\PtrOfDescriptorMatcher.cs" />

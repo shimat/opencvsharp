@@ -8,6 +8,11 @@
 
 #include "include_opencv.h"
 
+CVAPI(int) core_Algorithm_sizeof()
+{
+	return sizeof(cv::Algorithm);
+}
+
 CVAPI(cv::Algorithm*) core_Algorithm_new()
 {
 	return new cv::Algorithm();
@@ -16,13 +21,23 @@ CVAPI(void) core_Algorithm_delete(cv::Algorithm *obj)
 {
 	delete obj;
 }
-CVAPI(void) core_Algorithm_name(cv::Algorithm *obj, char *buf)
+
+CVAPI(cv::Ptr<cv::Algorithm>*) core_Ptr_Algorithm_new(cv::Algorithm *rawPtr)
 {
-	strcpy(buf, obj->name().c_str());
+	return new cv::Ptr<cv::Algorithm>(rawPtr);
 }
-CVAPI(int) core_Algorithm_sizeof()
+CVAPI(void) core_Ptr_Algorithm_delete(cv::Ptr<cv::Algorithm> *ptr)
 {
-	return sizeof(cv::Algorithm);
+	delete ptr;
+}
+CVAPI(cv::Algorithm*) core_Ptr_Algorithm_obj(cv::Ptr<cv::Algorithm> *ptr)
+{
+	return ptr->obj;
+}
+
+CVAPI(void) core_Algorithm_name(cv::Algorithm *obj, char *buf, int maxLength)
+{
+    std::strncpy(buf, obj->name().c_str(), (size_t)(maxLength - 1));
 }
 
 CVAPI(int) core_Algorithm_getInt(cv::Algorithm *obj, const char *name)
@@ -33,29 +48,30 @@ CVAPI(double) core_Algorithm_getDouble(cv::Algorithm *obj, const char *name)
 {
 	return obj->getDouble(name);
 }
-CVAPI(bool) core_Algorithm_getBool(cv::Algorithm *obj, const char *name)
+CVAPI(int) core_Algorithm_getBool(cv::Algorithm *obj, const char *name)
 {
-	return obj->getBool(name);
+	return obj->getBool(name) ? 1 : 0;
 }
-CVAPI(void) core_Algorithm_getString(cv::Algorithm *obj, const char *name, char *buf) 
+CVAPI(void) core_Algorithm_getString(cv::Algorithm *obj, const char *name, 
+                                     char *buf, int maxLength) 
 {
 	std::string str = obj->getString(name);
-	strcpy(buf, str.c_str());
+	std::strncpy(buf, str.c_str(), (size_t)(maxLength - 1));
 }
-CVAPI(void) core_Algorithm_getMat(cv::Algorithm *obj, const char *name, cv::Mat *outMat) 
+CVAPI(cv::Mat*) core_Algorithm_getMat(cv::Algorithm *obj, const char *name) 
 {
 	cv::Mat mat = obj->getMat(name);
-	outMat = new cv::Mat(mat);
+	return new cv::Mat(mat);
 }
-CVAPI(void) core_Algorithm_getMatVector(cv::Algorithm *obj, const char *name, std::vector<cv::Mat> *outVec)
+CVAPI(void) core_Algorithm_getMatVector(cv::Algorithm *obj, const char *name,
+                                        std::vector<cv::Mat>* outVec)
 {
 	std::vector<cv::Mat> vec = obj->getMatVector(name);
-	outVec = new std::vector<cv::Mat>(vec.size());
 	std::copy(vec.begin(), vec.end(), std::back_inserter(*outVec));
 }
-CVAPI(cv::Algorithm*) core_Algorithm_getAlgorithm(cv::Algorithm *obj, const char *name)
+CVAPI(cv::Ptr<cv::Algorithm>*) core_Algorithm_getAlgorithm(cv::Algorithm *obj, const char *name)
 {
-	return obj->getAlgorithm(name);
+    return clone( obj->getAlgorithm(name) );
 }
 
 CVAPI(void) core_Algorithm_setInt(cv::Algorithm *obj, const char *name, int value)
@@ -79,13 +95,22 @@ CVAPI(void) core_Algorithm_setMat(cv::Algorithm *obj, const char *name, const cv
 {
 	obj->set(name, *value);
 }
-CVAPI(void) core_Algorithm_setMatVector(cv::Algorithm *obj, const char *name, const std::vector<cv::Mat> *value)
+CVAPI(void) core_Algorithm_setMatVector(cv::Algorithm *obj, const char *name, 
+                                        cv::Mat **value, int valueLength)
 {
-	obj->set(name, *value);
+    std::vector<cv::Mat> valueVec(valueLength);
+    for (int i = 0; i < valueLength; i++)
+    {
+        valueVec[i] = *(value[i]);
+    }
+	obj->set(name, valueVec);
 }
-CVAPI(void) core_Algorithm_setAlgorithm(cv::Algorithm *obj, const char *name, const cv::Algorithm *value)
+CVAPI(void) core_Algorithm_setAlgorithm(cv::Algorithm *obj, const char *name, 
+                                        cv::Algorithm *value)
 {
-	obj->set(name, value);
+    cv::Ptr<cv::Algorithm> ptr(value);
+    ptr.addref();
+	obj->set(name, ptr);
 }
 
 #endif

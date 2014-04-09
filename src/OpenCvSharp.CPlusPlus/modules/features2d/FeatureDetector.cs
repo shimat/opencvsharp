@@ -33,17 +33,20 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            FeatureDetector detector = new FeatureDetector();
-            PtrOfFeatureDetector ptrObj = new PtrOfFeatureDetector(ptr);
-            detector.detectorPtr = ptrObj;
-            detector.ptr = ptrObj.Obj;
+            
+            var ptrObj = new PtrOfFeatureDetector(ptr);
+            var detector = new FeatureDetector
+                {
+                    detectorPtr = ptrObj,
+                    ptr = ptrObj.Obj
+                };
             return detector;
         }
         /// <summary>
         /// Creates instance from raw T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static FeatureDetector FromRawPtr(IntPtr ptr)
+        internal static new FeatureDetector FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");

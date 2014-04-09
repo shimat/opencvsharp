@@ -23,6 +23,9 @@ typedef unsigned short uint16;
 #include <iterator>
 #include <fstream>
 #include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -54,6 +57,12 @@ static inline cv::_OutputArray entity(cv::_OutputArray *obj)
 static inline cv::Mat entity(cv::Mat *obj)
 {
 	return (obj != NULL) ? *obj : cv::Mat();
+}
+
+template <typename T>
+static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
+{
+    return new cv::Ptr<T>( ptr.obj );
 }
 
 #endif
