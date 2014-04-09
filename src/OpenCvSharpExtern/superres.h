@@ -29,27 +29,19 @@ CVAPI(void) superres_FrameSource_reset(cv::superres::FrameSource *obj)
 
 CVAPI(cv::Ptr<cv::superres::FrameSource>*) superres_createFrameSource_Empty()
 {
-    cv::Ptr<cv::superres::FrameSource> obj = cv::superres::createFrameSource_Empty();
-    cv::Ptr<cv::superres::FrameSource> *ret = new cv::Ptr<cv::superres::FrameSource>(obj);
-    return ret;
+    return clone( cv::superres::createFrameSource_Empty() );
 }
 CVAPI(cv::Ptr<cv::superres::FrameSource>*) superres_createFrameSource_Video(const char *fileName)
 {
-    cv::Ptr<cv::superres::FrameSource> obj = cv::superres::createFrameSource_Video(fileName);
-    cv::Ptr<cv::superres::FrameSource> *ret = new cv::Ptr<cv::superres::FrameSource>(obj);
-    return ret;
+    return clone( cv::superres::createFrameSource_Video(fileName) );
 }
 CVAPI(cv::Ptr<cv::superres::FrameSource>*) superres_createFrameSource_Video_GPU(const char *fileName)
 {
-    cv::Ptr<cv::superres::FrameSource> obj = cv::superres::createFrameSource_Video_GPU(fileName);
-    cv::Ptr<cv::superres::FrameSource> *ret = new cv::Ptr<cv::superres::FrameSource>(obj);
-    return ret;
+    return clone( cv::superres::createFrameSource_Video_GPU(fileName) );
 }
 CVAPI(cv::Ptr<cv::superres::FrameSource>*) superres_createFrameSource_Camera(int deviceId)
 {
-    cv::Ptr<cv::superres::FrameSource> obj = cv::superres::createFrameSource_Camera(deviceId);
-    cv::Ptr<cv::superres::FrameSource> *ret = new cv::Ptr<cv::superres::FrameSource>(obj);
-    return ret;
+    return clone( cv::superres::createFrameSource_Camera(deviceId) );
 }
 
 CVAPI(cv::superres::FrameSource*) superres_Ptr_FrameSource_obj(cv::Ptr<cv::superres::FrameSource> *ptr)
@@ -84,21 +76,15 @@ CVAPI(void) superres_SuperResolution_collectGarbage(cv::superres::SuperResolutio
 // Dennis Mitzel, Thomas Pock, Thomas Schoenemann, Daniel Cremers. Video Super Resolution using Duality Based TV-L1 Optical Flow.
 CVAPI(cv::Ptr<cv::superres::SuperResolution>*) superres_createSuperResolution_BTVL1()
 {
-    cv::Ptr<cv::superres::SuperResolution> obj = cv::superres::createSuperResolution_BTVL1();
-    cv::Ptr<cv::superres::SuperResolution> *ret = new cv::Ptr<cv::superres::SuperResolution>(obj);
-    return ret;
+    return clone( cv::superres::createSuperResolution_BTVL1() );
 }
 CVAPI(cv::Ptr<cv::superres::SuperResolution>*) superres_createSuperResolution_BTVL1_GPU()
 {
-    cv::Ptr<cv::superres::SuperResolution> obj = cv::superres::createSuperResolution_BTVL1_GPU();
-    cv::Ptr<cv::superres::SuperResolution> *ret = new cv::Ptr<cv::superres::SuperResolution>(obj);
-    return ret;
+    return clone( cv::superres::createSuperResolution_BTVL1_GPU() );
 }
 CVAPI(cv::Ptr<cv::superres::SuperResolution>*) superres_createSuperResolution_BTVL1_OCL()
 {
-    cv::Ptr<cv::superres::SuperResolution> obj = cv::superres::createSuperResolution_BTVL1_OCL();
-    cv::Ptr<cv::superres::SuperResolution> *ret = new cv::Ptr<cv::superres::SuperResolution>(obj);
-    return ret;
+    return clone( cv::superres::createSuperResolution_BTVL1_OCL() );
 }
 
 CVAPI(cv::superres::SuperResolution*) superres_Ptr_SuperResolution_obj(cv::Ptr<cv::superres::SuperResolution> *ptr)
