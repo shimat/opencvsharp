@@ -170,7 +170,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public AlgorithmInfo Info
+        public override AlgorithmInfo Info
         {
             get
             {

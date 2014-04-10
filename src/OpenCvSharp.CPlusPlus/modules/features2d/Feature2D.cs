@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -31,11 +29,13 @@ namespace OpenCvSharp.CPlusPlus
         internal static new Feature2D FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            Feature2D detector = new Feature2D();
-            PtrOfFeature2D ptrObj = new PtrOfFeature2D(ptr);
-            detector.detectorPtr = ptrObj;
-            detector.ptr = ptrObj.Obj;
+                throw new OpenCvSharpException("Invalid Feature2D pointer");
+            var ptrObj = new PtrOfFeature2D(ptr);
+            var detector = new Feature2D
+                {
+                    detectorPtr = ptrObj, 
+                    ptr = ptrObj.Obj
+                };
             return detector;
         }
         /// <summary>
@@ -45,8 +45,8 @@ namespace OpenCvSharp.CPlusPlus
         internal static new Feature2D FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            Feature2D detector = new Feature2D
+                throw new OpenCvSharpException("Invalid Feature2D pointer");
+            var detector = new Feature2D
                 {
                     detectorPtr = null, 
                     ptr = ptr

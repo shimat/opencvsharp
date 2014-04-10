@@ -3,27 +3,35 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable InconsistentNaming
+
     /// <summary>
     /// The Base Class for Background/Foreground Segmentation.
     /// The class is only used to define the common interface for
     /// the whole family of background/foreground segmentation algorithms.
     /// </summary>
-    public class BackgroundSubtractorMog2 : BackgroundSubtractor
+    public class BackgroundSubtractorMOG2 : BackgroundSubtractor
     {
         /// <summary>
-        /// sizeof(BackgroundSubtractorMOG2)
+        /// cv::Ptr&lt;FeatureDetector&gt;
         /// </summary>
-        public static new readonly int SizeOf = NativeMethods.video_BackgroundSubtractorMOG2_sizeof().ToInt32();
+        private PtrOfBackgroundSubtractorMOG2 objectPtr;
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool disposed = false;
 
-        #region Init
+        #region Init & Disposal
         /// <summary>
         /// the default constructor
         /// </summary>
-        public BackgroundSubtractorMog2()
+        public BackgroundSubtractorMOG2()
         {
-            ptr = NativeMethods.video_BackgroundSubtractorMOG2_new1();
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
+            IntPtr po = NativeMethods.video_BackgroundSubtractorMOG2_new1();
+            if (po == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG2");
+            objectPtr = new PtrOfBackgroundSubtractorMOG2(po);
+            ptr = objectPtr.Obj;
         }
         /// <summary>
         /// the full constructor that takes the length of the history, the number of gaussian mixtures, the background ratio parameter and the noise strength
@@ -31,27 +39,47 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="history"></param>
         /// <param name="varThreshold"></param>
         /// <param name="bShadowDetection"></param>
-        public BackgroundSubtractorMog2(int history, float varThreshold, bool bShadowDetection = true)
+        public BackgroundSubtractorMOG2(int history, float varThreshold, bool bShadowDetection = true)
         {
-            ptr = NativeMethods.video_BackgroundSubtractorMOG2_new2(history, varThreshold, bShadowDetection ? 1 : 0);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
+            IntPtr po = NativeMethods.video_BackgroundSubtractorMOG2_new2(history, varThreshold, bShadowDetection ? 1 : 0);
+            if (po == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG2");
+            objectPtr = new PtrOfBackgroundSubtractorMOG2(po);
+            ptr = objectPtr.Obj;
         }
-        #endregion
-        #region Dispose
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-#else
+
+        internal BackgroundSubtractorMOG2(PtrOfBackgroundSubtractorMOG2 objectPtr, IntPtr ptr)
+        {
+            this.objectPtr = objectPtr;
+            this.ptr = ptr;
+        }
+
         /// <summary>
-        /// Clean up any resources being used.
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
         /// </summary>
-#endif
-        public void Release()
+        /// <param name="ptr"></param>
+        internal static new BackgroundSubtractorMOG2 FromPtr(IntPtr ptr)
         {
-            Dispose(true);
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid BackgroundSubtractorMOG2 pointer");
+
+            var ptrObj = new PtrOfBackgroundSubtractorMOG2(ptr);
+            var obj = new BackgroundSubtractorMOG2(ptrObj, ptrObj.Obj);
+            return obj;
         }
+        /// <summary>
+        /// Creates instance from raw T*
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new BackgroundSubtractorMOG2 FromRawPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid BackgroundSubtractorMOG2 pointer");
+            var obj = new BackgroundSubtractorMOG2(null, ptr);
+            return obj;
+        }
+
 #if LANG_JP
     /// <summary>
     /// リソースの解放
@@ -81,7 +109,16 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.video_BackgroundSubtractorMOG2_delete(ptr);
+                        if (objectPtr != null)
+                        {
+                            objectPtr.Dispose();
+                        }
+                        else
+                        {
+                            NativeMethods.video_BackgroundSubtractorMOG_delete(ptr);
+                        }
+                        objectPtr = null;
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
@@ -106,7 +143,10 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             if (fgmask == null)
                 throw new ArgumentNullException("fgmask");
+            image.ThrowIfDisposed();
+            fgmask.ThrowIfNotReady();
             NativeMethods.video_BackgroundSubtractorMOG2_operator(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
+            fgmask.Fix();
         }
 
         /// <summary>
@@ -117,7 +157,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (backgroundImage == null)
                 throw new ArgumentNullException("backgroundImage");
+            backgroundImage.ThrowIfNotReady();
             NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundImage(ptr, backgroundImage.CvPtr);
+            backgroundImage.Fix();
         }
 
         /// <summary>
@@ -125,335 +167,9 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="frameSize"></param>
         /// <param name="frameType"></param>
-        public virtual void Initialize(CvSize frameSize, int frameType)
+        public virtual void Initialize(Size frameSize, int frameType)
         {
             NativeMethods.video_BackgroundSubtractorMOG2_initialize(ptr, frameSize, frameType);
         }
-
-        #region Properties
-        /*
-        /// <summary>
-        /// 
-        /// </summary>
-        public CvSize FrameSize
-        {
-            get
-            {
-                return NativeMethods.BackgroundSubtractorMOG2_frameSize_get(ptr);
-            }
-            set
-            {
-                NativeMethods.BackgroundSubtractorMOG2_frameSize_set(ptr, value);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int FrameType
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_frameType(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_frameType(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Mat BgModel
-        {
-            get
-            {
-                unsafe
-                {
-                    return new Mat(NativeMethods.BackgroundSubtractorMOG2_bgmodel(ptr));
-                }
-            }
-        }
-        /// <summary>
-        /// keep track of number of modes per pixel
-        /// </summary>
-        public Mat BgmodelUsedModes
-        {
-            get
-            {
-                unsafe
-                {
-                    return new Mat(NativeMethods.BackgroundSubtractorMOG2_bgmodelUsedModes(ptr));
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Nframes
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_nframes(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_nframes(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int History
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_history(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_history(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Nmixtures
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_nmixtures(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_nmixtures(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// here it is the maximum allowed number of mixture comonents.
-        /// Actual number is determined dynamically per pixel.
-        /// </summary>
-        public float VarThreshold
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_varThreshold(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_varThreshold(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float BackgroundRatio
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_backgroundRatio(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_backgroundRatio(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float VarThresholdGen
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_varThresholdGen(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_varThresholdGen(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float FVarInit
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fVarInit(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_fVarInit(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float FVarMin
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fVarMin(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_fVarMin(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float fVarMax
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fVarMax(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_fVarMax(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// CT - complexity reduction prior
-        /// </summary>
-        public float FCT
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fCT(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_fCT(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// default 1 - do shadow detection
-        /// </summary>
-        public bool BShadowDetection
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_bShadowDetection(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_bShadowDetection(ptr) = value;
-                }
-            }
-        }//
-        /// <summary>
-        /// do shadow detection - insert this value as the detection result - 127 default value
-        /// </summary>
-        public byte NShadowDetection
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_nShadowDetection(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_nShadowDetection(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float FTau
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG2_fTau(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG2_fTau(ptr) = value;
-                }
-            }
-        }
-        //*/
-        #endregion
     }
 }

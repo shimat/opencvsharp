@@ -30,7 +30,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="descriptorMatcherType"></param>
         /// <returns></returns>
-        public static DescriptorMatcher Create(string descriptorMatcherType)
+        public static new DescriptorMatcher Create(string descriptorMatcherType)
         {
             if (String.IsNullOrEmpty(descriptorMatcherType))
                 throw new ArgumentNullException("descriptorMatcherType");
@@ -52,7 +52,7 @@ namespace OpenCvSharp.CPlusPlus
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static DescriptorMatcher FromPtr(IntPtr ptr)
+        internal static new DescriptorMatcher FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
@@ -66,7 +66,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates instance from raw pointer T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static DescriptorMatcher FromRawPtr(IntPtr ptr)
+        internal static new DescriptorMatcher FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");

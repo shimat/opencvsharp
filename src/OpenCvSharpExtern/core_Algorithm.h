@@ -113,4 +113,33 @@ CVAPI(void) core_Algorithm_setAlgorithm(cv::Algorithm *obj, const char *name,
 	obj->set(name, ptr);
 }
 
+CVAPI(void) core_Algorithm_paramHelp(cv::Algorithm *obj, const char *name,
+                                     char *buf, char *bufLength)
+{
+    std::string str = obj->paramHelp(name);
+    std::strncpy(buf, str.c_str(), (size_t)(bufLength-1));
+}
+CVAPI(int) core_Algorithm_paramType(cv::Algorithm *obj, const char* name)
+{
+    return obj->paramType(name);
+}
+CVAPI(void) core_Algorithm_getParams(cv::Algorithm *obj, std::vector<std::string> *names)
+{
+    obj->getParams(*names);
+}
+
+CVAPI(void) core_Algorithm_getList(std::vector<std::string> *algorithms)
+{
+    cv::Algorithm::getList(*algorithms);
+}
+CVAPI(cv::Ptr<cv::Algorithm>*) core_Algorithm_create(const char *name)
+{
+    cv::Ptr<cv::Algorithm> al = cv::Algorithm::_create(name);
+    return al.empty() ? NULL : clone( al );
+}
+CVAPI(cv::AlgorithmInfo*) core_Algorithm_info(cv::Algorithm *obj)
+{
+    return obj->info();
+}
+
 #endif

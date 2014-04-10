@@ -10,6 +10,22 @@ namespace OpenCvSharp.CPlusPlus
     internal static class CppConst
     {
         /// <summary>
+        /// cv::Param types
+        /// </summary>
+        public const int Param_INT = 0,
+                         Param_BOOLEAN = 1,
+                         Param_REAL = 2,
+                         Param_STRING = 3,
+                         Param_MAT = 4,
+                         Param_MAT_VECTOR = 5,
+                         Param_ALGORITHM = 6,
+                         Param_FLOAT = 7,
+                         Param_UNSIGNED_INT = 8,
+                         Param_UINT64 = 9,
+                         Param_SHORT = 10,
+                         Param_UCHAR = 11;
+
+        /// <summary>
         /// matrix decomposition types
         /// </summary>
         public const int DECOMP_LU = 0,

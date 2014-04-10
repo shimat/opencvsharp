@@ -63,5 +63,25 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_Algorithm_setMatVector(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr[] value, int valueLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern void core_Algorithm_setAlgorithm(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern void core_Algorithm_paramHelp(
+            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name,
+            [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf, int bufLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern int core_Algorithm_paramType(
+            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Algorithm_getParams(IntPtr obj, IntPtr names);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Algorithm_getList(IntPtr algorithms);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern IntPtr core_Algorithm_create([MarshalAs(UnmanagedType.LPStr)] string name);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_Algorithm_info(IntPtr obj);
+
     }
 }

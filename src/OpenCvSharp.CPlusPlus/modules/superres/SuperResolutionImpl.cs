@@ -35,7 +35,7 @@ namespace OpenCvSharp.CPlusPlus
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static SuperResolutionImpl FromPtr(IntPtr ptr)
+        internal static new SuperResolutionImpl FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
@@ -50,7 +50,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates instance from raw pointer T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static SuperResolutionImpl FromRawPtr(IntPtr ptr)
+        internal static new SuperResolutionImpl FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FrameSource pointer");

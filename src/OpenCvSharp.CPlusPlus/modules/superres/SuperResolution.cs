@@ -12,7 +12,13 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public abstract class SuperResolution : Algorithm
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected FrameSource frameSource;
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool firstCall;
 
         #region Init & Disposal

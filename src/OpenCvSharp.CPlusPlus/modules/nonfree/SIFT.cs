@@ -5,10 +5,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable InconsistentNaming
+
 #if LANG_JP
     /// <summary>
     /// SIFT 実装.
@@ -119,7 +120,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public AlgorithmInfo Info
+        public override AlgorithmInfo Info
         {
             get
             {

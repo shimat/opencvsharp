@@ -25,7 +25,7 @@ namespace CppStyleSamplesCS
                 //new HOGSample();
                 //new HoughLinesSample();
                 //new MSERSample();
-                //new MDS();
+                new MDS();
                 //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
@@ -34,7 +34,7 @@ namespace CppStyleSamplesCS
                 //new NormalArrayOperations();
                 //new SolveEquation();
                 //new MatOperations();
-                new FaceDetection();
+                //new FaceDetection();
             sample.Run();
         }
     }

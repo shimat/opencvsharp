@@ -29,7 +29,7 @@ namespace OpenCvSharp.CPlusPlus
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static FeatureDetector FromPtr(IntPtr ptr)
+        internal static new FeatureDetector FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
@@ -50,7 +50,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            FeatureDetector detector = new FeatureDetector
+            var detector = new FeatureDetector
                 {
                     detectorPtr = null,
                     ptr = ptr
@@ -183,15 +183,15 @@ namespace OpenCvSharp.CPlusPlus
         /// "SimpleBlob" – SimpleBlobDetector
         /// </param>
         /// <returns></returns>
-        public static FeatureDetector Create(string detectorType)
+        public static new FeatureDetector Create(string detectorType)
         {
             if(String.IsNullOrEmpty(detectorType))
                 throw new ArgumentNullException("detectorType");
 
             // gets cv::Ptr<FeatureDetector>
-            IntPtr ptr = NativeMethods.features2d_FeatureDetector_create(detectorType);
             try
             {
+                IntPtr ptr = NativeMethods.features2d_FeatureDetector_create(detectorType);
                 FeatureDetector detector = FromPtr(ptr);
                 return detector;
             }

@@ -164,6 +164,10 @@
     <Compile Include="modules\superres\PtrOfSuperResolution.cs" />
     <Compile Include="modules\superres\SuperResolutionImpl.cs" />
     <Compile Include="modules\superres\FrameSourceImpl.cs" />
+    <Compile Include="modules\video\PtrOfBackgroundSubtractor.cs" />
+    <Compile Include="modules\video\BackgroundSubtractorMOG2.cs" />
+    <Compile Include="modules\video\PtrOfBackgroundSubtractorMOG.cs" />
+    <Compile Include="modules\video\PtrOfBackgroundSubtractorMOG2.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Algorithm.cs" />
     <Compile Include="PInvoke\NativeMethods_core_SparseMat.cs" />
     <Compile Include="PInvoke\NativeMethods_core_RNG.cs" />
@@ -318,7 +322,6 @@
     <Compile Include="Vector\VectorOfVectorKeyPoint.cs" />
     <Compile Include="Vector\VectorOfPoint3f.cs" />
     <Compile Include="modules\video\BackgroundSubtractorMOG.cs" />
-    <Compile Include="modules\video\BackgroundSubtractorMog2.cs" />
     <Compile Include="Enum\HistogramNormType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector\VectorOfPoint2f.cs" />

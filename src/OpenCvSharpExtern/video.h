@@ -11,28 +11,32 @@
 #pragma region background_segm
 
 // BackgroundSubtractor
-CVAPI(size_t) video_BackgroundSubtractor_sizeof()
-{
-	return sizeof(cv::BackgroundSubtractor);
-}
 CVAPI(void) video_BackgroundSubtractor_getBackgroundImage(cv::BackgroundSubtractor *obj, cv::_OutputArray *backgroundImage)
 {
 	obj->getBackgroundImage(*backgroundImage);
 }
+CVAPI(void) video_BackgroundSubtractor_operator(cv::BackgroundSubtractor *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+{
+	(*obj)(*image, *fgmask, learningRate);
+}  
 
+CVAPI(void) video_Ptr_BackgroundSubtractor_delete(cv::Ptr<cv::BackgroundSubtractor> *ptr)
+{
+	delete ptr;
+}
+CVAPI(cv::BackgroundSubtractor*) video_Ptr_BackgroundSubtractor_obj(cv::Ptr<cv::BackgroundSubtractor> *ptr)
+{
+    return ptr->obj;
+}
 
 // BackgroundSubtractorMOG
-CVAPI(size_t) video_BackgroundSubtractorMOG_sizeof()
+CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG>*) video_BackgroundSubtractorMOG_new1()
 {
-	return sizeof(cv::BackgroundSubtractorMOG);
+	return Wrap( new cv::BackgroundSubtractorMOG() );
 }
-CVAPI(cv::BackgroundSubtractorMOG*) video_BackgroundSubtractorMOG_new1()
+CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG>*) video_BackgroundSubtractorMOG_new2(int history, int nmixtures, double backgroundRatio, double noiseSigma)
 {
-	return new cv::BackgroundSubtractorMOG();
-}
-CVAPI(cv::BackgroundSubtractorMOG*) video_BackgroundSubtractorMOG_new2(int history, int nmixtures, double backgroundRatio, double noiseSigma)
-{
-	return new cv::BackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
+	return Wrap( new cv::BackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma) );
 }
 CVAPI(void) video_BackgroundSubtractorMOG_delete(cv::BackgroundSubtractorMOG *obj)
 {
@@ -47,21 +51,25 @@ CVAPI(void) video_BackgroundSubtractorMOG_initialize(cv::BackgroundSubtractorMOG
 	obj->initialize(frameSize, frameType);
 }
 
+CVAPI(void) video_Ptr_BackgroundSubtractorMOG_delete(cv::Ptr<cv::BackgroundSubtractorMOG> *ptr)
+{
+	delete ptr;
+}
+CVAPI(cv::BackgroundSubtractorMOG*) video_Ptr_BackgroundSubtractorMOG_obj(cv::Ptr<cv::BackgroundSubtractorMOG> *ptr)
+{
+    return ptr->obj;
+}
 	
 
 // BackgroundSubtractorMOG2
-CVAPI(size_t) video_BackgroundSubtractorMOG2_sizeof()
+CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG2>*) video_BackgroundSubtractorMOG2_new1()
 {
-	return sizeof(cv::BackgroundSubtractorMOG2);
+	return Wrap( new cv::BackgroundSubtractorMOG2());
 }
-CVAPI(cv::BackgroundSubtractorMOG2*) video_BackgroundSubtractorMOG2_new1()
-{
-	return new cv::BackgroundSubtractorMOG2();
-}
-CVAPI(cv::BackgroundSubtractorMOG2*) video_BackgroundSubtractorMOG2_new2(
+CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG2>*) video_BackgroundSubtractorMOG2_new2(
     int history, float varThreshold, int bShadowDetection)
 {
-	return new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection!=0);
+	return Wrap( new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection!=0) );
 }
 CVAPI(void) video_BackgroundSubtractorMOG2_delete(cv::BackgroundSubtractorMOG2 *obj)
 {
@@ -81,6 +89,15 @@ CVAPI(void) video_BackgroundSubtractorMOG2_initialize(
     cv::BackgroundSubtractorMOG2 *obj, CvSize frameSize, int frameType)
 {
 	obj->initialize(frameSize, frameType);
+}
+
+CVAPI(void) video_Ptr_BackgroundSubtractorMOG2_delete(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr)
+{
+	delete ptr;
+}
+CVAPI(cv::BackgroundSubtractorMOG2*) video_Ptr_BackgroundSubtractorMOG2_obj(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr)
+{
+    return ptr->obj;
 }
 
 #pragma endregion

@@ -24,6 +24,10 @@ namespace OpenCvSharp.Sandbox
 
         static void Run()
         {
+            BackgroundSubtractor al = Algorithm.Create<BackgroundSubtractor>("BackgroundSubtractor.MOG2");
+            string[] p = al.GetParams();
+            p.ToString();
+
             var src = new Mat("img/lenna.png");
             var rand = new Random();
             var memory = new List<long>(100);

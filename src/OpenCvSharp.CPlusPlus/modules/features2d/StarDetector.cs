@@ -4,10 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -125,7 +121,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public AlgorithmInfo Info
+        public override AlgorithmInfo Info
         {
             get
             {
