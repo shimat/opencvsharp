@@ -62,7 +62,12 @@ static inline cv::Mat entity(cv::Mat *obj)
 template <typename T>
 static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
 {
-    return new cv::Ptr<T>( ptr.obj );
+    return new cv::Ptr<T>( ptr );
+}
+template <typename T>
+static inline cv::Ptr<T> *Wrap(T *ptr)
+{
+    return new cv::Ptr<T>( ptr );
 }
 
 #endif
