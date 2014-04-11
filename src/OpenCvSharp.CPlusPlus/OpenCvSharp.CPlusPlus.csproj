@@ -158,7 +158,9 @@
     <Compile Include="modules\objdetect\SimilarRects.cs" />
     <Compile Include="modules\objdetect\LatendSvmDetector.cs" />
     <Compile Include="modules\superres\FrameSource.cs" />
+    <Compile Include="modules\superres\DenseOpticalFlowExt.cs" />
     <Compile Include="modules\superres\SuperResolution.cs" />
+    <Compile Include="modules\superres\DenseOpticalFlowExtImpl.cs" />
     <Compile Include="modules\superres\SuperResolutionImpl.cs" />
     <Compile Include="modules\superres\FrameSourceImpl.cs" />
     <Compile Include="modules\video\BackgroundSubtractorMOG2.cs" />

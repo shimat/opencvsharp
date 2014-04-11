@@ -45,6 +45,8 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void superres_SuperResolution_reset(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void superres_SuperResolution_collectGarbage(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_SuperResolution_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr superres_createSuperResolution_BTVL1();
@@ -58,7 +60,42 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void superres_Ptr_SuperResolution_delete(IntPtr ptr);
 
+
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr superres_SuperResolution_info(IntPtr obj);
+        public static extern void superres_DenseOpticalFlowExt_calc(
+            IntPtr obj, IntPtr frame0, IntPtr frame1, IntPtr flow1, IntPtr flow2);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void superres_DenseOpticalFlowExt_collectGarbage(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_DenseOpticalFlowExt_info(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_Ptr_DenseOpticalFlowExt_obj(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void superres_Ptr_DenseOpticalFlowExt_delete(IntPtr ptr);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_Farneback();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_Farneback_GPU();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_Farneback_OCL();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_Simple();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_DualTVL1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_DualTVL1_GPU();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_DualTVL1_OCL();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_Brox_GPU();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_PyrLK_GPU();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_createOptFlow_PyrLK_OCL();
+
     }
 }
