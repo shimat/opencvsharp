@@ -27,15 +27,13 @@ namespace OpenCvSharp.Sandbox
             string[] algoNames = Algorithm.GetList();
             algoNames.ToString();
 
-            //BackgroundSubtractor al1 = Algorithm.Create<BackgroundSubtractor>("BackgroundSubtractor.MOG2");
-            //Console.WriteLine(al1.ToString());
-
-            SIFT al2 = Algorithm.Create<SIFT>("Feature2D.SIFT");
-            string[] ppp = al2.GetParams();
+            SIFT al1 = Algorithm.Create<SIFT>("Feature2D.SIFT");
+            string[] ppp = al1.GetParams();
             Console.WriteLine(ppp);
-            double d = al2.GetDouble("contrastThreshold");
+            var t = al1.ParamType("contrastThreshold");
+            double d = al1.GetDouble("contrastThreshold");
+            t.ToString();
             d.ToString();
-            Console.WriteLine(al2.DescriptorSize);
 
             var src = new Mat("img/lenna.png");
             var rand = new Random();

@@ -11,10 +11,6 @@ namespace OpenCvSharp.CPlusPlus
     public abstract class Algorithm : DisposableCvObject
     {
         /// <summary>
-        /// cv::Ptr&lt;Algorithm&gt;
-        /// </summary>
-        private Ptr<Algorithm> objectPtr;
-        /// <summary>
         /// 
         /// </summary>
         private bool disposed;
@@ -27,7 +23,6 @@ namespace OpenCvSharp.CPlusPlus
         {
         }
 
-        
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -41,15 +36,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             Dispose(true);
         }
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -57,40 +43,15 @@ namespace OpenCvSharp.CPlusPlus
         /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
         /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
         /// </param>
-#endif
         protected override void Dispose(bool disposing)
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (IsEnabledDispose)
-                    {
-                        if (objectPtr != null)
-                        {
-                            objectPtr.Dispose();
-                        }
-                        else
-                        {
-                            if (ptr != IntPtr.Zero)
-                                NativeMethods.core_Algorithm_delete(ptr);
-                        }
-                        objectPtr = null;
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    // 親の解放処理
-                    base.Dispose(disposing);
-                }
+                disposed = true;
+                base.Dispose(disposing);
             }
         }
+
         #endregion
         
         #region Get
@@ -320,6 +281,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
             return Info.ParamHelp(name);
         }
         /// <summary>
@@ -331,6 +294,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
             return Info.ParamType(name);
         }
 

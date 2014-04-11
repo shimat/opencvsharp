@@ -56,10 +56,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid cv::Ptr<DescriptorMatcher> pointer");
-            var detector = new DescriptorMatcher();
             var ptrObj = new Ptr<DescriptorMatcher>(ptr);
-            detector.detectorPtr = ptrObj;
-            detector.ptr = ptrObj.Obj;
+            var detector = new DescriptorMatcher
+                {
+                    detectorPtr = ptrObj, 
+                    ptr = ptrObj.Obj
+                };
             return detector;
         }
         /// <summary>
