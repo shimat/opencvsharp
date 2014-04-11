@@ -5,7 +5,7 @@ OpenCVを.NET Frameworkから利用するための、クロスプラットフォ
 
 ## Installation
 ### NuGet
-If you have Visual Studio 2012 or later, it is advisable to use [NuGet](http://www.nuget.org/). Search *'opencvsharp'* on the NuGet Package Manager.
+If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http://www.nuget.org/). Search *'opencvsharp'* on the NuGet Package Manager.
 * [x86 package](https://www.nuget.org/packages/OpenCvSharp-x86/) - for 32-bit OS
 * [x64 package](https://www.nuget.org/packages/OpenCvSharp-x64/) - for 64-bit OS
 
