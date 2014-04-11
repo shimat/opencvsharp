@@ -10,6 +10,7 @@
 #include <opencv2/legacy/legacy.hpp>
 #include <opencv2/nonfree/nonfree.hpp>
 #include <opencv2/superres/superres.hpp>
+#include <opencv2/superres/optical_flow.hpp>
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
@@ -62,8 +63,7 @@ static inline cv::Mat entity(cv::Mat *obj)
 template <typename T>
 static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
 {
-    ptr.addref();
-    return new cv::Ptr<T>( ptr.obj );
+    return new cv::Ptr<T>( ptr );
 }
 template <typename T>
 static inline cv::Ptr<T> *wrap(T *ptr)
