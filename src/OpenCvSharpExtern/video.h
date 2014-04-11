@@ -29,14 +29,19 @@ CVAPI(cv::BackgroundSubtractor*) video_Ptr_BackgroundSubtractor_obj(cv::Ptr<cv::
     return ptr->obj;
 }
 
+CVAPI(cv::AlgorithmInfo*) video_BackgroundSubtractor_info(cv::BackgroundSubtractor *obj)
+{
+	return obj->info();
+}
+
 // BackgroundSubtractorMOG
 CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG>*) video_BackgroundSubtractorMOG_new1()
 {
-	return Wrap( new cv::BackgroundSubtractorMOG() );
+	return wrap( new cv::BackgroundSubtractorMOG() );
 }
 CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG>*) video_BackgroundSubtractorMOG_new2(int history, int nmixtures, double backgroundRatio, double noiseSigma)
 {
-	return Wrap( new cv::BackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma) );
+	return wrap( new cv::BackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma) );
 }
 CVAPI(void) video_BackgroundSubtractorMOG_delete(cv::BackgroundSubtractorMOG *obj)
 {
@@ -64,12 +69,12 @@ CVAPI(cv::BackgroundSubtractorMOG*) video_Ptr_BackgroundSubtractorMOG_obj(cv::Pt
 // BackgroundSubtractorMOG2
 CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG2>*) video_BackgroundSubtractorMOG2_new1()
 {
-	return Wrap( new cv::BackgroundSubtractorMOG2());
+	return wrap( new cv::BackgroundSubtractorMOG2());
 }
 CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG2>*) video_BackgroundSubtractorMOG2_new2(
     int history, float varThreshold, int bShadowDetection)
 {
-	return Wrap( new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection!=0) );
+	return wrap( new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection!=0) );
 }
 CVAPI(void) video_BackgroundSubtractorMOG2_delete(cv::BackgroundSubtractorMOG2 *obj)
 {

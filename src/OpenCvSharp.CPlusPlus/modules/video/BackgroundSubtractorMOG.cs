@@ -11,13 +11,7 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public class BackgroundSubtractorMOG : BackgroundSubtractor
     {
-        /// <summary>
-        /// cv::Ptr&lt;FeatureDetector&gt;
-        /// </summary>
-        private PtrOfBackgroundSubtractorMOG objectPtr;
-        /// <summary>
-        /// 
-        /// </summary>
+        private Ptr<BackgroundSubtractorMOG> objectPtr;
         private bool disposed = false;
 
         #region Init & Disposal
@@ -29,7 +23,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr po = NativeMethods.video_BackgroundSubtractorMOG_new1();
             if (po == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG");
-            objectPtr = new PtrOfBackgroundSubtractorMOG(po);
+            objectPtr = new Ptr<BackgroundSubtractorMOG>(po);
             ptr = objectPtr.Obj;
         }
         /// <summary>
@@ -44,11 +38,11 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr po = NativeMethods.video_BackgroundSubtractorMOG_new2(history, nmixtures, backgroundRatio, noiseSigma);
             if (po == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG");
-            objectPtr = new PtrOfBackgroundSubtractorMOG(po);
+            objectPtr = new Ptr<BackgroundSubtractorMOG>(po);
             ptr = objectPtr.Obj;
         }
 
-        internal BackgroundSubtractorMOG(PtrOfBackgroundSubtractorMOG objectPtr, IntPtr ptr)
+        internal BackgroundSubtractorMOG(Ptr<BackgroundSubtractorMOG> objectPtr, IntPtr ptr)
         {
             this.objectPtr = objectPtr;
             this.ptr = ptr;
@@ -64,7 +58,7 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid BackgroundSubtractorMOG pointer");
 
-            var ptrObj = new PtrOfBackgroundSubtractorMOG(ptr);
+            var ptrObj = new Ptr<BackgroundSubtractorMOG>(ptr);
             var obj = new BackgroundSubtractorMOG(ptrObj, ptrObj.Obj);
             return obj;
         }

@@ -17,7 +17,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// cv::Ptr&lt;FeatureDetector&gt;
         /// </summary>
-        private PtrOfBackgroundSubtractor objectPtr;
+        private Ptr<BackgroundSubtractor> objectPtr;
         /// <summary>
         /// 
         /// </summary>
@@ -28,12 +28,12 @@ namespace OpenCvSharp.CPlusPlus
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new BackgroundSubtractor FromPtr(IntPtr ptr)
+        internal static BackgroundSubtractor FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid BackgroundSubtractor pointer");
 
-            var ptrObj = new PtrOfBackgroundSubtractor(ptr);
+            var ptrObj = new Ptr<BackgroundSubtractor>(ptr);
             var obj = new BackgroundSubtractor
             {
                 objectPtr = ptrObj,
@@ -45,7 +45,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates instance from raw T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new BackgroundSubtractor FromRawPtr(IntPtr ptr)
+        internal static BackgroundSubtractor FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid BackgroundSubtractor pointer");
@@ -99,6 +99,15 @@ namespace OpenCvSharp.CPlusPlus
                     base.Dispose(disposing);
                 }
             }
+        }
+
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.video_BackgroundSubtractor_info(ptr); }
         }
 
         /// <summary>

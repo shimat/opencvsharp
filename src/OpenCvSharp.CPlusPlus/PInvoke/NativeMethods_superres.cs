@@ -58,5 +58,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void superres_Ptr_SuperResolution_delete(IntPtr ptr);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr superres_SuperResolution_info(IntPtr obj);
     }
 }

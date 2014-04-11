@@ -8,16 +8,16 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// Base class for high-level OpenCV algorithms
     /// </summary>
-    public class Algorithm : DisposableCvObject
+    public abstract class Algorithm : DisposableCvObject
     {
         /// <summary>
-        /// cv::Ptr&lt;FeatureDetector&gt;
+        /// cv::Ptr&lt;Algorithm&gt;
         /// </summary>
-        private PtrOfAlgorithm objectPtr;
+        private Ptr<Algorithm> objectPtr;
         /// <summary>
         /// 
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init & Disposal
         /// <summary>
@@ -25,48 +25,8 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         internal Algorithm()
         {
-            ptr = NativeMethods.core_Algorithm_new();
-            objectPtr = PtrOfAlgorithm.FromRawPtr(ptr);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        internal Algorithm(IntPtr ptr)
-        {
-            base.ptr = ptr;
-            IsEnabledDispose = false;
         }
 
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static Algorithm FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            
-            var ptrObj = new PtrOfAlgorithm(ptr);
-            var obj = new Algorithm
-                {
-                    objectPtr = ptrObj, 
-                    ptr = ptrObj.Obj
-                };
-            return obj;
-        }
-        /// <summary>
-        /// Creates instance from raw T*
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static Algorithm FromRawPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            return new Algorithm(ptr);
-        }
         
 #if LANG_JP
         /// <summary>
@@ -132,21 +92,13 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
-
-        /// <summary>
-        /// Returns the algorithm name
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                StringBuilder buf = new StringBuilder(1024);
-                NativeMethods.core_Algorithm_name(ptr, buf, buf.Capacity);
-                return buf.ToString();
-            }
-        }
-
+        
         #region Get
+        // Get/Set は、cv::Algorithm のメソッドを単純に呼ぶとクラッシュする。
+        // レシーバのポインタ型が常に cv::Algorithm* になってしまうため。
+        // なので、内部実装を参考に AlgorithmInfoを直接叩く。
+        // Algorithm::info() はabstractで、各子クラス固有の AlgorithmInfo*が取れる。
+
         /// <summary>
         /// Returns the algorithm parameter
         /// </summary>
@@ -156,7 +108,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            return NativeMethods.core_Algorithm_getInt(ptr, name);            
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+            IntPtr info = InfoPtr;
+            int value = 0;
+            NativeMethods.core_AlgorithmInfo_getInt(
+                info, ptr, name, (int)AlgorithmParamType.Int, ref value);
+            return value;
         }
         /// <summary>
         /// Returns the algorithm parameter
@@ -167,8 +125,15 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            return NativeMethods.core_Algorithm_getDouble(ptr, name);
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+            IntPtr info = InfoPtr;
+            double value = 0;
+            NativeMethods.core_AlgorithmInfo_getDouble(
+                info, ptr, name, (int)AlgorithmParamType.Real, ref value);
+            return value;
         }
+
         /// <summary>
         /// Returns the algorithm parameter
         /// </summary>
@@ -178,7 +143,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            return NativeMethods.core_Algorithm_getBool(ptr, name) != 0;
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+            IntPtr info = InfoPtr;
+            int valueInt = 0;
+            NativeMethods.core_AlgorithmInfo_getBool(
+                info, ptr, name, (int)AlgorithmParamType.Boolean, ref valueInt);
+            return valueInt != 0;
         }
         /// <summary>
         /// Returns the algorithm parameter
@@ -189,8 +160,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            StringBuilder buf = new StringBuilder(1024);
-            NativeMethods.core_Algorithm_getString(ptr, name, buf, buf.Capacity);
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+            IntPtr info = InfoPtr;
+            StringBuilder buf = new StringBuilder(1 << 16);
+            NativeMethods.core_AlgorithmInfo_getString(
+                info, ptr, name, (int)AlgorithmParamType.String, buf, buf.Capacity);
             return buf.ToString();
         }
         /// <summary>
@@ -202,9 +177,15 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            IntPtr mat = NativeMethods.core_Algorithm_getMat(ptr, name);
-            return new Mat(mat);
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+            IntPtr info = InfoPtr;
+            Mat value = new Mat();
+            NativeMethods.core_AlgorithmInfo_getMat(
+                info, ptr, name, (int)AlgorithmParamType.Mat, value.CvPtr);
+            return value;
         }
+
         /// <summary>
         /// Returns the algorithm parameter
         /// </summary>
@@ -214,11 +195,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            using (var vec = new VectorOfMat())
-            {
-                NativeMethods.core_Algorithm_getMatVector(ptr, name, vec.CvPtr);
-                return vec.ToArray();
-            }
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Returns the algorithm parameter
@@ -229,9 +206,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            IntPtr ptrObj = NativeMethods.core_Algorithm_getAlgorithm(ptr, name);
-            return FromPtr(ptrObj);
+            throw new NotImplementedException();
         }
+
         #endregion
 
         #region Set
@@ -244,7 +221,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            NativeMethods.core_Algorithm_setInt(ptr, name, value);
+            IntPtr info = InfoPtr;
+            NativeMethods.core_AlgorithmInfo_setInt(
+                info, ptr, name, (int)AlgorithmParamType.Int, value, 0);
         }
         /// <summary>
         /// Sets the algorithm parameter
@@ -255,7 +234,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            NativeMethods.core_Algorithm_setDouble(ptr, name, value);
+            IntPtr info = InfoPtr;
+            NativeMethods.core_AlgorithmInfo_setDouble(
+                info, ptr, name, (int)AlgorithmParamType.Real, value, 0);
         }
         /// <summary>
         /// Sets the algorithm parameter
@@ -266,7 +247,10 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            NativeMethods.core_Algorithm_setBool(ptr, name, value);
+            IntPtr info = InfoPtr;
+            int valueInt = value ? 1 : 0;
+            NativeMethods.core_AlgorithmInfo_setBool(
+                info, ptr, name, (int)AlgorithmParamType.Boolean, valueInt, 0);
         }
         /// <summary>
         /// Sets the algorithm parameter
@@ -277,7 +261,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            NativeMethods.core_Algorithm_setString(ptr, name, value);
+            IntPtr info = InfoPtr;
+            NativeMethods.core_AlgorithmInfo_setString(
+                info, ptr, name, (int)AlgorithmParamType.String, value, 0);
         }
         /// <summary>
         /// Sets the algorithm parameter
@@ -291,8 +277,12 @@ namespace OpenCvSharp.CPlusPlus
             if (value == null)
                 throw new ArgumentNullException("value");
             value.ThrowIfDisposed();
-            NativeMethods.core_Algorithm_setMat(ptr, name, value.CvPtr);
+
+            IntPtr info = InfoPtr;
+            NativeMethods.core_AlgorithmInfo_setMat(
+                info, ptr, name, (int)AlgorithmParamType.Mat, value.CvPtr, 0);
         }
+
         /// <summary>
         /// Sets the algorithm parameter
         /// </summary>
@@ -300,12 +290,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="value">The parameter value.</param>
         public void SetMatVector(string name, IEnumerable<Mat> value)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Algorithm");
-            if (value == null)
-                throw new ArgumentNullException("value");
-            IntPtr[] valueArray = EnumerableEx.SelectPtrs(value);
-            NativeMethods.core_Algorithm_setMatVector(ptr, name, valueArray, valueArray.Length);
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Sets the algorithm parameter
@@ -314,11 +299,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="value">The parameter value.</param>
         public void SetAlgorithm(string name, Algorithm value)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Algorithm");
-            NativeMethods.core_Algorithm_setAlgorithm(ptr, name, value.CvPtr);
+            throw new NotImplementedException();
         }
         #endregion
+
+        /// <summary>
+        /// Returns the algorithm name
+        /// </summary>
+        public string Name
+        {
+            get { return Info.Name; }
+        }
 
         /// <summary>
         /// 
@@ -329,21 +320,20 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            var buf = new StringBuilder(4096);
-            NativeMethods.core_Algorithm_paramHelp(ptr, name, buf, buf.Capacity);
-            return buf.ToString();
+            return Info.ParamHelp(name);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public int ParamType(string name)
+        public AlgorithmParamType ParamType(string name)
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            return NativeMethods.core_Algorithm_paramType(ptr, name);
+            return Info.ParamType(name);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -352,11 +342,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("Algorithm");
-            using (var namesVec = new VectorOfString())
-            {
-                NativeMethods.core_Algorithm_getParams(ptr, namesVec.CvPtr);
-                return namesVec.ToArray();
-            }
+            return Info.GetParams();
         }
 
         /// <summary>
@@ -377,54 +363,87 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="name">The algorithm name, one of the names returned by GetList()</param>
         /// <returns></returns>
-        public static Algorithm Create(string name)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
-
-            // cv::Ptr<T> を作成
-            IntPtr p = NativeMethods.core_Algorithm_create(name);
-            if (p == IntPtr.Zero)
-                throw new OpenCvSharpException("Algorithm name [" + name + "] not found");
-            return FromPtr(p);
-        }
-        /// <summary>
-        /// Creates algorithm instance by name
-        /// </summary>
-        /// <param name="name">The algorithm name, one of the names returned by GetList()</param>
-        /// <returns></returns>
         public static T Create<T>(string name)
             where T : Algorithm
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
-
-            // cv::Ptr<T> でAlgorithmを受け取る
-            IntPtr p = NativeMethods.core_Algorithm_create(name);
-            if(p == IntPtr.Zero)
-                throw new OpenCvSharpException("Algorithm name [" + name + "] not found");
-
+            
             // リフレクションでオブジェクト生成
             Type t = typeof(T);
-            MethodInfo mi = t.GetMethod("FromPtr", BindingFlags.NonPublic | BindingFlags.Static);
+            MethodInfo mi = t.GetMethod("CreateAlgorithm", BindingFlags.Public | BindingFlags.Static);
             if (mi == null)
-                throw new NotSupportedException("Algorithm type [" + t.Name + "] not supported");
-            return (T)mi.Invoke(null, new object[] {p});
+                throw new OpenCvSharpException("Algorithm type [" + t.Name + "] not supported");
+            return (T)mi.Invoke(null, new object[] {name});
         }
 
         /// <summary>
         /// Algorithm information
         /// </summary>
         /// <returns></returns>
-        public virtual AlgorithmInfo Info
+        public AlgorithmInfo Info
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException("Algorithm");
-                IntPtr p = NativeMethods.core_Algorithm_info(ptr);
-                return new AlgorithmInfo(p);
+                return infoObj ?? (infoObj = new AlgorithmInfo(InfoPtr));
             }
+        }
+        private AlgorithmInfo infoObj;
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public abstract IntPtr InfoPtr { get; }
+
+        /// <summary>
+        /// Returns a string that represents this Algorithm.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            var str = new StringBuilder();
+            str.AppendFormat("Algorithm [{0}]\n", Name);
+
+            string[] names = GetParams();
+            foreach (string name in names)
+            {
+                AlgorithmParamType type = ParamType(name);
+                string typeName = Enum.GetName(typeof(AlgorithmParamType), type);
+                str.AppendFormat(" * {0} {1} = ", typeName, name);
+
+                switch (type)
+                {
+                    case AlgorithmParamType.Int:
+                    case AlgorithmParamType.Short:
+                    case AlgorithmParamType.UChar:
+                        str.AppendFormat("{0}\n", GetInt(name));
+                        break;
+                    case AlgorithmParamType.Boolean:
+                        str.AppendFormat("{0}\n", GetBool(name));
+                        break;
+                    case AlgorithmParamType.Real:
+                    case AlgorithmParamType.Float:
+                    case AlgorithmParamType.UInt64:
+                        str.AppendFormat("{0}\n", GetDouble(name));
+                        break;
+                    case AlgorithmParamType.Mat:
+                        str.AppendFormat("{0}\n", GetMat(name).ToString());
+                        break;
+                    case AlgorithmParamType.MatVector:
+                        str.AppendFormat("Mat[{0}]\n", GetMatVector(name).Length);
+                        break;
+                    case AlgorithmParamType.String:
+                        str.AppendFormat("{0}\n", GetString(name));
+                        break;
+                    case AlgorithmParamType.Algorithm:
+                        str.AppendFormat("{0}\n", GetAlgorithm(name).Name);
+                        break;
+                }
+            }
+
+            return str.ToString();
         }
     }
 }

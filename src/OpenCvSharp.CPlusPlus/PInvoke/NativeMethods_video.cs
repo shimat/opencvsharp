@@ -25,6 +25,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void video_Ptr_BackgroundSubtractor_delete(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_Ptr_BackgroundSubtractor_obj(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr video_BackgroundSubtractor_info(IntPtr obj);
         #endregion
         #region BackgroundSubtractorMOG
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

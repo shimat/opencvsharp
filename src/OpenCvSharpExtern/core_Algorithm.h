@@ -8,11 +8,6 @@
 
 #include "include_opencv.h"
 
-CVAPI(int) core_Algorithm_sizeof()
-{
-	return sizeof(cv::Algorithm);
-}
-
 CVAPI(cv::Algorithm*) core_Algorithm_new()
 {
 	return new cv::Algorithm();
@@ -20,6 +15,12 @@ CVAPI(cv::Algorithm*) core_Algorithm_new()
 CVAPI(void) core_Algorithm_delete(cv::Algorithm *obj)
 {
 	delete obj;
+}
+
+CVAPI(cv::Ptr<cv::Algorithm>*) core_Algorithm_create(const char *name)
+{
+    cv::Ptr<cv::Algorithm> al = cv::Algorithm::_create(name);
+    return al.empty() ? NULL : clone( al );
 }
 
 CVAPI(cv::Ptr<cv::Algorithm>*) core_Ptr_Algorithm_new(cv::Algorithm *rawPtr)
@@ -35,9 +36,10 @@ CVAPI(cv::Algorithm*) core_Ptr_Algorithm_obj(cv::Ptr<cv::Algorithm> *ptr)
 	return ptr->obj;
 }
 
-CVAPI(void) core_Algorithm_name(cv::Algorithm *obj, char *buf, int maxLength)
+CVAPI(void) core_Algorithm_name(cv::Algorithm *obj, char *buf, int bufLength)
 {
-    std::strncpy(buf, obj->name().c_str(), (size_t)(maxLength - 1));
+    std::string name = reinterpret_cast<cv::FeatureDetector*>(obj)->name();
+    copyString(name, buf, bufLength);
 }
 
 CVAPI(int) core_Algorithm_getInt(cv::Algorithm *obj, const char *name)
@@ -53,14 +55,14 @@ CVAPI(int) core_Algorithm_getBool(cv::Algorithm *obj, const char *name)
 	return obj->getBool(name) ? 1 : 0;
 }
 CVAPI(void) core_Algorithm_getString(cv::Algorithm *obj, const char *name, 
-                                     char *buf, int maxLength) 
+                                     char *buf, int bufLength) 
 {
-	std::string str = obj->getString(name);
-	std::strncpy(buf, str.c_str(), (size_t)(maxLength - 1));
+	std::string result = obj->getString(name);
+	copyString(result, buf, bufLength);
 }
 CVAPI(cv::Mat*) core_Algorithm_getMat(cv::Algorithm *obj, const char *name) 
 {
-	cv::Mat mat = obj->getMat(name);
+	cv::Mat &mat = obj->getMat(name);
 	return new cv::Mat(mat);
 }
 CVAPI(void) core_Algorithm_getMatVector(cv::Algorithm *obj, const char *name,
@@ -131,11 +133,6 @@ CVAPI(void) core_Algorithm_getParams(cv::Algorithm *obj, std::vector<std::string
 CVAPI(void) core_Algorithm_getList(std::vector<std::string> *algorithms)
 {
     cv::Algorithm::getList(*algorithms);
-}
-CVAPI(cv::Ptr<cv::Algorithm>*) core_Algorithm_create(const char *name)
-{
-    cv::Ptr<cv::Algorithm> al = cv::Algorithm::_create(name);
-    return al.empty() ? NULL : clone( al );
 }
 CVAPI(cv::AlgorithmInfo*) core_Algorithm_info(cv::Algorithm *obj)
 {

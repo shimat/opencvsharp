@@ -60,11 +60,24 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public string[] GetParams()
+        {
+            using (var namesVec = new VectorOfString())
+            {
+                NativeMethods.core_AlgorithmInfo_getParams(ptr, namesVec.CvPtr);
+                return namesVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public int ParamType(string name)
+        public AlgorithmParamType ParamType(string name)
         {
-            return NativeMethods.core_AlgorithmInfo_paramType(ptr, name);
+            return (AlgorithmParamType)NativeMethods.core_AlgorithmInfo_paramType(ptr, name);
         }
     }
 }

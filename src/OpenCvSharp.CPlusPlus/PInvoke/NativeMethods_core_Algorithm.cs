@@ -14,14 +14,11 @@ namespace OpenCvSharp.CPlusPlus
     internal static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_Algorithm_sizeof();
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Algorithm_new();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Algorithm_delete(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern void core_Algorithm_name(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf, int maxLength);
+        public static extern void core_Algorithm_name(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf, int bufLength);
 
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

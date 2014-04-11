@@ -12,7 +12,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// cv::Ptr&lt;Feature2D&gt;
         /// </summary>
-        private PtrOfFeature2D detectorPtr;
+        private Ptr<Feature2D> detectorPtr;
 
         /// <summary>
         /// 
@@ -29,8 +29,8 @@ namespace OpenCvSharp.CPlusPlus
         internal static new Feature2D FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid Feature2D pointer");
-            var ptrObj = new PtrOfFeature2D(ptr);
+                throw new OpenCvSharpException("Invalid cv::Ptr<Feature2D> pointer");
+            var ptrObj = new Ptr<Feature2D>(ptr);
             var detector = new Feature2D
                 {
                     detectorPtr = ptrObj, 

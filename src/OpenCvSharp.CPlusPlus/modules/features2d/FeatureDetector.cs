@@ -14,7 +14,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// cv::Ptr&lt;FeatureDetector&gt;
         /// </summary>
-        private PtrOfFeatureDetector detectorPtr;
+        private Ptr<FeatureDetector> detectorPtr;
 
         /// <summary>
         /// 
@@ -29,12 +29,12 @@ namespace OpenCvSharp.CPlusPlus
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new FeatureDetector FromPtr(IntPtr ptr)
+        internal static FeatureDetector FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            
-            var ptrObj = new PtrOfFeatureDetector(ptr);
+
+            var ptrObj = new Ptr<FeatureDetector>(ptr);
             var detector = new FeatureDetector
                 {
                     detectorPtr = ptrObj,
@@ -46,7 +46,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates instance from raw T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new FeatureDetector FromRawPtr(IntPtr ptr)
+        internal static FeatureDetector FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
@@ -101,6 +101,15 @@ namespace OpenCvSharp.CPlusPlus
                     base.Dispose(disposing);
                 }
             }
+        }
+
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.features2d_FeatureDetector_info(ptr); }
         }
 
         /// <summary>
@@ -183,7 +192,7 @@ namespace OpenCvSharp.CPlusPlus
         /// "SimpleBlob" – SimpleBlobDetector
         /// </param>
         /// <returns></returns>
-        public static new FeatureDetector Create(string detectorType)
+        public static FeatureDetector Create(string detectorType)
         {
             if(String.IsNullOrEmpty(detectorType))
                 throw new ArgumentNullException("detectorType");

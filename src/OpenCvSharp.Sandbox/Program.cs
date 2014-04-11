@@ -22,11 +22,20 @@ namespace OpenCvSharp.Sandbox
             Run();
         }
 
-        static void Run()
+        private static void Run()
         {
-            BackgroundSubtractor al = Algorithm.Create<BackgroundSubtractor>("BackgroundSubtractor.MOG2");
-            string[] p = al.GetParams();
-            p.ToString();
+            string[] algoNames = Algorithm.GetList();
+            algoNames.ToString();
+
+            //BackgroundSubtractor al1 = Algorithm.Create<BackgroundSubtractor>("BackgroundSubtractor.MOG2");
+            //Console.WriteLine(al1.ToString());
+
+            SIFT al2 = Algorithm.Create<SIFT>("Feature2D.SIFT");
+            string[] ppp = al2.GetParams();
+            Console.WriteLine(ppp);
+            double d = al2.GetDouble("contrastThreshold");
+            d.ToString();
+            Console.WriteLine(al2.DescriptorSize);
 
             var src = new Mat("img/lenna.png");
             var rand = new Random();
@@ -37,8 +46,11 @@ namespace OpenCvSharp.Sandbox
             var a3 = new Mat(src, Rect.FromLTRB(0, 0, 30, 40));
             a3.ToString();
 
-            for (long i = 0; ; i++)
+            for (long i = 0;; i++)
             {
+                SIFT a = Algorithm.Create<SIFT>("Feature2D.SIFT");
+                a.ToString();
+
                 for (int j = 0; j < 200; j++)
                 {
                     int c1 = rand.Next(100, 400);
@@ -57,7 +69,8 @@ namespace OpenCvSharp.Sandbox
                     GC.Collect();
                 }
             }
-            
+
         }
+
     }
 }

@@ -53,6 +53,7 @@ CVAPI(void) superres_Ptr_FrameSource_delete(cv::Ptr<cv::superres::FrameSource> *
 	delete ptr;
 }
 
+
 CVAPI(void) superres_SuperResolution_setInput(
     cv::superres::SuperResolution *obj, cv::superres::FrameSource *frameSource)
 {
@@ -72,8 +73,7 @@ CVAPI(void) superres_SuperResolution_collectGarbage(cv::superres::SuperResolutio
     obj->collectGarbage();
 }
 
-// S. Farsiu , D. Robinson, M. Elad, P. Milanfar. Fast and robust multiframe super resolution.
-// Dennis Mitzel, Thomas Pock, Thomas Schoenemann, Daniel Cremers. Video Super Resolution using Duality Based TV-L1 Optical Flow.
+
 CVAPI(cv::Ptr<cv::superres::SuperResolution>*) superres_createSuperResolution_BTVL1()
 {
     return clone( cv::superres::createSuperResolution_BTVL1() );
@@ -94,6 +94,11 @@ CVAPI(cv::superres::SuperResolution*) superres_Ptr_SuperResolution_obj(cv::Ptr<c
 CVAPI(void) superres_Ptr_SuperResolution_delete(cv::Ptr<cv::superres::SuperResolution> *ptr)
 {
 	delete ptr;
+}
+
+CVAPI(cv::AlgorithmInfo*) superres_SuperResolution_info(cv::superres::SuperResolution *obj)
+{
+	return obj->info();
 }
 
 #endif

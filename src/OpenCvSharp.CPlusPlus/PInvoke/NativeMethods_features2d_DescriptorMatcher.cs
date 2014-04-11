@@ -41,6 +41,10 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr features2d_DescriptorMatcher_create([MarshalAs(UnmanagedType.LPStr)] string descriptorMatcherType);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_DescriptorMatcher_info(IntPtr obj);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_BFMatcher_new(int normType, int crossCheck);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_BFMatcher_delete(IntPtr obj);

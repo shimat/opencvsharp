@@ -11,11 +11,7 @@ namespace OpenCvSharp.CPlusPlus
     internal sealed class FrameSourceImpl : FrameSource
     {
         private bool disposed;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private PtrOfFrameSource detectorPtr;
+        private Ptr<FrameSource> detectorPtr;
 
         #region Init & Disposal
 
@@ -38,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
             var obj = new FrameSourceImpl();
-            var ptrObj = new PtrOfFrameSource(ptr);
+            var ptrObj = new Ptr<FrameSource>(ptr);
             obj.detectorPtr = ptrObj;
             obj.ptr = ptrObj.Obj;
             return obj;

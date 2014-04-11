@@ -52,6 +52,11 @@ CVAPI(void) features2d_Ptr_FeatureDetector_delete(cv::Ptr<cv::FeatureDetector>* 
 	delete ptr;
 }
 
+CVAPI(cv::AlgorithmInfo*) features2d_FeatureDetector_info(cv::FeatureDetector *obj)
+{
+	return obj->info();
+}
+
 #pragma endregion
 
 #pragma region Feature2D

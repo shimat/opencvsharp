@@ -17,7 +17,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        private PtrOfSuperResolution detectorPtr;
+        private Ptr<SuperResolution> detectorPtr;
 
         #region Init & Disposal
 
@@ -35,14 +35,17 @@ namespace OpenCvSharp.CPlusPlus
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new SuperResolutionImpl FromPtr(IntPtr ptr)
+        internal static SuperResolutionImpl FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
-            var obj = new SuperResolutionImpl();
-            var ptrObj = new PtrOfSuperResolution(ptr);
-            obj.detectorPtr = ptrObj;
-            obj.ptr = ptrObj.Obj;
+            
+            var ptrObj = new Ptr<SuperResolution>(ptr);
+            var obj = new SuperResolutionImpl
+                {
+                    detectorPtr = ptrObj, 
+                    ptr = ptrObj.Obj
+                };
             return obj;
         }
 
@@ -50,7 +53,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates instance from raw pointer T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new SuperResolutionImpl FromRawPtr(IntPtr ptr)
+        internal static SuperResolutionImpl FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
@@ -110,6 +113,15 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.superres_SuperResolution_info(ptr); }
+        }
+
         /// <summary>
         /// 
         /// </summary>

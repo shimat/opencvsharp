@@ -13,7 +13,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        private PtrOfDescriptorMatcher detectorPtr;
+        private Ptr<DescriptorMatcher> detectorPtr;
 
         #region Init & Disposal
         /// <summary>
@@ -30,7 +30,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="descriptorMatcherType"></param>
         /// <returns></returns>
-        public static new DescriptorMatcher Create(string descriptorMatcherType)
+        public static DescriptorMatcher Create(string descriptorMatcherType)
         {
             if (String.IsNullOrEmpty(descriptorMatcherType))
                 throw new ArgumentNullException("descriptorMatcherType");
@@ -52,12 +52,12 @@ namespace OpenCvSharp.CPlusPlus
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new DescriptorMatcher FromPtr(IntPtr ptr)
+        internal static DescriptorMatcher FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
+                throw new OpenCvSharpException("Invalid cv::Ptr<DescriptorMatcher> pointer");
             var detector = new DescriptorMatcher();
-            var ptrObj = new PtrOfDescriptorMatcher(ptr);
+            var ptrObj = new Ptr<DescriptorMatcher>(ptr);
             detector.detectorPtr = ptrObj;
             detector.ptr = ptrObj.Obj;
             return detector;
@@ -66,7 +66,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates instance from raw pointer T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new DescriptorMatcher FromRawPtr(IntPtr ptr)
+        internal static DescriptorMatcher FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
@@ -125,6 +125,16 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.features2d_DescriptorMatcher_info(ptr); }
+        }
+
         /// <summary>
         /// Add descriptors to train descriptor collection.
         /// </summary>

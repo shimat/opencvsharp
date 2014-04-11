@@ -22,6 +22,7 @@ namespace OpenCvSharp.CPlusPlus
     public class SIFT : Feature2D
     {
         private bool disposed;
+        private Ptr<SIFT> detectorPtr;
 
         #region Init & Disposal
 
@@ -45,6 +46,62 @@ namespace OpenCvSharp.CPlusPlus
         {
             ptr = NativeMethods.nonfree_SIFT_new(nFeatures, nOctaveLayers, 
                 contrastThreshold, edgeThreshold, sigma);
+        }
+
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal SIFT(Ptr<SIFT> detectorPtr)
+            : base()
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal SIFT(IntPtr rawPtr)
+            : base()
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+
+        /// <summary>
+        /// Creates a cv::Algorithm object using cv::Algorithm::create()
+        /// </summary>
+        /// <param name="name">The algorithm name, one of the names returned by Algorithm.GetList()</param>
+        /// <returns></returns>
+        public static SIFT CreateAlgorithm(string name)
+        {
+            // cv::Ptr<cv::Algorithm> を受け取る
+            IntPtr p = NativeMethods.nonfree_SIFT_createAlgorithm(name);
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException("Algorithm name [" + name + "] not found");
+            return FromPtr(p);
+        }
+
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new SIFT FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<SIFT> pointer");
+            var ptrObj = new Ptr<SIFT>(ptr);
+            return new SIFT(ptrObj);
+        }
+        /// <summary>
+        /// Creates instance from raw pointer T*
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new SIFT FromRawPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid SIFT pointer");
+            return new SIFT(ptr); 
         }
 
 #if LANG_JP
@@ -75,8 +132,15 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                    }
+                    else if (ptr != IntPtr.Zero)
+                    {
                         NativeMethods.nonfree_SIFT_delete(ptr);
+                    }
+                    detectorPtr = null;
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -118,18 +182,13 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// 
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
         /// </summary>
-        public override AlgorithmInfo Info
+        /// <returns></returns>
+        public override IntPtr InfoPtr
         {
-            get
-            {
-                ThrowIfDisposed();
-                IntPtr pInfo = NativeMethods.nonfree_SIFT_info(ptr);
-                return new AlgorithmInfo(pInfo);
-            }
+            get { return NativeMethods.nonfree_SIFT_info(ptr); }
         }
-
         #endregion
 
         #region Methods

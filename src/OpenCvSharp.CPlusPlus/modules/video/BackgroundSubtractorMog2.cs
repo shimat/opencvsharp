@@ -15,7 +15,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// cv::Ptr&lt;FeatureDetector&gt;
         /// </summary>
-        private PtrOfBackgroundSubtractorMOG2 objectPtr;
+        private Ptr<BackgroundSubtractorMOG2> objectPtr;
         /// <summary>
         /// 
         /// </summary>
@@ -30,7 +30,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr po = NativeMethods.video_BackgroundSubtractorMOG2_new1();
             if (po == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG2");
-            objectPtr = new PtrOfBackgroundSubtractorMOG2(po);
+            objectPtr = new Ptr<BackgroundSubtractorMOG2>(po);
             ptr = objectPtr.Obj;
         }
         /// <summary>
@@ -44,11 +44,11 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr po = NativeMethods.video_BackgroundSubtractorMOG2_new2(history, varThreshold, bShadowDetection ? 1 : 0);
             if (po == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG2");
-            objectPtr = new PtrOfBackgroundSubtractorMOG2(po);
+            objectPtr = new Ptr<BackgroundSubtractorMOG2>(po);
             ptr = objectPtr.Obj;
         }
 
-        internal BackgroundSubtractorMOG2(PtrOfBackgroundSubtractorMOG2 objectPtr, IntPtr ptr)
+        internal BackgroundSubtractorMOG2(Ptr<BackgroundSubtractorMOG2> objectPtr, IntPtr ptr)
         {
             this.objectPtr = objectPtr;
             this.ptr = ptr;
@@ -64,7 +64,7 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid BackgroundSubtractorMOG2 pointer");
 
-            var ptrObj = new PtrOfBackgroundSubtractorMOG2(ptr);
+            var ptrObj = new Ptr<BackgroundSubtractorMOG2>(ptr);
             var obj = new BackgroundSubtractorMOG2(ptrObj, ptrObj.Obj);
             return obj;
         }

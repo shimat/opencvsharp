@@ -88,16 +88,16 @@ namespace OpenCvSharp.CPlusPlus
             return base.Detect(image, mask);
         }
 
+
         /// <summary>
-        /// 
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
         /// </summary>
-        public override AlgorithmInfo Info
+        /// <returns></returns>
+        public override IntPtr InfoPtr
         {
             get
             {
-                ThrowIfDisposed();
-                IntPtr pInfo = NativeMethods.features2d_FastFeatureDetector_info(ptr);
-                return new AlgorithmInfo(pInfo);
+                return NativeMethods.features2d_FastFeatureDetector_info(ptr);
             }
         }
         #endregion
