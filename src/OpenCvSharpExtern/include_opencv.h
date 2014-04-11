@@ -20,6 +20,7 @@ typedef unsigned short uint16;
 
 #include <vector>
 #include <algorithm>
+#include <sstream>
 #include <iterator>
 #include <fstream>
 #include <iostream>
@@ -29,22 +30,21 @@ typedef unsigned short uint16;
 
 #ifdef _WIN32
 #include <Windows.h>
-static int p(const char *msg)
+static int p(const char *msg, const char caption[] = "MessageBox")
 {
-	return MessageBoxA(NULL, msg, "MessageBox", MB_OK);
+	return MessageBoxA(NULL, msg, caption, MB_OK);
+}
+
+template <typename T>
+static int p(T obj, const std::string &caption = "MessageBox")
+{
+	std::stringstream ss;
+	ss << obj;
+    return p(ss.str().c_str(), caption.c_str());
 }
 #undef min
 #undef max
 #endif
-#include <sstream>
-template <typename T>
-static int p(T obj)
-{
-	std::stringstream ss;
-	ss << obj;
-	return p(ss.str().c_str());
-}
-
 
 static inline cv::_InputArray entity(cv::_InputArray *obj)
 {
@@ -62,12 +62,35 @@ static inline cv::Mat entity(cv::Mat *obj)
 template <typename T>
 static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
 {
-    return new cv::Ptr<T>( ptr );
+    ptr.addref();
+    return new cv::Ptr<T>( ptr.obj );
 }
 template <typename T>
-static inline cv::Ptr<T> *Wrap(T *ptr)
+static inline cv::Ptr<T> *wrap(T *ptr)
 {
     return new cv::Ptr<T>( ptr );
 }
 
+static inline void copyString(const std::string &src, char *dst, int dstLength)
+{
+	if(src.empty())	    
+        std::strncpy(dst, "", dstLength - 1);    
+    else    
+        std::strncpy(dst, src.c_str(), dstLength - 1); 
+}
+
+template <typename T>
+static void dump(T *obj, const std::string &outFile)
+{
+    int size = sizeof(T);
+    std::vector<uchar> bytes(size);
+    std::memcpy(&bytes[0], (uchar*)obj, size);
+
+    auto fp = fopen(outFile.c_str(), "w");
+    for (auto it = bytes.begin(); it != bytes.end(); it++)
+    {
+        std::fprintf(fp, "%x,", (int)*it);
+    }
+    fclose(fp);
+}
 #endif

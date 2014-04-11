@@ -78,6 +78,11 @@ CVAPI(void) features2d_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::DescriptorMatche
 	delete ptr;
 }
 
+CVAPI(cv::AlgorithmInfo*) features2d_DescriptorMatcher_info(cv::DescriptorMatcher *obj)
+{
+	return obj->info();
+}
+
 #pragma endregion
 
 #pragma region BFMatcher
