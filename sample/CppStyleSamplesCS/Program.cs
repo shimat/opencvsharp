@@ -25,7 +25,8 @@ namespace CppStyleSamplesCS
                 //new HOGSample();
                 //new HoughLinesSample();
                 //new MSERSample();
-                new MDS();
+                //new MDS();
+                new DFT();
                 //new PixelAccess();
                 //new StarDetectorSample();
                 //new StereoCorrespondence();
