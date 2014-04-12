@@ -38,7 +38,7 @@ namespace OpenCvSharp.CPlusPlus
         internal static DenseOpticalFlowExtImpl FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FrameSource pointer");
+                throw new OpenCvSharpException("Invalid DenseOpticalFlowExt pointer");
 
             var ptrObj = new Ptr<DenseOpticalFlowExt>(ptr);
             var obj = new DenseOpticalFlowExtImpl
@@ -56,7 +56,7 @@ namespace OpenCvSharp.CPlusPlus
         internal static DenseOpticalFlowExtImpl FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FrameSource pointer");
+                throw new OpenCvSharpException("Invalid DenseOpticalFlowExt pointer");
             var obj = new DenseOpticalFlowExtImpl
                 {
                     detectorPtr = null,
@@ -158,10 +158,8 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public override void CollectGarbage()
         {
-
+            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(ptr); 
         }
-
-        
 
         #endregion
     }

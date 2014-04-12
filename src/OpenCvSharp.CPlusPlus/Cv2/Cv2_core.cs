@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    public static partial class Cv2
+    static partial class Cv2
     {
         #region Miscellaneous
         /// <summary>

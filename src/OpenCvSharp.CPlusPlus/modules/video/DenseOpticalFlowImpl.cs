@@ -8,23 +8,23 @@ namespace OpenCvSharp.CPlusPlus
     // ReSharper disable InconsistentNaming
 
     /// <summary>
-    /// class for defined Super Resolution algorithm.
+    /// 
     /// </summary>
-    internal sealed class SuperResolutionImpl : SuperResolution
+    internal sealed class DenseOpticalFlowImpl : DenseOpticalFlow
     {
         private bool disposed;
 
         /// <summary>
         /// 
         /// </summary>
-        private Ptr<SuperResolution> detectorPtr;
+        private Ptr<DenseOpticalFlow> detectorPtr;
 
         #region Init & Disposal
 
         /// <summary>
         /// 
         /// </summary>
-        private SuperResolutionImpl()
+        private DenseOpticalFlowImpl()
         {
             detectorPtr = null;
             ptr = IntPtr.Zero;
@@ -35,13 +35,13 @@ namespace OpenCvSharp.CPlusPlus
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static SuperResolutionImpl FromPtr(IntPtr ptr)
+        internal static DenseOpticalFlowImpl FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FrameSource pointer");
-            
-            var ptrObj = new Ptr<SuperResolution>(ptr);
-            var obj = new SuperResolutionImpl
+                throw new OpenCvSharpException("Invalid DenseOpticalFlow pointer");
+
+            var ptrObj = new Ptr<DenseOpticalFlow>(ptr);
+            var obj = new DenseOpticalFlowImpl
                 {
                     detectorPtr = ptrObj, 
                     ptr = ptrObj.Obj
@@ -53,11 +53,11 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates instance from raw pointer T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static SuperResolutionImpl FromRawPtr(IntPtr ptr)
+        internal static DenseOpticalFlowImpl FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid FrameSource pointer");
-            var obj = new SuperResolutionImpl
+                throw new OpenCvSharpException("Invalid DenseOpticalFlow pointer");
+            var obj = new DenseOpticalFlowImpl
                 {
                     detectorPtr = null,
                     ptr = ptr
@@ -119,68 +119,45 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override IntPtr InfoPtr
         {
-            get { return NativeMethods.superres_SuperResolution_info(ptr); }
+            get { return NativeMethods.video_DenseOpticalFlow_info(ptr); }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="fs"></param>
-        public override void SetInput(FrameSource fs)
+        /// <param name="frame0"></param>
+        /// <param name="frame1"></param>
+        /// <param name="flow"></param>
+        protected override void Calc(
+            InputArray frame0, InputArray frame1, OutputArray flow)
         {
-            ThrowIfDisposed();
-            if (fs == null)
-                throw new ArgumentNullException("fs");
-            NativeMethods.superres_SuperResolution_setInput(ptr, fs.CvPtr);
+            if (disposed)
+                throw new ObjectDisposedException("DenseOpticalFlowImpl");
+            if (frame0 == null)
+                throw new ArgumentNullException("frame0");
+            if (frame1 == null)
+                throw new ArgumentNullException("frame1");
+            if (flow == null)
+                throw new ArgumentNullException("flow");
+            frame0.ThrowIfDisposed();
+            frame1.ThrowIfDisposed();
+            flow.ThrowIfNotReady();
+
+            NativeMethods.video_DenseOpticalFlow_calc(
+                ptr, frame0.CvPtr, frame1.CvPtr, flow.CvPtr);
+
+            flow.Fix();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="frame"></param>
-        public override void NextFrame(OutputArray frame)
-        {
-            ThrowIfDisposed();
-            if (frame == null)
-                throw new ArgumentNullException("frame");
-            frame.ThrowIfNotReady();
-            NativeMethods.superres_SuperResolution_nextFrame(ptr, frame.CvPtr);
-            frame.Fix();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public override void Reset()
-        {
-            ThrowIfDisposed();
-            NativeMethods.superres_SuperResolution_reset(ptr);
-        }
+        
         /// <summary>
         /// 
         /// </summary>
         public override void CollectGarbage()
         {
-            ThrowIfDisposed();
-            NativeMethods.superres_SuperResolution_collectGarbage(ptr);
+            if (disposed)
+                throw new ObjectDisposedException("DenseOpticalFlowImpl");
+            NativeMethods.video_DenseOpticalFlow_collectGarbage(ptr);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        protected override void InitImpl(FrameSource fs)
-        {
-            // ネイティブ実装なので特別に空で。
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="output"></param>
-        protected override void ProcessImpl(FrameSource fs, OutputArray output)
-        {
-            // ネイティブ実装なので特別に空で。
-        }
-
         #endregion
     }
 }

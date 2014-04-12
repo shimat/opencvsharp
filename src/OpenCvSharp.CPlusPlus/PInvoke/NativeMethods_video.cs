@@ -123,7 +123,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_KalmanFilter_processNoiseCov(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr video_KalmanFilter_errorCovPrev(IntPtr obj);
+        public static extern IntPtr video_KalmanFilter_measurementNoiseCov(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr video_KalmanFilter_errorCovPre(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_KalmanFilter_gain(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -195,6 +197,11 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_createOptFlow_DualTVL1();
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr video_Ptr_DenseOpticalFlow_obj(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void video_Ptr_DenseOpticalFlow_delete(IntPtr ptr);
 
         #endregion
     }

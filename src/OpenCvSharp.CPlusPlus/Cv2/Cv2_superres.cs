@@ -4,7 +4,7 @@ namespace OpenCvSharp.CPlusPlus
 {
     // ReSharper disable InconsistentNaming
 
-    public static partial class Cv2
+    static partial class Cv2
     {
         /// <summary>
         /// 
@@ -106,7 +106,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <returns></returns>
-        public static DenseOpticalFlowExt CreateOptFlow_DualTVL1()
+        public static DenseOpticalFlowExt CreateOptFlow_DualTVL1Ex()
         {
             return DenseOpticalFlowExt.CreateDualTVL1();
         }

@@ -7,10 +7,7 @@ namespace OpenCvSharp.CPlusPlus
 {
     // ReSharper disable InconsistentNaming
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public static partial class Cv2
+    static partial class Cv2
     {
         #region Rodrigues
         /// <summary>

@@ -7,7 +7,7 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    public static partial class Cv2
+    static partial class Cv2
     {
         #region NamedWindow
         /// <summary>

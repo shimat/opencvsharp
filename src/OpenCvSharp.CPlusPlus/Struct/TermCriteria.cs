@@ -36,6 +36,21 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
+        /// full constructor with both type (count | epsilon)
+        /// </summary>
+        /// <param name="maxCount"></param>
+        /// <param name="epsilon"></param>
+        public static TermCriteria Both(int maxCount, double epsilon)
+        {
+            return new TermCriteria
+            {
+                Type = CriteriaType.Iteration | CriteriaType.Epsilon,
+                MaxCount = maxCount,
+                Epsilon = epsilon,
+            };
+        }
+
+        /// <summary>
         /// conversion from CvTermCriteria
         /// </summary>
         /// <param name="criteria"></param>
