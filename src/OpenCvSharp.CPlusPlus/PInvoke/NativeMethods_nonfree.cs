@@ -20,6 +20,15 @@ namespace OpenCvSharp.CPlusPlus
             int nOctaveLayers, int extended, int upright);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void nonfree_SURF_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern IntPtr nonfree_SURF_createAlgorithm([MarshalAs(UnmanagedType.LPStr)] string name);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr nonfree_Ptr_SURF_obj(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void nonfree_Ptr_SURF_delete(IntPtr ptr);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int nonfree_SURF_descriptorSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -55,11 +64,25 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void nonfree_SURF_upright_set(IntPtr obj, int value);
 
+
+
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr nonfree_SIFT_new(int nfeatures, int nOctaveLayers,
             double contrastThreshold, double edgeThreshold, double sigma);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void nonfree_SIFT_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern IntPtr nonfree_SIFT_createAlgorithm([MarshalAs(UnmanagedType.LPStr)] string name);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr nonfree_Ptr_SIFT_cast(IntPtr ptrAlgorithm);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr nonfree_Ptr_SIFT_obj(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void nonfree_Ptr_SIFT_delete(IntPtr ptr);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int nonfree_SIFT_descriptorSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

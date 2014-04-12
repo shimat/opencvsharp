@@ -92,7 +92,7 @@ namespace CStyleSamplesCS
             // todo: does not work
             //new EM();                          // EMアルゴリズム
 
-            new FaceDetect();                  // 顔の検出
+            //new FaceDetect();                  // 顔の検出
 
             //new FAST();                        // cv::FAST
 
@@ -112,8 +112,6 @@ namespace CStyleSamplesCS
             //new Histogram();                   // ヒストグラムの描画
 
             //new FitLine();                     // cvFitLine sample
-
-            //new HOG();                         // HOG sample (samples/c/peopledetect.c)
 
             //new HoughCircles();                // ハフ変換による円検出
 

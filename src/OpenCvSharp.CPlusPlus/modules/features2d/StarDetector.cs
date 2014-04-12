@@ -4,10 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -122,18 +118,16 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
 
+
         /// <summary>
-        /// 
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
         /// </summary>
-        public AlgorithmInfo Info
+        /// <returns></returns>
+        public override IntPtr InfoPtr
         {
-            get
-            {
-                ThrowIfDisposed();
-                IntPtr pInfo = NativeMethods.features2d_StarDetector_info(ptr);
-                return new AlgorithmInfo(pInfo);
-            }
+            get { return NativeMethods.features2d_StarDetector_info(ptr); }
         }
+
         #endregion
     }
 }

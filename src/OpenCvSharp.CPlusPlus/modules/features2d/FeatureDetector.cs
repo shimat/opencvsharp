@@ -14,7 +14,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// cv::Ptr&lt;FeatureDetector&gt;
         /// </summary>
-        private PtrOfFeatureDetector detectorPtr;
+        private Ptr<FeatureDetector> detectorPtr;
 
         /// <summary>
         /// 
@@ -33,10 +33,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            FeatureDetector detector = new FeatureDetector();
-            PtrOfFeatureDetector ptrObj = new PtrOfFeatureDetector(ptr);
-            detector.detectorPtr = ptrObj;
-            detector.ptr = ptrObj.ObjPointer;
+
+            var ptrObj = new Ptr<FeatureDetector>(ptr);
+            var detector = new FeatureDetector
+                {
+                    detectorPtr = ptrObj,
+                    ptr = ptrObj.Obj
+                };
             return detector;
         }
         /// <summary>
@@ -47,7 +50,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
-            FeatureDetector detector = new FeatureDetector
+            var detector = new FeatureDetector
                 {
                     detectorPtr = null,
                     ptr = ptr
@@ -98,6 +101,15 @@ namespace OpenCvSharp.CPlusPlus
                     base.Dispose(disposing);
                 }
             }
+        }
+
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.features2d_FeatureDetector_info(ptr); }
         }
 
         /// <summary>
@@ -186,9 +198,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("detectorType");
 
             // gets cv::Ptr<FeatureDetector>
-            IntPtr ptr = NativeMethods.features2d_FeatureDetector_create(detectorType);
             try
             {
+                IntPtr ptr = NativeMethods.features2d_FeatureDetector_create(detectorType);
                 FeatureDetector detector = FromPtr(ptr);
                 return detector;
             }

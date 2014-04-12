@@ -1,38 +1,61 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.IO;
 using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
-#if LANG_JP
     /// <summary>
-    /// Detects corners using FAST algorithm by E. Rosten
+    /// 
     /// </summary>
-#else
-    /// <summary>
-    /// Detects corners using FAST algorithm by E. Rosten
-    /// </summary>
-#endif
-    public class FastFeatureDetector : FeatureDetector
+    internal sealed class FrameSourceImpl : FrameSource
     {
         private bool disposed;
+        private Ptr<FrameSource> detectorPtr;
 
         #region Init & Disposal
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="threshold"></param>
-        /// <param name="nonmaxSuppression"></param>
-        public FastFeatureDetector(int threshold = 10, bool nonmaxSuppression = true)
+        private FrameSourceImpl()
         {
-            ptr = NativeMethods.features2d_FastFeatureDetector_new(threshold, nonmaxSuppression ? 1 : 0);
+            detectorPtr = null;
+            ptr = IntPtr.Zero;
         }
+
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static FrameSource FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid FrameSource pointer");
+            var obj = new FrameSourceImpl();
+            var ptrObj = new Ptr<FrameSource>(ptr);
+            obj.detectorPtr = ptrObj;
+            obj.ptr = ptrObj.Obj;
+            return obj;
+        }
+
+        /// <summary>
+        /// Creates instance from raw pointer T*
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static FrameSource FromRawPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid FrameSource pointer");
+            var obj = new FrameSourceImpl
+                {
+                    detectorPtr = null,
+                    ptr = ptr
+                };
+            return obj;
+        }
+
 
 #if LANG_JP
     /// <summary>
@@ -62,9 +85,13 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.features2d_FastFeatureDetector_delete(ptr);
-                    ptr = IntPtr.Zero;
+                    if (IsEnabledDispose)
+                    {
+                        if (detectorPtr != null)
+                            detectorPtr.Dispose();
+                        detectorPtr = null;
+                        ptr = IntPtr.Zero;
+                    }
                     disposed = true;
                 }
                 finally
@@ -73,32 +100,30 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Methods
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public KeyPoint[] Run(Mat image, Mat mask)
+        /// <param name="frame"></param>
+        public override void NextFrame(OutputArray frame)
         {
             ThrowIfDisposed();
-            return base.Detect(image, mask);
+            if (frame == null)
+                throw new ArgumentNullException("frame");
+            frame.ThrowIfNotReady();
+            NativeMethods.superres_FrameSource_nextFrame(ptr, frame.CvPtr);
+            frame.Fix();
         }
-
-
         /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// 
         /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
+        public override void Reset()
         {
-            get
-            {
-                return NativeMethods.features2d_FastFeatureDetector_info(ptr);
-            }
+            ThrowIfDisposed();
+            NativeMethods.superres_FrameSource_reset(ptr);
         }
         #endregion
     }

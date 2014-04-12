@@ -40,8 +40,21 @@ CVAPI(int) features2d_FeatureDetector_empty(cv::FeatureDetector *detector)
 
 CVAPI(cv::Ptr<cv::FeatureDetector>*) features2d_FeatureDetector_create(const char *detectorType)
 {
-	cv::Ptr<cv::FeatureDetector> ret = cv::FeatureDetector::create(detectorType);
-	return new cv::Ptr<cv::FeatureDetector>(ret);
+	return clone( cv::FeatureDetector::create(detectorType) );
+}
+
+CVAPI(cv::FeatureDetector*) features2d_Ptr_FeatureDetector_obj(cv::Ptr<cv::FeatureDetector>* ptr)
+{
+	return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_FeatureDetector_delete(cv::Ptr<cv::FeatureDetector>* ptr)
+{
+	delete ptr;
+}
+
+CVAPI(cv::AlgorithmInfo*) features2d_FeatureDetector_info(cv::FeatureDetector *obj)
+{
+	return obj->info();
 }
 
 #pragma endregion
@@ -55,9 +68,18 @@ CVAPI(void) features2d_Feature2D_compute(cv::Feature2D *obj,
 
 CVAPI(cv::Ptr<cv::Feature2D>*) features2d_Feature2D_create(const char *name)
 {
-	cv::Ptr<cv::Feature2D> ret = cv::Feature2D::create(name);
-	return new cv::Ptr<cv::Feature2D>(ret);
+	return clone( cv::Feature2D::create(name) );
 }
+
+CVAPI(cv::Feature2D*) features2d_Ptr_Feature2D_obj(cv::Ptr<cv::Feature2D>* ptr)
+{
+	return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_Feature2D_delete(cv::Ptr<cv::Feature2D>* ptr)
+{
+	delete ptr;
+}
+
 #pragma endregion
 
 #pragma region BRISK

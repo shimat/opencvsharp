@@ -140,6 +140,7 @@
     <Compile Include="Cv2\Cv2_features2d.cs" />
     <Compile Include="Cv2\Cv2_photo.cs" />
     <Compile Include="Cv2\Cv2_nonfree.cs" />
+    <Compile Include="Cv2\Cv2_superres.cs" />
     <Compile Include="EnumerableEx.cs" />
     <Compile Include="Enum\DctFlag2.cs" />
     <Compile Include="Enum\DftFlag2.cs" />
@@ -150,11 +151,19 @@
     <Compile Include="Enum\ProjectionType.cs" />
     <Compile Include="Enum\GrabCutFlag.cs" />
     <Compile Include="Enum\DistanceMaskSize.cs" />
+    <Compile Include="Enum\AlgorithmParamType.cs" />
     <Compile Include="modules\core\SparseMatIndexer.cs" />
     <Compile Include="modules\core\SparseMat.cs" />
     <Compile Include="modules\objdetect\CascadeClassifier.cs" />
     <Compile Include="modules\objdetect\SimilarRects.cs" />
     <Compile Include="modules\objdetect\LatendSvmDetector.cs" />
+    <Compile Include="modules\superres\FrameSource.cs" />
+    <Compile Include="modules\superres\DenseOpticalFlowExt.cs" />
+    <Compile Include="modules\superres\SuperResolution.cs" />
+    <Compile Include="modules\superres\DenseOpticalFlowExtImpl.cs" />
+    <Compile Include="modules\superres\SuperResolutionImpl.cs" />
+    <Compile Include="modules\superres\FrameSourceImpl.cs" />
+    <Compile Include="modules\video\BackgroundSubtractorMOG2.cs" />
     <Compile Include="PInvoke\NativeMethods_core_Algorithm.cs" />
     <Compile Include="PInvoke\NativeMethods_core_SparseMat.cs" />
     <Compile Include="PInvoke\NativeMethods_core_RNG.cs" />
@@ -184,8 +193,6 @@
     <Compile Include="modules\core\Mat\MatOfPoint3i.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint3f.cs" />
     <Compile Include="modules\core\Mat\MatOfPoint3d.cs" />
-    <Compile Include="modules\features2d\PtrOfFeature2D.cs" />
-    <Compile Include="modules\features2d\PtrOfFeatureDetector.cs" />
     <Compile Include="modules\core\Ptr.cs" />
     <Compile Include="modules\core\RNG.cs" />
     <Compile Include="modules\core\SVD.cs" />
@@ -207,6 +214,7 @@
     <Compile Include="modules\imgproc\HierarchyIndex.cs" />
     <Compile Include="modules\imgproc\Moments.cs" />
     <Compile Include="modules\nonfree\SIFT.cs" />
+    <Compile Include="PInvoke\NativeMethods_superres.cs" />
     <Compile Include="Struct\DMatch.cs" />
     <Compile Include="Struct\Point3d.cs" />
     <Compile Include="Struct\Point3i.cs" />
@@ -222,7 +230,7 @@
     <Compile Include="Vector\VectorOfVectorPoint.cs" />
     <Compile Include="Vector\VectorOfString.cs" />
     <Compile Include="Window.cs" />
-    <Compile Include="PInvoke\NativeMethods_core_Ptr.cs" />
+    <Compile Include="PInvoke\NativeMethods_Ptr.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d.cs" />
     <Compile Include="PInvoke\NativeMethods_imgproc_Subdiv2D.cs" />
     <Compile Include="PInvoke\NativeMethods_nonfree.cs" />
@@ -308,7 +316,6 @@
     <Compile Include="Vector\VectorOfVectorKeyPoint.cs" />
     <Compile Include="Vector\VectorOfPoint3f.cs" />
     <Compile Include="modules\video\BackgroundSubtractorMOG.cs" />
-    <Compile Include="modules\video\BackgroundSubtractorMog2.cs" />
     <Compile Include="Enum\HistogramNormType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector\VectorOfPoint2f.cs" />
@@ -356,6 +363,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

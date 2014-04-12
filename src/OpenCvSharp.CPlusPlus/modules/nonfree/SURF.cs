@@ -4,8 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -21,6 +19,7 @@ namespace OpenCvSharp.CPlusPlus
     public class SURF : Feature2D
     {
         private bool disposed;
+        private Ptr<SURF> detectorPtr;
 
         #region Init & Disposal
 
@@ -37,6 +36,7 @@ namespace OpenCvSharp.CPlusPlus
             : base()
         {
             ptr = NativeMethods.nonfree_SURF_new();
+            detectorPtr = null;
         }
 
 #if LANG_JP
@@ -67,6 +67,49 @@ namespace OpenCvSharp.CPlusPlus
         {
             ptr = NativeMethods.nonfree_SURF_new(hessianThreshold, nOctaves, nOctaveLayers,
                 extended ? 1 : 0, upright ? 1 : 0);
+            detectorPtr = null;
+        }
+
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal SURF(Ptr<SURF> detectorPtr)
+            : base()
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal SURF(IntPtr rawPtr)
+            : base()
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new SURF FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<SURF> pointer");
+            var ptrObj = new Ptr<SURF>(ptr);
+            return new SURF(ptrObj);
+        }
+        /// <summary>
+        /// Creates instance from raw pointer T*
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new SURF FromRawPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid SURF pointer");
+            return new SURF(ptr);;
         }
 
 #if LANG_JP
@@ -97,8 +140,15 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.nonfree_SURF_delete(ptr);
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                    }
+                    else if (ptr != IntPtr.Zero)
+                    {
+                        NativeMethods.nonfree_SIFT_delete(ptr);
+                    }
+                    detectorPtr = null;
                     ptr = IntPtr.Zero;
                     disposed = true;
                 }
@@ -229,16 +279,12 @@ namespace OpenCvSharp.CPlusPlus
 
 
         /// <summary>
-        /// 
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
         /// </summary>
-        public AlgorithmInfo Info
+        /// <returns></returns>
+        public override IntPtr InfoPtr
         {
-            get
-            {
-                ThrowIfDisposed();
-                IntPtr pInfo = NativeMethods.nonfree_SURF_info(ptr);
-                return new AlgorithmInfo(pInfo);
-            }
+            get { return NativeMethods.nonfree_SURF_info(ptr); }
         }
 
         #endregion

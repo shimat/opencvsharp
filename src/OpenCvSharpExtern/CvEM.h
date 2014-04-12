@@ -62,8 +62,8 @@ CVAPI(void) cv_EM_predict(cv::EM* model, CvMat* sample, CvMat* probs, float* ret
 	cv::Mat _sample(sample);
 	cv::OutputArray _probs = (probs == NULL) ? cv::noArray() : cv::Mat(probs);
 	cv::Vec2d ret = model->predict(_sample, _probs);
-	*ret0 = ret[0];
-	*ret1 = ret[1];
+	*ret0 = static_cast<float>(ret[0]);
+	*ret1 = static_cast<float>(ret[1]);
 }
 CVAPI(int) cv_EM_isTrained(cv::EM* model)
 {

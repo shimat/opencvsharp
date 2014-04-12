@@ -68,6 +68,21 @@ CVAPI(cv::Ptr<cv::DescriptorMatcher>*) features2d_DescriptorMatcher_create(const
 	cv::Ptr<cv::DescriptorMatcher> ret = cv::DescriptorMatcher::create(descriptorMatcherType);
 	return new cv::Ptr<cv::DescriptorMatcher>(ret);
 }
+
+CVAPI(cv::DescriptorMatcher*) features2d_Ptr_DescriptorMatcher_obj(cv::Ptr<cv::DescriptorMatcher> *ptr)
+{
+	return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::DescriptorMatcher> *ptr)
+{
+	delete ptr;
+}
+
+CVAPI(cv::AlgorithmInfo*) features2d_DescriptorMatcher_info(cv::DescriptorMatcher *obj)
+{
+	return obj->info();
+}
+
 #pragma endregion
 
 #pragma region BFMatcher

@@ -1,57 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable InconsistentNaming
+
     /// <summary>
-    /// 
+    /// class for defined Super Resolution algorithm.
     /// </summary>
-    public class Feature2D : FeatureDetector
+    internal sealed class SuperResolutionImpl : SuperResolution
     {
         private bool disposed;
-        /// <summary>
-        /// cv::Ptr&lt;Feature2D&gt;
-        /// </summary>
-        private Ptr<Feature2D> detectorPtr;
 
         /// <summary>
         /// 
         /// </summary>
-        internal Feature2D()
-            : base()
+        private Ptr<SuperResolution> detectorPtr;
+
+        #region Init & Disposal
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private SuperResolutionImpl()
         {
+            detectorPtr = null;
+            ptr = IntPtr.Zero;
         }
+
         /// <summary>
         /// Creates instance from cv::Ptr&lt;T&gt; .
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new Feature2D FromPtr(IntPtr ptr)
+        internal static SuperResolutionImpl FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<Feature2D> pointer");
-            var ptrObj = new Ptr<Feature2D>(ptr);
-            var detector = new Feature2D
+                throw new OpenCvSharpException("Invalid FrameSource pointer");
+            
+            var ptrObj = new Ptr<SuperResolution>(ptr);
+            var obj = new SuperResolutionImpl
                 {
                     detectorPtr = ptrObj, 
                     ptr = ptrObj.Obj
                 };
-            return detector;
+            return obj;
         }
+
         /// <summary>
         /// Creates instance from raw pointer T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new Feature2D FromRawPtr(IntPtr ptr)
+        internal static SuperResolutionImpl FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid Feature2D pointer");
-            var detector = new Feature2D
+                throw new OpenCvSharpException("Invalid FrameSource pointer");
+            var obj = new SuperResolutionImpl
                 {
-                    detectorPtr = null, 
+                    detectorPtr = null,
                     ptr = ptr
                 };
-            return detector;
+            return obj;
         }
 
 
@@ -99,44 +110,75 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
 
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.superres_SuperResolution_info(ptr); }
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="keypoints"></param>
-        /// <param name="descriptors"></param>
-        public void Compute(Mat image, out KeyPoint[] keypoints, Mat descriptors)
+        /// <param name="fs"></param>
+        public override void SetInput(FrameSource fs)
         {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
-            {
-                NativeMethods.features2d_Feature2D_compute(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
-                keypoints = keypointsVec.ToArray();
-            }
+            ThrowIfDisposed();
+            if (fs == null)
+                throw new ArgumentNullException("fs");
+            NativeMethods.superres_SuperResolution_setInput(ptr, fs.CvPtr);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="frame"></param>
+        public override void NextFrame(OutputArray frame)
+        {
+            ThrowIfDisposed();
+            if (frame == null)
+                throw new ArgumentNullException("frame");
+            frame.ThrowIfNotReady();
+            NativeMethods.superres_SuperResolution_nextFrame(ptr, frame.CvPtr);
+            frame.Fix();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Reset()
+        {
+            ThrowIfDisposed();
+            NativeMethods.superres_SuperResolution_reset(ptr);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void CollectGarbage()
+        {
         }
 
         /// <summary>
-        /// Create feature detector by detector name.
+        /// 
         /// </summary>
-        /// <param name="detectorType"></param>
-        /// <returns></returns>
-        public static new Feature2D Create(string detectorType)
+        /// <param name="fs"></param>
+        protected override void InitImpl(FrameSource fs)
         {
-            if(String.IsNullOrEmpty(detectorType))
-                throw new ArgumentNullException("detectorType");
-            // gets cv::Ptr<Feature2D>
-            IntPtr ptr = NativeMethods.features2d_Feature2D_create(detectorType);
-            try
-            {
-                Feature2D detector = FromPtr(ptr);
-                return detector;
-            }
-            catch (OpenCvSharpException)
-            {
-                throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
-            }
+            // ネイティブ実装なので特別に空で。
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="output"></param>
+        protected override void ProcessImpl(FrameSource fs, OutputArray output)
+        {
+            // ネイティブ実装なので特別に空で。
         }
 
+        #endregion
     }
 }

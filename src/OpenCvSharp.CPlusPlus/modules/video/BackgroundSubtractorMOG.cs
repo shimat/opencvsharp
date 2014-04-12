@@ -1,8 +1,9 @@
 ﻿using System;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable InconsistentNaming
+
     /// <summary>
     /// The Base Class for Background/Foreground Segmentation.
     /// The class is only used to define the common interface for
@@ -10,20 +11,20 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public class BackgroundSubtractorMOG : BackgroundSubtractor
     {
-        /// <summary>
-        /// sizeof(BackgroundSubtractorMOG)
-        /// </summary>
-        public static new readonly int SizeOf = NativeMethods.video_BackgroundSubtractorMOG_sizeof().ToInt32();
+        private Ptr<BackgroundSubtractorMOG> objectPtr;
+        private bool disposed = false;
 
-        #region Init
+        #region Init & Disposal
         /// <summary>
         /// the default constructor
         /// </summary>
         public BackgroundSubtractorMOG()
         {
-            ptr = NativeMethods.video_BackgroundSubtractorMOG_new1();
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
+            IntPtr po = NativeMethods.video_BackgroundSubtractorMOG_new1();
+            if (po == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG");
+            objectPtr = new Ptr<BackgroundSubtractorMOG>(po);
+            ptr = objectPtr.Obj;
         }
         /// <summary>
         /// the full constructor that takes the length of the history, the number of gaussian mixtures, the background ratio parameter and the noise strength
@@ -34,25 +35,45 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="noiseSigma"></param>
         public BackgroundSubtractorMOG(int history, int nmixtures, double backgroundRatio, double noiseSigma=0)
         {
-            ptr = NativeMethods.video_BackgroundSubtractorMOG_new2(history, nmixtures, backgroundRatio, noiseSigma);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
+            IntPtr po = NativeMethods.video_BackgroundSubtractorMOG_new2(history, nmixtures, backgroundRatio, noiseSigma);
+            if (po == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG");
+            objectPtr = new Ptr<BackgroundSubtractorMOG>(po);
+            ptr = objectPtr.Obj;
         }
-        #endregion
-        #region Dispose
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-#endif
-        public void Release()
+
+        internal BackgroundSubtractorMOG(Ptr<BackgroundSubtractorMOG> objectPtr, IntPtr ptr)
         {
-            Dispose(true);
+            this.objectPtr = objectPtr;
+            this.ptr = ptr;
         }
+
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new BackgroundSubtractorMOG FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid BackgroundSubtractorMOG pointer");
+
+            var ptrObj = new Ptr<BackgroundSubtractorMOG>(ptr);
+            var obj = new BackgroundSubtractorMOG(ptrObj, ptrObj.Obj);
+            return obj;
+        }
+        /// <summary>
+        /// Creates instance from raw T*
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new BackgroundSubtractorMOG FromRawPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid BackgroundSubtractorMOG pointer");
+            var obj = new BackgroundSubtractorMOG(null, ptr);
+            return obj;
+        }
+
 #if LANG_JP
     /// <summary>
     /// リソースの解放
@@ -82,7 +103,16 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.video_BackgroundSubtractorMOG_delete(ptr);
+                        if (objectPtr != null)
+                        {
+                            objectPtr.Dispose();
+                        }
+                        else
+                        {
+                            NativeMethods.video_BackgroundSubtractorMOG_delete(ptr);
+                        }
+                        objectPtr = null;
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
@@ -122,178 +152,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             NativeMethods.video_BackgroundSubtractorMOG_initialize(ptr, frameSize, frameType);
         }
-        
-        #region Properties
-        /*
-        /// <summary>
-        /// 
-        /// </summary>
-        public CvSize FrameSize
-        {
-            get
-            {
-                return NativeMethods.BackgroundSubtractorMOG_frameSize_get(ptr);
-            }
-            set
-            {
-                NativeMethods.BackgroundSubtractorMOG_frameSize_set(ptr, value);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int FrameType
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG_frameType(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG_frameType(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Mat BgModel
-        {
-            get
-            {
-                unsafe
-                {
-                    return new Mat(NativeMethods.BackgroundSubtractorMOG_bgmodel(ptr));
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Nframes
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG_nframes(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG_nframes(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int History
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG_history(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG_history(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Nmixtures
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG_nmixtures(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG_nmixtures(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public double VarThreshold
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG_varThreshold(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG_varThreshold(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public double BackgroundRatio
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG_backgroundRatio(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG_backgroundRatio(ptr) = value;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public double NoiseSigma
-        {
-            get
-            {
-                unsafe
-                {
-                    return *NativeMethods.BackgroundSubtractorMOG_noiseSigma(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *NativeMethods.BackgroundSubtractorMOG_noiseSigma(ptr) = value;
-                }
-            }
-        }
-        //*/
-        #endregion
-        
+
     }
 }
