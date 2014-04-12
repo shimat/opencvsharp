@@ -67,5 +67,88 @@ namespace OpenCvSharp.CPlusPlus
         {
             return SuperResolution.CreateBTVL1_OCL();
         }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_Farneback()
+        {
+            return DenseOpticalFlowExt.CreateFarneback();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_Farneback_GPU()
+        {
+            return DenseOpticalFlowExt.CreateFarneback_GPU();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_Farneback_OCL()
+        {
+            return DenseOpticalFlowExt.CreateFarneback_OCL();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_Simple()
+        {
+            return DenseOpticalFlowExt.CreateSimple();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_DualTVL1()
+        {
+            return DenseOpticalFlowExt.CreateDualTVL1();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_DualTVL1_GPU()
+        {
+            return DenseOpticalFlowExt.CreateDualTVL1_GPU();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_DualTVL1_OCL()
+        {
+            return DenseOpticalFlowExt.CreateDualTVL1_OCL();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_Brox_GPU()
+        {
+            return DenseOpticalFlowExt.CreateBrox_GPU();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_PyrLK_GPU()
+        {
+            return DenseOpticalFlowExt.CreatePyrLK_GPU();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateOptFlow_PyrLK_OCL()
+        {
+            return DenseOpticalFlowExt.CreatePyrLK_OCL();
+        }
     }
 }

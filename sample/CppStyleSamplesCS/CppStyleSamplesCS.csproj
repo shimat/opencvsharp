@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FilePath.cs" />
+    <Compile Include="Samples\SuperResolutionSample.cs" />
     <Compile Include="Samples\FaceDetection.cs" />
     <Compile Include="Samples\HistSample.cs" />
     <Compile Include="Samples\DFT.cs" />
