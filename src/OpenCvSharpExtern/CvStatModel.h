@@ -3,34 +3,49 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CVSTATMODEL_H_
-#define _CVSTATMODEL_H_
+#ifndef _CPP_ML_CVSTATMODEL_H_
+#define _CPP_ML_CVSTATMODEL_H_
 
 #include "include_opencv.h"
 
-CVAPI(void) CvStatModel_clear(CvStatModel* model)
+CVAPI(CvStatModel*) ml_CvStatModel_new()
 {
-	model->clear();
+    return new CvStatModel();
 }
 
-CVAPI(void) CvStatModel_save(CvStatModel* model, const char* filename, const char* name)
+CVAPI(void) ml_CvStatModel_delete(CvStatModel *obj)
 {
-	model->save(filename, name);
+    delete obj;
 }
 
-CVAPI(void) CvStatModel_load(CvStatModel* model, const char* filename, const char* name)
+CVAPI(void) ml_CvStatModel_save(CvStatModel *obj, const char* filename, const char *name)
 {
-	model->load(filename, name);
+    obj->save(filename, name);
 }
 
-CVAPI(void) CvStatModel_read(CvStatModel* model, CvFileStorage* storage, CvFileNode* node)
+CVAPI(void) ml_CvStatModel_clear(CvStatModel *obj)
 {
-	model->read(storage, node);
+    obj->clear();
 }
 
-CVAPI(void) CvStatModel_write(CvStatModel* model, CvFileStorage* storage, const char* name)
+CVAPI(void) ml_CvStatModel_save(CvStatModel *obj, const char* filename, const char *name)
 {
-	model->write(storage, name);
+    obj->save(filename, name);
+}
+
+CVAPI(void) ml_CvStatModel_load(CvStatModel *obj, const char* filename, const char *name)
+{
+    obj->load(filename, name);
+}
+
+CVAPI(void) ml_CvStatModel_read(CvStatModel *obj, CvFileStorage *storage, CvFileNode *node)
+{
+    obj->read(storage, node);
+}
+
+CVAPI(void) ml_CvStatModel_write(CvStatModel *obj, CvFileStorage *storage, const char *name)
+{
+    obj->write(storage, name);
 }
 
 #endif
