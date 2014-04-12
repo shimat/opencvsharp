@@ -195,39 +195,43 @@ CVAPI(cv::Mat*) video_KalmanFilter_correct(cv::KalmanFilter *obj, cv::Mat *measu
 
 CVAPI(cv::Mat*) video_KalmanFilter_statePre(cv::KalmanFilter *obj)
 {
-    return &(obj->statePre);
+    return new cv::Mat(obj->statePre);
 }
 CVAPI(cv::Mat*) video_KalmanFilter_statePost(cv::KalmanFilter *obj)
 {
-    return &(obj->statePost);
+    return new cv::Mat(obj->statePost);
 }
 CVAPI(cv::Mat*) video_KalmanFilter_transitionMatrix(cv::KalmanFilter *obj)
 {
-    return &(obj->transitionMatrix);
+    return new cv::Mat(obj->transitionMatrix);
 }
 CVAPI(cv::Mat*) video_KalmanFilter_controlMatrix(cv::KalmanFilter *obj)
 {
-    return &(obj->controlMatrix);
+    return new cv::Mat(obj->controlMatrix);
 }
 CVAPI(cv::Mat*) video_KalmanFilter_measurementMatrix(cv::KalmanFilter *obj)
 {
-    return &(obj->measurementMatrix);
+    return new cv::Mat(obj->measurementMatrix);
 }
 CVAPI(cv::Mat*) video_KalmanFilter_processNoiseCov(cv::KalmanFilter *obj)
 {
-    return &(obj->processNoiseCov);
+    return new cv::Mat(obj->processNoiseCov);
 }
-CVAPI(cv::Mat*) video_KalmanFilter_errorCovPrev(cv::KalmanFilter *obj)
+CVAPI(cv::Mat*) video_KalmanFilter_measurementNoiseCov(cv::KalmanFilter *obj)
 {
-    return &(obj->errorCovPre);
+    return new cv::Mat(obj->measurementNoiseCov);
+}
+CVAPI(cv::Mat*) video_KalmanFilter_errorCovPre(cv::KalmanFilter *obj)
+{
+    return new cv::Mat(obj->errorCovPre);
 }
 CVAPI(cv::Mat*) video_KalmanFilter_gain(cv::KalmanFilter *obj)
 {
-    return &(obj->gain);
+    return new cv::Mat(obj->gain);
 }
 CVAPI(cv::Mat*) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj)
 {
-    return &(obj->errorCovPost);
+    return new cv::Mat(obj->errorCovPost);
 }
 
 
@@ -335,6 +339,15 @@ CVAPI(cv::AlgorithmInfo*) video_DenseOpticalFlow_info(cv::DenseOpticalFlow *obj)
 CVAPI(cv::Ptr<cv::DenseOpticalFlow>*) video_createOptFlow_DualTVL1()
 {
     return clone( cv::createOptFlow_DualTVL1() );
+}
+
+CVAPI(cv::DenseOpticalFlow*) video_Ptr_DenseOpticalFlow_obj(cv::Ptr<cv::DenseOpticalFlow> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) video_Ptr_DenseOpticalFlow_delete(cv::Ptr<cv::DenseOpticalFlow> *ptr)
+{
+    delete ptr;
 }
 
 #pragma endregion
