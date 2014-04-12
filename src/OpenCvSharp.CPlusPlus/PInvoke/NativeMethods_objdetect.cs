@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    internal static partial class NativeMethods
+    static partial class NativeMethods
     {
         #region LatendSvmDetector
 

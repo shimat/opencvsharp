@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    internal static partial class NativeMethods
+    static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_MatExpr_new1")]
         public static extern IntPtr core_MatExpr_new();

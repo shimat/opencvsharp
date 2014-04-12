@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    internal static partial class NativeMethods
+    static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong core_Mat_sizeof();

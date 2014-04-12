@@ -11,7 +11,7 @@ using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
-    internal static partial class NativeMethods
+    static partial class NativeMethods
     {
         #region Miscellaneous
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
