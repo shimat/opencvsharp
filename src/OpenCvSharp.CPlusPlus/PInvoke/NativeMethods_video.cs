@@ -46,6 +46,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void video_Ptr_BackgroundSubtractorMOG_delete(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_Ptr_BackgroundSubtractorMOG_obj(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr video_BackgroundSubtractorMOG_info(IntPtr obj);
         #endregion
         #region BackgroundSubtractorMOG2
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -65,6 +68,52 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void video_Ptr_BackgroundSubtractorMOG2_delete(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_Ptr_BackgroundSubtractorMOG2_obj(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr video_BackgroundSubtractorMOG2_info(IntPtr obj);
+        #endregion
+        #region BackgroundSubtractorGMG
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr video_BackgroundSubtractorGMG_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void video_BackgroundSubtractorGMG_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void video_BackgroundSubtractorGMG_operator(
+            IntPtr obj, IntPtr image, IntPtr fgmask, double learningRate);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void video_BackgroundSubtractorGMG_release(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void video_BackgroundSubtractorGMG_initialize(
+            IntPtr obj, CvSize frameSize, double min, double max);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void video_Ptr_BackgroundSubtractorGMG_delete(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr video_Ptr_BackgroundSubtractorGMG_obj(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr video_BackgroundSubtractorGMG_info(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe int* video_BackgroundSubtractorGMG_maxFeatures(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe double* video_BackgroundSubtractorGMG_learningRate(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe int* video_BackgroundSubtractorGMG_numInitializationFrames(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe int* video_BackgroundSubtractorGMG_quantizationLevels(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe double* video_BackgroundSubtractorGMG_backgroundPrior(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe double* video_BackgroundSubtractorGMG_decisionThreshold(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe int* video_BackgroundSubtractorGMG_smoothingRadius(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int video_BackgroundSubtractorGMG_updateBackgroundModel_get(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void video_BackgroundSubtractorGMG_updateBackgroundModel_set(IntPtr obj, int value);
+
         #endregion
         #endregion
 

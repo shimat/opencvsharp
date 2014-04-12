@@ -152,6 +152,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             NativeMethods.video_BackgroundSubtractorMOG_initialize(ptr, frameSize, frameType);
         }
-
+        
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.video_BackgroundSubtractorMOG_info(ptr); }
+        }
     }
 }

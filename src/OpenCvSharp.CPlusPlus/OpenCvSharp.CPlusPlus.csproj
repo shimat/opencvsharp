@@ -165,6 +165,7 @@
     <Compile Include="modules\superres\DenseOpticalFlowExtImpl.cs" />
     <Compile Include="modules\superres\SuperResolutionImpl.cs" />
     <Compile Include="modules\superres\FrameSourceImpl.cs" />
+    <Compile Include="modules\video\BackgroundSubtractorGMG.cs" />
     <Compile Include="modules\video\BackgroundSubtractorMOG2.cs" />
     <Compile Include="modules\video\DenseOpticalFlow.cs" />
     <Compile Include="modules\video\DenseOpticalFlowImpl.cs" />

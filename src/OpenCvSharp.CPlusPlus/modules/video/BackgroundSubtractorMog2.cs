@@ -137,7 +137,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="image"></param>
         /// <param name="fgmask"></param>
         /// <param name="learningRate"></param>
-        public override void Run(InputArray image, OutputArray fgmask, double learningRate = 0)
+        public override void Run(InputArray image, OutputArray fgmask, double learningRate = -1.0)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -170,6 +170,15 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Initialize(Size frameSize, int frameType)
         {
             NativeMethods.video_BackgroundSubtractorMOG2_initialize(ptr, frameSize, frameType);
+        }
+
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.video_BackgroundSubtractorMOG2_info(ptr); }
         }
     }
 }

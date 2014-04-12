@@ -39,6 +39,7 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(BackgroundSubtractor), NativeMethods.video_Ptr_BackgroundSubtractor_delete },
                     { typeof(BackgroundSubtractorMOG), NativeMethods.video_Ptr_BackgroundSubtractorMOG_delete },
                     { typeof(BackgroundSubtractorMOG2), NativeMethods.video_Ptr_BackgroundSubtractorMOG2_delete },
+                    { typeof(BackgroundSubtractorGMG), NativeMethods.video_Ptr_BackgroundSubtractorGMG_delete },
                 };
             DefinedObjFunctions = new Dictionary<Type, ObjFunc>
                 {
@@ -55,6 +56,7 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(BackgroundSubtractor), NativeMethods.video_Ptr_BackgroundSubtractor_obj },
                     { typeof(BackgroundSubtractorMOG), NativeMethods.video_Ptr_BackgroundSubtractorMOG_obj },
                     { typeof(BackgroundSubtractorMOG2), NativeMethods.video_Ptr_BackgroundSubtractorMOG2_obj },
+                    { typeof(BackgroundSubtractorGMG), NativeMethods.video_Ptr_BackgroundSubtractorGMG_obj },
                 };
         }
 
