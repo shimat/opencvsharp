@@ -35,6 +35,30 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 
 ## Usage
 For more details, see the **[Wiki](https://github.com/shimat/opencvsharp/wiki)** page.
+
+### C++ style
+```C#
+// Edge detection by Canny algorithm
+using OpenCvSharp;
+using OpenCvSharp.CPlusPlus;
+
+class Program 
+{
+    static void Main() 
+    {
+        Mat src = new Mat("lenna.png", LoadMode.GrayScale);
+        Mat dst = new Mat();
+        
+        Cv2.Canny(src, dst, 50, 200);
+        using (new Window("src image", src)) 
+        using (new Window("dst image", dst)) 
+        {
+            Cv2.WaitKey();
+        }
+    }
+}
+```
+
 ### C style
 ```C#
 // Edge detection by Canny algorithm
@@ -55,54 +79,6 @@ class Program
         Cv.DestroyAllWindows();
         Cv.ReleaseImage(src);
         Cv.ReleaseImage(dst);          
-    }
-}
-```
-
-### Wrapper-style (for OpenCV C Interface)
-
-```C#
-// Edge detection by Canny algorithm
-using OpenCvSharp;
-
-class Program 
-{
-    static void Main() 
-    {
-        using (IplImage src = new IplImage("lenna.png", LoadMode.GrayScale))
-        using (IplImage dst = new IplImage(src.Size, BitDepth.U8, 1)) 
-        {
-            src.Canny(dst, 50, 200);
-            using (new CvWindow("src image", src)) 
-            using (new CvWindow("dst image", dst)) 
-            {
-                Cv.WaitKey();
-            }
-        }
-    }
-}
-```
-
-### C++ style
-
-```C#
-// Edge detection by Canny algorithm
-using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
-
-class Program 
-{
-    static void Main() 
-    {
-        Mat src = new Mat("lenna.png", LoadMode.GrayScale);
-        Mat dst = new Mat();
-        
-        Cv2.Canny(src, dst, 50, 200);
-        using (new Window("src image", src)) 
-        using (new Window("dst image", dst)) 
-        {
-            Cv2.WaitKey();
-        }
     }
 }
 ```
