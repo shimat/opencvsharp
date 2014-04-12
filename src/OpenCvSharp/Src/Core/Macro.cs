@@ -15,7 +15,6 @@ namespace OpenCvSharp
 #if LANG_JP
     /// <summary>
     /// OpenCvのcvXXX関数のラッパー。
-    /// IntPtrを使わずにラッパークラスを使って、ネイティブのOpenCVに近い感じで自然にアクセスできる。
     /// </summary>
 #else
     /// <summary>
@@ -24,6 +23,8 @@ namespace OpenCvSharp
 #endif
     public static partial class Cv
     {
+        // ReSharper disable InconsistentNaming
+
         #region Helper Method
         /// <summary>
         /// 引数がnullの時はIntPtr.Zeroに変換する
@@ -654,7 +655,7 @@ namespace OpenCvSharp
         /// <param name="mat"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        /// <param name="pix_size"></param>
+        /// <param name="pixSize"></param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -663,20 +664,18 @@ namespace OpenCvSharp
         /// <param name="mat"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        /// <param name="pix_size"></param>
+        /// <param name="pixSize"></param>
         /// <returns></returns>
 #endif
-        public static unsafe byte* MAT_ELEM_PTR_FAST(CvMat mat, int row, int col, int pix_size)
+        public static unsafe byte* MAT_ELEM_PTR_FAST(CvMat mat, int row, int col, int pixSize)
         {
             /*if ((uint)row < (uint)mat.Rows && (uint)col < (uint)mat.Cols)
             {
                 throw new ArgumentException();
             }*/
-            unsafe
-            {
-                return mat.DataByte + (uint)(mat.Step * row) + (pix_size * col);
-            }
+            return mat.DataByte + (uint)(mat.Step * row) + (pixSize * col);
         }
+
 #if LANG_JP
         /// <summary>
         /// 
@@ -722,7 +721,7 @@ namespace OpenCvSharp
             unsafe
             {
                 Type type = typeof (T);
-                byte* result = Cv.MAT_ELEM_PTR_FAST(mat, row, col, Marshal.SizeOf(type));
+                byte* result = MAT_ELEM_PTR_FAST(mat, row, col, Marshal.SizeOf(type));
                 return (T)Marshal.PtrToStructure(new IntPtr(result), type);
             }
 		}
@@ -770,18 +769,18 @@ namespace OpenCvSharp
         /// <summary>
         /// 次のシーケンスへ
         /// </summary>
-        /// <param name="elem_size"></param>
+        /// <param name="elemSize"></param>
         /// <param name="reader"></param>
 #else
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="elem_size"></param>
+        /// <param name="elemSize"></param>
         /// <param name="reader"></param>
 #endif
-        public static void NEXT_SEQ_ELEM(int elem_size, CvSeqReader reader)
+        public static void NEXT_SEQ_ELEM(int elemSize, CvSeqReader reader)
         {
-            reader.Ptr = new IntPtr(reader.Ptr.ToInt32() + elem_size);
+            reader.Ptr = new IntPtr(reader.Ptr.ToInt32() + elemSize);
             if (reader.Ptr.ToInt32() >= reader.BlockMax.ToInt32())
             {
                 NativeMethods.cvChangeSeqBlock(reader.CvPtr, 1);                
@@ -1089,18 +1088,18 @@ namespace OpenCvSharp
         /// <summary>
         /// 前のシーケンスへ
         /// </summary>
-        /// <param name="elem_size"></param>
+        /// <param name="elemSize"></param>
         /// <param name="reader"></param>
 #else
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="elem_size"></param>
+        /// <param name="elemSize"></param>
         /// <param name="reader"></param>
 #endif
-        public static void PREV_SEQ_ELEM(int elem_size, CvSeqReader reader)
+        public static void PREV_SEQ_ELEM(int elemSize, CvSeqReader reader)
         {
-            reader.Ptr = new IntPtr(reader.Ptr.ToInt32() - elem_size);
+            reader.Ptr = new IntPtr(reader.Ptr.ToInt32() - elemSize);
             if (reader.Ptr.ToInt32() < reader.BlockMin.ToInt32())
             {
                 NativeMethods.cvChangeSeqBlock(reader.CvPtr, -1);
@@ -1141,7 +1140,6 @@ namespace OpenCvSharp
                     NEXT_SEQ_ELEM(elemPtr.Size, reader);
 
                     elem = elemPtr.ToStructure();
-                    elem.ToString();
                 }
             }
             /*
@@ -1188,7 +1186,6 @@ namespace OpenCvSharp
                     PREV_SEQ_ELEM(elemPtr.Size, reader);
 
                     elem = elemPtr.ToStructure();
-                    elem.ToString();
                 }
             }
             /*
@@ -1256,18 +1253,16 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="t"></param>
 #else
         /// <summary>
         /// 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="t"></param>
 #endif
-        public static void SWAP(ref object a, ref object b, ref object t)
+        public static void SWAP(ref object a, ref object b)
         {
-            t = a;
+            object t = a;
             a = b;
             b = t;
         }

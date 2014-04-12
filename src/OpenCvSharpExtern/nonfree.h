@@ -25,6 +25,21 @@ CVAPI(void) nonfree_SIFT_delete(cv::SIFT *obj)
 	delete obj;
 }
 
+CVAPI(cv::Ptr<cv::SIFT>*) nonfree_SIFT_createAlgorithm(const char *name)
+{
+    cv::Ptr<cv::SIFT> al = cv::Algorithm::create<cv::SIFT>(name);
+    return al.empty() ? NULL : clone( al );
+}
+
+CVAPI(cv::SIFT*) nonfree_Ptr_SIFT_obj(cv::Ptr<cv::SIFT> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) nonfree_Ptr_SIFT_delete(cv::Ptr<cv::SIFT> *ptr)
+{
+	delete ptr;
+}
+
 CVAPI(int) nonfree_SIFT_descriptorSize(cv::SIFT *obj)
 {
 	return obj->descriptorSize();
@@ -96,6 +111,21 @@ CVAPI(cv::SURF*) nonfree_SURF_new2(double hessianThreshold, int nOctaves,
 CVAPI(void) nonfree_SURF_delete(cv::SURF *obj)
 {
 	delete obj;
+}
+
+CVAPI(cv::Ptr<cv::SURF>*) nonfree_SURF_createAlgorithm(const char *name)
+{
+    cv::Ptr<cv::SURF> al = cv::Algorithm::create<cv::SURF>(name);
+    return al.empty() ? NULL : clone( al );
+}
+
+CVAPI(cv::SURF*) nonfree_Ptr_SURF_obj(cv::Ptr<cv::SURF> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) nonfree_Ptr_SURF_delete(cv::Ptr<cv::SURF> *ptr)
+{
+	delete ptr;
 }
 
 CVAPI(int) nonfree_SURF_descriptorSize(cv::SURF *obj)
