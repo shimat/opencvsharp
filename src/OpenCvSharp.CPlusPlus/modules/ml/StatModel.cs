@@ -4,8 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -89,7 +87,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException("StatModel");
-            NativeMethods.ml_CvStatModel_clear(ptr);
+            NativeMethods.ml_StatModel_clear(ptr);
         }
 
 #if LANG_JP
@@ -127,7 +125,7 @@ namespace OpenCvSharp.CPlusPlus
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
 
-            NativeMethods.ml_CvStatModel_save(ptr, filename, name);
+            NativeMethods.ml_StatModel_save(ptr, filename, name);
         }
 
 #if LANG_JP
@@ -164,8 +162,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("StatModel");
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
-            
-            NativeMethods.ml_CvStatModel_load(ptr, filename, name);
+
+            NativeMethods.ml_StatModel_load(ptr, filename, name);
         }
 
 #if LANG_JP
@@ -189,7 +187,7 @@ namespace OpenCvSharp.CPlusPlus
 	            throw new ArgumentNullException("storage");
 	        if (string.IsNullOrEmpty(name))
 	            throw new ArgumentNullException("name");
-	        NativeMethods.ml_CvStatModel_write(ptr, storage.CvPtr, name);
+            NativeMethods.ml_StatModel_write(ptr, storage.CvPtr, name);
 	    }
 
 #if LANG_JP
@@ -213,25 +211,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("storage");
             if (node == null)
                 throw new ArgumentNullException("node");
-            NativeMethods.ml_CvStatModel_read(ptr, storage.CvPtr, node.CvPtr);
+            NativeMethods.ml_StatModel_read(ptr, storage.CvPtr, node.CvPtr);
         }
         #endregion
-    }
-}
-
-
-namespace OpenCvSharp.MachineLearning
-{
-#if LANG_JP
-    /// <summary>
-    /// ML 統計モデルのための基本クラス
-    /// </summary>
-#else
-	/// <summary>
-    /// Base class for statistical models in ML
-    /// </summary>
-#endif
-    abstract public class CvStatModel : CPlusPlus.StatModel
-    {
     }
 }

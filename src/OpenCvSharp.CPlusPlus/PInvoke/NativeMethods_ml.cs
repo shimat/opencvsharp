@@ -12,66 +12,82 @@ namespace OpenCvSharp.CPlusPlus
 {
     static partial class NativeMethods
     {
-        #region CvStatModel
+        #region StatModel
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ml_CvStatModel_new();
+        public static extern IntPtr ml_StatModel_new();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ml_CvStatModel_delete(IntPtr obj);
+        public static extern void ml_StatModel_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvStatModel_clear(IntPtr obj);
+        public static extern void ml_StatModel_clear(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvStatModel_save(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern void ml_StatModel_save(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvStatModel_load(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern void ml_StatModel_load(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvStatModel_write(IntPtr obj, IntPtr storage, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern void ml_StatModel_write(IntPtr obj, IntPtr storage, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvStatModel_read(IntPtr obj, IntPtr storage, IntPtr node);
+        public static extern void ml_StatModel_read(IntPtr obj, IntPtr storage, IntPtr node);
         #endregion
 
-        #region CvANN_MLP
-        // CvANN_MLP_TrainParams
+        #region ANN_MLP
+        // ANN_MLP_TrainParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvANN_MLP_TrainParams_construct_default();
+        public static extern WANN_MLP_TrainParams ml_ANN_MLP_TrainParams_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvANN_MLP_TrainParams_construct(
-            CvTermCriteria term_crit, int train_method, double param1, double param2);
+        public static extern WANN_MLP_TrainParams ml_ANN_MLP_TrainParams_new2(
+            CvTermCriteria termCrit, int trainMethod, double param1, double param2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvANN_MLP_TrainParams_destruct(IntPtr obj);
+        public static extern void ml_ANN_MLP_TrainParams_delete(IntPtr obj);
 
-        // CvANN_MLP
+        // ANN_MLP
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvANN_MLP_sizeof();
-
+        public static extern IntPtr ml_ANN_MLP_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvANN_MLP_construct_default();
+        public static extern IntPtr ml_ANN_MLP_new2_CvMat(
+            IntPtr layerSizes, int activFunc, double fParam1, double fParam2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvANN_MLP_construct_training(IntPtr _layer_sizes, int _activ_func, double _f_param1, double _f_param2);
+        public static extern IntPtr ml_ANN_MLP_new2_Mat(
+            IntPtr layerSizes, int activFunc, double fParam1, double fParam2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvANN_MLP_destruct(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvANN_MLP_train(IntPtr obj, IntPtr _inputs, IntPtr _outputs, IntPtr _sample_weights,
-                        IntPtr _sample_idx, WCvANN_MLP_TrainParams _params, int flags);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern float CvANN_MLP_predict(IntPtr obj, IntPtr _inputs, IntPtr _outputs);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvANN_MLP_create(IntPtr obj, IntPtr _layer_sizes, int _activ_func, double _f_param1, double _f_param2);
+        public static extern void ml_ANN_MLP_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvANN_MLP_clear(IntPtr obj);
+        public static extern void ml_ANN_MLP_create_CvMat(
+            IntPtr obj, IntPtr layerSizes, int activFunc, double fParam1, double fParam2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvANN_MLP_read(IntPtr obj, IntPtr fs, IntPtr node);
+        public static extern void ml_ANN_MLP_create_Mat(
+            IntPtr obj, IntPtr layerSizes, int activFunc, double fParam1, double fParam2);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvANN_MLP_write(IntPtr obj, IntPtr storage, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern int ml_ANN_MLP_train_CvMat(
+            IntPtr obj, IntPtr inputs, IntPtr outputs, IntPtr sampleWeights,
+            IntPtr sampleIdx, WANN_MLP_TrainParams param, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvANN_MLP_get_layer_count(IntPtr obj);
+        public static extern int ml_ANN_MLP_train_Mat(
+            IntPtr obj, IntPtr inputs, IntPtr outputs, IntPtr sampleWeights,
+            IntPtr sampleIdx, WANN_MLP_TrainParams param, int flags);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvANN_MLP_get_layer_sizes(IntPtr obj);
+        public static extern float ml_ANN_MLP_predict_CvMat(
+            IntPtr obj, IntPtr inputs, IntPtr outputs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe double* CvANN_MLP_get_weights(IntPtr obj, int layer);
+        public static extern float ml_ANN_MLP_predict_Mat(
+            IntPtr obj, IntPtr inputs, IntPtr outputs);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ml_ANN_MLP_clear(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ml_ANN_MLP_read(IntPtr obj, IntPtr fs, IntPtr node);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ml_ANN_MLP_write(IntPtr obj, IntPtr storage, [MarshalAs(UnmanagedType.LPStr)] string name);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ml_ANN_MLP_get_layer_count(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_ANN_MLP_get_layer_sizes(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe double* ml_ANN_MLP_get_weights(IntPtr obj, int layer);
 
         #endregion
 

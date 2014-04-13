@@ -1,85 +1,105 @@
 /*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
+  *(C) 2008-2014 shimat
+  *This code is licenced under the LGPL.
  */
 
-#ifndef _CVANN_MLP_H_
-#define _CVANN_MLP_H_
+#ifndef _CPP_ML_ANN_MLP_H_
+#define _CPP_ML_ANN_MLP_H_
 
 #include "include_opencv.h"
 
+
 // CvANN_MLP_TrainParams
-CVAPI(CvANN_MLP_TrainParams*) CvANN_MLP_TrainParams_construct_default()
+CVAPI(CvANN_MLP_TrainParams) ml_CvANN_MLP_TrainParams_new1()
 {
-	return new CvANN_MLP_TrainParams();
+	return CvANN_MLP_TrainParams();
 }
-CVAPI(CvANN_MLP_TrainParams*) CvANN_MLP_TrainParams_construct( 
-	CvTermCriteria term_crit, int train_method, double param1, double param2 )
+CVAPI(CvANN_MLP_TrainParams) ml_CvANN_MLP_TrainParams_new2(
+	CvTermCriteria termCrit, int trainMethod, double param1, double param2 )
 {
-	return new CvANN_MLP_TrainParams(term_crit, train_method, param1, param2);
+	return CvANN_MLP_TrainParams(termCrit, trainMethod, param1, param2);
 }
-CVAPI(void) CvANN_MLP_TrainParams_destruct(CvANN_MLP_TrainParams* obj)
+CVAPI(void) ml_CvANN_MLP_TrainParams_delete(CvANN_MLP_TrainParams *obj)
 {
 	delete obj;
 }
 
 
 // CvANN_MLP
-CVAPI(int) CvANN_MLP_sizeof()
-{
-	return sizeof(CvANN_MLP);
-}
 
-CVAPI(CvANN_MLP*) CvANN_MLP_construct_default()
+CVAPI(CvANN_MLP*) ml_CvANN_MLP_new1()
 {
 	return new CvANN_MLP();
 }
-CVAPI(CvANN_MLP*) CvANN_MLP_construct_training(const CvMat* _layer_sizes, int _activ_func, double _f_param1, double _f_param2 )
+CVAPI(CvANN_MLP*) ml_CvANN_MLP_new2_CvMat(CvMat *layerSizes, int activFunc, double fParam1, double fParam2)
 {
-	return new CvANN_MLP(_layer_sizes, _activ_func, _f_param1, _f_param2);
+    return new CvANN_MLP(layerSizes, activFunc, fParam1, fParam2);
 }
-CVAPI(void) CvANN_MLP_destruct(CvANN_MLP* obj)
+CVAPI(CvANN_MLP*) ml_CvANN_MLP_new2_Mat(cv::Mat *layerSizes, int activFunc, double fParam1, double fParam2)
+{
+    return new CvANN_MLP(*layerSizes, activFunc, fParam1, fParam2);
+}
+CVAPI(void) ml_CvANN_MLP_delete(CvANN_MLP *obj)
 {
 	delete obj;
 }
 
-CVAPI(int) CvANN_MLP_train(CvANN_MLP* obj, const CvMat* _inputs, const CvMat* _outputs, const CvMat* _sample_weights, 
-				const CvMat* _sample_idx, CvANN_MLP_TrainParams _params, int flags )
+CVAPI(void) ml_CvANN_MLP_create_CvMat(CvANN_MLP *obj, CvMat *layerSizes, int activFunc, 
+    double fParam1, double fParam2)
 {
-	return obj->train(_inputs, _outputs, _sample_weights, _sample_idx, _params, flags);
+    obj->create(layerSizes, activFunc, fParam1, fParam2);
 }
-CVAPI(float) CvANN_MLP_predict(CvANN_MLP* obj, const CvMat* _inputs, CvMat* _outputs )
+CVAPI(void) ml_CvANN_MLP_create_Mat(CvANN_MLP *obj, cv::Mat *layerSizes, int activFunc,
+    double fParam1, double fParam2)
 {
-	return obj->predict(_inputs, _outputs);
-}
-CVAPI(void) CvANN_MLP_create(CvANN_MLP* obj, const CvMat* _layer_sizes, int _activ_func, double _f_param1, double _f_param2 )
-{
-	obj->create(_layer_sizes, _activ_func, _f_param1, _f_param2);
+    obj->create(*layerSizes, activFunc, fParam1, fParam2);
 }
 
-CVAPI(void) CvANN_MLP_clear(CvANN_MLP* obj)
+CVAPI(int) ml_CvANN_MLP_train_CvMat(CvANN_MLP *obj, CvMat *inputs, CvMat *outputs, 
+    CvMat *sampleWeights, CvMat *sampleIdx, CvANN_MLP_TrainParams params, int flags )
+{
+    return obj->train(inputs, outputs, sampleWeights, sampleIdx, params, flags);
+}
+CVAPI(int) ml_CvANN_MLP_train_Mat(CvANN_MLP *obj, cv::Mat *inputs, cv::Mat *outputs,
+    cv::Mat *sampleWeights, cv::Mat *sampleIdx, CvANN_MLP_TrainParams params, int flags)
+{
+    return obj->train(*inputs, *outputs, entity(sampleWeights), 
+        entity(sampleIdx), params, flags);
+}
+
+CVAPI(float) ml_CvANN_MLP_predict_CvMat(CvANN_MLP *obj, CvMat *inputs, CvMat *outputs)
+{
+	return obj->predict(inputs, outputs);
+}
+CVAPI(float) ml_CvANN_MLP_predict_Mat(CvANN_MLP *obj, cv::Mat *inputs, cv::Mat *outputs)
+{
+    return obj->predict(*inputs, *outputs);
+}
+
+
+CVAPI(void) ml_CvANN_MLP_clear(CvANN_MLP *obj)
 {
 	obj->clear();
 }
 
-CVAPI(void) CvANN_MLP_read(CvANN_MLP* obj, CvFileStorage* fs, CvFileNode* node )
+CVAPI(void) ml_CvANN_MLP_read(CvANN_MLP *obj, CvFileStorage *fs, CvFileNode *node)
 {
 	obj->read(fs, node);
 }
-CVAPI(void) CvANN_MLP_write(CvANN_MLP* obj, CvFileStorage* storage, const char* name )
+CVAPI(void) ml_CvANN_MLP_write(CvANN_MLP *obj, CvFileStorage *storage, const char *name)
 {
 	obj->write(storage, name);
 }
 
-CVAPI(int)  CvANN_MLP_get_layer_count(CvANN_MLP* obj) 
+CVAPI(int)  ml_CvANN_MLP_get_layer_count(CvANN_MLP *obj)
 { 
 	return obj->get_layer_count();
 }
-CVAPI(const CvMat*)  CvANN_MLP_get_layer_sizes(CvANN_MLP* obj)
+CVAPI(const CvMat*) ml_CvANN_MLP_get_layer_sizes(CvANN_MLP *obj)
 { 
 	return obj->get_layer_sizes();
 }
-CVAPI(double*) CvANN_MLP_get_weights(CvANN_MLP* obj, int layer)
+CVAPI(double*) ml_CvANN_MLP_get_weights(CvANN_MLP *obj, int layer)
 {
 	return obj->get_weights(layer);
 }
