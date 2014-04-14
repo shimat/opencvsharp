@@ -142,6 +142,9 @@
     <ClCompile Include="superres.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="ml.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -272,6 +275,9 @@
     </ClInclude>
     <ClInclude Include="core_PCA.h">
       <Filter>Headers\cpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ml.h">
+      <Filter>Headers\cpp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

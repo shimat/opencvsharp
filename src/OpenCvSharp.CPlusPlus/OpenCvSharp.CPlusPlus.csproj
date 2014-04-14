@@ -138,6 +138,7 @@
     <Compile Include="BitmapConverter2.cs" />
     <Compile Include="Cv2\Cv2.cs" />
     <Compile Include="Cv2\Cv2_features2d.cs" />
+    <Compile Include="Cv2\Cv2_ml.cs" />
     <Compile Include="Cv2\Cv2_photo.cs" />
     <Compile Include="Cv2\Cv2_nonfree.cs" />
     <Compile Include="Cv2\Cv2_video.cs" />
@@ -159,7 +160,7 @@
     <Compile Include="modules\core\Enum\AlgorithmParamType.cs" />
     <Compile Include="modules\core\SparseMatIndexer.cs" />
     <Compile Include="modules\core\SparseMat.cs" />
-    <Compile Include="modules\ml\ANN_MLP.cs" />
+    <Compile Include="modules\ml\NeuralNet_MLP.cs" />
     <Compile Include="modules\ml\Class\ANN_MLP_TrainParams.cs" />
     <Compile Include="modules\ml\StatModel.cs" />
     <Compile Include="modules\objdetect\CascadeClassifier.cs" />

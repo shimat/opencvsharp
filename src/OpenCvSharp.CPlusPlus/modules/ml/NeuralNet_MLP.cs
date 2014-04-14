@@ -18,7 +18,7 @@ namespace OpenCvSharp.CPlusPlus
     /// MLP model
     /// </summary>
 #endif
-	public class ANN_MLP : StatModel
+	public class NeuralNet_MLP : StatModel
 	{
         /// <summary>
         /// Track whether Dispose has been called
@@ -48,9 +48,9 @@ namespace OpenCvSharp.CPlusPlus
         /// Default constructor
         /// </summary>
 #endif
-		public ANN_MLP()
+		public NeuralNet_MLP()
 		{
-			ptr = NativeMethods.ml_ANN_MLP_new1();
+			ptr = NativeMethods.ml_NeuralNet_MLP_new1();
 		}
 
 #if LANG_JP
@@ -70,7 +70,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="fParam1">Free parameter α of the activation function</param>
 		/// <param name="fParam2">Free parameter β of the activation function</param>
 #endif
-		public ANN_MLP(
+		public NeuralNet_MLP(
             CvMat layerSizes, 
             MLPActivationFunc activFunc = MLPActivationFunc.SigmoidSym, 
             double fParam1 = 0, double fParam2 = 0)
@@ -78,7 +78,7 @@ namespace OpenCvSharp.CPlusPlus
             if (layerSizes == null)
                 throw new ArgumentNullException("layerSizes");
 
-            ptr = NativeMethods.ml_ANN_MLP_new2_CvMat(
+            ptr = NativeMethods.ml_NeuralNet_MLP_new2_CvMat(
                 layerSizes.CvPtr, (int)activFunc, fParam1, fParam2);
 		}
 
@@ -99,7 +99,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="fParam1">Free parameter α of the activation function</param>
         /// <param name="fParam2">Free parameter β of the activation function</param>
 #endif
-        public ANN_MLP(
+        public NeuralNet_MLP(
             Mat layerSizes,
             MLPActivationFunc activFunc = MLPActivationFunc.SigmoidSym,
             double fParam1 = 0, double fParam2 = 0)
@@ -107,7 +107,7 @@ namespace OpenCvSharp.CPlusPlus
             if (layerSizes == null)
                 throw new ArgumentNullException("layerSizes");
 
-            ptr = NativeMethods.ml_ANN_MLP_new2_Mat(
+            ptr = NativeMethods.ml_NeuralNet_MLP_new2_Mat(
                 layerSizes.CvPtr, (int)activFunc, fParam1, fParam2);
         }
 
@@ -129,7 +129,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.ml_ANN_MLP_delete(ptr);
+                        NativeMethods.ml_NeuralNet_MLP_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -173,7 +173,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("layerSizes");
             layerSizes.ThrowIfDisposed();
 
-            NativeMethods.ml_ANN_MLP_create_CvMat(
+            NativeMethods.ml_NeuralNet_MLP_create_CvMat(
                 ptr, layerSizes.CvPtr, (int)activFunc, fParam1, fParam2);
 		}
 #if LANG_JP
@@ -204,7 +204,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("layerSizes");
             layerSizes.ThrowIfDisposed();
 
-            NativeMethods.ml_ANN_MLP_create_Mat(
+            NativeMethods.ml_NeuralNet_MLP_create_Mat(
                 ptr, layerSizes.CvPtr, (int)activFunc, fParam1, fParam2);
         }
 		#endregion
@@ -248,7 +248,7 @@ namespace OpenCvSharp.CPlusPlus
 			if(param == null)
 				param = new ANN_MLP_TrainParams();
 
-			return NativeMethods.ml_ANN_MLP_train_CvMat(
+			return NativeMethods.ml_NeuralNet_MLP_train_CvMat(
                 ptr,
 				inputs.CvPtr, 
 				outputs.CvPtr,
@@ -297,7 +297,7 @@ namespace OpenCvSharp.CPlusPlus
             if (param == null)
                 param = new ANN_MLP_TrainParams();
 
-            return NativeMethods.ml_ANN_MLP_train_CvMat(
+            return NativeMethods.ml_NeuralNet_MLP_train_CvMat(
                 ptr,
                 inputs.CvPtr,
                 outputs.CvPtr,
@@ -334,7 +334,7 @@ namespace OpenCvSharp.CPlusPlus
             inputs.ThrowIfDisposed();
             outputs.ThrowIfDisposed();
 
-			return NativeMethods.ml_ANN_MLP_predict_CvMat(ptr, inputs.CvPtr, outputs.CvPtr);
+			return NativeMethods.ml_NeuralNet_MLP_predict_CvMat(ptr, inputs.CvPtr, outputs.CvPtr);
 		}
 #if LANG_JP
         /// <summary>
@@ -360,7 +360,7 @@ namespace OpenCvSharp.CPlusPlus
             inputs.ThrowIfDisposed();
             outputs.ThrowIfDisposed();
 
-            return NativeMethods.ml_ANN_MLP_predict_CvMat(ptr, inputs.CvPtr, outputs.CvPtr);
+            return NativeMethods.ml_NeuralNet_MLP_predict_CvMat(ptr, inputs.CvPtr, outputs.CvPtr);
         }
 		#endregion
 
@@ -377,7 +377,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
 		public int GetLayerCount()
 		{
-            return NativeMethods.ml_ANN_MLP_get_layer_count(ptr);
+            return NativeMethods.ml_NeuralNet_MLP_get_layer_count(ptr);
 		}
 #if LANG_JP
         /// <summary>
@@ -392,7 +392,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
 		public CvMat GetLayerSizes()
 		{
-            IntPtr p = NativeMethods.ml_ANN_MLP_get_layer_sizes(ptr);
+            IntPtr p = NativeMethods.ml_NeuralNet_MLP_get_layer_sizes(ptr);
             if(p == IntPtr.Zero)
                 return null;
             return new CvMat(p, false);
@@ -410,7 +410,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public override void Clear()
         {
-            NativeMethods.ml_ANN_MLP_clear(ptr);
+            NativeMethods.ml_NeuralNet_MLP_clear(ptr);
         }
 
 #if LANG_JP
@@ -433,7 +433,7 @@ namespace OpenCvSharp.CPlusPlus
 			if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
 
-            NativeMethods.ml_ANN_MLP_write(ptr, storage.CvPtr, name);
+            NativeMethods.ml_NeuralNet_MLP_write(ptr, storage.CvPtr, name);
         }
 
 #if LANG_JP
@@ -456,7 +456,7 @@ namespace OpenCvSharp.CPlusPlus
             if (node == null)
                 throw new ArgumentNullException("node");
 
-            NativeMethods.ml_ANN_MLP_read(ptr, fs.CvPtr, node.CvPtr);
+            NativeMethods.ml_NeuralNet_MLP_read(ptr, fs.CvPtr, node.CvPtr);
         }
 		#endregion
         #endregion
