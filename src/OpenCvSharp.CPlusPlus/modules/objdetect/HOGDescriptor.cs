@@ -1492,7 +1492,9 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.objdetect_HOGDescriptor_delete(ptr);
+                        if(ptr != IntPtr.Zero)
+                            NativeMethods.objdetect_HOGDescriptor_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
@@ -1508,7 +1510,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public CvSize WinSize
+        public Size WinSize
         {
             get { return NativeMethods.objdetect_HOGDescriptor_winSize_get(ptr); }
             set { NativeMethods.objdetect_HOGDescriptor_winSize_set(ptr, value); }
@@ -1516,7 +1518,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public CvSize BlockSize
+        public Size BlockSize
         {
             get { return NativeMethods.objdetect_HOGDescriptor_blockSize_get(ptr); }
             set { NativeMethods.objdetect_HOGDescriptor_blockSize_set(ptr, value); }
@@ -1524,7 +1526,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public CvSize BlockStride
+        public Size BlockStride
         {
             get { return NativeMethods.objdetect_HOGDescriptor_blockStride_get(ptr); }
             set { NativeMethods.objdetect_HOGDescriptor_blockStride_set(ptr, value); }
@@ -1532,7 +1534,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public CvSize CellSize
+        public Size CellSize
         {
             get { return NativeMethods.objdetect_HOGDescriptor_cellSize_get(ptr); }
             set { NativeMethods.objdetect_HOGDescriptor_cellSize_set(ptr, value); }

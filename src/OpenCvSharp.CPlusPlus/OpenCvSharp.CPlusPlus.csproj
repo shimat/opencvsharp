@@ -146,6 +146,9 @@
     <Compile Include="modules\core\Enum\DctFlag2.cs" />
     <Compile Include="modules\core\Enum\DftFlag2.cs" />
     <Compile Include="modules\calib3d\FindCirclesGridFlag.cs" />
+    <Compile Include="modules\core\Enum\FileStorageMode.cs" />
+    <Compile Include="modules\core\FileStorage.cs" />
+    <Compile Include="modules\core\FileNode.cs" />
     <Compile Include="modules\ml\Enum\MLPActivationFunc.cs" />
     <Compile Include="modules\ml\Enum\MLPTrainingFlag.cs" />
     <Compile Include="modules\ml\Enum\MLPTrainingMethod.cs" />

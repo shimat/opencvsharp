@@ -90,7 +90,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern unsafe double* ml_ANN_MLP_get_weights(IntPtr obj, int layer);
 
         #endregion
-
+#if false
         #region CvBoost
         // CvBoost
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -695,5 +695,6 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern byte CvMLData_get_miss_ch(IntPtr obj);
         #endregion
+#endif
     }
 }

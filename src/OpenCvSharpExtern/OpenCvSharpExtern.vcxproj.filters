@@ -142,6 +142,9 @@
     <ClCompile Include="superres.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="core_FileStorage.cpp">
+      <Filter>Sources\cpp\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvblob.h">
@@ -271,6 +274,9 @@
       <Filter>Headers\cpp</Filter>
     </ClInclude>
     <ClInclude Include="core_PCA.h">
+      <Filter>Headers\cpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core_FileStorage.h">
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,16 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     internal static class CppConst
     {
+        public const int
+            FileStorage_READ = 0,  //! read mode
+            FileStorage_WRITE = 1,  //! write mode
+            FileStorage_APPEND = 2, //! append mode
+            FileStorage_MEMORY = 4,
+            FileStorage_FORMAT_MASK = (7 << 3),
+            FileStorage_FORMAT_AUTO = 0,
+            FileStorage_FORMAT_XML = (1 << 3),
+            FileStorage_FORMAT_YAML = (2 << 3);
+           
         /// <summary>
         /// cv::Param types
         /// </summary>
