@@ -10,7 +10,7 @@
 
 CVAPI(int) nonfree_initModule_nonfree()
 {
-	return cv::initModule_nonfree();
+	return cv::initModule_nonfree() ? 1 : 0;
 }
 
 #pragma region SIFT

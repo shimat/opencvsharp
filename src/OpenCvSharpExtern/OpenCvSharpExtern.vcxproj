@@ -228,6 +228,7 @@
     <ClCompile Include="features2d_FeatureDetector.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgproc.cpp" />
+    <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="objdetect_HOGDescriptor.cpp" />
     <ClCompile Include="flann.cpp" />
@@ -278,6 +279,7 @@
     <ClInclude Include="imgproc.h" />
     <ClInclude Include="imgproc_Subdiv2D.h" />
     <ClInclude Include="include_opencv.h" />
+    <ClInclude Include="ml.h" />
     <ClInclude Include="objdetect.h" />
     <ClInclude Include="objdetect_HOGDescriptor.h" />
     <ClInclude Include="core_Algorithm.h" />
