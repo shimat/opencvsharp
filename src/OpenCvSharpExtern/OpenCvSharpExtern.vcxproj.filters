@@ -142,6 +142,9 @@
     <ClCompile Include="superres.cpp">
       <Filter>Sources\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="ml.cpp">
+      <Filter>Sources\cpp</Filter>
+    </ClCompile>
     <ClCompile Include="core_FileStorage.cpp">
       <Filter>Sources\cpp\core</Filter>
     </ClCompile>
@@ -276,9 +279,15 @@
     <ClInclude Include="core_PCA.h">
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
+<<<<<<< .mine
     <ClInclude Include="core_FileStorage.h">
       <Filter>Headers\cpp\core</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="ml.h">
+      <Filter>Headers\cpp</Filter>
+    </ClInclude>
+>>>>>>> .theirs
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
