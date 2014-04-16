@@ -4222,6 +4222,25 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+        #region FromBitmap
+#if LANG_JP
+        /// <summary>
+        /// System.Drawing.BitmapからOpenCVのMatへ変換して返す.
+        /// </summary>
+        /// <param name="src">変換するSystem.Drawing.Bitmap</param>
+        /// <returns>変換結果のMat</returns>
+#else
+        /// <summary>
+        /// Converts System.Drawing.Bitmap to Mat
+        /// </summary>
+        /// <param name="src">System.Drawing.Bitmap object to be converted</param>
+        /// <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
+#endif
+        public static Mat FromMat(Bitmap src)
+        {
+            return BitmapConverter2.ToMat(src);
+        }
+        #endregion
 
         /// <summary>
         /// 
