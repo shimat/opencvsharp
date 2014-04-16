@@ -118,7 +118,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="r"></param>
         /// <param name="g"></param>
         /// <param name="b"></param>
-        public static Scalar FromRgb(int r, double g, double b)
+        public static Scalar FromRgb(int r, int g, int b)
         {
             return new Scalar(b, g, r);
         }
