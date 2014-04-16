@@ -4616,7 +4616,7 @@ namespace OpenCvSharp.CPlusPlus
             return ImEncode(ext, prms);
         }
         #endregion
-        #region ImWrite
+        #region ImWrite / SaveImage
         /// <summary>
         /// Saves an image to a specified file.
         /// </summary>
@@ -4634,6 +4634,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="prms"></param>
         /// <returns></returns>
         public bool ImWrite(string fileName, params ImageEncodingParam[] prms)
+        {
+            return Cv2.ImWrite(fileName, this, prms);
+        }
+
+        /// <summary>
+        /// Saves an image to a specified file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        public bool SaveImage(string fileName, int[] prms = null)
+        {
+            return Cv2.ImWrite(fileName, this, prms);
+        }
+        /// <summary>
+        /// Saves an image to a specified file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        public bool SaveImage(string fileName, params ImageEncodingParam[] prms)
         {
             return Cv2.ImWrite(fileName, this, prms);
         }
