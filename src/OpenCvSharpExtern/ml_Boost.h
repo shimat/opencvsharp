@@ -8,75 +8,103 @@
 
 #include "include_opencv.h"
 
-// CvBoost
-CVAPI(int) CvBoost_sizeof()
-{
-	return sizeof(CvBoost);
-}
+// Boost
 
-CVAPI(CvBoost*) CvBoost_construct_default()
+CVAPI(cv::Boost*) ml_Boost_new()
 {
-	return new CvBoost();
+	return new cv::Boost();
 }    
-CVAPI(CvBoost*) CvBoost_construct_training( const CvMat* _train_data, int _tflag, const CvMat* _responses, 
-			const CvMat* _var_idx,  const CvMat* _sample_idx, const CvMat* _var_type,
-             const CvMat* _missing_mask, CvBoostParams* params )
+CVAPI(cv::Boost*) ml_Boost_new_CvMat( 
+    CvMat *trainData, int tflag, CvMat *responses, CvMat *varIdx,  CvMat *sampleIdx, 
+    CvMat *varType, CvMat *missingMask, cv::BoostParams *params )
 {
-	return new CvBoost(_train_data, _tflag, _responses, _var_idx, _sample_idx, _var_type, _missing_mask, *params);
+    cv::BoostParams p = (params == NULL) ? cv::BoostParams() : *params;
+	return new cv::Boost(
+        trainData, tflag, responses, varIdx, sampleIdx, varType, missingMask, p);
 }
-CVAPI(void) CvBoost_destruct(CvBoost* obj)
+CVAPI(cv::Boost*) ml_Boost_new_Mat( 
+    cv::Mat *trainData, int tflag, cv::Mat *responses, cv::Mat *varIdx, cv::Mat *sampleIdx, 
+    cv::Mat *varType, cv::Mat *missingMask, cv::BoostParams *params )
+{
+    cv::BoostParams p = (params == NULL) ? cv::BoostParams() : *params;
+	return new cv::Boost(
+        *trainData, tflag, *responses, entity(varIdx), entity(sampleIdx), 
+        entity(varType), entity(missingMask), p);
+}
+CVAPI(void) ml_Boost_delete(cv::Boost* obj)
 {
 	delete obj;
 }
 
-CVAPI(bool) CvBoost_train( CvBoost* obj, const CvMat* _train_data, int _tflag, const CvMat* _responses, 
-						  const CvMat* _var_idx, const CvMat* _sample_idx, const CvMat* _var_type, 
-						  const CvMat* _missing_mask, CvBoostParams* params, bool update )
+CVAPI(int) ml_Boost_train_CvMat( 
+    cv::Boost *obj, CvMat *trainData, int tflag, CvMat *responses, CvMat *varIdx, 
+    CvMat *sampleIdx, CvMat *varType,  CvMat *missingMask, cv::BoostParams* params, int update)
 {
-	return obj->train(_train_data, _tflag, _responses, _var_idx, _sample_idx, _var_type, _missing_mask, *params, update);
+    cv::BoostParams p = (params == NULL) ? cv::BoostParams() : *params;
+	bool ret = obj->train(
+        trainData, tflag, responses, varIdx, sampleIdx, varType, missingMask, p, update != 0);
+    return ret ? 1 : 0; 
 }
-CVAPI(float) CvBoost_predict( CvBoost* obj, const CvMat* _sample, const CvMat* _missing, 
-							 CvMat* weak_responses, CvSlice slice, bool raw_mode) 
+CVAPI(int) ml_Boost_train_Mat( 
+    cv::Boost *obj, cv::Mat *trainData, int tflag, cv::Mat *responses, cv::Mat *varIdx, 
+    cv::Mat *sampleIdx, cv::Mat *varType,  cv::Mat *missingMask, cv::BoostParams* params, int update)
 {
-	return obj->predict(_sample, _missing, weak_responses, slice, raw_mode);
+    cv::BoostParams p = (params == NULL) ? cv::BoostParams() : *params;
+	bool ret = obj->train(
+        *trainData, tflag, *responses, entity(varIdx), entity(sampleIdx), entity(varType), 
+        entity(missingMask), p, update != 0);
+    return ret ? 1 : 0; 
 }
 
-CVAPI(void) CvBoost_prune( CvBoost* obj, CvSlice slice )
+CVAPI(float) ml_Boost_predict_CvMat( 
+    cv::Boost *obj, CvMat *sample, CvMat *missing, CvMat *weakResponses, CvSlice slice, 
+    int rawMode, int returnSum) 
+{
+	return obj->predict(sample, missing, weakResponses, slice, rawMode != 0, returnSum != 0);
+}
+CVAPI(float) ml_Boost_predict_Mat( 
+    cv::Boost *obj, cv::Mat *sample, cv::Mat *missing, CvSlice slice, 
+    int rawMode, int returnSum) 
+{
+	return obj->predict(*sample, entity(missing), slice, rawMode != 0, returnSum != 0);
+}
+
+CVAPI(void) ml_Boost_prune(cv::Boost* obj, CvSlice slice)
 {
 	obj->prune(slice);
 }
 
-CVAPI(void) CvBoost_clear(CvBoost* obj)
+CVAPI(void) ml_Boost_clear(cv::Boost* obj)
 {
 	obj->clear();
 }
 
-CVAPI(void) CvBoost_write( CvBoost* obj, CvFileStorage* storage, const char* name )
+CVAPI(void) ml_Boost_write(cv::Boost* obj, CvFileStorage* storage, const char* name)
 {
 	obj->write(storage, name);
 }
-CVAPI(void) CvBoost_read( CvBoost* obj, CvFileStorage* storage, CvFileNode* node )
+CVAPI(void) ml_Boost_read(cv::Boost* obj, CvFileStorage* storage, CvFileNode* node)
 {
 	obj->read(storage, node);
 }
 
-CVAPI(CvSeq*) CvBoost_get_weak_predictors(CvBoost* obj)
+CVAPI(CvSeq*) ml_Boost_get_weak_predictors(cv::Boost* obj)
 {
 	return obj->get_weak_predictors();
 }
-CVAPI(CvMat*) CvBoost_get_weights(CvBoost* obj)
+CVAPI(CvMat*) ml_Boost_get_weights(cv::Boost* obj)
 {
 	return obj->get_weights();
 }
-CVAPI(CvMat*) CvBoost_get_subtree_weights(CvBoost* obj)
+CVAPI(CvMat*) ml_Boost_get_subtree_weights(cv::Boost* obj)
 {
 	return obj->get_subtree_weights();
 }
-CVAPI(CvMat*) CvBoost_get_weak_response(CvBoost* obj)
+CVAPI(CvMat*) ml_Boost_get_weak_response(cv::Boost* obj)
 {
 	return obj->get_weak_response();
 }
-CVAPI(CvBoostParams*) CvBoost_get_params(CvBoost* obj)
+CVAPI(CvBoostParams*) ml_Boost_get_params(cv::Boost* obj)
 {
 	return const_cast<CvBoostParams*>(&(obj->get_params()));
 }
@@ -95,7 +123,7 @@ CVAPI(void) CvBoostTree_destruct(CvBoostTree* obj)
 {
 	delete obj;
 }
-CVAPI(bool) CvBoostTree_train( CvBoostTree* obj, CvDTreeTrainData* _train_data, const CvMat* subsample_idx, CvBoost* ensemble )
+CVAPI(bool) CvBoostTree_train( CvBoostTree* obj, CvDTreeTrainData* _train_data, const CvMat *subsample_idx, CvBoost* ensemble )
 {
 	return obj->train(_train_data, subsample_idx, ensemble);
 }
@@ -114,56 +142,38 @@ CVAPI(void) CvBoostTree_clear(CvBoostTree* obj)
 
 
 
-// CvBoostParams
-CVAPI(int) CvBoostParams_sizeof()
+// BoostParams
+CVAPI(cv::BoostParams*) ml_BoostParams_new1()
 {
-	return sizeof(CvBoostParams);
+	return new cv::BoostParams();
 }
-CVAPI(CvBoostParams*) CvBoostParams_construct_default()
+CVAPI(cv::BoostParams*) ml_BoostParams_new2( 
+    int boostType, int weakCount, double weightTrimRate, int maxDepth, 
+    int useSurrogates, const float* priors )
 {
-	return new CvBoostParams();
+	return new cv::BoostParams(
+        boostType, weakCount, weightTrimRate, maxDepth, useSurrogates, priors);
 }
-CVAPI(CvBoostParams*) CvBoostParams_construct( int boost_type, int weak_count, double weight_trim_rate,
-                   int max_depth, bool use_surrogates, const float* priors )
-{
-	return new CvBoostParams(boost_type, weak_count, weight_trim_rate, max_depth, use_surrogates, priors);
-}
-CVAPI(void) CvBoostParams_destruct(CvBoostParams* obj)
+CVAPI(void) ml_BoostParams_delete(cv::BoostParams* obj)
 {
 	delete obj;
 }
 
-CVAPI(int) CvBoostParams_boost_type_get(CvBoostParams* obj)
+CVAPI(int*) ml_BoostParams_boost_type(cv::BoostParams* obj)
 {
-	return obj->boost_type;
+	return &(obj->boost_type);
 }
-CVAPI(void) CvBoostParams_boost_type_set(CvBoostParams* obj, int value)
+CVAPI(int*) ml_BoostParams_weak_count(cv::BoostParams* obj)
 {
-	obj->boost_type = value;
+	return &(obj->weak_count);
 }
-CVAPI(int) CvBoostParams_weak_count_get(CvBoostParams* obj)
+CVAPI(int*) ml_BoostParams_split_criteria_get(cv::BoostParams* obj)
 {
-	return obj->weak_count;
+	return &(obj->split_criteria);
 }
-CVAPI(void) CvBoostParams_weak_count_set(CvBoostParams* obj, int value)
+CVAPI(double*) CvBoostParams_weight_trim_rate_get(CvBoostParams* obj)
 {
-	obj->weak_count = value;
-}
-CVAPI(int) CvBoostParams_split_criteria_get(CvBoostParams* obj)
-{
-	return obj->split_criteria;
-}
-CVAPI(void) CvBoostParams_split_criteria_set(CvBoostParams* obj, int value)
-{
-	obj->split_criteria = value;
-}
-CVAPI(double) CvBoostParams_weight_trim_rate_get(CvBoostParams* obj)
-{
-	return obj->weight_trim_rate;
-}
-CVAPI(void) CvBoostParams_weight_trim_rate_set(CvBoostParams* obj, double value)
-{
-	obj->weight_trim_rate = value;
+	return &(obj->weight_trim_rate);
 }
 
 #endif
