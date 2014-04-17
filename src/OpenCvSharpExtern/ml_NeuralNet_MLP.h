@@ -10,14 +10,14 @@
 
 
 // CvANN_MLP_TrainParams
-CVAPI(cv::ANN_MLP_TrainParams) ml_ANN_MLP_TrainParams_new1()
+CVAPI(cv::ANN_MLP_TrainParams*) ml_ANN_MLP_TrainParams_new1()
 {
-	return cv::ANN_MLP_TrainParams();
+	return new cv::ANN_MLP_TrainParams();
 }
-CVAPI(cv::ANN_MLP_TrainParams) ml_ANN_MLP_TrainParams_new2(
+CVAPI(cv::ANN_MLP_TrainParams*) ml_ANN_MLP_TrainParams_new2(
 	CvTermCriteria termCrit, int trainMethod, double param1, double param2 )
 {
-	return cv::ANN_MLP_TrainParams(termCrit, trainMethod, param1, param2);
+	return new cv::ANN_MLP_TrainParams(termCrit, trainMethod, param1, param2);
 }
 
 
