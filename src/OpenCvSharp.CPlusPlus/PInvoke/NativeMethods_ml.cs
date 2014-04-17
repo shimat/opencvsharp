@@ -92,48 +92,60 @@ namespace OpenCvSharp.CPlusPlus
         public static extern unsafe double* ml_NeuralNet_MLP_get_weights(IntPtr obj, int layer);
 
         #endregion
-#if false
-        #region CvBoost
-        // CvBoost
+
+        #region Boost
+        // Boost
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvBoost_sizeof();
+        public static extern IntPtr ml_Boost_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_Boost_new_CvMat(
+            IntPtr trainData, int tflag, IntPtr responses, IntPtr varIdx, IntPtr sampleIdx, 
+            IntPtr varType, IntPtr missingMask, IntPtr param);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_Boost_new_Mat(
+            IntPtr trainData, int tflag, IntPtr responses, IntPtr varIdx, IntPtr sampleIdx,
+            IntPtr varType, IntPtr missingMask, IntPtr param);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ml_Boost_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoost_construct_default();
+        public static extern int ml_Boost_train_CvMat(
+            IntPtr obj, IntPtr trainData, int tflag, IntPtr responses, IntPtr varIdx, 
+            IntPtr sampleIdx, IntPtr varType, IntPtr missingMask, IntPtr param, int update);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoost_construct_training(IntPtr _train_data, int _tflag, IntPtr _responses,
-                    IntPtr _var_idx, IntPtr _sample_idx, IntPtr _var_type, IntPtr _missing_mask, IntPtr pparams);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoost_destruct(IntPtr obj);
+        public static extern int ml_Boost_train_Mat(
+            IntPtr obj, IntPtr trainData, int tflag, IntPtr responses, IntPtr varIdx,
+            IntPtr sampleIdx, IntPtr varType, IntPtr missingMask, IntPtr param, int update);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool CvBoost_train(IntPtr obj, IntPtr _train_data, int _tflag, IntPtr _responses,
-                                  IntPtr _var_idx, IntPtr _sample_idx, IntPtr _var_type,
-                                  IntPtr _missing_mask, IntPtr pparams, bool update);
+        public static extern float ml_Boost_predict_CvMat(
+            IntPtr obj, IntPtr sample, IntPtr missing, IntPtr weakResponses, 
+            CvSlice slice, int rawMode, int returnSum);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern float CvBoost_predict(IntPtr obj, IntPtr _sample, IntPtr _missing,
-                                     IntPtr weak_responses, CvSlice slice, bool raw_mode);
+        public static extern float ml_Boost_predict_Mat(
+            IntPtr obj, IntPtr sample, IntPtr missing, 
+            CvSlice slice, int rawMode, int returnSum);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoost_prune(IntPtr obj, CvSlice slice);
+        public static extern void ml_Boost_prune(IntPtr obj, CvSlice slice);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoost_clear(IntPtr obj);
+        public static extern void ml_Boost_clear(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoost_write(IntPtr obj, IntPtr storage, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern void ml_Boost_write(IntPtr obj, IntPtr storage, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoost_read(IntPtr obj, IntPtr storage, IntPtr node);
+        public static extern void ml_Boost_read(IntPtr obj, IntPtr storage, IntPtr node);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoost_get_weak_predictors(IntPtr obj);
+        public static extern IntPtr ml_Boost_get_weak_predictors(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoost_get_weights(IntPtr obj);
+        public static extern IntPtr ml_Boost_get_weights(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoost_get_subtree_weights(IntPtr obj);
+        public static extern IntPtr ml_Boost_get_subtree_weights(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoost_get_weak_response(IntPtr obj);
+        public static extern IntPtr ml_Boost_get_weak_response(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoost_get_params(IntPtr obj);
+        public static extern IntPtr ml_Boost_get_params(IntPtr obj);
         
         // CvBoostTree
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -153,33 +165,26 @@ namespace OpenCvSharp.CPlusPlus
         
         // CvBoostParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvBoostParams_sizeof();
+        public static extern int ml_BoostParams_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoostParams_construct_default();
+        public static extern IntPtr ml_BoostParams_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoostParams_construct(int boost_type, int weak_count, double weight_trim_rate,
-                           int max_depth, bool use_surrogates, IntPtr priors);
+        public static extern IntPtr ml_BoostParams_new2(
+            int boostType, int weakCount, double weightTrimRate,
+            int maxDepth, int useSurrogates, IntPtr priors);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostParams_destruct(IntPtr obj);
+        public static extern void ml_BoostParams_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvBoostParams_boost_type_get(IntPtr obj);
+        public static extern unsafe int* ml_BoostParams_boost_type(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostParams_boost_type_set(IntPtr obj, int value);
+        public static extern unsafe int* ml_BoostParams_weak_count(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvBoostParams_weak_count_get(IntPtr obj);
+        public static extern unsafe int* ml_BoostParams_split_criteria(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostParams_weak_count_set(IntPtr obj, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvBoostParams_split_criteria_get(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostParams_split_criteria_set(IntPtr obj, int value);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double CvBoostParams_weight_trim_rate_get(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostParams_weight_trim_rate_set(IntPtr obj, double value);
+        public static extern unsafe double* ml_BoostParams_weight_trim_rate(IntPtr obj);
         #endregion
-
+#if false
         #region CvDTree
         // CvDTreeParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
