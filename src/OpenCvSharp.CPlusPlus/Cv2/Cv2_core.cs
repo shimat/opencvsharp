@@ -828,7 +828,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             dst.ThrowIfDisposed();
 
-            IntPtr[] mvPtr = new IntPtr[mv.Length];
+            var mvPtr = new IntPtr[mv.Length];
             for (int i = 0; i < mv.Length; i++)
             {
                 mvPtr[i] = mv[i].CvPtr;
@@ -851,7 +851,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr mvPtr;
             NativeMethods.core_split(src.CvPtr, out mvPtr);
 
-            using (VectorOfMat vec = new VectorOfMat(mvPtr))
+            using (var vec = new VectorOfMat(mvPtr))
             {
                 mv = vec.ToArray();
             }

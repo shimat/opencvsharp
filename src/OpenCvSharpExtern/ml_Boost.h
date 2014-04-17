@@ -152,7 +152,7 @@ CVAPI(cv::BoostParams*) ml_BoostParams_new2(
     int useSurrogates, const float* priors )
 {
 	return new cv::BoostParams(
-        boostType, weakCount, weightTrimRate, maxDepth, useSurrogates, priors);
+        boostType, weakCount, weightTrimRate, maxDepth, useSurrogates != 0, priors);
 }
 CVAPI(void) ml_BoostParams_delete(cv::BoostParams* obj)
 {

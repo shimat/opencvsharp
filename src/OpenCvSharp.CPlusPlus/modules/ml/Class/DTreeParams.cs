@@ -27,7 +27,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -41,7 +41,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public DTreeParams()
         {
-            ptr = MLInvoke.CvDTreeParams_construct_default();
+            ptr = NativeMethods.ml_DTreeParams_new1();
             priors = null;
         }
 #if LANG_JP
@@ -81,8 +81,10 @@ namespace OpenCvSharp.CPlusPlus
                 priorsPtr = handle.AddrOfPinnedObject();
             }
 
-            ptr = MLInvoke.CvDTreeParams_construct(maxDepth, minSampleCount, regressionAccuracy, useSurrogates, maxCategories, 
-                cvFolds, use1SeRule, truncatePrunedTree, priorsPtr);
+            ptr = NativeMethods.ml_DTreeParams_new2(
+                maxDepth, minSampleCount, regressionAccuracy, useSurrogates ? 1 : 0,
+                maxCategories, cvFolds, use1SeRule ? 1: 0, truncatePrunedTree ? 1 : 0, 
+                priorsPtr);
 
             this.priors = priors;
         }
@@ -120,7 +122,9 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        MLInvoke.CvDTreeParams_destruct(ptr);
+                        if(ptr != IntPtr.Zero)
+                            NativeMethods.ml_DTreeParams_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
@@ -156,8 +160,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int MaxCategories
         {
-            get { return MLInvoke.CvDTreeParams_max_categories_get(ptr); }
-            set { MLInvoke.CvDTreeParams_max_categories_set(ptr, value); }
+            get { return NativeMethods.ml_DTreeParams_max_categories_get(ptr); }
+            set { NativeMethods.ml_DTreeParams_max_categories_set(ptr, value); }
         }
 #if LANG_JP
         /// <summary>
@@ -174,8 +178,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int MaxDepth
         {
-            get { return MLInvoke.CvDTreeParams_max_depth_get(ptr); }
-            set { MLInvoke.CvDTreeParams_max_depth_set(ptr, value); }
+            get { return NativeMethods.ml_DTreeParams_max_depth_get(ptr); }
+            set { NativeMethods.ml_DTreeParams_max_depth_set(ptr, value); }
         }
 #if LANG_JP
         /// <summary>
@@ -188,8 +192,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int MinSampleCount
         {
-            get { return MLInvoke.CvDTreeParams_min_sample_count_get(ptr); }
-            set { MLInvoke.CvDTreeParams_min_sample_count_set(ptr, value); }
+            get { return NativeMethods.ml_DTreeParams_min_sample_count_get(ptr); }
+            set { NativeMethods.ml_DTreeParams_min_sample_count_set(ptr, value); }
         }
 #if LANG_JP
         /// <summary>
@@ -202,8 +206,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int CvFolds
         {
-            get { return MLInvoke.CvDTreeParams_cv_folds_get(ptr); }
-            set { MLInvoke.CvDTreeParams_cv_folds_set(ptr, value); }
+            get { return NativeMethods.ml_DTreeParams_cv_folds_get(ptr); }
+            set { NativeMethods.ml_DTreeParams_cv_folds_set(ptr, value); }
         }
 
 #if LANG_JP
@@ -217,8 +221,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool UseSurrogates
         {
-            get { return MLInvoke.CvDTreeParams_use_surrogates_get(ptr); }
-            set { MLInvoke.CvDTreeParams_use_surrogates_set(ptr, value); }
+            get { return NativeMethods.ml_DTreeParams_use_surrogates_get(ptr) != 0; }
+            set { NativeMethods.ml_DTreeParams_use_surrogates_set(ptr, value ? 1 : 0); }
         }
 #if LANG_JP
         /// <summary>
@@ -233,8 +237,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool Use1seRule
         {
-            get { return MLInvoke.CvDTreeParams_use_1se_rule_get(ptr); }
-            set { MLInvoke.CvDTreeParams_use_1se_rule_set(ptr, value); }
+            get { return NativeMethods.ml_DTreeParams_use_1se_rule_get(ptr) != 0; }
+            set { NativeMethods.ml_DTreeParams_use_1se_rule_set(ptr, value ? 1 : 0); }
         }
 #if LANG_JP
         /// <summary>
@@ -251,8 +255,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool TruncatePrunedTree
         {
-            get { return MLInvoke.CvDTreeParams_truncate_pruned_tree_get(ptr); }
-            set { MLInvoke.CvDTreeParams_truncate_pruned_tree_set(ptr, value); }
+            get { return NativeMethods.ml_DTreeParams_truncate_pruned_tree_get(ptr) != 0; }
+            set { NativeMethods.ml_DTreeParams_truncate_pruned_tree_set(ptr, value ? 1 : 0); }
         }
 
 #if LANG_JP
@@ -268,8 +272,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public float RegressionAccuracy
         {
-            get { return MLInvoke.CvDTreeParams_regression_accuracy_get(ptr); }
-            set { MLInvoke.CvDTreeParams_regression_accuracy_set(ptr, value); }
+            get { return NativeMethods.ml_DTreeParams_regression_accuracy_get(ptr); }
+            set { NativeMethods.ml_DTreeParams_regression_accuracy_set(ptr, value); }
         }
 
 #if LANG_JP
@@ -307,7 +311,7 @@ namespace OpenCvSharp.CPlusPlus
                     handle = GCHandle.Alloc(value, GCHandleType.Pinned);
                     unsafe
                     {
-                        MLInvoke.CvDTreeParams_priors_set(ptr, (float*)handle.AddrOfPinnedObject());
+                        NativeMethods.ml_DTreeParams_priors_set(ptr, (float*)handle.AddrOfPinnedObject());
                     }
                 }
             }

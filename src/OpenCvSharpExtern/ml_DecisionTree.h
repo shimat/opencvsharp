@@ -9,81 +9,83 @@
 #include "include_opencv.h"
 
 // CvDTreeParams
-CVAPI(CvDTreeParams*) CvDTreeParams_construct_default()
+CVAPI(cv::DTreeParams*) ml_DTreeParams_new1()
 {
-	return new CvDTreeParams();
+    return new cv::DTreeParams();
 }
-CVAPI(CvDTreeParams*) CvDTreeParams_construct( int _max_depth, int _min_sample_count, float _regression_accuracy, bool _use_surrogates,
-                   int _max_categories, int _cv_folds, bool _use_1se_rule, bool _truncate_pruned_tree, const float* _priors )
+CVAPI(cv::DTreeParams*) ml_DTreeParams_new2(
+    int maxDepth, int minSampleCount, float regressionAccuracy, int useSurrogates,
+    int maxCategories, int cvFolds, int use1seRule, int truncatePrunedTree, const float* priors)
 {
-	return new CvDTreeParams(_max_depth, _min_sample_count, _regression_accuracy, _use_surrogates, _max_categories, _cv_folds, _use_1se_rule, _truncate_pruned_tree, _priors);
+    return new cv::DTreeParams(maxDepth, minSampleCount, regressionAccuracy != 0, 
+        useSurrogates != 0, maxCategories, cvFolds, use1seRule != 0, truncatePrunedTree, priors);
 }
-CVAPI(void) CvDTreeParams_destruct(CvDTreeParams* p)
+CVAPI(void) ml_DTreeParams_delete(CvDTreeParams* p)
 {
 	delete p;
 }
 
-CVAPI(int) CvDTreeParams_max_categories_get(CvDTreeParams* p)
+CVAPI(int) ml_DTreeParams_max_categories_get(CvDTreeParams* p)
 {
 	return p->max_categories;
 }
-CVAPI(void) CvDTreeParams_max_categories_set(CvDTreeParams* p, int value)
+CVAPI(void) ml_DTreeParams_max_categories_set(CvDTreeParams* p, int value)
 {
 	p->max_categories = value;
 }
-CVAPI(int) CvDTreeParams_max_depth_get(CvDTreeParams* p)
+CVAPI(int) ml_DTreeParams_max_depth_get(CvDTreeParams* p)
 {
 	return p->max_depth;
 }
-CVAPI(void) CvDTreeParams_max_depth_set(CvDTreeParams* p, int value)
+CVAPI(void) ml_DTreeParams_max_depth_set(CvDTreeParams* p, int value)
 {
 	p->max_depth = value;
 }
-CVAPI(int) CvDTreeParams_min_sample_count_get(CvDTreeParams* p)
+CVAPI(int) ml_DTreeParams_min_sample_count_get(CvDTreeParams* p)
 {
 	return p->min_sample_count;
 }
-CVAPI(void) CvDTreeParams_min_sample_count_set(CvDTreeParams* p, int value)
+CVAPI(void) ml_DTreeParams_min_sample_count_set(CvDTreeParams* p, int value)
 {
 	p->min_sample_count = value;
 }
-CVAPI(int) CvDTreeParams_cv_folds_get(CvDTreeParams* p)
+CVAPI(int) ml_DTreeParams_cv_folds_get(CvDTreeParams* p)
 {
 	return p->cv_folds;
 }
-CVAPI(void) CvDTreeParams_cv_folds_set(CvDTreeParams* p, int value)
+CVAPI(void) ml_DTreeParams_cv_folds_set(CvDTreeParams* p, int value)
 {
 	p->cv_folds = value;
 }
-CVAPI(bool) CvDTreeParams_use_surrogates_get(CvDTreeParams* p)
+CVAPI(int) ml_DTreeParams_use_surrogates_get(CvDTreeParams* p)
 {
-	return p->use_surrogates;
+	return p->use_surrogates ? 1 : 0;
 }
-CVAPI(void) CvDTreeParams_use_surrogates_set(CvDTreeParams* p, bool value)
+CVAPI(void) ml_DTreeParams_use_surrogates_set(CvDTreeParams* p, int value)
 {
-	p->use_surrogates = value;
+	p->use_surrogates = (value != 0);
 }
-CVAPI(bool) CvDTreeParams_use_1se_rule_get(CvDTreeParams* p)
+CVAPI(int) ml_DTreeParams_use_1se_rule_get(CvDTreeParams* p)
 {
-	return p->use_1se_rule;
+	return p->use_1se_rule ? 1 : 0;
 }
-CVAPI(void) CvDTreeParams_use_1se_rule_set(CvDTreeParams* p, bool value)
+CVAPI(void) ml_DTreeParams_use_1se_rule_set(CvDTreeParams* p, int value)
 {
-	p->use_1se_rule = value;
+	p->use_1se_rule = (value != 0);
 }
-CVAPI(bool) CvDTreeParams_truncate_pruned_tree_get(CvDTreeParams* p)
+CVAPI(int) ml_DTreeParams_truncate_pruned_tree_get(CvDTreeParams* p)
 {
-	return p->truncate_pruned_tree;
+	return p->truncate_pruned_tree ? 1 : 0;
 }
-CVAPI(void) CvDTreeParams_truncate_pruned_tree_set(CvDTreeParams* p, bool value)
+CVAPI(void) ml_DTreeParams_truncate_pruned_tree_set(CvDTreeParams* p, int value)
 {
-	p->truncate_pruned_tree = value;
+	p->truncate_pruned_tree = (value != 0);
 }
-CVAPI(float) CvDTreeParams_regression_accuracy_get(CvDTreeParams* p)
+CVAPI(float) ml_DTreeParams_regression_accuracy_get(CvDTreeParams* p)
 {
 	return p->regression_accuracy;
 }
-CVAPI(void) CvDTreeParams_regression_accuracy_set(CvDTreeParams* p, float value)
+CVAPI(void) ml_DTreeParams_regression_accuracy_set(CvDTreeParams* p, float value)
 {
 	p->regression_accuracy = value;
 }
@@ -91,7 +93,7 @@ CVAPI(const float*) CvDTreeParams_priors_get(CvDTreeParams* p)
 {
 	return p->priors;
 }
-CVAPI(void) CvDTreeParams_priors_set(CvDTreeParams* p, const float* value)
+CVAPI(void) ml_DTreeParams_priors_set(CvDTreeParams* p, const float* value)
 {
 	p->priors = value;
 }

@@ -184,55 +184,54 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe double* ml_BoostParams_weight_trim_rate(IntPtr obj);
         #endregion
-#if false
+
         #region CvDTree
         // CvDTreeParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTreeTrainData_sizeof();
+        public static extern IntPtr ml_DTreeParams_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvDTreeParams_construct_default();
+        public static extern IntPtr ml_DTreeParams_new2(
+            int maxDepth, int minSampleCount, float regressionAccuracy, int useSurrogates,
+            int maxCategories, int cvFolds, int use1SeRule, int truncatePrunedTree, IntPtr priors);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvDTreeParams_construct(int _max_depth, int _min_sample_count, float _regression_accuracy, bool _use_surrogates,
-                           int _max_categories, int _cv_folds, bool _use_1se_rule, bool _truncate_pruned_tree, IntPtr _priors);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_destruct(IntPtr p);
+        public static extern void ml_DTreeParams_delete(IntPtr p);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTreeParams_max_categories_get(IntPtr p);
+        public static extern int ml_DTreeParams_max_categories_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_max_categories_set(IntPtr p, int value);
+        public static extern void ml_DTreeParams_max_categories_set(IntPtr p, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTreeParams_max_depth_get(IntPtr p);
+        public static extern int ml_DTreeParams_max_depth_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_max_depth_set(IntPtr p, int value);
+        public static extern void ml_DTreeParams_max_depth_set(IntPtr p, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTreeParams_min_sample_count_get(IntPtr p);
+        public static extern int ml_DTreeParams_min_sample_count_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_min_sample_count_set(IntPtr p, int value);
+        public static extern void ml_DTreeParams_min_sample_count_set(IntPtr p, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTreeParams_cv_folds_get(IntPtr p);
+        public static extern int ml_DTreeParams_cv_folds_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_cv_folds_set(IntPtr p, int value);
+        public static extern void ml_DTreeParams_cv_folds_set(IntPtr p, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool CvDTreeParams_use_surrogates_get(IntPtr p);
+        public static extern int ml_DTreeParams_use_surrogates_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_use_surrogates_set(IntPtr p, bool value);
+        public static extern void ml_DTreeParams_use_surrogates_set(IntPtr p, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool CvDTreeParams_use_1se_rule_get(IntPtr p);
+        public static extern int ml_DTreeParams_use_1se_rule_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_use_1se_rule_set(IntPtr p, bool value);
+        public static extern void ml_DTreeParams_use_1se_rule_set(IntPtr p, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool CvDTreeParams_truncate_pruned_tree_get(IntPtr p);
+        public static extern int ml_DTreeParams_truncate_pruned_tree_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_truncate_pruned_tree_set(IntPtr p, bool value);
+        public static extern void ml_DTreeParams_truncate_pruned_tree_set(IntPtr p, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern float CvDTreeParams_regression_accuracy_get(IntPtr p);
+        public static extern float ml_DTreeParams_regression_accuracy_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeParams_regression_accuracy_set(IntPtr p, float value);
+        public static extern void ml_DTreeParams_regression_accuracy_set(IntPtr p, float value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* CvDTreeParams_priors_get(IntPtr p);
+        public static extern unsafe float* ml_DTreeParams_priors_get(IntPtr p);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe void CvDTreeParams_priors_set(IntPtr p, float* value);
+        public static extern unsafe void ml_DTreeParams_priors_set(IntPtr p, float* value);
         
         // CvDTreeTrainData
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -394,7 +393,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, EntryPoint = "CvDTree_write2", CallingConvention = CallingConvention.Cdecl)]
         public static extern void CvDTree_write(IntPtr obj, IntPtr fs);
         #endregion
-
+#if false
         #region CvEM
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cv_EM_sizeof();
