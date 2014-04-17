@@ -17,8 +17,9 @@ CVAPI(cv::DTreeParams*) ml_DTreeParams_new2(
     int maxDepth, int minSampleCount, float regressionAccuracy, int useSurrogates,
     int maxCategories, int cvFolds, int use1seRule, int truncatePrunedTree, const float* priors)
 {
-    return new cv::DTreeParams(maxDepth, minSampleCount, regressionAccuracy != 0, 
-        useSurrogates != 0, maxCategories, cvFolds, use1seRule != 0, truncatePrunedTree, priors);
+    return new cv::DTreeParams(
+        maxDepth, minSampleCount, regressionAccuracy, useSurrogates != 0, 
+        maxCategories, cvFolds, use1seRule != 0, truncatePrunedTree != 0, priors);
 }
 CVAPI(void) ml_DTreeParams_delete(CvDTreeParams* p)
 {

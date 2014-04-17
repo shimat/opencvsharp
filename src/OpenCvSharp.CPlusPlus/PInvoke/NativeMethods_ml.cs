@@ -237,16 +237,18 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CvDTreeTrainData_construct_default();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvDTreeTrainData_construct_training(IntPtr _train_data, int _tflag, IntPtr _responses,
-            IntPtr _var_idx, IntPtr _sample_idx, IntPtr _var_type, IntPtr _missing_mask,
-            IntPtr _params, bool _shared, bool _add_labels);
+        public static extern IntPtr CvDTreeTrainData_construct_training(
+            IntPtr trainData, int tflag, IntPtr responses,
+            IntPtr varIdx, IntPtr sampleIdx, IntPtr varType, IntPtr missingMask,
+            IntPtr param, int shared, int addLabels);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void CvDTreeTrainData_destruct(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTreeTrainData_set_data(IntPtr obj, IntPtr _train_data, int _tflag, IntPtr _responses,
-            IntPtr _var_idx, IntPtr _sample_idx, IntPtr _var_type, IntPtr _missing_mask,
-            IntPtr _param, bool _shared, bool _add_labels, bool _update_data);
+        public static extern void CvDTreeTrainData_set_data(
+            IntPtr obj, IntPtr trainData, int tflag, IntPtr responses,
+            IntPtr varIdx, IntPtr sampleIdx, IntPtr varType, IntPtr missingMask,
+            IntPtr param, int shared, int addLabels, int updateData);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe void CvDTreeTrainData_get_vectors(IntPtr obj, IntPtr _subsample_idx, float* values, byte* missing, float* responses, bool get_class_idx);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
