@@ -1,326 +1,239 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="cvaux.cpp">
-      <Filter>Sources\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="cvblob.cpp">
-      <Filter>Sources\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="cvcolor.cpp">
-      <Filter>Sources\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="cvcontour.cpp">
-      <Filter>Sources\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="CvBoost.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvBlobWrapper.cpp">
-      <Filter>Sources\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="CvANN_MLP.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvDTree.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvEM.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvERTrees.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvKNearest.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvMLData.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvSVM.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvNormalBayesClassifier.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvRTrees.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="CvTrainTestSplit.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="cvlabel.cpp">
-      <Filter>Sources\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="CvStatModel.cpp">
-      <Filter>Sources\ml</Filter>
-    </ClCompile>
-    <ClCompile Include="cvtrack.cpp">
-      <Filter>Sources\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="highgui.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="imgproc.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="std_vector.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="calib3d.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="flann.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="video.cpp">
-      <Filter>Sources\cpp</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="contrib.cpp">
-      <Filter>Sources\cpp</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="legacy.cpp">
-      <Filter>Sources\cpp</Filter>
+    <ClCompile Include="cvblob.cpp">
+      <Filter>Source Files\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="flann.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="highgui.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="nonfree.cpp">
-      <Filter>Sources\cpp</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="features2d.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="objdetect_HOGDescriptor.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="objdetect.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="imgproc_Subdiv2D.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="core.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_Algorithm.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_InputArray.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_Mat.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_MatExpr.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_OutputArray.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_PCA.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_SVD.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_RNG.cpp">
-      <Filter>Sources\cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="core_AlgorithmInfo.cpp">
-      <Filter>Sources\cpp\core</Filter>
+    <ClCompile Include="legacy.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="photo.cpp">
-      <Filter>Sources\cpp</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="features2d_DescriptorMatcher.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="features2d_FeatureDetector.cpp">
-      <Filter>Sources\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="core_SparseMat.cpp">
-      <Filter>Sources\cpp\core</Filter>
+    <ClCompile Include="std_vector.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="superres.cpp">
-      <Filter>Sources\cpp</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="video.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ml.cpp">
-      <Filter>Sources\cpp</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core_FileStorage.cpp">
-      <Filter>Sources\cpp\core</Filter>
+    <ClCompile Include="features2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objdetect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgproc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cvblob_cvaux.cpp">
+      <Filter>Source Files\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="cvblob_wrapper.cpp">
+      <Filter>Source Files\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="cvblob_cvcolor.cpp">
+      <Filter>Source Files\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="cvblob_cvcontour.cpp">
+      <Filter>Source Files\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="cvblob_cvlabel.cpp">
+      <Filter>Source Files\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="cvblob_cvtrack.cpp">
+      <Filter>Source Files\cvblob</Filter>
+    </ClCompile>
+    <ClCompile Include="core.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cvblob.h">
-      <Filter>Headers\cvblob</Filter>
-    </ClInclude>
-    <ClInclude Include="CvBoost.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvANN_MLP.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvEM.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvBlobWrapper.h">
-      <Filter>Headers\cvblob</Filter>
-    </ClInclude>
-    <ClInclude Include="CvERTrees.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvMLData.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvKNearest.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvDTree.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvNormalBayesClassifier.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvStatModel.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvRTrees.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvTrainTestSplit.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="CvSVM.h">
-      <Filter>Headers\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="highgui.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="include_opencv.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="imgproc.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="std_vector.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
     <ClInclude Include="calib3d.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="flann.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="video.h">
-      <Filter>Headers\cpp</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="contrib.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="legacy.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="nonfree.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="objdetect_HOGDescriptor.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="objdetect.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="imgproc_Subdiv2D.h">
-      <Filter>Headers\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="core_Algorithm.h">
-      <Filter>Headers\cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="core_InputArray.h">
-      <Filter>Headers\cpp\core</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core.h">
-      <Filter>Headers\cpp\core</Filter>
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core_Mat.h">
-      <Filter>Headers\cpp\core</Filter>
+    <ClInclude Include="core_Algorithm.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core_OutputArray.h">
-      <Filter>Headers\cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="core_MatExpr.h">
-      <Filter>Headers\cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="core_SVD.h">
-      <Filter>Headers\cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="core_RNG.h">
-      <Filter>Headers\cpp\core</Filter>
+    <ClInclude Include="core_FileStorage.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="core_AlgorithmInfo.h">
-      <Filter>Headers\cpp\core</Filter>
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="photo.h">
-      <Filter>Headers\cpp</Filter>
+    <ClInclude Include="core_InputArray.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_DescriptorMatcher.h">
-      <Filter>Headers\cpp</Filter>
+    <ClInclude Include="core_Mat.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_FeatureDetector.h">
-      <Filter>Headers\cpp</Filter>
+    <ClInclude Include="core_RNG.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core_SparseMat.h">
-      <Filter>Headers\cpp\core</Filter>
+    <ClInclude Include="core_OutputArray.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="superres.h">
-      <Filter>Headers\cpp</Filter>
+    <ClInclude Include="core_MatExpr.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="core_PCA.h">
-      <Filter>Headers\cpp\core</Filter>
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-<<<<<<< .mine
-    <ClInclude Include="core_FileStorage.h">
-      <Filter>Headers\cpp\core</Filter>
+    <ClInclude Include="core_SparseMat.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-=======
+    <ClInclude Include="core_SVD.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="cvblob.h">
+      <Filter>Header Files\cvblob</Filter>
+    </ClInclude>
+    <ClInclude Include="CvBlobWrapper.h">
+      <Filter>Header Files\cvblob</Filter>
+    </ClInclude>
     <ClInclude Include="ml.h">
-      <Filter>Headers\cpp</Filter>
+      <Filter>Header Files\ml</Filter>
     </ClInclude>
->>>>>>> .theirs
+    <ClInclude Include="highgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flann.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include_opencv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="legacy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="std_vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="photo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nonfree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="superres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="video.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="features2d.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="features2d_DescriptorMatcher.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="features2d_FeatureDetector.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect_HOGDescriptor.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="imgproc_Subdiv2D.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="imgproc.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_CvTrainTestSplit.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_NeuralNet_MLP.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_Boost.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_DecisionTree.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_EM.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_ERTrees.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_KNearest.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_TrainData.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_NormalBayesClassifier.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_RandomTrees.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_StatModel.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_SVM.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{efcab9f5-3ffb-4ad1-a7b2-283fb4f489c5}</UniqueIdentifier>
-      <Extensions>*.h</Extensions>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{b0a234b5-5c12-4b8e-a0e8-0492fd41e722}</UniqueIdentifier>
+      <Extensions>*.cpp;*.c</Extensions>
     </Filter>
-    <Filter Include="Sources">
-      <UniqueIdentifier>{6d645e3a-f10b-484e-a30a-37751d2a962c}</UniqueIdentifier>
-      <Extensions>*.cpp</Extensions>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{2b66c248-878e-4591-8091-e5c812526273}</UniqueIdentifier>
+      <Extensions>*.h;*.hpp</Extensions>
     </Filter>
-    <Filter Include="Headers\cvblob">
-      <UniqueIdentifier>{41971b60-14a9-4bbe-8be9-45e7db666c14}</UniqueIdentifier>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{7d21ebfe-bc23-421e-ad79-f96eaffb3777}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\cvblob">
-      <UniqueIdentifier>{d9178238-69e9-4065-bb9b-900e20cd1afa}</UniqueIdentifier>
+    <Filter Include="Source Files\cvblob">
+      <UniqueIdentifier>{5dcfa71d-0b05-4ff9-a67f-3070da1e61fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\ml">
-      <UniqueIdentifier>{94e69298-bb03-434c-a3d1-8639b82a0103}</UniqueIdentifier>
+    <Filter Include="Header Files\cvblob">
+      <UniqueIdentifier>{dd51a70c-ba0e-481e-9bda-3418761d3cb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\ml">
-      <UniqueIdentifier>{d03264e9-15cd-4541-ae61-a92da46af74b}</UniqueIdentifier>
+    <Filter Include="Header Files\ml">
+      <UniqueIdentifier>{17c51294-b680-4aa4-a74c-a51a817dd35a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\cpp">
-      <UniqueIdentifier>{c5b62a33-7c12-4cd2-99d6-ae7a1374e09f}</UniqueIdentifier>
+    <Filter Include="Header Files\features2d">
+      <UniqueIdentifier>{d63db3ce-bfb9-4ab8-95c2-22bfe7020148}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\cpp">
-      <UniqueIdentifier>{4837bbfb-a1fe-487b-b6d8-a9de07d36e5d}</UniqueIdentifier>
+    <Filter Include="Header Files\objdetect">
+      <UniqueIdentifier>{cd61c3fc-60ce-4cd6-8d3b-e87d9e0e6ffe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\cpp\core">
-      <UniqueIdentifier>{723eb128-5e90-4cba-be6b-f901bf5b5e66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headers\cpp\core">
-      <UniqueIdentifier>{ad0a64a8-e750-4ca4-9657-274a03904109}</UniqueIdentifier>
+    <Filter Include="Header Files\imgproc">
+      <UniqueIdentifier>{f8b57698-6e4b-424d-870c-29526931576a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
