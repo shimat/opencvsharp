@@ -4,3 +4,16 @@
 */
 
 #include "ml.h"
+
+#include "ml_StatModel.h"
+#include "ml_NeuralNet_MLP.h"
+#include "ml_Boost.h"
+#include "ml_DecisionTree.h"
+#include "ml_EM.h"
+#include "ml_ERTrees.h"
+#include "ml_KNearest.h"
+#include "ml_TrainData.h"
+#include "ml_NormalBayesClassifier.h"
+#include "ml_RandomTrees.h"
+#include "ml_SVM.h"
+#include "ml_CvTrainTestSplit.h"
