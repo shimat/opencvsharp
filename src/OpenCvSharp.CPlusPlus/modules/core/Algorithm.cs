@@ -327,6 +327,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Creates algorithm instance by name
         /// </summary>
         /// <param name="name">The algorithm name, one of the names returned by GetList()</param>
+        /// <typeparam name="T">Algorithm type (SIFT, FAST, etc.)</typeparam>
         /// <returns></returns>
         public static T Create<T>(string name)
             where T : Algorithm

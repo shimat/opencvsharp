@@ -150,6 +150,12 @@
     <Compile Include="modules\core\Enum\FileStorageMode.cs" />
     <Compile Include="modules\core\FileStorage.cs" />
     <Compile Include="modules\core\FileNode.cs" />
+    <Compile Include="modules\ml\Boost.cs" />
+    <Compile Include="modules\ml\Class\BoostParams.cs" />
+    <Compile Include="modules\ml\Class\DTreeParams.cs" />
+    <Compile Include="modules\ml\Enum\BoostSplitCriteria.cs" />
+    <Compile Include="modules\ml\Enum\BoostType.cs" />
+    <Compile Include="modules\ml\Enum\DTreeDataLayout.cs" />
     <Compile Include="modules\ml\Enum\MLPActivationFunc.cs" />
     <Compile Include="modules\ml\Enum\MLPTrainingFlag.cs" />
     <Compile Include="modules\ml\Enum\MLPTrainingMethod.cs" />
