@@ -838,7 +838,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Split
         /// <summary>
-        /// copies each plane of a multi-channel array to a dedicated array
+        /// Copies each plane of a multi-channel array to a dedicated array
         /// </summary>
         /// <param name="src"></param>
         /// <param name="mv"></param>
@@ -855,6 +855,16 @@ namespace OpenCvSharp.CPlusPlus
             {
                 mv = vec.ToArray();
             }
+        }
+        /// <summary>
+        /// Copies each plane of a multi-channel array to a dedicated array
+        /// </summary>
+        /// <param name="src"></param>
+        public static Mat[] Split(Mat src)
+        {
+            Mat[] mv;
+            Split(src, out mv);
+            return mv;
         }
         #endregion
         #region MixChannels
