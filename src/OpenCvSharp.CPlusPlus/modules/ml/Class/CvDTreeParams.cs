@@ -4,7 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -20,10 +19,11 @@ namespace OpenCvSharp.CPlusPlus
     /// Decision tree training parameters
     /// </summary>
 #endif
-    public class DTreeParams : DisposableCvObject
+    public class CvDTreeParams : DisposableCvObject
     {
         protected float[] priors;
         protected GCHandle handle;
+
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
@@ -39,9 +39,9 @@ namespace OpenCvSharp.CPlusPlus
 		/// Default constructor
 		/// </summary>
 #endif
-        public DTreeParams()
+        public CvDTreeParams()
         {
-            ptr = NativeMethods.ml_DTreeParams_new1();
+            ptr = NativeMethods.ml_CvDTreeParams_new1();
             priors = null;
         }
 #if LANG_JP
@@ -71,7 +71,7 @@ namespace OpenCvSharp.CPlusPlus
 		/// <param name="truncatePrunedTree">If true, the cut off nodes (with Tn≤CvDTree::pruned_tree_idx) are physically removed from the tree. Otherwise they are kept, and by decreasing CvDTree::pruned_tree_idx (e.g. setting it to -1) it is still possible to get the results from the original un-pruned (or pruned less aggressively) tree. </param>
 		/// <param name="priors">The array of a priori class probabilities, sorted by the class label value. The parameter can be used to tune the decision tree preferences toward a certain class. For example, if users want to detect some rare anomaly occurrence, the training base will likely contain much more normal cases than anomalies, so a very good classification performance will be achieved just by considering every case as normal. To avoid this, the priors can be specified, where the anomaly probability is artificially increased (up to 0.5 or even greater), so the weight of the misclassified anomalies becomes much bigger, and the tree is adjusted properly. </param>
 #endif
-        public DTreeParams(int maxDepth, int minSampleCount, float regressionAccuracy, bool useSurrogates,
+        public CvDTreeParams(int maxDepth, int minSampleCount, float regressionAccuracy, bool useSurrogates,
                    int maxCategories, int cvFolds, bool use1SeRule, bool truncatePrunedTree, float[] priors)
         {					
             IntPtr priorsPtr = IntPtr.Zero;
@@ -81,7 +81,7 @@ namespace OpenCvSharp.CPlusPlus
                 priorsPtr = handle.AddrOfPinnedObject();
             }
 
-            ptr = NativeMethods.ml_DTreeParams_new2(
+            ptr = NativeMethods.ml_CvDTreeParams_new2(
                 maxDepth, minSampleCount, regressionAccuracy, useSurrogates ? 1 : 0,
                 maxCategories, cvFolds, use1SeRule ? 1: 0, truncatePrunedTree ? 1 : 0, 
                 priorsPtr);
@@ -123,7 +123,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (IsEnabledDispose)
                     {
                         if(ptr != IntPtr.Zero)
-                            NativeMethods.ml_DTreeParams_delete(ptr);
+                            NativeMethods.ml_CvDTreeParams_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -160,8 +160,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int MaxCategories
         {
-            get { return NativeMethods.ml_DTreeParams_max_categories_get(ptr); }
-            set { NativeMethods.ml_DTreeParams_max_categories_set(ptr, value); }
+            get { return NativeMethods.ml_CvDTreeParams_max_categories_get(ptr); }
+            set { NativeMethods.ml_CvDTreeParams_max_categories_set(ptr, value); }
         }
 #if LANG_JP
         /// <summary>
@@ -178,8 +178,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int MaxDepth
         {
-            get { return NativeMethods.ml_DTreeParams_max_depth_get(ptr); }
-            set { NativeMethods.ml_DTreeParams_max_depth_set(ptr, value); }
+            get { return NativeMethods.ml_CvDTreeParams_max_depth_get(ptr); }
+            set { NativeMethods.ml_CvDTreeParams_max_depth_set(ptr, value); }
         }
 #if LANG_JP
         /// <summary>
@@ -192,8 +192,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int MinSampleCount
         {
-            get { return NativeMethods.ml_DTreeParams_min_sample_count_get(ptr); }
-            set { NativeMethods.ml_DTreeParams_min_sample_count_set(ptr, value); }
+            get { return NativeMethods.ml_CvDTreeParams_min_sample_count_get(ptr); }
+            set { NativeMethods.ml_CvDTreeParams_min_sample_count_set(ptr, value); }
         }
 #if LANG_JP
         /// <summary>
@@ -206,8 +206,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int CvFolds
         {
-            get { return NativeMethods.ml_DTreeParams_cv_folds_get(ptr); }
-            set { NativeMethods.ml_DTreeParams_cv_folds_set(ptr, value); }
+            get { return NativeMethods.ml_CvDTreeParams_cv_folds_get(ptr); }
+            set { NativeMethods.ml_CvDTreeParams_cv_folds_set(ptr, value); }
         }
 
 #if LANG_JP
@@ -221,8 +221,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool UseSurrogates
         {
-            get { return NativeMethods.ml_DTreeParams_use_surrogates_get(ptr) != 0; }
-            set { NativeMethods.ml_DTreeParams_use_surrogates_set(ptr, value ? 1 : 0); }
+            get { return NativeMethods.ml_CvDTreeParams_use_surrogates_get(ptr) != 0; }
+            set { NativeMethods.ml_CvDTreeParams_use_surrogates_set(ptr, value ? 1 : 0); }
         }
 #if LANG_JP
         /// <summary>
@@ -237,8 +237,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool Use1seRule
         {
-            get { return NativeMethods.ml_DTreeParams_use_1se_rule_get(ptr) != 0; }
-            set { NativeMethods.ml_DTreeParams_use_1se_rule_set(ptr, value ? 1 : 0); }
+            get { return NativeMethods.ml_CvDTreeParams_use_1se_rule_get(ptr) != 0; }
+            set { NativeMethods.ml_CvDTreeParams_use_1se_rule_set(ptr, value ? 1 : 0); }
         }
 #if LANG_JP
         /// <summary>
@@ -255,8 +255,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool TruncatePrunedTree
         {
-            get { return NativeMethods.ml_DTreeParams_truncate_pruned_tree_get(ptr) != 0; }
-            set { NativeMethods.ml_DTreeParams_truncate_pruned_tree_set(ptr, value ? 1 : 0); }
+            get { return NativeMethods.ml_CvDTreeParams_truncate_pruned_tree_get(ptr) != 0; }
+            set { NativeMethods.ml_CvDTreeParams_truncate_pruned_tree_set(ptr, value ? 1 : 0); }
         }
 
 #if LANG_JP
@@ -272,8 +272,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public float RegressionAccuracy
         {
-            get { return NativeMethods.ml_DTreeParams_regression_accuracy_get(ptr); }
-            set { NativeMethods.ml_DTreeParams_regression_accuracy_set(ptr, value); }
+            get { return NativeMethods.ml_CvDTreeParams_regression_accuracy_get(ptr); }
+            set { NativeMethods.ml_CvDTreeParams_regression_accuracy_set(ptr, value); }
         }
 
 #if LANG_JP
@@ -309,10 +309,7 @@ namespace OpenCvSharp.CPlusPlus
                 if (value != null)
                 {
                     handle = GCHandle.Alloc(value, GCHandleType.Pinned);
-                    unsafe
-                    {
-                        NativeMethods.ml_DTreeParams_priors_set(ptr, (float*)handle.AddrOfPinnedObject());
-                    }
+                    NativeMethods.ml_CvDTreeParams_priors_set(ptr, handle.AddrOfPinnedObject());
                 }
             }
         }

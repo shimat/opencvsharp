@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
     /// Boosting training parameters
     /// </summary>
 #endif
-    public class BoostParams : DTreeParams
+    public class CvBoostParams : CvDTreeParams
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -34,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="ptr"></param>
         /// <param name="isEnabledDispose"></param>
-        internal BoostParams(IntPtr ptr, bool isEnabledDispose)
+        internal CvBoostParams(IntPtr ptr, bool isEnabledDispose)
         {
             this.ptr = ptr;
             IsEnabledDispose = isEnabledDispose;
@@ -49,9 +49,9 @@ namespace OpenCvSharp.CPlusPlus
         /// Default constructor
         /// </summary>
 #endif
-        public BoostParams()
+        public CvBoostParams()
         {
-            ptr = NativeMethods.ml_BoostParams_new1();
+            ptr = NativeMethods.ml_CvBoostParams_new1();
         }
 
 #if LANG_JP
@@ -75,7 +75,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="useSurrogates">If true, surrogate splits are built. Surrogate splits are needed to handle missing measurements and for variable importance estimation. </param>
         /// <param name="priors">The array of a priori class probabilities, sorted by the class label value. The parameter can be used to tune the decision tree preferences toward a certain class. For example, if users want to detect some rare anomaly occurrence, the training base will likely contain much more normal cases than anomalies, so a very good classification performance will be achieved just by considering every case as normal. To avoid this, the priors can be specified, where the anomaly probability is artificially increased (up to 0.5 or even greater), so the weight of the misclassified anomalies becomes much bigger, and the tree is adjusted properly. </param>
 #endif
-        public BoostParams(BoostType boostType, int weakCount, double weightTrimRate,
+        public CvBoostParams(BoostType boostType, int weakCount, double weightTrimRate,
             int maxDepth, bool useSurrogates, float[] priors)
         {
             IntPtr priorsPtr = IntPtr.Zero;
@@ -86,7 +86,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             base.priors = priors;
 
-            ptr = NativeMethods.ml_BoostParams_new2(
+            ptr = NativeMethods.ml_CvBoostParams_new2(
                 (int)boostType,
                 weakCount,
                 weightTrimRate,
@@ -126,7 +126,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (IsEnabledDispose)
                     {
                         if(ptr != IntPtr.Zero)
-                            NativeMethods.ml_BoostParams_delete(ptr);
+                            NativeMethods.ml_CvBoostParams_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -154,10 +154,10 @@ namespace OpenCvSharp.CPlusPlus
 	    {
 	        get
 	        {
-	            int val = *NativeMethods.ml_BoostParams_boost_type(ptr);
+	            int val = *NativeMethods.ml_CvBoostParams_boost_type(ptr);
 	            return (BoostType)val;
 	        }
-	        set { *NativeMethods.ml_BoostParams_boost_type(ptr) = (int)value; }
+	        set { *NativeMethods.ml_CvBoostParams_boost_type(ptr) = (int)value; }
 	    }
 
 #if LANG_JP
@@ -171,8 +171,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public unsafe int WeakCount
         {
-            get { return *NativeMethods.ml_BoostParams_weak_count(ptr); }
-            set { *NativeMethods.ml_BoostParams_weak_count(ptr) = value; }
+            get { return *NativeMethods.ml_CvBoostParams_weak_count(ptr); }
+            set { *NativeMethods.ml_CvBoostParams_weak_count(ptr) = value; }
         }
 #if LANG_JP
         /// <summary>
@@ -187,12 +187,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                int val = *NativeMethods.ml_BoostParams_split_criteria(ptr);
+                int val = *NativeMethods.ml_CvBoostParams_split_criteria(ptr);
                 return (BoostSplitCriteria)val;
             }
             set
             {
-                *NativeMethods.ml_BoostParams_split_criteria(ptr) = (int)value;
+                *NativeMethods.ml_CvBoostParams_split_criteria(ptr) = (int)value;
             }
         }
 #if LANG_JP
@@ -210,8 +210,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public unsafe double WeightTrimRate
         {
-            get { return *NativeMethods.ml_BoostParams_weight_trim_rate(ptr); }
-            set { *NativeMethods.ml_BoostParams_weight_trim_rate(ptr) = value; }
+            get { return *NativeMethods.ml_CvBoostParams_weight_trim_rate(ptr); }
+            set { *NativeMethods.ml_CvBoostParams_weight_trim_rate(ptr) = value; }
         }
         #endregion
     }

@@ -18,7 +18,7 @@ namespace OpenCvSharp.CPlusPlus
     /// Base class for statistical models in ML
     /// </summary>
 #endif
-    abstract public class StatModel : DisposableCvObject
+    abstract public class CvStatModel : DisposableCvObject
 	{
 	    private bool disposed;
 
@@ -50,7 +50,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Default constructor
         /// </summary>
 #endif
-        protected StatModel()
+        protected CvStatModel()
         {
             disposed = false;
         }
@@ -86,8 +86,8 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Clear()
         {
             if (disposed)
-                throw new ObjectDisposedException("StatModel");
-            NativeMethods.ml_StatModel_clear(ptr);
+                throw new ObjectDisposedException("CvStatModel");
+            NativeMethods.ml_CvStatModel_clear(ptr);
         }
 
 #if LANG_JP
@@ -121,11 +121,11 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Save(string filename, string name)
         {
             if (disposed)
-                throw new ObjectDisposedException("StatModel");
+                throw new ObjectDisposedException("CvStatModel");
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
 
-            NativeMethods.ml_StatModel_save(ptr, filename, name);
+            NativeMethods.ml_CvStatModel_save(ptr, filename, name);
         }
 
 #if LANG_JP
@@ -159,11 +159,11 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Load(string filename, string name)
         {
             if (disposed)
-                throw new ObjectDisposedException("StatModel");
+                throw new ObjectDisposedException("CvStatModel");
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
 
-            NativeMethods.ml_StatModel_load(ptr, filename, name);
+            NativeMethods.ml_CvStatModel_load(ptr, filename, name);
         }
 
 #if LANG_JP
@@ -182,12 +182,12 @@ namespace OpenCvSharp.CPlusPlus
 	    public virtual void Write(CvFileStorage storage, string name)
 	    {
 	        if (disposed)
-	            throw new ObjectDisposedException("StatModel");
+	            throw new ObjectDisposedException("CvStatModel");
 	        if (storage == null)
 	            throw new ArgumentNullException("storage");
 	        if (string.IsNullOrEmpty(name))
 	            throw new ArgumentNullException("name");
-            NativeMethods.ml_StatModel_write(ptr, storage.CvPtr, name);
+            NativeMethods.ml_CvStatModel_write(ptr, storage.CvPtr, name);
 	    }
 
 #if LANG_JP
@@ -206,12 +206,12 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Read(CvFileStorage storage, CvFileNode node)
         {
             if (disposed)
-                throw new ObjectDisposedException("StatModel");
+                throw new ObjectDisposedException("CvStatModel");
             if (storage == null)
                 throw new ArgumentNullException("storage");
             if (node == null)
                 throw new ArgumentNullException("node");
-            NativeMethods.ml_StatModel_read(ptr, storage.CvPtr, node.CvPtr);
+            NativeMethods.ml_CvStatModel_read(ptr, storage.CvPtr, node.CvPtr);
         }
         #endregion
     }

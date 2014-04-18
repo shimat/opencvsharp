@@ -16,7 +16,7 @@ namespace OpenCvSharp.CPlusPlus
     /// Boosted tree classifier
     /// </summary>
 #endif
-	public class Boost : StatModel
+	public class CvBoost : CvStatModel
 	{
         /// <summary>
         /// Track whether Dispose has been called
@@ -50,9 +50,9 @@ namespace OpenCvSharp.CPlusPlus
         /// Default constructor
         /// </summary>
 #endif
-		public Boost()
+		public CvBoost()
 		{
-			ptr = NativeMethods.ml_Boost_new();
+			ptr = NativeMethods.ml_CvBoost_new();
 		}
 
 #if LANG_JP
@@ -80,7 +80,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="missingMask"></param>
         /// <param name="param"></param>
 #endif
-		public Boost(
+		public CvBoost(
             CvMat trainData, 
             DTreeDataLayout tflag, 
             CvMat responses, 
@@ -88,7 +88,7 @@ namespace OpenCvSharp.CPlusPlus
             CvMat sampleIdx = null, 
             CvMat varType = null, 
             CvMat missingMask = null, 
-            BoostParams param = null )
+            CvBoostParams param = null)
 		{    
 			if (trainData == null)
                 throw new ArgumentNullException("trainData");
@@ -98,9 +98,9 @@ namespace OpenCvSharp.CPlusPlus
             responses.ThrowIfDisposed();
 
             if (param == null)
-                param = new BoostParams();
+                param = new CvBoostParams();
 
-			ptr = NativeMethods.ml_Boost_new_CvMat(
+			ptr = NativeMethods.ml_CvBoost_new_CvMat(
 				trainData.CvPtr, 
 				(int)tflag,
 				responses.CvPtr,
@@ -137,7 +137,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="missingMask"></param>
         /// <param name="param"></param>
 #endif
-        public Boost(
+        public CvBoost(
             Mat trainData, 
             DTreeDataLayout tflag, 
             Mat responses,
@@ -145,7 +145,7 @@ namespace OpenCvSharp.CPlusPlus
             Mat sampleIdx = null,
             Mat varType = null,
             Mat missingMask = null,
-            BoostParams param = null)
+            CvBoostParams param = null)
         {
             if (trainData == null)
                 throw new ArgumentNullException("trainData");
@@ -155,9 +155,9 @@ namespace OpenCvSharp.CPlusPlus
             responses.ThrowIfDisposed();
 
             if (param == null)
-                param = new BoostParams();
+                param = new CvBoostParams();
 
-            ptr = NativeMethods.ml_Boost_new_Mat(
+            ptr = NativeMethods.ml_CvBoost_new_Mat(
                 trainData.CvPtr,
                 (int)tflag,
                 responses.CvPtr,
@@ -169,15 +169,6 @@ namespace OpenCvSharp.CPlusPlus
             );
         }
 
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -185,12 +176,10 @@ namespace OpenCvSharp.CPlusPlus
         /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
         /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
         /// </param>
-#endif
         protected override void Dispose(bool disposing)
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -199,14 +188,13 @@ namespace OpenCvSharp.CPlusPlus
                     if (IsEnabledDispose)
                     {
                         if(ptr != IntPtr.Zero)
-                            NativeMethods.ml_Boost_delete(ptr);
+                            NativeMethods.ml_CvBoost_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -252,7 +240,7 @@ namespace OpenCvSharp.CPlusPlus
             CvMat sampleIdx = null,
             CvMat varType = null,
             CvMat missingMask = null, 
-			BoostParams param = null,
+			CvBoostParams param = null,
             bool update = false )
 		{    
 			if (trainData == null)
@@ -263,9 +251,9 @@ namespace OpenCvSharp.CPlusPlus
             responses.ThrowIfDisposed();
 			
 			if(param == null)
-				param = new BoostParams();
+				param = new CvBoostParams();
 
-            int ret = NativeMethods.ml_Boost_train_CvMat(
+            int ret = NativeMethods.ml_CvBoost_train_CvMat(
                 ptr,
                 trainData.CvPtr,
                 (int)tflag,
@@ -316,7 +304,7 @@ namespace OpenCvSharp.CPlusPlus
             Mat sampleIdx = null,
             Mat varType = null,
             Mat missingMask = null,
-            BoostParams param = null,
+            CvBoostParams param = null,
             bool update = false)
         {
             if (trainData == null)
@@ -327,9 +315,9 @@ namespace OpenCvSharp.CPlusPlus
             responses.ThrowIfDisposed();
 
             if (param == null)
-                param = new BoostParams();
+                param = new CvBoostParams();
 
-            int ret = NativeMethods.ml_Boost_train_Mat(
+            int ret = NativeMethods.ml_CvBoost_train_Mat(
                 ptr,
                 trainData.CvPtr,
                 (int)tflag,
@@ -380,7 +368,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("sample");
 
 	        CvSlice slice0 = slice.GetValueOrDefault(CvSlice.WholeSeq);
-			return NativeMethods.ml_Boost_predict_CvMat(
+			return NativeMethods.ml_CvBoost_predict_CvMat(
                 ptr,
                 sample.CvPtr, 
                 Cv2.ToPtr(missing), 
@@ -422,7 +410,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("sample");
 
             CvSlice slice0 = slice.GetValueOrDefault(CvSlice.WholeSeq);
-            return NativeMethods.ml_Boost_predict_Mat(
+            return NativeMethods.ml_CvBoost_predict_Mat(
                 ptr,
                 sample.CvPtr,
                 Cv2.ToPtr(missing),
@@ -445,7 +433,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
 		public virtual void Prune(Range slice)
 		{    
-			NativeMethods.ml_Boost_prune(ptr, slice);
+			NativeMethods.ml_CvBoost_prune(ptr, slice);
 		}
 
 #if LANG_JP
@@ -461,7 +449,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
 		public CvMat GetWeights()
 		{
-            IntPtr p = NativeMethods.ml_Boost_get_weights(ptr);
+            IntPtr p = NativeMethods.ml_CvBoost_get_weights(ptr);
             if(p == IntPtr.Zero)
                 return null;
             return new CvMat(p, false);
@@ -479,7 +467,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
 		public CvMat GetSubtreeWeights()
 		{
-            IntPtr p = NativeMethods.ml_Boost_get_subtree_weights(ptr);
+            IntPtr p = NativeMethods.ml_CvBoost_get_subtree_weights(ptr);
             if(p == IntPtr.Zero)
                 return null;
             return new CvMat(p, false);
@@ -497,7 +485,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
 		public CvMat GetWeakResponse()
 		{
-            IntPtr p = NativeMethods.ml_Boost_get_weak_response(ptr);
+            IntPtr p = NativeMethods.ml_CvBoost_get_weak_response(ptr);
             if(p == IntPtr.Zero)
                 return null;
             return new CvMat(p, false);
@@ -513,12 +501,12 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <returns></returns>
 #endif
-		public BoostParams GetParams()
+		public CvBoostParams GetParams()
 		{
-			IntPtr p = NativeMethods.ml_Boost_get_params(ptr);
+			IntPtr p = NativeMethods.ml_CvBoost_get_params(ptr);
             if(p == IntPtr.Zero)
                 return null;
-		    return new BoostParams(p, false);
+		    return new CvBoostParams(p, false);
 		}
 #if LANG_JP
         /// <summary>
@@ -533,7 +521,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public CvSeq GetWeakPredictors()
         {
-            IntPtr p = NativeMethods.ml_Boost_get_weak_predictors(ptr);
+            IntPtr p = NativeMethods.ml_CvBoost_get_weak_predictors(ptr);
             if (p == IntPtr.Zero)
                 return null;
             return new CvSeq(p);
@@ -551,7 +539,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public override void Clear() 
         {
-            NativeMethods.ml_Boost_clear(ptr);
+            NativeMethods.ml_CvBoost_clear(ptr);
         }
 
 #if LANG_JP
@@ -574,7 +562,7 @@ namespace OpenCvSharp.CPlusPlus
 			if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
 
-            NativeMethods.ml_Boost_write(ptr, storage.CvPtr, name);
+            NativeMethods.ml_CvBoost_write(ptr, storage.CvPtr, name);
         }
 
 #if LANG_JP
@@ -597,7 +585,7 @@ namespace OpenCvSharp.CPlusPlus
             if (node == null)
                 throw new ArgumentNullException("node");
 
-            NativeMethods.ml_Boost_read(ptr, storage.CvPtr, node.CvPtr);
+            NativeMethods.ml_CvBoost_read(ptr, storage.CvPtr, node.CvPtr);
         }
 		#endregion
         #endregion

@@ -257,9 +257,9 @@
     <ClInclude Include="objdetect_HOGDescriptor.h" />
     <ClInclude Include="core_Algorithm.h" />
     <ClInclude Include="flann.h" />
-    <ClInclude Include="ml_NeuralNet_MLP.h" />
-    <ClInclude Include="ml_Boost.h" />
-    <ClInclude Include="ml_DecisionTree.h" />
+    <ClInclude Include="ml_CvANN_MLP.h" />
+    <ClInclude Include="ml_CvBoost.h" />
+    <ClInclude Include="ml_CvDTree.h" />
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="ml_ERTrees.h" />
     <ClInclude Include="ml_KNearest.h" />

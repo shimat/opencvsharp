@@ -14,7 +14,7 @@ using System.Text;
 namespace OpenCvSharp.CPlusPlus
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    internal struct WANN_MLP_TrainParams
+    internal struct WCvANN_MLP_TrainParams
     {
         public CvTermCriteria term_crit;
         public int train_method;
@@ -35,11 +35,11 @@ namespace OpenCvSharp.CPlusPlus
     /// Parameters of MLP training algorithm
     /// </summary>
 #endif
-    public class ANN_MLP_TrainParams
-    {
-        private WANN_MLP_TrainParams data;
+    public class CvANN_MLP_TrainParams
+	{
+	    private WCvANN_MLP_TrainParams data;
 
-        #region Constructors
+        #region Init & Disposal
 #if LANG_JP
         /// <summary>
         /// 既定の初期化
@@ -49,9 +49,9 @@ namespace OpenCvSharp.CPlusPlus
 		/// Default constructor
 		/// </summary>
 #endif
-		public ANN_MLP_TrainParams()
+		public CvANN_MLP_TrainParams()
 		{
-		    data = NativeMethods.ml_ANN_MLP_TrainParams_new1();
+		    NativeMethods.ml_ANN_MLP_TrainParams_new1(out data);
 		}
 
 #if LANG_JP
@@ -71,20 +71,17 @@ namespace OpenCvSharp.CPlusPlus
 		/// <param name="param1"></param>
 		/// <param name="param2"></param>
 #endif
-        public ANN_MLP_TrainParams(TermCriteria termCrit, MLPTrainingMethod trainMethod, double param1, double param2 = 0)
+        public CvANN_MLP_TrainParams(TermCriteria termCrit, MLPTrainingMethod trainMethod, double param1, double param2 = 0)
 		{
-            data = NativeMethods.ml_ANN_MLP_TrainParams_new2(
-                termCrit, (int)trainMethod, param1, param2);
+            NativeMethods.ml_ANN_MLP_TrainParams_new2(
+                termCrit, (int)trainMethod, param1, param2, out data);
 		}
+
 		#endregion
 
         #region Properties
 
-        /// <summary>
-        /// Native struct
-        /// </summary>
-        /// <returns></returns>
-        internal WANN_MLP_TrainParams NativeStruct
+        internal WCvANN_MLP_TrainParams NativeStruct
         {
             get { return data; }
         }
