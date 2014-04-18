@@ -171,15 +171,6 @@
     <ClInclude Include="ml_CvTrainTestSplit.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="ml_NeuralNet_MLP.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="ml_Boost.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="ml_DecisionTree.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
     <ClInclude Include="ml_EM.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
@@ -202,6 +193,15 @@
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_SVM.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_CvBoost.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_CvDTree.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_CvANN_MLP.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
   </ItemGroup>
