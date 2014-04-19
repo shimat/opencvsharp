@@ -18,7 +18,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [Mono](www.mono-project.com/)
 
 ## Features
-* OpenCvSharp wraps more OpenCV's functions than SharperCV and OpenCVDotNet.
+* OpenCvSharp is modeled on the native OpenCV C/C++ API style as much as possible.
 * Many classes of OpenCvSharp implement IDisposable. There is no need to manage unsafe resources. 
 * OpenCvSharp does not force object-oriented programming style on you. You can also call native-style OpenCV functions.
 * OpenCvSharp provides functions for converting from Mat/IplImage into Bitmap(GDI+) or WriteableBitmap(WPF).
@@ -26,7 +26,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 
 -----
 
-* OpenCvSharpはSharperCVやOpenCVDotNetといった他のOpenCVのラッパーよりも多くの関数を実装しています。
+* オリジナルのC/C++コードと可能な限り似た記述ができるように設計しています。
 * 多くのクラスがIDisposableインターフェイスを実装しているので、ネイティブリソース管理が容易です。
 * オブジェクト指向な書き方を強制しません。OpenCVのネイティブの関数をそのままの形式で呼べます。
 * GDI+やWPFとの相互利用が可能です。OpenCVのMat/IplImageとGDI+のBitmapやWPFのWriteableBitmapとの変換機能があります。
