@@ -115,7 +115,7 @@ namespace CStyleSamplesCS
             //Cv.FindExtrinsicCameraParams2_(subObjectPoints, subImagePoints, intrinsic, distortion, rotation_, translation_, false);
 
             // (7)XMLファイルへの書き出し
-            using (CvFileStorage fs = new CvFileStorage("camera.xml", null, FileStorageMode.Write))
+            using (CvFileStorage fs = new CvFileStorage("camera.xml", null, OpenCvSharp.FileStorageMode.Write))
             {
                 fs.Write("intrinsic", intrinsic);
                 fs.Write("rotation", rotation_);

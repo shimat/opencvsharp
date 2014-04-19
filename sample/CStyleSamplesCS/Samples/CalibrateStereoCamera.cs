@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 
 namespace CStyleSamplesCS
 {
@@ -77,7 +76,7 @@ namespace CStyleSamplesCS
               StereoRectificationFlag.ZeroDisparity, 1, new CvSize(640, 480)); 
 
             using (CvMemStorage mem = new CvMemStorage())
-            using(CvFileStorage fs = new CvFileStorage("extrinsic.yml", mem, FileStorageMode.Write))
+            using(CvFileStorage fs = new CvFileStorage("extrinsic.yml", mem, OpenCvSharp.FileStorageMode.Write))
             {
                 fs.Write("R", R);
                 fs.Write("T", T);

@@ -68,15 +68,15 @@ Imports OpenCvSharp.CPlusPlus
             Cv.StereoRectify(cameraMatrix1, cameraMatrix2, distCoeffs1, distCoeffs2, New CvSize(640, 480), R, T, R1, R2, P1, P2, Q, StereoRectificationFlag.ZeroDisparity, 1, New CvSize(640, 480))
 
             Using mem As New CvMemStorage()
-                Using fs As New CvFileStorage("extrinsic.yml", mem, FileStorageMode.Write)
-                    fs.Write("R", R)
-                    fs.Write("T", T)
-                    fs.Write("R1", R1)
-                    fs.Write("R2", R2)
-                    fs.Write("P1", P1)
-                    fs.Write("P1", P1)
-                    fs.Write("Q", Q)
-                End Using
+            Using fs As New CvFileStorage("extrinsic.yml", mem, OpenCvSharp.FileStorageMode.Write)
+                fs.Write("R", R)
+                fs.Write("T", T)
+                fs.Write("R1", R1)
+                fs.Write("R2", R2)
+                fs.Write("P1", P1)
+                fs.Write("P1", P1)
+                fs.Write("Q", Q)
+            End Using
             End Using
             Process.Start("notepad", "extrinsic.yml")
 

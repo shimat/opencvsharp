@@ -98,7 +98,7 @@ Friend Module CalibrateCamera
         'Cv.FindExtrinsicCameraParams2_(subObjectPoints, subImagePoints, intrinsic, distortion, rotation_, translation_, false);
 
         ' (7)XMLファイルへの書き出し
-        Using fs As New CvFileStorage("camera.xml", Nothing, FileStorageMode.Write)
+        Using fs As New CvFileStorage("camera.xml", Nothing, OpenCvSharp.FileStorageMode.Write)
             fs.Write("intrinsic", intrinsic)
             fs.Write("rotation", rotationExt)
             fs.Write("translation", translationExt)

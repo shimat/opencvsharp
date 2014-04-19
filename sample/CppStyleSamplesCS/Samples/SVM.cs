@@ -37,7 +37,7 @@ namespace CppStyleSamplesCS
                     int x = (int)points[i].X;
                     int y = (int)(300 - points[i].Y);
                     int res = responses[i];
-                    CvColor color = (res == 1) ? Scalar.Red : Scalar.GreenYellow;
+                    Scalar color = (res == 1) ? Scalar.Red : Scalar.GreenYellow;
                     pointsPlot.Circle(x, y, 2, color, -1);
                 }
                 // f(x)
