@@ -4,10 +4,8 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -18,7 +16,7 @@ namespace OpenCvSharp.MachineLearning
 	/// 
 	/// </summary>
 #endif
-	public enum PartMode : int
+    public enum TrainSamplePartMode : int
 	{
 #if LANG_JP
 		/// <summary>

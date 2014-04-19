@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>

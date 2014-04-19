@@ -4,11 +4,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -36,15 +34,14 @@ namespace OpenCvSharp.MachineLearning
 		/// </summary>
 		public double Step;
 
-
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public CvParamGrid(double min_val, double max_val, double log_step)
+		public CvParamGrid(double minVal, double maxVal, double logStep)
 		{
-			MinVal = min_val;
-			MaxVal = max_val;
-			Step = log_step;
+			MinVal = minVal;
+			MaxVal = maxVal;
+			Step = logStep;
 		}
 
         /// <summary>
@@ -53,10 +50,11 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public bool Check()
         {
-			return MLInvoke.CvParamGrid_check(this);
+			return NativeMethods.ml_CvParamGrid_check(this) != 0;
         }
 
 #pragma warning disable 1591
+// ReSharper disable InconsistentNaming
         public const int SVM_C = 0;
 		public const int SVM_GAMMA = 1;
 		public const int SVM_P = 2;

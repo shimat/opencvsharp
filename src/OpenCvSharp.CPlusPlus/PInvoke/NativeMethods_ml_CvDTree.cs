@@ -199,39 +199,50 @@ namespace OpenCvSharp.CPlusPlus
         
         // CvDTree
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTree_sizeof();
+        public static extern IntPtr ml_CvDTree_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ml_CvDTree_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvDTree_construct();
+        public static extern int ml_CvDTree_train1(
+            IntPtr obj, IntPtr trainData, int tflag, IntPtr responses, IntPtr varIdx, 
+            IntPtr sampleIdx, IntPtr varType, IntPtr missingMask, IntPtr @params);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTree_destruct(IntPtr obj);
+        public static extern int ml_CvDTree_train2(
+            IntPtr obj, IntPtr trainData, IntPtr subsampleIdx);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ml_CvDTree_train3(
+            IntPtr obj, IntPtr trainData, IntPtr param);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ml_CvDTree_train_Mat(
+            IntPtr obj, IntPtr trainData, int tflag, IntPtr responses, IntPtr varIdx, 
+            IntPtr sampleIdx, IntPtr varType, IntPtr missingMask, IntPtr @params);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_CvDTree_predict_CvMat(
+            IntPtr obj, IntPtr sample, IntPtr missingDataMask, int preprocessedInput);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_CvDTree_predict_Mat(
+            IntPtr obj, IntPtr sample, IntPtr missingDataMask, int preprocessedInput);
 
-        [DllImport(DllExtern, EntryPoint = "CvDTree_train1", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTree_train(IntPtr obj, IntPtr trainData, int tflag, IntPtr responses,
-            IntPtr varIdx, IntPtr sampleIdx, IntPtr varType, IntPtr missingMask, IntPtr @params);
-        [DllImport(DllExtern, EntryPoint = "CvDTree_train2", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTree_train(IntPtr obj, IntPtr trainData, IntPtr subsampleIdx);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvDTree_predict(IntPtr obj, IntPtr sample, IntPtr missingDataMask, int preprocessedInput);
+        public static extern IntPtr ml_CvDTree_getVarImportance(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_CvDTree_get_root(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ml_CvDTree_get_pruned_tree_idx(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_CvDTree_get_data(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvDTree_get_var_importance(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvDTree_get_root(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvDTree_get_pruned_tree_idx(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvDTree_get_data(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTree_clear(IntPtr obj);
+        public static extern void ml_CvDTree_clear(IntPtr obj);
         [DllImport(DllExtern, EntryPoint = "CvDTree_read1", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTree_read(IntPtr obj, IntPtr fs, IntPtr node);
+        public static extern void ml_CvDTree_read(IntPtr obj, IntPtr fs, IntPtr node);
         [DllImport(DllExtern, EntryPoint = "CvDTree_read2", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTree_read(IntPtr obj, IntPtr fs, IntPtr node, IntPtr data);
+        public static extern void ml_CvDTree_read(IntPtr obj, IntPtr fs, IntPtr node, IntPtr data);
         [DllImport(DllExtern, EntryPoint = "CvDTree_write1", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTree_write(IntPtr obj, IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static extern void ml_CvDTree_write(IntPtr obj, IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name);
         [DllImport(DllExtern, EntryPoint = "CvDTree_write2", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvDTree_write(IntPtr obj, IntPtr fs);
+        public static extern void ml_CvDTree_write(IntPtr obj, IntPtr fs);
     }
 }

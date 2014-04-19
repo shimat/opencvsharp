@@ -4,13 +4,11 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 
 #pragma warning disable 1591
+// ReSharper disable once InconsistentNaming
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -26,7 +24,7 @@ namespace OpenCvSharp.MachineLearning
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -39,9 +37,8 @@ namespace OpenCvSharp.MachineLearning
         /// </summary>
 #endif
         public CvMLData()
-            : base()
         {
-            ptr = MLInvoke.CvMLData_construct();
+            ptr = NativeMethods.ml_CvMLData_new();
         }
 
 #if LANG_JP
@@ -63,7 +60,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
                 // 継承したクラス独自の解放処理
                 try
@@ -73,9 +70,9 @@ namespace OpenCvSharp.MachineLearning
                     }
                     if (IsEnabledDispose)
                     {
-                        MLInvoke.CvMLData_destruct(ptr);
+                        NativeMethods.ml_CvMLData_delete(ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
@@ -86,14 +83,6 @@ namespace OpenCvSharp.MachineLearning
         }
         #endregion
 
-        #region Properties
-        /// <summary>
-        /// sizeof(CvMLData)
-        /// </summary>
-        public static readonly int SizeOf = MLInvoke.CvMLData_sizeof();
-        #endregion
-
-
         #region Methods
         /// <summary>
         /// 
@@ -102,9 +91,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public int ReadCsv(string filename)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            return MLInvoke.CvMLData_read_csv(ptr, filename);
+            return NativeMethods.ml_CvMLData_read_csv(ptr, filename);
         }
         /// <summary>
         /// 
@@ -112,9 +101,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public CvMat GetValues()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            IntPtr result = MLInvoke.CvMLData_get_values(ptr);
+            IntPtr result = NativeMethods.ml_CvMLData_get_values(ptr);
             return (result == IntPtr.Zero) ? null : new CvMat(result, false);
         }
         /// <summary>
@@ -123,9 +112,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public CvMat GetResponses()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            IntPtr result = MLInvoke.CvMLData_get_responses(ptr);
+            IntPtr result = NativeMethods.ml_CvMLData_get_responses(ptr);
             return (result == IntPtr.Zero) ? null : new CvMat(result, false);
         }
         /// <summary>
@@ -134,9 +123,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public CvMat GetMissing()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            IntPtr result = MLInvoke.CvMLData_get_missing(ptr);
+            IntPtr result = NativeMethods.ml_CvMLData_get_missing(ptr);
             return (result == IntPtr.Zero) ? null : new CvMat(result, false);
         }
         /// <summary>
@@ -145,9 +134,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public int GetResponseIdx()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            return MLInvoke.CvMLData_get_response_idx(ptr);
+            return NativeMethods.ml_CvMLData_get_response_idx(ptr);
         }
         /// <summary>
         /// 
@@ -155,9 +144,9 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="idx"></param>
         public void SetResponseIdx(int idx)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            MLInvoke.CvMLData_set_response_idx(ptr, idx);
+            NativeMethods.ml_CvMLData_set_response_idx(ptr, idx);
         }
         /// <summary>
         /// 
@@ -165,9 +154,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public CvMat GetTrainSampleIdx()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            IntPtr result = MLInvoke.CvMLData_get_train_sample_idx(ptr);
+            IntPtr result = NativeMethods.ml_CvMLData_get_train_sample_idx(ptr);
             return (result == IntPtr.Zero) ? null : new CvMat(result, false);
         }
         /// <summary>
@@ -176,9 +165,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public CvMat GetTestSampleIdx()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            IntPtr result = MLInvoke.CvMLData_get_test_sample_idx(ptr);
+            IntPtr result = NativeMethods.ml_CvMLData_get_test_sample_idx(ptr);
             return (result == IntPtr.Zero) ? null : new CvMat(result, false);
         }
         /// <summary>
@@ -186,9 +175,9 @@ namespace OpenCvSharp.MachineLearning
         /// </summary>
         public void MixTrainAndTestIdx()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            MLInvoke.CvMLData_mix_train_and_test_idx(ptr);
+            NativeMethods.ml_CvMLData_mix_train_and_test_idx(ptr);
         }
         /// <summary>
         /// 
@@ -196,11 +185,11 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="spl"></param>
         public void SetTrainTestSplit(CvTrainTestSplit spl)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
             if (spl == null)
                 throw new ArgumentNullException("spl");
-            MLInvoke.CvMLData_set_train_test_split(ptr, spl.CvPtr);
+            NativeMethods.ml_CvMLData_set_train_test_split(ptr, spl.CvPtr);
         }
         /// <summary>
         /// 
@@ -208,9 +197,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public CvMat GetVarIdx()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            IntPtr result = MLInvoke.CvMLData_get_var_idx(ptr);
+            IntPtr result = NativeMethods.ml_CvMLData_get_var_idx(ptr);
             return (result == IntPtr.Zero) ? null : new CvMat(result, false);
         }
         /// <summary>
@@ -220,9 +209,9 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="state"></param>
         public void ChangeVarIdx(int vi, bool state)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            MLInvoke.CvMLData_change_var_idx(ptr, vi, state);
+            NativeMethods.ml_CvMLData_change_var_idx(ptr, vi, state ? 1 : 0);
         }
         /// <summary>
         /// 
@@ -230,21 +219,21 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public CvMat GetVarTypes()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            IntPtr result = MLInvoke.CvMLData_get_var_types(ptr);
+            IntPtr result = NativeMethods.ml_CvMLData_get_var_types(ptr);
             return (result == IntPtr.Zero) ? null : new CvMat(result, false);
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="var_idx"></param>
+        /// <param name="varIdx"></param>
         /// <returns></returns>
-        public int GetVarType(int var_idx)
+        public int GetVarType(int varIdx)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            return MLInvoke.CvMLData_get_var_type(ptr, var_idx);
+            return NativeMethods.ml_CvMLData_get_var_type(ptr, varIdx);
         }
         /// <summary>
         /// 
@@ -252,20 +241,20 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="str"></param>
         public void SetVarTypes(string str)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            MLInvoke.CvMLData_set_var_types(ptr, str);
+            NativeMethods.ml_CvMLData_set_var_types(ptr, str);
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="var_idx"></param>
+        /// <param name="varIdx"></param>
         /// <param name="type"></param>
-        public void ChangeVarType(int var_idx, int type)
+        public void ChangeVarType(int varIdx, int type)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            MLInvoke.CvMLData_change_var_type(ptr, var_idx, type);
+            NativeMethods.ml_CvMLData_change_var_type(ptr, varIdx, type);
         }
         /// <summary>
         /// 
@@ -273,9 +262,9 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="ch"></param>
         public void SetDelimiter(byte ch)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            MLInvoke.CvMLData_set_delimiter(ptr, ch);
+            NativeMethods.ml_CvMLData_set_delimiter(ptr, ch);
         }
         /// <summary>
         /// 
@@ -283,9 +272,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public byte GetDelimiter()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            return MLInvoke.CvMLData_get_delimiter(ptr);
+            return NativeMethods.ml_CvMLData_get_delimiter(ptr);
         }
         /// <summary>
         /// 
@@ -293,9 +282,9 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="ch"></param>
         public void SetMissCh(byte ch)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            MLInvoke.CvMLData_set_miss_ch(ptr, ch);
+            NativeMethods.ml_CvMLData_set_miss_ch(ptr, ch);
         }
         /// <summary>
         /// 
@@ -303,9 +292,9 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         public byte GetMissCh()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("CvMLData");
-            return MLInvoke.CvMLData_get_miss_ch(ptr);
+            return NativeMethods.ml_CvMLData_get_miss_ch(ptr);
         }
         #endregion
     }

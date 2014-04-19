@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace OpenCvSharp.MachineLearning
+// ReSharper disable once InconsistentNaming
+
+namespace OpenCvSharp.CPlusPlus
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     internal unsafe struct WCvSVMParams
@@ -37,8 +39,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
     public class CvSVMParams
     {
-        private WCvSVMParams _data;
-
+        private WCvSVMParams data;
 
         #region Constructors
         /// <summary>
@@ -47,7 +48,7 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="data"></param>
         internal CvSVMParams(WCvSVMParams data)
         {
-            _data = data;
+            this.data = data;
         }
 #if LANG_JP
         /// <summary>
@@ -60,8 +61,8 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public CvSVMParams()
         {
-			_data = new WCvSVMParams();
-            MLInvoke.CvSVMParams_construct_default(ref _data);
+			data = new WCvSVMParams();
+            NativeMethods.ml_CvSVMParams_new1(ref data);
         }
 #if LANG_JP
         /// <summary>
@@ -81,23 +82,25 @@ namespace OpenCvSharp.MachineLearning
 		/// <summary>
 	    /// Constructor
 	    /// </summary>
-	    /// <param name="_svm_type">Type of SVM</param>
-	    /// <param name="_kernel_type">The kernel type</param>
-	    /// <param name="_degree">for poly</param>
-	    /// <param name="_gamma">for poly/rbf/sigmoid</param>
-	    /// <param name="_coef0">for poly/sigmoid</param>
-	    /// <param name="_C">for SVMType.CSvc, SVMType.EpsSvr and SVMType.NuSvr</param>
-	    /// <param name="_nu">for SVMType.NuSvc, SVMType.OneClass and SVMType.NuSvr</param>
-	    /// <param name="_p">for SVMType.EpsSvr</param>
-	    /// <param name="_class_weights">for SVMType.CSvc</param>
-	    /// <param name="_term_crit">Termination criteria</param>
+	    /// <param name="svmType">Type of SVM</param>
+	    /// <param name="kernelType">The kernel type</param>
+	    /// <param name="degree">for poly</param>
+	    /// <param name="gamma">for poly/rbf/sigmoid</param>
+	    /// <param name="coef0">for poly/sigmoid</param>
+	    /// <param name="c">for SVMType.CSvc, SVMType.EpsSvr and SVMType.NuSvr</param>
+	    /// <param name="nu">for SVMType.NuSvc, SVMType.OneClass and SVMType.NuSvr</param>
+	    /// <param name="p">for SVMType.EpsSvr</param>
+	    /// <param name="classWeights">for SVMType.CSvc</param>
+	    /// <param name="termCrit">Termination criteria</param>
 #endif
-		public CvSVMParams(SVMType _svm_type, SVMKernelType _kernel_type, double _degree, double _gamma, double _coef0, 
-            double _C, double _nu, double _p, CvMat _class_weights, CvTermCriteria _term_crit )
+		public CvSVMParams(SVMType svmType, SVMKernelType kernelType, double degree, 
+            double gamma, double coef0, double c, double nu, double p, 
+            CvMat classWeights, CvTermCriteria termCrit )
 	    {
-            _data = new WCvSVMParams();
-            IntPtr _class_weights_ptr = (_class_weights == null) ? IntPtr.Zero : _class_weights.CvPtr;
-            MLInvoke.CvSVMParams_construct(ref _data, (int)_svm_type, (int)_kernel_type, _degree, _gamma, _coef0, _C, _nu, _p, _class_weights_ptr, _term_crit);
+            data = new WCvSVMParams();
+            NativeMethods.ml_CvSVMParams_new2(
+                ref data, (int)svmType, (int)kernelType, degree, gamma, coef0,
+                c, nu, p, Cv2.ToPtr(classWeights), termCrit);
 	    }
 #endregion
 
@@ -107,9 +110,8 @@ namespace OpenCvSharp.MachineLearning
         /// <returns></returns>
         internal WCvSVMParams NativeStruct
         {
-            get { return _data; }
+            get { return data; }
         }
-
 
 		#region Properties
 #if LANG_JP
@@ -125,11 +127,11 @@ namespace OpenCvSharp.MachineLearning
         {
             get 
 			{ 
-				return (SVMType)_data.svm_type; 
+				return (SVMType)data.svm_type; 
 			}
             set
 			{ 
-				_data.svm_type = (int)value;
+				data.svm_type = (int)value;
 			}
         }
 #if LANG_JP
@@ -145,11 +147,11 @@ namespace OpenCvSharp.MachineLearning
         {
 			get 
 			{ 
-				return (SVMKernelType)_data.kernel_type; 
+				return (SVMKernelType)data.kernel_type; 
 			}
 			set
 			{ 
-				_data.kernel_type = (int)value; 
+				data.kernel_type = (int)value; 
 			}
         }
 
@@ -166,11 +168,11 @@ namespace OpenCvSharp.MachineLearning
         {
             get 
 			{ 
-				return _data.degree; 
+				return data.degree; 
 			}
             set
 			{ 
-				_data.degree = value; 
+				data.degree = value; 
 			}
         }
 #if LANG_JP
@@ -186,11 +188,11 @@ namespace OpenCvSharp.MachineLearning
         {
             get 
 			{ 
-				return _data.gamma; 
+				return data.gamma; 
 			}
             set
 			{ 
-				_data.gamma = value; 
+				data.gamma = value; 
 			}
         } 
 #if LANG_JP
@@ -206,11 +208,11 @@ namespace OpenCvSharp.MachineLearning
         {
             get 
 			{ 
-				return _data.coef0;
+				return data.coef0;
 			}
             set
 			{ 
-				_data.coef0 = value;
+				data.coef0 = value;
 			}
         } 
 
@@ -227,11 +229,11 @@ namespace OpenCvSharp.MachineLearning
         {
             get 
 			{ 
-				return _data.C; 
+				return data.C; 
 			}
             set
 			{ 
-				_data.C = value;
+				data.C = value;
 			}
         } 
 #if LANG_JP
@@ -247,11 +249,11 @@ namespace OpenCvSharp.MachineLearning
         {
             get 
 			{ 
-				return _data.nu; 
+				return data.nu; 
 			}
             set
 			{ 
-				_data.nu = value;
+				data.nu = value;
 			}
         }
 #if LANG_JP
@@ -267,11 +269,11 @@ namespace OpenCvSharp.MachineLearning
         {
             get 
 			{ 
-				return _data.p;
+				return data.p;
 			}
             set
 			{
-				_data.p = value;
+				data.p = value;
 			}
         } 
 #if LANG_JP
@@ -289,11 +291,10 @@ namespace OpenCvSharp.MachineLearning
             {
                 unsafe
                 {
-                    IntPtr p = new IntPtr(_data.class_weights);
+                    IntPtr p = new IntPtr(data.class_weights);
                     if (p == IntPtr.Zero)
                         return null;
-                    else
-                        return new CvMat(p, false);
+                    return new CvMat(p, false);
                 }
 			}
             set
@@ -301,9 +302,8 @@ namespace OpenCvSharp.MachineLearning
                 unsafe
                 {
                     if (value == null)
-                        _data.class_weights = null;
-                    else
-                        _data.class_weights = value.CvPtr.ToPointer();
+                        data.class_weights = null;
+                    data.class_weights = value.CvPtr.ToPointer();
                 }
 			}
         }
@@ -320,11 +320,11 @@ namespace OpenCvSharp.MachineLearning
         {
             get 
 			{ 
-				return _data.term_crit;
+				return data.term_crit;
 			}
             set
 			{ 
-				_data.term_crit = value; 
+				data.term_crit = value; 
 			}
         } 
 		#endregion

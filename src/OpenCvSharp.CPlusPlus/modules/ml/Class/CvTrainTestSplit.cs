@@ -7,7 +7,7 @@ using System;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -23,7 +23,7 @@ namespace OpenCvSharp.MachineLearning
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -37,23 +37,9 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public CvTrainTestSplit()
         {
-            ptr = MLInvoke.CvTrainTestSplit_construct1();
+            ptr = NativeMethods.ml_CvTrainTestSplit_new1();
         }
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="train_sample_count"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="trainSampleCount"></param>
-#endif
-        public CvTrainTestSplit(int trainSampleCount)
-            : this(trainSampleCount, true)
-        {
-        }
+
 #if LANG_JP
         /// <summary>
         /// 
@@ -67,25 +53,11 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="trainSampleCount"></param>
         /// <param name="mix"></param>
 #endif
-        public CvTrainTestSplit(int trainSampleCount, bool mix)
+        public CvTrainTestSplit(int trainSampleCount, bool mix = true)
         {
-            ptr = MLInvoke.CvTrainTestSplit_construct2(trainSampleCount, mix);
+            ptr = NativeMethods.ml_CvTrainTestSplit_new2(trainSampleCount, mix ? 1 : 0);
         }
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="train_sample_portion"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="trainSamplePortion"></param>
-#endif
-        public CvTrainTestSplit(float trainSamplePortion)
-            : this(trainSamplePortion, true)
-        {
-        }
+
 #if LANG_JP
         /// <summary>
         /// 
@@ -99,9 +71,9 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="trainSamplePortion"></param>
         /// <param name="mix"></param>
 #endif
-        public CvTrainTestSplit(float trainSamplePortion, bool mix)
+        public CvTrainTestSplit(float trainSamplePortion, bool mix = true)
         {
-            ptr = MLInvoke.CvTrainTestSplit_construct3(trainSamplePortion, mix);
+            ptr = NativeMethods.ml_CvTrainTestSplit_new3(trainSamplePortion, mix ? 1 : 0);
         }
 
 #if LANG_JP
@@ -133,7 +105,7 @@ namespace OpenCvSharp.MachineLearning
                     }
                     if (IsEnabledDispose)
                     {
-                        MLInvoke.CvTrainTestSplit_destruct(ptr);
+                        NativeMethods.ml_CvTrainTestSplit_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -147,10 +119,6 @@ namespace OpenCvSharp.MachineLearning
         #endregion
 
         #region Properties
-        /// <summary>
-        /// sizeof(CvTrainTestSplit)
-        /// </summary>
-        public static readonly int SizeOf = MLInvoke.CvTrainTestSplit_sizeof();
 
 #if LANG_JP
         /// <summary>
@@ -161,10 +129,20 @@ namespace OpenCvSharp.MachineLearning
         /// 
         /// </summary>
 #endif
-        public int TrainSamplePart_Count
+        public int TrainSamplePartCount
         {
-            get { return MLInvoke.CvTrainTestSplit_train_sample_part_count_get(ptr); }
-            set { MLInvoke.CvTrainTestSplit_train_sample_part_count_set(ptr, value); }
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("CvTrainTestSplit"); 
+                return NativeMethods.ml_CvTrainTestSplit_train_sample_part_count_get(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("CvTrainTestSplit"); 
+                NativeMethods.ml_CvTrainTestSplit_train_sample_part_count_set(ptr, value);
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -175,10 +153,20 @@ namespace OpenCvSharp.MachineLearning
         /// 
         /// </summary>
 #endif
-        public float TrainSamplePart_Portion
+        public float TrainSamplePartPortion
         {
-            get { return MLInvoke.CvTrainTestSplit_train_sample_part_portion_get(ptr); }
-            set { MLInvoke.CvTrainTestSplit_train_sample_part_portion_set(ptr, value); }
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("CvTrainTestSplit"); 
+                return NativeMethods.ml_CvTrainTestSplit_train_sample_part_portion_get(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("CvTrainTestSplit"); 
+                NativeMethods.ml_CvTrainTestSplit_train_sample_part_portion_set(ptr, value);
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -189,10 +177,20 @@ namespace OpenCvSharp.MachineLearning
         /// 
         /// </summary>
 #endif
-        public PartMode TrainSamplePartMode
+        public TrainSamplePartMode TrainSamplePartMode
         {
-            get { return (PartMode)MLInvoke.CvTrainTestSplit_train_sample_part_mode_get(ptr); }
-            set { MLInvoke.CvTrainTestSplit_train_sample_part_mode_set(ptr, (int)value); }
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("CvTrainTestSplit"); 
+                return (TrainSamplePartMode)NativeMethods.ml_CvTrainTestSplit_train_sample_part_mode_get(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("CvTrainTestSplit"); 
+                NativeMethods.ml_CvTrainTestSplit_train_sample_part_mode_set(ptr, (int)value);
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -205,8 +203,18 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public bool Mix
         {
-            get { return MLInvoke.CvTrainTestSplit_mix_get(ptr); }
-            set { MLInvoke.CvTrainTestSplit_mix_set(ptr, value); }
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("CvTrainTestSplit"); 
+                return NativeMethods.ml_CvTrainTestSplit_mix_get(ptr) != 0;
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException("CvTrainTestSplit"); 
+                NativeMethods.ml_CvTrainTestSplit_mix_set(ptr, value ? 1 : 0);
+            }
         }
         #endregion
     }

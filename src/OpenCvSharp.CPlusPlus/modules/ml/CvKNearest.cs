@@ -4,11 +4,9 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -24,14 +22,7 @@ namespace OpenCvSharp.MachineLearning
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
-
-        #region Constants
-        /// <summary>
-        /// sizeof(CvKNearest)
-        /// </summary>
-		public static readonly int SizeOf = MLInvoke.CvKNearest_sizeof();
-        #endregion
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -45,9 +36,9 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public CvKNearest()
         {
-			ptr = MLInvoke.CvKNearest_construct_default();
-			NotifyMemoryPressure(SizeOf);
+			ptr = NativeMethods.ml_CvKNearest_new1();
         }
+
 #if LANG_JP
         /// <summary>
         /// 学習データを与えて初期化
@@ -67,25 +58,70 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="isRegression"></param>
         /// <param name="maxK">Maximum number of neighbors to return</param>
 #endif
-		public CvKNearest(CvMat trainData, CvMat responses, CvMat sampleIdx, bool isRegression, int maxK)
+		public CvKNearest(
+            CvMat trainData, 
+            CvMat responses, 
+            CvMat sampleIdx = null, 
+            bool isRegression = false, 
+            int maxK = 32)
         {
             if (trainData == null)
                 throw new ArgumentNullException("trainData");
             if (responses == null)
                 throw new ArgumentNullException("responses");
+            trainData.ThrowIfDisposed();
+            responses.ThrowIfDisposed();
 
-            IntPtr sampleIdxPtr = (sampleIdx == null) ? IntPtr.Zero : sampleIdx.CvPtr;
-
-            ptr = MLInvoke.CvKNearest_construct_training(
+            ptr = NativeMethods.ml_CvKNearest_new2_CvMat(
                 trainData.CvPtr, 
                 responses.CvPtr,
-                sampleIdxPtr, 
-                isRegression, 
+                Cv2.ToPtr(sampleIdx), 
+                isRegression ? 1 : 0, 
                 maxK
             );
-
-            NotifyMemoryPressure(SizeOf);
         }
+#if LANG_JP
+        /// <summary>
+        /// 学習データを与えて初期化
+        /// </summary>
+        /// <param name="train_data">既知のサンプル (m*n)</param>
+        /// <param name="responses">既知のサンプルのクラス (m*1)</param>
+        /// <param name="sample_idx"></param>
+        /// <param name="is_regression"></param>
+        /// <param name="max_k">FindNearestに渡される近傍の最大値</param>
+#else
+        /// <summary>
+        /// Training constructor
+        /// </summary>
+        /// <param name="trainData">Known samples (m*n)</param>
+        /// <param name="responses">Classes for known samples (m*1)</param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="isRegression"></param>
+        /// <param name="maxK">Maximum number of neighbors to return</param>
+#endif
+        public CvKNearest(
+            Mat trainData,
+            Mat responses,
+            Mat sampleIdx = null,
+            bool isRegression = false,
+            int maxK = 32)
+        {
+            if (trainData == null)
+                throw new ArgumentNullException("trainData");
+            if (responses == null)
+                throw new ArgumentNullException("responses");
+            trainData.ThrowIfDisposed();
+            responses.ThrowIfDisposed();
+
+            ptr = NativeMethods.ml_CvKNearest_new2_Mat(
+                trainData.CvPtr,
+                responses.CvPtr,
+                Cv2.ToPtr(sampleIdx),
+                isRegression ? 1 : 0,
+                maxK
+            );
+        }
+
 
 #if LANG_JP
         /// <summary>
@@ -116,8 +152,7 @@ namespace OpenCvSharp.MachineLearning
                     }
                     if (IsEnabledDispose)
                     {
-                        MLInvoke.CvKNearest_destruct(ptr);
-                        //ML.CvKNearest_clear(ptr);
+                        NativeMethods.ml_CvKNearest_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -128,9 +163,6 @@ namespace OpenCvSharp.MachineLearning
                 }
             }
         }
-        #endregion
-
-        #region Properties
         #endregion
 
         #region Methods
@@ -157,24 +189,78 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="updateBase">Adds known samples to model(true) or makes a new one(false)</param>
         /// <returns></returns>
 #endif
-        public virtual bool Train(CvMat trainData, CvMat responses, CvMat sampleIdx, bool isRegression, int maxK, bool updateBase)
+        public virtual bool Train(
+            CvMat trainData, 
+            CvMat responses, 
+            CvMat sampleIdx = null,
+            bool isRegression = false, 
+            int maxK = 32,
+            bool updateBase = false)
         {
             if (trainData == null)
                 throw new ArgumentNullException("trainData");
             if (responses == null)
                 throw new ArgumentNullException("responses");
-            
-            IntPtr sampleIdxPtr = (sampleIdx == null) ? IntPtr.Zero : sampleIdx.CvPtr;
+            trainData.ThrowIfDisposed();
+            responses.ThrowIfDisposed();
 
-            return MLInvoke.CvKNearest_train(
+            return NativeMethods.ml_CvKNearest_train_CvMat(
                 ptr,
                 trainData.CvPtr,
                 responses.CvPtr,
-                sampleIdxPtr,
-                isRegression,
+                Cv2.ToPtr(sampleIdx),
+                isRegression ? 1 : 0,
                 maxK, 
-                updateBase
-            );
+                updateBase ? 1 : 0
+            ) != 0;
+        }
+#if LANG_JP
+        /// <summary>
+        /// モデルの学習
+        /// </summary>
+        /// <param name="train_data">既知のサンプル (m*n)</param>
+        /// <param name="responses">既知のサンプルのクラス (m*1)</param>
+        /// <param name="sample_idx"></param>
+        /// <param name="is_regression"></param>
+        /// <param name="max_k">FindNearestに渡される近傍の最大数</param>
+        /// <param name="update_base">モデルを始めから作り直す（false）か，新しい教師データを使って更新する（true）か</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Trains the model
+        /// </summary>
+        /// <param name="trainData">Known samples (m*n)</param>
+        /// <param name="responses">Classes for known samples (m*1)</param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="isRegression"></param>
+        /// <param name="maxK">Maximum number of neighbors to return</param>
+        /// <param name="updateBase">Adds known samples to model(true) or makes a new one(false)</param>
+        /// <returns></returns>
+#endif
+        public virtual bool Train(
+            Mat trainData, 
+            Mat responses, 
+            Mat sampleIdx = null, 
+            bool isRegression = false,
+            int maxK = 32,
+            bool updateBase = false)
+        {
+            if (trainData == null)
+                throw new ArgumentNullException("trainData");
+            if (responses == null)
+                throw new ArgumentNullException("responses");
+            trainData.ThrowIfDisposed();
+            responses.ThrowIfDisposed();
+
+            return NativeMethods.ml_CvKNearest_train_Mat(
+                ptr,
+                trainData.CvPtr,
+                responses.CvPtr,
+                Cv2.ToPtr(sampleIdx),
+                isRegression ? 1 : 0,
+                maxK,
+                updateBase ? 1 : 0
+            ) != 0;
         }
 
 #if LANG_JP
@@ -200,42 +286,86 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="dist">Distance from each sample to neighbors</param>
         /// <returns></returns>
 #endif
-        public virtual float FindNearest(CvMat samples, int k, CvMat results, float[][] neighbors, CvMat neighborResponses, CvMat dist)
+        public virtual float FindNearest(
+            CvMat samples, 
+            int k, 
+            CvMat results = null,
+            float[][] neighbors = null,
+            CvMat neighborResponses = null, 
+            CvMat dist = null)
         {
             if (samples == null)
-			{
                 throw new ArgumentNullException("samples");
-			}
                         
-            IntPtr resultsPtr = (results == null) ? IntPtr.Zero : results.CvPtr;
-            IntPtr neighborResponsesPtr = (neighborResponses == null) ? IntPtr.Zero : neighborResponses.CvPtr;
-            IntPtr distPtr = (dist == null) ? IntPtr.Zero : dist.CvPtr;
-
             if (neighbors == null)
             {
-                return MLInvoke.CvKNearest_find_nearest(
+                return NativeMethods.ml_CvKNearest_find_nearest_CvMat(
                     ptr,
                     samples.CvPtr, 
                     k, 
-                    resultsPtr, 
-                    IntPtr.Zero, 
-                    neighborResponsesPtr,
-                    distPtr
-                );
+                    Cv2.ToPtr(results), 
+                    null, 
+                    Cv2.ToPtr(neighborResponses),
+                    Cv2.ToPtr(dist));
             }
-            else
-            {
-                ArrayAddress2<Single> aa = new ArrayAddress2<Single>(neighbors);
-				return MLInvoke.CvKNearest_find_nearest(
-                    ptr,
-                    samples.CvPtr, 
-                    k, 
-                    resultsPtr, 
-                    aa.Pointer, 
-                    neighborResponsesPtr,
-                    distPtr
-				);
-            }
+		    using (var aa = new ArrayAddress2<Single>(neighbors))
+		    {
+                return NativeMethods.ml_CvKNearest_find_nearest_CvMat(
+		            ptr,
+		            samples.CvPtr,
+		            k,
+		            Cv2.ToPtr(results),
+		            aa.Pointer,
+		            Cv2.ToPtr(neighborResponses),
+		            Cv2.ToPtr(dist));
+		    }
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 入力ベクトルの近傍を探す
+        /// </summary>
+        /// <param name="samples">既知のサンプル (l*n)</param>
+        /// <param name="k">探索する近傍の数の最大数</param>
+        /// <param name="results"></param>
+        /// <param name="neighbors"></param>
+        /// <param name="neighbor_responses">それぞれのサンプルの近傍 (l*k)</param>
+        /// <param name="dist">サンプルから近傍までの距離</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Finds the K nearest neighbors of samples
+        /// </summary>
+        /// <param name="samples">Known samples (l*n)</param>
+        /// <param name="k">max neighbors to find</param>
+        /// <param name="results"></param>
+        /// <param name="neighborResponses">Neighbors for each samples (l*k)</param>
+        /// <param name="dists">Distance from each sample to neighbors</param>
+        /// <returns></returns>
+#endif
+        public virtual float FindNearest(
+            Mat samples, 
+            int k, 
+            Mat results,
+            Mat neighborResponses, 
+            Mat dists)
+        {
+            if (samples == null)
+                throw new ArgumentNullException("samples");
+            if (results == null)
+                throw new ArgumentNullException("results");
+            if (neighborResponses == null)
+                throw new ArgumentNullException("neighborResponses");
+            if (dists == null)
+                throw new ArgumentNullException("dists");
+            samples.ThrowIfDisposed();
+            results.ThrowIfDisposed();
+            neighborResponses.ThrowIfDisposed();
+            dists.ThrowIfDisposed();
+
+            return NativeMethods.ml_CvKNearest_find_nearest_Mat(
+                ptr, samples.CvPtr, k, results.CvPtr,
+                neighborResponses.CvPtr, dists.CvPtr);
         }
 
 #if LANG_JP
@@ -251,7 +381,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public int GetMaxK()
         {
-            return MLInvoke.CvKNearest_get_max_k(ptr);
+            return NativeMethods.ml_CvKNearest_get_max_k(ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -266,7 +396,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public int GetVarCount() 
         {
-            return MLInvoke.CvKNearest_get_var_count(ptr);
+            return NativeMethods.ml_CvKNearest_get_var_count(ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -281,7 +411,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public int GetSampleCount()
         {
-            return MLInvoke.CvKNearest_get_sample_count(ptr);
+            return NativeMethods.ml_CvKNearest_get_sample_count(ptr);
         }
 #if LANG_JP
         /// <summary>
@@ -296,7 +426,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public bool IsRegression()
         {
-            return MLInvoke.CvKNearest_is_regression(ptr);
+            return NativeMethods.ml_CvKNearest_is_regression(ptr) != 0;
         }
 
 		#region CvStatModel methods
@@ -311,7 +441,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public override void Clear() 
         {
-            MLInvoke.CvKNearest_clear(ptr);
+            NativeMethods.ml_CvKNearest_clear(ptr);
         }
 		#endregion
         #endregion

@@ -3,8 +3,8 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CVBOOST_H_
-#define _CVBOOST_H_
+#ifndef _CPP_ML_CVBOOST_H_
+#define _CPP_ML_CVBOOST_H_
 
 #include "include_opencv.h"
 

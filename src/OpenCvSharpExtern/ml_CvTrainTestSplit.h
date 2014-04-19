@@ -3,64 +3,59 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CVTRAINTESTSPLIT_H_
-#define _CVTRAINTESTSPLIT_H_
+#ifndef _CPP_ML_CVTRAINTESTSPLIT_H_
+#define _CPP_ML_CVTRAINTESTSPLIT_H_
 
 #include "include_opencv.h"
 
-CVAPI(int) CvTrainTestSplit_sizeof()
-{
-	return sizeof(CvTrainTestSplit);
-}
-
-CVAPI(CvTrainTestSplit*) CvTrainTestSplit_construct1()
+CVAPI(CvTrainTestSplit*) ml_CvTrainTestSplit_new1()
 {
 	return new CvTrainTestSplit();
 }  
-CVAPI(CvTrainTestSplit*) CvTrainTestSplit_construct2(int _train_sample_count, bool _mix)
+CVAPI(CvTrainTestSplit*) ml_CvTrainTestSplit_new2(int trainSampleCount, int mix)
 {
-	return new CvTrainTestSplit(_train_sample_count, _mix);
+    return new CvTrainTestSplit(trainSampleCount, mix != 0);
 }  
-CVAPI(CvTrainTestSplit*) CvTrainTestSplit_construct3(float _train_sample_portion, bool _mix)
+CVAPI(CvTrainTestSplit*) ml_CvTrainTestSplit_new3(float trainSamplePortion, int mix)
 {
-	return new CvTrainTestSplit(_train_sample_portion, _mix);
+    return new CvTrainTestSplit(trainSamplePortion, mix != 0);
 }  
-CVAPI(void) CvTrainTestSplit_destruct(CvTrainTestSplit* obj)
+CVAPI(void) ml_CvTrainTestSplit_delete(CvTrainTestSplit* obj)
 {
 	delete obj;
 }
 
-CVAPI(int) CvTrainTestSplit_train_sample_part_count_get(CvTrainTestSplit* obj)
+CVAPI(int) ml_CvTrainTestSplit_train_sample_part_count_get(CvTrainTestSplit* obj)
 {
 	return obj->train_sample_part.count;
 } 
-CVAPI(void) CvTrainTestSplit_train_sample_part_count_set(CvTrainTestSplit* obj, int value)
+CVAPI(void) ml_CvTrainTestSplit_train_sample_part_count_set(CvTrainTestSplit* obj, int value)
 {
 	obj->train_sample_part.count = value;
 } 
-CVAPI(float) CvTrainTestSplit_train_sample_part_portion_get(CvTrainTestSplit* obj)
+CVAPI(float) ml_CvTrainTestSplit_train_sample_part_portion_get(CvTrainTestSplit* obj)
 {
 	return obj->train_sample_part.portion;
 } 
-CVAPI(void) CvTrainTestSplit_train_sample_part_portion_set(CvTrainTestSplit* obj, float value)
+CVAPI(void) ml_CvTrainTestSplit_train_sample_part_portion_set(CvTrainTestSplit* obj, float value)
 {
 	obj->train_sample_part.portion = value;
 } 
-CVAPI(int) CvTrainTestSplit_train_sample_part_mode_get(CvTrainTestSplit* obj)
+CVAPI(int) ml_CvTrainTestSplit_train_sample_part_mode_get(CvTrainTestSplit* obj)
 {
 	return obj->train_sample_part_mode;
 } 
-CVAPI(void) CvTrainTestSplit_train_sample_part_mode_set(CvTrainTestSplit* obj, int value)
+CVAPI(void) ml_CvTrainTestSplit_train_sample_part_mode_set(CvTrainTestSplit* obj, int value)
 {
 	obj->train_sample_part_mode = value;
 } 
-CVAPI(bool) CvTrainTestSplit_mix_Get(CvTrainTestSplit* obj)
+CVAPI(int) ml_CvTrainTestSplit_mix_Get(CvTrainTestSplit* obj)
 {
-	return obj->mix;
+	return obj->mix ? 1 : 0;
 } 
-CVAPI(void) CvTrainTestSplit_mix_set(CvTrainTestSplit* obj, bool value)
+CVAPI(void) ml_CvTrainTestSplit_mix_set(CvTrainTestSplit* obj, int value)
 {
-	obj->mix = value;
+	obj->mix = (value != 0);
 }
 
 #endif

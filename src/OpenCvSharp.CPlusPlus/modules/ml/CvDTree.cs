@@ -4,10 +4,8 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -23,14 +21,7 @@ namespace OpenCvSharp.MachineLearning
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
-
-        #region Constants
-        /// <summary>
-        /// sizeof(CvDTree)
-        /// </summary>
-		public static readonly int SizeOf = MLInvoke.CvDTree_sizeof();
-        #endregion
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -43,9 +34,9 @@ namespace OpenCvSharp.MachineLearning
         /// </summary>
 #endif
         public CvDTree()
-            : this(MLInvoke.CvDTree_construct())
-        {
-        }
+		{
+		    ptr = NativeMethods.ml_CvDTree_new();
+		}
 #if LANG_JP
         /// <summary>
         /// ポインタから初期化
@@ -55,10 +46,9 @@ namespace OpenCvSharp.MachineLearning
         /// Initializes by pointer
         /// </summary>
 #endif
-        public CvDTree(IntPtr ptr)
+        internal CvDTree(IntPtr ptr)
         {
             this.ptr = ptr;
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -82,7 +72,6 @@ namespace OpenCvSharp.MachineLearning
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -90,24 +79,20 @@ namespace OpenCvSharp.MachineLearning
                     }
                     if (IsEnabledDispose)
                     {
-				        MLInvoke.CvDTree_destruct(ptr);
-                        //ML.CvDTree_clear(ptr);
+                        NativeMethods.ml_CvDTree_delete(ptr);
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
         }
         #endregion
 
-        #region Properties
-        #endregion
-
         #region Methods
+
 		#region Train
 #if LANG_JP
         /// <summary>
@@ -116,57 +101,6 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="train_data"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Trains decision tree
-        /// </summary>
-        /// <param name="trainData"></param>
-		/// <param name="tflag"></param>
-        /// <param name="responses"></param>
-        /// <returns></returns>
-#endif
-		public virtual bool Train(CvMat trainData, DTreeDataLayout tflag, CvMat responses)
-        {
-            return Train(trainData, tflag, responses, null, null, null, null, new CvDTreeParams());
-        }
-#if LANG_JP
-        /// <summary>
-        /// 決定木を学習する
-        /// </summary>
-        /// <param name="train_data"></param>
-		/// <param name="tflag"></param>
-        /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Trains decision tree
-        /// </summary>
-        /// <param name="trainData"></param>
-		/// <param name="tflag"></param>
-        /// <param name="responses"></param>
-		/// <param name="varIdx"></param>
-        /// <param name="sampleIdx"></param>
-        /// <param name="varType"></param>
-        /// <param name="missingMask"></param>
-        /// <returns></returns>
-#endif
-		public virtual bool Train(CvMat trainData, DTreeDataLayout tflag, CvMat responses, 
-			CvMat varIdx, CvMat sampleIdx, CvMat varType, CvMat missingMask)
-        {
-            return Train(trainData, tflag, responses, varIdx, sampleIdx, varType, missingMask, new CvDTreeParams());
-        }
-#if LANG_JP
-        /// <summary>
-        /// 決定木を学習する
-        /// </summary>
-        /// <param name="train_data"></param>
-		/// <param name="tflag"></param>
-        /// <param name="responses"></param>
 		/// <param name="var_idx"></param>
         /// <param name="sample_idx"></param>
         /// <param name="var_type"></param>
@@ -184,36 +118,98 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="sampleIdx"></param>
         /// <param name="varType"></param>
         /// <param name="missingMask"></param>
-        /// <param name="params"></param>
+        /// <param name="param"></param>
         /// <returns></returns>
 #endif
-		public virtual bool Train(CvMat trainData, DTreeDataLayout tflag, CvMat responses, 
-			CvMat varIdx, CvMat sampleIdx, CvMat varType, CvMat missingMask, CvDTreeParams @params)
+		public virtual bool Train(
+            CvMat trainData,
+            DTreeDataLayout tflag,
+            CvMat responses, 
+			CvMat varIdx, 
+            CvMat sampleIdx, 
+            CvMat varType, 
+            CvMat missingMask, 
+            CvDTreeParams param)
         {
             if (trainData == null)
                 throw new ArgumentNullException("trainData");
             if (responses == null)
                 throw new ArgumentNullException("responses");
+            trainData.ThrowIfDisposed();
+            responses.ThrowIfDisposed();
 
-			if(@params == null)
-				@params = new CvDTreeParams();
+			if(param == null)
+				param = new CvDTreeParams();
 
-            IntPtr varIdxPtr = (varIdx == null) ? IntPtr.Zero : varIdx.CvPtr;
-            IntPtr sampleIdxPtr = (sampleIdx == null) ? IntPtr.Zero : sampleIdx.CvPtr;
-            IntPtr varTypePtr = (varType == null) ? IntPtr.Zero : varType.CvPtr;
-            IntPtr missingMaskPtr = (missingMask == null) ? IntPtr.Zero : missingMask.CvPtr;
-
-            return MLInvoke.CvDTree_train(
+            return NativeMethods.ml_CvDTree_train1(
                 ptr,
 				trainData.CvPtr, 
 				(int)tflag, 
 				responses.CvPtr, 
-				varIdxPtr,
-                sampleIdxPtr,
-                varTypePtr,
-                missingMaskPtr, 
-				@params.CvPtr
-			);
+				Cv2.ToPtr(varIdx),
+                Cv2.ToPtr(sampleIdx),
+                Cv2.ToPtr(varType),
+                Cv2.ToPtr(missingMask), 
+				param.CvPtr) != 0;
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 決定木を学習する
+        /// </summary>
+        /// <param name="train_data"></param>
+		/// <param name="tflag"></param>
+        /// <param name="responses"></param>
+		/// <param name="var_idx"></param>
+        /// <param name="sample_idx"></param>
+        /// <param name="var_type"></param>
+        /// <param name="missing_mask"></param>
+        /// <param name="params"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Trains decision tree
+        /// </summary>
+        /// <param name="trainData"></param>
+        /// <param name="tflag"></param>
+        /// <param name="responses"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+#endif
+        public virtual bool Train(
+            Mat trainData,
+            DTreeDataLayout tflag,
+            Mat responses,
+            Mat varIdx,
+            Mat sampleIdx,
+            Mat varType,
+            Mat missingMask,
+            CvDTreeParams param)
+        {
+            if (trainData == null)
+                throw new ArgumentNullException("trainData");
+            if (responses == null)
+                throw new ArgumentNullException("responses");
+            trainData.ThrowIfDisposed();
+            responses.ThrowIfDisposed();
+
+            if (param == null)
+                param = new CvDTreeParams();
+
+            return NativeMethods.ml_CvDTree_train_Mat(
+                ptr,
+                trainData.CvPtr,
+                (int)tflag,
+                responses.CvPtr,
+                Cv2.ToPtr(varIdx),
+                Cv2.ToPtr(sampleIdx),
+                Cv2.ToPtr(varType),
+                Cv2.ToPtr(missingMask),
+                param.CvPtr) != 0;
         }
 
 #if LANG_JP
@@ -235,50 +231,41 @@ namespace OpenCvSharp.MachineLearning
         {
             if (trainData == null)
                 throw new ArgumentNullException("trainData");
+            if (subsampleIdx == null)
+                throw new ArgumentNullException("subsampleIdx");
 
-            IntPtr subsampleIdxPtr = (subsampleIdx == null) ? IntPtr.Zero : subsampleIdx.CvPtr;
-
-			return MLInvoke.CvDTree_train(ptr, trainData.CvPtr,  subsampleIdxPtr);
+            return NativeMethods.ml_CvDTree_train2(
+                ptr, trainData.CvPtr, subsampleIdx.CvPtr) != 0;
         }
+
+#if LANG_JP
+        /// <summary>
+        /// 決定木を学習する
+        /// </summary>
+        /// <param name="train_data"></param>
+		/// <param name="param"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Trains decision tree
+        /// </summary>
+        /// <param name="trainData"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+#endif
+        public virtual bool Train(CvMLData trainData, CvDTreeParams param)
+        {
+            if (trainData == null)
+                throw new ArgumentNullException("trainData");
+            if (param == null)
+                param = new CvDTreeParams();
+            return NativeMethods.ml_CvDTree_train3(
+                ptr, trainData.CvPtr, param.CvPtr) != 0;
+        }
+
 		#endregion
 
         #region Predict
-#if LANG_JP
-        /// <summary>
-        /// 入力ベクトルに対する決定木の葉ノードを返す
-        /// </summary>
-        /// <param name="sample"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Returns the leaf node of decision tree corresponding to the input vector
-        /// </summary>
-        /// <param name="sample"></param>
-        /// <returns></returns>
-#endif
-		public virtual CvDTreeNode Predict(CvMat sample)
-		{
-			return Predict(sample, null, false);
-		}
-#if LANG_JP
-        /// <summary>
-        /// 入力ベクトルに対する決定木の葉ノードを返す
-        /// </summary>
-        /// <param name="sample"></param>
-		/// <param name="missing_data_mask"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Returns the leaf node of decision tree corresponding to the input vector
-        /// </summary>
-        /// <param name="sample"></param>
-		/// <param name="missingDataMask"></param>
-        /// <returns></returns>
-#endif
-		public virtual CvDTreeNode Predict(CvMat sample, CvMat missingDataMask)
-		{
-			return Predict(sample, missingDataMask, false);
-		}
 #if LANG_JP
         /// <summary>
         /// 入力ベクトルに対する決定木の葉ノードを返す
@@ -296,19 +283,56 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="preprocessedInput"></param>
         /// <returns></returns>
 #endif
-		public virtual CvDTreeNode Predict(CvMat sample, CvMat missingDataMask, bool preprocessedInput)
+		public virtual CvDTreeNode Predict(
+            CvMat sample, 
+            CvMat missingDataMask = null,
+            bool preprocessedInput = false)
 		{
 			if (sample == null)
                 throw new ArgumentNullException("sample");
+            sample.ThrowIfDisposed();
 
-            IntPtr missingDataMaskPtr = (missingDataMask == null) ? IntPtr.Zero : missingDataMask.CvPtr;
-
-			IntPtr result = MLInvoke.CvDTree_predict(ptr, sample.CvPtr, missingDataMaskPtr, preprocessedInput);
+            IntPtr result = NativeMethods.ml_CvDTree_predict_CvMat(
+                ptr, sample.CvPtr, Cv2.ToPtr(missingDataMask), preprocessedInput ? 1 : 0);
 
 			if(result == IntPtr.Zero)
 				return null;
 		    return new CvDTreeNode(result);
 		}
+
+#if LANG_JP
+        /// <summary>
+        /// 入力ベクトルに対する決定木の葉ノードを返す
+        /// </summary>
+        /// <param name="sample"></param>
+		/// <param name="missing_data_mask"></param>
+        /// <param name="preprocessed_input">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Returns the leaf node of decision tree corresponding to the input vector
+        /// </summary>
+        /// <param name="sample"></param>
+        /// <param name="missingDataMask"></param>
+        /// <param name="preprocessedInput"></param>
+        /// <returns></returns>
+#endif
+        public virtual CvDTreeNode Predict(
+            Mat sample,
+            Mat missingDataMask = null,
+            bool preprocessedInput = false)
+        {
+            if (sample == null)
+                throw new ArgumentNullException("sample");
+            sample.ThrowIfDisposed();
+
+            IntPtr result = NativeMethods.ml_CvDTree_predict_Mat(
+                ptr, sample.CvPtr, Cv2.ToPtr(missingDataMask), preprocessedInput ? 1 : 0);
+
+            if (result == IntPtr.Zero)
+                return null;
+            return new CvDTreeNode(result);
+        }
 		#endregion
 
 #if LANG_JP
@@ -322,12 +346,12 @@ namespace OpenCvSharp.MachineLearning
         /// </summary>
         /// <returns></returns>
 #endif
-		public virtual CvMat GetVarImportance()
+		public virtual Mat GetVarImportance()
 		{
-			IntPtr p = MLInvoke.CvDTree_get_var_importance(ptr);
-			if(p == IntPtr.Zero)
+            IntPtr p = NativeMethods.ml_CvDTree_getVarImportance(ptr);
+			if (p == IntPtr.Zero)
 				return null;
-		    return new CvMat(p, false);
+		    return new Mat(p);
 		}
 
 #if LANG_JP
@@ -343,7 +367,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public CvDTreeNode GetRoot()
 		{
-			IntPtr p = MLInvoke.CvDTree_get_root(ptr);
+            IntPtr p = NativeMethods.ml_CvDTree_get_root(ptr);
 			if(p == IntPtr.Zero)
 				return null;
 		    return new CvDTreeNode(p);
@@ -362,7 +386,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public int GetPrunedTreeIdx()
 		{
-			return MLInvoke.CvDTree_get_pruned_tree_idx(ptr);
+            return NativeMethods.ml_CvDTree_get_pruned_tree_idx(ptr);
 		}
 
 #if LANG_JP
@@ -378,7 +402,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public CvDTreeTrainData GetData()
 		{
-			IntPtr p = MLInvoke.CvDTree_get_data(ptr);
+            IntPtr p = NativeMethods.ml_CvDTree_get_data(ptr);
 			if(p == IntPtr.Zero)
 				return null;
 		    return new CvDTreeTrainData(p);
@@ -404,7 +428,7 @@ namespace OpenCvSharp.MachineLearning
             if (node == null)
                 throw new ArgumentNullException("node");
 
-			MLInvoke.CvDTree_read(ptr, fs.CvPtr, node.CvPtr);
+            NativeMethods.ml_CvDTree_read(ptr, fs.CvPtr, node.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -430,7 +454,7 @@ namespace OpenCvSharp.MachineLearning
 			if (data == null)
                 throw new ArgumentNullException("data");
 
-			MLInvoke.CvDTree_read(ptr, fs.CvPtr, node.CvPtr, data.CvPtr);
+            NativeMethods.ml_CvDTree_read(ptr, fs.CvPtr, node.CvPtr, data.CvPtr);
         }
 
 #if LANG_JP
@@ -448,7 +472,7 @@ namespace OpenCvSharp.MachineLearning
         {
             if (fs == null)
                 throw new ArgumentNullException("fs");
-            MLInvoke.CvDTree_write(ptr, fs.CvPtr);
+            NativeMethods.ml_CvDTree_write(ptr, fs.CvPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -469,7 +493,7 @@ namespace OpenCvSharp.MachineLearning
                 throw new ArgumentNullException("fs");
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
-            MLInvoke.CvDTree_write(ptr, fs.CvPtr, name);
+            NativeMethods.ml_CvDTree_write(ptr, fs.CvPtr, name);
         }
 
 		#region CvStatModel methods
@@ -484,7 +508,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public override void Clear() 
         {
-            MLInvoke.CvDTree_clear(ptr);
+            NativeMethods.ml_CvDTree_clear(ptr);
         }
 		#endregion
         #endregion
