@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp.Blob.Old;
-
-// Copyright (C) 2007 by Cristóbal Carnero Liñán
+﻿// Copyright (C) 2007 by Cristóbal Carnero Liñán
 // grendel.ccl@gmail.com
 //
 // This file is part of cvBlob.
@@ -20,6 +15,9 @@ using OpenCvSharp.Blob.Old;
 //
 // You should have received a copy of the Lesser GNU General Public License
 // along with cvBlob.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+using System.Collections.Generic;
 
 namespace OpenCvSharp.Blob
 {

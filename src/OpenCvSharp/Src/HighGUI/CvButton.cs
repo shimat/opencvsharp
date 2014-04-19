@@ -24,23 +24,23 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
-        private string _name;
-        private object _userdata;
-        private CvButtonCallback _callback;
-        private CvButtonCallbackNative _callbackNative;
-        private GCHandle _gchCallback;
-        private GCHandle _gchCallbackNative;
-        private GCHandle _gchUserdata;  
-        private int _result;
-        private static List<CvButton> _instances;
+        private bool disposed;
+        private readonly string name;
+        private object userdata;
+        private readonly CvButtonCallback callback;
+        private CvButtonCallbackNative callbackNative;
+        private GCHandle gchCallback;
+        private GCHandle gchCallbackNative;
+        private GCHandle gchUserdata;  
+        private int result;
+        private static readonly List<CvButton> instances;
 
         /// <summary>
         /// 
         /// </summary>
         static CvButton()
         {
-            _instances = new List<CvButton>();
+            instances = new List<CvButton>();
         }
 
         #region Init and Disposal
@@ -150,55 +150,55 @@ namespace OpenCvSharp
 #endif
         public CvButton(string name, CvButtonCallback callback, object userdata, ButtonType button_type, int initial_button_state)
         {
-            _name = name;
-            _userdata = userdata;
+            this.name = name;
+            this.userdata = userdata;
 
             // userdataをIntPtrに変換
             IntPtr userdataPtr;
             if (userdata != null)
             {
-                _gchUserdata = GCHandle.Alloc(_userdata);
-                userdataPtr = GCHandle.ToIntPtr(_gchUserdata);
+                gchUserdata = GCHandle.Alloc(userdata);
+                userdataPtr = GCHandle.ToIntPtr(gchUserdata);
             }
             else
             {
                 userdataPtr = IntPtr.Zero;
             }
 
-            _callback = callback;            
+            this.callback = callback;            
             IntPtr callbackPtr;
-            if (_callback != null)
+            if (callback != null)
             {
                 // コールバックdelegateを、userdataをobjectとするように変換                
-                _callbackNative = delegate(int state, IntPtr ud)
+                callbackNative = delegate(int state, IntPtr ud)
                 {
                     if (ud == IntPtr.Zero)
                     {
-                        _callback(state, null);
+                        callback(state, null);
                     }
                     else
                     {
                         GCHandle gch = GCHandle.FromIntPtr(ud);
-                        _callback(state, gch.Target);
+                        callback(state, gch.Target);
                     }
                 };
 
                 // コールバックdelegateをポインタに変換                
-                _gchCallback = GCHandle.Alloc(_callback);
-                _gchCallbackNative = GCHandle.Alloc(_callbackNative);
-                callbackPtr = Marshal.GetFunctionPointerForDelegate(_callbackNative);
+                gchCallback = GCHandle.Alloc(callback);
+                gchCallbackNative = GCHandle.Alloc(callbackNative);
+                callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
             }
             else
             {
-                _callbackNative = null;
+                callbackNative = null;
                 callbackPtr = IntPtr.Zero;
             }
 
-            _result = NativeMethods.cvCreateButton(name, callbackPtr, userdataPtr, button_type, initial_button_state);
-            if (_result == 0)
+            result = NativeMethods.cvCreateButton(name, callbackPtr, userdataPtr, button_type, initial_button_state);
+            if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvButton.");
 
-            _instances.Add(this);
+            instances.Add(this);
         }
 
 #if LANG_JP
@@ -220,26 +220,24 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
                     {
-                        if (_gchCallback.IsAllocated)
-                            _gchCallback.Free();
-                        if (_gchCallbackNative.IsAllocated)
-                            _gchCallbackNative.Free();
-                        if (_gchUserdata.IsAllocated)
-                            _gchUserdata.Free();
-                        _instances.Remove(this);
+                        if (gchCallback.IsAllocated)
+                            gchCallback.Free();
+                        if (gchCallbackNative.IsAllocated)
+                            gchCallbackNative.Free();
+                        if (gchUserdata.IsAllocated)
+                            gchUserdata.Free();
+                        instances.Remove(this);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing); 
                 }
             }
@@ -258,7 +256,7 @@ namespace OpenCvSharp
 #endif
         public string ButtonName
         {
-            get { return _name; }
+            get { return name; }
         }
 
 #if LANG_JP
@@ -272,7 +270,7 @@ namespace OpenCvSharp
 #endif
         public CvButtonCallback Callback
         {
-            get { return _callback; }
+            get { return callback; }
         }
 
 #if LANG_JP
@@ -286,8 +284,8 @@ namespace OpenCvSharp
 #endif
         internal int Result
         {
-            get { return _result; }
-            private set { _result = value; }
+            get { return result; }
+            private set { result = value; }
         }
 
 #if LANG_JP
@@ -301,7 +299,7 @@ namespace OpenCvSharp
 #endif
         public static IEnumerable<CvButton> Instances
         {
-            get { return _instances; }
+            get { return instances; }
         }
         #endregion
     }

@@ -110,8 +110,6 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll", 
             @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config", 
             @"OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll", 
-            @"OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll", 
-            @"OpenCvSharp.MachineLearning\bin\Release\OpenCvSharp.MachineLearning.dll.config", 
             @"OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll", 
             //"OpenCvSharp.Gpu.dll",
             @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll", 
@@ -126,7 +124,6 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp.Blob\bin\{0}\OpenCvSharp.Blob.xml", 
             @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.xml", 
             @"OpenCvSharp.Extensions\bin\{0}\OpenCvSharp.Extensions.xml", 
-            @"OpenCvSharp.MachineLearning\bin\{0}\OpenCvSharp.MachineLearning.xml", 
             @"OpenCvSharp.UserInterface\bin\{0}\OpenCvSharp.UserInterface.xml", 
         };
 

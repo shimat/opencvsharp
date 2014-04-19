@@ -118,29 +118,15 @@
     <Compile Include="CvTracks.cs" />
     <Compile Include="LabelData.cs" />
     <Compile Include="Labeller.cs" />
-    <Compile Include="Old\CvBlobConst.cs" />
-    <Compile Include="Old\RenderBlobsMode.cs" />
-    <Compile Include="Old\RenderTracksMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Old\CvContoursChainCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CvBlobConst.cs" />
-    <Compile Include="Old\CvBlobInvoke.cs" />
-    <Compile Include="Old\CvBlobLib.cs" />
-    <Compile Include="Old\CvBlobs.cs" />
     <Content Include="ReadMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Compile Include="Old\CvBlob.cs" />
-    <Compile Include="Old\CvContourChainCode.cs" />
     <Compile Include="ProximityMatrix.cs" />
     <Compile Include="RenderBlobsMode.cs" />
-    <Compile Include="Old\CvChainCode.cs" />
-    <Compile Include="Old\CvChainCodes.cs" />
-    <Compile Include="Old\CvContourPolygon.cs" />
-    <Compile Include="Old\CvTrack.cs" />
-    <Compile Include="Old\CvTracks.cs" />
     <Compile Include="RenderTracksMode.cs" />
   </ItemGroup>
   <ItemGroup>
