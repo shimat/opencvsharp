@@ -3,8 +3,8 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CVDTREE_H_
-#define _CVDTREE_H_
+#ifndef _CPP_ML_CVDTREE_H_
+#define _CPP_ML_CVDTREE_H_
 
 #include "include_opencv.h"
 
@@ -106,8 +106,8 @@ CVAPI(CvDTreeTrainData*) ml_CvDTreeTrainData_new1()
 	return new CvDTreeTrainData();
 }
 CVAPI(CvDTreeTrainData*) ml_CvDTreeTrainData_new2(
-    CvMat* trainData, int tflag, CvMat* responses,
-	CvMat* varIdx, CvMat* sampleIdx, CvMat* varType, CvMat* missingMask, 
+    CvMat *trainData, int tflag, CvMat *responses,
+	CvMat *varIdx, CvMat *sampleIdx, CvMat *varType, CvMat *missingMask, 
     CvDTreeParams *params, int shared, int addLabels)
 {
     return new CvDTreeTrainData(trainData, tflag, responses, varIdx, sampleIdx,
@@ -119,21 +119,21 @@ CVAPI(void) ml_CvDTreeTrainData_delete (CvDTreeTrainData* obj)
 }
 
 CVAPI(void) ml_CvDTreeTrainData_set_data(
-    CvDTreeTrainData* obj, CvMat* trainData, int tflag, CvMat* responses,
-    CvMat* varIdx, CvMat* sampleIdx, CvMat* varType, CvMat* missingMask,
+    CvDTreeTrainData* obj, CvMat *trainData, int tflag, CvMat *responses,
+    CvMat *varIdx, CvMat *sampleIdx, CvMat *varType, CvMat *missingMask,
     CvDTreeParams *param, int shared, int addLabels, int updateData)
 {
     obj->set_data(trainData, tflag, responses, varIdx, sampleIdx, varType,
         missingMask, *param, shared != 0, addLabels != 0, updateData != 0);
 }
 CVAPI(void) ml_CvDTreeTrainData_get_vectors(
-    CvDTreeTrainData* obj, CvMat* subsampleIdx, float* values, uchar* missing, 
+    CvDTreeTrainData* obj, CvMat *subsampleIdx, float* values, uchar* missing, 
     float* responses, int getClassIdx)
 {
     return obj->get_vectors(subsampleIdx, values, missing, responses, getClassIdx != 0);
 }
 CVAPI(CvDTreeNode*) ml_CvDTreeTrainData_subsample_data(
-    CvDTreeTrainData* obj, CvMat* subsampleIdx)
+    CvDTreeTrainData* obj, CvMat *subsampleIdx)
 {
     return obj->subsample_data(subsampleIdx);
 }
@@ -359,72 +359,89 @@ CVAPI(uint64) ml_CvDTreeTrainData_rng(CvDTreeTrainData* obj)
 
 
 // CvDTree	
-CVAPI(int) CvDTree_sizeof()
-{
-	return sizeof(CvDTree);
-}
-
-CVAPI(CvDTree*) CvDTree_construct()
+CVAPI(CvDTree*) ml_CvDTree_new()
 {
 	return new CvDTree();
 }
-CVAPI(void) CvDTree_destruct(CvDTree* obj)
+CVAPI(void) ml_CvDTree_destruct(CvDTree* obj)
 {
 	delete obj;
 }
 
-CVAPI(int) CvDTree_train1(CvDTree* obj, CvMat* trainData, int tflag, CvMat* responses, 
-	CvMat* varIdx, CvMat* sampleIdx, CvMat* varType, CvMat* missingMask, 
+CVAPI(int) ml_CvDTree_train1(
+    CvDTree* obj, CvMat *trainData, int tflag, CvMat *responses,
+	CvMat *varIdx, CvMat *sampleIdx, CvMat *varType, CvMat *missingMask, 
     CvDTreeParams *params )
 {
 	bool ret = obj->train(
         trainData, tflag, responses, varIdx, sampleIdx, varType, missingMask, *params);
     return ret ? 1 : 0;
 }
-CVAPI(int) CvDTree_train2(CvDTree* obj, CvDTreeTrainData* trainData, CvMat* subsampleIdx)
+CVAPI(int) ml_CvDTree_train2(
+    CvDTree* obj, CvDTreeTrainData* trainData, CvMat *subsampleIdx)
 {
     return obj->train(trainData, subsampleIdx) ? 1 : 0;
 }
-CVAPI(CvDTreeNode*) CvDTree_predict(CvDTree* obj, 
-    CvMat* sample, CvMat* missingDataMask, int preprocessedInput)
+CVAPI(int) ml_CvDTree_train3(
+    CvDTree* obj, CvMLData* trainData, CvDTreeParams *params)
+{
+    return obj->train(trainData, *params) ? 1 : 0;
+}
+CVAPI(int) ml_CvDTree_train_Mat(
+    CvDTree* obj, cv::Mat *trainData, int tflag, cv::Mat *responses,
+    cv::Mat *varIdx, cv::Mat *sampleIdx, cv::Mat *varType,
+    cv::Mat *missingDataMask, CvDTreeParams *params)
+{
+    return obj->train(*trainData, tflag, *responses, entity(varIdx), entity(sampleIdx),
+        entity(varType), entity(missingDataMask), *params) ? 1 : 0;
+}
+
+CVAPI(CvDTreeNode*) ml_CvDTree_predict_CvMat(CvDTree* obj,
+    CvMat *sample, CvMat *missingDataMask, int preprocessedInput)
 {
     return obj->predict(sample, missingDataMask, preprocessedInput != 0);
 }
-
-CVAPI(const CvMat*) CvDTree_get_var_importance(CvDTree* obj)
+CVAPI(CvDTreeNode*) ml_CvDTree_predict_Mat(CvDTree* obj,
+    cv::Mat *sample, cv::Mat *missingDataMask, int preprocessedInput)
 {
-	return obj->get_var_importance();
+    return obj->predict(*sample, entity(missingDataMask), preprocessedInput != 0);
 }
-CVAPI(const CvDTreeNode*) CvDTree_get_root(CvDTree* obj)
+
+CVAPI(cv::Mat*) ml_CvDTree_getVarImportance(CvDTree* obj)
+{
+    cv::Mat mat = obj->getVarImportance();
+    return new cv::Mat(mat);
+}
+CVAPI(const CvDTreeNode*) ml_CvDTree_get_root(CvDTree* obj)
 {
 	return obj->get_root();
 }
-CVAPI(int) CvDTree_get_pruned_tree_idx(CvDTree* obj)
+CVAPI(int) ml_CvDTree_get_pruned_tree_idx(CvDTree* obj)
 {
 	return obj->get_pruned_tree_idx();
 }
-CVAPI(CvDTreeTrainData*) CvDTree_get_data(CvDTree* obj)
+CVAPI(CvDTreeTrainData*) ml_CvDTree_get_data(CvDTree* obj)
 {
 	return obj->get_data();
 }
 
-CVAPI(void) CvDTree_clear(CvDTree* obj)
+CVAPI(void) ml_CvDTree_clear(CvDTree* obj)
 {
 	obj->clear();
 }
-CVAPI(void) CvDTree_read1(CvDTree* obj, CvFileStorage* fs, CvFileNode* node)
+CVAPI(void) ml_CvDTree_read1(CvDTree* obj, CvFileStorage* fs, CvFileNode* node)
 {
 	obj->read(fs, node);
 }
-CVAPI(void) CvDTree_read2(CvDTree* obj, CvFileStorage* fs, CvFileNode* node, CvDTreeTrainData* data)
+CVAPI(void) ml_CvDTree_read2(CvDTree* obj, CvFileStorage* fs, CvFileNode* node, CvDTreeTrainData* data)
 {
 	obj->read(fs, node, data);
 }
-CVAPI(void) CvDTree_write1(CvDTree* obj, CvFileStorage* fs, const char* name)
+CVAPI(void) ml_CvDTree_write1(CvDTree* obj, CvFileStorage* fs, const char* name)
 {
 	obj->write(fs, name);
 }
-CVAPI(void) CvDTree_write2(CvDTree* obj, CvFileStorage* fs)
+CVAPI(void) ml_CvDTree_write2(CvDTree* obj, CvFileStorage* fs)
 {
 	obj->write(fs);
 }

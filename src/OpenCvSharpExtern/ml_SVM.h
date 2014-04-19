@@ -9,89 +9,127 @@
 #include "include_opencv.h"
 
 
-CVAPI(void) CvSVMParams_construct_default(CvSVMParams* p)
+CVAPI(void) ml_CvSVMParams_new1(CvSVMParams *result)
 {
-	*p = CvSVMParams();
+    *result = CvSVMParams();
 }
-CVAPI(void) CvSVMParams_construct(CvSVMParams* p, int _svm_type, int _kernel_type, double _degree, double _gamma, double _coef0,  
-								   double _C, double _nu, double _p, CvMat* _class_weights, CvTermCriteria _term_crit )
+CVAPI(void) ml_CvSVMParams_new2(
+    CvSVMParams *result, int svmType, int kernelType, double degree, double gamma,
+    double coef0, double C, double nu, double p, CvMat *classWeights, 
+    CvTermCriteria termCrit )
 {
-	*p = CvSVMParams(_svm_type, _kernel_type, _degree, _gamma, _coef0, _C, _nu, _p, _class_weights, _term_crit);
-}
-
-
-
-CVAPI(int) CvSVM_sizeof()
-{
-	return sizeof(CvSVM);
+    *result = CvSVMParams(svmType, kernelType, degree, gamma, coef0, C, nu, p,
+        classWeights, termCrit);
 }
 
 
-CVAPI(CvSVM*) CvSVM_construct_default()
+
+CVAPI(CvSVM*) ml_CvSVM_new1()
 {
 	return new CvSVM();
 }
-CVAPI(CvSVM*) CvSVM_construct_training( const CvMat* _train_data, const CvMat* _responses, const CvMat* _var_idx, const CvMat* _sample_idx, CvSVMParams _params )
+CVAPI(CvSVM*) ml_CvSVM_new2_CvMat(
+    CvMat *trainData, CvMat *responses, CvMat *varIdx, CvMat *sampleIdx, CvSVMParams params)
 {
-	return new CvSVM(_train_data, _responses, _var_idx, _sample_idx, _params);
+    return new CvSVM(trainData, responses, varIdx, sampleIdx, params);
 }
-CVAPI(void) CvSVM_destruct(CvSVM* model)
+CVAPI(CvSVM*) ml_CvSVM_new2_Mat(
+    cv::Mat *trainData, cv::Mat *responses, cv::Mat *varIdx, cv::Mat *sampleIdx, CvSVMParams params)
+{
+    return new CvSVM(*trainData, *responses, entity(varIdx), entity(sampleIdx), params);
+}
+CVAPI(void) ml_CvSVM_delete(CvSVM *model)
 {
 	delete model;
 }
 
 
-
-CVAPI(void) CvSVM_get_default_grid(CvParamGrid* grid, int param_id)
+CVAPI(void) ml_CvSVM_get_default_grid(CvParamGrid *grid, int paramId)
 {
-	*grid = CvSVM::get_default_grid(param_id);
+    *grid = CvSVM::get_default_grid(paramId);
 }
-CVAPI(bool) CvParamGrid_check(CvParamGrid grid)
+CVAPI(int) ml_CvParamGrid_check(CvParamGrid grid)
 {
 	return grid.check();
 }
 
 
-CVAPI(bool) CvSVM_train(CvSVM* model, const CvMat* _train_data, const CvMat* _responses, const CvMat* _var_idx, const CvMat* _sample_idx, CvSVMParams _params )
+CVAPI(int) ml_CvSVM_train_CvMat(
+    CvSVM *model, CvMat *trainData, CvMat *responses, CvMat *varIdx, 
+    CvMat *sampleIdx, CvSVMParams params)
 {
-	return model->train(_train_data, _responses, _var_idx, _sample_idx, _params);
+    return model->train(trainData, responses, varIdx, sampleIdx, params) ? 1 : 0;
 }
-CVAPI(bool) CvSVM_train_auto(CvSVM* model, const CvMat* _train_data, const CvMat* _responses, const CvMat* _var_idx, const CvMat* _sample_idx, CvSVMParams _params,
-   int k_fold, CvParamGrid C_grid, CvParamGrid gamma_grid, CvParamGrid p_grid, CvParamGrid nu_grid, CvParamGrid coef_grid, CvParamGrid degree_grid )
+CVAPI(int) ml_CvSVM_train_Mat(
+    cv::SVM *model, cv::Mat *trainData, cv::Mat *responses, cv::Mat *varIdx,
+    cv::Mat *sampleIdx, CvSVMParams params)
 {
-	return model->train_auto(_train_data, _responses, _var_idx, _sample_idx, _params, k_fold, C_grid, gamma_grid, p_grid, nu_grid, coef_grid, degree_grid);
+    return model->train(*trainData, *responses, entity(varIdx), entity(sampleIdx), params) ? 1 : 0;
 }
-CVAPI(float) CvSVM_predict(CvSVM* model, const CvMat* _sample )
+
+CVAPI(int) ml_CvSVM_train_auto_CvMat(
+    CvSVM *model, CvMat *trainData, CvMat *responses, CvMat *varIdx, 
+    CvMat *sampleIdx, CvSVMParams params, int kFold, 
+    CvParamGrid cGrid, CvParamGrid gammaGrid, CvParamGrid pGrid, CvParamGrid nuGrid, 
+    CvParamGrid coefGrid, CvParamGrid degreeGrid, int balanced)
 {
-	return model->predict(_sample);
+    return model->train_auto(trainData, responses, varIdx, sampleIdx, params, kFold, 
+        cGrid, gammaGrid, pGrid, nuGrid, coefGrid, degreeGrid, balanced != 0) ? 1 : 0;
 }
-CVAPI(const float*) CvSVM_get_support_vector(CvSVM* model, int i)
+CVAPI(int) ml_CvSVM_train_auto_Mat(
+    CvSVM *model, cv::Mat *trainData, cv::Mat *responses, cv::Mat *varIdx,
+    cv::Mat *sampleIdx, CvSVMParams params, int kFold,
+    CvParamGrid cGrid, CvParamGrid gammaGrid, CvParamGrid pGrid, CvParamGrid nuGrid,
+    CvParamGrid coefGrid, CvParamGrid degreeGrid, int balanced)
+{
+    return model->train_auto(*trainData, *responses, *varIdx, *sampleIdx, params, kFold,
+        cGrid, gammaGrid, pGrid, nuGrid, coefGrid, degreeGrid, balanced != 0) ? 1 : 0;
+}
+
+CVAPI(float) ml_CvSVM_predict_CvMat1(CvSVM *model, CvMat *sample, int returnDFVal)
+{
+    return model->predict(sample, returnDFVal != 0);
+}
+CVAPI(float) ml_CvSVM_predict_CvMat2(CvSVM *model, CvMat *sample, CvMat *results)
+{
+    return model->predict(sample, results);
+}
+CVAPI(float) ml_CvSVM_predict_Mat1(CvSVM *model, cv::Mat *sample, int returnDFVal)
+{
+    return model->predict(*sample, returnDFVal != 0);
+}
+CVAPI(void) ml_CvSVM_predict_Mat2(CvSVM *model, cv::_InputArray *samples, cv::_OutputArray *results)
+{
+    model->predict(*samples, *results);
+}
+
+CVAPI(const float*) ml_CvSVM_get_support_vector(CvSVM *model, int i)
 {
 	return model->get_support_vector(i);
 }
-CVAPI(int) CvSVM_get_support_vector_count(CvSVM* model)
+CVAPI(int) ml_CvSVM_get_support_vector_count(CvSVM *model)
 {
 	return model->get_support_vector_count();
 }
-CVAPI(int) CvSVM_get_var_count(CvSVM* model)
+CVAPI(int) ml_CvSVM_get_var_count(CvSVM *model)
 {
 	return model->get_var_count();
 }
-CVAPI(void) CvSVM_get_params(CvSVM* model, CvSVMParams* p) 
+CVAPI(void) ml_CvSVM_get_params(CvSVM *model, CvSVMParams* p)
 { 
 	*p = model->get_params(); 
 }
 
 
-CVAPI(void) CvSVM_clear( CvSVM* model )
+CVAPI(void) ml_CvSVM_clear(CvSVM *model)
 {
 	model->clear();
 }
-CVAPI(void) CvSVM_write( CvSVM* model, CvFileStorage* storage, const char* name )
+CVAPI(void) ml_CvSVM_write(CvSVM *model, CvFileStorage* storage, const char* name)
 {
 	model->write(storage, name);
 }
-CVAPI(void) CvSVM_read( CvSVM* model, CvFileStorage* storage, CvFileNode* node )
+CVAPI(void) ml_CvSVM_read(CvSVM *model, CvFileStorage* storage, CvFileNode* node)
 {
 	model->read(storage, node);
 }

@@ -262,11 +262,11 @@
     <ClInclude Include="ml_CvDTree.h" />
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="ml_ERTrees.h" />
-    <ClInclude Include="ml_KNearest.h" />
-    <ClInclude Include="ml_TrainData.h" />
+    <ClInclude Include="ml_CvKNearest.h" />
+    <ClInclude Include="ml_CvMLData.h" />
     <ClInclude Include="ml_NormalBayesClassifier.h" />
     <ClInclude Include="ml_RandomTrees.h" />
-    <ClInclude Include="ml_StatModel.h" />
+    <ClInclude Include="ml_CvStatModel.h" />
     <ClInclude Include="ml_SVM.h" />
     <ClInclude Include="ml_CvTrainTestSplit.h" />
     <ClInclude Include="cvblob.h" />

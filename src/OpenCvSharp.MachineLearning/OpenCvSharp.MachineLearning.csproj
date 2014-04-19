@@ -118,20 +118,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enum\BoostSplitCriteria.cs" />
-    <Compile Include="Enum\BoostType.cs" />
-    <Compile Include="Enum\DTreeDataLayout.cs" />
     <Compile Include="Enum\EMCovMatType.cs" />
     <Compile Include="Enum\EMStartStep.cs" />
-    <Compile Include="Enum\MLPActivationFunc.cs" />
-    <Compile Include="Enum\MLPTrainingFlag.cs" />
-    <Compile Include="Enum\MLPTrainingMethod.cs" />
-    <Compile Include="Enum\SvmKernelType.cs" />
-    <Compile Include="Enum\SvmParamType.cs" />
-    <Compile Include="Enum\SvmType.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CvStatModel\CvStatModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CvStatModel\CvEM.cs" />
@@ -139,28 +127,12 @@
     <Compile Include="Class\CvEMParams.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\CvDTreeNode.cs" />
-    <Compile Include="Class\CvANN_MLP_TrainParams.cs" />
     <Compile Include="Class\CvRTParams.cs" />
-    <Compile Include="Class\CvTrainTestSplit.cs" />
-    <Compile Include="Class\CvMLData.cs" />
     <Compile Include="CvStatModel\CvForestTree.cs" />
-    <Compile Include="Class\CvBoostParams.cs" />
     <Compile Include="CvStatModel\CvBoostTree.cs" />
     <Compile Include="CvStatModel\CvERTrees.cs" />
-    <Compile Include="Enum\PartMode.cs" />
-    <Compile Include="Struct\CvParamGrid.cs" />
-    <Compile Include="Class\CvSVMParams.cs" />
-    <Compile Include="Class\CvDTreeParams.cs" />
-    <Compile Include="CvStatModel\CvSVM.cs" />
-    <Compile Include="CvStatModel\CvKNearest.cs" />
     <Compile Include="CvStatModel\CvNormalBayesClassifier.cs" />
-    <Compile Include="Class\CvDTreeSplit.cs" />
-    <Compile Include="Class\CvDTreeTrainData.cs" />
-    <Compile Include="CvStatModel\CvDTree.cs" />
-    <Compile Include="CvStatModel\CvANN_MLP.cs" />
     <Compile Include="CvStatModel\CvRTrees.cs" />
-    <Compile Include="CvStatModel\CvBoost.cs" />
     <Compile Include="Struct\CvPair32s32f.cs" />
   </ItemGroup>
   <ItemGroup>
