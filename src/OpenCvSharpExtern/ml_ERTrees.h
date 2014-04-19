@@ -3,49 +3,47 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CVERTREES_H_
-#define _CVERTREES_H_
+#ifndef _CPP_ML_CVERTREES_H_
+#define _CPP_ML_CVERTREES_H_
 
 #include "include_opencv.h"
 
-CVAPI(int) CvERTrees_sizeof()
-{
-	return sizeof(CvERTrees);
-}
-
-CVAPI(CvERTrees*) CvERTrees_construct()
+CVAPI(CvERTrees*) ml_CvERTrees_new()
 {
 	return new CvERTrees();
 }  
-CVAPI(void) CvERTrees_destruct(CvERTrees* obj)
+CVAPI(void) ml_CvERTrees_delete(CvERTrees* obj)
 {
 	delete obj;
 }
 
-CVAPI(bool) CvERTrees_train1(CvERTrees* obj, const CvMat* _train_data, int _tflag, const CvMat* _responses, 
-							const CvMat* _var_idx, const CvMat* _sample_idx, const CvMat* _var_type, const CvMat* _missing_mask, CvRTParams* params)
+CVAPI(int) ml_CvERTrees_train1(
+    CvERTrees* obj, CvMat* trainData, int tflag, CvMat* responses,
+	CvMat* varIdx, CvMat* sampleIdx, CvMat* varType, CvMat* missingMask, CvRTParams* params)
 {
-	return obj->train(_train_data, _tflag, _responses, _var_idx, _sample_idx, _var_type, _missing_mask, *params);
+    return obj->train(
+        trainData, tflag, responses, varIdx, sampleIdx, varType,
+        missingMask, *params) ? 1 : 0;
 }
 
-CVAPI(bool) CvERTrees_train2(CvERTrees* obj, CvMLData* data, CvRTParams* params)
+CVAPI(int) ml_CvERTrees_train2(CvERTrees* obj, CvMLData* data, CvRTParams* params)
 {
-	return obj->train(data, *params);
+	return obj->train(data, *params) ? 1 : 0;
 }
 
 class CvERTreesEx : public CvERTrees
 {
 public:
-    virtual bool grow_forest( const CvTermCriteria term_crit )
+    virtual bool grow_forest(const CvTermCriteria termCrit)
 	{
-		return CvRTrees::grow_forest(term_crit);
+        return CvRTrees::grow_forest(termCrit);
 	}
 };
 
-CVAPI(bool) CvERTrees_grow_forest(CvERTrees* obj, const CvTermCriteria term_crit)
+CVAPI(int) ml_CvERTrees_grow_forest(CvERTrees* obj, const CvTermCriteria termCrit)
 {
 	CvERTreesEx* ex = reinterpret_cast<CvERTreesEx*>(obj);
-	return ex->grow_forest(term_crit);
+    return ex->grow_forest(termCrit) ? 1 : 0;
 }
 
 #endif

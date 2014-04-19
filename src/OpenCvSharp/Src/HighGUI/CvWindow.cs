@@ -198,9 +198,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -212,22 +211,20 @@ namespace OpenCvSharp
                                 pair.Value.Dispose();
                             }
                         }
-                        try
-                        {
+
+                        if (Windows.ContainsKey(name))
                             Windows.Remove(name);
-                        }
-                        catch (Exception) { }
+                        
                         if (callbackHandle != null && callbackHandle.IsAllocated)
                         {
                             callbackHandle.Dispose();
                         }
                     }
                     NativeMethods.cvDestroyWindow(name);
-                    this.disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -306,7 +303,6 @@ namespace OpenCvSharp
         public string Name
         {
             get { return name; }
-            private set { name = value; }
         }
 #if LANG_JP
 		/// <summary>
@@ -404,7 +400,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar(string trackbarName, CvTrackbarCallback callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(trackbarName, name, callback);
+            var trackbar = new CvTrackbar(trackbarName, name, callback);
             trackbars.Add(trackbarName, trackbar);
             return trackbar;
         }
@@ -428,7 +424,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar(string trackbarName, int value, int max, CvTrackbarCallback callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(trackbarName, name, value, max, callback);
+            var trackbar = new CvTrackbar(trackbarName, name, value, max, callback);
             trackbars.Add(trackbarName, trackbar);
             return trackbar;
         }
@@ -454,7 +450,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar2(string trackbarName, int value, int max, CvTrackbarCallback2 callback, object userdata)
         {
-            CvTrackbar trackbar = new CvTrackbar(trackbarName, name, value, max, callback, userdata);
+            var trackbar = new CvTrackbar(trackbarName, name, value, max, callback, userdata);
             trackbars.Add(trackbarName, trackbar);
             return trackbar;
         }
@@ -680,7 +676,7 @@ namespace OpenCvSharp
             if (images.Length == 0)
                 return;
             
-            List<CvWindow> windows = new List<CvWindow>();
+            var windows = new List<CvWindow>();
             foreach (CvArr img in images)
             {
                 windows.Add(new CvWindow(img));
@@ -713,7 +709,7 @@ namespace OpenCvSharp
             if (namesArray.Length < imagesArray.Length)
                 throw new ArgumentException("names.Length < images.Length");
 
-            List<CvWindow> windows = new List<CvWindow>();
+            var windows = new List<CvWindow>();
             for (int i = 0; i < imagesArray.Length; i++)
             {
                 windows.Add(new CvWindow(namesArray[i], imagesArray[i]));
@@ -737,8 +733,8 @@ namespace OpenCvSharp
             if (imagesAndNames.Length % 2 != 0)
                 throw new ArgumentException();
 
-            string[] namesArray = new string[imagesAndNames.Length / 2];
-            CvArr[] imagesArray = new CvArr[imagesAndNames.Length / 2];
+            var namesArray = new string[imagesAndNames.Length / 2];
+            var imagesArray = new CvArr[imagesAndNames.Length / 2];
 
             for (int i = 0; i < imagesAndNames.Length; i+=2)
             {

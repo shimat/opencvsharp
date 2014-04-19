@@ -4,8 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -23,7 +21,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
 
         #region Init and disposal
 #if LANG_JP
@@ -40,14 +38,11 @@ namespace OpenCvSharp
         public CvPOSITObject(CvPoint3D32f[] points)
         {
             if (points == null)
-            {
                 throw new ArgumentNullException("points");
-            }
-            this.ptr = NativeMethods.cvCreatePOSITObject(points, points.Length);
-            if (this.ptr == IntPtr.Zero)
-            {
+            
+            ptr = NativeMethods.cvCreatePOSITObject(points, points.Length);
+            if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
-            }
         }
 #if LANG_JP
         /// <summary>
@@ -83,9 +78,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -95,11 +89,10 @@ namespace OpenCvSharp
                     {
                         NativeMethods.cvReleasePOSITObject(ref ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -121,16 +114,16 @@ namespace OpenCvSharp
         /// <summary>
         /// Implements POSIT algorithm
         /// </summary>
-        /// <param name="image_points">Object points projections on the 2D image plane.</param>
-        /// <param name="focal_length">Focal length of the camera used.</param>
+        /// <param name="imagePoints">Object points projections on the 2D image plane.</param>
+        /// <param name="focalLength">Focal length of the camera used.</param>
         /// <param name="criteria">Termination criteria of the iterative POSIT algorithm.</param>
-        /// <param name="rotation_matrix">Matrix of rotations.</param>
-        /// <param name="translation_vector">Translation vector.</param>
+        /// <param name="rotationMatrix">Matrix of rotations.</param>
+        /// <param name="translationVector">Translation vector.</param>
 #endif
-        public void POSIT(CvPoint2D32f[] image_points, double focal_length,
-              CvTermCriteria criteria, out float[,] rotation_matrix, out float[] translation_vector)
+        public void POSIT(CvPoint2D32f[] imagePoints, double focalLength,
+              CvTermCriteria criteria, out float[,] rotationMatrix, out float[] translationVector)
         {
-            Cv.POSIT(this, image_points, focal_length, criteria, out rotation_matrix, out translation_vector);
+            Cv.POSIT(this, imagePoints, focalLength, criteria, out rotationMatrix, out translationVector);
         }
         #endregion
         #endregion

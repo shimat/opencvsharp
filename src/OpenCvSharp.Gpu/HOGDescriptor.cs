@@ -1120,7 +1120,6 @@ namespace OpenCvSharp.Gpu
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -1136,7 +1135,6 @@ namespace OpenCvSharp.Gpu
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

@@ -245,6 +245,7 @@
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_RNG.h" />
     <ClInclude Include="core_SparseMat.h" />
+    <ClInclude Include="ml_CvBoostTree.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />
     <ClInclude Include="features2d_FeatureDetector.h" />
     <ClInclude Include="core_FileStorage.h" />
@@ -264,7 +265,7 @@
     <ClInclude Include="ml_ERTrees.h" />
     <ClInclude Include="ml_CvKNearest.h" />
     <ClInclude Include="ml_CvMLData.h" />
-    <ClInclude Include="ml_NormalBayesClassifier.h" />
+    <ClInclude Include="ml_CvNormalBayesClassifier.h" />
     <ClInclude Include="ml_CvRTrees.h" />
     <ClInclude Include="ml_CvStatModel.h" />
     <ClInclude Include="ml_CvSVM.h" />

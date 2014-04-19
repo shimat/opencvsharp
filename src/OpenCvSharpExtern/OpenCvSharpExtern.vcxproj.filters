@@ -174,9 +174,6 @@
     <ClInclude Include="ml_ERTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="ml_NormalBayesClassifier.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
     <ClInclude Include="ml_CvBoost.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
@@ -202,6 +199,12 @@
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_CvRTrees.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_CvBoostTree.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_CvNormalBayesClassifier.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
   </ItemGroup>

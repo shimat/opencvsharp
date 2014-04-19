@@ -110,38 +110,6 @@ CVAPI(CvBoostParams*) ml_Boost_get_params(cv::Boost* obj)
 }
 
 
-// CvBoostTree
-CVAPI(int) CvBoostTree_sizeof()
-{
-	return sizeof(CvBoostTree);
-}
-CVAPI(CvBoostTree*) CvBoostTree_construct()
-{
-	return new CvBoostTree();
-}
-CVAPI(void) CvBoostTree_destruct(CvBoostTree *obj)
-{
-	delete obj;
-}
-CVAPI(bool) CvBoostTree_train(CvBoostTree *obj, CvDTreeTrainData* _train_data, const CvMat *subsample_idx, CvBoost* ensemble )
-{
-	return obj->train(_train_data, subsample_idx, ensemble);
-}
-CVAPI(void) CvBoostTree_scale(CvBoostTree *obj, double s )
-{
-	obj->scale(s);
-}
-CVAPI(void) CvBoostTree_read(CvBoostTree *obj, CvFileStorage* fs, CvFileNode* node, CvBoost* ensemble, CvDTreeTrainData* _data )
-{
-	obj->read(fs, node, ensemble, _data);
-}
-CVAPI(void) CvBoostTree_clear(CvBoostTree *obj)
-{
-	obj->clear();
-}
-
-
-
 // BoostParams
 CVAPI(cv::BoostParams*) ml_BoostParams_new1()
 {

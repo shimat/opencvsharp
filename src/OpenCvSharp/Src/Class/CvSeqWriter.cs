@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -24,7 +22,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Initialization and Disposal
 #if LANG_JP
@@ -125,7 +123,6 @@ namespace OpenCvSharp
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -133,17 +130,14 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        try
-                        {
+                        if(ptr != IntPtr.Zero)
                             NativeMethods.cvEndWriteSeq(ptr);
-                        }
-                        catch { }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
