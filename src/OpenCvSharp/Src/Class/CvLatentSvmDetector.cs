@@ -24,7 +24,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
 
         #region Init and disposal
 #if LANG_JP
@@ -96,9 +96,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -108,11 +107,10 @@ namespace OpenCvSharp
                     {
                         NativeMethods.cvReleaseLatentSvmDetector(ref ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

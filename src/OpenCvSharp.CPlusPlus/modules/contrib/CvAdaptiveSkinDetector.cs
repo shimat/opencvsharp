@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp.CPlusPlus;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -13,29 +10,16 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public CvAdaptiveSkinDetector()
-            : this(1, MorphingMethod.None)
-        {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="samplingDivider"></param>
-        public CvAdaptiveSkinDetector(int samplingDivider)
-            : this(samplingDivider, MorphingMethod.None)
-        {
-        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="samplingDivider"></param>
         /// <param name="morphingMethod"></param>
-        public CvAdaptiveSkinDetector(int samplingDivider, MorphingMethod morphingMethod)
+        public CvAdaptiveSkinDetector(
+            int samplingDivider = 1, 
+            MorphingMethod morphingMethod = MorphingMethod.None)
         {
             ptr = NativeMethods.contrib_CvAdaptiveSkinDetector_new(samplingDivider, (int)morphingMethod);
         }
@@ -61,7 +45,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -75,7 +58,6 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

@@ -4,11 +4,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-// ReSharper disable once InconsistentNaming
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -68,16 +66,16 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
 	    /// 初期化
 	    /// </summary>
-	    /// <param name="_svm_type">SVMの種類</param>
-	    /// <param name="_kernel_type">SVMカーネルの種類</param>
-	    /// <param name="_degree">poly 用</param>
-	    /// <param name="_gamma">poly/rbf/sigmoid 用</param>
-	    /// <param name="_coef0">poly/sigmoid 用</param>
-	    /// <param name="_C">SVMType.CSvc, SVMType.EpsSvr, SVMType.NuSvr 用</param>
-	    /// <param name="_nu">SVMType.NuSvc, SVMType.OneClass, SVMType.NuSvr 用</param>
+        /// <param name="svmType">SVMの種類</param>
+        /// <param name="kernelType">SVMカーネルの種類</param>
+        /// <param name="degree">poly 用</param>
+        /// <param name="gamma">poly/rbf/sigmoid 用</param>
+        /// <param name="coef0">poly/sigmoid 用</param>
+	    /// <param name="c">SVMType.CSvc, SVMType.EpsSvr, SVMType.NuSvr 用</param>
+	    /// <param name="nu">SVMType.NuSvc, SVMType.OneClass, SVMType.NuSvr 用</param>
 	    /// <param name="p">SVMType.EpsSvr 用</param>
-	    /// <param name="_class_weights">SVMType.CSvc 用</param>
-	    /// <param name="_term_crit">終了条件</param>
+        /// <param name="classWeights">SVMType.CSvc 用</param>
+        /// <param name="termCrit">終了条件</param>
 #else
 		/// <summary>
 	    /// Constructor

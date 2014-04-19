@@ -44,7 +44,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="train_sample_count"></param>
+        /// <param name="trainSampleCount"></param>
         /// <param name="mix"></param>
 #else
         /// <summary>
@@ -62,7 +62,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="train_sample_portion"></param>
+        /// <param name="trainSamplePortion"></param>
         /// <param name="mix"></param>
 #else
         /// <summary>
@@ -97,7 +97,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -105,13 +104,14 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.ml_CvTrainTestSplit_delete(ptr);
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.ml_CvTrainTestSplit_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

@@ -4,10 +4,8 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -32,11 +30,11 @@ namespace OpenCvSharp
         /// Capture type (File or Camera)
         /// </summary>
 #endif
-        protected CaptureType _captureType;
+        protected CaptureType captureType;
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        protected bool _disposed = false;
+        protected bool disposed = false;
         #endregion
 
         #region Init and Disposal
@@ -60,17 +58,18 @@ namespace OpenCvSharp
         {
             try
             {
-                this.ptr = NativeMethods.cvCreateCameraCapture(index);
+                ptr = NativeMethods.cvCreateCameraCapture(index);
             }
             catch (AccessViolationException e)
             {
                 throw new OpenCvSharpException("Failed to create CvCapture", e);
             }
-            if (this.ptr == IntPtr.Zero)
+
+            if (ptr == IntPtr.Zero)
             {
                 throw new OpenCvSharpException("Failed to create CvCapture");
             }
-            this._captureType = CaptureType.Camera;
+            captureType = CaptureType.Camera;
         }
 #if LANG_JP
         /// <summary>
@@ -198,13 +197,11 @@ namespace OpenCvSharp
             if (!File.Exists(filename))
                 throw new FileNotFoundException("File not found", filename);
 
-            this.ptr = NativeMethods.cvCreateFileCapture(filename);
-
-            if (this.ptr == IntPtr.Zero)
-            {
+            ptr = NativeMethods.cvCreateFileCapture(filename);
+            if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvCapture");
-            }
-            this._captureType = CaptureType.File;
+            
+            captureType = CaptureType.File;
         }
 #if LANG_JP
         /// <summary>
@@ -253,9 +250,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -265,11 +261,10 @@ namespace OpenCvSharp
                     {
                         NativeMethods.cvReleaseCapture(ref ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -289,7 +284,7 @@ namespace OpenCvSharp
 #endif
         public CaptureType CaptureType
         {
-            get { return _captureType; }
+            get { return captureType; }
         }
 
 #if LANG_JP
@@ -330,11 +325,10 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.Camera)
-                {
+                if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
-                }
-                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.PosFrames, (double)value);
+                NativeMethods.cvSetCaptureProperty(
+                    ptr, CaptureProperty.PosFrames, (double)value);
             }
         }
 
@@ -355,11 +349,10 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.Camera)
-                {
+                if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
-                }
-                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.PosAviRatio, (double)(int)value);
+                NativeMethods.cvSetCaptureProperty(
+                    ptr, CaptureProperty.PosAviRatio, (double)(int)value);
             }
         }
 
@@ -380,11 +373,10 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.File)
-                {
+                if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                }
-                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.FrameWidth, (double)value);
+                NativeMethods.cvSetCaptureProperty(
+                    ptr, CaptureProperty.FrameWidth, (double)value);
             }
         }
 
@@ -405,11 +397,10 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.File)
-                {
+                if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                }
-                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.FrameHeight, (double)value);
+                NativeMethods.cvSetCaptureProperty(
+                    ptr, CaptureProperty.FrameHeight, (double)value);
             }
         }
 
@@ -430,10 +421,8 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.File)
-                {
+                if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                }
                 NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Fps, value);
             }
         }
@@ -454,8 +443,8 @@ namespace OpenCvSharp
             get
             {
                 int src = (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.FourCC);
-                IntBytes bytes = new IntBytes { Value = src };
-                char[] fourcc = new char[]{
+                var bytes = new IntBytes { Value = src };
+                char[] fourcc = {
                     Convert.ToChar(bytes.B1),
                     Convert.ToChar(bytes.B2),
                     Convert.ToChar(bytes.B3),
@@ -465,7 +454,7 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -495,7 +484,8 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.FrameCount);
+                return (int)NativeMethods.cvGetCaptureProperty(
+                    ptr, CaptureProperty.FrameCount);
             }
         }
 
@@ -512,19 +502,17 @@ namespace OpenCvSharp
         {
             get
             {
-                if (_captureType == CaptureType.File)
-                {
+                if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                }
-                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Brightness);
+                return (int)NativeMethods.cvGetCaptureProperty(
+                    ptr, CaptureProperty.Brightness);
             }
             set
             {
-                if (_captureType == CaptureType.File)
-                {
+                if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                }
-                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Brightness, value);
+                NativeMethods.cvSetCaptureProperty(
+                    ptr, CaptureProperty.Brightness, value);
             }
         }
 
@@ -541,19 +529,17 @@ namespace OpenCvSharp
         {
             get
             {
-                if (_captureType == CaptureType.File)
-                {
+                if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                }
-                return (int)NativeMethods.cvGetCaptureProperty(ptr, CaptureProperty.Contrast);
+                return (int)NativeMethods.cvGetCaptureProperty(
+                    ptr, CaptureProperty.Contrast);
             }
             set
             {
-                if (_captureType == CaptureType.File)
-                {
+                if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                }
-                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.Contrast, value);
+                NativeMethods.cvSetCaptureProperty(
+                    ptr, CaptureProperty.Contrast, value);
             }
         }
 
@@ -570,7 +556,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -578,7 +564,7 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -599,7 +585,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -607,7 +593,7 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -672,7 +658,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -680,7 +666,7 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -702,7 +688,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -710,7 +696,7 @@ namespace OpenCvSharp
             }
             set
             {
-                if (_captureType == CaptureType.File)
+                if (captureType == CaptureType.File)
                 {
                     throw new NotSupportedException("Only for cameras");
                 }
@@ -2023,13 +2009,13 @@ namespace OpenCvSharp
             [FieldOffset(0)]
             public Int32 Value;
             [FieldOffset(0)]
-            public Byte B1;
+            public readonly Byte B1;
             [FieldOffset(1)]
-            public Byte B2;
+            public readonly Byte B2;
             [FieldOffset(2)]
-            public Byte B3;
+            public readonly Byte B3;
             [FieldOffset(3)]
-            public Byte B4;
+            public readonly Byte B4;
         }
     }
 }

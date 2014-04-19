@@ -59,14 +59,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
 #else
 		/// <summary>
         /// Training constructor
@@ -116,14 +116,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
 #else
         /// <summary>
         /// Training constructor
@@ -207,14 +207,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// ブーストされた分類器の学習
         /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
 		/// <param name="update"></param>
 		/// <returns></returns>
 #else
@@ -271,14 +271,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// ブーストされた分類器の学習
         /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
 		/// <param name="update"></param>
 		/// <returns></returns>
 #else
@@ -341,7 +341,7 @@ namespace OpenCvSharp.CPlusPlus
 		/// <param name="missing">データ欠損マスク（オプション）．データ欠損を扱うためには，弱い決定木が代理分岐を含まなければならない．</param>
 		/// <param name="weakResponses">個々の弱い決定木からの応答の出力パラメータ（オプション）で，これは浮動小数点型ベクトルである．ベクトルの要素数は，slice 長と等しくなければならない．</param>
 		/// <param name="slice">予測に用いられる弱い決定木シーケンスの連続的部分集合（スライス）．デフォルトでは，全ての弱い分類器が用いられる．</param>
-        /// <param name="raw_mode">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
+        /// <param name="rawMode">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
         /// <param name="returnSum"></param>
         /// <returns>重み付き投票に基づく出力クラスラベル</returns>
 #else
@@ -385,7 +385,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="sample">入力サンプル</param>
 		/// <param name="missing">データ欠損マスク（オプション）．データ欠損を扱うためには，弱い決定木が代理分岐を含まなければならない．</param>
 		/// <param name="slice">予測に用いられる弱い決定木シーケンスの連続的部分集合（スライス）．デフォルトでは，全ての弱い分類器が用いられる．</param>
-        /// <param name="raw_mode">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
+        /// <param name="rawMode">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
         /// <param name="returnSum"></param>
         /// <returns>重み付き投票に基づく出力クラスラベル</returns>
 #else

@@ -77,10 +77,6 @@
       <Project>{f1110c7b-46b1-4504-871e-135b57f9de67}</Project>
       <Name>OpenCvSharp.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenCvSharp.MachineLearning\OpenCvSharp.MachineLearning.csproj">
-      <Project>{da0ab155-7a22-47c1-92ec-5059290aecf1}</Project>
-      <Name>OpenCvSharp.MachineLearning</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp.UserInterface\OpenCvSharp.UserInterface.csproj">
       <Project>{db12e2f1-1a50-4d12-a92f-4c3d705ecc1f}</Project>
       <Name>OpenCvSharp.UserInterface</Name>

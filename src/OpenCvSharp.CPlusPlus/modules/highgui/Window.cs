@@ -198,7 +198,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -210,11 +209,10 @@ namespace OpenCvSharp.CPlusPlus
                                 pair.Value.Dispose();
                             }
                         }
-                        try
-                        {
+
+                        if (Windows.ContainsKey("name"))
                             Windows.Remove(name);
-                        }
-                        catch (Exception) { }
+
                         if (callbackHandle != null && callbackHandle.IsAllocated)
                         {
                             callbackHandle.Dispose();
@@ -225,7 +223,6 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

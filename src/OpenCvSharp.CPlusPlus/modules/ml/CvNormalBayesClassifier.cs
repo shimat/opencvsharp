@@ -4,10 +4,8 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -23,14 +21,7 @@ namespace OpenCvSharp.MachineLearning
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
-
-        #region Constants
-        /// <summary>
-        /// sizeof(CvNormalBayesClassifier)
-        /// </summary>
-		public static readonly int SizeOf = MLInvoke.CvNormalBayesClassifier_sizeof();
-        #endregion
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -44,17 +35,16 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public CvNormalBayesClassifier()
         {
-            ptr = MLInvoke.CvNormalBayesClassifier_construct_default();
-			NotifyMemoryPressure(SizeOf);
+            ptr = NativeMethods.ml_CvNormalBayesClassifier_new1();
         }
 #if LANG_JP
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
+        /// <param name="trainData">既知のサンプル (m*n)</param>
         /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
         /// <returns></returns>
 #else
 		/// <summary>
@@ -66,19 +56,58 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="sampleIdx"></param>
         /// <returns></returns>
 #endif
-		public CvNormalBayesClassifier(CvMat trainData, CvMat responses, CvMat varIdx, CvMat sampleIdx)
+		public CvNormalBayesClassifier(
+            CvMat trainData, 
+            CvMat responses, 
+            CvMat varIdx = null, 
+            CvMat sampleIdx = null)
         {
             if (trainData == null)
                 throw new ArgumentNullException("trainData");
             if (responses == null)
                 throw new ArgumentNullException("responses");
+            trainData.ThrowIfDisposed();
+            responses.ThrowIfDisposed();
 
-            IntPtr sampleIdxPtr = (sampleIdx == null) ? IntPtr.Zero : sampleIdx.CvPtr;
-            IntPtr varIdxPtr = (varIdx == null) ? IntPtr.Zero : varIdx.CvPtr;
-
-            ptr = MLInvoke.CvNormalBayesClassifier_construct_training(trainData.CvPtr, responses.CvPtr, varIdxPtr, sampleIdxPtr);
-            NotifyMemoryPressure(SizeOf);
+            ptr = NativeMethods.ml_CvNormalBayesClassifier_new2_CvMat(
+                trainData.CvPtr, responses.CvPtr, Cv2.ToPtr(varIdx), Cv2.ToPtr(sampleIdx));
         }
+#if LANG_JP
+        /// <summary>
+        /// 学習データを与えて初期化
+        /// </summary>
+        /// <param name="trainData">既知のサンプル (m*n)</param>
+        /// <param name="responses">既知のサンプルのクラス (m*1)</param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Bayes classifier for normally distributed data
+        /// </summary>
+        /// <param name="trainData">Known samples (m*n)</param>
+        /// <param name="responses">Classes for known samples (m*1)</param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <returns></returns>
+#endif
+        public CvNormalBayesClassifier(
+            Mat trainData,
+            Mat responses,
+            Mat varIdx = null,
+            Mat sampleIdx = null)
+        {
+            if (trainData == null)
+                throw new ArgumentNullException("trainData");
+            if (responses == null)
+                throw new ArgumentNullException("responses");
+            trainData.ThrowIfDisposed();
+            responses.ThrowIfDisposed();
+
+            ptr = NativeMethods.ml_CvNormalBayesClassifier_new2_Mat(
+                trainData.CvPtr, responses.CvPtr, Cv2.ToPtr(varIdx), Cv2.ToPtr(sampleIdx));
+        }
+
 
 #if LANG_JP
         /// <summary>
@@ -101,7 +130,6 @@ namespace OpenCvSharp.MachineLearning
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -109,14 +137,12 @@ namespace OpenCvSharp.MachineLearning
                     }
                     if (IsEnabledDispose)
                     {
-                        MLInvoke.CvNormalBayesClassifier_destruct(ptr);
-                        //ML.CvNormalBayesClassifier_clear(ptr);
+                        NativeMethods.ml_CvNormalBayesClassifier_delete(ptr);
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -126,100 +152,15 @@ namespace OpenCvSharp.MachineLearning
         #region Properties
         #endregion
 
-        # region Methods
-#if LANG_JP
-        /// <summary>
-        /// サンプルに対する応答を予測する
-        /// </summary>
-        /// <param name="sample">未知のサンプル (l*n)</param>
-        /// <param name="results">既知のサンプルのクラス (l*1)</param>
-#else
-		/// <summary>
-        /// Predicts the response for sample(s)
-        /// </summary>
-        /// <param name="sample">Unkown samples (l*n)</param>
-        /// <param name="results">Classes for known samples (l*1)</param>
-#endif
-        public virtual float Predict(CvMat sample, CvMat results)
-        {
-            if (sample == null)
-                throw new ArgumentNullException("sample");
-
-            IntPtr resultsPtr = (results == null) ? IntPtr.Zero : results.CvPtr;
-            return MLInvoke.CvNormalBayesClassifier_predict(ptr, sample.CvPtr, resultsPtr);
-        }
-
+        #region Methods
 #if LANG_JP
 		/// <summary>
         /// モデルの学習
         /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
+        /// <param name="trainData">既知のサンプル (m*n)</param>
         /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Trains the model
-        /// </summary>
-        /// <param name="trainData">Known samples (m*n)</param>
-        /// <param name="responses">Classes for known samples (m*1)</param>
-        /// <returns></returns>
-#endif
-        public virtual bool Train(CvMat trainData, CvMat responses)
-        {
-			return Train(trainData, responses, null, null, false);
-		}
-#if LANG_JP
-		/// <summary>
-        /// モデルの学習
-        /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
-        /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <param name="var_idx"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Trains the model
-        /// </summary>
-        /// <param name="trainData">Known samples (m*n)</param>
-        /// <param name="responses">Classes for known samples (m*1)</param>
-        /// <param name="varIdx"></param>
-        /// <returns></returns>
-#endif
-        public virtual bool Train(CvMat trainData, CvMat responses, CvMat varIdx)
-        {
-			return Train(trainData, responses, varIdx, null, false);
-		}
-#if LANG_JP
-		/// <summary>
-        /// モデルの学習
-        /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
-        /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Trains the model
-        /// </summary>
-        /// <param name="trainData">Known samples (m*n)</param>
-        /// <param name="responses">Classes for known samples (m*1)</param>
         /// <param name="varIdx"></param>
         /// <param name="sampleIdx"></param>
-        /// <returns></returns>
-#endif
-        public virtual bool Train(CvMat trainData, CvMat responses, CvMat varIdx, CvMat sampleIdx)
-        {
-			return Train(trainData, responses, varIdx, sampleIdx, false);
-		}
-#if LANG_JP
-		/// <summary>
-        /// モデルの学習
-        /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
-        /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
         /// <param name="update">モデルを最初から学習する（false）か，新しい学習データを用いて更新する（true）か</param>
         /// <returns></returns>
 #else
@@ -233,20 +174,119 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="update">Adds known samples to model(true) or makes a new one(false)</param>
         /// <returns></returns>
 #endif
-        public virtual bool Train(CvMat trainData, CvMat responses, CvMat varIdx, CvMat sampleIdx, bool update)
+        public virtual bool Train(
+            CvMat trainData, 
+            CvMat responses, 
+            CvMat varIdx, 
+            CvMat sampleIdx, 
+            bool update = false)
         {
             if (trainData == null)
                 throw new ArgumentNullException("trainData");
             if (responses == null)
                 throw new ArgumentNullException("responses");
 
-            IntPtr sampleIdxPtr = (sampleIdx == null) ? IntPtr.Zero : sampleIdx.CvPtr;
-            IntPtr varIdxPtr = (varIdx == null) ? IntPtr.Zero : varIdx.CvPtr;
-
-            return MLInvoke.CvNormalBayesClassifier_train(ptr, trainData.CvPtr, responses.CvPtr, varIdxPtr, sampleIdxPtr, update);
+            return NativeMethods.ml_CvNormalBayesClassifier_train_CvMat(
+                ptr, 
+                trainData.CvPtr,
+                responses.CvPtr,
+                Cv2.ToPtr(varIdx), 
+                Cv2.ToPtr(sampleIdx), 
+                update ? 1 : 0) != 0;
         }
 
-		# region CvStatModel methods
+#if LANG_JP
+		/// <summary>
+        /// モデルの学習
+        /// </summary>
+        /// <param name="trainData">既知のサンプル (m*n)</param>
+        /// <param name="responses">既知のサンプルのクラス (m*1)</param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="update">モデルを最初から学習する（false）か，新しい学習データを用いて更新する（true）か</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Trains the model
+        /// </summary>
+        /// <param name="trainData">Known samples (m*n)</param>
+        /// <param name="responses">Classes for known samples (m*1)</param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="update">Adds known samples to model(true) or makes a new one(false)</param>
+        /// <returns></returns>
+#endif
+        public virtual bool Train(
+            Mat trainData,
+            Mat responses,
+            Mat varIdx,
+            Mat sampleIdx,
+            bool update = false)
+        {
+            if (trainData == null)
+                throw new ArgumentNullException("trainData");
+            if (responses == null)
+                throw new ArgumentNullException("responses");
+
+            return NativeMethods.ml_CvNormalBayesClassifier_train_Mat(
+                ptr,
+                trainData.CvPtr,
+                responses.CvPtr,
+                Cv2.ToPtr(varIdx),
+                Cv2.ToPtr(sampleIdx),
+                update ? 1 : 0) != 0;
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// サンプルに対する応答を予測する
+        /// </summary>
+        /// <param name="sample">未知のサンプル (l*n)</param>
+        /// <param name="results">既知のサンプルのクラス (l*1)</param>
+#else
+        /// <summary>
+        /// Predicts the response for sample(s)
+        /// </summary>
+        /// <param name="sample">Unkown samples (l*n)</param>
+        /// <param name="results">Classes for known samples (l*1)</param>
+#endif
+        public virtual float Predict(CvMat sample, CvMat results = null)
+        {
+            if (sample == null)
+                throw new ArgumentNullException("sample");
+            sample.ThrowIfDisposed();
+
+            return NativeMethods.ml_CvNormalBayesClassifier_predict_CvMat(
+                ptr, 
+                sample.CvPtr, 
+                Cv2.ToPtr(results));
+        }
+#if LANG_JP
+        /// <summary>
+        /// サンプルに対する応答を予測する
+        /// </summary>
+        /// <param name="sample">未知のサンプル (l*n)</param>
+        /// <param name="results">既知のサンプルのクラス (l*1)</param>
+#else
+        /// <summary>
+        /// Predicts the response for sample(s)
+        /// </summary>
+        /// <param name="sample">Unkown samples (l*n)</param>
+        /// <param name="results">Classes for known samples (l*1)</param>
+#endif
+        public virtual float Predict(Mat sample, Mat results = null)
+        {
+            if (sample == null)
+                throw new ArgumentNullException("sample");
+            sample.ThrowIfDisposed();
+
+            return NativeMethods.ml_CvNormalBayesClassifier_predict_Mat(
+                ptr,
+                sample.CvPtr,
+                Cv2.ToPtr(results));
+        }
+
+		#region CvStatModel methods
 #if LANG_JP
         /// <summary>
         /// メモリを解放し，モデルの状態をリセットする
@@ -258,7 +298,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public override void Clear() 
         {
-            MLInvoke.CvNormalBayesClassifier_clear(ptr);
+            NativeMethods.ml_CvNormalBayesClassifier_clear(ptr);
         }
 
 #if LANG_JP
@@ -280,8 +320,8 @@ namespace OpenCvSharp.MachineLearning
                 throw new ArgumentNullException("storage");
 			if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
-			
-            MLInvoke.CvNormalBayesClassifier_write(ptr, storage.CvPtr, name);
+
+            NativeMethods.ml_CvNormalBayesClassifier_write(ptr, storage.CvPtr, name);
         }
 
 #if LANG_JP
@@ -304,9 +344,9 @@ namespace OpenCvSharp.MachineLearning
             if (node == null)
                 throw new ArgumentNullException("node");
 
-            MLInvoke.CvNormalBayesClassifier_read(ptr, storage.CvPtr, node.CvPtr);
+            NativeMethods.ml_CvNormalBayesClassifier_read(ptr, storage.CvPtr, node.CvPtr);
         }
-		# endregion
-        # endregion
+		#endregion
+        #endregion
     }
 }

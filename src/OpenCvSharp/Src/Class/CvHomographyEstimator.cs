@@ -4,75 +4,26 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp.Utilities;
 
 #pragma warning disable 1591
 
 namespace OpenCvSharp
 {
-    public abstract class CvModelEstimator2 : DisposableObject
+    public abstract class CvModelEstimator2
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool _disposed = false;
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="_modelPoints"></param>
-        /// <param name="_modelSize"></param>
-        /// <param name="_maxBasicSolutions"></param>
-        public CvModelEstimator2(int _modelPoints, CvSize _modelSize, int _maxBasicSolutions)
+        /// <param name="modelPoints"></param>
+        /// <param name="modelSize"></param>
+        /// <param name="maxBasicSolutions"></param>
+        protected CvModelEstimator2(int modelPoints, CvSize modelSize, int maxBasicSolutions)
         {
-            modelPoints = _modelPoints;
-            modelSize = _modelSize;
-            maxBasicSolutions = _maxBasicSolutions;
-            checkPartialSubsets = true;
-            rng = new CvRNG(-1);
-        }
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
-        {
-            if (!this._disposed)
-            {
-                // 継承したクラス独自の解放処理
-                try
-                {
-                    if (disposing)
-                    {
-
-                    }
-                    if (IsEnabledDispose)
-                    {
-                    }
-                    this._disposed = true;
-                }
-                finally
-                {
-                    // 親の解放処理
-                    base.Dispose(disposing);
-                }
-            }
+            this.modelPoints = modelPoints;
+            this.modelSize = modelSize;
+            this.maxBasicSolutions = maxBasicSolutions;
+            this.checkPartialSubsets = true;
+            this.rng = new CvRNG(-1);
         }
 
         /// <summary>
@@ -103,11 +54,11 @@ namespace OpenCvSharp
             rng = new CvRNG(seed);
         }
 
-        public CvRNG rng;
-        public int modelPoints;
-        public CvSize modelSize;
-        public int maxBasicSolutions;
-        public bool checkPartialSubsets;
+        protected CvRNG rng;
+        protected int modelPoints;
+        protected CvSize modelSize;
+        protected int maxBasicSolutions;
+        protected bool checkPartialSubsets;
     }
 
 #if LANG_JP
@@ -122,68 +73,18 @@ namespace OpenCvSharp
     public class CvHomographyEstimator : CvModelEstimator2
     {
         /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool _disposed = false;
-
-        #region Init and Disposal
-        /// <summary>
         /// 
         /// </summary>
-        /// <param name="_modelPoints"></param>
-        public CvHomographyEstimator(int _modelPoints)
-            : base(_modelPoints, new CvSize(3, 3), 1)
+        /// <param name="modelPoints"></param>
+        public CvHomographyEstimator(int modelPoints)
+            : base(modelPoints, new CvSize(3, 3), 1)
         {
-            if (_modelPoints != 4 && _modelPoints != 5)
-            {
-                throw new ArgumentOutOfRangeException("_modelPoints");
-            }            
-            checkPartialSubsets = false;
+            if (modelPoints != 4 && modelPoints != 5)
+                throw new ArgumentOutOfRangeException("modelPoints");
+                       
+            //base.checkPartialSubsets = false;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
-        {
-            if (!this._disposed)
-            {
-                // 継承したクラス独自の解放処理
-                try
-                {
-                    if (disposing)
-                    {
-                        
-                    }
-                    if (IsEnabledDispose)
-                    {                        
-                    }
-                    this._disposed = true;
-                }
-                finally
-                {
-                    // 親の解放処理
-                    base.Dispose(disposing);
-                }
-            }
-        }
-        #endregion
-
-        #region Methods
         /// <summary>
         /// 
         /// </summary>
@@ -317,6 +218,5 @@ namespace OpenCvSharp
             Cv.Copy(solver.Param, modelPart);
             return true;
         }
-        #endregion
     }
 }

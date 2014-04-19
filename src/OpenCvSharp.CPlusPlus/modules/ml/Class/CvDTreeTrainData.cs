@@ -21,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
 		#region Init and Disposal
 #if LANG_JP
@@ -55,16 +55,16 @@ namespace OpenCvSharp.CPlusPlus
 		/// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-		/// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
 		/// <param name="shared"></param>
-		/// <param name="add_labels"></param>
+        /// <param name="addLabels"></param>
         /// <returns></returns>
 #else
 		/// <summary>
@@ -139,7 +139,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -155,7 +154,6 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -168,17 +166,17 @@ namespace OpenCvSharp.CPlusPlus
 		/// <summary>
         /// 
         /// </summary>
-		/// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
 		/// <param name="shared"></param>
-		/// <param name="add_labels"></param>
-		/// <param name="update_data"></param>
+        /// <param name="addLabels"></param>
+        /// <param name="updateData"></param>
         /// <returns></returns>
 #else
 		/// <summary>
@@ -759,7 +757,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
 		/// <param name="n"></param>
-        /// <param name="labels_buf"></param>
+        /// <param name="labelsBuf"></param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -785,8 +783,8 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
 		/// <param name="n"></param>
-        /// <param name="values_buf"></param>
-        /// <param name="sample_indices_buf"></param>
+        /// <param name="valuesBuf"></param>
+        /// <param name="sampleIndicesBuf"></param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -813,7 +811,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
 		/// <param name="n"></param>
-        /// <param name="labels_buf"></param>
+        /// <param name="labelsBuf"></param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -840,7 +838,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
 		/// <param name="n"></param>
 		/// <param name="vi"></param>
-        /// <param name="cat_values_buf"></param>
+        /// <param name="catValuesBuf"></param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -869,11 +867,11 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
 		/// <param name="n"></param>
 		/// <param name="vi"></param>
-        /// <param name="ord_values_buf"></param>
-        /// <param name="sorted_indices_buf"></param>
-        /// <param name="ord_values"></param>
-        /// <param name="sorted_indices"></param>
-        /// <param name="sample_indices_buf"></param>
+        /// <param name="ordValuesBuf"></param>
+        /// <param name="sortedIndicesBuf"></param>
+        /// <param name="ordValues"></param>
+        /// <param name="sortedIndices"></param>
+        /// <param name="sampleIndicesBuf"></param>
 #else
         /// <summary>
         /// 

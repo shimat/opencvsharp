@@ -3,148 +3,186 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CVRTREES_H_
-#define _CVRTREES_H_
+#ifndef _CPP_ML_CVRTREES_H_
+#define _CPP_ML_CVRTREES_H_
 
 #include "include_opencv.h"
 
 // CvRTParams
-CVAPI(CvRTParams*) CvRTParams_construct_default()
+CVAPI(CvRTParams*) ml_CvRTParams_new1()
 {
 	return new CvRTParams();
 }
-CVAPI(CvRTParams*) CvRTParams_construct( int _max_depth, int _min_sample_count,
-                float _regression_accuracy, bool _use_surrogates,
-                int _max_categories, const float* _priors, bool _calc_var_importance,
-                int _nactive_vars, int max_num_of_trees_in_the_forest,
-                float forest_accuracy, int termcrit_type )
+CVAPI(CvRTParams*) ml_CvRTParams_new2(
+    int maxDepth, 
+    int minSampleCount,
+    float regressionAccuracy, 
+    int useSurrogates,
+    int maxCategories, 
+    const float* priors, 
+    int calcVarImportance,
+    int nactiveVars,
+    int maxNumOfTreesInTheForest,
+    float forestAccuracy, 
+    int termcritType )
 {
-	return new CvRTParams(_max_depth, _min_sample_count, _regression_accuracy, _use_surrogates,
-                _max_categories, _priors, _calc_var_importance, _nactive_vars, max_num_of_trees_in_the_forest,
-                forest_accuracy, termcrit_type);
+	return new CvRTParams(
+        maxDepth,
+        minSampleCount,
+        regressionAccuracy,
+        useSurrogates != 0,
+        maxCategories,
+        priors,
+        calcVarImportance != 0,
+        nactiveVars,
+        maxNumOfTreesInTheForest,
+        forestAccuracy,
+        termcritType);
 }
-CVAPI(void) CvRTParams_destruct(CvRTParams* obj)
+CVAPI(void) ml_CvRTParams_delete(CvRTParams* obj)
 {
 	delete obj;
 }
 
-CVAPI(bool) CvRTParams_calc_var_importance_get(CvRTParams* obj)
+CVAPI(int) ml_CvRTParams_calc_var_importance_get(CvRTParams* obj)
 {
-	return obj->calc_var_importance;
+	return obj->calc_var_importance ? 1 : 0;
 }
-CVAPI(void) CvRTParams_calc_var_importance_set(CvRTParams* obj, bool value)
+CVAPI(void) ml_CvRTParams_calc_var_importance_set(CvRTParams* obj, int value)
 {
-	obj->calc_var_importance = value;
+	obj->calc_var_importance = (value != 0);
 }
-CVAPI(int) CvRTParams_nactive_vars_get(CvRTParams* obj)
+CVAPI(int) ml_CvRTParams_nactive_vars_get(CvRTParams* obj)
 {
 	return obj->nactive_vars;
 }
-CVAPI(void) CvRTParams_nactive_vars_set(CvRTParams* obj, int value)
+CVAPI(void) ml_CvRTParams_nactive_vars_set(CvRTParams* obj, int value)
 {
 	obj->nactive_vars = value;
 }
-CVAPI(CvTermCriteria) CvRTParams_term_crit_get(CvRTParams* obj)
+CVAPI(CvTermCriteria) ml_CvRTParams_term_crit_get(CvRTParams* obj)
 {
 	return obj->term_crit;
 }
-CVAPI(void) CvRTParams_term_crit_set(CvRTParams* obj, CvTermCriteria value)
+CVAPI(void) ml_CvRTParams_term_crit_set(CvRTParams* obj, CvTermCriteria value)
 {
 	obj->term_crit = value;
 }
 
 
 // CvRTrees
-CVAPI(int) CvRTrees_sizeof()
-{
-	return sizeof(CvRTrees);
-}
 
-CVAPI(void) CvRTrees_construct(CvRTrees* obj)
+CVAPI(CvRTrees*) ml_CvRTrees_new()
 {
-	 CvRTrees rt = CvRTrees();
-	 memcpy(obj, &rt, sizeof(CvRTrees));
+	 return new CvRTrees();
 }
-CVAPI(void) CvRTrees_destruct(CvRTrees* obj)
+CVAPI(void) ml_CvRTrees_delete(CvRTrees *obj)
 {
 	delete obj;
 }
 
-CVAPI(bool) CvRTrees_train( CvRTrees* obj, const CvMat* _train_data, int _tflag, const CvMat* _responses, const CvMat* _var_idx,
-                        const CvMat* _sample_idx, const CvMat* _var_type, const CvMat* _missing_mask, CvRTParams* params )
+CVAPI(int) ml_CvRTrees_train_CvMat(
+    CvRTrees *obj, CvMat *trainData, int tflag, CvMat *responses, CvMat *varIdx,
+    CvMat *sampleIdx, CvMat *varType, CvMat *missingMask, CvRTParams* params )
 {
-	return obj->train(_train_data, _tflag, _responses, _var_idx, _sample_idx, _var_type, _missing_mask, *params);
+	return obj->train(
+        trainData, tflag, responses, varIdx, sampleIdx, varType, missingMask, *params) ? 1 : 0;
 }
-CVAPI(float) CvRTrees_predict( CvRTrees* obj, const CvMat* sample, const CvMat* missing )
+CVAPI(int) ml_CvRTrees_train_Mat(
+    CvRTrees *obj, cv::Mat *trainData, int tflag, cv::Mat *responses, cv::Mat *varIdx,
+    cv::Mat *sampleIdx, cv::Mat *varType, cv::Mat *missingMask, CvRTParams* params)
+{
+    return obj->train(
+        *trainData, tflag, *responses, entity(varIdx), entity(sampleIdx), 
+        entity(varType), entity(missingMask), *params) ? 1 : 0;
+}
+CVAPI(int) ml_CvRTrees_train_MLData(CvRTrees *obj, CvMLData *data, CvRTParams *params)
+{
+    return obj->train(data, *params) ? 1 : 0;
+}
+
+CVAPI(float) ml_CvRTrees_predict_CvMat(CvRTrees *obj, CvMat *sample, CvMat *missing)
 {
 	return obj->predict(sample, missing);
 }
-CVAPI(void) CvRTrees_clear(CvRTrees* obj)
+CVAPI(float) ml_CvRTrees_predict_Mat(CvRTrees *obj, cv::Mat *sample, cv::Mat *missing)
+{
+    return obj->predict(*sample, entity(missing));
+}
+
+CVAPI(float) ml_CvRTrees_predict_prob_CvMat(CvRTrees *obj, CvMat *sample, CvMat *missing)
+{
+    return obj->predict_prob(sample, missing);
+}
+CVAPI(float) ml_CvRTrees_predict_prob_Mat(CvRTrees *obj, cv::Mat *sample, cv::Mat *missing)
+{
+    return obj->predict_prob(*sample, entity(missing));
+}
+
+CVAPI(void) ml_CvRTrees_clear(CvRTrees *obj)
 {
 	obj->clear();
 }
 
-CVAPI(const CvMat*) CvRTrees_get_var_importance(CvRTrees* obj)
+CVAPI(cv::Mat*) ml_CvRTrees_getVarImportance(CvRTrees *obj)
 {
-	return obj->get_var_importance();
+    cv::Mat mat = obj->getVarImportance();
+    return new cv::Mat(mat);
 }
-CVAPI(float) CvRTrees_get_proximity( CvRTrees* obj, const CvMat* sample1, const CvMat* sample2,
-        const CvMat* missing1, const CvMat* missing2 )
+CVAPI(float) ml_CvRTrees_get_proximity(
+    CvRTrees *obj, CvMat *sample1, CvMat *sample2, CvMat *missing1, CvMat *missing2 )
 {
 	return obj->get_proximity(sample1, sample2, missing1, missing2);
 }
 
-CVAPI(void) CvRTrees_read( CvRTrees* obj, CvFileStorage* fs, CvFileNode* node )
+CVAPI(void) ml_CvRTrees_read(CvRTrees *obj, CvFileStorage* fs, CvFileNode* node)
 {
 	obj->read(fs, node);
 }
-CVAPI(void) CvRTrees_write( CvRTrees* obj, CvFileStorage* fs, const char* name )
+CVAPI(void) ml_CvRTrees_write(CvRTrees *obj, CvFileStorage* fs, const char* name)
 {
 	obj->write(fs, name);
 }
 
-CVAPI(CvMat*) CvRTrees_get_active_var_mask(CvRTrees* obj)
+CVAPI(CvMat*) ml_CvRTrees_get_active_var_mask(CvRTrees *obj)
 {
 	return obj->get_active_var_mask();
 }
-CVAPI(CvRNG*) CvRTrees_get_rng(CvRTrees* obj)
+CVAPI(CvRNG*) ml_CvRTrees_get_rng(CvRTrees *obj)
 {
 	return obj->get_rng();
 }
 
-CVAPI(int) CvRTrees_get_tree_count(CvRTrees* obj)
+CVAPI(int) ml_CvRTrees_get_tree_count(CvRTrees *obj)
 {
 	return obj->get_tree_count();
 }
-CVAPI(CvForestTree*) CvRTrees_get_tree(CvRTrees* obj, int i)
+CVAPI(CvForestTree*) ml_CvRTrees_get_tree(CvRTrees *obj, int i)
 {
 	return obj->get_tree(i);
 }
 
 
 // CvForestTree
-CVAPI(int) CvForestTree_sizeof()
-{
-	return sizeof(CvForestTree);
-}
-CVAPI(CvForestTree*) CvForestTree_construct()
+
+CVAPI(CvForestTree*) ml_CvForestTree_new()
 {
 	return new CvForestTree();
 }
-CVAPI(void) CvForestTree_destruct(CvForestTree* obj)
+CVAPI(void) ml_CvForestTree_delete(CvForestTree* obj)
 {
 	delete obj;
 }
-CVAPI(bool) CvForestTree_train( CvForestTree* obj, CvDTreeTrainData* _train_data, const CvMat* _subsample_idx, CvRTrees* forest )
+CVAPI(int) ml_CvForestTree_train(CvForestTree* obj, CvDTreeTrainData* _train_data, const CvMat *_subsample_idx, CvRTrees *forest)
 {
-	return obj->train(_train_data, _subsample_idx, forest);
+	return obj->train(_train_data, _subsample_idx, forest) ? 1 : 0;
 }
 
-CVAPI(int) CvForestTree_get_var_count(CvForestTree* obj)
+CVAPI(int) ml_CvForestTree_get_var_count(CvForestTree* obj)
 {
 	return obj->get_var_count();
 }
-CVAPI(void) CvForestTree_read( CvForestTree* obj, CvFileStorage* fs, CvFileNode* node, CvRTrees* forest, CvDTreeTrainData* _data )
+CVAPI(void) ml_CvForestTree_read(CvForestTree* obj, CvFileStorage* fs, CvFileNode* node, CvRTrees *forest, CvDTreeTrainData* _data)
 {
 	obj->read(fs, node, forest, _data);
 }

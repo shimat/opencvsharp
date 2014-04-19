@@ -82,7 +82,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -96,7 +95,8 @@ namespace OpenCvSharp.CPlusPlus
                         }
                         else
                         {
-                            NativeMethods.video_BackgroundSubtractorGMG_delete(ptr);
+                            if (ptr != IntPtr.Zero)
+                                NativeMethods.video_BackgroundSubtractorGMG_delete(ptr);
                         }
                         objectPtr = null;
                         ptr = IntPtr.Zero;
@@ -105,7 +105,6 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

@@ -30,6 +30,17 @@ namespace OpenCvSharp.CPlusPlus
         private bool disposed;
 
         #region Init and Disposal
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal protected CvDTreeParams(IntPtr ptr)
+        {
+            this.ptr = ptr;
+            this.priors = null;
+        }
+
 #if LANG_JP
         /// <summary>
         /// 初期化
@@ -48,14 +59,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-		/// <param name="max_depth">このパラメータは木が取りうる最大の深さを決定する．学習アルゴリズムは，ノードの深さが max_depth  よりも小さいならば，それを分岐させようとする．他の終了条件が満たされた場合や（セクション始めにある学習手続きの概要を参照）， あるいは/さらに，木が刈り込まれた場合など，実際の深さはもっと浅いかもしれない．</param>
-		/// <param name="min_sample_count">あるノードに対するサンプル数がこのパラメータ値よりも少ない場合，そのノードは分岐しない． </param>
-		/// <param name="regression_accuracy">別の終了条件 - 回帰木の場合のみ． 推定されたノード値が，そのノードの学習サンプルの応答に対して，このパラメータ値よりも低い精度を持つ場合，ノードはそれ以上分岐しなくなる．</param>
-		/// <param name="use_surrogates">trueの場合，代理分岐が構築される． 代理分岐は観測値データの欠損を処理する場合や，変数の重要度の推定に必要である．</param>
-		/// <param name="max_categories">学習手続きが分岐を作るときの離散変数が max_categoriesよりも多くの値を取ろうとするならば， （アルゴリズムが指数関数的であるので）正確な部分集合推定を行う場合に非常に時間がかかる可能性がある． 代わりに，（MLを含む）多くの決定木エンジンが，全サンプルを max_categories 個のクラスタに分類することによって （つまりいくつかのカテゴリは一つにマージされる），この場合の次善最適分岐を見つけようとする．このテクニックは，N(>2)-クラス分類問題においてのみ適用されることに注意する． 回帰および 2-クラス分類の場合は，このような手段をとらなくても効率的に最適分岐を見つけることができるので，このパラメータは使用されない．</param>
-		/// <param name="cv_folds">このパラメータが >1 の場合，木は cv_folds 分割交差検証法により刈り込まれる． </param>
-		/// <param name="use_1se_rule">true の場合，木は刈り込み手続きによって切り捨てられる． これにより，コンパクトで学習データノイズに対してより耐性を持つような木になるが，決定木の正確さはやや劣る． </param>
-		/// <param name="truncate_pruned_tree">true の場合，（Tn≤CvDTree::pruned_tree_idxである） カットオフノードが，木から物理的に削除される． そうでない場合は，それらは削除はされず，CvDTree::pruned_tree_idx を減らす（例えば -1 を設定する） ことによって，オリジナルの刈り込みされていない（あるいは積極的には刈り込まれていない）木からの結果を得ることができる．</param>
+        /// <param name="maxDepth">このパラメータは木が取りうる最大の深さを決定する．学習アルゴリズムは，ノードの深さが max_depth  よりも小さいならば，それを分岐させようとする．他の終了条件が満たされた場合や（セクション始めにある学習手続きの概要を参照）， あるいは/さらに，木が刈り込まれた場合など，実際の深さはもっと浅いかもしれない．</param>
+        /// <param name="minSampleCount">あるノードに対するサンプル数がこのパラメータ値よりも少ない場合，そのノードは分岐しない． </param>
+        /// <param name="regressionAccuracy">別の終了条件 - 回帰木の場合のみ． 推定されたノード値が，そのノードの学習サンプルの応答に対して，このパラメータ値よりも低い精度を持つ場合，ノードはそれ以上分岐しなくなる．</param>
+        /// <param name="useSurrogates">trueの場合，代理分岐が構築される． 代理分岐は観測値データの欠損を処理する場合や，変数の重要度の推定に必要である．</param>
+        /// <param name="maxCategories">学習手続きが分岐を作るときの離散変数が max_categoriesよりも多くの値を取ろうとするならば， （アルゴリズムが指数関数的であるので）正確な部分集合推定を行う場合に非常に時間がかかる可能性がある． 代わりに，（MLを含む）多くの決定木エンジンが，全サンプルを max_categories 個のクラスタに分類することによって （つまりいくつかのカテゴリは一つにマージされる），この場合の次善最適分岐を見つけようとする．このテクニックは，N(>2)-クラス分類問題においてのみ適用されることに注意する． 回帰および 2-クラス分類の場合は，このような手段をとらなくても効率的に最適分岐を見つけることができるので，このパラメータは使用されない．</param>
+        /// <param name="cvFolds">このパラメータが >1 の場合，木は cv_folds 分割交差検証法により刈り込まれる． </param>
+        /// <param name="use1seRule">true の場合，木は刈り込み手続きによって切り捨てられる． これにより，コンパクトで学習データノイズに対してより耐性を持つような木になるが，決定木の正確さはやや劣る． </param>
+        /// <param name="truncatePrunedTree">true の場合，（Tn≤CvDTree::pruned_tree_idxである） カットオフノードが，木から物理的に削除される． そうでない場合は，それらは削除はされず，CvDTree::pruned_tree_idx を減らす（例えば -1 を設定する） ことによって，オリジナルの刈り込みされていない（あるいは積極的には刈り込まれていない）木からの結果を得ることができる．</param>
 		/// <param name="priors">クラスラベル値によって保存されたクラス事前確率の配列． このパラメータは，ある特定のクラスに対する決定木の優先傾向を調整するために用いられる． 例えば，もしユーザがなんらかの珍しい例外的発生を検出したいと考えた場合，学習データは，おそらく例外的なケースよりもずっと多くの正常なケースを含んでいるので， 全ケースが正常であるとみなすだけで，非常に優れた分類性能が実現されるだろう． このように例外ケースを無視して分類性能を上げることを避けるために，事前確率を指定することができる． 例外的なケースの確率を人工的に増加させる（0.5 まで，あるいはそれ以上に）ことで，分類に失敗した例外の重みがより大きくなり，木は適切に調節される． </param>
 #else
 		/// <summary>
@@ -71,8 +82,9 @@ namespace OpenCvSharp.CPlusPlus
 		/// <param name="truncatePrunedTree">If true, the cut off nodes (with Tn≤CvDTree::pruned_tree_idx) are physically removed from the tree. Otherwise they are kept, and by decreasing CvDTree::pruned_tree_idx (e.g. setting it to -1) it is still possible to get the results from the original un-pruned (or pruned less aggressively) tree. </param>
 		/// <param name="priors">The array of a priori class probabilities, sorted by the class label value. The parameter can be used to tune the decision tree preferences toward a certain class. For example, if users want to detect some rare anomaly occurrence, the training base will likely contain much more normal cases than anomalies, so a very good classification performance will be achieved just by considering every case as normal. To avoid this, the priors can be specified, where the anomaly probability is artificially increased (up to 0.5 or even greater), so the weight of the misclassified anomalies becomes much bigger, and the tree is adjusted properly. </param>
 #endif
-        public CvDTreeParams(int maxDepth, int minSampleCount, float regressionAccuracy, bool useSurrogates,
-                   int maxCategories, int cvFolds, bool use1SeRule, bool truncatePrunedTree, float[] priors)
+        public CvDTreeParams(int maxDepth, int minSampleCount, float regressionAccuracy,
+            bool useSurrogates, int maxCategories, int cvFolds, bool use1seRule, 
+            bool truncatePrunedTree, float[] priors)
         {					
             IntPtr priorsPtr = IntPtr.Zero;
             if (priors != null)
@@ -83,7 +95,7 @@ namespace OpenCvSharp.CPlusPlus
 
             ptr = NativeMethods.ml_CvDTreeParams_new2(
                 maxDepth, minSampleCount, regressionAccuracy, useSurrogates ? 1 : 0,
-                maxCategories, cvFolds, use1SeRule ? 1: 0, truncatePrunedTree ? 1 : 0, 
+                maxCategories, cvFolds, use1seRule ? 1: 0, truncatePrunedTree ? 1 : 0, 
                 priorsPtr);
 
             this.priors = priors;
@@ -110,7 +122,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -130,7 +141,6 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

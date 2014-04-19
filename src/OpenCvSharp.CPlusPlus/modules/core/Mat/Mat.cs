@@ -620,9 +620,8 @@ namespace OpenCvSharp.CPlusPlus
                     if (IsEnabledDispose)
                     {
                         if (ptr != IntPtr.Zero)
-                        {
                             NativeMethods.core_Mat_delete(ptr);
-                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

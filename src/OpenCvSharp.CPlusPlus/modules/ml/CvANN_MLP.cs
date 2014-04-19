@@ -57,10 +57,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-        /// <param name="layer_sizes">入出力層を含む各層のニューロン数を指定する整数のベクトル</param>
-		/// <param name="activ_func">各ニューロンの活性化関数</param>
-        /// <param name="f_param1">活性化関数のフリーパラメータα</param>
-		/// <param name="f_param2">活性化関数のフリーパラメータβ</param>
+        /// <param name="layerSizes">入出力層を含む各層のニューロン数を指定する整数のベクトル</param>
+        /// <param name="activFunc">各ニューロンの活性化関数</param>
+        /// <param name="fParam1">活性化関数のフリーパラメータα</param>
+        /// <param name="fParam2">活性化関数のフリーパラメータβ</param>
 #else
 		/// <summary>
         /// Training constructor
@@ -86,10 +86,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-        /// <param name="layer_sizes">入出力層を含む各層のニューロン数を指定する整数のベクトル</param>
-		/// <param name="activ_func">各ニューロンの活性化関数</param>
-        /// <param name="f_param1">活性化関数のフリーパラメータα</param>
-		/// <param name="f_param2">活性化関数のフリーパラメータβ</param>
+        /// <param name="layerSizes">入出力層を含む各層のニューロン数を指定する整数のベクトル</param>
+        /// <param name="activFunc">各ニューロンの活性化関数</param>
+        /// <param name="fParam1">活性化関数のフリーパラメータα</param>
+        /// <param name="fParam2">活性化関数のフリーパラメータβ</param>
 #else
         /// <summary>
         /// Training constructor
@@ -149,10 +149,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 指定したトポロジーでMLPを構築する
         /// </summary>
-        /// <param name="layer_sizes">入出力層を含む各層のニューロン数を指定する整数のベクトル</param>
-		/// <param name="activ_func">各ニューロンの活性化関数</param>
-        /// <param name="f_param1">活性化関数のフリーパラメータα</param>
-		/// <param name="f_param2">活性化関数のフリーパラメータβ</param>
+        /// <param name="layerSizes">入出力層を含む各層のニューロン数を指定する整数のベクトル</param>
+        /// <param name="activFunc">各ニューロンの活性化関数</param>
+        /// <param name="fParam1">活性化関数のフリーパラメータα</param>
+        /// <param name="fParam2">活性化関数のフリーパラメータβ</param>
 #else
 		/// <summary>
         /// Constructs the MLP with the specified topology
@@ -180,10 +180,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 指定したトポロジーでMLPを構築する
         /// </summary>
-        /// <param name="layer_sizes">入出力層を含む各層のニューロン数を指定する整数のベクトル</param>
-		/// <param name="activ_func">各ニューロンの活性化関数</param>
-        /// <param name="f_param1">活性化関数のフリーパラメータα</param>
-		/// <param name="f_param2">活性化関数のフリーパラメータβ</param>
+        /// <param name="layerSizes">入出力層を含む各層のニューロン数を指定する整数のベクトル</param>
+        /// <param name="activFunc">各ニューロンの活性化関数</param>
+        /// <param name="fParam1">活性化関数のフリーパラメータα</param>
+        /// <param name="fParam2">活性化関数のフリーパラメータβ</param>
 #else
         /// <summary>
         /// Constructs the MLP with the specified topology
@@ -216,9 +216,9 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="inputs">入力ベクトルの浮動小数点の行列で，1行で1ベクトル．</param>
 		/// <param name="outputs">対応する出力ベクトルの浮動小数点の行列で，1行で1ベクトル．</param>
-        /// <param name="sample_weights">（RPROPのみ）各サンプルの重みを指定する浮動小数点のベクトル．オプション． 学習において，幾つかのサンプルは他のものより重要な場合がある． 例えば検出率と誤検出率間の適切なバランスを探すために，あるクラスの重みを増加させたい場合など．</param>
-        /// <param name="sample_idx">用いるサンプルを表す整数のベクトル（すなわち_inputsと_outputsの行）．</param>
-        /// <param name="params">学習パラメータ</param>
+        /// <param name="sampleWeights">（RPROPのみ）各サンプルの重みを指定する浮動小数点のベクトル．オプション． 学習において，幾つかのサンプルは他のものより重要な場合がある． 例えば検出率と誤検出率間の適切なバランスを探すために，あるクラスの重みを増加させたい場合など．</param>
+        /// <param name="sampleIdx">用いるサンプルを表す整数のベクトル（すなわち_inputsと_outputsの行）．</param>
+        /// <param name="param">学習パラメータ</param>
 		/// <param name="flags">学習アルゴリズムを制御する様々なパラメータ</param>
 		/// <returns>ネットワークの重みを計算/調整した繰り返し回数．</returns>
 #else
@@ -265,9 +265,9 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="inputs">入力ベクトルの浮動小数点の行列で，1行で1ベクトル．</param>
 		/// <param name="outputs">対応する出力ベクトルの浮動小数点の行列で，1行で1ベクトル．</param>
-        /// <param name="sample_weights">（RPROPのみ）各サンプルの重みを指定する浮動小数点のベクトル．オプション． 学習において，幾つかのサンプルは他のものより重要な場合がある． 例えば検出率と誤検出率間の適切なバランスを探すために，あるクラスの重みを増加させたい場合など．</param>
-        /// <param name="sample_idx">用いるサンプルを表す整数のベクトル（すなわち_inputsと_outputsの行）．</param>
-        /// <param name="params">学習パラメータ</param>
+        /// <param name="sampleWeights">（RPROPのみ）各サンプルの重みを指定する浮動小数点のベクトル．オプション． 学習において，幾つかのサンプルは他のものより重要な場合がある． 例えば検出率と誤検出率間の適切なバランスを探すために，あるクラスの重みを増加させたい場合など．</param>
+        /// <param name="sampleIdx">用いるサンプルを表す整数のベクトル（すなわち_inputsと_outputsの行）．</param>
+        /// <param name="param">学習パラメータ</param>
 		/// <param name="flags">学習アルゴリズムを制御する様々なパラメータ</param>
 		/// <returns>ネットワークの重みを計算/調整した繰り返し回数．</returns>
 #else

@@ -4,11 +4,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
 #if LANG_JP
     /// <summary>
@@ -24,14 +22,7 @@ namespace OpenCvSharp.MachineLearning
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
-
-		#region Constants
-        /// <summary>
-        /// sizeof(CvRTrees)
-        /// </summary>
-		public static readonly int SizeOf = MLInvoke.CvRTrees_sizeof();
-        #endregion
+        private bool disposed;
 
 		#region Init and Disposal
 #if LANG_JP
@@ -44,24 +35,16 @@ namespace OpenCvSharp.MachineLearning
         /// </summary>
 #endif
         public CvRTrees()
-            //: this(ML.CvRTrees_construct())
         {
-            ptr = AllocMemory(SizeOf);
-            MLInvoke.CvRTrees_construct(ptr);
+            ptr = NativeMethods.ml_CvRTrees_new();
         }
-#if LANG_JP
-        /// <summary>
-        /// ポインタから初期化
-        /// </summary>
-#else
+
         /// <summary>
         /// Initializes by pointer
         /// </summary>
-#endif
-        public CvRTrees(IntPtr ptr)
+        internal CvRTrees(IntPtr ptr)
         {
             this.ptr = ptr;
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -85,7 +68,6 @@ namespace OpenCvSharp.MachineLearning
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -93,16 +75,14 @@ namespace OpenCvSharp.MachineLearning
                     }
                     if (IsEnabledDispose)
                     {
-                        /*
-                        ML.CvRTrees_destruct(ptr);
-                        //*/
-                        MLInvoke.CvRTrees_clear(ptr);
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.ml_CvRTrees_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -118,65 +98,14 @@ namespace OpenCvSharp.MachineLearning
         /// <summary>
         /// ランダムツリーモデルの学習
         /// </summary>
-        /// <param name="train_data"></param>
-		/// <param name="tflag"></param>
-        /// <param name="responses"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Trains Random Trees model
-        /// </summary>
         /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-        /// <returns></returns>
-#endif
-		public virtual bool Train(CvMat trainData, DTreeDataLayout tflag, CvMat responses)
-        {
-			return Train(trainData, tflag, responses, null, null, null, null, new CvRTParams());
-        }
-#if LANG_JP
-        /// <summary>
-        /// ランダムツリーモデルの学習
-        /// </summary>
-        /// <param name="train_data"></param>
-		/// <param name="tflag"></param>
-        /// <param name="responses"></param>
-		/// <param name="comp_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Trains Random Trees model
-        /// </summary>
-        /// <param name="trainData"></param>
-		/// <param name="tflag"></param>
-        /// <param name="responses"></param>
-		/// <param name="compIdx"></param>
+        /// <param name="varIdx"></param>
         /// <param name="sampleIdx"></param>
         /// <param name="varType"></param>
         /// <param name="missingMask"></param>
-        /// <returns></returns>
-#endif
-		public virtual bool Train(CvMat trainData, DTreeDataLayout tflag, CvMat responses, 
-			CvMat compIdx, CvMat sampleIdx, CvMat varType, CvMat missingMask)
-        {
-			return Train(trainData, tflag, responses, compIdx, sampleIdx, varType, missingMask, new CvRTParams());
-        }
-#if LANG_JP
-        /// <summary>
-        /// ランダムツリーモデルの学習
-        /// </summary>
-        /// <param name="train_data"></param>
-		/// <param name="tflag"></param>
-        /// <param name="responses"></param>
-		/// <param name="comp_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="param"></param>
         /// <returns></returns>
 #else
 		/// <summary>
@@ -185,37 +114,98 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="compIdx"></param>
+        /// <param name="varIdx"></param>
         /// <param name="sampleIdx"></param>
         /// <param name="varType"></param>
         /// <param name="missingMask"></param>
-        /// <param name="params"></param>
+        /// <param name="param"></param>
         /// <returns></returns>
 #endif
-		public virtual bool Train(CvMat trainData, DTreeDataLayout tflag, CvMat responses, 
-			CvMat compIdx, CvMat sampleIdx, CvMat varType, CvMat missingMask, CvRTParams @params)
+		public virtual bool Train(
+            CvMat trainData,
+            DTreeDataLayout tflag,
+            CvMat responses,
+            CvMat varIdx = null,
+            CvMat sampleIdx = null,
+            CvMat varType = null,
+            CvMat missingMask = null, 
+            CvRTParams param = null)
         {
             if (trainData == null)
                 throw new ArgumentNullException("trainData");
             if (responses == null)
                 throw new ArgumentNullException("responses");
 
-			if(@params == null)
-				@params = new CvRTParams();
+			if(param == null)
+				param = new CvRTParams();
 
-            IntPtr compIdxPtr = (compIdx == null) ? IntPtr.Zero : compIdx.CvPtr;
-            IntPtr sampleIdxPtr = (sampleIdx == null) ? IntPtr.Zero : sampleIdx.CvPtr;
-            IntPtr varTypePtr = (varType == null) ? IntPtr.Zero : varType.CvPtr;
-            IntPtr missingMaskPtr = (missingMask == null) ? IntPtr.Zero : missingMask.CvPtr;
-
-            return MLInvoke.CvRTrees_train(
+            return NativeMethods.ml_CvRTrees_train_CvMat(
                 ptr,
 				trainData.CvPtr, 
 				(int)tflag, 
-				responses.CvPtr, 
-				compIdxPtr, sampleIdxPtr, varTypePtr, missingMaskPtr, 
-				@params.CvPtr
-			);
+				responses.CvPtr,
+                Cv2.ToPtr(varIdx),
+                Cv2.ToPtr(sampleIdx),
+                Cv2.ToPtr(varType), 
+                Cv2.ToPtr(missingMask), 
+				param.CvPtr) != 0;
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// ランダムツリーモデルの学習
+        /// </summary>
+        /// <param name="trainData"></param>
+		/// <param name="tflag"></param>
+        /// <param name="responses"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Trains Random Trees model
+        /// </summary>
+        /// <param name="trainData"></param>
+        /// <param name="tflag"></param>
+        /// <param name="responses"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+#endif
+        public virtual bool Train(
+            Mat trainData,
+            DTreeDataLayout tflag,
+            Mat responses,
+            Mat varIdx = null,
+            Mat sampleIdx = null,
+            Mat varType = null,
+            Mat missingMask = null,
+            CvRTParams param = null)
+        {
+            if (trainData == null)
+                throw new ArgumentNullException("trainData");
+            if (responses == null)
+                throw new ArgumentNullException("responses");
+
+            if (param == null)
+                param = new CvRTParams();
+
+            return NativeMethods.ml_CvRTrees_train_CvMat(
+                ptr,
+                trainData.CvPtr,
+                (int)tflag,
+                responses.CvPtr,
+                Cv2.ToPtr(varIdx),
+                Cv2.ToPtr(sampleIdx),
+                Cv2.ToPtr(varType),
+                Cv2.ToPtr(missingMask),
+                param.CvPtr) != 0;
         }
 		#endregion
 
@@ -225,17 +215,24 @@ namespace OpenCvSharp.MachineLearning
         /// 入力サンプルに対する出力を予測する
         /// </summary>
         /// <param name="sample"></param>
+		/// <param name="missing"></param>
         /// <returns></returns>
 #else
 		/// <summary>
         /// Predicts the output for the input sample
         /// </summary>
         /// <param name="sample"></param>
+		/// <param name="missing"></param>
         /// <returns></returns>
 #endif
-        public virtual double Predict(CvMat sample)
+        public virtual double Predict(CvMat sample, CvMat missing = null)
 		{
-			return Predict(sample, null);
+			if (sample == null)
+                throw new ArgumentNullException("sample");
+            sample.ThrowIfDisposed();
+
+            return NativeMethods.ml_CvRTrees_predict_CvMat(
+                ptr, sample.CvPtr, Cv2.ToPtr(missing));
 		}
 #if LANG_JP
         /// <summary>
@@ -245,23 +242,74 @@ namespace OpenCvSharp.MachineLearning
 		/// <param name="missing"></param>
         /// <returns></returns>
 #else
-		/// <summary>
+        /// <summary>
         /// Predicts the output for the input sample
+        /// </summary>
+        /// <param name="sample"></param>
+        /// <param name="missing"></param>
+        /// <returns></returns>
+#endif
+        public virtual double Predict(Mat sample, Mat missing = null)
+        {
+            if (sample == null)
+                throw new ArgumentNullException("sample");
+            sample.ThrowIfDisposed();
+
+            return NativeMethods.ml_CvRTrees_predict_CvMat(
+                ptr, sample.CvPtr, Cv2.ToPtr(missing));
+        }
+		#endregion
+
+        #region PredictProb
+#if LANG_JP
+        /// <summary>
+        /// 入力サンプルに対する出力を予測する
         /// </summary>
         /// <param name="sample"></param>
 		/// <param name="missing"></param>
         /// <returns></returns>
+#else
+        /// <summary>
+        /// Predicts the output for the input sample
+        /// </summary>
+        /// <param name="sample"></param>
+        /// <param name="missing"></param>
+        /// <returns></returns>
 #endif
-        public virtual double Predict(CvMat sample, CvMat missing)
-		{
-			if (sample == null)
+        public virtual double PredictProb(CvMat sample, CvMat missing = null)
+        {
+            if (sample == null)
                 throw new ArgumentNullException("sample");
+            sample.ThrowIfDisposed();
 
-            IntPtr missingPtr = (missing == null) ? IntPtr.Zero : missing.CvPtr;
+            return NativeMethods.ml_CvRTrees_predict_prob_CvMat(
+                ptr, sample.CvPtr, Cv2.ToPtr(missing));
+        }
+#if LANG_JP
+        /// <summary>
+        /// 入力サンプルに対する出力を予測する
+        /// </summary>
+        /// <param name="sample"></param>
+		/// <param name="missing"></param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Predicts the output for the input sample
+        /// </summary>
+        /// <param name="sample"></param>
+        /// <param name="missing"></param>
+        /// <returns></returns>
+#endif
+        public virtual double PredictProb(Mat sample, Mat missing = null)
+        {
+            if (sample == null)
+                throw new ArgumentNullException("sample");
+            sample.ThrowIfDisposed();
 
-            return MLInvoke.CvRTrees_predict(ptr, sample.CvPtr, missingPtr);
-		}
-		#endregion
+            return NativeMethods.ml_CvRTrees_predict_prob_CvMat(
+                ptr, sample.CvPtr, Cv2.ToPtr(missing));
+        }
+        #endregion
 
 #if LANG_JP
         /// <summary>
@@ -274,40 +322,20 @@ namespace OpenCvSharp.MachineLearning
         /// </summary>
         /// <returns></returns>
 #endif
-		public virtual CvMat GetVarImportance()
+		public virtual Mat GetVarImportance()
 		{
-			IntPtr p = MLInvoke.CvRTrees_get_var_importance(ptr);
+            IntPtr p = NativeMethods.ml_CvRTrees_getVarImportance(ptr);
 			if(p == IntPtr.Zero)
 				return null;
-		    return new CvMat(p, false);
+		    return new Mat(p);
 		}
 
 #if LANG_JP
         /// <summary>
         /// 二つの学習サンプル間の近さを取り出す
         /// </summary>
-		/// <param name="sample_1"></param>
-		/// <param name="sample_2"></param>
-        /// <returns></returns>
-#else
-		/// <summary>
-        /// Retrieves proximity measure between two training samples
-        /// </summary>
-		/// <param name="sample1"></param>
-		/// <param name="sample2"></param>
-        /// <returns></returns>
-#endif
-        public virtual float GetProximity(CvMat sample1, CvMat sample2)
-		{
-            return GetProximity(sample1, sample2, null, null);
-		}
-
-#if LANG_JP
-        /// <summary>
-        /// 二つの学習サンプル間の近さを取り出す
-        /// </summary>
-		/// <param name="sample_1"></param>
-		/// <param name="sample_2"></param>
+        /// <param name="sample1"></param>
+        /// <param name="sample2"></param>
         /// <param name="missing1"></param>
         /// <param name="missing2"></param>
         /// <returns></returns>
@@ -321,17 +349,18 @@ namespace OpenCvSharp.MachineLearning
         /// <param name="missing2"></param>
         /// <returns></returns>
 #endif
-        public virtual float GetProximity(CvMat sample1, CvMat sample2, CvMat missing1, CvMat missing2)
+        public virtual float GetProximity(
+            CvMat sample1, CvMat sample2, 
+            CvMat missing1 = null, CvMat missing2 = null)
         {
             if (sample1 == null)
                 throw new ArgumentNullException("sample1");
             if (sample2 == null)
                 throw new ArgumentNullException("sample2");
 
-            IntPtr missing1Ptr = (missing1 == null) ? IntPtr.Zero : missing1.CvPtr;
-            IntPtr missing2Ptr = (missing2 == null) ? IntPtr.Zero : missing2.CvPtr;
-
-            return MLInvoke.CvRTrees_get_proximity(ptr, sample1.CvPtr, sample2.CvPtr, missing1Ptr, missing2Ptr);
+            return NativeMethods.ml_CvRTrees_get_proximity(
+                ptr, sample1.CvPtr, sample2.CvPtr, 
+                Cv2.ToPtr(missing1), Cv2.ToPtr(missing2));
         }
 
 #if LANG_JP
@@ -347,7 +376,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public CvMat GetActiveVarMask()
 		{
-			IntPtr p = MLInvoke.CvRTrees_get_active_var_mask(ptr);
+            IntPtr p = NativeMethods.ml_CvRTrees_get_active_var_mask(ptr);
 			if(p == IntPtr.Zero)
 				return null;
 		    return new CvMat(p, false);
@@ -366,7 +395,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public CvRNG GetRng()
 		{
-			IntPtr p = MLInvoke.CvRTrees_get_rng(ptr);
+            IntPtr p = NativeMethods.ml_CvRTrees_get_rng(ptr);
 			if(p == IntPtr.Zero)
 				return null;
 		    return new CvRNG(Marshal.ReadInt64(p));
@@ -385,7 +414,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
 		public int GetTreeCount()
 		{
-			return MLInvoke.CvRTrees_get_tree_count(ptr);
+            return NativeMethods.ml_CvRTrees_get_tree_count(ptr);
 		}
 
 #if LANG_JP
@@ -403,7 +432,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public CvForestTree GetTree(int i)
         {
-            IntPtr p = MLInvoke.CvRTrees_get_tree(ptr, i);
+            IntPtr p = NativeMethods.ml_CvRTrees_get_tree(ptr, i);
             if (p == IntPtr.Zero)
                 return null;
             return new CvForestTree(p);
@@ -421,7 +450,7 @@ namespace OpenCvSharp.MachineLearning
 #endif
         public override void Clear() 
         {
-            MLInvoke.CvRTrees_clear(ptr);
+            NativeMethods.ml_CvRTrees_clear(ptr);
         }
 
 #if LANG_JP
@@ -444,7 +473,7 @@ namespace OpenCvSharp.MachineLearning
 			if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
 
-            MLInvoke.CvRTrees_write(ptr, storage.CvPtr, name);
+            NativeMethods.ml_CvRTrees_write(ptr, storage.CvPtr, name);
         }
 
 #if LANG_JP
@@ -466,7 +495,7 @@ namespace OpenCvSharp.MachineLearning
                 throw new ArgumentNullException("fs");
             if (node == null)
                 throw new ArgumentNullException("node");
-            MLInvoke.CvRTrees_read(ptr, fs.CvPtr, node.CvPtr);
+            NativeMethods.ml_CvRTrees_read(ptr, fs.CvPtr, node.CvPtr);
         }
 		#endregion
         #endregion

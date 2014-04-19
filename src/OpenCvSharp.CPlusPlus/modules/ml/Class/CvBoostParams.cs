@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 #pragma warning disable 1591
 
@@ -26,7 +24,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and Disposal
         /// <summary>
@@ -58,11 +56,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-		/// <param name="boost_type">ブースティングの種類</param>
-		/// <param name="weak_count">構築する弱い分類器の個数</param>
-		/// <param name="weight_trim_rate">トリミング重み比率．0..1 の範囲内．もしこのパラメータが ≤0 あるいは >1 の場合，トリミングは行われず，全てのサンプルが各繰り返し計算で用いられる．デフォルト値は 0.95 である</param>
-		/// <param name="max_depth">このパラメータは木が取りうる最大の深さを決定する．学習アルゴリズムは，ノードの深さが max_depth  よりも小さいならば，それを分岐させようとする．他の終了条件が満たされた場合や（セクション始めにある学習手続きの概要を参照）， あるいは/さらに，木が刈り込まれた場合など，実際の深さはもっと浅いかもしれない．</param>
-		/// <param name="use_surrogates">trueの場合，代理分岐が構築される． 代理分岐は観測値データの欠損を処理する場合や，変数の重要度の推定に必要である． </param>
+        /// <param name="boostType">ブースティングの種類</param>
+        /// <param name="weakCount">構築する弱い分類器の個数</param>
+        /// <param name="weightTrimRate">トリミング重み比率．0..1 の範囲内．もしこのパラメータが ≤0 あるいは >1 の場合，トリミングは行われず，全てのサンプルが各繰り返し計算で用いられる．デフォルト値は 0.95 である</param>
+        /// <param name="maxDepth">このパラメータは木が取りうる最大の深さを決定する．学習アルゴリズムは，ノードの深さが max_depth  よりも小さいならば，それを分岐させようとする．他の終了条件が満たされた場合や（セクション始めにある学習手続きの概要を参照）， あるいは/さらに，木が刈り込まれた場合など，実際の深さはもっと浅いかもしれない．</param>
+        /// <param name="useSurrogates">trueの場合，代理分岐が構築される． 代理分岐は観測値データの欠損を処理する場合や，変数の重要度の推定に必要である． </param>
 		/// <param name="priors">クラスラベル値によって保存されたクラス事前確率の配列． このパラメータは，ある特定のクラスに対する決定木の優先傾向を調整するために用いられる． 例えば，もしユーザがなんらかの珍しい例外的発生を検出したいと考えた場合，学習データは，おそらく例外的なケースよりもずっと多くの正常なケースを含んでいるので， 全ケースが正常であるとみなすだけで，非常に優れた分類性能が実現されるだろう． このように例外ケースを無視して分類性能を上げることを避けるために，事前確率を指定することができる． 例外的なケースの確率を人工的に増加させる（0.5 まで，あるいはそれ以上に）ことで，分類に失敗した例外の重みがより大きくなり，木は適切に調節される． </param>
 #else
         /// <summary>
@@ -117,7 +115,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -133,7 +130,6 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

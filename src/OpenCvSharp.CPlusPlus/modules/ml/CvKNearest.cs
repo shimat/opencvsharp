@@ -43,11 +43,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
+        /// <param name="trainData">既知のサンプル (m*n)</param>
         /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <param name="sample_idx"></param>
-        /// <param name="is_regression"></param>
-        /// <param name="max_k">FindNearestに渡される近傍の最大値</param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="isRegression"></param>
+        /// <param name="maxK">FindNearestに渡される近傍の最大値</param>
 #else
 		/// <summary>
         /// Training constructor
@@ -84,11 +84,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 学習データを与えて初期化
         /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
+        /// <param name="trainData">既知のサンプル (m*n)</param>
         /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <param name="sample_idx"></param>
-        /// <param name="is_regression"></param>
-        /// <param name="max_k">FindNearestに渡される近傍の最大値</param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="isRegression"></param>
+        /// <param name="maxK">FindNearestに渡される近傍の最大値</param>
 #else
         /// <summary>
         /// Training constructor
@@ -144,7 +144,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -152,13 +151,14 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.ml_CvKNearest_delete(ptr);
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.ml_CvKNearest_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -170,12 +170,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// モデルの学習
         /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
+        /// <param name="trainData">既知のサンプル (m*n)</param>
         /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <param name="sample_idx"></param>
-        /// <param name="is_regression"></param>
-        /// <param name="max_k">FindNearestに渡される近傍の最大数</param>
-        /// <param name="update_base">モデルを始めから作り直す（false）か，新しい教師データを使って更新する（true）か</param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="isRegression"></param>
+        /// <param name="maxK">FindNearestに渡される近傍の最大数</param>
+        /// <param name="updateBase">モデルを始めから作り直す（false）か，新しい教師データを使って更新する（true）か</param>
         /// <returns></returns>
 #else
 		/// <summary>
@@ -218,12 +218,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// モデルの学習
         /// </summary>
-        /// <param name="train_data">既知のサンプル (m*n)</param>
+        /// <param name="trainData">既知のサンプル (m*n)</param>
         /// <param name="responses">既知のサンプルのクラス (m*1)</param>
-        /// <param name="sample_idx"></param>
-        /// <param name="is_regression"></param>
-        /// <param name="max_k">FindNearestに渡される近傍の最大数</param>
-        /// <param name="update_base">モデルを始めから作り直す（false）か，新しい教師データを使って更新する（true）か</param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="isRegression"></param>
+        /// <param name="maxK">FindNearestに渡される近傍の最大数</param>
+        /// <param name="updateBase">モデルを始めから作り直す（false）か，新しい教師データを使って更新する（true）か</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -271,7 +271,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="k">探索する近傍の数の最大数</param>
         /// <param name="results"></param>
         /// <param name="neighbors"></param>
-        /// <param name="neighbor_responses">それぞれのサンプルの近傍 (l*k)</param>
+        /// <param name="neighborResponses">それぞれのサンプルの近傍 (l*k)</param>
         /// <param name="dist">サンプルから近傍までの距離</param>
         /// <returns></returns>
 #else
@@ -328,9 +328,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="samples">既知のサンプル (l*n)</param>
         /// <param name="k">探索する近傍の数の最大数</param>
         /// <param name="results"></param>
-        /// <param name="neighbors"></param>
-        /// <param name="neighbor_responses">それぞれのサンプルの近傍 (l*k)</param>
-        /// <param name="dist">サンプルから近傍までの距離</param>
+        /// <param name="neighborResponses">それぞれのサンプルの近傍 (l*k)</param>
+        /// <param name="dists">サンプルから近傍までの距離</param>
         /// <returns></returns>
 #else
         /// <summary>

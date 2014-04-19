@@ -101,7 +101,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // åpè≥ÇµÇΩÉNÉâÉXì∆é©ÇÃâï˙èàóù
                 try
                 {
                     if (disposing)
@@ -115,7 +114,8 @@ namespace OpenCvSharp.CPlusPlus
                         }
                         else
                         {
-                            NativeMethods.video_BackgroundSubtractorMOG_delete(ptr);
+                            if (ptr != IntPtr.Zero)
+                                NativeMethods.video_BackgroundSubtractorMOG_delete(ptr);
                         }
                         objectPtr = null;
                         ptr = IntPtr.Zero;

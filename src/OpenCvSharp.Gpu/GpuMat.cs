@@ -33,7 +33,7 @@ namespace OpenCvSharp.Gpu
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed = false;
         #endregion
 
         #region Init and Disposal
@@ -233,9 +233,8 @@ namespace OpenCvSharp.Gpu
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -245,11 +244,10 @@ namespace OpenCvSharp.Gpu
                     {
                         GpuInvoke.GpuMat_delete(ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -451,7 +449,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_flags(ptr);
             }
@@ -463,7 +461,7 @@ namespace OpenCvSharp.Gpu
         {
             get 
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_rows(ptr); 
             }
@@ -475,7 +473,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_cols(ptr);
             }
@@ -487,7 +485,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_step(ptr);
             }
@@ -499,7 +497,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 unsafe
                 {
@@ -515,7 +513,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return (IntPtr)GpuInvoke.GpuMat_refcount(ptr);
             }
@@ -527,7 +525,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return (IntPtr)GpuInvoke.GpuMat_datastart(ptr);
             }
@@ -539,7 +537,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return (IntPtr)GpuInvoke.GpuMat_dataend(ptr);
             }
@@ -551,7 +549,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_type(ptr);
             }
@@ -563,7 +561,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_elemSize(ptr);
             }
@@ -575,7 +573,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_elemSize1(ptr);
             }
@@ -587,7 +585,7 @@ namespace OpenCvSharp.Gpu
         {
             get
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_depth(ptr);
             }
@@ -599,7 +597,7 @@ namespace OpenCvSharp.Gpu
         {
             get 
             {
-                if (_disposed)
+                if (disposed)
                     throw new ObjectDisposedException("GpuMat");
                 return GpuInvoke.GpuMat_channels(ptr);
             }
@@ -639,7 +637,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat Row(int y)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
             GpuInvoke.GpuMat_row(ptr, y, outValue.CvPtr);
@@ -652,7 +650,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat Col(int x)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
             GpuInvoke.GpuMat_col(ptr, x, outValue.CvPtr);
@@ -666,7 +664,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat RowRange(int startrow, int endrow)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
             GpuInvoke.GpuMat_rowRange(ptr, startrow, endrow, outValue.CvPtr);
@@ -689,7 +687,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat ColRange(int startcol, int endcol) 
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
             GpuInvoke.GpuMat_colRange(ptr, startcol, endcol, outValue.CvPtr);
@@ -711,7 +709,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat Clone()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
             GpuInvoke.GpuMat_clone(ptr, outValue.CvPtr);
@@ -728,7 +726,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="m"></param>
         public void CopyTo(GpuMat m)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             if (m == null)
                 throw new ArgumentNullException("m");
@@ -741,7 +739,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="mask"></param>
         public void CopyTo(GpuMat m, GpuMat mask)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             if (m == null)
                 throw new ArgumentNullException("m");
@@ -760,7 +758,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public void ConvertTo(Mat dst, MatrixType rtype, double alpha = 1, double beta = 0)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuInvoke.GpuMat_convertTo(ptr, dst.CvPtr, (int)rtype, alpha, beta);
         }
@@ -780,7 +778,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="type"></param>
         public void AssignTo(GpuMat m, MatrixType type)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             if (m == null)
                 throw new ArgumentNullException("m");
@@ -795,7 +793,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat SetTo(CvScalar s, GpuMat mask = null)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             GpuMat dst = new GpuMat();
@@ -812,7 +810,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat Reshape(int cn, int rows)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
             GpuInvoke.GpuMat_reshape(ptr, cn, rows, outValue.CvPtr);
@@ -828,7 +826,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="type"></param>
         public void Create(int rows, int cols, MatrixType type)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuInvoke.GpuMat_create1(ptr, rows, cols, type);
         }
@@ -840,7 +838,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="type"></param>
         public void Create(CvSize size, MatrixType type)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuInvoke.GpuMat_create2(ptr, size, type);
         }
@@ -862,7 +860,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="mat"></param>
         public void Swap(GpuMat mat)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             if (mat == null)
                 throw new ArgumentNullException("mat");
@@ -875,7 +873,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="ofs"></param>
         public void LocateROI(out CvSize wholeSize, out CvPoint ofs)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuInvoke.GpuMat_locateROI(ptr, out wholeSize, out ofs);
         }
@@ -890,7 +888,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat dst = new GpuMat();
             GpuInvoke.GpuMat_adjustROI(ptr, dtop, dbottom, dleft, dright, dst.CvPtr);
@@ -903,7 +901,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public GpuMat T()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat dst = new GpuMat();
             GpuInvoke.GpuMat_t(ptr, dst.CvPtr);
@@ -917,7 +915,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public bool IsContinuous()
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             return GpuInvoke.GpuMat_isContinuous(ptr);
         }
@@ -952,7 +950,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public T Get<T>(int y, int x)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             IntPtr p = new IntPtr(Data.ToInt64() + (long)(Step * (uint)y) + (ElemSize * x)); 
             return (T)Marshal.PtrToStructure(p, typeof(T));
@@ -983,7 +981,7 @@ namespace OpenCvSharp.Gpu
         /// <returns></returns>
         public unsafe byte* Ptr(int y = 0)
         {
-            if (_disposed)
+            if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             return GpuInvoke.GpuMat_ptr(ptr, y);
         }

@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -24,7 +22,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -38,12 +36,12 @@ namespace OpenCvSharp
         /// <summary>
         /// Allocates Kalman filter structure
         /// </summary>
-        /// <param name="dynam_params">dimensionality of the state vector </param>
-        /// <param name="measure_params">dimensionality of the measurement vector </param>
+        /// <param name="dynamParams">dimensionality of the state vector </param>
+        /// <param name="measureParams">dimensionality of the measurement vector </param>
         /// <returns></returns>
 #endif
-        public CvKalman(int dynam_params, int measure_params)
-            : this(dynam_params, measure_params, 0)
+        public CvKalman(int dynamParams, int measureParams)
+            : this(dynamParams, measureParams, 0)
 	    {
 	    }
 #if LANG_JP
@@ -58,19 +56,16 @@ namespace OpenCvSharp
         /// <summary>
         /// Allocates Kalman filter structure
         /// </summary>
-        /// <param name="dynam_params">dimensionality of the state vector </param>
-        /// <param name="measure_params">dimensionality of the measurement vector </param>
-        /// <param name="control_params">dimensionality of the control vector </param>
+        /// <param name="dynamParams">dimensionality of the state vector </param>
+        /// <param name="measureParams">dimensionality of the measurement vector </param>
+        /// <param name="controlParams">dimensionality of the control vector </param>
         /// <returns></returns>
 #endif
-        public CvKalman(int dynam_params, int measure_params, int control_params)
+        public CvKalman(int dynamParams, int measureParams, int controlParams)
         {
-            this.ptr = NativeMethods.cvCreateKalman(dynam_params, measure_params, control_params);
+            ptr = NativeMethods.cvCreateKalman(dynamParams, measureParams, controlParams);
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create CvKalman");
-            }
-            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
@@ -96,11 +91,9 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create CvKalman");
-            }
+
             this.ptr = ptr;
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -122,9 +115,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -134,11 +126,10 @@ namespace OpenCvSharp
                     {
                         NativeMethods.cvReleaseKalman(ref ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

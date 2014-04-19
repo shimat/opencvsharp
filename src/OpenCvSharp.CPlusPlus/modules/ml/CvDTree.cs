@@ -24,6 +24,7 @@ namespace OpenCvSharp.CPlusPlus
         private bool disposed;
 
         #region Init and Disposal
+
 #if LANG_JP
         /// <summary>
         /// 既定のコンストラクタ
@@ -98,14 +99,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 決定木を学習する
         /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
         /// <returns></returns>
 #else
 		/// <summary>
@@ -157,14 +158,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 決定木を学習する
         /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="tflag"></param>
         /// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="var_type"></param>
-        /// <param name="missing_mask"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="varType"></param>
+        /// <param name="missingMask"></param>
+        /// <param name="param"></param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -216,8 +217,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 決定木を学習する
         /// </summary>
-        /// <param name="train_data"></param>
-		/// <param name="subsample_idx"></param>
+        /// <param name="trainData"></param>
+        /// <param name="subsampleIdx"></param>
         /// <returns></returns>
 #else
 		/// <summary>
@@ -242,7 +243,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 決定木を学習する
         /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="param"></param>
         /// <returns></returns>
 #else
@@ -271,8 +272,8 @@ namespace OpenCvSharp.CPlusPlus
         /// 入力ベクトルに対する決定木の葉ノードを返す
         /// </summary>
         /// <param name="sample"></param>
-		/// <param name="missing_data_mask"></param>
-        /// <param name="preprocessed_input">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
+        /// <param name="missingDataMask"></param>
+        /// <param name="preprocessedInput">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
         /// <returns></returns>
 #else
 		/// <summary>
@@ -305,8 +306,8 @@ namespace OpenCvSharp.CPlusPlus
         /// 入力ベクトルに対する決定木の葉ノードを返す
         /// </summary>
         /// <param name="sample"></param>
-		/// <param name="missing_data_mask"></param>
-        /// <param name="preprocessed_input">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
+        /// <param name="missingDataMask"></param>
+        /// <param name="preprocessedInput">falseは通常の入力を意味する．true の場合，このメソッドは離散入力変数の全ての値があらかじめ， 0..&lt;num_of_categories_i&gt;-1 の範囲に正規化されていることを仮定する（決定木は内部的にはこのような正規化された表現を用いている）．これは決定木集合の高速な予測に役立つ．連続変数の入力変数に対しては，このフラグは利用されない．</param>
         /// <returns></returns>
 #else
         /// <summary>

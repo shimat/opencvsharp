@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -24,7 +22,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and disposal
 #if LANG_JP
@@ -81,10 +79,7 @@ namespace OpenCvSharp
 	    {
 		    ptr = NativeMethods.cvCreateStructuringElementEx(cols, rows, anchorX, anchorY, shape, values);
             if (ptr == null)
-            {
-                throw new OpenCvSharpException("IplConvKernelの生成に失敗しました。");
-            }
-            NotifyMemoryPressure(SizeOf);
+                throw new OpenCvSharpException("Failed to create IplConvKernel");
 	    }
 
 #if LANG_JP
@@ -101,7 +96,6 @@ namespace OpenCvSharp
         public IplConvKernel(IntPtr ptr)
         {
             this.ptr = ptr;
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -125,7 +119,6 @@ namespace OpenCvSharp
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -139,7 +132,6 @@ namespace OpenCvSharp
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

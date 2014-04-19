@@ -4,8 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -23,7 +21,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
 
         #region Initialization and Disposal
 #if LANG_JP
@@ -40,15 +38,11 @@ namespace OpenCvSharp
         public CvFeatureTree(CvMat desc)
         {
             if (desc == null)
-            {
                 throw new ArgumentNullException("desc");
-            }
-            IntPtr ptr = NativeMethods.cvCreateFeatureTree(desc.CvPtr);
+            
+            ptr = NativeMethods.cvCreateFeatureTree(desc.CvPtr);
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create CvFeatureTree");
-            }
-            this.ptr = ptr;
         }
 
 #if LANG_JP
@@ -208,9 +202,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -218,13 +211,14 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.cvReleaseFeatureTree(ptr);
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.cvReleaseFeatureTree(ptr);
+                        ptr = IntPtr.Zero;
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

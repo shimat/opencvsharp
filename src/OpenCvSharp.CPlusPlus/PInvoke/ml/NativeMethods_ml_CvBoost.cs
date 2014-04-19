@@ -64,23 +64,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr ml_CvBoost_get_weak_response(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ml_CvBoost_get_params(IntPtr obj);
-        
-        // CvBoostTree
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CvBoostTree_sizeof();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CvBoostTree_construct();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostTree_destruct(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool CvBoostTree_train(IntPtr obj, IntPtr _train_data, IntPtr subsample_idx, IntPtr ensemble);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostTree_scale(IntPtr obj, double s);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostTree_read(IntPtr obj, IntPtr fs, IntPtr node, IntPtr ensemble, IntPtr _data);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CvBoostTree_clear(IntPtr obj);
-        
+              
         // CvBoostParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int ml_CvBoostParams_sizeof();

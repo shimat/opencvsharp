@@ -67,11 +67,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 初期化
         /// </summary>
-		/// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-		/// <param name="sample_idx"></param>
-		/// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+		/// <param name="param"></param>
 #else
 		/// <summary>
         /// Training constructor
@@ -112,11 +112,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 初期化
         /// </summary>
-		/// <param name="train_data"></param>
+        /// <param name="trainData"></param>
 		/// <param name="responses"></param>
-		/// <param name="var_idx"></param>
-		/// <param name="sample_idx"></param>
-		/// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+		/// <param name="param"></param>
 #else
         /// <summary>
         /// Training constructor
@@ -174,7 +174,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -182,13 +181,14 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.ml_CvSVM_delete(ptr);
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.ml_CvSVM_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
@@ -203,7 +203,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
 	    /// SVM パラメータのためのグリッドを生成する
 	    /// </summary>
-	    /// <param name="param_id"></param>
+        /// <param name="paramId"></param>
 	    /// <returns></returns>
 #else
 		/// <summary>
@@ -295,11 +295,11 @@ namespace OpenCvSharp.CPlusPlus
 	    /// <summary>
         /// SVMを学習する
 	    /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
         /// <param name="responses"></param>
-        /// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="param"></param>
 #else
 		/// <summary>
         /// Trains SVM
@@ -339,11 +339,11 @@ namespace OpenCvSharp.CPlusPlus
 	    /// <summary>
         /// SVMを学習する
 	    /// </summary>
-        /// <param name="train_data"></param>
+        /// <param name="trainData"></param>
         /// <param name="responses"></param>
-        /// <param name="var_idx"></param>
-        /// <param name="sample_idx"></param>
-        /// <param name="params"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="param"></param>
 #else
         /// <summary>
         /// Trains SVM
@@ -382,21 +382,22 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
         /// <summary>
-	    /// SVMを最適なパラメータで学習する
-	    /// </summary>
-	    /// <param name="train_data"></param>
-	    /// <param name="responses"></param>
-	    /// <param name="var_idx"></param>
-	    /// <param name="sample_idx"></param>
-	    /// <param name="params"></param>
-	    /// <param name="k_fold">交差検定（Cross-validation）パラメータ．学習集合は，k_foldの部分集合に分割され，一つの部分集合がモデルの学習に用いられ，その他の部分集合はテスト集合となる．つまり，SVM アルゴリズムは，k_fold回実行される.</param>
-	    /// <param name="C_grid"></param>
-	    /// <param name="gamma_grid"></param>
-	    /// <param name="p_grid"></param>
-	    /// <param name="nu_grid"></param>
-	    /// <param name="coef_grid"></param>
-	    /// <param name="degree_grid"></param>
-	    /// <returns></returns>
+        /// SVMを最適なパラメータで学習する
+        /// </summary>
+        /// <param name="trainData"></param>
+        /// <param name="responses"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="param"></param>
+        /// <param name="kFold">交差検定（Cross-validation）パラメータ．学習集合は，k_foldの部分集合に分割され，一つの部分集合がモデルの学習に用いられ，その他の部分集合はテスト集合となる．つまり，SVM アルゴリズムは，k_fold回実行される.</param>
+        /// <param name="cGrid"></param>
+        /// <param name="gammaGrid"></param>
+        /// <param name="pGrid"></param>
+        /// <param name="nuGrid"></param>
+        /// <param name="coefGrid"></param>
+        /// <param name="degreeGrid"></param>
+        /// <param name="balanced"></param>
+        /// <returns></returns>
 #else
 	    /// <summary>
 	    /// Trains SVM with optimal parameters
@@ -472,21 +473,22 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
         /// <summary>
-	    /// SVMを最適なパラメータで学習する
-	    /// </summary>
-	    /// <param name="train_data"></param>
-	    /// <param name="responses"></param>
-	    /// <param name="var_idx"></param>
-	    /// <param name="sample_idx"></param>
-	    /// <param name="params"></param>
-	    /// <param name="k_fold">交差検定（Cross-validation）パラメータ．学習集合は，k_foldの部分集合に分割され，一つの部分集合がモデルの学習に用いられ，その他の部分集合はテスト集合となる．つまり，SVM アルゴリズムは，k_fold回実行される.</param>
-	    /// <param name="C_grid"></param>
-	    /// <param name="gamma_grid"></param>
-	    /// <param name="p_grid"></param>
-	    /// <param name="nu_grid"></param>
-	    /// <param name="coef_grid"></param>
-	    /// <param name="degree_grid"></param>
-	    /// <returns></returns>
+        /// SVMを最適なパラメータで学習する
+        /// </summary>
+        /// <param name="trainData"></param>
+        /// <param name="responses"></param>
+        /// <param name="varIdx"></param>
+        /// <param name="sampleIdx"></param>
+        /// <param name="param"></param>
+        /// <param name="kFold">交差検定（Cross-validation）パラメータ．学習集合は，k_foldの部分集合に分割され，一つの部分集合がモデルの学習に用いられ，その他の部分集合はテスト集合となる．つまり，SVM アルゴリズムは，k_fold回実行される.</param>
+        /// <param name="cGrid"></param>
+        /// <param name="gammaGrid"></param>
+        /// <param name="pGrid"></param>
+        /// <param name="nuGrid"></param>
+        /// <param name="coefGrid"></param>
+        /// <param name="degreeGrid"></param>
+        /// <param name="balanced"></param>
+        /// <returns></returns>
 #else
         /// <summary>
         /// Trains SVM with optimal parameters
