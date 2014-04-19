@@ -10,12 +10,15 @@ using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable once InconsistentNaming
+
     /// <summary>
     /// Good Features To Track Detector
     /// </summary>
     public class GFTTDetector : FeatureDetector
     {
         private bool disposed;
+        private Ptr<GFTTDetector> detectorPtr;
 
         #region Init & Disposal
         /// <summary>
@@ -32,6 +35,35 @@ namespace OpenCvSharp.CPlusPlus
         {
             ptr = NativeMethods.features2d_GFTTDetector_new(maxCorners, qualityLevel, minDistance, 
                 blockSize, useHarrisDetector ? 1 : 0, k);
+        }
+
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal GFTTDetector(Ptr<GFTTDetector> detectorPtr)
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal GFTTDetector(IntPtr rawPtr)
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new GFTTDetector FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<GFTTDetector> pointer");
+            var ptrObj = new Ptr<GFTTDetector>(ptr);
+            return new GFTTDetector(ptrObj);
         }
 
 #if LANG_JP
@@ -62,9 +94,17 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.features2d_GFTTDetector_delete(ptr);
-                    ptr = IntPtr.Zero;
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                        detectorPtr = null;
+                    }
+                    else
+                    {
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.features2d_GFTTDetector_delete(ptr);
+                        ptr = IntPtr.Zero;
+                    }
                     disposed = true;
                 }
                 finally

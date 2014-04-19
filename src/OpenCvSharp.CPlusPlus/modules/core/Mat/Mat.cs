@@ -620,9 +620,8 @@ namespace OpenCvSharp.CPlusPlus
                     if (IsEnabledDispose)
                     {
                         if (ptr != IntPtr.Zero)
-                        {
                             NativeMethods.core_Mat_delete(ptr);
-                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
@@ -4222,6 +4221,25 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+        #region FromBitmap
+#if LANG_JP
+        /// <summary>
+        /// System.Drawing.BitmapからOpenCVのMatへ変換して返す.
+        /// </summary>
+        /// <param name="src">変換するSystem.Drawing.Bitmap</param>
+        /// <returns>変換結果のMat</returns>
+#else
+        /// <summary>
+        /// Converts System.Drawing.Bitmap to Mat
+        /// </summary>
+        /// <param name="src">System.Drawing.Bitmap object to be converted</param>
+        /// <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
+#endif
+        public static Mat FromMat(Bitmap src)
+        {
+            return BitmapConverter2.ToMat(src);
+        }
+        #endregion
 
         /// <summary>
         /// 
@@ -4597,7 +4615,7 @@ namespace OpenCvSharp.CPlusPlus
             return ImEncode(ext, prms);
         }
         #endregion
-        #region ImWrite
+        #region ImWrite / SaveImage
         /// <summary>
         /// Saves an image to a specified file.
         /// </summary>
@@ -4615,6 +4633,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="prms"></param>
         /// <returns></returns>
         public bool ImWrite(string fileName, params ImageEncodingParam[] prms)
+        {
+            return Cv2.ImWrite(fileName, this, prms);
+        }
+
+        /// <summary>
+        /// Saves an image to a specified file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        public bool SaveImage(string fileName, int[] prms = null)
+        {
+            return Cv2.ImWrite(fileName, this, prms);
+        }
+        /// <summary>
+        /// Saves an image to a specified file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        public bool SaveImage(string fileName, params ImageEncodingParam[] prms)
         {
             return Cv2.ImWrite(fileName, this, prms);
         }

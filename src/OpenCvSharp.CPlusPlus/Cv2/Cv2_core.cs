@@ -828,7 +828,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             dst.ThrowIfDisposed();
 
-            IntPtr[] mvPtr = new IntPtr[mv.Length];
+            var mvPtr = new IntPtr[mv.Length];
             for (int i = 0; i < mv.Length; i++)
             {
                 mvPtr[i] = mv[i].CvPtr;
@@ -838,7 +838,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Split
         /// <summary>
-        /// copies each plane of a multi-channel array to a dedicated array
+        /// Copies each plane of a multi-channel array to a dedicated array
         /// </summary>
         /// <param name="src"></param>
         /// <param name="mv"></param>
@@ -851,10 +851,20 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr mvPtr;
             NativeMethods.core_split(src.CvPtr, out mvPtr);
 
-            using (VectorOfMat vec = new VectorOfMat(mvPtr))
+            using (var vec = new VectorOfMat(mvPtr))
             {
                 mv = vec.ToArray();
             }
+        }
+        /// <summary>
+        /// Copies each plane of a multi-channel array to a dedicated array
+        /// </summary>
+        /// <param name="src"></param>
+        public static Mat[] Split(Mat src)
+        {
+            Mat[] mv;
+            Split(src, out mv);
+            return mv;
         }
         #endregion
         #region MixChannels

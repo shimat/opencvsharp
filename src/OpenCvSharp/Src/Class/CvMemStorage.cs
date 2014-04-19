@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -24,7 +22,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -51,16 +49,13 @@ namespace OpenCvSharp
         /// <summary>
         /// Creates memory storage
         /// </summary>
-        /// <param name="block_size">Size of the storage blocks in bytes. If it is 0, the block size is set to default value - currently it is ≈64K. </param>
+        /// <param name="blockSize">Size of the storage blocks in bytes. If it is 0, the block size is set to default value - currently it is ≈64K. </param>
 #endif
-        public CvMemStorage(int block_size)
+        public CvMemStorage(int blockSize)
         {
-            this.ptr = NativeMethods.cvCreateMemStorage(block_size);
-            if (this.ptr == IntPtr.Zero)
-            {
+            ptr = NativeMethods.cvCreateMemStorage(blockSize);
+            if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMemStorage");
-            }
-            base.NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -95,9 +90,7 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
 	    {
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create CvMemStorage");
-            }
             this.ptr = ptr;
 	    }
 
@@ -120,9 +113,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -132,11 +124,10 @@ namespace OpenCvSharp
                     {
                         NativeMethods.cvReleaseMemStorage(ref ptr);  
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

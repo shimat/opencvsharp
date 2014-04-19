@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -19,7 +17,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool _disposed = false;
+        private bool disposed;
 
         #region Init and Disposal
 #if LANG_JP
@@ -66,12 +64,9 @@ namespace OpenCvSharp
 #endif
         public CvStereoBMState(StereoBMPreset preset, int numberOfDisparities)
         {
-            this.ptr = NativeMethods.cvCreateStereoBMState(preset, numberOfDisparities);
-            if (this.ptr == IntPtr.Zero)
-            {
+            ptr = NativeMethods.cvCreateStereoBMState(preset, numberOfDisparities);
+            if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvStereoBMState");
-            }
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -109,9 +104,8 @@ namespace OpenCvSharp
 #endif
         protected override void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -121,11 +115,10 @@ namespace OpenCvSharp
                     {
                         NativeMethods.cvReleaseStereoBMState(ref ptr);
                     }
-                    this._disposed = true;
+                    disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

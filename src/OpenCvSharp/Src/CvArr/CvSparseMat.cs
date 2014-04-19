@@ -49,7 +49,6 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             this.ptr = ptr;
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -71,16 +70,13 @@ namespace OpenCvSharp
             : base(true)
         {
             if (sizes == null)
-            {
                 throw new ArgumentNullException("sizes");
-            }
+            
             IntPtr p = NativeMethods.cvCreateSparseMat(dims, sizes, type);
             if (p == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create CvSparseMat");
-            }
+            
             ptr = p;
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -104,7 +100,6 @@ namespace OpenCvSharp
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -118,7 +113,6 @@ namespace OpenCvSharp
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

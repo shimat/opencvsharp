@@ -100,11 +100,18 @@ CVAPI(int) features2d_BFMatcher_isMaskSupported(cv::BFMatcher *obj)
 	return obj->isMaskSupported() ? 1 : 0;
 }
 
-//virtual Ptr<DescriptorMatcher> clone(bool emptyTrainData = false) const;
-
 CVAPI(cv::AlgorithmInfo*) features2d_BFMatcher_info(cv::BFMatcher *obj)
 {
 	return obj->info();
+}
+
+CVAPI(cv::BFMatcher*) features2d_Ptr_BFMatcher_obj(cv::Ptr<cv::BFMatcher> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr)
+{
+    delete ptr;
 }
 
 #pragma endregion

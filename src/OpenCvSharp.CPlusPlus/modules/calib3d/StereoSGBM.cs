@@ -4,11 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using OpenCvSharp;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -26,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and Disposal
         #region Constructor
@@ -110,7 +105,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -118,13 +112,14 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.calib3d_StereoSGBM_delete(ptr);
+                        if(ptr != IntPtr.Zero)
+                            NativeMethods.calib3d_StereoSGBM_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

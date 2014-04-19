@@ -4,14 +4,11 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using OpenCvSharp;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable InconsistentNaming
+
 #if LANG_JP
     /// <summary>
     /// Class for computing stereo correspondence using the block matching algorithm.
@@ -26,7 +23,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         /// <summary>
         /// 
@@ -91,7 +88,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -99,13 +95,14 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.calib3d_StereoBM_delete(ptr);
+                        if(ptr != IntPtr.Zero)
+                            NativeMethods.calib3d_StereoBM_delete(ptr);
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }

@@ -22,6 +22,7 @@ namespace OpenCvSharp.CPlusPlus
     public class FastFeatureDetector : FeatureDetector
     {
         private bool disposed;
+        private Ptr<FastFeatureDetector> detectorPtr;
 
         #region Init & Disposal
         /// <summary>
@@ -32,6 +33,35 @@ namespace OpenCvSharp.CPlusPlus
         public FastFeatureDetector(int threshold = 10, bool nonmaxSuppression = true)
         {
             ptr = NativeMethods.features2d_FastFeatureDetector_new(threshold, nonmaxSuppression ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal FastFeatureDetector(Ptr<FastFeatureDetector> detectorPtr)
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal FastFeatureDetector(IntPtr rawPtr)
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new FastFeatureDetector FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<FastFeatureDetector> pointer");
+            var ptrObj = new Ptr<FastFeatureDetector>(ptr);
+            return new FastFeatureDetector(ptrObj);
         }
 
 #if LANG_JP
@@ -62,9 +92,17 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.features2d_FastFeatureDetector_delete(ptr);
-                    ptr = IntPtr.Zero;
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                        detectorPtr = null;
+                    }
+                    else
+                    {
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.features2d_FastFeatureDetector_delete(ptr);
+                        ptr = IntPtr.Zero;
+                    }
                     disposed = true;
                 }
                 finally

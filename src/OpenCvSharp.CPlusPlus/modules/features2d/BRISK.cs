@@ -10,6 +10,8 @@ using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable once InconsistentNaming
+
 #if LANG_JP
     /// <summary>
     /// BRISK 実装
@@ -22,6 +24,7 @@ namespace OpenCvSharp.CPlusPlus
     public class BRISK : FeatureDetector
     {
         private bool disposed;
+        private Ptr<BRISK> detectorPtr;
 
         #region Init & Disposal
         /// <summary>
@@ -33,6 +36,35 @@ namespace OpenCvSharp.CPlusPlus
         public BRISK(int thresh = 30, int octaves = 3, float patternScale = 1.0f)
         {
             ptr = NativeMethods.features2d_BRISK_new(thresh, octaves, patternScale);
+        }
+
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal BRISK(Ptr<BRISK> detectorPtr)
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal BRISK(IntPtr rawPtr)
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new BRISK FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<BRISK> pointer");
+            var ptrObj = new Ptr<BRISK>(ptr);
+            return new BRISK(ptrObj);
         }
 
 #if LANG_JP
@@ -63,9 +95,17 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.features2d_BRISK_delete(ptr);
-                    ptr = IntPtr.Zero;
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                        detectorPtr = null;
+                    }
+                    else
+                    {
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.features2d_BRISK_delete(ptr);
+                        ptr = IntPtr.Zero;
+                    }
                     disposed = true;
                 }
                 finally

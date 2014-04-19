@@ -88,7 +88,6 @@ namespace OpenCvSharp
         {
             if (!disposed)
             {
-                // 継承したクラス独自の解放処理
                 try
                 {
                     if (disposing)
@@ -102,7 +101,6 @@ namespace OpenCvSharp
                 }
                 finally
                 {
-                    // 親の解放処理
                     base.Dispose(disposing);
                 }
             }
