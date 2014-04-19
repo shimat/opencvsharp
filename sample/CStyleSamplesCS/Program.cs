@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 
 using OpenCvSharp;
-using OpenCvSharp.MachineLearning;
 using OpenCvSharp.Blob;
 using OpenCvSharp.UserInterface;
 using OpenCvSharp.CPlusPlus;
@@ -85,12 +84,7 @@ namespace CStyleSamplesCS
 
             //new DrawToHdc();                   // Draws IplImage to Handle of Device Context(HDC)
 
-            //new DTree();                       // samples/c/mushroom.c
-
             //new Edge();                        // エッジ検出
-
-            // todo: does not work
-            //new EM();                          // EMアルゴリズム
 
             //new FaceDetect();                  // 顔の検出
 
@@ -124,8 +118,6 @@ namespace CStyleSamplesCS
             //new Kalman();                      // カルマンフィルタ
 
             //new LatentSVM();                   // LatentSVM sample
-
-            //new LetterRecog();                 // samples/c/letter_recog.cpp
 
             //new LineIterator();                // CvLineIterator sample            
 
@@ -194,8 +186,6 @@ namespace CStyleSamplesCS
 
             //notice: you need to build OpenCV with SURF 
             //new SURFSample();                  // SURFによる対応点検出
-
-            //new SVM();                         // SVM
 
             //new Text();                        // テキストの描画
 

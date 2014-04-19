@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
@@ -677,7 +676,7 @@ namespace OpenCvSharp.CPlusPlus
             if (images.Length == 0)
                 return;
             
-            List<Window> windows = new List<Window>();
+            var windows = new List<Window>();
             foreach (Mat img in images)
             {
                 windows.Add(new Window(img));
@@ -702,8 +701,8 @@ namespace OpenCvSharp.CPlusPlus
             if (names == null)
                 throw new ArgumentNullException("names");
 
-            Mat[] imagesArray = ToArray(images);
-            string[] namesArray = ToArray(names);
+            Mat[] imagesArray = EnumerableEx.ToArray(images);
+            string[] namesArray = EnumerableEx.ToArray(names);
 
             if (imagesArray.Length == 0)
                 return;
@@ -722,41 +721,6 @@ namespace OpenCvSharp.CPlusPlus
             {
                 w.Close();
             }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="imagesAndNames"></param>
-        public static void ShowImages(params object[] imagesAndNames)
-        {
-            if (imagesAndNames == null)
-                return;
-            if (imagesAndNames.Length % 2 != 0)
-                throw new ArgumentException();
-
-            string[] namesArray = new string[imagesAndNames.Length / 2];
-            Mat[] imagesArray = new Mat[imagesAndNames.Length / 2];
-
-            for (int i = 0; i < imagesAndNames.Length; i+=2)
-            {
-                string name = imagesAndNames[i + 0] as string;
-                if (name == null)
-                    throw new OpenCvSharpException("Invalid name argument");
-                namesArray[i/2] = name;
-
-                Mat arr = imagesAndNames[i + 1] as Mat;
-                if(arr == null)
-                    throw new OpenCvSharpException("Invalid CvArr argument");
-                imagesArray[i/2] = arr;
-            }
-            ShowImages(imagesArray, namesArray);
-        }
-        private static T[] ToArray<T>(IEnumerable<T> enumerable)
-        {
-            T[] arr = enumerable as T[];
-            if (arr != null)
-                return arr;
-            return new List<T>(enumerable).ToArray();
         }
         #endregion
         #region GetWindowByName

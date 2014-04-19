@@ -36,7 +36,10 @@ namespace CppStyleSamplesCS
                 //new SolveEquation();
                 //new MatOperations();
                 //new FaceDetection();
-                new SuperResolutionSample();
+                //new SuperResolutionSample();
+                //new DTree();
+                //new LetterRecog();
+                new SVM();
             sample.Run();
         }
     }

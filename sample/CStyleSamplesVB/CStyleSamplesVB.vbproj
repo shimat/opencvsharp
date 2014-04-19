@@ -117,10 +117,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140405\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.MachineLearning, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140405\lib\net40\OpenCvSharp.MachineLearning.dll</HintPath>
-    </Reference>
     <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140405\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
@@ -194,7 +190,6 @@
     <Compile Include="Samples\DistTransform.vb" />
     <Compile Include="Samples\DrawToHDC.vb" />
     <Compile Include="Samples\Edge.vb" />
-    <Compile Include="Samples\EM.vb" />
     <Compile Include="Samples\FaceDetect.vb" />
     <Compile Include="Samples\FileStorage.vb" />
     <Compile Include="Samples\Filter2D.vb" />
@@ -223,7 +218,6 @@
     <Compile Include="Samples\Snake.vb" />
     <Compile Include="Samples\Squares.vb" />
     <Compile Include="Samples\StereoCorrespondence.vb" />
-    <Compile Include="Samples\SVM.vb" />
     <Compile Include="Samples\Text.vb" />
     <Compile Include="Samples\Threshold.vb" />
     <Compile Include="Samples\TreeNodeIterator.vb" />

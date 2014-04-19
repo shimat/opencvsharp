@@ -169,7 +169,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static implicit operator CvColor(Scalar self)
         {
-            return new CvScalar(self.Val2, self.Val1, self.Val0, 0);
+            return new CvColor((byte)self.Val2, (byte)self.Val1, (byte)self.Val0);
         }
         /// <summary>
         /// 

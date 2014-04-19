@@ -21,5 +21,8 @@
 
         public const string HaarCascade = "data/haarcascade_frontalface_alt2.xml";
         public const string LbpCascade = "data/lbpcascade_frontalface.xml";
+
+        public const string Mushroom = "data/agaricus-lepiota.data";
+        public const string LetterRecog = "data/letter-recognition.data";
     }
 }

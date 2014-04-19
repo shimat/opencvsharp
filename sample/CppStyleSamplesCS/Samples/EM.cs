@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.MachineLearning;
+using OpenCvSharp.CPlusPlus;
 
-namespace CStyleSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
-    /// EMアルゴリズム
+    /// Expectation-Maximization
     /// </summary>
     /// <remarks>
     /// http://opencv.jp/opencv-1.1.0/document/opencvref_ml_em.html#decl_CvEM

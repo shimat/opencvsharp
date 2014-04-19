@@ -99,17 +99,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140405\lib\net40\OpenCvSharp.Blob.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.CPlusPlus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140405\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
-    </Reference>
     <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140405\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenCvSharp.MachineLearning, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-x86.2.4.8.20140405\lib\net40\OpenCvSharp.MachineLearning.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -157,9 +149,7 @@
     <Compile Include="Samples\DFT.cs" />
     <Compile Include="Samples\DistTransform.cs" />
     <Compile Include="Samples\DrawToHDC.cs" />
-    <Compile Include="Samples\DTree.cs" />
     <Compile Include="Samples\Edge.cs" />
-    <Compile Include="Samples\EM.cs" />
     <Compile Include="Samples\FaceDetect.cs" />
     <Compile Include="Samples\FileStorage.cs" />
     <Compile Include="Samples\Filter2D.cs" />
@@ -170,7 +160,6 @@
     <Compile Include="Samples\Inpaint.cs" />
     <Compile Include="Samples\Kalman.cs" />
     <Compile Include="Samples\KMeans.cs" />
-    <Compile Include="Samples\LetterRecog.cs" />
     <Compile Include="Samples\LineIterator.cs" />
     <Compile Include="Samples\PolarTransform.cs" />
     <Compile Include="Samples\MatTest.cs" />
@@ -191,7 +180,6 @@
     <Compile Include="Samples\Snake.cs" />
     <Compile Include="Samples\Squares.cs" />
     <Compile Include="Samples\SURFSample.cs" />
-    <Compile Include="Samples\SVM.cs" />
     <Compile Include="Samples\Text.cs" />
     <Compile Include="Samples\Threshold.cs" />
     <Compile Include="Samples\TreeNodeIterator.cs" />
@@ -503,6 +491,12 @@
       <ProductName>Windows インストーラー 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
+      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
+      <Name>OpenCvSharp.CPlusPlus</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

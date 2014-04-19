@@ -701,8 +701,8 @@ namespace OpenCvSharp
             if (names == null)
                 throw new ArgumentNullException("names");
 
-            CvArr[] imagesArray = ToArray(images);
-            string[] namesArray = ToArray(names);
+            CvArr[] imagesArray = Util.ToArray(images);
+            string[] namesArray = Util.ToArray(names);
 
             if (imagesArray.Length == 0)
                 return;
@@ -721,41 +721,6 @@ namespace OpenCvSharp
             {
                 w.Close();
             }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="imagesAndNames"></param>
-        public static void ShowImages(params object[] imagesAndNames)
-        {
-            if (imagesAndNames == null)
-                return;
-            if (imagesAndNames.Length % 2 != 0)
-                throw new ArgumentException();
-
-            var namesArray = new string[imagesAndNames.Length / 2];
-            var imagesArray = new CvArr[imagesAndNames.Length / 2];
-
-            for (int i = 0; i < imagesAndNames.Length; i+=2)
-            {
-                string name = imagesAndNames[i + 0] as string;
-                if (name == null)
-                    throw new OpenCvSharpException("Invalid name argument");
-                namesArray[i/2] = name;
-
-                CvArr arr = imagesAndNames[i + 1] as CvArr;
-                if(arr == null)
-                    throw new OpenCvSharpException("Invalid CvArr argument");
-                imagesArray[i/2] = arr;
-            }
-            ShowImages(imagesArray, namesArray);
-        }
-        private static T[] ToArray<T>(IEnumerable<T> enumerable)
-        {
-            T[] arr = enumerable as T[];
-            if (arr != null)
-                return arr;
-            return new List<T>(enumerable).ToArray();
         }
         #endregion
         #region GetWindowByName

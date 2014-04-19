@@ -23,7 +23,7 @@ namespace CStyleSamplesCS
         public CalibrateStereoCamera()
         {
             // target filenames
-            string[] pair = new string[] { "Data/Image/Calibration/left{0:D2}.jpg", "Data/Image/Calibration/right{0:D2}.jpg" };
+            string[] pair = { "Data/Image/Calibration/left{0:D2}.jpg", "Data/Image/Calibration/right{0:D2}.jpg" };
             string[][] fileNames = new string[ImageNum][];
             for (int i = 0; i < ImageNum; i++)
             {

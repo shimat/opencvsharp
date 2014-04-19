@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.MachineLearning;
+using OpenCvSharp.CPlusPlus;
 
-namespace CStyleSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
     /// samples/c/letter_recog.cpp
@@ -28,7 +26,7 @@ namespace CStyleSamplesCS
     /// The first 16000 (10000 for boosting)) samples are used for training
     /// and the remaining 4000 (10000 for boosting) - to test the classifier.
     /// </remarks>
-    class LetterRecog
+    class LetterRecog : ISample
     {
         /// <summary>
         /// !! Choose a classifier you want to use !!
@@ -40,7 +38,7 @@ namespace CStyleSamplesCS
         /// <summary>
         /// Entry point
         /// </summary>
-        public LetterRecog()
+        public void Run()
         {
             ClassifierBuilder method;
 
@@ -58,7 +56,7 @@ namespace CStyleSamplesCS
                     throw new NotImplementedException();
             }
 
-            method(Const.DataLetterRecog, null, null);
+            method(FilePath.LetterRecog, null, null);
         }
         /// <summary>
         /// 
@@ -152,7 +150,6 @@ namespace CStyleSamplesCS
             int nsamplesAll = 0, ntrainSamples = 0;
             double trainHr = 0, testHr = 0;
             CvRTrees forest = new CvRTrees();
-            CvMat varImportance = null;
 
             try
             {
@@ -233,7 +230,8 @@ namespace CStyleSamplesCS
             Console.WriteLine("Number of trees: {0}", forest.GetTreeCount());
 
             // Print variable importance
-            varImportance = forest.GetVarImportance();
+            Mat varImportance0 = forest.GetVarImportance();
+            CvMat varImportance = varImportance0.ToCvMat();
             if (varImportance != null)
             {
                 double rtImpSum = Cv.Sum(varImportance).Val0;

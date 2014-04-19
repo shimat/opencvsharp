@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.MachineLearning;
+using OpenCvSharp.CPlusPlus;
 
-namespace CStyleSamplesCS
+namespace CppStyleSamplesCS
 {
     /// <summary>
     /// samples/c/mushroom.c
@@ -20,9 +18,9 @@ namespace CStyleSamplesCS
     /// [http://www.ics.uci.edu/~mlearn/MLRepository.html].
     /// Irvine, CA: University of California, Department of Information and Computer Science.
     /// </remarks>
-    class DTree
+    class DTree : ISample
     {    
-        private readonly string[] VarDesc = new string[]
+        private readonly string[] VarDesc = 
         {
             "cap shape (bell=b,conical=c,convex=x,flat=f)",
             "cap surface (fibrous=f,grooves=g,scaly=y,smooth=s)",
@@ -51,14 +49,14 @@ namespace CStyleSamplesCS
         /// <summary>
         /// main
         /// </summary>
-        public DTree()
+        public void Run()
         {
             CvMat data;
             CvMat missing;
             CvMat responses;
             CvDTree dtree;
 
-            if (!MushroomReadDatabase(Const.DataMushroom, out data, out missing, out responses))
+            if (!MushroomReadDatabase(FilePath.Mushroom, out data, out missing, out responses))
             {
                 Console.WriteLine("Unable to load the training database\n" +
                                   "Pass it as a parameter: dtree <path to agaricus-lepiota.data>\n");
@@ -239,10 +237,10 @@ namespace CStyleSamplesCS
         /// 
         /// </summary>
         /// <param name="dtree"></param>
-        /// <param name="varDesc"></param>
         private void PrintVariableImportance(CvDTree dtree )
         {
-            CvMat varImportance = dtree.GetVarImportance();
+            Mat varImportance0 = dtree.GetVarImportance();
+            CvMat varImportance = varImportance0.ToCvMat();
 
             if( varImportance == null )
             {
