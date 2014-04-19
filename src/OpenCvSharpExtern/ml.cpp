@@ -14,6 +14,6 @@
 #include "ml_CvKNearest.h"
 #include "ml_CvMLData.h"
 #include "ml_NormalBayesClassifier.h"
-#include "ml_RandomTrees.h"
-#include "ml_SVM.h"
+#include "ml_CvRTrees.h"
+#include "ml_CvSVM.h"
 #include "ml_CvTrainTestSplit.h"

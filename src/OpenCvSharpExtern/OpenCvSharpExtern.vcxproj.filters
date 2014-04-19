@@ -171,19 +171,10 @@
     <ClInclude Include="ml_CvTrainTestSplit.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="ml_EM.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
     <ClInclude Include="ml_ERTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_NormalBayesClassifier.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="ml_RandomTrees.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="ml_SVM.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_CvBoost.h">
@@ -202,6 +193,15 @@
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_CvKNearest.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_CvSVM.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_EM.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_CvRTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
   </ItemGroup>

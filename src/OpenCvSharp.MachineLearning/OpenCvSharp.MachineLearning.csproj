@@ -118,13 +118,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enum\EMCovMatType.cs" />
-    <Compile Include="Enum\EMStartStep.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CvStatModel\CvEM.cs" />
     <Compile Include="MLInvoke.cs" />
-    <Compile Include="Class\CvEMParams.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\CvRTParams.cs" />

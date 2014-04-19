@@ -265,9 +265,9 @@
     <ClInclude Include="ml_CvKNearest.h" />
     <ClInclude Include="ml_CvMLData.h" />
     <ClInclude Include="ml_NormalBayesClassifier.h" />
-    <ClInclude Include="ml_RandomTrees.h" />
+    <ClInclude Include="ml_CvRTrees.h" />
     <ClInclude Include="ml_CvStatModel.h" />
-    <ClInclude Include="ml_SVM.h" />
+    <ClInclude Include="ml_CvSVM.h" />
     <ClInclude Include="ml_CvTrainTestSplit.h" />
     <ClInclude Include="cvblob.h" />
     <ClInclude Include="CvBlobWrapper.h" />

@@ -3,71 +3,90 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CVEM_H_
-#define _CVEM_H_
+#ifndef _CPP_ML_EM_H_
+#define _CPP_ML_EM_H_
 
 #include "include_opencv.h"
 
-CVAPI(int) cv_EM_sizeof()
-{
-	return sizeof(cv::EM);
-}
-
-CVAPI(cv::EM*) cv_EM_new(int nclusters, int covMatType, CvTermCriteria termCrit)
+CVAPI(cv::EM*) ml_EM_new(int nclusters, int covMatType, CvTermCriteria termCrit)
 {
 	cv::TermCriteria tc(termCrit);
 	return new cv::EM(nclusters, covMatType, tc);
 }
-CVAPI(void) cv_EM_delete(cv::EM* model)
+CVAPI(void) ml_EM_delete(cv::EM *model)
 {
 	delete model;
 }
 
-
-CVAPI(void) cv_EM_clear(cv::EM* model)
+CVAPI(void) ml_EM_clear(cv::EM *model)
 {
 	model->clear();
 }
-CVAPI(int) cv_EM_train(cv::EM* model, CvMat* samples, CvMat* logLikelihoods, CvMat* labels, CvMat* probs)
+CVAPI(int) ml_EM_train(
+    cv::EM *model, 
+    cv::_InputArray *samples, 
+    cv::_OutputArray *logLikelihoods, 
+    cv::_OutputArray *labels, 
+    cv::_OutputArray *probs)
 {
-	cv::Mat _samples(samples);
-	cv::OutputArray _logLikelihoods = (logLikelihoods == NULL) ? cv::noArray() : cv::Mat(logLikelihoods);
-	cv::OutputArray _labels = (labels == NULL) ? cv::noArray() : cv::Mat(labels);
-	cv::OutputArray _probs = (probs == NULL) ? cv::noArray() : cv::Mat(probs);
-	return model->train(_samples, _logLikelihoods, _labels, _probs) ? 1 : 0;
+	return model->train(*samples, entity(logLikelihoods), entity(labels), entity(probs)) ? 1 : 0;
 }
 
-CVAPI(int) cv_EM_trainE(cv::EM* model, CvMat* samples, CvMat* covs0, CvMat* weights0, 
-	CvMat* logLikelihoods, CvMat* labels, CvMat* probs)
+CVAPI(int) ml_EM_trainE(
+    cv::EM *model, 
+    cv::_InputArray *samples,
+    cv::_InputArray *means0,
+    cv::_InputArray *covs0,
+    cv::_InputArray *weights0,
+    cv::_OutputArray *logLikelihoods,
+    cv::_OutputArray *labels,
+    cv::_OutputArray *probs)
 {
-	cv::Mat _samples(samples);
-	cv::InputArray _covs0 = (covs0 == NULL) ? cv::noArray() : cv::Mat(covs0);
-	cv::InputArray _weights0 = (weights0 == NULL) ? cv::noArray() : cv::Mat(weights0);
-	cv::OutputArray _logLikelihoods = (logLikelihoods == NULL) ? cv::noArray() : cv::Mat(logLikelihoods);
-	cv::OutputArray _labels = (labels == NULL) ? cv::noArray() : cv::Mat(labels);
-	cv::OutputArray _probs = (probs == NULL) ? cv::noArray() : cv::Mat(probs);
-	return model->trainE(_samples, _covs0, _weights0, _logLikelihoods, _labels, _probs) ? 1 : 0;
+	return model->trainE(
+        *samples, *means0, entity(covs0), entity(weights0), 
+        entity(logLikelihoods), entity(labels), entity(probs)) ? 1 : 0;
 }
-CVAPI(int) cv_EM_trainM(cv::EM* model, CvMat* samples, CvMat* probs0, CvMat* logLikelihoods, CvMat* labels, CvMat* probs)
+CVAPI(int) ml_EM_trainM(
+    cv::EM *model, 
+    cv::_InputArray *samples,
+    cv::_InputArray *probs0,
+    cv::_OutputArray *logLikelihoods,
+    cv::_OutputArray *labels,
+    cv::_OutputArray *probs)
 {
-	cv::Mat _samples(samples);
-	cv::InputArray _probs0 = (probs0 == NULL) ? cv::noArray() : cv::Mat(probs0);
-	cv::OutputArray _logLikelihoods = (logLikelihoods == NULL) ? cv::noArray() : cv::Mat(logLikelihoods);
-	cv::OutputArray _labels = (labels == NULL) ? cv::noArray() : cv::Mat(labels);
-	cv::OutputArray _probs = (probs == NULL) ? cv::noArray() : cv::Mat(probs);
-	return model->trainM(_samples, _probs0, _logLikelihoods, _labels, _probs) ? 1 : 0;
+	return model->trainM(
+        *samples, *probs0, entity(logLikelihoods), entity(labels), entity(probs)) ? 1 : 0;
 }
-CVAPI(void) cv_EM_predict(cv::EM* model, CvMat* sample, CvMat* probs, float* ret0, float* ret1)
+CVAPI(void) ml_EM_predict(
+    cv::EM *model, 
+    cv::_InputArray *sample, 
+    cv::_OutputArray *probs, 
+    cv::Vec2d *ret)
 {
-	cv::Mat _sample(sample);
-	cv::OutputArray _probs = (probs == NULL) ? cv::noArray() : cv::Mat(probs);
-	cv::Vec2d ret = model->predict(_sample, _probs);
-	*ret0 = static_cast<float>(ret[0]);
-	*ret1 = static_cast<float>(ret[1]);
+	*ret = model->predict(*sample, entity(probs));
 }
-CVAPI(int) cv_EM_isTrained(cv::EM* model)
+CVAPI(int) ml_EM_isTrained(cv::EM *model)
 {
 	return model->isTrained() ? 1 : 0;
+}
+
+CVAPI(cv::AlgorithmInfo*) ml_EM_info(cv::EM *model)
+{
+    return model->info();
+}
+
+CVAPI(void) ml_EM_read(cv::EM *model, cv::FileNode *fn)
+{
+    model->read(*fn);
+}
+
+CVAPI(cv::EM*) ml_Ptr_EM_obj(cv::Ptr<cv::EM> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) ml_Ptr_EM_delete(cv::Ptr<cv::EM> *ptr)
+{
+    delete ptr;
 }
 
 #endif
