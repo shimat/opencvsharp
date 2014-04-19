@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Blob
 {
@@ -122,18 +120,11 @@ namespace OpenCvSharp.Blob
                 {
                     for (int c = 0; c < Cols; c++)
                     {
-                        try
-                        {
-                            if (Values[r, c] != 0)
-                                img[r, c] = 255;
-                        }
-                        catch
-                        {
-                            throw;
-                        }
+                        if (Values[r, c] != 0)
+                            img[r, c] = 255;
                     }
                 }
-                CvWindow.ShowImages("new", img);
+                CvWindow.ShowImages(img);
             }
         }
     }
