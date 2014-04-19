@@ -20,6 +20,7 @@ namespace OpenCvSharp.CPlusPlus
     public class StarDetector : FeatureDetector
     {
         private bool disposed;
+        private Ptr<StarDetector> detectorPtr;
 
         #region Init & Disposal
 #if LANG_JP
@@ -41,11 +42,45 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="lineThresholdBinarized"></param>
         /// <param name="suppressNonmaxSize"></param>
 #endif
-        public StarDetector(int maxSize = 45, int responseThreshold = 30, int lineThresholdProjected = 10, 
-            int lineThresholdBinarized = 8, int suppressNonmaxSize = 5)
+        public StarDetector(
+            int maxSize = 45, 
+            int responseThreshold = 30, 
+            int lineThresholdProjected = 10, 
+            int lineThresholdBinarized = 8,
+            int suppressNonmaxSize = 5)
         {
             ptr = NativeMethods.features2d_StarDetector_new(
-                maxSize, responseThreshold, lineThresholdProjected, lineThresholdBinarized, suppressNonmaxSize);
+                maxSize, responseThreshold, lineThresholdProjected, 
+                lineThresholdBinarized, suppressNonmaxSize);
+        }
+
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal StarDetector(Ptr<StarDetector> detectorPtr)
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal StarDetector(IntPtr rawPtr)
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new StarDetector FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<StarDetector> pointer");
+            var ptrObj = new Ptr<StarDetector>(ptr);
+            return new StarDetector(ptrObj);
         }
 
 #if LANG_JP
@@ -76,9 +111,17 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.features2d_StarDetector_delete(ptr);
-                    ptr = IntPtr.Zero;
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                        detectorPtr = null;
+                    }
+                    else
+                    {
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.features2d_StarDetector_delete(ptr);
+                        ptr = IntPtr.Zero;
+                    }
                     disposed = true;
                 }
                 finally

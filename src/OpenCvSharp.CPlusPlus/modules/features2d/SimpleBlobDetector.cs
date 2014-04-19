@@ -4,9 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -16,6 +14,7 @@ namespace OpenCvSharp.CPlusPlus
     public class SimpleBlobDetector : FeatureDetector
     {
         private bool disposed;
+        private Ptr<SimpleBlobDetector> detectorPtr;
 
         /// <summary>
         /// SimpleBlobDetector parameters
@@ -177,8 +176,7 @@ namespace OpenCvSharp.CPlusPlus
             public float minConvexity, maxConvexity;
 #pragma warning restore 1591
         }
-
-
+        
         #region Init & Disposal
         /// <summary>
         /// 
@@ -189,6 +187,35 @@ namespace OpenCvSharp.CPlusPlus
             if (parameters == null)
                 parameters = new Params();
             ptr = NativeMethods.features2d_SimpleBlobDetector_new(ref parameters.data);
+        }
+                
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal SimpleBlobDetector(Ptr<SimpleBlobDetector> detectorPtr)
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal SimpleBlobDetector(IntPtr rawPtr)
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new SimpleBlobDetector FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<SimpleBlobDetector> pointer");
+            var ptrObj = new Ptr<SimpleBlobDetector>(ptr);
+            return new SimpleBlobDetector(ptrObj);
         }
 
 #if LANG_JP
@@ -219,9 +246,17 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.features2d_SimpleBlobDetector_delete(ptr);
-                    ptr = IntPtr.Zero;
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                        detectorPtr = null;
+                    }
+                    else
+                    {
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.features2d_SimpleBlobDetector_delete(ptr);
+                        ptr = IntPtr.Zero;
+                    }
                     disposed = true;
                 }
                 finally

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable once InconsistentNaming
+
     /// <summary>
     /// Brute-force descriptor matcher.
     /// For each descriptor in the first set, this matcher finds the closest descriptor in the second set by trying each one.
@@ -12,6 +11,7 @@ namespace OpenCvSharp.CPlusPlus
     public class BFMatcher : DescriptorMatcher
     {
         private bool disposed;
+        private Ptr<BFMatcher> detectorPtr;
 
         #region Init & Disposal
         /// <summary>
@@ -22,6 +22,35 @@ namespace OpenCvSharp.CPlusPlus
         public BFMatcher(NormType normType = NormType.L2, bool crossCheck = false)
         {
             ptr = NativeMethods.features2d_BFMatcher_new((int)normType, crossCheck ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal BFMatcher(Ptr<BFMatcher> detectorPtr)
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal BFMatcher(IntPtr rawPtr)
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new BFMatcher FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<BFMatcher> pointer");
+            var ptrObj = new Ptr<BFMatcher>(ptr);
+            return new BFMatcher(ptrObj);
         }
 
 #if LANG_JP
@@ -52,9 +81,17 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.features2d_BFMatcher_delete(ptr);
-                    ptr = IntPtr.Zero;
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                        detectorPtr = null;
+                    }
+                    else
+                    {
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.features2d_BFMatcher_delete(ptr);
+                        ptr = IntPtr.Zero;
+                    }
                     disposed = true;
                 }
                 finally

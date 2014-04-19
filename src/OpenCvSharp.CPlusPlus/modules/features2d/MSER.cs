@@ -10,6 +10,8 @@ using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
+// ReSharper disable once InconsistentNaming
+
 #if LANG_JP
     /// <summary>
     /// MSER (Maximal Stable Extremal Regions) 抽出機
@@ -22,6 +24,7 @@ namespace OpenCvSharp.CPlusPlus
     public class MSER : FeatureDetector
     {
         private bool disposed;
+        private Ptr<MSER> detectorPtr;
 
         #region Init & Disposal
 #if LANG_JP
@@ -66,6 +69,35 @@ namespace OpenCvSharp.CPlusPlus
                                                 maxEvolution, areaThreshold, minMargin, edgeBlurSize);
         }
 
+        /// <summary>
+        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// </summary>
+        internal MSER(Ptr<MSER> detectorPtr)
+        {
+            this.detectorPtr = detectorPtr;
+            this.ptr = detectorPtr.Obj;
+        }
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        internal MSER(IntPtr rawPtr)
+        {
+            detectorPtr = null;
+            ptr = rawPtr;
+        }
+        /// <summary>
+        /// Creates instance from cv::Ptr&lt;T&gt; .
+        /// ptr is disposed when the wrapper disposes. 
+        /// </summary>
+        /// <param name="ptr"></param>
+        internal static new MSER FromPtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Invalid cv::Ptr<MSER> pointer");
+            var ptrObj = new Ptr<MSER>(ptr);
+            return new MSER(ptrObj);
+        }
+
 #if LANG_JP
     /// <summary>
     /// リソースの解放
@@ -94,9 +126,17 @@ namespace OpenCvSharp.CPlusPlus
                     {
                     }
                     // releases unmanaged resources
-                    if (ptr != IntPtr.Zero)
-                        NativeMethods.features2d_MSER_delete(ptr);
-                    ptr = IntPtr.Zero;
+                    if (detectorPtr != null)
+                    {
+                        detectorPtr.Dispose();
+                        detectorPtr = null;
+                    }
+                    else
+                    {
+                        if (ptr != IntPtr.Zero)
+                            NativeMethods.features2d_MSER_delete(ptr);
+                        ptr = IntPtr.Zero;
+                    }
                     disposed = true;
                 }
                 finally

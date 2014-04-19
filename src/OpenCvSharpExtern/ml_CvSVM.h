@@ -3,8 +3,8 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CVSVM_H_
-#define _CVSVM_H_
+#ifndef _CPP_ML_CVSVM_H_
+#define _CPP_ML_CVSVM_H_
 
 #include "include_opencv.h"
 

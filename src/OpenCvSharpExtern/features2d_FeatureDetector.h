@@ -118,18 +118,14 @@ CVAPI(cv::AlgorithmInfo*) features2d_BRISK_info(cv::BRISK *obj)
 	return obj->info();
 }
 
-/*
-	// custom setup
-	CV_WRAP explicit BRISK(std::vector<float> &radiusList, std::vector<int> &numberList,
-		float dMax = 5.85f, float dMin = 8.2f, std::vector<int> indexChange = std::vector<int>());
-
-	// call this to generate the kernel:
-	// circle of radius r (pixels), with n points;
-	// short pairings with dMax, long pairings with dMin
-	CV_WRAP void generateKernel(std::vector<float> &radiusList,
-		std::vector<int> &numberList, float dMax = 5.85f, float dMin = 8.2f,
-		std::vector<int> indexChange = std::vector<int>());
-*/
+CVAPI(cv::BRISK*) features2d_Ptr_BRISK_obj(cv::Ptr<cv::BRISK> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_BRISK_delete(cv::Ptr<cv::BRISK> *ptr)
+{
+    delete ptr;
+}
 #pragma endregion
 
 #pragma region ORB
@@ -168,6 +164,15 @@ CVAPI(void) features2d_ORB_run2(cv::ORB *obj, cv::_InputArray *image, cv::_Input
 CVAPI(cv::AlgorithmInfo*) features2d_ORB_info(cv::ORB *obj)
 {
 	return obj->info();
+}
+
+CVAPI(cv::ORB*) features2d_Ptr_ORB_obj(cv::Ptr<cv::ORB> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_ORB_delete(cv::Ptr<cv::ORB> *ptr)
+{
+    delete ptr;
 }
 #pragma endregion
 
@@ -211,6 +216,16 @@ CVAPI(cv::AlgorithmInfo*) features2d_FREAK_info(cv::FREAK *obj)
 {
 	return obj->info();
 }
+
+CVAPI(cv::FREAK*) features2d_Ptr_FREAK_obj(cv::Ptr<cv::FREAK> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_FREAK_delete(cv::Ptr<cv::FREAK> *ptr)
+{
+    delete ptr;
+}
+
 #pragma endregion
 
 #pragma region MSER
@@ -235,6 +250,15 @@ CVAPI(cv::AlgorithmInfo*) features2d_MSER_info(cv::MSER *obj)
 {
 	return obj->info();
 }
+
+CVAPI(cv::MSER*) features2d_Ptr_MSER_obj(cv::Ptr<cv::MSER> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_MSER_delete(cv::Ptr<cv::MSER> *ptr)
+{
+    delete ptr;
+}
 #pragma endregion
 
 #pragma region StarDetector
@@ -257,6 +281,15 @@ CVAPI(cv::AlgorithmInfo*) features2d_StarDetector_info(cv::StarDetector *obj)
 {
 	return obj->info();
 }
+
+CVAPI(cv::StarDetector*) features2d_Ptr_StarDetector_obj(cv::Ptr<cv::StarDetector> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_StarDetector_delete(cv::Ptr<cv::StarDetector> *ptr)
+{
+    delete ptr;
+}
 #pragma endregion
 
 #pragma region FastFeatureDetector
@@ -271,6 +304,15 @@ CVAPI(void) features2d_FastFeatureDetector_delete(cv::FastFeatureDetector *obj)
 CVAPI(cv::AlgorithmInfo*) features2d_FastFeatureDetector_info(cv::FastFeatureDetector *obj)
 {
 	return obj->info();
+}
+
+CVAPI(cv::FastFeatureDetector*) features2d_Ptr_FastFeatureDetector_obj(cv::Ptr<cv::FastFeatureDetector> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_FastFeatureDetector_delete(cv::Ptr<cv::FastFeatureDetector> *ptr)
+{
+    delete ptr;
 }
 #pragma endregion
 
@@ -288,6 +330,15 @@ CVAPI(void) features2d_GFTTDetector_delete(cv::GFTTDetector *obj)
 CVAPI(cv::AlgorithmInfo*) features2d_GFTTDetector_info(cv::GFTTDetector *obj)
 {
 	return obj->info();
+}
+
+CVAPI(cv::GFTTDetector*) features2d_Ptr_GFTTDetector_obj(cv::Ptr<cv::GFTTDetector> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_GFTTDetector_delete(cv::Ptr<cv::GFTTDetector> *ptr)
+{
+    delete ptr;
 }
 #pragma endregion
 
@@ -345,6 +396,15 @@ CVAPI(void) features2d_SimpleBlobDetector_delete(cv::SimpleBlobDetector* obj)
 {
 	delete obj;
 }
+
+CVAPI(cv::SimpleBlobDetector*) features2d_Ptr_SimpleBlobDetector_obj(cv::Ptr<cv::SimpleBlobDetector> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_SimpleBlobDetector_delete(cv::Ptr<cv::SimpleBlobDetector> *ptr)
+{
+    delete ptr;
+}
 #pragma endregion
 
 #pragma region DenseFeatureDetector
@@ -363,6 +423,15 @@ CVAPI(void) features2d_DenseFeatureDetector_delete(cv::DenseFeatureDetector *obj
 CVAPI(cv::AlgorithmInfo*) features2d_DenseFeatureDetector_info(cv::DenseFeatureDetector *obj)
 {
 	return obj->info();
+}
+
+CVAPI(cv::DenseFeatureDetector*) features2d_Ptr_DenseFeatureDetector_obj(cv::Ptr<cv::DenseFeatureDetector> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_DenseFeatureDetector_delete(cv::Ptr<cv::DenseFeatureDetector> *ptr)
+{
+    delete ptr;
 }
 
 #pragma endregion

@@ -3,12 +3,10 @@
  * This code is licenced under the LGPL.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenCvSharp.MachineLearning
+namespace OpenCvSharp.CPlusPlus
 {
+    // ReSharper disable InconsistentNaming
+
 #if LANG_JP
     /// <summary>
 	/// アルゴリズムをスタートする最初のステップ
