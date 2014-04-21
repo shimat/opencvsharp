@@ -28,7 +28,6 @@ namespace CppStyleSamplesCS
                 //new MDS();
                 //new DFT();
                 //new PixelAccess();
-                //new StarDetectorSample();
                 //new StereoCorrespondence();
                 //new MorphologySample();
                 //new MergeSplitSample();
@@ -39,7 +38,10 @@ namespace CppStyleSamplesCS
                 //new SuperResolutionSample();
                 //new DTree();
                 //new LetterRecog();
-                new SVM();
+                //new SVM();
+                //new StarDetectorSample();
+                //new BRISKSample();
+                new FREAKSample();
             sample.Run();
         }
     }

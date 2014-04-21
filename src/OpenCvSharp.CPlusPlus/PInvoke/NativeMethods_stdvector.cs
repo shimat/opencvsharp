@@ -275,6 +275,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr vector_vector_KeyPoint_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_vector_KeyPoint_new2(IntPtr size);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr vector_vector_KeyPoint_new3(
+            IntPtr[] values, int size1, int[] size2);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_vector_KeyPoint_getSize1(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

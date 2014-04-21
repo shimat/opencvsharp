@@ -19,7 +19,7 @@ namespace OpenCvSharp.CPlusPlus
     /// FREAK implementation
     /// </summary>
 #endif
-    public class FREAK : FeatureDetector
+    public class FREAK : DescriptorExtractor
     {
         private bool disposed;
         private Ptr<FREAK> detectorPtr;

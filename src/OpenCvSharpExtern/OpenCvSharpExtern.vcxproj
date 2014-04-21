@@ -245,6 +245,7 @@
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_RNG.h" />
     <ClInclude Include="core_SparseMat.h" />
+    <ClInclude Include="features2d_DescriptorExtractor.h" />
     <ClInclude Include="ml_CvBoostTree.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />
     <ClInclude Include="features2d_FeatureDetector.h" />

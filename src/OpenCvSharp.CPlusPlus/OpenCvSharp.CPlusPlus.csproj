@@ -149,6 +149,8 @@
     <Compile Include="modules\calib3d\FindCirclesGridFlag.cs" />
     <Compile Include="modules\core\FileStorage.cs" />
     <Compile Include="modules\core\FileNode.cs" />
+    <Compile Include="modules\features2d\DescriptorExtractor.cs" />
+    <Compile Include="modules\features2d\IDescriptorExtractor.cs" />
     <Compile Include="modules\ml\Class\CvDTreeNode.cs" />
     <Compile Include="modules\ml\Class\CvDTreeSplit.cs" />
     <Compile Include="modules\ml\Class\CvDTreeTrainData.cs" />
@@ -273,6 +275,7 @@
     <Compile Include="modules\core\Struct\Point3i.cs" />
     <Compile Include="modules\core\Struct\Rangef.cs" />
     <Compile Include="modules\core\Struct\Point2d.cs" />
+    <Compile Include="PInvoke\NativeMethods_features2d_DescriptorExtractor.cs" />
     <Compile Include="Vector\VectorOfDouble.cs" />
     <Compile Include="Vector\VectorOfInt32.cs" />
     <Compile Include="Vector\VectorOfDMatch.cs" />

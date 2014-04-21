@@ -1,69 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
     /// 
     /// </summary>
-    public class Feature2D : FeatureDetector, IDescriptorExtractor
+    public class DescriptorExtractor : Algorithm, IDescriptorExtractor
     {
         private bool disposed;
         /// <summary>
-        /// cv::Ptr&lt;Feature2D&gt;
+        /// cv::Ptr&lt;DescriptorExtractor&gt;
         /// </summary>
-        private Ptr<Feature2D> detectorPtr;
+        private Ptr<DescriptorExtractor> extractorPtr;
 
         /// <summary>
         /// 
         /// </summary>
-        internal Feature2D()
-            : base()
+        internal DescriptorExtractor()
         {
+            extractorPtr = null;
+            ptr = IntPtr.Zero;
         }
         /// <summary>
         /// Creates instance from cv::Ptr&lt;T&gt; .
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new Feature2D FromPtr(IntPtr ptr)
+        internal static DescriptorExtractor FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<Feature2D> pointer");
-            var ptrObj = new Ptr<Feature2D>(ptr);
-            var detector = new Feature2D
+                throw new OpenCvSharpException("Invalid DescriptorExtractor pointer");
+
+            var ptrObj = new Ptr<DescriptorExtractor>(ptr);
+            var extractor = new DescriptorExtractor
                 {
-                    detectorPtr = ptrObj, 
+                    extractorPtr = ptrObj,
                     ptr = ptrObj.Obj
                 };
-            return detector;
+            return extractor;
         }
         /// <summary>
-        /// Creates instance from raw pointer T*
+        /// Creates instance from raw T*
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new Feature2D FromRawPtr(IntPtr ptr)
+        internal static DescriptorExtractor FromRawPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid Feature2D pointer");
-            var detector = new Feature2D
+                throw new OpenCvSharpException("Invalid DescriptorExtractor pointer");
+            var extractor = new DescriptorExtractor
                 {
-                    detectorPtr = null, 
+                    extractorPtr = null,
                     ptr = ptr
                 };
-            return detector;
+            return extractor;
         }
 
-
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
         /// <summary>
         /// Releases the resources
         /// </summary>
@@ -71,7 +65,6 @@ namespace OpenCvSharp.CPlusPlus
         /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
         /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
         /// </param>
-#endif
         protected override void Dispose(bool disposing)
         {
             if (!disposed)
@@ -85,9 +78,9 @@ namespace OpenCvSharp.CPlusPlus
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (detectorPtr != null)
-                            detectorPtr.Dispose();
-                        detectorPtr = null;
+                        if (extractorPtr != null)
+                            extractorPtr.Dispose();
+                        extractorPtr = null;
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -98,7 +91,7 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
-        
+
         /// <summary>
         /// Compute the descriptors for a set of keypoints in an image.
         /// </summary>
@@ -109,9 +102,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (image == null)
                 throw new ArgumentNullException("image");
-            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
+            if (descriptors == null)
+                throw new ArgumentNullException("descriptors");
+
+            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint(keypoints))
             {
-                NativeMethods.features2d_Feature2D_compute(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
+                NativeMethods.features2d_DescriptorExtractor_compute1(
+                    ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
                 keypoints = keypointsVec.ToArray();
             }
         }
@@ -136,7 +133,7 @@ namespace OpenCvSharp.CPlusPlus
             using (var keypointsVec = new VectorOfVectorKeyPoint(keypoints))
             {
                 NativeMethods.features2d_DescriptorExtractor_compute2(
-                    ptr, imagesPtrs, imagesPtrs.Length, keypointsVec.CvPtr,
+                    ptr, imagesPtrs, imagesPtrs.Length, keypointsVec.CvPtr, 
                     descriptorsPtrs, descriptorsPtrs.Length);
 
                 keypoints = keypointsVec.ToArray();
@@ -144,26 +141,46 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
+        /// Return true if detector object is empty
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool Empty()
+        {
+            return NativeMethods.features2d_DescriptorExtractor_empty(ptr) != 0;
+        }
+
+        /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.features2d_DescriptorExtractor_info(ptr); }
+        }
+
+        /// <summary>
         /// Create feature detector by detector name.
         /// </summary>
-        /// <param name="detectorType"></param>
+        /// <param name="descriptorExtractorType">
+        /// </param>
         /// <returns></returns>
-        public static new Feature2D Create(string detectorType)
+        public static DescriptorExtractor Create(string descriptorExtractorType)
         {
-            if(String.IsNullOrEmpty(detectorType))
-                throw new ArgumentNullException("detectorType");
-            // gets cv::Ptr<Feature2D>
-            IntPtr ptr = NativeMethods.features2d_Feature2D_create(detectorType);
+            if (String.IsNullOrEmpty(descriptorExtractorType))
+                throw new ArgumentNullException("descriptorExtractorType");
+
+            // gets cv::Ptr<DescriptorExtractor>
             try
             {
-                Feature2D detector = FromPtr(ptr);
+                IntPtr ptr = NativeMethods.features2d_DescriptorExtractor_create(descriptorExtractorType);
+                DescriptorExtractor detector = FromPtr(ptr);
                 return detector;
             }
             catch (OpenCvSharpException)
             {
-                throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
+                throw new OpenCvSharpException(
+                    "DescriptorExtractor name '{0}' is not valid.", descriptorExtractorType);
             }
         }
-
     }
 }

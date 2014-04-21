@@ -4,17 +4,17 @@ using OpenCvSharp.CPlusPlus;
 namespace CppStyleSamplesCS
 {
     /// <summary>
-    /// Retrieves keypoints using the StarDetector algorithm.
+    /// Retrieves keypoints using the BRISK algorithm.
     /// </summary>
-    class StarDetectorSample : ISample
+    class BRISKSample : ISample
     {
         public void Run()
         {
-            var dst = new Mat(FilePath.Lenna, LoadMode.Color);
             var gray = new Mat(FilePath.Lenna, LoadMode.GrayScale);
+            var dst = new Mat(FilePath.Lenna, LoadMode.Color);
 
-            StarDetector detector = new StarDetector(45);
-            KeyPoint[] keypoints = detector.Run(gray);
+            BRISK brisk = new BRISK();
+            KeyPoint[] keypoints = brisk.Detect(gray);
 
             if (keypoints != null)
             {
@@ -34,7 +34,7 @@ namespace CppStyleSamplesCS
                 }
             }
 
-            using (new Window("StarDetector features", dst))
+            using (new Window("BRISK features", dst))
             {
                 Cv.WaitKey();
             }

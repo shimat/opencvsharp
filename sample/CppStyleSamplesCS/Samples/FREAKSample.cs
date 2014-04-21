@@ -4,17 +4,23 @@ using OpenCvSharp.CPlusPlus;
 namespace CppStyleSamplesCS
 {
     /// <summary>
-    /// Retrieves keypoints using the StarDetector algorithm.
+    /// Retrieves keypoints using the FREAK algorithm.
     /// </summary>
-    class StarDetectorSample : ISample
+    class FREAKSample : ISample
     {
         public void Run()
         {
-            var dst = new Mat(FilePath.Lenna, LoadMode.Color);
             var gray = new Mat(FilePath.Lenna, LoadMode.GrayScale);
+            var dst = new Mat(FilePath.Lenna, LoadMode.Color);
 
-            StarDetector detector = new StarDetector(45);
-            KeyPoint[] keypoints = detector.Run(gray);
+            // ORB
+            var orb = new ORB(1000);
+            KeyPoint[] keypoints = orb.Detect(gray);
+
+            // FREAK
+            FREAK freak = new FREAK();
+            Mat freakDescriptors = new Mat();
+            freak.Compute(gray, ref keypoints, freakDescriptors);
 
             if (keypoints != null)
             {
@@ -34,7 +40,7 @@ namespace CppStyleSamplesCS
                 }
             }
 
-            using (new Window("StarDetector features", dst))
+            using (new Window("FREAK features", dst))
             {
                 Cv.WaitKey();
             }

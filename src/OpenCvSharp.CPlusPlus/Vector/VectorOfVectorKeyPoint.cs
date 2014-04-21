@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
@@ -32,6 +30,21 @@ namespace OpenCvSharp.CPlusPlus
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
             ptr = NativeMethods.vector_vector_KeyPoint_new2(new IntPtr(size));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="values"></param>
+        public VectorOfVectorKeyPoint(KeyPoint[][] values)
+        {
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            using (var aa = new ArrayAddress2<KeyPoint>(values))
+            {
+                ptr = NativeMethods.vector_vector_KeyPoint_new3(
+                    aa.Pointer, aa.Dim1Length, aa.Dim2Lengths);
+            }
         }
 
         /// <summary>
