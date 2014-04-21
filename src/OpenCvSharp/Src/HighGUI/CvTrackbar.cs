@@ -175,7 +175,7 @@ namespace OpenCvSharp
 
             gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
 #if DEBUG
-            int result = NativeMethods.cvCreateTrackbar2(name, window, ref value, max, _callbackNative, userdataPtr);
+            int result = NativeMethods.cvCreateTrackbar2(name, window, ref value, max, callbackNative, userdataPtr);
 #else
             result = NativeMethods.cvCreateTrackbar2(name, window, ref value, max, callbackPtr, userdataPtr);
 #endif

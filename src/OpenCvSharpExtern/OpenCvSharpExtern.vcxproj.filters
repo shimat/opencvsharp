@@ -207,6 +207,9 @@
     <ClInclude Include="ml_CvNormalBayesClassifier.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
+    <ClInclude Include="features2d_DescriptorExtractor.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

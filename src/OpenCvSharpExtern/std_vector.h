@@ -539,6 +539,17 @@ CVAPI(vector<vector<cv::KeyPoint> >*) vector_vector_KeyPoint_new2(size_t size)
 {
 	return new vector<vector<cv::KeyPoint> >(size);
 }
+CVAPI(vector<vector<cv::KeyPoint> >*) vector_vector_KeyPoint_new3(
+    cv::KeyPoint **values, int size1, int *size2)
+{
+    vector<vector<cv::KeyPoint> > *vec = new std::vector<vector<cv::KeyPoint> >(size1);
+    for (int i = 0; i < size1; i++)
+    {
+        vec->at(i) = std::vector<cv::KeyPoint>(values[i], values[i] + size2[i]);
+    }
+	return vec;
+}
+
 CVAPI(size_t) vector_vector_KeyPoint_getSize1(vector<vector<cv::KeyPoint> >* vec)
 {
 	return vec->size();
