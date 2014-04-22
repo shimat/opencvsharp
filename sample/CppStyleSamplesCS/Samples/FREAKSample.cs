@@ -40,7 +40,7 @@ namespace CppStyleSamplesCS
                 }
             }
 
-            using (new Window("FREAK features", dst))
+            using (new Window("FREAK", dst))
             {
                 Cv.WaitKey();
             }

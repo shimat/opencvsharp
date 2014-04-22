@@ -109,7 +109,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (image == null)
                 throw new ArgumentNullException("image");
-            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint())
+            using (var keypointsVec = new VectorOfKeyPoint())
             {
                 NativeMethods.features2d_Feature2D_compute(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
                 keypoints = keypointsVec.ToArray();
