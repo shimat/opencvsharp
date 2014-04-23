@@ -149,6 +149,7 @@
     <Compile Include="modules\calib3d\FindCirclesGridFlag.cs" />
     <Compile Include="modules\core\FileStorage.cs" />
     <Compile Include="modules\core\FileNode.cs" />
+    <Compile Include="modules\features2d\BriefDescriptorExtractor.cs" />
     <Compile Include="modules\features2d\DescriptorExtractor.cs" />
     <Compile Include="modules\features2d\IDescriptorExtractor.cs" />
     <Compile Include="modules\ml\Class\CvDTreeNode.cs" />
