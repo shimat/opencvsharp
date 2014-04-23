@@ -427,7 +427,7 @@ namespace OpenCvSharp.Blob
 
                     // New track.
                     maxTrackID++;
-                    CvBlob blob = this[i];
+                    CvBlob blob = this[i+1];
                     CvTrack track = new CvTrack
                     {
                         Id = maxTrackID,
