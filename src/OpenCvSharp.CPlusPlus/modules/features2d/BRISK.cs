@@ -4,9 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -21,7 +18,7 @@ namespace OpenCvSharp.CPlusPlus
     /// BRISK implementation
     /// </summary>
 #endif
-    public class BRISK : FeatureDetector
+    public class BRISK : Feature2D
     {
         private bool disposed;
         private Ptr<BRISK> detectorPtr;

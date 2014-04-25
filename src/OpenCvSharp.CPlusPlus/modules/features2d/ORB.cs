@@ -18,7 +18,7 @@ namespace OpenCvSharp.CPlusPlus
     /// ORB implementation
     /// </summary>
 #endif
-    public class ORB : FeatureDetector
+    public class ORB : Feature2D
     {
         private bool disposed;
         private Ptr<ORB> detectorPtr;

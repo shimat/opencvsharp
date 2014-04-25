@@ -19,7 +19,31 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            Run();
+            UpdateTracks();
+            //Run();
+        }
+
+        private static void UpdateTracks()
+        {
+            using (IplImage imgSrc = new IplImage("img/shapes.png", LoadMode.Color))
+            using (IplImage imgBinary = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (IplImage imgRender = imgSrc.Clone())
+            {
+                Cv.CvtColor(imgSrc, imgBinary, ColorConversion.BgrToGray);
+                Cv.Threshold(imgBinary, imgBinary, 100, 255, ThresholdType.Binary);
+
+                CvBlobs blobs = new CvBlobs();
+                CvTracks tracks = new CvTracks();
+                int result = blobs.Label(imgBinary);
+
+                if (result > 0)
+                {
+                    // This throws a System.Collections.Generic.KeyNotFoundException 
+                    blobs.UpdateTracks(tracks, 10.0, int.MaxValue);
+                    tracks.Render(imgBinary, imgRender, RenderTracksMode.Id | RenderTracksMode.BoundingBox);
+                    CvWindow.ShowImages(imgRender);
+                }
+            }
         }
 
         private static void Run()
