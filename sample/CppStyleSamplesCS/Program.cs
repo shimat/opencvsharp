@@ -34,14 +34,14 @@ namespace CppStyleSamplesCS
                 //new NormalArrayOperations();
                 //new SolveEquation();
                 //new MatOperations();
-                //new FaceDetection();
+                new FaceDetection();
                 //new SuperResolutionSample();
                 //new DTree();
                 //new LetterRecog();
                 //new SVM();
                 //new StarDetectorSample();
                 //new BRISKSample();
-                new FREAKSample();
+                //new FREAKSample();
             sample.Run();
         }
     }

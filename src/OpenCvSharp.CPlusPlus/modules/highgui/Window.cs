@@ -598,6 +598,23 @@ namespace OpenCvSharp.CPlusPlus
         {
             Cv2.SetWindowProperty(name, propId, propValue);
         }
+#if LANG_JP
+        /// <summary>
+        /// ウィンドウのプロパティを設定する
+        /// </summary>
+        /// <param name="propId">プロパティの種類</param>
+        /// <param name="propValue">プロパティに設定する値</param>
+#else
+        /// <summary>
+        /// Set Property of the window
+        /// </summary>
+        /// <param name="propId">Property identifier</param>
+        /// <param name="propValue">New value of the specified property</param>
+#endif
+        public void SetProperty(WindowProperty propId, double propValue)
+        {
+            Cv2.SetWindowProperty(name, propId, propValue);
+        }
         #endregion
         #region ShowImage
 #if LANG_JP
