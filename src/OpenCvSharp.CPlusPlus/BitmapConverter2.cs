@@ -52,7 +52,7 @@ namespace OpenCvSharp.CPlusPlus
                     channels = 3; break;
                 case PixelFormat.Format32bppArgb:
                 case PixelFormat.Format32bppPArgb:
-                    channels = 3; break;
+                    channels = 4; break;
                 case PixelFormat.Format8bppIndexed:
                 case PixelFormat.Format1bppIndexed:
                     channels = 1; break;
@@ -155,8 +155,12 @@ namespace OpenCvSharp.CPlusPlus
                     case PixelFormat.Format8bppIndexed:
                     case PixelFormat.Format24bppRgb:
                     {
-                        if (dst.Channels() != 1)
-                            throw new ArgumentException("Invalid nChannels");
+                        if (src.PixelFormat == PixelFormat.Format8bppIndexed)
+                            if (dst.Channels() != 1)
+                                throw new ArgumentException("Invalid nChannels");
+                        if (src.PixelFormat == PixelFormat.Format24bppRgb)
+                            if (dst.Channels() != 3)
+                                throw new ArgumentException("Invalid nChannels");
 
                         // Mat幅が4の倍数なら一気にコピー
                         if (dstep % 4 == 0)
