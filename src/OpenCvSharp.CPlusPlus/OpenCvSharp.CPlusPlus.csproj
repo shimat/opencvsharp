@@ -139,11 +139,14 @@
     <Compile Include="Cv2\Cv2.cs" />
     <Compile Include="Cv2\Cv2_features2d.cs" />
     <Compile Include="Cv2\Cv2_ml.cs" />
+    <Compile Include="Cv2\Cv2_contrib.cs" />
     <Compile Include="Cv2\Cv2_photo.cs" />
     <Compile Include="Cv2\Cv2_nonfree.cs" />
     <Compile Include="Cv2\Cv2_video.cs" />
     <Compile Include="Cv2\Cv2_superres.cs" />
     <Compile Include="EnumerableEx.cs" />
+    <Compile Include="modules\contrib\FaceRecognizer.cs" />
+    <Compile Include="modules\contrib\Enum\ColorMapMode.cs" />
     <Compile Include="modules\core\Enum\DctFlag2.cs" />
     <Compile Include="modules\core\Enum\DftFlag2.cs" />
     <Compile Include="modules\calib3d\FindCirclesGridFlag.cs" />

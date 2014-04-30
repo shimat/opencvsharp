@@ -27,6 +27,7 @@ namespace OpenCvSharp.CPlusPlus
             DefinedReleaseFunctions = new Dictionary<Type, ReleaseFunc>
                 {
                     { typeof(Algorithm), NativeMethods.core_Ptr_Algorithm_delete },
+                    { typeof(FaceRecognizer), NativeMethods.contrib_Ptr_FaceRecognizer_delete },
                     { typeof(DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_delete },
                     { typeof(BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_delete },
                     { typeof(FeatureDetector), NativeMethods.features2d_Ptr_FeatureDetector_delete },
@@ -57,6 +58,7 @@ namespace OpenCvSharp.CPlusPlus
             DefinedObjFunctions = new Dictionary<Type, ObjFunc>
                 {
                     { typeof(Algorithm), NativeMethods.core_Ptr_Algorithm_obj },
+                    { typeof(FaceRecognizer), NativeMethods.contrib_Ptr_FaceRecognizer_obj },
                     { typeof(DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_obj },
                     { typeof(BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_obj },
                     { typeof(FeatureDetector), NativeMethods.features2d_Ptr_FeatureDetector_obj },

@@ -38,7 +38,6 @@ namespace OpenCvSharp.Sandbox
 
                 if (result > 0)
                 {
-                    // This throws a System.Collections.Generic.KeyNotFoundException 
                     blobs.UpdateTracks(tracks, 10.0, int.MaxValue);
                     tracks.Render(imgBinary, imgRender, RenderTracksMode.Id | RenderTracksMode.BoundingBox);
                     CvWindow.ShowImages(imgRender);
