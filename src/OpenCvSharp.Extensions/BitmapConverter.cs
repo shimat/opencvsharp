@@ -659,4 +659,20 @@ namespace OpenCvSharp.Extensions
         }
         #endregion
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class BitmapExtensions
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+        public static IplImage FromBitmap(this Bitmap bitmap)
+        {
+            return BitmapConverter.ToIplImage(bitmap);
+        }
+    }
 }
