@@ -8,37 +8,37 @@
 
 #include "include_opencv.h"
 
-CVAPI(cv::StatModel*) ml_StatModel_new()
+CVAPI(CvStatModel*) ml_CvStatModel_new()
 {
-    return new cv::StatModel();
+    return new CvStatModel();
 }
 
-CVAPI(void) ml_StatModel_delete(cv::StatModel *obj)
+CVAPI(void) ml_CvStatModel_delete(CvStatModel *obj)
 {
     delete obj;
 }
 
-CVAPI(void) ml_StatModel_clear(cv::StatModel *obj)
+CVAPI(void) ml_CvStatModel_clear(CvStatModel *obj)
 {
     obj->clear();
 }
 
-CVAPI(void) ml_StatModel_save(cv::StatModel *obj, const char* filename, const char *name)
+CVAPI(void) ml_CvStatModel_save(CvStatModel *obj, const char* filename, const char *name)
 {
     obj->save(filename, name);
 }
 
-CVAPI(void) ml_StatModel_load(cv::StatModel *obj, const char* filename, const char *name)
+CVAPI(void) ml_CvStatModel_load(CvStatModel *obj, const char* filename, const char *name)
 {
     obj->load(filename, name);
 }
 
-CVAPI(void) ml_StatModel_read(cv::StatModel *obj, CvFileStorage *storage, CvFileNode *node)
+CVAPI(void) ml_CvStatModel_read(CvStatModel *obj, CvFileStorage *storage, CvFileNode *node)
 {
     obj->read(storage, node);
 }
 
-CVAPI(void) ml_StatModel_write(cv::StatModel *obj, CvFileStorage *storage, const char *name)
+CVAPI(void) ml_CvStatModel_write(CvStatModel *obj, CvFileStorage *storage, const char *name)
 {
     obj->write(storage, name);
 }

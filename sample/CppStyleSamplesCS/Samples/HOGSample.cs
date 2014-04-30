@@ -17,15 +17,15 @@ namespace CppStyleSamplesCS
 
         public void Run()
         {
-            Mat img = Cv2.ImRead(FilePath.Asahiyama, LoadMode.Color);
+            var img = Cv2.ImRead(FilePath.Asahiyama, LoadMode.Color);
 
-            HOGDescriptor hog = new HOGDescriptor();
+            var hog = new HOGDescriptor();
             hog.SetSVMDetector(HOGDescriptor.GetDefaultPeopleDetector());
 
             bool b = hog.CheckDetectorSize();
             Console.WriteLine("CheckDetectorSize: {0}", b);
 
-            Stopwatch watch = Stopwatch.StartNew();
+            var watch = Stopwatch.StartNew();
 
             // run the detector with default parameters. to get a higher hit-rate
             // (and more false alarms, respectively), decrease the hitThreshold and
@@ -40,17 +40,17 @@ namespace CppStyleSamplesCS
             {
                 // the HOG detector returns slightly larger rectangles than the real objects.
                 // so we slightly shrink the rectangles to get a nicer output.
-                CvRect r = new CvRect
+                var r = new Rect
                 {
                     X = rect.X + (int)Math.Round(rect.Width * 0.1),
                     Y = rect.Y + (int)Math.Round(rect.Height * 0.1),
                     Width = (int)Math.Round(rect.Width * 0.8),
                     Height = (int)Math.Round(rect.Height * 0.8)
                 };
-                img.Rectangle(r.TopLeft, r.BottomRight, CvColor.Red, 3, LineType.Link8, 0);
+                img.Rectangle(r.TopLeft, r.BottomRight, Scalar.Red, 3, LineType.Link8, 0);
             }
 
-            using (CvWindow window = new CvWindow("people detector", WindowMode.None, img.ToIplImage()))
+            using (var window = new Window("people detector", WindowMode.None, img))
             {
                 window.SetProperty(WindowProperty.Fullscreen, 1);
                 Cv.WaitKey(0);
