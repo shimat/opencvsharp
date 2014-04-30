@@ -19,29 +19,18 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            UpdateTracks();
+            FaceRecognizerTest();
             //Run();
         }
 
-        private static void UpdateTracks()
+        private static void FaceRecognizerTest()
         {
-            using (IplImage imgSrc = new IplImage("img/shapes.png", LoadMode.Color))
-            using (IplImage imgBinary = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgRender = imgSrc.Clone())
+            using (Mat img1 = new Mat("img/lenna.png"))
+            using (Mat img2 = new Mat("img/lenna.png"))
             {
-                Cv.CvtColor(imgSrc, imgBinary, ColorConversion.BgrToGray);
-                Cv.Threshold(imgBinary, imgBinary, 100, 255, ThresholdType.Binary);
-
-                CvBlobs blobs = new CvBlobs();
-                CvTracks tracks = new CvTracks();
-                int result = blobs.Label(imgBinary);
-
-                if (result > 0)
-                {
-                    blobs.UpdateTracks(tracks, 10.0, int.MaxValue);
-                    tracks.Render(imgBinary, imgRender, RenderTracksMode.Id | RenderTracksMode.BoundingBox);
-                    CvWindow.ShowImages(imgRender);
-                }
+                FaceRecognizer fr = FaceRecognizer.CreateEigenFaceRecognizer();
+                fr.Train(new []{img1, img2}, new []{0, 1});
+                fr.ToString();
             }
         }
 
