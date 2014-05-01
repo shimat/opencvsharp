@@ -44,7 +44,7 @@ namespace OpenCvSharp
         /// メモリストレージを生成し，その参照を返す．初期状態ではストレージは空である．
         /// block_sizeを除くヘッダのフィールドは全て0に設定されている.
         /// </summary>
-        /// <param name="block_size">ストレージブロックのバイト単位のサイズ．0の場合，デフォルト値（現在は≈64K）が使われる．</param>
+        /// <param name="blockSize">ストレージブロックのバイト単位のサイズ．0の場合，デフォルト値（現在は≈64K）が使われる．</param>
 #else
         /// <summary>
         /// Creates memory storage

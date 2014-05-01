@@ -28,7 +28,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -39,7 +39,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -218,13 +218,6 @@
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="flann.cpp" />
-    <ClCompile Include="cvblob_cvaux.cpp" />
-    <ClCompile Include="cvblob.cpp" />
-    <ClCompile Include="cvblob_wrapper.cpp" />
-    <ClCompile Include="cvblob_cvcolor.cpp" />
-    <ClCompile Include="cvblob_cvcontour.cpp" />
-    <ClCompile Include="cvblob_cvlabel.cpp" />
-    <ClCompile Include="cvblob_cvtrack.cpp" />
     <ClCompile Include="nonfree.cpp" />
     <ClCompile Include="photo.cpp" />
     <ClCompile Include="std_vector.cpp" />
@@ -271,8 +264,6 @@
     <ClInclude Include="ml_CvStatModel.h" />
     <ClInclude Include="ml_CvSVM.h" />
     <ClInclude Include="ml_CvTrainTestSplit.h" />
-    <ClInclude Include="cvblob.h" />
-    <ClInclude Include="CvBlobWrapper.h" />
     <ClInclude Include="nonfree.h" />
     <ClInclude Include="photo.h" />
     <ClInclude Include="std_vector.h" />

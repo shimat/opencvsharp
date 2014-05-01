@@ -29,8 +29,8 @@ namespace OpenCvSharp
         /// <summary>
         /// カルマンフィルタ構造体の領域確保を行う.
         /// </summary>
-        /// <param name="dynam_params">状態ベクトルの次元数</param>
-        /// <param name="measure_params">観測ベクトルの次元</param>
+        /// <param name="dynamParams">状態ベクトルの次元数</param>
+        /// <param name="measureParams">観測ベクトルの次元</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -48,9 +48,9 @@ namespace OpenCvSharp
         /// <summary>
         /// カルマンフィルタ構造体の領域確保を行う.
         /// </summary>
-        /// <param name="dynam_params">状態ベクトルの次元数</param>
-        /// <param name="measure_params">観測ベクトルの次元</param>
-        /// <param name="control_params">コントロールベクトルの次元</param>
+        /// <param name="dynamParams">状態ベクトルの次元数</param>
+        /// <param name="measureParams">観測ベクトルの次元</param>
+        /// <param name="controlParams">コントロールベクトルの次元</param>
         /// <returns></returns>
 #else
         /// <summary>
