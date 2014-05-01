@@ -158,11 +158,18 @@ namespace OpenCvSharp.CPlusPlus
             get { return NativeMethods.features2d_DescriptorExtractor_info(ptr); }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public virtual int DescriptorSize()
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public virtual int DescriptorType()
         {
             throw new NotImplementedException();

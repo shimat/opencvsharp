@@ -105,11 +105,11 @@ namespace OpenCvSharp
         /// <summary>
         /// POSITアルゴリズムの実装
         /// </summary>
-        /// <param name="image_points">オブジェクト上の点を二次元画像平面上へ投影して得られる点群</param>
-        /// <param name="focal_length">使用するカメラの焦点距離</param>
+        /// <param name="imagePoints">オブジェクト上の点を二次元画像平面上へ投影して得られる点群</param>
+        /// <param name="focalLength">使用するカメラの焦点距離</param>
         /// <param name="criteria">反復POSITアルゴリズムの終了条件</param>
-        /// <param name="rotation_matrix">回転行列</param>
-        /// <param name="translation_vector">並進ベクトル</param>
+        /// <param name="rotationMatrix">回転行列</param>
+        /// <param name="translationVector">並進ベクトル</param>
 #else
         /// <summary>
         /// Implements POSIT algorithm
