@@ -214,7 +214,10 @@ namespace OpenCvSharp
                     if (IsEnabledDispose)
                     {
                         // C#で領域を確保したときを除外する
-                        if (AllocatedMemorySize == 0)
+                        if (AllocatedMemory != IntPtr.Zero && AllocatedMemorySize != 0)
+                        {
+                        }
+                        else
                         {
                             NativeMethods.cvReleaseImage(ref ptr);
                         }

@@ -19,18 +19,18 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            FaceRecognizerTest();
+            Foo();
             //Run();
         }
 
-        private static void FaceRecognizerTest()
+        private static void Foo()
         {
-            using (Mat img1 = new Mat("img/lenna.png"))
-            using (Mat img2 = new Mat("img/lenna.png"))
+            while (true)
             {
-                FaceRecognizer fr = FaceRecognizer.CreateEigenFaceRecognizer();
-                fr.Train(new []{img1, img2}, new []{0, 1});
-                fr.ToString();
+                IplImage img = new IplImage("img/lenna.png");
+                Cv.ReleaseImage(img);
+                Console.WriteLine("{0:F2}MB", MyProcess.WorkingSet64 / 1024.0 / 1024.0);
+                //img.Dispose(); does not work either.
             }
         }
 
