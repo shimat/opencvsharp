@@ -7,7 +7,7 @@
         <authors>shimat</authors>
         <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
-        <iconUrl>http://opencvsharp.googlecode.com/files/Lenna.ico</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/mandrill-ico.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <releaseNotes>- Fixed IplImage memory leak
