@@ -9,6 +9,7 @@
 
 #include "include_opencv.h"
 
+#pragma region DescriptorExtractor
 CVAPI(void) features2d_DescriptorExtractor_delete(cv::DescriptorExtractor *obj)
 {
     delete obj;
@@ -55,10 +56,66 @@ CVAPI(cv::AlgorithmInfo*) features2d_DescriptorExtractor_info(cv::DescriptorExtr
 {
     return obj->info();
 }
-
 CVAPI(cv::Ptr<cv::DescriptorExtractor>*) features2d_DescriptorExtractor_create(const char *descriptorExtractorType)
 {
     return clone( cv::DescriptorExtractor::create(descriptorExtractorType) );
 }
+
+CVAPI(cv::DescriptorExtractor*) features2d_Ptr_DescriptorExtractor_obj(
+    cv::Ptr<cv::DescriptorExtractor>* ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_DescriptorExtractor_delete(
+    cv::Ptr<cv::DescriptorExtractor>* ptr)
+{
+    delete ptr;
+}
+#pragma endregion
+
+
+#pragma region BriefDescriptorExtractor
+
+CVAPI(cv::BriefDescriptorExtractor*) features2d_BriefDescriptorExtractor_new(int bytes)
+{
+    return new cv::BriefDescriptorExtractor(bytes);
+}
+CVAPI(void) features2d_BriefDescriptorExtractor_delete(cv::BriefDescriptorExtractor *obj)
+{
+    delete obj;
+}
+
+CVAPI(void) features2d_BriefDescriptorExtractor_read(
+    cv::BriefDescriptorExtractor *obj, cv::FileNode *fn)
+{
+    obj->read(*fn);
+}
+CVAPI(void) features2d_BriefDescriptorExtractor_write(
+    cv::BriefDescriptorExtractor *obj, cv::FileStorage *fs)
+{
+    obj->write(*fs);
+}
+
+CVAPI(int) features2d_BriefDescriptorExtractor_descriptorSize(cv::BriefDescriptorExtractor *obj)
+{
+    return obj->descriptorSize();
+}
+CVAPI(int) features2d_BriefDescriptorExtractor_descriptorType(cv::BriefDescriptorExtractor *obj)
+{
+    return obj->descriptorType();
+}
+
+CVAPI(cv::BriefDescriptorExtractor*) features2d_Ptr_BriefDescriptorExtractor_obj(
+    cv::Ptr<cv::BriefDescriptorExtractor>* ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_BriefDescriptorExtractor_delete(
+    cv::Ptr<cv::BriefDescriptorExtractor>* ptr)
+{
+    delete ptr;
+}
+
+#pragma endregion
 
 #endif

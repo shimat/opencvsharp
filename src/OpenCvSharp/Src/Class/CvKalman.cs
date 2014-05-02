@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
 #if LANG_JP
     /// <summary>
     /// カルマンフィルタ状態
@@ -29,8 +31,8 @@ namespace OpenCvSharp
         /// <summary>
         /// カルマンフィルタ構造体の領域確保を行う.
         /// </summary>
-        /// <param name="dynam_params">状態ベクトルの次元数</param>
-        /// <param name="measure_params">観測ベクトルの次元</param>
+        /// <param name="dynamParams">状態ベクトルの次元数</param>
+        /// <param name="measureParams">観測ベクトルの次元</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -48,9 +50,9 @@ namespace OpenCvSharp
         /// <summary>
         /// カルマンフィルタ構造体の領域確保を行う.
         /// </summary>
-        /// <param name="dynam_params">状態ベクトルの次元数</param>
-        /// <param name="measure_params">観測ベクトルの次元</param>
-        /// <param name="control_params">コントロールベクトルの次元</param>
+        /// <param name="dynamParams">状態ベクトルの次元数</param>
+        /// <param name="measureParams">観測ベクトルの次元</param>
+        /// <param name="controlParams">コントロールベクトルの次元</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -220,8 +222,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false); 
+                return new CvMat(p, false); 
             }
         }
 #if LANG_JP
@@ -244,8 +245,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -268,8 +268,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -292,8 +291,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -316,8 +314,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -340,8 +337,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -364,8 +360,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -388,8 +383,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -412,8 +406,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -436,8 +429,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -460,8 +452,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -484,8 +475,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -508,8 +498,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -532,8 +521,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
 #if LANG_JP
@@ -556,8 +544,7 @@ namespace OpenCvSharp
                 }
                 if (p == IntPtr.Zero)
                     return null;
-                else
-                    return new CvMat(p, false);
+                return new CvMat(p, false);
             }
         }
         #region Backward compatibility fields
@@ -568,10 +555,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->PosterState;
-                }
+                return ((WCvKalman*)ptr)->PosterState;
             }
         }
         /// <summary>
@@ -581,10 +565,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->PriorState;
-                }
+                return ((WCvKalman*)ptr)->PriorState;
             }
         }
         /// <summary>
@@ -594,10 +575,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->DynamMatr;
-                }
+                return ((WCvKalman*)ptr)->DynamMatr;
             }
         }
         /// <summary>
@@ -607,10 +585,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->MeasurementMatr;
-                }
+                return ((WCvKalman*)ptr)->MeasurementMatr;
             }
         }
         /// <summary>
@@ -620,10 +595,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->MNCovariance;
-                }
+                return ((WCvKalman*)ptr)->MNCovariance;
             }
         }
         /// <summary>
@@ -633,10 +605,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->PNCovariance;
-                }
+                return ((WCvKalman*)ptr)->PNCovariance;
             }
         }
         /// <summary>
@@ -646,10 +615,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->KalmGainMatr;
-                }
+                return ((WCvKalman*)ptr)->KalmGainMatr;
             }
         }
         /// <summary>
@@ -659,10 +625,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->PriorErrorCovariance;
-                }
+                return ((WCvKalman*)ptr)->PriorErrorCovariance;
             }
         }
         /// <summary>
@@ -672,10 +635,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->PosterErrorCovariance;
-                }
+                return ((WCvKalman*)ptr)->PosterErrorCovariance;
             }
         }
         /// <summary>
@@ -685,10 +645,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->Temp1;
-                }
+                return ((WCvKalman*)ptr)->Temp1;
             }
         }
         /// <summary>
@@ -698,10 +655,7 @@ namespace OpenCvSharp
         {
             get
             {
-                unsafe
-                {
-                    return ((WCvKalman*)ptr)->Temp2;
-                }
+                return ((WCvKalman*)ptr)->Temp2;
             }
         }
         #endregion

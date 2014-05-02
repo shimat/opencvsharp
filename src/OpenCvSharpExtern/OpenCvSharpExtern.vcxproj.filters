@@ -7,9 +7,6 @@
     <ClCompile Include="contrib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cvblob.cpp">
-      <Filter>Source Files\cvblob</Filter>
-    </ClCompile>
     <ClCompile Include="flann.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,24 +42,6 @@
     </ClCompile>
     <ClCompile Include="imgproc.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cvblob_cvaux.cpp">
-      <Filter>Source Files\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="cvblob_wrapper.cpp">
-      <Filter>Source Files\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="cvblob_cvcolor.cpp">
-      <Filter>Source Files\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="cvblob_cvcontour.cpp">
-      <Filter>Source Files\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="cvblob_cvlabel.cpp">
-      <Filter>Source Files\cvblob</Filter>
-    </ClCompile>
-    <ClCompile Include="cvblob_cvtrack.cpp">
-      <Filter>Source Files\cvblob</Filter>
     </ClCompile>
     <ClCompile Include="core.cpp">
       <Filter>Source Files</Filter>
@@ -110,12 +89,6 @@
     </ClInclude>
     <ClInclude Include="core_SVD.h">
       <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="cvblob.h">
-      <Filter>Header Files\cvblob</Filter>
-    </ClInclude>
-    <ClInclude Include="CvBlobWrapper.h">
-      <Filter>Header Files\cvblob</Filter>
     </ClInclude>
     <ClInclude Include="ml.h">
       <Filter>Header Files\ml</Filter>
@@ -222,12 +195,6 @@
     </Filter>
     <Filter Include="Header Files\core">
       <UniqueIdentifier>{7d21ebfe-bc23-421e-ad79-f96eaffb3777}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\cvblob">
-      <UniqueIdentifier>{5dcfa71d-0b05-4ff9-a67f-3070da1e61fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\cvblob">
-      <UniqueIdentifier>{dd51a70c-ba0e-481e-9bda-3418761d3cb2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\ml">
       <UniqueIdentifier>{17c51294-b680-4aa4-a74c-a51a817dd35a}</UniqueIdentifier>
