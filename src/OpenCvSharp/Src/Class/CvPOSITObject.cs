@@ -7,6 +7,8 @@ using System;
 
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
 #if LANG_JP
     /// <summary>
     /// オブジェクト構造体

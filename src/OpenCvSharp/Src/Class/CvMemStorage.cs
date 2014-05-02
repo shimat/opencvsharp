@@ -179,8 +179,7 @@ namespace OpenCvSharp
 
                     if (p != IntPtr.Zero)
                         return new CvMemBlock(p);
-                    else
-                        return null;
+                    return null;
                 }
             }
 		}
