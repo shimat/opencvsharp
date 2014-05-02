@@ -290,6 +290,18 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("winName");
             NativeMethods.highgui_setWindowProperty(winName, (int)propId, (double)propValue);
         }
+        /// <summary>
+        /// Changes parameters of a window dynamically.
+        /// </summary>
+        /// <param name="winName">Name of the window.</param>
+        /// <param name="propId">Window property to retrieve.</param>
+        /// <param name="propValue">New value of the window property.</param>
+        public static void SetWindowProperty(string winName, WindowProperty propId, double propValue)
+        {
+            if (String.IsNullOrEmpty(winName))
+                throw new ArgumentNullException("winName");
+            NativeMethods.highgui_setWindowProperty(winName, (int)propId, propValue);
+        }
 
         /// <summary>
         /// Provides parameters of a window.

@@ -131,7 +131,7 @@ namespace OpenCvSharp.CPlusPlus
         /// returns the descriptor size in bytes
         /// </summary>
         /// <returns></returns>
-        public int DescriptorSize()
+        public override int DescriptorSize()
         {
             ThrowIfDisposed();
             return NativeMethods.features2d_FREAK_descriptorSize(ptr);
@@ -141,7 +141,7 @@ namespace OpenCvSharp.CPlusPlus
         /// returns the descriptor type
         /// </summary>
         /// <returns></returns>
-        public int DescriptorType()
+        public override int DescriptorType()
         {
             ThrowIfDisposed();
             return NativeMethods.features2d_FREAK_descriptorType(ptr);

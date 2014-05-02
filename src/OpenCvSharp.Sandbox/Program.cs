@@ -19,7 +19,19 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            Run();
+            Foo();
+            //Run();
+        }
+
+        private static void Foo()
+        {
+            while (true)
+            {
+                IplImage img = new IplImage("img/lenna.png");
+                Cv.ReleaseImage(img);
+                Console.WriteLine("{0:F2}MB", MyProcess.WorkingSet64 / 1024.0 / 1024.0);
+                //img.Dispose(); does not work either.
+            }
         }
 
         private static void Run()

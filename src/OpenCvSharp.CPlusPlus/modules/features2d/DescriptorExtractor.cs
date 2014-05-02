@@ -6,7 +6,7 @@ using OpenCvSharp.Utilities;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// 
+    /// Abstract base class for computing descriptors for image keypoints.
     /// </summary>
     public class DescriptorExtractor : Algorithm, IDescriptorExtractor
     {
@@ -156,6 +156,23 @@ namespace OpenCvSharp.CPlusPlus
         public override IntPtr InfoPtr
         {
             get { return NativeMethods.features2d_DescriptorExtractor_info(ptr); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual int DescriptorSize()
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual int DescriptorType()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

@@ -165,5 +165,21 @@ namespace OpenCvSharp.CPlusPlus
             OPTFLOW_USE_INITIAL_FLOW = 4,
             OPTFLOW_LK_GET_MIN_EIGENVALS = 8,
             OPTFLOW_FARNEBACK_GAUSSIAN = 256;
+
+        /// <summary>
+        /// applyColorMap
+        /// </summary>
+        public const int COLORMAP_AUTUMN = 0,
+            COLORMAP_BONE = 1,
+            COLORMAP_JET = 2,
+            COLORMAP_WINTER = 3,
+            COLORMAP_RAINBOW = 4,
+            COLORMAP_OCEAN = 5,
+            COLORMAP_SUMMER = 6,
+            COLORMAP_SPRING = 7,
+            COLORMAP_COOL = 8,
+            COLORMAP_HSV = 9,
+            COLORMAP_PINK = 10,
+            COLORMAP_HOT = 11;
     }
 }

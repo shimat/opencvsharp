@@ -27,6 +27,7 @@ namespace OpenCvSharp.CPlusPlus
             DefinedReleaseFunctions = new Dictionary<Type, ReleaseFunc>
                 {
                     { typeof(Algorithm), NativeMethods.core_Ptr_Algorithm_delete },
+                    { typeof(FaceRecognizer), NativeMethods.contrib_Ptr_FaceRecognizer_delete },
                     { typeof(DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_delete },
                     { typeof(BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_delete },
                     { typeof(FeatureDetector), NativeMethods.features2d_Ptr_FeatureDetector_delete },
@@ -40,6 +41,8 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(ORB), NativeMethods.features2d_Ptr_ORB_delete },
                     { typeof(SimpleBlobDetector), NativeMethods.features2d_Ptr_SimpleBlobDetector_delete },
                     { typeof(StarDetector), NativeMethods.features2d_Ptr_StarDetector_delete },
+                    { typeof(DescriptorExtractor), NativeMethods.features2d_Ptr_DescriptorExtractor_delete },
+                    { typeof(BriefDescriptorExtractor), NativeMethods.features2d_Ptr_BriefDescriptorExtractor_delete },
                     { typeof(SIFT), NativeMethods.nonfree_Ptr_SIFT_delete },
                     { typeof(SURF), NativeMethods.nonfree_Ptr_SURF_delete },
                     { typeof(EM), NativeMethods.ml_Ptr_EM_delete },
@@ -55,6 +58,7 @@ namespace OpenCvSharp.CPlusPlus
             DefinedObjFunctions = new Dictionary<Type, ObjFunc>
                 {
                     { typeof(Algorithm), NativeMethods.core_Ptr_Algorithm_obj },
+                    { typeof(FaceRecognizer), NativeMethods.contrib_Ptr_FaceRecognizer_obj },
                     { typeof(DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_obj },
                     { typeof(BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_obj },
                     { typeof(FeatureDetector), NativeMethods.features2d_Ptr_FeatureDetector_obj },
@@ -68,6 +72,8 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(ORB), NativeMethods.features2d_Ptr_ORB_obj },
                     { typeof(SimpleBlobDetector), NativeMethods.features2d_Ptr_SimpleBlobDetector_obj },
                     { typeof(StarDetector), NativeMethods.features2d_Ptr_StarDetector_obj },
+                    { typeof(DescriptorExtractor), NativeMethods.features2d_Ptr_DescriptorExtractor_obj },
+                    { typeof(BriefDescriptorExtractor), NativeMethods.features2d_Ptr_BriefDescriptorExtractor_obj },
                     { typeof(SIFT), NativeMethods.nonfree_Ptr_SIFT_obj },
                     { typeof(SURF), NativeMethods.nonfree_Ptr_SURF_obj },
                     { typeof(EM), NativeMethods.ml_Ptr_EM_obj },
