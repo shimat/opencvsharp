@@ -15,7 +15,11 @@
         public const string Calibration = "img/calibration/{0:D2}.jpg";
         public const string TsukubaLeft = "img/tsukuba_left.png";
         public const string TsukubaRight = "img/tsukuba_right.png";
+        public const string Yalta = "img/yalta.jpg";
 
         public const string Bach = "movie/bach.mp4";
+
+        public const string HaarCascade = "data/haarcascade_frontalface_alt2.xml";
+        public const string LbpCascade = "data/lbpcascade_frontalface.xml";
     }
 }

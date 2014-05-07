@@ -68,14 +68,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenCvSharp">
-      <HintPath>..\packages\OpenCvSharp-x64.2.4.8.20140503\lib\net40\OpenCvSharp.dll</HintPath>
-    </Reference>
     <Reference Include="OpenCvSharp.Blob">
       <HintPath>..\packages\OpenCvSharp-x64.2.4.8.20140503\lib\net40\OpenCvSharp.Blob.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenCvSharp.CPlusPlus">
-      <HintPath>..\packages\OpenCvSharp-x64.2.4.8.20140503\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Extensions">
       <HintPath>..\packages\OpenCvSharp-x64.2.4.8.20140503\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
@@ -97,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FilePath.cs" />
+    <Compile Include="Samples\FaceDetection.cs" />
     <Compile Include="Samples\MorphologySample.cs" />
     <Compile Include="Samples\MDS.cs" />
     <Compile Include="Program.cs" />
@@ -117,6 +112,12 @@
     <Compile Include="Samples\SuperResolutionSample.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="data\haarcascade_frontalface_alt2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\lbpcascade_frontalface.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="img\asahiyama.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -219,6 +220,9 @@
     <Content Include="img\tsukuba_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="img\yalta.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="movie\bach.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -229,7 +233,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="OpenCvSharpExtern.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="opencv_calib3d248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -290,7 +294,23 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\agaricus-lepiota.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\letter-recognition.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
+      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
+      <Name>OpenCvSharp.CPlusPlus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj">
+      <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
+      <Name>OpenCvSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -21,7 +21,8 @@ namespace X64Samples
                 //new MorphologySample();
                 //new VideoCaptureSample();
                 //new VideoWriterSample();
-                new SuperResolutionSample();
+                //new SuperResolutionSample();
+                new FaceDetection();
             sample.Run();
         }
     }

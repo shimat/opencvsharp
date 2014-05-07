@@ -111,7 +111,8 @@ CVAPI(void) objdetect_CascadeClassifier_detectMultiScale1(
 
 CVAPI(void) objdetect_CascadeClassifier_detectMultiScale2(
 	cv::CascadeClassifier *obj,
-	cv::Mat *image, std::vector<cv::Rect> *objects,
+	cv::Mat *image, 
+    std::vector<cv::Rect> *objects,
 	std::vector<int> *rejectLevels,
 	std::vector<double> *levelWeights,
 	double scaleFactor, int minNeighbors, int flags,
