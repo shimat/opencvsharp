@@ -103,8 +103,9 @@ CVAPI(int) objdetect_CascadeClassifier_load(
 CVAPI(void) objdetect_CascadeClassifier_detectMultiScale1(
 	cv::CascadeClassifier *obj,
 	cv::Mat *image, std::vector<cv::Rect> *objects,
-	double scaleFactor, int minNeighbors, int flags, cv::Size minSize, cv::Size maxSize)
+	double scaleFactor, int minNeighbors, int flags, CvSize minSize, CvSize maxSize)
 {
+    std::vector<cv::Rect> vec;
 	obj->detectMultiScale(*image, *objects,
 		scaleFactor, minNeighbors, flags, minSize, maxSize);
 }
@@ -116,7 +117,7 @@ CVAPI(void) objdetect_CascadeClassifier_detectMultiScale2(
 	std::vector<int> *rejectLevels,
 	std::vector<double> *levelWeights,
 	double scaleFactor, int minNeighbors, int flags,
-	cv::Size minSize, cv::Size maxSize, int outputRejectLevels)
+	CvSize minSize, CvSize maxSize, int outputRejectLevels)
 {
 	obj->detectMultiScale(*image, *objects, *rejectLevels, *levelWeights,
 		scaleFactor, minNeighbors, flags, minSize, maxSize, outputRejectLevels != 0);

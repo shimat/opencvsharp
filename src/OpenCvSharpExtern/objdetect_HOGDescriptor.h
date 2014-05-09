@@ -74,7 +74,7 @@ CVAPI(void) objdetect_HOGDescriptor_copyTo(cv::HOGDescriptor *obj, cv::HOGDescri
 }
 
 CVAPI(void) objdetect_HOGDescriptor_compute(cv::HOGDescriptor *obj, cv::Mat *img, std::vector<float> *descriptors,
-	cv::Size winStride, cv::Size padding, cv::Point* locations, int locationsLength)
+	CvSize winStride, CvSize padding, cv::Point* locations, int locationsLength)
 {
 	std::vector<cv::Point> locationsVec;
 	if (locations != NULL)	
@@ -84,7 +84,7 @@ CVAPI(void) objdetect_HOGDescriptor_compute(cv::HOGDescriptor *obj, cv::Mat *img
 }
 
 CVAPI(void) objdetect_HOGDescriptor_detect1(cv::HOGDescriptor *obj, cv::Mat *img, std::vector<cv::Point> *foundLocations,
-	double hitThreshold, cv::Size winStride, cv::Size padding, cv::Point* searchLocations, int searchLocationsLength)
+	double hitThreshold, CvSize winStride, CvSize padding, cv::Point* searchLocations, int searchLocationsLength)
 {
 	std::vector<cv::Point> slVec;
 	if (searchLocations != NULL)	
@@ -94,7 +94,7 @@ CVAPI(void) objdetect_HOGDescriptor_detect1(cv::HOGDescriptor *obj, cv::Mat *img
 }
 CVAPI(void) objdetect_HOGDescriptor_detect2(cv::HOGDescriptor *obj, cv::Mat *img, 
 	std::vector<cv::Point> *foundLocations, std::vector<double> *weights,
-	double hitThreshold, cv::Size winStride, cv::Size padding, cv::Point* searchLocations, int searchLocationsLength)
+	double hitThreshold, CvSize winStride, CvSize padding, cv::Point* searchLocations, int searchLocationsLength)
 {
 	std::vector<cv::Point> slVec;
 	if (searchLocations != NULL)	
@@ -105,21 +105,21 @@ CVAPI(void) objdetect_HOGDescriptor_detect2(cv::HOGDescriptor *obj, cv::Mat *img
 
 CVAPI(void) objdetect_HOGDescriptor_detectMultiScale1(cv::HOGDescriptor *obj, cv::Mat *img, 
 	std::vector<cv::Rect> *foundLocations,
-	double hitThreshold, cv::Size winStride, cv::Size padding, double scale, int groupThreshold)
+	double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold)
 {
 	obj->detectMultiScale(*img, *foundLocations, 
 		hitThreshold, winStride, padding, scale, groupThreshold);
 }
 CVAPI(void) objdetect_HOGDescriptor_detectMultiScale2(cv::HOGDescriptor *obj, cv::Mat *img, 
 	std::vector<cv::Rect> *foundLocations, std::vector<double> *foundWeights,
-	double hitThreshold, cv::Size winStride, cv::Size padding, double scale, int groupThreshold)
+	double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold)
 {
 	obj->detectMultiScale(*img, *foundLocations, *foundWeights, 
 		hitThreshold, winStride, padding, scale, groupThreshold);
 }
 
 CVAPI(void) objdetect_HOGDescriptor_computeGradient(cv::HOGDescriptor *obj, cv::Mat* img, 
-	cv::Mat* grad, cv::Mat* angleOfs, cv::Size paddingTL, cv::Size paddingBR)
+	cv::Mat* grad, cv::Mat* angleOfs, CvSize paddingTL, CvSize paddingBR)
 {
 	obj->computeGradient(*img, *grad, *angleOfs, paddingTL, paddingBR);
 }
@@ -127,7 +127,7 @@ CVAPI(void) objdetect_HOGDescriptor_computeGradient(cv::HOGDescriptor *obj, cv::
 // evaluate specified ROI and return confidence value for each location
 CVAPI(void) objdetect_HOGDescriptor_detectROI(cv::HOGDescriptor *obj, cv::Mat *img, cv::Point *locations, int locationsLength,
 	std::vector<cv::Point> *foundLocations, std::vector<double> *confidences,
-	double hitThreshold, cv::Size winStride, cv::Size padding)
+	double hitThreshold, CvSize winStride, CvSize padding)
 {
 	std::vector<cv::Point> locationsVec(locations, locations + locationsLength);
 	obj->detectROI(*img, locationsVec, *foundLocations, *confidences, hitThreshold, winStride, padding);
