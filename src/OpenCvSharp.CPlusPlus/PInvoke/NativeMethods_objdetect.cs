@@ -54,13 +54,13 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_CascadeClassifier_detectMultiScale1")]
         public static extern void objdetect_CascadeClassifier_detectMultiScale(
             IntPtr obj, IntPtr image, IntPtr objects,
-            double scaleFactor, int minNeighbors, int flags, Size minSize, Size maxSize);
+            double scaleFactor, int minNeighbors, int flags, CvSize minSize, CvSize maxSize);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_CascadeClassifier_detectMultiScale2")]
         public static extern void objdetect_CascadeClassifier_detectMultiScale(
             IntPtr obj, IntPtr image, IntPtr objects,
             IntPtr rejectLevels, IntPtr levelWeights,
             double scaleFactor, int minNeighbors, int flags,
-            Size minSize, Size maxSize, int outputRejectLevels);
+            CvSize minSize, CvSize maxSize, int outputRejectLevels);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int objdetect_CascadeClassifier_isOldFormatCascade(IntPtr obj);
@@ -100,29 +100,38 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void objdetect_HOGDescriptor_save(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string objname);
         
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void objdetect_HOGDescriptor_compute(IntPtr self, IntPtr img, IntPtr descriptors,
+        public static extern void objdetect_HOGDescriptor_compute(
+            IntPtr self, IntPtr img, IntPtr descriptors,
                          Size winStride, Size padding, [In] Point[] locations, int locationsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_HOGDescriptor_detect1")]
-        public static extern void objdetect_HOGDescriptor_detect(IntPtr self, IntPtr img, IntPtr foundLocations,
-                        double hitThreshold, Size winStride, Size padding, [In] Point[] searchLocations, int searchLocationsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_HOGDescriptor_detect2")]
-        public static extern void objdetect_HOGDescriptor_detect(IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr weights,
-                        double hitThreshold, Size winStride, Size padding, [In] Point[] searchLocations, int searchLocationsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_HOGDescriptor_detectMultiScale1")]
-        public static extern void objdetect_HOGDescriptor_detectMultiScale(IntPtr self, IntPtr img, IntPtr foundLocations,
-                                  double hitThreshold, Size winStride, Size padding, double scale, int groupThreshold);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_HOGDescriptor_detectMultiScale2")]
-        public static extern void objdetect_HOGDescriptor_detectMultiScale(IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr foundWeights,
-                                  double hitThreshold, Size winStride, Size padding, double scale, int groupThreshold);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void objdetect_HOGDescriptor_computeGradient(IntPtr self, IntPtr img, IntPtr grad, IntPtr angleOfs, Size paddingTL, Size paddingBR);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "objdetect_HOGDescriptor_detect1")]
+        public static extern void objdetect_HOGDescriptor_detect(
+            IntPtr self, IntPtr img, IntPtr foundLocations,
+            double hitThreshold, CvSize winStride, CvSize padding, [In] Point[] searchLocations, int searchLocationsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "objdetect_HOGDescriptor_detect2")]
+        public static extern void objdetect_HOGDescriptor_detect(
+            IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr weights,
+            double hitThreshold, CvSize winStride, CvSize padding, [In] Point[] searchLocations, int searchLocationsLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_HOGDescriptor_detectMultiScale1")]
+        public static extern void objdetect_HOGDescriptor_detectMultiScale(
+            IntPtr self, IntPtr img, IntPtr foundLocations,
+            double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "objdetect_HOGDescriptor_detectMultiScale2")]
+        public static extern void objdetect_HOGDescriptor_detectMultiScale(
+            IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr foundWeights,
+            double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void objdetect_HOGDescriptor_computeGradient(
+            IntPtr self, IntPtr img, IntPtr grad, IntPtr angleOfs, CvSize paddingTL, CvSize paddingBR);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_detectROI(
             IntPtr obj, IntPtr img,
             Point[] locations, int locationsLength,
             IntPtr foundLocations, IntPtr confidences,
-            double hitThreshold, Size winStride, Size padding);
+            double hitThreshold, CvSize winStride, CvSize padding);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_detectMultiScaleROI(
             IntPtr obj, IntPtr img, IntPtr foundLocations,

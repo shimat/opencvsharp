@@ -250,6 +250,8 @@
     <ClInclude Include="imgproc_Subdiv2D.h" />
     <ClInclude Include="include_opencv.h" />
     <ClInclude Include="ml.h" />
+    <ClInclude Include="my_functions.h" />
+    <ClInclude Include="my_types.h" />
     <ClInclude Include="objdetect.h" />
     <ClInclude Include="objdetect_HOGDescriptor.h" />
     <ClInclude Include="core_Algorithm.h" />

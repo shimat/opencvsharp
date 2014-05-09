@@ -152,11 +152,11 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_calibrationMatrixValues_InputArray(
             IntPtr cameraMatrix,
-            Size imageSize, double apertureWidth, double apertureHeight, out double fovx, out double fovy,
+            CvSize imageSize, double apertureWidth, double apertureHeight, out double fovx, out double fovy,
             out double focalLength, out Point2d principalPoint, out double aspectRatio);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_calibrationMatrixValues_array(
-            double[,] cameraMatrix, Size imageSize,
+            double[,] cameraMatrix, CvSize imageSize,
             double apertureWidth, double apertureHeight, out double fovx, out double fovy, out double focalLength,
             out Point2d principalPoint, out double aspectRatio);
 
@@ -196,8 +196,8 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr R1, IntPtr R2,
             IntPtr P1, IntPtr P2,
             IntPtr Q, int flags,
-            double alpha, Size newImageSize,
-            out Rect validPixROI1, out Rect validPixROI2);
+            double alpha, CvSize newImageSize,
+            out CvRect validPixROI1, out CvRect validPixROI2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_stereoRectify_array(
             double[,] cameraMatrix1,
@@ -207,8 +207,8 @@ namespace OpenCvSharp.CPlusPlus
             CvSize imageSize,
             double[,] R, double[] T,
             double[,] R1, double[,] R2, double[,] P1, double[,] P2,
-            double[,] Q, int flags, double alpha, Size newImageSize,
-            out Rect validPixROI1, out Rect validPixROI2);
+            double[,] Q, int flags, double alpha, CvSize newImageSize,
+            out CvRect validPixROI1, out CvRect validPixROI2);
 
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -233,18 +233,18 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr cameraMatrix3, IntPtr distCoeffs3,
             IntPtr[] imgpt1, int imgpt1Size,
             IntPtr[] imgpt3, int imgpt3Size,
-            Size imageSize, IntPtr R12, IntPtr T12,
+            CvSize imageSize, IntPtr R12, IntPtr T12,
             IntPtr R13, IntPtr T13,
             IntPtr R1, IntPtr R2, IntPtr R3,
             IntPtr P1, IntPtr P2, IntPtr P3,
-            IntPtr Q, double alpha, Size newImgSize,
-            out Rect roi1, out Rect roi2, int flags);
+            IntPtr Q, double alpha, CvSize newImgSize,
+            out CvRect roi1, out CvRect roi2, int flags);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_getOptimalNewCameraMatrix_InputArray(
             IntPtr cameraMatrix, IntPtr distCoeffs,
-            Size imageSize, double alpha, Size newImgSize,
-            out Rect validPixROI, int centerPrincipalPoint);
+            CvSize imageSize, double alpha, CvSize newImgSize,
+            out CvRect validPixROI, int centerPrincipalPoint);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_getOptimalNewCameraMatrix_array(
             [In] double[,] cameraMatrix,

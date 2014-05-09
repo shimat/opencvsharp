@@ -925,167 +925,167 @@ CVAPI(void) core_Mat_push_back_Mat(cv::Mat *self, cv::Mat *m)
 {
 	self->push_back(*m);
 }
-CVAPI(void) core_Mat_push_back_char(cv::Mat *self, char val)
+CVAPI(void) core_Mat_push_back_char(cv::Mat *self, char v)
 {
-	self->push_back(val);
+	self->push_back(v);
 }
-CVAPI(void) core_Mat_push_back_uchar(cv::Mat *self, uchar val)
+CVAPI(void) core_Mat_push_back_uchar(cv::Mat *self, uchar v)
 {
-	self->push_back(val);
+	self->push_back(v);
 }
-CVAPI(void) core_Mat_push_back_short(cv::Mat *self, short val)
+CVAPI(void) core_Mat_push_back_short(cv::Mat *self, short v)
 {
-	self->push_back(val);
+	self->push_back(v);
 }
-CVAPI(void) core_Mat_push_back_ushort(cv::Mat *self, ushort val)
+CVAPI(void) core_Mat_push_back_ushort(cv::Mat *self, ushort v)
 {
-	self->push_back(val);
+	self->push_back(v);
 }
-CVAPI(void) core_Mat_push_back_int(cv::Mat *self, int val)
+CVAPI(void) core_Mat_push_back_int(cv::Mat *self, int v)
 {
-	self->push_back(val);
+	self->push_back(v);
 }
-CVAPI(void) core_Mat_push_back_float(cv::Mat *self, float val)
+CVAPI(void) core_Mat_push_back_float(cv::Mat *self, float v)
 {
-	self->push_back(val);
+	self->push_back(v);
 }
-CVAPI(void) core_Mat_push_back_double(cv::Mat *self, double val)
+CVAPI(void) core_Mat_push_back_double(cv::Mat *self, double v)
 {
-	self->push_back(val);
-}
-
-CVAPI(void) core_Mat_push_back_Vec2b(cv::Mat *self, cv::Vec2b val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec3b(cv::Mat *self, cv::Vec3b val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec4b(cv::Mat *self, cv::Vec4b val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec6b(cv::Mat *self, cv::Vec<uchar, 6> val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec2s(cv::Mat *self, cv::Vec2s val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec3s(cv::Mat *self, cv::Vec3s val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec4s(cv::Mat *self, cv::Vec4s val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec6s(cv::Mat *self, cv::Vec<short, 6> val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec2w(cv::Mat *self, cv::Vec2w val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec3w(cv::Mat *self, cv::Vec3w val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec4w(cv::Mat *self, cv::Vec4w val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec6w(cv::Mat *self, cv::Vec<ushort, 6> val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec2i(cv::Mat *self, cv::Vec2i val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec3i(cv::Mat *self, cv::Vec3i val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec4i(cv::Mat *self, cv::Vec4i val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec6i(cv::Mat *self, cv::Vec<int, 6> val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec2f(cv::Mat *self, cv::Vec2f val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec3f(cv::Mat *self, cv::Vec3f val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec4f(cv::Mat *self, cv::Vec4f val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec6f(cv::Mat *self, cv::Vec<float, 6> val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec2d(cv::Mat *self, cv::Vec2d val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec3d(cv::Mat *self, cv::Vec3d val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec4d(cv::Mat *self, cv::Vec4d val)
-{
-	self->push_back(val);
-}
-CVAPI(void) core_Mat_push_back_Vec6d(cv::Mat *self, cv::Vec<double, 6> val)
-{
-	self->push_back(val);
+	self->push_back(v);
 }
 
-CVAPI(void) core_Mat_push_back_Point(cv::Mat *self, cv::Point val)
+CVAPI(void) core_Mat_push_back_Vec2b(cv::Mat *self, CvVec2b v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec2b(v.val));
 }
-CVAPI(void) core_Mat_push_back_Point2f(cv::Mat *self, cv::Point2f val)
+CVAPI(void) core_Mat_push_back_Vec3b(cv::Mat *self, CvVec3b v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec3b(v.val));
 }
-CVAPI(void) core_Mat_push_back_Point2d(cv::Mat *self, cv::Point2d val)
+CVAPI(void) core_Mat_push_back_Vec4b(cv::Mat *self, CvVec4b v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec4b(v.val));
 }
-CVAPI(void) core_Mat_push_back_Point3i(cv::Mat *self, cv::Point3i val)
+CVAPI(void) core_Mat_push_back_Vec6b(cv::Mat *self, CvVec6b v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec6b(v.val));
 }
-CVAPI(void) core_Mat_push_back_Point3f(cv::Mat *self, cv::Point3f val)
+CVAPI(void) core_Mat_push_back_Vec2s(cv::Mat *self, CvVec2s v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec2s(v.val));
 }
-CVAPI(void) core_Mat_push_back_Point3d(cv::Mat *self, cv::Point3d val)
+CVAPI(void) core_Mat_push_back_Vec3s(cv::Mat *self, CvVec3s v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec3s(v.val));
 }
-CVAPI(void) core_Mat_push_back_Size(cv::Mat *self, cv::Size val)
+CVAPI(void) core_Mat_push_back_Vec4s(cv::Mat *self, CvVec4s v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec4s(v.val));
 }
-CVAPI(void) core_Mat_push_back_Size2f(cv::Mat *self, cv::Size2f val)
+CVAPI(void) core_Mat_push_back_Vec6s(cv::Mat *self, CvVec6s v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec6s(v.val));
 }
-CVAPI(void) core_Mat_push_back_Rect(cv::Mat *self, cv::Rect val)
+CVAPI(void) core_Mat_push_back_Vec2w(cv::Mat *self, CvVec2w v)
 {
-	self->push_back(val);
+    self->push_back(cv::Vec2w(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec3w(cv::Mat *self, CvVec3w v)
+{
+    self->push_back(cv::Vec3w(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec4w(cv::Mat *self, CvVec4w v)
+{
+    self->push_back(cv::Vec4w(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec6w(cv::Mat *self, CvVec6w v)
+{
+    self->push_back(cv::Vec6w(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec2i(cv::Mat *self, CvVec2i v)
+{
+    self->push_back(cv::Vec2i(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec3i(cv::Mat *self, CvVec3i v)
+{
+    self->push_back(cv::Vec3i(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec4i(cv::Mat *self, CvVec4i v)
+{
+    self->push_back(cv::Vec4i(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec6i(cv::Mat *self, CvVec6i v)
+{
+    self->push_back(cv::Vec6i(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec2f(cv::Mat *self, CvVec2f v)
+{
+    self->push_back(cv::Vec2f(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec3f(cv::Mat *self, CvVec3f v)
+{
+    self->push_back(cv::Vec3f(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec4f(cv::Mat *self, CvVec4f v)
+{
+    self->push_back(cv::Vec4f(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec6f(cv::Mat *self, CvVec6f v)
+{
+    self->push_back(cv::Vec6f(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec2d(cv::Mat *self, CvVec2d v)
+{
+    self->push_back(cv::Vec2d(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec3d(cv::Mat *self, CvVec3d v)
+{
+    self->push_back(cv::Vec3d(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec4d(cv::Mat *self, CvVec4d v)
+{
+    self->push_back(cv::Vec4d(v.val));
+}
+CVAPI(void) core_Mat_push_back_Vec6d(cv::Mat *self, CvVec6d v)
+{
+	self->push_back(cv::Vec6d(v.val));
+}
+
+CVAPI(void) core_Mat_push_back_Point(cv::Mat *self, CvPoint v)
+{
+	self->push_back((cv::Point)v);
+}
+CVAPI(void) core_Mat_push_back_Point2f(cv::Mat *self, CvPoint2D32f v)
+{
+	self->push_back((cv::Point2f)v);
+}
+CVAPI(void) core_Mat_push_back_Point2d(cv::Mat *self, CvPoint2D64f v)
+{
+    self->push_back(cv::Point2d(v.x, v.y));
+}
+CVAPI(void) core_Mat_push_back_Point3i(cv::Mat *self, CvPoint3D v)
+{
+    self->push_back(cv::Point3i(v.x, v.y, v.z));
+}
+CVAPI(void) core_Mat_push_back_Point3f(cv::Mat *self, CvPoint3D32f v)
+{
+	self->push_back((cv::Point3f)v);
+}
+CVAPI(void) core_Mat_push_back_Point3d(cv::Mat *self, CvPoint3D64f v)
+{
+    self->push_back(cv::Point3d(v.x, v.y, v.z));
+}
+CVAPI(void) core_Mat_push_back_Size(cv::Mat *self, CvSize v)
+{
+	self->push_back((cv::Size)v);
+}
+CVAPI(void) core_Mat_push_back_Size2f(cv::Mat *self, CvSize2D32f v)
+{
+	self->push_back((cv::Size2f)v);
+}
+CVAPI(void) core_Mat_push_back_Rect(cv::Mat *self, CvRect v)
+{
+	self->push_back((cv::Rect)v);
 }
 
 #pragma endregion
