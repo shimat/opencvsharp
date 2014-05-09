@@ -30,7 +30,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public int Height;
         /// <summary>
-        /// sizeof(CvRect)
+        /// sizeof(Rect)
         /// </summary>
         public const int SizeOf = sizeof(int) * 4;
 

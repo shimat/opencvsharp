@@ -508,85 +508,85 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_push_back_Mat(IntPtr self, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_char(IntPtr self, sbyte val);
+        public static extern void core_Mat_push_back_char(IntPtr self, sbyte v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_uchar(IntPtr self, byte val);
+        public static extern void core_Mat_push_back_uchar(IntPtr self, byte v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_short(IntPtr self, short val);
+        public static extern void core_Mat_push_back_short(IntPtr self, short v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_ushort(IntPtr self, ushort val);
+        public static extern void core_Mat_push_back_ushort(IntPtr self, ushort v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_int(IntPtr self, int val);
+        public static extern void core_Mat_push_back_int(IntPtr self, int v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_float(IntPtr self, float val);
+        public static extern void core_Mat_push_back_float(IntPtr self, float v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_double(IntPtr self, double val);
+        public static extern void core_Mat_push_back_double(IntPtr self, double v);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec2b(IntPtr self, Vec2b val);
+        public static extern void core_Mat_push_back_Vec2b(IntPtr self, Vec2b v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec3b(IntPtr self, Vec3b val);
+        public static extern void core_Mat_push_back_Vec3b(IntPtr self, Vec3b v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec4b(IntPtr self, Vec4b val);
+        public static extern void core_Mat_push_back_Vec4b(IntPtr self, Vec4b v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec6b(IntPtr self, Vec6b val);
+        public static extern void core_Mat_push_back_Vec6b(IntPtr self, Vec6b v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec2s(IntPtr self, Vec2s val);
+        public static extern void core_Mat_push_back_Vec2s(IntPtr self, Vec2s v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec3s(IntPtr self, Vec3s val);
+        public static extern void core_Mat_push_back_Vec3s(IntPtr self, Vec3s v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec4s(IntPtr self, Vec4s val);
+        public static extern void core_Mat_push_back_Vec4s(IntPtr self, Vec4s v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec6s(IntPtr self, Vec6s val);
+        public static extern void core_Mat_push_back_Vec6s(IntPtr self, Vec6s v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec2w(IntPtr self, Vec2w val);
+        public static extern void core_Mat_push_back_Vec2w(IntPtr self, Vec2w v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec3w(IntPtr self, Vec3w val);
+        public static extern void core_Mat_push_back_Vec3w(IntPtr self, Vec3w v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec4w(IntPtr self, Vec4w val);
+        public static extern void core_Mat_push_back_Vec4w(IntPtr self, Vec4w v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec6w(IntPtr self, Vec6w val);
+        public static extern void core_Mat_push_back_Vec6w(IntPtr self, Vec6w v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec2i(IntPtr self, Vec2i val);
+        public static extern void core_Mat_push_back_Vec2i(IntPtr self, Vec2i v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec3i(IntPtr self, Vec3i val);
+        public static extern void core_Mat_push_back_Vec3i(IntPtr self, Vec3i v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec4i(IntPtr self, Vec4i val);
+        public static extern void core_Mat_push_back_Vec4i(IntPtr self, Vec4i v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec6i(IntPtr self, Vec6i val);
+        public static extern void core_Mat_push_back_Vec6i(IntPtr self, Vec6i v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec2f(IntPtr self, Vec2f val);
+        public static extern void core_Mat_push_back_Vec2f(IntPtr self, Vec2f v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec3f(IntPtr self, Vec3f val);
+        public static extern void core_Mat_push_back_Vec3f(IntPtr self, Vec3f v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec4f(IntPtr self, Vec4f val);
+        public static extern void core_Mat_push_back_Vec4f(IntPtr self, Vec4f v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec6f(IntPtr self, Vec6f val);
+        public static extern void core_Mat_push_back_Vec6f(IntPtr self, Vec6f v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec2d(IntPtr self, Vec2d val);
+        public static extern void core_Mat_push_back_Vec2d(IntPtr self, Vec2d v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec3d(IntPtr self, Vec3d val);
+        public static extern void core_Mat_push_back_Vec3d(IntPtr self, Vec3d v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Vec6d(IntPtr self, Vec6d val);
+        public static extern void core_Mat_push_back_Vec6d(IntPtr self, Vec6d v);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Point(IntPtr self, Point val);
+        public static extern void core_Mat_push_back_Point(IntPtr self, Point v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Point2f(IntPtr self, Point2f val);
+        public static extern void core_Mat_push_back_Point2f(IntPtr self, Point2f v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Point2d(IntPtr self, Point2d val);
+        public static extern void core_Mat_push_back_Point2d(IntPtr self, Point2d v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Point3i(IntPtr self, Point3i val);
+        public static extern void core_Mat_push_back_Point3i(IntPtr self, Point3i v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Point3f(IntPtr self, Point3f val);
+        public static extern void core_Mat_push_back_Point3f(IntPtr self, Point3f v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Point3d(IntPtr self, Point3d val);
+        public static extern void core_Mat_push_back_Point3d(IntPtr self, Point3d v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Size(IntPtr self, Size val);
+        public static extern void core_Mat_push_back_Size(IntPtr self, Size v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Size2f(IntPtr self, Size2f val);
+        public static extern void core_Mat_push_back_Size2f(IntPtr self, Size2f v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_Mat_push_back_Rect(IntPtr self, Rect val);
+        public static extern void core_Mat_push_back_Rect(IntPtr self, Rect v);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_reserve(IntPtr obj, IntPtr sz);

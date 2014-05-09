@@ -11,7 +11,7 @@ namespace X64Samples
         {
             ISample sample =
                 //new FASTSample();
-                //new HOGSample();
+                new HOGSample();
                 //new HoughLinesSample();
                 //new MSERSample();
                 //new MDS();
@@ -21,7 +21,8 @@ namespace X64Samples
                 //new MorphologySample();
                 //new VideoCaptureSample();
                 //new VideoWriterSample();
-                new SuperResolutionSample();
+                //new SuperResolutionSample();
+                //new FaceDetection();
             sample.Run();
         }
     }
