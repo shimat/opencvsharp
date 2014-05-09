@@ -33,7 +33,6 @@ namespace OpenCvSharp.CPlusPlus
         static NativeMethods()
         {
             // call cv to enable redirecting 
-            Cv.GetTickCount();
             TryPInvoke();
         }
 
@@ -54,6 +53,7 @@ namespace OpenCvSharp.CPlusPlus
 
             try
             {
+                Cv.GetTickCount();
                 core_Mat_sizeof();
             }
             catch (DllNotFoundException e)
@@ -63,12 +63,16 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     Console.WriteLine(exception.Message);
                 }
-                catch { }
+                catch
+                {
+                }
                 try
                 {
                     Debug.WriteLine(exception.Message);
                 }
-                catch { }
+                catch
+                {
+                }
                 throw exception;
             }
             catch (BadImageFormatException e)
@@ -78,13 +82,36 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     Console.WriteLine(exception.Message);
                 }
-                catch { }
+                catch
+                {
+                }
                 try
                 {
                     Debug.WriteLine(exception.Message);
                 }
-                catch { }
+                catch
+                {
+                }
                 throw exception;
+            }
+            catch (Exception e)
+            {
+                Exception ex = e.InnerException ?? e;
+                try
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch
+                {
+                }
+                try
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                catch
+                {
+                }
+                throw;
             }
         }
         private static bool tried = false;

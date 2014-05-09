@@ -19,6 +19,6 @@ int main(array<System::String ^> ^args)
     }
     cv::imshow("faces", src);
     cv::waitKey();
-
+    
     return 0;
 }
