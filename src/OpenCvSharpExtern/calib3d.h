@@ -304,7 +304,7 @@ CVAPI(double) calib3d_calibrateCamera_vector(
 		cametaMatrixM, distCoeffsM, *rvecs, *tvecs, flags, criteria);
 }
 
-CVAPI(void) calib3d_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMatrix, cv::Size imageSize,
+CVAPI(void) calib3d_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMatrix, CvSize imageSize,
 	double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
 	cv::Point2d *principalPoint, double *aspectRatio)
 {
@@ -318,7 +318,7 @@ CVAPI(void) calib3d_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMa
 	*focalLength = focalLength0;
 	*aspectRatio = aspectRatio0;
 }
-CVAPI(void) calib3d_calibrationMatrixValues_array(double *cameraMatrix, cv::Size imageSize,
+CVAPI(void) calib3d_calibrationMatrixValues_array(double *cameraMatrix, CvSize imageSize,
 	double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
 	cv::Point2d *principalPoint, double *aspectRatio)
 {
@@ -400,12 +400,15 @@ CVAPI(void) calib3d_stereoRectify_InputArray(
 								cv::_OutputArray *R1, cv::_OutputArray *R2,
 								cv::_OutputArray *P1, cv::_OutputArray *P2,
 								cv::_OutputArray *Q, int flags,
-								double alpha, cv::Size newImageSize,
-								cv::Rect* validPixROI1, cv::Rect* validPixROI2 )
+								double alpha, CvSize newImageSize,
+								CvRect *validPixROI1, CvRect *validPixROI2 )
 {
+    cv::Rect _validPixROI1, _validPixROI2;
 	cv::stereoRectify(*cameraMatrix1, *distCoeffs1, *cameraMatrix2, *distCoeffs2,
 		imageSize, *R, *T, *R1, *R2, *P1, *P2, *Q, flags, alpha, newImageSize,
-		validPixROI1, validPixROI2);
+		&_validPixROI1, &_validPixROI2);
+    *validPixROI1 = _validPixROI1;
+    *validPixROI2 = _validPixROI2;
 }
 CVAPI(void) calib3d_stereoRectify_array( double *cameraMatrix1, 
 										 double *distCoeffs1, int dc1Size,
@@ -414,8 +417,8 @@ CVAPI(void) calib3d_stereoRectify_array( double *cameraMatrix1,
 										 CvSize imageSize, 
 										 double *R, double *T,
 									     double *R1, double *R2, double *P1, double *P2,
-									     double *Q, int flags, double alpha, cv::Size newImageSize,
-									     cv::Rect* validPixROI1, cv::Rect* validPixROI2 )
+									     double *Q, int flags, double alpha, CvSize newImageSize,
+									     CvRect *validPixROI1, CvRect *validPixROI2 )
 {
 	cv::Mat cameraMatrix1M(3, 3, CV_64FC1, cameraMatrix1);
 	cv::Mat cameraMatrix2M(3, 3, CV_64FC1, cameraMatrix2);
@@ -430,9 +433,12 @@ CVAPI(void) calib3d_stereoRectify_array( double *cameraMatrix1,
 	cv::Mat P2M(3, 4, CV_64FC1, P2);
 	cv::Mat QM(3, 4, CV_64FC1, Q);
 
+    cv::Rect _validPixROI1, _validPixROI2;
 	cv::stereoRectify(cameraMatrix1M, distCoeffs1M, cameraMatrix2M, distCoeffs2M,
 		imageSize, RM, TM, R1M, R2M, P1M, P2M, QM, flags, alpha, newImageSize,
-		validPixROI1, validPixROI2);
+		&_validPixROI1, &_validPixROI2);
+    *validPixROI1 = _validPixROI1;
+    *validPixROI2 = _validPixROI2;
 }
 
 CVAPI(int) calib3d_stereoRectifyUncalibrated_InputArray( cv::_InputArray *points1, cv::_InputArray *points2,
@@ -461,12 +467,12 @@ CVAPI(float) calib3d_rectify3Collinear_InputArray(
                                 cv::_InputArray *cameraMatrix3, cv::_InputArray *distCoeffs3,
 								cv::_InputArray **imgpt1, int imgpt1Size,
 								cv::_InputArray **imgpt3, int imgpt3Size,
-                                cv::Size imageSize, cv::_InputArray *R12, cv::_InputArray *T12,
+                                CvSize imageSize, cv::_InputArray *R12, cv::_InputArray *T12,
                                 cv::_InputArray *R13, cv::_InputArray *T13,
                                 cv::_OutputArray *R1, cv::_OutputArray *R2, cv::_OutputArray *R3,
                                 cv::_OutputArray *P1, cv::_OutputArray *P2, cv::_OutputArray *P3,
-                                cv::_OutputArray *Q, double alpha, cv::Size newImgSize,
-                                cv::Rect *roi1, cv::Rect *roi2, int flags )
+                                cv::_OutputArray *Q, double alpha, CvSize newImgSize,
+                                CvRect *roi1, CvRect *roi2, int flags )
 {
 	std::vector<cv::_InputArray> imgpt1Vec(imgpt1Size);
 	std::vector<cv::_InputArray> imgpt3Vec(imgpt3Size);
@@ -474,21 +480,27 @@ CVAPI(float) calib3d_rectify3Collinear_InputArray(
 		imgpt1Vec[i] = *(imgpt1[i]);
 	for (int i = 0; i < imgpt1Size; i++)
 		imgpt3Vec[i] = *(imgpt3[i]);
+    cv::Rect _roi1, _roi2;
 
-	return cv::rectify3Collinear(*cameraMatrix1, *distCoeffs1, 
+	float ret = cv::rectify3Collinear(*cameraMatrix1, *distCoeffs1, 
 		*cameraMatrix2, *distCoeffs2, *cameraMatrix3, *distCoeffs3,
 		imgpt1Vec, imgpt3Vec, imageSize, *R12, *T12, *R13, *T13,
 		*R1, *R2, *R3, *P1, *P2, *P3, *Q, alpha, newImgSize,
-		roi1, roi2, flags);
+		&_roi1, &_roi2, flags);
+    *roi1 = _roi1;
+    *roi2 = _roi2;
+    return ret;
 }
 
 CVAPI(cv::Mat*) calib3d_getOptimalNewCameraMatrix_InputArray(
 											cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-                                            cv::Size imageSize, double alpha, cv::Size newImgSize,
-                                            cv::Rect* validPixROI, int centerPrincipalPoint)
+                                            CvSize imageSize, double alpha, CvSize newImgSize,
+                                            CvRect* validPixROI, int centerPrincipalPoint)
 {
+    cv::Rect _validPixROI;
 	cv::Mat mat = cv::getOptimalNewCameraMatrix(*cameraMatrix, entity(distCoeffs), 
-		imageSize, alpha, newImgSize, validPixROI, centerPrincipalPoint != 0);
+		imageSize, alpha, newImgSize, &_validPixROI, centerPrincipalPoint != 0);
+    *validPixROI = _validPixROI;
 	return new cv::Mat(mat);
 }
 CVAPI(void) calib3d_getOptimalNewCameraMatrix_array(

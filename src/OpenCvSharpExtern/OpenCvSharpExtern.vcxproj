@@ -82,7 +82,7 @@
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -156,7 +156,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <OpenMPSupport>false</OpenMPSupport>
+      <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4251;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -193,6 +193,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAsManaged>false</CompileAsManaged>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opencv_calib3d248.lib;opencv_contrib248.lib;opencv_core248.lib;opencv_features2d248.lib;opencv_flann248.lib;opencv_highgui248.lib;opencv_imgproc248.lib;opencv_legacy248.lib;opencv_ml248.lib;opencv_nonfree248.lib;opencv_objdetect248.lib;opencv_photo248.lib;opencv_stitching248.lib;opencv_superres248.lib;opencv_video248.lib;opencv_videostab248.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -207,7 +208,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName).dll" "$(SolutionDir)OpenCvSharp.CPlusPlus\$(TargetName).dll"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -248,6 +250,8 @@
     <ClInclude Include="imgproc_Subdiv2D.h" />
     <ClInclude Include="include_opencv.h" />
     <ClInclude Include="ml.h" />
+    <ClInclude Include="my_functions.h" />
+    <ClInclude Include="my_types.h" />
     <ClInclude Include="objdetect.h" />
     <ClInclude Include="objdetect_HOGDescriptor.h" />
     <ClInclude Include="core_Algorithm.h" />
