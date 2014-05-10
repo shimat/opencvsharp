@@ -13,7 +13,9 @@ namespace X64Samples
         {
             // Load the cascades
             var haarCascade = new CascadeClassifier(FilePath.HaarCascade);
-            var lbpCascade = new CascadeClassifier(FilePath.LbpCascade);
+            //var lbpCascade = new CascadeClassifier(FilePath.LbpCascade);
+            var lbpCascade = new CascadeClassifier();
+            lbpCascade.Load(FilePath.LbpCascade);
 
             // Detect faces
             Mat haarResult = DetectFace(haarCascade);
