@@ -146,7 +146,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2d[] dstPointsArray = EnumerableEx.ToArray(dstPoints);
 
             IntPtr mat = NativeMethods.calib3d_findHomography_vector(srcPointsArray, srcPointsArray.Length,
-                srcPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
+                dstPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
 
             if (mask != null)
                 mask.Fix();
