@@ -216,12 +216,12 @@ namespace OpenCvSharp.Utilities
         {
             get
             {
-                var lengths = new List<int>(array.Length);
+                var lengths = new int[array.Length];
                 for (int i = 0; i < array.Length; i++)
                 {
                     lengths[i] = array[i].Length;
                 }
-                return lengths.ToArray();
+                return lengths;
             }
         }
     }
