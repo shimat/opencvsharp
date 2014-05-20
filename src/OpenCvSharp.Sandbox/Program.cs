@@ -11,6 +11,12 @@ using OpenCvSharp.Extensions;
 
 namespace OpenCvSharp.Sandbox
 {
+    enum Hoge
+    {
+        A = 1, 
+        B = 2
+    }
+
     /// <summary>
     /// 書き捨てのコード。
     /// うまくいったらSampleに移管
@@ -25,13 +31,29 @@ namespace OpenCvSharp.Sandbox
 
         private static void Foo()
         {
-            while (true)
+            Console.WriteLine(AspectRatioAsString(1.77777777f));
+            Console.Read();
+        }
+
+        static string AspectRatioAsString(float f)
+        {
+            bool carryon = true;
+            int index = 0;
+            double roundedUpValue = 0;
+            while (carryon)
             {
-                IplImage img = new IplImage("img/lenna.png");
-                Cv.ReleaseImage(img);
-                Console.WriteLine("{0:F2}MB", MyProcess.WorkingSet64 / 1024.0 / 1024.0);
-                //img.Dispose(); does not work either.
+                index++;
+                float upper = index * f;
+
+                roundedUpValue = Math.Ceiling(upper);
+
+                if (roundedUpValue - upper <= (double)0.1 || index > 20)
+                {
+                    carryon = false;
+                }
             }
+
+            return roundedUpValue + ":" + index;
         }
 
         private static void Run()
