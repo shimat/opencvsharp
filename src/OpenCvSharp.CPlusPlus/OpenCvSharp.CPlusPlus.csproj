@@ -155,6 +155,7 @@
     <Compile Include="modules\features2d\BriefDescriptorExtractor.cs" />
     <Compile Include="modules\features2d\DescriptorExtractor.cs" />
     <Compile Include="modules\features2d\IDescriptorExtractor.cs" />
+    <Compile Include="modules\flann\FlannDistance.cs" />
     <Compile Include="modules\ml\Class\CvDTreeNode.cs" />
     <Compile Include="modules\ml\Class\CvDTreeSplit.cs" />
     <Compile Include="modules\ml\Class\CvDTreeTrainData.cs" />
@@ -345,7 +346,6 @@
     <Compile Include="modules\flann\IndexParams\LinearIndexParams.cs" />
     <Compile Include="modules\flann\IndexParams\SavedIndexParams.cs" />
     <Compile Include="modules\flann\IndexParams\SearchParams.cs" />
-    <Compile Include="modules\flann\IndexParams\SearchParams_old.cs" />
     <Compile Include="modules\core\Struct\Vecb.cs" />
     <Compile Include="CppConst.cs" />
     <Compile Include="Cv2\Cv2_highgui.cs" />

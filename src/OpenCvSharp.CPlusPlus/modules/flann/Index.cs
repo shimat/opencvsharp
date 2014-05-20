@@ -15,14 +15,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
     public class Index : DisposableCvObject
     {
-        #region Field
-        /// <summary>
-        /// sizeof(cv::flann::Index)
-        /// </summary>
-        public static readonly int SizeOf = NativeMethods.flann_Index_sizeof();
-
         private bool disposed = false;
-        #endregion
 
         #region Init & Disposal
 #if LANG_JP
@@ -31,21 +24,23 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="features">インデックス作成対象となる特徴（点）が格納された， CV_32F 型の行列．この行列のサイズは matrix is num _ features x feature _ dimensionality となります</param>
         /// <param name="params">params – インデックスパラメータを含む構造体．作成されるインデックスの種類は，このパラメータの種類に依存します</param>
+        /// <param name="distType"></param>
 #else
         /// <summary>
         /// Constructs a nearest neighbor search index for a given dataset.
         /// </summary>
         /// <param name="features">features – Matrix of type CV _ 32F containing the features(points) to index. The size of the matrix is num _ features x feature _ dimensionality.</param>
         /// <param name="params">Structure containing the index parameters. The type of index that will be constructed depends on the type of this parameter. </param>
+        /// <param name="distType"></param>
 #endif
-        public Index(Mat features, IndexParams @params)
+        public Index(InputArray features, IndexParams @params, FlannDistance distType = FlannDistance.L2)
         {
             if (features == null)
                 throw new ArgumentNullException("features");
             if (@params == null)
                 throw new ArgumentNullException("params");
 
-            ptr = NativeMethods.flann_Index_construct(features.CvPtr, @params.CvPtr);
+            ptr = NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create Index");
         }
@@ -78,7 +73,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.flann_Index_destruct(ptr);
+                        NativeMethods.flann_Index_delete(ptr);
                     }
                     disposed = true;
                 }

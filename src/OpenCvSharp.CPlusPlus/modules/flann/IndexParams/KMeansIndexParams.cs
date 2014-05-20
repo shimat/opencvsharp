@@ -15,14 +15,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
     public class KMeansIndexParams : IndexParams
     {
-        #region Field
-        /// <summary>
-        /// sizeof(cv::flann::KMeansIndexParams)
-        /// </summary>
-        public static readonly new int SizeOf = NativeMethods.flann_KMeansIndexParams_sizeof();
-
         private bool disposed = false;
-        #endregion
 
         #region Properties
         /*
@@ -157,7 +150,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public KMeansIndexParams(int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
         {
-            ptr = NativeMethods.flann_KMeansIndexParams_construct(branching, iterations, centersInit, cbIndex);
+            ptr = NativeMethods.flann_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create KMeansIndexParams");
         }
@@ -190,7 +183,11 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.flann_KMeansIndexParams_destruct(ptr);
+                        if (ptr != IntPtr.Zero)
+                        {
+                            NativeMethods.flann_KMeansIndexParams_delete(ptr);
+                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

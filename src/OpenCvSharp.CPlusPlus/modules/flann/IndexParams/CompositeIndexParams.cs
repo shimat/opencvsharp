@@ -15,14 +15,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
     public class CompositeIndexParams : IndexParams
     {
-        #region Field
-        /// <summary>
-        /// sizeof(cv::flann::CompositeIndexParams)
-        /// </summary>
-        public static readonly new int SizeOf = NativeMethods.flann_CompositeIndexParams_sizeof();
-
         private bool disposed = false;
-        #endregion
 
         #region Properties
         /*
@@ -185,7 +178,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public CompositeIndexParams(int trees = 4, int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
         {
-            ptr = NativeMethods.flann_CompositeIndexParams_construct(trees, branching, iterations, centersInit, cbIndex);
+            ptr = NativeMethods.flann_CompositeIndexParams_new(trees, branching, iterations, centersInit, cbIndex);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CompositeIndexParams");
         }
@@ -218,7 +211,11 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.flann_CompositeIndexParams_destruct(ptr);
+                        if (ptr != IntPtr.Zero)
+                        {
+                            NativeMethods.flann_CompositeIndexParams_delete(ptr);
+                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

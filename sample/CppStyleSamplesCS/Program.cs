@@ -21,7 +21,7 @@ namespace CppStyleSamplesCS
                 //new HistSample();
                 //new Subdiv2DSample();
                 //new FASTSample();
-                //new FlannSample(); // Todo: crash
+                new FlannSample(); 
                 //new HOGSample();
                 //new HoughLinesSample();
                 //new MSERSample();
@@ -34,7 +34,7 @@ namespace CppStyleSamplesCS
                 //new NormalArrayOperations();
                 //new SolveEquation();
                 //new MatOperations();
-                new FaceDetection();
+                //new FaceDetection();
                 //new SuperResolutionSample();
                 //new DTree();
                 //new LetterRecog();

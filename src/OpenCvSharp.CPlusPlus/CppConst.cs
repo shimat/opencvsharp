@@ -181,5 +181,22 @@ namespace OpenCvSharp.CPlusPlus
             COLORMAP_HSV = 9,
             COLORMAP_PINK = 10,
             COLORMAP_HOT = 11;
+
+        /// <summary>
+        /// cv::flann distance types
+        /// </summary>
+        public const int FLANN_DIST_EUCLIDEAN = 1,
+                         FLANN_DIST_L2 = 1,
+                         FLANN_DIST_MANHATTAN = 2,
+                         FLANN_DIST_L1 = 2,
+                         FLANN_DIST_MINKOWSKI = 3,
+                         FLANN_DIST_MAX = 4,
+                         FLANN_DIST_HIST_INTERSECT = 5,
+                         FLANN_DIST_HELLINGER = 6,
+                         FLANN_DIST_CHI_SQUARE = 7,
+                         FLANN_DIST_CS = 7,
+                         FLANN_DIST_KULLBACK_LEIBLER = 8,
+                         FLANN_DIST_KL = 8,
+                         FLANN_DIST_HAMMING = 9;
     }
 }

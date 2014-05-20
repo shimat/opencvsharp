@@ -15,14 +15,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
     public class SavedIndexParams : IndexParams
     {
-        #region Field
-        /// <summary>
-        /// sizeof(cv::flann::SavedIndexParams)
-        /// </summary>
-        public static readonly new int SizeOf = NativeMethods.flann_SavedIndexParams_sizeof();
-
         private bool disposed = false;
-        #endregion
 
         #region Properties
         /*
@@ -71,7 +64,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
-            ptr = NativeMethods.flann_SavedIndexParams_construct(filename);
+            ptr = NativeMethods.flann_SavedIndexParams_new(filename);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create SavedIndexParams");
         }
@@ -104,7 +97,11 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.flann_SavedIndexParams_destruct(ptr);
+                        if (ptr != IntPtr.Zero)
+                        {
+                            NativeMethods.flann_SavedIndexParams_delete(ptr);
+                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

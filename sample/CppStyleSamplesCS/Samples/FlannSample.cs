@@ -11,7 +11,6 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-
             Console.WriteLine("===== FlannTest =====");
 
             // creates data set
