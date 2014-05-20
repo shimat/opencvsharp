@@ -9,15 +9,13 @@
 #include "include_opencv.h"
 
 // cv::flann::Index
-CVAPI(int) flann_Index_sizeof()
+
+CVAPI(cv::flann::Index*) flann_Index_new(
+    cv::_InputArray *features, cv::flann::IndexParams* params, cvflann::flann_distance_t distType)
 {
-	return sizeof(cv::flann::Index);
+	return new cv::flann::Index(*features, *params, distType);
 }
-CVAPI(cv::flann::Index*) flann_Index_construct(cv::Mat *features, cv::flann::IndexParams* params)
-{
-	return new cv::flann::Index(*features, *params);
-}
-CVAPI(void) flann_Index_destruct(cv::flann::Index* obj)
+CVAPI(void) flann_Index_delete(cv::flann::Index* obj)
 {
 	delete obj;
 }
@@ -83,19 +81,15 @@ CVAPI(int) flann_Index_size(cv::flann::Index* obj)
 
 
 // cv::flann::IndexParams
-CVAPI(int) flann_IndexParams_sizeof()
-{
-	return sizeof(cv::flann::IndexParams);
-}
-CVAPI(cv::flann::IndexParams*) flann_IndexParams_construct()
+CVAPI(cv::flann::IndexParams*) flann_IndexParams_new()
 {
 	return new cv::flann::IndexParams;
 }
-CVAPI(void) flann_IndexParams_destruct(cv::flann::IndexParams* obj)
+CVAPI(void) flann_IndexParams_delete(cv::flann::IndexParams *obj)
 {
 	delete obj;
 }
-CVAPI(void) flann_IndexParams_getString(cv::flann::IndexParams* obj, const char* key, const char* defaultVal, char* result) 
+CVAPI(void) flann_IndexParams_getString(cv::flann::IndexParams *obj, const char *key, const char *defaultVal, char *result) 
 {
 	std::string defaultVal_;
 	if(defaultVal == NULL)
@@ -141,29 +135,21 @@ CVAPI(void) flann_IndexParams_setAlgorithm(cv::flann::IndexParams* obj, int valu
 
 
 // cv::flann::LinearIndexParams
-CVAPI(int) flann_LinearIndexParams_sizeof()
-{
-	return sizeof(cv::flann::LinearIndexParams);
-}
-CVAPI(cv::flann::LinearIndexParams*) flann_LinearIndexParams_construct()
+CVAPI(cv::flann::LinearIndexParams*) flann_LinearIndexParams_new()
 {
 	return new cv::flann::LinearIndexParams();
 }
-CVAPI(void) flann_LinearIndexParams_destruct(cv::flann::LinearIndexParams* obj)
+CVAPI(void) flann_LinearIndexParams_delete(cv::flann::LinearIndexParams* obj)
 {
 	delete obj;
 }
 
 // cv::flann::KDTreeIndexParams
-CVAPI(int) flann_KDTreeIndexParams_sizeof()
-{
-	return sizeof(cv::flann::KDTreeIndexParams);
-}
-CVAPI(cv::flann::KDTreeIndexParams*) flann_KDTreeIndexParams_construct(int trees)
+CVAPI(cv::flann::KDTreeIndexParams*) flann_KDTreeIndexParams_new(int trees)
 {
 	return new cv::flann::KDTreeIndexParams(trees);
 }
-CVAPI(void) flann_KDTreeIndexParams_destruct(cv::flann::KDTreeIndexParams* obj)
+CVAPI(void) flann_KDTreeIndexParams_delete(cv::flann::KDTreeIndexParams* obj)
 {
 	delete obj;
 }
@@ -175,15 +161,11 @@ CVAPI(int*) flann_KDTreeIndexParams_trees(cv::flann::KDTreeIndexParams* obj)
 //*/
 
 // cv::flann::KMeansIndexParams
-CVAPI(int) flann_KMeansIndexParams_sizeof()
-{
-	return sizeof(cv::flann::KMeansIndexParams);
-}
-CVAPI(cv::flann::KMeansIndexParams*) flann_KMeansIndexParams_construct(int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index)
+CVAPI(cv::flann::KMeansIndexParams*) flann_KMeansIndexParams_new(int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index)
 {
 	return new cv::flann::KMeansIndexParams(branching, iterations, centers_init, cb_index);
 }
-CVAPI(void) flann_KMeansIndexParams_destruct(cv::flann::KMeansIndexParams* obj)
+CVAPI(void) flann_KMeansIndexParams_delete(cv::flann::KMeansIndexParams* obj)
 {
 	delete obj;
 }
@@ -207,15 +189,11 @@ CVAPI(float*) flann_KMeansIndexParams_cb_index(cv::flann::KMeansIndexParams* obj
 //*/
 
 // cv::flann::CompositeIndexParams
-CVAPI(int) flann_CompositeIndexParams_sizeof()
-{
-	return sizeof(cv::flann::CompositeIndexParams);
-}
-CVAPI(cv::flann::CompositeIndexParams*) flann_CompositeIndexParams_construct(int trees, int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index)
+CVAPI(cv::flann::CompositeIndexParams*) flann_CompositeIndexParams_new(int trees, int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index)
 {
 	return new cv::flann::CompositeIndexParams(trees, branching, iterations, centers_init, cb_index);
 }
-CVAPI(void) flann_CompositeIndexParams_destruct(cv::flann::CompositeIndexParams* obj)
+CVAPI(void) flann_CompositeIndexParams_delete(cv::flann::CompositeIndexParams* obj)
 {
 	delete obj;
 }
@@ -242,15 +220,11 @@ CVAPI(float*) flann_CompositeIndexParams_cb_index(cv::flann::CompositeIndexParam
 }
 */
 // cv::flann::AutotunedIndexParams
-CVAPI(int) flann_AutotunedIndexParams_sizeof()
-{
-	return sizeof(cv::flann::AutotunedIndexParams);
-}
-CVAPI(cv::flann::AutotunedIndexParams*) flann_AutotunedIndexParams_construct(float target_precision = 0.9, float build_weight = 0.01, float memory_weight = 0, float sample_fraction = 0.1)
+CVAPI(cv::flann::AutotunedIndexParams*) flann_AutotunedIndexParams_new(float target_precision = 0.9, float build_weight = 0.01, float memory_weight = 0, float sample_fraction = 0.1)
 {
 	return new cv::flann::AutotunedIndexParams(target_precision, build_weight, memory_weight, sample_fraction);
 }
-CVAPI(void) flann_AutotunedIndexParams_destruct(cv::flann::AutotunedIndexParams* obj)
+CVAPI(void) flann_AutotunedIndexParams_delete(cv::flann::AutotunedIndexParams* obj)
 {
 	delete obj;
 }
@@ -274,15 +248,11 @@ CVAPI(float*) flann_AutotunedIndexParams_sample_fraction(cv::flann::AutotunedInd
 */
 
 // cv::flann::SavedIndexParams
-CVAPI(int) flann_SavedIndexParams_sizeof()
-{
-	return sizeof(cv::flann::SavedIndexParams);
-}
-CVAPI(cv::flann::SavedIndexParams*) flann_SavedIndexParams_construct(const char* filename)
+CVAPI(cv::flann::SavedIndexParams*) flann_SavedIndexParams_new(const char* filename)
 {
 	return new cv::flann::SavedIndexParams(filename);
 }
-CVAPI(void) flann_SavedIndexParams_destruct(cv::flann::SavedIndexParams* obj)
+CVAPI(void) flann_SavedIndexParams_delete(cv::flann::SavedIndexParams* obj)
 {
 	delete obj;
 }
@@ -297,15 +267,12 @@ CVAPI(void) flann_SavedIndexParams_filename_set(cv::flann::SavedIndexParams* obj
 }
 */
 
-CVAPI(int) flann_SearchParams_sizeof()
-{
-	return sizeof(cv::flann::SearchParams);
-}
-CVAPI(cv::flann::SearchParams*) flann_SearchParams_construct(int checks, float eps, int sorted)
+// cv::flann::SearchParams
+CVAPI(cv::flann::SearchParams*) flann_SearchParams_new(int checks, float eps, int sorted)
 {
 	return new cv::flann::SearchParams(checks, eps, (sorted != 0));
 }
-CVAPI(void) flann_SearchParams_destruct(cv::flann::SearchParams* obj)
+CVAPI(void) flann_SearchParams_delete(cv::flann::SearchParams* obj)
 {
 	delete obj;
 }
