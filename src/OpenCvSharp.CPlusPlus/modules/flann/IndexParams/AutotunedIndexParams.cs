@@ -15,14 +15,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
     public class AutotunedIndexParams : IndexParams
     {
-        #region Field
-        /// <summary>
-        /// sizeof(cv::flann::AutotunedIndexParams)
-        /// </summary>
-        public static readonly new int SizeOf = NativeMethods.flann_AutotunedIndexParams_sizeof();
-
         private bool disposed = false;
-        #endregion
 
         #region Properties
         /*
@@ -175,7 +168,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public AutotunedIndexParams(float targetPrecision = 0.9f, float buildWeight = 0.01f, float memoryWeight = 0, float sampleFraction = 0.1f)
         {
-            ptr = NativeMethods.flann_AutotunedIndexParams_construct(targetPrecision, buildWeight, memoryWeight, sampleFraction);
+            ptr = NativeMethods.flann_AutotunedIndexParams_new(targetPrecision, buildWeight, memoryWeight, sampleFraction);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create AutotunedIndexParams");
         }
@@ -208,7 +201,11 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.flann_AutotunedIndexParams_destruct(ptr);
+                        if (ptr != IntPtr.Zero)
+                        {
+                            NativeMethods.flann_AutotunedIndexParams_delete(ptr);
+                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

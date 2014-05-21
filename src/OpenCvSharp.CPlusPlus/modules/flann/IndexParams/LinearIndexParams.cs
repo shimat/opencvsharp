@@ -15,14 +15,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
     public class LinearIndexParams : IndexParams
     {
-        #region Field
-        /// <summary>
-        /// sizeof(cv::flann::LinearIndexParams)
-        /// </summary>
-        public static readonly new int SizeOf = NativeMethods.flann_LinearIndexParams_sizeof();
-
         private bool disposed = false;
-        #endregion
 
         #region Init & Disposal
 #if LANG_JP
@@ -36,7 +29,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public LinearIndexParams()
         {
-            ptr = NativeMethods.flann_LinearIndexParams_construct();
+            ptr = NativeMethods.flann_LinearIndexParams_new();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create LinearIndexParams");
         }
@@ -69,7 +62,11 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.flann_LinearIndexParams_destruct(ptr);
+                        if (ptr != IntPtr.Zero)
+                        {
+                            NativeMethods.flann_LinearIndexParams_delete(ptr);
+                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

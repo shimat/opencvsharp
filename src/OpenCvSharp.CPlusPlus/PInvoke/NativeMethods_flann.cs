@@ -10,11 +10,9 @@ namespace OpenCvSharp.CPlusPlus
     {
         #region Index
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_Index_sizeof();
+        public static extern IntPtr flann_Index_new(IntPtr features, IntPtr @params, int distType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_Index_construct(IntPtr features, IntPtr @params);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_Index_destruct(IntPtr obj);
+        public static extern void flann_Index_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void flann_Index_knnSearch1(IntPtr obj, [In] float[] queries, int queriesLength, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -37,11 +35,9 @@ namespace OpenCvSharp.CPlusPlus
         #region IndexParams
         #region IndexParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_IndexParams_sizeof();
+        public static extern IntPtr flann_IndexParams_new();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_IndexParams_construct();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_IndexParams_destruct(IntPtr obj);
+        public static extern void flann_IndexParams_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern void flann_IndexParams_getString(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string defaultVal, [MarshalAs(UnmanagedType.LPStr)] StringBuilder result);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
@@ -63,29 +59,23 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region LinearIndexParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_LinearIndexParams_sizeof();
+        public static extern IntPtr flann_LinearIndexParams_new();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_LinearIndexParams_construct();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_LinearIndexParams_destruct(IntPtr obj);
+        public static extern void flann_LinearIndexParams_delete(IntPtr obj);
         #endregion
         #region KDTreeIndexParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_KDTreeIndexParams_sizeof();
+        public static extern IntPtr flann_KDTreeIndexParams_new(int trees);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_KDTreeIndexParams_construct(int trees);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_KDTreeIndexParams_destruct(IntPtr obj);
+        public static extern void flann_KDTreeIndexParams_delete(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         //public static extern unsafe int* flann_KDTreeIndexParams_trees(IntPtr obj);
         #endregion
         #region KMeansIndexParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_KMeansIndexParams_sizeof();
+        public static extern IntPtr flann_KMeansIndexParams_new(int branching, int iterations, [MarshalAs(UnmanagedType.I4)] FlannCentersInit centers_init, float cb_index);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_KMeansIndexParams_construct(int branching, int iterations, [MarshalAs(UnmanagedType.I4)] FlannCentersInit centers_init, float cb_index);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_KMeansIndexParams_destruct(IntPtr obj);
+        public static extern void flann_KMeansIndexParams_delete(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         //public static extern unsafe int* flann_KMeansIndexParams_branching(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -97,11 +87,9 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region CompositeIndexParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_CompositeIndexParams_sizeof();
+        public static extern IntPtr flann_CompositeIndexParams_new(int trees, int branching, int iterations, FlannCentersInit centers_init, float cb_index);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_CompositeIndexParams_construct(int trees, int branching, int iterations, FlannCentersInit centers_init, float cb_index);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_CompositeIndexParams_destruct(IntPtr obj);
+        public static extern void flann_CompositeIndexParams_delete(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         //public static extern unsafe int* flann_CompositeIndexParams_trees(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -115,11 +103,9 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region AutotunedIndexParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_AutotunedIndexParams_sizeof();
+        public static extern IntPtr flann_AutotunedIndexParams_new(float targetPrecision, float build_weight, float memory_weight, float sample_fraction);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_AutotunedIndexParams_construct(float target_precision, float build_weight, float memory_weight, float sample_fraction);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_AutotunedIndexParams_destruct(IntPtr obj);
+        public static extern void flann_AutotunedIndexParams_delete(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         //public static extern unsafe float* flann_AutotunedIndexParams_target_precision(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -130,12 +116,10 @@ namespace OpenCvSharp.CPlusPlus
         //public static extern unsafe float* flann_AutotunedIndexParams_sample_fraction(IntPtr obj);
         #endregion
         #region SavedIndexParams
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_SavedIndexParams_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern IntPtr flann_SavedIndexParams_construct([MarshalAs(UnmanagedType.LPStr)] string filename);
+        public static extern IntPtr flann_SavedIndexParams_new([MarshalAs(UnmanagedType.LPStr)] string filename);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_SavedIndexParams_destruct(IntPtr obj);
+        public static extern void flann_SavedIndexParams_delete(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         //[return: MarshalAs(UnmanagedType.LPStr)]
         //public static extern string flann_SavedIndexParams_filename_get(IntPtr obj);
@@ -144,11 +128,9 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region SearchParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int flann_SearchParams_sizeof();
+        public static extern IntPtr flann_SearchParams_new(int checks, float eps, int sorted);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_SearchParams_construct(int checks, float eps, int sorted);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void flann_SearchParams_destruct(IntPtr obj);
+        public static extern void flann_SearchParams_delete(IntPtr obj);
         #endregion
 
         #endregion

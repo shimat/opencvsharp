@@ -16,14 +16,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
     public class KDTreeIndexParams : IndexParams
     {
-        #region Field
-        /// <summary>
-        /// sizeof(cv::flann::KDTreeIndexParams)
-        /// </summary>
-        public static readonly new int SizeOf = NativeMethods.flann_KDTreeIndexParams_sizeof();
-
         private bool disposed = false;
-        #endregion
 
         #region Properties
         /*
@@ -70,7 +63,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public KDTreeIndexParams(int trees = 4)
         {
-            ptr = NativeMethods.flann_KDTreeIndexParams_construct(trees);
+            ptr = NativeMethods.flann_KDTreeIndexParams_new(trees);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create KDTreeIndexParams");
         }
@@ -103,7 +96,11 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.flann_KDTreeIndexParams_destruct(ptr);
+                        if (ptr != IntPtr.Zero)
+                        {
+                            NativeMethods.flann_KDTreeIndexParams_delete(ptr);
+                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

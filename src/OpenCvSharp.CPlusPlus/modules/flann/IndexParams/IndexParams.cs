@@ -9,14 +9,7 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public class IndexParams : DisposableCvObject
     {
-        #region Field
-        /// <summary>
-        /// sizeof(cv::flann::IndexParams)
-        /// </summary>
-        public static readonly int SizeOf = NativeMethods.flann_IndexParams_sizeof();
-
         private bool disposed = false;
-        #endregion
 
         #region Properties
 
@@ -34,7 +27,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public IndexParams()
         {
-            ptr = NativeMethods.flann_IndexParams_construct();
+            ptr = NativeMethods.flann_IndexParams_new();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create IndexParams");
         }
@@ -67,7 +60,11 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.flann_IndexParams_destruct(ptr);
+                        if (ptr != IntPtr.Zero)
+                        {
+                            NativeMethods.flann_IndexParams_delete(ptr);
+                        }
+                        ptr = IntPtr.Zero;
                     }
                     disposed = true;
                 }

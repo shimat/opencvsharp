@@ -14,7 +14,7 @@ namespace CppStyleSamplesCS
             Mat src1 = new Mat(FilePath.Match1, LoadMode.Color);
             Mat src2 = new Mat(FilePath.Match2, LoadMode.Color);
 
-            MatchBySift(src1, src2);
+            //MatchBySift(src1, src2);
             MatchBySurf(src1, src2);
         }
 
@@ -61,10 +61,13 @@ namespace CppStyleSamplesCS
 
             // Detect the keypoints and generate their descriptors using SURF
             KeyPoint[] keypoints1, keypoints2;
-            MatOfFloat descriptors1 = new MatOfFloat();
-            MatOfFloat descriptors2 = new MatOfFloat();
+            var descriptors1 = new MatOfDouble();
+            var descriptors2 = new MatOfDouble();
             surf.Run(gray1, null, out keypoints1, descriptors1);
             surf.Run(gray2, null, out keypoints2, descriptors2);
+
+            var array = descriptors1.ToArray();
+            array.ToString();
 
             // Matching descriptor vectors with a brute force matcher
             BFMatcher matcher = new BFMatcher(NormType.L2, false);
