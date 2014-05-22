@@ -25,7 +25,7 @@ namespace OpenCvSharp.Sandbox
             }
 
             //Foo();
-            //Run();
+            Run();
         }
 
         private static void Foo()
@@ -58,7 +58,7 @@ namespace OpenCvSharp.Sandbox
         private static void Run()
         {
             string[] algoNames = Algorithm.GetList();
-            algoNames.ToString();
+            Console.WriteLine(String.Join("\n", algoNames));
 
             SIFT al1 = Algorithm.Create<SIFT>("Feature2D.SIFT");
             string[] ppp = al1.GetParams();

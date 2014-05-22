@@ -30,7 +30,6 @@ namespace OpenCvSharp
 #endif
     public static class NativeMethods
     {
-        #region Fields
         /// <summary>
         /// 
         /// </summary>
@@ -39,25 +38,27 @@ namespace OpenCvSharp
         /// repsresents whether OpenCV is built with Qt
         /// </summary>
         private static bool? hasQt;
-        #endregion
 
         #region DLL File Name
-        public const string DllCalib3d = "opencv_calib3d248";
-        public const string DllCore = "opencv_core248";
-        public const string DllFeatures2d = "opencv_features2d248";
-        public const string DllFlann = "opencv_flann248";
-        public const string DllHighgui = "opencv_highgui248";
-        public const string DllImgproc = "opencv_imgproc248";
-        public const string DllLegacy = "opencv_legacy248";
-        public const string DllML = "opencv_ml248";    
-        public const string DllObjdetect = "opencv_objdetect248";
-        public const string DllPhoto = "opencv_photo248";
-        public const string DllVideo = "opencv_video248";
+
+        public const string Version = "248";
+        public const string DllCalib3d = "opencv_calib3d" + Version;
+        public const string DllCore = "opencv_core" + Version;
+        public const string DllFeatures2d = "opencv_features2d" + Version;
+        public const string DllFlann = "opencv_flann" + Version;
+        public const string DllHighgui = "opencv_highgui" + Version;
+        public const string DllImgproc = "opencv_imgproc" + Version;
+        public const string DllLegacy = "opencv_legacy" + Version;
+        public const string DllML = "opencv_ml" + Version;
+        public const string DllObjdetect = "opencv_objdetect" + Version;
+        public const string DllPhoto = "opencv_photo" + Version;
+        public const string DllVideo = "opencv_video" + Version;
+
         #endregion
 
         #region Static constructor
         /// <summary>
-        /// このクラスを最初に参照した時に1度だけ Unmanaged権限チェックを行う
+        /// Static constructor
         /// </summary>
 #if SUPPRESS_SECURITY
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
@@ -92,7 +93,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Load DLL files dynamically using Win32 LoadLibrary
         /// </summary>
-        private static void LoadLibraries()
+        public static void LoadLibraries()
         {
             if (IsMono())
                 return;
@@ -116,7 +117,7 @@ namespace OpenCvSharp
             // video: core, imgproc
             WindowsLibraryLoader.Instance.LoadLibrary(DllVideo);
 
-            // legacy: core, flann, imgproc, features2d
+            // calib3d: core, flann, imgproc, features2d
             WindowsLibraryLoader.Instance.LoadLibrary(DllCalib3d);
             // legacy: core, flann, imgproc, highgui, features2d, calib3d, ml, video
             WindowsLibraryLoader.Instance.LoadLibrary(DllLegacy);
@@ -131,15 +132,9 @@ namespace OpenCvSharp
             return (Type.GetType("Mono.Runtime") != null);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// Qtを有効にしてビルドされたhighguiライブラリであればtrueを返す
-        /// </summary>
-#else
         /// <summary>
         /// Returns true if the library is compiled with Qt
         /// </summary>
-#endif
         public static bool HasQt
         {
             get
@@ -162,7 +157,7 @@ namespace OpenCvSharp
             }
         }
         /// <summary>
-        /// Qtが有効かチェックし、無効であれば例外を投げる
+        /// Throws exception when HasQt is false
         /// </summary>
         private static void CheckQt()
         {
@@ -172,15 +167,9 @@ namespace OpenCvSharp
         #endregion
 
         #region Error redirection
-#if LANG_JP
-        /// <summary>
-        /// エラーをリダイレクトする際に呼ばれるエラーハンドラ
-        /// </summary>
-#else
         /// <summary>
         /// Custom error handler to be thrown by OpenCV
         /// </summary>
-#endif
         public static readonly CvErrorCallback ErrorHandlerThrowException =
             delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
             {
@@ -195,30 +184,20 @@ namespace OpenCvSharp
                     throw new OpenCVException(status, funcName, errMsg, fileName, line);
                 }
             };
-#if LANG_JP
-        /// <summary>
-        /// エラーを無視する際に呼ばれるエラーハンドラ
-        /// </summary>
-#else
+
         /// <summary>
         /// Custom error handler to ignore all OpenCV errors
         /// </summary>
-#endif
         public static readonly CvErrorCallback ErrorHandlerIgnorance =
             delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
             {
                 cvSetErrStatus(CvStatus.StsOk);
                 return 0;
             };
-#if LANG_JP
-        /// <summary>
-        /// OpenCV既定ののエラーハンドラ
-        /// </summary>
-#else
+
         /// <summary>
         /// Default error handler
         /// </summary>
-#endif
         public static CvErrorCallback ErrorHandlerDefault;
         #endregion
 
