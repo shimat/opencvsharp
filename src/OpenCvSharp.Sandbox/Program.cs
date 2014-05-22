@@ -11,12 +11,6 @@ using OpenCvSharp.Extensions;
 
 namespace OpenCvSharp.Sandbox
 {
-    enum Hoge
-    {
-        A = 1, 
-        B = 2
-    }
-
     /// <summary>
     /// 書き捨てのコード。
     /// うまくいったらSampleに移管
@@ -25,7 +19,12 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            Foo();
+            using (var img = new IplImage("img/lenna.png"))
+            {
+                CvWindow.ShowImages(img);
+            }
+
+            //Foo();
             //Run();
         }
 
