@@ -274,10 +274,17 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong core_theRNG();
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_randu(IntPtr dst, IntPtr low, IntPtr high);
+        public static extern void core_randu_InputArray(IntPtr dst, IntPtr low, IntPtr high);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_randn(IntPtr dst, IntPtr mean, IntPtr stddev);
+        public static extern void core_randu_Scalar(IntPtr dst, CvScalar low, CvScalar high);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_randn_InputArray(IntPtr dst, IntPtr mean, IntPtr stddev);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_randn_Scalar(IntPtr dst, CvScalar mean, CvScalar stddev);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_randShuffle(IntPtr dst, double iterFactor, out ulong rng);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
