@@ -3,8 +3,8 @@
  * This code is licenced under the LGPL.
  */
 
-#ifndef _CPP_CORE_ALGORITHM_H_
-#define _CPP_CORE_ALGORITHM_H_
+#ifndef _CPP_CORE_ALGORITHMINFO_H_
+#define _CPP_CORE_ALGORITHMINFO_H_
 
 #include "include_opencv.h"
 
