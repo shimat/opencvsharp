@@ -22,6 +22,10 @@ function MarkFileAsCopy($item)
     }
 }
 
+$platforms = @(
+    "x86";
+    "x64";
+)
 $copyFiles = @(
     "msvcp110.dll";
     "msvcr110.dll";
@@ -31,6 +35,7 @@ $copyFiles = @(
     "opencv_core248.dll";
     "opencv_features2d248.dll";
     "opencv_ffmpeg248.dll";
+    "opencv_ffmpeg248_64.dll";
     "opencv_gpu248.dll";
     "opencv_flann248.dll";
     "opencv_highgui248.dll";
@@ -46,9 +51,14 @@ $copyFiles = @(
     "opencv_video248.dll";
     "opencv_videostab248.dll";
 )
-foreach ( $file in $copyFiles )
+
+foreach ( $platform in $platforms )
 {
-    MarkFileAsCopy($project.ProjectItems.Item($file))
+    foreach ( $file in $copyFiles )
+    {
+        $path = [System::IO::Path]::Combine($platform, $file)
+        MarkFileAsCopy($project.ProjectItems.Item($path))
+    }
 }
 
 
