@@ -32,11 +32,11 @@ namespace OpenCvSharp
     {
         #region Fields
         /// <summary>
-        /// cvLoadが一度でも呼ばれたかどうか
+        /// 
         /// </summary>
         private static bool cvLoadCalled;
         /// <summary>
-        /// Qtが有効かどうか
+        /// repsresents whether OpenCV is built with Qt
         /// </summary>
         private static bool? hasQt;
         #endregion
@@ -45,9 +45,11 @@ namespace OpenCvSharp
         public const string DllCalib3d = "opencv_calib3d248";
         public const string DllCore = "opencv_core248";
         public const string DllFeatures2d = "opencv_features2d248";
+        public const string DllFlann = "opencv_flann248";
         public const string DllHighgui = "opencv_highgui248";
         public const string DllImgproc = "opencv_imgproc248";
-        public const string DllLegacy = "opencv_legacy248";    
+        public const string DllLegacy = "opencv_legacy248";
+        public const string DllML = "opencv_ml248";    
         public const string DllObjdetect = "opencv_objdetect248";
         public const string DllPhoto = "opencv_photo248";
         public const string DllVideo = "opencv_video248";
@@ -62,15 +64,16 @@ namespace OpenCvSharp
 #endif
         static NativeMethods()
         {
-            cvLoadCalled = false;            
+            cvLoadCalled = false;
 
-            // PInvokeできるかチェック            
+            LoadLibraries();
+
+            // checks P/Invoke can be done          
             PInvokeHelper.TryPInvoke();
 
-            // Qtが有効かチェック
             //_hasQt = HasQt();
 
-            // エラーをリダイレクト
+            // Redirection of error occurred in native library 
             IntPtr zero = IntPtr.Zero;
             IntPtr current = cvRedirectError(ErrorHandlerThrowException, zero, ref zero);
             if (current != IntPtr.Zero)
@@ -84,6 +87,48 @@ namespace OpenCvSharp
             {
                 ErrorHandlerDefault = null;
             }
+        }
+
+        /// <summary>
+        /// Load DLL files dynamically using Win32 LoadLibrary
+        /// </summary>
+        private static void LoadLibraries()
+        {
+            if (IsMono())
+                return;
+
+            // core: 
+            WindowsLibraryLoader.Instance.LoadLibrary(DllCore);
+            // flann: core
+            WindowsLibraryLoader.Instance.LoadLibrary(DllFlann);
+            // imgproc: core
+            WindowsLibraryLoader.Instance.LoadLibrary(DllImgproc);
+            // highgui: core
+            WindowsLibraryLoader.Instance.LoadLibrary(DllHighgui);
+            // ml: core
+            WindowsLibraryLoader.Instance.LoadLibrary(DllML);
+            // features2d: core, flann, imgproc
+            WindowsLibraryLoader.Instance.LoadLibrary(DllFeatures2d);
+            // objdetect: core, imgproc, highgui
+            WindowsLibraryLoader.Instance.LoadLibrary(DllObjdetect);
+            // photo: core, imgproc
+            WindowsLibraryLoader.Instance.LoadLibrary(DllPhoto);
+            // video: core, imgproc
+            WindowsLibraryLoader.Instance.LoadLibrary(DllVideo);
+
+            // legacy: core, flann, imgproc, features2d
+            WindowsLibraryLoader.Instance.LoadLibrary(DllCalib3d);
+            // legacy: core, flann, imgproc, highgui, features2d, calib3d, ml, video
+            WindowsLibraryLoader.Instance.LoadLibrary(DllLegacy);
+        }
+
+        /// <summary>
+        /// Returns whether the runtime is Mono or not
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsMono()
+        {
+            return (Type.GetType("Mono.Runtime") != null);
         }
 
 #if LANG_JP
