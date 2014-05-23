@@ -31,9 +31,7 @@ namespace CStyleSamplesCS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //new Affine();                      // 画像のアフィン変換  
-
-            //new BgSubtractorMOG();               // BackgroundSubtractorMOG
+            //new Affine();                      // Affine transformation
 
             //new BinarizationMethods();         // Various Binarization Methods
 
@@ -42,15 +40,15 @@ namespace CStyleSamplesCS
 
             //new BoundingRect();                // 点列を包含する矩形
             
-            //new CalibrateCamera();             // カメラキャリブレーション
+            //new CalibrateCamera();             // Camera calibration
 
-            //new CalibrateStereoCamera();             // カメラキャリブレーション
+            //new CalibrateStereoCamera();       // Stereo camera calibration
 
-            //new CaptureAVI();                  // AVIファイルのキャプチャ
+            //new CaptureAVI();                  // Capturing from AVI file
 
             //new CaptureByVideoInputSharp();    // Captures using VideoInputSharp
 
-            //new CaptureCamera();               // カメラのキャプチャ
+            //new CaptureCamera();               // Capturing from camera device
 
             //new Contour();                     // 輪郭領域の面積と輪郭の長さ
 

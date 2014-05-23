@@ -15,34 +15,9 @@ namespace OpenCvSharp
     /// <summary>
     /// Handles loading embedded dlls into memory, based on http://stackoverflow.com/questions/666799/embedding-unmanaged-dll-into-a-managed-c-sharp-dll.
     /// </summary>
-    /// <remarks>This code is from https://github.com/charlesw/tesseract </remarks>
-    public class WindowsLibraryLoader
+    /// <remarks>This code is based on https://github.com/charlesw/tesseract </remarks>
+    public sealed class WindowsLibraryLoader
     {
-        private class ProcessArchitectureInfo
-        {
-            public ProcessArchitectureInfo()
-            {
-                Warnings = new List<string>();
-            }
-
-            public string Architecture { get; set; }
-            public List<string> Warnings { get; set; }
-
-            public bool HasWarnings
-            {
-                get { return Warnings.Count > 0; }
-            }
-
-            public string WarningText()
-            {
-#if Net20
-                return String.Join("\r\n", Warnings.ToArray());
-#else
-                return String.Join("\r\n", Warnings);
-#endif
-            }
-        }
-
         #region Singleton pattern
 
         private static readonly WindowsLibraryLoader instance = new WindowsLibraryLoader();
@@ -50,28 +25,21 @@ namespace OpenCvSharp
         public static WindowsLibraryLoader Instance { get { return instance; } }
 
         #endregion
-
-        private readonly object syncLock = new object();
-
+        
         /// <summary>
         /// The default base directory name to copy the assemblies too.
         /// </summary>
         private const string ProcessorArchitecture = "PROCESSOR_ARCHITECTURE";
         private const string DllFileExtension = ".dll";
+        private const string DllDirectory = "dll";
 
-#if Net40 || Net45
-        private HashSet<string> loadedAssemblies = new HashSet<string>();
-#else
         private readonly List<string> loadedAssemblies = new List<string>();
-#endif
-        // Map processor 
-        private readonly Dictionary<string, string> processorArchitecturePlatforms;
 
-        // Used as a sanity check for the returned processor architecture to double check the returned value.
-        private readonly Dictionary<string, int> processorArchitectureAddressWidthPlatforms;
-        private WindowsLibraryLoader()
-        {
-            processorArchitecturePlatforms = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        /// <summary>
+        /// Map processor 
+        /// </summary>
+        private readonly Dictionary<string, string> processorArchitecturePlatforms =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                 {
                     {"x86", "x86"},
                     {"AMD64", "x64"},
@@ -79,15 +47,32 @@ namespace OpenCvSharp
                     {"ARM", "WinCE"}
                 };
 
-            processorArchitectureAddressWidthPlatforms = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        /// <summary>
+        /// Used as a sanity check for the returned processor architecture to double check the returned value.
+        /// </summary>
+        private readonly Dictionary<string, int> processorArchitectureAddressWidthPlatforms = 
+            new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
                 {
                     {"x86", 4},
                     {"AMD64", 8},
                     {"IA64", 8},
                     {"ARM", 4}
                 };
+        
+        private readonly object syncLock = new object();
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        private WindowsLibraryLoader()
+        {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dllName"></param>
+        /// <returns></returns>
         public bool IsLibraryLoaded(string dllName)
         {
             lock (syncLock)
@@ -96,67 +81,80 @@ namespace OpenCvSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsCurrentPlatformSupported()
         {
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dllName"></param>
         public void LoadLibrary(string dllName)
         {
-            if (IsCurrentPlatformSupported())
+            if (!IsCurrentPlatformSupported())
             {
-                try
+                return;
+            }
+
+            try
+            {
+                lock (syncLock)
                 {
-                    lock (syncLock)
+                    if (loadedAssemblies.Contains(dllName))
                     {
-                        if (!loadedAssemblies.Contains(dllName))
-                        {
-                            var processArch = GetProcessArchitecture();
-                            IntPtr dllHandle;
-                            string baseDirectory;
-
-                            // Try loading from executing assembly domain
-                            var executingAssembly = Assembly.GetExecutingAssembly();
-                            baseDirectory = Path.GetDirectoryName(executingAssembly.Location);
-                            dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
-                            if (dllHandle != IntPtr.Zero) return;
-
-                            // Fallback to current app domain
-                            baseDirectory = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
-                            dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
-                            if (dllHandle != IntPtr.Zero) return;
-
-                            // Finally try the working directory
-                            baseDirectory = Path.GetFullPath(Environment.CurrentDirectory);
-                            dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
-                            if (dllHandle != IntPtr.Zero) return;
-
-                            // ASP.NET hack, requires an active context
-#if !ClientProfile
-                            if (HttpContext.Current != null)
-                            {
-                                var server = HttpContext.Current.Server;
-                                baseDirectory = Path.GetFullPath(server.MapPath("bin"));
-                                dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
-                                if (dllHandle != IntPtr.Zero) return;
-                            }
-#endif
-                            StringBuilder errorMessage = new StringBuilder();
-                            errorMessage.AppendFormat("Failed to find dll \"{0}\", for processor architecture {1}.", dllName, processArch.Architecture);
-                            if (processArch.HasWarnings)
-                            {
-                                // include process detection warnings
-                                errorMessage.AppendFormat("\r\nWarnings: \r\n{0}", processArch.WarningText());
-                            }
-                            throw new LoadLibraryException(errorMessage.ToString());
-                        }
+                        return;
                     }
+
+                    var processArch = GetProcessArchitecture();
+                    IntPtr dllHandle;
+                    string baseDirectory;
+
+                    // Try loading from executing assembly domain
+                    var executingAssembly = Assembly.GetExecutingAssembly();
+                    baseDirectory = Path.GetDirectoryName(executingAssembly.Location);
+                    dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
+                    if (dllHandle != IntPtr.Zero) return;
+
+                    // Fallback to current app domain
+                    baseDirectory = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
+                    dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
+                    if (dllHandle != IntPtr.Zero) return;
+
+                    // Finally try the working directory
+                    baseDirectory = Path.GetFullPath(Environment.CurrentDirectory);
+                    dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
+                    if (dllHandle != IntPtr.Zero) return;
+
+                    // ASP.NET hack, requires an active context
+#if !ClientProfile
+                    if (HttpContext.Current != null)
+                    {
+                        var server = HttpContext.Current.Server;
+                        baseDirectory = Path.GetFullPath(server.MapPath("bin"));
+                        dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
+                        if (dllHandle != IntPtr.Zero) return;
+                    }
+#endif
+                    StringBuilder errorMessage = new StringBuilder();
+                    errorMessage.AppendFormat("Failed to find dll \"{0}\", for processor architecture {1}.", dllName,
+                                              processArch.Architecture);
+                    if (processArch.HasWarnings)
+                    {
+                        // include process detection warnings
+                        errorMessage.AppendFormat("\r\nWarnings: \r\n{0}", processArch.WarningText());
+                    }
+                    throw new LoadLibraryException(errorMessage.ToString());
                 }
-                catch (LoadLibraryException e)
-                {
-                    Trace.TraceError(e.Message);
-                }
+            }
+            catch (LoadLibraryException e)
+            {
+                Trace.TraceError(e.Message);
             }
         }
 
@@ -176,10 +174,10 @@ namespace OpenCvSharp
             }
             else
             {
-                processInfo.Architecture = "x86";
-                processInfo.Warnings.Add("Failed to detect processor architecture, falling back to x86.");
-            }
+                processInfo.AddWarning("Failed to detect processor architecture, falling back to x86.");
 
+                processInfo.Architecture = (IntPtr.Size == 8) ? "x64" : "x86";
+            }
 
             var addressWidth = processorArchitectureAddressWidthPlatforms[processInfo.Architecture];
             if (addressWidth != IntPtr.Size)
@@ -188,12 +186,12 @@ namespace OpenCvSharp
                 {
                     // fall back to x86 if detected x64 but has an address width of 32 bits.
                     processInfo.Architecture = "x86";
-                    processInfo.Warnings.Add(String.Format("Expected the detected processing architecture of {0} to have an address width of {1} Bytes but was {2} Bytes, falling back to x86.", processInfo.Architecture, addressWidth, IntPtr.Size));
+                    processInfo.AddWarning("Expected the detected processing architecture of {0} to have an address width of {1} Bytes but was {2} Bytes, falling back to x86.", processInfo.Architecture, addressWidth, IntPtr.Size);
                 }
                 else
                 {
                     // no fallback possible
-                    processInfo.Warnings.Add(String.Format("Expected the detected processing architecture of {0} to have an address width of {1} Bytes but was {2} Bytes.", processInfo.Architecture, addressWidth, IntPtr.Size));
+                    processInfo.AddWarning("Expected the detected processing architecture of {0} to have an address width of {1} Bytes but was {2} Bytes.", processInfo.Architecture, addressWidth, IntPtr.Size);
 
                 }
             }
@@ -205,7 +203,8 @@ namespace OpenCvSharp
         {
             IntPtr libraryHandle = IntPtr.Zero;
             var platformName = GetPlatformName(processArchInfo.Architecture);
-            var expectedDllDirectory = Path.Combine(baseDirectory, platformName);
+            var expectedDllDirectory = Path.Combine(
+                Path.Combine(baseDirectory, DllDirectory), platformName);
             var fileName = FixUpDllFileName(Path.Combine(expectedDllDirectory, dllName));
 
             if (File.Exists(fileName))
@@ -229,13 +228,17 @@ namespace OpenCvSharp
                     }
                     else
                     {
-                        Trace.TraceError(String.Format("Failed to load native library \"{0}\".\r\nCheck windows event log.", fileName));
+                        Trace.TraceError(
+                            "Failed to load native library \"{0}\".\r\nCheck windows event log.", 
+                            fileName);
                     }
                 }
                 catch (Exception e)
                 {
                     var lastError = Marshal.GetLastWin32Error();
-                    Trace.TraceError(String.Format("Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}", fileName, lastError, e.ToString()));
+                    Trace.TraceError(
+                        "Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}", 
+                        fileName, lastError, e);
                 }
             }
             else
@@ -289,6 +292,35 @@ namespace OpenCvSharp
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private class ProcessArchitectureInfo
+        {
+            public ProcessArchitectureInfo()
+            {
+                Warnings = new List<string>();
+            }
+
+            public string Architecture { get; set; }
+            private List<string> Warnings { get; set; }
+
+            public bool HasWarnings
+            {
+                get { return Warnings.Count > 0; }
+            }
+
+            public void AddWarning(string format, params object[] args)
+            {
+                Warnings.Add(String.Format(format, args));
+            }
+
+            public string WarningText()
+            {
+                return String.Join("\r\n", Warnings.ToArray());
+            }
         }
 
         [DllImport("kernel32", EntryPoint = "LoadLibrary", CallingConvention = CallingConvention.Winapi,
