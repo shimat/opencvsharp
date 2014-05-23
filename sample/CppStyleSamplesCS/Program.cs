@@ -13,12 +13,12 @@ namespace CppStyleSamplesCS
         static void Main(string[] args)
         {
             ISample sample =
-                new BgSubtractorMOG();  
+                //new BgSubtractorMOG();  
                 //new VideoWriterSample();
                 //new VideoCaptureSample();
                 //new MatToBitmap();
                 //new MatToIplImage();
-                //new SiftSurfSample();
+                new SiftSurfSample();
                 //new HistSample();
                 //new Subdiv2DSample();
                 //new FASTSample();
