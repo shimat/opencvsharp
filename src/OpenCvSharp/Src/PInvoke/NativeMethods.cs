@@ -95,7 +95,7 @@ namespace OpenCvSharp
         /// </summary>
         public static void LoadLibraries()
         {
-            if (IsMono())
+            if (IsUnix())
                 return;
 
             // core: 
@@ -121,6 +121,27 @@ namespace OpenCvSharp
             WindowsLibraryLoader.Instance.LoadLibrary(DllCalib3d);
             // legacy: core, flann, imgproc, highgui, features2d, calib3d, ml, video
             WindowsLibraryLoader.Instance.LoadLibrary(DllLegacy);
+        }
+
+        /// <summary>
+        /// Returns whether the OS is Windows or not
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsWindows()
+        {
+            return !IsUnix();
+        }
+
+        /// <summary>
+        /// Returns whether the OS is *nix or not
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsUnix()
+        {
+            var p = Environment.OSVersion.Platform;
+            return (p == PlatformID.Unix ||
+                    p == PlatformID.MacOSX ||
+                    (int)p == 128);
         }
 
         /// <summary>
