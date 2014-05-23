@@ -40,8 +40,12 @@ namespace OpenCvSharp
         private static bool? hasQt;
 
         #region DLL File Name
-
+        
         public const string Version = "248";
+
+        public const string DllMsvcr = "msvcr110";
+        public const string DllMsvcp = "msvcp110";
+
         public const string DllCalib3d = "opencv_calib3d" + Version;
         public const string DllCore = "opencv_core" + Version;
         public const string DllFeatures2d = "opencv_features2d" + Version;
@@ -53,6 +57,9 @@ namespace OpenCvSharp
         public const string DllObjdetect = "opencv_objdetect" + Version;
         public const string DllPhoto = "opencv_photo" + Version;
         public const string DllVideo = "opencv_video" + Version;
+
+        public const string DllFfmpegX86 = "opencv_ffmpeg" + Version;
+        public const string DllFfmpegX64 = DllFfmpegX86 + "_64";
 
         #endregion
 
@@ -98,6 +105,11 @@ namespace OpenCvSharp
             if (IsUnix())
                 return;
 
+            // msvcr: 
+            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcr);
+            // msvcp: msvcr
+            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcp);
+
             // core: 
             WindowsLibraryLoader.Instance.LoadLibrary(DllCore);
             // flann: core
@@ -121,6 +133,11 @@ namespace OpenCvSharp
             WindowsLibraryLoader.Instance.LoadLibrary(DllCalib3d);
             // legacy: core, flann, imgproc, highgui, features2d, calib3d, ml, video
             WindowsLibraryLoader.Instance.LoadLibrary(DllLegacy);
+
+            if (IntPtr.Size == 4)
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86);
+            else if (IntPtr.Size == 8)
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX64);
         }
 
         /// <summary>
