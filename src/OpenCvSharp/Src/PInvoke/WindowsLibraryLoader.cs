@@ -132,7 +132,7 @@ namespace OpenCvSharp
                     if (dllHandle != IntPtr.Zero) return;
 
                     // ASP.NET hack, requires an active context
-#if !ClientProfile
+#if false
                     if (HttpContext.Current != null)
                     {
                         var server = HttpContext.Current.Server;
