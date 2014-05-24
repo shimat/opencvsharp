@@ -129,6 +129,7 @@
   <ItemGroup>
     <Compile Include="Binarizer.cs" />
     <Compile Include="BitmapConverter.cs" />
+    <Compile Include="BitmapConverter2.cs" />
     <Compile Include="CvExtensions.cs" />
     <Compile Include="MyParallel.cs" />
     <Compile Include="Platform.cs" />
@@ -140,6 +141,10 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
+      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
+      <Name>OpenCvSharp.CPlusPlus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
       <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
       <Name>OpenCvSharp</Name>

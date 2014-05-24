@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -634,27 +633,6 @@ namespace OpenCvSharp.CPlusPlus
 
 
         #region Static Initializers
-
-#if LANG_JP
-        /// <summary>
-        /// System.Drawing.BitmapのインスタンスからIplImageを生成する
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Creates the IplImage instance from System.Drawing.Bitmap
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
-#endif
-        public static Mat FromBitmap(Bitmap bmp)
-        {
-            if (bmp == null)
-                throw new ArgumentNullException("bmp");
-
-            return BitmapConverter2.ToMat(bmp);
-        }
 
 #if LANG_JP
         /// <summary>
@@ -4182,62 +4160,53 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region ToBitmap
+        #region To*
 
         /// <summary>
-        /// Converts Mat to byte array using cv::imencode
+        /// Encodes an image into a memory buffer.
+        /// </summary>
+        /// <param name="ext">Encodes an image into a memory buffer.</param>
+        /// <param name="prms">Format-specific parameters.</param>
+        /// <returns></returns>
+        public byte[] ToBytes(string ext = ".png", int[] prms = null)
+        {
+            return ImEncode(ext, prms);
+        }
+        /// <summary>
+        /// Encodes an image into a memory buffer.
+        /// </summary>
+        /// <param name="ext">Encodes an image into a memory buffer.</param>
+        /// <param name="prms">Format-specific parameters.</param>
+        /// <returns></returns>
+        public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms)
+        {
+            return ImEncode(ext, prms);
+        }
+
+        /// <summary>
+        /// Converts Mat to System.IO.MemoryStream
         /// </summary>
         /// <param name="ext"></param>
         /// <param name="prms"></param>
         /// <returns></returns>
-        public byte[] ToImageData(string ext, params ImageEncodingParam[] prms)
+        public MemoryStream ToMemoryStream(string ext = ".png", params ImageEncodingParam[] prms)
         {
-            byte[] imageBytes;
-            Cv2.ImEncode(ext, this, out imageBytes, prms);
-            return imageBytes;
+            return new MemoryStream(ToBytes(ext, prms));
         }
 
         /// <summary>
-        /// Converts Mat to System.Drawing.Bitmap
+        /// Writes image data encoded from this Mat to System.IO.Stream
         /// </summary>
-        /// <returns></returns>
-        public Bitmap ToBitmap()
-        {
-            return ToBitmap(".png");
-        }
-        /// <summary>
-        /// Converts Mat to System.Drawing.Bitmap
-        /// </summary>
+        /// <param name="stream"></param>
         /// <param name="ext"></param>
         /// <param name="prms"></param>
         /// <returns></returns>
-        public Bitmap ToBitmap(string ext, params ImageEncodingParam[] prms)
+        public void WriteToStream(Stream stream, string ext = ".png", params ImageEncodingParam[] prms)
         {
-            byte[] imageBytes;
-            Cv2.ImEncode(ext, this, out imageBytes, prms);
-            using (MemoryStream stream = new MemoryStream(imageBytes))
-            {
-                return new Bitmap(stream);
-            }
-        }
-        #endregion
-        #region FromBitmap
-#if LANG_JP
-        /// <summary>
-        /// System.Drawing.BitmapからOpenCVのMatへ変換して返す.
-        /// </summary>
-        /// <param name="src">変換するSystem.Drawing.Bitmap</param>
-        /// <returns>変換結果のMat</returns>
-#else
-        /// <summary>
-        /// Converts System.Drawing.Bitmap to Mat
-        /// </summary>
-        /// <param name="src">System.Drawing.Bitmap object to be converted</param>
-        /// <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
-#endif
-        public static Mat FromMat(Bitmap src)
-        {
-            return BitmapConverter2.ToMat(src);
+            if (stream == null)
+                throw new ArgumentNullException("stream");
+            byte[] imageBytes = ToBytes(ext, prms);
+            stream.Write(imageBytes, 0, imageBytes.Length);
         }
         #endregion
 
@@ -4593,26 +4562,6 @@ namespace OpenCvSharp.CPlusPlus
             byte[] buf;
             Cv2.ImEncode(ext, this, out buf, prms);
             return buf;
-        }
-        /// <summary>
-        /// Encodes an image into a memory buffer.
-        /// </summary>
-        /// <param name="ext">Encodes an image into a memory buffer.</param>
-        /// <param name="prms">Format-specific parameters.</param>
-        /// <returns></returns>
-        public byte[] ToBytes(string ext = ".png", int[] prms = null)
-        {
-            return ImEncode(ext, prms);
-        }
-        /// <summary>
-        /// Encodes an image into a memory buffer.
-        /// </summary>
-        /// <param name="ext">Encodes an image into a memory buffer.</param>
-        /// <param name="prms">Format-specific parameters.</param>
-        /// <returns></returns>
-        public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms)
-        {
-            return ImEncode(ext, prms);
         }
         #endregion
         #region ImWrite / SaveImage

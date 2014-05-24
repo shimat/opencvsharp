@@ -20,10 +20,10 @@ namespace OpenCvSharp.Extensions
     /// </summary>
 #else
     /// <summary>
-    /// static class which provides conversion between System.Drawing.Bitmap and IplImage
+    /// static class which provides conversion between System.Drawing.Bitmap and IplImage/Mat
     /// </summary>
 #endif
-    public static class BitmapConverter
+    public static partial class BitmapConverter
     {
         #region ToIplImage
 #if LANG_JP

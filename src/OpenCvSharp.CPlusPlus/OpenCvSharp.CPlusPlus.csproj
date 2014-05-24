@@ -132,10 +132,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitmapConverter2.cs" />
     <Compile Include="Cv2\Cv2.cs" />
     <Compile Include="Cv2\Cv2_features2d.cs" />
     <Compile Include="Cv2\Cv2_ml.cs" />

@@ -8,20 +8,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using OpenCvSharp.CPlusPlus;
 using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.Extensions
 {
-#if LANG_JP
-    /// <summary>
-    /// System.Drawing.BitmapとMatの相互変換メソッドを提供するクラス
-    /// </summary>
-#else
-    /// <summary>
-    /// static class which provides conversion between System.Drawing.Bitmap and Mat
-    /// </summary>
-#endif
-    public static class BitmapConverter2
+    public static partial class BitmapConverter
     {
         #region ToMat
 #if LANG_JP
@@ -37,7 +29,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src">System.Drawing.Bitmap object to be converted</param>
         /// <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
 #endif
-        public static Mat ToMat(Bitmap src)
+        public static Mat ToMat(this Bitmap src)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -78,7 +70,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src">System.Drawing.Bitmap object to be converted</param>
         /// <param name="dst">A Mat object which is converted from System.Drawing.Bitmap</param>
 #endif
-        public static unsafe void ToMat(Bitmap src, Mat dst)
+        public static unsafe void ToMat(this Bitmap src, Mat dst)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -234,7 +226,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="src">Mat</param>
         /// <returns></returns>
 #endif
-        public static Bitmap ToBitmap(Mat src)
+        public static Bitmap ToBitmap(this Mat src)
         {
             if (src == null)
             {
@@ -269,7 +261,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="pf">Pixel Depth</param>
         /// <returns></returns>
 #endif
-        public static Bitmap ToBitmap(Mat src, PixelFormat pf)
+        public static Bitmap ToBitmap(this Mat src, PixelFormat pf)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -295,7 +287,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="dst">Mat</param>
         /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
 #endif
-        public static unsafe void ToBitmap(Mat src, Bitmap dst)
+        public static unsafe void ToBitmap(this Mat src, Bitmap dst)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
