@@ -8,7 +8,6 @@ Imports System.Text
 Imports System.Windows.Forms
 
 Imports OpenCvSharp
-Imports OpenCvSharp.MachineLearning
 Imports OpenCvSharp.Blob
 Imports OpenCvSharp.UserInterface
 Imports OpenCvSharp.CPlusPlus

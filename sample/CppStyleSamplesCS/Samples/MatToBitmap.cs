@@ -4,6 +4,7 @@ using System.Drawing;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
 using System.Windows.Forms;
+using OpenCvSharp.Extensions;
 
 namespace CppStyleSamplesCS
 {
@@ -24,7 +25,7 @@ namespace CppStyleSamplesCS
         {
             Mat img = new Mat(FilePath.Lenna511, LoadMode.Color); // width % 4 != 0
 
-            Bitmap bitmap = BitmapConverter2.ToBitmap(img);
+            Bitmap bitmap = BitmapConverter.ToBitmap(img);
             // Bitmap bitmap = img.ToBitmap();
             
             using (var form = new Form())
@@ -51,7 +52,7 @@ namespace CppStyleSamplesCS
         {
             Mat img = new Mat(FilePath.Lenna511, LoadMode.GrayScale); // width % 4 != 0
 
-            Bitmap bitmap = BitmapConverter2.ToBitmap(img);
+            Bitmap bitmap = BitmapConverter.ToBitmap(img);
             // Bitmap bitmap = img.ToBitmap();
 
             using (var form = new Form())
@@ -78,7 +79,7 @@ namespace CppStyleSamplesCS
         {
             Bitmap bitmap = new Bitmap(FilePath.Lenna511); // width % 4 != 0
 
-            Mat converted = BitmapConverter2.ToMat(bitmap);
+            Mat converted = BitmapConverter.ToMat(bitmap);
             //Mat converted = Mat.FromBitmap(bitmap);
 
             using (new Window("Bitmap to Mat test", converted))
@@ -92,7 +93,7 @@ namespace CppStyleSamplesCS
             Mat img = new Mat(FilePath.Lenna511, LoadMode.GrayScale);
             Bitmap bitmap = img.ToBitmap();
 
-            Mat converted = BitmapConverter2.ToMat(bitmap);
+            Mat converted = BitmapConverter.ToMat(bitmap);
             //Mat converted = Mat.FromBitmap(bitmap);
 
             using (new Window("Grayscale Bitmap to Mat test", converted))

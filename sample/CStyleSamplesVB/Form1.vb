@@ -10,7 +10,6 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CallType
 
 Imports OpenCvSharp
-Imports OpenCvSharp.MachineLearning
 Imports OpenCvSharp.Blob
 Imports OpenCvSharp.UserInterface
 Imports OpenCvSharp.CPlusPlus

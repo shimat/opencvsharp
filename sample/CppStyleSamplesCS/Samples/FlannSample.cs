@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.CPlusPlus.Flann;
 
 namespace CppStyleSamplesCS
 {
@@ -14,9 +15,9 @@ namespace CppStyleSamplesCS
             Console.WriteLine("===== FlannTest =====");
 
             // creates data set
-            using (Mat features = new Mat(10000, 2, MatType.CV_32FC1))
+            using (var features = new Mat(10000, 2, MatType.CV_32FC1))
             {
-                Random rand = new Random();
+                var rand = new Random();
                 for (int i = 0; i < features.Rows; i++)
                 {
                     features.Set<float>(i, 0, rand.Next(10000));
@@ -24,15 +25,15 @@ namespace CppStyleSamplesCS
                 }
 
                 // query
-                Point2f queryPoint = new Point2f(7777, 7777);
-                Mat queries = new Mat(1, 2, MatType.CV_32FC1);
+                var queryPoint = new Point2f(7777, 7777);
+                var queries = new Mat(1, 2, MatType.CV_32FC1);
                 queries.Set<float>(0, 0, queryPoint.X);
                 queries.Set<float>(0, 1, queryPoint.Y);
                 Console.WriteLine("query:({0}, {1})", queryPoint.X, queryPoint.Y);
                 Console.WriteLine("-----");
 
                 // knnSearch
-                using (Index nnIndex = new Index(features, new KDTreeIndexParams(4)))
+                using (var nnIndex = new Index(features, new KDTreeIndexParams(4)))
                 {
                     const int Knn = 1;
                     int[] indices;
@@ -43,14 +44,13 @@ namespace CppStyleSamplesCS
                     {
                         int index = indices[i];
                         float dist = dists[i];
-                        Point2f pt = new Point2f(features.Get<float>(index, 0), features.Get<float>(index, 1));
+                        var pt = new Point2f(features.Get<float>(index, 0), features.Get<float>(index, 1));
                         Console.Write("No.{0}\t", i);
                         Console.Write("index:{0}", index);
                         Console.Write(" distance:{0}", dist);
                         Console.Write(" data:({0}, {1})", pt.X, pt.Y);
                         Console.WriteLine();
                     }
-                    Knn.ToString();
                 }
             }
             Console.Read();

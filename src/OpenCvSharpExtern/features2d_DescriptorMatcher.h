@@ -42,7 +42,7 @@ CVAPI(void) features2d_DescriptorMatcher_match1(
     cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, 
 	cv::Mat *trainDescriptors, std::vector<cv::DMatch> *matches, cv::Mat *mask)
 {
-	obj->match(*queryDescriptors, *trainDescriptors, *matches, entity(mask));
+    obj->match(*queryDescriptors, *trainDescriptors, *matches, entity(mask));
 }
 CVAPI(void) features2d_DescriptorMatcher_knnMatch1(
     cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors,
@@ -162,7 +162,27 @@ CVAPI(void) features2d_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr)
 CVAPI(cv::FlannBasedMatcher*) features2d_FlannBasedMatcher_new(
     cv::flann::IndexParams *indexParams, cv::flann::SearchParams *searchParams)
 {
-    return new cv::FlannBasedMatcher(indexParams, searchParams);
+    cv::Ptr<cv::flann::IndexParams> indexParamsPtr;
+    cv::Ptr<cv::flann::SearchParams> searchParamsPtr;
+    if (indexParams == NULL)
+    {
+        indexParamsPtr = new cv::flann::KDTreeIndexParams();
+    }
+    else
+    {
+        indexParamsPtr = indexParams;
+        indexParamsPtr.addref();
+    }
+    if (searchParams == NULL)
+    {
+        searchParamsPtr = new cv::flann::SearchParams();
+    }
+    else
+    {
+        searchParamsPtr = searchParams;
+        searchParamsPtr.addref();
+    }
+    return new cv::FlannBasedMatcher(indexParamsPtr, searchParamsPtr);
 }
 CVAPI(void) features2d_FlannBasedMatcher_delete(cv::FlannBasedMatcher *obj)
 {
