@@ -22,6 +22,9 @@ namespace OpenCvSharp
 
         private static readonly WindowsLibraryLoader instance = new WindowsLibraryLoader();
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static WindowsLibraryLoader Instance { get { return instance; } }
 
         #endregion
