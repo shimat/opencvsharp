@@ -30,47 +30,58 @@ namespace OpenCvSharp
 #endif
     public static class NativeMethods
     {
-        #region Fields
         /// <summary>
-        /// cvLoadが一度でも呼ばれたかどうか
+        /// 
         /// </summary>
         private static bool cvLoadCalled;
         /// <summary>
-        /// Qtが有効かどうか
+        /// repsresents whether OpenCV is built with Qt
         /// </summary>
         private static bool? hasQt;
-        #endregion
 
         #region DLL File Name
-        public const string DllCalib3d = "opencv_calib3d248";
-        public const string DllCore = "opencv_core248";
-        public const string DllFeatures2d = "opencv_features2d248";
-        public const string DllHighgui = "opencv_highgui248";
-        public const string DllImgproc = "opencv_imgproc248";
-        public const string DllLegacy = "opencv_legacy248";    
-        public const string DllObjdetect = "opencv_objdetect248";
-        public const string DllPhoto = "opencv_photo248";
-        public const string DllVideo = "opencv_video248";
+        
+        public const string Version = "248";
+
+        public const string DllMsvcr = "msvcr110";
+        public const string DllMsvcp = "msvcp110";
+
+        public const string DllCalib3d = "opencv_calib3d" + Version;
+        public const string DllCore = "opencv_core" + Version;
+        public const string DllFeatures2d = "opencv_features2d" + Version;
+        public const string DllFlann = "opencv_flann" + Version;
+        public const string DllHighgui = "opencv_highgui" + Version;
+        public const string DllImgproc = "opencv_imgproc" + Version;
+        public const string DllLegacy = "opencv_legacy" + Version;
+        public const string DllML = "opencv_ml" + Version;
+        public const string DllObjdetect = "opencv_objdetect" + Version;
+        public const string DllPhoto = "opencv_photo" + Version;
+        public const string DllVideo = "opencv_video" + Version;
+
+        public const string DllFfmpegX86 = "opencv_ffmpeg" + Version;
+        public const string DllFfmpegX64 = DllFfmpegX86 + "_64";
+
         #endregion
 
         #region Static constructor
         /// <summary>
-        /// このクラスを最初に参照した時に1度だけ Unmanaged権限チェックを行う
+        /// Static constructor
         /// </summary>
 #if SUPPRESS_SECURITY
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 #endif
         static NativeMethods()
         {
-            cvLoadCalled = false;            
+            cvLoadCalled = false;
 
-            // PInvokeできるかチェック            
+            LoadLibraries();
+
+            // checks P/Invoke can be done          
             PInvokeHelper.TryPInvoke();
 
-            // Qtが有効かチェック
             //_hasQt = HasQt();
 
-            // エラーをリダイレクト
+            // Redirection of error occurred in native library 
             IntPtr zero = IntPtr.Zero;
             IntPtr current = cvRedirectError(ErrorHandlerThrowException, zero, ref zero);
             if (current != IntPtr.Zero)
@@ -86,15 +97,82 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
         /// <summary>
-        /// Qtを有効にしてビルドされたhighguiライブラリであればtrueを返す
+        /// Load DLL files dynamically using Win32 LoadLibrary
         /// </summary>
-#else
+        public static void LoadLibraries()
+        {
+            if (IsUnix())
+                return;
+
+            // msvcr: 
+            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcr);
+            // msvcp: msvcr
+            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcp);
+
+            // core: 
+            WindowsLibraryLoader.Instance.LoadLibrary(DllCore);
+            // flann: core
+            WindowsLibraryLoader.Instance.LoadLibrary(DllFlann);
+            // imgproc: core
+            WindowsLibraryLoader.Instance.LoadLibrary(DllImgproc);
+            // highgui: core
+            WindowsLibraryLoader.Instance.LoadLibrary(DllHighgui);
+            // ml: core
+            WindowsLibraryLoader.Instance.LoadLibrary(DllML);
+            // features2d: core, flann, imgproc
+            WindowsLibraryLoader.Instance.LoadLibrary(DllFeatures2d);
+            // objdetect: core, imgproc, highgui
+            WindowsLibraryLoader.Instance.LoadLibrary(DllObjdetect);
+            // photo: core, imgproc
+            WindowsLibraryLoader.Instance.LoadLibrary(DllPhoto);
+            // video: core, imgproc
+            WindowsLibraryLoader.Instance.LoadLibrary(DllVideo);
+
+            // calib3d: core, flann, imgproc, features2d
+            WindowsLibraryLoader.Instance.LoadLibrary(DllCalib3d);
+            // legacy: core, flann, imgproc, highgui, features2d, calib3d, ml, video
+            WindowsLibraryLoader.Instance.LoadLibrary(DllLegacy);
+
+            if (IntPtr.Size == 4)
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86);
+            else if (IntPtr.Size == 8)
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX64);
+        }
+
+        /// <summary>
+        /// Returns whether the OS is Windows or not
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsWindows()
+        {
+            return !IsUnix();
+        }
+
+        /// <summary>
+        /// Returns whether the OS is *nix or not
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsUnix()
+        {
+            var p = Environment.OSVersion.Platform;
+            return (p == PlatformID.Unix ||
+                    p == PlatformID.MacOSX ||
+                    (int)p == 128);
+        }
+
+        /// <summary>
+        /// Returns whether the runtime is Mono or not
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsMono()
+        {
+            return (Type.GetType("Mono.Runtime") != null);
+        }
+
         /// <summary>
         /// Returns true if the library is compiled with Qt
         /// </summary>
-#endif
         public static bool HasQt
         {
             get
@@ -117,7 +195,7 @@ namespace OpenCvSharp
             }
         }
         /// <summary>
-        /// Qtが有効かチェックし、無効であれば例外を投げる
+        /// Throws exception when HasQt is false
         /// </summary>
         private static void CheckQt()
         {
@@ -127,15 +205,9 @@ namespace OpenCvSharp
         #endregion
 
         #region Error redirection
-#if LANG_JP
-        /// <summary>
-        /// エラーをリダイレクトする際に呼ばれるエラーハンドラ
-        /// </summary>
-#else
         /// <summary>
         /// Custom error handler to be thrown by OpenCV
         /// </summary>
-#endif
         public static readonly CvErrorCallback ErrorHandlerThrowException =
             delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
             {
@@ -150,30 +222,20 @@ namespace OpenCvSharp
                     throw new OpenCVException(status, funcName, errMsg, fileName, line);
                 }
             };
-#if LANG_JP
-        /// <summary>
-        /// エラーを無視する際に呼ばれるエラーハンドラ
-        /// </summary>
-#else
+
         /// <summary>
         /// Custom error handler to ignore all OpenCV errors
         /// </summary>
-#endif
         public static readonly CvErrorCallback ErrorHandlerIgnorance =
             delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
             {
                 cvSetErrStatus(CvStatus.StsOk);
                 return 0;
             };
-#if LANG_JP
-        /// <summary>
-        /// OpenCV既定ののエラーハンドラ
-        /// </summary>
-#else
+
         /// <summary>
         /// Default error handler
         /// </summary>
-#endif
         public static CvErrorCallback ErrorHandlerDefault;
         #endregion
 

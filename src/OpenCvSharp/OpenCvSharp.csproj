@@ -170,6 +170,7 @@
     <Compile Include="Src\Enum\FloodFillFlag.cs" />
     <Compile Include="Src\HighGUI\CvButton.cs" />
     <Compile Include="Src\ImageEncodingParam.cs" />
+    <Compile Include="Src\PInvoke\LoadLibraryException.cs" />
     <Compile Include="Src\PInvoke\PInvokeHelper.cs" />
     <Compile Include="Src\PInvoke\Cv64suf.cs" />
     <Compile Include="Src\PInvoke\CvConst.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Src\PInvoke\Struct\Etc\WCvLatentSvmDetector.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvLSVMFilterObject.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvMoments.cs" />
+    <Compile Include="Src\PInvoke\WindowsLibraryLoader.cs" />
     <Compile Include="Src\Struct\CvAttrList.cs" />
     <Compile Include="Src\Struct\CvBox2D.cs" />
     <Compile Include="Src\Class\CvChainPtReader.cs" />
