@@ -111,6 +111,10 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
+      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
+      <Name>OpenCvSharp.CPlusPlus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj">
       <Project>{f1110c7b-46b1-4504-871e-135b57f9de67}</Project>
       <Name>OpenCvSharp.Extensions</Name>
