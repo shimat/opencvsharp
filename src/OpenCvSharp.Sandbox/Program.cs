@@ -19,25 +19,46 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            Foo();
-            //Run();
+            using (var img = new IplImage("img/lenna.png"))
+            {
+                CvWindow.ShowImages(img);
+            }
+
+            //Foo();
+            Run();
         }
 
         private static void Foo()
         {
-            while (true)
+            Console.WriteLine(AspectRatioAsString(1.77777777f));
+            Console.Read();
+        }
+
+        static string AspectRatioAsString(float f)
+        {
+            bool carryon = true;
+            int index = 0;
+            double roundedUpValue = 0;
+            while (carryon)
             {
-                IplImage img = new IplImage("img/lenna.png");
-                Cv.ReleaseImage(img);
-                Console.WriteLine("{0:F2}MB", MyProcess.WorkingSet64 / 1024.0 / 1024.0);
-                //img.Dispose(); does not work either.
+                index++;
+                float upper = index * f;
+
+                roundedUpValue = Math.Ceiling(upper);
+
+                if (roundedUpValue - upper <= (double)0.1 || index > 20)
+                {
+                    carryon = false;
+                }
             }
+
+            return roundedUpValue + ":" + index;
         }
 
         private static void Run()
         {
             string[] algoNames = Algorithm.GetList();
-            algoNames.ToString();
+            Console.WriteLine(String.Join("\n", algoNames));
 
             SIFT al1 = Algorithm.Create<SIFT>("Feature2D.SIFT");
             string[] ppp = al1.GetParams();

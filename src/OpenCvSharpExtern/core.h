@@ -577,14 +577,25 @@ CVAPI(uint64) core_theRNG()
 	cv::RNG &rng = cv::theRNG();
 	return rng.state;
 }
-CVAPI(void) core_randu(cv::_OutputArray *dst, cv::_InputArray *low, cv::_InputArray *high)
+
+CVAPI(void) core_randu_InputArray(cv::_OutputArray *dst, cv::_InputArray *low, cv::_InputArray *high)
 {
 	cv::randu(*dst, *low, *high);
 }
-CVAPI(void) core_randn(cv::_OutputArray *dst, cv::_InputArray *mean, cv::_InputArray *stddev)
+CVAPI(void) core_randu_Scalar(cv::_OutputArray *dst, CvScalar low, CvScalar high)
+{
+    cv::randu(*dst, cv::Scalar(low), cv::Scalar(high));
+}
+
+CVAPI(void) core_randn_InputArray(cv::_OutputArray *dst, cv::_InputArray *mean, cv::_InputArray *stddev)
 {
 	cv::randn(*dst, *mean, *stddev);
 }
+CVAPI(void) core_randn_Scalar(cv::_OutputArray *dst, CvScalar mean, CvScalar stddev)
+{
+	cv::randn(*dst, cv::Scalar(mean), cv::Scalar(stddev));
+}
+
 CVAPI(void) core_randShuffle(cv::_OutputArray *dst, double iterFactor, uint64 *rng)
 {
 	cv::RNG rng0;

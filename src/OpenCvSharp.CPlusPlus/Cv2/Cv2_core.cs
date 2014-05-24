@@ -2478,7 +2478,22 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             low.ThrowIfDisposed();
             high.ThrowIfDisposed();
-            NativeMethods.core_randu(dst.CvPtr, low.CvPtr, high.CvPtr);
+            NativeMethods.core_randu_InputArray(dst.CvPtr, low.CvPtr, high.CvPtr);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// fills array with uniformly-distributed random numbers from the range [low, high)
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="low"></param>
+        /// <param name="high"></param>
+        public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
+        {
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            dst.ThrowIfNotReady();
+            NativeMethods.core_randu_Scalar(dst.CvPtr, low, high);
             dst.Fix();
         }
         #endregion
@@ -2500,7 +2515,22 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             mean.ThrowIfDisposed();
             stddev.ThrowIfDisposed();
-            NativeMethods.core_randn(dst.CvPtr, mean.CvPtr, stddev.CvPtr);
+            NativeMethods.core_randn_InputArray(dst.CvPtr, mean.CvPtr, stddev.CvPtr);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="mean"></param>
+        /// <param name="stddev"></param>
+        public static void Randn(InputOutputArray dst, Scalar mean, Scalar stddev)
+        {
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            dst.ThrowIfNotReady();
+            NativeMethods.core_randn_Scalar(dst.CvPtr, mean, stddev);
             dst.Fix();
         }
         #endregion

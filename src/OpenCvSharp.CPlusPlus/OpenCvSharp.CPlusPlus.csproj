@@ -389,17 +389,6 @@
     <Compile Include="Vector\VectorOfMat.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="OpenCvSharpExtern.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
-      <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
-      <Name>OpenCvSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -422,7 +411,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
+      <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
+      <Name>OpenCvSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

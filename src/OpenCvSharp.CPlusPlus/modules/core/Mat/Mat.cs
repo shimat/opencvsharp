@@ -125,7 +125,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public Mat(Size size, MatType type)
         {
-            ptr = NativeMethods.core_Mat_new2(size.Width, size.Height, type);
+            ptr = NativeMethods.core_Mat_new2(size.Height, size.Width, type);
             NotifyMemoryPressure(MemorySize());
         }
 

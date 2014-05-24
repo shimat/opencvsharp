@@ -123,6 +123,17 @@ namespace OpenCvSharp.CPlusPlus
             return new Scalar(b, g, r);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Scalar RandomColor()
+        {
+            var buf = new byte[3];
+            random.NextBytes(buf);
+            return new Scalar(buf[0], buf[1], buf[2]);
+        }
+        private static readonly Random random = new Random();
+
         #endregion
 
         #region Cast

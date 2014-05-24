@@ -122,10 +122,6 @@
       <Project>{f1110c7b-46b1-4504-871e-135b57f9de67}</Project>
       <Name>OpenCvSharp.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenCvSharp.UserInterface\OpenCvSharp.UserInterface.csproj">
-      <Project>{db12e2f1-1a50-4d12-a92f-4c3d705ecc1f}</Project>
-      <Name>OpenCvSharp.UserInterface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
       <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
       <Name>OpenCvSharp</Name>
@@ -141,61 +137,124 @@
     <Content Include="img\shapes.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_calib3d248.dll">
+    <Content Include="dll\x64\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_contrib248.dll">
+    <Content Include="dll\x64\opencv_calib3d248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_core248.dll">
+    <Content Include="dll\x64\opencv_contrib248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_features2d248.dll">
+    <Content Include="dll\x64\opencv_core248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_ffmpeg248.dll">
+    <Content Include="dll\x64\opencv_features2d248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_flann248.dll">
+    <Content Include="dll\x64\opencv_ffmpeg248_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_gpu248.dll">
+    <Content Include="dll\x64\opencv_flann248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_highgui248.dll">
+    <Content Include="dll\x64\opencv_gpu248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_imgproc248.dll">
+    <Content Include="dll\x64\opencv_highgui248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_legacy248.dll">
+    <Content Include="dll\x64\opencv_imgproc248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_ml248.dll">
+    <Content Include="dll\x64\opencv_legacy248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_nonfree248.dll">
+    <Content Include="dll\x64\opencv_ml248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_objdetect248.dll">
+    <Content Include="dll\x64\opencv_nonfree248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_ocl248.dll">
+    <Content Include="dll\x64\opencv_objdetect248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_photo248.dll">
+    <Content Include="dll\x64\opencv_ocl248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_stitching248.dll">
+    <Content Include="dll\x64\opencv_photo248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_superres248.dll">
+    <Content Include="dll\x64\opencv_stitching248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_video248.dll">
+    <Content Include="dll\x64\opencv_superres248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="opencv_videostab248.dll">
+    <Content Include="dll\x64\opencv_video248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_videostab248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\OpenCvSharpExtern.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_calib3d248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_contrib248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_core248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_features2d248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_ffmpeg248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_flann248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_gpu248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_highgui248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_imgproc248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_legacy248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_ml248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_nonfree248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_objdetect248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_ocl248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_photo248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_stitching248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_superres248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_video248.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_videostab248.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
