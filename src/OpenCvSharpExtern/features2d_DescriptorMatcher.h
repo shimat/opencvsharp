@@ -37,31 +37,73 @@ CVAPI(void) features2d_DescriptorMatcher_train(cv::DescriptorMatcher *obj)
 {
 	obj->train();
 }
-CVAPI(void) features2d_DescriptorMatcher_match(cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, 
+
+CVAPI(void) features2d_DescriptorMatcher_match1(
+    cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, 
 	cv::Mat *trainDescriptors, std::vector<cv::DMatch> *matches, cv::Mat *mask)
 {
 	obj->match(*queryDescriptors, *trainDescriptors, *matches, entity(mask));
 }
-CVAPI(void) features2d_DescriptorMatcher_knnMatch(cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors,
+CVAPI(void) features2d_DescriptorMatcher_knnMatch1(
+    cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors,
 	cv::Mat *trainDescriptors, std::vector<std::vector<cv::DMatch> > *matches, int k,
 	cv::Mat *mask, int compactResult)
 {
 	obj->knnMatch(*queryDescriptors, *trainDescriptors, *matches, k, entity(mask), compactResult != 0);
 }
-CVAPI(void) features2d_DescriptorMatcher_radiusMatch(cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, 
+CVAPI(void) features2d_DescriptorMatcher_radiusMatch1(
+    cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, 
 	cv::Mat *trainDescriptors, std::vector<std::vector<cv::DMatch> > *matches, float maxDistance,
 	cv::Mat *mask, int compactResult)
 {
 	obj->radiusMatch(*queryDescriptors, *trainDescriptors, *matches, maxDistance, entity(mask), compactResult != 0);
 }
-/*
-	CV_WRAP void match(const Mat& queryDescriptors, CV_OUT vector<DMatch>& matches,
-		const vector<Mat>& masks = vector<Mat>());
-	CV_WRAP void knnMatch(const Mat& queryDescriptors, CV_OUT vector<vector<DMatch> >& matches, int k,
-		const vector<Mat>& masks = vector<Mat>(), bool compactResult = false);
-	void radiusMatch(const Mat& queryDescriptors, vector<vector<DMatch> >& matches, float maxDistance,
-		const vector<Mat>& masks = vector<Mat>(), bool compactResult = false);
-*/
+
+CVAPI(void) features2d_DescriptorMatcher_match2(
+    cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, std::vector<cv::DMatch> *matches,
+    cv::Mat **masks, int masksSize)
+{
+    std::vector<cv::Mat> masksVal;
+    if (masksSize != 0)
+    {
+        masksVal = std::vector<cv::Mat>(masksSize);
+        for (int i = 0; i < masksSize; i++)
+        {
+            masksVal[i] = *(masks[i]);
+        }
+    }
+    obj->match(*queryDescriptors, *matches, masksVal);
+}
+CVAPI(void) features2d_DescriptorMatcher_knnMatch2(
+    cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, std::vector<std::vector<cv::DMatch> > *matches, 
+    int k, cv::Mat **masks, int masksSize, int compactResult)
+{
+    std::vector<cv::Mat> masksVal;
+    if (masksSize != 0)
+    {
+        masksVal = std::vector<cv::Mat>(masksSize);
+        for (int i = 0; i < masksSize; i++)
+        {
+            masksVal[i] = *(masks[i]);
+        }
+    }
+    obj->knnMatch(*queryDescriptors, *matches, k, masksVal, compactResult != 0);
+}
+CVAPI(void) features2d_DescriptorMatcher_radiusMatch2(
+    cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, std::vector<std::vector<cv::DMatch> > *matches, 
+    float maxDistance, cv::Mat **masks, int masksSize, int compactResult)
+{
+    std::vector<cv::Mat> masksVal;
+    if (masksSize != 0)
+    {
+        masksVal = std::vector<cv::Mat>(masksSize);
+        for (int i = 0; i < masksSize; i++)
+        {
+            masksVal[i] = *(masks[i]);
+        }
+    }
+    obj->radiusMatch(*queryDescriptors, *matches, maxDistance, masksVal, compactResult != 0);
+}
 
 CVAPI(cv::Ptr<cv::DescriptorMatcher>*) features2d_DescriptorMatcher_create(const char *descriptorMatcherType)
 {
@@ -110,6 +152,56 @@ CVAPI(cv::BFMatcher*) features2d_Ptr_BFMatcher_obj(cv::Ptr<cv::BFMatcher> *ptr)
     return ptr->obj;
 }
 CVAPI(void) features2d_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr)
+{
+    delete ptr;
+}
+
+#pragma endregion
+
+#pragma region FlannBasedMatcher
+CVAPI(cv::FlannBasedMatcher*) features2d_FlannBasedMatcher_new(
+    cv::flann::IndexParams *indexParams, cv::flann::SearchParams *searchParams)
+{
+    return new cv::FlannBasedMatcher(indexParams, searchParams);
+}
+CVAPI(void) features2d_FlannBasedMatcher_delete(cv::FlannBasedMatcher *obj)
+{
+    delete obj;
+}
+
+CVAPI(void) features2d_FlannBasedMatcher_add(
+    cv::FlannBasedMatcher *obj, cv::Mat **descriptors, int descriptorsSize)
+{
+    std::vector<cv::Mat> descriptorsVal(descriptorsSize);
+    for (int i = 0; i < descriptorsSize; i++)
+    {
+        descriptorsVal[i] = *(descriptors[i]);
+    }
+    return obj->add(descriptorsVal);
+}
+CVAPI(void) features2d_FlannBasedMatcher_clear(cv::FlannBasedMatcher *obj)
+{
+    return obj->clear();
+}
+CVAPI(void) features2d_FlannBasedMatcher_train(cv::FlannBasedMatcher *obj)
+{
+    return obj->train();
+}
+CVAPI(int) features2d_FlannBasedMatcher_isMaskSupported(cv::FlannBasedMatcher *obj)
+{
+    return obj->isMaskSupported() ? 1 : 0;
+}
+
+CVAPI(cv::AlgorithmInfo*) features2d_FlannBasedMatcher_info(cv::FlannBasedMatcher *obj)
+{
+    return obj->info();
+}
+
+CVAPI(cv::FlannBasedMatcher*) features2d_Ptr_FlannBasedMatcher_obj(cv::Ptr<cv::FlannBasedMatcher> *ptr)
+{
+    return ptr->obj;
+}
+CVAPI(void) features2d_Ptr_FlannBasedMatcher_delete(cv::Ptr<cv::FlannBasedMatcher> *ptr)
 {
     delete ptr;
 }

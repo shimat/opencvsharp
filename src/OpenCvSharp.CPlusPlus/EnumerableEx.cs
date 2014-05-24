@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -57,7 +56,7 @@ namespace OpenCvSharp.CPlusPlus
         public static TResult[] SelectToArray<TSource, TResult>(
             IEnumerable enumerable, Func<TSource, TResult> selector)
         {
-            List<TResult> result = new List<TResult>();
+            var result = new List<TResult>();
             foreach (TSource source in enumerable)
             {
                 result.Add(selector(source));
@@ -140,7 +139,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (enumerable == null)
                 return null;
-            TSource[] arr = enumerable as TSource[];
+            var arr = enumerable as TSource[];
             if (arr != null)
                 return arr;
             return new List<TSource>(enumerable).ToArray();
@@ -173,6 +172,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="enumerable"></param>
         /// <returns></returns>
         public static bool AnyNull<TSource>(IEnumerable<TSource> enumerable)
+            where TSource : class
         {
             if (enumerable == null)
                 throw new ArgumentNullException("enumerable");
@@ -228,6 +228,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             return count;
         }
+
         /// <summary>
         /// Enumerable.Count
         /// </summary>
@@ -253,6 +254,24 @@ namespace OpenCvSharp.CPlusPlus
                 count++;
             }
             return count;
+        }
+
+        /// <summary>
+        /// Enumerable.Count
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static bool IsEmpty<TSource>(IEnumerable<TSource> enumerable)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+
+            foreach (TSource elem in enumerable)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

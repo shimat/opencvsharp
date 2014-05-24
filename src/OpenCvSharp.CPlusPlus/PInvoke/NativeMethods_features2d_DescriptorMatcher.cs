@@ -27,17 +27,32 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int features2d_DescriptorMatcher_isMaskSupported(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_DescriptorMatcher_train(IntPtr obj);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_DescriptorMatcher_match(IntPtr obj,
+        public static extern void features2d_DescriptorMatcher_match1(IntPtr obj,
             IntPtr queryDescriptors, IntPtr trainDescriptors, IntPtr matches, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_DescriptorMatcher_knnMatch(IntPtr obj,
+        public static extern void features2d_DescriptorMatcher_knnMatch1(IntPtr obj,
             IntPtr queryDescriptors, IntPtr trainDescriptors, IntPtr matches, int k,
             IntPtr mask, int compactResult);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_DescriptorMatcher_radiusMatch(IntPtr obj,
+        public static extern void features2d_DescriptorMatcher_radiusMatch1(IntPtr obj,
             IntPtr queryDescriptors,IntPtr trainDescriptors, IntPtr matches, float maxDistance,
             IntPtr mask, int compactResult);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_DescriptorMatcher_match2(
+            IntPtr obj, IntPtr queryDescriptors, IntPtr matches,
+            IntPtr[] masks, int masksSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_DescriptorMatcher_knnMatch2(
+            IntPtr obj, IntPtr queryDescriptors, IntPtr matches,
+            int k, IntPtr[] masks, int masksSize, int compactResult);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_DescriptorMatcher_radiusMatch2(
+            IntPtr obj, IntPtr queryDescriptors, IntPtr matches,
+            float maxDistance, IntPtr[] masks, int masksSize, int compactResult);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern IntPtr features2d_DescriptorMatcher_create([MarshalAs(UnmanagedType.LPStr)] string descriptorMatcherType);
 
@@ -63,6 +78,30 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr features2d_Ptr_BFMatcher_obj(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Ptr_BFMatcher_delete(IntPtr ptr);
-       
+
+        // FlannBasedMatcher
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_FlannBasedMatcher_new(
+            IntPtr indexParams, IntPtr searchParams);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_FlannBasedMatcher_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_FlannBasedMatcher_add(
+            IntPtr obj, IntPtr[] descriptors, int descriptorsSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_FlannBasedMatcher_clear(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_FlannBasedMatcher_train(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_FlannBasedMatcher_isMaskSupported(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_FlannBasedMatcher_info(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_Ptr_FlannBasedMatcher_obj(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_Ptr_FlannBasedMatcher_delete(IntPtr ptr);
+
     }
 }

@@ -16,20 +16,21 @@ namespace OpenCvSharp.CPlusPlus
         private readonly ReleaseFunc releaseFunc;
         private readonly ObjFunc objFunc;
 
-        private static readonly Dictionary<Type, ReleaseFunc> DefinedReleaseFunctions;
-        private static readonly Dictionary<Type, ObjFunc> DefinedObjFunctions;
+        private static readonly Dictionary<Type, ReleaseFunc> definedReleaseFunctions;
+        private static readonly Dictionary<Type, ObjFunc> definedObjFunctions;
 
         /// <summary>
         /// Static constructor
         /// </summary>
         static Ptr()
         {
-            DefinedReleaseFunctions = new Dictionary<Type, ReleaseFunc>
+            definedReleaseFunctions = new Dictionary<Type, ReleaseFunc>
                 {
                     { typeof(Algorithm), NativeMethods.core_Ptr_Algorithm_delete },
                     { typeof(FaceRecognizer), NativeMethods.contrib_Ptr_FaceRecognizer_delete },
                     { typeof(DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_delete },
                     { typeof(BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_delete },
+                    { typeof(FlannBasedMatcher), NativeMethods.features2d_Ptr_FlannBasedMatcher_delete },
                     { typeof(FeatureDetector), NativeMethods.features2d_Ptr_FeatureDetector_delete },
                     { typeof(Feature2D), NativeMethods.features2d_Ptr_Feature2D_delete },
                     { typeof(BRISK), NativeMethods.features2d_Ptr_BRISK_delete },
@@ -55,12 +56,13 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(BackgroundSubtractorMOG2), NativeMethods.video_Ptr_BackgroundSubtractorMOG2_delete },
                     { typeof(BackgroundSubtractorGMG), NativeMethods.video_Ptr_BackgroundSubtractorGMG_delete },
                 };
-            DefinedObjFunctions = new Dictionary<Type, ObjFunc>
+            definedObjFunctions = new Dictionary<Type, ObjFunc>
                 {
                     { typeof(Algorithm), NativeMethods.core_Ptr_Algorithm_obj },
                     { typeof(FaceRecognizer), NativeMethods.contrib_Ptr_FaceRecognizer_obj },
                     { typeof(DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_obj },
                     { typeof(BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_obj },
+                    { typeof(FlannBasedMatcher), NativeMethods.features2d_Ptr_FlannBasedMatcher_obj },
                     { typeof(FeatureDetector), NativeMethods.features2d_Ptr_FeatureDetector_obj },
                     { typeof(Feature2D), NativeMethods.features2d_Ptr_Feature2D_obj },
                     { typeof(BRISK), NativeMethods.features2d_Ptr_BRISK_obj },
@@ -95,9 +97,9 @@ namespace OpenCvSharp.CPlusPlus
         public Ptr(IntPtr ptr)
         {
             Type type = typeof(T);
-            if (!DefinedReleaseFunctions.TryGetValue(type, out releaseFunc))
+            if (!definedReleaseFunctions.TryGetValue(type, out releaseFunc))
                 throw new OpenCvSharpException("Ptr<{0}> not supported", type.Name);
-            if (!DefinedObjFunctions.TryGetValue(type, out objFunc))
+            if (!definedObjFunctions.TryGetValue(type, out objFunc))
                 throw new OpenCvSharpException("Ptr<{0}> not supported", type.Name);
 
             this.ptr = ptr;

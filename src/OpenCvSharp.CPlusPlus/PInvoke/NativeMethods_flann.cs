@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using OpenCvSharp.CPlusPlus.Flann;
 
 #pragma warning disable 1591
 
@@ -73,7 +74,8 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region KMeansIndexParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr flann_KMeansIndexParams_new(int branching, int iterations, [MarshalAs(UnmanagedType.I4)] FlannCentersInit centers_init, float cb_index);
+        public static extern IntPtr flann_KMeansIndexParams_new(
+            int branching, int iterations, [MarshalAs(UnmanagedType.I4)] FlannCentersInit centers_init, float cb_index);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void flann_KMeansIndexParams_delete(IntPtr obj);
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

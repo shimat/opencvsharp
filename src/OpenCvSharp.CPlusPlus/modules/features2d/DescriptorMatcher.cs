@@ -10,12 +10,14 @@ namespace OpenCvSharp.CPlusPlus
     public class DescriptorMatcher : Algorithm
     {
         private bool disposed;
+
         /// <summary>
         /// 
         /// </summary>
         private Ptr<DescriptorMatcher> detectorPtr;
 
         #region Init & Disposal
+
         /// <summary>
         /// 
         /// </summary>
@@ -58,12 +60,13 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException("Invalid cv::Ptr<DescriptorMatcher> pointer");
             var ptrObj = new Ptr<DescriptorMatcher>(ptr);
             var detector = new DescriptorMatcher
-                {
-                    detectorPtr = ptrObj, 
-                    ptr = ptrObj.Obj
-                };
+            {
+                detectorPtr = ptrObj,
+                ptr = ptrObj.Obj
+            };
             return detector;
         }
+
         /// <summary>
         /// Creates instance from raw pointer T*
         /// </summary>
@@ -124,6 +127,7 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Methods
@@ -147,7 +151,11 @@ namespace OpenCvSharp.CPlusPlus
             if (descriptors == null)
                 throw new ArgumentNullException("descriptors");
 
-            IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptors);
+            Mat[] descriptorsArray = EnumerableEx.ToArray(descriptors);
+            if (descriptorsArray.Length == 0)
+                return;
+
+            IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptorsArray);
             NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
         }
 
@@ -158,7 +166,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat[] GetTrainDescriptors()
         {
             ThrowIfDisposed();
-            using (VectorOfMat matVec = new VectorOfMat())
+            using (var matVec = new VectorOfMat())
             {
                 NativeMethods.features2d_DescriptorMatcher_getTrainDescriptors(ptr, matVec.CvPtr);
                 return matVec.ToArray();
@@ -210,6 +218,8 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.features2d_DescriptorMatcher_train(ptr);
         }
 
+        #region *Match
+
         /// <summary>
         /// Find one best match for each query descriptor (if mask is empty).
         /// </summary>
@@ -224,9 +234,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("queryDescriptors");
             if (trainDescriptors == null)
                 throw new ArgumentNullException("trainDescriptors");
-            using (VectorOfDMatch matchesVec = new VectorOfDMatch())
+            using (var matchesVec = new VectorOfDMatch())
             {
-                NativeMethods.features2d_DescriptorMatcher_match(
+                NativeMethods.features2d_DescriptorMatcher_match1(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                     matchesVec.CvPtr, Cv2.ToPtr(mask));
                 return matchesVec.ToArray();
@@ -253,9 +263,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("queryDescriptors");
             if (trainDescriptors == null)
                 throw new ArgumentNullException("trainDescriptors");
-            using (VectorOfVectorDMatch matchesVec = new VectorOfVectorDMatch())
+            using (var matchesVec = new VectorOfVectorDMatch())
             {
-                NativeMethods.features2d_DescriptorMatcher_knnMatch(
+                NativeMethods.features2d_DescriptorMatcher_knnMatch1(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                     matchesVec.CvPtr, k, Cv2.ToPtr(mask), compactResult ? 1 : 0);
                 return matchesVec.ToArray();
@@ -280,14 +290,105 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("queryDescriptors");
             if (trainDescriptors == null)
                 throw new ArgumentNullException("trainDescriptors");
-            using (VectorOfVectorDMatch matchesVec = new VectorOfVectorDMatch())
+            using (var matchesVec = new VectorOfVectorDMatch())
             {
-                NativeMethods.features2d_DescriptorMatcher_radiusMatch(
+                NativeMethods.features2d_DescriptorMatcher_radiusMatch1(
                     ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                     matchesVec.CvPtr, maxDistance, Cv2.ToPtr(mask), compactResult ? 1 : 0);
                 return matchesVec.ToArray();
             }
         }
+
+        /// <summary>
+        /// Find one best match for each query descriptor (if mask is empty).
+        /// </summary>
+        /// <param name="queryDescriptors"></param>
+        /// <param name="masks"></param>
+        /// <returns></returns>
+        public DMatch[] Match(Mat queryDescriptors, Mat[] masks = null)
+        {
+            ThrowIfDisposed();
+            if (queryDescriptors == null)
+                throw new ArgumentNullException("queryDescriptors");
+
+            var masksPtrs = new IntPtr[0];
+            if (masks != null)
+            {
+                masksPtrs = EnumerableEx.SelectPtrs(masks);
+            }
+
+            using (var matchesVec = new VectorOfDMatch())
+            {
+                NativeMethods.features2d_DescriptorMatcher_match2(
+                    ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, masksPtrs, masksPtrs.Length);
+                return matchesVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Find k best matches for each query descriptor (in increasing order of distances).
+        /// compactResult is used when mask is not empty. If compactResult is false matches
+        /// vector will have the same size as queryDescriptors rows. If compactResult is true
+        /// matches vector will not contain matches for fully masked out query descriptors.
+        /// </summary>
+        /// <param name="queryDescriptors"></param>
+        /// <param name="k"></param>
+        /// <param name="masks"></param>
+        /// <param name="compactResult"></param>
+        /// <returns></returns>
+        public DMatch[][] KnnMatch(Mat queryDescriptors, int k, Mat[] masks = null, bool compactResult = false)
+        {
+            ThrowIfDisposed();
+            if (queryDescriptors == null)
+                throw new ArgumentNullException("queryDescriptors");
+
+            var masksPtrs = new IntPtr[0];
+            if (masks != null)
+            {
+                masksPtrs = EnumerableEx.SelectPtrs(masks);
+            }
+
+            using (var matchesVec = new VectorOfVectorDMatch())
+            {
+                NativeMethods.features2d_DescriptorMatcher_knnMatch2(
+                    ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, k,
+                    masksPtrs, masksPtrs.Length, compactResult ? 1 : 0);
+                return matchesVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Find best matches for each query descriptor which have distance less than
+        /// maxDistance (in increasing order of distances).
+        /// </summary>
+        /// <param name="queryDescriptors"></param>
+        /// <param name="maxDistance"></param>
+        /// <param name="masks"></param>
+        /// <param name="compactResult"></param>
+        /// <returns></returns>
+        public DMatch[][] RadiusMatch(Mat queryDescriptors, float maxDistance, Mat[] masks = null, bool compactResult = false)
+        {
+            ThrowIfDisposed();
+            if (queryDescriptors == null)
+                throw new ArgumentNullException("queryDescriptors");
+
+            var masksPtrs = new IntPtr[0];
+            if (masks != null)
+            {
+                masksPtrs = EnumerableEx.SelectPtrs(masks);
+            }
+
+            using (var matchesVec = new VectorOfVectorDMatch())
+            {
+                NativeMethods.features2d_DescriptorMatcher_radiusMatch2(
+                    ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, maxDistance, 
+                    masksPtrs, masksPtrs.Length, compactResult ? 1 : 0);
+                return matchesVec.ToArray();
+            }
+        }
+
+        #endregion
+
         #endregion
     }
 }
