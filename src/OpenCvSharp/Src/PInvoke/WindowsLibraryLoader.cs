@@ -61,6 +61,11 @@ namespace OpenCvSharp
                     {"IA64", 8},
                     {"ARM", 4}
                 };
+
+        /// <summary>
+        /// Additional user-defined DLL paths 
+        /// </summary>
+        public List<string> AdditionalPaths { get; private set; } 
         
         private readonly object syncLock = new object();
 
@@ -69,6 +74,7 @@ namespace OpenCvSharp
         /// </summary>
         private WindowsLibraryLoader()
         {
+            AdditionalPaths = new List<string>();
         }
 
         /// <summary>
@@ -98,13 +104,17 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="dllName"></param>
-        public void LoadLibrary(string dllName)
+        /// <param name="additionalPaths"></param>
+        public void LoadLibrary(string dllName, IEnumerable<string> additionalPaths = null)
         {
             if (!IsCurrentPlatformSupported())
             {
                 return;
             }
 
+            if (additionalPaths == null)
+                additionalPaths = new string[0];
+            
             try
             {
                 lock (syncLock)
@@ -117,6 +127,14 @@ namespace OpenCvSharp
                     var processArch = GetProcessArchitecture();
                     IntPtr dllHandle;
                     string baseDirectory;
+
+                    // Try loading from user-defined paths
+                    foreach (string path in additionalPaths)
+                    {
+                        baseDirectory = Path.GetDirectoryName(path);
+                        dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
+                        if (dllHandle != IntPtr.Zero) return;
+                    }
 
                     // Try loading from executing assembly domain
                     var executingAssembly = Assembly.GetExecutingAssembly();

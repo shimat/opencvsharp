@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Security;
@@ -100,51 +101,54 @@ namespace OpenCvSharp
         /// <summary>
         /// Load DLL files dynamically using Win32 LoadLibrary
         /// </summary>
-        public static void LoadLibraries()
+        /// <param name="additionalPaths"></param>
+        public static void LoadLibraries(IEnumerable<string> additionalPaths = null)
         {
             if (IsUnix())
                 return;
 
+            string[] ap = ToArray(additionalPaths);
+
             // msvcr: 
-            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcr);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcr, ap);
             // msvcp: msvcr
-            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcp);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcp, ap);
 
             // core: 
-            WindowsLibraryLoader.Instance.LoadLibrary(DllCore);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllCore, ap);
             // flann: core
-            WindowsLibraryLoader.Instance.LoadLibrary(DllFlann);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllFlann, ap);
             // imgproc: core
-            WindowsLibraryLoader.Instance.LoadLibrary(DllImgproc);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllImgproc, ap);
             // highgui: core
-            WindowsLibraryLoader.Instance.LoadLibrary(DllHighgui);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllHighgui, ap);
             // ml: core
-            WindowsLibraryLoader.Instance.LoadLibrary(DllML);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllML, ap);
             // features2d: core, flann, imgproc
-            WindowsLibraryLoader.Instance.LoadLibrary(DllFeatures2d);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllFeatures2d, ap);
             // objdetect: core, imgproc, highgui
-            WindowsLibraryLoader.Instance.LoadLibrary(DllObjdetect);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllObjdetect, ap);
             // photo: core, imgproc
-            WindowsLibraryLoader.Instance.LoadLibrary(DllPhoto);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllPhoto, ap);
             // video: core, imgproc
-            WindowsLibraryLoader.Instance.LoadLibrary(DllVideo);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllVideo, ap);
 
             // calib3d: core, flann, imgproc, features2d
-            WindowsLibraryLoader.Instance.LoadLibrary(DllCalib3d);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllCalib3d, ap);
             // legacy: core, flann, imgproc, highgui, features2d, calib3d, ml, video
-            WindowsLibraryLoader.Instance.LoadLibrary(DllLegacy);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllLegacy, ap);
 
             if (IntPtr.Size == 4)
-                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86);
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86, ap);
             else if (IntPtr.Size == 8)
-                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX64);
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX64, ap);
         }
 
         /// <summary>
         /// Returns whether the OS is Windows or not
         /// </summary>
         /// <returns></returns>
-        private static bool IsWindows()
+        public static bool IsWindows()
         {
             return !IsUnix();
         }
@@ -153,7 +157,7 @@ namespace OpenCvSharp
         /// Returns whether the OS is *nix or not
         /// </summary>
         /// <returns></returns>
-        private static bool IsUnix()
+        public static bool IsUnix()
         {
             var p = Environment.OSVersion.Platform;
             return (p == PlatformID.Unix ||
@@ -165,7 +169,7 @@ namespace OpenCvSharp
         /// Returns whether the runtime is Mono or not
         /// </summary>
         /// <returns></returns>
-        private static bool IsMono()
+        public static bool IsMono()
         {
             return (Type.GetType("Mono.Runtime") != null);
         }
@@ -202,6 +206,17 @@ namespace OpenCvSharp
             if (!HasQt)
                 throw new OpenCvSharpException("The library is compiled without Qt support");
         }
+
+        private static T[] ToArray<T>(IEnumerable<T> enumerable)
+        {
+            if (enumerable == null)
+                return null;
+            T[] array = enumerable as T[];
+            if (array != null)
+                return array;
+            return new List<T>(enumerable).ToArray();
+        }
+
         #endregion
 
         #region Error redirection

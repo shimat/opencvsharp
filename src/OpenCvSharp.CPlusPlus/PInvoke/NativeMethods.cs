@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -55,42 +56,35 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Load DLL files dynamically using Win32 LoadLibrary
         /// </summary>
-        private static void LoadLibraries()
+        /// <param name="additionalPaths"></param>
+        public static void LoadLibraries(IEnumerable<string> additionalPaths = null)
         {
-            if (IsMono())
+            if (OpenCvSharp.NativeMethods.IsUnix())
                 return;
 
-            OpenCvSharp.NativeMethods.LoadLibraries();
+            string[] ap = EnumerableEx.ToArray(additionalPaths);
+
+            OpenCvSharp.NativeMethods.LoadLibraries(ap);
 
             // contrib: core, flann, imgproc, highgui, features2d, calib3d, ml, video, objdetect 
-            WindowsLibraryLoader.Instance.LoadLibrary(DllContrib);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllContrib, ap);
             // gpu: core, flann, imgproc, features2d, calib3d, video, objdetect
-            WindowsLibraryLoader.Instance.LoadLibrary(DllGpu);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllGpu, ap);
             // ocl: core, flann, imgproc, features2d, ml, objdetect
-            WindowsLibraryLoader.Instance.LoadLibrary(DllOcl);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllOcl, ap);
             // nonfree: core, flann, imgproc, features2d, ml, objdetect, gpu, ocl
-            WindowsLibraryLoader.Instance.LoadLibrary(DllNonfree);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllNonfree, ap);
             // stitching: core, flann, imgproc, features, calib3d, objdetect, gpu, nonfree
-            WindowsLibraryLoader.Instance.LoadLibrary(DllStitching);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllStitching, ap);
             // superres: core, flann, imgproc, highgui, features2d, ml, video, objdetect, gpu, ocl
-            WindowsLibraryLoader.Instance.LoadLibrary(DllSuperres);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllSuperres, ap);
             // videostab: core, imgproc, highgui, features2d, video, objdetect, photo, gpu
-            WindowsLibraryLoader.Instance.LoadLibrary(DllVideoStab);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllVideoStab, ap);
             
             // Extern: calib3d, contrib, core, features2d, flann, highgui, imgproc, legacy,
             //         ml, nonfree, objdetect, photo, superres, video, videostab
-            WindowsLibraryLoader.Instance.LoadLibrary(DllExtern);
+            WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
         }
-
-        /// <summary>
-        /// Returns whether the runtime is Mono or not
-        /// </summary>
-        /// <returns></returns>
-        private static bool IsMono()
-        {
-            return (Type.GetType("Mono.Runtime") != null);
-        }
-
 
         /// <summary>
         /// Checks whether PInvoke functions can be called
