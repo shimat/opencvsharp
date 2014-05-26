@@ -155,6 +155,11 @@
     <Compile Include="modules\features2d\DescriptorExtractor.cs" />
     <Compile Include="modules\features2d\IDescriptorExtractor.cs" />
     <Compile Include="modules\flann\FlannDistance.cs" />
+    <Compile Include="Cv2\Cv2_gpu.cs" />
+    <Compile Include="modules\gpu\DescriptorFormat.cs" />
+    <Compile Include="modules\gpu\GpuMat.cs" />
+    <Compile Include="modules\gpu\HOGDescriptor.cs" />
+    <Compile Include="modules\gpu\StereoBM_GPU.cs" />
     <Compile Include="modules\ml\Class\CvDTreeNode.cs" />
     <Compile Include="modules\ml\Class\CvDTreeSplit.cs" />
     <Compile Include="modules\ml\Class\CvDTreeTrainData.cs" />
@@ -219,6 +224,7 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvERTrees.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvRTrees.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvNormalBayesClassifier.cs" />
+    <Compile Include="PInvoke\NativeMethods_gpu.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d_DescriptorMatcher.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvBoostTree.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvEM.cs" />
@@ -415,6 +421,7 @@
       <Name>OpenCvSharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

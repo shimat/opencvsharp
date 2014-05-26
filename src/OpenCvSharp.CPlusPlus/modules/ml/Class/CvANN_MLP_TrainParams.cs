@@ -8,13 +8,14 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-#pragma warning disable 1591
+
 // ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp.CPlusPlus
 {
+#pragma warning disable 1591
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    internal struct WCvANN_MLP_TrainParams
+    public struct WCvANN_MLP_TrainParams
     {
         public CvTermCriteria term_crit;
         public int train_method;
@@ -25,13 +26,14 @@ namespace OpenCvSharp.CPlusPlus
         // rprop parameters
         public double rp_dw0, rp_dw_plus, rp_dw_minus, rp_dw_min, rp_dw_max;
     }
+#pragma warning restore 1591
 
 #if LANG_JP
     /// <summary>
     /// MLP学習アルゴリズムのパラメータ
     /// </summary>
 #else
-	/// <summary>
+    /// <summary>
     /// Parameters of MLP training algorithm
     /// </summary>
 #endif

@@ -152,7 +152,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct WParams
+        public struct WParams
         {
             public float thresholdStep;
             public float minThreshold;

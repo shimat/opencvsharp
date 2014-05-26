@@ -19,11 +19,6 @@ namespace OpenCvSharp.Sandbox
     {
         private static void Main(string[] args)
         {
-            using (var img = new IplImage("img/lenna.png"))
-            {
-                CvWindow.ShowImages(img);
-            }
-
             //Foo();
             Run();
         }
@@ -57,6 +52,8 @@ namespace OpenCvSharp.Sandbox
 
         private static void Run()
         {
+            Console.WriteLine(Cv2.GetCudaEnabledDeviceCount());
+
             string[] algoNames = Algorithm.GetList();
             Console.WriteLine(String.Join("\n", algoNames));
 
