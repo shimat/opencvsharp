@@ -11,6 +11,7 @@
 #include <opencv2/nonfree/nonfree.hpp>
 #include <opencv2/superres/superres.hpp>
 #include <opencv2/superres/optical_flow.hpp>
+#include <opencv2/gpu/gpu.hpp>
 
 #include <vector>
 #include <algorithm>
