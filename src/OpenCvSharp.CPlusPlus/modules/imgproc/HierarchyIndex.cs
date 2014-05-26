@@ -40,6 +40,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="next"></param>
+        /// <param name="previous"></param>
+        /// <param name="child"></param>
+        /// <param name="parent"></param>
         public HiearchyIndex(int next, int previous, int child, int parent)
         {
             Next = next;
