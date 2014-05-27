@@ -49,6 +49,15 @@
     <ClCompile Include="gpu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gpu_GpuMat.cpp">
+      <Filter>Header Files\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="gpu_HOGDescriptor.cpp">
+      <Filter>Header Files\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="gpu_StereoBM_GPU.cpp">
+      <Filter>Header Files\gpu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calib3d.h">
@@ -193,6 +202,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gpu.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="gpu_GpuMat.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="gpu_HOGDescriptor.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="gpu_StereoBM_GPU.h">
       <Filter>Header Files\gpu</Filter>
     </ClInclude>
   </ItemGroup>

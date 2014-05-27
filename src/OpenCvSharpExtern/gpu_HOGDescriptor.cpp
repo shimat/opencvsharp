@@ -3,4 +3,4 @@
  * This code is licenced under the LGPL.
  */
 
-#include "WGpu.h"
+#include "gpu_HOGDescriptor.h"

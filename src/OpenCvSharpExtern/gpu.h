@@ -102,7 +102,10 @@ CVAPI(uint64) gpu_DeviceInfo_sharedMemPerBlock(cv::gpu::DeviceInfo *obj)
 CVAPI(void) gpu_DeviceInfo_queryMemory(
     cv::gpu::DeviceInfo *obj, uint64 *totalMemory, uint64 *freeMemory)
 {
-    obj->queryMemory(*totalMemory, *freeMemory);
+    size_t totalMemory0, freeMemory0;
+    obj->queryMemory(totalMemory0, freeMemory0);
+    *totalMemory = totalMemory0;
+    *freeMemory = freeMemory0;
 }
 CVAPI(uint64) gpu_DeviceInfo_freeMemory(cv::gpu::DeviceInfo *obj)
 {
