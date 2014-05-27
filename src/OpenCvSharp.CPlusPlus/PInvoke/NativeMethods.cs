@@ -13,6 +13,7 @@ using OpenCvSharp;
 using OpenCvSharp.Utilities;
 
 // ReSharper disable InconsistentNaming
+#pragma warning disable 1591
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -20,7 +21,7 @@ namespace OpenCvSharp.CPlusPlus
     /// P/Invoke methods of OpenCV 2.x C++ interface
     /// </summary>
     [SuppressUnmanagedCodeSecurity]
-    internal static partial class NativeMethods
+    public static partial class NativeMethods
     {
         /// <summary>
         /// Is tried P/Invoke once

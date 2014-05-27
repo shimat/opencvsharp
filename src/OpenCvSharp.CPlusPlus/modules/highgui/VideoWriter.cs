@@ -138,7 +138,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException("Failed to create VideoWriter");
         }
         /// <summary>
-        /// ポインタから初期化
+        /// Initializes from native pointer
         /// </summary>
         /// <param name="ptr">CvVideoWriter*</param>
         internal VideoWriter(IntPtr ptr)

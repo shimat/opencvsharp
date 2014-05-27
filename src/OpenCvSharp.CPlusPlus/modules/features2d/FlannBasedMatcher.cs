@@ -24,10 +24,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="searchParams"></param>
         public FlannBasedMatcher(IndexParams indexParams = null, SearchParams searchParams = null)
         {
-            /*if (indexParams == null)
-                throw new ArgumentNullException("indexParams");
-            if (searchParams == null)
-                throw new ArgumentNullException("searchParams");*/
             ptr = NativeMethods.features2d_FlannBasedMatcher_new(
                 Cv2.ToPtr(indexParams), Cv2.ToPtr(searchParams));
         }

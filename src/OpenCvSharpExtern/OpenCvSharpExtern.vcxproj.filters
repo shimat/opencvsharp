@@ -46,6 +46,18 @@
     <ClCompile Include="core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gpu_GpuMat.cpp">
+      <Filter>Header Files\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="gpu_HOGDescriptor.cpp">
+      <Filter>Header Files\gpu</Filter>
+    </ClCompile>
+    <ClCompile Include="gpu_StereoBM_GPU.cpp">
+      <Filter>Header Files\gpu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calib3d.h">
@@ -189,6 +201,18 @@
     <ClInclude Include="my_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gpu.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="gpu_GpuMat.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="gpu_HOGDescriptor.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="gpu_StereoBM_GPU.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -213,6 +237,9 @@
     </Filter>
     <Filter Include="Header Files\imgproc">
       <UniqueIdentifier>{f8b57698-6e4b-424d-870c-29526931576a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gpu">
+      <UniqueIdentifier>{2e4a1ecc-57c7-4a98-b018-78de2b7ac832}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

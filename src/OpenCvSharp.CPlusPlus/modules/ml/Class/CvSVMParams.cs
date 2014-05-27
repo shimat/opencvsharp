@@ -10,28 +10,29 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
+#pragma warning disable 1591
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    internal unsafe struct WCvSVMParams
+    public unsafe struct WCvSVMParams
     {
         public int svm_type;
         public int kernel_type;
         public double degree; 
         public double gamma; 
         public double coef0;
-
         public double C; 
         public double nu; 
         public double p; 
         public void* class_weights; 
         public CvTermCriteria term_crit; 
     }
+#pragma warning restore 1591
 
 #if LANG_JP
     /// <summary>
     /// SVM 学習パラメータ
     /// </summary>
 #else
-	/// <summary>
+    /// <summary>
     /// SVM training parameters
     /// </summary>
 #endif

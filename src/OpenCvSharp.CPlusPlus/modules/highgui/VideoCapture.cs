@@ -210,24 +210,24 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// ファイルからのビデオキャプチャを初期化する
         /// </summary>
-        /// <param name="filename">ビデオファイル名</param>
+        /// <param name="fileName">ビデオファイル名</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Allocates and initialized the CvCapture structure for reading the video stream from the specified file.
         /// After the allocated structure is not used any more it should be released by cvReleaseCapture function. 
         /// </summary>
-        /// <param name="filename">Name of the video file. </param>
+        /// <param name="fileName">Name of the video file. </param>
         /// <returns></returns>
 #endif
-        public VideoCapture(string filename)
+        public VideoCapture(string fileName)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
-            if (!File.Exists(filename))
-                throw new FileNotFoundException("File not found", filename);
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException("File not found", fileName);
 
-            ptr = NativeMethods.highgui_VideoCapture_new_fromFile(filename);
+            ptr = NativeMethods.highgui_VideoCapture_new_fromFile(fileName);
 
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvCapture");
@@ -238,23 +238,23 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// ファイルからのビデオキャプチャを初期化する
         /// </summary>
-        /// <param name="filename">ビデオファイル名</param>
+        /// <param name="fileName">ビデオファイル名</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Allocates and initialized the CvCapture structure for reading the video stream from the specified file.
         /// After the allocated structure is not used any more it should be released by cvReleaseCapture function. 
         /// </summary>
-        /// <param name="filename">Name of the video file. </param>
+        /// <param name="fileName">Name of the video file. </param>
         /// <returns></returns>
 #endif
-        public static VideoCapture FromFile(string filename)
+        public static VideoCapture FromFile(string fileName)
         {
-            return new VideoCapture(filename);
+            return new VideoCapture(fileName);
         }
 
         /// <summary>
-        /// ポインタから初期化
+        /// Initializes from native pointer
         /// </summary>
         /// <param name="ptr">CvCapture*</param>
         protected internal VideoCapture(IntPtr ptr)
@@ -2125,7 +2125,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         /// <summary>
-        /// Int32の各バイトにアクセスしやすくするための共用体
+        /// For accessing each byte of Int32 value
         /// </summary>
         [StructLayout(LayoutKind.Explicit)]
         private struct IntBytes

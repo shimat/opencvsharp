@@ -12,7 +12,7 @@ using OpenCvSharp;
 using OpenCvSharp.Utilities;
 using OpenCvSharp.CPlusPlus;
 
-namespace OpenCvSharp.Gpu
+namespace OpenCvSharp.CPlusPlus.Gpu
 {
 #if LANG_JP
     /// <summary>
@@ -23,7 +23,7 @@ namespace OpenCvSharp.Gpu
     /// Smart pointer for GPU memory with reference counting. Its interface is mostly similar with cv::Mat.
     /// </summary>
 #endif
-    public partial class GpuMat : DisposableCvObject, ICloneable
+    public class GpuMat : DisposableCvObject, ICloneable
     {
         #region Fields
         /// <summary>
@@ -42,7 +42,7 @@ namespace OpenCvSharp.Gpu
         /// </summary>
         static GpuMat()
         {
-            SizeOf = GpuInvoke.GpuMat_sizeof();
+            SizeOf = NativeMethods.GpuMat_sizeof();
         }
 
         #region Constructor
@@ -57,7 +57,7 @@ namespace OpenCvSharp.Gpu
 #endif
         public GpuMat()
         {
-            ptr = GpuInvoke.GpuMat_new1();
+            ptr = NativeMethods.GpuMat_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -73,7 +73,7 @@ namespace OpenCvSharp.Gpu
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = GpuInvoke.GpuMat_new2(rows, cols, type);
+            ptr = NativeMethods.GpuMat_new2(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -91,7 +91,7 @@ namespace OpenCvSharp.Gpu
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = GpuInvoke.GpuMat_new3(rows, cols, type, data, step);
+            ptr = NativeMethods.GpuMat_new3(rows, cols, type, data, step);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -103,7 +103,7 @@ namespace OpenCvSharp.Gpu
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = GpuInvoke.GpuMat_new4(m.CvPtr);
+            ptr = NativeMethods.GpuMat_new4(m.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -115,7 +115,7 @@ namespace OpenCvSharp.Gpu
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = GpuInvoke.GpuMat_new5(m.CvPtr);
+            ptr = NativeMethods.GpuMat_new5(m.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -126,7 +126,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="type"></param>
         public GpuMat(CvSize size, MatrixType type)
         {
-            ptr = GpuInvoke.GpuMat_new6(size, type);
+            ptr = NativeMethods.GpuMat_new6(size, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -139,7 +139,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="step"></param>
         public GpuMat(CvSize size, MatrixType type, IntPtr data, uint step)
         {
-            ptr = GpuInvoke.GpuMat_new7(size, type, data, step);
+            ptr = NativeMethods.GpuMat_new7(size, type, data, step);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -156,7 +156,7 @@ namespace OpenCvSharp.Gpu
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = GpuInvoke.GpuMat_new8(rows, cols, type, (CvScalar)s);
+            ptr = NativeMethods.GpuMat_new8(rows, cols, type, (CvScalar)s);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -170,7 +170,7 @@ namespace OpenCvSharp.Gpu
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = GpuInvoke.GpuMat_new9(m.CvPtr, rowRange, colRange);
+            ptr = NativeMethods.GpuMat_new9(m.CvPtr, rowRange, colRange);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -183,7 +183,7 @@ namespace OpenCvSharp.Gpu
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = GpuInvoke.GpuMat_new10(m.CvPtr, (CvRect)roi);
+            ptr = NativeMethods.GpuMat_new10(m.CvPtr, (CvRect)roi);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -195,7 +195,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="s"></param>
         public GpuMat(CvSize size, MatrixType type, CvScalar s)
         {
-            ptr = GpuInvoke.GpuMat_new11(size, type, s);
+            ptr = NativeMethods.GpuMat_new11(size, type, s);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }      
@@ -242,7 +242,7 @@ namespace OpenCvSharp.Gpu
                     }
                     if (IsEnabledDispose)
                     {
-                        GpuInvoke.GpuMat_delete(ptr);
+                        NativeMethods.GpuMat_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -276,7 +276,7 @@ namespace OpenCvSharp.Gpu
                 throw new ArgumentNullException("src");
 
             GpuMat dst = new GpuMat();
-            GpuInvoke.GpuMat_opComplement(src.CvPtr, dst.CvPtr);
+            NativeMethods.GpuMat_opComplement(src.CvPtr, dst.CvPtr);
             return dst;
         }
         #endregion
@@ -304,7 +304,7 @@ namespace OpenCvSharp.Gpu
                 throw new ArgumentNullException("src2");
 
             GpuMat dst = new GpuMat();
-            GpuInvoke.GpuMat_opAnd(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.GpuMat_opAnd(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             return dst;
         }
 #if LANG_JP
@@ -330,7 +330,7 @@ namespace OpenCvSharp.Gpu
                 throw new ArgumentNullException("src2");
 
             GpuMat dst = new GpuMat();
-            GpuInvoke.GpuMat_opOr(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.GpuMat_opOr(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             return dst;
         }
 #if LANG_JP
@@ -356,7 +356,7 @@ namespace OpenCvSharp.Gpu
                 throw new ArgumentNullException("src2");
 
             GpuMat dst = new GpuMat();
-            GpuInvoke.GpuMat_opXor(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.GpuMat_opXor(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             return dst;
         }
         #endregion
@@ -372,7 +372,7 @@ namespace OpenCvSharp.Gpu
                 return null;
 
             GpuMat gpumat = new GpuMat();
-            GpuInvoke.GpuMat_opGpuMat(mat.CvPtr, gpumat.CvPtr);
+            NativeMethods.GpuMat_opGpuMat(mat.CvPtr, gpumat.CvPtr);
             return gpumat;
         }
         /// <summary>
@@ -386,7 +386,7 @@ namespace OpenCvSharp.Gpu
                 return null;
 
             Mat mat = new Mat();
-            GpuInvoke.GpuMat_opMat(gpumat.CvPtr, mat.CvPtr);
+            NativeMethods.GpuMat_opMat(gpumat.CvPtr, mat.CvPtr);
             return mat;
         }
         #endregion
@@ -401,7 +401,7 @@ namespace OpenCvSharp.Gpu
             get
             {
                 Mat result = new Mat();
-                GpuInvoke.GpuMat_opRange1(ptr, roi, result.CvPtr);
+                NativeMethods.GpuMat_opRange1(ptr, roi, result.CvPtr);
                 return result;
             }
         }
@@ -416,7 +416,7 @@ namespace OpenCvSharp.Gpu
             get
             {
                 Mat result = new Mat();
-                GpuInvoke.GpuMat_opRange2(ptr, rowRange, colRange, result.CvPtr);
+                NativeMethods.GpuMat_opRange2(ptr, rowRange, colRange, result.CvPtr);
                 return result;
             }
         }
@@ -451,7 +451,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_flags(ptr);
+                return NativeMethods.GpuMat_flags(ptr);
             }
         }
         /// <summary>
@@ -463,7 +463,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_rows(ptr); 
+                return NativeMethods.GpuMat_rows(ptr); 
             }
         }
         /// <summary>
@@ -475,7 +475,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_cols(ptr);
+                return NativeMethods.GpuMat_cols(ptr);
             }
         }
         /// <summary>
@@ -487,7 +487,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_step(ptr);
+                return NativeMethods.GpuMat_step(ptr);
             }
         }
         /// <summary>
@@ -501,7 +501,7 @@ namespace OpenCvSharp.Gpu
                     throw new ObjectDisposedException("GpuMat");
                 unsafe
                 {
-                    return (IntPtr)GpuInvoke.GpuMat_data(ptr);
+                    return (IntPtr)NativeMethods.GpuMat_data(ptr);
                 }
             }
         }
@@ -515,7 +515,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return (IntPtr)GpuInvoke.GpuMat_refcount(ptr);
+                return (IntPtr)NativeMethods.GpuMat_refcount(ptr);
             }
         }
         /// <summary>
@@ -527,7 +527,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return (IntPtr)GpuInvoke.GpuMat_datastart(ptr);
+                return (IntPtr)NativeMethods.GpuMat_datastart(ptr);
             }
         }
         /// <summary>
@@ -539,7 +539,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return (IntPtr)GpuInvoke.GpuMat_dataend(ptr);
+                return (IntPtr)NativeMethods.GpuMat_dataend(ptr);
             }
         }
         /// <summary>
@@ -551,7 +551,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_type(ptr);
+                return NativeMethods.GpuMat_type(ptr);
             }
         }
         /// <summary>
@@ -563,7 +563,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_elemSize(ptr);
+                return NativeMethods.GpuMat_elemSize(ptr);
             }
         }
         /// <summary>
@@ -575,7 +575,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_elemSize1(ptr);
+                return NativeMethods.GpuMat_elemSize1(ptr);
             }
         }
         /// <summary>
@@ -587,7 +587,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_depth(ptr);
+                return NativeMethods.GpuMat_depth(ptr);
             }
         }
         /// <summary>
@@ -599,7 +599,7 @@ namespace OpenCvSharp.Gpu
             {
                 if (disposed)
                     throw new ObjectDisposedException("GpuMat");
-                return GpuInvoke.GpuMat_channels(ptr);
+                return NativeMethods.GpuMat_channels(ptr);
             }
         }
         /// <summary>
@@ -640,7 +640,7 @@ namespace OpenCvSharp.Gpu
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
-            GpuInvoke.GpuMat_row(ptr, y, outValue.CvPtr);
+            NativeMethods.GpuMat_row(ptr, y, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -653,7 +653,7 @@ namespace OpenCvSharp.Gpu
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
-            GpuInvoke.GpuMat_col(ptr, x, outValue.CvPtr);
+            NativeMethods.GpuMat_col(ptr, x, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -667,7 +667,7 @@ namespace OpenCvSharp.Gpu
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
-            GpuInvoke.GpuMat_rowRange(ptr, startrow, endrow, outValue.CvPtr);
+            NativeMethods.GpuMat_rowRange(ptr, startrow, endrow, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -690,7 +690,7 @@ namespace OpenCvSharp.Gpu
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
-            GpuInvoke.GpuMat_colRange(ptr, startcol, endcol, outValue.CvPtr);
+            NativeMethods.GpuMat_colRange(ptr, startcol, endcol, outValue.CvPtr);
             return outValue;
         }
         /// <summary>
@@ -712,7 +712,7 @@ namespace OpenCvSharp.Gpu
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
-            GpuInvoke.GpuMat_clone(ptr, outValue.CvPtr);
+            NativeMethods.GpuMat_clone(ptr, outValue.CvPtr);
             return outValue;
         }
         object ICloneable.Clone()
@@ -730,7 +730,7 @@ namespace OpenCvSharp.Gpu
                 throw new ObjectDisposedException("GpuMat");
             if (m == null)
                 throw new ArgumentNullException("m");
-            GpuInvoke.GpuMat_copyTo1(ptr, m.CvPtr);
+            NativeMethods.GpuMat_copyTo1(ptr, m.CvPtr);
         }
         /// <summary>
         /// copies those matrix elements to "m" that are marked with non-zero mask elements.
@@ -745,7 +745,7 @@ namespace OpenCvSharp.Gpu
                 throw new ArgumentNullException("m");
             if (mask == null)
                 throw new ArgumentNullException("mask");
-            GpuInvoke.GpuMat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
+            NativeMethods.GpuMat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
         }
 
         /// <summary>
@@ -760,7 +760,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
-            GpuInvoke.GpuMat_convertTo(ptr, dst.CvPtr, (int)rtype, alpha, beta);
+            NativeMethods.GpuMat_convertTo(ptr, dst.CvPtr, (int)rtype, alpha, beta);
         }
 
         /// <summary>
@@ -769,7 +769,7 @@ namespace OpenCvSharp.Gpu
         /// <param name="m"></param>
         public void AssignTo(GpuMat m)
         {
-            GpuInvoke.GpuMat_assignTo(ptr, m.CvPtr, -1);
+            NativeMethods.GpuMat_assignTo(ptr, m.CvPtr, -1);
         }
         /// <summary>
         /// 
@@ -782,7 +782,7 @@ namespace OpenCvSharp.Gpu
                 throw new ObjectDisposedException("GpuMat");
             if (m == null)
                 throw new ArgumentNullException("m");
-            GpuInvoke.GpuMat_assignTo(ptr, m.CvPtr, (int)type);
+            NativeMethods.GpuMat_assignTo(ptr, m.CvPtr, (int)type);
         }
 
         /// <summary>
@@ -797,7 +797,7 @@ namespace OpenCvSharp.Gpu
                 throw new ObjectDisposedException("GpuMat");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             GpuMat dst = new GpuMat();
-            GpuInvoke.GpuMat_setTo(ptr, s, maskPtr, dst.CvPtr);
+            NativeMethods.GpuMat_setTo(ptr, s, maskPtr, dst.CvPtr);
             return dst;
         }
 
@@ -813,7 +813,7 @@ namespace OpenCvSharp.Gpu
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat outValue = new GpuMat();
-            GpuInvoke.GpuMat_reshape(ptr, cn, rows, outValue.CvPtr);
+            NativeMethods.GpuMat_reshape(ptr, cn, rows, outValue.CvPtr);
             return outValue;
         }
 
@@ -828,7 +828,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
-            GpuInvoke.GpuMat_create1(ptr, rows, cols, type);
+            NativeMethods.GpuMat_create1(ptr, rows, cols, type);
         }
         /// <summary>
         /// allocates new matrix data unless the matrix already has specified size and type.
@@ -840,7 +840,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
-            GpuInvoke.GpuMat_create2(ptr, size, type);
+            NativeMethods.GpuMat_create2(ptr, size, type);
         }
         /*
         /// <summary>
@@ -864,7 +864,7 @@ namespace OpenCvSharp.Gpu
                 throw new ObjectDisposedException("GpuMat");
             if (mat == null)
                 throw new ArgumentNullException("mat");
-            GpuInvoke.GpuMat_swap(ptr, mat.CvPtr);
+            NativeMethods.GpuMat_swap(ptr, mat.CvPtr);
         }
         /// <summary>
         /// locates matrix header within a parent matrix.
@@ -875,7 +875,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
-            GpuInvoke.GpuMat_locateROI(ptr, out wholeSize, out ofs);
+            NativeMethods.GpuMat_locateROI(ptr, out wholeSize, out ofs);
         }
 
         /// <summary>
@@ -891,7 +891,7 @@ namespace OpenCvSharp.Gpu
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat dst = new GpuMat();
-            GpuInvoke.GpuMat_adjustROI(ptr, dtop, dbottom, dleft, dright, dst.CvPtr);
+            NativeMethods.GpuMat_adjustROI(ptr, dtop, dbottom, dleft, dright, dst.CvPtr);
             return dst;
         }
 
@@ -904,7 +904,7 @@ namespace OpenCvSharp.Gpu
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
             GpuMat dst = new GpuMat();
-            GpuInvoke.GpuMat_t(ptr, dst.CvPtr);
+            NativeMethods.GpuMat_t(ptr, dst.CvPtr);
             return dst;
         }
 
@@ -917,7 +917,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
-            return GpuInvoke.GpuMat_isContinuous(ptr);
+            return NativeMethods.GpuMat_isContinuous(ptr);
         }
 
         /// <summary>
@@ -983,7 +983,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException("GpuMat");
-            return GpuInvoke.GpuMat_ptr(ptr, y);
+            return NativeMethods.GpuMat_ptr(ptr, y);
         }
         #endregion
         #endregion
