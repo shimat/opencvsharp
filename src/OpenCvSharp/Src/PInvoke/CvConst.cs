@@ -853,19 +853,22 @@ namespace OpenCvSharp
         public const int CV_GUI_NORMAL = 2;
 
         // cvNorm
-        public const int CV_C = 1;
-        public const int CV_L1 = 2;
-        public const int CV_L2 = 4;
-        public const int CV_NORM_MASK = 7;
-        public const int CV_RELATIVE = 8;
-        public const int CV_DIFF = 16;
-        public const int CV_MINMAX = 32;
-        public const int CV_DIFF_C = (CV_DIFF | CV_C);
-        public const int CV_DIFF_L1 = (CV_DIFF | CV_L1);
-        public const int CV_DIFF_L2 = (CV_DIFF | CV_L2);
-        public const int CV_RELATIVE_C = (CV_RELATIVE | CV_C);
-        public const int CV_RELATIVE_L1 = (CV_RELATIVE | CV_L1);
-        public const int CV_RELATIVE_L2 = (CV_RELATIVE | CV_L2);
+        public const int CV_C = 1,
+                         CV_L1 = 2,
+                         CV_L2 = 4,
+                         NORM_L2SQR = 5,
+                         NORM_HAMMING = 6,
+                         NORM_HAMMING2 = 7,
+                         CV_NORM_MASK = 7,
+                         CV_RELATIVE = 8,
+                         CV_DIFF = 16,
+                         CV_MINMAX = 32,
+                         CV_DIFF_C = (CV_DIFF | CV_C),
+                         CV_DIFF_L1 = (CV_DIFF | CV_L1),
+                         CV_DIFF_L2 = (CV_DIFF | CV_L2),
+                         CV_RELATIVE_C = (CV_RELATIVE | CV_C),
+                         CV_RELATIVE_L1 = (CV_RELATIVE | CV_L1),
+                         CV_RELATIVE_L2 = (CV_RELATIVE | CV_L2);
         // cvOpenFileStorage
         public const int CV_STORAGE_READ = 0;
         public const int CV_STORAGE_WRITE = 1;
