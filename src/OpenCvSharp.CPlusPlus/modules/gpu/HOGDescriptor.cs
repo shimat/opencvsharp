@@ -934,14 +934,14 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <summary>
         /// HOG ディスクリプタおよび検出器を作成します
         /// </summary>
-        /// <param name="win_size">検出窓サイズ．ブロックのサイズと移動量に合わせる必要があります．</param>
-        /// <param name="block_size">ピクセル単位で表されるブロックサイズ．セルサイズに合わせる必要があります．</param>
-        /// <param name="block_stride">ブロックの移動量．セルサイズの倍数でなければいけません．</param>
-        /// <param name="cell_size">セルサイズ．</param>
+        /// <param name="winSize">検出窓サイズ．ブロックのサイズと移動量に合わせる必要があります．</param>
+        /// <param name="blockSize">ピクセル単位で表されるブロックサイズ．セルサイズに合わせる必要があります．</param>
+        /// <param name="blockStride">ブロックの移動量．セルサイズの倍数でなければいけません．</param>
+        /// <param name="cellSize">セルサイズ．</param>
         /// <param name="nbins">ビンの個数．</param>
-        /// <param name="win_sigma">ガウシアン平滑化窓パラメータ．</param>
-        /// <param name="threshold_L2hys">L2-Hys 正規化縮小処理の閾値．</param>
-        /// <param name="gamma_correction">前処理としてガンマ補正を行うか否か，を指定します．</param>
+        /// <param name="winSigma">ガウシアン平滑化窓パラメータ．</param>
+        /// <param name="thresholdL2Hys">L2-Hys 正規化縮小処理の閾値．</param>
+        /// <param name="gammaCorrection">前処理としてガンマ補正を行うか否か，を指定します．</param>
         /// <param name="nlevels">検出窓拡大回数の最大値</param>
 #else
         /// <summary>

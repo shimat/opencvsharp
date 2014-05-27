@@ -19,13 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WGpu.cpp" />
     <ClCompile Include="WGpuMat.cpp" />
     <ClCompile Include="WHOGDescriptor_GPU.cpp" />
     <ClCompile Include="WStereoBM_GPU.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WGpu.h" />
     <ClInclude Include="WGpuMat.h" />
     <ClInclude Include="WHOGDescriptor_GPU.h" />
     <ClInclude Include="WStereoBM_GPU.h" />

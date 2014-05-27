@@ -6,9 +6,9 @@ Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' cv::flann
-    ''' </summary>
+''' <summary>
+''' cv::flann
+''' </summary>
 Friend Module FlannSample
     Public Sub Start()
         Console.WriteLine(Environment.NewLine & String.Format(("===== FlannTest =====")))
@@ -30,11 +30,11 @@ Friend Module FlannSample
             Console.WriteLine(Environment.NewLine & String.Format("-----"))
 
             ' knnSearch
-            Using nnIndex As New Index(features, New KDTreeIndexParams(4))
+            Using nnIndex As New Flann.Index(features, New Flann.KDTreeIndexParams(4))
                 Dim knn As Integer = 1
                 Dim indices() As Integer
                 Dim dists() As Single
-                nnIndex.KnnSearch(queries, indices, dists, knn, New SearchParams(32))
+                nnIndex.KnnSearch(queries, indices, dists, knn, New Flann.SearchParams(32))
 
                 For i As Integer = 0 To knn - 1
                     Dim index As Integer = indices(i)
