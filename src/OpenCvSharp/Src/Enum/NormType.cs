@@ -62,6 +62,20 @@ namespace OpenCvSharp
 #endif
         L2 = CvConst.CV_L2,
 
+        /// <summary>
+        /// [NORM_L2SQR]
+        /// </summary>
+        L2SQR = CvConst.NORM_L2SQR,
+
+        /// <summary>
+        /// [NORM_HAMMING]
+        /// </summary>
+        Hamming = CvConst.NORM_HAMMING,
+
+        /// <summary>
+        /// [NORM_HAMMING2]
+        /// </summary>
+        Hamming2 = CvConst.NORM_HAMMING2,
 
 #if LANG_JP
         /// <summary>

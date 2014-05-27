@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CvGpu.cs" />
-    <Compile Include="GpuInvoke.cs" />
     <Compile Include="GpuMat.cs" />
     <Compile Include="DescriptorFormat.cs" />
     <Compile Include="HOGDescriptor.cs" />
