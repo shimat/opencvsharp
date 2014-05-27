@@ -197,6 +197,7 @@ namespace OpenCvSharp.CPlusPlus
             if(String.IsNullOrEmpty(detectorType))
                 throw new ArgumentNullException("detectorType");
 
+            /*
             // gets cv::Ptr<FeatureDetector>
             try
             {
@@ -207,7 +208,23 @@ namespace OpenCvSharp.CPlusPlus
             catch (OpenCvSharpException)
             {
                 throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
+            }*/
+
+            if (detectorType.Contains("Grid"))
+                throw new NotImplementedException("GridAdaptedFeatureDetector not implemented");
+            if (detectorType.Contains("Pyramid"))
+                throw new NotImplementedException("PyramidAdaptedFeatureDetector not implemented");
+            if (detectorType.Contains("Dynamic"))
+                throw new NotImplementedException("DynamicAdaptedFeatureDetector not implemented");
+
+            if (detectorType.Contains("HARRIS"))
+            {
+                var fd = Create("GFTT");
+                fd.SetBool("useHarrisDetector", true);
+                return fd;
             }
+
+            return Algorithm.Create<FeatureDetector>("Feature2D." + detectorType);
         }
 
 
