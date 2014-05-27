@@ -52,6 +52,9 @@ namespace OpenCvSharp.Sandbox
 
         private static void Run()
         {
+            var dm = DescriptorMatcher.Create("BruteForce");
+            dm.Clear();
+
             Console.WriteLine(Cv2.GetCudaEnabledDeviceCount());
 
             string[] algoNames = Algorithm.GetList();

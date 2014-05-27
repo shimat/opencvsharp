@@ -36,6 +36,32 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (String.IsNullOrEmpty(descriptorMatcherType))
                 throw new ArgumentNullException("descriptorMatcherType");
+
+            switch (descriptorMatcherType)
+            {
+                case "FlannBased":
+                    return new FlannBasedMatcher();
+
+                case "BruteForce": // L2
+                    return new BFMatcher(NormType.L2);
+
+                case "BruteForce-SL2": // Squared L2
+                    return new BFMatcher(NormType.L2SQR);
+
+                case "BruteForce-L1":
+                    return new BFMatcher(NormType.L1);
+
+                case "BruteForce-Hamming":
+                case "BruteForce-HammingLUT":
+                    return new BFMatcher(NormType.Hamming);
+
+                case "BruteForce-Hamming(2)":
+                    return new BFMatcher(NormType.Hamming2);
+
+                default:
+                    throw new OpenCvSharpException("Unknown matcher name '{0}'", descriptorMatcherType);
+            }
+            /*
             IntPtr ptr;
             try
             {
@@ -46,7 +72,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException(
                     "matcher name '{0}' is not valid.", descriptorMatcherType);
             }
-            return FromPtr(ptr);
+            return FromPtr(ptr);*/
         }
 
         /// <summary>
