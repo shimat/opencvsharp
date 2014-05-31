@@ -84,8 +84,9 @@ class Program
 
 
 ## License
-OpenCvSharp is released under the [LGPL](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt).
+All contents of OpenCvSharp except OpenCvSharp.Blob are licensed under the 
+**3-clause BSD License**. Refer to LICENSE-ExceptBlob.txt .
 
-This library uses [cvBlob](http://code.google.com/p/cvblob/) to implement blob extraction. cvBlob is under the LGPL, so OpenCvSharp follows the cvBlob licensing.
-
-
+OpenCvSharp.Blob is under the **LGPL**. Refer to LICENSE-Blob.txt .
+OpenCvSharp.Blob uses cvBlob to implement blob extraction. 
+cvBlob is under the LGPL, so OpenCvSharp.Blob follows the cvBlob licensing.
