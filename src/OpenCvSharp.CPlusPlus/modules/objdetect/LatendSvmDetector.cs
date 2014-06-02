@@ -1,11 +1,5 @@
-﻿/*
-* (C) 2008-2014 shimat
-* This code is licenced under the LGPL.
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenCvSharp.Utilities;
 
 // ReSharper disable InconsistentNaming

@@ -1,12 +1,4 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp;
+﻿using System;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus.Gpu
