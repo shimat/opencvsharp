@@ -1,13 +1,7 @@
-/*CvANN_MLP
-  *(C) 2008-2014 shimat
-  *This code is licenced under the LGPL.
- */
-
 #ifndef _CPP_ML_ANN_MLP_H_
 #define _CPP_ML_ANN_MLP_H_
 
 #include "include_opencv.h"
-
 
 // CvANN_MLP_TrainParams
 CVAPI(void) ml_ANN_MLP_TrainParams_new1(CvANN_MLP_TrainParams *result)

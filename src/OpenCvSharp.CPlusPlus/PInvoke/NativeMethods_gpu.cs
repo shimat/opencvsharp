@@ -231,27 +231,25 @@ namespace OpenCvSharp.CPlusPlus
 
         #region StereoBM_GPU
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint StereoBM_GPU_sizeof();
+        public static extern IntPtr gpu_StereoBM_GPU_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr StereoBM_GPU_new1();
+        public static extern IntPtr gpu_StereoBM_GPU_new2(int preset, int ndisparities, int winSize);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr StereoBM_GPU_new2(int preset, int ndisparities, int winSize);
+        public static extern void gpu_StereoBM_GPU_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoBM_GPU_delete(IntPtr obj);
+        public static extern void gpu_StereoBM_GPU_run1(IntPtr obj, IntPtr left, IntPtr right, IntPtr disparity);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoBM_GPU_run1(IntPtr obj, IntPtr left, IntPtr right, IntPtr disparity);
+        public static extern void gpu_StereoBM_GPU_run2(IntPtr obj, IntPtr left, IntPtr right, IntPtr disparity, IntPtr stream);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StereoBM_GPU_run2(IntPtr obj, IntPtr left, IntPtr right, IntPtr disparity, IntPtr stream);
+        public static extern int gpu_StereoBM_GPU_checkIfGpuCallReasonable();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StereoBM_GPU_checkIfGpuCallReasonable();
+        public static extern unsafe int* gpu_StereoBM_GPU_preset(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* StereoBM_GPU_preset(IntPtr obj);
+        public static extern unsafe int* gpu_StereoBM_GPU_ndisp(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* StereoBM_GPU_ndisp(IntPtr obj);
+        public static extern unsafe int* gpu_StereoBM_GPU_winSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* StereoBM_GPU_winSize(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe float* StereoBM_GPU_avergeTexThreshold(IntPtr obj);
+        public static extern unsafe float* gpu_StereoBM_GPU_avergeTexThreshold(IntPtr obj);
         #endregion
     }
 }

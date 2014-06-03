@@ -1,8 +1,3 @@
-/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
 #ifndef _CPP_ML_CVMLDATA_H_
 #define _CPP_ML_CVMLDATA_H_
 

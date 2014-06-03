@@ -12,8 +12,7 @@ using OpenCvSharp.Extensions;
 namespace OpenCvSharp.Sandbox
 {
     /// <summary>
-    /// 書き捨てのコード。
-    /// うまくいったらSampleに移管
+    /// Simple codes for debugging
     /// </summary>
     internal class Program
     {
