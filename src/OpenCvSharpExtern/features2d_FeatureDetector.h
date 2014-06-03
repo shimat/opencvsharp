@@ -1,8 +1,3 @@
-/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
 #ifndef _CPP_FEATURES2DFEATUREDETECTOR_H_
 #define _CPP_FEATURES2DFEATUREDETECTOR_H_
 

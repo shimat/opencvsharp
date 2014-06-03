@@ -1,12 +1,5 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
@@ -20,16 +13,16 @@ namespace OpenCvSharp
     /// A class to access a native pointer like array
     /// </summary>
 #endif
-    public unsafe partial class PointerAccessor1D<T> : IPointerAccessor1D<T>
+    public unsafe class PointerAccessor1D<T> : IPointerAccessor1D<T>
     {
         /// <summary>
         /// pointer
         /// </summary>
-        private IntPtr _ptr;
+        private IntPtr ptr;
         /// <summary>
         /// sizeof(T)
         /// </summary>
-        private int _size;
+        private readonly int size;
 
 #if LANG_JP
         /// <summary>
@@ -44,8 +37,8 @@ namespace OpenCvSharp
 #endif
         public PointerAccessor1D(IntPtr ptr)
         {
-            this._ptr = ptr;
-            this._size = Marshal.SizeOf(typeof(T));
+            this.ptr = ptr;
+            this.size = Marshal.SizeOf(typeof(T));
         }
 #if LANG_JP
         /// <summary>
@@ -76,7 +69,7 @@ namespace OpenCvSharp
 #endif
         public IntPtr Ptr
         {
-            get { return _ptr; }
+            get { return ptr; }
         }
 
 #if LANG_JP
@@ -119,7 +112,7 @@ namespace OpenCvSharp
 #endif
         public T Get(int index)
         {
-            IntPtr dst = new IntPtr(_ptr.ToInt64() + (_size * index));
+            IntPtr dst = new IntPtr(ptr.ToInt64() + (size * index));
             return (T)Marshal.PtrToStructure(dst, typeof(T));
         }
 
@@ -140,8 +133,8 @@ namespace OpenCvSharp
         {
             using (StructurePointer<T> src = new StructurePointer<T>(value))
             {
-                IntPtr dst = new IntPtr(_ptr.ToInt64() + (_size * index));
-                Util.CopyMemory(dst, src, _size);
+                IntPtr dst = new IntPtr(ptr.ToInt64() + (size * index));
+                Util.CopyMemory(dst, src, size);
             }
         }
     }

@@ -1,9 +1,4 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -20,10 +15,10 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="struct_ptr"></param>
+    /// <param name="structPtr"></param>
     /// <returns></returns>
 #endif
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int CvIsInstanceFunc(IntPtr struct_ptr);
+    public delegate int CvIsInstanceFunc(IntPtr structPtr);
 
 }
