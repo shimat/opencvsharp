@@ -852,7 +852,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static explicit operator IplImage(Mat self)
         {
-            return self.ToIplImage();
+            return self.ToIplImage(false);
         }
 
         /// <summary>

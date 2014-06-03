@@ -27,7 +27,7 @@ namespace OpenCvSharp
 
         #region Helper Method
         /// <summary>
-        /// 引数がnullの時はIntPtr.Zeroに変換する
+        /// Returns obj.CvPtr if obj != null; otherwise, IntPtr.Zero
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -36,7 +36,7 @@ namespace OpenCvSharp
             return (obj == null) ? IntPtr.Zero : obj.CvPtr;
         }
         /// <summary>
-        /// 引数がnullの時はIntPtr.Zeroに変換する
+        /// Converts IEnumerable to Array
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
