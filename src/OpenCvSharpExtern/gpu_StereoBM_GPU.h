@@ -7,7 +7,7 @@ CVAPI(cv::gpu::StereoBM_GPU*) gpu_StereoBM_GPU_new1()
 {
 	return new cv::gpu::StereoBM_GPU();
 }
-CVAPI(StereoBM_GPU*) gpu_StereoBM_GPU_new2(int preset, int ndisparities, int winSize)
+CVAPI(cv::gpu::StereoBM_GPU*) gpu_StereoBM_GPU_new2(int preset, int ndisparities, int winSize)
 {
 	return new cv::gpu::StereoBM_GPU(preset, ndisparities, winSize);
 }
@@ -22,7 +22,7 @@ CVAPI(void) gpu_StereoBM_GPU_run1(
 	(*obj)(*left, *right, *disparity);
 }
 CVAPI(void) gpu_StereoBM_GPU_run2(
-    cv::gpu::StereoBM_GPU* obj, cv::gpu::GpuMat* left, cv::gpu::GpuMat* right, cv::gpu::GpuMat* disparity, Stream* stream)
+    cv::gpu::StereoBM_GPU* obj, cv::gpu::GpuMat* left, cv::gpu::GpuMat* right, cv::gpu::GpuMat* disparity, cv::gpu::Stream* stream)
 {
 	(*obj)(*left, *right, *disparity, *stream);
 }
