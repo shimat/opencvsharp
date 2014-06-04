@@ -43,7 +43,7 @@ namespace OpenCvSharp.Sandbox
                 //wb = WriteableBitmapConverter.ToWriteableBitmap(dst, PixelFormats.BlackWhite);
             }
 
-            // Shows WriteableBitmap to WPF window
+            // Shows WPF window
             var image = new System.Windows.Controls.Image { Source = wb };
             var window = new System.Windows.Window
             {
