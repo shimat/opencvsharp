@@ -143,6 +143,7 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
 
+        /*
         /// <summary>
         /// Create feature detector by detector name.
         /// </summary>
@@ -164,6 +165,6 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
             }
         }
-
+        */
     }
 }

@@ -11,7 +11,7 @@ namespace OpenCvSharp.Extensions
 {
 #if LANG_JP
     /// <summary>
-    /// System.Drawing.BitmapとIplImageの相互変換メソッドを提供するクラス
+    /// System.Drawing.BitmapとIplImage/Matの相互変換メソッドを提供するクラス
     /// </summary>
 #else
     /// <summary>
@@ -653,21 +653,5 @@ namespace OpenCvSharp.Extensions
             }
         }
         #endregion
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public static class BitmapExtensions
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <returns></returns>
-        public static IplImage FromBitmap(this Bitmap bitmap)
-        {
-            return BitmapConverter.ToIplImage(bitmap);
-        }
     }
 }

@@ -175,6 +175,7 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.features2d_FeatureDetector_empty(ptr) != 0;
         }
 
+        /*
         /// <summary>
         /// Create feature detector by detector name.
         /// </summary>
@@ -197,19 +198,6 @@ namespace OpenCvSharp.CPlusPlus
             if(String.IsNullOrEmpty(detectorType))
                 throw new ArgumentNullException("detectorType");
 
-            /*
-            // gets cv::Ptr<FeatureDetector>
-            try
-            {
-                IntPtr ptr = NativeMethods.features2d_FeatureDetector_create(detectorType);
-                FeatureDetector detector = FromPtr(ptr);
-                return detector;
-            }
-            catch (OpenCvSharpException)
-            {
-                throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
-            }*/
-
             if (detectorType.Contains("Grid"))
                 throw new NotImplementedException("GridAdaptedFeatureDetector not implemented");
             if (detectorType.Contains("Pyramid"))
@@ -226,8 +214,6 @@ namespace OpenCvSharp.CPlusPlus
 
             return Algorithm.Create<FeatureDetector>("Feature2D." + detectorType);
         }
-
-
-
+        */
     }
 }

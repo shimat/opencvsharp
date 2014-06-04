@@ -4,10 +4,16 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using OpenCvSharp.Blob;
 using OpenCvSharp.CPlusPlus;
 using OpenCvSharp.Extensions;
+using Rect = OpenCvSharp.CPlusPlus.Rect;
+using Size = OpenCvSharp.CPlusPlus.Size;
 
 namespace OpenCvSharp.Sandbox
 {
@@ -16,16 +22,39 @@ namespace OpenCvSharp.Sandbox
     /// </summary>
     internal class Program
     {
+        [STAThread]
         private static void Main(string[] args)
         {
-            //Foo();
+            Foo();
             Run();
         }
 
         private static void Foo()
         {
-            Console.WriteLine(AspectRatioAsString(1.77777777f));
-            Console.Read();
+            // OpenCV processing
+            WriteableBitmap wb;
+            using (var src = new Mat("img/lenna.png", LoadMode.Color))
+            using (var dst = new Mat(src.Size(), src.Type()))
+            {
+                Cv2.GaussianBlur(src, dst, new Size(5, 5), 10);
+                //src.Threshold(dst, 0, 255, ThresholdType.Otsu);
+                // IplImage -> WriteableBitmap
+                wb = dst.ToWriteableBitmap(PixelFormats.Bgr24);
+                //wb = WriteableBitmapConverter.ToWriteableBitmap(dst, PixelFormats.BlackWhite);
+            }
+
+            // Shows WriteableBitmap to WPF window
+            var image = new System.Windows.Controls.Image { Source = wb };
+            var window = new System.Windows.Window
+            {
+                Title = "from IplImage to WriteableBitmap",
+                Width = wb.PixelWidth,
+                Height = wb.PixelHeight,
+                Content = image
+            };
+
+            var app = new Application();
+            app.Run(window);
         }
 
         static string AspectRatioAsString(float f)
@@ -59,7 +88,7 @@ namespace OpenCvSharp.Sandbox
             string[] algoNames = Algorithm.GetList();
             Console.WriteLine(String.Join("\n", algoNames));
 
-            SIFT al1 = Algorithm.Create<SIFT>("Feature2D.SIFT");
+            SIFT al1 = new SIFT();
             string[] ppp = al1.GetParams();
             Console.WriteLine(ppp);
             var t = al1.ParamType("contrastThreshold");
@@ -78,9 +107,6 @@ namespace OpenCvSharp.Sandbox
 
             for (long i = 0;; i++)
             {
-                SIFT a = Algorithm.Create<SIFT>("Feature2D.SIFT");
-                a.ToString();
-
                 for (int j = 0; j < 200; j++)
                 {
                     int c1 = rand.Next(100, 400);
