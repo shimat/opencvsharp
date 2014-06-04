@@ -134,6 +134,7 @@
     <Compile Include="MyParallel.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WriteableBitmapConverter2.cs" />
     <Compile Include="WriteableBitmapConverter.cs" />
     <Compile Include="BitmapSourceConverter.cs" />
   </ItemGroup>
