@@ -100,7 +100,6 @@ namespace OpenCvSharp.Extensions
                                     {
                                         break;
                                     }
-                                    // IplImageは8bit/pixel
                                     p[step * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
                                     b <<= 1;
                                     x++;
@@ -113,7 +112,7 @@ namespace OpenCvSharp.Extensions
 
                 }
                 // 8bpp
-                else if (bpp == 8)
+                /*else if (bpp == 8)
                 {
                     int stride = w;
                     byte[] pixels = new byte[h * stride];
@@ -125,13 +124,17 @@ namespace OpenCvSharp.Extensions
                             p[step * y + x] = pixels[y * stride + x];
                         }
                     }
-                }
+                }*/
                 // 24bpp, 32bpp, ...
                 else
                 {
                     int stride = w * ((bpp + 7) / 8);
-                    int dataSize = (int)(dst.DataEnd.ToInt64() - dst.DataStart.ToInt64());
-                    src.CopyPixels(Int32Rect.Empty, dst.Data, dataSize, stride);
+                    long imageSize = dst.DataEnd.ToInt64() - dst.DataStart.ToInt64();
+                    if (imageSize < 0)
+                        throw new OpenCvSharpException("The mat has invalid data pointer");
+                    if (imageSize > Int32.MaxValue)
+                        throw new OpenCvSharpException("Too big mat data");
+                    src.CopyPixels(Int32Rect.Empty, dst.Data, (int)imageSize, stride);
                 }
 
             }
@@ -155,9 +158,8 @@ namespace OpenCvSharp.Extensions
         public static void CopyFrom(this Mat mat, WriteableBitmap wb)
         {
             if (wb == null)
-            {
                 throw new ArgumentNullException("wb");
-            }
+            
             ToMat(wb, mat);
         }
 
@@ -166,9 +168,9 @@ namespace OpenCvSharp.Extensions
         #region ToWriteableBitmap
 #if LANG_JP
         /// <summary>
-        /// IplImageをWriteableBitmapに変換する. 引数はWriteableBitmapのコンストラクタに相当する.
+        /// MatをWriteableBitmapに変換する. 引数はWriteableBitmapのコンストラクタに相当する.
         /// </summary>
-        /// <param name="src">変換するIplImage</param>
+        /// <param name="src">変換するMat</param>
         /// <param name="dpiX">ビットマップの水平ドット/インチ (dpi)</param>
         /// <param name="dpiY">ビットマップの垂直ドット/インチ (dpi)</param>
         /// <param name="pf">ビットマップの PixelFormat</param>
@@ -197,9 +199,9 @@ namespace OpenCvSharp.Extensions
         }
 #if LANG_JP
         /// <summary>
-	    /// IplImageをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
+	    /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
         /// </summary>
-        /// <param name="src">変換するIplImage</param>
+        /// <param name="src">変換するMat</param>
         /// <param name="pf">ビットマップの PixelFormat</param>
         /// <returns>WPFのWriteableBitmap</returns>
 #else
@@ -313,8 +315,12 @@ namespace OpenCvSharp.Extensions
             }
             else
             {
-                int imageSize = (int)(src.DataEnd.ToInt64() - src.DataStart.ToInt64());
-                dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, imageSize, (int)src.Step());
+                long imageSize = src.DataEnd.ToInt64() - src.DataStart.ToInt64();
+                if (imageSize < 0)
+                    throw new OpenCvSharpException("The mat has invalid data pointer");
+                if (imageSize > Int32.MaxValue)
+                    throw new OpenCvSharpException("Too big mat data");
+                dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, (int)src.Step());
             }
         }
         #endregion

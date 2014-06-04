@@ -33,13 +33,13 @@ namespace OpenCvSharp.Sandbox
         {
             // OpenCV processing
             WriteableBitmap wb;
-            using (var src = new Mat("img/lenna.png", LoadMode.Color))
+            using (var src = new Mat("img/lenna511.png", LoadMode.GrayScale))
             using (var dst = new Mat(src.Size(), src.Type()))
             {
                 Cv2.GaussianBlur(src, dst, new Size(5, 5), 10);
                 //src.Threshold(dst, 0, 255, ThresholdType.Otsu);
                 // IplImage -> WriteableBitmap
-                wb = dst.ToWriteableBitmap(PixelFormats.Bgr24);
+                wb = dst.ToWriteableBitmap(PixelFormats.Gray8);
                 //wb = WriteableBitmapConverter.ToWriteableBitmap(dst, PixelFormats.BlackWhite);
             }
 
