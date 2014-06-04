@@ -25,11 +25,11 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Foo();
+            Wpf();
             Run();
         }
 
-        private static void Foo()
+        private static void Wpf()
         {
             // OpenCV processing
             WriteableBitmap wb;
@@ -47,7 +47,7 @@ namespace OpenCvSharp.Sandbox
             var image = new System.Windows.Controls.Image { Source = wb };
             var window = new System.Windows.Window
             {
-                Title = "from IplImage to WriteableBitmap",
+                Title = "from Mat to WriteableBitmap",
                 Width = wb.PixelWidth,
                 Height = wb.PixelHeight,
                 Content = image
