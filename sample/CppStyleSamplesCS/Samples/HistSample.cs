@@ -53,7 +53,7 @@ namespace CppStyleSamplesCS
             using (new Window("Image", WindowMode.AutoSize | WindowMode.FreeRatio, src))
             using (new Window("Histogram", WindowMode.AutoSize | WindowMode.FreeRatio, render))
             {
-                Cv.WaitKey();
+                Cv2.WaitKey();
             }
         }
     }
