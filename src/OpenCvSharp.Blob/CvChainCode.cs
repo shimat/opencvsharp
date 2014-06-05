@@ -1,9 +1,4 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-
+﻿
 #pragma warning disable 1591
 
 namespace OpenCvSharp.Blob

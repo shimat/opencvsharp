@@ -1,10 +1,5 @@
-/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-#ifndef _CVKNEAREST_H_
-#define _CVKNEAREST_H_
+#ifndef _CPP_ML_KNEAREST_H_
+#define _CPP_ML_KNEAREST_H_
 
 #include "include_opencv.h"
 

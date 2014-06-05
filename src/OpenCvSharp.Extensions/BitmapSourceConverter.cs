@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Interop;
+using OpenCvSharp.CPlusPlus;
 
 namespace OpenCvSharp.Extensions
 {
@@ -33,10 +32,10 @@ namespace OpenCvSharp.Extensions
         #region ToBitmapSource
 #if LANG_JP
         /// <summary>
-        /// IplImageをWriteableBitmapに変換する. 引数はWriteableBitmapのコンストラクタに相当する.
+        /// IplImageをBitmapSourceに変換する. 
         /// </summary>
         /// <param name="src">変換するIplImage</param>
-        /// <returns>WPFのWriteableBitmap</returns>
+        /// <returns>WPFのBitmapSource</returns>
 #else
         /// <summary>
         /// Converts IplImage to BitmapSource.
@@ -51,19 +50,75 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException("src");
             }
             
-            using (System.Drawing.Bitmap bitmap = BitmapConverter.ToBitmap(src))
+            using (Bitmap bitmap = BitmapConverter.ToBitmap(src))
             {
-                IntPtr hBitmap = bitmap.GetHbitmap();
+                return ToBitmapSource(bitmap);
+            }
+        }
 
+#if LANG_JP
+        /// <summary>
+        /// MatをBitmapSourceに変換する. 
+        /// </summary>
+        /// <param name="src">変換するMat</param>
+        /// <returns>WPFのBitmapSource</returns>
+#else
+        /// <summary>
+        /// Converts Mat to BitmapSource.
+        /// </summary>
+        /// <param name="src">Input Mat</param>
+        /// <returns>BitmapSource</returns>
+#endif
+        public static BitmapSource ToBitmapSource(this Mat src)
+        {
+            if (src == null)
+            {
+                throw new ArgumentNullException("src");
+            }
+
+            using (Bitmap bitmap = BitmapConverter.ToBitmap(src))
+            {
+                return ToBitmapSource(bitmap);
+            }
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// System.Drawing.BitmapをBitmapSourceに変換する. 
+        /// </summary>
+        /// <param name="src">変換するBitmap</param>
+        /// <returns>WPFのBitmapSource</returns>
+#else
+        /// <summary>
+        /// Converts System.Drawing.Bitmap to BitmapSource.
+        /// </summary>
+        /// <param name="src">Input System.Drawing.Bitmap</param>
+        /// <returns>BitmapSource</returns>
+#endif
+        public static BitmapSource ToBitmapSource(this Bitmap src)
+        {
+            if (src == null)
+            {
+                throw new ArgumentNullException("src");
+            }
+
+            IntPtr hBitmap = IntPtr.Zero;
+            try
+            {
+                hBitmap = src.GetHbitmap();
                 BitmapSource bs = Imaging.CreateBitmapSourceFromHBitmap(
                     hBitmap,
                     IntPtr.Zero,
                     Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions()
-                );
-
-                DeleteObject(hBitmap);
+                    BitmapSizeOptions.FromEmptyOptions());
                 return bs;
+            }
+            finally
+            {
+                if (hBitmap != IntPtr.Zero)
+                {
+                    DeleteObject(hBitmap);
+                }
             }
         }
         #endregion
