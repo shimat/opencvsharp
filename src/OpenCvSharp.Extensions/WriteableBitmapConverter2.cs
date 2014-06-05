@@ -142,7 +142,7 @@ namespace OpenCvSharp.Extensions
 
 #if LANG_JP
         /// <summary>
-        /// System.Windows.Media.Imaging.WriteableBitmap から IplImage へピクセルデータをコピーする
+        /// System.Windows.Media.Imaging.WriteableBitmap から Mat へピクセルデータをコピーする
         /// </summary>
         /// <param name="mat"></param>
         /// <param name="wb"></param>

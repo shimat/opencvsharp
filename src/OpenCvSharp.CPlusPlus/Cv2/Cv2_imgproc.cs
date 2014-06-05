@@ -1595,6 +1595,31 @@ namespace OpenCvSharp.CPlusPlus
             OutputArray hist, int dims, int[] histSize,
             Rangef[] ranges, bool uniform = true, bool accumulate = false)
         {
+            if (ranges == null)
+                throw new ArgumentNullException("ranges");
+            float[][] rangesFloat = EnumerableEx.SelectToArray(
+                ranges, r => new float[2] {r.Start, r.End});
+            CalcHist(images, channels, mask, hist, dims, 
+                histSize, rangesFloat, uniform, accumulate);
+        }
+
+        /// <summary>
+        /// computes the joint dense histogram for a set of images.
+        /// </summary>
+        /// <param name="images"></param>
+        /// <param name="channels"></param>
+        /// <param name="mask"></param>
+        /// <param name="hist"></param>
+        /// <param name="dims"></param>
+        /// <param name="histSize"></param>
+        /// <param name="ranges"></param>
+        /// <param name="uniform"></param>
+        /// <param name="accumulate"></param>
+        public static void CalcHist(Mat[] images,
+            int[] channels, InputArray mask,
+            OutputArray hist, int dims, int[] histSize,
+            float[][] ranges, bool uniform = true, bool accumulate = false)
+        {
             if (images == null)
                 throw new ArgumentNullException("images");
             if (channels == null)
@@ -1608,10 +1633,9 @@ namespace OpenCvSharp.CPlusPlus
             hist.ThrowIfNotReady();
 
             IntPtr[] imagesPtr = EnumerableEx.SelectPtrs(images);
-            float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, r => new float[2] {r.Start, r.End});
-            using (var rangesPtr = new ArrayAddress2<float>(rangesFloat))
+            using (var rangesPtr = new ArrayAddress2<float>(ranges))
             {
-                NativeMethods.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr, 
+                NativeMethods.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr,
                     dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0);
             }
             hist.Fix();
