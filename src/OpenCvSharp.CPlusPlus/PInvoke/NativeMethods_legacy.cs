@@ -1,9 +1,4 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -12,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus
 {
     static partial class NativeMethods
     {
-        #region legacy_CvCamShiftTracker
+        #region CvCamShiftTracker
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr legacy_CvCamShiftTracker_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

@@ -1,12 +1,4 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp;
+﻿using System;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus.Gpu
@@ -51,31 +43,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         #endregion
 
         #region Init and Disposal
-        /// <summary>
-        /// static constructor
-        /// </summary>
-        static StereoBM_GPU()
-        {
-            try
-            {
-                SizeOf = (int)NativeMethods.StereoBM_GPU_sizeof();
-            }
-            catch (DllNotFoundException e)
-            {
-                PInvokeHelper.DllImportError(e);
-                throw;
-            }
-            catch (BadImageFormatException e)
-            {
-                PInvokeHelper.DllImportError(e);
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        #region Constructor
 #if LANG_JP
         /// <summary>
         /// デフォルトのパラメータで初期化.
@@ -87,7 +54,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public StereoBM_GPU()
         {
-            ptr = NativeMethods.StereoBM_GPU_new1();
+            ptr = NativeMethods.gpu_StereoBM_GPU_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -109,12 +76,11 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public StereoBM_GPU(int preset, int ndisparities = DEFAULT_NDISP, int winSize = DEFAULT_WINSZ)
         {
-            ptr = NativeMethods.StereoBM_GPU_new2(preset, ndisparities, winSize);
+            ptr = NativeMethods.gpu_StereoBM_GPU_new2(preset, ndisparities, winSize);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
-        #endregion
-        #region Dispose
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -156,7 +122,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.StereoBM_GPU_delete(ptr);
+                        NativeMethods.gpu_StereoBM_GPU_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -166,7 +132,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                 }
             }
         }
-        #endregion
+
         #endregion
 
         #region Properties
@@ -187,7 +153,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     throw new ObjectDisposedException("StereoBM_GPU");
                 unsafe
                 {
-                    return *NativeMethods.StereoBM_GPU_preset(ptr);
+                    return *NativeMethods.gpu_StereoBM_GPU_preset(ptr);
                 }
             }
             set
@@ -196,7 +162,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     throw new ObjectDisposedException("StereoBM_GPU");
                 unsafe
                 {
-                    *NativeMethods.StereoBM_GPU_preset(ptr) = value;
+                    *NativeMethods.gpu_StereoBM_GPU_preset(ptr) = value;
                 }
             }
         }
@@ -217,7 +183,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     throw new ObjectDisposedException("StereoBM_GPU");
                 unsafe
                 {
-                    return *NativeMethods.StereoBM_GPU_ndisp(ptr);
+                    return *NativeMethods.gpu_StereoBM_GPU_ndisp(ptr);
                 }
             }
             set
@@ -226,7 +192,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     throw new ObjectDisposedException("StereoBM_GPU");
                 unsafe
                 {
-                    *NativeMethods.StereoBM_GPU_ndisp(ptr) = value;
+                    *NativeMethods.gpu_StereoBM_GPU_ndisp(ptr) = value;
                 }
             }
         }
@@ -247,7 +213,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     throw new ObjectDisposedException("StereoBM_GPU");
                 unsafe
                 {
-                    return *NativeMethods.StereoBM_GPU_winSize(ptr);
+                    return *NativeMethods.gpu_StereoBM_GPU_winSize(ptr);
                 }
             }
             set
@@ -256,7 +222,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     throw new ObjectDisposedException("StereoBM_GPU");
                 unsafe
                 {
-                    *NativeMethods.StereoBM_GPU_winSize(ptr) = value;
+                    *NativeMethods.gpu_StereoBM_GPU_winSize(ptr) = value;
                 }
             }
         }
@@ -277,7 +243,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     throw new ObjectDisposedException("StereoBM_GPU");
                 unsafe
                 {
-                    return *NativeMethods.StereoBM_GPU_avergeTexThreshold(ptr);
+                    return *NativeMethods.gpu_StereoBM_GPU_avergeTexThreshold(ptr);
                 }
             }
             set
@@ -286,7 +252,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     throw new ObjectDisposedException("StereoBM_GPU");
                 unsafe
                 {
-                    *NativeMethods.StereoBM_GPU_avergeTexThreshold(ptr) = value;
+                    *NativeMethods.gpu_StereoBM_GPU_avergeTexThreshold(ptr) = value;
                 }
             }
         }
@@ -299,7 +265,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <returns></returns>
         public static bool CheckIfGpuCallReasonable()
         {
-            return NativeMethods.StereoBM_GPU_checkIfGpuCallReasonable() != 0;
+            return NativeMethods.gpu_StereoBM_GPU_checkIfGpuCallReasonable() != 0;
         }
 
 #if LANG_JP
@@ -328,7 +294,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             if (disparity == null)
                 throw new ArgumentNullException("disparity");
 
-            NativeMethods.StereoBM_GPU_run1(ptr, left.CvPtr, right.CvPtr, disparity.CvPtr);
+            NativeMethods.gpu_StereoBM_GPU_run1(ptr, left.CvPtr, right.CvPtr, disparity.CvPtr);
         }
         #endregion
     }

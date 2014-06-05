@@ -323,6 +323,7 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
 
+        /*
         /// <summary>
         /// Creates algorithm instance by name
         /// </summary>
@@ -342,6 +343,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException("Algorithm type [" + t.Name + "] not supported");
             return (T)mi.Invoke(null, new object[] {name});
         }
+        */
 
         /// <summary>
         /// Algorithm information

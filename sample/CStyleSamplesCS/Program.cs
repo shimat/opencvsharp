@@ -35,8 +35,7 @@ namespace CStyleSamplesCS
 
             //new BinarizationMethods();         // Various Binarization Methods
 
-            //new BlobOld();                        // cvblob test (original C++ implementation)
-            //new Blob();                           // cvblob test (C# implementation)
+            new Blob();                        // cvblob test (C# implementation)
 
             //new BoundingRect();                // 点列を包含する矩形
             

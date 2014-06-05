@@ -105,7 +105,7 @@ namespace OpenCvSharp.CPlusPlus
             if (descriptors == null)
                 throw new ArgumentNullException("descriptors");
 
-            using (VectorOfKeyPoint keypointsVec = new VectorOfKeyPoint(keypoints))
+            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {
                 NativeMethods.features2d_DescriptorExtractor_compute1(
                     ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
@@ -175,6 +175,7 @@ namespace OpenCvSharp.CPlusPlus
             throw new NotImplementedException();
         }
 
+        /*
         /// <summary>
         /// Create feature detector by detector name.
         /// </summary>
@@ -199,5 +200,6 @@ namespace OpenCvSharp.CPlusPlus
                     "DescriptorExtractor name '{0}' is not valid.", descriptorExtractorType);
             }
         }
+        */
     }
 }

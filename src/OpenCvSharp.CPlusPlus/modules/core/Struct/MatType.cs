@@ -10,7 +10,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// Matrix data type (depth and number of channels)
     /// </summary>
-    public struct MatType
+    public struct MatType : IEquatable<MatType>, IEquatable<int>
     {
         /// <summary>
         /// 
@@ -64,6 +64,45 @@ namespace OpenCvSharp.CPlusPlus
         public int Channels
         {
             get { return (Value >> CV_CN_SHIFT) + 1; }
+        }
+
+        public bool Equals(MatType other)
+        {
+            return Value == other.Value;
+        }
+        public bool Equals(int other)
+        {
+            return Value == other;
+        }
+        public override bool Equals(object other)
+        {
+            if (other == null)
+                return false;
+            if (other.GetType() != typeof (MatType))
+                return false;
+            return Equals((MatType)other);
+        }
+
+        public static bool operator ==(MatType self, MatType other)
+        {
+            return self.Equals(other);
+        }
+        public static bool operator !=(MatType self, MatType other)
+        {
+            return !self.Equals(other);
+        }
+        public static bool operator ==(MatType self, int other)
+        {
+            return self.Equals(other);
+        }
+        public static bool operator !=(MatType self, int other)
+        {
+            return !self.Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
         }
 
         /// <summary>

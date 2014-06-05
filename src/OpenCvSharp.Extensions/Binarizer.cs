@@ -1,13 +1,4 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-//using System.Threading.Tasks;
+﻿using System;
 
 namespace OpenCvSharp.Extensions
 {
@@ -34,22 +25,22 @@ namespace OpenCvSharp.Extensions
         /// <summary>
         /// Binarizes by Niblack's method
         /// </summary>
-        /// <param name="imgSrc">Input image</param>
-        /// <param name="imgDst">Output image</param>
+        /// <param name="src">Input image</param>
+        /// <param name="dst">Output image</param>
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
 #endif
-        public static void Niblack(IplImage imgSrc, IplImage imgDst, int kernelSize, double k)
+        public static void Niblack(IplImage src, IplImage dst, int kernelSize, double k)
         {
-            if (imgSrc == null)
+            if (src == null)
                 throw new ArgumentNullException("src");
-            if (imgDst == null)
+            if (dst == null)
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (imgSrc.NChannels != 1)
+            if (src.NChannels != 1)
                 throw new ArgumentException("src must be gray scale image");
-            if (imgDst.NChannels != 1)
+            if (dst.NChannels != 1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -58,25 +49,25 @@ namespace OpenCvSharp.Extensions
             if (kernelSize % 2 == 0)
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
-            CvRect roi = imgSrc.ROI;
+            CvRect roi = src.ROI;
             int width = roi.Width;
             int height = roi.Height;
-            if (width != imgDst.Width || height != imgDst.Height)
+            if (width != dst.Width || height != dst.Height)
                 throw new ArgumentException("src.Size == dst.Size");
 
             unsafe
             {
-                byte* pSrc = imgSrc.ImageDataPtr;
-                byte* pDst = imgDst.ImageDataPtr;
-                int stepSrc = imgSrc.WidthStep;
-                int stepDst = imgDst.WidthStep;
+                byte* pSrc = src.ImageDataPtr;
+                byte* pDst = dst.ImageDataPtr;
+                int stepSrc = src.WidthStep;
+                int stepDst = dst.WidthStep;
                 //for (int y = 0; y < gray.Height; y++)
                 MyParallel.For(0, height, delegate(int y)
                 {
                     for (int x = 0; x < width; x++)
                     {
                         double m, s;
-                        MeanStddev(imgSrc, x + roi.X, y + roi.Y, kernelSize, out m, out s);
+                        MeanStddev(src, x + roi.X, y + roi.Y, kernelSize, out m, out s);
                         double threshold = m + k * s;
                         int offsetSrc = stepSrc * (y + roi.Y) + (x + roi.X);
                         int offsetDst = stepDst * y + x;
@@ -102,22 +93,22 @@ namespace OpenCvSharp.Extensions
         /// <summary>
         /// Binarizes by Niblack's method (This is faster but memory-hogging)
         /// </summary>
-        /// <param name="imgSrc">Input image</param>
-        /// <param name="imgDst">Output image</param>
+        /// <param name="src">Input image</param>
+        /// <param name="dst">Output image</param>
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
 #endif
-        public static void NiblackFast(IplImage imgSrc, IplImage imgDst, int kernelSize, double k)
+        public static void NiblackFast(IplImage src, IplImage dst, int kernelSize, double k)
         {
-            if (imgSrc == null)
+            if (src == null)
                 throw new ArgumentNullException("src");
-            if (imgDst == null)
+            if (dst == null)
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (imgSrc.NChannels != 1)
+            if (src.NChannels != 1)
                 throw new ArgumentException("src must be gray scale image");
-            if (imgDst.NChannels != 1)
+            if (dst.NChannels != 1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -127,27 +118,27 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
             int borderSize = kernelSize / 2;
-            CvRect roi = imgSrc.ROI;
+            CvRect roi = src.ROI;
             int width = roi.Width;
             int height = roi.Height;
-            if (width != imgDst.Width || height != imgDst.Height)
+            if (width != dst.Width || height != dst.Height)
                 throw new ArgumentException("src.Size == dst.Size");
 
-            using (IplImage imgTemp = new IplImage(width + (borderSize * 2), height + (borderSize * 2), imgSrc.Depth, imgSrc.NChannels))
+            using (IplImage imgTemp = new IplImage(width + (borderSize * 2), height + (borderSize * 2), src.Depth, src.NChannels))
             using (IplImage imgSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
             using (IplImage imgSqSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
             {
-                Cv.CopyMakeBorder(imgSrc, imgTemp, new CvPoint(borderSize, borderSize), BorderType.Replicate, CvScalar.ScalarAll(0));
+                Cv.CopyMakeBorder(src, imgTemp, new CvPoint(borderSize, borderSize), BorderType.Replicate, CvScalar.ScalarAll(0));
                 Cv.Integral(imgTemp, imgSum, imgSqSum);
 
                 unsafe
                 {
-                    byte* pSrc = imgSrc.ImageDataPtr;
-                    byte* pDst = imgDst.ImageDataPtr;
+                    byte* pSrc = src.ImageDataPtr;
+                    byte* pDst = dst.ImageDataPtr;
                     double* pSum = (double*)imgSum.ImageDataPtr;
                     double* pSqSum = (double*)imgSqSum.ImageDataPtr;
-                    int stepSrc = imgSrc.WidthStep;
-                    int stepDst = imgDst.WidthStep;
+                    int stepSrc = src.WidthStep;
+                    int stepDst = dst.WidthStep;
                     int stepSum = imgSum.WidthStep / sizeof(double);
                     int ylim = height + borderSize;
                     int xlim = width + borderSize;
@@ -195,23 +186,23 @@ namespace OpenCvSharp.Extensions
         /// <summary>
         /// Binarizes by Sauvola's method
         /// </summary>
-        /// <param name="imgSrc">Input image</param>
-        /// <param name="imgDst">Output image</param>
+        /// <param name="src">Input image</param>
+        /// <param name="dst">Output image</param>
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
         /// <param name="r">Adequate coefficient</param>
 #endif
-        public static void Sauvola(IplImage imgSrc, IplImage imgDst, int kernelSize, double k, double r)
+        public static void Sauvola(IplImage src, IplImage dst, int kernelSize, double k, double r)
         {
-            if (imgSrc == null)
+            if (src == null)
                 throw new ArgumentNullException("src");
-            if (imgDst == null)
+            if (dst == null)
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (imgSrc.NChannels != 1)
+            if (src.NChannels != 1)
                 throw new ArgumentException("src must be gray scale image");
-            if (imgDst.NChannels != 1)
+            if (dst.NChannels != 1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -220,26 +211,26 @@ namespace OpenCvSharp.Extensions
             if (kernelSize % 2 == 0)
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
-            CvRect roi = imgSrc.ROI;
+            CvRect roi = src.ROI;
             int width = roi.Width;
             int height = roi.Height;
 
-            if (width != imgDst.Width || height != imgDst.Height)
+            if (width != dst.Width || height != dst.Height)
                 throw new ArgumentException("src.Size == dst.Size");
 
             unsafe
             {
-                byte* pSrc = imgSrc.ImageDataPtr;
-                byte* pDst = imgDst.ImageDataPtr;
-                int stepSrc = imgSrc.WidthStep;
-                int stepDst = imgDst.WidthStep;
+                byte* pSrc = src.ImageDataPtr;
+                byte* pDst = dst.ImageDataPtr;
+                int stepSrc = src.WidthStep;
+                int stepDst = dst.WidthStep;
                 //for (int y = 0; y < height; y++)
                 MyParallel.For(0, height, delegate(int y)
                 {
                     for (int x = 0; x < width; x++)
                     {
                         double m, s;
-                        MeanStddev(imgSrc, x + roi.X, y + roi.Y, kernelSize, out m, out s);
+                        MeanStddev(src, x + roi.X, y + roi.Y, kernelSize, out m, out s);
                         double threshold = m * (1 + k * (s / r - 1));
 
                         int offsetSrc = stepSrc * (y + roi.Y) + (x + roi.X);
@@ -269,23 +260,23 @@ namespace OpenCvSharp.Extensions
         /// <summary>
         /// Binarizes by Sauvola's method (This is faster but memory-hogging)
         /// </summary>
-        /// <param name="imgSrc">Input image</param>
-        /// <param name="imgDst">Output image</param>
+        /// <param name="src">Input image</param>
+        /// <param name="dst">Output image</param>
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
         /// <param name="r">Adequate coefficient</param>
 #endif
-        public static void SauvolaFast(IplImage imgSrc, IplImage imgDst, int kernelSize, double k, double r)
+        public static void SauvolaFast(IplImage src, IplImage dst, int kernelSize, double k, double r)
         {
-            if (imgSrc == null)
+            if (src == null)
                 throw new ArgumentNullException("src");
-            if (imgDst == null)
+            if (dst == null)
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (imgSrc.NChannels != 1)
+            if (src.NChannels != 1)
                 throw new ArgumentException("src must be gray scale image");
-            if (imgDst.NChannels != 1)
+            if (dst.NChannels != 1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -297,28 +288,28 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentOutOfRangeException("r", "r == 0");
 
             int borderSize = kernelSize / 2;
-            CvRect roi = imgSrc.ROI;
+            CvRect roi = src.ROI;
             int width = roi.Width;
             int height = roi.Height;
-            if (width != imgDst.Width || height != imgDst.Height)
+            if (width != dst.Width || height != dst.Height)
                 throw new ArgumentException("src.Size == dst.Size");
 
-            using (IplImage imgTemp = new IplImage(width + (borderSize * 2), height + (borderSize * 2), imgSrc.Depth, imgSrc.NChannels))
+            using (IplImage imgTemp = new IplImage(width + (borderSize * 2), height + (borderSize * 2), src.Depth, src.NChannels))
             using (IplImage imgSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
             using (IplImage imgSqSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
             {
-                Cv.CopyMakeBorder(imgSrc, imgTemp, new CvPoint(borderSize, borderSize), BorderType.Replicate, CvScalar.ScalarAll(0));
+                Cv.CopyMakeBorder(src, imgTemp, new CvPoint(borderSize, borderSize), BorderType.Replicate, CvScalar.ScalarAll(0));
                 Cv.Integral(imgTemp, imgSum, imgSqSum);
 
                 unsafe
                 {
-                    byte* pSrc = imgSrc.ImageDataPtr;
-                    byte* pDst = imgDst.ImageDataPtr;
-                    byte* pTemp = imgTemp.ImageDataPtr;
+                    byte* pSrc = src.ImageDataPtr;
+                    byte* pDst = dst.ImageDataPtr;
+                    //byte* pTemp = imgTemp.ImageDataPtr;
                     double* pSum = (double*)imgSum.ImageDataPtr;
                     double* pSqSum = (double*)imgSqSum.ImageDataPtr;
-                    int stepSrc = imgSrc.WidthStep;
-                    int stepDst = imgDst.WidthStep;
+                    int stepSrc = src.WidthStep;
+                    int stepDst = dst.WidthStep;
                     int stepSum = imgSum.WidthStep / sizeof(double);
                     int ylim = height + borderSize;
                     int xlim = width + borderSize;
@@ -365,23 +356,23 @@ namespace OpenCvSharp.Extensions
         /// <summary>
         /// Binarizes by Bernsen's method
         /// </summary>
-        /// <param name="imgSrc">Input image</param>
-        /// <param name="imgDst">Output image</param>
+        /// <param name="src">Input image</param>
+        /// <param name="dst">Output image</param>
         /// <param name="kernelSize">Window size</param>
         /// <param name="constrastMin">Adequate coefficient</param>
         /// <param name="bgThreshold">Adequate coefficient</param>
 #endif
-        public static void Bernsen(IplImage imgSrc, IplImage imgDst, int kernelSize, byte constrastMin, byte bgThreshold)
+        public static void Bernsen(IplImage src, IplImage dst, int kernelSize, byte constrastMin, byte bgThreshold)
         {
-            if (imgSrc == null)
+            if (src == null)
                 throw new ArgumentNullException("src");
-            if (imgDst == null)
+            if (dst == null)
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (imgSrc.NChannels != 1)
+            if (src.NChannels != 1)
                 throw new ArgumentException("src must be gray scale image");
-            if (imgDst.NChannels != 1)
+            if (dst.NChannels != 1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -390,24 +381,24 @@ namespace OpenCvSharp.Extensions
             if (kernelSize % 2 == 0)
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
-            CvRect roi = imgSrc.ROI;
+            CvRect roi = src.ROI;
             int width = roi.Width;
             int height = roi.Height;
-            if (width != imgDst.Width || height != imgDst.Height)
+            if (width != dst.Width || height != dst.Height)
                 throw new ArgumentException("src.Size == dst.Size");
 
             unsafe
             {
-                byte* pSrc = imgSrc.ImageDataPtr;
-                byte* pDst = imgDst.ImageDataPtr;
-                int widthStep = imgDst.WidthStep;
+                byte* pSrc = src.ImageDataPtr;
+                byte* pDst = dst.ImageDataPtr;
+                int widthStep = dst.WidthStep;
 
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
                     {
                         byte min, max;
-                        MinMax(imgSrc, x + roi.X, y + roi.Y, kernelSize, out min, out max);
+                        MinMax(src, x + roi.X, y + roi.Y, kernelSize, out min, out max);
                         int contrast = max - min;
                         byte threshold;
                         if (contrast < constrastMin)

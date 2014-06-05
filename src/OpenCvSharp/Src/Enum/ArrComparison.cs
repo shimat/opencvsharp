@@ -1,12 +1,4 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace OpenCvSharp
 {
 #if LANG_JP

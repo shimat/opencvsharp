@@ -1,9 +1,5 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
@@ -881,6 +877,66 @@ namespace OpenCvSharp
             center = new CvPoint2D32f();
             radius = default(float);
             return NativeMethods.cvMinEnclosingCircle(points.CvPtr, ref center, ref radius);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 与えられた2次元の点列を囲む最小円を求める
+        /// </summary>
+        /// <param name="points">2次元の点のシーケンスまたは配列．</param>
+        /// <param name="center">出力パラメータ．囲む円の中心．</param>
+        /// <param name="radius">出力パラメータ．囲む円の半径．</param>
+        /// <returns>結果の円が全ての入力点を含む場合はtrueを返し， それ以外（すなわちアルゴリズムの失敗）の場合はfalseを返す．</returns>
+#else
+        /// <summary>
+        /// Finds circumscribed rectangle of minimal area for given 2D point set
+        /// </summary>
+        /// <param name="points">Sequence or array of 2D points. </param>
+        /// <param name="center">Output parameter. The center of the enclosing circle. </param>
+        /// <param name="radius">Output parameter. The radius of the enclosing circle. </param>
+        /// <returns>The function cvMinEnclosingCircle finds the minimal circumscribed circle for 2D point set using iterative algorithm. 
+        /// It returns true if the resultant circle contains all the input points and false otherwise (i.e. algorithm failed). </returns> 
+#endif
+        public static bool MinEnclosingCircle(IEnumerable<CvPoint> points, out CvPoint2D32f center, out float radius)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+
+            CvPoint[] pointsArray = ToArray(points);
+            using (var pointsMat = new CvMat(pointsArray.Length, 1, MatrixType.S32C2, pointsArray))
+            {
+                return MinEnclosingCircle(pointsMat, out center, out radius);
+            }
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 与えられた2次元の点列を囲む最小円を求める
+        /// </summary>
+        /// <param name="points">2次元の点のシーケンスまたは配列．</param>
+        /// <param name="center">出力パラメータ．囲む円の中心．</param>
+        /// <param name="radius">出力パラメータ．囲む円の半径．</param>
+        /// <returns>結果の円が全ての入力点を含む場合はtrueを返し， それ以外（すなわちアルゴリズムの失敗）の場合はfalseを返す．</returns>
+#else
+        /// <summary>
+        /// Finds circumscribed rectangle of minimal area for given 2D point set
+        /// </summary>
+        /// <param name="points">Sequence or array of 2D points. </param>
+        /// <param name="center">Output parameter. The center of the enclosing circle. </param>
+        /// <param name="radius">Output parameter. The radius of the enclosing circle. </param>
+        /// <returns>The function cvMinEnclosingCircle finds the minimal circumscribed circle for 2D point set using iterative algorithm. 
+        /// It returns true if the resultant circle contains all the input points and false otherwise (i.e. algorithm failed). </returns> 
+#endif
+        public static bool MinEnclosingCircle(IEnumerable<CvPoint2D32f> points, out CvPoint2D32f center, out float radius)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+
+            CvPoint2D32f[] pointsArray = ToArray(points);
+            using (var pointsMat = new CvMat(pointsArray.Length, 1, MatrixType.F32C2, pointsArray))
+            {
+                return MinEnclosingCircle(pointsMat, out center, out radius);
+            }
         }
         #endregion
         #region MinS

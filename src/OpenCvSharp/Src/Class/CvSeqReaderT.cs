@@ -1,14 +1,5 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
 {

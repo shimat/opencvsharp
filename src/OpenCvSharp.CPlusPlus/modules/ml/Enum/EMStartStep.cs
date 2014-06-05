@@ -1,8 +1,4 @@
-﻿/*
- * (C) 2008-2014 shimat
- * This code is licenced under the LGPL.
- */
-
+﻿
 namespace OpenCvSharp.CPlusPlus
 {
     // ReSharper disable InconsistentNaming
