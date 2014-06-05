@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus
 {
     static partial class NativeMethods
     {
-        #region legacy_CvCamShiftTracker
+        #region CvCamShiftTracker
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr legacy_CvCamShiftTracker_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
