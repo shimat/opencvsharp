@@ -5,9 +5,15 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
+#if LANG_JP
     /// <summary>
-    /// 
+    /// 2次元画像特徴検出器の基底クラス
     /// </summary>
+#else
+    /// <summary>
+    /// Abstract base class for 2D image feature detectors.
+    /// </summary>
+#endif
     public class FeatureDetector : Algorithm
     {
         private bool disposed;
@@ -123,7 +129,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(image == null)
                 throw new ArgumentNullException("image");
-            using (VectorOfKeyPoint keypoints = new VectorOfKeyPoint())
+            using (var keypoints = new VectorOfKeyPoint())
             {
                 NativeMethods.features2d_FeatureDetector_detect(ptr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask));
                 return keypoints.ToArray();
@@ -146,21 +152,20 @@ namespace OpenCvSharp.CPlusPlus
             for (int i = 0; i < imagesArray.Length; i++)
                 imagesPtr[i] = imagesArray[i].CvPtr;
 
-            using (VectorOfVectorKeyPoint keypoints = new VectorOfVectorKeyPoint())
+            using (var keypoints = new VectorOfVectorKeyPoint())
             {
                 if (masks == null)
                 {
-                    NativeMethods.features2d_FeatureDetector_detect(ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, null);
+                    NativeMethods.features2d_FeatureDetector_detect(
+                        ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, null);
                 }
                 else
                 {
-                    Mat[] masksArray = Util.ToArray(masks);
-                    if(masksArray.Length != imagesArray.Length)
+                    IntPtr[] masksPtr = EnumerableEx.SelectPtrs(masks);
+                    if (masksPtr.Length != imagesArray.Length)
                         throw new ArgumentException("masks.Length != images.Length");
-                    IntPtr[] masksPtr = new IntPtr[masksArray.Length];
-                    for (int i = 0; i < masksArray.Length; i++)
-                        masksPtr[i] = masksArray[i].CvPtr;
-                    NativeMethods.features2d_FeatureDetector_detect(ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, masksPtr);
+                    NativeMethods.features2d_FeatureDetector_detect(
+                        ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, masksPtr);
                 }
                 return keypoints.ToArray();
             }
