@@ -11,14 +11,14 @@ namespace OpenCvSharp.DebuggerVisualizers
     /// <summary>
     /// IplImageを表示するビューア
     /// </summary>
-    public partial class IplImageViewer : Form
+    public partial class ImageViewer : Form
     {
-        private Bitmap _bitmap;
+        private readonly Bitmap bitmap;
 
         /// <summary>
         /// 
         /// </summary>
-        public IplImageViewer()
+        public ImageViewer()
         {
             InitializeComponent();
         }
@@ -27,10 +27,19 @@ namespace OpenCvSharp.DebuggerVisualizers
         /// 
         /// </summary>
         /// <param name="proxy"></param>
-        public IplImageViewer(IplImageProxy proxy)
+        public ImageViewer(IplImageProxy proxy)
             : this()
         {
-            _bitmap = proxy.Bitmap;
+            bitmap = proxy.CreateBitmap();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="proxy"></param>
+        public ImageViewer(MatProxy proxy)
+            : this()
+        {
+            bitmap = proxy.CreateBitmap();
         }
 
         /// <summary>
@@ -41,8 +50,8 @@ namespace OpenCvSharp.DebuggerVisualizers
         {
             base.OnLoad(e);
 
-            SetClientSize(new Size(_bitmap.Width, _bitmap.Height));            
-            pictureBox.Image = _bitmap;
+            SetClientSize(new Size(bitmap.Width, bitmap.Height));            
+            pictureBox.Image = bitmap;
         }
 
         /// <summary>

@@ -6,11 +6,11 @@ using System.Diagnostics;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("OpenCvSharp.DebuggerVisualizers")]
+[assembly: AssemblyTitle("OpenCvSharp.DebuggerVisualizers2012")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("OpenCvSharp.DebuggerVisualizers")]
+[assembly: AssemblyProduct("OpenCvSharp.DebuggerVisualizers2012")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -52,4 +52,12 @@ using System.Diagnostics;
     Target = typeof(OpenCvSharp.CvMat),
     Description = "CvMat View Visualizer"
 )]
+
+[assembly: DebuggerVisualizer(
+    typeof(OpenCvSharp.DebuggerVisualizers.MatDebuggerVisualizer),
+    typeof(OpenCvSharp.DebuggerVisualizers.MatObjectSource),
+    Target = typeof(OpenCvSharp.CPlusPlus.Mat),
+    Description = "Mat View Visualizer"
+)]
+
 
