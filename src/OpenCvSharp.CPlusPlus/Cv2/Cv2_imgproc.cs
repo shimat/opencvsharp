@@ -1052,15 +1052,16 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region GetRectSubPix
         /// <summary>
-        /// 
+        /// Retrieves a pixel rectangle from an image with sub-pixel accuracy.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="patchSize"></param>
-        /// <param name="center"></param>
-        /// <param name="patch"></param>
-        /// <param name="patchType"></param>
-        public static void GetRectSubPix(InputArray image, Size patchSize, Point2f center, OutputArray patch,
-            int patchType = -1)
+        /// <param name="image">Source image.</param>
+        /// <param name="patchSize">Size of the extracted patch.</param>
+        /// <param name="center">Floating point coordinates of the center of the extracted rectangle 
+        /// within the source image. The center must be inside the image.</param>
+        /// <param name="patch">Extracted patch that has the size patchSize and the same number of channels as src .</param>
+        /// <param name="patchType">Depth of the extracted pixels. By default, they have the same depth as src.</param>
+        public static void GetRectSubPix(InputArray image, Size patchSize, Point2f center, 
+            OutputArray patch, int patchType = -1)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -1142,11 +1143,11 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Accumulate*
         /// <summary>
-        /// 
+        /// Adds an image to the accumulator.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
+        /// <param name="src">Input image as 1- or 3-channel, 8-bit or 32-bit floating point.</param>
+        /// <param name="dst">Accumulator image with the same number of channels as input image, 32-bit or 64-bit floating-point.</param>
+        /// <param name="mask">Optional operation mask.</param>
         public static void Accumulate(InputArray src, InputOutputArray dst, InputArray mask)
         {
             if (src == null)
@@ -1159,11 +1160,11 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         /// <summary>
-        /// 
+        /// Adds the square of a source image to the accumulator.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
+        /// <param name="src">Input image as 1- or 3-channel, 8-bit or 32-bit floating point.</param>
+        /// <param name="dst">Accumulator image with the same number of channels as input image, 32-bit or 64-bit floating-point.</param>
+        /// <param name="mask">Optional operation mask.</param>
         public static void AccumulateSquare(InputArray src, InputOutputArray dst, InputArray mask)
         {
             if (src == null)
@@ -1176,12 +1177,12 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         /// <summary>
-        /// 
+        /// Adds the per-element product of two input images to the accumulator.
         /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
+        /// <param name="src1">First input image, 1- or 3-channel, 8-bit or 32-bit floating point.</param>
+        /// <param name="src2">Second input image of the same type and the same size as src1</param>
+        /// <param name="dst">Accumulator with the same number of channels as input images, 32-bit or 64-bit floating-point.</param>
+        /// <param name="mask">Optional operation mask.</param>
         public static void AccumulateProduct(InputArray src1, InputArray src2, InputOutputArray dst, InputArray mask)
         {
             if (src1 == null)
@@ -1197,12 +1198,12 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         /// <summary>
-        /// 
+        /// Updates a running average.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="alpha"></param>
-        /// <param name="mask"></param>
+        /// <param name="src">Input image as 1- or 3-channel, 8-bit or 32-bit floating point.</param>
+        /// <param name="dst">Accumulator image with the same number of channels as input image, 32-bit or 64-bit floating-point.</param>
+        /// <param name="alpha">Weight of the input image.</param>
+        /// <param name="mask">Optional operation mask.</param>
         public static void AccumulateWeighted(InputArray src, InputOutputArray dst, double alpha, InputArray mask)
         {
             if (src == null)
@@ -1292,12 +1293,12 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region CreateHanningWindow
         /// <summary>
-        /// 
+        /// Computes a Hanning window coefficients in two dimensions.
         /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="winSize"></param>
-        /// <param name="type"></param>
-        public static void CreateHanningWindow(InputOutputArray dst, Size winSize, int type)
+        /// <param name="dst">Destination array to place Hann coefficients in</param>
+        /// <param name="winSize">The window size specifications</param>
+        /// <param name="type">Created array type</param>
+        public static void CreateHanningWindow(InputOutputArray dst, Size winSize, MatType type)
         {
             if (dst == null)
                 throw new ArgumentNullException("dst");
@@ -1315,7 +1316,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="thresh">threshold value.</param>
         /// <param name="maxval">maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types.</param>
         /// <param name="type">thresholding type (see the details below).</param>
-        /// <returns></returns>
+        /// <returns>the computed threshold value when type == OTSU</returns>
         public static double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdType type)
         {
             if (src == null)
@@ -1331,15 +1332,16 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region AdaptiveThreshold
         /// <summary>
-        /// 
+        /// Applies an adaptive threshold to an array.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="maxValue"></param>
-        /// <param name="adaptiveMethod"></param>
-        /// <param name="thresholdType"></param>
-        /// <param name="blockSize"></param>
-        /// <param name="c"></param>
+        /// <param name="src">Source 8-bit single-channel image.</param>
+        /// <param name="dst">Destination image of the same size and the same type as src .</param>
+        /// <param name="maxValue">Non-zero value assigned to the pixels for which the condition is satisfied. See the details below.</param>
+        /// <param name="adaptiveMethod">Adaptive thresholding algorithm to use, ADAPTIVE_THRESH_MEAN_C or ADAPTIVE_THRESH_GAUSSIAN_C .</param>
+        /// <param name="thresholdType">Thresholding type that must be either THRESH_BINARY or THRESH_BINARY_INV .</param>
+        /// <param name="blockSize">Size of a pixel neighborhood that is used to calculate a threshold value for the pixel: 3, 5, 7, and so on.</param>
+        /// <param name="c">Constant subtracted from the mean or weighted mean (see the details below). 
+        /// Normally, it is positive but may be zero or negative as well.</param>
         public static void AdaptiveThreshold(InputArray src, OutputArray dst,
             double maxValue, AdaptiveThresholdType adaptiveMethod, ThresholdType thresholdType, int blockSize, double c)
         {
@@ -1355,11 +1357,11 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region PyrDown/Up
         /// <summary>
-        /// smooths and downsamples the image
+        /// Blurs an image and downsamples it.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="dstSize"></param>
+        /// <param name="src">input image.</param>
+        /// <param name="dst">output image; it has the specified size and the same type as src.</param>
+        /// <param name="dstSize">size of the output image; by default, it is computed as Size((src.cols+1)/2</param>
         /// <param name="borderType"></param>
         public static void PyrDown(InputArray src, OutputArray dst,
             Size? dstSize = null, BorderType borderType = BorderType.Default)
@@ -1375,11 +1377,11 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         /// <summary>
-        /// upsamples and smoothes the image
+        /// Upsamples an image and then blurs it.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="dstSize"></param>
+        /// <param name="src">input image.</param>
+        /// <param name="dst">output image. It has the specified size and the same type as src.</param>
+        /// <param name="dstSize">size of the output image; by default, it is computed as Size(src.cols*2, (src.rows*2)</param>
         /// <param name="borderType"></param>
         public static void PyrUp(InputArray src, OutputArray dst,
             Size? dstSize = null, BorderType borderType = BorderType.Default)
@@ -1399,11 +1401,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// corrects lens distortion for the given camera matrix and distortion coefficients
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="cameraMatrix"></param>
-        /// <param name="distCoeffs"></param>
-        /// <param name="newCameraMatrix"></param>
+        /// <param name="src">Input (distorted) image.</param>
+        /// <param name="dst">Output (corrected) image that has the same size and type as src .</param>
+        /// <param name="cameraMatrix"> Input camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, 
+        /// or 8 elements. If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="newCameraMatrix">Camera matrix of the distorted image. 
+        /// By default, it is the same as cameraMatrix but you may additionally scale 
+        /// and shift the result by using a different matrix.</param>
         public static void Undistort(InputArray src, OutputArray dst,
             InputArray cameraMatrix,
             InputArray distCoeffs,
@@ -1415,13 +1420,11 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             if (cameraMatrix == null)
                 throw new ArgumentNullException("cameraMatrix");
-            if (distCoeffs == null)
-                throw new ArgumentNullException("distCoeffs");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             cameraMatrix.ThrowIfDisposed();
-            distCoeffs.ThrowIfDisposed();
-            NativeMethods.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(newCameraMatrix));
+            NativeMethods.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
+                ToPtr(distCoeffs), ToPtr(newCameraMatrix));
             dst.Fix();
         }
         #endregion
@@ -1506,10 +1509,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// returns the default new camera matrix (by default it is the same as cameraMatrix unless centerPricipalPoint=true)
         /// </summary>
-        /// <param name="cameraMatrix"></param>
-        /// <param name="imgSize"></param>
-        /// <param name="centerPrincipalPoint"></param>
-        /// <returns></returns>
+        /// <param name="cameraMatrix">Input camera matrix.</param>
+        /// <param name="imgSize">Camera view image size in pixels.</param>
+        /// <param name="centerPrincipalPoint">Location of the principal point in the new camera matrix. 
+        /// The parameter indicates whether this location should be at the image center or not.</param>
+        /// <returns>the camera matrix that is either an exact copy of the input cameraMatrix 
+        /// (when centerPrinicipalPoint=false), or the modified one (when centerPrincipalPoint=true).</returns>
         public static Mat GetDefaultNewCameraMatrix(InputArray cameraMatrix,
             Size? imgSize = null, bool centerPrincipalPoint = false)
         {
@@ -1523,14 +1528,20 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region UndistortPoints
         /// <summary>
-        /// returns points' coordinates after lens distortion correction
+        /// Computes the ideal point coordinates from the observed point coordinates.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="cameraMatrix"></param>
-        /// <param name="distCoeffs"></param>
-        /// <param name="r"></param>
-        /// <param name="p"></param>
+        /// <param name="src">Observed point coordinates, 1xN or Nx1 2-channel (CV_32FC2 or CV_64FC2).</param>
+        /// <param name="dst">Output ideal point coordinates after undistortion and reverse perspective transformation. 
+        /// If matrix P is identity or omitted, dst will contain normalized point coordinates.</param>
+        /// <param name="cameraMatrix">Camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="r">Rectification transformation in the object space (3x3 matrix). 
+        /// R1 or R2 computed by stereoRectify() can be passed here. 
+        /// If the matrix is empty, the identity transformation is used.</param>
+        /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4). 
+        /// P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, 
+        /// the identity new camera matrix is used.</param>
         public static void UndistortPoints(InputArray src, OutputArray dst,
             InputArray cameraMatrix, InputArray distCoeffs,
             InputArray r = null, InputArray p = null)
@@ -1541,13 +1552,11 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             if (cameraMatrix == null)
                 throw new ArgumentNullException("cameraMatrix");
-            if (distCoeffs == null)
-                throw new ArgumentNullException("distCoeffs");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             cameraMatrix.ThrowIfDisposed();
-            distCoeffs.ThrowIfDisposed();
-            NativeMethods.imgproc_undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(r), ToPtr(p));
+            NativeMethods.imgproc_undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, 
+                ToPtr(distCoeffs), ToPtr(r), ToPtr(p));
             dst.Fix();
         }
         #endregion
@@ -1759,10 +1768,11 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Watershed
         /// <summary>
-        /// segments the image using watershed algorithm
+        /// Performs a marker-based image segmentation using the watershed algorithm.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="markers"></param>
+        /// <param name="image">Input 8-bit 3-channel image.</param>
+        /// <param name="markers">Input/output 32-bit single-channel image (map) of markers. 
+        /// It should have the same size as image.</param>
         public static void Watershed(InputArray image, InputOutputArray markers)
         {
             if (image == null)
@@ -1777,14 +1787,14 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region PyrMeanShiftFiltering
         /// <summary>
-        /// filters image using meanshift algorithm
+        /// Performs initial step of meanshift segmentation of an image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="sp"></param>
-        /// <param name="sr"></param>
-        /// <param name="maxLevel"></param>
-        /// <param name="termcrit"></param>
+        /// <param name="src">The source 8-bit, 3-channel image.</param>
+        /// <param name="dst">The destination image of the same format and the same size as the source.</param>
+        /// <param name="sp">The spatial window radius.</param>
+        /// <param name="sr">The color window radius.</param>
+        /// <param name="maxLevel">Maximum level of the pyramid for the segmentation.</param>
+        /// <param name="termcrit">Termination criteria: when to stop meanshift iterations.</param>
         public static void PyrMeanShiftFiltering(InputArray src, OutputArray dst,
             double sp, double sr, int maxLevel = 1, TermCriteria? termcrit = null)
         {
@@ -1802,15 +1812,19 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region GrabCut
         /// <summary>
-        /// segments the image using GrabCut algorithm
+        /// Segments the image using GrabCut algorithm
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="mask"></param>
-        /// <param name="rect"></param>
-        /// <param name="bgdModel"></param>
-        /// <param name="fgdModel"></param>
-        /// <param name="iterCount"></param>
-        /// <param name="mode"></param>
+        /// <param name="img">Input 8-bit 3-channel image.</param>
+        /// <param name="mask">Input/output 8-bit single-channel mask. 
+        /// The mask is initialized by the function when mode is set to GC_INIT_WITH_RECT. 
+        /// Its elements may have Cv2.GC_BGD / Cv2.GC_FGD / Cv2.GC_PR_BGD / Cv2.GC_PR_FGD</param>
+        /// <param name="rect">ROI containing a segmented object. The pixels outside of the ROI are 
+        /// marked as "obvious background". The parameter is only used when mode==GC_INIT_WITH_RECT.</param>
+        /// <param name="bgdModel">Temporary array for the background model. Do not modify it while you are processing the same image.</param>
+        /// <param name="fgdModel">Temporary arrays for the foreground model. Do not modify it while you are processing the same image.</param>
+        /// <param name="iterCount">Number of iterations the algorithm should make before returning the result. 
+        /// Note that the result can be refined with further calls with mode==GC_INIT_WITH_MASK or mode==GC_EVAL .</param>
+        /// <param name="mode">Operation mode that could be one of GrabCutFlag value.</param>
         public static void GrabCut(InputArray img, InputOutputArray mask, Rect rect,
                                    InputOutputArray bgdModel, InputOutputArray fgdModel,
                                    int iterCount, GrabCutFlag mode)
@@ -1910,11 +1924,13 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region FloodFill
         /// <summary>
-        /// fills the semi-uniform image region starting from the specified seed point
+        /// Fills a connected component with the given color.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="seedPoint"></param>
-        /// <param name="newVal"></param>
+        /// <param name="image">Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.</param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
         /// <returns></returns>
         public static int FloodFill(InputOutputArray image, Point seedPoint, Scalar newVal)
         {
@@ -1922,15 +1938,24 @@ namespace OpenCvSharp.CPlusPlus
             return FloodFill(image, seedPoint, newVal, out rect);
         }
         /// <summary>
-        /// fills the semi-uniform image region starting from the specified seed point
+        /// Fills a connected component with the given color.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="seedPoint"></param>
-        /// <param name="newVal"></param>
-        /// <param name="rect"></param>
-        /// <param name="loDiff"></param>
-        /// <param name="upDiff"></param>
-        /// <param name="flags"></param>
+        /// <param name="image">Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.</param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
+        /// <param name="rect">Optional output parameter set by the function to the 
+        /// minimum bounding rectangle of the repainted domain.</param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
+        /// 4 (default) or 8, used within the function. Connectivity determines which 
+        /// neighbors of a pixel are considered. </param>
         /// <returns></returns>
         public static int FloodFill(InputOutputArray image,
                                     Point seedPoint, Scalar newVal, out Rect rect,
@@ -1951,12 +1976,18 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// fills the semi-uniform image region and/or the mask starting from the specified seed point
+        /// Fills a connected component with the given color.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <param name="seedPoint"></param>
-        /// <param name="newVal"></param>
+        /// <param name="image">Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.</param>
+        /// <param name="mask">(For the second function only) Operation mask that should be a single-channel 8-bit image, 
+        /// 2 pixels wider and 2 pixels taller. The function uses and updates the mask, so you take responsibility of 
+        /// initializing the mask content. Flood-filling cannot go across non-zero pixels in the mask. For example, 
+        /// an edge detector output can be used as a mask to stop filling at edges. It is possible to use the same mask 
+        /// in multiple calls to the function to make sure the filled area does not overlap.</param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
         /// <returns></returns>
         public static int FloodFill(InputOutputArray image, InputOutputArray mask,
                                     Point seedPoint, Scalar newVal)
@@ -1964,17 +1995,31 @@ namespace OpenCvSharp.CPlusPlus
             Rect rect;
             return FloodFill(image, mask, seedPoint, newVal, out rect);
         }
+
         /// <summary>
-        /// fills the semi-uniform image region and/or the mask starting from the specified seed point
+        /// Fills a connected component with the given color.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <param name="seedPoint"></param>
-        /// <param name="newVal"></param>
-        /// <param name="rect"></param>
-        /// <param name="loDiff"></param>
-        /// <param name="upDiff"></param>
-        /// <param name="flags"></param>
+        /// <param name="image">Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.</param>
+        /// <param name="mask">(For the second function only) Operation mask that should be a single-channel 8-bit image, 
+        /// 2 pixels wider and 2 pixels taller. The function uses and updates the mask, so you take responsibility of 
+        /// initializing the mask content. Flood-filling cannot go across non-zero pixels in the mask. For example, 
+        /// an edge detector output can be used as a mask to stop filling at edges. It is possible to use the same mask 
+        /// in multiple calls to the function to make sure the filled area does not overlap.</param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
+        /// <param name="rect">Optional output parameter set by the function to the 
+        /// minimum bounding rectangle of the repainted domain.</param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
+        /// 4 (default) or 8, used within the function. Connectivity determines which 
+        /// neighbors of a pixel are considered. </param>
         /// <returns></returns>
         public static int FloodFill(InputOutputArray image, InputOutputArray mask,
                                     Point seedPoint, Scalar newVal, out Rect rect,

@@ -315,7 +315,7 @@ CVAPI(void) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst, CvSize ds
 CVAPI(void) imgproc_undistort(cv::_InputArray *src, cv::_OutputArray *dst,
 	cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_InputArray *newCameraMatrix)
 {
-	cv::undistort(*src, *dst, *cameraMatrix, *distCoeffs, entity(newCameraMatrix));
+	cv::undistort(*src, *dst, *cameraMatrix, entity(distCoeffs), entity(newCameraMatrix));
 }
 CVAPI(void) imgproc_initUndistortRectifyMap(cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
 	cv::_InputArray *r, cv::_InputArray *newCameraMatrix, CvSize size, int m1type,
@@ -337,7 +337,7 @@ CVAPI(void) imgproc_undistortPoints(cv::_InputArray *src, cv::_OutputArray *dst,
 	cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
 	cv::_InputArray *R, cv::_InputArray *P)
 {
-	cv::undistortPoints(*src, *dst, *cameraMatrix, *distCoeffs, entity(R), entity(P));
+	cv::undistortPoints(*src, *dst, *cameraMatrix, entity(distCoeffs), entity(R), entity(P));
 }
 CVAPI(void) imgproc_calcHist1(cv::Mat **images, int nimages,
 	const int* channels, cv::_InputArray *mask,

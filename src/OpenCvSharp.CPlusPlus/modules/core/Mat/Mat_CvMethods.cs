@@ -1647,481 +1647,323 @@ namespace OpenCvSharp.CPlusPlus
             return dst;
         }
 
-        #endregion
-
-        #region GetRectSubPix
-
         /// <summary>
-        /// 
+        /// Retrieves a pixel rectangle from an image with sub-pixel accuracy.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="patchSize"></param>
-        /// <param name="center"></param>
-        /// <param name="patch"></param>
-        /// <param name="patchType"></param>
-        public void GetRectSubPix(InputArray image, Size patchSize, Point2f center, OutputArray patch,
-            int patchType = -1)
+        /// <param name="patchSize">Size of the extracted patch.</param>
+        /// <param name="center">Floating point coordinates of the center of the extracted rectangle 
+        /// within the source image. The center must be inside the image.</param>
+        /// <param name="patchType">Depth of the extracted pixels. By default, they have the same depth as src.</param>
+        /// <returns>Extracted patch that has the size patchSize and the same number of channels as src .</returns>
+        public Mat GetRectSubPix(Size patchSize, Point2f center, int patchType = -1)
         {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (patch == null)
-                throw new ArgumentNullException("patch");
-            image.ThrowIfDisposed();
-            patch.ThrowIfNotReady();
-            Cv2.getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType);
-            patch.Fix();
-        }
-
-        #endregion
-
-        #region Accumulate*
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
-        public void Accumulate(InputArray src, InputOutputArray dst, InputArray mask)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            Cv2.accumulate(src.CvPtr, dst.CvPtr, ToPtr(mask));
-            dst.Fix();
+            var dst = new Mat();
+            Cv2.GetRectSubPix(this, patchSize, center, dst, patchType);
+            return dst;
         }
 
         /// <summary>
-        /// 
+        /// Adds an image to the accumulator.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
-        public void AccumulateSquare(InputArray src, InputOutputArray dst, InputArray mask)
+        /// <param name="mask">Optional operation mask.</param>
+        /// <returns>Accumulator image with the same number of channels as input image, 32-bit or 64-bit floating-point.</returns>
+        public Mat Accumulate(InputArray mask)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            Cv2.accumulateSquare(src.CvPtr, dst.CvPtr, ToPtr(mask));
-            dst.Fix();
+            var dst = new Mat();
+            Cv2.Accumulate(this, dst, mask);
+            return dst;
         }
-
-        #endregion
-
-        #region CreateHanningWindow
 
         /// <summary>
-        /// 
+        /// Adds the square of a source image to the accumulator.
         /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="winSize"></param>
-        /// <param name="type"></param>
-        public void CreateHanningWindow(InputOutputArray dst, Size winSize, int type)
+        /// <param name="mask">Optional operation mask.</param>
+        /// <returns>Accumulator image with the same number of channels as input image, 32-bit or 64-bit floating-point.</returns>
+        public Mat AccumulateSquare(InputArray mask)
         {
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            dst.ThrowIfNotReady();
-            Cv2.createHanningWindow(dst.CvPtr, winSize, type);
-            dst.Fix();
+            var dst = new Mat();
+            Cv2.AccumulateSquare(this, dst, mask);
+            return dst;
         }
 
-        #endregion
-
-        #region Threshold
+        /// <summary>
+        /// Computes a Hanning window coefficients in two dimensions.
+        /// </summary>
+        /// <param name="winSize">The window size specifications</param>
+        /// <param name="type">Created array type</param>
+        public void CreateHanningWindow(Size winSize, MatType type)
+        {
+            Cv2.CreateHanningWindow(this, winSize, type);
+        }
 
         /// <summary>
         /// Applies a fixed-level threshold to each array element.
+        /// The input matrix must be single-channel, 8-bit or 32-bit floating point.
         /// </summary>
-        /// <param name="src">input array (single-channel, 8-bit or 32-bit floating point).</param>
-        /// <param name="dst">output array of the same size and type as src.</param>
         /// <param name="thresh">threshold value.</param>
         /// <param name="maxval">maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types.</param>
         /// <param name="type">thresholding type (see the details below).</param>
+        /// <returns>output array of the same size and type as src.</returns>
+        public Mat Threshold(double thresh, double maxval, ThresholdType type)
+        {
+            var dst = new Mat();
+            Cv2.Threshold(this, dst, thresh, maxval, type);
+            return dst;
+        }
+
+        /// <summary>
+        /// Applies an adaptive threshold to an array.
+        /// Source matrix must be 8-bit single-channel image.
+        /// </summary>
+        /// <param name="maxValue">Non-zero value assigned to the pixels for which the condition is satisfied. See the details below.</param>
+        /// <param name="adaptiveMethod">Adaptive thresholding algorithm to use, ADAPTIVE_THRESH_MEAN_C or ADAPTIVE_THRESH_GAUSSIAN_C .</param>
+        /// <param name="thresholdType">Thresholding type that must be either THRESH_BINARY or THRESH_BINARY_INV .</param>
+        /// <param name="blockSize">Size of a pixel neighborhood that is used to calculate a threshold value for the pixel: 3, 5, 7, and so on.</param>
+        /// <param name="c">Constant subtracted from the mean or weighted mean (see the details below). 
+        /// Normally, it is positive but may be zero or negative as well.</param>
+        /// <returns>Destination image of the same size and the same type as src.</returns>
+        public Mat AdaptiveThreshold(double maxValue, AdaptiveThresholdType adaptiveMethod, 
+            ThresholdType thresholdType, int blockSize, double c)
+        {
+            var dst = new Mat();
+            Cv2.AdaptiveThreshold(this, dst, maxValue, adaptiveMethod, 
+                thresholdType, blockSize, c);
+            return dst;
+        }
+
+        /// <summary>
+        /// Blurs an image and downsamples it.
+        /// </summary>
+        /// <param name="dstSize">size of the output image; by default, it is computed as Size((src.cols+1)/2</param>
+        /// <param name="borderType"></param>
         /// <returns></returns>
-        public double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdType type)
+        public Mat PyrDown(Size? dstSize = null, BorderType borderType = BorderType.Default)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            double ret = Cv2.threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int) type);
-            dst.Fix();
-            return ret;
+            var dst = new Mat();
+            Cv2.PyrDown(this, dst, dstSize, borderType);
+            return dst;
         }
 
-        #endregion
-
-        #region AdaptiveThreshold
-
         /// <summary>
-        /// 
+        /// Upsamples an image and then blurs it.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="maxValue"></param>
-        /// <param name="adaptiveMethod"></param>
-        /// <param name="thresholdType"></param>
-        /// <param name="blockSize"></param>
-        /// <param name="c"></param>
-        public void AdaptiveThreshold(InputArray src, OutputArray dst,
-            double maxValue, AdaptiveThresholdType adaptiveMethod, ThresholdType thresholdType, int blockSize, double c)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            Cv2.adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int) adaptiveMethod, (int) thresholdType, blockSize,
-                c);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region PyrDown/Up
-
-        /// <summary>
-        /// smooths and downsamples the image
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="dstSize"></param>
+        /// <param name="dstSize">size of the output image; by default, it is computed as Size(src.cols*2, (src.rows*2)</param>
         /// <param name="borderType"></param>
-        public void PyrDown(InputArray src, OutputArray dst,
-            Size? dstSize = null, BorderType borderType = BorderType.Default)
+        /// <returns></returns>
+        public Mat PyrUp(Size? dstSize = null, BorderType borderType = BorderType.Default)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            Size dstSize0 = dstSize.GetValueOrDefault(new Size());
-            Cv2.pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int) borderType);
-            dst.Fix();
+            var dst = new Mat();
+            Cv2.PyrDown(this, dst, dstSize, borderType);
+            return dst;
         }
-
-        /// <summary>
-        /// upsamples and smoothes the image
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="dstSize"></param>
-        /// <param name="borderType"></param>
-        public void PyrUp(InputArray src, OutputArray dst,
-            Size? dstSize = null, BorderType borderType = BorderType.Default)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            Size dstSize0 = dstSize.GetValueOrDefault(new Size());
-            Cv2.pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int) borderType);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Undistort
 
         /// <summary>
         /// corrects lens distortion for the given camera matrix and distortion coefficients
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="cameraMatrix"></param>
-        /// <param name="distCoeffs"></param>
-        /// <param name="newCameraMatrix"></param>
-        public void Undistort(InputArray src, OutputArray dst,
-            InputArray cameraMatrix,
-            InputArray distCoeffs,
-            InputArray newCameraMatrix = null)
+        /// <param name="cameraMatrix"> Input camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, 
+        /// or 8 elements. If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="newCameraMatrix">Camera matrix of the distorted image. 
+        /// By default, it is the same as cameraMatrix but you may additionally scale 
+        /// and shift the result by using a different matrix.</param>
+        /// <returns>Output (corrected) image that has the same size and type as src .</returns>
+        public Mat Undistort(InputArray cameraMatrix, InputArray distCoeffs, InputArray newCameraMatrix = null)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            if (cameraMatrix == null)
-                throw new ArgumentNullException("cameraMatrix");
-            if (distCoeffs == null)
-                throw new ArgumentNullException("distCoeffs");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            cameraMatrix.ThrowIfDisposed();
-            distCoeffs.ThrowIfDisposed();
-            Cv2.undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(newCameraMatrix));
-            dst.Fix();
+            var dst = new Mat();
+            Cv2.Undistort(this, dst, cameraMatrix, distCoeffs, newCameraMatrix);
+            return dst;
         }
-
-        #endregion
-
-        #region GetDefaultNewCameraMatrix
 
         /// <summary>
         /// returns the default new camera matrix (by default it is the same as cameraMatrix unless centerPricipalPoint=true)
         /// </summary>
-        /// <param name="cameraMatrix"></param>
-        /// <param name="imgSize"></param>
-        /// <param name="centerPrincipalPoint"></param>
-        /// <returns></returns>
-        public Mat GetDefaultNewCameraMatrix(InputArray cameraMatrix,
-            Size? imgSize = null, bool centerPrincipalPoint = false)
+        /// <param name="imgSize">Camera view image size in pixels.</param>
+        /// <param name="centerPrincipalPoint">Location of the principal point in the new camera matrix. 
+        /// The parameter indicates whether this location should be at the image center or not.</param>
+        /// <returns>the camera matrix that is either an exact copy of the input cameraMatrix 
+        /// (when centerPrinicipalPoint=false), or the modified one (when centerPrincipalPoint=true).</returns>
+        public Mat GetDefaultNewCameraMatrix(Size? imgSize = null, bool centerPrincipalPoint = false)
         {
-            if (cameraMatrix == null)
-                throw new ArgumentNullException("cameraMatrix");
-            cameraMatrix.ThrowIfDisposed();
-            Size imgSize0 = imgSize.GetValueOrDefault(new Size());
-            IntPtr matPtr = Cv2.getDefaultNewCameraMatrix(cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
-            return new Mat(matPtr);
+            return Cv2.GetDefaultNewCameraMatrix(this, imgSize, centerPrincipalPoint);
         }
 
-        #endregion
-
-        #region UndistortPoints
-
         /// <summary>
-        /// returns points' coordinates after lens distortion correction
+        /// Computes the ideal point coordinates from the observed point coordinates.
+        /// Input matrix is an observed point coordinates, 1xN or Nx1 2-channel (CV_32FC2 or CV_64FC2).
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="cameraMatrix"></param>
-        /// <param name="distCoeffs"></param>
-        /// <param name="r"></param>
-        /// <param name="p"></param>
-        public void UndistortPoints(InputArray src, OutputArray dst,
+        /// <param name="cameraMatrix">Camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="r">Rectification transformation in the object space (3x3 matrix). 
+        /// R1 or R2 computed by stereoRectify() can be passed here. 
+        /// If the matrix is empty, the identity transformation is used.</param>
+        /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4). 
+        /// P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, 
+        /// the identity new camera matrix is used.</param>
+        /// <returns>Output ideal point coordinates after undistortion and reverse perspective transformation. 
+        /// If matrix P is identity or omitted, dst will contain normalized point coordinates.</returns>
+        public Mat UndistortPoints(
             InputArray cameraMatrix, InputArray distCoeffs,
             InputArray r = null, InputArray p = null)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            if (cameraMatrix == null)
-                throw new ArgumentNullException("cameraMatrix");
-            if (distCoeffs == null)
-                throw new ArgumentNullException("distCoeffs");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            cameraMatrix.ThrowIfDisposed();
-            distCoeffs.ThrowIfDisposed();
-            Cv2.undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(r), ToPtr(p));
-            dst.Fix();
+            var dst = new Mat();
+            Cv2.UndistortPoints(this, dst, cameraMatrix, distCoeffs, r, p);
+            return dst;
         }
 
-        #endregion
-        
-        #region EqualizeHist
-
         /// <summary>
-        /// normalizes the grayscale image brightness and contrast by normalizing its histogram
+        /// Normalizes the grayscale image brightness and contrast by normalizing its histogram.
+        /// The source matrix is 8-bit single channel image.
         /// </summary>
-        /// <param name="src">The source 8-bit single channel image</param>
-        /// <param name="dst">The destination image; will have the same size and the same type as src</param>
-        public void EqualizeHist(InputArray src, OutputArray dst)
+        /// <returns>The destination image; will have the same size and the same type as src</returns>
+        public Mat EqualizeHist()
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            Cv2.equalizeHist(src.CvPtr, dst.CvPtr);
-            dst.Fix();
+            var dst = new Mat();
+            Cv2.EqualizeHist(this, dst);
+            return dst;
         }
 
-        #endregion
-
-        #region Watershed
-
         /// <summary>
-        /// segments the image using watershed algorithm
+        /// Performs a marker-based image segmentation using the watershed algorithm.
+        /// Input matrix is 8-bit 3-channel image.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="markers"></param>
-        public void Watershed(InputArray image, InputOutputArray markers)
+        /// <param name="markers">Input/output 32-bit single-channel image (map) of markers. 
+        /// It should have the same size as image.</param>
+        public void Watershed(InputOutputArray markers)
         {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (markers == null)
-                throw new ArgumentNullException("markers");
-            image.ThrowIfDisposed();
-            markers.ThrowIfNotReady();
-            Cv2.watershed(image.CvPtr, markers.CvPtr);
-            markers.Fix();
+            Cv2.Watershed(this, markers);
         }
 
-        #endregion
-
-        #region PyrMeanShiftFiltering
-
         /// <summary>
-        /// filters image using meanshift algorithm
+        /// Performs initial step of meanshift segmentation of an image.
+        /// The source matrix is 8-bit, 3-channel image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="sp"></param>
-        /// <param name="sr"></param>
-        /// <param name="maxLevel"></param>
-        /// <param name="termcrit"></param>
-        public void PyrMeanShiftFiltering(InputArray src, OutputArray dst,
-            double sp, double sr, int maxLevel = 1, TermCriteria? termcrit = null)
+        /// <param name="sp">The spatial window radius.</param>
+        /// <param name="sr">The color window radius.</param>
+        /// <param name="maxLevel">Maximum level of the pyramid for the segmentation.</param>
+        /// <param name="termcrit">Termination criteria: when to stop meanshift iterations.</param>
+        /// <returns>The destination image of the same format and the same size as the source.</returns>
+        public Mat PyrMeanShiftFiltering(double sp, double sr, int maxLevel = 1, TermCriteria? termcrit = null)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            TermCriteria termcrit0 = termcrit.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 5, 1));
-            Cv2.pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
-            dst.Fix();
+            var dst = new Mat();
+            Cv2.PyrMeanShiftFiltering(this, dst, sp, sr, maxLevel, termcrit);
+            return dst;
         }
 
-        #endregion
-
-        #region GrabCut
-
         /// <summary>
-        /// segments the image using GrabCut algorithm
+        /// Segments the image using GrabCut algorithm.
+        /// The input is 8-bit 3-channel image.
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="mask"></param>
-        /// <param name="rect"></param>
-        /// <param name="bgdModel"></param>
-        /// <param name="fgdModel"></param>
-        /// <param name="iterCount"></param>
-        /// <param name="mode"></param>
-        public void GrabCut(InputArray img, InputOutputArray mask, Rect rect,
+        /// <param name="mask">Input/output 8-bit single-channel mask. 
+        /// The mask is initialized by the function when mode is set to GC_INIT_WITH_RECT. 
+        /// Its elements may have Cv2.GC_BGD / Cv2.GC_FGD / Cv2.GC_PR_BGD / Cv2.GC_PR_FGD</param>
+        /// <param name="rect">ROI containing a segmented object. The pixels outside of the ROI are 
+        /// marked as "obvious background". The parameter is only used when mode==GC_INIT_WITH_RECT.</param>
+        /// <param name="bgdModel">Temporary array for the background model. Do not modify it while you are processing the same image.</param>
+        /// <param name="fgdModel">Temporary arrays for the foreground model. Do not modify it while you are processing the same image.</param>
+        /// <param name="iterCount">Number of iterations the algorithm should make before returning the result. 
+        /// Note that the result can be refined with further calls with mode==GC_INIT_WITH_MASK or mode==GC_EVAL .</param>
+        /// <param name="mode">Operation mode that could be one of GrabCutFlag value.</param>
+        public void GrabCut(InputOutputArray mask, Rect rect,
             InputOutputArray bgdModel, InputOutputArray fgdModel,
             int iterCount, GrabCutFlag mode)
         {
-            if (img == null)
-                throw new ArgumentNullException("img");
-            if (mask == null)
-                throw new ArgumentNullException("mask");
-            if (bgdModel == null)
-                throw new ArgumentNullException("bgdModel");
-            if (fgdModel == null)
-                throw new ArgumentNullException("fgdModel");
-            img.ThrowIfDisposed();
-            mask.ThrowIfNotReady();
-            bgdModel.ThrowIfNotReady();
-            fgdModel.ThrowIfNotReady();
-            Cv2.grabCut(img.CvPtr, mask.CvPtr, rect,
-                bgdModel.CvPtr, fgdModel.CvPtr, iterCount, (int) mode);
-            mask.Fix();
-            bgdModel.Fix();
-            fgdModel.Fix();
+            Cv2.GrabCut(this, mask, rect, bgdModel, fgdModel, iterCount, mode);
         }
 
-        #endregion
-
-        #region FloodFill
-
         /// <summary>
-        /// fills the semi-uniform image region starting from the specified seed point
+        /// Fills a connected component with the given color.
+        /// Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="seedPoint"></param>
-        /// <param name="newVal"></param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
         /// <returns></returns>
-        public int FloodFill(InputOutputArray image, Point seedPoint, Scalar newVal)
+        public int FloodFill(Point seedPoint, Scalar newVal)
         {
-            Rect rect;
-            return FloodFill(image, seedPoint, newVal, out rect);
+            return Cv2.FloodFill(this, seedPoint, newVal);
         }
 
         /// <summary>
-        /// fills the semi-uniform image region starting from the specified seed point
+        /// Fills a connected component with the given color.
+        /// Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="seedPoint"></param>
-        /// <param name="newVal"></param>
-        /// <param name="rect"></param>
-        /// <param name="loDiff"></param>
-        /// <param name="upDiff"></param>
-        /// <param name="flags"></param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
+        /// <param name="rect">Optional output parameter set by the function to the 
+        /// minimum bounding rectangle of the repainted domain.</param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
+        /// 4 (default) or 8, used within the function. Connectivity determines which 
+        /// neighbors of a pixel are considered. </param>
         /// <returns></returns>
-        public int FloodFill(InputOutputArray image,
-            Point seedPoint, Scalar newVal, out Rect rect,
-            Scalar? loDiff = null, Scalar? upDiff = null,
+        public int FloodFill(
+            Point seedPoint, Scalar newVal, out Rect rect, Scalar? loDiff = null, Scalar? upDiff = null,
             FloodFillFlag flags = FloodFillFlag.Link4)
         {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            image.ThrowIfNotReady();
-            Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
-            Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            CvRect rect0;
-            int ret = Cv2.floodFill(image.CvPtr, seedPoint, newVal, out rect0,
-                loDiff0, upDiff0, (int) flags);
-            rect = rect0;
-            image.Fix();
-            return ret;
+            return Cv2.FloodFill(this, seedPoint, newVal, out rect,
+                loDiff, upDiff, flags);
         }
 
         /// <summary>
-        /// fills the semi-uniform image region and/or the mask starting from the specified seed point
+        /// Fills a connected component with the given color.
+        /// Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <param name="seedPoint"></param>
-        /// <param name="newVal"></param>
+        /// <param name="mask">(For the second function only) Operation mask that should be a single-channel 8-bit image, 
+        /// 2 pixels wider and 2 pixels taller. The function uses and updates the mask, so you take responsibility of 
+        /// initializing the mask content. Flood-filling cannot go across non-zero pixels in the mask. For example, 
+        /// an edge detector output can be used as a mask to stop filling at edges. It is possible to use the same mask 
+        /// in multiple calls to the function to make sure the filled area does not overlap.</param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
         /// <returns></returns>
-        public int FloodFill(InputOutputArray image, InputOutputArray mask,
-            Point seedPoint, Scalar newVal)
+        public int FloodFill(InputOutputArray mask, Point seedPoint, Scalar newVal)
         {
-            Rect rect;
-            return FloodFill(image, mask, seedPoint, newVal, out rect);
+            return Cv2.FloodFill(this, mask, seedPoint, newVal);
         }
 
         /// <summary>
-        /// fills the semi-uniform image region and/or the mask starting from the specified seed point
+        /// Fills a connected component with the given color.
+        /// Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <param name="seedPoint"></param>
-        /// <param name="newVal"></param>
-        /// <param name="rect"></param>
-        /// <param name="loDiff"></param>
-        /// <param name="upDiff"></param>
-        /// <param name="flags"></param>
+        /// <param name="mask">(For the second function only) Operation mask that should be a single-channel 8-bit image, 
+        /// 2 pixels wider and 2 pixels taller. The function uses and updates the mask, so you take responsibility of 
+        /// initializing the mask content. Flood-filling cannot go across non-zero pixels in the mask. For example, 
+        /// an edge detector output can be used as a mask to stop filling at edges. It is possible to use the same mask 
+        /// in multiple calls to the function to make sure the filled area does not overlap.</param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
+        /// <param name="rect">Optional output parameter set by the function to the 
+        /// minimum bounding rectangle of the repainted domain.</param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
+        /// 4 (default) or 8, used within the function. Connectivity determines which 
+        /// neighbors of a pixel are considered. </param>
         /// <returns></returns>
-        public int FloodFill(InputOutputArray image, InputOutputArray mask,
-            Point seedPoint, Scalar newVal, out Rect rect,
-            Scalar? loDiff = null, Scalar? upDiff = null,
+        public int FloodFill(InputOutputArray mask, Point seedPoint, Scalar newVal, 
+            out Rect rect, Scalar? loDiff = null, Scalar? upDiff = null,
             FloodFillFlag flags = FloodFillFlag.Link4)
         {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (mask == null)
-                throw new ArgumentNullException("mask");
-            image.ThrowIfNotReady();
-            mask.ThrowIfNotReady();
-            Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
-            Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            CvRect rect0;
-            int ret = Cv2.floodFill(image.CvPtr, mask.CvPtr, seedPoint,
-                newVal, out rect0, loDiff0, upDiff0, (int) flags);
-            rect = rect0;
-            image.Fix();
-            mask.Fix();
-            return ret;
+            return Cv2.FloodFill(this, mask, seedPoint,
+                newVal, out rect, loDiff, upDiff, flags);
         }
-
-        #endregion
 
         #region CvtColor
 
