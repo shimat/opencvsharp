@@ -16,7 +16,7 @@ namespace OpenCvSharp.CPlusPlus
         private bool disposed;
         private Mat sourceMat;
 
-        #region Init
+        #region Init & Disposal
 
 #if LANG_JP
         /// <summary>
@@ -509,19 +509,18 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (!disposed)
             {
-                try
+                if (sourceMat == null)
                 {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    sourceMat = null;
-                    disposed = true;
+                    base.Dispose();
                 }
-                finally
+                else
                 {
-                    base.Dispose(disposing);
+                    // sourceMat.Disposeに解放を任せるので
+                    // ここでは何もしない
                 }
+
+                sourceMat = null;
+                disposed = true;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
@@ -4379,6 +4380,21 @@ namespace OpenCvSharp.CPlusPlus
             Mat roiMat = new Mat(pMat, new Rect(0, 0, Cols, Rows));
             CopyTo(roiMat);
             return roiMat;
+        }
+
+        /// <summary>
+        /// Creates type-specific Mat instance from this.
+        /// </summary>
+        /// <typeparam name="TMat"></typeparam>
+        /// <returns></returns>
+        public TMat Cast<TMat>()
+            where TMat : Mat, new()
+        {
+            var type = typeof (TMat);
+            var constructor = type.GetConstructor(new[] {typeof (Mat)});
+            if (constructor == null)
+                throw new OpenCvSharpException("Failed to cast to {0}", type.Name);
+            return (TMat)constructor.Invoke(new object[] {this});
         }
 
         #endregion

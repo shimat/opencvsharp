@@ -52,16 +52,17 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region CopyMakeBorder
         /// <summary>
-        /// 
+        /// Forms a border around the image
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="top"></param>
-        /// <param name="bottom"></param>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <param name="borderType"></param>
-        /// <param name="value"></param>
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same type as src and 
+        /// the size Size(src.cols+left+right, src.rows+top+bottom)</param>
+        /// <param name="top">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="bottom">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="left">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="borderType">The border type</param>
+        /// <param name="value">The border value if borderType == Constant</param>
         public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right, BorderType borderType, Scalar? value = null)
         {
             if (src == null)
@@ -77,11 +78,13 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region MedianBlur
         /// <summary>
-        /// 
+        /// Smoothes image using median filter
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ksize"></param>
+        /// <param name="src">The source 1-, 3- or 4-channel image. 
+        /// When ksize is 3 or 5, the image depth should be CV_8U , CV_16U or CV_32F. 
+        /// For larger aperture sizes it can only be CV_8U</param>
+        /// <param name="dst">The destination array; will have the same size and the same type as src</param>
+        /// <param name="ksize">The aperture linear size. It must be odd and more than 1, i.e. 3, 5, 7 ...</param>
         public static void MedianBlur(InputArray src, OutputArray dst, int ksize)
         {
             if (src == null)
@@ -124,13 +127,19 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region BilateralFilter
         /// <summary>
-        /// 
+        /// Applies bilateral filter to the image
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="d"></param>
-        /// <param name="sigmaColor"></param>
-        /// <param name="sigmaSpace"></param>
+        /// <param name="src">The source 8-bit or floating-point, 1-channel or 3-channel image</param>
+        /// <param name="dst">The destination image; will have the same size and the same type as src</param>
+        /// <param name="d">The diameter of each pixel neighborhood, that is used during filtering. 
+        /// If it is non-positive, it's computed from sigmaSpace</param>
+        /// <param name="sigmaColor">Filter sigma in the color space. 
+        /// Larger value of the parameter means that farther colors within the pixel neighborhood 
+        /// will be mixed together, resulting in larger areas of semi-equal color</param>
+        /// <param name="sigmaSpace">Filter sigma in the coordinate space. 
+        /// Larger value of the parameter means that farther pixels will influence each other 
+        /// (as long as their colors are close enough; see sigmaColor). Then d>0 , it specifies 
+        /// the neighborhood size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace</param>
         /// <param name="borderType"></param>
         public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, BorderType borderType = BorderType.Default)
         {
@@ -146,53 +155,24 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region AdaptiveBilateralFilter
         /// <summary>
-        /// 
+        /// Applies the adaptive bilateral filter to an image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ksize"></param>
-        /// <param name="sigmaSpace"></param>
-        public static void AdaptiveBilateralFilter(InputArray src, OutputArray dst, Size ksize, double sigmaSpace)
-        {
-            AdaptiveBilateralFilter(src, dst, ksize, sigmaSpace, 20.0, new Point(-1, -1), BorderType.Default);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ksize"></param>
-        /// <param name="sigmaSpace"></param>
-        /// <param name="maxSigmaColor"></param>
-        public static void AdaptiveBilateralFilter(InputArray src, OutputArray dst, Size ksize, double sigmaSpace, double maxSigmaColor)
-        {
-            AdaptiveBilateralFilter(src, dst, ksize, sigmaSpace, maxSigmaColor, new Point(-1, -1), BorderType.Default);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ksize"></param>
-        /// <param name="sigmaSpace"></param>
-        /// <param name="maxSigmaColor"></param>
-        /// <param name="anchor"></param>
-        public static void AdaptiveBilateralFilter(InputArray src, OutputArray dst, Size ksize, double sigmaSpace, double maxSigmaColor, Point anchor)
-        {
-            AdaptiveBilateralFilter(src, dst, ksize, sigmaSpace, maxSigmaColor, anchor, BorderType.Default);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ksize"></param>
-        /// <param name="sigmaSpace"></param>
-        /// <param name="maxSigmaColor"></param>
-        /// <param name="anchor"></param>
-        /// <param name="borderType"></param>
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same size and the same type as src</param>
+        /// <param name="ksize">The kernel size. This is the neighborhood where the local variance will be calculated, 
+        /// and where pixels will contribute (in a weighted manner).</param>
+        /// <param name="sigmaSpace">Filter sigma in the coordinate space. 
+        /// Larger value of the parameter means that farther pixels will influence each other 
+        /// (as long as their colors are close enough; see sigmaColor). Then d>0, it specifies the neighborhood 
+        /// size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace.</param>
+        /// <param name="maxSigmaColor">Maximum allowed sigma color (will clamp the value calculated in the 
+        /// ksize neighborhood. Larger value of the parameter means that more dissimilar pixels will 
+        /// influence each other (as long as their colors are close enough; see sigmaColor). 
+        /// Then d>0, it specifies the neighborhood size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace.</param>
+        /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
+        /// <param name="borderType">Pixel extrapolation method.</param>
         public static void AdaptiveBilateralFilter(InputArray src, OutputArray dst, Size ksize,
-            double sigmaSpace, double maxSigmaColor, Point anchor, BorderType borderType)
+            double sigmaSpace, double maxSigmaColor = 20.0, Point? anchor = null, BorderType borderType = BorderType.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -200,34 +180,25 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_adaptiveBilateralFilter(src.CvPtr, dst.CvPtr, ksize, sigmaSpace, maxSigmaColor, anchor, (int)borderType);
+            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            NativeMethods.imgproc_adaptiveBilateralFilter(src.CvPtr, dst.CvPtr, ksize, 
+                sigmaSpace, maxSigmaColor, anchor0, (int)borderType);
             dst.Fix();
         }
         #endregion
         #region BoxFilter
         /// <summary>
-        /// 
+        /// Smoothes image using box filter
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same size and the same type as src</param>
         /// <param name="ddepth"></param>
-        /// <param name="ksize"></param>
-        public static void BoxFilter(InputArray src, OutputArray dst, MatType ddepth, Size ksize)
-        {
-            BoxFilter(src, dst, ddepth, ksize, new Point(-1, -1));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ddepth"></param>
-        /// <param name="ksize"></param>
-        /// <param name="anchor"></param>
-        /// <param name="normalize"></param>
-        /// <param name="borderType"></param>
-        public static void BoxFilter(InputArray src, OutputArray dst, MatType ddepth, Size ksize, Point anchor, 
-            bool normalize = true, BorderType borderType = BorderType.Default)
+        /// <param name="ksize">The smoothing kernel size</param>
+        /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
+        /// <param name="normalize">Indicates, whether the kernel is normalized by its area or not</param>
+        /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
+        public static void BoxFilter(InputArray src, OutputArray dst, MatType ddepth, 
+            Size ksize, Point? anchor = null, bool normalize = true, BorderType borderType = BorderType.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -235,30 +206,22 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor, normalize ? 1 : 0, (int)borderType);
+            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, (int)borderType);
             dst.Fix();
         }
         #endregion
         #region Blur
         /// <summary>
-        /// 
+        /// Smoothes image using normalized box filter
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ksize"></param>
-        public static void Blur(InputArray src, OutputArray dst, Size ksize)
-        {
-            Blur(src, dst, ksize, new Point(-1, -1));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ksize"></param>
-        /// <param name="anchor"></param>
-        /// <param name="borderType"></param>
-        public static void Blur(InputArray src, OutputArray dst, Size ksize, Point anchor, BorderType borderType = BorderType.Default)
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same size and the same type as src</param>
+        /// <param name="ksize">The smoothing kernel size</param>
+        /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
+        /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
+        public static void Blur(InputArray src, OutputArray dst, Size ksize, 
+            Point? anchor = null, BorderType borderType = BorderType.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -266,34 +229,28 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor, (int)borderType);
+            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor0, (int)borderType);
             dst.Fix();
         }
         #endregion
         #region Filter2D
         /// <summary>
-        /// 
+        /// Convolves an image with the kernel
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ddepth"></param>
-        /// <param name="kernel"></param>
-        public static void Filter2D(InputArray src, OutputArray dst, MatType ddepth, InputArray kernel)
-        {
-            Filter2D(src, dst, ddepth, kernel, new Point(-1, -1));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ddepth"></param>
-        /// <param name="kernel"></param>
-        /// <param name="anchor"></param>
-        /// <param name="delta"></param>
-        /// <param name="borderType"></param>
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image. It will have the same size and the same number of channels as src</param>
+        /// <param name="ddepth">The desired depth of the destination image. If it is negative, it will be the same as src.depth()</param>
+        /// <param name="kernel">Convolution kernel (or rather a correlation kernel), 
+        /// a single-channel floating point matrix. If you want to apply different kernels to 
+        /// different channels, split the image into separate color planes using split() and process them individually</param>
+        /// <param name="anchor">The anchor of the kernel that indicates the relative position of 
+        /// a filtered point within the kernel. The anchor should lie within the kernel. 
+        /// The special default value (-1,-1) means that the anchor is at the kernel center</param>
+        /// <param name="delta">The optional value added to the filtered pixels before storing them in dst</param>
+        /// <param name="borderType">The pixel extrapolation method</param>
         public static void Filter2D(InputArray src, OutputArray dst, MatType ddepth,
-	        InputArray kernel, Point anchor, double delta = 0, BorderType borderType = BorderType.Default)
+	        InputArray kernel, Point? anchor = null, double delta = 0, BorderType borderType = BorderType.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -304,36 +261,26 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             kernel.ThrowIfDisposed();
-            NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, anchor, delta, (int)borderType);
+            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, 
+                anchor0, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
         #region SepFilter2D
         /// <summary>
-        /// 
+        /// Applies separable linear filter to an image
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ddepth"></param>
-        /// <param name="kernelX"></param>
-        /// <param name="kernelY"></param>
-        public static void SepFilter2D(InputArray src, OutputArray dst, MatType ddepth, InputArray kernelX, InputArray kernelY)
-        {
-            SepFilter2D(src, dst, ddepth, kernelX, kernelY, new Point(-1, -1));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ddepth"></param>
-        /// <param name="kernelX"></param>
-        /// <param name="kernelY"></param>
-        /// <param name="anchor"></param>
-        /// <param name="delta"></param>
-        /// <param name="borderType"></param>
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same size and the same number of channels as src</param>
+        /// <param name="ddepth">The destination image depth</param>
+        /// <param name="kernelX">The coefficients for filtering each row</param>
+        /// <param name="kernelY">The coefficients for filtering each column</param>
+        /// <param name="anchor">The anchor position within the kernel; The default value (-1, 1) means that the anchor is at the kernel center</param>
+        /// <param name="delta">The value added to the filtered results before storing them</param>
+        /// <param name="borderType">The pixel extrapolation method</param>
         public static void SepFilter2D(InputArray src, OutputArray dst, MatType ddepth, InputArray kernelX, InputArray kernelY,
-            Point anchor, double delta = 0, BorderType borderType = BorderType.Default)
+            Point? anchor = null, double delta = 0, BorderType borderType = BorderType.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -347,24 +294,26 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             kernelX.ThrowIfDisposed();
             kernelY.ThrowIfDisposed();
-            NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth, kernelX.CvPtr, kernelY.CvPtr, anchor, delta, (int)borderType);
+            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth, 
+                kernelX.CvPtr, kernelY.CvPtr, anchor0, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
         #region Sobel
         /// <summary>
-        /// 
+        /// Calculates the first, second, third or mixed image derivatives using an extended Sobel operator
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ddepth"></param>
-        /// <param name="dx"></param>
-        /// <param name="dy"></param>
-        /// <param name="ksize"></param>
-        /// <param name="scale"></param>
-        /// <param name="delta"></param>
-        /// <param name="borderType"></param>
-        public static void Sobel(InputArray src, OutputArray dst, MatType ddepth, int dx, int dy, 
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same size and the same number of channels as src</param>
+        /// <param name="ddepth">The destination image depth</param>
+        /// <param name="xorder">Order of the derivative x</param>
+        /// <param name="yorder">Order of the derivative y</param>
+        /// <param name="ksize">Size of the extended Sobel kernel, must be 1, 3, 5 or 7</param>
+        /// <param name="scale">The optional scale factor for the computed derivative values (by default, no scaling is applied</param>
+        /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
+        /// <param name="borderType">The pixel extrapolation method</param>
+        public static void Sobel(InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
             int ksize = 3, double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)        
         {
             if (src == null)
@@ -373,23 +322,24 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, dx, dy, ksize, scale, delta, (int)borderType);
+            NativeMethods.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder, 
+                ksize, scale, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
         #region Scharr
         /// <summary>
-        /// 
+        /// Calculates the first x- or y- image derivative using Scharr operator
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ddepth"></param>
-        /// <param name="dx"></param>
-        /// <param name="dy"></param>
-        /// <param name="scale"></param>
-        /// <param name="delta"></param>
-        /// <param name="borderType"></param>
-        public static void Scharr(InputArray src, OutputArray dst, MatType ddepth, int dx, int dy, 
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same size and the same number of channels as src</param>
+        /// <param name="ddepth">The destination image depth</param>
+        /// <param name="xorder">Order of the derivative x</param>
+        /// <param name="yorder">Order of the derivative y</param>
+        /// <param name="scale">The optional scale factor for the computed derivative values (by default, no scaling is applie</param>
+        /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
+        /// <param name="borderType">The pixel extrapolation method</param>
+        public static void Scharr(InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
             double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
         {
             if (src == null)
@@ -398,21 +348,22 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, dx, dy, scale, delta, (int)borderType);
+            NativeMethods.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder, 
+                scale, delta, (int)borderType);
             dst.Fix();
         }
         #endregion
         #region Laplacian
         /// <summary>
-        /// 
+        /// Calculates the Laplacian of an image
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="ddepth"></param>
-        /// <param name="ksize"></param>
-        /// <param name="scale"></param>
-        /// <param name="delta"></param>
-        /// <param name="borderType"></param>
+        /// <param name="src">Source image</param>
+        /// <param name="dst">Destination image; will have the same size and the same number of channels as src</param>
+        /// <param name="ddepth">The desired depth of the destination image</param>
+        /// <param name="ksize">The aperture size used to compute the second-derivative filters</param>
+        /// <param name="scale">The optional scale factor for the computed Laplacian values (by default, no scaling is applied</param>
+        /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
+        /// <param name="borderType">The pixel extrapolation method</param>
         public static void Laplacian(InputArray src, OutputArray dst, MatType ddepth,
             int ksize = 1, double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
         {
@@ -526,11 +477,15 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// adjusts the corner locations with sub-pixel accuracy to maximize the certain cornerness criteria
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="inputCorners"></param>
-        /// <param name="winSize"></param>
-        /// <param name="zeroZone"></param>
-        /// <param name="criteria"></param>
+        /// <param name="image">Input image.</param>
+        /// <param name="inputCorners">Initial coordinates of the input corners and refined coordinates provided for output.</param>
+        /// <param name="winSize">Half of the side length of the search window.</param>
+        /// <param name="zeroZone">Half of the size of the dead region in the middle of the search zone 
+        /// over which the summation in the formula below is not done. It is used sometimes to avoid possible singularities 
+        /// of the autocorrelation matrix. The value of (-1,-1) indicates that there is no such a size.</param>
+        /// <param name="criteria">Criteria for termination of the iterative process of corner refinement. 
+        /// That is, the process of corner position refinement stops either after criteria.maxCount iterations 
+        /// or when the corner position moves by less than criteria.epsilon on some iteration.</param>
         /// <returns></returns>
         public static Point2f[] CornerSubPix(InputArray image, IEnumerable<Point2f> inputCorners,
             Size winSize, Size zeroZone, CvTermCriteria criteria)
@@ -555,14 +510,22 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// finds the strong enough corners where the cornerMinEigenVal() or cornerHarris() report the local maxima
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="maxCorners"></param>
-        /// <param name="qualityLevel"></param>
-        /// <param name="minDistance"></param>
-        /// <param name="mask"></param>
-        /// <param name="blockSize"></param>
-        /// <param name="useHarrisDetector"></param>
-        /// <param name="k"></param>
+        /// <param name="src">Input 8-bit or floating-point 32-bit, single-channel image.</param>
+        /// <param name="maxCorners">Maximum number of corners to return. If there are more corners than are found, 
+        /// the strongest of them is returned.</param>
+        /// <param name="qualityLevel">Parameter characterizing the minimal accepted quality of image corners. 
+        /// The parameter value is multiplied by the best corner quality measure, which is the minimal eigenvalue 
+        /// or the Harris function response (see cornerHarris() ). The corners with the quality measure less than 
+        /// the product are rejected. For example, if the best corner has the quality measure = 1500, and the qualityLevel=0.01, 
+        /// then all the corners with the quality measure less than 15 are rejected.</param>
+        /// <param name="minDistance">Minimum possible Euclidean distance between the returned corners.</param>
+        /// <param name="mask">Optional region of interest. If the image is not empty
+        ///  (it needs to have the type CV_8UC1 and the same size as image ), it specifies the region 
+        /// in which the corners are detected.</param>
+        /// <param name="blockSize">Size of an average block for computing a derivative covariation matrix over each pixel neighborhood.</param>
+        /// <param name="useHarrisDetector">Parameter indicating whether to use a Harris detector</param>
+        /// <param name="k">Free parameter of the Harris detector.</param>
+        /// <returns>Output vector of detected corners.</returns>
         public static Point2f[] GoodFeaturesToTrack(InputArray src, 
             int maxCorners, double qualityLevel, double minDistance,
             InputArray mask, int blockSize, bool useHarrisDetector, double k)
@@ -834,14 +797,19 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Resize
         /// <summary>
-        /// 
+        /// Resizes an image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="dsize"></param>
-        /// <param name="fx"></param>
-        /// <param name="fy"></param>
-        /// <param name="interpolation"></param>
+        /// <param name="src">input image.</param>
+        /// <param name="dst">output image; it has the size dsize (when it is non-zero) or the size computed 
+        /// from src.size(), fx, and fy; the type of dst is the same as of src.</param>
+        /// <param name="dsize">output image size; if it equals zero, it is computed as: 
+        /// dsize = Size(round(fx*src.cols), round(fy*src.rows))
+        /// Either dsize or both fx and fy must be non-zero.</param>
+        /// <param name="fx">scale factor along the horizontal axis; when it equals 0, 
+        /// it is computed as: (double)dsize.width/src.cols</param>
+        /// <param name="fy">scale factor along the vertical axis; when it equals 0, 
+        /// it is computed as: (double)dsize.height/src.rows</param>
+        /// <param name="interpolation">interpolation method</param>
         public static void Resize(InputArray src, OutputArray dst, Size dsize,
             double fx = 0, double fy = 0, Interpolation interpolation = Interpolation.Linear)
         {
@@ -857,15 +825,18 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region WarpAffine
         /// <summary>
-        /// 
+        /// Applies an affine transformation to an image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="m"></param>
-        /// <param name="dsize"></param>
-        /// <param name="flags"></param>
-        /// <param name="borderMode"></param>
-        /// <param name="borderValue"></param>
+        /// <param name="src">input image.</param>
+        /// <param name="dst">output image that has the size dsize and the same type as src.</param>
+        /// <param name="m">2x3 transformation matrix.</param>
+        /// <param name="dsize">size of the output image.</param>
+        /// <param name="flags">combination of interpolation methods and the optional flag 
+        /// WARP_INVERSE_MAP that means that M is the inverse transformation (dst -> src) .</param>
+        /// <param name="borderMode">pixel extrapolation method; when borderMode=BORDER_TRANSPARENT, 
+        /// it means that the pixels in the destination image corresponding to the "outliers" 
+        /// in the source image are not modified by the function.</param>
+        /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
         public static void WarpAffine(InputArray src, OutputArray dst, InputArray m, Size dsize,
             Interpolation flags = Interpolation.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
@@ -885,15 +856,16 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region WarpPerspective
         /// <summary>
-        /// 
+        /// Applies a perspective transformation to an image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="m"></param>
-        /// <param name="dsize"></param>
-        /// <param name="flags"></param>
-        /// <param name="borderMode"></param>
-        /// <param name="borderValue"></param>
+        /// <param name="src">input image.</param>
+        /// <param name="dst">output image that has the size dsize and the same type as src.</param>
+        /// <param name="m">3x3 transformation matrix.</param>
+        /// <param name="dsize">size of the output image.</param>
+        /// <param name="flags">combination of interpolation methods (INTER_LINEAR or INTER_NEAREST) 
+        /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
+        /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
+        /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
         public static void WarpPerspective(InputArray src, OutputArray dst, Mat m, Size dsize,
             Interpolation flags = Interpolation.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
@@ -913,15 +885,17 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Remap
         /// <summary>
-        /// 
+        /// Applies a generic geometrical transformation to an image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="map1"></param>
-        /// <param name="map2"></param>
-        /// <param name="interpolation"></param>
-        /// <param name="borderMode"></param>
-        /// <param name="borderValue"></param>
+        /// <param name="src">Source image.</param>
+        /// <param name="dst">Destination image. It has the same size as map1 and the same type as src</param>
+        /// <param name="map1">The first map of either (x,y) points or just x values having the type CV_16SC2, CV_32FC1, or CV_32FC2.</param>
+        /// <param name="map2">The second map of y values having the type CV_16UC1, CV_32FC1, or none (empty map if map1 is (x,y) points), respectively.</param>
+        /// <param name="interpolation">Interpolation method. The method INTER_AREA is not supported by this function.</param>
+        /// <param name="borderMode">Pixel extrapolation method. When borderMode=BORDER_TRANSPARENT, 
+        /// it means that the pixels in the destination image that corresponds to the "outliers" in 
+        /// the source image are not modified by the function.</param>
+        /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
         public static void Remap(InputArray src, OutputArray dst, InputArray map1, InputArray map2,
             Interpolation interpolation = Interpolation.Linear, BorderType borderMode = BorderType.Constant, CvScalar? borderValue = null)
         {
@@ -989,10 +963,10 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region InvertAffineTransform
         /// <summary>
-        /// 
+        /// Inverts an affine transformation.
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="im"></param>
+        /// <param name="m">Original affine transformation.</param>
+        /// <param name="im">Output reverse affine transformation.</param>
         public static void InvertAffineTransform(InputArray m, OutputArray im)
         {
             if (m == null)
@@ -1323,7 +1297,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="dst"></param>
         /// <param name="winSize"></param>
         /// <param name="type"></param>
-        public static void CreateHanningWindow(OutputArray dst, Size winSize, int type)
+        public static void CreateHanningWindow(InputOutputArray dst, Size winSize, int type)
         {
             if (dst == null)
                 throw new ArgumentNullException("dst");
@@ -1598,7 +1572,7 @@ namespace OpenCvSharp.CPlusPlus
             if (ranges == null)
                 throw new ArgumentNullException("ranges");
             float[][] rangesFloat = EnumerableEx.SelectToArray(
-                ranges, r => new float[2] {r.Start, r.End});
+                ranges, r => new [] {r.Start, r.End});
             CalcHist(images, channels, mask, hist, dims, 
                 histSize, rangesFloat, uniform, accumulate);
         }
@@ -1669,7 +1643,8 @@ namespace OpenCvSharp.CPlusPlus
             backProject.ThrowIfNotReady();
 
             IntPtr[] imagesPtr = EnumerableEx.SelectPtrs(images);
-            float[][] rangesFloat = EnumerableEx.SelectToArray(ranges, r => new float[2] {r.Start, r.End});
+            float[][] rangesFloat = EnumerableEx.SelectToArray(
+                ranges, r => new [] {r.Start, r.End});
             using (var rangesPtr = new ArrayAddress2<float>(rangesFloat))
             {
                 NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
@@ -2049,15 +2024,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            try
-            {
-                NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
-                dst.Fix();
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            
+            NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
+            dst.Fix();
         }
         #endregion
         #region Moments
@@ -2451,7 +2420,7 @@ namespace OpenCvSharp.CPlusPlus
             Point[] curveArray = EnumerableEx.ToArray(curve);
             IntPtr approxCurvePtr;
             NativeMethods.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
-            using (VectorOfPoint approxCurveVec = new VectorOfPoint(approxCurvePtr))
+            using (var approxCurveVec = new VectorOfPoint(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();
             }
@@ -2470,7 +2439,7 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] curveArray = EnumerableEx.ToArray(curve);
             IntPtr approxCurvePtr;
             NativeMethods.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
-            using (VectorOfPoint2f approxCurveVec = new VectorOfPoint2f(approxCurvePtr))
+            using (var approxCurveVec = new VectorOfPoint2f(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();
             }
@@ -2848,7 +2817,7 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.imgproc_convexityDefects_Point(contourArray, contourArray.Length,
                 convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
 
-            using (VectorOfVec4i convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
+            using (var convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
             {
                 return convexityDefects.ToArray();
             }
@@ -2871,7 +2840,7 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.imgproc_convexityDefects_Point2f(contourArray, contourArray.Length,
                 convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
 
-            using (VectorOfVec4i convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
+            using (var convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
             {
                 return convexityDefects.ToArray();
             }
@@ -2963,7 +2932,7 @@ namespace OpenCvSharp.CPlusPlus
             float ret = NativeMethods.imgproc_intersectConvexConvex_Point(p1Array, p1Array.Length, p2Array, p2Array.Length, 
                 out p12Ptr, handleNested ? 1 : 0);
 
-            using (VectorOfPoint p12Vec = new VectorOfPoint(p12Ptr))
+            using (var p12Vec = new VectorOfPoint(p12Ptr))
             {
                 p12 = p12Vec.ToArray();
             }
@@ -2991,7 +2960,7 @@ namespace OpenCvSharp.CPlusPlus
             float ret = NativeMethods.imgproc_intersectConvexConvex_Point2f(p1Array, p1Array.Length, p2Array, p2Array.Length,
                 out p12Ptr, handleNested ? 1 : 0);
 
-            using (VectorOfPoint2f p12Vec = new VectorOfPoint2f(p12Ptr))
+            using (var p12Vec = new VectorOfPoint2f(p12Ptr))
             {
                 p12 = p12Vec.ToArray();
             }

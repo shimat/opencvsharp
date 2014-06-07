@@ -56,7 +56,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mat">Managed Mat object</param>
 #endif
         public MatOfFloat(Mat mat)
-            : base(mat.CvPtr)
+            : base(mat)
         {
         }
 
