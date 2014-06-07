@@ -1,17 +1,17 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("OpenCvSharp.DebuggerVisualizers2010")]
+[assembly: AssemblyTitle("OpenCvSharp.DebuggerVisualizers2013")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("OpenCvSharp.DebuggerVisualizers2010")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2009")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("OpenCvSharp.DebuggerVisualizers2013")]
+[assembly: AssemblyCopyright("Copyright © 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -37,27 +37,24 @@ using System.Diagnostics;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 
-
 // OpenCvSharp objects' debugger visualizer
 [assembly: DebuggerVisualizer(
-    typeof(OpenCvSharp.DebuggerVisualizers.IplImageDebuggerVisualizer),
-    typeof(OpenCvSharp.DebuggerVisualizers.IplImageObjectSource),
+    typeof(OpenCvSharp.DebuggerVisualizers2013.IplImageDebuggerVisualizer),
+    typeof(OpenCvSharp.DebuggerVisualizers2013.IplImageObjectSource),
     Target = typeof(OpenCvSharp.IplImage), 
     Description = "IplImage View Visualizer"
 )]
 
 [assembly: DebuggerVisualizer(
-    typeof(OpenCvSharp.DebuggerVisualizers.CvMatDebuggerVisualizer),
-    typeof(OpenCvSharp.DebuggerVisualizers.CvMatObjectSource),
+    typeof(OpenCvSharp.DebuggerVisualizers2013.CvMatDebuggerVisualizer),
+    typeof(OpenCvSharp.DebuggerVisualizers2013.CvMatObjectSource),
     Target = typeof(OpenCvSharp.CvMat),
     Description = "CvMat View Visualizer"
 )]
 
 [assembly: DebuggerVisualizer(
-    typeof(OpenCvSharp.DebuggerVisualizers.MatDebuggerVisualizer),
-    typeof(OpenCvSharp.DebuggerVisualizers.MatObjectSource),
+    typeof(OpenCvSharp.DebuggerVisualizers2013.MatDebuggerVisualizer),
+    typeof(OpenCvSharp.DebuggerVisualizers2013.MatObjectSource),
     Target = typeof(OpenCvSharp.CPlusPlus.Mat),
     Description = "Mat View Visualizer"
 )]
-
-

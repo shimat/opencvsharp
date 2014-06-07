@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
-namespace OpenCvSharp.DebuggerVisualizers
+namespace OpenCvSharp.DebuggerVisualizers2010
 {
     /// <summary>
     /// CvMatの中身の値を表示するビューア
     /// </summary>
     public partial class CvMatViewer : Form
     {
-        private CvMatProxy _proxy;
-        private CvScalar[,] _data;
+        private readonly CvMatProxy proxy;
+        private readonly CvScalar[,] data;
 
         public CvMatProxy ModifiedProxy 
         {
             get
             {
-                return new CvMatProxy(_data, _proxy.Rows, _proxy.Cols, _proxy.ElemChannels);
+                return new CvMatProxy(data, proxy.Rows, proxy.Cols, proxy.ElemChannels);
             }
         }
 
@@ -29,8 +28,8 @@ namespace OpenCvSharp.DebuggerVisualizers
         public CvMatViewer()
         {
             InitializeComponent();
-            _proxy = null;
-            _data = null;
+            proxy = null;
+            data = null;
         }
         /// <summary>
         /// 
@@ -39,13 +38,13 @@ namespace OpenCvSharp.DebuggerVisualizers
         public CvMatViewer(CvMatProxy proxy)
             : this()
         {
-            _proxy = proxy;
-            _data = new CvScalar[proxy.Rows, proxy.Cols];
+            this.proxy = proxy;
+            data = new CvScalar[proxy.Rows, proxy.Cols];
             for (int r = 0; r < proxy.Rows; r++)
             {
                 for (int c = 0; c < proxy.Cols; c++)
                 {
-                    _data[r, c] = proxy.Data[r, c];
+                    data[r, c] = proxy.Data[r, c];
                 }
             }
         }
@@ -61,8 +60,8 @@ namespace OpenCvSharp.DebuggerVisualizers
             // キャプション
             Text = GetWindowCaption();
             // コントロールの初期化
-            InitializeDataGridView(_proxy);
-            InitializeComboBox(_proxy);
+            InitializeDataGridView(proxy);
+            InitializeComboBox(proxy);
         }
 
         /// <summary>
@@ -153,7 +152,7 @@ namespace OpenCvSharp.DebuggerVisualizers
 
             if (double.TryParse(cellText, out value))
             {
-                _data[r, c] = value;
+                data[r, c] = value;
             }
         }
         #endregion
@@ -166,7 +165,7 @@ namespace OpenCvSharp.DebuggerVisualizers
         /// <returns></returns>
         private string GetWindowCaption()
         {
-            return string.Format("CvMatViewer - Rows:{0} Cols:{1} ElemChannels:{2}", _proxy.Rows, _proxy.Cols, _proxy.ElemChannels);
+            return string.Format("CvMatViewer - Rows:{0} Cols:{1} ElemChannels:{2}", proxy.Rows, proxy.Cols, proxy.ElemChannels);
         }
 
         /// <summary>
@@ -203,12 +202,12 @@ namespace OpenCvSharp.DebuggerVisualizers
         /// <param name="channel">表示するチャンネル。0なら全部表示。</param>
         private void FillCellValue(int channel)
         {
-            for (int r = 0; r < _proxy.Rows; r++)
+            for (int r = 0; r < proxy.Rows; r++)
             {
-                for (int c = 0; c < _proxy.Cols; c++)
+                for (int c = 0; c < proxy.Cols; c++)
                 {
                     DataGridViewCell cell = dataGridView[c, r];
-                    CvScalar value = _data[r, c];
+                    CvScalar value = data[r, c];
 
                     switch (channel)
                     {

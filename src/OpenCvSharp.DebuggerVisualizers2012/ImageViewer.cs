@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
-namespace OpenCvSharp.DebuggerVisualizers
+namespace OpenCvSharp.DebuggerVisualizers2012
 {
     /// <summary>
     /// IplImageを表示するビューア

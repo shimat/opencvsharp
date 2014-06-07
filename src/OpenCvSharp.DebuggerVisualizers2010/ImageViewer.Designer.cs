@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.DebuggerVisualizers
+﻿namespace OpenCvSharp.DebuggerVisualizers2010
 {
     partial class ImageViewer
     {
