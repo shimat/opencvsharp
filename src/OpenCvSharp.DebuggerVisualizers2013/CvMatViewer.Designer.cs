@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.DebuggerVisualizers
+﻿namespace OpenCvSharp.DebuggerVisualizers2013
 {
     partial class CvMatViewer
     {

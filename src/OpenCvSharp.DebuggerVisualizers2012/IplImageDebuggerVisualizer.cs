@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 
-namespace OpenCvSharp.DebuggerVisualizers
+namespace OpenCvSharp.DebuggerVisualizers2012
 {
     /// <summary>
     /// ビジュアライザでの視覚化処理

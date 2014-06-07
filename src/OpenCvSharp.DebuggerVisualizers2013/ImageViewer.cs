@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace OpenCvSharp.DebuggerVisualizers
+namespace OpenCvSharp.DebuggerVisualizers2013
 {
     /// <summary>
     /// IplImageを表示するビューア
