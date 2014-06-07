@@ -82,26 +82,14 @@ namespace OpenCvSharp.ReleaseMaker
         {
             Button b = (Button)sender;
             b.Enabled = false;
-            //try
-            {
-                MakeBinaryPackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
-                MakeSamplePackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
-                MessageBox.Show(@"生成成功");
-            }
-            /*catch (Exception ex)
-            {
-                throw;
-                MessageBox.Show(ex.ToString());
-            }
-            finally*/
-            {
-                b.Enabled = true;
-            }
+            
+            MakeBinaryPackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
+            MakeSamplePackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
+            MessageBox.Show(@"Packages created successfully.");
+
+            b.Enabled = true;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         private static readonly string[] DllFiles = {
             @"OpenCvSharp\bin\Release\OpenCvSharp.dll", 
             @"OpenCvSharp\bin\Release\OpenCvSharp.dll.config", 
@@ -111,14 +99,16 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config", 
             @"OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll", 
             @"OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll", 
-            //"OpenCvSharp.Gpu.dll",
-            @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll", 
-            //"OpenCvSharpExtern.dll",
         };
 
-        /// <summary>
-        /// 
-        /// </summary>
+        private static readonly string DebuggerVisualizerPath =
+            @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
+
+        private static readonly string[] DebuggerVisualizerVersions =
+        {
+            "2010", "2012", "2013",
+        };
+
         private static readonly string[] XmlFiles = {
             @"OpenCvSharp\bin\{0}\OpenCvSharp.xml", 
             @"OpenCvSharp.Blob\bin\{0}\OpenCvSharp.Blob.xml", 
@@ -141,8 +131,8 @@ namespace OpenCvSharp.ReleaseMaker
         /// </summary>
         /// <param name="dir"></param>
         /// <param name="dirDst"></param>
-        /// <param name="version"></param>
-        private void MakeBinaryPackage(string dir, string dirDst, string version)
+        /// <param name="opencvVersion"></param>
+        private void MakeBinaryPackage(string dir, string dirDst, string opencvVersion)
         {
             string dirSrc = Path.Combine(dir, "src");
 
@@ -181,6 +171,16 @@ namespace OpenCvSharp.ReleaseMaker
                         }
                     }
 
+                    // Debugger Visualizerを選択
+                    foreach (string version in DebuggerVisualizerVersions)
+                    {
+                        string dllFileName = String.Format(DebuggerVisualizerPath, version);
+                        string zipFileName = Path.Combine(
+                            "DebuggerVisualizers", version, Path.GetFileName(DebuggerVisualizerPath));
+                        ZipEntry e = zf.AddFile(dllFileName);
+                        e.FileName = Path.GetFileName(zipFileName);
+                    }
+
                     // テキストを選択
                     {
                         ZipEntry e1 = zf.AddFile(Path.Combine(dir, "LICENSE.txt"));
@@ -189,7 +189,8 @@ namespace OpenCvSharp.ReleaseMaker
                         e2.FileName = Path.GetFileName("README.md");
                     }
 
-                    string dst = Path.Combine(dirDst, GetBinaryDstDirName(pf, version)) + ".zip";
+                    string dst = Path.Combine(
+                        dirDst, GetBinaryDstDirName(pf, opencvVersion)) + ".zip";
                     zf.Save(dst);
                 }
             }
@@ -208,7 +209,7 @@ namespace OpenCvSharp.ReleaseMaker
 
             CopyDirectory(dirSrc, dirDst);
 
-            using (ZipFile zf = new ZipFile())
+            using (var zf = new ZipFile())
             {
                 zf.AddDirectory(dirDst);
                 zf.Save(dirDst + ".zip");
