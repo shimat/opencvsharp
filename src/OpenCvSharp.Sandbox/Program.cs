@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
@@ -25,6 +24,12 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            Mat mmm = new Mat("img/lenna.png");
+            mmm.ToString();
+
+            IplImage img = new IplImage("img/lenna.png");
+            img.ToString();
+
             Wpf();
             Run();
         }

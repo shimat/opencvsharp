@@ -1,6 +1,6 @@
 ﻿namespace OpenCvSharp.DebuggerVisualizers
 {
-    partial class IplImageViewer
+    partial class ImageViewer
     {
         /// <summary>
         /// Required designer variable.
@@ -43,7 +43,7 @@
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
-            // IplImageViewer
+            // ImageViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -52,8 +52,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "IplImageViewer";
-            this.Text = "IplImageViewer";
+            this.Name = "ImageViewer";
+            this.Text = "ImageViewer";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

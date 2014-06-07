@@ -5,7 +5,6 @@ using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.DebuggerVisualizers;
-using OpenCvSharp.Extensions;
 
 namespace OpenCvSharp.DebuggerVisualizers
 {
@@ -17,14 +16,14 @@ namespace OpenCvSharp.DebuggerVisualizers
         protected override void Show(IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider)
         {
             // IplImageProxyが送られてくるはず
-            using (IplImageProxy proxy = objectProvider.GetObject() as IplImageProxy)
+            using (var proxy = objectProvider.GetObject() as IplImageProxy)
             {
                 if (proxy == null)
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException("proxy == null");
                 }
                 // Formに表示
-                using (IplImageViewer form = new IplImageViewer(proxy))
+                using (var form = new ImageViewer(proxy))
                 {
                     windowService.ShowDialog(form);
                 }
@@ -39,15 +38,27 @@ namespace OpenCvSharp.DebuggerVisualizers
     [Serializable]
     public class IplImageProxy : IDisposable
     {
-        public Bitmap Bitmap { get; private set; }
+        public byte[] ImageData { get; private set; }
 
         public IplImageProxy(IplImage image)
         {
-            Bitmap = image.ToBitmap();
+            ImageData = image.ToBytes(".png");
         }
+
         public void Dispose()
         {
-            Bitmap.Dispose();
+            ImageData = null;
+        }
+
+        public Bitmap CreateBitmap()
+        {
+            if(ImageData == null)
+                throw new Exception("ImageData == null");
+
+            using (var stream = new MemoryStream(ImageData))
+            {
+                return new Bitmap(stream);
+            }
         }
     }
 
@@ -58,7 +69,7 @@ namespace OpenCvSharp.DebuggerVisualizers
     {
         public override void GetData(object target, Stream outgoingData)
         {
-            BinaryFormatter bf = new BinaryFormatter();
+            var bf = new BinaryFormatter();
             bf.Serialize(outgoingData, new IplImageProxy((IplImage)target));
         }
     }

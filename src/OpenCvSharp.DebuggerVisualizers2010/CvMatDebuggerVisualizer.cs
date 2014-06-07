@@ -16,13 +16,13 @@ namespace OpenCvSharp.DebuggerVisualizers
         protected override void Show(IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider)
         {
             // 送られてくるはずのCvMatProxyを受け取る
-            using (CvMatProxy proxy = objectProvider.GetObject() as CvMatProxy)
+            using (var proxy = objectProvider.GetObject() as CvMatProxy)
             {
                 if (proxy == null)
                 {
                     throw new ArgumentException();
                 }
-                using (CvMatViewer form = new CvMatViewer(proxy))
+                using (var form = new CvMatViewer(proxy))
                 {
                     // 行列データ表示用フォームを開く
                     windowService.ShowDialog(form);
@@ -80,7 +80,7 @@ namespace OpenCvSharp.DebuggerVisualizers
         /// <param name="outgoingData"></param>
         public override void GetData(object target, Stream outgoingData)
         {
-            BinaryFormatter bf = new BinaryFormatter();
+            var bf = new BinaryFormatter();
             bf.Serialize(outgoingData, new CvMatProxy((CvMat)target));
         }
         /// <summary>
@@ -92,15 +92,15 @@ namespace OpenCvSharp.DebuggerVisualizers
         public override object CreateReplacementObject(object target, Stream incomingData)
         {
             // プロキシデータの復元
-            BinaryFormatter bf = new BinaryFormatter();
-            CvMatProxy proxy = bf.Deserialize(incomingData) as CvMatProxy;
+            var bf = new BinaryFormatter();
+            var proxy = bf.Deserialize(incomingData) as CvMatProxy;
             if (proxy == null)
             {
                 throw new Exception("Failed to cast");
             }
             // 元データのCvMat
-            CvMat mat = target as CvMat;
-            if (proxy == null || mat == null)
+            var mat = target as CvMat;
+            if (mat == null)
             {
                 throw new Exception("Failed to cast");
             }

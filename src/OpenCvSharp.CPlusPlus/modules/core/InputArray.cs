@@ -6,7 +6,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// Proxy datatype for passing Mat's and vector&lt;&gt;'s as input parameters
     /// </summary>
-    public class InputArray : DisposableCvObject
+    public partial class InputArray : DisposableCvObject
     {
         private bool disposed;
         private Mat mat;
