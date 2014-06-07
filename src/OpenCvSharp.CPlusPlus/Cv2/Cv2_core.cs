@@ -217,9 +217,9 @@ namespace OpenCvSharp.CPlusPlus
 
         #region Abs
         /// <summary>
-        /// 
+        /// Computes absolute value of each matrix element
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="src">matrix</param>
         /// <returns></returns>
         public static MatExpr Abs(Mat src)
         {
@@ -230,9 +230,9 @@ namespace OpenCvSharp.CPlusPlus
             return new MatExpr(retPtr);
         }
         /// <summary>
-        /// 
+        /// Computes absolute value of each matrix element
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="src">matrix expression</param>
         /// <returns></returns>
         public static MatExpr Abs(MatExpr src)
         {
@@ -497,9 +497,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="lut"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">Source array of 8-bit elements</param>
+        /// <param name="lut">Look-up table of 256 elements. 
+        /// In the case of multi-channel source array, the table should either have 
+        /// a single channel (in this case the same table is used for all channels)
+        ///  or the same number of channels as in the source array</param>
+        /// <param name="dst">Destination array; 
+        /// will have the same size and the same number of channels as src, 
+        /// and the same depth as lut</param>
         /// <param name="interpolation"></param>
         public static void LUT(InputArray src, InputArray lut, OutputArray dst, int interpolation = 0)
         {
@@ -517,9 +522,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="lut"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">Source array of 8-bit elements</param>
+        /// <param name="lut">Look-up table of 256 elements. 
+        /// In the case of multi-channel source array, the table should either have 
+        /// a single channel (in this case the same table is used for all channels) 
+        /// or the same number of channels as in the source array</param>
+        /// <param name="dst">Destination array; 
+        /// will have the same size and the same number of channels as src, 
+        /// and the same depth as lut</param>
         /// <param name="interpolation"></param>
         public static void LUT(InputArray src, byte[] lut, OutputArray dst, int interpolation = 0)
         {
@@ -537,7 +547,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes sum of array elements
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="src">The source array; must have 1 to 4 channels</param>
         /// <returns></returns>
         public static Scalar Sum(InputArray src)
         {
@@ -551,14 +561,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes the number of nonzero array elements
         /// </summary>
-        /// <param name="src"></param>
-        /// <returns></returns>
-        public static int CountNonZero(InputArray src)
+        /// <param name="mtx">Single-channel array</param>
+        /// <returns>number of non-zero elements in mtx</returns>
+        public static int CountNonZero(InputArray mtx)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            src.ThrowIfDisposed();
-            return NativeMethods.core_countNonZero(src.CvPtr);
+            if (mtx == null)
+                throw new ArgumentNullException("mtx");
+            mtx.ThrowIfDisposed();
+            return NativeMethods.core_countNonZero(mtx.CvPtr);
         }
         #endregion
         #region FindNonZero
@@ -583,8 +593,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes mean value of selected array elements
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="mask"></param>
+        /// <param name="src">The source array; it should have 1 to 4 channels
+        ///  (so that the result can be stored in Scalar)</param>
+        /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
         public static Scalar Mean(InputArray src, InputArray mask = null)
         {
@@ -598,10 +609,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes mean value and standard deviation of all or selected array elements
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="mean"></param>
-        /// <param name="stddev"></param>
-        /// <param name="mask"></param>
+        /// <param name="src">The source array; it should have 1 to 4 channels 
+        /// (so that the results can be stored in Scalar's)</param>
+        /// <param name="mean">The output parameter: computed mean value</param>
+        /// <param name="stddev">The output parameter: computed standard deviation</param>
+        /// <param name="mask">The optional operation mask</param>
         public static void MeanStdDev(InputArray src, OutputArray mean,
                                       OutputArray stddev, InputArray mask = null)
         {
@@ -621,11 +633,11 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Norm
         /// <summary>
-        /// computes norm of the selected array part
+        /// Calculates absolute array norm, absolute difference norm, or relative difference norm.
         /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="normType"></param>
-        /// <param name="mask"></param>
+        /// <param name="src1">The first source array</param>
+        /// <param name="normType">Type of the norm</param>
+        /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
         public static double Norm(InputArray src1, 
             NormType normType = NormType.L2, InputArray mask = null)
@@ -638,10 +650,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes norm of selected part of the difference between two arrays
         /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="normType"></param>
-        /// <param name="mask"></param>
+        /// <param name="src1">The first source array</param>
+        /// <param name="src2">The second source array of the same size and the same type as src1</param>
+        /// <param name="normType">Type of the norm</param>
+        /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
         public static double Norm(InputArray src1, InputArray src2,
                                   NormType normType = NormType.L2, InputArray mask = null)
@@ -698,13 +710,17 @@ namespace OpenCvSharp.CPlusPlus
         /// scales and shifts array elements so that either the specified norm (alpha) 
         /// or the minimum (alpha) and maximum (beta) array values get the specified values
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="alpha"></param>
-        /// <param name="beta"></param>
-        /// <param name="normType"></param>
-        /// <param name="dtype"></param>
-        /// <param name="mask"></param>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array; will have the same size as src</param>
+        /// <param name="alpha">The norm value to normalize to or the lower range boundary 
+        /// in the case of range normalization</param>
+        /// <param name="beta">The upper range boundary in the case of range normalization; 
+        /// not used for norm normalization</param>
+        /// <param name="normType">The normalization type</param>
+        /// <param name="dtype">When the parameter is negative, 
+        /// the destination array will have the same type as src, 
+        /// otherwise it will have the same number of channels as src and the depth =CV_MAT_DEPTH(rtype)</param>
+        /// <param name="mask">The optional operation mask</param>
         public static void Normalize( InputArray src, OutputArray dst, double alpha=1, double beta=0,
                              NormType normType=NormType.L2, int dtype=-1, InputArray mask=null)
         {
@@ -722,9 +738,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="minVal"></param>
-        /// <param name="maxVal"></param>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minVal">Pointer to returned minimum value</param>
+        /// <param name="maxVal">Pointer to returned maximum value</param>
         public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal)
         {
             if (src == null)
@@ -732,15 +748,28 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal);
         }
+
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="minVal"></param>
-        /// <param name="maxVal"></param>
-        /// <param name="minLoc"></param>
-        /// <param name="maxLoc"></param>
-        /// <param name="mask"></param>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minLoc">Pointer to returned minimum location</param>
+        /// <param name="maxLoc">Pointer to returned maximum location</param>
+        public static void MinMaxLoc(InputArray src, out Point minLoc, out Point maxLoc)
+        {
+            double minVal, maxVal;
+            MinMaxLoc(src, out minVal, out maxVal, out minLoc, out maxLoc);
+        }
+
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minVal">Pointer to returned minimum value</param>
+        /// <param name="maxVal">Pointer to returned maximum value</param>
+        /// <param name="minLoc">Pointer to returned minimum location</param>
+        /// <param name="maxLoc">Pointer to returned maximum location</param>
+        /// <param name="mask">The optional mask used to select a sub-array</param>
         public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal,
             out Point minLoc, out Point maxLoc, InputArray mask = null)
         {
@@ -757,9 +786,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="minVal"></param>
-        /// <param name="maxVal"></param>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minVal">Pointer to returned minimum value</param>
+        /// <param name="maxVal">Pointer to returned maximum value</param>
         public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal)
         {
             if (src == null)
@@ -767,12 +796,25 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             NativeMethods.core_minMaxIdx(src.CvPtr, out minVal, out maxVal);
         }
+
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="minVal"></param>
-        /// <param name="maxVal"></param>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minIdx"></param>
+        /// <param name="maxIdx"></param>
+        public static void MinMaxIdx(InputArray src, out int minIdx, out int maxIdx)
+        {
+            double minVal, maxVal;
+            MinMaxIdx(src, out minVal, out maxVal, out minIdx, out maxIdx, null);
+        }
+
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minVal">Pointer to returned minimum value</param>
+        /// <param name="maxVal">Pointer to returned maximum value</param>
         /// <param name="minIdx"></param>
         /// <param name="maxIdx"></param>
         /// <param name="mask"></param>
@@ -789,11 +831,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// transforms 2D matrix to 1D row or column vector by taking sum, minimum, maximum or mean value over all the rows
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="dim"></param>
+        /// <param name="src">The source 2D matrix</param>
+        /// <param name="dst">The destination vector. 
+        /// Its size and type is defined by dim and dtype parameters</param>
+        /// <param name="dim">The dimension index along which the matrix is reduced. 
+        /// 0 means that the matrix is reduced to a single row and 1 means that the matrix is reduced to a single column</param>
         /// <param name="rtype"></param>
-        /// <param name="dtype"></param>
+        /// <param name="dtype">When it is negative, the destination vector will have 
+        /// the same type as the source matrix, otherwise, its type will be CV_MAKE_TYPE(CV_MAT_DEPTH(dtype), mtx.channels())</param>
         public static void Reduce(InputArray src, OutputArray dst, ReduceDimension dim, ReduceOperation rtype, int dtype)
         {
             if (src == null)
@@ -840,8 +885,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Copies each plane of a multi-channel array to a dedicated array
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="mv"></param>
+        /// <param name="src">The source multi-channel array</param>
+        /// <param name="mv">The destination array or vector of arrays; 
+        /// The number of arrays must match mtx.channels() . 
+        /// The arrays themselves will be reallocated if needed</param>
         public static void Split(Mat src, out Mat[] mv)
         {
             if (src == null)
@@ -859,7 +906,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Copies each plane of a multi-channel array to a dedicated array
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="src">The source multi-channel array</param>
+        /// <returns>The number of arrays must match mtx.channels() . 
+        /// The arrays themselves will be reallocated if needed</returns>
         public static Mat[] Split(Mat src)
         {
             Mat[] mv;
@@ -946,9 +995,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// reverses the order of the rows, columns or both in a matrix
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flipCode"></param>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
+        /// <param name="flipCode">Specifies how to flip the array: 
+        /// 0 means flipping around the x-axis, positive (e.g., 1) means flipping around y-axis, 
+        /// and negative (e.g., -1) means flipping around both axes. See also the discussion below for the formulas.</param>
         public static void Flip(InputArray src, OutputArray dst, FlipMode flipCode)
         {
             if (src == null)
@@ -965,10 +1016,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="ny"></param>
-        /// <param name="nx"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">The source array to replicate</param>
+        /// <param name="ny">How many times the src is repeated along the vertical axis</param>
+        /// <param name="nx">How many times the src is repeated along the horizontal axis</param>
+        /// <param name="dst">The destination array; will have the same type as src</param>
         public static void Repeat(InputArray src, int ny, int nx, OutputArray dst)
         {
             if (src == null)
@@ -983,9 +1034,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="ny"></param>
-        /// <param name="nx"></param>
+        /// <param name="src">The source array to replicate</param>
+        /// <param name="ny">How many times the src is repeated along the vertical axis</param>
+        /// <param name="nx">How many times the src is repeated along the horizontal axis</param>
         /// <returns></returns>
         public static Mat Repeat(Mat src, int ny, int nx)
         {
@@ -1198,10 +1249,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="lowerb"></param>
-        /// <param name="upperb"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">The first source array</param>
+        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
+        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
+        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
         public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
         {
             if (src == null)
@@ -1217,6 +1268,25 @@ namespace OpenCvSharp.CPlusPlus
             upperb.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_inRange(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// </summary>
+        /// <param name="src">The first source array</param>
+        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
+        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
+        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
+        public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            NativeMethods.core_inRange(src.CvPtr, lowerb, upperb, dst.CvPtr);
             dst.Fix();
         }
         #endregion
@@ -1361,8 +1431,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes square root of each matrix element (dst = src**0.5)
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">The source floating-point array</param>
+        /// <param name="dst">The destination array; will have the same size and the same type as src</param>
         public static void Sqrt(InputArray src, OutputArray dst)
         {
             if (src == null)
@@ -1379,9 +1449,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// raises the input matrix elements to the specified power (b = a**power)
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="power"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">The source array</param>
+        /// <param name="power">The exponent of power</param>
+        /// <param name="dst">The destination array; will have the same size and the same type as src</param>
         public static void Pow(InputArray src, double power, OutputArray dst)
         {
             if (src == null)
@@ -1398,8 +1468,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes exponent of each matrix element (dst = e**src)
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
         public static void Exp(InputArray src, OutputArray dst)
         {
             if (src == null)
@@ -1411,16 +1481,17 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.core_exp_Mat(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="src">The source array</param>
         /// <returns></returns>
         public static float[] Exp(float[] src)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
-            float[] dst = new float[src.Length];
+            var dst = new float[src.Length];
             NativeMethods.core_exp_Array(src, dst, dst.Length);
             return dst;
         }
@@ -1429,8 +1500,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes natural logarithm of absolute value of each matrix element: dst = log(abs(src))
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
         public static void Log(InputArray src, OutputArray dst)
         {
             if (src == null)
@@ -1442,16 +1513,17 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.core_log_Mat(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="src">The source array</param>
         /// <returns></returns>
         public static float[] Log(float[] src)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
-            float[] dst = new float[src.Length];
+            var dst = new float[src.Length];
             NativeMethods.core_log_Array(src, dst, dst.Length);
             return dst;
         }
@@ -1627,32 +1699,37 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// checks that each matrix element is within the specified range.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="quiet"></param>
+        /// <param name="src">The array to check</param>
+        /// <param name="quiet">The flag indicating whether the functions quietly 
+        /// return false when the array elements are out of range, 
+        /// or they throw an exception.</param>
         /// <returns></returns>
-        public static bool CheckRange(InputArray a, bool quiet = true)
+        public static bool CheckRange(InputArray src, bool quiet = true)
         {
             Point pos;
-            return CheckRange(a, quiet, out pos);
+            return CheckRange(src, quiet, out pos);
         }
         /// <summary>
         /// checks that each matrix element is within the specified range.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="quiet"></param>
-        /// <param name="pos"></param>
-        /// <param name="minVal"></param>
-        /// <param name="maxVal"></param>
+        /// <param name="src">The array to check</param>
+        /// <param name="quiet">The flag indicating whether the functions quietly 
+        /// return false when the array elements are out of range, 
+        /// or they throw an exception.</param>
+        /// <param name="pos">The optional output parameter, where the position of 
+        /// the first outlier is stored.</param>
+        /// <param name="minVal">The inclusive lower boundary of valid values range</param>
+        /// <param name="maxVal">The exclusive upper boundary of valid values range</param>
         /// <returns></returns>
-        public static bool CheckRange(InputArray a, bool quiet, out Point pos,
+        public static bool CheckRange(InputArray src, bool quiet, out Point pos,
             double minVal = double.MinValue, double maxVal = double.MaxValue)
         {
-            if (a == null)
+            if (src == null)
                 throw new ArgumentNullException("a");
-            a.ThrowIfDisposed();
+            src.ThrowIfDisposed();
 
             CvPoint pos0;
-            int ret = NativeMethods.core_checkRange(a.CvPtr, quiet ? 1 : 0, out pos0, minVal, maxVal);
+            int ret = NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos0, minVal, maxVal);
             pos = pos0;
             return ret != 0;
         }
@@ -1705,12 +1782,19 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// multiplies matrix by its transposition from the left or from the right
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="aTa"></param>
-        /// <param name="delta"></param>
-        /// <param name="scale"></param>
-        /// <param name="dtype"></param>
+        /// <param name="src">The source matrix</param>
+        /// <param name="dst">The destination square matrix</param>
+        /// <param name="aTa">Specifies the multiplication ordering; see the description below</param>
+        /// <param name="delta">The optional delta matrix, subtracted from src before the 
+        /// multiplication. When the matrix is empty ( delta=Mat() ), it’s assumed to be 
+        /// zero, i.e. nothing is subtracted, otherwise if it has the same size as src, 
+        /// then it’s simply subtracted, otherwise it is "repeated" to cover the full src 
+        /// and then subtracted. Type of the delta matrix, when it's not empty, must be the 
+        /// same as the type of created destination matrix, see the rtype description</param>
+        /// <param name="scale">The optional scale factor for the matrix product</param>
+        /// <param name="dtype">When it’s negative, the destination matrix will have the 
+        /// same type as src . Otherwise, it will have type=CV_MAT_DEPTH(rtype), 
+        /// which should be either CV_32F or CV_64F</param>
         public static void MulTransposed(InputArray src, OutputArray dst, bool aTa,
             InputArray delta = null, double scale = 1, int dtype = -1)
         {
@@ -1728,8 +1812,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// transposes the matrix
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array of the same type as src</param>
         public static void Transpose(InputArray src, OutputArray dst)
         {
             if (src == null)
@@ -1746,9 +1830,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// performs affine transformation of each element of multi-channel input matrix
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="m"></param>
+        /// <param name="src">The source array; must have as many channels (1 to 4) as mtx.cols or mtx.cols-1</param>
+        /// <param name="dst">The destination array; will have the same size and depth as src and as many channels as mtx.rows</param>
+        /// <param name="m">The transformation matrix</param>
         public static void Transform(InputArray src, OutputArray dst, InputArray m)
         {
             if (src == null)
@@ -1768,9 +1852,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// performs perspective transformation of each element of multi-channel input matrix
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="m"></param>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="dst">The destination array; it will have the same size and same type as src</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
         public static void PerspectiveTransform(InputArray src, OutputArray dst, InputArray m)
         {
             if (src == null)
@@ -1790,8 +1875,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// extends the symmetrical matrix from the lower half or from the upper half
         /// </summary>
-        /// <param name="mtx"></param>
-        /// <param name="lowerToUpper"></param>
+        /// <param name="mtx"> Input-output floating-point square matrix</param>
+        /// <param name="lowerToUpper">If true, the lower half is copied to the upper half, 
+        /// otherwise the upper half is copied to the lower half</param>
         public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
         {
             if (mtx == null)
@@ -1804,8 +1890,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// initializes scaled identity matrix
         /// </summary>
-        /// <param name="mtx"></param>
-        /// <param name="s"></param>
+        /// <param name="mtx">The matrix to initialize (not necessarily square)</param>
+        /// <param name="s">The value to assign to the diagonal elements</param>
         public static void SetIdentity(InputOutputArray mtx, Scalar? s = null)
         {
             if (mtx == null)
@@ -1819,8 +1905,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes determinant of a square matrix
         /// </summary>
-        /// <param name="mtx"></param>
-        /// <returns></returns>
+        /// <param name="mtx">The input matrix; must have CV_32FC1 or CV_64FC1 type and square size</param>
+        /// <returns>determinant of the specified matrix.</returns>
         public static double Determinant(InputArray mtx)
         {
             if (mtx == null)
@@ -1833,7 +1919,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes trace of a matrix
         /// </summary>
-        /// <param name="mtx"></param>
+        /// <param name="mtx">The source matrix</param>
         /// <returns></returns>
         public static Scalar Trace(InputArray mtx)
         {
@@ -1847,9 +1933,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// computes inverse or pseudo-inverse matrix
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
+        /// <param name="src">The source floating-point MxN matrix</param>
+        /// <param name="dst">The destination matrix; will have NxM size and the same type as src</param>
+        /// <param name="flags">The inversion method</param>
         /// <returns></returns>
         public static double Invert(InputArray src, OutputArray dst, 
             MatrixDecomposition flags = MatrixDecomposition.LU)
@@ -1895,9 +1981,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// sorts independently each matrix row or each matrix column
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="dst">The destination array of the same size and the same type as src</param>
+        /// <param name="flags">The operation flags, a combination of the SortFlag values</param>
         public static void Sort(InputArray src, OutputArray dst, SortFlag flags)
         {
             if (src == null)
@@ -1914,9 +2000,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// sorts independently each matrix row or each matrix column
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="dst">The destination integer array of the same size as src</param>
+        /// <param name="flags">The operation flags, a combination of SortFlag values</param>
         public static void SortIdx(InputArray src, OutputArray dst, SortFlag flags)
         {
             if (src == null)
@@ -1933,8 +2019,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// finds real roots of a cubic polynomial
         /// </summary>
-        /// <param name="coeffs"></param>
-        /// <param name="roots"></param>
+        /// <param name="coeffs">The equation coefficients, an array of 3 or 4 elements</param>
+        /// <param name="roots">The destination array of real roots which will have 1 or 3 elements</param>
         /// <returns></returns>
         public static int SolveCubic(InputArray coeffs, OutputArray roots)
         {
@@ -1953,9 +2039,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// finds real and complex roots of a polynomial
         /// </summary>
-        /// <param name="coeffs"></param>
-        /// <param name="roots"></param>
-        /// <param name="maxIters"></param>
+        /// <param name="coeffs">The array of polynomial coefficients</param>
+        /// <param name="roots">The destination (complex) array of roots</param>
+        /// <param name="maxIters">The maximum number of iterations the algorithm does</param>
         /// <returns></returns>
         public static double SolvePoly(InputArray coeffs, OutputArray roots, int maxIters = 300)
         {
@@ -1972,12 +2058,14 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Eigen
         /// <summary>
-        /// finds eigenvalues of a symmetric matrix
+        /// Computes eigenvalues of a symmetric matrix.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="eigenvalues"></param>
-        /// <param name="lowindex"></param>
-        /// <param name="highindex"></param>
+        /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type, 
+        /// square size and be symmetric: src^T == src</param>
+        /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src; 
+        /// The eigenvalues are stored in the descending order.</param>
+        /// <param name="lowindex">Optional index of largest eigenvalue/-vector to calculate.</param>
+        /// <param name="highindex">Optional index of smallest eigenvalue/-vector to calculate.</param>
         /// <returns></returns>
         public static bool Eigen(InputArray src, OutputArray eigenvalues, int lowindex=-1,
                       int highindex = -1)
@@ -1992,14 +2080,19 @@ namespace OpenCvSharp.CPlusPlus
             eigenvalues.Fix();
             return ret != 0;
         }
+
         /// <summary>
-        /// finds eigenvalues and eigenvectors of a symmetric matrix
+        /// Computes eigenvalues and eigenvectors of a symmetric matrix.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="eigenvalues"></param>
-        /// <param name="eigenvectors"></param>
-        /// <param name="lowindex"></param>
-        /// <param name="highindex"></param>
+        /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type, 
+        /// square size and be symmetric: src^T == src</param>
+        /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src; 
+        /// The eigenvalues are stored in the descending order.</param>
+        /// <param name="eigenvectors">The output matrix of eigenvectors; 
+        /// It will have the same size and the same type as src; The eigenvectors are stored 
+        /// as subsequent matrix rows, in the same order as the corresponding eigenvalues</param>
+        /// <param name="lowindex">Optional index of largest eigenvalue/-vector to calculate.</param>
+        /// <param name="highindex">Optional index of smallest eigenvalue/-vector to calculate.</param>
         /// <returns></returns>
         public static bool Eigen(InputArray src, OutputArray eigenvalues,
                               OutputArray eigenvectors,
@@ -2019,13 +2112,18 @@ namespace OpenCvSharp.CPlusPlus
             eigenvectors.Fix();
             return ret != 0;
         }
+
         /// <summary>
-        /// finds eigenvalues and eigenvectors of a symmetric matrix
+        /// Computes eigenvalues and eigenvectors of a symmetric matrix.
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type, 
+        /// square size and be symmetric: src^T == src</param>
         /// <param name="computeEigenvectors"></param>
-        /// <param name="eigenvalues"></param>
-        /// <param name="eigenvectors"></param>
+        /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src; 
+        /// The eigenvalues are stored in the descending order.</param>
+        /// <param name="eigenvectors">The output matrix of eigenvectors; 
+        /// It will have the same size and the same type as src; The eigenvectors are stored 
+        /// as subsequent matrix rows, in the same order as the corresponding eigenvalues</param>
         /// <returns></returns>
         public static bool Eigen(InputArray src, bool computeEigenvectors,
                                 OutputArray eigenvalues, OutputArray eigenvectors)
@@ -2311,12 +2409,17 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Dft/Idft
         /// <summary>
-        /// performs forward or inverse 1D or 2D Discrete Fourier Transformation
+        /// Performs a forward Discrete Fourier transform of 1D or 2D floating-point array.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
-        /// <param name="nonzeroRows"></param>
+        /// <param name="src">The source array, real or complex</param>
+        /// <param name="dst">The destination array, which size and type depends on the flags</param>
+        /// <param name="flags">Transformation flags, a combination of the DftFlag2 values</param>
+        /// <param name="nonzeroRows">When the parameter != 0, the function assumes that 
+        /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set) 
+        /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros, 
+        /// thus the function can handle the rest of the rows more efficiently and 
+        /// thus save some time. This technique is very useful for computing array cross-correlation 
+        /// or convolution using DFT</param>
         public static void Dft(InputArray src, OutputArray dst, DftFlag2 flags = DftFlag2.None, int nonzeroRows = 0)
         {
             if (src == null)
@@ -2330,12 +2433,17 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// performs inverse 1D or 2D Discrete Fourier Transformation
+        /// Performs an inverse Discrete Fourier transform of 1D or 2D floating-point array.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
-        /// <param name="nonzeroRows"></param>
+        /// <param name="src">The source array, real or complex</param>
+        /// <param name="dst">The destination array, which size and type depends on the flags</param>
+        /// <param name="flags">Transformation flags, a combination of the DftFlag2 values</param>
+        /// <param name="nonzeroRows">When the parameter != 0, the function assumes that 
+        /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set) 
+        /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros, 
+        /// thus the function can handle the rest of the rows more efficiently and 
+        /// thus save some time. This technique is very useful for computing array cross-correlation 
+        /// or convolution using DFT</param>
         public static void Idft(InputArray src, OutputArray dst, DftFlag2 flags = DftFlag2.None, int nonzeroRows = 0)
         {
             if (src == null)
@@ -2350,11 +2458,11 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Dct/Idct
         /// <summary>
-        /// performs forward or inverse 1D or 2D Discrete Cosine Transformation
+        /// Performs forward or inverse 1D or 2D Discrete Cosine Transformation
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
+        /// <param name="src">The source floating-point array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
+        /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
         public static void Dct(InputArray src, OutputArray dst, DctFlag2 flags = DctFlag2.None)
         {
             if (src == null)
@@ -2368,11 +2476,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// performs inverse 1D or 2D Discrete Cosine Transformation
+        /// Performs inverse 1D or 2D Discrete Cosine Transformation
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
+        /// <param name="src">The source floating-point array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
+        /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
         public static void Idct(InputArray src, OutputArray dst, DctFlag2 flags = DctFlag2.None)
         {
             if (src == null)
@@ -2464,9 +2572,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// fills array with uniformly-distributed random numbers from the range [low, high)
         /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="low"></param>
-        /// <param name="high"></param>
+        /// <param name="dst">The output array of random numbers. 
+        /// The array must be pre-allocated and have 1 to 4 channels</param>
+        /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
+        /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
         public static void Randu(InputOutputArray dst, InputArray low, InputArray high)
         {
             if (dst == null)
@@ -2485,9 +2594,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// fills array with uniformly-distributed random numbers from the range [low, high)
         /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="low"></param>
-        /// <param name="high"></param>
+        /// <param name="dst">The output array of random numbers. 
+        /// The array must be pre-allocated and have 1 to 4 channels</param>
+        /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
+        /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
         public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
         {
             if (dst == null)
@@ -2501,9 +2611,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
         /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="mean"></param>
-        /// <param name="stddev"></param>
+        /// <param name="dst">The output array of random numbers. 
+        /// The array must be pre-allocated and have 1 to 4 channels</param>
+        /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
+        /// <param name="stddev">The standard deviation of the generated random numbers</param>
         public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
         {
             if (dst == null)
@@ -2522,9 +2633,10 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
         /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="mean"></param>
-        /// <param name="stddev"></param>
+        /// <param name="dst">The output array of random numbers. 
+        /// The array must be pre-allocated and have 1 to 4 channels</param>
+        /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
+        /// <param name="stddev">The standard deviation of the generated random numbers</param>
         public static void Randn(InputOutputArray dst, Scalar mean, Scalar stddev)
         {
             if (dst == null)
@@ -2538,30 +2650,26 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// shuffles the input array elements
         /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="iterFactor"></param>
-        /// <param name="rng"></param>
-        public static void RandShuffle(InputOutputArray dst, double iterFactor, out RNG rng)
+        /// <param name="dst">The input/output numerical 1D array</param>
+        /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
+        /// <param name="rng">The optional random number generator used for shuffling. 
+        /// If it is null, theRng() is used instead.</param>
+        public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG rng = null)
         {
             if (dst == null)
                 throw new ArgumentNullException("dst");
             dst.ThrowIfNotReady();
-            ulong state;
-            NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, out state);
-            dst.Fix();
-            rng = new RNG(state);
-        }
-        /// <summary>
-        /// shuffles the input array elements
-        /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="iterFactor"></param>
-        public static void RandShuffle(InputOutputArray dst, double iterFactor = 1.0)
-        {
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            dst.ThrowIfNotReady();
-            NativeMethods.core_randShuffle_(dst.CvPtr, iterFactor);
+
+            if (rng == null)
+            {
+                NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, IntPtr.Zero);
+            }
+            else
+            {
+                ulong state = rng.State;
+                NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state);
+                rng.State = state;
+            }
             dst.Fix();
         }
         #endregion

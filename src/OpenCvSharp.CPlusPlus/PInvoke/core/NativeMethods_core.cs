@@ -140,8 +140,10 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_bitwise_not(IntPtr src, IntPtr dst, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_absdiff(IntPtr src1, IntPtr src2, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_inRange_InputArray")]
         public static extern void core_inRange(IntPtr src, IntPtr lowerb, IntPtr upperb, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_inRange_Scalar")]
+        public static extern void core_inRange(IntPtr src, CvScalar lowerb, CvScalar upperb, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_compare(IntPtr src1, IntPtr src2, IntPtr dst, int cmpop);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -281,10 +283,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void core_randn_Scalar(IntPtr dst, CvScalar mean, CvScalar stddev);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_randShuffle(IntPtr dst, double iterFactor, out ulong rng);
+        public static extern void core_randShuffle(IntPtr dst, double iterFactor, ref ulong rng);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_randShuffle_(IntPtr dst, double iterFactor);
-
+        public static extern void core_randShuffle(IntPtr dst, double iterFactor, IntPtr rng);
 
         #region Drawing
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

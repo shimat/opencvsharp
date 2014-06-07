@@ -6,9 +6,9 @@ using OpenCvSharp.Utilities;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// 
+    /// Matrix expression
     /// </summary>
-    public sealed class MatExpr : DisposableCvObject
+    public sealed partial class MatExpr : DisposableCvObject
     {
         private bool disposed;
 

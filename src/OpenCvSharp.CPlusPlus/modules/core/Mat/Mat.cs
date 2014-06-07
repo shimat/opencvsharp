@@ -8,18 +8,18 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// OpenCV C++ n-dimensional dense array class (cv::Mat)
     /// </summary>
-    public class Mat : DisposableCvObject, ICloneable
+    public partial class Mat : DisposableCvObject, ICloneable
     {
         private bool disposed;
 
         #region Init & Disposal
 
 #if LANG_JP
-        /// <summary>
-        /// OpenCVネイティブの cv::Mat* ポインタから初期化
-        /// </summary>
-        /// <param name="ptr"></param>
-        /// <param name="initialAlloc"></param>
+    /// <summary>
+    /// OpenCVネイティブの cv::Mat* ポインタから初期化
+    /// </summary>
+    /// <param name="ptr"></param>
+    /// <param name="initialAlloc"></param>
 #else
         /// <summary>
         /// Creates from native cv::Mat* pointer
@@ -42,13 +42,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             long elemSize = ElemSize();
             long dataLength = DataEnd.ToInt64() - DataStart.ToInt64();
-            return SizeOf + (elemSize * dataLength);
+            return SizeOf + (elemSize*dataLength);
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 空の行列として初期化
-        /// </summary>
+    /// <summary>
+    /// 空の行列として初期化
+    /// </summary>
 #else
         /// <summary>
         /// Creates empty Mat
@@ -61,11 +61,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 画像ファイルから読み込んで初期化 (cv::imread)
-        /// </summary>
-        /// <param name="fileName">読み込まれる画像ファイル名</param>
-        /// <param name="flags">画像読み込みフラグ.</param>
+    /// <summary>
+    /// 画像ファイルから読み込んで初期化 (cv::imread)
+    /// </summary>
+    /// <param name="fileName">読み込まれる画像ファイル名</param>
+    /// <param name="flags">画像読み込みフラグ.</param>
 #else
         /// <summary>
         /// Loads an image from a file. (cv::imread)
@@ -79,18 +79,18 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("fileName");
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
-            ptr = NativeMethods.highgui_imread(fileName, (int)flags);
+            ptr = NativeMethods.highgui_imread(fileName, (int) flags);
             NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列として初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列として初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
 #else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
@@ -107,12 +107,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列として初期化
-        /// </summary>
-        /// <param name="size">2次元配列のサイズ： Size(cols, rows) ． Size コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列として初期化
+    /// </summary>
+    /// <param name="size">2次元配列のサイズ： Size(cols, rows) ． Size コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
 #else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
@@ -129,15 +129,15 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
@@ -156,14 +156,14 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-        /// </summary>
-        /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) ． Size() コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
+    /// </summary>
+    /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) ． Size() コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
@@ -182,18 +182,18 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
-        /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
+    /// <summary>
+    /// 他の行列の部分行列として初期化
+    /// </summary>
+    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+    /// これらのコンストラクタによってデータがコピーされる事はありません．
+    /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+    /// 関連した参照カウンタがあれば，それがインクリメントされます．
+    /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+    /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+    /// Mat.Clone() を利用してください．</param>
+    /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
+    /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
 #else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
@@ -216,17 +216,17 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="ranges">多次元行列の各次元毎の選択範囲を表す配列．</param>
+    /// <summary>
+    /// 他の行列の部分行列として初期化
+    /// </summary>
+    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+    /// これらのコンストラクタによってデータがコピーされる事はありません．
+    /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+    /// 関連した参照カウンタがあれば，それがインクリメントされます．
+    /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+    /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+    /// Mat.Clone() を利用してください．</param>
+    /// <param name="ranges">多次元行列の各次元毎の選択範囲を表す配列．</param>
 #else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
@@ -244,17 +244,17 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
+    /// <summary>
+    /// 他の行列の部分行列として初期化
+    /// </summary>
+    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+    /// これらのコンストラクタによってデータがコピーされる事はありません．
+    /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+    /// 関連した参照カウンタがあれば，それがインクリメントされます．
+    /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+    /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+    /// Mat.Clone() を利用してください．</param>
+    /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
 #else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
@@ -272,22 +272,22 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="step">行列の各行が占めるバイト数を指定できます．
-        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-        /// 実際の step は cols*elemSize() として計算されます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="step">行列の各行が占めるバイト数を指定できます．
+    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+    /// 実際の step は cols*elemSize() として計算されます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -310,22 +310,22 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="step">行列の各行が占めるバイト数を指定できます．
-        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-        /// 実際の step は cols*elemSize() として計算されます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="step">行列の各行が占めるバイト数を指定できます．
+    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+    /// 実際の step は cols*elemSize() として計算されます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -348,22 +348,22 @@ namespace OpenCvSharp.CPlusPlus
                 handle.AddrOfPinnedObject(), new IntPtr(step));
             NotifyMemoryPressure(SizeOf);
         }
-        
+
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
-        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
-        /// 行列は連続したものとみなされます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
+    /// （最後のステップは常に要素サイズになります）．これが指定されないと，
+    /// 行列は連続したものとみなされます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -401,20 +401,20 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
-        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
-        /// 行列は連続したものとみなされます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
+    /// （最後のステップは常に要素サイズになります）．これが指定されないと，
+    /// 行列は連続したものとみなされます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -456,12 +456,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// N次元行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <summary>
+    /// N次元行列として初期化
+    /// </summary>
+    /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
 #else
         /// <summary>
         /// constructs n-dimensional matrix
@@ -481,14 +481,14 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// N次元行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+    /// <summary>
+    /// N次元行列として初期化
+    /// </summary>
+    /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
         /// constructs n-dimensional matrix
@@ -509,17 +509,17 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// CvMatデータから初期化
-        /// </summary>
-        /// <param name="m">CvMat 行列構造体へのポインタ．
-        /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
-        /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
-        /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
-        /// コピーする（true）か，共有する（false）かを指定するフラグです．
-        /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
-        /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
-        /// デストラクトされない限り，データを解放するべきではありません．</param>
+    /// <summary>
+    /// CvMatデータから初期化
+    /// </summary>
+    /// <param name="m">CvMat 行列構造体へのポインタ．
+    /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
+    /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
+    /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
+    /// コピーする（true）か，共有する（false）かを指定するフラグです．
+    /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
+    /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
+    /// デストラクトされない限り，データを解放するべきではありません．</param>
 #else
         /// <summary>
         /// converts old-style CvMat to the new matrix; the data is not copied by default
@@ -542,17 +542,17 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// IplImageデータから初期化
-        /// </summary>
-        /// <param name="img">IplImage 画像構造体へのポインタ．
-        /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
-        /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
-        /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
-        /// コピーする（true）か，共有する（false）かを指定するフラグです．
-        /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
-        /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
-        /// デストラクトされない限り，データを解放するべきではありません．</param>
+    /// <summary>
+    /// IplImageデータから初期化
+    /// </summary>
+    /// <param name="img">IplImage 画像構造体へのポインタ．
+    /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
+    /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
+    /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
+    /// コピーする（true）か，共有する（false）かを指定するフラグです．
+    /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
+    /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
+    /// デストラクトされない限り，データを解放するべきではありません．</param>
 #else
         /// <summary>
         /// converts old-style IplImage to the new matrix; the data is not copied by default
@@ -572,12 +572,12 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
             NotifyMemoryPressure(SizeOf);
-        }  
+        }
 
 #if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
 #else
         /// <summary>
         /// Releases the resources
@@ -589,13 +589,13 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
+    /// <param name="disposing">
+    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+    ///</param>
 #else
         /// <summary>
         /// Releases the resources
@@ -635,12 +635,12 @@ namespace OpenCvSharp.CPlusPlus
         #region Static Initializers
 
 #if LANG_JP
-        /// <summary>
-        /// System.IO.StreamのインスタンスからIplImageを生成する
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// System.IO.StreamのインスタンスからIplImageを生成する
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="mode"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Creates the IplImage instance from System.IO.Stream
@@ -662,12 +662,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 画像データ(JPEG等の画像をメモリに展開したもの)からIplImageを生成する (cvDecodeImage)
-        /// </summary>
-        /// <param name="imageBytes"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 画像データ(JPEG等の画像をメモリに展開したもの)からIplImageを生成する (cvDecodeImage)
+    /// </summary>
+    /// <param name="imageBytes"></param>
+    /// <param name="mode"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Creates the IplImage instance from image data (using cvDecodeImage) 
@@ -682,13 +682,14 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("imageBytes");
             return Cv2.ImDecode(imageBytes, mode);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 画像データ(JPEG等の画像をメモリに展開したもの)からIplImageを生成する (cvDecodeImage)
-        /// </summary>
-        /// <param name="imageBytes"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 画像データ(JPEG等の画像をメモリに展開したもの)からIplImageを生成する (cvDecodeImage)
+    /// </summary>
+    /// <param name="imageBytes"></param>
+    /// <param name="mode"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Creates the IplImage instance from image data (using cvDecodeImage) 
@@ -701,15 +702,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             return ImDecode(imageBytes, mode);
         }
+
         #endregion
 
         #endregion
 
         #region Static
+
         /// <summary>
         /// sizeof(cv::Mat)
         /// </summary>
-        public static readonly int SizeOf = (int)NativeMethods.core_Mat_sizeof();
+        public static readonly int SizeOf = (int) NativeMethods.core_Mat_sizeof();
 
         #region Diag
 
@@ -724,6 +727,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Eye
 
         /// <summary>
@@ -752,6 +756,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Ones
 
         /// <summary>
@@ -796,6 +801,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Zeros
 
         /// <summary>
@@ -840,9 +846,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #endregion
 
         #region Operators
+
         #region Cast
 
         /// <summary>
@@ -903,8 +911,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Arithmetic
+
         #region Unary
+
         /// <summary>
         /// 
         /// </summary>
@@ -915,6 +926,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr expr = NativeMethods.core_operatorUnaryMinus_Mat(mat.CvPtr);
             return new MatExpr(expr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -926,7 +938,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Binary
+
         #region +
 
         /// <summary>
@@ -959,10 +973,11 @@ namespace OpenCvSharp.CPlusPlus
             if (a == null)
                 throw new ArgumentNullException("a");
             a.ThrowIfDisposed();
-            
+
             IntPtr retPtr = NativeMethods.core_operatorAdd_MatScalar(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -979,7 +994,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region -
+
         /// <summary>
         /// 
         /// </summary>
@@ -997,6 +1014,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1011,6 +1029,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorSubtract_MatScalar(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1027,6 +1046,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region *
 
         /// <summary>
@@ -1046,6 +1066,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1060,6 +1081,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorMultiply_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1076,7 +1098,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region /
+
         /// <summary>
         /// 
         /// </summary>
@@ -1126,7 +1150,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Comparison
+
 #pragma warning disable 1591
         public static MatExpr operator <(Mat a, Mat b)
         {
@@ -1207,8 +1233,11 @@ namespace OpenCvSharp.CPlusPlus
             throw new NotImplementedException();
         }
 #pragma warning restore 1591
+
         #endregion
+
         #region And
+
         /// <summary>
         /// 
         /// </summary>
@@ -1226,6 +1255,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1240,6 +1270,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorAnd_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1254,8 +1285,11 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorAnd_DoubleMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
+
         #endregion
+
         #region Or
+
         /// <summary>
         /// 
         /// </summary>
@@ -1273,6 +1307,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorOr_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1287,6 +1322,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorOr_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1301,8 +1337,11 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorOr_DoubleMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
+
         #endregion
+
         #region Xor
+
         /// <summary>
         /// 
         /// </summary>
@@ -1320,6 +1359,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorXor_MatMat(a.CvPtr, b.CvPtr);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1334,6 +1374,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorXor_MatDouble(a.CvPtr, s);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1348,8 +1389,11 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr retPtr = NativeMethods.core_operatorXor_DoubleMat(s, a.CvPtr);
             return new MatExpr(retPtr);
         }
+
         #endregion
+
         #region Not
+
         /// <summary>
         /// 
         /// </summary>
@@ -1365,12 +1409,17 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #endregion
+
         #endregion
+
         #endregion
 
         #region Public Methods
+
         #region Mat Indexers
+
         /// <summary>
         /// Extracts a rectangular submatrix.
         /// </summary>
@@ -1381,10 +1430,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public Mat this[int rowStart, int rowEnd, int colStart, int colEnd]
         {
-            get
-            {
-                return SubMat(rowStart, rowEnd, colStart, colEnd);
-            }
+            get { return SubMat(rowStart, rowEnd, colStart, colEnd); }
             set
             {
                 if (value == null)
@@ -1412,10 +1458,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public Mat this[Range rowRange, Range colRange]
         {
-            get
-            {
-                return SubMat(rowRange, colRange);
-            }
+            get { return SubMat(rowRange, colRange); }
             set
             {
                 if (value == null)
@@ -1440,10 +1483,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public Mat this[Rect roi]
         {
-            get
-            {
-                return SubMat(roi);
-            }
+            get { return SubMat(roi); }
             set
             {
                 if (value == null)
@@ -1468,10 +1508,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public Mat this[params Range[] ranges]
         {
-            get
-            {
-                return SubMat(ranges);
-            }
+            get { return SubMat(ranges); }
             set
             {
                 if (value == null)
@@ -1494,9 +1531,13 @@ namespace OpenCvSharp.CPlusPlus
                 value.CopyTo(sub);
             }
         }
+
         #endregion
+
         #region MatExpr Indexers
+
         #region SubMat
+
         /// <summary>
         /// 
         /// </summary>
@@ -1594,10 +1635,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return matExprIndexer ?? (matExprIndexer = new MatExprIndexer(this)); }
         }
+
         private MatExprIndexer matExprIndexer;
 
         #endregion
+
         #region ColExpr
+
         /// <summary>
         /// Mat column's indexer object
         /// </summary>
@@ -1611,6 +1655,7 @@ namespace OpenCvSharp.CPlusPlus
                 : base(parent)
             {
             }
+
             /// <summary>
             /// Creates a matrix header for the specified matrix column.
             /// </summary>
@@ -1635,6 +1680,7 @@ namespace OpenCvSharp.CPlusPlus
                     NativeMethods.core_Mat_delete(colMatPtr);
                 }
             }
+
             /// <summary>
             /// Creates a matrix header for the specified column span.
             /// </summary>
@@ -1670,8 +1716,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return colExprIndexer ?? (colExprIndexer = new ColExprIndexer(this)); }
         }
+
         private ColExprIndexer colExprIndexer;
+
         #endregion
+
         #region RowExpr
 
         /// <summary>
@@ -1687,6 +1736,7 @@ namespace OpenCvSharp.CPlusPlus
                 : base(parent)
             {
             }
+
             /// <summary>
             /// Creates a matrix header for the specified matrix row. [Mat::row]
             /// </summary>
@@ -1711,6 +1761,7 @@ namespace OpenCvSharp.CPlusPlus
                     NativeMethods.core_Mat_delete(rowMatPtr);
                 }
             }
+
             /// <summary>
             /// Creates a matrix header for the specified row span. (Mat::rowRange)
             /// </summary>
@@ -1745,9 +1796,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return rowExprIndexer ?? (rowExprIndexer = new RowExprIndexer(this)); }
         }
+
         private RowExprIndexer rowExprIndexer;
 
         #endregion
+
         #endregion
 
         #region AdjustROI
@@ -1769,6 +1822,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region AssignTo
 
         /// <summary>
@@ -1794,6 +1848,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Channels
 
         /// <summary>
@@ -1807,6 +1862,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region CheckVector
 
         /// <summary>
@@ -1843,10 +1899,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             ThrowIfDisposed();
             return NativeMethods.core_Mat_checkVector(
-                    ptr, elemChannels, depth, requireContinuous ? 1 : 0);
+                ptr, elemChannels, depth, requireContinuous ? 1 : 0);
         }
 
         #endregion
+
         #region Clone
 
         /// <summary>
@@ -1867,6 +1924,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Cols
 
         /// <summary>
@@ -1904,6 +1962,7 @@ namespace OpenCvSharp.CPlusPlus
         private int colsVal = int.MinValue;
 
         #endregion
+
         #region Dims
 
         /// <summary>
@@ -1916,6 +1975,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region ConvertTo
 
         /// <summary>
@@ -1935,6 +1995,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region CopyTo
 
         /// <summary>
@@ -1961,6 +2022,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Create
 
         /// <summary>
@@ -2000,6 +2062,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Cross
 
         /// <summary>
@@ -2018,6 +2081,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Data
 
         /// <summary>
@@ -2069,6 +2133,7 @@ namespace OpenCvSharp.CPlusPlus
                 return NativeMethods.core_Mat_dataend(ptr);
             }
         }
+
         /// <summary>
         /// The pointer that is possible to compute a relative sub-array position in the main container array using locateROI()
         /// </summary>
@@ -2082,6 +2147,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Depth
 
         /// <summary>
@@ -2095,6 +2161,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Diag
 
         /// <summary>
@@ -2105,12 +2172,13 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Diag(MatDiagType d = MatDiagType.Main)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_diag(ptr, (int)d);
+            IntPtr retPtr = NativeMethods.core_Mat_diag(ptr, (int) d);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
 
         #endregion
+
         #region Dot
 
         /// <summary>
@@ -2127,6 +2195,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region ElemSize
 
         /// <summary>
@@ -2136,10 +2205,11 @@ namespace OpenCvSharp.CPlusPlus
         public int ElemSize()
         {
             ThrowIfDisposed();
-            return (int)NativeMethods.core_Mat_elemSize(ptr);
+            return (int) NativeMethods.core_Mat_elemSize(ptr);
         }
 
         #endregion
+
         #region ElemSize1
 
         /// <summary>
@@ -2149,10 +2219,11 @@ namespace OpenCvSharp.CPlusPlus
         public int ElemSize1()
         {
             ThrowIfDisposed();
-            return (int)NativeMethods.core_Mat_elemSize1(ptr);
+            return (int) NativeMethods.core_Mat_elemSize1(ptr);
         }
 
         #endregion
+
         #region Empty
 
         /// <summary>
@@ -2166,6 +2237,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Inv
 
         /// <summary>
@@ -2176,12 +2248,13 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Inv(MatrixDecomposition method = MatrixDecomposition.LU)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_inv(ptr, (int)method);
+            IntPtr retPtr = NativeMethods.core_Mat_inv(ptr, (int) method);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
 
         #endregion
+
         #region IsContinuous
 
         /// <summary>
@@ -2195,6 +2268,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region IsSubmatrix
 
         /// <summary>
@@ -2208,6 +2282,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region LocateROI
 
         /// <summary>
@@ -2226,6 +2301,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Mul
 
         /// <summary>
@@ -2246,6 +2322,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Refcount
 
         /// <summary>
@@ -2261,7 +2338,9 @@ namespace OpenCvSharp.CPlusPlus
                 return NativeMethods.core_Mat_refcount(ptr);
             }
         }
+
         #endregion
+
         #region Reshape
 
         /// <summary>
@@ -2295,6 +2374,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Rows
 
         /// <summary>
@@ -2331,6 +2411,7 @@ namespace OpenCvSharp.CPlusPlus
         private int rowsVal = int.MinValue;
 
         #endregion
+
         #region SetTo
 
         /// <summary>
@@ -2367,6 +2448,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Size
 
         /// <summary>
@@ -2391,6 +2473,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Step
 
         /// <summary>
@@ -2411,10 +2494,11 @@ namespace OpenCvSharp.CPlusPlus
         public long Step(int i)
         {
             ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_stepAt(ptr, i);
+            return (long) NativeMethods.core_Mat_stepAt(ptr, i);
         }
 
         #endregion
+
         #region Step1
 
         /// <summary>
@@ -2424,7 +2508,7 @@ namespace OpenCvSharp.CPlusPlus
         public long Step1()
         {
             ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_step1(ptr);
+            return (long) NativeMethods.core_Mat_step1(ptr);
         }
 
         /// <summary>
@@ -2435,10 +2519,11 @@ namespace OpenCvSharp.CPlusPlus
         public long Step1(int i)
         {
             ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_step1(ptr, i);
+            return (long) NativeMethods.core_Mat_step1(ptr, i);
         }
 
         #endregion
+
         #region T
 
         /// <summary>
@@ -2454,6 +2539,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Total
 
         /// <summary>
@@ -2463,10 +2549,11 @@ namespace OpenCvSharp.CPlusPlus
         public long Total()
         {
             ThrowIfDisposed();
-            return (long)NativeMethods.core_Mat_total(ptr);
+            return (long) NativeMethods.core_Mat_total(ptr);
         }
 
         #endregion
+
         #region Type
 
         /// <summary>
@@ -2480,6 +2567,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region ToString
 
         /// <summary>
@@ -2495,7 +2583,7 @@ namespace OpenCvSharp.CPlusPlus
                    ", Data=0x" + Convert.ToString(Data.ToInt64(), 16) +
                    " ]";
         }
-        
+
         #endregion
 
         #region Dump
@@ -2531,19 +2619,22 @@ namespace OpenCvSharp.CPlusPlus
             if (format == DumpFormat.Default)
                 return null;
 
-            string name = Enum.GetName(typeof(DumpFormat), format);
-            if(name == null)
+            string name = Enum.GetName(typeof (DumpFormat), format);
+            if (name == null)
                 throw new ArgumentException();
             return name.ToLower();
         }
+
         #endregion
+
         #region EmptyClone
+
 #if LANG_JP
-        /// <summary>
-        /// このMatと同じサイズ・ビット深度・チャネル数を持つ
-        /// Matオブジェクトを新たに作成し、返す
-        /// </summary>
-        /// <returns>コピーされた画像</returns>
+    /// <summary>
+    /// このMatと同じサイズ・ビット深度・チャネル数を持つ
+    /// Matオブジェクトを新たに作成し、返す
+    /// </summary>
+    /// <returns>コピーされた画像</returns>
 #else
         /// <summary>
         /// Makes a Mat that have the same size, depth and channels as this image
@@ -2554,6 +2645,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Mat(Size(), Type());
         }
+
         #endregion
 
         #region Ptr
@@ -2606,6 +2698,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Element Indexer
 
         /// <summary>
@@ -2631,12 +2724,12 @@ namespace OpenCvSharp.CPlusPlus
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    IntPtr p = new IntPtr(ptrVal + (steps[0]*i0));
+                    return (T) Marshal.PtrToStructure(p, typeof (T));
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
+                    IntPtr p = new IntPtr(ptrVal + (steps[0]*i0));
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -2651,12 +2744,12 @@ namespace OpenCvSharp.CPlusPlus
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    IntPtr p = new IntPtr(ptrVal + (steps[0]*i0) + (steps[1]*i1));
+                    return (T) Marshal.PtrToStructure(p, typeof (T));
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    IntPtr p = new IntPtr(ptrVal + (steps[0]*i0) + (steps[1]*i1));
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -2672,12 +2765,12 @@ namespace OpenCvSharp.CPlusPlus
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
-                    return (T)Marshal.PtrToStructure(p, typeof (T));
+                    IntPtr p = new IntPtr(ptrVal + (steps[0]*i0) + (steps[1]*i1) + (steps[2]*i2));
+                    return (T) Marshal.PtrToStructure(p, typeof (T));
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    IntPtr p = new IntPtr(ptrVal + (steps[0]*i0) + (steps[1]*i1) + (steps[2]*i2));
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -2694,17 +2787,17 @@ namespace OpenCvSharp.CPlusPlus
                     long offset = 0;
                     for (int i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += steps[i]*idx[i];
                     }
                     IntPtr p = new IntPtr(ptrVal + offset);
-                    return (T)Marshal.PtrToStructure(p, typeof (T));
+                    return (T) Marshal.PtrToStructure(p, typeof (T));
                 }
                 set
                 {
                     long offset = 0;
                     for (int i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += steps[i]*idx[i];
                     }
                     IntPtr p = new IntPtr(ptrVal + offset);
                     Marshal.StructureToPtr(value, p, false);
@@ -2723,6 +2816,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Get/Set
 
         /// <summary>
@@ -2868,6 +2962,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region Col/ColRange
 
         /*
@@ -2883,6 +2978,7 @@ namespace OpenCvSharp.CPlusPlus
             return new Mat(matPtr);
         }
         */
+
         /// <summary>
         /// 
         /// </summary>
@@ -2905,7 +3001,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return ColRange(range.Start, range.End);
         }
-        
+
 
         /// <summary>
         /// Mat column's indexer object
@@ -2920,6 +3016,7 @@ namespace OpenCvSharp.CPlusPlus
                 : base(parent)
             {
             }
+
             /// <summary>
             /// Creates a matrix header for the specified matrix column.
             /// </summary>
@@ -2950,6 +3047,7 @@ namespace OpenCvSharp.CPlusPlus
                     value.CopyTo(mat);
                 }
             }
+
             /// <summary>
             /// Creates a matrix header for the specified column span.
             /// </summary>
@@ -2991,9 +3089,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return colIndexer ?? (colIndexer = new ColIndexer(this)); }
         }
+
         private ColIndexer colIndexer;
 
         #endregion
+
         #region Row/RowRange
 
         /*
@@ -3009,6 +3109,7 @@ namespace OpenCvSharp.CPlusPlus
             return new Mat(matPtr);
         }
         */
+
         /// <summary>
         /// 
         /// </summary>
@@ -3045,6 +3146,7 @@ namespace OpenCvSharp.CPlusPlus
                 : base(parent)
             {
             }
+
             /// <summary>
             /// Creates a matrix header for the specified matrix column.
             /// </summary>
@@ -3075,6 +3177,7 @@ namespace OpenCvSharp.CPlusPlus
                     value.CopyTo(mat);
                 }
             }
+
             /// <summary>
             /// Creates a matrix header for the specified column span.
             /// </summary>
@@ -3116,9 +3219,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return rowIndexer ?? (rowIndexer = new RowIndexer(this)); }
         }
+
         private RowIndexer rowIndexer;
 
         #endregion
+
         #region SubMat
 
         /// <summary>
@@ -3186,9 +3291,10 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region GetArray
 
-        private void CheckArgumentsForConvert(int row, int col, Array data, 
+        private void CheckArgumentsForConvert(int row, int col, Array data,
             params MatType[] acceptableTypes)
         {
             ThrowIfDisposed();
@@ -3200,7 +3306,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("data");
 
             MatType t = Type();
-            if (data == null || data.Length % t.Channels != 0)
+            if (data == null || data.Length%t.Channels != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
                     data.Length, t.Channels);
@@ -3208,9 +3314,9 @@ namespace OpenCvSharp.CPlusPlus
             if (acceptableTypes != null && acceptableTypes.Length > 0)
             {
                 bool isValidDepth = EnumerableEx.Any(acceptableTypes, delegate(MatType type)
-                    {
-                        return type == t;
-                    });
+                {
+                    return type == t;
+                });
                 if (!isValidDepth)
                     throw new OpenCvSharpException("Mat data type is not compatible: " + t);
             }
@@ -3227,6 +3333,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_8S, MatType.CV_8U);
             NativeMethods.core_Mat_nGetB(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3250,6 +3357,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
             NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3273,6 +3381,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
             NativeMethods.core_Mat_nGetS(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3296,6 +3405,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
             NativeMethods.core_Mat_nGetI(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3319,6 +3429,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
             NativeMethods.core_Mat_nGetF(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3342,6 +3453,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
             NativeMethods.core_Mat_nGetD(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3384,6 +3496,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
             NativeMethods.core_Mat_nGetVec3b(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3407,6 +3520,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
             NativeMethods.core_Mat_nGetVec3d(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3430,6 +3544,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
             NativeMethods.core_Mat_nGetVec4f(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3453,6 +3568,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
             NativeMethods.core_Mat_nGetVec6f(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3476,6 +3592,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
             NativeMethods.core_Mat_nGetPoint(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3499,6 +3616,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
             NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3522,6 +3640,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
             NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3545,6 +3664,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
             NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3569,6 +3689,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
             NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3592,6 +3713,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
             NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3615,6 +3737,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
             NativeMethods.core_Mat_nGetRect(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3640,7 +3763,7 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.core_Mat_nGetVec4f(ptr, row, col, dataV, dataV.Length);
             for (int i = 0; i < data.Length; i++)
             {
-                data[i] = (DMatch)dataV[i];
+                data[i] = (DMatch) dataV[i];
             }
         }
 
@@ -3661,12 +3784,15 @@ namespace OpenCvSharp.CPlusPlus
             {
                 for (int j = 0; j < dim1; j++)
                 {
-                    data[i, j] = (DMatch)dataV[i, j];
+                    data[i, j] = (DMatch) dataV[i, j];
                 }
             }
         }
+
         #endregion
+
         #region SetArray
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3678,6 +3804,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_8U);
             NativeMethods.core_Mat_nSetB(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3701,6 +3828,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
             NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3724,6 +3852,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
             NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3747,6 +3876,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32S);
             NativeMethods.core_Mat_nSetI(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3770,6 +3900,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32F);
             NativeMethods.core_Mat_nSetF(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3792,7 +3923,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_64F);
             NativeMethods.core_Mat_nSetD(ptr, row, col, data, data.Length);
-        }     
+        }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3816,6 +3948,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_8UC3);
             NativeMethods.core_Mat_nSetVec3b(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3839,6 +3972,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
             NativeMethods.core_Mat_nSetVec3d(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3862,6 +3996,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC4);
             NativeMethods.core_Mat_nSetVec4f(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3885,6 +4020,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
             NativeMethods.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3908,6 +4044,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
             NativeMethods.core_Mat_nSetPoint(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3931,6 +4068,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
             NativeMethods.core_Mat_nSetPoint2f(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3954,6 +4092,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
             NativeMethods.core_Mat_nSetPoint2d(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -3977,6 +4116,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
             NativeMethods.core_Mat_nSetPoint3i(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -4000,6 +4140,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
             NativeMethods.core_Mat_nSetPoint3f(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -4023,6 +4164,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
             NativeMethods.core_Mat_nSetPoint3d(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -4047,6 +4189,7 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
             NativeMethods.core_Mat_nSetRect(ptr, row, col, data, data.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -4070,10 +4213,11 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data);
             Vec4f[] dataV = EnumerableEx.SelectToArray(data, delegate(DMatch d)
             {
-                return (Vec4f)d;
+                return (Vec4f) d;
             });
             NativeMethods.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
         }
+
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -4085,13 +4229,15 @@ namespace OpenCvSharp.CPlusPlus
             CheckArgumentsForConvert(row, col, data);
             Vec4f[] dataV = EnumerableEx.SelectToArray(data, delegate(DMatch d)
             {
-                return (Vec4f)d;
+                return (Vec4f) d;
             });
             NativeMethods.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
         }
+
         #endregion
 
         #region Reserve
+
         /// <summary>
         /// reserves enough space to fit sz hyper-planes
         /// </summary>
@@ -4101,8 +4247,11 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             NativeMethods.core_Mat_reserve(ptr, new IntPtr(sz));
         }
+
         #endregion
+
         #region Resize
+
         /// <summary>
         /// resizes matrix to the specified number of hyper-planes
         /// </summary>
@@ -4112,6 +4261,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             NativeMethods.core_Mat_resize1(ptr, new IntPtr(sz));
         }
+
         /// <summary>
         /// resizes matrix to the specified number of hyper-planes; initializes the newly added elements
         /// </summary>
@@ -4122,7 +4272,9 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             NativeMethods.core_Mat_resize2(ptr, new IntPtr(sz), s);
         }
+
         #endregion
+
         #region PushBack
 
         /// <summary>
@@ -4148,7 +4300,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
+
         #region PopBack
+
         /// <summary>
         /// removes several hyper-planes from bottom of the matrix (Mat.pop_back)
         /// </summary>
@@ -4158,6 +4312,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             NativeMethods.core_Mat_pop_back(ptr, new IntPtr(nElems));
         }
+
         #endregion
 
         #region To*
@@ -4172,6 +4327,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return ImEncode(ext, prms);
         }
+
         /// <summary>
         /// Encodes an image into a memory buffer.
         /// </summary>
@@ -4208,6 +4364,7 @@ namespace OpenCvSharp.CPlusPlus
             byte[] imageBytes = ToBytes(ext, prms);
             stream.Write(imageBytes, 0, imageBytes.Length);
         }
+
         #endregion
 
         /// <summary>
@@ -4223,390 +4380,6 @@ namespace OpenCvSharp.CPlusPlus
             CopyTo(roiMat);
             return roiMat;
         }
-
-        #endregion
-
-        #region Cv2 Methods
-
-        #region Line
-#if LANG_JP
-        /// <summary>
-        /// 2点を結ぶ線分を画像上に描画する．
-        /// </summary>
-        /// <param name="pt1X">線分の1番目の端点x</param>
-        /// <param name="pt1Y">線分の1番目の端点y</param>
-        /// <param name="pt2X">線分の2番目の端点x</param>
-        /// <param name="pt2Y">線分の2番目の端点y</param>
-        /// <param name="color">線分の色</param>
-        /// <param name="thickness">線分の太さ. [既定値は1]</param>
-        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
-        /// <summary>
-        /// Draws a line segment connecting two points
-        /// </summary>
-        /// <param name="pt1X">First point's x-coordinate of the line segment. </param>
-        /// <param name="pt1Y">First point's y-coordinate of the line segment. </param>
-        /// <param name="pt2X">Second point's x-coordinate of the line segment. </param>
-        /// <param name="pt2Y">Second point's y-coordinate of the line segment. </param>
-        /// <param name="color">Line color. </param>
-        /// <param name="thickness">Line thickness. [By default this is 1]</param>
-        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
-        public void Line(int pt1X, int pt1Y, int pt2X, int pt2Y, CvScalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.Line(this, pt1X, pt1Y, pt2X, pt2Y, color, thickness, lineType, shift);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 2点を結ぶ線分を画像上に描画する．
-        /// </summary>
-        /// <param name="pt1">線分の1番目の端点</param>
-        /// <param name="pt2">線分の2番目の端点</param>
-        /// <param name="color">線分の色</param>
-        /// <param name="thickness">線分の太さ. [既定値は1]</param>
-        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
-        /// <summary>
-        /// Draws a line segment connecting two points
-        /// </summary>
-        /// <param name="pt1">First point of the line segment. </param>
-        /// <param name="pt2">Second point of the line segment. </param>
-        /// <param name="color">Line color. </param>
-        /// <param name="thickness">Line thickness. [By default this is 1]</param>
-        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
-        public void Line(Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.Line(this, pt1, pt2, color, thickness, lineType, shift);
-        }
-        #endregion
-        #region Rectangle
-#if LANG_JP
-        /// <summary>
-        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
-        /// </summary>
-        /// <param name="pt1">矩形の一つの頂点</param>
-        /// <param name="pt2">矩形の反対側の頂点</param>
-        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
-        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
-        /// <summary>
-        /// Draws simple, thick or filled rectangle
-        /// </summary>
-        /// <param name="pt1">One of the rectangle vertices. </param>
-        /// <param name="pt2">Opposite rectangle vertex. </param>
-        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
-        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
-        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
-        public void Rectangle(Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.Rectangle(this, pt1, pt2, color, thickness, lineType, shift);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
-        /// </summary>
-        /// <param name="rect">矩形</param>
-        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
-        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
-        /// <summary>
-        /// Draws simple, thick or filled rectangle
-        /// </summary>
-        /// <param name="rect">Rectangle.</param>
-        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
-        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
-        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
-        public void Rectangle(Rect rect, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.Rectangle(this, rect, color, thickness, lineType, shift);
-        }
-        #endregion
-        #region Circle
-#if LANG_JP
-        /// <summary>
-        /// 円を描画する
-        /// </summary>
-        /// <param name="centerX">円の中心のx座標</param>
-        /// <param name="centerY">円の中心のy座標</param>
-        /// <param name="radius">円の半径</param>
-        /// <param name="color">円の色</param>
-        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
-        /// <summary>
-        /// Draws a circle
-        /// </summary>
-        /// <param name="centerX">X-coordinate of the center of the circle. </param>
-        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
-        /// <param name="radius">Radius of the circle. </param>
-        /// <param name="color">Circle color. </param>
-        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
-        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
-#endif
-        public void Circle(int centerX, int centerY, int radius, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.Circle(this, centerX, centerY, radius, color, thickness, lineType, shift);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 円を描画する
-        /// </summary>
-        /// <param name="center">円の中心</param>
-        /// <param name="radius">円の半径</param>
-        /// <param name="color">円の色</param>
-        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
-        /// <summary>
-        /// Draws a circle
-        /// </summary>
-        /// <param name="center">Center of the circle. </param>
-        /// <param name="radius">Radius of the circle. </param>
-        /// <param name="color">Circle color. </param>
-        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
-        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
-#endif
-        public void Circle(Point center, int radius, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.Circle(this, center, radius, color, thickness, lineType, shift);
-        }
-        #endregion
-        #region Ellipse
-#if LANG_JP
-        /// <summary>
-        /// 枠だけの楕円，楕円弧，もしくは塗りつぶされた扇形の楕円を描画する
-        /// </summary>
-        /// <param name="center">楕円の中心</param>
-        /// <param name="axes">楕円の軸の長さ</param>
-        /// <param name="angle">回転角度</param>
-        /// <param name="startAngle">楕円弧の開始角度</param>
-        /// <param name="endAngle">楕円弧の終了角度</param>
-        /// <param name="color">楕円の色</param>
-        /// <param name="thickness">楕円弧の線の幅 [既定値は1]</param>
-        /// <param name="lineType">楕円弧の線の種類 [既定値はLineType.Link8]</param>
-        /// <param name="shift">中心座標と軸の長さの小数点以下の桁を表すビット数 [既定値は0]</param>
-#else
-        /// <summary>
-        /// Draws simple or thick elliptic arc or fills ellipse sector
-        /// </summary>
-        /// <param name="center">Center of the ellipse. </param>
-        /// <param name="axes">Length of the ellipse axes. </param>
-        /// <param name="angle">Rotation angle. </param>
-        /// <param name="startAngle">Starting angle of the elliptic arc. </param>
-        /// <param name="endAngle">Ending angle of the elliptic arc. </param>
-        /// <param name="color">Ellipse color. </param>
-        /// <param name="thickness">Thickness of the ellipse arc. [By default this is 1]</param>
-        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
-#endif
-        public void Ellipse(Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.Ellipse(this, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 枠だけの楕円，もしくは塗りつぶされた楕円を描画する
-        /// </summary>
-        /// <param name="box">描画したい楕円を囲む矩形領域．</param>
-        /// <param name="color">楕円の色．</param>
-        /// <param name="thickness">楕円境界線の幅．[既定値は1]</param>
-        /// <param name="lineType">楕円境界線の種類．[既定値はLineType.Link8]</param>
-#else
-        /// <summary>
-        /// Draws simple or thick elliptic arc or fills ellipse sector
-        /// </summary>
-        /// <param name="box">The enclosing box of the ellipse drawn </param>
-        /// <param name="color">Ellipse color. </param>
-        /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
-        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
-#endif
-        public void Ellipse(RotatedRect box, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8)
-        {
-            Cv2.Ellipse(this, box, color, thickness, lineType);
-        }
-        #endregion
-        #region FillConvexPoly
-#if LANG_JP
-        /// <summary>
-        /// 塗りつぶされた凸ポリゴンを描きます．
-        /// </summary>
-        /// <param name="pts">ポリゴンの頂点．</param>
-        /// <param name="color">ポリゴンの色．</param>
-        /// <param name="lineType">ポリゴンの枠線の種類，</param>
-        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
-#else
-        /// <summary>
-        /// Fills a convex polygon.
-        /// </summary>
-        /// <param name="pts">The polygon vertices</param>
-        /// <param name="color">Polygon color</param>
-        /// <param name="lineType">Type of the polygon boundaries</param>
-        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
-#endif
-        public void FillConvexPoly(IEnumerable<Point> pts, Scalar color,
-            LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.FillConvexPoly(this, pts, color, lineType, shift);
-        }
-        #endregion
-        #region FillPoly
-#if LANG_JP
-        /// <summary>
-        /// 1つ，または複数のポリゴンで区切られた領域を塗りつぶします．
-        /// </summary>
-        /// <param name="pts">ポリゴンの配列．各要素は，点の配列で表現されます．</param>
-        /// <param name="color">ポリゴンの色．</param>
-        /// <param name="lineType">ポリゴンの枠線の種類，</param>
-        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
-        /// <param name="offset"></param>
-#else
-        /// <summary>
-        /// Fills the area bounded by one or more polygons
-        /// </summary>
-        /// <param name="pts">Array of polygons, each represented as an array of points</param>
-        /// <param name="color">Polygon color</param>
-        /// <param name="lineType">Type of the polygon boundaries</param>
-        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
-        /// <param name="offset"></param>
-#endif
-        public void FillPoly(IEnumerable<IEnumerable<Point>> pts, Scalar color,
-            LineType lineType = LineType.Link8, int shift = 0, Point? offset = null)
-        {
-            Cv2.FillPoly(this, pts, color, lineType, shift, offset);
-        }
-        #endregion
-        #region Polylines
-        /// <summary>
-        /// draws one or more polygonal curves
-        /// </summary>
-        /// <param name="pts"></param>
-        /// <param name="isClosed"></param>
-        /// <param name="color"></param>
-        /// <param name="thickness"></param>
-        /// <param name="lineType"></param>
-        /// <param name="shift"></param>
-        public void Polylines(IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
-        {
-            Cv2.Polylines(this, pts, isClosed, color, thickness, lineType, shift);
-        }
-        #endregion
-        #region PutText
-        /// <summary>
-        /// renders text string in the image
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="org"></param>
-        /// <param name="fontFace"></param>
-        /// <param name="fontScale"></param>
-        /// <param name="color"></param>
-        /// <param name="thickness"></param>
-        /// <param name="lineType"></param>
-        /// <param name="bottomLeftOrigin"></param>
-        public void PutText(string text, Point org,
-            FontFace fontFace, double fontScale, Scalar color,
-            int thickness = 1, 
-            LineType lineType = LineType.Link8, 
-            bool bottomLeftOrigin = false)
-        {
-            Cv2.PutText(this, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin);
-        }
-        #endregion
-        #region ImEncode / ToBytes
-        /// <summary>
-        /// Encodes an image into a memory buffer.
-        /// </summary>
-        /// <param name="ext">Encodes an image into a memory buffer.</param>
-        /// <param name="prms">Format-specific parameters.</param>
-        /// <returns></returns>
-        public byte[] ImEncode(string ext = ".png", int[] prms = null)
-        {
-            byte[] buf;
-            Cv2.ImEncode(ext, this, out buf, prms);
-            return buf;
-        }
-        /// <summary>
-        /// Encodes an image into a memory buffer.
-        /// </summary>
-        /// <param name="ext">Encodes an image into a memory buffer.</param>
-        /// <param name="prms">Format-specific parameters.</param>
-        /// <returns></returns>
-        public byte[] ImEncode(string ext = ".png", params ImageEncodingParam[] prms)
-        {
-            byte[] buf;
-            Cv2.ImEncode(ext, this, out buf, prms);
-            return buf;
-        }
-        #endregion
-        #region ImWrite / SaveImage
-        /// <summary>
-        /// Saves an image to a specified file.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="prms"></param>
-        /// <returns></returns>
-        public bool ImWrite(string fileName, int[] prms = null)
-        {
-            return Cv2.ImWrite(fileName, this, prms);
-        }
-        /// <summary>
-        /// Saves an image to a specified file.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="prms"></param>
-        /// <returns></returns>
-        public bool ImWrite(string fileName, params ImageEncodingParam[] prms)
-        {
-            return Cv2.ImWrite(fileName, this, prms);
-        }
-
-        /// <summary>
-        /// Saves an image to a specified file.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="prms"></param>
-        /// <returns></returns>
-        public bool SaveImage(string fileName, int[] prms = null)
-        {
-            return Cv2.ImWrite(fileName, this, prms);
-        }
-        /// <summary>
-        /// Saves an image to a specified file.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="prms"></param>
-        /// <returns></returns>
-        public bool SaveImage(string fileName, params ImageEncodingParam[] prms)
-        {
-            return Cv2.ImWrite(fileName, this, prms);
-        }
-        #endregion
 
         #endregion
     }

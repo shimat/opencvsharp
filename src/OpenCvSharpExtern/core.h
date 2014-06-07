@@ -297,10 +297,16 @@ CVAPI(void) core_absdiff(cv::_InputArray *src1, cv::_InputArray *src2, cv::_Outp
 {
 	cv::absdiff(*src1, *src2, *dst);
 }
-CVAPI(void) core_inRange(cv::_InputArray *src, cv::_InputArray *lowerb, cv::_InputArray *upperb, cv::_OutputArray *dst)
+
+CVAPI(void) core_inRange_InputArray(cv::_InputArray *src, cv::_InputArray *lowerb, cv::_InputArray *upperb, cv::_OutputArray *dst)
 {
 	cv::inRange(*src, *lowerb, *upperb, *dst);
 }
+CVAPI(void) core_inRange_Scalar(cv::_InputArray *src, CvScalar lowerb, CvScalar upperb, cv::_OutputArray *dst)
+{
+	cv::inRange(*src, cv::Scalar(lowerb), cv::Scalar(upperb), *dst);
+}
+
 CVAPI(void) core_compare(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int cmpop)
 {
 	cv::compare(*src1, *src2, *dst, cmpop);
@@ -596,10 +602,6 @@ CVAPI(void) core_randShuffle(cv::_OutputArray *dst, double iterFactor, uint64 *r
 	cv::RNG rng0;
 	cv::randShuffle(*dst, iterFactor, &rng0);
 	*rng = rng0.state;
-}
-CVAPI(void) core_randShuffle_(cv::_OutputArray *dst, double iterFactor)
-{
-	cv::randShuffle_(*dst, iterFactor);
 }
 
 
