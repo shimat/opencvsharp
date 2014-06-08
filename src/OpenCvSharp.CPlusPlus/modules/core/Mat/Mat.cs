@@ -3588,6 +3588,30 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
+        public void GetArray(int row, int col, Vec4i[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            NativeMethods.core_Mat_nGetVec4i(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void GetArray(int row, int col, Vec4i[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            NativeMethods.core_Mat_nGetVec4i(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Get the data of this matrix as array
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
         public void GetArray(int row, int col, Point[] data)
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32SC2);
@@ -4032,6 +4056,30 @@ namespace OpenCvSharp.CPlusPlus
         {
             CheckArgumentsForConvert(row, col, data, MatType.CV_32FC(6));
             NativeMethods.core_Mat_nSetVec6f(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, params Vec4i[] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            NativeMethods.core_Mat_nSetVec4i(ptr, row, col, data, data.Length);
+        }
+
+        /// <summary>
+        /// Set the specified array data to this matrix
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="data"></param>
+        public void SetArray(int row, int col, Vec4i[,] data)
+        {
+            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            NativeMethods.core_Mat_nSetVec4i(ptr, row, col, data, data.Length);
         }
 
         /// <summary>

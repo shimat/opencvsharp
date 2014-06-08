@@ -2076,24 +2076,76 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region Moments
         /// <summary>
-        /// computes moments of the rasterized shape or a vector of points
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
         /// </summary>
-        /// <param name="array"></param>
-        /// <param name="binaryImage"></param>
+        /// <param name="array">A raster image (single-channel, 8-bit or floating-point 
+        /// 2D array) or an array ( 1xN or Nx1 ) of 2D points ( Point or Point2f )</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
         /// <returns></returns>
         public static Moments Moments(InputArray array, bool binaryImage = false)
         {
             return new Moments(array, binaryImage);
         }
+        
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">A raster image (8-bit) 2D array</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        public static Moments Moments(byte[,] array, bool binaryImage = false)
+        {
+            return new Moments(array, binaryImage);
+        }
+
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">A raster image (floating-point) 2D array</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        public static Moments Moments(float[,] array, bool binaryImage = false)
+        {
+            return new Moments(array, binaryImage);
+        }
+
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">Array of 2D points</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        public static Moments Moments(IEnumerable<Point> array, bool binaryImage = false)
+        {
+            return new Moments(array, binaryImage);
+        }
+
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">Array of 2D points</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        public static Moments Moments(IEnumerable<Point2f> array, bool binaryImage = false)
+        {
+            return new Moments(array, binaryImage);
+        }
+
         #endregion
         #region MatchTemplate
         /// <summary>
-        /// computes the proximity map for the raster template and the image where the template is searched for
+        /// Computes the proximity map for the raster template and the image where the template is searched for
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="templ"></param>
-        /// <param name="result"></param>
-        /// <param name="method"></param>
+        /// <param name="image">Image where the search is running; should be 8-bit or 32-bit floating-point</param>
+        /// <param name="templ">Searched template; must be not greater than the source image and have the same data type</param>
+        /// <param name="result">A map of comparison results; will be single-channel 32-bit floating-point. 
+        /// If image is WxH and templ is wxh then result will be (W-w+1) x (H-h+1).</param>
+        /// <param name="method">Specifies the comparison method</param>
         public static void MatchTemplate(InputArray image, InputArray templ,
             OutputArray result, MatchTemplateMethod method)
         {
@@ -2223,10 +2275,10 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="image">入力画像，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
         /// また，この関数は，輪郭抽出処理中に入力画像 image の中身を書き換えます．</param>
-        /// <param name="contours">検出された輪郭．各輪郭は，点のベクトルとして格納されます．</param>
         /// <param name="mode">輪郭抽出モード</param>
         /// <param name="method">輪郭の近似手法</param>
         /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
+        /// <return>検出された輪郭．各輪郭は，点のベクトルとして格納されます．</return>
 #else
         /// <summary>
         /// Finds contours in a binary image.
@@ -2234,13 +2286,13 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="image">Source, an 8-bit single-channel image. Non-zero pixels are treated as 1’s. 
         /// Zero pixels remain 0’s, so the image is treated as binary.
         /// The function modifies the image while extracting the contours.</param> 
-        /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
         /// <param name="mode">Contour retrieval mode</param>
         /// <param name="method">Contour approximation method</param>
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
+        /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static void FindContours(InputOutputArray image, out Point[][] contours,
+        public static Point[][] FindContoursAsArray(InputOutputArray image, 
             ContourRetrieval mode, ContourChain method, Point? offset = null)
         {
             if (image == null)
@@ -2250,13 +2302,12 @@ namespace OpenCvSharp.CPlusPlus
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
             NativeMethods.imgproc_findContours2_vector(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
-
-            using (VectorOfVectorPoint contoursVec = new VectorOfVectorPoint(contoursPtr))
-            {
-                contours = contoursVec.ToArray();
-            }
-
             image.Fix();
+
+            using (var contoursVec = new VectorOfVectorPoint(contoursPtr))
+            {
+                return contoursVec.ToArray();
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -2264,10 +2315,10 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="image">入力画像，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
         /// また，この関数は，輪郭抽出処理中に入力画像 image の中身を書き換えます．</param>
-        /// <param name="contours">検出された輪郭．各輪郭は，点のベクトルとして格納されます．</param>
         /// <param name="mode">輪郭抽出モード</param>
         /// <param name="method">輪郭の近似手法</param>
         /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
+        /// <return>検出された輪郭．各輪郭は，点のベクトルとして格納されます．</return>
 #else
         /// <summary>
         /// Finds contours in a binary image.
@@ -2275,13 +2326,13 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="image">Source, an 8-bit single-channel image. Non-zero pixels are treated as 1’s. 
         /// Zero pixels remain 0’s, so the image is treated as binary.
         /// The function modifies the image while extracting the contours.</param> 
-        /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
         /// <param name="mode">Contour retrieval mode</param>
         /// <param name="method">Contour approximation method</param>
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
+        /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static void FindContours(InputOutputArray image, out MatOfPoint[] contours,
+        public static MatOfPoint[] FindContoursAsMat(InputOutputArray image, 
             ContourRetrieval mode, ContourChain method, Point? offset = null)
         {
             if (image == null)
@@ -2291,13 +2342,12 @@ namespace OpenCvSharp.CPlusPlus
             CvPoint offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
             NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
-
-            using (VectorOfMat contoursVec = new VectorOfMat(contoursPtr))
-            {
-                contours = contoursVec.ToArray<MatOfPoint>();
-            }
-
             image.Fix();
+
+            using (var contoursVec = new VectorOfMat(contoursPtr))
+            {
+                return contoursVec.ToArray<MatOfPoint>();
+            }
         }
         #endregion
         #region DrawContours
@@ -2433,13 +2483,16 @@ namespace OpenCvSharp.CPlusPlus
         #region ApproxPolyDP
 
         /// <summary>
-        /// approximates contour or a curve using Douglas-Peucker algorithm
+        /// Approximates contour or a curve using Douglas-Peucker algorithm
         /// </summary>
-        /// <param name="curve"></param>
-        /// <param name="approxCurve"></param>
-        /// <param name="epsilon"></param>
-        /// <param name="closed"></param>
-        /// <returns></returns>
+        /// <param name="curve">The polygon or curve to approximate. 
+        /// Must be 1 x N or N x 1 matrix of type CV_32SC2 or CV_32FC2.</param>
+        /// <param name="approxCurve">The result of the approximation; 
+        /// The type should match the type of the input curve</param>
+        /// <param name="epsilon">Specifies the approximation accuracy. 
+        /// This is the maximum distance between the original curve and its approximation.</param>
+        /// <param name="closed">The result of the approximation; 
+        /// The type should match the type of the input curve</param>
         public static void ApproxPolyDP(InputArray curve, OutputArray approxCurve, double epsilon, bool closed)
         {
             if (curve == null)
@@ -2452,12 +2505,15 @@ namespace OpenCvSharp.CPlusPlus
             approxCurve.Fix();
         }
         /// <summary>
-        /// approximates contour or a curve using Douglas-Peucker algorithm
+        /// Approximates contour or a curve using Douglas-Peucker algorithm
         /// </summary>
-        /// <param name="curve"></param>
-        /// <param name="epsilon"></param>
-        /// <param name="closed"></param>
-        /// <returns></returns>
+        /// <param name="curve">The polygon or curve to approximate.</param>
+        /// <param name="epsilon">Specifies the approximation accuracy. 
+        /// This is the maximum distance between the original curve and its approximation.</param>
+        /// <param name="closed">The result of the approximation; 
+        /// The type should match the type of the input curve</param>
+        /// <returns>The result of the approximation; 
+        /// The type should match the type of the input curve</returns>
         public static Point[] ApproxPolyDP(IEnumerable<Point> curve, double epsilon, bool closed)
         {
             if(curve == null)
@@ -2471,12 +2527,15 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         /// <summary>
-        /// approximates contour or a curve using Douglas-Peucker algorithm
+        /// Approximates contour or a curve using Douglas-Peucker algorithm
         /// </summary>
-        /// <param name="curve"></param>
-        /// <param name="epsilon"></param>
-        /// <param name="closed"></param>
-        /// <returns></returns>
+        /// <param name="curve">The polygon or curve to approximate.</param>
+        /// <param name="epsilon">Specifies the approximation accuracy. 
+        /// This is the maximum distance between the original curve and its approximation.</param>
+        /// <param name="closed">If true, the approximated curve is closed 
+        /// (i.e. its first and last vertices are connected), otherwise it’s not</param>
+        /// <returns>The result of the approximation; 
+        /// The type should match the type of the input curve</returns>
         public static Point2f[] ApproxPolyDP(IEnumerable<Point2f> curve, double epsilon, bool closed)
         {
             if (curve == null)
@@ -2492,10 +2551,10 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region ArcLength
         /// <summary>
-        /// computes the contour perimeter (closed=true) or a curve length
+        /// Calculates a contour perimeter or a curve length.
         /// </summary>
-        /// <param name="curve"></param>
-        /// <param name="closed"></param>
+        /// <param name="curve">The input vector of 2D points, represented by CV_32SC2 or CV_32FC2 matrix.</param>
+        /// <param name="closed">Indicates, whether the curve is closed or not.</param>
         /// <returns></returns>
         public static double ArcLength(InputArray curve, bool closed)
         {
@@ -2504,11 +2563,12 @@ namespace OpenCvSharp.CPlusPlus
             curve.ThrowIfDisposed();
             return NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
         }
+
         /// <summary>
-        /// computes the contour perimeter (closed=true) or a curve length
+        /// Calculates a contour perimeter or a curve length.
         /// </summary>
-        /// <param name="curve"></param>
-        /// <param name="closed"></param>
+        /// <param name="curve">The input vector of 2D points.</param>
+        /// <param name="closed">Indicates, whether the curve is closed or not.</param>
         /// <returns></returns>
         public static double ArcLength(IEnumerable<Point> curve, bool closed)
         {
@@ -2517,11 +2577,12 @@ namespace OpenCvSharp.CPlusPlus
             Point[] curveArray = EnumerableEx.ToArray(curve);
             return NativeMethods.imgproc_arcLength_Point(curveArray, curveArray.Length, closed ? 1 : 0);
         }
+
         /// <summary>
-        /// computes the contour perimeter (closed=true) or a curve length
+        /// Calculates a contour perimeter or a curve length.
         /// </summary>
-        /// <param name="curve"></param>
-        /// <param name="closed"></param>
+        /// <param name="curve">The input vector of 2D points.</param>
+        /// <param name="closed">Indicates, whether the curve is closed or not.</param>
         /// <returns></returns>
         public static double ArcLength(IEnumerable<Point2f> curve, bool closed)
         {
@@ -2533,10 +2594,10 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region BoundingRect
         /// <summary>
-        /// computes the bounding rectangle for a contour
+        /// Calculates the up-right bounding rectangle of a point set.
         /// </summary>
-        /// <param name="curve"></param>
-        /// <returns></returns>
+        /// <param name="curve">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
+        /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
         public static Rect BoundingRect(InputArray curve)
         {
             if (curve == null)
@@ -2544,11 +2605,12 @@ namespace OpenCvSharp.CPlusPlus
             curve.ThrowIfDisposed();
             return NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr);
         }
+
         /// <summary>
-        /// computes the bounding rectangle for a contour
+        /// Calculates the up-right bounding rectangle of a point set.
         /// </summary>
-        /// <param name="curve"></param>
-        /// <returns></returns>
+        /// <param name="curve">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
+        /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
         public static Rect BoundingRect(IEnumerable<Point> curve)
         {
             if (curve == null)
@@ -2556,11 +2618,12 @@ namespace OpenCvSharp.CPlusPlus
             Point[] curveArray = EnumerableEx.ToArray(curve);
             return NativeMethods.imgproc_boundingRect_Point(curveArray, curveArray.Length);
         }
+
         /// <summary>
-        /// computes the bounding rectangle for a contour
+        /// Calculates the up-right bounding rectangle of a point set.
         /// </summary>
-        /// <param name="curve"></param>
-        /// <returns></returns>
+        /// <param name="curve">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
+        /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
         public static Rect BoundingRect(IEnumerable<Point2f> curve)
         {
             if (curve == null)
@@ -2571,9 +2634,9 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region ContourArea
         /// <summary>
-        /// computes the contour area
+        /// Calculates the contour area
         /// </summary>
-        /// <param name="contour"></param>
+        /// <param name="contour">The contour vertices, represented by CV_32SC2 or CV_32FC2 matrix</param>
         /// <param name="oriented"></param>
         /// <returns></returns>
         public static double ContourArea(InputArray contour, bool oriented = false)
@@ -2584,9 +2647,9 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
         }
         /// <summary>
-        /// computes the contour area
+        /// Calculates the contour area
         /// </summary>
-        /// <param name="contour"></param>
+        /// <param name="contour">The contour vertices, represented by CV_32SC2 or CV_32FC2 matrix</param>
         /// <param name="oriented"></param>
         /// <returns></returns>
         public static double ContourArea(IEnumerable<Point> contour, bool oriented = false)
@@ -2597,9 +2660,9 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.imgproc_contourArea_Point(contourArray, contourArray.Length, oriented ? 1 : 0);
         }
         /// <summary>
-        /// computes the contour area
+        /// Calculates the contour area
         /// </summary>
-        /// <param name="contour"></param>
+        /// <param name="contour">The contour vertices, represented by CV_32SC2 or CV_32FC2 matrix</param>
         /// <param name="oriented"></param>
         /// <returns></returns>
         public static double ContourArea(IEnumerable<Point2f> contour, bool oriented = false)
@@ -2612,9 +2675,9 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region MinAreaRect
         /// <summary>
-        /// computes the minimal rotated rectangle for a set of points
+        /// Finds the minimum area rotated rectangle enclosing a 2D point set.
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
         /// <returns></returns>
         public static RotatedRect MinAreaRect(InputArray points)
         {
@@ -2624,9 +2687,9 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr);
         }
         /// <summary>
-        /// computes the minimal rotated rectangle for a set of points
+        /// Finds the minimum area rotated rectangle enclosing a 2D point set.
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
         /// <returns></returns>
         public static RotatedRect MinAreaRect(IEnumerable<Point> points)
         {
@@ -2636,9 +2699,9 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.imgproc_minAreaRect_Point(pointsArray, pointsArray.Length);
         }
         /// <summary>
-        /// computes the minimal rotated rectangle for a set of points
+        /// Finds the minimum area rotated rectangle enclosing a 2D point set.
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
         /// <returns></returns>
         public static RotatedRect MinAreaRect(IEnumerable<Point2f> points)
         {
@@ -2650,11 +2713,11 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region MinEnclosingCircle
         /// <summary>
-        /// computes the minimal enclosing circle for a set of points
+        /// Finds the minimum area circle enclosing a 2D point set.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="center"></param>
-        /// <param name="radius"></param>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
+        /// <param name="center">The output center of the circle</param>
+        /// <param name="radius">The output radius of the circle</param>
         public static void MinEnclosingCircle(InputArray points, out Point2f center, out float radius)
         {
             if (points == null)
@@ -2662,12 +2725,13 @@ namespace OpenCvSharp.CPlusPlus
             points.ThrowIfDisposed();
             NativeMethods.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius);
         }
+
         /// <summary>
-        /// computes the minimal enclosing circle for a set of points
+        /// Finds the minimum area circle enclosing a 2D point set.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="center"></param>
-        /// <param name="radius"></param>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
+        /// <param name="center">The output center of the circle</param>
+        /// <param name="radius">The output radius of the circle</param>
         public static void MinEnclosingCircle(IEnumerable<Point> points, out Point2f center, out float radius)
         {
             if (points == null)
@@ -2675,12 +2739,13 @@ namespace OpenCvSharp.CPlusPlus
             Point[] pointsArray = EnumerableEx.ToArray(points);
             NativeMethods.imgproc_minEnclosingCircle_Point(pointsArray, pointsArray.Length, out center, out radius);
         }
+
         /// <summary>
-        /// computes the minimal enclosing circle for a set of points
+        /// Finds the minimum area circle enclosing a 2D point set.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="center"></param>
-        /// <param name="radius"></param>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
+        /// <param name="center">The output center of the circle</param>
+        /// <param name="radius">The output radius of the circle</param>
         public static void MinEnclosingCircle(IEnumerable<Point2f> points, out Point2f center, out float radius)
         {
             if (points == null)
@@ -2729,13 +2794,18 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region ConvexHull
         /// <summary>
-        /// computes convex hull for a set of 2D points.
+        /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="hull"></param>
-        /// <param name="clockwise"></param>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
+        /// <param name="hull">The output convex hull. It is either a vector of points that form the 
+        /// hull (must have the same type as the input points), or a vector of 0-based point 
+        /// indices of the hull points in the original array (since the set of convex hull 
+        /// points is a subset of the original point set).</param>
+        /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
+        /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
+        /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
+        /// and y axis is oriented downwards.</param>
         /// <param name="returnPoints"></param>
-        /// <returns></returns>
         public static void ConvexHull(InputArray points, OutputArray hull, bool clockwise = false, bool returnPoints = true)
         {
             if (points == null)
@@ -2747,12 +2817,17 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0);
             hull.Fix();
         }
+
         /// <summary>
-        /// computes convex hull for a set of 2D points.
+        /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="clockwise"></param>
-        /// <returns></returns>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
+        /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
+        /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
+        /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
+        /// and y axis is oriented downwards.</param>
+        /// <returns>The output convex hull. It is a vector of points that form 
+        /// the hull (must have the same type as the input points).</returns>
         public static Point[] ConvexHull(IEnumerable<Point> points, bool clockwise = false)
         {
             if (points == null)
@@ -2765,12 +2840,17 @@ namespace OpenCvSharp.CPlusPlus
                 return hullVec.ToArray();
             }
         }
+
         /// <summary>
-        /// computes convex hull for a set of 2D points.
+        /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="clockwise"></param>
-        /// <returns></returns>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
+        /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
+        /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
+        /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
+        /// and y axis is oriented downwards.</param>
+        /// <returns>The output convex hull. It is a vector of points that form 
+        /// the hull (must have the same type as the input points).</returns>
         public static Point2f[] ConvexHull(IEnumerable<Point2f> points, bool clockwise = false)
         {
             if (points == null)
@@ -2784,12 +2864,17 @@ namespace OpenCvSharp.CPlusPlus
                 return hullVec.ToArray();
             }
         }
+
         /// <summary>
-        /// computes convex hull for a set of 2D points.
+        /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="clockwise"></param>
-        /// <returns></returns>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
+        /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
+        /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
+        /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
+        /// and y axis is oriented downwards.</param>
+        /// <returns>The output convex hull. It is a vector of 0-based point indices of the 
+        /// hull points in the original array (since the set of convex hull points is a subset of the original point set).</returns>
         public static int[] ConvexHullIndices(IEnumerable<Point> points, bool clockwise = false)
         {
             if (points == null)
@@ -2802,12 +2887,17 @@ namespace OpenCvSharp.CPlusPlus
                 return hullVec.ToArray();
             }
         }
+
         /// <summary>
-        /// computes convex hull for a set of 2D points.
+        /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="clockwise"></param>
-        /// <returns></returns>
+        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
+        /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
+        /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
+        /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
+        /// and y axis is oriented downwards.</param>
+        /// <returns>The output convex hull. It is a vector of 0-based point indices of the 
+        /// hull points in the original array (since the set of convex hull points is a subset of the original point set).</returns>
         public static int[] ConvexHullIndices(IEnumerable<Point2f> points, bool clockwise = false)
         {
             if (points == null)
@@ -2824,12 +2914,20 @@ namespace OpenCvSharp.CPlusPlus
         #region ConvexityDefects
 
         /// <summary>
-        /// computes the contour convexity defects
+        /// Computes the contour convexity defects
         /// </summary>
-        /// <param name="contour"></param>
-        /// <param name="convexHull"></param>
-        /// <param name="convexityDefects"></param>
-        /// <returns></returns>
+        /// <param name="contour">Input contour.</param>
+        /// <param name="convexHull">Convex hull obtained using convexHull() that 
+        /// should contain indices of the contour points that make the hull.</param>
+        /// <param name="convexityDefects">
+        /// The output vector of convexity defects. 
+        /// Each convexity defect is represented as 4-element integer vector 
+        /// (a.k.a. cv::Vec4i): (start_index, end_index, farthest_pt_index, fixpt_depth), 
+        /// where indices are 0-based indices in the original contour of the convexity defect beginning, 
+        /// end and the farthest point, and fixpt_depth is fixed-point approximation 
+        /// (with 8 fractional bits) of the distance between the farthest contour point and the hull. 
+        /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0.
+        /// </param>
         public static void ConvexityDefects(InputArray contour, InputArray convexHull, OutputArray convexityDefects)
         {
             if (contour == null)
@@ -2844,12 +2942,20 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr);
             convexityDefects.Fix();
         }
+
         /// <summary>
-        /// computes the contour convexity defects
+        /// Computes the contour convexity defects
         /// </summary>
-        /// <param name="contour"></param>
-        /// <param name="convexHull"></param>
-        /// <returns></returns>
+        /// <param name="contour">Input contour.</param>
+        /// <param name="convexHull">Convex hull obtained using convexHull() that 
+        /// should contain indices of the contour points that make the hull.</param>
+        /// <returns>The output vector of convexity defects. 
+        /// Each convexity defect is represented as 4-element integer vector 
+        /// (a.k.a. cv::Vec4i): (start_index, end_index, farthest_pt_index, fixpt_depth), 
+        /// where indices are 0-based indices in the original contour of the convexity defect beginning, 
+        /// end and the farthest point, and fixpt_depth is fixed-point approximation 
+        /// (with 8 fractional bits) of the distance between the farthest contour point and the hull. 
+        /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0. </returns>
         public static Vec4i[] ConvexityDefects(IEnumerable<Point> contour, IEnumerable<int> convexHull)
         {
             if (contour == null)
@@ -2867,12 +2973,20 @@ namespace OpenCvSharp.CPlusPlus
                 return convexityDefects.ToArray();
             }
         }
+
         /// <summary>
-        /// computes the contour convexity defects
+        /// Computes the contour convexity defects
         /// </summary>
-        /// <param name="contour"></param>
-        /// <param name="convexHull"></param>
-        /// <returns></returns>
+        /// <param name="contour">Input contour.</param>
+        /// <param name="convexHull">Convex hull obtained using convexHull() that 
+        /// should contain indices of the contour points that make the hull.</param>
+        /// <returns>The output vector of convexity defects. 
+        /// Each convexity defect is represented as 4-element integer vector 
+        /// (a.k.a. cv::Vec4i): (start_index, end_index, farthest_pt_index, fixpt_depth), 
+        /// where indices are 0-based indices in the original contour of the convexity defect beginning, 
+        /// end and the farthest point, and fixpt_depth is fixed-point approximation 
+        /// (with 8 fractional bits) of the distance between the farthest contour point and the hull. 
+        /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0. </returns>
         public static Vec4i[] ConvexityDefects(IEnumerable<Point2f> contour, IEnumerable<int> convexHull)
         {
             if (contour == null)
@@ -2893,9 +3007,10 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region IsContourConvex
         /// <summary>
-        /// returns true if the contour is convex. Does not support contours with self-intersection
+        /// returns true if the contour is convex. 
+        /// Does not support contours with self-intersection
         /// </summary>
-        /// <param name="contour"></param>
+        /// <param name="contour">Input vector of 2D points</param>
         /// <returns></returns>
         public static bool IsContourConvex(InputArray contour)
         {
@@ -2906,9 +3021,10 @@ namespace OpenCvSharp.CPlusPlus
             return ret != 0;
         }
         /// <summary>
-        /// returns true if the contour is convex. Does not support contours with self-intersection
+        /// returns true if the contour is convex. 
+        /// Does not support contours with self-intersection
         /// </summary>
-        /// <param name="contour"></param>
+        /// <param name="contour">Input vector of 2D points</param>
         /// <returns></returns>
         public static bool IsContourConvex(IEnumerable<Point> contour)
         {
@@ -2919,9 +3035,10 @@ namespace OpenCvSharp.CPlusPlus
             return ret != 0;
         }
         /// <summary>
-        /// returns true if the contour is convex. Does not support contours with self-intersection
+        /// returns true if the contour is convex. D
+        /// oes not support contours with self-intersection
         /// </summary>
-        /// <param name="contour"></param>
+        /// <param name="contour">Input vector of 2D points</param>
         /// <returns></returns>
         public static bool IsContourConvex(IEnumerable<Point2f> contour)
         {
@@ -3015,9 +3132,9 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region FitEllipse
         /// <summary>
-        /// fits ellipse to the set of 2D points
+        /// Fits ellipse to the set of 2D points.
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">Input 2D point set</param>
         /// <returns></returns>
         public static RotatedRect FitEllipse(InputArray points)
         {
@@ -3027,9 +3144,9 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr);
         }
         /// <summary>
-        /// fits ellipse to the set of 2D points
+        /// Fits ellipse to the set of 2D points.
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">Input 2D point set</param>
         /// <returns></returns>
         public static RotatedRect FitEllipse(IEnumerable<Point> points)
         {
@@ -3039,9 +3156,9 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length);
         }
         /// <summary>
-        /// fits ellipse to the set of 2D points
+        /// Fits ellipse to the set of 2D points.
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">Input 2D point set</param>
         /// <returns></returns>
         public static RotatedRect FitEllipse(IEnumerable<Point2f> points)
         {
@@ -3054,15 +3171,23 @@ namespace OpenCvSharp.CPlusPlus
         #region FitLine
 
         /// <summary>
-        /// fits line to the set of 2D points using M-estimator algorithm
+        /// Fits line to the set of 2D points using M-estimator algorithm
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="line"></param>
-        /// <param name="distType"></param>
-        /// <param name="param"></param>
-        /// <param name="reps"></param>
-        /// <param name="aeps"></param>
-        /// <returns></returns>
+        /// <param name="points">Input vector of 2D or 3D points</param>
+        /// <param name="line">Output line parameters. 
+        /// In case of 2D fitting, it should be a vector of 4 elements 
+        /// (like Vec4f) - (vx, vy, x0, y0), where (vx, vy) is a normalized vector 
+        /// collinear to the line and (x0, y0) is a point on the line. 
+        /// In case of 3D fitting, it should be a vector of 6 elements 
+        /// (like Vec6f) - (vx, vy, vz, x0, y0, z0), where (vx, vy, vz) is a 
+        /// normalized vector collinear to the line and (x0, y0, z0) is a point on the line.</param>
+        /// <param name="distType">Distance used by the M-estimator</param>
+        /// <param name="param">Numerical parameter ( C ) for some types of distances. 
+        /// If it is 0, an optimal value is chosen.</param>
+        /// <param name="reps">Sufficient accuracy for the radius 
+        /// (distance between the coordinate origin and the line).</param>
+        /// <param name="aeps">Sufficient accuracy for the angle. 
+        /// 0.01 would be a good default value for reps and aeps.</param>
         public static void FitLine(InputArray points, OutputArray line, DistanceType distType,
             double param, double reps, double aeps)
         {
@@ -3075,15 +3200,19 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.imgproc_fitLine_InputArray(points.CvPtr, line.CvPtr, (int)distType, param, reps, aeps);
             line.Fix();
         }
+
         /// <summary>
-        /// fits line to the set of 2D points using M-estimator algorithm
+        /// Fits line to the set of 2D points using M-estimator algorithm
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="distType"></param>
-        /// <param name="param"></param>
-        /// <param name="reps"></param>
-        /// <param name="aeps"></param>
-        /// <returns></returns>
+        /// <param name="points">Input vector of 2D or 3D points</param>
+        /// <param name="distType">Distance used by the M-estimator</param>
+        /// <param name="param">Numerical parameter ( C ) for some types of distances. 
+        /// If it is 0, an optimal value is chosen.</param>
+        /// <param name="reps">Sufficient accuracy for the radius 
+        /// (distance between the coordinate origin and the line).</param>
+        /// <param name="aeps">Sufficient accuracy for the angle. 
+        /// 0.01 would be a good default value for reps and aeps.</param>
+        /// <returns>Output line parameters.</returns>
         public static CvLine2D FitLine(IEnumerable<Point> points, DistanceType distType,
             double param, double reps, double aeps)
         {
@@ -3094,15 +3223,19 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.imgproc_fitLine_Point(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new CvLine2D(line);
         }
+
         /// <summary>
-        /// fits line to the set of 2D points using M-estimator algorithm
+        /// Fits line to the set of 2D points using M-estimator algorithm
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="distType"></param>
-        /// <param name="param"></param>
-        /// <param name="reps"></param>
-        /// <param name="aeps"></param>
-        /// <returns></returns>
+        /// <param name="points">Input vector of 2D or 3D points</param>
+        /// <param name="distType">Distance used by the M-estimator</param>
+        /// <param name="param">Numerical parameter ( C ) for some types of distances. 
+        /// If it is 0, an optimal value is chosen.</param>
+        /// <param name="reps">Sufficient accuracy for the radius 
+        /// (distance between the coordinate origin and the line).</param>
+        /// <param name="aeps">Sufficient accuracy for the angle. 
+        /// 0.01 would be a good default value for reps and aeps.</param>
+        /// <returns>Output line parameters.</returns>
         public static CvLine2D FitLine(IEnumerable<Point2f> points, DistanceType distType,
             double param, double reps, double aeps)
         {
@@ -3113,15 +3246,19 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.imgproc_fitLine_Point2f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new CvLine2D(line);
         }
+
         /// <summary>
-        /// fits line to the set of 2D points using M-estimator algorithm
+        /// Fits line to the set of 3D points using M-estimator algorithm
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="distType"></param>
-        /// <param name="param"></param>
-        /// <param name="reps"></param>
-        /// <param name="aeps"></param>
-        /// <returns></returns>
+        /// <param name="points">Input vector of 2D or 3D points</param>
+        /// <param name="distType">Distance used by the M-estimator</param>
+        /// <param name="param">Numerical parameter ( C ) for some types of distances. 
+        /// If it is 0, an optimal value is chosen.</param>
+        /// <param name="reps">Sufficient accuracy for the radius 
+        /// (distance between the coordinate origin and the line).</param>
+        /// <param name="aeps">Sufficient accuracy for the angle. 
+        /// 0.01 would be a good default value for reps and aeps.</param>
+        /// <returns>Output line parameters.</returns>
         public static CvLine3D FitLine(IEnumerable<Point3i> points, DistanceType distType,
             double param, double reps, double aeps)
         {
@@ -3132,15 +3269,19 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.imgproc_fitLine_Point3i(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new CvLine3D(line);
         }
+
         /// <summary>
-        /// fits line to the set of 2D points using M-estimator algorithm
+        /// Fits line to the set of 3D points using M-estimator algorithm
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="distType"></param>
-        /// <param name="param"></param>
-        /// <param name="reps"></param>
-        /// <param name="aeps"></param>
-        /// <returns></returns>
+        /// <param name="points">Input vector of 2D or 3D points</param>
+        /// <param name="distType">Distance used by the M-estimator</param>
+        /// <param name="param">Numerical parameter ( C ) for some types of distances. 
+        /// If it is 0, an optimal value is chosen.</param>
+        /// <param name="reps">Sufficient accuracy for the radius 
+        /// (distance between the coordinate origin and the line).</param>
+        /// <param name="aeps">Sufficient accuracy for the angle. 
+        /// 0.01 would be a good default value for reps and aeps.</param>
+        /// <returns>Output line parameters.</returns>
         public static CvLine3D FitLine(IEnumerable<Point3f> points, DistanceType distType,
             double param, double reps, double aeps)
         {
@@ -3154,7 +3295,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region PointPolygonTest
         /// <summary>
-        /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
+        /// Checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
         /// </summary>
         /// <param name="contour"></param>
         /// <param name="pt"></param>
@@ -3167,8 +3308,9 @@ namespace OpenCvSharp.CPlusPlus
             contour.ThrowIfDisposed();
             return NativeMethods.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
         }
+
         /// <summary>
-        /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
+        /// Checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
         /// </summary>
         /// <param name="contour"></param>
         /// <param name="pt"></param>
@@ -3181,13 +3323,17 @@ namespace OpenCvSharp.CPlusPlus
             Point[] contourArray = EnumerableEx.ToArray(contour);
             return NativeMethods.imgproc_pointPolygonTest_Point(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
         }
+
         /// <summary>
-        /// checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
+        /// Checks if the point is inside the contour. 
+        /// Optionally computes the signed distance from the point to the contour boundary.
         /// </summary>
-        /// <param name="contour"></param>
-        /// <param name="pt"></param>
-        /// <param name="measureDist"></param>
-        /// <returns></returns>
+        /// <param name="contour">Input contour.</param>
+        /// <param name="pt">Point tested against the contour.</param>
+        /// <param name="measureDist">If true, the function estimates the signed distance 
+        /// from the point to the nearest contour edge. Otherwise, the function only checks 
+        /// if the point is inside a contour or not.</param>
+        /// <returns>Positive (inside), negative (outside), or zero (on an edge) value.</returns>
         public static double PointPolygonTest(IEnumerable<Point2f> contour, Point2f pt, bool measureDist)
         {
             if (contour == null)

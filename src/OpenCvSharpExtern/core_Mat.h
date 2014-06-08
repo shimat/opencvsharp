@@ -818,6 +818,10 @@ CVAPI(int) core_Mat_nSetVec6f(cv::Mat *obj, int row, int col, cv::Vec6f *vals, i
 {
 	return internal_Mat_set<cv::Vec6f>(obj, row, col, (char*)vals, valsLength);
 }
+CVAPI(int) core_Mat_nSetVec4i(cv::Mat *obj, int row, int col, cv::Vec4i *vals, int valsLength)
+{
+	return internal_Mat_set<cv::Vec4i>(obj, row, col, (char*)vals, valsLength);
+}
 CVAPI(int) core_Mat_nSetPoint(cv::Mat *obj, int row, int col, cv::Point *vals, int valsLength)
 {
 	return internal_Mat_set<cv::Point>(obj, row, col, (char*)vals, valsLength);
@@ -882,6 +886,10 @@ CVAPI(int) core_Mat_nGetVec4f(cv::Mat *obj, int row, int col, cv::Vec4f *vals, i
 CVAPI(int) core_Mat_nGetVec6f(cv::Mat *obj, int row, int col, cv::Vec6f *vals, int valsLength)
 {
 	return internal_Mat_get<cv::Vec6f>(obj, row, col, (char*)vals, valsLength);
+}
+CVAPI(int) core_Mat_nGetVec4i(cv::Mat *obj, int row, int col, cv::Vec4i *vals, int valsLength)
+{
+	return internal_Mat_get<cv::Vec4i>(obj, row, col, (char*)vals, valsLength);
 }
 CVAPI(int) core_Mat_nGetPoint(cv::Mat *obj, int row, int col, cv::Point *vals, int valsLength)
 {

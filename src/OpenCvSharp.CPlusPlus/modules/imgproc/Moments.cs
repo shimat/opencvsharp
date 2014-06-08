@@ -5,7 +5,7 @@ using System.Text;
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// raster image moments
+    /// Raster image moments
     /// </summary>
     public class Moments
     {
@@ -26,7 +26,8 @@ namespace OpenCvSharp.CPlusPlus
 
         #region Init & Disposal
         /// <summary>
-        /// 
+        /// Default constructor.
+        /// All moment values are set to 0.
         /// </summary>
         public Moments()
         {
@@ -55,15 +56,105 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// computes moments of the rasterized shape or a vector of points
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
         /// </summary>
-        /// <param name="array"></param>
-        /// <param name="binaryImage"></param>
+        /// <param name="array">A raster image (single-channel, 8-bit or floating-point 
+        /// 2D array) or an array ( 1xN or Nx1 ) of 2D points ( Point or Point2f )</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
         public Moments(InputArray array, bool binaryImage = false)
         {
-            if(array == null)
+            if (array == null)
                 throw new ArgumentNullException("array");
             array.ThrowIfDisposed();
+            InitializeFromInputArray(array, binaryImage);
+        }
+
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">A raster image (8-bit) 2D array</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        public Moments(byte[,] array, bool binaryImage = false)
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            int rows = array.GetLength(0);
+            int cols = array.GetLength(1);
+            using (var arrayMat = new Mat(rows, cols, MatType.CV_8UC1, array))
+            {
+                InitializeFromInputArray(arrayMat, binaryImage);
+            }
+        }
+
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">A raster image (floating-point) 2D array</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        public Moments(float[,] array, bool binaryImage = false)
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            int rows = array.GetLength(0);
+            int cols = array.GetLength(1);
+            using (var arrayMat = new Mat(rows, cols, MatType.CV_32FC1, array))
+            {
+                InitializeFromInputArray(arrayMat, binaryImage);
+            }
+        }
+
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">Array of 2D points</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        public Moments(IEnumerable<Point> array, bool binaryImage = false)
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            Point[] points = EnumerableEx.ToArray(array);
+            using (var pointsMat = new Mat(points.Length, 1, MatType.CV_32SC2, points))
+            {
+                InitializeFromInputArray(pointsMat, binaryImage);
+            }
+        }
+
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">Array of 2D points</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        public Moments(IEnumerable<Point2f> array, bool binaryImage = false)
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            Point2f[] points = EnumerableEx.ToArray(array);
+            using (var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2, points))
+            {
+                InitializeFromInputArray(pointsMat, binaryImage);
+            }
+        }
+
+        /// <summary>
+        /// Calculates all of the moments 
+        /// up to the third order of a polygon or rasterized shape.
+        /// </summary>
+        /// <param name="array">A raster image (single-channel, 8-bit or floating-point 
+        /// 2D array) or an array ( 1xN or Nx1 ) of 2D points ( Point or Point2f )</param>
+        /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
+        /// <returns></returns>
+        private void InitializeFromInputArray(InputArray array, bool binaryImage)
+        {
             WCvMoments m = NativeMethods.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0);
             Initialize(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
         }
