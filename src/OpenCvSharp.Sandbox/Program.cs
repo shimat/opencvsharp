@@ -25,7 +25,10 @@ namespace OpenCvSharp.Sandbox
         private static void Main(string[] args)
         {
             Mat mmm = new Mat("img/lenna.png");
-            mmm.ToString();
+            Console.WriteLine(
+                mmm.CvtColor(ColorConversion.BgrToGray)
+                    .Threshold(128, 255, ThresholdType.Binary)
+                    .CountNonZero());
 
             IplImage img = new IplImage("img/lenna.png");
             img.ToString();
