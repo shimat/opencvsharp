@@ -18,8 +18,8 @@ namespace CppStyleSamplesCS
                 //new VideoCaptureSample();
                 //new MatToBitmap();
                 //new MatToIplImage();
-                //new SiftSurfSample();
-                new HistSample();
+                new SiftSurfSample();
+                //new HistSample();
                 //new Subdiv2DSample();
                 //new FASTSample();
                 //new FlannSample(); 
