@@ -174,11 +174,11 @@ namespace OpenCvSharp.ReleaseMaker
                     // Debugger Visualizerを選択
                     foreach (string version in DebuggerVisualizerVersions)
                     {
-                        string dllFileName = String.Format(DebuggerVisualizerPath, version);
+                        string dllFileName = Path.Combine(dirSrc, String.Format(DebuggerVisualizerPath, version));
                         string zipFileName = Path.Combine(
                             "DebuggerVisualizers", version, Path.GetFileName(DebuggerVisualizerPath));
                         ZipEntry e = zf.AddFile(dllFileName);
-                        e.FileName = Path.GetFileName(zipFileName);
+                        e.FileName = zipFileName;
                     }
 
                     // テキストを選択

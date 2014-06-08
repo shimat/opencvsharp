@@ -104,23 +104,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenCvSharp">
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140529\lib\net40\OpenCvSharp.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140607\lib\net40\OpenCvSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OpenCvSharp.Blob">
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140529\lib\net40\OpenCvSharp.Blob.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140607\lib\net40\OpenCvSharp.Blob.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OpenCvSharp.CPlusPlus">
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140529\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140607\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OpenCvSharp.Extensions">
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140529\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140607\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OpenCvSharp.UserInterface">
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140529\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140607\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore">
