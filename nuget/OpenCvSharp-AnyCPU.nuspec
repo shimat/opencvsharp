@@ -2,16 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-AnyCPU</id>
-        <version>2.4.8.20140527</version>
+        <version>2.4.8.20140607</version>
         <title>OpenCvSharp</title>
         <authors>shimat</authors>
-        <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
+        <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/lenna-icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <releaseNotes>- Added FlannBasedMatcher
-- Fixed DescriptorMatcher.Create bug</releaseNotes>
+        <releaseNotes>- Added Mat methods for supporting method chaining
+- Added conversion WriteableBitmap &lt;-&gt; Mat</releaseNotes>
         <copyright>Copyright 2008-2014</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
@@ -77,7 +77,6 @@
         <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.XML" target="lib\net20\OpenCvSharp.CPlusPlus.XML" />
         <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net20\OpenCvSharp.dll" />
         <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net20\OpenCvSharp.dll.config" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net20\OpenCvSharp.Extensions.XML" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net20\OpenCvSharp.UserInterface.dll" />
         <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net20\OpenCvSharp.XML" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net35\OpenCvSharp.Blob.dll" />
