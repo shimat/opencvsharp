@@ -24,45 +24,64 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Mat mmm = new Mat("img/lenna.png");
-            Console.WriteLine(
-                mmm.CvtColor(ColorConversion.BgrToGray)
-                    .Threshold(128, 255, ThresholdType.Binary)
-                    .CountNonZero());
+            Mat mmm = new Mat("data/lenna.png");
+            Mat bin = mmm.CvtColor(ColorConversion.BgrToGray)
+                    .Threshold(128, 255, ThresholdType.Binary);
+            MatOfPoint[] cont = Cv2.FindContoursAsMat(bin, ContourRetrieval.External, ContourChain.ApproxSimple);
+            cont.ToString();
 
-            IplImage img = new IplImage("img/lenna.png");
-            img.ToString();
-
-            Wpf();
+            Track();
             Run();
         }
 
-        private static void Wpf()
+        private static void Track()
         {
-            // OpenCV processing
-            WriteableBitmap wb;
-            using (var src = new Mat("img/lenna511.png", LoadMode.GrayScale))
-            using (var dst = new Mat(src.Size(), src.Type()))
+            using (var video = new CvCapture("data/bach.mp4"))
             {
-                Cv2.GaussianBlur(src, dst, new Size(5, 5), 10);
-                //src.Threshold(dst, 0, 255, ThresholdType.Otsu);
-                // IplImage -> WriteableBitmap
-                wb = dst.ToWriteableBitmap(PixelFormats.Gray8);
-                //wb = WriteableBitmapConverter.ToWriteableBitmap(dst, PixelFormats.BlackWhite);
+                IplImage frame = null;
+                IplImage gray = null;
+                IplImage binary = null;
+                IplImage render = null;
+                IplImage renderTracks = null;
+                CvTracks tracks = new CvTracks();
+                CvWindow window = new CvWindow("render");
+                CvWindow windowTracks = new CvWindow("tracks");
+
+                for (int i = 0; ; i++)
+                {
+                    //frame = video.QueryFrame();
+                    if (frame == null)
+                        frame = new IplImage("data/shapes.png");
+                    if (gray == null)
+                    {
+                        gray = new IplImage(frame.Size, BitDepth.U8, 1);
+                        binary = new IplImage(frame.Size, BitDepth.U8, 1);
+                        render = new IplImage(frame.Size, BitDepth.U8, 3);
+                        renderTracks = new IplImage(frame.Size, BitDepth.U8, 3);
+                    }
+
+                    render.Zero();
+                    renderTracks.Zero();
+
+                    Cv.CvtColor(frame, gray, ColorConversion.BgrToGray);
+                    Cv.Threshold(gray, binary, 0, 255, ThresholdType.Otsu);
+
+                    CvBlobs blobs = new CvBlobs(binary);
+                    CvBlobs newBlobs = new CvBlobs(blobs
+                        .OrderByDescending(pair => pair.Value.Area)
+                        .Take(200)
+                        .ToDictionary(pair => pair.Key, pair => pair.Value), blobs.Labels);
+                    newBlobs.RenderBlobs(binary, render);
+                    window.ShowImage(render);
+
+                    newBlobs.UpdateTracks(tracks, 10.0, Int32.MaxValue);
+                    tracks.Render(binary, renderTracks);
+                    windowTracks.ShowImage(renderTracks);
+
+                    Cv.WaitKey(200);
+                    Console.WriteLine(i);
+                }
             }
-
-            // Shows WPF window
-            var image = new System.Windows.Controls.Image { Source = wb };
-            var window = new System.Windows.Window
-            {
-                Title = "from Mat to WriteableBitmap",
-                Width = wb.PixelWidth,
-                Height = wb.PixelHeight,
-                Content = image
-            };
-
-            var app = new Application();
-            app.Run(window);
         }
 
         static string AspectRatioAsString(float f)

@@ -5,7 +5,7 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Label values for each pixel
     /// </summary>
-    public class LabelData
+    public class LabelData : ICloneable
     {
         private CvRect roi;
         private int[,] values;
@@ -126,6 +126,20 @@ namespace OpenCvSharp.Blob
                 }
                 CvWindow.ShowImages(img);
             }
+        }
+
+        /// <summary>
+        /// Returns deep copied instance of this
+        /// </summary>
+        /// <returns></returns>
+        public LabelData Clone()
+        {
+            return new LabelData((int[,])Values.Clone(), roi);
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
         }
     }
 }

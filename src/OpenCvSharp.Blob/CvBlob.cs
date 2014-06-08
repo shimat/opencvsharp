@@ -6,7 +6,8 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Struct that contain information about one blob.
     /// </summary>
-    public class CvBlob
+    [Serializable]
+    public class CvBlob : ICloneable
     {
         #region Init
         /// <summary>
@@ -154,11 +155,11 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Hu moment 1.
         /// </summary>
-        public double P1; 
+        public double P1 { get; set; }
         /// <summary>
         /// Hu moment 2.
         /// </summary>
-        public double P2; 
+        public double P2 { get; set; } 
 
         /// <summary>
         /// Contour
@@ -249,6 +250,50 @@ namespace OpenCvSharp.Blob
             P2 = nn * nn + 4.0 * (N11 * N11);
         }
         #endregion
+        #endregion
+
+        #region ICloneable
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public CvBlob Clone()
+        {
+            return new CvBlob
+            {
+              Area  = Area,
+              CentralMoments = CentralMoments,
+              Centroid = Centroid,
+              Contour = Contour.Clone(),
+              InternalContours = new List<CvContourChainCode>(InternalContours),
+              Label = Label,
+              M00 = M00,
+              M01 = M01,
+              M02 = M02,
+              M10 = M10,
+              M11 = M11,
+              M20 = M20,
+              MaxX = MaxX,
+              MaxY = MaxY,
+              MinX = MinX,
+              MinY = MinY,
+              N02 = N02,
+              N11 = N11,
+              N20 = N20,
+              P1 = P1,
+              P2 = P2,
+              U02 = U02,
+              U11 = U11,
+              U20 = U20,
+            };
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
         #endregion
     }
 }
