@@ -511,7 +511,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (sourceMat == null)
                 {
-                    base.Dispose();
+                    base.Dispose(disposing);
                 }
                 else
                 {
