@@ -25,17 +25,37 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Blob set
     /// </summary>
-    public class CvBlobs : Dictionary<int, CvBlob>
+    public class CvBlobs : Dictionary<int, CvBlob>, ICloneable
     {
         /// <summary>
         /// Label values
         /// </summary>
-        public LabelData Labels { get; protected set; }
+        public LabelData Labels { get; set; }
 
         /// <summary>
         /// Constructor (init only)
         /// </summary>
         public CvBlobs()
+        {
+        }
+
+        /// <summary>
+        /// Constructor (copy)
+        /// </summary>
+        public CvBlobs(IEnumerable<KeyValuePair<int, CvBlob>> blobData, int[,] labelData)
+        {
+            foreach (KeyValuePair<int, CvBlob> pair in blobData)
+            {
+                Add(pair.Key, pair.Value);
+            }
+            Labels = new LabelData(labelData);
+        }
+
+        /// <summary>
+        /// Constructor (copy)
+        /// </summary>
+        public CvBlobs(IEnumerable<KeyValuePair<int, CvBlob>> blobData, LabelData labelData)
+            : this(blobData, labelData.Values)
         {
         }
 
@@ -373,24 +393,26 @@ namespace OpenCvSharp.Blob
                 i++;
             }
 
-            int maxTrackID = 0;
+            int maxTrackId = 0;
             int j = 0;
             foreach (CvTrack track in tracks.Values)
             {
                 close.AT[j] = 0;
-                close.AT[j] = track.Id;
-                if (track.Id > maxTrackID)
-                    maxTrackID = track.Id;
+                close.IT[j] = track.Id;
+                if (track.Id > maxTrackId)
+                    maxTrackId = track.Id;
                 j++;
             }
 
-            // Proximity matrix calculation and "used blob" list inicialization:
+            // Proximity matrix calculation and "used blob" list initialization:
             for (i = 0; i < nBlobs; i++)
             {
                 for (j = 0; j < nTracks; j++)
                 {
-                    CvBlob b = this[close.IB[i]];
-                    CvTrack t = tracks[close.IT[j]];
+                    int ib = close.IB[i];
+                    int it = close.IT[j];
+                    CvBlob b = this[ib];
+                    CvTrack t = tracks[it];
                     close[i, j] = (DistantBlobTrack(b, t) < thDistance) ? 1 : 0;
                     if (close[i, j] < thDistance)
                     {
@@ -426,11 +448,12 @@ namespace OpenCvSharp.Blob
                     //cout << *B(i) << endl;
 
                     // New track.
-                    maxTrackID++;
-                    CvBlob blob = this[i+1];
+                    maxTrackId++;
+                    int ib = close.IB[i];
+                    CvBlob blob = this[ib];
                     CvTrack track = new CvTrack
                     {
-                        Id = maxTrackID,
+                        Id = maxTrackId,
                         Label = blob.Label,
                         MinX = blob.MinX,
                         MinY = blob.MinY,
@@ -441,7 +464,8 @@ namespace OpenCvSharp.Blob
                         Active = 0,
                         Inactive = 0,
                     };
-                    tracks[maxTrackID] = track;
+                    tracks[maxTrackId] = track;
+                    //maxTrackId++;
                 }
             }
 
@@ -451,8 +475,11 @@ namespace OpenCvSharp.Blob
                 int c = close.AT[j];
                 if (c != 0)
                 {
-                    List<CvTrack> tt = new List<CvTrack> {tracks[j]};
-                    List<CvBlob> bb = new List<CvBlob>();
+                    var tt = new List<CvTrack>();
+                    var bb = new List<CvBlob>();
+
+                    int it = close.IT[j];
+                    tt.Add(tracks[it]);
 
                     GetClusterForTrack(j, close, nBlobs, nTracks, this, tracks, bb, tt);
 
@@ -482,7 +509,8 @@ namespace OpenCvSharp.Blob
                     }
 
                     if (blob == null || track == null)
-                        throw new NotSupportedException();
+                        //throw new Exception();
+                        continue;
 
                     // Update track
                     track.Label = blob.Label;
@@ -591,39 +619,19 @@ namespace OpenCvSharp.Blob
             return Math.Min(d1, d2);
         }
 
-        private static void GetClusterForTrack(int trackPos, ProximityMatrix close,
-            int nBlobs, int nTracks, CvBlobs blobs,
-            CvTracks tracks, List<CvBlob> bb, List<CvTrack> tt)
-        {
-            for (int i = 0; i < nBlobs; i++)
-            {
-                if (close[i, trackPos] != 0)
-                {
-                    bb.Add(blobs[i]);
-
-                    int c = close.AB[i];
-
-                    close[i, trackPos] = 0;
-                    close.AB[i]--;
-                    close.AT[trackPos]--;
-
-                    if (c > 1)
-                    {
-                        GetClusterForBlob(i, close, nBlobs, nTracks, blobs, tracks, bb, tt);
-                    }
-                }
-            }
-        }
-
         private static void GetClusterForBlob(int blobPos, ProximityMatrix close,
             int nBlobs, int nTracks, CvBlobs blobs, CvTracks tracks,
             List<CvBlob> bb, List<CvTrack> tt)
         {
+        retry:
+            var retryList = new List<int>();
+
             for (int j = 0; j < nTracks; j++)
             {
                 if (close[blobPos, j] != 0)
                 {
-                    tt.Add(tracks[j]);
+                    int it = close.IT[j];
+                    tt.Add(tracks[it]);
 
                     int c = close.AT[j];
 
@@ -633,13 +641,86 @@ namespace OpenCvSharp.Blob
 
                     if (c > 1)
                     {
-                        GetClusterForTrack(j, close, nBlobs, nTracks, blobs, tracks, bb, tt);
+                        retryList.Add(j);
+                        //GetClusterForTrack(j, close, nBlobs, nTracks, blobs, tracks, bb, tt);
                     }
                 }
+            }
+
+            if (retryList.Count > 0)
+            {
+                foreach (int j in retryList)
+                {
+                    GetClusterForTrack(j, close, nBlobs, nTracks, blobs, tracks, bb, tt);
+                }
+                goto retry;
+            }
+        }
+
+        private static void GetClusterForTrack(int trackPos, ProximityMatrix close,
+            int nBlobs, int nTracks, CvBlobs blobs,
+            CvTracks tracks, List<CvBlob> bb, List<CvTrack> tt)
+        {
+        retry:
+            var retryList = new List<int>();
+
+            for (int i = 0; i < nBlobs; i++)
+            {
+                if (close[i, trackPos] != 0)
+                {
+                    int ib = close.IB[i];
+                    bb.Add(blobs[ib]);
+
+                    int c = close.AB[i];
+
+                    close[i, trackPos] = 0;
+                    close.AB[i]--;
+                    close.AT[trackPos]--;
+
+                    if (c > 1)
+                    {
+                        retryList.Add(i);
+                        //GetClusterForBlob(i, close, nBlobs, nTracks, blobs, tracks, bb, tt);
+                    }
+                }
+            }
+
+            if (retryList.Count > 0)
+            {
+                foreach (int i in retryList)
+                {
+                    GetClusterForBlob(i, close, nBlobs, nTracks, blobs, tracks, bb, tt);
+                }
+                goto retry;
             }
         }
 
         #endregion
+
+        #endregion
+
+        #region ICloneable
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public CvBlobs Clone()
+        {
+            var newBlobs = new CvBlobs();
+            foreach (KeyValuePair<int, CvBlob> pair in this)
+            {
+                newBlobs.Add(pair.Key, pair.Value);
+            }
+            newBlobs.Labels = Labels.Clone();
+
+            return newBlobs;
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
 
         #endregion
     }
