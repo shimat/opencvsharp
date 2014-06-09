@@ -24,6 +24,13 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            CheckDispose();
+            Track();
+            Run();
+        }
+
+        private static void CheckDispose()
+        {
             while (true)
             {
                 Mat mmm = new Mat("data/lenna.png");
@@ -35,9 +42,6 @@ namespace OpenCvSharp.Sandbox
                 Console.Write("{0}MB", MyProcess.WorkingSet64 / 1024.0 / 1024.0);
                 Console.CursorLeft = 0;
             }
-
-            Track();
-            Run();
         }
 
         private static void Track()
