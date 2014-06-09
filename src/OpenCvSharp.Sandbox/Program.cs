@@ -24,11 +24,17 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Mat mmm = new Mat("data/lenna.png");
-            Mat bin = mmm.CvtColor(ColorConversion.BgrToGray)
+            while (true)
+            {
+                Mat mmm = new Mat("data/lenna.png");
+                Mat bin = mmm.CvtColor(ColorConversion.BgrToGray)
                     .Threshold(128, 255, ThresholdType.Binary);
-            MatOfPoint[] cont = Cv2.FindContoursAsMat(bin, ContourRetrieval.External, ContourChain.ApproxSimple);
-            cont.ToString();
+                MatOfPoint[] cont = Cv2.FindContoursAsMat(bin, ContourRetrieval.External, ContourChain.ApproxSimple);
+                cont.ToString();
+
+                Console.Write("{0}MB", MyProcess.WorkingSet64 / 1024.0 / 1024.0);
+                Console.CursorLeft = 0;
+            }
 
             Track();
             Run();
