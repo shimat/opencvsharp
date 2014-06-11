@@ -24,6 +24,7 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            /*
             while (true)
             {
                 Mat mmm = new Mat("data/lenna.png");
@@ -35,7 +36,7 @@ namespace OpenCvSharp.Sandbox
                 Console.Write("{0}MB", MyProcess.WorkingSet64 / 1024.0 / 1024.0);
                 Console.CursorLeft = 0;
             }
-
+            */
             Track();
             Run();
         }
@@ -55,9 +56,9 @@ namespace OpenCvSharp.Sandbox
 
                 for (int i = 0; ; i++)
                 {
-                    //frame = video.QueryFrame();
-                    if (frame == null)
-                        frame = new IplImage("data/shapes.png");
+                    frame = video.QueryFrame();
+                    //if (frame == null)
+                    //    frame = new IplImage("data/shapes.png");
                     if (gray == null)
                     {
                         gray = new IplImage(frame.Size, BitDepth.U8, 1);
