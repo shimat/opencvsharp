@@ -87,6 +87,6 @@ class Program
 
 ## License
 OpenCvSharp is licensed under the 
-**BSD 3-Clause License**. Refer to [LICENSE.txt](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt).
+**BSD 3-Clause License**. See [LICENSE.txt](https://github.com/shimat/opencvsharp/blob/master/LICENSE.txt).
 
 OpenCvSharp.Blob uses [cvBlob](https://code.google.com/p/cvblob/) to implement blob extraction.
