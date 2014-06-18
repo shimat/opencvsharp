@@ -24,22 +24,39 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            CheckDispose();
+            string fileName = "data/chessboard.png";
+            using (CvMat chessboard = new CvMat(fileName))
+            {
+                Cv.ShowImage("Input", chessboard);
+
+                CvPoint2D32f[] corners;
+                if (Cv.FindChessboardCorners(chessboard, new Size(10, 7), out corners))
+                {
+                    foreach (var corner in corners)
+                    {
+                        Cv.Circle(chessboard, corner, 5, new CvScalar(0, 0, 255));
+                    }
+                    Cv.ShowImage("Output_Cv", chessboard);
+                    Cv.WaitKey();
+                }
+            }
+
+            using (Mat chessboard = new Mat(fileName))
+            {
+                Point2f[] corners;
+                if (Cv2.FindChessboardCorners(chessboard, new Size(10, 7), out corners)) //AccessViolation
+                {
+                    foreach (var corner in corners)
+                    {
+                        Cv2.Circle(chessboard, corner, 5, new Scalar(0, 0, 255));
+                    }
+                    Cv2.ImShow("Output_Cv2", chessboard);
+                    Cv2.WaitKey();
+                }
+            }
+
             Track();
             Run();
-        }
-
-        private static void CheckDispose()
-        {
-            while (true)
-            {
-                Mat mmm = new Mat("data/lenna.png");
-                Mat bin = mmm.CvtColor(ColorConversion.BgrToGray)
-                    .Threshold(128, 255, ThresholdType.Binary);
-
-                Console.Write("{0}MB", MyProcess.WorkingSet64 / 1024.0 / 1024.0);
-                Console.CursorLeft = 0;
-            }
         }
 
         private static void Track()
@@ -57,9 +74,9 @@ namespace OpenCvSharp.Sandbox
 
                 for (int i = 0; ; i++)
                 {
-                    //frame = video.QueryFrame();
-                    if (frame == null)
-                        frame = new IplImage("data/shapes.png");
+                    frame = video.QueryFrame();
+                    //if (frame == null)
+                    //    frame = new IplImage("data/shapes.png");
                     if (gray == null)
                     {
                         gray = new IplImage(frame.Size, BitDepth.U8, 1);

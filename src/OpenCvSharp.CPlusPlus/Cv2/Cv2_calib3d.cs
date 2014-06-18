@@ -996,7 +996,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (var cornersVec = new VectorOfPoint2f())
             {
-                int ret = NativeMethods.calib3d_findChessboardCorners_InputArray(
+                int ret = NativeMethods.calib3d_findChessboardCorners_vector(
                     image.CvPtr, patternSize, cornersVec.CvPtr, (int)flags);
                 corners = cornersVec.ToArray();
                 return ret != 0;
