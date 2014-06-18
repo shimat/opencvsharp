@@ -855,6 +855,20 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region WarpPerspective
+#if LANG_JP
+        /// <summary>
+        /// 画像の透視変換を行います．
+        /// </summary>
+        /// <param name="src">入力画像</param>
+        /// <param name="dst">サイズが dsize で src と同じタイプの出力画像</param>
+        /// <param name="m">3x3 の変換行列</param>
+        /// <param name="dsize">出力画像のサイズ</param>
+        /// <param name="flags">補間手法</param>
+        /// <param name="borderMode">ピクセル外挿手法．
+        /// borderMode=BORDER_TRANSPARENT の場合，入力画像中の「はずれ値」に対応する
+        /// 出力画像中のピクセルが，この関数では変更されないことを意味します</param>
+        /// <param name="borderValue">定数境界モードで利用されるピクセル値．</param>
+#else
         /// <summary>
         /// Applies a perspective transformation to an image.
         /// </summary>
@@ -866,8 +880,10 @@ namespace OpenCvSharp.CPlusPlus
         /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
-        public static void WarpPerspective(InputArray src, OutputArray dst, Mat m, Size dsize,
-            Interpolation flags = Interpolation.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+#endif
+        public static void WarpPerspective(InputArray src, OutputArray dst, InputArray m, Size dsize,
+            Interpolation flags = Interpolation.Linear, BorderType borderMode = BorderType.Constant, 
+            Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -879,7 +895,54 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
             CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
-            NativeMethods.imgproc_warpPerspective(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            NativeMethods.imgproc_warpPerspective_MisInputArray(
+                src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            dst.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 画像の透視変換を行います．
+        /// </summary>
+        /// <param name="src">入力画像</param>
+        /// <param name="dst">サイズが dsize で src と同じタイプの出力画像</param>
+        /// <param name="m">3x3 の変換行列</param>
+        /// <param name="dsize">出力画像のサイズ</param>
+        /// <param name="flags">補間手法</param>
+        /// <param name="borderMode">ピクセル外挿手法．
+        /// borderMode=BORDER_TRANSPARENT の場合，入力画像中の「はずれ値」に対応する
+        /// 出力画像中のピクセルが，この関数では変更されないことを意味します</param>
+        /// <param name="borderValue">定数境界モードで利用されるピクセル値．</param>
+#else
+        /// <summary>
+        /// Applies a perspective transformation to an image.
+        /// </summary>
+        /// <param name="src">input image.</param>
+        /// <param name="dst">output image that has the size dsize and the same type as src.</param>
+        /// <param name="m">3x3 transformation matrix.</param>
+        /// <param name="dsize">size of the output image.</param>
+        /// <param name="flags">combination of interpolation methods (INTER_LINEAR or INTER_NEAREST) 
+        /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
+        /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
+        /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
+#endif
+        public static void WarpPerspective(InputArray src, OutputArray dst, float[,] m, Size dsize,
+            Interpolation flags = Interpolation.Linear, BorderType borderMode = BorderType.Constant,
+            Scalar? borderValue = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (m == null)
+                throw new ArgumentNullException("m");
+            src.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+            CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
+            int mRow = m.GetLength(0);
+            int mCol = m.GetLength(1);
+            NativeMethods.imgproc_warpPerspective_MisArray(
+                src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int)flags, (int)borderMode, borderValue0);
             dst.Fix();
         }
         #endregion
