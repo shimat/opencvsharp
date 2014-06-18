@@ -8,7 +8,6 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Web;
 
 namespace OpenCvSharp
 {
@@ -28,7 +27,7 @@ namespace OpenCvSharp
         public static WindowsLibraryLoader Instance { get { return instance; } }
 
         #endregion
-        
+
         /// <summary>
         /// The default base directory name to copy the assemblies too.
         /// </summary>
@@ -53,7 +52,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Used as a sanity check for the returned processor architecture to double check the returned value.
         /// </summary>
-        private readonly Dictionary<string, int> processorArchitectureAddressWidthPlatforms = 
+        private readonly Dictionary<string, int> processorArchitectureAddressWidthPlatforms =
             new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
                 {
                     {"x86", 4},
@@ -65,8 +64,8 @@ namespace OpenCvSharp
         /// <summary>
         /// Additional user-defined DLL paths 
         /// </summary>
-        public List<string> AdditionalPaths { get; private set; } 
-        
+        public List<string> AdditionalPaths { get; private set; }
+
         private readonly object syncLock = new object();
 
         /// <summary>
@@ -114,7 +113,7 @@ namespace OpenCvSharp
 
             if (additionalPaths == null)
                 additionalPaths = new string[0];
-            
+
             try
             {
                 lock (syncLock)
@@ -131,8 +130,8 @@ namespace OpenCvSharp
                     // Try loading from user-defined paths
                     foreach (string path in additionalPaths)
                     {
-                        baseDirectory = Path.GetDirectoryName(path);
-                        dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
+                        // baseDirectory = Path.GetFullPath(path);
+                        dllHandle = LoadLibraryRaw(dllName, path);
                         if (dllHandle != IntPtr.Zero) return;
                     }
 
@@ -170,10 +169,10 @@ namespace OpenCvSharp
                         // include process detection warnings
                         errorMessage.AppendFormat("\r\nWarnings: \r\n{0}", processArch.WarningText());
                     }
-                    throw new LoadLibraryException(errorMessage.ToString());
+                    throw new Exception(errorMessage.ToString());
                 }
             }
-            catch (LoadLibraryException e)
+            catch (Exception e)
             {
                 Trace.TraceError(e.Message);
             }
@@ -222,11 +221,19 @@ namespace OpenCvSharp
 
         private IntPtr LoadLibraryInternal(string dllName, string baseDirectory, ProcessArchitectureInfo processArchInfo)
         {
-            IntPtr libraryHandle = IntPtr.Zero;
+            //IntPtr libraryHandle = IntPtr.Zero;
             var platformName = GetPlatformName(processArchInfo.Architecture);
             var expectedDllDirectory = Path.Combine(
                 Path.Combine(baseDirectory, DllDirectory), platformName);
-            var fileName = FixUpDllFileName(Path.Combine(expectedDllDirectory, dllName));
+            //var fileName = FixUpDllFileName(Path.Combine(expectedDllDirectory, dllName));
+
+            return LoadLibraryRaw(dllName, expectedDllDirectory);
+        }
+
+        private IntPtr LoadLibraryRaw(string dllName, string baseDirectory)
+        {
+            IntPtr libraryHandle = IntPtr.Zero;
+            var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
             if (File.Exists(fileName))
             {
@@ -250,7 +257,7 @@ namespace OpenCvSharp
                     else
                     {
                         Trace.TraceError(
-                            "Failed to load native library \"{0}\".\r\nCheck windows event log.", 
+                            "Failed to load native library \"{0}\".\r\nCheck windows event log.",
                             fileName);
                     }
                 }
@@ -258,7 +265,7 @@ namespace OpenCvSharp
                 {
                     var lastError = Marshal.GetLastWin32Error();
                     Trace.TraceError(
-                        "Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}", 
+                        "Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}",
                         fileName, lastError, e);
                 }
             }
