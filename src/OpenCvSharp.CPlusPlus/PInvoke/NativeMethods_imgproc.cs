@@ -76,9 +76,16 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_resize(IntPtr src, IntPtr dst, CvSize dsize, double fx, double fy, int interpolation);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_warpAffine(IntPtr src, IntPtr dst, IntPtr M, CvSize dsize, int flags, int borderMode, CvScalar borderValue);
+        public static extern void imgproc_warpAffine(IntPtr src, IntPtr dst, IntPtr m, CvSize dsize, int flags, int borderMode, CvScalar borderValue);
+        
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_warpPerspective(IntPtr src, IntPtr dst, IntPtr M, CvSize dsize, int flags, int borderMode, CvScalar borderValue);
+        public static extern void imgproc_warpPerspective_MisInputArray(
+            IntPtr src, IntPtr dst, IntPtr m, CvSize dsize, int flags, int borderMode, CvScalar borderValue);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_warpPerspective_MisArray(
+            IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.LPArray)] float[,] m, int mRow, int mCol, 
+            CvSize dsize, int flags, int borderMode, CvScalar borderValue);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_remap(IntPtr src, IntPtr dst, IntPtr map1, IntPtr map2, int interpolation, int borderMode, CvScalar borderValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
