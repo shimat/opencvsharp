@@ -183,10 +183,17 @@ CVAPI(void) imgproc_warpAffine(cv::_InputArray* src, cv::_OutputArray* dst, cv::
 	cv::warpAffine(*src, *dst, *M, dsize, flags, borderMode, borderValue);
 }
 
-CVAPI(void) imgproc_warpPerspective(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* M, CvSize dsize, 
+CVAPI(void) imgproc_warpPerspective_MisInputArray(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* m, CvSize dsize, 
 	int flags, int borderMode, CvScalar borderValue)
 {
-	cv::warpPerspective(*src, *dst, *M, dsize, flags, borderMode, borderValue);
+	cv::warpPerspective(*src, *dst, *m, dsize, flags, borderMode, borderValue);
+}
+
+CVAPI(void) imgproc_warpPerspective_MisArray(cv::_InputArray* src, cv::_OutputArray* dst, float* m, int mRow, int mCol, CvSize dsize,
+	int flags, int borderMode, CvScalar borderValue)
+{
+	cv::Mat mmat(mRow, mCol, CV_32FC1, m);
+	cv::warpPerspective(*src, *dst, mmat, dsize, flags, borderMode, borderValue);
 }
 
 CVAPI(void) imgproc_remap(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* map1, cv::_InputArray* map2, 
