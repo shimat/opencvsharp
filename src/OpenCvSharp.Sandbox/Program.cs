@@ -24,39 +24,101 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            string fileName = "data/chessboard.png";
+            string fileName = "C:\\perspective_chessboard.jpg";
+
+            // Cv
             using (CvMat chessboard = new CvMat(fileName))
             {
-                Cv.ShowImage("Input", chessboard);
+                Cv.ShowImage("Input_Cv", chessboard);
 
                 CvPoint2D32f[] corners;
                 if (Cv.FindChessboardCorners(chessboard, new Size(10, 7), out corners))
                 {
-                    foreach (var corner in corners)
+                    using (CvMat dest = new CvMat(chessboard.Rows, chessboard.Cols, MatrixType.U8C3))
                     {
-                        Cv.Circle(chessboard, corner, 5, new CvScalar(0, 0, 255));
+                        CvPoint2D32f[] a = 
+                        {
+                            corners[0],
+                            corners[60],
+                            corners[69],
+                            corners[9]
+                        };
+
+                        foreach (var corner in a)
+                        {
+                            Cv.Circle(chessboard, corner, 5, new CvScalar(0, 0, 255));
+                        }
+                        Cv.ShowImage("RectangleVertices_Cv", chessboard);
+
+                        CvPoint2D32f[] b =
+                        {
+                            new CvPoint2D32f(0, 0),
+                            new CvPoint2D32f(0, chessboard.Height),
+                            new CvPoint2D32f(chessboard.Width, chessboard.Height),
+                            new CvPoint2D32f(chessboard.Width, 0)
+                        };
+
+                        CvMat map_matrix;
+                        Cv.GetPerspectiveTransform(a, b, out map_matrix);
+                        Cv.WarpPerspective(chessboard, dest, map_matrix, Interpolation.Linear | Interpolation.FillOutliers, CvScalar.ScalarAll(255)); //Succeed
+                        Cv.ReleaseMat(map_matrix);
+
+                        Cv.ShowImage("Output_Cv", dest);
                     }
-                    Cv.ShowImage("Output_Cv", chessboard);
-                    Cv.WaitKey();
+
+                    //Cv.WaitKey();
                 }
             }
 
+            //Cv2
             using (Mat chessboard = new Mat(fileName))
             {
                 Point2f[] corners;
-                if (Cv2.FindChessboardCorners(chessboard, new Size(10, 7), out corners)) //AccessViolation
+                if (Cv2.FindChessboardCorners(chessboard, new Size(10, 7), out corners))
                 {
-                    foreach (var corner in corners)
+                    Point2f[] a =
                     {
-                        Cv2.Circle(chessboard, corner, 5, new Scalar(0, 0, 255));
+                        corners[0],
+                        corners[60],
+                        corners[69],
+                        corners[9]
+                    };
+
+                    foreach (var corner in a)
+                    {
+                        chessboard.Circle(corner, 5, new Scalar(0, 0, 255));
                     }
-                    Cv2.ImShow("Output_Cv2", chessboard);
+                    Cv2.ImShow("RectangleVertices_Cv2", chessboard);
+                    //Cv2.WaitKey();
+
+                    Point2f[] b =
+                    {
+                        new Point2f(0, 0),
+                        new Point2f(0, chessboard.Height),
+                        new Point2f(chessboard.Width, chessboard.Height),
+                        new Point2f(chessboard.Width, 0)
+                    };
+
+                    using (Mat map_matrix = Cv2.GetPerspectiveTransform(a, b))
+                    using (Mat dest = new Mat(new Size(640, 480), MatType.CV_8UC3))
+                    {
+                        Cv2.WarpPerspective(chessboard, dest, map_matrix, dest.Size(), Interpolation.Linear | Interpolation.FillOutliers, BorderType.Default, Scalar.All(255)); //AccessViolation
+                        Cv2.ImShow("Output_Cv2", dest);
+                    }
+
+                    ////Another way (Using Mat.WarpPerspective())
+                    //using (Mat map_matrix = Cv2.GetPerspectiveTransform(a, b))
+                    //using (Mat dest = chessboard.WarpPerspective(map_matrix, new Size(640, 480), Interpolation.Linear | Interpolation.FillOutliers, BorderType.Default, Scalar.All(255))) //AccessViolation
+                    //{
+                    //    Cv2.ImShow("Output_Cv2", dest);
+                    //}
+
                     Cv2.WaitKey();
                 }
             }
 
-            Track();
-            Run();
+            //Track();
+            //Run();
         }
 
         private static void Track()
@@ -157,7 +219,7 @@ namespace OpenCvSharp.Sandbox
             var a3 = new Mat(src, Rect.FromLTRB(0, 0, 30, 40));
             a3.ToString();
 
-            for (long i = 0;; i++)
+            for (long i = 0; ; i++)
             {
                 for (int j = 0; j < 200; j++)
                 {

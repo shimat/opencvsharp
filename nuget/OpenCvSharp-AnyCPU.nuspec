@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-AnyCPU</id>
-        <version>2.4.8.20140609</version>
+        <version>2.4.8.20140619</version>
         <title>OpenCvSharp</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -10,7 +10,8 @@
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/lenna-icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <releaseNotes>- Added Mat methods for supporting method chaining
+        <releaseNotes>- Fixed bugs: Cv2.WarpPerspective and Cv2.FindChessboardCorners
+- Added Mat methods for supporting method chaining
 - Added conversion WriteableBitmap &lt;-&gt; Mat</releaseNotes>
         <copyright>Copyright 2008-2014</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
