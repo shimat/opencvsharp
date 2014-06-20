@@ -69,9 +69,13 @@ CVAPI(cv::gpu::DeviceInfo*) gpu_DeviceInfo_new1()
 {
     return new cv::gpu::DeviceInfo();
 }
-CVAPI(cv::gpu::DeviceInfo*) gpu_DeviceInfo_new2(int device_id)
+CVAPI(cv::gpu::DeviceInfo*) gpu_DeviceInfo_new2(int deviceId)
 {
-    return new cv::gpu::DeviceInfo(device_id);
+	return new cv::gpu::DeviceInfo(deviceId);
+}
+CVAPI(void) gpu_DeviceInfo_delete(cv::gpu::DeviceInfo *obj)
+{
+	delete obj;
 }
 
 CVAPI(void) gpu_DeviceInfo_name(cv::gpu::DeviceInfo *obj, char *buf, int bufLength)
@@ -114,7 +118,7 @@ CVAPI(int) gpu_DeviceInfo_supports(cv::gpu::DeviceInfo *obj, int feature_set)
 {
     return obj->supports(static_cast<cv::gpu::FeatureSet>(feature_set)) ? 1 : 0;
 }
-CVAPI(int) gpu_DeviceInfo_gpu_DeviceInfo_isCompatible(cv::gpu::DeviceInfo *obj)
+CVAPI(int) gpu_DeviceInfo_isCompatible(cv::gpu::DeviceInfo *obj)
 {
     return obj->isCompatible() ? 1 : 0;
 }

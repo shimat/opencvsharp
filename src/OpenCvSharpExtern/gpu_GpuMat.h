@@ -261,15 +261,6 @@ CVAPI(const uchar*) gpu_GpuMat_ptr(const GpuMat* obj, int y)
 	return obj->ptr(y);
 }
 
-/*
-    MatExpr_<MatExpr_Op4_<Mat, Mat, double, char, Mat, MatOp_MulDiv_<Mat> >, Mat>
-    // per-element matrix multiplication by means of matrix expressions
-    mul(const Mat& m, double scale=1) const;
-    MatExpr_<MatExpr_Op4_<Mat, Mat, double, char, Mat, MatOp_MulDiv_<Mat> >, Mat>
-    mul(const MatExpr_<MatExpr_Op2_<Mat, double, Mat, MatOp_Scale_<Mat> >, Mat>& m, double scale=1) const;
-    MatExpr_<MatExpr_Op4_<Mat, Mat, double, char, Mat, MatOp_MulDiv_<Mat> >, Mat>    
-    mul(const MatExpr_<MatExpr_Op2_<Mat, double, Mat, MatOp_DivRS_<Mat> >, Mat>& m, double scale=1) const;
- */   
 #pragma endregion
 
 #endif
