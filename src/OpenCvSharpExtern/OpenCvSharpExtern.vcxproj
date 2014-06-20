@@ -230,9 +230,6 @@
     <ClCompile Include="legacy.cpp" />
     <ClCompile Include="superres.cpp" />
     <ClCompile Include="video.cpp" />
-    <ClCompile Include="gpu_GpuMat.cpp" />
-    <ClCompile Include="gpu_HOGDescriptor.cpp" />
-    <ClCompile Include="gpu_StereoBM_GPU.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calib3d.h" />
@@ -286,6 +283,8 @@
     <ClInclude Include="gpu_GpuMat.h" />
     <ClInclude Include="gpu_HOGDescriptor.h" />
     <ClInclude Include="gpu_StereoBM_GPU.h" />
+    <ClInclude Include="video_background_segm.h" />
+    <ClInclude Include="video_tracking.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
