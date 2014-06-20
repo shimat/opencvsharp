@@ -6,7 +6,7 @@
 CVAPI(void) photo_inpaint(cv::_InputArray *src, cv::_InputArray *inpaintMask,
 	cv::_OutputArray *dst, double inpaintRadius, int flags)
 {
-	cv::inpaint(*src, *inpaintMask, *dst, inpaintRadius, flags);
+	cv::inpaint(*src, *inpaintMask, *dst, inpaintRadius, flags); 
 }
 
 CVAPI(void) photo_fastNlMeansDenoising(cv::_InputArray *src, cv::_OutputArray *dst, float h,

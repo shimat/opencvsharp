@@ -169,6 +169,7 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvERTrees.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvRTrees.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvNormalBayesClassifier.cs" />
+    <Compile Include="PInvoke\NativeMethods_gpu_GpuMat.cs" />
     <Compile Include="PInvoke\NativeMethods_gpu.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d_DescriptorMatcher.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvBoostTree.cs" />

@@ -1,22 +1,20 @@
-﻿using System;
-
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.CPlusPlus.Gpu
 {
     /// <summary>
     /// 
     /// </summary>
-    public abstract class MatRowColIndexer
+    public abstract class GpuMatRowColIndexer
     {
         /// <summary>
         /// 
         /// </summary>
-        protected readonly Mat parent;
+        protected readonly GpuMat parent;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="parent"></param>
-        protected internal MatRowColIndexer(Mat parent)
+        protected internal GpuMatRowColIndexer(GpuMat parent)
         {
             this.parent = parent;
         }
@@ -26,7 +24,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public abstract Mat this[int pos] { get; set; }
+        public abstract GpuMat this[int pos] { get; set; }
 
         /// <summary>
         /// Creates/Sets a matrix header for the specified row/column span.
@@ -34,14 +32,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public abstract Mat this[int start, int end] { get; set; }
+        public abstract GpuMat this[int start, int end] { get; set; }
 
         /// <summary>
         /// Creates/Sets a matrix header for the specified row/column span.
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public virtual Mat this[Range range]
+        public virtual GpuMat this[Range range]
         {
             get { return this[range.Start, range.End]; }
         }
@@ -51,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public virtual Mat Get(int pos)
+        public virtual GpuMat Get(int pos)
         {
             return this[pos];
         }
@@ -61,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public virtual Mat Get(int start, int end)
+        public virtual GpuMat Get(int start, int end)
         {
             return this[start, end];
         }
@@ -70,7 +68,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public virtual Mat Get(Range range)
+        public virtual GpuMat Get(Range range)
         {
             return this[range];
         }
@@ -80,7 +78,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="value"></param>
-        public virtual void Set(int pos, Mat value)
+        public virtual void Set(int pos, GpuMat value)
         {
             this[pos] = value;
         }
@@ -91,7 +89,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="value"></param>
-        public virtual void Set(int start, int end, Mat value)
+        public virtual void Set(int start, int end, GpuMat value)
         {
             this[start, end] = value;
         }
@@ -101,7 +99,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="range"></param>
         /// <param name="value"></param>
-        public virtual void Set(Range range, Mat value)
+        public virtual void Set(Range range, GpuMat value)
         {
             this[range.Start, range.End] = value; 
         }

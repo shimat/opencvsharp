@@ -6,224 +6,203 @@ using namespace cv::gpu;
 
 
 #pragma region Init and Disposal
-CVAPI(int) GpuMat_sizeof()
-{
-	return sizeof(GpuMat);
-}
-CVAPI(void) GpuMat_delete(GpuMat* obj)
+
+CVAPI(void) gpu_GpuMat_delete(GpuMat* obj)
 {
 	delete obj;
 }
-CVAPI(GpuMat*) GpuMat_new1()
+CVAPI(GpuMat*) gpu_GpuMat_new1()
 {
 	return new GpuMat();
 }
-CVAPI(GpuMat*) GpuMat_new2(int rows, int cols, int type)
+CVAPI(GpuMat*) gpu_GpuMat_new2(int rows, int cols, int type)
 {
 	return new GpuMat(rows, cols, type);
 }
-CVAPI(GpuMat*) GpuMat_new3(int rows, int cols, int type, void* data, unsigned int step)
+CVAPI(GpuMat*) gpu_GpuMat_new3(int rows, int cols, int type, void* data, uint64 step)
 {
-	return new GpuMat(rows, cols, type, data, step);
+	return new GpuMat(rows, cols, type, data, static_cast<size_t>(step));
 }
-CVAPI(GpuMat*) GpuMat_new4(const cv::Mat* mat)
+CVAPI(GpuMat*) gpu_GpuMat_new4(cv::Mat* mat)
 {
 	return new GpuMat(*mat);
 }
-CVAPI(GpuMat*) GpuMat_new5(const GpuMat* gpumat)
+CVAPI(GpuMat*) gpu_GpuMat_new5(GpuMat* gpumat)
 {
 	return new GpuMat(*gpumat);
 }
-CVAPI(GpuMat*) GpuMat_new6(CvSize size, int type)
+CVAPI(GpuMat*) gpu_GpuMat_new6(CvSize size, int type)
 {
 	return new GpuMat((cv::Size)size, type);
 }
-CVAPI(GpuMat*) GpuMat_new7(CvSize size, int type, void* data, unsigned int step)
+CVAPI(GpuMat*) gpu_GpuMat_new7(CvSize size, int type, void* data, uint64 step)
 {
-	return new GpuMat((cv::Size)size, type, data, step);
+	return new GpuMat((cv::Size)size, type, data, static_cast<size_t>(step));
 }
-CVAPI(GpuMat*) GpuMat_new8(int rows, int cols, int type, CvScalar s)
+CVAPI(GpuMat*) gpu_GpuMat_new8(int rows, int cols, int type, CvScalar s)
 {
 	return new GpuMat(rows, cols, type, s);
 }
-CVAPI(GpuMat*) GpuMat_new9(const GpuMat* m, CvSlice rowRange, CvSlice colRange)
+CVAPI(GpuMat*) gpu_GpuMat_new9(GpuMat* m, CvSlice rowRange, CvSlice colRange)
 {
 	return new GpuMat(*m, (cv::Range)rowRange, (cv::Range)colRange);
 }
-CVAPI(GpuMat*) GpuMat_new10(const GpuMat* m, CvRect roi)
+CVAPI(GpuMat*) gpu_GpuMat_new10(GpuMat* m, CvRect roi)
 {
 	return new GpuMat(*m, (cv::Rect)roi);
 }
-CVAPI(GpuMat*) GpuMat_new11(CvSize size, int type, CvScalar s)
+CVAPI(GpuMat*) gpu_GpuMat_new11(CvSize size, int type, CvScalar s)
 {
 	return new GpuMat((cv::Size)size, type, s);
 }
 #pragma endregion
 
 #pragma region Fields
-CVAPI(int) GpuMat_flags(const GpuMat* obj)
+CVAPI(int) gpu_GpuMat_flags(GpuMat* obj)
 {
 	return obj->flags;
 }
-CVAPI(int) GpuMat_rows(const GpuMat* obj)
+CVAPI(int) gpu_GpuMat_rows(GpuMat* obj)
 {
 	return obj->rows;
 }
-CVAPI(int) GpuMat_cols(const GpuMat* obj)
+CVAPI(int) gpu_GpuMat_cols(GpuMat* obj)
 {
 	return obj->cols;
 }
-CVAPI(unsigned int) GpuMat_step(const GpuMat* obj)
+CVAPI(uint64) gpu_GpuMat_step(GpuMat* obj)
 {
-	return (unsigned int)obj->step;
+	return static_cast<uint64>(obj->step);
 }
-CVAPI(uchar*) GpuMat_data(const GpuMat* obj)
+CVAPI(uchar*) gpu_GpuMat_data(GpuMat* obj)
 {
 	return obj->data;
 }
-CVAPI(int*) GpuMat_refcount(const GpuMat* obj)
+CVAPI(int*) gpu_GpuMat_refcount(GpuMat* obj)
 {
 	return obj->refcount;
 }
-CVAPI(uchar*) GpuMat_datastart(const GpuMat* obj)
+CVAPI(uchar*) gpu_GpuMat_datastart(GpuMat* obj)
 {
 	return obj->datastart;
 }
-CVAPI(uchar*) GpuMat_dataend(const GpuMat* obj)
+CVAPI(uchar*) gpu_GpuMat_dataend(GpuMat* obj)
 {
 	return obj->dataend;
 }
 #pragma endregion
 
 #pragma region Operators
-CVAPI(void) GpuMat_opAssign1(GpuMat* src, GpuMat* m)
+CVAPI(void) gpu_GpuMat_opAssign(GpuMat* left, GpuMat* right)
 {
-	*src = *m;
+	*left = *right;
 }
-/*CVAPI(void) GpuMat_opAssign2(GpuMat* src, cv::Mat* m)
-{
-	*src = *m;
-}*/
 
-CVAPI(void) GpuMat_opRange1(GpuMat* src, CvRect roi, GpuMat* dst)
+CVAPI(GpuMat*) gpu_GpuMat_opRange1(GpuMat* src, CvRect roi)
 {
-	*dst = (*src)(roi);
+	GpuMat gm = (*src)(roi);
+	return new GpuMat(gm);
 }
-CVAPI(void) GpuMat_opRange2(GpuMat* src, CvSlice rowRange, CvSlice colRange, GpuMat* dst)
+CVAPI(GpuMat*) gpu_GpuMat_opRange2(GpuMat* src, CvSlice rowRange, CvSlice colRange)
 {
-	*dst = (*src)(rowRange, colRange);
+	GpuMat gm = (*src)(rowRange, colRange);
+	return new GpuMat(gm);
 }
-/*
-CVAPI(void) GpuMat_opComplement(const GpuMat* src, GpuMat* dst)
+
+CVAPI(cv::Mat*) gpu_GpuMat_opToMat(GpuMat* src)
 {
-	*dst = ~(*src); 
+	cv::Mat m = (cv::Mat)(*src);
+	return new cv::Mat(m);
 }
-CVAPI(void) GpuMat_opOr(const GpuMat* src1, const GpuMat* src2, GpuMat* dst)
+CVAPI(GpuMat*) gpu_GpuMat_opToGpuMat(cv::Mat* src)
 {
-	*dst = (*src1) | (*src2);
+	GpuMat gm = (GpuMat)(*src);
+	return new GpuMat(gm);
 }
-CVAPI(void) GpuMat_opAnd(const GpuMat* src1, const GpuMat* src2, GpuMat* dst)
-{
-	*dst = (*src1) & (*src2);
-}
-CVAPI(void) GpuMat_opXor(const GpuMat* src1, const GpuMat* src2, GpuMat* dst)
-{
-	*dst = (*src1) ^ (*src2);
-}
-*/
 #pragma endregion
 
 #pragma region Methods
-CVAPI(void) GpuMat_opGpuMat(cv::Mat* mat, GpuMat* gpumat)
-{
-	*gpumat = (GpuMat)(*mat);
-}
-CVAPI(void) GpuMat_upload1(GpuMat* obj, const cv::Mat* m)
+
+CVAPI(void) gpu_GpuMat_upload(GpuMat* obj, cv::Mat* m)
 {
 	obj->upload(*m);
 }
-/*CVAPI(void) GpuMat_upload2(GpuMat* obj, const CudaMem* m, Stream* stream)
-{
-	obj->upload(*m, *stream);
-}*/
-CVAPI(void) GpuMat_opMat(GpuMat* gpumat, cv::Mat* mat)
-{
-	*mat = (cv::Mat)(*gpumat);
-}
-CVAPI(void) GpuMat_download1(const GpuMat* obj, cv::Mat* m)
+
+CVAPI(void) gpu_GpuMat_download(GpuMat* obj, cv::Mat* m)
 {
 	obj->download(*m);
 }
-/*CVAPI(void) GpuMat_download2(const GpuMat* obj, CudaMem* m, Stream* stream)
-{
-	obj->download(*m, *stream);
-}*/
 
-CVAPI(void) GpuMat_row(const GpuMat* obj, int y, GpuMat* outValue)
+CVAPI(GpuMat*) gpu_GpuMat_row(GpuMat* obj, int y)
 {
-	*outValue = obj->row(y);
+	GpuMat ret = obj->row(y);
+	return new GpuMat(ret);
 }
-CVAPI(void) GpuMat_col(const GpuMat* obj, int x, GpuMat* outValue)
+CVAPI(GpuMat*) gpu_GpuMat_col(GpuMat* obj, int x)
 {
-	*outValue = obj->col(x);
+	GpuMat ret = obj->col(x);
+	return new GpuMat(ret);
 }
-CVAPI(void) GpuMat_rowRange(const GpuMat* obj, int startrow, int endrow, GpuMat* outValue)
+CVAPI(GpuMat*) gpu_GpuMat_rowRange(GpuMat* obj, int startrow, int endrow)
 {
-	*outValue = obj->rowRange(startrow, endrow);
+	GpuMat ret = obj->rowRange(startrow, endrow);
+	return new GpuMat(ret);
 }
-CVAPI(void) GpuMat_colRange(const GpuMat* obj, int startcol, int endcol, GpuMat* outValue)
+CVAPI(GpuMat*) gpu_GpuMat_colRange(GpuMat* obj, int startcol, int endcol)
 {
-	*outValue = obj->colRange(startcol, endcol);
+	GpuMat ret = obj->colRange(startcol, endcol);
+	return new GpuMat(ret);
 }
-CVAPI(void) GpuMat_clone(const GpuMat* obj, GpuMat* outValue)
+CVAPI(GpuMat*) gpu_GpuMat_clone(GpuMat* obj)
 {
-	*outValue = obj->clone();
+	GpuMat ret = obj->clone();
+	return new GpuMat(ret);
 }
-CVAPI(void) GpuMat_copyTo1(GpuMat* obj, GpuMat* m)
+CVAPI(void) gpu_GpuMat_copyTo1(GpuMat* obj, GpuMat* m)
 {
 	obj->copyTo(*m);
 }
-CVAPI(void) GpuMat_copyTo2(GpuMat* obj, GpuMat* m, GpuMat* mask)
+CVAPI(void) gpu_GpuMat_copyTo2(GpuMat* obj, GpuMat* m, GpuMat* mask)
 {
 	obj->copyTo(*m, *mask);
 }
-CVAPI(void) GpuMat_convertTo(GpuMat* obj, GpuMat* m, int rtype, double alpha, double beta) 
+CVAPI(void) gpu_GpuMat_convertTo(GpuMat* obj, GpuMat* m, int rtype, double alpha, double beta)
 {
 	obj->convertTo(*m, rtype, alpha, beta);
 }
-CVAPI(void) GpuMat_assignTo(GpuMat* obj, GpuMat* m, int type)
+CVAPI(void) gpu_GpuMat_assignTo(GpuMat* obj, GpuMat* m, int type)
 {
 	obj->assignTo(*m, type);
 }
-CVAPI(void) GpuMat_setTo(GpuMat* obj, CvScalar s, GpuMat* mask, GpuMat* dst)
+CVAPI(GpuMat*) gpu_GpuMat_setTo(GpuMat* obj, CvScalar s, GpuMat* mask)
 {
-	if(mask == NULL)
-		*dst = obj->setTo(s);
-	else
-		*dst = obj->setTo(s, *mask);
+	GpuMat gm = obj->setTo(s, entity(mask));
+	return new GpuMat(gm);
 }
-CVAPI(void) GpuMat_reshape(GpuMat* obj, int cn, int rows, GpuMat* outValue)
+CVAPI(GpuMat*) gpu_GpuMat_reshape(GpuMat* obj, int cn, int rows)
 {
-	obj->reshape(cn, rows);
+	GpuMat gm = obj->reshape(cn, rows);
+	return new GpuMat(gm);
 }
 
-CVAPI(void) GpuMat_create1(GpuMat* obj, int rows, int cols, int type)
+CVAPI(void) gpu_GpuMat_create1(GpuMat* obj, int rows, int cols, int type)
 {
 	obj->create(rows, cols, type);
 }
-CVAPI(void) GpuMat_create2(GpuMat* obj, CvSize size, int type)
+CVAPI(void) gpu_GpuMat_create2(GpuMat* obj, CvSize size, int type)
 {
 	obj->create((cv::Size)size, type);
 }
-CVAPI(void) GpuMat_release(GpuMat* obj)
+CVAPI(void) gpu_GpuMat_release(GpuMat* obj)
 {
 	obj->release();
 }
-CVAPI(void) GpuMat_swap(GpuMat* obj, GpuMat* mat)
+CVAPI(void) gpu_GpuMat_swap(GpuMat* obj, GpuMat* mat)
 {
 	obj->swap(*mat);
 }
-CVAPI(void) GpuMat_locateROI(GpuMat* obj, CvSize* wholeSize, CvPoint* ofs)
+
+CVAPI(void) gpu_GpuMat_locateROI(GpuMat* obj, CvSize* wholeSize, CvPoint* ofs)
 {
 	cv::Size _wholeSize;
 	cv::Point _ofs;
@@ -231,55 +210,53 @@ CVAPI(void) GpuMat_locateROI(GpuMat* obj, CvSize* wholeSize, CvPoint* ofs)
 	*wholeSize = (CvSize)_wholeSize;
 	*ofs = (CvPoint)_ofs;
 }
-CVAPI(void) GpuMat_adjustROI(GpuMat* obj, int dtop, int dbottom, int dleft, int dright, GpuMat* dst)
+
+CVAPI(GpuMat*) gpu_GpuMat_adjustROI(GpuMat* obj, int dtop, int dbottom, int dleft, int dright)
 {
-	*dst = obj->adjustROI(dtop, dbottom, dleft, dright);
+	GpuMat gm = obj->adjustROI(dtop, dbottom, dleft, dright);
+	return new GpuMat(gm);
 }
 
-/*
-CVAPI(void) GpuMat_t(const GpuMat* src, GpuMat* dst)
+CVAPI(int) gpu_GpuMat_isContinuous(GpuMat* obj)
 {
-	*dst = src->t();
-}*/
+	return obj->isContinuous() ? 1 : 0;
+}
 
-CVAPI(bool) GpuMat_isContinuous(const GpuMat* obj)
+CVAPI(uint64) gpu_GpuMat_elemSize(GpuMat* obj)
 {
-	return obj->isContinuous();
+	return static_cast<uint64>(obj->elemSize());
 }
-CVAPI(unsigned int) GpuMat_elemSize(const GpuMat* obj)
+CVAPI(uint64) gpu_GpuMat_elemSize1(GpuMat* obj)
 {
-	return (unsigned int)obj->elemSize();
+	return static_cast<uint64>(obj->elemSize1());
 }
-CVAPI(unsigned int) GpuMat_elemSize1(const GpuMat* obj)
-{
-	return (unsigned int)obj->elemSize1();
-}
-CVAPI(int) GpuMat_type(const GpuMat* obj)
+
+CVAPI(int) gpu_GpuMat_type(GpuMat* obj)
 {
 	return obj->type();
 }
-CVAPI(int) GpuMat_depth(const GpuMat* obj)
+CVAPI(int) gpu_GpuMat_depth(GpuMat* obj)
 {
 	return obj->depth();
 }
-CVAPI(int) GpuMat_channels(const GpuMat* obj)
+CVAPI(int) gpu_GpuMat_channels(GpuMat* obj)
 {
 	return obj->channels();
 }
-CVAPI(unsigned int) GpuMat_step1(const GpuMat* obj)
+CVAPI(uint64) gpu_GpuMat_step1(GpuMat* obj)
 {
-	return (unsigned int)obj->step1();
+	return static_cast<uint64>(obj->step1());
 }
-CVAPI(CvSize) GpuMat_size(const GpuMat* obj)
+CVAPI(CvSize) gpu_GpuMat_size(GpuMat* obj)
 {
 	return (CvSize)obj->size();
 }
-CVAPI(bool) GpuMat_empty(const GpuMat* obj)
+CVAPI(int) gpu_GpuMat_empty(GpuMat* obj)
 {
-	return obj->empty();
+	return obj->empty() ? 1 : 0;
 }
 
-CVAPI(const uchar*) GpuMat_ptr(const GpuMat* obj, int y)
+CVAPI(const uchar*) gpu_GpuMat_ptr(const GpuMat* obj, int y)
 {
 	return obj->ptr(y);
 }

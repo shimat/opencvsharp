@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 
 namespace OpenCvSharp.CPlusPlus.Gpu
 {
@@ -18,181 +16,324 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
     public partial class GpuMat : DisposableCvObject, ICloneable
     {
-        #region Fields
-        /// <summary>
-        /// sizeof(GpuMat)
-        /// </summary>
-        public static readonly int SizeOf;
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
-        #endregion
+        private bool disposed;
 
         #region Init and Disposal
-        /// <summary>
-        /// static constructor
-        /// </summary>
-        static GpuMat()
-        {
-            SizeOf = NativeMethods.GpuMat_sizeof();
-        }
-
         #region Constructor
+
 #if LANG_JP
-        /// <summary>
-        /// デフォルトコンストラクタ
-        /// </summary>
+    /// <summary>
+    /// OpenCVネイティブの cv::gpu::GpuMat* ポインタから初期化
+    /// </summary>
+    /// <param name="ptr"></param>
 #else
         /// <summary>
-        /// Default constructor
+        /// Creates from native cv::gpu::GpuMat* pointer
+        /// </summary>
+        /// <param name="ptr"></param>
+#endif
+        public GpuMat(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Native object address is NULL");
+            this.ptr = ptr;
+        }
+
+#if LANG_JP
+    /// <summary>
+    /// 空の行列として初期化
+    /// </summary>
+#else
+        /// <summary>
+        /// Creates empty GpuMat
         /// </summary>
 #endif
         public GpuMat()
         {
-            ptr = NativeMethods.GpuMat_new1();
+            ptr = NativeMethods.gpu_GpuMat_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
+
+#if LANG_JP
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列として初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+#else
         /// <summary>
-        /// 
+        /// constructs 2D matrix of the specified size and type
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
-        public GpuMat(int rows, int cols, MatrixType type)
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+#endif
+        public GpuMat(int rows, int cols, MatType type)
         {
             if (rows <= 0)
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = NativeMethods.GpuMat_new2(rows, cols, type);
+            ptr = NativeMethods.gpu_GpuMat_new2(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
+
+#if LANG_JP
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="step">行列の各行が占めるバイト数を指定できます．
+    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+    /// 実際の step は cols*elemSize() として計算されます．</param>
+#else
         /// <summary>
-        /// 
+        /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
-        /// <param name="step"></param>
-        public GpuMat(int rows, int cols, MatrixType type, IntPtr data, uint step)
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+#endif
+        public GpuMat(int rows, int cols, MatType type, IntPtr data, long step)
         {
             if (rows <= 0)
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = NativeMethods.GpuMat_new3(rows, cols, type, data, step);
+            ptr = NativeMethods.gpu_GpuMat_new3(rows, cols, type, data, (ulong)step);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
+
+#if LANG_JP
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列として初期化
+    /// </summary>
+    /// <param name="size">2次元配列のサイズ： Size(cols, rows) </param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+#else
         /// <summary>
-        /// 
+        /// constructs 2D matrix of the specified size and type
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="size">2D array size: Size(cols, rows) </param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or MatType.CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+#endif
+        public GpuMat(Size size, MatType type)
+        {
+            ptr = NativeMethods.gpu_GpuMat_new6(size, type);
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException();
+        }
+
+#if LANG_JP
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="size">2次元配列のサイズ： Size(cols, rows)</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="step">行列の各行が占めるバイト数を指定できます．
+    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+    /// 実際の step は cols*elemSize() として計算されます．</param>
+#else
+        /// <summary>
+        /// constructor for matrix headers pointing to user-allocated data
+        /// </summary>
+        /// <param name="size">2D array size: Size(cols, rows) </param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+        /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+        /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+        /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+        /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+#endif
+        public GpuMat(Size size, MatType type, IntPtr data, long step = 0)
+        {
+            ptr = NativeMethods.gpu_GpuMat_new7(size, type, data, (ulong)step);
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException();
+        }
+
+#if LANG_JP
+    /// <summary>
+    /// 他の行列のから初期化
+    /// </summary>
+    /// <param name="m">作成された行列に全体的割り当てられる配列．</param>
+#else
+        /// <summary>
+        /// creates a matrix for other matrix
+        /// </summary>
+        /// <param name="m">Array that (as a whole) is assigned to the constructed matrix.</param>
+#endif
         public GpuMat(Mat m)
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = NativeMethods.GpuMat_new4(m.CvPtr);
+            ptr = NativeMethods.gpu_GpuMat_new4(m.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
+
+#if LANG_JP
+    /// <summary>
+    /// 他のGpuMat初期化
+    /// </summary>
+    /// <param name="m">作成された行列に全体的割り当てられる配列．</param>
+#else
         /// <summary>
-        /// 
+        /// creates a matrix for other matrix
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">GpuMat that (as a whole) is assigned to the constructed matrix.</param>
+#endif
         public GpuMat(GpuMat m)
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = NativeMethods.GpuMat_new5(m.CvPtr);
+            ptr = NativeMethods.gpu_GpuMat_new5(m.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
+
+#if LANG_JP
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+#else
         /// <summary>
-        /// 
+        /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
-        public GpuMat(CvSize size, MatrixType type)
-        {
-            ptr = NativeMethods.GpuMat_new6(size, type);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
-        /// <param name="step"></param>
-        public GpuMat(CvSize size, MatrixType type, IntPtr data, uint step)
-        {
-            ptr = NativeMethods.GpuMat_new7(size, type, data, step);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
-        /// <param name="s"></param>
-        public GpuMat(int rows, int cols, MatrixType type, CvScalar s)
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+#endif
+        public GpuMat(int rows, int cols, MatType type, Scalar s)
         {
             if (rows <= 0)
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException("cols");
-            ptr = NativeMethods.GpuMat_new8(rows, cols, type, (CvScalar)s);
+            ptr = NativeMethods.gpu_GpuMat_new8(rows, cols, type, s);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
+
+#if LANG_JP
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
+    /// </summary>
+    /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) </param>
+    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
+    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+#else
         /// <summary>
-        /// 
+        /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="rowRange"></param>
-        /// <param name="colRange"></param>
-        public GpuMat(GpuMat m, CvSlice rowRange, CvSlice colRange)
+        /// <param name="size">2D array size: Size(cols, rows) .</param>
+        /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+        /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
+        /// <param name="s">An optional value to initialize each matrix element with. 
+        /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+#endif
+        public GpuMat(Size size, MatType type, Scalar s)
+        {
+            ptr = NativeMethods.gpu_GpuMat_new11(size, type, s);
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException();
+        }
+
+#if LANG_JP
+    /// <summary>
+    /// 他の行列の部分行列として初期化
+    /// </summary>
+    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．</param>
+    /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
+    /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
+#else
+        /// <summary>
+        /// creates a matrix header for a part of the bigger matrix
+        /// </summary>
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix. </param>
+        /// <param name="rowRange">Range of the m rows to take. As usual, the range start is inclusive and the range end is exclusive. 
+        /// Use Range.All to take all the rows.</param>
+        /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
+#endif
+        public GpuMat(GpuMat m, Range rowRange, Range colRange)
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = NativeMethods.GpuMat_new9(m.CvPtr, rowRange, colRange);
+            ptr = NativeMethods.gpu_GpuMat_new9(m.CvPtr, rowRange, colRange);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
+
+#if LANG_JP
+    /// <summary>
+    /// 他の行列の部分行列として初期化
+    /// </summary>
+    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．</param>
+    /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
+#else
         /// <summary>
-        /// 
+        /// creates a matrix header for a part of the bigger matrix
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="roi"></param>
-        public GpuMat(GpuMat m, CvRect roi)
+        /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix..</param>
+        /// <param name="roi">Region of interest.</param>
+#endif
+        public GpuMat(GpuMat m, Rect roi)
         {
             if (m == null)
                 throw new ArgumentNullException("m");
-            ptr = NativeMethods.GpuMat_new10(m.CvPtr, (CvRect)roi);
+            ptr = NativeMethods.gpu_GpuMat_new10(m.CvPtr, roi);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
-        /// <param name="s"></param>
-        public GpuMat(CvSize size, MatrixType type, CvScalar s)
-        {
-            ptr = NativeMethods.GpuMat_new11(size, type, s);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
-        }      
         #endregion
+
         #region Dispose
 #if LANG_JP
         /// <summary>
@@ -235,7 +376,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.GpuMat_delete(ptr);
+                        NativeMethods.gpu_GpuMat_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -249,113 +390,9 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         #endregion
 
         #region Operators
-        #region Unary
-#if LANG_JP
-        /// <summary>
-        /// ビット反転演算子
-        /// </summary>
-        /// <param name="src"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Unary bitwise complement operator
-        /// </summary>
-        /// <param name="src"></param>
-        /// <returns></returns>
-#endif
-        public static GpuMat operator~(GpuMat src)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-
-            GpuMat dst = new GpuMat();
-            NativeMethods.GpuMat_opComplement(src.CvPtr, dst.CvPtr);
-            return dst;
-        }
-        #endregion
-        #region Binary
-#if LANG_JP
-        /// <summary>
-        /// AND演算子
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Binary  bitwise AND operator
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <returns></returns>
-#endif
-        public static GpuMat operator &(GpuMat src1, GpuMat src2)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException("src1");
-            if (src2 == null)
-                throw new ArgumentNullException("src2");
-
-            GpuMat dst = new GpuMat();
-            NativeMethods.GpuMat_opAnd(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            return dst;
-        }
-#if LANG_JP
-        /// <summary>
-        /// OR演算子
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Binary  bitwise OR operator
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <returns></returns>
-#endif
-        public static GpuMat operator |(GpuMat src1, GpuMat src2)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException("src1");
-            if (src2 == null)
-                throw new ArgumentNullException("src2");
-
-            GpuMat dst = new GpuMat();
-            NativeMethods.GpuMat_opOr(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            return dst;
-        }
-#if LANG_JP
-        /// <summary>
-        /// XOR演算子
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Binary  bitwise XOR operator
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <returns></returns>
-#endif
-        public static GpuMat operator ^(GpuMat src1, GpuMat src2)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException("src1");
-            if (src2 == null)
-                throw new ArgumentNullException("src2");
-
-            GpuMat dst = new GpuMat();
-            NativeMethods.GpuMat_opXor(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            return dst;
-        }
-        #endregion
         #region Cast
         /// <summary>
-        /// converts header to CvMat; no data is copied
+        /// converts header to GpuMat
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
@@ -364,12 +401,12 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             if (mat == null)
                 return null;
 
-            GpuMat gpumat = new GpuMat();
-            NativeMethods.GpuMat_opGpuMat(mat.CvPtr, gpumat.CvPtr);
-            return gpumat;
+            IntPtr ret = NativeMethods.gpu_GpuMat_opToGpuMat(mat.CvPtr);
+            return new GpuMat(ret);
         }
+
         /// <summary>
-        /// converts header to IplImage; no data is copied
+        /// converts header to Mat
         /// </summary>
         /// <param name="gpumat"></param>
         /// <returns></returns>
@@ -378,59 +415,61 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             if (gpumat == null)
                 return null;
 
-            Mat mat = new Mat();
-            NativeMethods.GpuMat_opMat(gpumat.CvPtr, mat.CvPtr);
-            return mat;
+            IntPtr ret = NativeMethods.gpu_GpuMat_opToMat(gpumat.CvPtr);
+            return new Mat(ret);
         }
         #endregion
+
         #region Indexer
         /// <summary>
         /// 
         /// </summary>
         /// <param name="roi"></param>
         /// <returns></returns>
-        public virtual Mat this[CvRect roi]
+        public virtual GpuMat this[Rect roi]
         {
             get
             {
-                Mat result = new Mat();
-                NativeMethods.GpuMat_opRange1(ptr, roi, result.CvPtr);
-                return result;
+                IntPtr ret = NativeMethods.gpu_GpuMat_opRange1(ptr, roi);
+                return new GpuMat(ret);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="rowRange"></param>
         /// <param name="colRange"></param>
         /// <returns></returns>
-        public virtual Mat this[CvSlice rowRange, CvSlice colRange]
+        public virtual GpuMat this[Range rowRange, Range colRange]
         {
             get
             {
-                Mat result = new Mat();
-                NativeMethods.GpuMat_opRange2(ptr, rowRange, colRange, result.CvPtr);
-                return result;
+                IntPtr ret = NativeMethods.gpu_GpuMat_opRange2(ptr, rowRange, colRange);
+                return new GpuMat(ret);
             }
         }
+
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
-        /// <param name="y"></param>
-        /// <param name="x"></param>
+        /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
         /// <returns></returns>
-        public virtual IntPtr this[int y, int x]
+        public GpuMat this[int rowStart, int rowEnd, int colStart, int colEnd]
         {
             get
             {
-                //( (unsigned)y < (unsigned)rows && (unsigned)x < (unsigned)cols && sizeof(_Tp) == elemSize() );
-                return new IntPtr(Data.ToInt64() + (long)(Step * (uint)y) + (ElemSize * x));
+                return this[new Range(rowStart, rowEnd), new Range(colStart, colEnd)];
             }
         }
         #endregion
         #endregion
 
         #region Properties
+
         /// <summary>
         /// includes several bit-fields: 
         ///  1.the magic signature 
@@ -442,11 +481,11 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_flags(ptr);
+                ThrowIfDisposed();
+                return NativeMethods.gpu_GpuMat_flags(ptr);
             }
         }
+
         /// <summary>
         /// the number of rows
         /// </summary>
@@ -454,11 +493,11 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             get 
             {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_rows(ptr); 
+                ThrowIfDisposed();
+                return NativeMethods.gpu_GpuMat_rows(ptr); 
             }
         }
+
         /// <summary>
         /// the number of columns
         /// </summary>
@@ -466,38 +505,47 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_cols(ptr);
+                ThrowIfDisposed();
+                return NativeMethods.gpu_GpuMat_cols(ptr);
             }
         }
+
         /// <summary>
-        /// a distance between successive rows in bytes; includes the gap if any
+        /// the number of rows
         /// </summary>
-        public uint Step
+        public int Height
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_step(ptr);
+                ThrowIfDisposed();
+                return NativeMethods.gpu_GpuMat_rows(ptr);
             }
         }
+
+        /// <summary>
+        /// the number of columns
+        /// </summary>
+        public int Width
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return NativeMethods.gpu_GpuMat_cols(ptr);
+            }
+        }
+
         /// <summary>
         /// pointer to the data
         /// </summary>
-        public IntPtr Data
+        public unsafe IntPtr Data
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                unsafe
-                {
-                    return (IntPtr)NativeMethods.GpuMat_data(ptr);
-                }
+                ThrowIfDisposed();
+                return (IntPtr)NativeMethods.gpu_GpuMat_data(ptr);
             }
         }
+
         /// <summary>
         /// pointer to the reference counter;
         /// when matrix points to user-allocated data, the pointer is NULL
@@ -506,11 +554,11 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return (IntPtr)NativeMethods.GpuMat_refcount(ptr);
+                ThrowIfDisposed();
+                return NativeMethods.gpu_GpuMat_refcount(ptr);
             }
         }
+
         /// <summary>
         /// helper fields used in locateROI and adjustROI
         /// </summary>
@@ -518,11 +566,11 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return (IntPtr)NativeMethods.GpuMat_datastart(ptr);
+                ThrowIfDisposed();
+                return NativeMethods.gpu_GpuMat_datastart(ptr);
             }
         }
+
         /// <summary>
         /// helper fields used in locateROI and adjustROI
         /// </summary>
@@ -530,71 +578,11 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return (IntPtr)NativeMethods.GpuMat_dataend(ptr);
+                ThrowIfDisposed();
+                return NativeMethods.gpu_GpuMat_dataend(ptr);
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public MatrixType Type
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_type(ptr);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public uint ElemSize
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_elemSize(ptr);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public uint ElemSize1
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_elemSize1(ptr);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Depth 
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_depth(ptr);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Channels
-        {
-            get 
-            {
-                if (disposed)
-                    throw new ObjectDisposedException("GpuMat");
-                return NativeMethods.GpuMat_channels(ptr);
-            }
-        }
+        
         /// <summary>
         /// 
         /// </summary>
@@ -602,53 +590,212 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             get
             {
-                return (int)Math.Pow(2, ((Depth / 2) + 1) + 2);
+                return (int)Math.Pow(2, ((Depth() / 2) + 1) + 2);
             }
         }
+        #endregion
+
+        #region Indexers
+        #region Element Indexer
+
         /// <summary>
-        /// 
+        /// GpuMat Indexer
         /// </summary>
-        public CvSize Size
+        /// <typeparam name="T"></typeparam>
+        public sealed class Indexer<T> : GpuMatIndexer<T> where T : struct
         {
-            get
+            private readonly long ptrVal;
+
+            internal Indexer(GpuMat parent)
+                : base(parent)
             {
-                return new CvSize(Cols, Rows);
+                ptrVal = parent.Data.ToInt64();
+            }
+
+            /// <summary>
+            /// 2-dimensional indexer
+            /// </summary>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override T this[int i0, int i1]
+            {
+                get
+                {
+                    var p = new IntPtr(ptrVal + (step*i0) + (sizeOfT*i1));
+                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                }
+                set
+                {
+                    var p = new IntPtr(ptrVal + (step*i0) + (sizeOfT*i1));
+                    Marshal.StructureToPtr(value, p, false);
+                }
             }
         }
 
+        /// <summary>
+        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Indexer<T> GetGenericIndexer<T>() where T : struct
+        {
+            return new Indexer<T>(this);
+        }
 
         #endregion
 
-        #region Methods
-        #region Static methods
+        #region Get/Set
+
+        /// <summary>
+        /// Returns a value to the specified array element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <returns>A value to the specified array element.</returns>
+        public T Get<T>(int i0, int i1) where T : struct
+        {
+            return new Indexer<T>(this)[i0, i1];
+        }
+
+        /// <summary>
+        /// Returns a value to the specified array element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <returns>A value to the specified array element.</returns>
+        public T At<T>(int i0, int i1) where T : struct
+        {
+            return new Indexer<T>(this)[i0, i1];
+        }
+
+        /// <summary>
+        /// Set a value to the specified array element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="value"></param>
+        public void Set<T>(int i0, int i1, T value) where T : struct
+        {
+            (new Indexer<T>(this))[i0, i1] = value;
+        }
+
         #endregion
-        #region Instance methods
+        
+        #region Col/ColRange
+
         /// <summary>
-        /// returns a new matrix header for the specified row
+        /// returns a new matrix header for the specified column span
         /// </summary>
-        /// <param name="y"></param>
+        /// <param name="startcol"></param>
+        /// <param name="endcol"></param>
         /// <returns></returns>
-        public GpuMat Row(int y)
+        public GpuMat ColRange(int startcol, int endcol)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            GpuMat outValue = new GpuMat();
-            NativeMethods.GpuMat_row(ptr, y, outValue.CvPtr);
-            return outValue;
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.gpu_GpuMat_colRange(ptr, startcol, endcol);
+            return new GpuMat(ret);
         }
+
         /// <summary>
-        /// returns a new matrix header for the specified column
+        /// returns a new matrix header for the specified column span
         /// </summary>
-        /// <param name="x"></param>
+        /// <param name="r"></param>
         /// <returns></returns>
-        public GpuMat Col(int x)
+        public GpuMat ColRange(Range r)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            GpuMat outValue = new GpuMat();
-            NativeMethods.GpuMat_col(ptr, x, outValue.CvPtr);
-            return outValue;
+            return ColRange(r.Start, r.End);
         }
+
+        /// <summary>
+        /// Mat column's indexer object
+        /// </summary>
+        public class ColIndexer : GpuMatRowColIndexer
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
+            protected internal ColIndexer(GpuMat parent)
+                : base(parent)
+            {
+            }
+
+            /// <summary>
+            /// Creates a matrix header for the specified matrix column.
+            /// </summary>
+            /// <param name="x">A 0-based column index.</param>
+            /// <returns></returns>
+            public override GpuMat this[int x]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    IntPtr matPtr = NativeMethods.gpu_GpuMat_col(parent.ptr, x);
+                    return new GpuMat(matPtr);
+                }
+                set
+                {
+                    parent.ThrowIfDisposed();
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    value.ThrowIfDisposed();
+
+                    var matPtr = NativeMethods.gpu_GpuMat_col(parent.ptr, x);
+                    var mat = new GpuMat(matPtr);
+                    if (mat.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(mat);
+                }
+            }
+
+            /// <summary>
+            /// Creates a matrix header for the specified column span.
+            /// </summary>
+            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
+            /// <returns></returns>
+            public override GpuMat this[int startCol, int endCol]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    IntPtr matPtr = NativeMethods.gpu_GpuMat_colRange(parent.ptr, startCol, endCol);
+                    return new GpuMat(matPtr);
+                }
+                set
+                {
+                    parent.ThrowIfDisposed();
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    value.ThrowIfDisposed();
+
+                    var colMatPtr = NativeMethods.gpu_GpuMat_colRange(parent.ptr, startCol, endCol);
+                    var colMat = new GpuMat(colMatPtr);
+                    if (colMat.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(colMat);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indexer to access GpuMat column
+        /// </summary>
+        /// <returns></returns>
+        public ColIndexer Col
+        {
+            get { return colIndexer ?? (colIndexer = new ColIndexer(this)); }
+        }
+
+        private ColIndexer colIndexer;
+
+        #endregion
+        #region Row/RowRange
+
         /// <summary>
         /// returns a new matrix header for the specified row span
         /// </summary>
@@ -657,43 +804,185 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <returns></returns>
         public GpuMat RowRange(int startrow, int endrow)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            GpuMat outValue = new GpuMat();
-            NativeMethods.GpuMat_rowRange(ptr, startrow, endrow, outValue.CvPtr);
-            return outValue;
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.gpu_GpuMat_rowRange(ptr, startrow, endrow);
+            return new GpuMat(ret);
         }
+
         /// <summary>
         /// returns a new matrix header for the specified row span
         /// </summary>
         /// <param name="r"></param>
         /// <returns></returns>
-        public GpuMat RowRange(CvSlice r)
+        public GpuMat RowRange(Range r)
         {
-            return RowRange(r.StartIndex, r.EndIndex);
+            return RowRange(r.Start, r.End);
         }
+
         /// <summary>
-        /// returns a new matrix header for the specified column span
+        /// Mat row's indexer object
         /// </summary>
-        /// <param name="startcol"></param>
-        /// <param name="endcol"></param>
-        /// <returns></returns>
-        public GpuMat ColRange(int startcol, int endcol) 
+        public class RowIndexer : GpuMatRowColIndexer
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            GpuMat outValue = new GpuMat();
-            NativeMethods.GpuMat_colRange(ptr, startcol, endcol, outValue.CvPtr);
-            return outValue;
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="parent"></param>
+            protected internal RowIndexer(GpuMat parent)
+                : base(parent)
+            {
+            }
+
+            /// <summary>
+            /// Creates a matrix header for the specified matrix column.
+            /// </summary>
+            /// <param name="x">A 0-based column index.</param>
+            /// <returns></returns>
+            public override GpuMat this[int x]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    var matPtr = NativeMethods.gpu_GpuMat_row(parent.ptr, x);
+                    return new GpuMat(matPtr);
+                }
+                set
+                {
+                    parent.ThrowIfDisposed();
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    value.ThrowIfDisposed();
+
+                    var matPtr = NativeMethods.gpu_GpuMat_row(parent.ptr, x);
+                    var mat = new GpuMat(matPtr);
+                    if (mat.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(mat);
+                }
+            }
+
+            /// <summary>
+            /// Creates a matrix header for the specified column span.
+            /// </summary>
+            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
+            /// <returns></returns>
+            public override GpuMat this[int startCol, int endCol]
+            {
+                get
+                {
+                    parent.ThrowIfDisposed();
+                    var matPtr = NativeMethods.gpu_GpuMat_rowRange(parent.ptr, startCol, endCol);
+                    return new GpuMat(matPtr);
+                }
+                set
+                {
+                    parent.ThrowIfDisposed();
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    value.ThrowIfDisposed();
+
+                    var matPtr = NativeMethods.gpu_GpuMat_rowRange(parent.ptr, startCol, endCol);
+                    var mat = new GpuMat(matPtr);
+                    if (mat.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(mat);
+                }
+            }
         }
+
         /// <summary>
-        /// returns a new matrix header for the specified column span
+        /// Indexer to access GpuMat row
         /// </summary>
-        /// <param name="r"></param>
         /// <returns></returns>
-        public GpuMat ColRange(CvSlice r)
+        public RowIndexer Row
         {
-            return ColRange(r.StartIndex, r.EndIndex);
+            get { return rowIndexer ?? (rowIndexer = new RowIndexer(this)); }
+        }
+
+        private RowIndexer rowIndexer;
+
+        #endregion
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Returns the number of matrix channels.
+        /// </summary>
+        /// <returns></returns>
+        public int Channels()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_channels(ptr);
+        }
+
+        /// <summary>
+        /// Returns the depth of a matrix element.
+        /// </summary>
+        /// <returns></returns>
+        public int Depth()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_depth(ptr);
+        }
+
+        /// <summary>
+        /// Returns the matrix element size in bytes.
+        /// </summary>
+        /// <returns></returns>
+        public long ElemSize()
+        {
+            ThrowIfDisposed();
+            return (long)NativeMethods.gpu_GpuMat_elemSize(ptr);
+        }
+
+        /// <summary>
+        /// Returns the size of each matrix element channel in bytes.
+        /// </summary>
+        /// <returns></returns>
+        public long ElemSize1()
+        {
+            ThrowIfDisposed();
+            return (long)NativeMethods.gpu_GpuMat_elemSize1(ptr);
+        }
+
+        /// <summary>
+        /// Returns a matrix size.
+        /// </summary>
+        /// <returns></returns>
+        public Size Size()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_size(ptr);
+        }
+        
+        /// <summary>
+        /// a distance between successive rows in bytes; includes the gap if any
+        /// </summary>
+        public long Step()
+        {
+            ThrowIfDisposed();
+            return (long)NativeMethods.gpu_GpuMat_step(ptr);
+        }
+
+        /// <summary>
+        /// Returns a normalized step.
+        /// </summary>
+        public long Step1()
+        {
+            ThrowIfDisposed();
+            return (long)NativeMethods.gpu_GpuMat_step1(ptr);
+        }
+
+        /// <summary>
+        /// Returns the type of a matrix element.
+        /// </summary>
+        /// <returns></returns>
+        public MatType Type()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_type(ptr);
         }
 
         /// <summary>
@@ -702,11 +991,9 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <returns></returns>
         public GpuMat Clone()
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            GpuMat outValue = new GpuMat();
-            NativeMethods.GpuMat_clone(ptr, outValue.CvPtr);
-            return outValue;
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.gpu_GpuMat_clone(ptr);
+            return new GpuMat(ret);
         }
         object ICloneable.Clone()
         {
@@ -719,12 +1006,12 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="m"></param>
         public void CopyTo(GpuMat m)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
+            ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            NativeMethods.GpuMat_copyTo1(ptr, m.CvPtr);
+            NativeMethods.gpu_GpuMat_copyTo1(ptr, m.CvPtr);
         }
+
         /// <summary>
         /// copies those matrix elements to "m" that are marked with non-zero mask elements.
         /// </summary>
@@ -732,13 +1019,12 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="mask"></param>
         public void CopyTo(GpuMat m, GpuMat mask)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
+            ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
             if (mask == null)
                 throw new ArgumentNullException("mask");
-            NativeMethods.GpuMat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
+            NativeMethods.gpu_GpuMat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
         }
 
         /// <summary>
@@ -749,11 +1035,12 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="alpha"></param>
         /// <param name="beta"></param>
         /// <returns></returns>
-        public void ConvertTo(Mat dst, MatrixType rtype, double alpha = 1, double beta = 0)
+        public void ConvertTo(GpuMat dst, MatType rtype, double alpha = 1, double beta = 0)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            NativeMethods.GpuMat_convertTo(ptr, dst.CvPtr, (int)rtype, alpha, beta);
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            NativeMethods.gpu_GpuMat_convertTo(ptr, dst.CvPtr, rtype, alpha, beta);
         }
 
         /// <summary>
@@ -762,20 +1049,20 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="m"></param>
         public void AssignTo(GpuMat m)
         {
-            NativeMethods.GpuMat_assignTo(ptr, m.CvPtr, -1);
+            ThrowIfDisposed();
+            NativeMethods.gpu_GpuMat_assignTo(ptr, m.CvPtr, -1);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="m"></param>
         /// <param name="type"></param>
-        public void AssignTo(GpuMat m, MatrixType type)
+        public void AssignTo(GpuMat m, MatType type)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
+            ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            NativeMethods.GpuMat_assignTo(ptr, m.CvPtr, (int)type);
+            NativeMethods.gpu_GpuMat_assignTo(ptr, m.CvPtr, type);
         }
 
         /// <summary>
@@ -784,14 +1071,11 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="s"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public GpuMat SetTo(CvScalar s, GpuMat mask = null)
+        public GpuMat SetTo(Scalar s, GpuMat mask = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            GpuMat dst = new GpuMat();
-            NativeMethods.GpuMat_setTo(ptr, s, maskPtr, dst.CvPtr);
-            return dst;
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.gpu_GpuMat_setTo(ptr, s, Cv2.ToPtr(mask));
+            return new GpuMat(ret);
         }
 
         /// <summary>
@@ -803,11 +1087,9 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <returns></returns>
         public GpuMat Reshape(int cn, int rows)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            GpuMat outValue = new GpuMat();
-            NativeMethods.GpuMat_reshape(ptr, cn, rows, outValue.CvPtr);
-            return outValue;
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.gpu_GpuMat_reshape(ptr, cn, rows);
+            return new GpuMat(ret);
         }
 
         /// <summary>
@@ -817,48 +1099,36 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="rows"></param>
         /// <param name="cols"></param>
         /// <param name="type"></param>
-        public void Create(int rows, int cols, MatrixType type)
+        public void Create(int rows, int cols, MatType type)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            NativeMethods.GpuMat_create1(ptr, rows, cols, type);
+            ThrowIfDisposed();
+            NativeMethods.gpu_GpuMat_create1(ptr, rows, cols, type);
         }
+
         /// <summary>
         /// allocates new matrix data unless the matrix already has specified size and type.
         /// previous data is unreferenced if needed.
         /// </summary>
         /// <param name="size"></param>
         /// <param name="type"></param>
-        public void Create(CvSize size, MatrixType type)
+        public void Create(Size size, MatType type)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            NativeMethods.GpuMat_create2(ptr, size, type);
+            ThrowIfDisposed();
+            NativeMethods.gpu_GpuMat_create2(ptr, size, type);
         }
-        /*
-        /// <summary>
-        /// decreases reference counter;
-        /// deallocate the data when reference counter reaches 0.
-        /// </summary>
-        public void Release()
-        {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            CppInvoke.gpu_GpuMat_release(ptr);
-        }
-        //*/
+
         /// <summary>
         /// swaps with other smart pointer
         /// </summary>
         /// <param name="mat"></param>
         public void Swap(GpuMat mat)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
+            ThrowIfDisposed();
             if (mat == null)
                 throw new ArgumentNullException("mat");
-            NativeMethods.GpuMat_swap(ptr, mat.CvPtr);
+            NativeMethods.gpu_GpuMat_swap(ptr, mat.CvPtr);
         }
+
         /// <summary>
         /// locates matrix header within a parent matrix.
         /// </summary>
@@ -866,9 +1136,8 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="ofs"></param>
         public void LocateROI(out CvSize wholeSize, out CvPoint ofs)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            NativeMethods.GpuMat_locateROI(ptr, out wholeSize, out ofs);
+            ThrowIfDisposed();
+            NativeMethods.gpu_GpuMat_locateROI(ptr, out wholeSize, out ofs);
         }
 
         /// <summary>
@@ -881,104 +1150,45 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <returns></returns>
         public GpuMat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            GpuMat dst = new GpuMat();
-            NativeMethods.GpuMat_adjustROI(ptr, dtop, dbottom, dleft, dright, dst.CvPtr);
-            return dst;
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.gpu_GpuMat_adjustROI(ptr, dtop, dbottom, dleft, dright);
+            return new GpuMat(ret);
         }
 
         /// <summary>
-        /// matrix transposition by means of matrix expressions
-        /// </summary>
-        /// <returns></returns>
-        public GpuMat T()
-        {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            GpuMat dst = new GpuMat();
-            NativeMethods.GpuMat_t(ptr, dst.CvPtr);
-            return dst;
-        }
-
-
-        /// <summary>
-        /// 
+        /// returns true iff the GpuMatrix data is continuous
+        /// (i.e. when there are no gaps between successive rows).
+        /// similar to CV_IS_GpuMat_CONT(cvGpuMat->type)
         /// </summary>
         /// <returns></returns>
         public bool IsContinuous()
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            return NativeMethods.GpuMat_isContinuous(ptr);
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_isContinuous(ptr) != 0;
         }
 
         /// <summary>
-        /// 
+        /// returns true if GpuMatrix data is NULL
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="y"></param>
-        /// <param name="x"></param>
         /// <returns></returns>
-        public T At<T>(int y, int x)
+        public bool Empty()
         {
-            return Get<T>(y, x);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        public T At<T>(CvPoint pt)
-        {
-            return Get<T>(pt.X, pt.Y);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="y"></param>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        public T Get<T>(int y, int x)
-        {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            IntPtr p = new IntPtr(Data.ToInt64() + (long)(Step * (uint)y) + (ElemSize * x)); 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="y"></param>
-        /// <param name="x"></param>
-        /// <param name="value"></param>
-        public void Set<T>(int y, int x, T value)
-        {
-            IntPtr p = new IntPtr(Data.ToInt64() + (long)(Step * (uint)y) + (ElemSize * x)); 
-            /*
-            using (StructurePointer<T> valuePtr = new StructurePointer<T>(value))
-            {
-                Util.CopyMemory(p, valuePtr, Marshal.SizeOf(typeof(T)));
-            }
-            //*/
-            Marshal.StructureToPtr(value, p, false);
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_empty(ptr) != 0;
         }
 
         /// <summary>
-        /// 
+        /// returns pointer to y-th row
         /// </summary>
         /// <param name="y"></param>
         /// <returns></returns>
         public unsafe byte* Ptr(int y = 0)
         {
-            if (disposed)
-                throw new ObjectDisposedException("GpuMat");
-            return NativeMethods.GpuMat_ptr(ptr, y);
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_ptr(ptr, y);
         }
-        #endregion
         #endregion
     }
 }
+
+

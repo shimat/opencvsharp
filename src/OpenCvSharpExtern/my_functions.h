@@ -37,6 +37,10 @@ static inline cv::Mat entity(cv::Mat *obj)
 {
     return (obj != NULL) ? *obj : cv::Mat();
 }
+static inline cv::gpu::GpuMat entity(cv::gpu::GpuMat *obj)
+{
+	return (obj != NULL) ? *obj : cv::gpu::GpuMat();
+}
 
 template <typename T>
 static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
