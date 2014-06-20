@@ -102,7 +102,11 @@
     <Compile Include="modules\flann\FlannDistance.cs" />
     <Compile Include="Cv2\Cv2_gpu.cs" />
     <Compile Include="modules\gpu\DescriptorFormat.cs" />
+    <Compile Include="modules\gpu\DeviceInfo.cs" />
+    <Compile Include="modules\gpu\Enum\FeatureSet.cs" />
     <Compile Include="modules\gpu\GpuMat.cs" />
+    <Compile Include="modules\gpu\GpuMatIndexer.cs" />
+    <Compile Include="modules\gpu\GpuMatRowColIndexer.cs" />
     <Compile Include="modules\gpu\HOGDescriptor.cs" />
     <Compile Include="modules\gpu\StereoBM_GPU.cs" />
     <Compile Include="modules\ml\Class\CvDTreeNode.cs" />

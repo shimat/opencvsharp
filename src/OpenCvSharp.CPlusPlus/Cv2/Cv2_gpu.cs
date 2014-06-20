@@ -64,99 +64,32 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.gpu_getDevice();
         }
 
-/*
-#if LANG_JP
         /// <summary>
-        /// 
+        /// Explicitly destroys and cleans up all resources associated with the current device in the current process.
+        /// Any subsequent API call to this device will reinitialize the device.
         /// </summary>
-        /// <param name="device"></param>
-#else
-        /// <summary>
-        /// 現在のデバイスインデックスを返します．
-        /// これは，{gpu::getDevice} によって設定された，またはデフォルトで初期化されたデバイスです．
-        /// </summary>
-        /// <param name="device"></param>
-#endif
-        public static string GetDeviceName(int device)
+        public static void ResetDevice()
         {
-            StringBuilder buffer = new StringBuilder(256);
-            GpuInvoke.getDeviceName(device, buffer);
-            return buffer.ToString();
+            NativeMethods.gpu_resetDevice();
         }
 
-#if LANG_JP
         /// <summary>
         /// 
         /// </summary>
         /// <param name="device"></param>
-        /// <param name="major"></param>
-        /// <param name="minor"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="major"></param>
-        /// <param name="minor"></param>
-#endif
-        public static void GetComputeCapability(int device, out int major, out int minor)
+        public static void PrintCudaDeviceInfo(int device)
         {
-            GpuInvoke.getComputeCapability(device, out major, out minor);
-        }
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-       /// <param name="free"></param>
-        /// <param name="total"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="free"></param>
-        /// <param name="total"></param>
-#endif
-        public static void GetGpuMemInfo(out ulong free, out ulong total)
-        {
-            GpuInvoke.getGpuMemInfo(out free, out total);
+            NativeMethods.gpu_printCudaDeviceInfo(device);
         }
 
-
-#if LANG_JP
         /// <summary>
         /// 
         /// </summary>
         /// <param name="device"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <returns></returns>
-#endif
-        public static bool HasNativeDoubleSupport(int device)
+        public static void PrintShortCudaDeviceInfo(int device)
         {
-            return GpuInvoke.hasNativeDoubleSupport(device) != 0;
+            NativeMethods.gpu_printShortCudaDeviceInfo(device);
         }
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <returns></returns>
-#endif
-        public static bool HasAtomicsSupport(int device)
-        {
-            return GpuInvoke.hasAtomicsSupport(device) != 0;
-        }
-*/
 
         #endregion
     }

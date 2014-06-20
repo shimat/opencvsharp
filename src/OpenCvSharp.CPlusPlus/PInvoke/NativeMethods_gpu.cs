@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 #pragma warning disable 1591
 
@@ -9,6 +10,7 @@ namespace OpenCvSharp.CPlusPlus
 
     static partial class NativeMethods
     {
+        #region Device
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int gpu_getCudaEnabledDeviceCount();
 
@@ -16,7 +18,68 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void gpu_setDevice(int device);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int gpu_getDevice();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_resetDevice();
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_deviceSupports(int feature_set);
+
+        // TargetArchs
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_builtWith(int feature_set);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_has(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasPtx(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasBin(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasEqualOrLessPtx(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasEqualOrGreater(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasEqualOrGreaterPtx(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasEqualOrGreaterBin(int major, int minor);
+
+        // DeviceInfo
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_DeviceInfo_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_DeviceInfo_new2(int deviceId);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_DeviceInfo_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern void gpu_DeviceInfo_name(
+            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf, int bufLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_majorVersion(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_minorVersion(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_multiProcessorCount(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong gpu_DeviceInfo_sharedMemPerBlock(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_DeviceInfo_queryMemory(
+            IntPtr obj, out ulong totalMemory, out ulong freeMemory);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong gpu_DeviceInfo_freeMemory(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong gpu_DeviceInfo_totalMemory(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_supports(IntPtr obj, int featureSet);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_isCompatible(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_deviceID(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_printCudaDeviceInfo(int device);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_printShortCudaDeviceInfo(int device);
+        #endregion
 
         #region HogDescriptor
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
