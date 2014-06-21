@@ -16,6 +16,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// </summary>
         public DeviceInfo()
         {
+            Cv2.ThrowIfGpuNotAvailable();
             ptr = NativeMethods.gpu_DeviceInfo_new1();
         }
 
@@ -25,6 +26,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="deviceId"></param>
         public DeviceInfo(int deviceId)
         {
+            Cv2.ThrowIfGpuNotAvailable();
             ptr = NativeMethods.gpu_DeviceInfo_new2(deviceId);
         }
 

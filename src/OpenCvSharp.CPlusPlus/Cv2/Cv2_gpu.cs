@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using OpenCvSharp.CPlusPlus.Gpu;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -41,6 +42,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static int GetDevice()
         {
+            ThrowIfGpuNotAvailable();
             return NativeMethods.gpu_getDevice();
         }
 
@@ -61,6 +63,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static int SetDevice(int device)
         {
+            ThrowIfGpuNotAvailable();
             return NativeMethods.gpu_getDevice();
         }
 
@@ -70,6 +73,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public static void ResetDevice()
         {
+            ThrowIfGpuNotAvailable();
             NativeMethods.gpu_resetDevice();
         }
 
@@ -79,6 +83,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="device"></param>
         public static void PrintCudaDeviceInfo(int device)
         {
+            ThrowIfGpuNotAvailable();
             NativeMethods.gpu_printCudaDeviceInfo(device);
         }
 
@@ -88,9 +93,147 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="device"></param>
         public static void PrintShortCudaDeviceInfo(int device)
         {
+            ThrowIfGpuNotAvailable();
             NativeMethods.gpu_printShortCudaDeviceInfo(device);
         }
 
         #endregion
+
+        #region CudaMem
+        /// <summary>
+        /// Page-locks the matrix m memory and maps it for the device(s)
+        /// </summary>
+        /// <param name="m"></param>
+        public static void RegisterPageLocked(Mat m)
+        {
+            ThrowIfGpuNotAvailable();
+            if (m == null) 
+                throw new ArgumentNullException("m");
+            NativeMethods.gpu_registerPageLocked(m.CvPtr);
+        }
+
+        /// <summary>
+        /// Unmaps the memory of matrix m, and makes it pageable again.
+        /// </summary>
+        /// <param name="m"></param>
+        public static void UnregisterPageLocked(Mat m)
+        {
+            ThrowIfGpuNotAvailable();
+            if (m == null) 
+                throw new ArgumentNullException("m");
+            NativeMethods.gpu_unregisterPageLocked(m.CvPtr);
+        }
+        #endregion
+
+        #region GpuMat
+
+        /// <summary>
+        /// Creates continuous GPU matrix
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type.</param>
+        /// <param name="m"></param>
+        public static void CreateContinuous(int rows, int cols, MatType type, GpuMat m)
+        {
+            ThrowIfGpuNotAvailable();
+            if (m == null)
+                throw new ArgumentNullException("m");
+            NativeMethods.gpu_createContinuous1(rows, cols, type, m.CvPtr);
+        }
+
+        /// <summary>
+        /// Creates continuous GPU matrix
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type.</param>
+        /// <returns></returns>
+        public static GpuMat CreateContinuous(int rows, int cols, MatType type)
+        {
+            ThrowIfGpuNotAvailable();
+            IntPtr ret = NativeMethods.gpu_createContinuous2(rows, cols, type);
+            return new GpuMat(ret);
+        }
+
+        /// <summary>
+        /// Creates continuous GPU matrix
+        /// </summary>
+        /// <param name="size">Number of rows and columns in a 2D array.</param>
+        /// <param name="type">Array type.</param>
+        /// <param name="m"></param>
+        public static void CreateContinuous(Size size, MatType type, GpuMat m)
+        {
+            ThrowIfGpuNotAvailable();
+            CreateContinuous(size.Height, size.Width, type, m);
+        }
+
+        /// <summary>
+        /// Creates continuous GPU matrix
+        /// </summary>
+        /// <param name="size">Number of rows and columns in a 2D array.</param>
+        /// <param name="type">Array type.</param>
+        /// <returns></returns>
+        public static GpuMat CreateContinuous(Size size, MatType type)
+        {
+            ThrowIfGpuNotAvailable();
+            return CreateContinuous(size.Height, size.Width, type);
+        }
+
+        /// <summary>
+        /// Ensures that size of the given matrix is not less than (rows, cols) size
+        /// and matrix type is match specified one too
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type.</param>
+        /// <param name="m"></param>
+        public static void EnsureSizeIsEnough(int rows, int cols, MatType type, GpuMat m)
+        {
+            ThrowIfGpuNotAvailable();
+            if (m == null)
+                throw new ArgumentNullException("m");
+            NativeMethods.gpu_ensureSizeIsEnough(rows, cols, type, m.CvPtr);
+        }
+        /// <summary>
+        /// Ensures that size of the given matrix is not less than (rows, cols) size
+        /// and matrix type is match specified one too
+        /// </summary>
+        /// <param name="size">Number of rows and columns in a 2D array.</param>
+        /// <param name="type">Array type.</param>
+        /// <param name="m"></param>
+        public static void EnsureSizeIsEnough(Size size, MatType type, GpuMat m)
+        {
+            ThrowIfGpuNotAvailable();
+            EnsureSizeIsEnough(size.Height, size.Width, type, m);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type.</param>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static GpuMat AllocMatFromBuf(int rows, int cols, MatType type, GpuMat mat)
+        {
+            ThrowIfGpuNotAvailable();
+            if (mat == null)
+                throw new ArgumentNullException("mat");
+            IntPtr ret = NativeMethods.gpu_allocMatFromBuf(rows, cols, type, mat.CvPtr);
+            return new GpuMat(ret);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void ThrowIfGpuNotAvailable()
+        {
+            if (GetCudaEnabledDeviceCount() < 1)
+                throw new OpenCvSharpException("GPU module cannot be used.");
+        }
     }
 }

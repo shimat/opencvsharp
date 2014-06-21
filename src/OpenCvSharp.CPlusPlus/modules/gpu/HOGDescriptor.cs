@@ -963,6 +963,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             bool gammaCorrection = true, 
             int nlevels = DefaultNlevels)
         {
+            Cv2.ThrowIfGpuNotAvailable();
             Size winSize0 = winSize.GetValueOrDefault(new Size(64, 128));
             Size blockSize0 = blockSize.GetValueOrDefault(new Size(16, 16));
             Size blockStride0 = blockStride.GetValueOrDefault(new Size(8, 8));

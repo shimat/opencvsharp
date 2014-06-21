@@ -101,9 +101,11 @@
     <Compile Include="modules\features2d\IDescriptorExtractor.cs" />
     <Compile Include="modules\flann\FlannDistance.cs" />
     <Compile Include="Cv2\Cv2_gpu.cs" />
+    <Compile Include="modules\gpu\Enum\CudaMemAllocType.cs" />
     <Compile Include="modules\gpu\DescriptorFormat.cs" />
     <Compile Include="modules\gpu\DeviceInfo.cs" />
     <Compile Include="modules\gpu\Enum\FeatureSet.cs" />
+    <Compile Include="modules\gpu\CudaMem.cs" />
     <Compile Include="modules\gpu\GpuMat.cs" />
     <Compile Include="modules\gpu\GpuMatIndexer.cs" />
     <Compile Include="modules\gpu\GpuMatRowColIndexer.cs" />

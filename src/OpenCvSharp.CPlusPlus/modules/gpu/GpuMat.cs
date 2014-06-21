@@ -22,6 +22,15 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         private bool disposed;
 
         #region Init and Disposal
+
+        private void ThrowIfNotAvailable()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (Cv2.GetCudaEnabledDeviceCount() < 1)
+                throw new OpenCvSharpException("GPU module cannot be used.");
+        }
+
         #region Constructor
 
 #if LANG_JP
@@ -37,6 +46,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(IntPtr ptr)
         {
+            ThrowIfNotAvailable();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
             this.ptr = ptr;
@@ -53,6 +63,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat()
         {
+            ThrowIfNotAvailable();
             ptr = NativeMethods.gpu_GpuMat_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -77,6 +88,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(int rows, int cols, MatType type)
         {
+            ThrowIfNotAvailable();
             if (rows <= 0)
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
@@ -120,6 +132,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(int rows, int cols, MatType type, IntPtr data, long step)
         {
+            ThrowIfNotAvailable();
             if (rows <= 0)
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
@@ -146,6 +159,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(Size size, MatType type)
         {
+            ThrowIfNotAvailable();
             ptr = NativeMethods.gpu_GpuMat_new6(size, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -183,6 +197,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(Size size, MatType type, IntPtr data, long step = 0)
         {
+            ThrowIfNotAvailable();
             ptr = NativeMethods.gpu_GpuMat_new7(size, type, data, (ulong)step);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -201,6 +216,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(Mat m)
         {
+            ThrowIfNotAvailable();
             if (m == null)
                 throw new ArgumentNullException("m");
             ptr = NativeMethods.gpu_GpuMat_new4(m.CvPtr);
@@ -221,6 +237,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(GpuMat m)
         {
+            ThrowIfNotAvailable();
             if (m == null)
                 throw new ArgumentNullException("m");
             ptr = NativeMethods.gpu_GpuMat_new5(m.CvPtr);
@@ -251,6 +268,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(int rows, int cols, MatType type, Scalar s)
         {
+            ThrowIfNotAvailable();
             if (rows <= 0)
                 throw new ArgumentOutOfRangeException("rows");
             if (cols <= 0)
@@ -281,6 +299,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(Size size, MatType type, Scalar s)
         {
+            ThrowIfNotAvailable();
             ptr = NativeMethods.gpu_GpuMat_new11(size, type, s);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -304,6 +323,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(GpuMat m, Range rowRange, Range colRange)
         {
+            ThrowIfNotAvailable();
             if (m == null)
                 throw new ArgumentNullException("m");
             ptr = NativeMethods.gpu_GpuMat_new9(m.CvPtr, rowRange, colRange);
@@ -326,6 +346,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public GpuMat(GpuMat m, Rect roi)
         {
+            ThrowIfNotAvailable();
             if (m == null)
                 throw new ArgumentNullException("m");
             ptr = NativeMethods.gpu_GpuMat_new10(m.CvPtr, roi);
@@ -389,7 +410,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         #endregion
         #endregion
 
-        #region Operators
         #region Cast
         /// <summary>
         /// converts header to GpuMat
@@ -418,54 +438,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             IntPtr ret = NativeMethods.gpu_GpuMat_opToMat(gpumat.CvPtr);
             return new Mat(ret);
         }
-        #endregion
-
-        #region Indexer
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="roi"></param>
-        /// <returns></returns>
-        public virtual GpuMat this[Rect roi]
-        {
-            get
-            {
-                IntPtr ret = NativeMethods.gpu_GpuMat_opRange1(ptr, roi);
-                return new GpuMat(ret);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rowRange"></param>
-        /// <param name="colRange"></param>
-        /// <returns></returns>
-        public virtual GpuMat this[Range rowRange, Range colRange]
-        {
-            get
-            {
-                IntPtr ret = NativeMethods.gpu_GpuMat_opRange2(ptr, rowRange, colRange);
-                return new GpuMat(ret);
-            }
-        }
-
-        /// <summary>
-        /// Extracts a rectangular submatrix.
-        /// </summary>
-        /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
-        /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
-        /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
-        /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
-        /// <returns></returns>
-        public GpuMat this[int rowStart, int rowEnd, int colStart, int colEnd]
-        {
-            get
-            {
-                return this[new Range(rowStart, rowEnd), new Range(colStart, colEnd)];
-            }
-        }
-        #endregion
         #endregion
 
         #region Properties
@@ -596,6 +568,53 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         #endregion
 
         #region Indexers
+        #region Range Indexer
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="roi"></param>
+        /// <returns></returns>
+        public virtual GpuMat this[Rect roi]
+        {
+            get
+            {
+                IntPtr ret = NativeMethods.gpu_GpuMat_opRange1(ptr, roi);
+                return new GpuMat(ret);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rowRange"></param>
+        /// <param name="colRange"></param>
+        /// <returns></returns>
+        public virtual GpuMat this[Range rowRange, Range colRange]
+        {
+            get
+            {
+                IntPtr ret = NativeMethods.gpu_GpuMat_opRange2(ptr, rowRange, colRange);
+                return new GpuMat(ret);
+            }
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
+        /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
+        /// <returns></returns>
+        public GpuMat this[int rowStart, int rowEnd, int colStart, int colEnd]
+        {
+            get
+            {
+                return this[new Range(rowStart, rowEnd), new Range(colStart, colEnd)];
+            }
+        }
+        #endregion
+
         #region Element Indexer
 
         /// <summary>
@@ -906,6 +925,18 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         #endregion
 
         #region Public methods
+        
+        /// <summary>
+        /// returns true iff the GpuMatrix data is continuous
+        /// (i.e. when there are no gaps between successive rows).
+        /// similar to CV_IS_GpuMat_CONT(cvGpuMat->type)
+        /// </summary>
+        /// <returns></returns>
+        public bool IsContinuous()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_isContinuous(ptr) != 0;
+        }
 
         /// <summary>
         /// Returns the number of matrix channels.
@@ -985,6 +1016,16 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             return NativeMethods.gpu_GpuMat_type(ptr);
         }
 
+        /// <summary>
+        /// returns true if GpuMatrix data is NULL
+        /// </summary>
+        /// <returns></returns>
+        public bool Empty()
+        {
+            ThrowIfDisposed();
+            return NativeMethods.gpu_GpuMat_empty(ptr) != 0;
+        }
+        
         /// <summary>
         /// returns deep copy of the matrix, i.e. the data is copied
         /// </summary>
@@ -1096,9 +1137,9 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// allocates new matrix data unless the matrix already has specified size and type.
         /// previous data is unreferenced if needed.
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="type"></param>
+        /// <param name="rows">Number of rows in a 2D array.</param>
+        /// <param name="cols">Number of columns in a 2D array.</param>
+        /// <param name="type">Array type. </param>
         public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
@@ -1109,8 +1150,8 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// allocates new matrix data unless the matrix already has specified size and type.
         /// previous data is unreferenced if needed.
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
+        /// <param name="size">2D array size: Size(cols, rows) </param>
+        /// <param name="type">Array type. </param>
         public void Create(Size size, MatType type)
         {
             ThrowIfDisposed();
@@ -1153,28 +1194,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             ThrowIfDisposed();
             IntPtr ret = NativeMethods.gpu_GpuMat_adjustROI(ptr, dtop, dbottom, dleft, dright);
             return new GpuMat(ret);
-        }
-
-        /// <summary>
-        /// returns true iff the GpuMatrix data is continuous
-        /// (i.e. when there are no gaps between successive rows).
-        /// similar to CV_IS_GpuMat_CONT(cvGpuMat->type)
-        /// </summary>
-        /// <returns></returns>
-        public bool IsContinuous()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.gpu_GpuMat_isContinuous(ptr) != 0;
-        }
-
-        /// <summary>
-        /// returns true if GpuMatrix data is NULL
-        /// </summary>
-        /// <returns></returns>
-        public bool Empty()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.gpu_GpuMat_empty(ptr) != 0;
         }
 
         /// <summary>

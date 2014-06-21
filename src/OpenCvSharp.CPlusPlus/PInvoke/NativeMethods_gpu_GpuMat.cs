@@ -136,5 +136,20 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe byte* gpu_GpuMat_ptr(IntPtr obj, int y);
         #endregion
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_createContinuous1(
+            int rows, int cols, int type, IntPtr gm);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_createContinuous2(
+            int rows, int cols, int type);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ensureSizeIsEnough(
+            int rows, int cols, int type, IntPtr m);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_allocMatFromBuf(
+            int rows, int cols, int type, IntPtr mat);
     }
 }

@@ -1,3 +1,7 @@
+#if WIN32
+#pragma once
+#endif
+
 #ifndef _CPP_CALIB3D_H_
 #define _CPP_CALIB3D_H_
 
