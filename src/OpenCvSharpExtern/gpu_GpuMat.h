@@ -1,3 +1,7 @@
+#if WIN32
+#pragma once
+#endif
+
 #ifndef _CPP_GPU_GPUMAT_H_
 #define _CPP_GPU_GPUMAT_H_
 
@@ -262,5 +266,30 @@ CVAPI(const uchar*) gpu_GpuMat_ptr(const GpuMat* obj, int y)
 }
 
 #pragma endregion
+
+//! Creates continuous GPU matrix
+CVAPI(void) gpu_createContinuous1(int rows, int cols, int type, GpuMat *gm)
+{
+	createContinuous(rows, cols, type, *gm);
+}
+CVAPI(GpuMat*) gpu_createContinuous2(int rows, int cols, int type)
+{
+	GpuMat gm = createContinuous(rows, cols, type);
+	return new GpuMat(gm);
+}
+
+//! Ensures that size of the given matrix is not less than (rows, cols) size
+//! and matrix type is match specified one too
+CVAPI(void) gpu_ensureSizeIsEnough(int rows, int cols, int type, GpuMat *m)
+{
+	ensureSizeIsEnough(rows, cols, type, *m);
+}
+
+CVAPI(GpuMat*) gpu_allocMatFromBuf(int rows, int cols, int type, GpuMat *mat)
+{
+	GpuMat gm = allocMatFromBuf(rows, cols, type, *mat);
+	return new GpuMat(gm);
+}
+
 
 #endif
