@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.CPlusPlus.Gpu;
 
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
     /// Proxy datatype for passing Mat's and vector&lt;&gt;'s as input parameters
     /// </summary>
-    public partial class InputArray : DisposableCvObject
+    public class InputArray : DisposableCvObject
     {
         private bool disposed;
-        private Mat mat;
+        private object obj;
 
         #region Init & Disposal
         /// <summary>
@@ -19,8 +20,9 @@ namespace OpenCvSharp.CPlusPlus
         internal InputArray(IntPtr ptr)
         {
             this.ptr = ptr;
-            this.mat = null;
+            this.obj = null;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -29,9 +31,10 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(mat == null)
                 throw new ArgumentNullException("mat");
-            this.ptr = NativeMethods.core_InputArray_new_byMat(mat.CvPtr);
-            this.mat = mat;
+            ptr = NativeMethods.core_InputArray_new_byMat(mat.CvPtr);
+            obj = mat;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -40,24 +43,38 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (expr == null)
                 throw new ArgumentNullException("expr");
-            this.ptr = NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr);
-            this.mat = null;
+            ptr = NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr);
+            obj = null;
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
         internal InputArray(Scalar val)
         {
-            this.ptr = NativeMethods.core_InputArray_new_byScalar(val);
+            ptr = NativeMethods.core_InputArray_new_byScalar(val);
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
         internal InputArray(double val)
         {
-            this.ptr = NativeMethods.core_InputArray_new_byDouble(val);
+            ptr = NativeMethods.core_InputArray_new_byDouble(val);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        internal InputArray(GpuMat mat)
+        {
+            if (mat == null)
+                throw new ArgumentNullException("mat");
+            ptr = NativeMethods.core_InputArray_new_byGpuMat(mat.CvPtr);
+            obj = mat;
         }
 
         /// <summary>
@@ -78,7 +95,7 @@ namespace OpenCvSharp.CPlusPlus
                         NativeMethods.core_InputArray_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
-                    mat = null;
+                    obj = null;
                     disposed = true;
                 }
                 finally
@@ -99,6 +116,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Create(mat);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -108,6 +126,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Create(expr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -117,6 +136,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Create(val);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -125,6 +145,16 @@ namespace OpenCvSharp.CPlusPlus
         public static implicit operator InputArray(double val)
         {
             return Create(val);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static implicit operator InputArray(GpuMat mat)
+        {
+            return Create(mat);
         }
         #endregion
 
@@ -182,6 +212,16 @@ namespace OpenCvSharp.CPlusPlus
         public static InputArray Create(double val)
         {
             return new InputArray(val);
+        }
+
+        /// <summary>
+        /// Creates a proxy class of the specified GpuMat
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static InputArray Create(GpuMat mat)
+        {
+            return new InputArray(mat);
         }
 
         /// <summary>

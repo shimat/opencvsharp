@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCvSharp.Blob;
 using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.CPlusPlus.Gpu;
 using OpenCvSharp.Extensions;
 using Rect = OpenCvSharp.CPlusPlus.Rect;
 using Size = OpenCvSharp.CPlusPlus.Size;
@@ -25,7 +26,7 @@ namespace OpenCvSharp.Sandbox
         private static void Main(string[] args)
         {
             //Track();
-            //Run();
+            Run();
         }
 
         private static void Track()
@@ -103,8 +104,6 @@ namespace OpenCvSharp.Sandbox
         {
             var dm = DescriptorMatcher.Create("BruteForce");
             dm.Clear();
-
-            Console.WriteLine(Cv2.GetCudaEnabledDeviceCount());
 
             string[] algoNames = Algorithm.GetList();
             Console.WriteLine(String.Join("\n", algoNames));

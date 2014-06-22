@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
     /// <summary>
     /// Gives information about the given GPU
     /// </summary>
-    public sealed class DeviceInfo : DisposableCvObject
+    public sealed class DeviceInfo : DisposableGpuObject
     {
         private bool disposed;
 
@@ -16,7 +16,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// </summary>
         public DeviceInfo()
         {
-            Cv2.ThrowIfGpuNotAvailable();
+            Cv2Gpu.ThrowIfGpuNotAvailable();
             ptr = NativeMethods.gpu_DeviceInfo_new1();
         }
 
@@ -26,7 +26,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="deviceId"></param>
         public DeviceInfo(int deviceId)
         {
-            Cv2.ThrowIfGpuNotAvailable();
+            Cv2Gpu.ThrowIfGpuNotAvailable();
             ptr = NativeMethods.gpu_DeviceInfo_new2(deviceId);
         }
 

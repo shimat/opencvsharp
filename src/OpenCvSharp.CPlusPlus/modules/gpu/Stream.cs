@@ -4,6 +4,12 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus.Gpu
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="status"></param>
+    /// <param name="userData"></param>
     public delegate void StreamCallback(Stream stream, int status, object userData);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void StreamCallbackInternal(IntPtr stream, int status, IntPtr userData);
@@ -17,7 +23,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
     /// Encapculates Cuda Stream. Provides interface for async coping.
     /// </summary>
 #endif
-    public sealed class Stream : DisposableCvObject
+    public sealed class Stream : DisposableGpuObject
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -28,16 +34,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         private GCHandle userDataHandle;
 
         #region Init and Disposal
-
-        private void ThrowIfNotAvailable()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            if (Cv2.GetCudaEnabledDeviceCount() < 1)
-                throw new OpenCvSharpException("GPU module cannot be used.");
-        }
-
-        #region Constructor
 
 #if LANG_JP
     /// <summary>
@@ -79,9 +75,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             ptr = NativeMethods.gpu_Stream_new2(m.CvPtr);
         }
 
-        #endregion
-
-        #region Dispose
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -137,7 +130,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                 }
             }
         }
-        #endregion
+
         #endregion
 
         /// <summary>
@@ -226,7 +219,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         }
 
         /// <summary>
-        /// Uploads asynchronously
+        /// Uploads asynchronously.
         /// Warning! cv::Mat must point to page locked memory (i.e. to CudaMem data or to its ROI)
         /// </summary>
         /// <param name="src"></param>
@@ -245,7 +238,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         }
 
         /// <summary>
-        /// Uploads asynchronously
+        /// Uploads asynchronously.
         /// Warning! cv::Mat must point to page locked memory (i.e. to CudaMem data or to its ROI)
         /// </summary>
         /// <param name="src"></param>

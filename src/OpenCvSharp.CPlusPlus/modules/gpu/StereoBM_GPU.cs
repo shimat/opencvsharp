@@ -55,7 +55,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public StereoBM_GPU()
         {
-            Cv2.ThrowIfGpuNotAvailable();
+            Cv2Gpu.ThrowIfGpuNotAvailable();
             ptr = NativeMethods.gpu_StereoBM_GPU_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -78,7 +78,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 #endif
         public StereoBM_GPU(int preset, int ndisparities = DEFAULT_NDISP, int winSize = DEFAULT_WINSZ)
         {
-            Cv2.ThrowIfGpuNotAvailable();
+            Cv2Gpu.ThrowIfGpuNotAvailable();
             ptr = NativeMethods.gpu_StereoBM_GPU_new2(preset, ndisparities, winSize);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();

@@ -11,7 +11,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
     /// CudaMem is limited cv::Mat with page locked memory allocation.
     /// </summary>
 #endif
-    public sealed class CudaMem : DisposableCvObject, ICloneable
+    public sealed class CudaMem : DisposableGpuObject, ICloneable
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,16 +19,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         private bool disposed;
 
         #region Init and Disposal
-
-        private void ThrowIfNotAvailable()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            if (Cv2.GetCudaEnabledDeviceCount() < 1)
-                throw new OpenCvSharpException("GPU module cannot be used.");
-        }
-
-        #region Constructor
 
 #if LANG_JP
     /// <summary>
@@ -95,9 +85,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             : this(size.Height, size.Width, type, allocType)
         {            
         }
-        #endregion
 
-        #region Dispose
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -149,7 +137,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                 }
             }
         }
-        #endregion
+
         #endregion
 
         #region Cast

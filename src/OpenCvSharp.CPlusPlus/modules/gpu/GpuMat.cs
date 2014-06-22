@@ -27,7 +27,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
-            if (Cv2.GetCudaEnabledDeviceCount() < 1)
+            if (Cv2Gpu.GetCudaEnabledDeviceCount() < 1)
                 throw new OpenCvSharpException("GPU module cannot be used.");
         }
 
@@ -1027,6 +1027,26 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         }
         
         /// <summary>
+        /// Pefroms blocking upload data to GpuMat.
+        /// </summary>
+        /// <param name="m"></param>
+        public void Upload(Mat m)
+        {
+            ThrowIfDisposed();
+            NativeMethods.gpu_GpuMat_upload(ptr, m.CvPtr);
+        }
+
+        /// <summary>
+        /// Downloads data from device to host memory. Blocking calls.
+        /// </summary>
+        /// <param name="m"></param>
+        public void Download(Mat m)
+        {
+            ThrowIfDisposed();
+            NativeMethods.gpu_GpuMat_download(ptr, m.CvPtr);
+        }
+
+        /// <summary>
         /// returns deep copy of the matrix, i.e. the data is copied
         /// </summary>
         /// <returns></returns>
@@ -1206,6 +1226,21 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             ThrowIfDisposed();
             return NativeMethods.gpu_GpuMat_ptr(ptr, y);
         }
+
+        /// <summary>
+        /// Returns a string that represents this Mat.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "Mat [ " +
+                   Rows + "*" + Cols + "*" + Type().ToString() +
+                   ", IsContinuous=" + IsContinuous() +
+                   ", Ptr=0x" + Convert.ToString(ptr.ToInt64(), 16) +
+                   ", Data=0x" + Convert.ToString(Data.ToInt64(), 16) +
+                   " ]";
+        }
+
         #endregion
     }
 }

@@ -41,14 +41,13 @@ static inline cv::gpu::GpuMat entity(cv::gpu::GpuMat *obj)
 {
 	return (obj != NULL) ? *obj : cv::gpu::GpuMat();
 }
+static inline cv::gpu::Stream entity(cv::gpu::Stream *obj)
+{
+	return (obj != NULL) ? *obj : cv::gpu::Stream::Null();
+}
 
 template <typename T>
 static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
-{
-    return new cv::Ptr<T>(ptr);
-}
-template <typename T>
-static inline cv::Ptr<T> *wrap(T *ptr)
 {
     return new cv::Ptr<T>(ptr);
 }

@@ -101,6 +101,8 @@
     <Compile Include="modules\features2d\IDescriptorExtractor.cs" />
     <Compile Include="modules\flann\FlannDistance.cs" />
     <Compile Include="Cv2\Cv2_gpu.cs" />
+    <Compile Include="modules\gpu\DisposableGpuObject.cs" />
+    <Compile Include="modules\gpu\Stream.cs" />
     <Compile Include="modules\gpu\Enum\CudaMemAllocType.cs" />
     <Compile Include="modules\gpu\DescriptorFormat.cs" />
     <Compile Include="modules\gpu\DeviceInfo.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvERTrees.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvRTrees.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvNormalBayesClassifier.cs" />
+    <Compile Include="PInvoke\NativeMethods_gpu_CvMethods.cs" />
     <Compile Include="PInvoke\NativeMethods_gpu_GpuMat.cs" />
     <Compile Include="PInvoke\NativeMethods_gpu.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d_DescriptorMatcher.cs" />
