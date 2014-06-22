@@ -210,6 +210,9 @@
     <ClInclude Include="video_background_segm.h">
       <Filter>Header Files\video</Filter>
     </ClInclude>
+    <ClInclude Include="gpu_CvMethods.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
