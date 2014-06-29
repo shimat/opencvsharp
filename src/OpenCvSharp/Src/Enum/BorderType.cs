@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Type of the border to create around the copied source image rectangle
     /// </summary>
 #endif
-    public enum BorderType : int
+    public enum BorderType 
     {
 #if LANG_JP
 		/// <summary>
@@ -25,7 +25,6 @@ namespace OpenCvSharp
 #endif
         Constant = CvConst.IPL_BORDER_CONSTANT,
 
-
 #if LANG_JP
 		/// <summary>
 		/// 画像の最も上/下の行と最も左/右の列（画像領域の一番外側の値）を用いて境界線を生成する．
@@ -39,60 +38,34 @@ namespace OpenCvSharp
 #endif
         Replicate = CvConst.IPL_BORDER_REPLICATE,
 
-
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [IPL_BORDER_REFLECT]
-		/// </summary>
-#else
         /// <summary>
-        /// 
         /// [IPL_BORDER_REFLECT]
         /// </summary>
-#endif
         Reflict = CvConst.IPL_BORDER_REFLECT,
 
-
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [IPL_BORDER_REFLECT_101]
-		/// </summary>
-#else
         /// <summary>
-        /// 
         /// [IPL_BORDER_REFLECT_101]
         /// </summary>
-#endif
         Reflict101 = CvConst.IPL_BORDER_REFLECT_101,
 
-
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [IPL_BORDER_WRAP]
-		/// </summary>
-#else
         /// <summary>
-        /// 
         /// [IPL_BORDER_WRAP]
         /// </summary>
-#endif
         Wrap = CvConst.IPL_BORDER_WRAP,
 
-
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [BORDER_DEFAULT]
-		/// </summary>
-#else
         /// <summary>
-        /// 
         /// [BORDER_DEFAULT]
         /// </summary>
-#endif
         Default = CvConst.IPL_BORDER_DEFAULT,
+
+        /// <summary>
+        /// [cv::BORDER_ISOLATED]
+        /// </summary>
+        Isolated = CvConst.BORDER_ISOLATED,
+
+        /// <summary>
+        /// -1
+        /// </summary>
+        Auto = -1,
     }
 }
