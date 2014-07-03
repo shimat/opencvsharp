@@ -22,7 +22,7 @@ CVAPI(void) highgui_imshow(const char *winname, cv::Mat *mat)
 CVAPI(cv::Mat*) highgui_imread(const char *filename, int flags)
 {
 	cv::Mat ret = cv::imread(filename, flags);
-	return new cv::Mat(ret);
+	return new cv::Mat(ret); 
 }
 CVAPI(int) highgui_imwrite(const char *filename, cv::Mat *img, int *params, int paramsLength)
 {
