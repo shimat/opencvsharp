@@ -311,8 +311,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int Bottom
         {
-            get { return Y + Height; }
-            set { Height = value - Y; }
+            get { return Y + Height - 1; }
         }
 #if LANG_JP
         /// <summary>
@@ -339,8 +338,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public int Right
         {
-            get { return X + Width; }
-            set { Width = value - X; }
+            get { return X + Width - 1; }
         }
 
 #if LANG_JP
@@ -392,10 +390,6 @@ namespace OpenCvSharp.CPlusPlus
         public Point TopLeft
         {
             get { return new Point(X, Y); }
-            set
-            {
-                Location = value;
-            }
         }
 #if LANG_JP
         /// <summary>
@@ -409,11 +403,6 @@ namespace OpenCvSharp.CPlusPlus
         public Point BottomRight
         {
             get { return new Point(X + Width, Y + Height); }
-            set
-            {
-                Width = value.X - X;
-                Height = value.Y - Y;
-            }
         }
         #endregion
 
