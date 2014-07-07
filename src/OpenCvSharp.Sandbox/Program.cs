@@ -5,9 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using OpenCvSharp.Blob;
 using OpenCvSharp.CPlusPlus;
 using OpenCvSharp.CPlusPlus.Gpu;
@@ -25,8 +22,13 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            IplImage img = new IplImage("data/lenna.png");
+            Mat m = Cv2.CvArrToMat(img);
+
+            Window.ShowImages(m);
+
             //Track();
-            Run();
+            //Run();
         }
 
         private static void Track()
@@ -116,7 +118,7 @@ namespace OpenCvSharp.Sandbox
             t.ToString();
             d.ToString();
 
-            var src = new Mat("img/lenna.png");
+            var src = new Mat("data/lenna.png");
             var rand = new Random();
             var memory = new List<long>(100);
 

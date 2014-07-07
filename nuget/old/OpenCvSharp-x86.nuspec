@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>OpenCvSharp-x86</id>
+        <version>2.4.8.20140510</version>
+        <title>OpenCvSharp x86</title>
+        <authors>shimat</authors>
+        <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
+        <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/lenna-icon.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>OpenCV wrapper for .NET Framework</description>
+        <releaseNotes>- Fixed IplImage memory leak
+- Upgraded C++ Compiler (vc100 -&gt; vc110)
+- Fixed crash bugs in x64</releaseNotes>
+        <copyright>Copyright 2008-2014</copyright>
+        <tags>Image Processing OpenCV Wrapper FFI</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework2.0, .NETFramework3.5" />
+            <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework2.0, .NETFramework3.5" />
+            <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework3.5" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework=".NETFramework3.5" />
+            <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework3.5" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="..\lib\vc++\x86\msvcp110.dll" target="Content\msvcp110.dll" />
+        <file src="..\lib\vc++\x86\msvcr110.dll" target="Content\msvcr110.dll" />
+        <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="Content\OpenCvSharpExtern.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_calib3d248.dll" target="Content\opencv_calib3d248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_contrib248.dll" target="Content\opencv_contrib248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_core248.dll" target="Content\opencv_core248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_features2d248.dll" target="Content\opencv_features2d248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_ffmpeg248.dll" target="Content\opencv_ffmpeg248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_flann248.dll" target="Content\opencv_flann248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_gpu248.dll" target="Content\opencv_gpu248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_highgui248.dll" target="Content\opencv_highgui248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_imgproc248.dll" target="Content\opencv_imgproc248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_legacy248.dll" target="Content\opencv_legacy248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_ml248.dll" target="Content\opencv_ml248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_nonfree248.dll" target="Content\opencv_nonfree248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_objdetect248.dll" target="Content\opencv_objdetect248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_ocl248.dll" target="Content\opencv_ocl248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_photo248.dll" target="Content\opencv_photo248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_stitching248.dll" target="Content\opencv_stitching248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_superres248.dll" target="Content\opencv_superres248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_video248.dll" target="Content\opencv_video248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_videostab248.dll" target="Content\opencv_videostab248.dll" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net20\OpenCvSharp.CPlusPlus.dll" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net20\OpenCvSharp.CPlusPlus.dll.config" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net20\OpenCvSharp.dll" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net20\OpenCvSharp.dll.config" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net20\OpenCvSharp.UserInterface.dll" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net35\OpenCvSharp.Blob.dll" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net35\OpenCvSharp.Blob.dll.config" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net35\OpenCvSharp.CPlusPlus.dll" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net35\OpenCvSharp.CPlusPlus.dll.config" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net35\OpenCvSharp.dll" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net35\OpenCvSharp.dll.config" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net35\OpenCvSharp.Extensions.dll" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net35\OpenCvSharp.UserInterface.dll" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net40\OpenCvSharp.Blob.dll" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net40\OpenCvSharp.Blob.dll.config" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net40\OpenCvSharp.CPlusPlus.dll" />
+        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net40\OpenCvSharp.CPlusPlus.dll.config" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net40\OpenCvSharp.dll" />
+        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net40\OpenCvSharp.dll.config" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net40\OpenCvSharp.Extensions.dll" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net40\OpenCvSharp.UserInterface.dll" />
+        <file src="tools-x86\init.ps1" target="tools\init.ps1" />
+        <file src="tools-x86\install.ps1" target="tools\install.ps1" />
+        <file src="tools-x86\uninstall.ps1" target="tools\uninstall.ps1" />
+    </files>
+</package>
