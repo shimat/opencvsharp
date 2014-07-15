@@ -1439,10 +1439,12 @@ namespace OpenCvSharp.CPlusPlus
                 if (Dims() != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
 
-                Mat sub = SubMat(rowStart, rowEnd, colStart, colEnd);
-                if (sub.Size() != value.Size())
-                    throw new ArgumentException("Specified ROI != mat.Size()");
-                value.CopyTo(sub);
+                using (Mat sub = SubMat(rowStart, rowEnd, colStart, colEnd))
+                {
+                    if (sub.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(sub);
+                }
             }
         }
 
@@ -1467,10 +1469,12 @@ namespace OpenCvSharp.CPlusPlus
                 if (Dims() != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
 
-                Mat sub = SubMat(rowRange, colRange);
-                if (sub.Size() != value.Size())
-                    throw new ArgumentException("Specified ROI != mat.Size()");
-                value.CopyTo(sub);
+                using (Mat sub = SubMat(rowRange, colRange))
+                {
+                    if (sub.Size() != value.Size())
+                        throw new ArgumentException("Specified ROI != mat.Size()");
+                    value.CopyTo(sub);
+                }
             }
         }
 
@@ -1568,8 +1572,10 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (value == null)
                         throw new ArgumentNullException("value");
-                    Mat submat = parent.SubMat(rowStart, rowEnd, colStart, colEnd);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    using (Mat submat = parent.SubMat(rowStart, rowEnd, colStart, colEnd))
+                    {
+                        NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    }
                 }
             }
 
@@ -1588,8 +1594,10 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (value == null)
                         throw new ArgumentNullException("value");
-                    Mat submat = parent.SubMat(rowRange, colRange);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    using (Mat submat = parent.SubMat(rowRange, colRange))
+                    {
+                        NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    }
                 }
             }
 
@@ -1605,8 +1613,10 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (value == null)
                         throw new ArgumentNullException("value");
-                    Mat submat = parent.SubMat(roi);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    using (Mat submat = parent.SubMat(roi))
+                    {
+                        NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    }
                 }
             }
 
@@ -1622,8 +1632,10 @@ namespace OpenCvSharp.CPlusPlus
                 {
                     if (value == null)
                         throw new ArgumentNullException("value");
-                    Mat submat = parent.SubMat(ranges);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    using (Mat submat = parent.SubMat(ranges))
+                    {
+                        NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
+                    }
                 }
             }
         }
