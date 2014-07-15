@@ -1494,8 +1494,10 @@ namespace OpenCvSharp.CPlusPlus
 
                 if (roi.Size != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
-                Mat sub = SubMat(roi);
-                value.CopyTo(sub);
+                using (Mat sub = SubMat(roi))
+                {
+                    value.CopyTo(sub);
+                }
             }
         }
 
@@ -1515,18 +1517,19 @@ namespace OpenCvSharp.CPlusPlus
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
 
-                Mat sub = SubMat(ranges);
-
-                int dims = Dims();
-                if (dims != value.Dims())
-                    throw new ArgumentException("Dimension mismatch");
-                for (int i = 0; i < dims; i++)
+                using (Mat sub = SubMat(ranges))
                 {
-                    if (sub.Size(i) != value.Size(i))
-                        throw new ArgumentException("Size mismatch at dimension " + i);
-                }
+                    int dims = Dims();
+                    if (dims != value.Dims())
+                        throw new ArgumentException("Dimension mismatch");
+                    for (int i = 0; i < dims; i++)
+                    {
+                        if (sub.Size(i) != value.Size(i))
+                            throw new ArgumentException("Size mismatch at dimension " + i);
+                    }
 
-                value.CopyTo(sub);
+                    value.CopyTo(sub);
+                }
             }
         }
 
