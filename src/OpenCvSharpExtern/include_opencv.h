@@ -12,6 +12,7 @@
 #include <opencv2/superres/superres.hpp>
 #include <opencv2/superres/optical_flow.hpp>
 #include <opencv2/gpu/gpu.hpp>
+#include <opencv2/stitching/stitcher.hpp>
 
 #include <vector>
 #include <algorithm>
