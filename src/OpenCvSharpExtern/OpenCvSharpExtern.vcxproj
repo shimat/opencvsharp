@@ -228,6 +228,7 @@
     <ClCompile Include="contrib.cpp" />
     <ClCompile Include="features2d.cpp" />
     <ClCompile Include="legacy.cpp" />
+    <ClCompile Include="stitching.cpp" />
     <ClCompile Include="superres.cpp" />
     <ClCompile Include="video.cpp" />
   </ItemGroup>
@@ -279,6 +280,8 @@
     <ClInclude Include="features2d.h" />
     <ClInclude Include="legacy.h" />
     <ClInclude Include="core_SVD.h" />
+    <ClInclude Include="stitching.h" />
+    <ClInclude Include="stitching_detal.h" />
     <ClInclude Include="superres.h" />
     <ClInclude Include="video.h" />
     <ClInclude Include="gpu_GpuMat.h" />

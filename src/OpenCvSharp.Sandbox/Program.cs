@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,6 +10,7 @@ using OpenCvSharp.Blob;
 using OpenCvSharp.CPlusPlus;
 using OpenCvSharp.CPlusPlus.Gpu;
 using OpenCvSharp.Extensions;
+using Point = OpenCvSharp.CPlusPlus.Point;
 using Rect = OpenCvSharp.CPlusPlus.Rect;
 using Size = OpenCvSharp.CPlusPlus.Size;
 
@@ -22,13 +24,72 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            IplImage img = new IplImage("data/lenna.png");
-            Mat m = Cv2.CvArrToMat(img);
-
-            Window.ShowImages(m);
-
+            //StitchingPreprocess();
+            Stitching();
             //Track();
             //Run();
+        }
+
+        private static void StitchingPreprocess()
+        {
+            Mat source = new Mat(@"C:\Penguins.jpg");
+            Mat result = new Mat();
+
+            source.CopyTo(result);
+            Cv2.CvtColor(result, result, ColorConversion.BgrToGray);
+            Cv2.CvtColor(result, result, ColorConversion.GrayToBgr);
+
+            int width = 256;
+            int height = 256;
+            var rand = new Random();
+            for (int i = 0; i < 20; i++)
+            {
+                int x1 = rand.Next(source.Cols - width);
+                int y1 = rand.Next(source.Rows - height);
+
+                int left = x1;
+                int top = y1;
+
+                int x2 = x1 + width;
+                int y2 = y1 + height;
+                if (x2 >= source.Cols) 
+                    continue;
+                if (y2 >= source.Rows)
+                    continue;
+
+                result.Line(new Point(x1, y1), new Point(x1, y2), new Scalar(0, 0, 255));
+                result.Line(new Point(x1, y2), new Point(x2, y2), new Scalar(0, 0, 255));
+                result.Line(new Point(x2, y2), new Point(x2, y1), new Scalar(0, 0, 255));
+                result.Line(new Point(x2, y1), new Point(x1, y1), new Scalar(0, 0, 255));
+
+                Mat a = source[new Rect(left, top, width, height)];
+                string outFile = String.Format(@"C:\temp\stitching\{0:D3}.png", i);
+                a.SaveImage(outFile);
+            }
+
+            using (new Window(result))
+            {
+                Cv.WaitKey();
+            }
+        }
+
+        private static void Stitching()
+        {
+            var stitcher = Stitcher.CreateDefault(false);
+
+            string[] files = Directory.GetFiles(@"C:\temp\stitching\", "*.png");
+            Mat[] images = files.Select(f => new Mat(f)).ToArray();
+            Mat pano = new Mat();
+
+            var status = stitcher.Stitch(images, pano);
+            status.ToString();
+
+            Window.ShowImages(pano);
+
+            foreach (Mat image in images)
+            {
+                image.Dispose();
+            }
         }
 
         private static void Track()
