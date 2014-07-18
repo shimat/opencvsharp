@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-WithoutDll</id>
-        <version>2.4.8.20140707</version>
+        <version>2.4.9.20140718</version>
         <title>OpenCvSharp (without DLLs)</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -10,7 +10,9 @@
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/lenna-icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <releaseNotes>- Fixed CvRect.Right/Bottom bugs</releaseNotes>
+        <releaseNotes>- Upgraded 2.4.8 -&gt; 2.4.9
+- Added partial support for stitching
+- Fixed Mat bugs and memory leaks</releaseNotes>
         <copyright>Copyright 2008-2014</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
@@ -57,8 +59,8 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net40\OpenCvSharp.Extensions.XML" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net40\OpenCvSharp.UserInterface.dll" />
         <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net40\OpenCvSharp.XML" />
-        <file src="tools-AnyCPU\init.ps1" target="tools\init.ps1" />
-        <file src="tools-AnyCPU\install.ps1" target="tools\install.ps1" />
-        <file src="tools-AnyCPU\uninstall.ps1" target="tools\uninstall.ps1" />
+        <file src="tools\init.ps1" target="tools\init.ps1" />
+        <file src="tools\install-WithoutDll.ps1" target="tools\install.ps1" />
+        <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
     </files>
 </package>
