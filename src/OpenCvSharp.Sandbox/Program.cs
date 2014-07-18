@@ -24,46 +24,32 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Mat[] mats = StitchingPreprocess();
+            Mat[] mats = StitchingPreprocess(400, 400, 10);
             Stitching(mats);
             //Track();
             //Run();
         }
 
-        private static Mat[] StitchingPreprocess()
+        private static Mat[] StitchingPreprocess(int width, int height, int count)
         {
             Mat source = new Mat(@"C:\Penguins.jpg", LoadMode.Color);
-            Mat result = new Mat();
+            Mat result = source.Clone();
 
-            source.CopyTo(result);
-            Cv2.CvtColor(result, result, ColorConversion.BgrToGray);
-            Cv2.CvtColor(result, result, ColorConversion.GrayToBgr);
-
-            int width = 400;
-            int height = 400;
             var rand = new Random();
             var mats = new List<Mat>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < count; i++)
             {
                 int x1 = rand.Next(source.Cols - width);
                 int y1 = rand.Next(source.Rows - height);
-
-                int left = x1;
-                int top = y1;
-
                 int x2 = x1 + width;
                 int y2 = y1 + height;
-                if (x2 >= source.Cols) 
-                    continue;
-                if (y2 >= source.Rows)
-                    continue;
 
                 result.Line(new Point(x1, y1), new Point(x1, y2), new Scalar(0, 0, 255));
                 result.Line(new Point(x1, y2), new Point(x2, y2), new Scalar(0, 0, 255));
                 result.Line(new Point(x2, y2), new Point(x2, y1), new Scalar(0, 0, 255));
                 result.Line(new Point(x2, y1), new Point(x1, y1), new Scalar(0, 0, 255));
 
-                Mat m = source[new Rect(left, top, width, height)];
+                Mat m = source[new Rect(x1, y1, width, height)];
                 mats.Add(m.Clone());
                 //string outFile = String.Format(@"C:\temp\stitching\{0:D3}.png", i);
                 //m.SaveImage(outFile);
@@ -82,8 +68,6 @@ namespace OpenCvSharp.Sandbox
         {
             var stitcher = Stitcher.CreateDefault(false);
 
-            /*string[] files = Directory.GetFiles(@"C:\temp\stitching\", "*.png");
-            Mat[] images = files.Select(f => new Mat(f)).ToArray();*/
             Mat pano = new Mat();
 
             Console.Write("Stitching 処理開始...");

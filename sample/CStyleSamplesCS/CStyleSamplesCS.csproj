@@ -96,23 +96,23 @@
   <ItemGroup>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140619\lib\net40\OpenCvSharp.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.9.20140718\lib\net40\OpenCvSharp.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Blob, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140619\lib\net40\OpenCvSharp.Blob.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.9.20140718\lib\net40\OpenCvSharp.Blob.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.CPlusPlus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140619\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.9.20140718\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140619\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.9.20140718\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.8.20140619\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
+      <HintPath>..\packages\OpenCvSharp-AnyCPU.2.4.9.20140718\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -409,63 +409,61 @@
     <Content Include="Dll\x64\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_calib3d248.dll">
+    <Content Include="Dll\x64\opencv_calib3d249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_contrib248.dll">
+    <Content Include="Dll\x64\opencv_contrib249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_core248.dll">
+    <Content Include="Dll\x64\opencv_core249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_features2d248.dll">
+    <Content Include="Dll\x64\opencv_features2d249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_ffmpeg248_64.dll">
+    <Content Include="Dll\x64\opencv_ffmpeg249_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_flann248.dll">
+    <Content Include="Dll\x64\opencv_flann249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_gpu248.dll">
+    <Content Include="Dll\x64\opencv_gpu249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_highgui248.dll">
+    <Content Include="Dll\x64\opencv_highgui249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_highgui248d.dll" />
-    <Content Include="Dll\x64\opencv_imgproc248.dll">
+    <Content Include="Dll\x64\opencv_imgproc249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_legacy248.dll">
+    <Content Include="Dll\x64\opencv_legacy249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_ml248.dll">
+    <Content Include="Dll\x64\opencv_ml249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_nonfree248.dll">
+    <Content Include="Dll\x64\opencv_nonfree249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_objdetect248.dll">
+    <Content Include="Dll\x64\opencv_objdetect249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_ocl248.dll">
+    <Content Include="Dll\x64\opencv_ocl249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_photo248.dll">
+    <Content Include="Dll\x64\opencv_photo249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_stitching248.dll">
+    <Content Include="Dll\x64\opencv_stitching249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_stitching248d.dll" />
-    <Content Include="Dll\x64\opencv_superres248.dll">
+    <Content Include="Dll\x64\opencv_superres249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_video248.dll">
+    <Content Include="Dll\x64\opencv_video249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x64\opencv_videostab248.dll">
+    <Content Include="Dll\x64\opencv_videostab249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Dll\x86\msvcp110.dll">
@@ -477,61 +475,61 @@
     <Content Include="Dll\x86\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_calib3d248.dll">
+    <Content Include="Dll\x86\opencv_calib3d249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_contrib248.dll">
+    <Content Include="Dll\x86\opencv_contrib249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_core248.dll">
+    <Content Include="Dll\x86\opencv_core249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_features2d248.dll">
+    <Content Include="Dll\x86\opencv_features2d249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_ffmpeg248.dll">
+    <Content Include="Dll\x86\opencv_ffmpeg249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_flann248.dll">
+    <Content Include="Dll\x86\opencv_flann249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_gpu248.dll">
+    <Content Include="Dll\x86\opencv_gpu249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_highgui248.dll">
+    <Content Include="Dll\x86\opencv_highgui249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_imgproc248.dll">
+    <Content Include="Dll\x86\opencv_imgproc249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_legacy248.dll">
+    <Content Include="Dll\x86\opencv_legacy249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_ml248.dll">
+    <Content Include="Dll\x86\opencv_ml249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_nonfree248.dll">
+    <Content Include="Dll\x86\opencv_nonfree249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_objdetect248.dll">
+    <Content Include="Dll\x86\opencv_objdetect249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_ocl248.dll">
+    <Content Include="Dll\x86\opencv_ocl249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_photo248.dll">
+    <Content Include="Dll\x86\opencv_photo249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_stitching248.dll">
+    <Content Include="Dll\x86\opencv_stitching249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_superres248.dll">
+    <Content Include="Dll\x86\opencv_superres249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_video248.dll">
+    <Content Include="Dll\x86\opencv_video249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dll\x86\opencv_videostab248.dll">
+    <Content Include="Dll\x86\opencv_videostab249.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

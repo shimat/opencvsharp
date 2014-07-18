@@ -18,7 +18,7 @@ namespace CppStyleSamplesCS
                 //new VideoCaptureSample();
                 //new MatToBitmap();
                 //new MatToIplImage();
-                new SiftSurfSample();
+                //new SiftSurfSample();
                 //new HistSample();
                 //new Subdiv2DSample();
                 //new FASTSample();
@@ -43,6 +43,7 @@ namespace CppStyleSamplesCS
                 //new StarDetectorSample();
                 //new BRISKSample();
                 //new FREAKSample();
+                new Stitching();
             sample.Run();
         }
     }
