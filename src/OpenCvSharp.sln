@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.UserInterface", "OpenCvSharp.UserInterface\OpenCvSharp.UserInterface.csproj", "{DB12E2F1-1A50-4D12-A92F-4C3D705ECC1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Extensions", "OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj", "{F1110C7B-46B1-4504-871E-135B57F9DE67}"
@@ -271,7 +269,8 @@ Global
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release JP|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release JP|Mixed Platforms.Build.0 = Release|Any CPU
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release JP|Win32.ActiveCfg = Release|Any CPU
-		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release JP|x64.ActiveCfg = Release|Any CPU
+		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release JP|x64.ActiveCfg = Release|x64
+		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release JP|x64.Build.0 = Release|x64
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release JP|x86.ActiveCfg = Release JP|x86
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release JP|x86.Build.0 = Release JP|x86
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Release|Any CPU.ActiveCfg = Release|Any CPU

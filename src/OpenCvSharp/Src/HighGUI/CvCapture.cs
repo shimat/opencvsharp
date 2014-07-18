@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
@@ -61,9 +60,8 @@ namespace OpenCvSharp
             }
 
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create CvCapture");
-            }
+            
             captureType = CaptureType.Camera;
         }
 #if LANG_JP
@@ -175,24 +173,24 @@ namespace OpenCvSharp
         /// <summary>
         /// ファイルからのビデオキャプチャを初期化する
         /// </summary>
-        /// <param name="filename">ビデオファイル名</param>
+        /// <param name="fileName">ビデオファイル名</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Allocates and initialized the CvCapture structure for reading the video stream from the specified file.
         /// After the allocated structure is not used any more it should be released by cvReleaseCapture function. 
         /// </summary>
-        /// <param name="filename">Name of the video file. </param>
+        /// <param name="fileName">Name of the video file. </param>
         /// <returns></returns>
 #endif
-        public CvCapture(string filename)
+        public CvCapture(string fileName)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
-            if (!File.Exists(filename))
-                throw new FileNotFoundException("File not found", filename);
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
+            /*if (!File.Exists(filename))
+                throw new FileNotFoundException("File not found", filename);*/
 
-            ptr = NativeMethods.cvCreateFileCapture(filename);
+            ptr = NativeMethods.cvCreateFileCapture(fileName);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvCapture");
             
@@ -299,7 +297,7 @@ namespace OpenCvSharp
             }
             set
             {
-                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.PosMsec, (double)value);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.PosMsec, value);
             }
         }
 
@@ -323,7 +321,7 @@ namespace OpenCvSharp
                 if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
                 NativeMethods.cvSetCaptureProperty(
-                    ptr, CaptureProperty.PosFrames, (double)value);
+                    ptr, CaptureProperty.PosFrames, value);
             }
         }
 
@@ -347,7 +345,7 @@ namespace OpenCvSharp
                 if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
                 NativeMethods.cvSetCaptureProperty(
-                    ptr, CaptureProperty.PosAviRatio, (double)(int)value);
+                    ptr, CaptureProperty.PosAviRatio, (int)value);
             }
         }
 
@@ -371,7 +369,7 @@ namespace OpenCvSharp
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
                 NativeMethods.cvSetCaptureProperty(
-                    ptr, CaptureProperty.FrameWidth, (double)value);
+                    ptr, CaptureProperty.FrameWidth, value);
             }
         }
 
@@ -395,7 +393,7 @@ namespace OpenCvSharp
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
                 NativeMethods.cvSetCaptureProperty(
-                    ptr, CaptureProperty.FrameHeight, (double)value);
+                    ptr, CaptureProperty.FrameHeight, value);
             }
         }
 
@@ -433,7 +431,9 @@ namespace OpenCvSharp
         /// Gets or sets 4-character code of codec 
         /// </summary>
 #endif
+// ReSharper disable InconsistentNaming
         public string FourCC
+// ReSharper restore InconsistentNaming
         {
             get
             {
@@ -450,19 +450,16 @@ namespace OpenCvSharp
             set
             {
                 if (captureType == CaptureType.File)
-                {
                     throw new NotSupportedException("Only for cameras");
-                }
                 if (value.Length != 4)
-                {
                     throw new ArgumentException("Length of the argument string must be 4");
-                }
+                
                 byte c1 = Convert.ToByte(value[0]);
                 byte c2 = Convert.ToByte(value[1]);
                 byte c3 = Convert.ToByte(value[2]);
                 byte c4 = Convert.ToByte(value[3]);
                 int v = Cv.FOURCC(c1, c2, c3, c4);
-                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.FourCC, (double)v);
+                NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.FourCC, v);
             }
         }
 
@@ -962,7 +959,9 @@ namespace OpenCvSharp
         /// [CV_CAP_PROP_MAX_DC1394]
         /// </summary>
 #endif
+// ReSharper disable InconsistentNaming
         public double MaxDC1394
+// ReSharper restore InconsistentNaming
         {
             get
             {
@@ -1049,7 +1048,7 @@ namespace OpenCvSharp
         #endregion
         #region OpenNI
         // Properties of cameras available through OpenNI interfaces
-
+// ReSharper disable InconsistentNaming
 #if LANG_JP
 		/// <summary>
         /// 
@@ -1283,6 +1282,7 @@ namespace OpenCvSharp
                 NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.OpenNI_DepthGeneratorRegistrationON, value);
             }
         }
+// ReSharper restore InconsistentNaming
         #endregion
         #region GStreamer
         // Properties of cameras available through GStreamer interface
@@ -1321,7 +1321,9 @@ namespace OpenCvSharp
         /// [CV_CAP_PROP_PVAPI_MULTICASTIP]
         /// </summary>
 #endif
+// ReSharper disable InconsistentNaming
         public double PvAPIMulticastIP
+// ReSharper restore InconsistentNaming
         {
             get
             {
@@ -1335,7 +1337,7 @@ namespace OpenCvSharp
         #endregion
         #region XI
         // Properties of cameras available through XIMEA SDK interface
-
+// ReSharper disable InconsistentNaming
 #if LANG_JP
 		/// <summary>
         /// Change image resolution by binning or skipping.  
@@ -1814,6 +1816,7 @@ namespace OpenCvSharp
                 NativeMethods.cvSetCaptureProperty(ptr, CaptureProperty.XI_Timeout, value);
             }
         }
+// ReSharper restore InconsistentNaming
         #endregion
         #endregion
 
@@ -1823,35 +1826,35 @@ namespace OpenCvSharp
         /// <summary>
         /// ビデオキャプチャのプロパティを取得する
         /// </summary>
-        /// <param name="property_id">プロパティID</param>
+        /// <param name="propertyId">プロパティID</param>
         /// <returns>プロパティの値</returns>
 #else
         /// <summary>
         /// Retrieves the specified property of camera or video file. 
         /// </summary>
-        /// <param name="property_id">property identifier.</param>
+        /// <param name="propertyId">property identifier.</param>
         /// <returns>property value</returns>
 #endif
-        public double GetCaptureProperty(CaptureProperty property_id)
+        public double GetCaptureProperty(CaptureProperty propertyId)
         {
-            return Cv.GetCaptureProperty(this, property_id);
+            return Cv.GetCaptureProperty(this, propertyId);
         }
 #if LANG_JP
         /// <summary>
         /// ビデオキャプチャのプロパティを取得する
         /// </summary>
-        /// <param name="property_id">プロパティID</param>
+        /// <param name="propertyId">プロパティID</param>
         /// <returns>プロパティの値</returns>
 #else
         /// <summary>
         /// Retrieves the specified property of camera or video file. 
         /// </summary>
-        /// <param name="property_id">property identifier.</param>
+        /// <param name="propertyId">property identifier.</param>
         /// <returns>property value</returns>
 #endif
-        public double GetCaptureProperty(int property_id)
+        public double GetCaptureProperty(int propertyId)
         {
-            return Cv.GetCaptureProperty(this, property_id);
+            return Cv.GetCaptureProperty(this, propertyId);
         }
         #endregion
         #region GrabFrame
@@ -1958,39 +1961,39 @@ namespace OpenCvSharp
         /// <summary>
         /// ビデオキャプチャのプロパティをセットする
         /// </summary>
-        /// <param name="property_id">プロパティID</param>
+        /// <param name="propertyId">プロパティID</param>
         /// <param name="value">プロパティの値</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Sets the specified property of video capturing.
         /// </summary>
-        /// <param name="property_id">property identifier. </param>
+        /// <param name="propertyId">property identifier. </param>
         /// <param name="value">value of the property. </param>
         /// <returns></returns>
 #endif
-        public int SetCaptureProperty(CaptureProperty property_id, double value)
+        public int SetCaptureProperty(CaptureProperty propertyId, double value)
         {
-            return Cv.SetCaptureProperty(this, property_id, value);
+            return Cv.SetCaptureProperty(this, propertyId, value);
         }
 #if LANG_JP
         /// <summary>
         /// ビデオキャプチャのプロパティをセットする
         /// </summary>
-        /// <param name="property_id">プロパティID</param>
+        /// <param name="propertyId">プロパティID</param>
         /// <param name="value">プロパティの値</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Sets the specified property of video capturing.
         /// </summary>
-        /// <param name="property_id">property identifier. </param>
+        /// <param name="propertyId">property identifier. </param>
         /// <param name="value">value of the property. </param>
         /// <returns></returns>
 #endif
-        public int SetCaptureProperty(int property_id, double value)
+        public int SetCaptureProperty(int propertyId, double value)
         {
-            return Cv.SetCaptureProperty(this, property_id, value);
+            return Cv.SetCaptureProperty(this, propertyId, value);
         }
         #endregion
         #endregion
