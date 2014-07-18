@@ -1,3 +1,7 @@
+#if WIN32
+#pragma once
+#endif
+
 #ifndef _CPP_StereoBM_GPU_H_
 #define _CPP_StereoBM_GPU_H_
 

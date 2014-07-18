@@ -9,7 +9,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="struct_ptr"></param>
+    /// <param name="structPtr"></param>
     /// <returns></returns>
 #else
     /// <summary>

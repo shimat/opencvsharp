@@ -37,14 +37,17 @@ static inline cv::Mat entity(cv::Mat *obj)
 {
     return (obj != NULL) ? *obj : cv::Mat();
 }
+static inline cv::gpu::GpuMat entity(cv::gpu::GpuMat *obj)
+{
+	return (obj != NULL) ? *obj : cv::gpu::GpuMat();
+}
+static inline cv::gpu::Stream entity(cv::gpu::Stream *obj)
+{
+	return (obj != NULL) ? *obj : cv::gpu::Stream::Null();
+}
 
 template <typename T>
 static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
-{
-    return new cv::Ptr<T>(ptr);
-}
-template <typename T>
-static inline cv::Ptr<T> *wrap(T *ptr)
 {
     return new cv::Ptr<T>(ptr);
 }
@@ -70,6 +73,35 @@ static void dump(T *obj, const std::string &outFile)
         std::fprintf(fp, "%x,", (int)*it);
     }
     fclose(fp);
+}
+
+static void toVec(
+    cv::Mat **inPtr, int size, std::vector<cv::Mat> &outVec)
+{
+    outVec.resize(size);
+    for (int i = 0; i < size; i++)
+    {
+        outVec[i] = *inPtr[i];
+    }
+}
+
+template <typename TIn, typename TOut>
+static void toVec(
+    TIn **inPtr, int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
+{
+    outVec.resize(size1);
+    for (int i = 0; i < size1; i++)
+    {
+        int size = size2[i];
+        CvRect *p = inPtr[i];
+        std::vector<cv::Rect> v(p, p + size);
+        /*std::vector<cv::Rect> v(size);
+        for (int j = 0; j < size; j++)
+        {
+            v[j] = inPtr[i][j];
+        }*/
+        outVec[i] = v;
+    }
 }
 
 #endif
