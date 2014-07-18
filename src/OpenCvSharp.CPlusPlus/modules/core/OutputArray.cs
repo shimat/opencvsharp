@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp;
+using OpenCvSharp.CPlusPlus.Gpu;
 using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
@@ -94,6 +95,18 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="mat"></param>
+        internal OutputArray(GpuMat mat)
+        {
+            if (mat == null)
+                throw new ArgumentNullException("mat");
+            ptr = NativeMethods.core_OutputArray_new_byGpuMat(mat.CvPtr);
+            obj = mat;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
@@ -129,6 +142,16 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new OutputArray(mat);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static implicit operator OutputArray(GpuMat mat)
+        {
+            return new OutputArray(mat);
+        }
         #endregion
 
         #region Operators
@@ -143,6 +166,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return obj is Mat;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -150,6 +174,24 @@ namespace OpenCvSharp.CPlusPlus
         public Mat GetMat()
         {
             return obj as Mat;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGpuMat()
+        {
+            return obj is GpuMat;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Mat GetGpuMat()
+        {
+            return obj as GpuMat;
         }
 
         /// <summary>
@@ -174,6 +216,10 @@ namespace OpenCvSharp.CPlusPlus
                 // OutputArrayから取り出したMatをdelete
                 NativeMethods.core_Mat_delete(outMat);
                 */
+            }
+            else if (IsGpuMat())
+            {
+                // do nothing
             }
             else
             {
@@ -200,7 +246,7 @@ namespace OpenCvSharp.CPlusPlus
                 ptr != IntPtr.Zero &&
                 !disposed &&
                 obj != null &&
-                IsMat();
+                (IsMat() || IsGpuMat());
         }
         /// <summary>
         /// 
@@ -215,8 +261,19 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Creates a proxy class of the specified matrix
         /// </summary>
+        /// <param name="mat"></param>
         /// <returns></returns>
         public static OutputArray Create(Mat mat)
+        {
+            return new OutputArray(mat);
+        }
+
+        /// <summary>
+        /// Creates a proxy class of the specified matrix
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static OutputArray Create(GpuMat mat)
         {
             return new OutputArray(mat);
         }

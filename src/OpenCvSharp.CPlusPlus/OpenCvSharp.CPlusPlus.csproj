@@ -101,8 +101,16 @@
     <Compile Include="modules\features2d\IDescriptorExtractor.cs" />
     <Compile Include="modules\flann\FlannDistance.cs" />
     <Compile Include="Cv2\Cv2_gpu.cs" />
+    <Compile Include="modules\gpu\DisposableGpuObject.cs" />
+    <Compile Include="modules\gpu\Stream.cs" />
+    <Compile Include="modules\gpu\Enum\CudaMemAllocType.cs" />
     <Compile Include="modules\gpu\DescriptorFormat.cs" />
+    <Compile Include="modules\gpu\DeviceInfo.cs" />
+    <Compile Include="modules\gpu\Enum\FeatureSet.cs" />
+    <Compile Include="modules\gpu\CudaMem.cs" />
     <Compile Include="modules\gpu\GpuMat.cs" />
+    <Compile Include="modules\gpu\GpuMatIndexer.cs" />
+    <Compile Include="modules\gpu\GpuMatRowColIndexer.cs" />
     <Compile Include="modules\gpu\HOGDescriptor.cs" />
     <Compile Include="modules\gpu\StereoBM_GPU.cs" />
     <Compile Include="modules\ml\Class\CvDTreeNode.cs" />
@@ -137,6 +145,7 @@
     <Compile Include="modules\ml\Enum\SvmParamType.cs" />
     <Compile Include="modules\ml\Enum\SvmType.cs" />
     <Compile Include="modules\ml\Enum\TrainSamplePartMode.cs" />
+    <Compile Include="modules\stitching\Stitcher.cs" />
     <Compile Include="modules\video\OpticalFlowFlags.cs" />
     <Compile Include="modules\calib3d\SolvePnPFlag.cs" />
     <Compile Include="modules\features2d\Enum\DrawMatchesFlags.cs" />
@@ -169,6 +178,8 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvERTrees.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvRTrees.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvNormalBayesClassifier.cs" />
+    <Compile Include="PInvoke\NativeMethods_gpu_CvMethods.cs" />
+    <Compile Include="PInvoke\NativeMethods_gpu_GpuMat.cs" />
     <Compile Include="PInvoke\NativeMethods_gpu.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d_DescriptorMatcher.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvBoostTree.cs" />
@@ -231,6 +242,7 @@
     <Compile Include="modules\core\Struct\Rangef.cs" />
     <Compile Include="modules\core\Struct\Point2d.cs" />
     <Compile Include="PInvoke\NativeMethods_features2d_DescriptorExtractor.cs" />
+    <Compile Include="PInvoke\NativeMethods_stitching.cs" />
     <Compile Include="Vector\VectorOfDouble.cs" />
     <Compile Include="Vector\VectorOfInt32.cs" />
     <Compile Include="Vector\VectorOfDMatch.cs" />

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using OpenCvSharp.Blob;
 using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.CPlusPlus.Gpu;
 using OpenCvSharp.Extensions;
+using Point = OpenCvSharp.CPlusPlus.Point;
 using Rect = OpenCvSharp.CPlusPlus.Rect;
 using Size = OpenCvSharp.CPlusPlus.Size;
 
@@ -24,101 +24,63 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            string fileName = "C:\\perspective_chessboard.jpg";
-
-            // Cv
-            using (CvMat chessboard = new CvMat(fileName))
-            {
-                Cv.ShowImage("Input_Cv", chessboard);
-
-                CvPoint2D32f[] corners;
-                if (Cv.FindChessboardCorners(chessboard, new Size(10, 7), out corners))
-                {
-                    using (CvMat dest = new CvMat(chessboard.Rows, chessboard.Cols, MatrixType.U8C3))
-                    {
-                        CvPoint2D32f[] a = 
-                        {
-                            corners[0],
-                            corners[60],
-                            corners[69],
-                            corners[9]
-                        };
-
-                        foreach (var corner in a)
-                        {
-                            Cv.Circle(chessboard, corner, 5, new CvScalar(0, 0, 255));
-                        }
-                        Cv.ShowImage("RectangleVertices_Cv", chessboard);
-
-                        CvPoint2D32f[] b =
-                        {
-                            new CvPoint2D32f(0, 0),
-                            new CvPoint2D32f(0, chessboard.Height),
-                            new CvPoint2D32f(chessboard.Width, chessboard.Height),
-                            new CvPoint2D32f(chessboard.Width, 0)
-                        };
-
-                        CvMat map_matrix;
-                        Cv.GetPerspectiveTransform(a, b, out map_matrix);
-                        Cv.WarpPerspective(chessboard, dest, map_matrix, Interpolation.Linear | Interpolation.FillOutliers, CvScalar.ScalarAll(255)); //Succeed
-                        Cv.ReleaseMat(map_matrix);
-
-                        Cv.ShowImage("Output_Cv", dest);
-                    }
-
-                    //Cv.WaitKey();
-                }
-            }
-
-            //Cv2
-            using (Mat chessboard = new Mat(fileName))
-            {
-                Point2f[] corners;
-                if (Cv2.FindChessboardCorners(chessboard, new Size(10, 7), out corners))
-                {
-                    Point2f[] a =
-                    {
-                        corners[0],
-                        corners[60],
-                        corners[69],
-                        corners[9]
-                    };
-
-                    foreach (var corner in a)
-                    {
-                        chessboard.Circle(corner, 5, new Scalar(0, 0, 255));
-                    }
-                    Cv2.ImShow("RectangleVertices_Cv2", chessboard);
-                    //Cv2.WaitKey();
-
-                    Point2f[] b =
-                    {
-                        new Point2f(0, 0),
-                        new Point2f(0, chessboard.Height),
-                        new Point2f(chessboard.Width, chessboard.Height),
-                        new Point2f(chessboard.Width, 0)
-                    };
-
-                    using (Mat map_matrix = Cv2.GetPerspectiveTransform(a, b))
-                    using (Mat dest = new Mat(new Size(640, 480), MatType.CV_8UC3))
-                    {
-                        Cv2.WarpPerspective(chessboard, dest, map_matrix, dest.Size(), Interpolation.Linear | Interpolation.FillOutliers, BorderType.Default, Scalar.All(255)); //AccessViolation
-                        Cv2.ImShow("Output_Cv2", dest);
-                    }
-
-                    ////Another way (Using Mat.WarpPerspective())
-                    //using (Mat map_matrix = Cv2.GetPerspectiveTransform(a, b))
-                    //using (Mat dest = chessboard.WarpPerspective(map_matrix, new Size(640, 480), Interpolation.Linear | Interpolation.FillOutliers, BorderType.Default, Scalar.All(255))) //AccessViolation
-                    //{
-                    //    Cv2.ImShow("Output_Cv2", dest);
-                    //}
-
-                    Cv2.WaitKey();
-                }
-            }
-
+            Mat[] mats = StitchingPreprocess(400, 400, 10);
+            Stitching(mats);
             //Track();
             //Run();
+        }
+
+        private static Mat[] StitchingPreprocess(int width, int height, int count)
+        {
+            Mat source = new Mat(@"C:\Penguins.jpg", LoadMode.Color);
+            Mat result = source.Clone();
+
+            var rand = new Random();
+            var mats = new List<Mat>();
+            for (int i = 0; i < count; i++)
+            {
+                int x1 = rand.Next(source.Cols - width);
+                int y1 = rand.Next(source.Rows - height);
+                int x2 = x1 + width;
+                int y2 = y1 + height;
+
+                result.Line(new Point(x1, y1), new Point(x1, y2), new Scalar(0, 0, 255));
+                result.Line(new Point(x1, y2), new Point(x2, y2), new Scalar(0, 0, 255));
+                result.Line(new Point(x2, y2), new Point(x2, y1), new Scalar(0, 0, 255));
+                result.Line(new Point(x2, y1), new Point(x1, y1), new Scalar(0, 0, 255));
+
+                Mat m = source[new Rect(x1, y1, width, height)];
+                mats.Add(m.Clone());
+                //string outFile = String.Format(@"C:\temp\stitching\{0:D3}.png", i);
+                //m.SaveImage(outFile);
+            }
+
+            result.SaveImage(@"C:\temp\parts.png");
+            using (new Window(result))
+            {
+                Cv.WaitKey();
+            }
+
+            return mats.ToArray();
+        }
+
+        private static void Stitching(Mat[] images)
+        {
+            var stitcher = Stitcher.CreateDefault(false);
+
+            Mat pano = new Mat();
+
+            Console.Write("Stitching 処理開始...");
+            var status = stitcher.Stitch(images, pano);
+            Console.WriteLine(" 完了 {0}", status);
+
+            pano.SaveImage(@"C:\temp\pano.png");
+            Window.ShowImages(pano);
+
+            foreach (Mat image in images)
+            {
+                image.Dispose();
+            }
         }
 
         private static void Track()
@@ -197,8 +159,6 @@ namespace OpenCvSharp.Sandbox
             var dm = DescriptorMatcher.Create("BruteForce");
             dm.Clear();
 
-            Console.WriteLine(Cv2.GetCudaEnabledDeviceCount());
-
             string[] algoNames = Algorithm.GetList();
             Console.WriteLine(String.Join("\n", algoNames));
 
@@ -210,7 +170,7 @@ namespace OpenCvSharp.Sandbox
             t.ToString();
             d.ToString();
 
-            var src = new Mat("img/lenna.png");
+            var src = new Mat("data/lenna.png");
             var rand = new Random();
             var memory = new List<long>(100);
 

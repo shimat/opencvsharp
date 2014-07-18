@@ -49,14 +49,8 @@
     <ClCompile Include="gpu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gpu_GpuMat.cpp">
-      <Filter>Header Files\gpu</Filter>
-    </ClCompile>
-    <ClCompile Include="gpu_HOGDescriptor.cpp">
-      <Filter>Header Files\gpu</Filter>
-    </ClCompile>
-    <ClCompile Include="gpu_StereoBM_GPU.cpp">
-      <Filter>Header Files\gpu</Filter>
+    <ClCompile Include="stitching.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,9 +121,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="superres.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="video.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="features2d.h">
@@ -213,6 +204,24 @@
     <ClInclude Include="gpu_StereoBM_GPU.h">
       <Filter>Header Files\gpu</Filter>
     </ClInclude>
+    <ClInclude Include="video.h">
+      <Filter>Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="video_tracking.h">
+      <Filter>Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="video_background_segm.h">
+      <Filter>Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="gpu_CvMethods.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detal.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -240,6 +249,12 @@
     </Filter>
     <Filter Include="Header Files\gpu">
       <UniqueIdentifier>{2e4a1ecc-57c7-4a98-b018-78de2b7ac832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\video">
+      <UniqueIdentifier>{cc445911-b121-4dc0-b44e-fb11ed931e40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\stitching">
+      <UniqueIdentifier>{d2ac930b-731a-4af9-ad0d-bfe1272b646d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

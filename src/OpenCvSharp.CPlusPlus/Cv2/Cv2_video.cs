@@ -14,7 +14,6 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.video_initModule_video();
         }
 
-
         /// <summary>
         /// Updates motion history image using the current silhouette
         /// </summary>
@@ -416,6 +415,7 @@ namespace OpenCvSharp.CPlusPlus
                 from.CvPtr, to.CvPtr, flow.CvPtr,
                 layers, averagingBlockSize, maxFlow);
         }
+
         /// <summary>
         /// computes dense optical flow using Simple Flow algorithm
         /// </summary>
@@ -435,7 +435,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="upscaleSigmaDist">spatial sigma for bilateral upscale operation</param>
         /// <param name="upscaleSigmaColor">color sigma for bilateral upscale operation</param>
         /// <param name="speedUpThr">threshold to detect point with irregular flow - where flow should be recalculated after upscale</param>
-        public static void calcOpticalFlowSF(
+        public static void CalcOpticalFlowSF(
             Mat from,
             Mat to,
             Mat flow,

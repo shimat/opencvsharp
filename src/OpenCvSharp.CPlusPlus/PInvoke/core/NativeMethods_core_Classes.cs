@@ -136,7 +136,7 @@ namespace OpenCvSharp.CPlusPlus
             [MarshalAs(UnmanagedType.LPStr)] string name, int argType, IntPtr value, int force);
         #endregion
 
-        #region InputOutputArray
+        #region InputArray / OutputArray
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_InputArray_new_byMat(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -145,11 +145,15 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_InputArray_new_byScalar(Scalar val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_InputArray_new_byDouble(double val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_InputArray_new_byGpuMat(IntPtr mat);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_InputArray_delete(IntPtr ia);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_OutputArray_new_byMat(IntPtr mat);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_OutputArray_new_byGpuMat(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_OutputArray_delete(IntPtr oa);
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -19,10 +17,11 @@ namespace OpenCvSharp
         /// Data pointer
         /// </summary>
         protected IntPtr ptr;
+
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init and Dispose
 #if LANG_JP
@@ -38,6 +37,7 @@ namespace OpenCvSharp
             : this(true)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 
@@ -53,6 +53,7 @@ namespace OpenCvSharp
             : this(ptr, true)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 
@@ -68,6 +69,7 @@ namespace OpenCvSharp
             : this(IntPtr.Zero, isEnabledDispose)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 

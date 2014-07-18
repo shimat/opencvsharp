@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 #pragma warning disable 1591
 
@@ -9,6 +10,7 @@ namespace OpenCvSharp.CPlusPlus
 
     static partial class NativeMethods
     {
+        #region Device
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int gpu_getCudaEnabledDeviceCount();
 
@@ -16,150 +18,188 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void gpu_setDevice(int device);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int gpu_getDevice();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_resetDevice();
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_deviceSupports(int feature_set);
 
+        // TargetArchs
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_builtWith(int feature_set);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_has(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasPtx(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasBin(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasEqualOrLessPtx(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasEqualOrGreater(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasEqualOrGreaterPtx(int major, int minor);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_TargetArchs_hasEqualOrGreaterBin(int major, int minor);
+
+        // DeviceInfo
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_DeviceInfo_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_DeviceInfo_new2(int deviceId);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_DeviceInfo_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern void gpu_DeviceInfo_name(
+            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf, int bufLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_majorVersion(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_minorVersion(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_multiProcessorCount(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong gpu_DeviceInfo_sharedMemPerBlock(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_DeviceInfo_queryMemory(
+            IntPtr obj, out ulong totalMemory, out ulong freeMemory);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong gpu_DeviceInfo_freeMemory(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong gpu_DeviceInfo_totalMemory(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_supports(IntPtr obj, int featureSet);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_isCompatible(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_DeviceInfo_deviceID(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_printCudaDeviceInfo(int device);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_printShortCudaDeviceInfo(int device);
+        #endregion
+
+        #region CudaMem
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_registerPageLocked(IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_unregisterPageLocked(IntPtr m);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_CudaMem_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_CudaMem_new2(IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_CudaMem_new3(int rows, int cols, int type, int allocType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_CudaMem_new4(IntPtr m, int allocType);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_CudaMem_delete(IntPtr m);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_CudaMem_opAssign(IntPtr left, IntPtr right);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_CudaMem_clone(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_CudaMem_create(IntPtr obj, int rows, int cols, int type, int allocType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_CudaMem_release(IntPtr obj);
         
-        #region GpuMat
-        #region Init & Disposal
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GpuMat_sizeof();
+        public static extern IntPtr gpu_CudaMem_createMatHeader(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_delete(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new2(int rows, int cols, [MarshalAs(UnmanagedType.I4)] MatrixType type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new3(int rows, int cols, [MarshalAs(UnmanagedType.I4)] MatrixType type, IntPtr data, uint step);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new4(IntPtr mat);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new5(IntPtr gpumat);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new6(CvSize size, [MarshalAs(UnmanagedType.I4)] MatrixType type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new7(CvSize size, [MarshalAs(UnmanagedType.I4)] MatrixType type, IntPtr data, uint step);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new8(int rows, int cols, [MarshalAs(UnmanagedType.I4)] MatrixType type, CvScalar s);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new9(IntPtr m, CvSlice rowRange, CvSlice colRange);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new10(IntPtr m, CvRect roi);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_new11(CvSize size, [MarshalAs(UnmanagedType.I4)] MatrixType type, CvScalar s);
-        #endregion
-        #region Operators
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opAssign1(IntPtr src, IntPtr gpumat);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opAssign2(IntPtr src, IntPtr mat);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opBinaryPlus(IntPtr src1, CvScalar scalar, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opBinaryMinus(IntPtr src1, CvScalar scalar, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opRange1(IntPtr src, CvRect roi, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opRange2(IntPtr src, CvSlice rowRange, CvSlice colRange, IntPtr dst);
+        public static extern IntPtr gpu_CudaMem_createGpuMatHeader(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opComplement(IntPtr src, IntPtr dst);
+        public static extern int gpu_CudaMem_canMapHostMemory();
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opOr(IntPtr src1, IntPtr src2, IntPtr dst);
+        public static extern int gpu_CudaMem_isContinuous(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opAnd(IntPtr src1, IntPtr src2, IntPtr dst);
+        public static extern ulong gpu_CudaMem_elemSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opXor(IntPtr src1, IntPtr src2, IntPtr dst);
+        public static extern ulong gpu_CudaMem_elemSize1(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CudaMem_type(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CudaMem_depth(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CudaMem_channels(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong gpu_CudaMem_step1(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvSize gpu_CudaMem_size(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CudaMem_empty(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CudaMem_flags(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CudaMem_rows(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CudaMem_cols(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong gpu_CudaMem_step(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe byte* gpu_CudaMem_data(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe int* gpu_CudaMem_refcount(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe byte* gpu_CudaMem_datastart(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe byte* gpu_CudaMem_dataend(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CudaMem_alloc_type(IntPtr obj);
+
         #endregion
-        #region Fields
+
+        #region Stream
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GpuMat_flags(IntPtr obj);
+        public static extern IntPtr gpu_Stream_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GpuMat_rows(IntPtr obj);
+        public static extern IntPtr gpu_Stream_new2(IntPtr s);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GpuMat_cols(IntPtr obj);
+        public static extern void gpu_Stream_delete(IntPtr obj);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint GpuMat_step(IntPtr obj);
+        public static extern void gpu_Stream_opAssign(IntPtr left, IntPtr right);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* GpuMat_data(IntPtr obj);
+        public static extern int gpu_Stream_queryIfComplete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_refcount(IntPtr obj);
+        public static extern void gpu_Stream_waitForCompletion(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_datastart(IntPtr obj);
+        public static extern void gpu_Stream_enqueueDownload_CudaMem(IntPtr obj, IntPtr src, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GpuMat_dataend(IntPtr obj);
-        #endregion
-        #region Methods
+        public static extern void gpu_Stream_enqueueDownload_Mat(IntPtr obj, IntPtr src, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opGpuMat(IntPtr mat, IntPtr gpumat);
+        public static extern void gpu_Stream_enqueueUpload_CudaMem(IntPtr obj, IntPtr src, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_upload1(IntPtr obj, IntPtr mat);
+        public static extern void gpu_Stream_enqueueUpload_Mat(IntPtr obj, IntPtr src, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_upload2(IntPtr obj, IntPtr mem, IntPtr stream);
+        public static extern void gpu_Stream_enqueueCopy(IntPtr obj, IntPtr src, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_opMat(IntPtr gpumat, IntPtr mat);
+        public static extern void gpu_Stream_enqueueMemSet(IntPtr obj, IntPtr src, CvScalar val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_download1(IntPtr obj, IntPtr mat);
+        public static extern void gpu_Stream_enqueueMemSet_WithMask(IntPtr obj, IntPtr src, CvScalar val, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_download2(IntPtr obj, IntPtr mem, IntPtr stream);
+        public static extern void gpu_Stream_enqueueConvert(
+            IntPtr obj, IntPtr src, IntPtr dst, int dtype, double a, double b);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_row(IntPtr obj, int y, IntPtr outValue);
+        public static extern void gpu_Stream_enqueueHostCallback(
+            IntPtr obj, IntPtr callback, IntPtr userData);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_col(IntPtr obj, int x, IntPtr outValue);
+        public static extern IntPtr gpu_Stream_Null();
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_rowRange(IntPtr obj, int startrow, int endrow, IntPtr outValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_colRange(IntPtr obj, int startcol, int endcol, IntPtr outValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_clone(IntPtr obj, IntPtr outValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_copyTo1(IntPtr obj, IntPtr m);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_copyTo2(IntPtr obj, IntPtr m, IntPtr mask);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_convertTo(IntPtr obj, IntPtr m, int rtype, double alpha, double beta);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_assignTo(IntPtr obj, IntPtr m, int type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_setTo(IntPtr obj, CvScalar s, IntPtr mask, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_reshape(IntPtr obj, int cn, int rows, IntPtr outValue);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_create1(IntPtr obj, int rows, int cols, [MarshalAs(UnmanagedType.I4)] MatrixType type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_create2(IntPtr obj, CvSize size, [MarshalAs(UnmanagedType.I4)] MatrixType type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_release(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_swap(IntPtr obj, IntPtr mat);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_locateROI(IntPtr obj, out CvSize wholeSize, out CvPoint ofs);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_adjustROI(IntPtr obj, int dtop, int dbottom, int dleft, int dright, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GpuMat_t(IntPtr src, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool GpuMat_isContinuous(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint GpuMat_elemSize(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint GpuMat_elemSize1(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        public static extern MatrixType GpuMat_type(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GpuMat_depth(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GpuMat_channels(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint GpuMat_step1(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize GpuMat_size(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool GpuMat_empty(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* GpuMat_ptr(IntPtr obj, int y);
-        #endregion
+        public static extern int gpu_Stream_bool(IntPtr obj);
+
         #endregion
 
         #region HogDescriptor

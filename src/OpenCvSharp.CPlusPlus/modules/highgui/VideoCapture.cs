@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -31,7 +28,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
         #endregion
 
         #region Init and Disposal
@@ -58,9 +55,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException("Failed to create CvCapture", e);
             }
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create CvCapture");
-            }
+            
             captureType = CaptureType.NotSpecified;
         }
 
@@ -219,8 +215,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
-            if (!File.Exists(fileName))
-                throw new FileNotFoundException("File not found", fileName);
+            /*if (!File.Exists(fileName))
+                throw new FileNotFoundException("File not found", fileName);*/
 
             ptr = NativeMethods.highgui_VideoCapture_new_fromFile(fileName);
 
@@ -330,7 +326,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosMsec, (double)value);
+                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosMsec, value);
             }
         }
 
@@ -353,7 +349,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosFrames, (double)value);
+                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosFrames, value);
             }
         }
 
@@ -376,7 +372,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosAviRatio, (double)(int)value);
+                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosAviRatio, (int)value);
             }
         }
 
@@ -399,7 +395,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FrameWidth, (double)value);
+                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FrameWidth, value);
             }
         }
 
@@ -422,7 +418,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FrameHeight, (double)value);
+                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FrameHeight, value);
             }
         }
 
@@ -460,13 +456,15 @@ namespace OpenCvSharp.CPlusPlus
         /// Gets or sets 4-character code of codec 
         /// </summary>
 #endif
+// ReSharper disable InconsistentNaming
         public string FourCC
+// ReSharper restore InconsistentNaming
         {
             get
             {
                 int src = (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.FourCC);
                 IntBytes bytes = new IntBytes { Value = src };
-                char[] fourcc = new char[]{
+                char[] fourcc = new []{
                     Convert.ToChar(bytes.B1),
                     Convert.ToChar(bytes.B2),
                     Convert.ToChar(bytes.B3),
@@ -486,7 +484,7 @@ namespace OpenCvSharp.CPlusPlus
                 byte c3 = Convert.ToByte(value[2]);
                 byte c4 = Convert.ToByte(value[3]);
                 int v = Cv.FOURCC(c1, c2, c3, c4);
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FourCC, (double)v);
+                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FourCC, v);
             }
         }
 
@@ -965,7 +963,9 @@ namespace OpenCvSharp.CPlusPlus
         /// [CV_CAP_PROP_MAX_DC1394]
         /// </summary>
 #endif
+// ReSharper disable InconsistentNaming
         public double MaxDC1394
+// ReSharper restore InconsistentNaming
         {
             get
             {
@@ -1052,7 +1052,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region OpenNI
         // Properties of cameras available through OpenNI interfaces
-
+// ReSharper disable InconsistentNaming
 #if LANG_JP
 		/// <summary>
         /// 
@@ -1286,6 +1286,7 @@ namespace OpenCvSharp.CPlusPlus
                 NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorRegistrationON, value);
             }
         }
+// ReSharper restore InconsistentNaming
         #endregion
         #region GStreamer
         // Properties of cameras available through GStreamer interface
@@ -1324,7 +1325,9 @@ namespace OpenCvSharp.CPlusPlus
         /// [CV_CAP_PROP_PVAPI_MULTICASTIP]
         /// </summary>
 #endif
+// ReSharper disable InconsistentNaming
         public double PvAPIMulticastIP
+// ReSharper restore InconsistentNaming
         {
             get
             {
@@ -1338,7 +1341,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
         #region XI
         // Properties of cameras available through XIMEA SDK interface
-
+// ReSharper disable InconsistentNaming
 #if LANG_JP
 		/// <summary>
         /// Change image resolution by binning or skipping.  
@@ -1817,6 +1820,7 @@ namespace OpenCvSharp.CPlusPlus
                 NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_Timeout, value);
             }
         }
+// ReSharper restore InconsistentNaming
         #endregion
         #endregion
 
@@ -2128,13 +2132,13 @@ namespace OpenCvSharp.CPlusPlus
             [FieldOffset(0)]
             public Int32 Value;
             [FieldOffset(0)]
-            public Byte B1;
+            public readonly Byte B1;
             [FieldOffset(1)]
-            public Byte B2;
+            public readonly Byte B2;
             [FieldOffset(2)]
-            public Byte B3;
+            public readonly Byte B3;
             [FieldOffset(3)]
-            public Byte B4;
+            public readonly Byte B4;
         }
     }
 }

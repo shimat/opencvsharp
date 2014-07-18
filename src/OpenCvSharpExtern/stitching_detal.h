@@ -1,0 +1,4 @@
+#ifndef _CPP_STITCHING_DETAIL_H_
+#define _CPP_STITCHING_DETAIL_H_
+
+#endif

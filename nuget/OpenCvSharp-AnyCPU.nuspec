@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-AnyCPU</id>
-        <version>2.4.8.20140619</version>
+        <version>2.4.9.20140718</version>
         <title>OpenCvSharp</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -10,9 +10,9 @@
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/lenna-icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <releaseNotes>- Fixed bugs: Cv2.WarpPerspective and Cv2.FindChessboardCorners
-- Added Mat methods for supporting method chaining
-- Added conversion WriteableBitmap &lt;-&gt; Mat</releaseNotes>
+        <releaseNotes>- Upgraded 2.4.8 -&gt; 2.4.9
+- Added partial support for stitching
+- Fixed Mat bugs and memory leaks</releaseNotes>
         <copyright>Copyright 2008-2014</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
@@ -27,49 +27,47 @@
         <file src="..\lib\vc++\x64\msvcp110.dll" target="Content\dll\x64\msvcp110.dll" />
         <file src="..\lib\vc++\x64\msvcr110.dll" target="Content\dll\x64\msvcr110.dll" />
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="Content\dll\x64\OpenCvSharpExtern.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_calib3d248.dll" target="Content\dll\x64\opencv_calib3d248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_contrib248.dll" target="Content\dll\x64\opencv_contrib248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_core248.dll" target="Content\dll\x64\opencv_core248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_features2d248.dll" target="Content\dll\x64\opencv_features2d248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_ffmpeg248_64.dll" target="Content\dll\x64\opencv_ffmpeg248_64.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_flann248.dll" target="Content\dll\x64\opencv_flann248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_gpu248.dll" target="Content\dll\x64\opencv_gpu248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_highgui248.dll" target="Content\dll\x64\opencv_highgui248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_highgui248d.dll" target="Content\dll\x64\opencv_highgui248d.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_imgproc248.dll" target="Content\dll\x64\opencv_imgproc248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_legacy248.dll" target="Content\dll\x64\opencv_legacy248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_ml248.dll" target="Content\dll\x64\opencv_ml248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_nonfree248.dll" target="Content\dll\x64\opencv_nonfree248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_objdetect248.dll" target="Content\dll\x64\opencv_objdetect248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_ocl248.dll" target="Content\dll\x64\opencv_ocl248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_photo248.dll" target="Content\dll\x64\opencv_photo248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_stitching248.dll" target="Content\dll\x64\opencv_stitching248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_stitching248d.dll" target="Content\dll\x64\opencv_stitching248d.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_superres248.dll" target="Content\dll\x64\opencv_superres248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_video248.dll" target="Content\dll\x64\opencv_video248.dll" />
-        <file src="..\lib\opencv\x64\vc11\opencv_videostab248.dll" target="Content\dll\x64\opencv_videostab248.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_calib3d249.dll" target="Content\dll\x64\opencv_calib3d249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_contrib249.dll" target="Content\dll\x64\opencv_contrib249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_core249.dll" target="Content\dll\x64\opencv_core249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_features2d249.dll" target="Content\dll\x64\opencv_features2d249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_ffmpeg249_64.dll" target="Content\dll\x64\opencv_ffmpeg249_64.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_flann249.dll" target="Content\dll\x64\opencv_flann249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_gpu249.dll" target="Content\dll\x64\opencv_gpu249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_highgui249.dll" target="Content\dll\x64\opencv_highgui249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_imgproc249.dll" target="Content\dll\x64\opencv_imgproc249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_legacy249.dll" target="Content\dll\x64\opencv_legacy249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_ml249.dll" target="Content\dll\x64\opencv_ml249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_nonfree249.dll" target="Content\dll\x64\opencv_nonfree249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_objdetect249.dll" target="Content\dll\x64\opencv_objdetect249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_ocl249.dll" target="Content\dll\x64\opencv_ocl249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_photo249.dll" target="Content\dll\x64\opencv_photo249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_stitching249.dll" target="Content\dll\x64\opencv_stitching249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_superres249.dll" target="Content\dll\x64\opencv_superres249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_video249.dll" target="Content\dll\x64\opencv_video249.dll" />
+        <file src="..\lib\opencv\x64\vc11\opencv_videostab249.dll" target="Content\dll\x64\opencv_videostab249.dll" />
         <file src="..\lib\vc++\x86\msvcp110.dll" target="Content\dll\x86\msvcp110.dll" />
         <file src="..\lib\vc++\x86\msvcr110.dll" target="Content\dll\x86\msvcr110.dll" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="Content\dll\x86\OpenCvSharpExtern.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_calib3d248.dll" target="Content\dll\x86\opencv_calib3d248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_contrib248.dll" target="Content\dll\x86\opencv_contrib248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_core248.dll" target="Content\dll\x86\opencv_core248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_features2d248.dll" target="Content\dll\x86\opencv_features2d248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_ffmpeg248.dll" target="Content\dll\x86\opencv_ffmpeg248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_flann248.dll" target="Content\dll\x86\opencv_flann248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_gpu248.dll" target="Content\dll\x86\opencv_gpu248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_highgui248.dll" target="Content\dll\x86\opencv_highgui248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_imgproc248.dll" target="Content\dll\x86\opencv_imgproc248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_legacy248.dll" target="Content\dll\x86\opencv_legacy248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_ml248.dll" target="Content\dll\x86\opencv_ml248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_nonfree248.dll" target="Content\dll\x86\opencv_nonfree248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_objdetect248.dll" target="Content\dll\x86\opencv_objdetect248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_ocl248.dll" target="Content\dll\x86\opencv_ocl248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_photo248.dll" target="Content\dll\x86\opencv_photo248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_stitching248.dll" target="Content\dll\x86\opencv_stitching248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_superres248.dll" target="Content\dll\x86\opencv_superres248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_video248.dll" target="Content\dll\x86\opencv_video248.dll" />
-        <file src="..\lib\opencv\x86\vc11\opencv_videostab248.dll" target="Content\dll\x86\opencv_videostab248.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_calib3d249.dll" target="Content\dll\x86\opencv_calib3d249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_contrib249.dll" target="Content\dll\x86\opencv_contrib249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_core249.dll" target="Content\dll\x86\opencv_core249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_features2d249.dll" target="Content\dll\x86\opencv_features2d249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_ffmpeg249.dll" target="Content\dll\x86\opencv_ffmpeg249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_flann249.dll" target="Content\dll\x86\opencv_flann249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_gpu249.dll" target="Content\dll\x86\opencv_gpu249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_highgui249.dll" target="Content\dll\x86\opencv_highgui249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_imgproc249.dll" target="Content\dll\x86\opencv_imgproc249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_legacy249.dll" target="Content\dll\x86\opencv_legacy249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_ml249.dll" target="Content\dll\x86\opencv_ml249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_nonfree249.dll" target="Content\dll\x86\opencv_nonfree249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_objdetect249.dll" target="Content\dll\x86\opencv_objdetect249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_ocl249.dll" target="Content\dll\x86\opencv_ocl249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_photo249.dll" target="Content\dll\x86\opencv_photo249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_stitching249.dll" target="Content\dll\x86\opencv_stitching249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_superres249.dll" target="Content\dll\x86\opencv_superres249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_video249.dll" target="Content\dll\x86\opencv_video249.dll" />
+        <file src="..\lib\opencv\x86\vc11\opencv_videostab249.dll" target="Content\dll\x86\opencv_videostab249.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net20\OpenCvSharp.Blob.XML" />
@@ -104,8 +102,8 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net40\OpenCvSharp.Extensions.XML" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net40\OpenCvSharp.UserInterface.dll" />
         <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net40\OpenCvSharp.XML" />
-        <file src="tools-x86\init.ps1" target="tools\init.ps1" />
-        <file src="tools-x86\install.ps1" target="tools\install.ps1" />
-        <file src="tools-x86\uninstall.ps1" target="tools\uninstall.ps1" />
+        <file src="tools\init.ps1" target="tools\init.ps1" />
+        <file src="tools\install-AnyCPU.ps1" target="tools\install.ps1" />
+        <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
     </files>
 </package>

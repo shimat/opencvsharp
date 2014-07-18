@@ -29,14 +29,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if(mat == null)
                 throw new ArgumentNullException("mat");
-            try
-            {
-                this.ptr = NativeMethods.core_MatExpr_new(mat.CvPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            ptr = NativeMethods.core_MatExpr_new(mat.CvPtr);
         }
 
         /// <summary>

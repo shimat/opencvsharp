@@ -28,9 +28,6 @@ namespace CppStyleSamplesCS
 
             var sift = new SIFT();
 
-            KeyPoint[] kpt1 = sift.Detect(gray1, null);
-            KeyPoint[] kpt2 = sift.Detect(gray2, null);
-
             // Detect the keypoints and generate their descriptors using SIFT
             KeyPoint[] keypoints1, keypoints2;
             var descriptors1 = new MatOfFloat();
@@ -66,9 +63,6 @@ namespace CppStyleSamplesCS
             Cv2.CvtColor(src2, gray2, ColorConversion.BgrToGray);
 
             var surf = new SURF(500, 4, 2, true);
-
-            KeyPoint[] kpt1 = surf.Detect(gray1, null);
-            KeyPoint[] kpt2 = surf.Detect(gray2, null);
 
             // Detect the keypoints and generate their descriptors using SURF
             KeyPoint[] keypoints1, keypoints2;

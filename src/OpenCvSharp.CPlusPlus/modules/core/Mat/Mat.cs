@@ -20,15 +20,13 @@ namespace OpenCvSharp.CPlusPlus
     /// OpenCVネイティブの cv::Mat* ポインタから初期化
     /// </summary>
     /// <param name="ptr"></param>
-    /// <param name="initialAlloc"></param>
 #else
         /// <summary>
         /// Creates from native cv::Mat* pointer
         /// </summary>
         /// <param name="ptr"></param>
-        /// <param name="initialAlloc"></param>
 #endif
-        public Mat(IntPtr ptr, bool initialAlloc = true)
+        public Mat(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
@@ -36,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
 
             //if (initialAlloc)
             //    NotifyMemoryPressure(MemorySize());
-            NotifyMemoryPressure(SizeOf);
+            //NotifyMemoryPressure(SizeOf);
         }
 
         private long MemorySize()
@@ -58,7 +56,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat()
         {
             ptr = NativeMethods.core_Mat_new1();
-            NotifyMemoryPressure(SizeOf);
+            //NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -307,7 +305,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
         {
             ptr = NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step));
-            NotifyMemoryPressure(SizeOf);
+            //NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -347,7 +345,7 @@ namespace OpenCvSharp.CPlusPlus
             GCHandle handle = AllocGCHandle(data);
             ptr = NativeMethods.core_Mat_new8(rows, cols, type,
                 handle.AddrOfPinnedObject(), new IntPtr(step));
-            NotifyMemoryPressure(SizeOf);
+            //NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -398,7 +396,7 @@ namespace OpenCvSharp.CPlusPlus
                 });
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray);
             }
-            NotifyMemoryPressure(SizeOf);
+            //NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -453,7 +451,7 @@ namespace OpenCvSharp.CPlusPlus
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, handle.AddrOfPinnedObject(), stepsArray);
             }
-            NotifyMemoryPressure(SizeOf);
+            //NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -539,7 +537,7 @@ namespace OpenCvSharp.CPlusPlus
             ptr = NativeMethods.core_Mat_new_FromCvMat(m.CvPtr, copyData ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
-            NotifyMemoryPressure(SizeOf);
+            //NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -572,7 +570,7 @@ namespace OpenCvSharp.CPlusPlus
             ptr = NativeMethods.core_Mat_new_FromIplImage(img.CvPtr, copyData ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
-            NotifyMemoryPressure(SizeOf);
+            //NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP

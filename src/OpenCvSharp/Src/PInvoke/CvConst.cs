@@ -106,12 +106,13 @@ namespace OpenCvSharp
         public const int CV_HARDWARE_MAX_FEATURE = 255;
 
         // cvCopyMakeBorder
-        public const int IPL_BORDER_CONSTANT = 0;
-        public const int IPL_BORDER_REPLICATE = 1;
-        public const int IPL_BORDER_REFLECT = 2;
-        public const int IPL_BORDER_REFLECT_101 = 4;
-        public const int IPL_BORDER_WRAP = 3;
-        public const int IPL_BORDER_DEFAULT = 4;
+        public const int IPL_BORDER_CONSTANT = 0,
+            IPL_BORDER_REPLICATE = 1,
+            IPL_BORDER_REFLECT = 2,
+            IPL_BORDER_REFLECT_101 = 4,
+            IPL_BORDER_WRAP = 3,
+            IPL_BORDER_DEFAULT = 4,
+            BORDER_ISOLATED = 16;
         // cvCreateCameraCapture
         public const int CV_CAP_ANY = 0;
         public const int CV_CAP_MIL = 100;

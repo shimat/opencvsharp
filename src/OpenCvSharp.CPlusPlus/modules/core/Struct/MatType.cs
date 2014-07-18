@@ -13,7 +13,7 @@ namespace OpenCvSharp.CPlusPlus
     public struct MatType : IEquatable<MatType>, IEquatable<int>
     {
         /// <summary>
-        /// 
+        /// Entity value
         /// </summary>
         public int Value;
 
