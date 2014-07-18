@@ -24,25 +24,26 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            //StitchingPreprocess();
-            Stitching();
+            Mat[] mats = StitchingPreprocess();
+            Stitching(mats);
             //Track();
             //Run();
         }
 
-        private static void StitchingPreprocess()
+        private static Mat[] StitchingPreprocess()
         {
-            Mat source = new Mat(@"C:\Penguins.jpg");
+            Mat source = new Mat(@"C:\Penguins.jpg", LoadMode.Color);
             Mat result = new Mat();
 
             source.CopyTo(result);
             Cv2.CvtColor(result, result, ColorConversion.BgrToGray);
             Cv2.CvtColor(result, result, ColorConversion.GrayToBgr);
 
-            int width = 256;
-            int height = 256;
+            int width = 400;
+            int height = 400;
             var rand = new Random();
-            for (int i = 0; i < 20; i++)
+            var mats = new List<Mat>();
+            for (int i = 0; i < 10; i++)
             {
                 int x1 = rand.Next(source.Cols - width);
                 int y1 = rand.Next(source.Rows - height);
@@ -62,28 +63,34 @@ namespace OpenCvSharp.Sandbox
                 result.Line(new Point(x2, y2), new Point(x2, y1), new Scalar(0, 0, 255));
                 result.Line(new Point(x2, y1), new Point(x1, y1), new Scalar(0, 0, 255));
 
-                Mat a = source[new Rect(left, top, width, height)];
-                string outFile = String.Format(@"C:\temp\stitching\{0:D3}.png", i);
-                a.SaveImage(outFile);
+                Mat m = source[new Rect(left, top, width, height)];
+                mats.Add(m.Clone());
+                //string outFile = String.Format(@"C:\temp\stitching\{0:D3}.png", i);
+                //m.SaveImage(outFile);
             }
 
+            result.SaveImage(@"C:\temp\parts.png");
             using (new Window(result))
             {
                 Cv.WaitKey();
             }
+
+            return mats.ToArray();
         }
 
-        private static void Stitching()
+        private static void Stitching(Mat[] images)
         {
             var stitcher = Stitcher.CreateDefault(false);
 
-            string[] files = Directory.GetFiles(@"C:\temp\stitching\", "*.png");
-            Mat[] images = files.Select(f => new Mat(f)).ToArray();
+            /*string[] files = Directory.GetFiles(@"C:\temp\stitching\", "*.png");
+            Mat[] images = files.Select(f => new Mat(f)).ToArray();*/
             Mat pano = new Mat();
 
+            Console.Write("Stitching 処理開始...");
             var status = stitcher.Stitch(images, pano);
-            status.ToString();
+            Console.WriteLine(" 完了 {0}", status);
 
+            pano.SaveImage(@"C:\temp\pano.png");
             Window.ShowImages(pano);
 
             foreach (Mat image in images)
