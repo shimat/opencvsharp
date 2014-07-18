@@ -1936,11 +1936,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                if (colsVal == int.MinValue)
-                {
-                    colsVal = NativeMethods.core_Mat_cols(ptr);
-                }
-                return colsVal;
+                //行列データが新たに確保された場合に対応できない。
+                //if (colsVal == int.MinValue)
+                //{
+                //    colsVal = NativeMethods.core_Mat_cols(ptr);
+                //}
+                //return colsVal;
+                return NativeMethods.core_Mat_cols(ptr);
             }
         }
 
@@ -1952,15 +1954,16 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                if (colsVal == int.MinValue)
-                {
-                    colsVal = Cols;
-                }
-                return colsVal;
+                //if (colsVal == int.MinValue)
+                //{
+                //    colsVal = Cols;
+                //}
+                //return colsVal;
+                return NativeMethods.core_Mat_cols(ptr);
             }
         }
 
-        private int colsVal = int.MinValue;
+        //private int colsVal = int.MinValue;
 
         #endregion
 
@@ -2045,7 +2048,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="type">New matrix type.</param>
         public void Create(Size size, MatType type)
         {
-            Create(size.Width, size.Height, type);
+            Create(size.Height, size.Width, type);
         }
 
         /// <summary>
@@ -2385,11 +2388,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                if (rowsVal == int.MinValue)
-                {
-                    rowsVal = NativeMethods.core_Mat_rows(ptr);
-                }
-                return rowsVal;
+                //if (rowsVal == int.MinValue)
+                //{
+                //    rowsVal = NativeMethods.core_Mat_rows(ptr);
+                //}
+                //return rowsVal;
+                return NativeMethods.core_Mat_rows(ptr);
             }
         }
 
@@ -2401,15 +2405,16 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                if (rowsVal == int.MinValue)
-                {
-                    rowsVal = Rows;
-                }
-                return rowsVal;
+                //if (rowsVal == int.MinValue)
+                //{
+                //    rowsVal = Rows;
+                //}
+                //return rowsVal;
+                return NativeMethods.core_Mat_rows(ptr);
             }
         }
 
-        private int rowsVal = int.MinValue;
+        //private int rowsVal = int.MinValue;
 
         #endregion
 
