@@ -52,10 +52,10 @@ namespace OpenCvSharp.CPlusPlus
             }
             catch (AccessViolationException e)
             {
-                throw new OpenCvSharpException("Failed to create CvCapture", e);
+                throw new OpenCvSharpException("Failed to create VideoCapture", e);
             }
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create CvCapture");
+                throw new OpenCvSharpException("Failed to create VideoCapture");
             
             captureType = CaptureType.NotSpecified;
         }
@@ -84,11 +84,11 @@ namespace OpenCvSharp.CPlusPlus
             }
             catch (AccessViolationException e)
             {
-                throw new OpenCvSharpException("Failed to create CvCapture", e);
+                throw new OpenCvSharpException("Failed to create VideoCapture", e);
             }
             if (ptr == IntPtr.Zero)
             {
-                throw new OpenCvSharpException("Failed to create CvCapture");
+                throw new OpenCvSharpException("Failed to create VideoCapture");
             }
             captureType = CaptureType.Camera;
         }
@@ -221,7 +221,7 @@ namespace OpenCvSharp.CPlusPlus
             ptr = NativeMethods.highgui_VideoCapture_new_fromFile(fileName);
 
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create CvCapture");
+                throw new OpenCvSharpException("Failed to create VideoCapture");
             
             captureType = CaptureType.File;
         }
