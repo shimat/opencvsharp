@@ -8,29 +8,29 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rect : IEquatable<Rect>
+    public struct Rectf : IEquatable<Rectf>
     {
         #region Field
         /// <summary>
         /// 
         /// </summary>
-        public int X;
+        public float X;
         /// <summary>
         /// 
         /// </summary>
-        public int Y;
+        public float Y;
         /// <summary>
         /// 
         /// </summary>
-        public int Width;
+        public float Width;
         /// <summary>
         /// 
         /// </summary>
-        public int Height;
+        public float Height;
         /// <summary>
         /// sizeof(Rect)
         /// </summary>
-        public const int SizeOf = sizeof(int) * 4;
+        public const int SizeOf = sizeof(float) * 4;
 
 #if LANG_JP
         /// <summary>
@@ -41,7 +41,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Represents a CvRect structure with its properties left uninitialized. 
         /// </summary>
 #endif
-        public static readonly Rect Empty = new Rect();
+        public static readonly Rectf Empty = new Rectf();
         #endregion
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Rect(int x, int y, int width, int height)
+        public Rectf(float x, float y, float width, float height)
         {
             X = x;
             Y = y;
@@ -64,7 +64,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="location"></param>
         /// <param name="size"></param>
-        public Rect(Point location, Size size)
+        public Rectf(Point2f location, Size2f size)
         {
             X = location.X;
             Y = location.Y;
@@ -79,9 +79,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="top"></param>
         /// <param name="right"></param>
         /// <param name="bottom"></param>
-        public static Rect FromLTRB(int left, int top, int right, int bottom)
+        public static Rectf FromLTRB(float left, float top, float right, float bottom)
         {
-            Rect r = new Rect
+            Rectf r = new Rectf
             {
                 X = left,
                 Y = top,
@@ -95,27 +95,6 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentException("bottom > top");
             return r;
         }
-
-        #region Cast
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static implicit operator CvRect(Rect self)
-        {
-            return new CvRect(self.X, self.Y, self.Width, self.Height);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-        public static implicit operator Rect(CvRect rect)
-        {
-            return new Rect(rect.X, rect.Y, rect.Width, rect.Height);
-        }
-        #endregion
 
         #region Operators
         #region == / !=
@@ -132,7 +111,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public bool Equals(Rect obj)
+        public bool Equals(Rectf obj)
         {
             return (X == obj.X && Y == obj.Y && Width == obj.Width && Height == obj.Height);
         }
@@ -151,7 +130,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
 #endif
-        public static bool operator ==(Rect lhs, Rect rhs)
+        public static bool operator ==(Rectf lhs, Rectf rhs)
         {
             return lhs.Equals(rhs);
         }
@@ -170,7 +149,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
 #endif
-        public static bool operator !=(Rect lhs, Rect rhs)
+        public static bool operator !=(Rectf lhs, Rectf rhs)
         {
             return !lhs.Equals(rhs);
         }
@@ -191,9 +170,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public static Rect operator +(Rect rect, Point pt)
+        public static Rectf operator +(Rectf rect, Point2f pt)
         {
-            return new Rect(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
+            return new Rectf(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
         }
 #if LANG_JP
         /// <summary>
@@ -210,9 +189,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public static Rect operator -(Rect rect, Point pt)
+        public static Rectf operator -(Rectf rect, Point2f pt)
         {
-            return new Rect(rect.X - pt.X, rect.Y - pt.Y, rect.Width, rect.Height);
+            return new Rectf(rect.X - pt.X, rect.Y - pt.Y, rect.Width, rect.Height);
         }
 
 #if LANG_JP
@@ -230,9 +209,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="size"></param>
         /// <returns></returns>
 #endif
-        public static Rect operator +(Rect rect, Size size)
+        public static Rectf operator +(Rectf rect, Size2f size)
         {
-            return new Rect(rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
+            return new Rectf(rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
         }
 #if LANG_JP
         /// <summary>
@@ -249,9 +228,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="size"></param>
         /// <returns></returns>
 #endif
-        public static Rect operator -(Rect rect, Size size)
+        public static Rectf operator -(Rectf rect, Size2f size)
         {
-            return new Rect(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
+            return new Rectf(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
         }
         #endregion
         #region & / |
@@ -270,7 +249,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
-        public static Rect operator &(Rect a, Rect b)
+        public static Rectf operator &(Rectf a, Rectf b)
         {
             return Intersect(a, b);
         }
@@ -290,7 +269,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
 #endif
-        public static Rect operator |(Rect a, Rect b)
+        public static Rectf operator |(Rectf a, Rectf b)
         {
             return Union(a, b);
         }
@@ -307,7 +286,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Gets the y-coordinate of the top edge of this CvRect structure. 
         /// </summary>
 #endif
-        public int Top
+        public float Top
         {
             get { return Y; }
             set { Y = value; }
@@ -321,7 +300,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Gets the y-coordinate that is the sum of the Y and Height property values of this CvRect structure.
         /// </summary>
 #endif
-        public int Bottom
+        public float Bottom
         {
             get { return Y + Height - 1; }
         }
@@ -334,7 +313,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Gets the x-coordinate of the left edge of this CvRect structure. 
         /// </summary>
 #endif
-        public int Left
+        public float Left
         {
             get { return X; }
             set { X = value; }
@@ -348,7 +327,7 @@ namespace OpenCvSharp.CPlusPlus
         /// Gets the x-coordinate that is the sum of X and Width property values of this CvRect structure. 
         /// </summary>
 #endif
-        public int Right
+        public float Right
         {
             get { return X + Width - 1; }
         }
@@ -362,9 +341,9 @@ namespace OpenCvSharp.CPlusPlus
         /// Coordinate of the left-most rectangle corner [CvPoint(X, Y)]
         /// </summary>
 #endif
-        public Point Location
+        public Point2f Location
         {
-            get { return new Point(X, Y); }
+            get { return new Point2f(X, Y); }
             set
             {
                 X = value.X;
@@ -380,9 +359,9 @@ namespace OpenCvSharp.CPlusPlus
         /// Size of the rectangle [CvSize(Width, Height)]
         /// </summary>
 #endif
-        public Size Size
+        public Size2f Size
         {
-            get { return new Size(Width, Height); }
+            get { return new Size2f(Width, Height); }
             set
             {
                 Width = value.Width;
@@ -399,9 +378,9 @@ namespace OpenCvSharp.CPlusPlus
         /// Coordinate of the left-most rectangle corner [CvPoint(X, Y)]
         /// </summary>
 #endif
-        public Point TopLeft
+        public Point2f TopLeft
         {
-            get { return new Point(X, Y); }
+            get { return new Point2f(X, Y); }
         }
 #if LANG_JP
         /// <summary>
@@ -412,13 +391,14 @@ namespace OpenCvSharp.CPlusPlus
         /// Coordinate of the right-most rectangle corner [CvPoint(X+Width, Y+Height)]
         /// </summary>
 #endif
-        public Point BottomRight
+        public Point2f BottomRight
         {
-            get { return new Point(X + Width, Y + Height); }
+            get { return new Point2f(X + Width, Y + Height); }
         }
         #endregion
 
         #region Methods
+
 #if LANG_JP
         /// <summary>
         /// 指定した点がこの矩形に含まれているかどうかを判断する
@@ -434,7 +414,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="y">y-coordinate of the point</param>
         /// <returns></returns>
 #endif
-        public bool Contains(int x, int y)
+        public bool Contains(float x, float y)
         {
             return (X <= x && Y <= y && X + Width > x && Y + Height > y);
         }
@@ -451,7 +431,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="pt">point</param>
         /// <returns></returns>
 #endif
-        public bool Contains(Point pt)
+        public bool Contains(Point2f pt)
         {
             return Contains(pt.X, pt.Y);
         }
@@ -468,7 +448,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rect">rectangle</param>
         /// <returns></returns>
 #endif
-        public bool Contains(Rect rect)
+        public bool Contains(Rectf rect)
         {
             return Contains(rect.TopLeft) && Contains(rect.BottomRight);
         }
@@ -481,12 +461,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="height">垂直方向の膨張量</param>
 #else
         /// <summary>
-        /// Inflates this CvRect by the specified amount. 
+        /// Inflates this Rect by the specified amount. 
         /// </summary>
         /// <param name="width">The amount to inflate this Rectangle horizontally. </param>
         /// <param name="height">The amount to inflate this Rectangle vertically. </param>
 #endif
-        public void Inflate(int width, int height)
+        public void Inflate(float width, float height)
         {
             X -= width;
             Y -= height;
@@ -500,11 +480,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="size">この四角形の膨張量</param>
 #else
         /// <summary>
-        /// Inflates this CvRect by the specified amount. 
+        /// Inflates this Rect by the specified amount. 
         /// </summary>
         /// <param name="size">The amount to inflate this rectangle. </param>
 #endif
-        public void Inflate(Size size)
+        public void Inflate(Size2f size)
         {
 
             Inflate(size.Width, size.Height);
@@ -547,15 +527,15 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
-        public static Rect Intersect(Rect a, Rect b)
+        public static Rectf Intersect(Rectf a, Rectf b)
         {
-            int x1 = Math.Max(a.X, b.X);
-            int x2 = Math.Min(a.X + a.Width, b.X + b.Width);
-            int y1 = Math.Max(a.Y, b.Y);
-            int y2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
+            float x1 = Math.Max(a.X, b.X);
+            float x2 = Math.Min(a.X + a.Width, b.X + b.Width);
+            float y1 = Math.Max(a.Y, b.Y);
+            float y2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
 
             if (x2 >= x1 && y2 >= y1)
-                return new Rect(x1, y1, x2 - x1, y2 - y1);
+                return new Rectf(x1, y1, x2 - x1, y2 - y1);
             return Empty;
         }
 #if LANG_JP
@@ -571,7 +551,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rect">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
-        public Rect Intersect(Rect rect)
+        public Rectf Intersect(Rectf rect)
         {
             return Intersect(this, rect);
         }
@@ -589,7 +569,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rect">Rectangle</param>
         /// <returns></returns>
 #endif
-        public bool IntersectsWith(Rect rect)
+        public bool IntersectsWith(Rectf rect)
         {
             return (
                 (X < rect.X + rect.Width) &&
@@ -612,7 +592,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="rect">A rectangle to union. </param>
         /// <returns></returns>
 #endif
-        public Rect Union(Rect rect)
+        public Rectf Union(Rectf rect)
         {
             return Union(this, rect);
         }
@@ -631,14 +611,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
 #endif
-        public static Rect Union(Rect a, Rect b)
+        public static Rectf Union(Rectf a, Rectf b)
         {
-            int x1 = Math.Min(a.X, b.X);
-            int x2 = Math.Max(a.X + a.Width, b.X + b.Width);
-            int y1 = Math.Min(a.Y, b.Y);
-            int y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
+            float x1 = Math.Min(a.X, b.X);
+            float x2 = Math.Max(a.X + a.Width, b.X + b.Width);
+            float y1 = Math.Min(a.Y, b.Y);
+            float y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
 
-            return new Rect(x1, y1, x2 - x1, y2 - y1);
+            return new Rectf(x1, y1, x2 - x1, y2 - y1);
         }
 
 #if LANG_JP

@@ -95,6 +95,7 @@
     <Compile Include="modules\core\MatExpr_CvMethods.cs" />
     <Compile Include="modules\core\Mat\MatOfInt4.cs" />
     <Compile Include="modules\core\Mat\Mat_CvMethods.cs" />
+    <Compile Include="modules\core\Struct\Rectf.cs" />
     <Compile Include="modules\features2d\FlannBasedMatcher.cs" />
     <Compile Include="modules\features2d\BriefDescriptorExtractor.cs" />
     <Compile Include="modules\features2d\DescriptorExtractor.cs" />
