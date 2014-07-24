@@ -219,7 +219,7 @@
     <ClInclude Include="stitching.h">
       <Filter>Header Files\stitching</Filter>
     </ClInclude>
-    <ClInclude Include="stitching_detal.h">
+    <ClInclude Include="stitching_detail_Matchers.h">
       <Filter>Header Files\stitching</Filter>
     </ClInclude>
   </ItemGroup>
