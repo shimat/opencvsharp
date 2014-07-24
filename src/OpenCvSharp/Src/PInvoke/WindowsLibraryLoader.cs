@@ -174,7 +174,7 @@ namespace OpenCvSharp
             }
             catch (Exception e)
             {
-                Trace.TraceError(e.Message);
+                Debug.WriteLine(e.Message);
             }
         }
 
@@ -241,7 +241,7 @@ namespace OpenCvSharp
                 try
                 {
                     // Show where we're trying to load the file from
-                    Trace.TraceInformation(String.Format(CultureInfo.CurrentCulture,
+                    Debug.WriteLine(String.Format(
                           "Trying to load native library \"{0}\"...",
                           fileName));
 
@@ -249,29 +249,29 @@ namespace OpenCvSharp
                     if (libraryHandle != IntPtr.Zero)
                     {
                         // library has been loaded
-                        Trace.TraceInformation(String.Format(CultureInfo.CurrentCulture,
+                        Debug.WriteLine(String.Format(
                           "Successfully loaded native library \"{0}\".",
                           fileName));
                         loadedAssemblies.Add(dllName);
                     }
                     else
                     {
-                        Trace.TraceError(
+                        Debug.WriteLine(String.Format(
                             "Failed to load native library \"{0}\".\r\nCheck windows event log.",
-                            fileName);
+                            fileName));
                     }
                 }
                 catch (Exception e)
                 {
                     var lastError = Marshal.GetLastWin32Error();
-                    Trace.TraceError(
+                    Debug.WriteLine(String.Format(
                         "Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}",
-                        fileName, lastError, e);
+                        fileName, lastError, e));
                 }
             }
             else
             {
-                Trace.TraceWarning(String.Format(CultureInfo.CurrentCulture,
+                Debug.WriteLine(String.Format(CultureInfo.CurrentCulture,
                           "The native library \"{0}\" does not exist.",
                           fileName));
             }
