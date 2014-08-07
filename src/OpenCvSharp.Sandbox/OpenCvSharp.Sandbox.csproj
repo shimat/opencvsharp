@@ -141,53 +141,135 @@
     <Content Include="data\lenna511.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\match1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\match2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\shapes.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="dll\x64\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="dll\x64\opencv_calib3d249.dll" />
-    <Content Include="dll\x64\opencv_contrib249.dll" />
-    <Content Include="dll\x64\opencv_core249.dll" />
-    <Content Include="dll\x64\opencv_features2d249.dll" />
-    <Content Include="dll\x64\opencv_ffmpeg249_64.dll" />
-    <Content Include="dll\x64\opencv_flann249.dll" />
-    <Content Include="dll\x64\opencv_gpu249.dll" />
-    <Content Include="dll\x64\opencv_highgui249.dll" />
-    <Content Include="dll\x64\opencv_imgproc249.dll" />
-    <Content Include="dll\x64\opencv_legacy249.dll" />
-    <Content Include="dll\x64\opencv_ml249.dll" />
-    <Content Include="dll\x64\opencv_nonfree249.dll" />
-    <Content Include="dll\x64\opencv_objdetect249.dll" />
-    <Content Include="dll\x64\opencv_ocl249.dll" />
-    <Content Include="dll\x64\opencv_photo249.dll" />
-    <Content Include="dll\x64\opencv_stitching249.dll" />
-    <Content Include="dll\x64\opencv_superres249.dll" />
-    <Content Include="dll\x64\opencv_video249.dll" />
-    <Content Include="dll\x64\opencv_videostab249.dll" />
+    <Content Include="dll\x64\opencv_calib3d249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_contrib249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_core249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_features2d249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_ffmpeg249_64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_flann249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_gpu249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_highgui249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_imgproc249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_legacy249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_ml249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_nonfree249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_objdetect249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_ocl249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_photo249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_stitching249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_superres249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_video249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x64\opencv_videostab249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="dll\x86\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dll\x86\opencv_calib3d249.dll" />
-    <Content Include="dll\x86\opencv_contrib249.dll" />
-    <Content Include="dll\x86\opencv_core249.dll" />
-    <Content Include="dll\x86\opencv_features2d249.dll" />
-    <Content Include="dll\x86\opencv_ffmpeg249.dll" />
-    <Content Include="dll\x86\opencv_flann249.dll" />
-    <Content Include="dll\x86\opencv_gpu249.dll" />
-    <Content Include="dll\x86\opencv_highgui249.dll" />
-    <Content Include="dll\x86\opencv_imgproc249.dll" />
-    <Content Include="dll\x86\opencv_legacy249.dll" />
-    <Content Include="dll\x86\opencv_ml249.dll" />
-    <Content Include="dll\x86\opencv_nonfree249.dll" />
-    <Content Include="dll\x86\opencv_objdetect249.dll" />
-    <Content Include="dll\x86\opencv_ocl249.dll" />
-    <Content Include="dll\x86\opencv_photo249.dll" />
-    <Content Include="dll\x86\opencv_stitching249.dll" />
-    <Content Include="dll\x86\opencv_superres249.dll" />
-    <Content Include="dll\x86\opencv_video249.dll" />
-    <Content Include="dll\x86\opencv_videostab249.dll" />
+    <Content Include="dll\x86\opencv_calib3d249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_contrib249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_core249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_features2d249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_ffmpeg249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_flann249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_gpu249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_highgui249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_imgproc249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_legacy249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_ml249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_nonfree249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_objdetect249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_ocl249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_photo249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_stitching249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_superres249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_video249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dll\x86\opencv_videostab249.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

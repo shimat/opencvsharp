@@ -24,10 +24,34 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Mat[] mats = StitchingPreprocess(400, 400, 10);
-            Stitching(mats);
+            var img1 = new IplImage("data/lenna.png", LoadMode.Color);
+            var img2 = new IplImage("data/match2.png", LoadMode.Color);
+            Surf(img1, img2);
+
+            //Mat[] mats = StitchingPreprocess(400, 400, 10);
+            //Stitching(mats);
             //Track();
             //Run();
+        }
+
+        private static void Surf(IplImage img1, IplImage img2)
+        {
+            Mat src = new Mat(img1, true);
+            Mat src2 = new Mat(img2, true);
+            //Detect the keypoints and generate their descriptors using SURF
+            SURF surf = new SURF(500, 4, 2, true);
+            KeyPoint[] keypoints1, keypoints2;
+            MatOfFloat descriptors1 = new MatOfFloat();
+            MatOfFloat descriptors2 = new MatOfFloat();
+            surf.Run(src, null, out keypoints1, descriptors1);
+            surf.Run(src2, null, out keypoints2, descriptors2);
+            // Matching descriptor vectors with a brute force matcher
+            BFMatcher matcher = new BFMatcher(NormType.L2, false);
+            DMatch[] matches = matcher.Match(descriptors1, descriptors2);//例外が発生する箇所
+            Mat view = new Mat();
+            Cv2.DrawMatches(src, keypoints1, src2, keypoints2, matches, view);
+
+            Window.ShowImages(view);
         }
 
         private static Mat[] StitchingPreprocess(int width, int height, int count)

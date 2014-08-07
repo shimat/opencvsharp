@@ -1922,6 +1922,19 @@ namespace OpenCvSharp.CPlusPlus
             return Clone();
         }
 
+        /// <summary>
+        /// Returns the partial Mat of the specified Mat
+        /// </summary>
+        /// <param name="roi"></param>
+        /// <returns></returns>
+        public Mat Clone(Rect roi)
+        {
+            using (var part = new Mat(this, roi))
+            {
+                return part.Clone();
+            }
+        }
+
         #endregion
 
         #region Cols
