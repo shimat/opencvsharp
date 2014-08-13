@@ -1577,7 +1577,7 @@ namespace OpenCvSharp
 #endif
         public IplImage Clone(CvRect roi)
         {
-            if(roi.X < 0 || roi.Y < 0 || roi.Right > Width || roi.Bottom > Height)
+            if(roi.X < 0 || roi.Y < 0 || (roi.X + roi.Width) > Width || (roi.Y + roi.Height) > Height)
                 throw new ArgumentException("roi is out of image size", "roi");
             if(roi.X == 0 && roi.Y == 0 && roi.Size == Size)
                 return Cv.CloneImage(this);
