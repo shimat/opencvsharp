@@ -123,6 +123,9 @@ namespace OpenCvSharp.Blob
                     imgData += step;
                 }
             }
+
+            GC.KeepAlive(originalImage);
+
             int pixels = targetBlob.Area;
             return new CvColor((byte)(mr / pixels), (byte)(mg / pixels), (byte)(mb / pixels));
         }
@@ -382,7 +385,7 @@ namespace OpenCvSharp.Blob
             // Proximity matrix:
             // Last row/column is for ID/label.
             // Last-1 "/" is for accumulation.
-            ProximityMatrix close = new ProximityMatrix(nBlobs, nTracks);
+            var close = new ProximityMatrix(nBlobs, nTracks);
 
             // Initialization:
             int i = 0;

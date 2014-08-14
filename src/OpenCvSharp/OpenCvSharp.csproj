@@ -70,7 +70,6 @@
     <Compile Include="Src\Class\CvFaceTracker.cs" />
     <Compile Include="Src\Class\CvLatentSvmDetector.cs" />
     <Compile Include="Src\Class\CvFontQt.cs" />
-    <Compile Include="Src\Class\KmeansInputOutput.cs" />
     <Compile Include="Src\Core\Cv_B.cs" />
     <Compile Include="Src\Core\Cv_C.cs" />
     <Compile Include="Src\Core\Cv_F.cs" />

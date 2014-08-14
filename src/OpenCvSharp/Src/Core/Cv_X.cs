@@ -53,6 +53,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("dst");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             NativeMethods.cvXor(src1.CvPtr, src2.CvPtr, dst.CvPtr, maskPtr);
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
         }
         #endregion
         #region XorS
@@ -104,6 +109,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("dst");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             NativeMethods.cvXorS(src1.CvPtr, value, dst.CvPtr, maskPtr);
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
         }
         #endregion
     }

@@ -52,6 +52,9 @@ namespace OpenCvSharp
             if (cost == null)
                 throw new ArgumentNullException("cost");
             NativeMethods.cvValidateDisparity(disparity.CvPtr, cost.CvPtr, minDisparity, numberOfDisparities, disp12MaxDiff);
+
+            GC.KeepAlive(disparity);
+            GC.KeepAlive(cost);
         }
         #endregion
     }

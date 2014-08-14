@@ -112,6 +112,10 @@ namespace OpenCvSharp
             if (mapMatrix == null)
                 throw new ArgumentNullException("mapMatrix");
             NativeMethods.cvWarpAffine(src.CvPtr, dst.CvPtr, mapMatrix.CvPtr, flags, fillval);
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mapMatrix);
         }
         #endregion
         #region WarpPerspective
@@ -183,6 +187,10 @@ namespace OpenCvSharp
             if (mapMatrix == null)
                 throw new ArgumentNullException("mapMatrix");
             NativeMethods.cvWarpPerspective(src.CvPtr, dst.CvPtr, mapMatrix.CvPtr, flags, fillval);
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mapMatrix);
         }
         #endregion
         #region Watershed
@@ -207,6 +215,9 @@ namespace OpenCvSharp
             if (markers == null)
                 throw new ArgumentNullException("markers");
             NativeMethods.cvWatershed(image.CvPtr, markers.CvPtr);
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(markers);
         }
         #endregion
         #region Write
@@ -253,6 +264,11 @@ namespace OpenCvSharp
             if (ptr == null)
                 throw new ArgumentNullException("ptr");
             NativeMethods.cvWrite(fs.CvPtr, name, ptr.CvPtr, attributes);
+
+            GC.KeepAlive(fs);
+            GC.KeepAlive(name);
+            GC.KeepAlive(ptr);
+            GC.KeepAlive(attributes);
         }
         #endregion
         #region WriteComment
@@ -299,6 +315,10 @@ namespace OpenCvSharp
             if (comment == null)
                 throw new ArgumentNullException("comment");
             NativeMethods.cvWriteComment(fs.CvPtr, comment, eolComment);
+
+            GC.KeepAlive(fs);
+            GC.KeepAlive(comment);
+            GC.KeepAlive(eolComment);
         }
         #endregion
         #region WriteFileNode
@@ -333,6 +353,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("node");
 
             NativeMethods.cvWriteFileNode(fs.CvPtr, newNodeName, node.CvPtr, embed);
+
+            GC.KeepAlive(fs);
+            GC.KeepAlive(newNodeName);
+            GC.KeepAlive(node);
         }
         #endregion
         #region WriteFrame
@@ -357,7 +381,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("writer");
             if (image == null)
                 throw new ArgumentNullException("image");
-            return NativeMethods.cvWriteFrame(writer.CvPtr, image.CvPtr);
+            var ret = NativeMethods.cvWriteFrame(writer.CvPtr, image.CvPtr);
+
+            GC.KeepAlive(writer);
+            GC.KeepAlive(image);
+            return ret;
         }
         #endregion
         #region WriteInt
@@ -383,6 +411,9 @@ namespace OpenCvSharp
             if (name == null)
                 throw new ArgumentNullException("name");
             NativeMethods.cvWriteInt(fs.CvPtr, name, value);
+
+            GC.KeepAlive(fs);
+            GC.KeepAlive(name);
         }
         #endregion
         #region WriteRawData
@@ -416,6 +447,10 @@ namespace OpenCvSharp
             {
                 NativeMethods.cvWriteRawData(fs.CvPtr, srcPtr.Pointer, src.Length, dt);
             }
+
+            GC.KeepAlive(fs);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dt);
         }
         #endregion
         #region WriteReal
@@ -442,6 +477,9 @@ namespace OpenCvSharp
             if (name == null)
                 throw new ArgumentNullException("name");
             NativeMethods.cvWriteReal(fs.CvPtr, name, value);
+
+            GC.KeepAlive(fs);
+            GC.KeepAlive(name);
         }
         #endregion
         #region WriteString
@@ -490,6 +528,10 @@ namespace OpenCvSharp
             if (str == null)
                 throw new ArgumentNullException("str");
             NativeMethods.cvWriteString(fs.CvPtr, name, str, quote);
+
+            GC.KeepAlive(fs);
+            GC.KeepAlive(name);
+            GC.KeepAlive(str);
         }
         #endregion
     }
