@@ -24,9 +24,24 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            var img1 = new IplImage("data/lenna.png", LoadMode.Color);
+            /*
+            IplImage imgSrc = new IplImage(@"C:\labels.jpg", LoadMode.Color);
+            IplImage imgBinary = new IplImage(imgSrc.Size, BitDepth.U8, 1);
+            Cv.CvtColor(imgSrc, imgBinary, ColorConversion.BgrToGray); // グレースケール化
+            Cv.Threshold(imgBinary, imgBinary, 100, 255, ThresholdType.Binary); // 二値化
+            {
+                CvBlobs blobs = new CvBlobs();
+                blobs.Label(imgBinary);
+                blobs.FilterByArea(5000, int.MaxValue);
+
+                IplImage imgRender = new IplImage(imgSrc.Size, BitDepth.U8, 3);
+                blobs.RenderBlobs(imgSrc, imgRender);
+                CvWindow.ShowImages(imgRender);
+                Cv.SaveImage(@"C:\temp\result.jpg", imgRender);
+            }*/
+            /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
             var img2 = new IplImage("data/match2.png", LoadMode.Color);
-            Surf(img1, img2);
+            Surf(img1, img2);*/
 
             //Mat[] mats = StitchingPreprocess(400, 400, 10);
             //Stitching(mats);
