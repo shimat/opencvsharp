@@ -1342,7 +1342,7 @@ namespace OpenCvSharp
             if (writer.Ptr.ToInt64() > writer.BlockMax.ToInt64() - size)
                 throw new OpenCvSharpException();
             
-            using (StructurePointer<T> elemPtr = new StructurePointer<T>(elem))
+            using (var elemPtr = new StructurePointer<T>(elem))
             {
                 Util.CopyMemory(writer.Ptr, elemPtr, size);
             }
