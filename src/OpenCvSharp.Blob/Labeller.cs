@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -88,7 +89,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blobs");
             if (img.Depth != BitDepth.U8 || img.NChannels != 1)
                 throw new ArgumentException("'img' must be a 1-channel U8 image.");
-
+            
             LabelData labels = blobs.Labels;
             if (labels == null)
                 throw new ArgumentException("");
@@ -115,7 +116,10 @@ namespace OpenCvSharp.Blob
             unsafe
             {
                 byte* imgInPtr = img.ImageDataPtr + offset;
-                imgIn = new byte[h * step];
+                if ((long) h * step > Int32.MaxValue)
+                    throw new ArgumentException("Too big image (image data > 2^31)");
+                int length = h * step;
+                imgIn = new byte[length];
                 Marshal.Copy(new IntPtr(imgInPtr), imgIn, 0, imgIn.Length);
             }
             int label = 0;
@@ -357,8 +361,9 @@ namespace OpenCvSharp.Blob
                 kv.Value.SetMoments();
             }
 
-            return numPixels;
+            GC.KeepAlive(img);
 
+            return numPixels;
         }
     }
 }
