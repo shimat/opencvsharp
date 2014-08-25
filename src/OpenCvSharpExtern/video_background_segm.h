@@ -2,8 +2,8 @@
 #pragma once
 #endif
 
-#ifndef _CPP_VIDEO_TRACKING_H_
-#define _CPP_VIDEO_TRACKING_H_
+#ifndef _CPP_VIDEO_BACKGROUND_SEGM_H_
+#define _CPP_VIDEO_BACKGROUND_SEGM_H_
 
 #include "include_opencv.h"
 
