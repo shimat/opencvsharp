@@ -35,6 +35,7 @@ namespace OpenCvSharp
         {
             return (obj == null) ? IntPtr.Zero : obj.CvPtr;
         }
+
         /// <summary>
         /// Converts IEnumerable to Array
         /// </summary>

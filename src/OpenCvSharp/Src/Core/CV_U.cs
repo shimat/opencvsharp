@@ -58,8 +58,14 @@ namespace OpenCvSharp
             if (distortionCoeffs == null)
                 throw new ArgumentNullException("distortionCoeffs");
 
-            IntPtr newCameraMatrixPtr = (newCameraMatrix == null) ? IntPtr.Zero : newCameraMatrix.CvPtr;
-            NativeMethods.cvUndistort2(src.CvPtr, dst.CvPtr, intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, newCameraMatrixPtr);
+            NativeMethods.cvUndistort2(
+                src.CvPtr, dst.CvPtr, intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, ToPtr(newCameraMatrix));
+            
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(intrinsicMatrix);
+            GC.KeepAlive(distortionCoeffs);
+            GC.KeepAlive(newCameraMatrix);
         }
         #endregion
         #region UndistortPoints
@@ -95,10 +101,15 @@ namespace OpenCvSharp
             if (distCoeffs == null)
                 throw new ArgumentNullException("distCoeffs");
 
-            IntPtr Rptr = (R == null) ? IntPtr.Zero : R.CvPtr;
-            IntPtr Pptr = (P == null) ? IntPtr.Zero : P.CvPtr;
+            NativeMethods.cvUndistortPoints(
+                src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, ToPtr(R), ToPtr(P));
 
-            NativeMethods.cvUndistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, Rptr, Pptr);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(R);
+            GC.KeepAlive(P);
         }
         #endregion
         #region UnregisterType
@@ -147,6 +158,9 @@ namespace OpenCvSharp
             if (mhi == null)
                 throw new ArgumentNullException("mhi");
             NativeMethods.cvUpdateMotionHistory(silhouette.CvPtr, mhi.CvPtr, timestamp, duration);
+
+            GC.KeepAlive(silhouette);
+            GC.KeepAlive(mhi);
         }
         #endregion
         #region UseOptimized

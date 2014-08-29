@@ -54,6 +54,9 @@ namespace OpenCvSharp
             {
                 result = NativeMethods.cvSampleLine(image.CvPtr, pt1, pt2, bufferPtr, connectivity);
             }
+
+            GC.KeepAlive(image);
+
             return result;
         }
         #endregion
@@ -246,25 +249,25 @@ namespace OpenCvSharp
         /// Saves the image to the specified file. The image format is chosen depending on the filename extension, see cvLoadImage. 
         /// Only 8-bit single-channel or 3-channel (with 'BGR' channel order) images can be saved using this function. 
         /// </summary>
-        /// <param name="filename">Name of the file. </param>
+        /// <param name="fileName">Name of the file. </param>
         /// <param name="image">Image to be saved. </param>
         /// <param name="prms"></param>
         /// <returns></returns>
 #endif
-        public static int SaveImage(string filename, CvArr image, int[] prms)
+        public static int SaveImage(string fileName, CvArr image, int[] prms)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
             if (image == null)
                 throw new ArgumentNullException("image");
 
-            string fullPath = Path.GetFullPath(filename);
+            string fullPath = Path.GetFullPath(fileName);
             string dir = Path.GetDirectoryName(fullPath);
             if (!Directory.Exists(dir))
                 throw new DirectoryNotFoundException(string.Format("Directory '{0}' not found", dir));
 
             int[] prmsWithSentinel;
-            if (prms != null && prms.Length%2 == 0)
+            if (prms != null && prms.Length % 2 == 0)
             {
                 prmsWithSentinel = new int[prms.Length + 1];
                 Array.Copy(prms, prmsWithSentinel, prms.Length);
@@ -274,8 +277,12 @@ namespace OpenCvSharp
             {
                 prmsWithSentinel = prms;
             }
-            return NativeMethods.cvSaveImage(filename, image.CvPtr, prmsWithSentinel);
+            var ret = NativeMethods.cvSaveImage(fileName, image.CvPtr, prmsWithSentinel);
+
+            GC.KeepAlive(image);
+            return ret;
         }
+
 #if LANG_JP
         /// <summary>
         /// 画像を指定したファイルに保存する．画像フォーマットは，filename の拡張子により決定される．
@@ -290,24 +297,25 @@ namespace OpenCvSharp
         /// Saves the image to the specified file. The image format is chosen depending on the filename extension, see cvLoadImage. 
         /// Only 8-bit single-channel or 3-channel (with 'BGR' channel order) images can be saved using this function. 
         /// </summary>
-        /// <param name="filename">Name of the file. </param>
+        /// <param name="fileName">Name of the file. </param>
         /// <param name="image">Image to be saved. </param>
         /// <param name="prms"></param>
         /// <returns></returns>
 #endif
-        public static int SaveImage(string filename, CvArr image, params ImageEncodingParam[] prms)
+        public static int SaveImage(string fileName, CvArr image, params ImageEncodingParam[] prms)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException("fileName");
 
-            string fullPath = Path.GetFullPath(filename);
+            string fullPath = Path.GetFullPath(fileName);
             string dir = Path.GetDirectoryName(fullPath);
             if(!Directory.Exists(dir))
                 throw new DirectoryNotFoundException(string.Format("Directory '{0}' not found", dir));
 
             List<int> p = new List<int>();
+            int ret;
             if (prms != null)
             {
                 foreach (ImageEncodingParam item in prms)
@@ -316,12 +324,15 @@ namespace OpenCvSharp
                     p.Add(item.Value);
                 }
                 p.Add(-1);
-                return NativeMethods.cvSaveImage(filename, image.CvPtr, p.ToArray());
+                ret = NativeMethods.cvSaveImage(fileName, image.CvPtr, p.ToArray());
             }
             else
             {
-                return NativeMethods.cvSaveImage(filename, image.CvPtr, null);
+                ret = NativeMethods.cvSaveImage(fileName, image.CvPtr, null);
             }
+
+            GC.KeepAlive(image);
+            return ret;
         }
         #endregion
         #region SaveMemStoragePos
@@ -341,11 +352,13 @@ namespace OpenCvSharp
         public static void SaveMemStoragePos(CvMemStorage storage, out CvMemStoragePos pos)
         {
             if (storage == null)
-            {
                 throw new ArgumentNullException("storage");
-            }
+            
             pos = new CvMemStoragePos();
             NativeMethods.cvSaveMemStoragePos(storage.CvPtr, pos.CvPtr);
+
+            GC.KeepAlive(storage);
+            GC.KeepAlive(pos);
         }
         #endregion
         #region SaveWindowParameters
@@ -413,6 +426,9 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvScaleAdd(src1.CvPtr, scale, src2.CvPtr, dst.CvPtr);
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
         }
 #if LANG_JP
         /// <summary>
@@ -569,10 +585,15 @@ namespace OpenCvSharp
 
             IntPtr storagePtr = ToPtr(storage);
             IntPtr ptr = NativeMethods.cvSegmentFGMask(fgmask.CvPtr, poly1Hull0, perimScale, storagePtr, offset);
+            CvSeq<CvPoint> ret;
             if (ptr == IntPtr.Zero)
-                return null;
-            else
-                return new CvSeq<CvPoint>(ptr);
+                ret = null;
+            else 
+                ret = new CvSeq<CvPoint>(ptr);
+
+            GC.KeepAlive(fgmask);
+            GC.KeepAlive(storage);
+            return ret;
         }
         #endregion
         #region SegmentMotion
@@ -601,7 +622,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("mhi");
             if (storage == null)
                 throw new ArgumentNullException("storage");
-            return new CvSeq(NativeMethods.cvSegmentMotion(mhi.CvPtr, segMask.CvPtr, storage.CvPtr, timestamp, segThresh));
+            var ret = new CvSeq(NativeMethods.cvSegmentMotion(mhi.CvPtr, segMask.CvPtr, storage.CvPtr, timestamp, segThresh));
+
+            GC.KeepAlive(mhi);
+            GC.KeepAlive(segMask);
+            GC.KeepAlive(storage);
+            return ret;
         }
         #endregion
         #region SeqElemIdx
@@ -653,13 +679,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("seq");
             }
 
+            int ret;
+
             block = new CvSeqBlock();
             IntPtr blockPtr = block.CvPtr;
             if (typeof(T).IsValueType)
             {
                 using (StructurePointer<T> elementPtr = new StructurePointer<T>(element))
                 {
-                    return NativeMethods.cvSeqElemIdx(seq.CvPtr, elementPtr, ref blockPtr);
+                    ret = NativeMethods.cvSeqElemIdx(seq.CvPtr, elementPtr, ref blockPtr);
                 }
             }
             else
@@ -667,13 +695,17 @@ namespace OpenCvSharp
                 try
                 {
                     ICvPtrHolder ph = (ICvPtrHolder)element;
-                    return NativeMethods.cvSeqElemIdx(seq.CvPtr, ph.CvPtr, ref blockPtr);
+                    ret = NativeMethods.cvSeqElemIdx(seq.CvPtr, ph.CvPtr, ref blockPtr);
                 }
                 catch(InvalidCastException)
                 {
                     throw new OpenCvSharpException("{} is invalid type for this method.", typeof(T).Name);
                 }
             }
+
+            GC.KeepAlive(seq);
+            GC.KeepAlive(block);
+            return ret;
         }
         #endregion
         #region SeqInsert
@@ -699,37 +731,16 @@ namespace OpenCvSharp
         public static T SeqInsert<T>(CvSeq seq, int beforeIndex, T element) where T : struct
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
 
-            //if (typeof(T).IsValueType)
+            using (var elementPtr = new StructurePointer<T>(element))
             {
-                using (StructurePointer<T> elementPtr = new StructurePointer<T>(element))
-                {
-                    IntPtr ptr = NativeMethods.cvSeqInsert(seq.CvPtr, beforeIndex, elementPtr);
-                    return elementPtr.ToStructure();
-                }
+                IntPtr ptr = NativeMethods.cvSeqInsert(seq.CvPtr, beforeIndex, elementPtr);
+                var ret = elementPtr.ToStructure();
+
+                GC.KeepAlive(seq);
+                return ret;
             }
-            /*
-            else
-            {
-                try
-                {
-                    ICvPtrHolder ph = (ICvPtrHolder)element;
-                    IntPtr ptr = CvDll.cvSeqInsert(seq.CvPtr, before_index, ph.CvPtr);
-                    return Util.ToObject<T>(ptr);
-                }
-                catch (InvalidCastException)
-                {
-                    throw new OpenCvSharpException("{} is invalid type for this method.", typeof(T).Name);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-            //*/
         }
         #endregion
         #region SeqInsertSlice
@@ -755,6 +766,9 @@ namespace OpenCvSharp
             if (fromArr == null)
                 throw new ArgumentNullException("fromArr");
             NativeMethods.cvSeqInsertSlice(seq.CvPtr, beforeIndex, fromArr.CvPtr);
+
+            GC.KeepAlive(seq);
+            GC.KeepAlive(fromArr);
         }
         #endregion
         #region SeqInvert
@@ -772,10 +786,10 @@ namespace OpenCvSharp
         public static void SeqInvert(CvSeq seq)
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
+            
             NativeMethods.cvSeqInvert(seq.CvPtr);
+            GC.KeepAlive(seq);
         }
         #endregion
         #region SeqRemove
@@ -795,10 +809,10 @@ namespace OpenCvSharp
         public static void SeqRemove(CvSeq seq, int index)
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
+            
             NativeMethods.cvSeqRemove(seq.CvPtr, index);
+            GC.KeepAlive(seq);
         }
         #endregion
         #region SeqRemoveSlice
@@ -818,10 +832,10 @@ namespace OpenCvSharp
         public static void SeqRemoveSlice(CvSeq seq, CvSlice slice)
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
+            
             NativeMethods.cvSeqRemoveSlice(seq.CvPtr, slice);
+            GC.KeepAlive(seq);
         }
         #endregion
         #region SeqPartition
@@ -862,6 +876,10 @@ namespace OpenCvSharp
                 labels = null;
             else
                 labels = new CvSeq(labelsPtr);
+
+            GC.KeepAlive(seq);
+            GC.KeepAlive(storage);
+            GC.KeepAlive(labels);
 
             return result;
         }
@@ -917,10 +935,11 @@ namespace OpenCvSharp
         public static void SeqPop(CvSeq seq)
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
+            
             NativeMethods.cvSeqPop(seq.CvPtr, IntPtr.Zero);
+
+            GC.KeepAlive(seq);
         }
 #if LANG_JP
         /// <summary>
@@ -941,42 +960,16 @@ namespace OpenCvSharp
         public static void SeqPop<T>(CvSeq seq, out T element) where T : struct
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
-            //if (typeof(T).IsValueType)
+
+            using (var elementPtr = new StructurePointer<T>())
             {
-                using (StructurePointer<T> elementPtr = new StructurePointer<T>())
-                {
-                    // ptrにpopした結果を格納してもらう
-                    NativeMethods.cvSeqPop(seq.CvPtr, elementPtr);
-                    // T型にキャスト
-                    element = elementPtr.ToStructure();
-                }
+                NativeMethods.cvSeqPop(seq.CvPtr, elementPtr);
+                element = elementPtr.ToStructure();
             }
-            /*
-            else
-            {
-                try
-                {
-                    using (StructurePointer<IntPtr> result = new StructurePointer<IntPtr>())
-                    {
-                        CvDll.cvSeqPop(seq.CvPtr, result.Ptr);
-                        IntPtr ptr = Marshal.ReadIntPtr(result.Ptr);
-                        element = Util.ToObject<T>(ptr);
-                    }                    
-                }
-                catch (InvalidCastException)
-                {
-                    throw new OpenCvSharpException("{} is invalid type for this method.", typeof(T).Name);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-            //*/
+            GC.KeepAlive(seq);
         }
+
         #endregion
         #region SeqPopFront
 #if LANG_JP
@@ -994,10 +987,10 @@ namespace OpenCvSharp
         public static void SeqPopFront(CvSeq seq)
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
+            
             NativeMethods.cvSeqPopFront(seq.CvPtr, IntPtr.Zero);
+            GC.KeepAlive(seq);
         }
 #if LANG_JP
         /// <summary>
@@ -1018,41 +1011,16 @@ namespace OpenCvSharp
         public static void SeqPopFront<T>(CvSeq seq, out T element) where T : struct
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
 
-            //if (typeof(T).IsValueType)
+            using (var elementPtr = new StructurePointer<T>())
             {
-                using (StructurePointer<T> elementPtr = new StructurePointer<T>())
-                {
-                    NativeMethods.cvSeqPopFront(seq.CvPtr, elementPtr);
-                    element = elementPtr.ToStructure();
-                }
+                NativeMethods.cvSeqPopFront(seq.CvPtr, elementPtr);
+                element = elementPtr.ToStructure();
             }
-            /*
-            else
-            {
-                try
-                {
-                    using (StructurePointer<IntPtr> result = new StructurePointer<IntPtr>())
-                    {
-                        CvDll.cvSeqPopFront(seq.CvPtr, result.Ptr);
-                        IntPtr ptr = Marshal.ReadIntPtr(result.Ptr);
-                        element = Util.ToObject<T>(ptr);
-                    }
-                }
-                catch (InvalidCastException)
-                {
-                    throw new OpenCvSharpException("{} is invalid type for this method.", typeof(T).Name);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-            //*/
+            GC.KeepAlive(seq);
         }
+
         #endregion
         #region SeqPopMulti
 #if LANG_JP
@@ -1074,38 +1042,21 @@ namespace OpenCvSharp
         /// <param name="count">Number of elements to pop. </param>
         /// <param name="inFront">The flags specifying the modified sequence end</param>
 #endif
-        public static void SeqPopMulti<T>(CvSeq seq, out T[] elements, int count, InsertPosition inFront) where T : struct
+        public static void SeqPopMulti<T>(CvSeq seq, out T[] elements, int count, InsertPosition inFront)
+            where T : struct
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
 
             elements = new T[count];
 
-            //if (typeof(T).IsValueType)  // where T : struct
+            using (var elementsPtr = new ArrayAddress1<T>(elements))
             {
-                using (var elementsPtr = new ArrayAddress1<T>(elements))
-                {
-                    NativeMethods.cvSeqPopMulti(seq.CvPtr, elementsPtr, elements.Length, inFront);
-                }
+                NativeMethods.cvSeqPopMulti(seq.CvPtr, elementsPtr, elements.Length, inFront);
             }
-            /*
-            else  // CvSeq, CvMat, etc.
-            {
-                // IntPtrを取るコンストラクタをもたなければならない
-                IntPtr[] ptrArray = new IntPtr[count];
-                using (var ptr = new ArrayAddress1<IntPtr>(ptrArray))
-                {
-                    CvDll.cvSeqPopMulti(seq.CvPtr, ptr, elements.Length, in_front);
-                }
-                for (int i = 0; i < ptrArray.Length; i++)
-                {
-                    elements[i] = Util.ToObject<T>(ptrArray[i]);
-                }
-            }
-            //*/
+            GC.KeepAlive(seq);
         }
+
         #endregion
         #region SeqPush
 #if LANG_JP
@@ -1123,7 +1074,9 @@ namespace OpenCvSharp
 #endif
         public static IntPtr SeqPush(CvSeq seq)
         {
-            return NativeMethods.cvSeqPush(seq.CvPtr, IntPtr.Zero);
+            var ret = NativeMethods.cvSeqPush(seq.CvPtr, IntPtr.Zero);
+            GC.KeepAlive(seq);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -1200,10 +1153,11 @@ namespace OpenCvSharp
         public static IntPtr SeqPushFront(CvSeq seq) 
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
-            return NativeMethods.cvSeqPushFront(seq.CvPtr, IntPtr.Zero);
+            
+            var ret = NativeMethods.cvSeqPushFront(seq.CvPtr, IntPtr.Zero);
+            GC.KeepAlive(seq);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -1226,48 +1180,19 @@ namespace OpenCvSharp
         public static T SeqPushFront<T>(CvSeq seq, T element) where T : struct
         {
             if (seq == null)
-            {
                 throw new ArgumentNullException("seq");
-            }
+
 
             IntPtr ptr;
-            //if (typeof(T).IsValueType)
+            using (var elementPtr = new StructurePointer(element))
             {
-                using (StructurePointer elementPtr = new StructurePointer(element))
-                {
-                    ptr = NativeMethods.cvSeqPushFront(seq.CvPtr, elementPtr);
-                }
+                ptr = NativeMethods.cvSeqPushFront(seq.CvPtr, elementPtr);
             }
-            /*
-            else
-            {
-                if (element == null)
-                {
-                    ptr = CvDll.cvSeqPushFront(seq.CvPtr, IntPtr.Zero);
-                }
-                else
-                {
-                    try
-                    {
-                        ICvPtrHolder ph = (ICvPtrHolder)element;
-                        using (StructurePointer elementPtr = new StructurePointer(ph.CvPtr))
-                        {
-                            ptr = CvDll.cvSeqPushFront(seq.CvPtr, elementPtr);
-                        }
-                    }
-                    catch (InvalidCastException)
-                    {
-                        throw new OpenCvSharpException("{} is invalid type for this method.", typeof(T).Name);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                }
-            }
-            //*/
+
+            GC.KeepAlive(seq);
             return Util.ToObject<T>(ptr);
         }
+
         #endregion
         #region SeqPushMulti
 #if LANG_JP
@@ -1292,41 +1217,15 @@ namespace OpenCvSharp
             if (seq == null)
                 throw new ArgumentNullException("seq");
             if (elements == null)
-                throw new ArgumentNullException("elements");            
-
-            //if (typeof(T).IsValueType)  // where T : struct
+                throw new ArgumentNullException("elements");
+            
+            using (var elementsPtr = new ArrayAddress1<T>(elements))
             {
-                using (var elementsPtr = new ArrayAddress1<T>(elements))
-                {
-                    NativeMethods.cvSeqPushMulti(seq.CvPtr, elementsPtr, elements.Length, inFront);
-                }
+                NativeMethods.cvSeqPushMulti(seq.CvPtr, elementsPtr, elements.Length, inFront);
             }
-            /*
-            else  // CvSeq, CvMat, etc.
-            {
-                try
-                {
-                    IntPtr[] ptrArray = new IntPtr[elements.Length];
-                    for (int i = 0; i < ptrArray.Length; i++)
-                    {
-                        ptrArray[i] = ((ICvPtrHolder)elements[i]).CvPtr;
-                    }
-                    using (var ptr = new ArrayAddress1<IntPtr>(ptrArray))
-                    {
-                        CvDll.cvSeqPushMulti(seq.CvPtr, ptr, elements.Length, in_front);
-                    }
-                }
-                catch (InvalidCastException)
-                {
-                    throw new OpenCvSharpException("{} is invalid type for this method.", typeof(T).Name);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-            //*/
+            GC.KeepAlive(seq);
         }
+
         #endregion
         #region SeqSearch
 #if LANG_JP
@@ -1355,9 +1254,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("seq");
             if (func == null)
                 throw new ArgumentNullException("func");
-            using (ScopedGCHandle funcHandle = new ScopedGCHandle(func, GCHandleType.Normal))
+
+            using (var funcHandle = new ScopedGCHandle(func, GCHandleType.Normal))
             {
-                return NativeMethods.cvSeqSearch(seq.CvPtr, elem, funcHandle.AddrOfPinnedObject(), isSorted, out elemIdx);
+                var ret = NativeMethods.cvSeqSearch(seq.CvPtr, elem, funcHandle.AddrOfPinnedObject(), isSorted, out elemIdx);
+                GC.KeepAlive(seq);
+                return ret;
             }
         }
 #if LANG_JP
@@ -1381,7 +1283,8 @@ namespace OpenCvSharp
         /// <param name="elemIdx">Output parameter; index of the found element. </param>
         /// <returns></returns>
 #endif
-        public static T SeqSearch<T>(CvSeq seq, T elem, CvCmpFunc<T> func, bool isSorted, out int elemIdx) where T : struct
+        public static T SeqSearch<T>(CvSeq seq, T elem, CvCmpFunc<T> func, bool isSorted, out int elemIdx)
+            where T : struct
         {
             if (seq == null)
                 throw new ArgumentNullException("seq");
@@ -1391,48 +1294,28 @@ namespace OpenCvSharp
             // delegateを非ジェネリックのものに変換
             CvCmpFunc funcNonGeneric = delegate(IntPtr a, IntPtr b)
             {
-                T aValue = (T)Marshal.PtrToStructure(a, typeof(T));//Util.ToObject<T>(a);
-                T bValue = (T)Marshal.PtrToStructure(b, typeof(T));//Util.ToObject<T>(b);
+                T aValue = (T)Marshal.PtrToStructure(a, typeof (T)); //Util.ToObject<T>(a);
+                T bValue = (T)Marshal.PtrToStructure(b, typeof (T)); //Util.ToObject<T>(b);
                 return func(aValue, bValue);
             };
 
-            //if (typeof(T).IsValueType)
+            try
             {
-                using (StructurePointer<T> elemPtr = new StructurePointer<T>(elem))
+                using (var elemPtr = new StructurePointer<T>(elem))
                 {
                     IntPtr result = SeqSearch(seq, elemPtr, funcNonGeneric, isSorted, out elemIdx);
                     if (result == IntPtr.Zero)
                         throw new OpenCvSharpException("{0} is not found", elem);
                     else
-                        return (T)Marshal.PtrToStructure(result, typeof(T));
+                        return (T)Marshal.PtrToStructure(result, typeof (T));
                 }
             }
-            /*
-            else
+            finally
             {
-                try
-                {
-                    ICvPtrHolder ph = (ICvPtrHolder)elem;
-                    using (StructurePointer<IntPtr> elemPtr = new StructurePointer<IntPtr>(ph.CvPtr))
-                    {
-                        IntPtr result = SeqSearch(seq, elemPtr, funcNonGeneric, is_sorted, out elem_idx);
-                        if (result == IntPtr.Zero)
-                            throw new OpenCvSharpException("{0} is not found", elem);
-                        else
-                            return Util.ToObject<T>(result);
-                    }
-                }
-                catch (InvalidCastException)
-                {
-                    throw new OpenCvSharpException("{} is invalid type for this method.", typeof(T).Name);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                GC.KeepAlive(seq);
             }
-            //*/
         }
+
         #endregion
         #region SeqSlice
 #if LANG_JP
@@ -1597,6 +1480,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("func");
 
             NativeMethods.cvSeqSort(seq.CvPtr, func, IntPtr.Zero);
+            GC.KeepAlive(seq);
         }
 #if LANG_JP
         /// <summary>
@@ -1667,6 +1551,9 @@ namespace OpenCvSharp
             }
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             NativeMethods.cvSet(arr.CvPtr, value, maskPtr);
+
+            GC.KeepAlive(arr);
+            GC.KeepAlive(mask);
         }
         #endregion
         #region Set*D
@@ -1689,6 +1576,7 @@ namespace OpenCvSharp
         public static void Set1D(CvArr arr, int idx0, CvScalar value)
         {
             NativeMethods.cvSet1D(arr.CvPtr, idx0, value);
+            GC.KeepAlive(arr);
         }
 #if LANG_JP
         /// <summary>
@@ -1711,6 +1599,7 @@ namespace OpenCvSharp
         public static void Set2D(CvArr arr, int idx0, int idx1, CvScalar value)
         {
             NativeMethods.cvSet2D(arr.CvPtr, idx0, idx1, value);
+            GC.KeepAlive(arr);
         }
 #if LANG_JP
         /// <summary>
@@ -1735,6 +1624,7 @@ namespace OpenCvSharp
         public static void Set3D(CvArr arr, int idx0, int idx1, int idx2, CvScalar value)
         {
             NativeMethods.cvSet3D(arr.CvPtr, idx0, idx1, idx2, value);
+            GC.KeepAlive(arr);
         }
 #if LANG_JP
         /// <summary>
@@ -1755,6 +1645,7 @@ namespace OpenCvSharp
         public static void SetND(CvArr arr, CvScalar value, params int[] idx)
         {
             NativeMethods.cvSetND(arr.CvPtr, idx, value);
+            GC.KeepAlive(arr);
         }
         #endregion
         #region SetAdd
@@ -1779,7 +1670,9 @@ namespace OpenCvSharp
             }
             IntPtr elemPtr = IntPtr.Zero;
             IntPtr insteadElemPtr = IntPtr.Zero;
-            return NativeMethods.cvSetAdd(setHeader.CvPtr, elemPtr, ref insteadElemPtr);
+            var ret = NativeMethods.cvSetAdd(setHeader.CvPtr, elemPtr, ref insteadElemPtr);
+            GC.KeepAlive(setHeader);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -1804,7 +1697,9 @@ namespace OpenCvSharp
             }
             IntPtr elemPtr = (elem == null) ? IntPtr.Zero : elem.CvPtr;
             IntPtr insteadElemPtr = IntPtr.Zero;
-            return NativeMethods.cvSetAdd(setHeader.CvPtr, elemPtr, ref insteadElemPtr);
+            var ret = NativeMethods.cvSetAdd(setHeader.CvPtr, elemPtr, ref insteadElemPtr);
+            GC.KeepAlive(setHeader);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -1831,7 +1726,9 @@ namespace OpenCvSharp
             IntPtr elemPtr = (elem == null) ? IntPtr.Zero : elem.CvPtr;
             insertedElem = new CvSetElem();
             IntPtr insteadElemPtr = insertedElem.CvPtr;
-            return NativeMethods.cvSetAdd(setHeader.CvPtr, elemPtr, ref insteadElemPtr);
+            var ret = NativeMethods.cvSetAdd(setHeader.CvPtr, elemPtr, ref insteadElemPtr);
+            GC.KeepAlive(setHeader);
+            return ret;
         }
         #endregion
         #region SetBinRanges
@@ -1878,6 +1775,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.cvSetHistBinRanges(hist.CvPtr, rangesPtr.Pointer, uniform);
             }
+            GC.KeepAlive(hist);
         }
         #endregion
         #region SetCaptureProperty
@@ -1901,10 +1799,11 @@ namespace OpenCvSharp
         public static int SetCaptureProperty(CvCapture capture, int propertyID, double value)
         {
             if (capture == null)
-            {
                 throw new ArgumentNullException("capture");
-            }
-            return NativeMethods.cvSetCaptureProperty(capture.CvPtr, propertyID, value);
+            
+            var ret = NativeMethods.cvSetCaptureProperty(capture.CvPtr, propertyID, value);
+            GC.KeepAlive(capture);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -1979,6 +1878,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("data");
 
             NativeMethods.cvSetData(arr.CvPtr, data, step);
+            GC.KeepAlive(arr);
         }
         #endregion
         #region SetErrMode
