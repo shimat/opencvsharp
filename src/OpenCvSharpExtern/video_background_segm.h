@@ -2,8 +2,8 @@
 #pragma once
 #endif
 
-#ifndef _CPP_VIDEO_TRACKING_H_
-#define _CPP_VIDEO_TRACKING_H_
+#ifndef _CPP_VIDEO_BACKGROUND_SEGM_H_
+#define _CPP_VIDEO_BACKGROUND_SEGM_H_
 
 #include "include_opencv.h"
 
@@ -35,11 +35,11 @@ CVAPI(cv::AlgorithmInfo*) video_BackgroundSubtractor_info(cv::BackgroundSubtract
 // BackgroundSubtractorMOG
 CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG>*) video_BackgroundSubtractorMOG_new1()
 {
-	return wrap(new cv::BackgroundSubtractorMOG());
+	return new cv::Ptr<cv::BackgroundSubtractorMOG>(new cv::BackgroundSubtractorMOG());
 }
 CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG>*) video_BackgroundSubtractorMOG_new2(int history, int nmixtures, double backgroundRatio, double noiseSigma)
 {
-	return wrap(new cv::BackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma));
+	return new cv::Ptr<cv::BackgroundSubtractorMOG>(new cv::BackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma));
 }
 CVAPI(void) video_BackgroundSubtractorMOG_delete(cv::BackgroundSubtractorMOG *obj)
 {
@@ -72,12 +72,12 @@ CVAPI(cv::AlgorithmInfo*) video_BackgroundSubtractorMOG_info(cv::BackgroundSubtr
 // BackgroundSubtractorMOG2
 CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG2>*) video_BackgroundSubtractorMOG2_new1()
 {
-	return wrap(new cv::BackgroundSubtractorMOG2());
+	return new cv::Ptr<cv::BackgroundSubtractorMOG2>(new cv::BackgroundSubtractorMOG2());
 }
 CVAPI(cv::Ptr<cv::BackgroundSubtractorMOG2>*) video_BackgroundSubtractorMOG2_new2(
 	int history, float varThreshold, int bShadowDetection)
 {
-	return wrap(new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection != 0));
+	return new cv::Ptr<cv::BackgroundSubtractorMOG2>(new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection != 0));
 }
 CVAPI(void) video_BackgroundSubtractorMOG2_delete(cv::BackgroundSubtractorMOG2 *obj)
 {
@@ -118,7 +118,7 @@ CVAPI(cv::AlgorithmInfo*) video_BackgroundSubtractorMOG2_info(cv::BackgroundSubt
 // BackgroundSubtractorGMG
 CVAPI(cv::Ptr<cv::BackgroundSubtractorGMG>*) video_BackgroundSubtractorGMG_new()
 {
-	return wrap(new cv::BackgroundSubtractorGMG());
+	return new cv::Ptr<cv::BackgroundSubtractorGMG>(new cv::BackgroundSubtractorGMG());
 }
 CVAPI(void) video_BackgroundSubtractorGMG_delete(cv::BackgroundSubtractorGMG *obj)
 {
