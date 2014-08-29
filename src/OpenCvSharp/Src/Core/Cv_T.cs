@@ -49,6 +49,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("hist");
             }
             NativeMethods.cvThreshHist(hist.CvPtr, threshold);
+
+            GC.KeepAlive(hist);
         }
         #endregion
         #region Threshold
@@ -71,13 +73,17 @@ namespace OpenCvSharp
         /// <param name="maxValue">Maximum value to use with CV_THRESH_BINARY and CV_THRESH_BINARY_INV thresholding types. </param>
         /// <param name="thresholdType">Thresholding type.</param>
 #endif
-        public static void Threshold(CvArr src, CvArr dst, double threshold, double maxValue, ThresholdType thresholdType)
+        public static double Threshold(CvArr src, CvArr dst, double threshold, double maxValue, ThresholdType thresholdType)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            NativeMethods.cvThreshold(src.CvPtr, dst.CvPtr, threshold, maxValue, thresholdType);
+            double ret = NativeMethods.cvThreshold(src.CvPtr, dst.CvPtr, threshold, maxValue, thresholdType);
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            return ret;
         }
         #endregion
         #region Trace
@@ -97,34 +103,40 @@ namespace OpenCvSharp
         public static CvScalar Trace(CvArr mat)
         {
             if (mat == null)
-            {
                 throw new ArgumentNullException("mat");
-            }
-            return NativeMethods.cvTrace(mat.CvPtr);
+            
+            var ret = NativeMethods.cvTrace(mat.CvPtr);
+
+            GC.KeepAlive(mat);
+            return ret;
         }
         #endregion
         #region TrackFace
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="pFaceTracker"></param>
+        /// <param name="faceTracker"></param>
         /// <param name="imgGray"></param>
-        /// <param name="pRects"></param>
+        /// <param name="rects"></param>
         /// <param name="ptRotate"></param>
-        /// <param name="dbAngleRotate"></param>
+        /// <param name="angleRotate"></param>
         /// <returns></returns>
-        public static bool TrackFace(CvFaceTracker pFaceTracker, IplImage imgGray, CvRect[] pRects, out CvPoint ptRotate, out double dbAngleRotate)
+        public static bool TrackFace(CvFaceTracker faceTracker, IplImage imgGray, CvRect[] rects, out CvPoint ptRotate, out double angleRotate)
         {
-            if (pFaceTracker == null)
-                throw new ArgumentNullException("pFaceTracker");
+            if (faceTracker == null)
+                throw new ArgumentNullException("faceTracker");
             if (imgGray == null)
                 throw new ArgumentNullException("imgGray");
-            if (pRects == null)
-                throw new ArgumentNullException("pRects");
-            if (pRects.Length < 3)
-                throw new ArgumentException("pRects.Length >= 3");
+            if (rects == null)
+                throw new ArgumentNullException("rects");
+            if (rects.Length < 3)
+                throw new ArgumentException("rects.Length >= 3");
 
-            return NativeMethods.cvTrackFace(pFaceTracker.CvPtr, imgGray.CvPtr, pRects, pRects.Length, out ptRotate, out dbAngleRotate);
+            var ret = NativeMethods.cvTrackFace(faceTracker.CvPtr, imgGray.CvPtr, rects, rects.Length, out ptRotate, out angleRotate);
+
+            GC.KeepAlive(faceTracker);
+            GC.KeepAlive(imgGray);
+            return ret;
         }
         #endregion
         #region Transform
@@ -172,8 +184,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("dst");
             if (transmat == null)
                 throw new ArgumentNullException("transmat");
-            IntPtr shiftvecPtr = (shiftvec == null) ? IntPtr.Zero : shiftvec.CvPtr;
-            NativeMethods.cvTransform(src.CvPtr, dst.CvPtr, transmat.CvPtr, shiftvecPtr);
+
+            NativeMethods.cvTransform(src.CvPtr, dst.CvPtr, transmat.CvPtr, ToPtr(shiftvec));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(transmat);
+            GC.KeepAlive(shiftvec);
         }
 #if LANG_JP
         /// <summary>
@@ -237,6 +254,9 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvTranspose(src.CvPtr, dst.CvPtr);
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
 #if LANG_JP
         /// <summary>
@@ -253,11 +273,7 @@ namespace OpenCvSharp
 #endif
         public static void T(CvArr src, CvArr dst)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            NativeMethods.cvTranspose(src.CvPtr, dst.CvPtr);
+            Transpose(src, dst);
         }
         #endregion
         #region TreeToNodeSeq
@@ -329,6 +345,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("points4D");
 
             NativeMethods.cvTriangulatePoints(projMatr1.CvPtr, projMatr2.CvPtr, projPoints1.CvPtr, projPoints2.CvPtr, points4D.CvPtr);
+
+            GC.KeepAlive(projMatr1);
+            GC.KeepAlive(projMatr2);
+            GC.KeepAlive(projPoints1);
+            GC.KeepAlive(projPoints2);
+            GC.KeepAlive(points4D);
         }
         #endregion
         #region TypeOf
@@ -350,8 +372,7 @@ namespace OpenCvSharp
             IntPtr result = NativeMethods.cvTypeOf(structPtr);
             if (result == IntPtr.Zero)
                 return null;
-            else
-                return new CvTypeInfo(structPtr);
+            return new CvTypeInfo(structPtr);
         }
 #if LANG_JP
         /// <summary>
