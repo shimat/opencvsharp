@@ -110,8 +110,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140831\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenCvSharp.UserInterface">
       <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140831\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">

@@ -103,25 +103,23 @@
     <MyType>WindowsFormsWithCustomSubMain</MyType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenCvSharp">
+    <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140831\lib\net40\OpenCvSharp.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="OpenCvSharp.Blob, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140831\lib\net40\OpenCvSharp.Blob.dll</HintPath>
     </Reference>
-    <Reference Include="OpenCvSharp.CPlusPlus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenCvSharp.CPlusPlus">
       <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140831\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Extensions">
       <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140831\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="OpenCvSharp.UserInterface">
+    <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140831\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
