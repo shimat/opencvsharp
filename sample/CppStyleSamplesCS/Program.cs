@@ -23,7 +23,7 @@ namespace CppStyleSamplesCS
                 //new Subdiv2DSample();
                 //new FASTSample();
                 //new FlannSample(); 
-                //new HOGSample();
+                new HOGSample();
                 //new HoughLinesSample();
                 //new MSERSample();
                 //new MDS();
@@ -43,7 +43,7 @@ namespace CppStyleSamplesCS
                 //new StarDetectorSample();
                 //new BRISKSample();
                 //new FREAKSample();
-                new Stitching();
+                //new Stitching();
             sample.Run();
         }
     }
