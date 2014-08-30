@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -10,8 +11,8 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            var dst = new Mat(FilePath.Lenna, LoadMode.Color);
-            var gray = new Mat(FilePath.Lenna, LoadMode.GrayScale);
+            var dst = new Mat(FilePath.Image.Lenna, LoadMode.Color);
+            var gray = new Mat(FilePath.Image.Lenna, LoadMode.GrayScale);
 
             StarDetector detector = new StarDetector(45);
             KeyPoint[] keypoints = detector.Run(gray);

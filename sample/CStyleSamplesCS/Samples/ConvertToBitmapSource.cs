@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -22,7 +23,7 @@ namespace CStyleSamplesCS
             BitmapSource bs = null;
 
             // OpenCVによる画像処理 (Threshold)
-            using (IplImage src = new IplImage(Const.ImageLenna, LoadMode.GrayScale))
+            using (IplImage src = new IplImage(FilePath.Image.Lenna, LoadMode.GrayScale))
             using (IplImage dst = new IplImage(src.Size, BitDepth.U8, 1))
             {
                 src.Smooth(src, SmoothType.Gaussian, 5);

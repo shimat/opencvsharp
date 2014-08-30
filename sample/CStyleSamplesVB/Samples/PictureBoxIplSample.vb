@@ -8,22 +8,24 @@ Imports OpenCvSharp
 Imports OpenCvSharp.UserInterface
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' PictureBoxIpl sample
-    ''' </summary>
+Imports SampleBase
+
+''' <summary>
+''' PictureBoxIpl sample
+''' </summary>
     Friend Module PictureBoxIplSample
         Public Sub Start()
-            Using img As New IplImage([Const].ImageFruits, LoadMode.Color)
-                Using form As New Form() With {.ClientSize = New Size(img.Width, img.Height), .Text = "PictureBoxIpl Sample"}
-                    Using pbi As New PictureBoxIpl()
-                        pbi.ImageIpl = img
-                        pbi.ClientSize = form.ClientSize
-                        form.Controls.Add(pbi)
+        Using img As New IplImage(FilePath.Image.Fruits, LoadMode.Color)
+            Using form As New Form() With {.ClientSize = New Size(img.Width, img.Height), .Text = "PictureBoxIpl Sample"}
+                Using pbi As New PictureBoxIpl()
+                    pbi.ImageIpl = img
+                    pbi.ClientSize = form.ClientSize
+                    form.Controls.Add(pbi)
 
-                        Application.Run(form)
-                    End Using
+                    Application.Run(form)
                 End Using
             End Using
+        End Using
 
         End Sub
 

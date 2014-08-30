@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
-//using GPU = OpenCvSharp.Gpu;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -17,7 +17,7 @@ namespace CppStyleSamplesCS
 
         public void Run()
         {
-            var img = Cv2.ImRead(FilePath.Asahiyama, LoadMode.Color);
+            var img = Cv2.ImRead(FilePath.Image.Asahiyama, LoadMode.Color);
 
             var hog = new HOGDescriptor();
             hog.SetSVMDetector(HOGDescriptor.GetDefaultPeopleDetector());

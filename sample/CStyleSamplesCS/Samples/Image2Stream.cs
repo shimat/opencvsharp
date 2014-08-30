@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -15,7 +13,7 @@ namespace CStyleSamplesCS
         public Image2Stream()
         {
             // Stream -> IplImage
-            using (FileStream stream = new FileStream(Const.ImageLenna, FileMode.Open))
+            using (FileStream stream = new FileStream(FilePath.Image.Lenna, FileMode.Open))
             using (IplImage img = IplImage.FromStream(stream, LoadMode.Color))
             {
                 CvWindow.ShowImages(img);
@@ -29,7 +27,7 @@ namespace CStyleSamplesCS
             }
 
             // Stream -> CvMat
-            using (FileStream stream = new FileStream(Const.ImageLenna, FileMode.Open))
+            using (FileStream stream = new FileStream(FilePath.Image.Lenna, FileMode.Open))
             using (CvMat mat = CvMat.FromStream(stream, LoadMode.Color))
             {
                 mat.ToString();

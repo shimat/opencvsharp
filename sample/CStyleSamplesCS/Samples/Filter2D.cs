@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// ユーザ定義フィルタ
+    /// Filter operation
     /// </summary>
     /// <remarks>
     /// http://opencv.jp/sample/filter_and_color_conversion.html#filter2d
@@ -16,14 +14,9 @@ namespace CStyleSamplesCS
     {
         public Filter2D()
         {
-            // cvFilter2D
-            // ユーザが定義したカーネルによるフィルタリング
-
-            // (1)画像の読み込み
-            using (IplImage srcImg = new IplImage(Const.ImageFruits, LoadMode.AnyDepth | LoadMode.AnyColor))
+            using (IplImage srcImg = new IplImage(FilePath.Image.Fruits, LoadMode.AnyDepth | LoadMode.AnyColor))
             using (IplImage dstImg = new IplImage(srcImg.Size, srcImg.Depth, srcImg.NChannels))
             {
-                // (2)カーネルの正規化と，フィルタ処理
                 float[] data = {    2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
                                     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
                 };
@@ -32,8 +25,7 @@ namespace CStyleSamplesCS
                 Cv.Normalize(kernel, kernel, 1.0, 0, NormType.L1);
                 Cv.Filter2D(srcImg, dstImg, kernel, new CvPoint(0, 0));
 
-                // (3)結果を表示する
-                using (CvWindow window = new CvWindow("Filter2D", dstImg))
+                using (new CvWindow("Filter2D", dstImg))
                 {
                     Cv.WaitKey(0);
                 }

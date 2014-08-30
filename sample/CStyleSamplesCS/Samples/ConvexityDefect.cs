@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.Blob;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -15,42 +13,42 @@ namespace CStyleSamplesCS
     {
         public ConvexityDefect()
         {
-            using (IplImage imgSrc = new IplImage(Const.ImageHand, LoadMode.Color))
-            using (IplImage imgHSV = new IplImage(imgSrc.Size, BitDepth.U8, 3))
-            using (IplImage imgH = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgS = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgV = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgBackProjection = new IplImage(imgSrc.Size, BitDepth.U8, 1))     
-            using (IplImage imgFlesh = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgHull = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgDefect = new IplImage(imgSrc.Size, BitDepth.U8, 3))
-            using (IplImage imgContour = new IplImage(imgSrc.Size, BitDepth.U8, 3))
-            using (CvMemStorage storage = new CvMemStorage())
+            using (var imgSrc = new IplImage(FilePath.Image.Hand, LoadMode.Color))
+            using (var imgHSV = new IplImage(imgSrc.Size, BitDepth.U8, 3))
+            using (var imgH = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgS = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgV = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgBackProjection = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgFlesh = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgHull = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgDefect = new IplImage(imgSrc.Size, BitDepth.U8, 3))
+            using (var imgContour = new IplImage(imgSrc.Size, BitDepth.U8, 3))
+            using (var storage = new CvMemStorage())
             {
                 // RGB -> HSV
                 Cv.CvtColor(imgSrc, imgHSV, ColorConversion.BgrToHsv);
                 Cv.CvtPixToPlane(imgHSV, imgH, imgS, imgV, null);
                 IplImage[] hsvPlanes = { imgH, imgS, imgV };
 
-                // 肌色領域を求める
+                // skin region
                 RetrieveFleshRegion(imgSrc, hsvPlanes, imgBackProjection);
-                // 最大の面積の領域を残す
-                FilterByMaximalBlob(imgBackProjection, imgFlesh);
+                // gets max blob
+                FilterByMaximumBlob(imgBackProjection, imgFlesh);
                 Interpolate(imgFlesh);
 
-                // 輪郭を求める
+                // find contours of the max blob
                 CvSeq<CvPoint> contours = FindContours(imgFlesh, storage);
                 if (contours != null)
                 {
                     Cv.DrawContours(imgContour, contours, CvColor.Red, CvColor.Green, 0, 3, LineType.AntiAlias);
 
-                    // 凸包を求める
+                    // finds convex hull
                     int[] hull;
                     Cv.ConvexHull2(contours, out hull, ConvexHullOrientation.Clockwise);
                     Cv.Copy(imgFlesh, imgHull);
                     DrawConvexHull(contours, hull, imgHull);
 
-                    // 凹状欠損を求める
+                    // gets convexity defexts
                     Cv.Copy(imgContour, imgDefect);
                     CvSeq<CvConvexityDefect> defect = Cv.ConvexityDefects(contours, hull);
                     DrawDefects(imgDefect, defect);
@@ -67,7 +65,7 @@ namespace CStyleSamplesCS
         }
 
         /// <summary>
-        /// バックプロジェクションにより肌色領域を求める
+        /// Gets flesh regions by histogram back projection
         /// </summary>
         /// <param name="imgSrc"></param>
         /// <param name="hsvPlanes"></param>
@@ -91,11 +89,11 @@ namespace CStyleSamplesCS
         }
 
         /// <summary>
-        /// ラベリングにより最大の面積の領域を残す
+        /// Gets the largest blob
         /// </summary>
         /// <param name="imgSrc"></param>
         /// <param name="imgRender"></param>
-        private void FilterByMaximalBlob(IplImage imgSrc, IplImage imgDst)
+        private void FilterByMaximumBlob(IplImage imgSrc, IplImage imgDst)
         {
             CvBlobs blobs = new CvBlobs();
 
@@ -109,7 +107,7 @@ namespace CStyleSamplesCS
         }
 
         /// <summary>
-        /// 欠損領域を補完する
+        /// Opening
         /// </summary>
         /// <param name="img"></param>
         private void Interpolate(IplImage img)
@@ -117,8 +115,9 @@ namespace CStyleSamplesCS
             Cv.Dilate(img, img, null, 2);
             Cv.Erode(img, img, null, 2);
         }
+
         /// <summary>
-        /// 輪郭を得る
+        /// Find contours
         /// </summary>
         /// <param name="img"></param>
         /// <param name="storage"></param>
@@ -164,6 +163,7 @@ namespace CStyleSamplesCS
                 pt0 = pt;
             }
         }
+
         /// <summary>
         /// ConvexityDefectsの描画
         /// </summary>
@@ -184,6 +184,7 @@ namespace CStyleSamplesCS
                 count++;
             }
         }
+
         /// <summary>
         /// 2点間の距離を得る
         /// </summary>
@@ -194,6 +195,7 @@ namespace CStyleSamplesCS
         {
             return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
         }
+
         /// <summary>
         /// 2点の中点を得る
         /// </summary>

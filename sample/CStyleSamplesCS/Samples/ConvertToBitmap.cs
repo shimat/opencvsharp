@@ -6,11 +6,12 @@ using System.Text;
 using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// System.Drawing.Bitmapへの変換
+    /// Image conversion to System.Drawing.Bitmap
     /// </summary>
     class ConvertToBitmap
     {        
@@ -18,8 +19,8 @@ namespace CStyleSamplesCS
         {
             Bitmap bitmap = null;
 
-            // OpenCVによる画像処理 (Threshold)
-            using (IplImage src = new IplImage(Const.ImageLenna, LoadMode.GrayScale))
+            // do cvThreshold
+            using (IplImage src = new IplImage(FilePath.Image.Lenna, LoadMode.GrayScale))
             using (IplImage dst = new IplImage(src.Size, BitDepth.U8, 1))
             {
                 src.Smooth(src, SmoothType.Gaussian, 5);
@@ -29,7 +30,7 @@ namespace CStyleSamplesCS
                 //bitmap = BitmapConverter.ToBitmap(dst);
             }
 
-            // WindowsFormに表示してみる
+            // visualize using WindowsForm
             Form form = new Form
             {
                 Text = "from IplImage to Bitmap",
@@ -41,12 +42,7 @@ namespace CStyleSamplesCS
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 Image = bitmap
             };
-            /*
-            Imageプロパティに設定するのはもしかするとちょっと微妙、できればこのように
-            pictureBox.Paint += delegate(object sender, PaintEventArgs e) {
-                e.Graphics.DrawImage(bitmap, new Rectangle(new Point(0, 0), form.ClientSize));
-            };
-            */
+
             form.Controls.Add(pictureBox);
             form.ShowDialog();
 

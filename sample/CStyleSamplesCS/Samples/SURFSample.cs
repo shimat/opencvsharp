@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -16,15 +17,12 @@ namespace CStyleSamplesCS
         public SURFSample()
         {
             // cvExtractSURF
-            // SURFで対応点検出            
-
-
+       
             // call cv::initModule_nonfree() before using SURF/SIFT.
             Cv2.InitModule_NonFree();
 
-
-            using (IplImage obj = Cv.LoadImage(Const.ImageSurfBox, LoadMode.GrayScale))
-            using (IplImage image = Cv.LoadImage(Const.ImageSurfBoxinscene, LoadMode.GrayScale))
+            using (IplImage obj = Cv.LoadImage(FilePath.Image.SurfBox, LoadMode.GrayScale))
+            using (IplImage image = Cv.LoadImage(FilePath.Image.SurfBoxinscene, LoadMode.GrayScale))
             using (IplImage objColor = Cv.CreateImage(obj.Size, BitDepth.U8, 3))
             using (IplImage correspond = Cv.CreateImage(new CvSize(image.Width, obj.Height + image.Height), BitDepth.U8, 1))
             {
@@ -36,7 +34,6 @@ namespace CStyleSamplesCS
                 Cv.Copy(image, correspond);
                 Cv.ResetImageROI(correspond);
 
-                // SURFの処理
                 CvSURFPoint[] objectKeypoints, imageKeypoints;
                 float[][] objectDescriptors, imageDescriptors;
                 Stopwatch watch = Stopwatch.StartNew();
@@ -52,7 +49,6 @@ namespace CStyleSamplesCS
                 watch.Reset();
                 watch.Start();
 
-                // シーン画像にある局所画像の領域を線で囲む
                 CvPoint[] srcCorners = new CvPoint[4]
                     {
                         new CvPoint(0, 0), new CvPoint(obj.Width, 0), new CvPoint(obj.Width, obj.Height), new CvPoint(0, obj.Height)
@@ -88,7 +84,6 @@ namespace CStyleSamplesCS
                 watch.Stop();
                 Console.WriteLine("Drawing time = {0}ms", watch.ElapsedMilliseconds);
 
-                // ウィンドウに表示
                 using (CvWindow windowObject = new CvWindow("Object", WindowMode.AutoSize))
                 using (CvWindow windowCorrespond = new CvWindow("Object Correspond", WindowMode.AutoSize))
                 {

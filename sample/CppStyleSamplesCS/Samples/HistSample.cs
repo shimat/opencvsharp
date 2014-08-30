@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -14,7 +13,7 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            Mat src = Cv2.ImRead(FilePath.Lenna, LoadMode.GrayScale);
+            Mat src = Cv2.ImRead(FilePath.Image.Lenna, LoadMode.GrayScale);
 
             // Histogram view
             const int Width = 260, Height = 200;

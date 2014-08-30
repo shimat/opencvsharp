@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -16,7 +14,7 @@ namespace CStyleSamplesCS
         /// </summary>
         public GammaCorrection()
         {
-            using (IplImage imgSrc = new IplImage(Const.ImageLenna, LoadMode.AnyDepth | LoadMode.AnyColor))
+            using (IplImage imgSrc = new IplImage(FilePath.Image.Lenna, LoadMode.AnyDepth | LoadMode.AnyColor))
             using (IplImage imgDst0_25 = imgSrc.Clone())
             using (IplImage imgDst0_5 = imgSrc.Clone())
             using (IplImage imgDst2 = imgSrc.Clone())            

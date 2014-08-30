@@ -9,14 +9,16 @@ Imports OpenCvSharp
 Imports OpenCvSharp.Extensions
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' Draws from IplImage to HDC
-    ''' </summary>
+Imports SampleBase
+
+''' <summary>
+''' Draws from IplImage to HDC
+''' </summary>
     Friend Module DrawToHDC
         Public Sub Start()
             Dim roi As New CvRect(320, 260, 100, 100) ' region of roosevelt's face
 
-        Using src As New IplImage([Const].ImageYalta, LoadMode.Color), _
+        Using src As New IplImage(FilePath.Image.Yalta, LoadMode.Color), _
              dst As New IplImage(roi.Size, BitDepth.U8, 3)
             src.ROI = roi
 

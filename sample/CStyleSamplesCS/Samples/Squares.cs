@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -13,17 +14,25 @@ namespace CStyleSamplesCS
     {
         const int Thresh = 50;
         const string WindowName = "Square Detection Demo";
-        readonly string[] _names = { Const.ImageSquare1, Const.ImageSquare2, Const.ImageSquare3, Const.ImageSquare4, Const.ImageSquare5, Const.ImageSquare6, };
+        readonly static string[] TargetFiles =
+        {
+            FilePath.Image.Square1, 
+            FilePath.Image.Square2, 
+            FilePath.Image.Square3, 
+            FilePath.Image.Square4,
+            FilePath.Image.Square5, 
+            FilePath.Image.Square6,
+        };
 
         public Squares()
         {
             // create memory storage that will contain all the dynamic data
             CvMemStorage storage = new CvMemStorage(0);
 
-            for (int i = 0; i < _names.Length; i++)
+            for (int i = 0; i < TargetFiles.Length; i++)
             {
                 // load i-th image
-                using (IplImage img = new IplImage(_names[i], LoadMode.Color))
+                using (IplImage img = new IplImage(TargetFiles[i], LoadMode.Color))
                 {
                     // create window and a trackbar (slider) with parent "image" and set callback
                     // (the slider regulates upper threshold, passed to Canny edge detector) 

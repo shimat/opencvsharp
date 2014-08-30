@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// カメラキャリブレーション
+    /// Camera calibration
     /// </summary>
     /// <remarks>
     /// http://opencv.jp/sample/camera_calibration.html#calibration
@@ -19,21 +17,19 @@ namespace CStyleSamplesCS
     {
         public CalibrateCamera()
         {
-            const int ImageNum = 3;           // 画像数
-            const int PatRow = 7;              // パターンの行数 
-            const int PatCol = 10;             // パターンの列数 
+            const int ImageNum = 3; 
+            const int PatRow = 7; 
+            const int PatCol = 10; 
             const int PatSize = PatRow * PatCol;
             const int AllPoints = ImageNum * PatSize;
-            const float ChessSize = 24.0f;     // パターン1マスの1辺サイズ[mm]            
+            const float ChessSize = 24.0f;            
 
-            // (1)キャリブレーション画像の読み込み
             IplImage[] srcImg = new IplImage[ImageNum];
             for (int i = 0; i < ImageNum; i++)
             {
-                srcImg[i] = new IplImage(string.Format(Const.ImageCalibration, i), LoadMode.Color);
+                srcImg[i] = new IplImage(string.Format(FilePath.Image.Calibration, i), LoadMode.Color);
             }
 
-            // (2)3次元空間座標の設定
             CvPoint3D32f[,,] objects = new CvPoint3D32f[ImageNum, PatRow, PatCol];
             for (int i = 0; i < ImageNum; i++)
             {
@@ -52,7 +48,6 @@ namespace CStyleSamplesCS
             }
             CvMat objectPoints = new CvMat(AllPoints, 3, MatrixType.F32C1, objects);
 
-            // (3)チェスボード（キャリブレーションパターン）のコーナー検出
             CvSize patternSize = new CvSize(PatCol, PatRow);
 
             int foundNum = 0;
@@ -74,7 +69,7 @@ namespace CStyleSamplesCS
                     {
                         Debug.Print("fail");
                     }
-                    // (4)コーナー位置をサブピクセル精度に修正，描画                    
+
                     using (IplImage srcGray = new IplImage(srcImg[i].Size, BitDepth.U8, 1))
                     {
                         Cv.CvtColor(srcImg[i], srcGray, ColorConversion.BgrToGray);
@@ -96,7 +91,6 @@ namespace CStyleSamplesCS
             CvMat imagePoints = new CvMat(AllPoints, 1, MatrixType.F32C2, allCorners.ToArray());
             CvMat pointCounts = new CvMat(ImageNum, 1, MatrixType.S32C1, pointCountsValue);
 
-            // (5)内部パラメータ，歪み係数の推定
             CvMat intrinsic = new CvMat(3, 3, MatrixType.F64C1);
             CvMat distortion = new CvMat(1, 4, MatrixType.F64C1);
             CvMat rotation = new CvMat(ImageNum, 3, MatrixType.F64C1);
@@ -104,7 +98,6 @@ namespace CStyleSamplesCS
 
             Cv.CalibrateCamera2(objectPoints, imagePoints, pointCounts, srcImg[0].Size, intrinsic, distortion, rotation, translation, CalibrationFlag.Default);
 
-            // (6)外部パラメータの推定 (1枚目の画像に対して)
             CvMat subImagePoints, subObjectPoints;
             Cv.GetRows(imagePoints, out subImagePoints, 0, PatSize);
             Cv.GetRows(objectPoints, out subObjectPoints, 0, PatSize);
@@ -114,8 +107,7 @@ namespace CStyleSamplesCS
             Cv.FindExtrinsicCameraParams2(subObjectPoints, subImagePoints, intrinsic, distortion, rotation_, translation_, false);
             //Cv.FindExtrinsicCameraParams2_(subObjectPoints, subImagePoints, intrinsic, distortion, rotation_, translation_, false);
 
-            // (7)XMLファイルへの書き出し
-            using (CvFileStorage fs = new CvFileStorage("camera.xml", null, OpenCvSharp.FileStorageMode.Write))
+            using (var fs = new CvFileStorage("camera.xml", null, OpenCvSharp.FileStorageMode.Write))
             {
                 fs.Write("intrinsic", intrinsic);
                 fs.Write("rotation", rotation_);

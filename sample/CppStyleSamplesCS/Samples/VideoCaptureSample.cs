@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -12,7 +13,7 @@ namespace CppStyleSamplesCS
         public void Run()
         {
             // Opens MP4 file (ffmpeg is probably needed)
-            VideoCapture capture = new VideoCapture(FilePath.Bach);
+            VideoCapture capture = new VideoCapture(FilePath.Movie.Bach);
 
             int sleepTime = (int)Math.Round(1000 / capture.Fps);
 

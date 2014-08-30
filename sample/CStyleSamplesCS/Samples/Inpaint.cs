@@ -4,11 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// 不要オブジェクトの除去
+    /// Inpainting
     /// </summary>
     /// <remarks>http://opencv.jp/sample/special_transforms.html#inpaint</remarks>
     class Inpaint
@@ -16,7 +17,6 @@ namespace CStyleSamplesCS
         public Inpaint()
         {
             // cvInpaint
-            // 画像の不要な文字列部分に対するマスク画像を指定して文字列を除去する
 
             Console.WriteLine(
                 "Hot keys: \n" +
@@ -27,13 +27,10 @@ namespace CStyleSamplesCS
                 "\ts - save the original image, mask image, original+mask image and inpainted image to desktop."
             );
 
-            // 原画像の読み込み
-            using (IplImage img0 = new IplImage(Const.ImageFruits, LoadMode.AnyDepth | LoadMode.AnyColor))
+            using (IplImage img0 = new IplImage(FilePath.Image.Fruits, LoadMode.AnyDepth | LoadMode.AnyColor))
             {
-                // お絵かき用の画像を確保（マスク）
                 using (IplImage img = img0.Clone())
                 using (IplImage inpaintMask = new IplImage(img0.Size, BitDepth.U8, 1))
-                // Inpaintの出力先画像を確保
                 using (IplImage inpainted = img0.Clone())
                 {
                     inpainted.Zero();
@@ -41,8 +38,6 @@ namespace CStyleSamplesCS
 
                     using (CvWindow wImage = new CvWindow("image", WindowMode.AutoSize, img))
                     {
-
-                        // マウスイベントの処理
                         CvPoint prevPt = new CvPoint(-1, -1);
                         wImage.OnMouseCallback += delegate(MouseEvent ev, int x, int y, MouseEvent flags)
                         {
@@ -72,21 +67,21 @@ namespace CStyleSamplesCS
                         {
                             switch ((char)CvWindow.WaitKey(0))
                             {
-                                case (char)27:    // ESCキーで終了
+                                case (char)27:    // exit
                                     CvWindow.DestroyAllWindows();
                                     return;
-                                case 'r':   // 原画像を復元
+                                case 'r':   // restore original image
                                     inpaintMask.Zero();
                                     img0.Copy(img);
                                     wImage.ShowImage(img);
                                     break;
-                                case 'i':   // Inpaintの実行
+                                case 'i':   // do Inpaint
                                 case '\r':
                                     CvWindow wInpaint = new CvWindow("inpainted image", WindowMode.AutoSize);
                                     img.Inpaint(inpaintMask, inpainted, 3, InpaintMethod.Telea);
                                     wInpaint.ShowImage(inpainted);
                                     break;
-                                case 's': // 画像の保存
+                                case 's': // save images
                                     string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                                     img0.SaveImage(Path.Combine(desktop, "original.png"));
                                     inpaintMask.SaveImage(Path.Combine(desktop, "mask.png"));

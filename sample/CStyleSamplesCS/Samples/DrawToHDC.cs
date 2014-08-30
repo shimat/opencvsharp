@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -19,8 +20,8 @@ namespace CStyleSamplesCS
         {
             CvRect roi = new CvRect(320, 260, 100, 100);        // region of roosevelt's face
 
-            using (IplImage src = new IplImage(Const.ImageYalta, LoadMode.Color))
-            using (IplImage dst = new IplImage(roi.Size, BitDepth.U8, 3))
+            using (var src = new IplImage(FilePath.Image.Yalta, LoadMode.Color))
+            using (var dst = new IplImage(roi.Size, BitDepth.U8, 3))
             {
                 src.ROI = roi;
 

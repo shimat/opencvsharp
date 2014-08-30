@@ -3,14 +3,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// 顔の検出
+    /// Face detection
     /// </summary>
     /// <remarks>http://opencv.jp/sample/object_detection.html#face_detection</remarks>
     class FaceDetect
@@ -20,7 +19,6 @@ namespace CStyleSamplesCS
             CheckMemoryLeak();
 
             // CvHaarClassifierCascade, cvHaarDetectObjects
-            // 顔を検出するためにHaar分類器のカスケードを用いる
 
             CvColor[] colors = new CvColor[]{
                 new CvColor(0,0,255),
@@ -37,10 +35,9 @@ namespace CStyleSamplesCS
             const double ScaleFactor = 1.0850;
             const int MinNeighbors = 2;
 
-            using (IplImage img = new IplImage(Const.ImageYalta, LoadMode.Color))
+            using (IplImage img = new IplImage(FilePath.Image.Yalta, LoadMode.Color))
             using (IplImage smallImg = new IplImage(new CvSize(Cv.Round(img.Width / Scale), Cv.Round(img.Height / Scale)), BitDepth.U8, 1))
             {
-                // 顔検出用の画像の生成
                 using (IplImage gray = new IplImage(img.Size, BitDepth.U8, 1))
                 {
                     Cv.CvtColor(img, gray, ColorConversion.BgrToGray);
@@ -48,9 +45,8 @@ namespace CStyleSamplesCS
                     Cv.EqualizeHist(smallImg, smallImg);
                 }
 
-                //using (CvHaarClassifierCascade cascade = Cv.Load<CvHaarClassifierCascade>(Const.XmlHaarcascade))  // どっちでも可
-                using (CvHaarClassifierCascade cascade = CvHaarClassifierCascade.FromFile(Const.XmlHaarcascade))    // 
-                using (CvMemStorage storage = new CvMemStorage())
+                using (var cascade = CvHaarClassifierCascade.FromFile(FilePath.Text.HaarCascade))  
+                using (var storage = new CvMemStorage())
                 {
                     storage.Clear();
 
@@ -91,7 +87,7 @@ namespace CStyleSamplesCS
                     case ConsoleKey.Enter:
                         for (int i = 0; i < 128; i++)
                         {
-                            using (CvHaarClassifierCascade cascade = CvHaarClassifierCascade.FromFile(Const.XmlHaarcascade))
+                            using (var cascade = CvHaarClassifierCascade.FromFile(FilePath.Text.HaarCascade))
                             {                                
                             }
                             //using (CvMat mat = new CvMat(1, 1024, MatrixType.U8C1))

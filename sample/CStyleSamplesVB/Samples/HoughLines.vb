@@ -7,6 +7,8 @@ Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
+Imports SampleBase
+
 ''' <summary>
 ''' ハフ変換による直線検出
 ''' </summary>
@@ -15,8 +17,8 @@ Friend Module HoughLines
     Public Sub Start()
 
         ' (1)画像の読み込み 
-        Using srcImgGray As New IplImage([Const].ImageGoryokaku, LoadMode.GrayScale), _
-             srcImgStd As New IplImage([Const].ImageGoryokaku, LoadMode.Color), _
+        Using srcImgGray As New IplImage(FilePath.Image.Goryokaku, LoadMode.GrayScale), _
+             srcImgStd As New IplImage(FilePath.Image.Goryokaku, LoadMode.Color), _
              srcImgProb As IplImage = srcImgStd.Clone()
             ' (2)ハフ変換のための前処理 
             Cv.Canny(srcImgGray, srcImgGray, 50, 200, ApertureSize.Size3)

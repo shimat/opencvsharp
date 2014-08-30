@@ -1,25 +1,25 @@
 ﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
+Imports SampleBase
+
 ''' <summary>
 ''' Retrieves keypoints using the StarDetector algorithm.
 ''' </summary>
 Friend Module StarDetectorSample
     Public Sub Start()
-        Using img As New IplImage([Const].ImageLenna, LoadMode.GrayScale), _
+        Using img As New IplImage(FilePath.Image.Lenna, LoadMode.GrayScale), _
         cimg As New IplImage(img.Size, BitDepth.U8, 3)
             Cv.CvtColor(img, cimg, ColorConversion.GrayToBgr)
 
             CppStyleStarDetector(img, cimg) ' C++-style
 
-            Using TempCvWindow As CvWindow = New CvWindow("img", img), _
-            TempCvWindowFeatures As CvWindow = New CvWindow("features", cimg)
-                Cv.WaitKey()
+            Using New CvWindow("img", img)
+                Using New CvWindow("features", cimg)
+                    Cv.WaitKey()
+                End Using
             End Using
         End Using
     End Sub

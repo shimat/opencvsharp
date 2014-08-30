@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -17,7 +15,7 @@ namespace CStyleSamplesCS
         /// </summary>
         public SkinDetector()
         {
-            using (IplImage imgSrc = new IplImage(Const.ImageBalloon, LoadMode.Color))            
+            using (IplImage imgSrc = new IplImage(FilePath.Image.Balloon, LoadMode.Color))            
             using (IplImage imgHueMask = new IplImage(imgSrc.Size, BitDepth.U8, 1))
             using (IplImage imgDst = imgSrc.Clone())
             {
@@ -25,8 +23,8 @@ namespace CStyleSamplesCS
                 detector.Process(imgSrc, imgHueMask);
                 DisplaySkinPoints(imgHueMask, imgDst, CvColor.Green);
 
-                using (CvWindow windowSrc = new CvWindow("src", imgSrc))
-                using (CvWindow windowDst = new CvWindow("skin", imgDst))
+                using (new CvWindow("src", imgSrc))
+                using (new CvWindow("skin", imgDst))
                 {
                     Cv.WaitKey(0);
                 }

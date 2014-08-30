@@ -6,12 +6,14 @@ Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
+Imports SampleBase
+
 ''' <summary>
 ''' Retrieves keypoints using the StarDetector algorithm.
 ''' </summary>
 Friend Module StarDetectorSample
     Public Sub Start()
-        Using img As New IplImage([Const].ImageLenna, LoadMode.GrayScale), _
+        Using img As New IplImage(FilePath.Image.Lenna, LoadMode.GrayScale), _
                  cimg As New IplImage(img.Size, BitDepth.U8, 3)
             Cv.CvtColor(img, cimg, ColorConversion.GrayToBgr)
 

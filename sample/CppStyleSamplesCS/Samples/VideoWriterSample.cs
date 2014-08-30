@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -14,7 +15,7 @@ namespace CppStyleSamplesCS
             const string OutVideoFile = "out.avi";
 
             // Opens MP4 file (ffmpeg is probably needed)
-            VideoCapture capture = new VideoCapture(FilePath.Bach);
+            VideoCapture capture = new VideoCapture(FilePath.Movie.Bach);
 
             // Read movie frames and write them to VideoWriter 
             Size dsize = new Size(640, 480);

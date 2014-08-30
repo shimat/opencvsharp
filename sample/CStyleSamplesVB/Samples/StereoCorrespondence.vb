@@ -1,22 +1,21 @@
 ﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' ステレオマッチング
-    ''' </summary>
-    Friend Module StereoCorrespondence
-        Public Sub Start()
-            ' cvFindStereoCorrespondenceBM + cvFindStereoCorrespondenceGC
-            ' ブロックマッチング, グラフカットの両アルゴリズムによるステレオマッチング
+Imports SampleBase
 
-            ' 入力画像の読み込み
-        Using imgLeft As New IplImage([Const].ImageTsukubaLeft, LoadMode.GrayScale), _
-            imgRight As New IplImage([Const].ImageTsukubaRight, LoadMode.GrayScale),
+''' <summary>
+''' ステレオマッチング
+''' </summary>
+Friend Module StereoCorrespondence
+    Public Sub Start()
+        ' cvFindStereoCorrespondenceBM + cvFindStereoCorrespondenceGC
+        ' ブロックマッチング, グラフカットの両アルゴリズムによるステレオマッチング
+
+        ' 入力画像の読み込み
+        Using imgLeft As New IplImage(FilePath.Image.TsukubaLeft, LoadMode.GrayScale), _
+            imgRight As New IplImage(FilePath.Image.TsukubaRight, LoadMode.GrayScale),
             dispBM As New IplImage(imgLeft.Size, BitDepth.S16, 1), _
             dispLeft As New IplImage(imgLeft.Size, BitDepth.S16, 1), _
             dispRight As New IplImage(imgLeft.Size, BitDepth.S16, 1), _
@@ -39,14 +38,17 @@ Imports OpenCvSharp.CPlusPlus
                 Cv.ConvertScale(dstAux, dstAux, 16)
                 dstSGBM.ConvertTo(dstSGBM, dstSGBM.Type, 32, 0)
 
-                Using TempCvWindow As CvWindow = New CvWindow("Stereo Correspondence (BM)", dstBM), _
-                    TempCvWindowGC As CvWindow = New CvWindow("Stereo Correspondence (GC)", dstGC), _
-                    TempCvWindowCvaux As CvWindow = New CvWindow("Stereo Correspondence (cvaux)", dstAux), _
-                    TempCvWindowSGBM As CvWindow = New CvWindow("Stereo Correspondence (SGBM)", dstSGBM.ToIplImage())
-                    Cv.WaitKey()
+                Using New CvWindow("Stereo Correspondence (BM)", dstBM)
+                    Using New CvWindow("Stereo Correspondence (GC)", dstGC)
+                        Using New CvWindow("Stereo Correspondence (cvaux)", dstAux)
+                            Using New CvWindow("Stereo Correspondence (SGBM)", dstSGBM.ToIplImage())
+                                Cv.WaitKey()
+                            End Using
+                        End Using
+                    End Using
                 End Using
             End Using
         End Using
     End Sub
-    End Module
+End Module
 ' End Namespace

@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -12,7 +13,7 @@ namespace CppStyleSamplesCS
         {
             // Split/Merge Test
             {
-                Mat src = new Mat(FilePath.Lenna, LoadMode.Color);
+                Mat src = new Mat(FilePath.Image.Lenna, LoadMode.Color);
 
                 // Split each plane
                 Mat[] planes;

@@ -5,6 +5,7 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
+Imports SampleBase
 Imports CPP = OpenCvSharp.CPlusPlus
 'using GPU = OpenCvSharp.Gpu;
 
@@ -14,7 +15,7 @@ Imports CPP = OpenCvSharp.CPlusPlus
 ''' </summary>
 Friend Module HOGSample
     Public Sub Start()
-        Dim img As Mat = Cv2.ImRead([Const].ImageAsahiyama, LoadMode.Color)
+        Dim img As Mat = Cv2.ImRead(FilePath.Image.Asahiyama, LoadMode.Color)
 
         Dim hog As New HOGDescriptor()
         hog.SetSVMDetector(HOGDescriptor.GetDefaultPeopleDetector())

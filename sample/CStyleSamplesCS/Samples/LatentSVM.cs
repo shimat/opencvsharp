@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -13,11 +14,11 @@ namespace CStyleSamplesCS
     class LatentSVM
     {
         public LatentSVM()
-        {            
-            using (CvLatentSvmDetector detector = new CvLatentSvmDetector(Const.XmlLatentSVMCat))
-            using (IplImage imageSrc = new IplImage(Const.ImageCat, LoadMode.Color))
-            using (IplImage imageDst = imageSrc.Clone())
-            using (CvMemStorage storage = new CvMemStorage())
+        {
+            using (var detector = new CvLatentSvmDetector(FilePath.Text.LatentSvmCat))
+            using (var imageSrc = new IplImage(FilePath.Image.Cat, LoadMode.Color))
+            using (var imageDst = imageSrc.Clone())
+            using (var storage = new CvMemStorage())
             {
                 Console.WriteLine("Running LatentSVM...");
                 Stopwatch watch = Stopwatch.StartNew();

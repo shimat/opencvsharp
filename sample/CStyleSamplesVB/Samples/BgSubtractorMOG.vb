@@ -6,13 +6,14 @@ Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
+Imports SampleBase
 
 ''' <summary>
 ''' 
 ''' </summary>
 Friend Module BgSubtractorMOG
     Public Sub Start()
-        Using capture As New CvCapture([Const].MovieHara) ' specify your movie file
+        Using capture As New CvCapture(FilePath.Movie.Hara) ' specify your movie file
             Using mog As New BackgroundSubtractorMOG()
                 Using windowSrc As New CvWindow("src")
                     Using windowDst As New CvWindow("dst")

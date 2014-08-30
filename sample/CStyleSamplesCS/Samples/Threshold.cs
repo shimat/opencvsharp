@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -13,7 +14,7 @@ namespace CStyleSamplesCS
     {        
         public Threshold()
         {
-            using (IplImage src = new IplImage(Const.ImageLenna, LoadMode.Color))
+            using (IplImage src = new IplImage(FilePath.Image.Lenna, LoadMode.Color))
             using (IplImage srcGray = new IplImage(src.Size, BitDepth.U8, 1))
             using (IplImage dst = new IplImage(src.Size, BitDepth.U8, 1))
             using (CvWindow window = new CvWindow("SampleThreshold"))

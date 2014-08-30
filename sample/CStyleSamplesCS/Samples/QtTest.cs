@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -14,7 +15,7 @@ namespace CStyleSamplesCS
         public QtTest()
         {
             using (CvWindow window = new CvWindow("window", WindowMode.ExpandedGui))
-            using (IplImage img = new IplImage(Const.ImageLenna, LoadMode.Color))
+            using (IplImage img = new IplImage(FilePath.Image.Lenna, LoadMode.Color))
             {
                 if (CvWindow.HasQt)
                 {

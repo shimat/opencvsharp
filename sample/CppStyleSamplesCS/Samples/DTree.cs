@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -56,7 +57,7 @@ namespace CppStyleSamplesCS
             CvMat responses;
             CvDTree dtree;
 
-            if (!MushroomReadDatabase(FilePath.Mushroom, out data, out missing, out responses))
+            if (!MushroomReadDatabase(FilePath.Text.Mushroom, out data, out missing, out responses))
             {
                 Console.WriteLine("Unable to load the training database\n" +
                                   "Pass it as a parameter: dtree <path to agaricus-lepiota.data>\n");
@@ -101,7 +102,7 @@ namespace CppStyleSamplesCS
 
             try
             {
-                using (StreamReader sr = new StreamReader(filename))
+                using (var sr = new StreamReader(filename))
                 {
                     string buf;
 

@@ -5,11 +5,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// ハフ変換による直線検出
+    /// Line detection using Hough transform
     /// </summary>
     /// <remarks>http://opencv.jp/sample/special_transforms.html#hough_line</remarks>
     class HoughLines
@@ -25,18 +26,15 @@ namespace CStyleSamplesCS
         private void SampleC()
         {
             // cvHoughLines2
-            // 標準的ハフ変換と確率的ハフ変換を指定して線（線分）の検出を行なう．サンプルコード内の各パラメータ値は処理例の画像に対してチューニングされている．
 
-            // (1)画像の読み込み 
-            using (IplImage srcImgGray = new IplImage(Const.ImageGoryokaku, LoadMode.GrayScale))
-            using (IplImage srcImgStd = new IplImage(Const.ImageGoryokaku, LoadMode.Color))
+            using (IplImage srcImgGray = new IplImage(FilePath.Image.Goryokaku, LoadMode.GrayScale))
+            using (IplImage srcImgStd = new IplImage(FilePath.Image.Goryokaku, LoadMode.Color))
             using (IplImage srcImgProb = srcImgStd.Clone())
             {
-                // (2)ハフ変換のための前処理 
                 Cv.Canny(srcImgGray, srcImgGray, 50, 200, ApertureSize.Size3);
                 using (CvMemStorage storage = new CvMemStorage())
                 {
-                    // (3)標準的ハフ変換による線の検出と検出した線の描画
+                    // Standard algorithm
                     CvSeq lines = srcImgGray.HoughLines2(storage, HoughLinesMethod.Standard, 1, Math.PI / 180, 50, 0, 0);
                     // wrapper style
                     //CvLineSegmentPolar[] lines = src_img_gray.HoughLinesStandard(1, Math.PI / 180, 50, 0, 0);
@@ -68,7 +66,7 @@ namespace CStyleSamplesCS
                         srcImgStd.Line(pt1, pt2, CvColor.Red, 3, LineType.AntiAlias, 0);
                     }
 
-                    // (4)確率的ハフ変換による線分の検出と検出した線分の描画
+                    // Probabilistic algorithm
                     lines = srcImgGray.HoughLines2(storage, HoughLinesMethod.Probabilistic, 1, Math.PI / 180, 50, 50, 10);
                     // wrapper style
                     //CvLineSegmentPoint[] lines = src_img_gray.HoughLinesProbabilistic(1, Math.PI / 180, 50, 0, 0);
@@ -90,7 +88,6 @@ namespace CStyleSamplesCS
                     }
                 }
 
-                // (5)検出結果表示用のウィンドウを確保し表示する
                 using (new CvWindow("Hough_line_standard", WindowMode.AutoSize, srcImgStd))
                 using (new CvWindow("Hough_line_probabilistic", WindowMode.AutoSize, srcImgProb))
                 {

@@ -6,12 +6,14 @@ Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' Maximally Stable Extremal Regions
-    ''' </summary>
-    Friend Module MSERSample
-        Public Sub Start()
-        Using imgSrc As New IplImage([Const].ImageDistortion, LoadMode.Color), _
+Imports SampleBase
+
+''' <summary>
+''' Maximally Stable Extremal Regions
+''' </summary>
+Friend Module MSERSample
+    Public Sub Start()
+        Using imgSrc As New IplImage(FilePath.Image.Distortion, LoadMode.Color), _
              imgGray As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
          imgDst As IplImage = imgSrc.Clone()
             Cv.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray)
@@ -26,35 +28,35 @@ Imports OpenCvSharp.CPlusPlus
             End Using
         End Using
 
-        End Sub
+    End Sub
 
-        ''' <summary>
-        ''' Extracts MSER by C-style code (cvExtractMSER)
-        ''' </summary>
-        ''' <param name="imgGray"></param>
-        ''' <param name="imgRender"></param>
-        Private Sub CStyleMSER(ByVal imgGray As IplImage, ByVal imgDst As IplImage)
-            Using storage As New CvMemStorage()
-                Dim contours() As CvContour
-                Dim param As New CvMSERParams()
-                Cv.ExtractMSER(imgGray, Nothing, contours, storage, param)
+    ''' <summary>
+    ''' Extracts MSER by C-style code (cvExtractMSER)
+    ''' </summary>
+    ''' <param name="imgGray"></param>
+    ''' <param name="imgRender"></param>
+    Private Sub CStyleMSER(ByVal imgGray As IplImage, ByVal imgDst As IplImage)
+        Using storage As New CvMemStorage()
+            Dim contours() As CvContour
+            Dim param As New CvMSERParams()
+            Cv.ExtractMSER(imgGray, Nothing, contours, storage, param)
 
-                For Each c As CvContour In contours
-                    Dim color As CvColor = CvColor.Random()
-                    For i As Integer = 0 To c.Total - 1
-                        imgDst.Circle(c(i).Value, 1, color)
-                    Next i
-                Next c
-            End Using
-        End Sub
+            For Each c As CvContour In contours
+                Dim color As CvColor = CvColor.Random()
+                For i As Integer = 0 To c.Total - 1
+                    imgDst.Circle(c(i).Value, 1, color)
+                Next i
+            Next c
+        End Using
+    End Sub
 
-        ''' <summary>
-        ''' Extracts MSER by C++-style code (cv::MSER)
-        ''' </summary>
-        ''' <param name="imgGray"></param>
+    ''' <summary>
+    ''' Extracts MSER by C++-style code (cv::MSER)
+    ''' </summary>
+    ''' <param name="imgGray"></param>
     ''' <param name="imgDst"></param>
-        Private Sub CppStyleMSER(ByVal imgGray As IplImage, ByVal imgDst As IplImage)
-            Dim mser As New MSER()
+    Private Sub CppStyleMSER(ByVal imgGray As IplImage, ByVal imgDst As IplImage)
+        Dim mser As New MSER()
         Dim contours()() As Point = mser.Run(New Mat(imgGray, False), Nothing) ' operator()
         For Each p As Point() In contours
             Dim color As CvColor = CvColor.Random()
@@ -62,6 +64,6 @@ Imports OpenCvSharp.CPlusPlus
                 imgDst.Circle(p(i), 1, color)
             Next i
         Next p
-        End Sub
-    End Module
+    End Sub
+End Module
 ' End Namespace

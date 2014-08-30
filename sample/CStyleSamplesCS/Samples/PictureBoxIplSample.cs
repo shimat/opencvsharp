@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.UserInterface;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -16,7 +14,7 @@ namespace CStyleSamplesCS
     {
         public PictureBoxIplSample()
         {
-            using (IplImage img = new IplImage(Const.ImageFruits, LoadMode.Color))
+            using (IplImage img = new IplImage(FilePath.Image.Fruits, LoadMode.Color))
             {
                 using (Form form = new Form() { ClientSize = new Size(img.Width, img.Height), Text = "PictureBoxIpl Sample" })  
                 using (PictureBoxIpl pbi = new PictureBoxIpl())

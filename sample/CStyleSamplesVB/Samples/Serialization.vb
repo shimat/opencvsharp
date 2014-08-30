@@ -7,14 +7,16 @@ Imports System.Text
 Imports OpenCvSharp
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' Binary Serialization
-    ''' </summary>
+Imports SampleBase
+
+''' <summary>
+''' Binary Serialization
+''' </summary>
     Friend Module Serialization
         Public Sub Start()
             Const FileName As String = "serialization.dat"
 
-            Dim imgWrite As New IplImage([Const].ImageFruits, LoadMode.Color)
+        Dim imgWrite As New IplImage(FilePath.Image.Fruits, LoadMode.Color)
             Dim imgRead As IplImage
 
             Using fs As New FileStream(FileName, FileMode.Create)

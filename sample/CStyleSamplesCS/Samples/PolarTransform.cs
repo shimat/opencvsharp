@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -13,7 +14,7 @@ namespace CStyleSamplesCS
     {
         public PolarTransForm()
         {
-            using (IplImage imgSrc = Cv.LoadImage(Const.ImageFruits, LoadMode.Color))
+            using (IplImage imgSrc = Cv.LoadImage(FilePath.Image.Fruits, LoadMode.Color))
             using (IplImage imgLog = Cv.CreateImage(Cv.Size(256, 256), BitDepth.U8, 3))
             using (IplImage imgLinear = Cv.CreateImage(Cv.Size(256, 256), BitDepth.U8, 3))
             using (IplImage imgRecovered1 = Cv.CreateImage(Cv.GetSize(imgSrc), BitDepth.U8, 3))

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -56,7 +57,7 @@ namespace CppStyleSamplesCS
                     throw new NotImplementedException();
             }
 
-            method(FilePath.LetterRecog, null, null);
+            method(FilePath.Text.LetterRecog, null, null);
         }
         /// <summary>
         /// 

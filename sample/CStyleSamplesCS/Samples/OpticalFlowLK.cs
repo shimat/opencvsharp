@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// Lucas & Kanade アルゴリズムによるオプティカルフローの計算
+    /// Lucas & Kanade optical flow
     /// </summary>
     /// <remarks>http://opencv.jp/sample/optical_flow.html#optflowHSLK</remarks>
     class OpticalFlowLK
     {
         public OpticalFlowLK()
         {
-            using (IplImage srcImg1 = Cv.LoadImage(Const.ImagePenguin1, LoadMode.GrayScale))
-            using (IplImage srcImg2 = Cv.LoadImage(Const.ImagePenguin1b, LoadMode.GrayScale))
-            using (IplImage dstImg = Cv.LoadImage(Const.ImagePenguin1b, LoadMode.Color))
+            using (IplImage srcImg1 = Cv.LoadImage(FilePath.Image.Penguin1, LoadMode.GrayScale))
+            using (IplImage srcImg2 = Cv.LoadImage(FilePath.Image.Penguin1b, LoadMode.GrayScale))
+            using (IplImage dstImg = Cv.LoadImage(FilePath.Image.Penguin1b, LoadMode.Color))
             {
-                // (1)速度ベクトルを格納する構造体の確保，等
+                // (1)
                 int cols = srcImg1.Width;
                 int rows = srcImg1.Height;
                 using (CvMat velx = Cv.CreateMat(rows, cols, MatrixType.F32C1))
@@ -27,10 +28,10 @@ namespace CStyleSamplesCS
                     Cv.SetZero(velx);
                     Cv.SetZero(vely);
 
-                    // (2)オプティカルフローを計算
+                    // (2) calc optical flow
                     Cv.CalcOpticalFlowLK(srcImg1, srcImg2, Cv.Size(15, 15), velx, vely);
 
-                    // (3)オプティカルフローを描画
+                    // (3) drawing
                     for (int i = 0; i < cols; i += 5)
                     {
                         for (int j = 0; j < rows; j += 5)
@@ -41,7 +42,7 @@ namespace CStyleSamplesCS
                         }
                     }
 
-                    // (4)オプティカルフローの表示
+                    // (4) create window and show results
                     Cv.NamedWindow("ImageLK", WindowMode.AutoSize);
                     Cv.ShowImage("ImageLK", dstImg);
                     Cv.NamedWindow("velx", WindowMode.AutoSize);

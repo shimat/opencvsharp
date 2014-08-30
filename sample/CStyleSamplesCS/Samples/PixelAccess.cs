@@ -1,29 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// ピクセルデータへの直接アクセス
+    /// 
     /// </summary>
     /// <remarks>http://opencv.jp/sample/basic_structures.html#access_pixels</remarks>
     class PixelAccess
     {        
         public PixelAccess()
         {
-            // IplImage
-            // 8ビット3チャンネルカラー画像を読み込み，ピクセルデータを変更する
-
-            // 画像の読み込み
-            using (IplImage img = new IplImage(Const.ImageLenna, LoadMode.Color))
+            using (IplImage img = new IplImage(FilePath.Image.Lenna, LoadMode.Color))
             {
-                // (1)ピクセルデータ（R,G,B）を順次取得し，変更する
-                ///*
-                // 低速だけど簡単な方法
+                // easy method (slow)
                 {
                     for (int y = 0; y < img.Height; y++)
                     {
@@ -39,9 +31,9 @@ namespace CStyleSamplesCS
                         }
                     }
                 }
-                //*/
+
                 /*
-                // ポインタを使った、多分高速な方法
+                // fast operation
                 unsafe
                 {
                     byte* ptr = (byte*)img.ImageData;    // 画素データへのポインタ
@@ -61,7 +53,7 @@ namespace CStyleSamplesCS
                 }
                 //*/
                 /*
-                // unsafeではなくIntPtrで頑張る方法 (VB.NET向き)
+                // pointer operation by managed code
                 {
                     IntPtr ptr = img.ImageData;
                     for (int y = 0; y < img.Height; y++)
@@ -81,7 +73,6 @@ namespace CStyleSamplesCS
                 //*/
                 //*/
 
-                // (2)変更した結果の表示
                 using (CvWindow w = new CvWindow("Image", WindowMode.AutoSize))
                 {
                     w.Image = img;

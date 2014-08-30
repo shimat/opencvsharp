@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -15,7 +13,7 @@ namespace CStyleSamplesCS
     {
         public LineIterator()
         {
-            using (IplImage image = new IplImage(Const.ImageLenna, LoadMode.Color))
+            using (IplImage image = new IplImage(FilePath.Image.Lenna, LoadMode.Color))
             {
                 CvPoint pt1 = new CvPoint(30, 100);
                 CvPoint pt2 = new CvPoint(500, 400);

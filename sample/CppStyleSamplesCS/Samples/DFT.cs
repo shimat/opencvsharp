@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -14,7 +13,7 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            Mat img = Cv2.ImRead(FilePath.Lenna, LoadMode.GrayScale);
+            Mat img = Cv2.ImRead(FilePath.Image.Lenna, LoadMode.GrayScale);
 
             // expand input image to optimal size
             Mat padded = new Mat(); 

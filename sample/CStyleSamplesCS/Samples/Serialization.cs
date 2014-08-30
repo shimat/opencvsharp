@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -17,7 +15,7 @@ namespace CStyleSamplesCS
         {
             const string FileName = "serialization.dat";
 
-            IplImage imgWrite = new IplImage(Const.ImageFruits, LoadMode.Color);
+            IplImage imgWrite = new IplImage(FilePath.Image.Fruits, LoadMode.Color);
             IplImage imgRead;
 
             using (FileStream fs = new FileStream(FileName, FileMode.Create))

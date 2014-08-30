@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.Blob; // for blob
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -15,7 +16,7 @@ namespace CStyleSamplesCS
     {
         public Blob()
         {
-            using (var imgSrc = new IplImage(Const.ImageShapes, LoadMode.Color))
+            using (var imgSrc = new IplImage(FilePath.Image.Shapes, LoadMode.Color))
             using (var imgBinary = new IplImage(imgSrc.Size, BitDepth.U8, 1))
             using (var imgRender = new IplImage(imgSrc.Size, BitDepth.U8, 3))
             using (var imgContour = new IplImage(imgSrc.Size, BitDepth.U8, 3))

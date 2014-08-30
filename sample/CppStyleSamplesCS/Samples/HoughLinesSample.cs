@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -21,8 +22,8 @@ namespace CppStyleSamplesCS
         private void SampleCpp()
         {
             // (1) Load the image
-            using (Mat imgGray = new Mat(FilePath.Goryokaku, LoadMode.GrayScale))
-            using (Mat imgStd = new Mat(FilePath.Goryokaku, LoadMode.Color))
+            using (Mat imgGray = new Mat(FilePath.Image.Goryokaku, LoadMode.GrayScale))
+            using (Mat imgStd = new Mat(FilePath.Image.Goryokaku, LoadMode.Color))
             using (Mat imgProb = imgStd.Clone())
             {
                 // Preprocess
@@ -40,9 +41,9 @@ namespace CppStyleSamplesCS
                     double b = Math.Sin(theta);
                     double x0 = a * rho;
                     double y0 = b * rho;
-                    CvPoint pt1 = new CvPoint { X = Cv.Round(x0 + 1000 * (-b)), Y = Cv.Round(y0 + 1000 * (a)) };
-                    CvPoint pt2 = new CvPoint { X = Cv.Round(x0 - 1000 * (-b)), Y = Cv.Round(y0 - 1000 * (a)) };
-                    imgStd.Line(pt1, pt2, CvColor.Red, 3, LineType.AntiAlias, 0);
+                    Point pt1 = new Point { X = Cv.Round(x0 + 1000 * (-b)), Y = Cv.Round(y0 + 1000 * (a)) };
+                    Point pt2 = new Point { X = Cv.Round(x0 - 1000 * (-b)), Y = Cv.Round(y0 - 1000 * (a)) };
+                    imgStd.Line(pt1, pt2, Scalar.Red, 3, LineType.AntiAlias, 0);
                 }
 
                 // (4) Run Probabilistic Hough Transform
@@ -53,8 +54,8 @@ namespace CppStyleSamplesCS
                 }
 
                 // (5) Show results
-                using (new CvWindow("Hough_line_standard", WindowMode.AutoSize, imgStd.ToIplImage()))
-                using (new CvWindow("Hough_line_probabilistic", WindowMode.AutoSize, imgProb.ToIplImage()))
+                using (new Window("Hough_line_standard", WindowMode.AutoSize, imgStd))
+                using (new Window("Hough_line_probabilistic", WindowMode.AutoSize, imgProb))
                 {
                     CvWindow.WaitKey(0);
                 }

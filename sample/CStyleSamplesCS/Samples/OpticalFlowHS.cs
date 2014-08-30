@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -14,9 +12,9 @@ namespace CStyleSamplesCS
     {
         public OpticalFlowHS()
         {
-            using (IplImage srcImg1 = Cv.LoadImage(Const.ImagePenguin1, LoadMode.GrayScale))
-            using (IplImage srcImg2 = Cv.LoadImage(Const.ImagePenguin1b, LoadMode.GrayScale))
-            using (IplImage dstImg = Cv.LoadImage(Const.ImagePenguin1b, LoadMode.Color))
+            using (IplImage srcImg1 = Cv.LoadImage(FilePath.Image.Penguin1, LoadMode.GrayScale))
+            using (IplImage srcImg2 = Cv.LoadImage(FilePath.Image.Penguin1b, LoadMode.GrayScale))
+            using (IplImage dstImg = Cv.LoadImage(FilePath.Image.Penguin1b, LoadMode.Color))
             {
                 // (1)速度ベクトルを格納する構造体の確保，等
                 int cols = srcImg1.Width;

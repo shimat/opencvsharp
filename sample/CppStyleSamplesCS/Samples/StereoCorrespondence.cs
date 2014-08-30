@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -15,23 +16,23 @@ namespace CppStyleSamplesCS
         public void Run()
         {
             // Load left&right images
-            using (IplImage imgLeft = new IplImage(FilePath.TsukubaLeft, LoadMode.GrayScale))
-            using (IplImage imgRight = new IplImage(FilePath.TsukubaRight, LoadMode.GrayScale))
+            using (var imgLeft = new IplImage(FilePath.Image.TsukubaLeft, LoadMode.GrayScale))
+            using (var imgRight = new IplImage(FilePath.Image.TsukubaRight, LoadMode.GrayScale))
             {
                 // output image buffers
-                using (IplImage dispBM = new IplImage(imgLeft.Size, BitDepth.S16, 1))
-                using (IplImage dispLeft = new IplImage(imgLeft.Size, BitDepth.S16, 1))
-                using (IplImage dispRight = new IplImage(imgLeft.Size, BitDepth.S16, 1))
-                using (IplImage dstBM = new IplImage(imgLeft.Size, BitDepth.U8, 1))
-                using (IplImage dstGC = new IplImage(imgLeft.Size, BitDepth.U8, 1))
-                using (IplImage dstAux = new IplImage(imgLeft.Size, BitDepth.U8, 1))
-                using (Mat dstSGBM = new Mat())
+                using (var dispBM = new IplImage(imgLeft.Size, BitDepth.S16, 1))
+                using (var dispLeft = new IplImage(imgLeft.Size, BitDepth.S16, 1))
+                using (var dispRight = new IplImage(imgLeft.Size, BitDepth.S16, 1))
+                using (var dstBM = new IplImage(imgLeft.Size, BitDepth.U8, 1))
+                using (var dstGC = new IplImage(imgLeft.Size, BitDepth.U8, 1))
+                using (var dstAux = new IplImage(imgLeft.Size, BitDepth.U8, 1))
+                using (var dstSGBM = new Mat())
                 {
                     // measures distance and scales
-                    int sad = 3;
-                    using (CvStereoBMState stateBM = new CvStereoBMState(StereoBMPreset.Basic, 16))
-                    using (CvStereoGCState stateGC = new CvStereoGCState(16, 2))
-                    using (StereoSGBM sgbm = new StereoSGBM() // C++
+                    const int sad = 3;
+                    using (var stateBM = new CvStereoBMState(StereoBMPreset.Basic, 16))
+                    using (var stateGC = new CvStereoGCState(16, 2))
+                    using (var sgbm = new StereoSGBM() // C++
                         {
                             MinDisparity = 0,
                             NumberOfDisparities = 32,

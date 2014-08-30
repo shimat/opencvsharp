@@ -8,17 +8,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// AVIファイルのキャプチャ
+    /// AVI capture
     /// </summary>
     class CaptureAVI
     {
         public CaptureAVI()
         {
-            using (CvCapture cap = CvCapture.FromFile(Const.MovieHara)) 
+            using (CvCapture cap = CvCapture.FromFile(FilePath.Movie.Hara)) 
             using (CvWindow w = new CvWindow("SampleCapture"))
             {
                 int interval = (int)(1000 / cap.Fps);

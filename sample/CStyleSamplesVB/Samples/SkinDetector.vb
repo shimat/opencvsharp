@@ -6,29 +6,31 @@ Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' CvAdaptiveSkinDetector sample
-    ''' </summary>
+Imports SampleBase
+
+''' <summary>
+''' CvAdaptiveSkinDetector sample
+''' </summary>
     Friend Module SkinDetector
         ''' <summary>
         ''' 
         ''' </summary>
         Public Sub Start()
-            Using imgSrc As New IplImage([Const].ImageBalloon, LoadMode.Color)
-                Using imgHueMask As New IplImage(imgSrc.Size, BitDepth.U8, 1)
-                    Using imgDst As IplImage = imgSrc.Clone()
-                        Dim detector As New CvAdaptiveSkinDetector(1, MorphingMethod.None)
-                        detector.Process(imgSrc, imgHueMask)
-                        DisplaySkinPoints(imgHueMask, imgDst, CvColor.Green)
+        Using imgSrc As New IplImage(FilePath.Image.Balloon, LoadMode.Color)
+            Using imgHueMask As New IplImage(imgSrc.Size, BitDepth.U8, 1)
+                Using imgDst As IplImage = imgSrc.Clone()
+                    Dim detector As New CvAdaptiveSkinDetector(1, MorphingMethod.None)
+                    detector.Process(imgSrc, imgHueMask)
+                    DisplaySkinPoints(imgHueMask, imgDst, CvColor.Green)
 
-                        Using windowSrc As New CvWindow("src", imgSrc)
-                            Using windowDst As New CvWindow("skin", imgDst)
-                                Cv.WaitKey(0)
-                            End Using
+                    Using windowSrc As New CvWindow("src", imgSrc)
+                        Using windowDst As New CvWindow("skin", imgDst)
+                            Cv.WaitKey(0)
                         End Using
                     End Using
                 End Using
             End Using
+        End Using
         End Sub
 
         ''' <summary>

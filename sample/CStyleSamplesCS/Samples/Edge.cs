@@ -1,24 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// エッジ検出
+    /// Detect edges
     /// </summary>
     class Edge
     {        
         public Edge()
         {
-            using (IplImage src = new IplImage(Const.ImageLenna, LoadMode.Color))
-            using (IplImage gray = new IplImage(src.Size, BitDepth.U8, 1))
-            using (IplImage temp = new IplImage(src.Size, BitDepth.S16, 1))
-            using (IplImage dstSobel = new IplImage(src.Size, BitDepth.U8, 1))
-            using (IplImage dstLaplace = new IplImage(src.Size, BitDepth.U8, 1))
-            using (IplImage dstCanny = new IplImage(src.Size, BitDepth.U8, 1))
+            using (var src = new IplImage(FilePath.Image.Lenna, LoadMode.Color))
+            using (var gray = new IplImage(src.Size, BitDepth.U8, 1))
+            using (var temp = new IplImage(src.Size, BitDepth.S16, 1))
+            using (var dstSobel = new IplImage(src.Size, BitDepth.U8, 1))
+            using (var dstLaplace = new IplImage(src.Size, BitDepth.U8, 1))
+            using (var dstCanny = new IplImage(src.Size, BitDepth.U8, 1))
             {
                 //src.CvtColor(gray, ColorConversion.RgbToGray);
                 src.CvtColor(gray, ColorConversion.BgrToGray);

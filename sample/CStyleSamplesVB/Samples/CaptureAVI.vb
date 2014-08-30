@@ -10,26 +10,28 @@ Imports System.Text
 Imports OpenCvSharp
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' AVIファイルのキャプチャ
-    ''' </summary>
-    Friend Module CaptureAVI
-        Public Sub Start()
-            Using cap As CvCapture = CvCapture.FromFile([Const].MovieHara)
-                Using w As New CvWindow("SampleCapture")
-                    Dim interval As Integer = CInt(Math.Truncate(1000 / cap.Fps))
-                    Do
-                        Dim image As IplImage = cap.QueryFrame()
-                        If image Is Nothing Then
-                            Exit Do
-                        End If
-                        w.Image = image
-                        If Cv.WaitKey(interval) > 0 Then
-                            Exit Do
-                        End If
-                    Loop
-                End Using
+Imports SampleBase
+
+''' <summary>
+''' AVIファイルのキャプチャ
+''' </summary>
+Friend Module CaptureAVI
+    Public Sub Start()
+        Using cap As CvCapture = CvCapture.FromFile(FilePath.Movie.Hara)
+            Using w As New CvWindow("SampleCapture")
+                Dim interval As Integer = CInt(Math.Truncate(1000 / cap.Fps))
+                Do
+                    Dim image As IplImage = cap.QueryFrame()
+                    If image Is Nothing Then
+                        Exit Do
+                    End If
+                    w.Image = image
+                    If Cv.WaitKey(interval) > 0 Then
+                        Exit Do
+                    End If
+                Loop
             End Using
-        End Sub
-    End Module
+        End Using
+    End Sub
+End Module
 ' End Namespace

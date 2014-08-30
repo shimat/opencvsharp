@@ -18,94 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E5CC1B
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F65C09AB-5E11-45D5-AB86-ACC6ED5A40DD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{86ECFD96-F9E3-4359-99B8-A87478863B9B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Text", "Text", "{5B8332F0-ED1A-4B10-A606-11713726877E}"
-	ProjectSection(SolutionItems) = preProject
-		Data\Text\agaricus-lepiota.data = Data\Text\agaricus-lepiota.data
-		Data\Text\camera.xml = Data\Text\camera.xml
-		Data\Text\cat.xml = Data\Text\cat.xml
-		Data\Text\haarcascade_frontalface_alt.xml = Data\Text\haarcascade_frontalface_alt.xml
-		Data\Text\haarcascade_frontalface_default.xml = Data\Text\haarcascade_frontalface_default.xml
-		Data\Text\letter-recognition.data = Data\Text\letter-recognition.data
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Image", "Image", "{44578268-195A-4604-863D-97E0842BD051}"
-	ProjectSection(SolutionItems) = preProject
-		Data\Image\16bit.png = Data\Image\16bit.png
-		Data\Image\asahiyama.jpg = Data\Image\asahiyama.jpg
-		Data\Image\Balloon.png = Data\Image\Balloon.png
-		Data\Image\binarization_sample.bmp = Data\Image\binarization_sample.bmp
-		Data\Image\box.png = Data\Image\box.png
-		Data\Image\box_in_scene.png = Data\Image\box_in_scene.png
-		Data\Image\cake.bmp = Data\Image\cake.bmp
-		Data\Image\cat.jpg = Data\Image\cat.jpg
-		Data\Image\fruits.jpg = Data\Image\fruits.jpg
-		Data\Image\goryokaku.jpg = Data\Image\goryokaku.jpg
-		Data\Image\hand_p.jpg = Data\Image\hand_p.jpg
-		Data\Image\lenna.png = Data\Image\lenna.png
-		Data\Image\maltese.jpg = Data\Image\maltese.jpg
-		Data\Image\penguin1.png = Data\Image\penguin1.png
-		Data\Image\penguin1b.png = Data\Image\penguin1b.png
-		Data\Image\penguin2.png = Data\Image\penguin2.png
-		Data\Image\shapes.png = Data\Image\shapes.png
-		Data\Image\tsukuba_left.png = Data\Image\tsukuba_left.png
-		Data\Image\tsukuba_right.png = Data\Image\tsukuba_right.png
-		Data\Image\very_old_newspaper.png = Data\Image\very_old_newspaper.png
-		Data\Image\walkman.jpg = Data\Image\walkman.jpg
-		Data\Image\yalta.jpg = Data\Image\yalta.jpg
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Movie", "Movie", "{87535BC5-25B5-4740-84F5-88C74B73AA63}"
-	ProjectSection(SolutionItems) = preProject
-		Data\Movie\bach.mp4 = Data\Movie\bach.mp4
-		Data\Movie\hara.flv = Data\Movie\hara.flv
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Squares", "Squares", "{C40EFF10-EA65-4775-A103-41CEAB288E27}"
-	ProjectSection(SolutionItems) = preProject
-		Data\Image\Squares\pic1.png = Data\Image\Squares\pic1.png
-		Data\Image\Squares\pic2.png = Data\Image\Squares\pic2.png
-		Data\Image\Squares\pic3.png = Data\Image\Squares\pic3.png
-		Data\Image\Squares\pic4.png = Data\Image\Squares\pic4.png
-		Data\Image\Squares\pic5.png = Data\Image\Squares\pic5.png
-		Data\Image\Squares\pic6.png = Data\Image\Squares\pic6.png
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Calibration", "Calibration", "{A7E599D4-8D4D-4A08-927C-BA03360AFD85}"
-	ProjectSection(SolutionItems) = preProject
-		Data\Image\Calibration\00.JPG = Data\Image\Calibration\00.JPG
-		Data\Image\Calibration\01.JPG = Data\Image\Calibration\01.JPG
-		Data\Image\Calibration\02.JPG = Data\Image\Calibration\02.JPG
-		Data\Image\Calibration\left01.jpg = Data\Image\Calibration\left01.jpg
-		Data\Image\Calibration\left02.jpg = Data\Image\Calibration\left02.jpg
-		Data\Image\Calibration\left03.jpg = Data\Image\Calibration\left03.jpg
-		Data\Image\Calibration\left04.jpg = Data\Image\Calibration\left04.jpg
-		Data\Image\Calibration\left05.jpg = Data\Image\Calibration\left05.jpg
-		Data\Image\Calibration\left06.jpg = Data\Image\Calibration\left06.jpg
-		Data\Image\Calibration\left07.jpg = Data\Image\Calibration\left07.jpg
-		Data\Image\Calibration\left08.jpg = Data\Image\Calibration\left08.jpg
-		Data\Image\Calibration\left09.jpg = Data\Image\Calibration\left09.jpg
-		Data\Image\Calibration\left10.jpg = Data\Image\Calibration\left10.jpg
-		Data\Image\Calibration\left11.jpg = Data\Image\Calibration\left11.jpg
-		Data\Image\Calibration\left12.jpg = Data\Image\Calibration\left12.jpg
-		Data\Image\Calibration\left13.jpg = Data\Image\Calibration\left13.jpg
-		Data\Image\Calibration\right01.jpg = Data\Image\Calibration\right01.jpg
-		Data\Image\Calibration\right02.jpg = Data\Image\Calibration\right02.jpg
-		Data\Image\Calibration\right03.jpg = Data\Image\Calibration\right03.jpg
-		Data\Image\Calibration\right04.jpg = Data\Image\Calibration\right04.jpg
-		Data\Image\Calibration\right05.jpg = Data\Image\Calibration\right05.jpg
-		Data\Image\Calibration\right06.jpg = Data\Image\Calibration\right06.jpg
-		Data\Image\Calibration\right07.jpg = Data\Image\Calibration\right07.jpg
-		Data\Image\Calibration\right08.jpg = Data\Image\Calibration\right08.jpg
-		Data\Image\Calibration\right09.jpg = Data\Image\Calibration\right09.jpg
-		Data\Image\Calibration\right10.jpg = Data\Image\Calibration\right10.jpg
-		Data\Image\Calibration\right11.jpg = Data\Image\Calibration\right11.jpg
-		Data\Image\Calibration\right12.jpg = Data\Image\Calibration\right12.jpg
-		Data\Image\Calibration\right13.jpg = Data\Image\Calibration\right13.jpg
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleBase", "SampleBase\SampleBase.csproj", "{2D245C04-0F27-458A-A185-16242A3F918C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -240,16 +153,31 @@ Global
 		{4A14A20D-8E2A-4559-A038-F0204A22C283}.Release|x64.Build.0 = Release|x86
 		{4A14A20D-8E2A-4559-A038-F0204A22C283}.Release|x86.ActiveCfg = Release|x86
 		{4A14A20D-8E2A-4559-A038-F0204A22C283}.Release|x86.Build.0 = Release|x86
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release JP|Any CPU.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release JP|Any CPU.Build.0 = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release JP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release JP|Mixed Platforms.Build.0 = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release JP|Win32.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release JP|x64.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release JP|x86.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|Win32.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|x64.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|x64.Build.0 = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|x86.ActiveCfg = Release|Any CPU
+		{2D245C04-0F27-458A-A185-16242A3F918C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{86ECFD96-F9E3-4359-99B8-A87478863B9B} = {F65C09AB-5E11-45D5-AB86-ACC6ED5A40DD}
-		{5B8332F0-ED1A-4B10-A606-11713726877E} = {86ECFD96-F9E3-4359-99B8-A87478863B9B}
-		{44578268-195A-4604-863D-97E0842BD051} = {86ECFD96-F9E3-4359-99B8-A87478863B9B}
-		{87535BC5-25B5-4740-84F5-88C74B73AA63} = {86ECFD96-F9E3-4359-99B8-A87478863B9B}
-		{C40EFF10-EA65-4775-A103-41CEAB288E27} = {44578268-195A-4604-863D-97E0842BD051}
-		{A7E599D4-8D4D-4A08-927C-BA03360AFD85} = {44578268-195A-4604-863D-97E0842BD051}
 	EndGlobalSection
 EndGlobal

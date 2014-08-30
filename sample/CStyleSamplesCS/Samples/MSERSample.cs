@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -14,9 +14,9 @@ namespace CStyleSamplesCS
     {
         public MSERSample()
         {
-            using (IplImage imgSrc = new IplImage(Const.ImageDistortion, LoadMode.Color))
-            using (IplImage imgGray = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgDst = imgSrc.Clone())
+            using (var imgSrc = new IplImage(FilePath.Image.Distortion, LoadMode.Color))
+            using (var imgGray = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgDst = imgSrc.Clone())
             {
                 Cv.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray);
 

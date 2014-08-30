@@ -7,6 +7,8 @@ Imports System.Text
 Imports OpenCvSharp
 
 ' Namespace OpenCvSharpSamplesVB
+Imports SampleBase
+
 ''' <summary>
 ''' カメラキャリブレーション
 ''' </summary>
@@ -25,7 +27,7 @@ Friend Module CalibrateCamera
         ' (1)キャリブレーション画像の読み込み
         Dim srcImg(ImageNum - 1) As IplImage
         For i As Integer = 0 To ImageNum - 1
-            srcImg(i) = New IplImage(String.Format([Const].ImageCalibration, i), LoadMode.Color)
+            srcImg(i) = New IplImage(String.Format(FilePath.Image.Calibration, i), LoadMode.Color)
         Next i
 
         ' (2)3次元空間座標の設定

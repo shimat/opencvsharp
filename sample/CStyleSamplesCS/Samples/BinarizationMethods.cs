@@ -7,6 +7,7 @@ using OpenCvSharp;
 
 // for Binarizer
 using OpenCvSharp.Extensions;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -17,11 +18,11 @@ namespace CStyleSamplesCS
     {
         public BinarizationMethods()
         {
-            using (IplImage imgSrc = new IplImage(Const.ImageBinarization, LoadMode.GrayScale))
-            using (IplImage imgGauss = imgSrc.Clone())
-            using (IplImage imgNiblack = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgSauvola = new IplImage(imgSrc.Size, BitDepth.U8, 1))
-            using (IplImage imgBernsen = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgSrc = new IplImage(FilePath.Image.Binarization, LoadMode.GrayScale))
+            using (var imgGauss = imgSrc.Clone())
+            using (var imgNiblack = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgSauvola = new IplImage(imgSrc.Size, BitDepth.U8, 1))
+            using (var imgBernsen = new IplImage(imgSrc.Size, BitDepth.U8, 1))
             {
                 //Cv.Smooth(imgSrc, imgGauss, SmoothType.Gaussian, 9);
                 //Cv.EqualizeHist(imgGauss, imgGauss);

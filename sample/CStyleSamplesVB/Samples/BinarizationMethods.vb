@@ -9,12 +9,14 @@ Imports OpenCvSharp
 Imports OpenCvSharp.Extensions
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' Various Binarization Methods
-    ''' </summary>
+Imports SampleBase
+
+''' <summary>
+''' Various Binarization Methods
+''' </summary>
     Friend Module BinarizationMethods
         Public Sub Start()
-        Using imgSrc As New IplImage([Const].ImageBinarization, LoadMode.GrayScale), _
+        Using imgSrc As New IplImage(FilePath.Image.Binarization, LoadMode.GrayScale), _
              imgGauss As IplImage = imgSrc.Clone(), _
          imgNiblack As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
          imgSauvola As New IplImage(imgSrc.Size, BitDepth.U8, 1), _
@@ -43,11 +45,14 @@ Imports OpenCvSharp.Extensions
             Binarizer.Bernsen(imgGauss, imgBernsen, Size, ContrastMin, BgThreshold)
             Form1.TextBox1.AppendText(Environment.NewLine & "Bernsen : " & sw.ElapsedMilliseconds.ToString & " ms")
 
-            Using TempCvWindow = New CvWindow("src", imgSrc), _
-                TempCvWindowNiblack = New CvWindow("niblack", imgNiblack), _
-                TempCvWindowSauvola = New CvWindow("sauvola", imgSauvola), _
-                TempCvWindowBernsen = New CvWindow("bernsen", imgBernsen)
-                Cv.WaitKey()
+            Using New CvWindow("src", imgSrc)
+                Using New CvWindow("niblack", imgNiblack)
+                    Using New CvWindow("sauvola", imgSauvola)
+                        Using New CvWindow("bernsen", imgBernsen)
+                            Cv.WaitKey()
+                        End Using
+                    End Using
+                End Using
             End Using
         End Using
     End Sub

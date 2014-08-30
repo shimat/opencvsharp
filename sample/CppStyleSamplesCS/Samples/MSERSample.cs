@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -10,7 +11,7 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            using (Mat src = new Mat(FilePath.Distortion, LoadMode.Color))
+            using (Mat src = new Mat(FilePath.Image.Distortion, LoadMode.Color))
             using (Mat gray = new Mat())
             using (Mat dst = src.Clone())
             {

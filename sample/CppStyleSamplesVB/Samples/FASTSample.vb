@@ -4,14 +4,14 @@ Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
 Imports OpenCvSharp.CPlusPlus
+Imports SampleBase
 
-' Namespace OpenCvSharpSamplesVB
 ''' <summary>
 ''' cv::FAST
 ''' </summary>
 Friend Module FASTSample
     Public Sub Start()
-        Using imgSrc As New Mat([Const].ImageLenna, LoadMode.Color), _
+        Using imgSrc As New Mat(FilePath.Image.Lenna, LoadMode.Color), _
             imgGray As New Mat(imgSrc.Size, MatrixType.U8C1), _
             imgDst As Mat = imgSrc.Clone()
             Cv2.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray, 0)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -13,7 +14,7 @@ namespace CStyleSamplesCS
     {
         public SaveImage()
         {
-            using (IplImage img = new IplImage(Const.Image16bit, LoadMode.Color))
+            using (IplImage img = new IplImage(FilePath.Image.Depth16Bit, LoadMode.Color))
             {
                 // JPEG quality test
                 img.SaveImage("q000.jpg", new JpegEncodingParam(0));

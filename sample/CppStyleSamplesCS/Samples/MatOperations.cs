@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -23,7 +24,7 @@ namespace CppStyleSamplesCS
         /// </summary>
         private void SubMat()
         {
-            Mat src = Cv2.ImRead(FilePath.Lenna);
+            Mat src = Cv2.ImRead(FilePath.Image.Lenna);
 
             // Assign small image to mat
             Mat small = new Mat();
@@ -53,7 +54,7 @@ namespace CppStyleSamplesCS
         /// </summary>
         private void RowColRangeOperation()
         {
-            Mat src = Cv2.ImRead(FilePath.Lenna);
+            Mat src = Cv2.ImRead(FilePath.Image.Lenna);
 
             Cv2.GaussianBlur(
                 src.RowRange(100, 200),
@@ -76,7 +77,7 @@ namespace CppStyleSamplesCS
         /// </summary>
         private void RowColOperation()
         {
-            Mat src = Cv2.ImRead(FilePath.Lenna);
+            Mat src = Cv2.ImRead(FilePath.Image.Lenna);
 
             Random rand = new Random();
             for (int i = 0; i < 200; i++)

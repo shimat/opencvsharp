@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -14,10 +12,10 @@ namespace CStyleSamplesCS
         public ContourScanner()
         {
             // create IplImages
-            using (IplImage src = new IplImage(Const.ImageLenna, LoadMode.Color))
-            using (IplImage gray = new IplImage(src.Size, BitDepth.U8, 1))
-            using (IplImage canny = new IplImage(src.Size, BitDepth.U8, 1))
-            using (IplImage result = src.Clone())
+            using (var src = new IplImage(FilePath.Image.Lenna, LoadMode.Color))
+            using (var gray = new IplImage(src.Size, BitDepth.U8, 1))
+            using (var canny = new IplImage(src.Size, BitDepth.U8, 1))
+            using (var result = src.Clone())
             {
                 // detect edges
                 Cv.CvtColor(src, gray, ColorConversion.BgrToGray);

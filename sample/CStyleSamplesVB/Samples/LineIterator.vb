@@ -6,27 +6,29 @@ Imports System.Text
 Imports OpenCvSharp
 
 ' Namespace OpenCvSharpSamplesVB
-    ''' <summary>
-    ''' CvLineIterator sample
-    ''' </summary>
-    ''' <remarks>http://opencv.jp/opencv-1.1.0/document/opencvref_cxcore_point.html#decl_cvInitLineIterator</remarks>
+Imports SampleBase
+
+''' <summary>
+''' CvLineIterator sample
+''' </summary>
+''' <remarks>http://opencv.jp/opencv-1.1.0/document/opencvref_cxcore_point.html#decl_cvInitLineIterator</remarks>
     Friend Module LineIterator
         Public Sub Start()
-            Using image As New IplImage([Const].ImageLenna, LoadMode.Color)
-                Dim pt1 As New CvPoint(30, 100)
-                Dim pt2 As New CvPoint(500, 400)
+        Using image As New IplImage(FilePath.Image.Lenna, LoadMode.Color)
+            Dim pt1 As New CvPoint(30, 100)
+            Dim pt2 As New CvPoint(500, 400)
 
-                Dim result As CvScalar
-                result = SumLinePixelsNative(image, pt1, pt2) ' native style
-                result = SumLinePixelsManaged(image, pt1, pt2) ' wrapper style
-                Form1.TextBox1.AppendText(result.ToString())
+            Dim result As CvScalar
+            result = SumLinePixelsNative(image, pt1, pt2) ' native style
+            result = SumLinePixelsManaged(image, pt1, pt2) ' wrapper style
+            Form1.TextBox1.AppendText(result.ToString())
 
-                Cv.Line(image, pt1, pt2, CvColor.Red, 3, LineType.Link8)
+            Cv.Line(image, pt1, pt2, CvColor.Red, 3, LineType.Link8)
 
-                Using TempCvWindow As CvWindow = New CvWindow("line", image)
-                    Cv.WaitKey()
-                End Using
+            Using TempCvWindow As CvWindow = New CvWindow("line", image)
+                Cv.WaitKey()
             End Using
+        End Using
         End Sub
 
         ''' <summary>

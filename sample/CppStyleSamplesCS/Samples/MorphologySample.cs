@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -10,7 +11,7 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            Mat gray = new Mat(FilePath.Lenna, LoadMode.GrayScale);
+            Mat gray = new Mat(FilePath.Image.Lenna, LoadMode.GrayScale);
             Mat binary = new Mat();
             Mat dilate1 = new Mat();
             Mat dilate2 = new Mat();

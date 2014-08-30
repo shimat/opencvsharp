@@ -9,11 +9,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// System.Windows.Media.Imaging.WriteableBitmapへの変換
+    /// Image Conversion to System.Windows.Media.Imaging.WriteableBitmap 
     /// </summary>
     class ConvertToWriteableBitmap
     {
@@ -22,7 +23,7 @@ namespace CStyleSamplesCS
             WriteableBitmap wb = null;
 
             // OpenCV processing
-            using (var src = new IplImage(Const.ImageLenna, LoadMode.GrayScale))
+            using (var src = new IplImage(FilePath.Image.Lenna, LoadMode.GrayScale))
             using (var dst = new IplImage(src.Size, BitDepth.U8, 1))
             {
                 src.Smooth(src, SmoothType.Gaussian, 5);

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// ブロックマッチングによるオプティカルフローの計算
+    /// 
     /// </summary>
     /// <remarks>http://opencv.jp/sample/optical_flow.html#optflowBM</remarks>
     class OpticalFlowBM
@@ -15,7 +16,6 @@ namespace CStyleSamplesCS
         public OpticalFlowBM()
         {
             // cvCalcOpticalFlowBM
-            // ブロックマッチングによるオプティカルフローの計算
 
             const int BlockSize = 16;
             const int ShiftSize = 8;
@@ -24,11 +24,10 @@ namespace CStyleSamplesCS
             CvSize blockSize = new CvSize(BlockSize, BlockSize);
             CvSize shiftSize = new CvSize(ShiftSize, ShiftSize);
             CvSize maxRange = new CvSize(Range, Range);
-            using (IplImage srcPrev = Cv.LoadImage(Const.ImagePenguin1, LoadMode.GrayScale))
-            using (IplImage srcCurr = Cv.LoadImage(Const.ImagePenguin2, LoadMode.GrayScale))
-            using (IplImage dst = Cv.LoadImage(Const.ImagePenguin2, LoadMode.Color))
+            using (IplImage srcPrev = Cv.LoadImage(FilePath.Image.Penguin1, LoadMode.GrayScale))
+            using (IplImage srcCurr = Cv.LoadImage(FilePath.Image.Penguin2, LoadMode.GrayScale))
+            using (IplImage dst = Cv.LoadImage(FilePath.Image.Penguin2, LoadMode.Color))
             {               
-                // (1)速度ベクトルを格納する構造体の確保  
                 CvSize velSize = new CvSize
                 {
                     Width = (srcPrev.Width - blockSize.Width + shiftSize.Width) / shiftSize.Width,
@@ -55,9 +54,9 @@ namespace CStyleSamplesCS
 
                     Cv.SetZero(velx);
                     Cv.SetZero(vely);
-                    // (2)オプティカルフローの計算 
+
                     Cv.CalcOpticalFlowBM(srcPrev, srcCurr, blockSize, shiftSize, maxRange, false, velx, vely);
-                    // (3)計算されたフローを描画  
+
                     for (int r = 0; r < velx.Rows; r++)
                     {
                         for (int c = 0; c < vely.Cols; c++)

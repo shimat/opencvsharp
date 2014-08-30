@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.UserInterface;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -12,12 +10,12 @@ namespace CStyleSamplesCS
     /// </summary>
     class CvWindowExTest
     {
-        private IplImage image;
-        private CvWindowEx window;
+        private readonly IplImage image;
+        private readonly CvWindowEx window;
 
         public CvWindowExTest()
         {
-            image = new IplImage(Const.ImageLenna);
+            image = new IplImage(FilePath.Image.Lenna);
 
             using (window = new CvWindowEx(image))
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -13,8 +14,8 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            Mat src = new Mat(FilePath.Lenna511, LoadMode.Color);
-            Mat src511 = new Mat(FilePath.Lenna511, LoadMode.Color);
+            Mat src = new Mat(FilePath.Image.Lenna511, LoadMode.Color);
+            Mat src511 = new Mat(FilePath.Image.Lenna511, LoadMode.Color);
 
             IplImage ipl = (IplImage)src;
             IplImage ipl511 = (IplImage)src511;

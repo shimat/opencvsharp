@@ -3,8 +3,8 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
+Imports SampleBase
 
-'' Namespace OpenCvSharpSamplesVB
 ''' <summary>
 ''' 画像のアフィン変換
 ''' </summary>
@@ -18,7 +18,7 @@ Friend Module Affine
         ' 画像上の３点対応よりアフィン変換行列を計算し，その行列を用いて画像全体のアフィン変換を行う．
 
         ' (1)画像の読み込み，出力用画像領域の確保を行なう
-        Using srcImg As New IplImage([Const].ImageGoryokaku, LoadMode.AnyDepth Or LoadMode.AnyColor)
+        Using srcImg As New IplImage(FilePath.Image.Goryokaku, LoadMode.AnyDepth Or LoadMode.AnyColor)
             Using dstImg As IplImage = srcImg.Clone()
 
                 ' (2)三角形の回転前と回転後の対応する頂点をそれぞれセットし  
@@ -35,8 +35,8 @@ Friend Module Affine
                     ' (3)指定されたアフィン行列により，cvWarpAffineを用いて画像を回転させる
                     Cv.WarpAffine(srcImg, dstImg, mapMatrix, Interpolation.Linear Or Interpolation.FillOutliers, CvScalar.ScalarAll(0))
                     ' (4)結果を表示する
-                    Using TempCvWindowSrc As CvWindow = New CvWindow("src", srcImg)
-                        Using TempCvWindowDest As CvWindow = New CvWindow("dst", dstImg)
+                    Using New CvWindow("src", srcImg)
+                        Using New CvWindow("dst", dstImg)
                             Cv.WaitKey(0)
                         End Using
                     End Using

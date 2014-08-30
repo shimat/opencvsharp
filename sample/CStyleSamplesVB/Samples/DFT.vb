@@ -5,6 +5,8 @@ Imports System.Text
 Imports OpenCvSharp
 
 ' Namespace OpenCvSharpSamplesVB
+Imports SampleBase
+
 ''' <summary>
 ''' 離散フーリエ変換
 ''' </summary>
@@ -13,7 +15,7 @@ Imports OpenCvSharp
 ''' </remarks>
 Friend Module DFT
     Public Sub Start()
-        Using srcImg As IplImage = Cv.LoadImage([Const].ImageGoryokaku, LoadMode.GrayScale)
+        Using srcImg As IplImage = Cv.LoadImage(FilePath.Image.Goryokaku, LoadMode.GrayScale)
             Using srcImgGauss As IplImage = srcImg.Clone()
                 RunDFT(srcImg)
                 Cv.Smooth(srcImg, srcImgGauss, SmoothType.Gaussian, 11)

@@ -5,13 +5,15 @@ Imports System.Text
 Imports OpenCvSharp
 
 ' Namespace OpenCvSharpSamplesVB
+Imports SampleBase
+
 ''' <summary>
 ''' 輪郭検出
 ''' </summary>
 ''' <remarks>http://opencv.jp/sample/object_tracking.html#snake</remarks>
 Friend Module Snake
     Public Sub Start()
-        Using src As New IplImage([Const].ImageCake, LoadMode.GrayScale), _
+        Using src As New IplImage(FilePath.Image.Cake, LoadMode.GrayScale), _
              dst As New IplImage(src.Size, BitDepth.U8, 3)
             Dim contour(99) As CvPoint
             Dim center As New CvPoint(src.Width \ 2, src.Height \ 2)

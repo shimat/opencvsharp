@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
@@ -14,7 +11,7 @@ namespace CStyleSamplesCS
     {
         public StarDetectorSample()
         {
-            using (IplImage img = new IplImage(Const.ImageLenna, LoadMode.GrayScale))
+            using (IplImage img = new IplImage(FilePath.Image.Lenna, LoadMode.GrayScale))
             using (IplImage cimg = new IplImage(img.Size, BitDepth.U8, 3))
             {
                 Cv.CvtColor(img, cimg, ColorConversion.GrayToBgr);

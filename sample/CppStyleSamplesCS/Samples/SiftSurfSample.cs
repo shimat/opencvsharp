@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -11,8 +12,8 @@ namespace CppStyleSamplesCS
     {
         public void Run()
         {
-            var src1 = new Mat(FilePath.Match1, LoadMode.Color);
-            var src2 = new Mat(FilePath.Match2, LoadMode.Color);
+            var src1 = new Mat(FilePath.Image.Match1, LoadMode.Color);
+            var src2 = new Mat(FilePath.Image.Match2, LoadMode.Color);
 
             MatchBySift(src1, src2);
             MatchBySurf(src1, src2);

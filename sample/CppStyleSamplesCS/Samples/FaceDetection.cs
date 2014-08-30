@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.CPlusPlus;
+using SampleBase;
 
 namespace CppStyleSamplesCS
 {
@@ -12,8 +13,8 @@ namespace CppStyleSamplesCS
         public void Run()
         {
             // Load the cascades
-            var haarCascade = new CascadeClassifier(FilePath.HaarCascade);
-            var lbpCascade = new CascadeClassifier(FilePath.LbpCascade);
+            var haarCascade = new CascadeClassifier(FilePath.Text.HaarCascade);
+            var lbpCascade = new CascadeClassifier(FilePath.Text.LbpCascade);
 
             // Detect faces
             Mat haarResult = DetectFace(haarCascade);
@@ -34,7 +35,7 @@ namespace CppStyleSamplesCS
         {
             Mat result;
 
-            using (var src = new Mat(FilePath.Yalta, LoadMode.Color))
+            using (var src = new Mat(FilePath.Image.Yalta, LoadMode.Color))
             using (var gray = new Mat())
             {
                 result = src.Clone();

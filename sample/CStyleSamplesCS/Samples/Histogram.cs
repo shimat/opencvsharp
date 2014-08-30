@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// ヒストグラムの描画
+    /// Draws image histogram
     /// </summary>
     /// <remarks>
     /// http://opencv.jp/sample/histogram.html#hist
@@ -17,14 +18,12 @@ namespace CStyleSamplesCS
         public Histogram()
         {
             // cvCalcHist
-            // コントラストや明度をいろいろ変えられるサンプル
 
             const int histSize = 64;
             float[] range0 = { 0, 256 };
             float[][] ranges = { range0 };
 
-            // 画像の読み込み
-            using (IplImage srcImg = new IplImage(Const.ImageLenna, LoadMode.GrayScale))
+            using (IplImage srcImg = new IplImage(FilePath.Image.Lenna, LoadMode.GrayScale))
             using (IplImage dstImg = srcImg.Clone())
             using (IplImage histImg = new IplImage(new CvSize(400, 400), BitDepth.U8, 1))
             using (CvHistogram hist = new CvHistogram(new int[] { histSize }, HistogramFormat.Array, ranges, true))
@@ -32,35 +31,30 @@ namespace CStyleSamplesCS
                 using (CvWindow windowImage = new CvWindow("image", WindowMode.AutoSize))
                 using (CvWindow windowHist = new CvWindow("histogram", WindowMode.AutoSize))
                 {
-                    // トラックバーが動かされた時の処理
                     CvTrackbar ctBrightness = null;
                     CvTrackbar ctContrast = null;
                     CvTrackbarCallback callback = delegate(int pos)
                     {
                         int brightness = ctBrightness.Pos - 100;
                         int contrast = ctContrast.Pos - 100;
-                        // LUTの適用
+                        // perform LUT
                         byte[] lut = CalcLut(contrast, brightness);
                         srcImg.LUT(dstImg, lut);
-                        // ヒストグラムの描画
+                        // draws histogram
                         CalcHist(dstImg, hist);
                         DrawHist(histImg, hist, histSize);
-                        // ウィンドウに表示
+
                         windowImage.ShowImage(dstImg);
                         windowHist.ShowImage(histImg);
                         dstImg.Zero();
                         histImg.Zero();
                     };
 
-                    // トラックバーの作成
-                    // (OpenCVでは現在位置にポインタを渡すことでトラックバーの位置の変化が取得できるが、
-                    // .NETではGCによりポインタが移動してしまうので廃止した。別の方法でうまく取得すべし。)
                     ctBrightness = windowImage.CreateTrackbar("brightness", 100, 200, callback);
                     ctContrast = windowImage.CreateTrackbar("contrast", 100, 200, callback);
-                    // 初回描画
+                    // initial action
                     callback(0);
 
-                    // キー入力待ち
                     Cv.WaitKey(0);
                 }
             }
@@ -112,7 +106,7 @@ namespace CStyleSamplesCS
             return lut;
         }
         /// <summary>
-        /// ヒストグラムの計算
+        /// calculate histogram
         /// </summary>
         /// <param name="img"></param>
         /// <param name="hist"></param>
@@ -123,8 +117,9 @@ namespace CStyleSamplesCS
             hist.GetMinMaxValue(out minValue, out maxValue);
             Cv.Scale(hist.Bins, hist.Bins, ((double)img.Height) / maxValue, 0);
         }
+
         /// <summary>
-        /// ヒストグラムの描画
+        /// draws histogram
         /// </summary>
         /// <param name="img"></param>
         /// <param name="hist"></param>

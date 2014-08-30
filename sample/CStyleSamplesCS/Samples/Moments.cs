@@ -3,35 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
+using SampleBase;
 
 namespace CStyleSamplesCS
 {
     /// <summary>
-    /// 画像のモーメント
+    /// Image moment
     /// </summary>
     /// <remarks>http://opencv.jp/sample/moment.html</remarks>
     class Moments
     {
         public Moments()
         {
-            // (1)画像を読み込む．3チャンネル画像の場合はCOIがセットされていなければならない
-            using (IplImage srcImg = new IplImage(Const.ImageLenna, LoadMode.AnyColor | LoadMode.AnyDepth))
+            using (IplImage srcImg = new IplImage(FilePath.Image.Lenna, LoadMode.AnyColor | LoadMode.AnyDepth))
             {
                 if (srcImg.NChannels == 3 && srcImg.COI == 0)
                 {
                     srcImg.COI = 1;
                 }
-                // (2)入力画像の３次までの画像モーメントを計算する
+
                 CvMoments moments = new CvMoments(srcImg, false);
                 srcImg.COI = 0;
 
-                // (3)モーメントやHuモーメント不変量を，得られたCvMoments構造体の値を使って計算する．
                 double spatialMoment = moments.GetSpatialMoment(0, 0);
                 double centralMoment = moments.GetCentralMoment(0, 0);
                 double normCMoment = moments.GetNormalizedCentralMoment(0, 0);
                 CvHuMoments huMoments = new CvHuMoments(moments);
 
-                // (4)得られたモーメントやHuモーメント不変量を文字として画像に描画
+                // drawing
                 using (CvFont font = new CvFont(FontFace.HersheySimplex, 1.0, 1.0, 0, 2, LineType.Link8))
                 {
                     string[] text = new string[10];
@@ -53,8 +52,7 @@ namespace CStyleSamplesCS
                     }
                 }
 
-                // (5)入力画像とモーメント計算結果を表示，キーが押されたときに終了
-                using (CvWindow window = new CvWindow("Image", WindowMode.AutoSize))
+                using (var window = new CvWindow("Image", WindowMode.AutoSize))
                 {
                     window.ShowImage(srcImg);
                     Cv.WaitKey(0);

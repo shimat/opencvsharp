@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using SampleBase;
 
 
 namespace CStyleSamplesCS
@@ -34,7 +31,7 @@ namespace CStyleSamplesCS
         /// </summary>
         private void TestBitmap()
         {
-            using (Bitmap bitmap = new Bitmap(Const.ImageFruits))
+            using (Bitmap bitmap = new Bitmap(FilePath.Image.Fruits))
             {
                 IplImage ipl = new IplImage(bitmap.Width, bitmap.Height, BitDepth.U8, 3);
 
@@ -55,7 +52,7 @@ namespace CStyleSamplesCS
         {
             // Load 16-bit image to WriteableBitmap
             PngBitmapDecoder decoder = new PngBitmapDecoder(
-                new Uri(Const.Image16bit, UriKind.Relative),
+                new Uri(FilePath.Image.Depth16Bit, UriKind.Relative),
                 BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default
             );
             BitmapSource bs = decoder.Frames[0];
@@ -86,7 +83,7 @@ namespace CStyleSamplesCS
         {
             // loads color image
             PngBitmapDecoder decoder = new PngBitmapDecoder(
-                new Uri(Const.ImageLenna, UriKind.Relative),
+                new Uri(FilePath.Image.Lenna, UriKind.Relative),
                 BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default
             );
             BitmapSource bs = decoder.Frames[0];
