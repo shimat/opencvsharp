@@ -114,6 +114,7 @@
     <Compile Include="modules\gpu\GpuMatRowColIndexer.cs" />
     <Compile Include="modules\gpu\HOGDescriptor.cs" />
     <Compile Include="modules\gpu\StereoBM_GPU.cs" />
+    <Compile Include="modules\imgproc\CLAHE.cs" />
     <Compile Include="modules\ml\Class\CvDTreeNode.cs" />
     <Compile Include="modules\ml\Class\CvDTreeSplit.cs" />
     <Compile Include="modules\ml\Class\CvDTreeTrainData.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvDTree.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvBoost.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_CvANN_MLP.cs" />
+    <Compile Include="PInvoke\NativeMethods_imgproc_CLAHE.cs" />
     <Compile Include="PInvoke\NativeMethods_photo.cs" />
     <Compile Include="modules\calib3d\StereoBM.cs" />
     <Compile Include="modules\core\Mat\MatIndexer.cs" />

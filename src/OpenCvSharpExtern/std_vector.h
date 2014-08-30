@@ -1,3 +1,7 @@
+#if WIN32
+#pragma once
+#endif
+
 #ifndef _CPP_WVECTOR_H_
 #define _CPP_WVECTOR_H_
 

@@ -17,6 +17,7 @@ namespace OpenCvSharp.CPlusPlus
     public class FeatureDetector : Algorithm
     {
         private bool disposed;
+
         /// <summary>
         /// cv::Ptr&lt;FeatureDetector&gt;
         /// </summary>
@@ -30,6 +31,7 @@ namespace OpenCvSharp.CPlusPlus
             detectorPtr = null;
             ptr = IntPtr.Zero;
         }
+
         /// <summary>
         /// Creates instance from cv::Ptr&lt;T&gt; .
         /// ptr is disposed when the wrapper disposes. 
@@ -42,12 +44,13 @@ namespace OpenCvSharp.CPlusPlus
 
             var ptrObj = new Ptr<FeatureDetector>(ptr);
             var detector = new FeatureDetector
-                {
-                    detectorPtr = ptrObj,
-                    ptr = ptrObj.Obj
-                };
+            {
+                detectorPtr = ptrObj,
+                ptr = ptrObj.Obj
+            };
             return detector;
         }
+
         /// <summary>
         /// Creates instance from raw T*
         /// </summary>
@@ -57,10 +60,10 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FeatureDetector pointer");
             var detector = new FeatureDetector
-                {
-                    detectorPtr = null,
-                    ptr = ptr
-                };
+            {
+                detectorPtr = null,
+                ptr = ptr
+            };
             return detector;
         }
 
@@ -127,7 +130,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns>The detected keypoints.</returns>
         public KeyPoint[] Detect(Mat image, Mat mask = null)
         {
-            if(image == null)
+            if (image == null)
                 throw new ArgumentNullException("image");
             using (var keypoints = new VectorOfKeyPoint())
             {

@@ -1,5 +1,9 @@
 // Additional types
 
+#if WIN32
+#pragma once
+#endif
+
 #ifndef _MY_TYPES_H_
 #define _MY_TYPES_H_
 

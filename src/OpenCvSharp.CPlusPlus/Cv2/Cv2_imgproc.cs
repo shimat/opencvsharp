@@ -1762,6 +1762,18 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
         #endregion
+        #region CreateCLAHE
+        /// <summary>
+        /// Creates a predefined CLAHE object
+        /// </summary>
+        /// <param name="clipLimit"></param>
+        /// <param name="tileGridSize"></param>
+        /// <returns></returns>
+        public static CLAHE CreateCLAHE(double clipLimit = 40.0, Size? tileGridSize = null)
+        {
+            return CLAHE.Create(clipLimit, tileGridSize);
+        }
+        #endregion
         #region EMD
         /// <summary>
         /// 

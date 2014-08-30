@@ -24,21 +24,23 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            /*
-            IplImage imgSrc = new IplImage(@"C:\labels.jpg", LoadMode.Color);
-            IplImage imgBinary = new IplImage(imgSrc.Size, BitDepth.U8, 1);
-            Cv.CvtColor(imgSrc, imgBinary, ColorConversion.BgrToGray); // グレースケール化
-            Cv.Threshold(imgBinary, imgBinary, 100, 255, ThresholdType.Binary); // 二値化
-            {
-                CvBlobs blobs = new CvBlobs();
-                blobs.Label(imgBinary);
-                blobs.FilterByArea(5000, int.MaxValue);
+            Mat src = new Mat("data/tsukuba_left.png", LoadMode.GrayScale);
+            Mat dst20 = new Mat();
+            Mat dst40 = new Mat();
+            Mat dst44 = new Mat();
 
-                IplImage imgRender = new IplImage(imgSrc.Size, BitDepth.U8, 3);
-                blobs.RenderBlobs(imgSrc, imgRender);
-                CvWindow.ShowImages(imgRender);
-                Cv.SaveImage(@"C:\temp\result.jpg", imgRender);
-            }*/
+            using (CLAHE clahe = Cv2.CreateCLAHE())
+            {
+                clahe.ClipLimit = 20;
+                clahe.Apply(src, dst20);
+                clahe.ClipLimit = 40;
+                clahe.Apply(src, dst40);
+                clahe.TilesGridSize = new Size(4, 4);
+                clahe.Apply(src, dst44);
+            }
+
+            Window.ShowImages(src, dst20, dst40, dst44);
+
             /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
             var img2 = new IplImage("data/match2.png", LoadMode.Color);
             Surf(img1, img2);*/

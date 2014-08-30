@@ -1,3 +1,7 @@
+#if WIN32
+#pragma once
+#endif
+
 #ifndef _CPP_FEATURES2DFEATUREDETECTOR_H_
 #define _CPP_FEATURES2DFEATUREDETECTOR_H_
 
