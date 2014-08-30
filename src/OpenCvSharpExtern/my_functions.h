@@ -1,5 +1,9 @@
 // Additional functions
 
+#if WIN32
+#pragma once
+#endif
+
 #ifndef _MY_FUNCTIONS_H_
 #define _MY_FUNCTIONS_H_
 
@@ -93,8 +97,8 @@ static void toVec(
     for (int i = 0; i < size1; i++)
     {
         int size = size2[i];
-        CvRect *p = inPtr[i];
-        std::vector<cv::Rect> v(p, p + size);
+		TIn *p = inPtr[i];
+		std::vector<TOut> v(p, p + size);
         /*std::vector<cv::Rect> v(size);
         for (int j = 0; j < size; j++)
         {

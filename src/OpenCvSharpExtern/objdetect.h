@@ -1,3 +1,7 @@
+#if WIN32
+#pragma once
+#endif
+
 #ifndef _CPP_OBJDETECT_H_
 #define _CPP_OBJDETECT_H_
 

@@ -222,6 +222,9 @@
     <ClInclude Include="stitching_detail_Matchers.h">
       <Filter>Header Files\stitching</Filter>
     </ClInclude>
+    <ClInclude Include="imgproc_CLAHE.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
