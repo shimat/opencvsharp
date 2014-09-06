@@ -225,6 +225,9 @@
     <ClInclude Include="imgproc_CLAHE.h">
       <Filter>Header Files\imgproc</Filter>
     </ClInclude>
+    <ClInclude Include="gpu_CascadeClassifier_GPU.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
