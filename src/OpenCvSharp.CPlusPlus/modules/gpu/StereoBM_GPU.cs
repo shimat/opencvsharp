@@ -3,6 +3,8 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus.Gpu
 {
+    // ReSharper disable InconsistentNaming
+
 #if LANG_JP
     /// <summary>
     /// 
@@ -12,14 +14,9 @@ namespace OpenCvSharp.CPlusPlus.Gpu
     /// 
     /// </summary>
 #endif
-// ReSharper disable once InconsistentNaming
     public class StereoBM_GPU : DisposableCvObject
     {
         #region Fields
-        /// <summary>
-        /// sizeof(StereoBM_GPU)
-        /// </summary>
-        public static readonly int SizeOf;
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>

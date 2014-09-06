@@ -30,6 +30,10 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvAbsDiff(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
         }
         #endregion
         #region AbsDiffS
@@ -50,11 +54,7 @@ namespace OpenCvSharp
 #endif
         public static void Abs(CvArr src, CvArr dst)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            NativeMethods.cvAbsDiffS(src.CvPtr, dst.CvPtr, CvScalar.ScalarAll(0));
+            AbsDiffS(src, dst, CvScalar.ScalarAll(0));
         }
 #if LANG_JP
         /// <summary>
@@ -79,6 +79,9 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvAbsDiffS(src.CvPtr, dst.CvPtr, value);
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
         #endregion
         #region Acc
@@ -120,8 +123,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
             if (sum == null)
                 throw new ArgumentNullException("sum");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvAcc(image.CvPtr, sum.CvPtr, maskPtr);
+            NativeMethods.cvAcc(image.CvPtr, sum.CvPtr, ToPtr(mask));
+            
+            GC.KeepAlive(image);
+            GC.KeepAlive(sum);
+            GC.KeepAlive(mask);
         }
         #endregion
         #region AdaptiveThreshold
@@ -248,6 +254,9 @@ namespace OpenCvSharp
                 throw new ArgumentException("thresholdType == Binary || thresholdType == BinaryInv");
             }
             NativeMethods.cvAdaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, adaptiveMethod, thresholdType, blockSize, param1);
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
         #endregion
         #region Add
@@ -297,8 +306,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src2");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvAdd(src1.CvPtr, src2.CvPtr, dst.CvPtr, maskPtr);
+            NativeMethods.cvAdd(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
         }
         #endregion
         #region AddS
@@ -346,8 +359,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src1");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvAddS(src1.CvPtr, value, dst.CvPtr, maskPtr);
+            NativeMethods.cvAddS(src1.CvPtr, value, dst.CvPtr, ToPtr(mask));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
         }
         #endregion
         #region AddText
@@ -378,6 +394,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("font");
 
             NativeMethods.cvAddText(img.CvPtr, text, location, font.CvPtr);
+            GC.KeepAlive(img);
+            GC.KeepAlive(font);
         }
         #endregion
         #region AddWeighted
@@ -412,6 +430,10 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvAddWeighted(src1.CvPtr, alpha, src2.CvPtr, beta, gamma, dst.CvPtr);
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
         }
         #endregion
         #region Alloc
@@ -480,8 +502,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src2");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvAnd(src1.CvPtr, src2.CvPtr, dst.CvPtr, maskPtr);
+            NativeMethods.cvAnd(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
         }
         #endregion
         #region AndS
@@ -531,8 +556,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src1");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvAndS(src1.CvPtr, value, dst.CvPtr, maskPtr);
+            NativeMethods.cvAndS(src1.CvPtr, value, dst.CvPtr, ToPtr(mask));
+            GC.KeepAlive(src1);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
         }
         #endregion
         #region ApproxChains
@@ -656,8 +683,11 @@ namespace OpenCvSharp
             IntPtr resultPtr = NativeMethods.cvApproxChains(srcSeq.CvPtr, storage.CvPtr, method, parameter, minimalPerimeter, recursive);
             if (resultPtr == IntPtr.Zero)
                 return null;
-            
             CvSeq<CvPoint> result = new CvSeq<CvPoint>(resultPtr);
+
+            GC.KeepAlive(srcSeq);
+            GC.KeepAlive(storage);
+
             return result;
         }
         #endregion
@@ -715,13 +745,15 @@ namespace OpenCvSharp
         public static CvSeq<CvPoint> ApproxPoly(CvSeq<CvPoint> srcSeq, int headerSize, CvMemStorage storage, ApproxPolyMethod method, double parameter, bool parameter2)
         {
             if (srcSeq == null)
-            {
                 throw new ArgumentNullException("srcSeq");
-            }
-            IntPtr storagePtr = (storage == null) ? IntPtr.Zero : storage.CvPtr;
-            IntPtr result = NativeMethods.cvApproxPoly(srcSeq.CvPtr, headerSize, storagePtr, method, parameter, parameter2);
+            
+            IntPtr result = NativeMethods.cvApproxPoly(srcSeq.CvPtr, headerSize, ToPtr(storage), method, parameter, parameter2);
             if (result == IntPtr.Zero)
                 return null;
+
+            GC.KeepAlive(srcSeq);
+            GC.KeepAlive(storage);
+
             return new CvSeq<CvPoint>(result);
         }
         #endregion
@@ -789,10 +821,11 @@ namespace OpenCvSharp
         public static double ArcLength(CvArr curve, CvSlice slice, int isClosed)
         {
             if (curve == null)
-            {
                 throw new ArgumentNullException("curve");
-            }
-            return NativeMethods.cvArcLength(curve.CvPtr, slice, isClosed);
+            
+            double ret = NativeMethods.cvArcLength(curve.CvPtr, slice, isClosed);
+            GC.KeepAlive(curve);
+            return ret;
         }
         #endregion
         #region AttrList
@@ -884,11 +917,10 @@ namespace OpenCvSharp
         public static CvScalar Avg(CvArr arr, CvArr mask)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            return NativeMethods.cvAvg(arr.CvPtr, maskPtr);
+            var ret = NativeMethods.cvAvg(arr.CvPtr, ToPtr(mask));
+            GC.KeepAlive(mask);
+            return ret;
         }
         #endregion
         #region AvgSdv
@@ -931,13 +963,13 @@ namespace OpenCvSharp
         public static void AvgSdv(CvArr arr, out CvScalar mean, out CvScalar stdDev, CvArr mask)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
+            
             mean = new CvScalar();
             stdDev = new CvScalar();
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvAvgSdv(arr.CvPtr, ref mean, ref stdDev, maskPtr);
+            NativeMethods.cvAvgSdv(arr.CvPtr, ref mean, ref stdDev, ToPtr(mask));
+
+            GC.KeepAlive(mask);
         }
         #endregion
     }

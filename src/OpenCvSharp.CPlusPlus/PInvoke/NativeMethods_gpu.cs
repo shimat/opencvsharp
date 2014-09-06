@@ -202,6 +202,45 @@ namespace OpenCvSharp.CPlusPlus
 
         #endregion
 
+        #region CascadeClassifier_GPU
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_CascadeClassifier_GPU_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_CascadeClassifier_GPU_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_CascadeClassifier_GPU_new2(string filename);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CascadeClassifier_GPU_empty(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CascadeClassifier_GPU_load(IntPtr obj, string filename);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_CascadeClassifier_GPU_release(IntPtr obj);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CascadeClassifier_GPU_detectMultiScale1(IntPtr obj,
+            IntPtr image, IntPtr objectsBuf, double scaleFactor, int minNeighbors, CvSize minSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CascadeClassifier_GPU_detectMultiScale2(IntPtr obj,
+            IntPtr image, IntPtr objectsBuf, CvSize maxObjectSize, CvSize minSize, double scaleFactor,
+            int minNeighbors);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CascadeClassifier_GPU_findLargestObject_get(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_CascadeClassifier_GPU_findLargestObject_set(IntPtr obj, int value);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_CascadeClassifier_GPU_visualizeInPlace_get(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_CascadeClassifier_GPU_visualizeInPlace_set(IntPtr obj, int value);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvSize gpu_CascadeClassifier_GPU_getClassifierSize(IntPtr obj);
+        
+        #endregion
+
         #region HogDescriptor
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int HOGDescriptor_sizeof();

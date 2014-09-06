@@ -103,6 +103,7 @@
     <Compile Include="modules\flann\FlannDistance.cs" />
     <Compile Include="Cv2\Cv2_gpu.cs" />
     <Compile Include="modules\gpu\DisposableGpuObject.cs" />
+    <Compile Include="modules\gpu\CascadeClassifier_GPU.cs" />
     <Compile Include="modules\gpu\Stream.cs" />
     <Compile Include="modules\gpu\Enum\CudaMemAllocType.cs" />
     <Compile Include="modules\gpu\DescriptorFormat.cs" />
