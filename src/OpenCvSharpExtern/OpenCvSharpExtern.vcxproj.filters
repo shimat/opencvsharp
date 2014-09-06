@@ -228,6 +228,9 @@
     <ClInclude Include="gpu_CascadeClassifier_GPU.h">
       <Filter>Header Files\gpu</Filter>
     </ClInclude>
+    <ClInclude Include="gpu_MOG_GPU.h">
+      <Filter>Header Files\gpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

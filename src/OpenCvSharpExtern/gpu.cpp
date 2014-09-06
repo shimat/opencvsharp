@@ -4,3 +4,4 @@
 #include "gpu_HOGDescriptor.h"
 #include "gpu_StereoBM_GPU.h"
 #include "gpu_CascadeClassifier_GPU.h"
+#include "gpu_MOG_GPU.h"
