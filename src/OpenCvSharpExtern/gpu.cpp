@@ -3,3 +3,4 @@
 #include "gpu_CvMethods.h"
 #include "gpu_HOGDescriptor.h"
 #include "gpu_StereoBM_GPU.h"
+#include "gpu_CascadeClassifier_GPU.h"
