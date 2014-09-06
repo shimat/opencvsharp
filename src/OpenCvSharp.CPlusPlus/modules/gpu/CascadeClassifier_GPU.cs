@@ -6,9 +6,8 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 
     /// <summary>
     /// The cascade classifier class for object detection: 
-    /// supports old haar and new lbp xlm formats and nvbin for haar cascades only.
+    /// supports old haar and new lbp xml formats and nvbin for haar cascades only.
     /// </summary>
-// ReSharper disable once InconsistentNaming
     public class CascadeClassifier_GPU : DisposableCvObject
     {
         /// <summary>
@@ -122,15 +121,9 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 
         #region Methods
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// releases all inner buffers
         /// </summary>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-#endif
         public void Release()
         {
             if (disposed)
@@ -153,6 +146,10 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (objectsBuf == null)
+                throw new ArgumentNullException("objectsBuf");
 
             CvSize minSizeVal = minSize.GetValueOrDefault(new Size());
 
@@ -180,6 +177,10 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (objectsBuf == null)
+                throw new ArgumentNullException("objectsBuf");
 
             CvSize minSizeVal = minSize.GetValueOrDefault(new Size());
 

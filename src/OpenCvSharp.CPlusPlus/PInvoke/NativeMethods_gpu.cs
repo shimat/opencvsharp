@@ -308,6 +308,78 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void HOGDescriptor_gamma_correction_set(IntPtr obj, int value);
         #endregion
 
+        #region MOG_GPU
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG_GPU_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_MOG_GPU_new(int nmixtures);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG_GPU_initialize(
+            IntPtr obj, CvSize frameSize, int frameType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG_GPU_operator(
+            IntPtr obj, IntPtr frame, IntPtr fgmask, float learningRate, IntPtr stream);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG_GPU_getBackgroundImage(
+            IntPtr obj, IntPtr backgroundImage, IntPtr stream);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG_GPU_release(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe int* gpu_MOG_GPU_history(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG_GPU_varThreshold(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG_GPU_backgroundRatio(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG_GPU_noiseSigma(IntPtr obj);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG2_GPU_delete(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_MOG2_GPU_new(int nmixtures);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG2_GPU_initialize(
+            IntPtr obj, CvSize frameSize, int frameType);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG2_GPU_operator(
+            IntPtr obj, IntPtr frame, IntPtr fgmask, float learningRate, IntPtr stream);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG2_GPU_getBackgroundImage(
+            IntPtr obj, IntPtr backgroundImage, IntPtr stream);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG2_GPU_release(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe int* gpu_MOG2_GPU_history(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG2_GPU_varThreshold(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG2_GPU_backgroundRatio(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG2_GPU_varThresholdGen(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG2_GPU_fVarInit(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG2_GPU_fVarMin(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG2_GPU_fVarMax(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG2_GPU_fCT(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_MOG2_GPU_bShadowDetection_get(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_MOG2_GPU_bShadowDetection_set(IntPtr obj, int value);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe byte* gpu_MOG2_GPU_nShadowDetection(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe float* gpu_MOG2_GPU_fTau(IntPtr obj);
+
+        #endregion
+
         #region StereoBM_GPU
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr gpu_StereoBM_GPU_new1();
