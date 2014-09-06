@@ -240,7 +240,7 @@ namespace OpenCvSharp
         /// 画像を指定したファイルに保存する．画像フォーマットは，filename の拡張子により決定される．
         /// この関数で保存できるのは，8 ビット 1チャンネル，あるいは 8 ビット3 チャンネル（'BGR' の順）画像だけである．
         /// </summary>
-        /// <param name="filename">ファイル名</param>
+        /// <param name="fileName">ファイル名</param>
         /// <param name="image">画像ポインタ</param>
         /// <param name="prms"></param>
         /// <returns></returns>
@@ -288,7 +288,7 @@ namespace OpenCvSharp
         /// 画像を指定したファイルに保存する．画像フォーマットは，filename の拡張子により決定される．
         /// この関数で保存できるのは，8 ビット 1チャンネル，あるいは 8 ビット3 チャンネル（'BGR' の順）画像だけである．
         /// </summary>
-        /// <param name="filename">ファイル名</param>
+        /// <param name="fileName">ファイル名</param>
         /// <param name="image">画像ポインタ</param>
         /// <param name="prms"></param>
         /// <returns></returns>
@@ -4723,6 +4723,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("subdiv");
             }
             IntPtr ptr = NativeMethods.cvSubdivDelaunay2DInsert(subdiv.CvPtr, pt);
+
+            GC.KeepAlive(subdiv);
             return new CvSubdiv2DPoint(ptr);
         }
         #endregion
