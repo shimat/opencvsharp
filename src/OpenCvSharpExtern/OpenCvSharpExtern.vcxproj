@@ -247,6 +247,7 @@
     <ClInclude Include="features2d_DescriptorExtractor.h" />
     <ClInclude Include="gpu.h" />
     <ClInclude Include="gpu_CvMethods.h" />
+    <ClInclude Include="gpu_MOG_GPU.h" />
     <ClInclude Include="imgproc_CLAHE.h" />
     <ClInclude Include="ml_CvBoostTree.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />
