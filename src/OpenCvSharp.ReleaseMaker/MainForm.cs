@@ -119,7 +119,7 @@ namespace OpenCvSharp.ReleaseMaker
 
         private static readonly string[] Platforms = { 
             "x86", 
-            "x64" 
+            //"x64" 
         };
         private static readonly string[] Languages = { 
             "Release", 
