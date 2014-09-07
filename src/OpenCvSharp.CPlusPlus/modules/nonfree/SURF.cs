@@ -142,7 +142,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     else if (ptr != IntPtr.Zero)
                     {
-                        NativeMethods.nonfree_SIFT_delete(ptr);
+                        NativeMethods.nonfree_SURF_delete(ptr);
                     }
                     detectorPtr = null;
                     ptr = IntPtr.Zero;
