@@ -241,23 +241,6 @@ namespace OpenCvSharp
                 rotMatrXPtr, rotMatrYPtr, rotMatrZPtr, ref eulerAngles);
         }
         #endregion
-        #region DeleteMoire
-#if LANG_JP
-        /// <summary>
-        /// 入力画像のモアレを削除する
-        /// </summary>
-        /// <param name="img">入力画像</param>
-#else
-        /// <summary>
-        /// Deletes moire in given image
-        /// </summary>
-        /// <param name="img">Image. </param>
-#endif
-        public static void DeleteMoire(IplImage img)
-        {
-            NativeMethods.cvDeleteMoire(img.CvPtr);
-        }
-        #endregion
         #region DestroyAllWindows
 #if LANG_JP
         /// <summary>

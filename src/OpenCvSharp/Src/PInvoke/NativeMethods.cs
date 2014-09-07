@@ -37,7 +37,7 @@ namespace OpenCvSharp
 
         #region DLL File Name
         
-        public const string Version = "249";
+        public const string Version = "300";
 
         public const string DllMsvcr = "msvcr110";
         public const string DllMsvcp = "msvcp110";
@@ -48,14 +48,36 @@ namespace OpenCvSharp
         public const string DllFlann = "opencv_flann" + Version;
         public const string DllHighgui = "opencv_highgui" + Version;
         public const string DllImgproc = "opencv_imgproc" + Version;
-        public const string DllLegacy = "opencv_legacy" + Version;
         public const string DllML = "opencv_ml" + Version;
         public const string DllObjdetect = "opencv_objdetect" + Version;
         public const string DllPhoto = "opencv_photo" + Version;
         public const string DllVideo = "opencv_video" + Version;
+        public const string DllVideoIO = "opencv_videoio" + Version;
 
         public const string DllFfmpegX86 = "opencv_ffmpeg" + Version;
         public const string DllFfmpegX64 = DllFfmpegX86 + "_64";
+
+        private static readonly string[] DllNames =
+        {
+            DllMsvcr,
+            DllMsvcp,
+
+            DllCore,// 
+            DllFlann, // core
+            DllImgproc, // core
+            DllML, // core
+            "opencv_imgcodecs" + Version, // core, imgproc
+            "opencv_videoio" + Version, // core, imgcodecs
+            DllHighgui, // core, imgcodecs, videoio
+            DllFeatures2d, // core, flann, imgproc
+            DllObjdetect, // core, imgproc, videoio, ml
+            "opencv_cudaarithm" + Version,
+            "opencv_cudafilters" + Version,
+            "opencv_cudaimgproc" + Version,
+            DllPhoto, // core, imgproc
+            DllVideo, // core, imgproc
+            DllCalib3d, // core, flann, imgproc, features2d
+        };
 
         #endregion
 
@@ -104,35 +126,13 @@ namespace OpenCvSharp
 
             string[] ap = ToArray(additionalPaths);
 
-            // msvcr: 
-            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcr, ap);
-            // msvcp: msvcr
-            WindowsLibraryLoader.Instance.LoadLibrary(DllMsvcp, ap);
+            // loads all dependencies
+            foreach (string dll in DllNames)
+            {
+                WindowsLibraryLoader.Instance.LoadLibrary(dll, ap);
+            }
 
-            // core: 
-            WindowsLibraryLoader.Instance.LoadLibrary(DllCore, ap);
-            // flann: core
-            WindowsLibraryLoader.Instance.LoadLibrary(DllFlann, ap);
-            // imgproc: core
-            WindowsLibraryLoader.Instance.LoadLibrary(DllImgproc, ap);
-            // highgui: core
-            WindowsLibraryLoader.Instance.LoadLibrary(DllHighgui, ap);
-            // ml: core
-            WindowsLibraryLoader.Instance.LoadLibrary(DllML, ap);
-            // features2d: core, flann, imgproc
-            WindowsLibraryLoader.Instance.LoadLibrary(DllFeatures2d, ap);
-            // objdetect: core, imgproc, highgui
-            WindowsLibraryLoader.Instance.LoadLibrary(DllObjdetect, ap);
-            // photo: core, imgproc
-            WindowsLibraryLoader.Instance.LoadLibrary(DllPhoto, ap);
-            // video: core, imgproc
-            WindowsLibraryLoader.Instance.LoadLibrary(DllVideo, ap);
-
-            // calib3d: core, flann, imgproc, features2d
-            WindowsLibraryLoader.Instance.LoadLibrary(DllCalib3d, ap);
-            // legacy: core, flann, imgproc, highgui, features2d, calib3d, ml, video
-            WindowsLibraryLoader.Instance.LoadLibrary(DllLegacy, ap);
-
+            // ffmpeg
             if (IntPtr.Size == 4)
                 WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86, ap);
             else if (IntPtr.Size == 8)
@@ -1171,10 +1171,6 @@ namespace OpenCvSharp
 
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvConvertImage(IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.I4)] ConvertImageFlag flags);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateCameraCapture(int index);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateFileCapture([MarshalAs(UnmanagedType.LPStr)] string filename);
 
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvCreateTrackbar([MarshalAs(UnmanagedType.LPStr)] string trackbar_name, [MarshalAs(UnmanagedType.LPStr)] string window_name,
@@ -1189,10 +1185,6 @@ namespace OpenCvSharp
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvCreateTrackbar2([MarshalAs(UnmanagedType.LPStr)] string trackbar_name, [MarshalAs(UnmanagedType.LPStr)] string window_name,
             ref int value, int count, IntPtr on_change, IntPtr userdata);
-
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateVideoWriter([MarshalAs(UnmanagedType.LPStr)] string filename, int fourcc, double fps, CvSize frame_size,
-            [MarshalAs(UnmanagedType.Bool)] bool is_color);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cvDecodeImage(IntPtr buf, [MarshalAs(UnmanagedType.I4)] LoadMode iscolor);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
@@ -1204,10 +1196,6 @@ namespace OpenCvSharp
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cvEncodeImage([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr image, [In] int[] @params);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double cvGetCaptureProperty(IntPtr capture, int property_id);        
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double cvGetCaptureProperty(IntPtr capture, [MarshalAs(UnmanagedType.I4)] CaptureProperty property_id);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvGetTrackbarPos([MarshalAs(UnmanagedType.LPStr)] string trackbar_name, [MarshalAs(UnmanagedType.LPStr)] string window_name);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cvGetWindowHandle([MarshalAs(UnmanagedType.LPStr)] string name);
@@ -1216,8 +1204,7 @@ namespace OpenCvSharp
         public static extern string cvGetWindowName(IntPtr window_handle);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern double cvGetWindowProperty([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.I4)] WindowProperty prop_id);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cvGrabFrame(IntPtr capture);
+
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvInitSystem(int argc, string[] argv);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
@@ -1228,22 +1215,12 @@ namespace OpenCvSharp
         public static extern void cvMoveWindow([MarshalAs(UnmanagedType.LPStr)] string name, int x, int y);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvNamedWindow([MarshalAs(UnmanagedType.LPStr)] string name, WindowMode flags);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvQueryFrame(IntPtr capture);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvReleaseCapture(ref IntPtr capture);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvReleaseVideoWriter(ref IntPtr writer);
+
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvResizeWindow([MarshalAs(UnmanagedType.LPStr)] string name, int width, int height);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvRetrieveFrame(IntPtr capture, int streamIdx);
+
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvSaveImage([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr image, [In] int[] @params);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cvSetCaptureProperty(IntPtr capture, int property_id, double value);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cvSetCaptureProperty(IntPtr capture, [MarshalAs(UnmanagedType.I4)] CaptureProperty property_id, double value);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvSetMouseCallback([MarshalAs(UnmanagedType.LPStr)] string window_name, [MarshalAs(UnmanagedType.FunctionPtr)] CvMouseCallback on_mouse);
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
@@ -1260,16 +1237,9 @@ namespace OpenCvSharp
         public static extern int cvStartWindowThread();
         [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvWaitKey(int delay);
-        [DllImport(DllHighgui, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cvWriteFrame(IntPtr writer, IntPtr image);
+
         #endregion
         #region Video
-        [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvBGCodeBookClearStale(IntPtr model, int staleThresh, CvRect roi, IntPtr mask);
-        [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cvBGCodeBookDiff(IntPtr model, IntPtr image, IntPtr fgmask, CvRect roi);
-        [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvBGCodeBookUpdate(IntPtr model, IntPtr image, CvRect roi, IntPtr mask);
         [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvCalcAffineFlowPyrLK(IntPtr prev, IntPtr curr, IntPtr prev_pyr, IntPtr curr_pyr,
             [In] CvPoint2D32f[] prev_features, [Out] CvPoint2D32f[] curr_features, [Out] float[] matrices, int count,
@@ -1289,8 +1259,6 @@ namespace OpenCvSharp
         [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvCamShift(IntPtr prob_image, CvRect window, CvTermCriteria criteria, IntPtr comp, ref CvBox2D box);
         [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateBGCodeBookModel();
-        [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cvCreateKalman(int dynam_params, int measure_params, int control_params);
         [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvEstimateRigidTransform(IntPtr A, IntPtr B, IntPtr M, [MarshalAs(UnmanagedType.Bool)] bool full_affine);
@@ -1301,169 +1269,47 @@ namespace OpenCvSharp
         [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cvMeanShift(IntPtr prob_image, CvRect window, CvTermCriteria criteria, IntPtr comp);
         [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvReleaseBGCodeBookModel(ref IntPtr _ptr);
-        [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvReleaseKalman(ref IntPtr kalman);
-        [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvSegmentFGMask(IntPtr fgmask, [MarshalAs(UnmanagedType.Bool)] bool poly1Hull0, float perimScale, IntPtr storage, CvPoint offset);
         [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cvSegmentMotion(IntPtr mhi, IntPtr seg_mask, IntPtr storage, double timestamp, double seg_thresh);
         [DllImport(DllVideo, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvUpdateMotionHistory(IntPtr silhouette, IntPtr mhi, double timestamp, double duration);
         #endregion
-        #region Legacy
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateSubdiv2D([MarshalAs(UnmanagedType.U4)] SeqType subdiv_type, int header_size, int vtx_size, int quadedge_size, IntPtr storage);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvInitSubdivDelaunay2D(IntPtr subdiv, CvRect rect);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvSubdivDelaunay2DInsert(IntPtr subdiv, CvPoint2D32f pt);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSubdiv2DPointLocation cvSubdiv2DLocate(IntPtr subdiv, CvPoint2D32f pt, out CvSubdiv2DEdge edge, ref IntPtr vertex);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcSubdivVoronoi2D(IntPtr subdiv);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvClearSubdivVoronoi2D(IntPtr subdiv);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvFindNearestPoint2D(IntPtr subdiv, CvPoint2D32f pt);
+        #region VideoIO
 
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateLSH(IntPtr ops, int d, int L, int k, MatrixType type, double r, Int64 seed);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateMemoryLSH(int d, int n, int L, int k, MatrixType type, double r, Int64 seed);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvLSHAdd(IntPtr lsh, IntPtr data, IntPtr indices);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvLSHQuery(IntPtr lsh, IntPtr query_points, IntPtr indices, IntPtr dist, int k, int emax);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvLSHRemove(IntPtr lsh, IntPtr indices);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint LSHSize(IntPtr lsh);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvReleaseLSH(ref IntPtr lsh);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr cvCreateCameraCapture(int index);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr cvCreateFileCapture([MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateStereoGCState(int numberOfDisparities, int maxIters);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvFindStereoCorrespondenceGC(IntPtr left, IntPtr right, IntPtr dispLeft, IntPtr dispRight, IntPtr state,
-            [MarshalAs(UnmanagedType.Bool)] bool useDisparityGuess);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvReleaseStereoGCState(ref IntPtr state);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int cvGrabFrame(IntPtr capture);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr cvRetrieveFrame(IntPtr capture, int streamIdx);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr cvQueryFrame(IntPtr capture);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void cvReleaseCapture(ref IntPtr capture);
 
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcOpticalFlowBM(IntPtr prev, IntPtr curr, CvSize block_size, CvSize shift_size,
-            CvSize max_range, [MarshalAs(UnmanagedType.Bool)] bool use_previous, IntPtr velx, IntPtr vely);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcOpticalFlowHS(IntPtr prev, IntPtr curr, [MarshalAs(UnmanagedType.Bool)] bool use_previous,
-            IntPtr velx, IntPtr vely, double lambda, CvTermCriteria criteria);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcOpticalFlowLK(IntPtr prev, IntPtr curr, CvSize winSize, IntPtr velx, IntPtr vely);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double cvGetCaptureProperty(IntPtr capture, int property_id);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double cvGetCaptureProperty(IntPtr capture, [MarshalAs(UnmanagedType.I4)] CaptureProperty property_id);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int cvSetCaptureProperty(IntPtr capture, int property_id, double value);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int cvSetCaptureProperty(IntPtr capture, [MarshalAs(UnmanagedType.I4)] CaptureProperty property_id, double value);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int cvGetCaptureDomain(IntPtr capture);
 
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateKDTree(IntPtr desc);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateSpillTree(IntPtr raw_data, int naive, double rho, double tau);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvReleaseFeatureTree(IntPtr tr);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvFindFeatures(IntPtr tr, IntPtr desc, IntPtr results, IntPtr dist, int k, int emax);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cvFindFeaturesBoxed(IntPtr tr, IntPtr bounds_min, IntPtr bounds_max, IntPtr results);
 
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvExtractMSER(IntPtr img, IntPtr mask, ref IntPtr contours, IntPtr storage, WCvMSERParams @params);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvExtractSURF(IntPtr image, IntPtr mask, ref IntPtr keypoints, ref IntPtr descriptors, IntPtr storage,
-            WCvSURFParams parameters, [MarshalAs(UnmanagedType.Bool)] bool useProvidedKeyPts);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvGetStarKeypoints(IntPtr img, IntPtr storage, WCvStarDetectorParams @params);
-        
-        [Obsolete]
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern WCvMSERParams cvMSERParams(int delta, int min_area, int max_area, float max_variation, float min_diversity,
-            int max_evolution, double area_threshold, double min_margin, int edge_blur_size);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern WCvSURFParams cvSURFParams(double hessianThreshold, [MarshalAs(UnmanagedType.Bool)] bool extended);
-
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvPyrSegmentation(IntPtr src, IntPtr dst, IntPtr storage, out IntPtr comp, int level, double threshold1, double threshold2);
-
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcCovarMatrixEx(int object_count, CvCallback input, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag io_flags, int iobuf_size,
-            [MarshalAs(UnmanagedType.LPArray)] byte[] buffer, IntPtr userdata, IntPtr avg, [In] float[] covar_matrix);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcCovarMatrixEx(int object_count, IntPtr input, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag io_flags, int iobuf_size,
-            IntPtr buffer, IntPtr userdata, IntPtr avg, [In] float[] covar_matrix);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcEigenObjects(int nObjects, IntPtr input, IntPtr output, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag ioFlags,
-                         int ioBufSize, IntPtr userData, ref CvTermCriteria calcLimit, IntPtr avg, [In] float[] eigVals);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcEigenObjects(int nObjects, CvCallback input, IntPtr output, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag ioFlags,
-                         int ioBufSize, IntPtr userData, ref CvTermCriteria calcLimit, IntPtr avg, [In] float[] eigVals);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcEigenObjects(int nObjects, IntPtr input, CvCallback output, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag ioFlags,
-                         int ioBufSize, IntPtr userData, ref CvTermCriteria calcLimit, IntPtr avg, [In] float[] eigVals);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcEigenObjects(int nObjects, CvCallback input, CvCallback output, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag ioFlags,
-                         int ioBufSize, IntPtr userData, ref CvTermCriteria calcLimit, IntPtr avg, [In] float[] eigVals);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double cvCalcDecompCoeff(IntPtr obj, IntPtr eigObj, IntPtr avg);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcImageHomography([MarshalAs(UnmanagedType.LPArray)] float[] line, ref CvPoint3D32f center,
-            [MarshalAs(UnmanagedType.LPArray)] float[,] intrinsic, [Out] [MarshalAs(UnmanagedType.LPArray)] float[,] homography);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalcPGH(IntPtr contour, IntPtr hist);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvConDensInitSampleSet(IntPtr condens, IntPtr lower_bound, IntPtr upper_bound);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvContourFromContourTree(IntPtr tree, IntPtr storage, CvTermCriteria criteria);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateConDensation(int dynam_params, int measure_params, int sample_count);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvCreateContourTree(IntPtr contour, IntPtr storage, double threshold);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvDeleteMoire(IntPtr img);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvEigenDecomposite(IntPtr obj, int eigenvec_count, IntPtr eigInput, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag ioFlags, IntPtr userData, IntPtr avg, [In] float[] coeffs);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvEigenDecomposite(IntPtr obj, int eigenvec_count, CvCallback eigInput, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag ioFlags, IntPtr userData, IntPtr avg, [In] float[] coeffs);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvEigenProjection(IntPtr input_vecs, int eigenvec_count, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag io_flags, IntPtr userdata, float[] coeffs, IntPtr avg, IntPtr proj);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvEigenProjection(CvCallback input_vecs, int eigenvec_count, [MarshalAs(UnmanagedType.I4)] EigenObjectsIOFlag io_flags, IntPtr userdata, float[] coeffs, IntPtr avg, IntPtr proj);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvConDensUpdateByTime(IntPtr condens);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvFindDominantPoints(IntPtr contour, IntPtr storage, [MarshalAs(UnmanagedType.I4)] DominantsFlag method,
-             double parameter1, double parameter2, double parameter3, double parameter4);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvFindFace(IntPtr image, IntPtr storage);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvFindStereoCorrespondence(IntPtr leftImage, IntPtr rightImage, DisparityMode mode, IntPtr depthImage, int maxDisparity, double param1, double param2, double param3, double param4, double param5);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvInitFaceTracker(IntPtr pFaceTracker, IntPtr imgGray, [In] CvRect[] pRects, int nRects);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvMakeScanlines(double[,] matrix, CvSize img_size, int[] scanlines1, int[] scanlines2, int[] lengths1, int[] lengths2, out int line_count);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double cvMatchContourTrees(IntPtr tree1, IntPtr tree2, [MarshalAs(UnmanagedType.U4)] ContourTreesMatchMethod method, double threshold);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvPostBoostingFindFace(IntPtr image, IntPtr storage);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvReleaseConDensation(ref IntPtr condens);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvReleaseFaceTracker(ref IntPtr ppFaceTracker);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvSegmentImage(IntPtr srcarr, IntPtr dstarr, double canny_threshold, double ffill_threshold, IntPtr storage);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvSnakeImage(IntPtr image, IntPtr points, int length, ref float alpha, ref float beta, ref float gamma,
-            int coeffUsage, CvSize win, CvTermCriteria criteria, [MarshalAs(UnmanagedType.Bool)] bool calc_gradient);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvSnakeImage(IntPtr image, IntPtr points, int length,
-            [MarshalAs(UnmanagedType.LPArray)] float[] alpha, [MarshalAs(UnmanagedType.LPArray)] float[] beta, [MarshalAs(UnmanagedType.LPArray)] float[] gamma,
-            int coeffUsage, CvSize win, CvTermCriteria criteria, [MarshalAs(UnmanagedType.Bool)] bool calc_gradient);
-        [DllImport(DllLegacy, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool cvTrackFace(IntPtr pFaceTracker, IntPtr imgGray, [Out] CvRect[] pRects, int nRects, out CvPoint ptRotate, out double dbAngleRotate);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr cvCreateVideoWriter([MarshalAs(UnmanagedType.LPStr)] string filename, int fourcc, double fps, CvSize frame_size,
+            [MarshalAs(UnmanagedType.Bool)] bool is_color);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void cvReleaseVideoWriter(ref IntPtr writer);
+        [DllImport(DllVideoIO, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int cvWriteFrame(IntPtr writer, IntPtr image);
         #endregion
         #region Calib3d
         [DllImport(DllCalib3d, CallingConvention = CallingConvention.Cdecl)]

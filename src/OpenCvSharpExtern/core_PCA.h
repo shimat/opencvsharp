@@ -31,7 +31,7 @@ CVAPI(void) core_PCA_operatorThis(cv::PCA *obj, cv::_InputArray *data, cv::_Inpu
 }
 CVAPI(void) core_PCA_computeVar(cv::PCA *obj, cv::_InputArray *data, cv::_InputArray *mean, int flags, double retainedVariance)
 {
-	obj->computeVar(*data, *mean, flags, retainedVariance);
+	(*obj)(*data, *mean, flags, retainedVariance);
 }
 //! projects vector from the original space to the principal components subspace
 CVAPI(cv::Mat*) core_PCA_project1(cv::PCA *obj, cv::_InputArray *vec)

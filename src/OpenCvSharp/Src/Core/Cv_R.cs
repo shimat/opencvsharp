@@ -1651,26 +1651,6 @@ namespace OpenCvSharp
             }
         }
         #endregion
-        #region ReleaseBGCodeBookModel
-#if LANG_JP
-        /// <summary>
-        /// BGCodeBookModel 構造体を解放する
-        /// </summary>
-        /// <param name="model">解放する構造体への参照</param>
-#else
-        /// <summary>
-        /// Deallocates BGCodeBookModel structure
-        /// </summary>
-        /// <param name="model">Structure to be released. </param>
-#endif
-        public static void ReleaseBGCodeBookModel(CvBGCodeBookModel model)
-        {
-            if (model != null)
-            {
-                model.Dispose();
-            }
-        }
-        #endregion
         #region ReleaseCapture
 #if LANG_JP
         /// <summary>
@@ -1691,26 +1671,6 @@ namespace OpenCvSharp
             }
         }
         #endregion
-        #region ReleaseConDensation
-#if LANG_JP
-        /// <summary>
-        /// ConDensation フィルタ構造体を解放する
-        /// </summary>
-        /// <param name="condens">解放する構造体への参照</param>
-#else
-        /// <summary>
-        /// Deallocates ConDensation filter structure
-        /// </summary>
-        /// <param name="condens">Structure to be released. </param>
-#endif
-        public static void ReleaseConDensation(CvConDensation condens )
-        {
-            if (condens != null)
-            {
-                condens.Dispose();
-            }
-        }
-        #endregion
         #region ReleaseData
 #if LANG_JP
         /// <summary>
@@ -1728,39 +1688,6 @@ namespace OpenCvSharp
             if (arr != null)
             {
                 NativeMethods.cvReleaseData(arr.CvPtr);
-            }
-        }
-        #endregion
-        #region ReleaseFaceTracker
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ppFaceTracker"></param>
-        public static void ReleaseFaceTracker(CvFaceTracker ppFaceTracker)
-        {
-            if (ppFaceTracker != null)
-            {
-                ppFaceTracker.Dispose();
-            }
-        }
-        #endregion
-        #region ReleaseFeatureTree
-#if LANG_JP
-        /// <summary>
-        /// 特徴ベクトルのツリーを解放する
-        /// </summary>
-        /// <param name="tr">解放されるツリーへのポインタ．</param>
-#else
-        /// <summary>
-        /// Destroys a tree of feature vectors
-        /// </summary>
-        /// <param name="tr">pointer to tree being destroyed. </param>
-#endif
-        public static void ReleaseFeatureTree(CvFeatureTree tr)
-        {
-            if (tr != null)
-            {
-                tr.Dispose();
             }
         }
         #endregion
@@ -1927,26 +1854,6 @@ namespace OpenCvSharp
             }
         }
         #endregion
-        #region ReleaseLSH
-#if LANG_JP
-        /// <summary>
-        /// Free the given LSH structure.
-        /// </summary>
-        /// <param name="lsh"></param>
-#else
-        /// <summary>
-        /// Free the given LSH structure.
-        /// </summary>
-        /// <param name="lsh"></param>
-#endif
-        public static void ReleaseLSH(CvLSH lsh)
-        {
-            if (lsh != null)
-            {
-                lsh.Dispose();
-            }
-        }
-        #endregion
         #region ReleaseMat
 #if LANG_JP
         /// <summary>
@@ -2083,26 +1990,6 @@ namespace OpenCvSharp
         /// <param name="state">Reference to the released structure</param>
 #endif
         public static void ReleaseStereoBMState(CvStereoBMState state)
-        {
-            if (state != null)
-            {
-                state.Dispose();
-            }
-        }
-        #endregion
-        #region ReleaseStereoGCState
-#if LANG_JP
-        /// <summary>
-        /// グラフカットアルゴリズムに基づくステレオマッチング構造体を解放する
-        /// </summary>
-        /// <param name="state">解放される構造体への参照</param>
-#else
-        /// <summary>
-        /// Releases the state structure of the graph cut-based stereo correspondence algorithm
-        /// </summary>
-        /// <param name="state">Reference to the released structure</param>
-#endif
-        public static void ReleaseStereoGCState(CvStereoGCState state)
         {
             if (state != null)
             {

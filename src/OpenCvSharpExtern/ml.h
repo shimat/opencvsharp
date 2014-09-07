@@ -7,9 +7,5 @@
 
 #include "include_opencv.h"
 
-CVAPI(int) ml_initModule_ml()
-{
-    return cv::initModule_ml() ? 1 : 0;
-}
 
 #endif

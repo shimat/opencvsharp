@@ -165,21 +165,21 @@ CVAPI(void) objdetect_HOGDescriptor_groupRectangles(cv::HOGDescriptor *obj,
 #pragma endregion
 
 #pragma region Fields
-CVAPI(CvSize) objdetect_HOGDescriptor_winSize_get(cv::HOGDescriptor *obj)
+CVAPI(MyCvSize) objdetect_HOGDescriptor_winSize_get(cv::HOGDescriptor *obj)
 {
-	return obj->winSize;
+	return c(obj->winSize);
 }
-CVAPI(CvSize) objdetect_HOGDescriptor_blockSize_get(cv::HOGDescriptor *obj)
+CVAPI(MyCvSize) objdetect_HOGDescriptor_blockSize_get(cv::HOGDescriptor *obj)
 {
-	return obj->blockSize;
+	return c(obj->blockSize);
 }
-CVAPI(CvSize) objdetect_HOGDescriptor_blockStride_get(cv::HOGDescriptor *obj)
+CVAPI(MyCvSize) objdetect_HOGDescriptor_blockStride_get(cv::HOGDescriptor *obj)
 {
-	return obj->blockStride;
+	return c(obj->blockStride);
 }
-CVAPI(CvSize) objdetect_HOGDescriptor_cellSize_get(cv::HOGDescriptor *obj)
+CVAPI(MyCvSize) objdetect_HOGDescriptor_cellSize_get(cv::HOGDescriptor *obj)
 {
-	return obj->winSize;
+	return c(obj->winSize);
 }
 CVAPI(int) objdetect_HOGDescriptor_nbins_get(cv::HOGDescriptor *obj)
 {

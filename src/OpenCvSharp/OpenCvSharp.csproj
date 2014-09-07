@@ -58,16 +58,11 @@
   <ItemGroup>
     <Compile Include="Src\Class\CvLine2D.cs" />
     <Compile Include="Src\Class\CvLine3D.cs" />
-    <Compile Include="Src\Class\CvSURFParams.cs" />
     <Compile Include="Src\Class\CvTreeNode.cs" />
     <Compile Include="Src\Class\CvTypeInfo.cs" />
-    <Compile Include="Src\Class\CvLSH.cs" />
     <Compile Include="Src\Class\CvStarDetectorParams.cs" />
-    <Compile Include="Src\Class\CvBGCodeBookModel.cs" />
-    <Compile Include="Src\Class\CvBGCodeBookElem.cs" />
     <Compile Include="Src\Class\CvLevMarq.cs" />
     <Compile Include="Src\Class\CvHomographyEstimator.cs" />
-    <Compile Include="Src\Class\CvFaceTracker.cs" />
     <Compile Include="Src\Class\CvLatentSvmDetector.cs" />
     <Compile Include="Src\Class\CvFontQt.cs" />
     <Compile Include="Src\Core\Cv_B.cs" />
@@ -130,7 +125,6 @@
     <Compile Include="Src\PInvoke\Struct\Etc\WCvHistogram.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvMemStorage.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvQuadEdge2D.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSubdiv2DPoint.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvStereoBMState.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvStereoGCState.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvStringHashNode.cs" />
@@ -167,7 +161,6 @@
     <Compile Include="Src\PInvoke\Struct\CvArr\WCvSet.cs" />
     <Compile Include="Src\PInvoke\Struct\CvArr\WCvChain.cs" />
     <Compile Include="Src\PInvoke\Struct\CvArr\WCvGraph.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvSubdiv2D.cs" />
     <Compile Include="Src\PInvoke\Struct\CvArr\WCvContourTree.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvBGCodeBookElem.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvBGCodeBookModel.cs" />
@@ -178,8 +171,6 @@
     <Compile Include="Src\Struct\CvAttrList.cs" />
     <Compile Include="Src\Struct\CvBox2D.cs" />
     <Compile Include="Src\Class\CvChainPtReader.cs" />
-    <Compile Include="Src\Class\CvConDensation.cs" />
-    <Compile Include="Src\Class\CvFeatureTree.cs" />
     <Compile Include="Src\Class\CvGraphEdge.cs" />
     <Compile Include="Src\Class\CvGraphScanner.cs" />
     <Compile Include="Src\Class\CvGraphVtx.cs" />
@@ -200,7 +191,6 @@
     <Compile Include="Src\Class\CvSeqWriter.cs" />
     <Compile Include="Src\Class\CvSeqWriterT.cs" />
     <Compile Include="Src\Core\Cv_D.cs" />
-    <Compile Include="Src\CvArr\CvContourTree.cs" />
     <Compile Include="Src\CvArr\CvGraph.cs" />
     <Compile Include="Src\Delegate\CvDistanceFunction.cs" />
     <Compile Include="Src\Delegate\CvWin32WindowCallback.cs" />
@@ -236,13 +226,10 @@
     <Compile Include="Src\Class\CvStereoBMState.cs" />
     <Compile Include="Src\Class\CvStringHashNode.cs" />
     <Compile Include="Src\Class\IplConvKernel.cs" />
-    <Compile Include="Src\Class\CvStereoGCState.cs" />
     <Compile Include="Src\Class\CvFont.cs" />
-    <Compile Include="Src\Class\CvQuadEdge2D.cs" />
     <Compile Include="Src\Class\CvRNG.cs" />
     <Compile Include="Src\Class\CvSeqBlock.cs" />
     <Compile Include="Src\Class\CvSetElem.cs" />
-    <Compile Include="Src\CvArr\CvSubdiv2D.cs" />
     <Compile Include="Src\Core\Cv_A.cs" />
     <Compile Include="Src\Core\Cv_H.cs" />
     <Compile Include="Src\Core\Cv_R.cs" />
@@ -326,8 +313,6 @@
     <Compile Include="Src\ICvPtrHolder.cs" />
     <Compile Include="Src\Struct\CvLineSegmentPolar.cs" />
     <Compile Include="Src\Struct\CvSlice.cs" />
-    <Compile Include="Src\Struct\CvSubdiv2DEdge.cs" />
-    <Compile Include="Src\Class\CvSubdiv2DPoint.cs" />
     <Compile Include="Src\Enum\CvNextEdgeType.cs" />
     <Compile Include="Src\PInvoke\Struct\Etc\WCvSURFParams.cs" />
     <Compile Include="Src\Struct\CvSURFPoint.cs" />

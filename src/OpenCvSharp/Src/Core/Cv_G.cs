@@ -2041,58 +2041,6 @@ namespace OpenCvSharp
             return NativeMethods.cvGetSpatialMoment(moments, xOrder, yOrder);
         }
         #endregion
-        #region GetStarKeypoints
-#if LANG_JP
-        /// <summary>
-        /// StarDetectorアルゴリズムによりキーポイントを取得する
-        /// </summary>
-        /// <param name="img">8ビット グレースケールの入力画像</param>
-        /// <param name="storage">キーポイントが格納されるメモリストレージ</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Retrieves keypoints using the StarDetector algorithm.
-        /// </summary>
-        /// <param name="img">The input 8-bit grayscale image</param>
-        /// <param name="storage">Memory storage where the keypoints will be stored</param>
-        /// <returns></returns>
-#endif
-        public static CvSeq GetStarKeypoints(CvArr img, CvMemStorage storage)
-        {
-            return GetStarKeypoints(img, storage, new CvStarDetectorParams());
-        }
-#if LANG_JP
-        /// <summary>
-        /// StarDetectorアルゴリズムによりキーポイントを取得する
-        /// </summary>
-        /// <param name="img">8ビット グレースケールの入力画像</param>
-        /// <param name="storage">キーポイントが格納されるメモリストレージ</param>
-        /// <param name="params">CvStarDetectorParams構造体としてまとめて与えられる、アルゴリズムのための各種パラメータ</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Retrieves keypoints using the StarDetector algorithm.
-        /// </summary>
-        /// <param name="img">The input 8-bit grayscale image</param>
-        /// <param name="storage">Memory storage where the keypoints will be stored</param>
-        /// <param name="params">Various algorithm parameters given to the structure CvStarDetectorParams</param>
-        /// <returns></returns>
-#endif
-        public static CvSeq<CvStarKeypoint> GetStarKeypoints(CvArr img, CvMemStorage storage, CvStarDetectorParams @params)
-        {
-            if (img == null)
-                throw new ArgumentNullException("img");
-            if (storage == null)
-                throw new ArgumentNullException("storage");
-            if (@params == null)
-                @params = new CvStarDetectorParams();
-
-            IntPtr result = NativeMethods.cvGetStarKeypoints(img.CvPtr, storage.CvPtr, @params.Struct);
-            if (result == IntPtr.Zero)
-                return null;
-            return new CvSeq<CvStarKeypoint>(result);
-        }
-        #endregion
         #region GetSubRect
 #if LANG_JP
         /// <summary>

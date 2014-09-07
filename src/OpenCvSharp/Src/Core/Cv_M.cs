@@ -143,35 +143,6 @@ namespace OpenCvSharp
         }
 
         #endregion
-        #region MakeScanlines
-        #if LANG_JP
-        /// <summary>
-        /// 基礎行列から二つのカメラ間のスキャンライン座標を計算する
-        /// </summary>
-        /// <param name="matrix">基礎行列</param>
-        /// <param name="imgSize">画像のサイズ</param>
-        /// <param name="scanlines1">第1画像の計算されたスキャンラインが格納される配列へのポインタ</param>
-        /// <param name="scanlines2">第2画像の計算されたスキャンラインが格納される配列へのポインタ</param>
-        /// <param name="lengths1">第1画像スキャンラインの長さ（ピクセル単位）が格納される配列へのポインタ</param>
-        /// <param name="lengths2">第2画像スキャンラインの長さ（ピクセル単位）が格納される配列へのポインタ</param>
-        /// <param name="lineCount">スキャンライン数を格納する変数へのポインタ</param>
-#else
-        /// <summary>
-        /// Calculates scanlines coordinates for two cameras by fundamental matrix
-        /// </summary>
-        /// <param name="matrix">Fundamental matrix. </param>
-        /// <param name="imgSize">Size of the image. </param>
-        /// <param name="scanlines1">Array of calculated scanlines of the first image. </param>
-        /// <param name="scanlines2">Array of calculated scanlines of the second image. </param>
-        /// <param name="lengths1">Array of calculated lengths (in pixels) of the first image scanlines. </param>
-        /// <param name="lengths2">Array of calculated lengths (in pixels) of the second image scanlines. </param>
-        /// <param name="lineCount">Variable that stores the number of scanlines. </param>
-#endif
-        public static void MakeScanlines(double[,] matrix, CvSize imgSize, int[] scanlines1, int[] scanlines2, int[] lengths1, int[] lengths2, out int lineCount)
-        {
-            NativeMethods.cvMakeScanlines(matrix, imgSize, scanlines1, scanlines2, lengths1, lengths2, out lineCount);
-        }
-        #endregion
         #region MakeSeqHeaderForArray
 #if LANG_JP
         /// <summary>
@@ -258,35 +229,6 @@ namespace OpenCvSharp
         public static CvMat Mat<T>(int rows, int cols, MatrixType type, T[] data) where T : struct
         {
             return new CvMat(rows, cols, type, data);
-        }
-        #endregion
-        #region MatchContourTrees
-#if LANG_JP
-        /// <summary>
-        /// ツリー表現を使って2つの輪郭を比較する
-        /// </summary>
-        /// <param name="tree1">一つ目の輪郭の二分木.</param>
-        /// <param name="tree2">二つ目の輪郭の二分木.</param>
-        /// <param name="method">類似度．I1のみ利用可能．</param>
-        /// <param name="threshold">類似度の閾値.</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Compares two contours using their tree representations.
-        /// </summary>
-        /// <param name="tree1">First contour tree. </param>
-        /// <param name="tree2">Second contour tree. </param>
-        /// <param name="method">Similarity measure, only I1 is supported. </param>
-        /// <param name="threshold">Similarity threshold. </param>
-        /// <returns></returns>
-#endif
-        public static double MatchContourTrees(CvContourTree tree1, CvContourTree tree2, ContourTreesMatchMethod method, double threshold)
-        {
-            if (tree1 == null)
-                throw new ArgumentNullException("tree1");
-            if (tree2 == null)
-                throw new ArgumentNullException("tree2");
-            return NativeMethods.cvMatchContourTrees(tree1.CvPtr, tree2.CvPtr, method, threshold);
         }
         #endregion
         #region MatchShapes

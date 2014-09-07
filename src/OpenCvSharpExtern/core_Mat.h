@@ -22,9 +22,9 @@ CVAPI(cv::Mat*) core_Mat_new2(int rows, int cols, int type)
 {
 	return new cv::Mat(rows, cols, type); 
 }
-CVAPI(cv::Mat*) core_Mat_new3(int rows, int cols, int type, CvScalar scalar)
+CVAPI(cv::Mat*) core_Mat_new3(int rows, int cols, int type, MyCvScalar scalar)
 {
-	return new cv::Mat(rows, cols, type, scalar);
+	return new cv::Mat(rows, cols, type, cpp(scalar));
 }
 CVAPI(cv::Mat*) core_Mat_new4(cv::Mat *mat, cv::Range rowRange, cv::Range colRange)
 {
@@ -38,9 +38,9 @@ CVAPI(cv::Mat*) core_Mat_new6(cv::Mat *mat, cv::Range *ranges)
 {
 	return new cv::Mat(*mat, ranges);
 }
-CVAPI(cv::Mat*) core_Mat_new7(cv::Mat *mat, CvRect roi)
+CVAPI(cv::Mat*) core_Mat_new7(cv::Mat *mat, MyCvRect roi)
 {
-	return new cv::Mat(*mat, roi);
+	return new cv::Mat(*mat, cpp(roi));
 }
 CVAPI(cv::Mat*) core_Mat_new8(int rows, int cols, int type, void* data, size_t step)
 {
@@ -55,18 +55,29 @@ CVAPI(cv::Mat*) core_Mat_new10(int ndims, int* sizes, int type)
 {
 	return new cv::Mat(ndims, sizes, type);
 }
-CVAPI(cv::Mat*) core_Mat_new11(int ndims, int* sizes, int type, CvScalar s)
+CVAPI(cv::Mat*) core_Mat_new11(int ndims, int* sizes, int type, MyCvScalar s)
 {
-	return new cv::Mat(ndims, sizes, type, s);
+	return new cv::Mat(ndims, sizes, type, cpp(s));
 }
 
 CVAPI(cv::Mat*) core_Mat_new_FromIplImage(IplImage *img, int copyData)
 {
-	return new cv::Mat(img, copyData != 0);
+	cv::Size size(img->height, img->width);
+	cv::Mat m(size, CV_MAKETYPE(img->depth, img->nChannels), img->imageData, img->widthStep);
+	if (copyData)
+		return new cv::Mat(m.clone());
+	else
+		return new cv::Mat(m);
 }
+
 CVAPI(cv::Mat*) core_Mat_new_FromCvMat(CvMat *mat, int copyData)
 {
-	return new cv::Mat(mat, copyData != 0);
+	cv::Size size(mat->rows, mat->cols);
+	cv::Mat m(size, mat->type, (mat->data).ptr);
+	if (copyData)
+		return new cv::Mat(m.clone());
+	else
+		return new cv::Mat(m);
 }
 
 
@@ -180,23 +191,19 @@ CVAPI(cv::Mat*) core_Mat_cross(cv::Mat *self, cv::Mat *m)
     return new cv::Mat(ret);
 }
 
-CVAPI(int*) core_Mat_refcount(cv::Mat *self)
-{
-	return self->refcount;
-}
 CVAPI(uchar*) core_Mat_data(cv::Mat *self)
 {
 	return self->data;
 }
-CVAPI(uchar*) core_Mat_datastart(cv::Mat *self)
+CVAPI(const uchar*) core_Mat_datastart(cv::Mat *self)
 {
 	return self->datastart;
 }
-CVAPI(uchar*) core_Mat_dataend(cv::Mat *self)
+CVAPI(const uchar*) core_Mat_dataend(cv::Mat *self)
 {
 	return self->dataend;
 }
-CVAPI(uchar*) core_Mat_datalimit(cv::Mat *self)
+CVAPI(const uchar*) core_Mat_datalimit(cv::Mat *self)
 {
 	return self->datalimit;
 }
@@ -267,13 +274,13 @@ CVAPI(int) core_Mat_isSubmatrix(cv::Mat *self)
 	return self->isSubmatrix() ? 1 : 0;
 }
 
-CVAPI(void) core_Mat_locateROI(cv::Mat *self, CvSize *wholeSize, CvPoint *ofs)
+CVAPI(void) core_Mat_locateROI(cv::Mat *self, MyCvSize *wholeSize, MyCvPoint *ofs)
 {
 	cv::Size wholeSize2;
 	cv::Point ofs2;
 	self->locateROI(wholeSize2, ofs2);
-	*wholeSize = cvSize(wholeSize2.width, wholeSize2.height);
-	*ofs = cvPoint(ofs2.x, ofs2.y);
+	*wholeSize = c(cv::Size(wholeSize2.width, wholeSize2.height));
+	*ofs = c(cv::Point(ofs2.x, ofs2.y));
 }
  
 
@@ -354,10 +361,9 @@ CVAPI(cv::Mat*) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value,
 	return new cv::Mat(ret);
 }
 
-CVAPI(CvSize) core_Mat_size(cv::Mat *self)
+CVAPI(MyCvSize) core_Mat_size(cv::Mat *self)
 {
-	CvSize size = self->size();
-	return size;
+	return c(self->size());
 }
 CVAPI(int) core_Mat_sizeAt(cv::Mat *self, int i)
 {
@@ -435,7 +441,7 @@ CVAPI(char*) core_Mat_dump(cv::Mat *self, const char *format)
 	if (format == NULL)
 		s << *self;
 	else
-		s << cv::format(*self, format);
+		s << cv::format(*self, 0);
 	std::string str = s.str();
 
 	const char *src = str.c_str();

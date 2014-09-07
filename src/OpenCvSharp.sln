@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.UserInterface", "OpenCvSharp.UserInterface\OpenCvSharp.UserInterface.csproj", "{DB12E2F1-1A50-4D12-A92F-4C3D705ECC1F}"
 EndProject
@@ -170,7 +170,6 @@ Global
 		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|x64.ActiveCfg = Release|Any CPU
 		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|x64.Build.0 = Release|Any CPU
 		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|x86.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|x86.Build.0 = Release|Any CPU
 		{8E7279F8-F801-4672-B42F-1ED2C68B16A4}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{8E7279F8-F801-4672-B42F-1ED2C68B16A4}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8E7279F8-F801-4672-B42F-1ED2C68B16A4}.Debug|Win32.Build.0 = Debug|Win32
@@ -205,7 +204,6 @@ Global
 		{76A4E76B-0A98-411D-92E9-5527B31EBA3C}.Release|Win32.ActiveCfg = Release|Any CPU
 		{76A4E76B-0A98-411D-92E9-5527B31EBA3C}.Release|x64.ActiveCfg = Release|Any CPU
 		{76A4E76B-0A98-411D-92E9-5527B31EBA3C}.Release|x86.ActiveCfg = Release|x86
-		{76A4E76B-0A98-411D-92E9-5527B31EBA3C}.Release|x86.Build.0 = Release|x86
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C76C33E0-6F2E-49DF-ABD2-02053CB4CCB5}.Debug|Win32.ActiveCfg = Debug|Any CPU
@@ -245,7 +243,6 @@ Global
 		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|x64.ActiveCfg = Release|x64
 		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|x64.Build.0 = Release|x64
 		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|x86.ActiveCfg = Release|Win32
-		{8516D7EB-E716-4BC1-92DB-751E6BF13AE1}.Release|x86.Build.0 = Release|Win32
 		{AA55EAAD-B9D6-4516-8E29-2039DAABC668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA55EAAD-B9D6-4516-8E29-2039DAABC668}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA55EAAD-B9D6-4516-8E29-2039DAABC668}.Debug|Win32.ActiveCfg = Debug|Any CPU

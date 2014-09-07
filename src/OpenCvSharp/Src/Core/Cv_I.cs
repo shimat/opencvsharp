@@ -48,18 +48,6 @@ namespace OpenCvSharp
             return refcount;
         }
         #endregion
-        #region InitFaceTracker
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="imgGray"></param>
-        /// <param name="pRects"></param>
-        /// <returns></returns>
-        public static CvFaceTracker InitFaceTracker(IplImage imgGray, CvRect[] pRects)
-        {
-            return new CvFaceTracker(imgGray, pRects);
-        }
-        #endregion
         #region InitFont
 #if LANG_JP
         /// <summary>
@@ -570,29 +558,6 @@ namespace OpenCvSharp
             }
             matIterator = new CvSparseMatIterator();
             return matIterator.Init(mat);
-        }
-        #endregion
-        #region InitSubdivDelaunay2D
-#if LANG_JP
-        /// <summary>
-        /// CvSubdiv2Dの初期化
-        /// </summary>
-        /// <param name="subdiv"></param>
-        /// <param name="rect"></param>
-#else
-        /// <summary>
-        /// CvSubdiv2Dの初期化
-        /// </summary>
-        /// <param name="subdiv"></param>
-        /// <param name="rect"></param>
-#endif
-        public static void InitSubdivDelaunay2D(CvSubdiv2D subdiv, CvRect rect)
-        {
-            if (subdiv == null)
-            {
-                throw new ArgumentNullException("subdiv");
-            }
-            NativeMethods.cvInitSubdivDelaunay2D(subdiv.CvPtr, rect);
         }
         #endregion
         #region InitTreeNodeIterator

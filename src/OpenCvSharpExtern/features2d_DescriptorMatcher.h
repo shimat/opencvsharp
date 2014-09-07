@@ -110,9 +110,9 @@ CVAPI(cv::Ptr<cv::DescriptorMatcher>*) features2d_DescriptorMatcher_create(const
 	return new cv::Ptr<cv::DescriptorMatcher>(ret);
 }
 
-CVAPI(cv::DescriptorMatcher*) features2d_Ptr_DescriptorMatcher_obj(cv::Ptr<cv::DescriptorMatcher> *ptr)
+CVAPI(cv::DescriptorMatcher*) features2d_Ptr_DescriptorMatcher_get(cv::Ptr<cv::DescriptorMatcher> *ptr)
 {
-	return ptr->obj;
+	return ptr->get();
 }
 CVAPI(void) features2d_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::DescriptorMatcher> *ptr)
 {
@@ -146,9 +146,9 @@ CVAPI(cv::AlgorithmInfo*) features2d_BFMatcher_info(cv::BFMatcher *obj)
 	return obj->info();
 }
 
-CVAPI(cv::BFMatcher*) features2d_Ptr_BFMatcher_obj(cv::Ptr<cv::BFMatcher> *ptr)
+CVAPI(cv::BFMatcher*) features2d_Ptr_BFMatcher_get(cv::Ptr<cv::BFMatcher> *ptr)
 {
-    return ptr->obj;
+    return ptr->get();
 }
 CVAPI(void) features2d_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr)
 {
@@ -158,29 +158,25 @@ CVAPI(void) features2d_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr)
 #pragma endregion
 
 #pragma region FlannBasedMatcher
+
+static void IndexParamsDeleter(cv::flann::IndexParams *p){ }
+static void SearchParamsDeleter(cv::flann::SearchParams *p) { }
+
 CVAPI(cv::FlannBasedMatcher*) features2d_FlannBasedMatcher_new(
     cv::flann::IndexParams *indexParams, cv::flann::SearchParams *searchParams)
 {
     cv::Ptr<cv::flann::IndexParams> indexParamsPtr;
     cv::Ptr<cv::flann::SearchParams> searchParamsPtr;
-    if (indexParams == NULL)
-    {
-        indexParamsPtr = new cv::flann::KDTreeIndexParams();
-    }
-    else
-    {
-        indexParamsPtr = indexParams;
-        indexParamsPtr.addref();
-    }
-    if (searchParams == NULL)
-    {
-        searchParamsPtr = new cv::flann::SearchParams();
-    }
-    else
-    {
-        searchParamsPtr = searchParams;
-        searchParamsPtr.addref();
-    }
+    if (indexParams == NULL)    
+		indexParamsPtr = cv::Ptr<cv::flann::IndexParams>(new cv::flann::KDTreeIndexParams());    
+    else    
+		indexParamsPtr = cv::Ptr<cv::flann::IndexParams>(indexParams, IndexParamsDeleter);
+    
+    if (searchParams == NULL)    
+		searchParamsPtr = cv::Ptr<cv::flann::SearchParams>(new cv::flann::SearchParams());
+    else    
+		searchParamsPtr = cv::Ptr<cv::flann::SearchParams>(searchParams, SearchParamsDeleter);
+    
     return new cv::FlannBasedMatcher(indexParamsPtr, searchParamsPtr);
 }
 CVAPI(void) features2d_FlannBasedMatcher_delete(cv::FlannBasedMatcher *obj)
@@ -216,9 +212,9 @@ CVAPI(cv::AlgorithmInfo*) features2d_FlannBasedMatcher_info(cv::FlannBasedMatche
     return obj->info();
 }
 
-CVAPI(cv::FlannBasedMatcher*) features2d_Ptr_FlannBasedMatcher_obj(cv::Ptr<cv::FlannBasedMatcher> *ptr)
+CVAPI(cv::FlannBasedMatcher*) features2d_Ptr_FlannBasedMatcher_get(cv::Ptr<cv::FlannBasedMatcher> *ptr)
 {
-    return ptr->obj;
+    return ptr->get();
 }
 CVAPI(void) features2d_Ptr_FlannBasedMatcher_delete(cv::Ptr<cv::FlannBasedMatcher> *ptr)
 {
