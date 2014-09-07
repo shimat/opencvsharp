@@ -34,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
             var detector = new Feature2D
                 {
                     detectorPtr = ptrObj, 
-                    ptr = ptrObj.Obj
+                    ptr = ptrObj.Get()
                 };
             return detector;
         }

@@ -22,9 +22,13 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_bilateralFilter(IntPtr src, IntPtr dst, int d, double sigmaColor,
                                                           double sigmaSpace, int borderType);
+        
+        /*
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_adaptiveBilateralFilter(IntPtr src, IntPtr dst, Size ksize,
             double sigmaSpace, double maxSigmaColor, CvPoint anchor, int borderType);
+        */
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_boxFilter(IntPtr src, IntPtr dst, int ddepth, Size ksize, Point anchor,
                                                     int normalize, int borderType);
@@ -46,8 +50,6 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_Canny(IntPtr src, IntPtr edges,
             double threshold1, double threshold2, int apertureSize, int L2gradient);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_eigen2x2([In] float[,] a, [Out] float[,] e, int n);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cornerEigenValsAndVecs(IntPtr src, IntPtr dst,int blockSize, int ksize, int borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -345,5 +347,8 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_pointPolygonTest_Point2f(Point2f[] contour, int contourLength,
             Point2f pt, int measureDist);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_applyColorMap(IntPtr src, IntPtr dst, int colormap);
     }
 }

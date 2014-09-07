@@ -501,27 +501,6 @@ namespace OpenCvSharp
             NativeMethods.cvPOSIT(positObject.CvPtr, imagePoints, focalLength, criteria, rotationMatrix, translationVector);
         }
         #endregion
-        #region PostBoostingFindFace
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="storage"></param>
-        /// <returns></returns>
-        public static CvSeq<CvFaceData> PostBoostingFindFace(IplImage image, CvMemStorage storage)
-        {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (storage == null)
-                throw new ArgumentNullException("storage");
-
-            IntPtr ptr = NativeMethods.cvPostBoostingFindFace(image.CvPtr, storage.CvPtr);
-            if (ptr == IntPtr.Zero)
-                return null;
-            else
-                return new CvSeq<CvFaceData>(ptr);
-        }
-        #endregion
         #region Pow
 #if LANG_JP
         /// <summary>
@@ -1216,68 +1195,6 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvPyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit);
-        }
-        #endregion
-        #region PyrSegmentation
-#if LANG_JP
-        /// <summary>
-        /// 画像ピラミッドによる画像のセグメント化を実装する．ピラミッドは，levelまで作成する．(out引数のcompがいらないときバージョン)
-        /// </summary>
-        /// <param name="src">入力画像</param>
-        /// <param name="dst">出力画像</param>
-        /// <param name="level">セグメント化のためのピラミッドの最大レベル</param>
-        /// <param name="threshold1">リンク構築のための誤差閾値</param>
-        /// <param name="threshold2">セグメントクラスタリングのための誤差閾値</param>
-#else
-        /// <summary>
-        /// Does image segmentation by pyramids.
-        /// </summary>
-        /// <param name="src">The source image. </param>
-        /// <param name="dst">The destination image. </param>
-        /// <param name="level"></param>
-        /// <param name="threshold1"></param>
-        /// <param name="threshold2"></param>
-#endif
-        public static void PyrSegmentation(IplImage src, IplImage dst, int level, double threshold1, double threshold2)
-        {
-            CvMemStorage storage = new CvMemStorage();
-            CvSeq comp;
-            PyrSegmentation(src, dst, storage, out comp, level, threshold1, threshold2);
-        }
-#if LANG_JP
-        /// <summary>
-        /// 画像ピラミッドによる画像のセグメント化を実装する． ピラミッドは，levelまで作成する． 
-        /// </summary>
-        /// <param name="src">入力画像</param>
-        /// <param name="dst">出力画像</param>
-        /// <param name="storage">結果として得られる連結成分のシーケンスを保存するための領域</param>
-        /// <param name="comp">セグメント化された成分の出力シーケンスへのポインタ</param>
-        /// <param name="level">セグメント化のためのピラミッドの最大レベル</param>
-        /// <param name="threshold1">リンク構築のための誤差閾値</param>
-        /// <param name="threshold2">セグメントクラスタリングのための誤差閾値</param>
-#else
-        /// <summary>
-        /// Does image segmentation by pyramids.
-        /// </summary>
-        /// <param name="src">The source image. </param>
-        /// <param name="dst">The destination image. </param>
-        /// <param name="storage">Storage; stores the resulting sequence of connected components. </param>
-        /// <param name="comp">Pointer to the output sequence of the segmented components. </param>
-        /// <param name="level">Maximum level of the pyramid for the segmentation. </param>
-        /// <param name="threshold1">Error threshold for establishing the links. </param>
-        /// <param name="threshold2">Error threshold for the segments clustering. </param>
-#endif
-        public static void PyrSegmentation(IplImage src, IplImage dst, CvMemStorage storage, out CvSeq comp, int level, double threshold1, double threshold2)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            if (src == null)
-                throw new ArgumentNullException("src");
-            IntPtr compPtr;
-            NativeMethods.cvPyrSegmentation(src.CvPtr, dst.CvPtr, storage.CvPtr, out compPtr, level, threshold1, threshold2);
-            comp = new CvSeq(compPtr);
         }
         #endregion
         #region PyrUp

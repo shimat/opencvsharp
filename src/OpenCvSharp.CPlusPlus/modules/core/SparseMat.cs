@@ -99,28 +99,6 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
         /// <summary>
-        /// CvSparseMatデータから初期化
-        /// </summary>
-        /// <param name="m">CvSparseMat 行列構造体へのポインタ．</param>
-#else
-        /// <summary>
-        /// converts old-style CvSparseMat to the new matrix; the data is not copied by default
-        /// </summary>
-        /// <param name="m">Old style CvSparseMat object</param>
-#endif
-        public SparseMat(CvSparseMat m)
-        {
-            if (m == null)
-                throw new ArgumentNullException("m");
-            m.ThrowIfDisposed();
-            ptr = NativeMethods.core_SparseMat_new4(m.CvPtr);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
-            NotifyMemoryPressure(SizeOf);
-        }
-
-#if LANG_JP
-        /// <summary>
         /// リソースの解放
         /// </summary>
 #else
@@ -189,15 +167,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new SparseMat(mat);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static SparseMat FromCvSparseMat(CvSparseMat mat)
-        {
-            return new SparseMat(mat);
-        }
 
         #endregion
 
@@ -208,31 +177,6 @@ namespace OpenCvSharp.CPlusPlus
         /// sizeof(cv::Mat)
         /// </summary>
         public static readonly int SizeOf = (int)NativeMethods.core_SparseMat_sizeof();
-
-        #endregion
-
-        #region Operators
-
-        /// <summary>
-        /// Creates the CvMat clone instance for the matrix.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static explicit operator CvSparseMat(SparseMat self)
-        {
-            return self.ToCvSparseMat();
-        }
-        /// <summary>
-        /// Creates the CvMat header or clone instance for the matrix.
-        /// </summary>
-        /// <returns></returns>
-        public CvSparseMat ToCvSparseMat()
-        {
-            ThrowIfDisposed();
-
-            IntPtr p = NativeMethods.core_SparseMat_operator_CvSparseMat(ptr);
-            return new CvSparseMat(p);
-        }
 
         #endregion
 

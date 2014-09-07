@@ -88,9 +88,9 @@ CVAPI(cv::MatExpr*) core_MatExpr_mul_toMat(cv::MatExpr *self, cv::Mat *m, double
 	cv::MatExpr ret = self->mul(*m, scale);
 	return new cv::MatExpr(ret);
 }
-CVAPI(CvSize) core_MatExpr_size(cv::MatExpr *self)
+CVAPI(MyCvSize) core_MatExpr_size(cv::MatExpr *self)
 {
-	return (CvSize)self->size();
+	return c(self->size());
 }
 CVAPI(int) core_MatExpr_type(cv::MatExpr *self)
 {

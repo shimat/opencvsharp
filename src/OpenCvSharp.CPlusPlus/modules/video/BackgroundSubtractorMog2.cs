@@ -1,5 +1,4 @@
 using System;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -13,71 +12,35 @@ namespace OpenCvSharp.CPlusPlus
     public class BackgroundSubtractorMOG2 : BackgroundSubtractor
     {
         /// <summary>
-        /// cv::Ptr&lt;FeatureDetector&gt;
+        /// cv::Ptr&lt;T&gt;
         /// </summary>
         private Ptr<BackgroundSubtractorMOG2> objectPtr;
         /// <summary>
         /// 
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         #region Init & Disposal
+
         /// <summary>
-        /// the default constructor
-        /// </summary>
-        public BackgroundSubtractorMOG2()
-        {
-            IntPtr po = NativeMethods.video_BackgroundSubtractorMOG2_new1();
-            if (po == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG2");
-            objectPtr = new Ptr<BackgroundSubtractorMOG2>(po);
-            ptr = objectPtr.Obj;
-        }
-        /// <summary>
-        /// the full constructor that takes the length of the history, the number of gaussian mixtures, the background ratio parameter and the noise strength
+        /// 
         /// </summary>
         /// <param name="history"></param>
         /// <param name="varThreshold"></param>
-        /// <param name="bShadowDetection"></param>
-        public BackgroundSubtractorMOG2(int history, float varThreshold, bool bShadowDetection = true)
+        /// <param name="detectShadows"></param>
+        /// <returns></returns>
+        public static BackgroundSubtractorMOG2 Create(
+            int history = 500, double varThreshold = 16, bool detectShadows = true)
         {
-            IntPtr po = NativeMethods.video_BackgroundSubtractorMOG2_new2(history, varThreshold, bShadowDetection ? 1 : 0);
-            if (po == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create BackgroundSubtractorMOG2");
-            objectPtr = new Ptr<BackgroundSubtractorMOG2>(po);
-            ptr = objectPtr.Obj;
+            IntPtr ptr = NativeMethods.video_createBackgroundSubtractorMOG2(
+                history, varThreshold, detectShadows ? 1 : 0);
+            return new BackgroundSubtractorMOG2(ptr);
         }
 
-        internal BackgroundSubtractorMOG2(Ptr<BackgroundSubtractorMOG2> objectPtr, IntPtr ptr)
+        internal BackgroundSubtractorMOG2(IntPtr ptr)
         {
-            this.objectPtr = objectPtr;
+            this.objectPtr = new Ptr<BackgroundSubtractorMOG2>(ptr);
             this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new BackgroundSubtractorMOG2 FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid BackgroundSubtractorMOG2 pointer");
-
-            var ptrObj = new Ptr<BackgroundSubtractorMOG2>(ptr);
-            var obj = new BackgroundSubtractorMOG2(ptrObj, ptrObj.Obj);
-            return obj;
-        }
-        /// <summary>
-        /// Creates instance from raw T*
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new BackgroundSubtractorMOG2 FromRawPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid BackgroundSubtractorMOG2 pointer");
-            var obj = new BackgroundSubtractorMOG2(null, ptr);
-            return obj;
         }
 
 #if LANG_JP
@@ -112,11 +75,6 @@ namespace OpenCvSharp.CPlusPlus
                         {
                             objectPtr.Dispose();
                         }
-                        else
-                        {
-                            if (ptr != IntPtr.Zero)
-                                NativeMethods.video_BackgroundSubtractorMOG_delete(ptr);
-                        }
                         objectPtr = null;
                         ptr = IntPtr.Zero;
                     }
@@ -124,53 +82,243 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 finally
                 {
-                    // êeÇÃâï˙èàóù
                     base.Dispose(disposing);
                 }
             }
         }
         #endregion
 
+        #region Properties
+
         /// <summary>
-        /// the update operator
+        /// 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="fgmask"></param>
-        /// <param name="learningRate"></param>
-        public override void Run(InputArray image, OutputArray fgmask, double learningRate = -1.0)
+        public int History
         {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (fgmask == null)
-                throw new ArgumentNullException("fgmask");
-            image.ThrowIfDisposed();
-            fgmask.ThrowIfNotReady();
-            NativeMethods.video_BackgroundSubtractorMOG2_operator(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
-            fgmask.Fix();
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getHistory(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setHistory(ptr, value);
+            }
         }
 
         /// <summary>
-        /// computes a background image
+        /// 
         /// </summary>
-        /// <param name="backgroundImage"></param>
-        public override void GetBackgroundImage(OutputArray backgroundImage)
+        public int NMixtures
         {
-            if (backgroundImage == null)
-                throw new ArgumentNullException("backgroundImage");
-            backgroundImage.ThrowIfNotReady();
-            NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundImage(ptr, backgroundImage.CvPtr);
-            backgroundImage.Fix();
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getNMixtures(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setNMixtures(ptr, value);
+            }
         }
 
         /// <summary>
-        /// re-initiaization method
+        /// 
         /// </summary>
-        /// <param name="frameSize"></param>
-        /// <param name="frameType"></param>
-        public virtual void Initialize(Size frameSize, int frameType)
+        public double BackgroundRatio
         {
-            NativeMethods.video_BackgroundSubtractorMOG2_initialize(ptr, frameSize, frameType);
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundRatio(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setBackgroundRatio(ptr, value);
+            }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double VarThreshold
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getHistory(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarThreshold(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double VarThresholdGen
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarThresholdGen(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarThresholdGen(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double VarInit
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarInit(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarInit(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double VarMin
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarMin(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarMin(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double VarMax
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarMax(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarMax(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double ComplexityReductionThreshold
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool DetectShadows
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getDetectShadows(ptr) != 0;
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setDetectShadows(ptr, value ? 1 : 0);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ShadowValue
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getShadowValue(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setShadowValue(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double ShadowThreshold
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getShadowThreshold(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.video_BackgroundSubtractorMOG2_setShadowThreshold(ptr, value);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)

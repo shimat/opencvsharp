@@ -23,9 +23,10 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfDisposed();
             using (var kp = new VectorOfKeyPoint())
             {
-                NativeMethods.features2d_FAST(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
+                NativeMethods.features2d_FAST1(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
                 keypoints = kp.ToArray();
             }
+            GC.KeepAlive(image);
         }
 
         /// <summary>
@@ -36,16 +37,17 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="threshold"></param>
         /// <param name="nonmaxSupression"></param>
         /// <param name="type"></param>
-        public static void FASTX(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression, int type)
+        public static void FAST(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression, int type)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
             using (var kp = new VectorOfKeyPoint())
             {
-                NativeMethods.features2d_FASTX(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, type);
+                NativeMethods.features2d_FAST2(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, type);
                 keypoints = kp.ToArray();
             }
+            GC.KeepAlive(image);
         }
         #endregion
 

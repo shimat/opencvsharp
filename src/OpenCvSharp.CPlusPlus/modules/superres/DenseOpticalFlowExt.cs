@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -34,9 +31,9 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <returns></returns>
-        public static DenseOpticalFlowExt CreateFarneback_GPU()
+        public static DenseOpticalFlowExt CreateFarneback_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_GPU();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_CUDA();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
         /// <summary>
@@ -45,8 +42,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateFarneback_OCL()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_OCL();
-            return DenseOpticalFlowExtImpl.FromPtr(ptr);
+            throw new NotImplementedException();
+            //IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_OCL();
+            //return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
         /// <summary>
@@ -55,8 +53,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateSimple()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Simple();
-            return DenseOpticalFlowExtImpl.FromPtr(ptr);
+            throw new NotImplementedException();
+            //IntPtr ptr = NativeMethods.superres_createOptFlow_Simple();
+            //return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
         /// <summary>
@@ -72,9 +71,9 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <returns></returns>
-        public static DenseOpticalFlowExt CreateDualTVL1_GPU()
+        public static DenseOpticalFlowExt CreateDualTVL1_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_CUDA();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
         /// <summary>
@@ -83,7 +82,18 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_OCL()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            throw new NotImplementedException();
+            //IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_OCL();
+            //return DenseOpticalFlowExtImpl.FromPtr(ptr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlowExt CreateBrox_CUDA()
+        {
+            IntPtr ptr = NativeMethods.superres_createOptFlow_Brox_CUDA();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
@@ -91,19 +101,9 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         /// <returns></returns>
-        public static DenseOpticalFlowExt CreateBrox_GPU()
+        public static DenseOpticalFlowExt CreatePyrLK_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Brox_GPU();
-            return DenseOpticalFlowExtImpl.FromPtr(ptr);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static DenseOpticalFlowExt CreatePyrLK_GPU()
-        {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_PyrLK_GPU();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_PyrLK_CUDA();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
@@ -113,8 +113,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static DenseOpticalFlowExt CreatePyrLK_OCL()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_PyrLK_OCL();
-            return DenseOpticalFlowExtImpl.FromPtr(ptr);
+            throw new NotImplementedException();
+            //IntPtr ptr = NativeMethods.superres_createOptFlow_PyrLK_OCL();
+            //return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
         #endregion

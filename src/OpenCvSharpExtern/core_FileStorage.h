@@ -71,7 +71,7 @@ CVAPI(cv::FileNode*) core_FileStorage_indexer(cv::FileStorage *obj, const char *
 
 CVAPI(CvFileStorage*) core_FileStorage_toLegacy(cv::FileStorage *obj)
 {
-    return obj->fs.obj;
+    return obj->fs.get();
 }
 CVAPI(void) core_FileStorage_writeRaw(cv::FileStorage *obj, const char *fmt, const uchar *vec, size_t len)
 {
@@ -90,8 +90,7 @@ CVAPI(void) core_FileStorage_getDefaultObjectName(const char *filename, char *bu
 
 CVAPI(const char*) core_FileStorage_elname(cv::FileStorage *obj)
 {
-    std::string &elname = obj->elname;
-    return (elname.c_str());
+	return obj->elname.c_str();
 }
 CVAPI(const char*) core_FileStorage_structs(cv::FileStorage *obj, size_t* resultLength)
 {

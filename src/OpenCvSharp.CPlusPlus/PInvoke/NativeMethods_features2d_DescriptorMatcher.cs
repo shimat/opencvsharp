@@ -55,7 +55,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr features2d_DescriptorMatcher_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_Ptr_DescriptorMatcher_obj(IntPtr ptr);
+        public static extern IntPtr features2d_Ptr_DescriptorMatcher_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Ptr_DescriptorMatcher_delete(IntPtr ptr);
 
@@ -70,7 +70,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr features2d_BFMatcher_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_Ptr_BFMatcher_obj(IntPtr ptr);
+        public static extern IntPtr features2d_Ptr_BFMatcher_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Ptr_BFMatcher_delete(IntPtr ptr);
 
@@ -94,7 +94,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr features2d_FlannBasedMatcher_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_Ptr_FlannBasedMatcher_obj(IntPtr ptr);
+        public static extern IntPtr features2d_Ptr_FlannBasedMatcher_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Ptr_FlannBasedMatcher_delete(IntPtr ptr);
 

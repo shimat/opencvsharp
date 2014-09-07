@@ -38,7 +38,7 @@ namespace OpenCvSharp.CPlusPlus
             var extractor = new DescriptorExtractor
                 {
                     extractorPtr = ptrObj,
-                    ptr = ptrObj.Obj
+                    ptr = ptrObj.Get()
                 };
             return extractor;
         }

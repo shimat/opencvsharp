@@ -36,8 +36,9 @@ namespace OpenCvSharp.CPlusPlus
         internal FastFeatureDetector(Ptr<FastFeatureDetector> detectorPtr)
         {
             this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Obj;
+            this.ptr = detectorPtr.Get();
         }
+
         /// <summary>
         /// Creates instance by raw pointer cv::SURF*
         /// </summary>
@@ -46,6 +47,7 @@ namespace OpenCvSharp.CPlusPlus
             detectorPtr = null;
             ptr = rawPtr;
         }
+
         /// <summary>
         /// Creates instance from cv::Ptr&lt;T&gt; .
         /// ptr is disposed when the wrapper disposes. 

@@ -34,7 +34,7 @@ namespace OpenCvSharp.CPlusPlus
         internal FlannBasedMatcher(Ptr<FlannBasedMatcher> detectorPtr)
         {
             this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Obj;
+            this.ptr = detectorPtr.Get();
         }
 
         /// <summary>

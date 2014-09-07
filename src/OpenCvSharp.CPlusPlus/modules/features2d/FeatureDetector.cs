@@ -46,7 +46,7 @@ namespace OpenCvSharp.CPlusPlus
             var detector = new FeatureDetector
             {
                 detectorPtr = ptrObj,
-                ptr = ptrObj.Obj
+                ptr = ptrObj.Get()
             };
             return detector;
         }

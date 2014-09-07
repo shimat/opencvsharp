@@ -45,9 +45,9 @@ namespace OpenCvSharp.CPlusPlus
         /// Create Bilateral TV-L1 Super Resolution.
         /// </summary>
         /// <returns></returns>
-        public static SuperResolution CreateBTVL1_GPU()
+        public static SuperResolution CreateBTVL1_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1_GPU();
+            IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1_CUDA();
             return SuperResolutionImpl.FromPtr(ptr);
         }
         /// <summary>
@@ -56,8 +56,9 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static SuperResolution CreateBTVL1_OCL()
         {
-            IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1_OCL();
-            return SuperResolutionImpl.FromPtr(ptr);
+            throw new NotImplementedException();
+            //IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1_OCL();
+            //return SuperResolutionImpl.FromPtr(ptr);
         }
 
         #endregion

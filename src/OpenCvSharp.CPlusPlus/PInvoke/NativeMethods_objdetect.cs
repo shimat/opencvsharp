@@ -63,8 +63,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern CvSize objdetect_CascadeClassifier_getOriginalWindowSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int objdetect_CascadeClassifier_getFeatureType(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int objdetect_CascadeClassifier_setImage(IntPtr obj, IntPtr img);
 
         #endregion
 

@@ -43,8 +43,8 @@ namespace OpenCvSharp.CPlusPlus
             var ptrObj = new Ptr<DenseOpticalFlow>(ptr);
             var obj = new DenseOpticalFlowImpl
                 {
-                    detectorPtr = ptrObj, 
-                    ptr = ptrObj.Obj
+                    detectorPtr = ptrObj,
+                    ptr = ptrObj.Get()
                 };
             return obj;
         }
@@ -129,7 +129,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frame1"></param>
         /// <param name="flow"></param>
         protected override void Calc(
-            InputArray frame0, InputArray frame1, OutputArray flow)
+            InputArray frame0, InputArray frame1, InputOutputArray flow)
         {
             if (disposed)
                 throw new ObjectDisposedException("DenseOpticalFlowImpl");

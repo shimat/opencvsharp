@@ -1132,6 +1132,7 @@ namespace OpenCvSharp.CPlusPlus
             return dst;
         }
 
+        /*
         /// <summary>
         /// Applies the adaptive bilateral filter to an image.
         /// </summary>
@@ -1155,6 +1156,7 @@ namespace OpenCvSharp.CPlusPlus
             Cv2.AdaptiveBilateralFilter(this, dst, ksize, sigmaSpace, maxSigmaColor, anchor, borderType);
             return dst;
         }
+        */
 
         /// <summary>
         /// Smoothes image using box filter

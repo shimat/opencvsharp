@@ -72,7 +72,7 @@ namespace OpenCvSharp.CPlusPlus
         internal EM(Ptr<EM> detectorPtr)
         {
             this.modelPtr = detectorPtr;
-            this.ptr = detectorPtr.Obj;
+            this.ptr = detectorPtr.Get();
         }
         /// <summary>
         /// Creates instance by raw pointer cv::SURF*

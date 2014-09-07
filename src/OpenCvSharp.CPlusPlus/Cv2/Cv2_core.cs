@@ -517,7 +517,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             lut.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr, interpolation);
+            NativeMethods.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr);
         }
         /// <summary>
         /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
@@ -721,7 +721,7 @@ namespace OpenCvSharp.CPlusPlus
         /// the destination array will have the same type as src, 
         /// otherwise it will have the same number of channels as src and the depth =CV_MAT_DEPTH(rtype)</param>
         /// <param name="mask">The optional operation mask</param>
-        public static void Normalize( InputArray src, OutputArray dst, double alpha=1, double beta=0,
+        public static void Normalize( InputArray src, InputOutputArray dst, double alpha=1, double beta=0,
                              NormType normType=NormType.L2, int dtype=-1, InputArray mask=null)
         {
             if (src == null)
@@ -2057,29 +2057,6 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region Eigen
-        /// <summary>
-        /// Computes eigenvalues of a symmetric matrix.
-        /// </summary>
-        /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type, 
-        /// square size and be symmetric: src^T == src</param>
-        /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src; 
-        /// The eigenvalues are stored in the descending order.</param>
-        /// <param name="lowindex">Optional index of largest eigenvalue/-vector to calculate.</param>
-        /// <param name="highindex">Optional index of smallest eigenvalue/-vector to calculate.</param>
-        /// <returns></returns>
-        public static bool Eigen(InputArray src, OutputArray eigenvalues, int lowindex=-1,
-                      int highindex = -1)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (eigenvalues == null)
-                throw new ArgumentNullException("eigenvalues");
-            src.ThrowIfDisposed();
-            eigenvalues.ThrowIfNotReady();
-            int ret = NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, lowindex, highindex);
-            eigenvalues.Fix();
-            return ret != 0;
-        }
 
         /// <summary>
         /// Computes eigenvalues and eigenvectors of a symmetric matrix.
@@ -2091,12 +2068,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="eigenvectors">The output matrix of eigenvectors; 
         /// It will have the same size and the same type as src; The eigenvectors are stored 
         /// as subsequent matrix rows, in the same order as the corresponding eigenvalues</param>
-        /// <param name="lowindex">Optional index of largest eigenvalue/-vector to calculate.</param>
-        /// <param name="highindex">Optional index of smallest eigenvalue/-vector to calculate.</param>
         /// <returns></returns>
-        public static bool Eigen(InputArray src, OutputArray eigenvalues,
-                              OutputArray eigenvectors,
-                              int lowindex=-1, int highindex=-1)
+        public static bool Eigen(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2107,39 +2080,10 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             eigenvalues.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
-            int ret = NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr, lowindex, highindex);
+            int ret = NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr);
             eigenvalues.Fix();
             eigenvectors.Fix();
-            return ret != 0;
-        }
-
-        /// <summary>
-        /// Computes eigenvalues and eigenvectors of a symmetric matrix.
-        /// </summary>
-        /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type, 
-        /// square size and be symmetric: src^T == src</param>
-        /// <param name="computeEigenvectors"></param>
-        /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src; 
-        /// The eigenvalues are stored in the descending order.</param>
-        /// <param name="eigenvectors">The output matrix of eigenvectors; 
-        /// It will have the same size and the same type as src; The eigenvectors are stored 
-        /// as subsequent matrix rows, in the same order as the corresponding eigenvalues</param>
-        /// <returns></returns>
-        public static bool Eigen(InputArray src, bool computeEigenvectors,
-                                OutputArray eigenvalues, OutputArray eigenvectors)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (eigenvalues == null)
-                throw new ArgumentNullException("eigenvalues");
-            if (eigenvectors == null)
-                throw new ArgumentNullException("eigenvectors");
-            src.ThrowIfDisposed();
-            eigenvalues.ThrowIfNotReady();
-            eigenvectors.ThrowIfNotReady();
-            int ret = NativeMethods.core_eigen(src.CvPtr, computeEigenvectors, eigenvalues.CvPtr, eigenvectors.CvPtr);
-            eigenvalues.Fix();
-            eigenvectors.Fix();
+            GC.KeepAlive(src);
             return ret != 0;
         }
         #endregion
@@ -2185,7 +2129,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mean"></param>
         /// <param name="flags"></param>
         public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
-            OutputArray mean, CovarMatrixFlag flags)
+            InputOutputArray mean, CovarMatrixFlag flags)
         {
             CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
         }
@@ -2198,7 +2142,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="flags"></param>
         /// <param name="ctype"></param>
         public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
-            OutputArray mean, CovarMatrixFlag flags, MatType ctype)
+            InputOutputArray mean, CovarMatrixFlag flags, MatType ctype)
         {
             if (samples == null)
                 throw new ArgumentNullException("samples");
@@ -2703,7 +2647,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public static void Line(Mat img, int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color, 
+        public static void Line(InputOutputArray img, int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color, 
             int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
             Line(img, new CvPoint(pt1X, pt1Y), new CvPoint(pt2X, pt2Y), color, thickness, lineType, shift);
@@ -2732,15 +2676,76 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public static void Line(Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        public static void Line(InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            img.ThrowIfDisposed();
+            img.ThrowIfNotReady();
             NativeMethods.core_line(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            img.Fix();
         }
         #endregion
         #region Rectangle
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">矩形の一つの頂点</param>
+        /// <param name="pt2">矩形の反対側の頂点</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="pt1">One of the rectangle vertices. </param>
+        /// <param name="pt2">Opposite rectangle vertex. </param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle1(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="rect">矩形</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(InputOutputArray img, Rect rect, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle1(img.CvPtr, rect.TopLeft, rect.BottomRight, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+
 #if LANG_JP
         /// <summary>
         /// 枠のみ，もしくは塗りつぶされた矩形を描画する
@@ -2768,7 +2773,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            NativeMethods.core_rectangle(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            Rect rect = Rect.FromLTRB(pt1.X, pt1.Y, pt2.X, pt2.Y);
+            NativeMethods.core_rectangle2(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            GC.KeepAlive(img);
         }
 
 #if LANG_JP
@@ -2794,8 +2801,12 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static void Rectangle(Mat img, Rect rect, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
-            NativeMethods.core_rectangle(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle2(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            GC.KeepAlive(img);
         }
+
         #endregion
         #region Circle
 #if LANG_JP
@@ -2823,7 +2834,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
 #endif
-        public static void Circle(Mat img, int centerX, int centerY, int radius, Scalar color, 
+        public static void Circle(InputOutputArray img, int centerX, int centerY, int radius, Scalar color, 
             int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
             Circle(img, new Point(centerX, centerY), radius, color, thickness, lineType, shift);
@@ -2852,13 +2863,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
 #endif
-        public static void Circle(Mat img, Point center, int radius, Scalar color, 
+        public static void Circle(InputOutputArray img, Point center, int radius, Scalar color, 
             int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
             NativeMethods.core_circle(img.CvPtr, center, radius, color, thickness, (int)lineType, shift);
+            img.Fix();
         }
         #endregion
         #region Ellipse
@@ -2891,13 +2903,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
 #endif
-        public static void Ellipse(Mat img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
+        public static void Ellipse(InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
             int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            img.ThrowIfDisposed();
+            img.ThrowIfNotReady();
             NativeMethods.core_ellipse(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, (int)lineType, shift);
+            img.Fix();
         }
 
 #if LANG_JP
@@ -2919,13 +2932,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
         /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
 #endif
-        public static void Ellipse(Mat img, RotatedRect box, Scalar color, 
+        public static void Ellipse(InputOutputArray img, RotatedRect box, Scalar color, 
             int thickness = 1, LineType lineType = LineType.Link8)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
             NativeMethods.core_ellipse(img.CvPtr, box, color, thickness, (int)lineType);
+            img.Fix();
         }
         #endregion
         #region FillConvexPoly
@@ -2957,6 +2971,7 @@ namespace OpenCvSharp.CPlusPlus
 
             Point[] ptsArray = Util.ToArray(pts);
             NativeMethods.core_fillConvexPoly(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
+            GC.KeepAlive(img);
         }
         #endregion
         #region FillPoly
@@ -2981,7 +2996,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
         /// <param name="offset"></param>
 #endif
-        public static void FillPoly(Mat img, IEnumerable<IEnumerable<Point>> pts, Scalar color, 
+        public static void FillPoly(InputOutputArray img, IEnumerable<IEnumerable<Point>> pts, Scalar color, 
             LineType lineType = LineType.Link8, int shift = 0, Point? offset = null)
         {
             if (img == null)
@@ -3004,6 +3019,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 NativeMethods.core_fillPoly(img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int)lineType, shift, offset0);
             }
+            img.Fix();
         }
         #endregion
         #region Polylines
@@ -3017,7 +3033,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="thickness"></param>
         /// <param name="lineType"></param>
         /// <param name="shift"></param>
-        public static void Polylines(Mat img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color, 
+        public static void Polylines(InputOutputArray img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color, 
             int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
             if (img == null)
@@ -3039,6 +3055,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 NativeMethods.core_polylines(img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
             }
+            img.Fix();
         }
         #endregion
         #region ClipLine
@@ -3098,7 +3115,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="thickness"></param>
         /// <param name="lineType"></param>
         /// <param name="bottomLeftOrigin"></param>
-        public static void PutText(Mat img, string text, Point org,
+        public static void PutText(InputOutputArray img, string text, Point org,
             FontFace fontFace, double fontScale, Scalar color,
             int thickness = 1, LineType lineType = LineType.Link8, bool bottomLeftOrigin = false) 
         {
@@ -3109,6 +3126,7 @@ namespace OpenCvSharp.CPlusPlus
             img.ThrowIfDisposed();
             NativeMethods.core_putText(img.CvPtr, text, org, (int)fontFace, fontScale, color, 
                 thickness, (int)lineType, bottomLeftOrigin ? 1 : 0);
+            img.Fix();
         }
         #endregion
         #region GetTextSize

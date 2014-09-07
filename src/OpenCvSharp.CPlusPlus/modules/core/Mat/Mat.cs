@@ -2338,24 +2338,6 @@ namespace OpenCvSharp.CPlusPlus
 
         #endregion
 
-        #region Refcount
-
-        /// <summary>
-        /// pointer to the reference counter;
-        /// when matrix points to user-allocated data, the pointer is NULL
-        /// </summary>
-        /// <returns>pointer to the reference counter</returns>
-        public IntPtr Refcount
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.core_Mat_refcount(ptr);
-            }
-        }
-
-        #endregion
-
         #region Reshape
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace OpenCvSharp.CPlusPlus
             var ptrObj = new Ptr<CLAHE>(ptr);
             var ret = new CLAHE
                 {
-                    ptr = ptrObj.Obj,
+                    ptr = ptrObj.Get(),
                     ptrObj = ptrObj,
                 };
             return ret;

@@ -28,13 +28,25 @@ namespace OpenCvSharp.CPlusPlus
         public const string DllExtern = "OpenCvSharpExtern";
 
         public const string Version = OpenCvSharp.NativeMethods.Version;
-        public const string DllContrib = "opencv_contrib" + Version;
-        public const string DllGpu = "opencv_gpu" + Version;
-        public const string DllNonfree = "opencv_nonfree" + Version;
-        public const string DllOcl = "opencv_ocl" + Version;
-        public const string DllStitching = "opencv_stitching" + Version;
-        public const string DllSuperres = "opencv_superres" + Version;
-        public const string DllVideoStab = "opencv_videostab" + Version;
+
+        private static readonly string[] DllNames =
+        {
+            "opencv_cudacodec", // core
+            "opencv_cudaarithm", // core
+            "opencv_cudalegacy", // objdetect
+            "opencv_cudawarping", // cudalegacy
+            "opencv_cuda", // cudaarithm, cudalegacy, cudawarping
+            "opencv_cudafilters", // cudaarithm
+            "opencv_cudafeatures2d", // cudafilters
+            "opencv_cudaoptflow", // cudaimgproc, cudalegacy, cudawarping
+            "opencv_stitching", // core, flann, imgproc, features, calib3d, objdetect, gpu, cudawarping
+            "opencv_superres", // core, flann, imgproc, highgui, features2d, ml, video, objdetect, gpu, ocl
+            "opencv_videostab", // videostab: core, imgproc, highgui, features2d, video, objdetect, photo, gpu
+            "opencv_bgsegm",
+            "opencv_face",
+            "opencv_optflow",
+            "opencv_xfeatures2d",
+        };
 
         /// <summary>
         /// Static constructor
@@ -61,23 +73,13 @@ namespace OpenCvSharp.CPlusPlus
 
             OpenCvSharp.NativeMethods.LoadLibraries(ap);
 
-            // contrib: core, flann, imgproc, highgui, features2d, calib3d, ml, video, objdetect 
-            WindowsLibraryLoader.Instance.LoadLibrary(DllContrib, ap);
-            // gpu: core, flann, imgproc, features2d, calib3d, video, objdetect
-            WindowsLibraryLoader.Instance.LoadLibrary(DllGpu, ap);
-            // ocl: core, flann, imgproc, features2d, ml, objdetect
-            WindowsLibraryLoader.Instance.LoadLibrary(DllOcl, ap);
-            // nonfree: core, flann, imgproc, features2d, ml, objdetect, gpu, ocl
-            WindowsLibraryLoader.Instance.LoadLibrary(DllNonfree, ap);
-            // stitching: core, flann, imgproc, features, calib3d, objdetect, gpu, nonfree
-            WindowsLibraryLoader.Instance.LoadLibrary(DllStitching, ap);
-            // superres: core, flann, imgproc, highgui, features2d, ml, video, objdetect, gpu, ocl
-            WindowsLibraryLoader.Instance.LoadLibrary(DllSuperres, ap);
-            // videostab: core, imgproc, highgui, features2d, video, objdetect, photo, gpu
-            WindowsLibraryLoader.Instance.LoadLibrary(DllVideoStab, ap);
-            
-            // Extern: calib3d, contrib, core, features2d, flann, highgui, imgproc, legacy,
-            //         ml, nonfree, objdetect, photo, superres, video, videostab
+            foreach (string dll in DllNames)
+            {
+                WindowsLibraryLoader.Instance.LoadLibrary(dll + Version, ap);
+            }
+
+            // calib3d, contrib, core, features2d, flann, highgui, imgproc, legacy,
+            // ml, nonfree, objdetect, photo, superres, video, videostab
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
         }
 
@@ -123,7 +125,5 @@ namespace OpenCvSharp.CPlusPlus
                 throw;
             }
         }
-
-
     }
 }

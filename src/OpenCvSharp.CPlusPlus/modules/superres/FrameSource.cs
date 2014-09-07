@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -49,13 +47,13 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static FrameSource CreateVideoSourceGpu(string fileName)
+        public static FrameSource CreateVideoSourceCuda(string fileName)
         {
             if (String.IsNullOrEmpty("fileName"))
                 throw new ArgumentNullException("fileName");
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
-            IntPtr ptr = NativeMethods.superres_createFrameSource_Video_GPU(fileName);
+            IntPtr ptr = NativeMethods.superres_createFrameSource_Video_CUDA(fileName);
             return FrameSourceImpl.FromPtr(ptr);
         }
 

@@ -88,9 +88,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_Mat_cross(IntPtr self, IntPtr m);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_refcount(IntPtr self);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe byte* core_Mat_data(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_datastart(IntPtr self);

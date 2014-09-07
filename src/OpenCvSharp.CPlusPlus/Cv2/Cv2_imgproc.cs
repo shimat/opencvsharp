@@ -154,6 +154,7 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
         #region AdaptiveBilateralFilter
+        /*
         /// <summary>
         /// Applies the adaptive bilateral filter to an image.
         /// </summary>
@@ -185,6 +186,7 @@ namespace OpenCvSharp.CPlusPlus
                 sigmaSpace, maxSigmaColor, anchor0, (int)borderType);
             dst.Fix();
         }
+        */
         #endregion
         #region BoxFilter
         /// <summary>
@@ -410,24 +412,6 @@ namespace OpenCvSharp.CPlusPlus
             edges.ThrowIfNotReady();
             NativeMethods.imgproc_Canny(src.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0);
             edges.Fix();
-        }
-        #endregion
-        #region Eigen2x2
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        public static float[,] Eigen2x2(float[,] a, int n)
-        {
-            if(a == null)
-                throw new ArgumentNullException("a");
-            if(a.GetLength(0) != 2 || a.GetLength(1) != 2)
-                throw new ArgumentException("Dimension of 'a' != 2");
-            var e = new float[2, 2];
-            NativeMethods.imgproc_eigen2x2(a, e, n);
-            return e;
         }
         #endregion
         #region CornerEigenValsAndVecs
@@ -3417,5 +3401,24 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.imgproc_pointPolygonTest_Point2f(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
         }
         #endregion
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="colormap"></param>
+        public static void ApplyColorMap(InputArray src, OutputArray dst, ColorMapMode colormap)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            NativeMethods.imgproc_applyColorMap(src.CvPtr, dst.CvPtr, (int)colormap);
+            dst.Fix();
+        }
     }
 }

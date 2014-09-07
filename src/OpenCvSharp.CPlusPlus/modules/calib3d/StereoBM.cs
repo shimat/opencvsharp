@@ -3,65 +3,45 @@
 namespace OpenCvSharp.CPlusPlus
 {
     // ReSharper disable InconsistentNaming
+#pragma warning disable 1591
 
 #if LANG_JP
     /// <summary>
-    /// Class for computing stereo correspondence using the block matching algorithm.
+    /// セミグローバルブロックマッチングアルゴリズムを用てステレオ対応点探索を行うためのクラス
     /// </summary>
 #else
     /// <summary>
-    /// Class for computing stereo correspondence using the block matching algorithm.
+    /// Semi-Global Stereo Matching
     /// </summary>
 #endif
-    public class StereoBM : DisposableCvObject
+    public class StereoBM : StereoMatcher
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
         private bool disposed;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public const int PREFILTER_NORMALIZED_RESPONSE = 0,
-                         PREFILTER_XSOBEL = 1,
-                         BASIC_PRESET = 0,
-                         FISH_EYE_PRESET = 1,
-                         NARROW_PRESET = 2;
+        private Ptr<StereoBM> ptrObj;
 
         #region Init and Disposal
-        #region Constructor
-#if LANG_JP
+
         /// <summary>
-        /// デフォルトのパラメータで初期化.
-        /// あとでInitを呼ぶ必要がある。
+        /// constructor
         /// </summary>
-#else
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-#endif
-        public StereoBM()
+        protected StereoBM(IntPtr ptr)
+            : base(ptr)
         {
-            ptr = NativeMethods.calib3d_StereoBM_new1();
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
+            ptrObj = new Ptr<StereoBM>(ptr);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="preset"></param>
-        /// <param name="nDisparities"></param>
-        /// <param name="sadWindowSize"></param>
-        public StereoBM(int preset, int nDisparities=0, int sadWindowSize=21)
+        /// <param name="numDisparities"></param>
+        /// <param name="blockSize"></param>
+        /// <returns></returns>
+        public static StereoBM Create(int numDisparities = 0, int blockSize = 21)
         {
-            ptr = NativeMethods.calib3d_StereoBM_new2(preset, nDisparities, sadWindowSize);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
+            IntPtr ptrObj = NativeMethods.calib3d_createStereoBM(numDisparities, blockSize);
+            return new StereoBM(ptrObj);
         }
-        #endregion
-        #region Dispose
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -86,12 +66,15 @@ namespace OpenCvSharp.CPlusPlus
                 try
                 {
                     if (disposing)
-                    {                        
+                    {
                     }
                     if (IsEnabledDispose)
                     {
-                        if(ptr != IntPtr.Zero)
-                            NativeMethods.calib3d_StereoBM_delete(ptr);
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                        }
+                        ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -103,55 +86,173 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
         #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int PreFilterType
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.calib3d_StereoBM_getPreFilterType(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.calib3d_StereoBM_setPreFilterType(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int PreFilterSize
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.calib3d_StereoBM_getPreFilterSize(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.calib3d_StereoBM_setPreFilterSize(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int PreFilterCap
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.calib3d_StereoBM_getPreFilterCap(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.calib3d_StereoBM_setPreFilterCap(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TextureThreshold
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.calib3d_StereoBM_getTextureThreshold(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.calib3d_StereoBM_setTextureThreshold(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int UniquenessRatio
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.calib3d_StereoBM_getUniquenessRatio(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.calib3d_StereoBM_setUniquenessRatio(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int SmallerBlockSize
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.calib3d_StereoBM_getSmallerBlockSize(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.calib3d_StereoBM_setSmallerBlockSize(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Rect ROI1
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.calib3d_StereoBM_getROI1(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.calib3d_StereoBM_setROI1(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Rect ROI2
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.calib3d_StereoBM_getROI2(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.calib3d_StereoBM_setROI2(ptr, value);
+            }
+        }
+
         #endregion
 
-        #region Methods
-
         /// <summary>
-        /// separate initialization function
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
         /// </summary>
-        /// <param name="preset"></param>
-        /// <param name="nDisparities"></param>
-        /// <param name="sadWindowSize"></param>
-        public void Init(int preset, int nDisparities = 0, int sadWindowSize = 21)
+        /// <returns></returns>
+        public override IntPtr InfoPtr
         {
-            NativeMethods.calib3d_StereoBM_init(ptr, preset, nDisparities, sadWindowSize);
+            get
+            {
+                return NativeMethods.calib3d_Ptr_StereoBM_info(ptr);
+            }
         }
-#if LANG_JP
-        /// <summary>
-        /// computes the disparity for the two rectified 8-bit single-channel images.
-        /// the disparity will be 16-bit signed (fixed-point) or 32-bit floating-point image of the same size as left.
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <param name="disp"></param>
-                /// <param name="dispType"></param>
-#else
-        /// <summary>
-        /// computes the disparity for the two rectified 8-bit single-channel images.
-        /// the disparity will be 16-bit signed (fixed-point) or 32-bit floating-point image of the same size as left.
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <param name="disp"></param>
-        /// <param name="dispType"></param>
-#endif
-        public void Compute(InputArray left, InputArray right, OutputArray disp, int dispType = MatType.CV_16S)
-        {
-            if (disposed)
-                throw new ObjectDisposedException("StereoSGBM");
-            if(left == null)
-                throw new ArgumentNullException("left");
-            if(right == null)
-                throw new ArgumentNullException("right");
-            if(disp == null)
-                throw new ArgumentNullException("disp");
-            left.ThrowIfDisposed();
-            right.ThrowIfDisposed();
-            disp.ThrowIfNotReady();
-            NativeMethods.calib3d_StereoBM_compute(ptr, left.CvPtr, right.CvPtr, disp.CvPtr, dispType);
-            disp.Fix();
-        }
-        #endregion
     }
 }

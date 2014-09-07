@@ -14,7 +14,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_Ptr_CLAHE_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr imgproc_Ptr_CLAHE_obj(IntPtr obj);
+        public static extern IntPtr imgproc_Ptr_CLAHE_get(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr imgproc_CLAHE_info(IntPtr obj);

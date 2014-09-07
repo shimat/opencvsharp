@@ -46,6 +46,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frame0"></param>
         /// <param name="frame1"></param>
         /// <param name="flow"></param>
-        protected abstract void Calc(InputArray frame0, InputArray frame1, OutputArray flow);
+        protected abstract void Calc(InputArray frame0, InputArray frame1, InputOutputArray flow);
     }
 }

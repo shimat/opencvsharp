@@ -371,23 +371,6 @@ namespace OpenCvSharp
         #endregion
 
         #region Methods
-        #region CalcPGH
-#if LANG_JP
-        /// <summary>
-        /// 輪郭の pair-wise geometrical histogram を求める
-        /// </summary>
-        /// <param name="hist">求められたヒストグラム．必ず2次元になる．</param>
-#else
-        /// <summary>
-        /// Calculates pair-wise geometrical histogram for contour
-        /// </summary>
-        /// <param name="hist">Calculated histogram; must be two-dimensional. </param>
-#endif
-        public void CalcPGH(CvHistogram hist)
-        {
-            Cv.CalcPGH(this, hist);
-        }
-        #endregion
         #region ClearSeq
 #if LANG_JP
         /// <summary>
@@ -462,27 +445,6 @@ namespace OpenCvSharp
             CvMoments moments;
             Cv.ContoursMoments(this, out moments);
             return moments;
-        }
-        #endregion
-        #region CreateContourTree
-#if LANG_JP
-        /// <summary>
-        /// 輪郭の階層的表現を生成する
-        /// </summary>
-        /// <param name="storage">結果のツリーの出力先</param>
-        /// <param name="threshold">近似精度</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Creates hierarchical representation of contour
-        /// </summary>
-        /// <param name="storage">Container for output tree. </param>
-        /// <param name="threshold">Approximation accuracy. </param>
-        /// <returns></returns>
-#endif
-        public CvContourTree CreateContourTree(CvMemStorage storage, double threshold)
-        {
-            return Cv.CreateContourTree(this, storage, threshold);
         }
         #endregion
         #region ElemIdx

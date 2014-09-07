@@ -35,7 +35,14 @@ CVAPI(void) core_AlgorithmInfo_name(cv::AlgorithmInfo *obj, char *dst, int dstLe
 }
 CVAPI(void) core_AlgorithmInfo_getParams(cv::AlgorithmInfo *obj, std::vector<std::string> *names)
 {
-    obj->getParams(*names);
+	std::vector<cv::String> namesRaw;
+	obj->getParams(namesRaw);
+
+	names->resize(namesRaw.size());
+	for (size_t i = 0; i < namesRaw.size(); i++)
+	{
+		names->at(i) = std::string(namesRaw[i].c_str());
+	}
 }
 
 

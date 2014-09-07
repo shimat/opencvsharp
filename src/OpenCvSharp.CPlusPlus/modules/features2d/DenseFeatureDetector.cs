@@ -2,6 +2,7 @@
 
 namespace OpenCvSharp.CPlusPlus
 {
+#if false
     /// <summary>
     /// Class for generation of image features which are 
     /// distributed densely and regularly over the image.
@@ -43,7 +44,7 @@ namespace OpenCvSharp.CPlusPlus
         internal DenseFeatureDetector(Ptr<DenseFeatureDetector> detectorPtr)
         {
             this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Obj;
+            this.ptr = detectorPtr.Get();
         }
         /// <summary>
         /// Creates instance by raw pointer cv::SURF*
@@ -127,4 +128,5 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
     }
+#endif
 }

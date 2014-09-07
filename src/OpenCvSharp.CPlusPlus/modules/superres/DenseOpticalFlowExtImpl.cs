@@ -44,7 +44,7 @@ namespace OpenCvSharp.CPlusPlus
             var obj = new DenseOpticalFlowExtImpl
                 {
                     detectorPtr = ptrObj, 
-                    ptr = ptrObj.Obj
+                    ptr = ptrObj.Get()
                 };
             return obj;
         }

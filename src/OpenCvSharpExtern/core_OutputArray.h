@@ -13,7 +13,7 @@ CVAPI(cv::_OutputArray*) core_OutputArray_new_byMat(cv::Mat *mat)
 	return new cv::_OutputArray(ia);
 }
 
-CVAPI(cv::_OutputArray*) core_OutputArray_new_byGpuMat(cv::gpu::GpuMat *gm)
+CVAPI(cv::_OutputArray*) core_OutputArray_new_byGpuMat(cv::cuda::GpuMat *gm)
 {
 	cv::_OutputArray ia(*gm);
 	return new cv::_OutputArray(ia);

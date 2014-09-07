@@ -30,9 +30,9 @@ CVAPI(void) core_Ptr_Algorithm_delete(cv::Ptr<cv::Algorithm> *ptr)
 {
 	delete ptr;
 }
-CVAPI(cv::Algorithm*) core_Ptr_Algorithm_obj(cv::Ptr<cv::Algorithm> *ptr)
+CVAPI(cv::Algorithm*) core_Ptr_Algorithm_get(cv::Ptr<cv::Algorithm> *ptr)
 {
-	return ptr->obj;
+	return ptr->get();
 }
 
 CVAPI(void) core_Algorithm_name(cv::Algorithm *obj, char *buf, int bufLength)
@@ -106,11 +106,13 @@ CVAPI(void) core_Algorithm_setMatVector(cv::Algorithm *obj, const char *name,
     }
 	obj->set(name, valueVec);
 }
+
+static void AlgorithmDeleter(cv::Algorithm *p) {}
+
 CVAPI(void) core_Algorithm_setAlgorithm(cv::Algorithm *obj, const char *name, 
                                         cv::Algorithm *value)
 {
-    cv::Ptr<cv::Algorithm> ptr(value);
-    ptr.addref();
+	cv::Ptr<cv::Algorithm> ptr(value, AlgorithmDeleter); // don't delete pointer
 	obj->set(name, ptr);
 }
 
@@ -126,12 +128,26 @@ CVAPI(int) core_Algorithm_paramType(cv::Algorithm *obj, const char* name)
 }
 CVAPI(void) core_Algorithm_getParams(cv::Algorithm *obj, std::vector<std::string> *names)
 {
-    obj->getParams(*names);
+	std::vector<cv::String> namesRaw;
+	obj->getParams(namesRaw);
+
+	names->resize(namesRaw.size());
+	for (size_t i = 0; i < namesRaw.size(); i++)
+	{
+		names->at(i) = std::string(namesRaw[i].c_str());
+	}
 }
 
 CVAPI(void) core_Algorithm_getList(std::vector<std::string> *algorithms)
 {
-    cv::Algorithm::getList(*algorithms);
+	std::vector<cv::String> algorithmsRaw;
+	cv::Algorithm::getList(algorithmsRaw);
+
+	algorithms->resize(algorithmsRaw.size());
+	for (size_t i = 0; i < algorithmsRaw.size(); i++)
+	{
+		algorithms->at(i) = std::string(algorithmsRaw[i].c_str());
+	}
 }
 CVAPI(cv::AlgorithmInfo*) core_Algorithm_info(cv::Algorithm *obj)
 {

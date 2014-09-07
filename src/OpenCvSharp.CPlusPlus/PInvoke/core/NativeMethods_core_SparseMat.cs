@@ -16,8 +16,6 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr core_SparseMat_new2(int dims, int[] sizes, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_SparseMat_new3(IntPtr m);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_SparseMat_new4(IntPtr m);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_SparseMat_delete(IntPtr obj);
@@ -51,8 +49,6 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_SparseMat_release(IntPtr obj);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_SparseMat_operator_CvSparseMat(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_SparseMat_elemSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

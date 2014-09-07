@@ -230,21 +230,6 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.objdetect_CascadeClassifier_getFeatureType(ptr);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        public bool SetImage(Mat img)
-        {
-            if (disposed)
-                throw new ObjectDisposedException("CascadeClassifier");
-            if (img == null)
-                throw new ArgumentNullException("img");
-            img.ThrowIfDisposed();
-            return NativeMethods.objdetect_CascadeClassifier_setImage(ptr, img.CvPtr) != 0;
-        }
-
         #endregion
     }
 

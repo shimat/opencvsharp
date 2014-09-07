@@ -43,8 +43,8 @@ namespace OpenCvSharp.CPlusPlus
             var ptrObj = new Ptr<SuperResolution>(ptr);
             var obj = new SuperResolutionImpl
                 {
-                    detectorPtr = ptrObj, 
-                    ptr = ptrObj.Obj
+                    detectorPtr = ptrObj,
+                    ptr = ptrObj.Get()
                 };
             return obj;
         }

@@ -88,7 +88,7 @@ namespace OpenCvSharp.CPlusPlus
             var detector = new DescriptorMatcher
             {
                 detectorPtr = ptrObj,
-                ptr = ptrObj.Obj
+                ptr = ptrObj.Get()
             };
             return detector;
         }

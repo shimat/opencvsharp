@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -11,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     internal sealed class FrameSourceImpl : FrameSource
     {
         private bool disposed;
-        private Ptr<FrameSource> detectorPtr;
+        private Ptr<FrameSource> ptrObj;
 
         #region Init & Disposal
 
@@ -20,7 +17,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         private FrameSourceImpl()
         {
-            detectorPtr = null;
+            ptrObj = null;
             ptr = IntPtr.Zero;
         }
 
@@ -35,8 +32,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
             var obj = new FrameSourceImpl();
             var ptrObj = new Ptr<FrameSource>(ptr);
-            obj.detectorPtr = ptrObj;
-            obj.ptr = ptrObj.Obj;
+            obj.ptrObj = ptrObj;
+            obj.ptr = ptr;
             return obj;
         }
 
@@ -50,7 +47,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
             var obj = new FrameSourceImpl
                 {
-                    detectorPtr = null,
+                    ptrObj = null,
                     ptr = ptr
                 };
             return obj;
@@ -87,9 +84,9 @@ namespace OpenCvSharp.CPlusPlus
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (detectorPtr != null)
-                            detectorPtr.Dispose();
-                        detectorPtr = null;
+                        if (ptrObj != null)
+                            ptrObj.Dispose();
+                        ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;

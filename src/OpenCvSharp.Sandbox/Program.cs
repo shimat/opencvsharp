@@ -9,6 +9,7 @@ using System.Text;
 using OpenCvSharp.Blob;
 using OpenCvSharp.CPlusPlus;
 using OpenCvSharp.CPlusPlus.Gpu;
+using OpenCvSharp.CPlusPlus.XFeatures2D;
 using OpenCvSharp.Extensions;
 using Point = OpenCvSharp.CPlusPlus.Point;
 using Rect = OpenCvSharp.CPlusPlus.Rect;
@@ -23,6 +24,15 @@ namespace OpenCvSharp.Sandbox
     {
         [STAThread]
         private static void Main(string[] args)
+        {
+            //Mat[] mats = StitchingPreprocess(400, 400, 10);
+            //Stitching(mats);
+            //Track();
+            //Run();
+            Surf();
+        }
+
+        private static void Clahe()
         {
             Mat src = new Mat("data/tsukuba_left.png", LoadMode.GrayScale);
             Mat dst20 = new Mat();
@@ -40,21 +50,12 @@ namespace OpenCvSharp.Sandbox
             }
 
             Window.ShowImages(src, dst20, dst40, dst44);
-
-            /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
-            var img2 = new IplImage("data/match2.png", LoadMode.Color);
-            Surf(img1, img2);*/
-
-            //Mat[] mats = StitchingPreprocess(400, 400, 10);
-            //Stitching(mats);
-            //Track();
-            //Run();
         }
 
-        private static void Surf(IplImage img1, IplImage img2)
+        private static void Surf()
         {
-            Mat src = new Mat(img1, true);
-            Mat src2 = new Mat(img2, true);
+            Mat src = new Mat("data/match1.png");
+            Mat src2 = new Mat("data/match2.png");
             //Detect the keypoints and generate their descriptors using SURF
             SURF surf = new SURF(500, 4, 2, true);
             KeyPoint[] keypoints1, keypoints2;

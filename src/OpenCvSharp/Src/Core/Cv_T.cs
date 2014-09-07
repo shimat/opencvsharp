@@ -111,34 +111,6 @@ namespace OpenCvSharp
             return ret;
         }
         #endregion
-        #region TrackFace
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="faceTracker"></param>
-        /// <param name="imgGray"></param>
-        /// <param name="rects"></param>
-        /// <param name="ptRotate"></param>
-        /// <param name="angleRotate"></param>
-        /// <returns></returns>
-        public static bool TrackFace(CvFaceTracker faceTracker, IplImage imgGray, CvRect[] rects, out CvPoint ptRotate, out double angleRotate)
-        {
-            if (faceTracker == null)
-                throw new ArgumentNullException("faceTracker");
-            if (imgGray == null)
-                throw new ArgumentNullException("imgGray");
-            if (rects == null)
-                throw new ArgumentNullException("rects");
-            if (rects.Length < 3)
-                throw new ArgumentException("rects.Length >= 3");
-
-            var ret = NativeMethods.cvTrackFace(faceTracker.CvPtr, imgGray.CvPtr, rects, rects.Length, out ptRotate, out angleRotate);
-
-            GC.KeepAlive(faceTracker);
-            GC.KeepAlive(imgGray);
-            return ret;
-        }
-        #endregion
         #region Transform
 #if LANG_JP
         /// <summary>

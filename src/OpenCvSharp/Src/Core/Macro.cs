@@ -1222,31 +1222,6 @@ namespace OpenCvSharp
             return new CvScalar(b, g, r);
         }
         #endregion
-        #region SUBDIV2D_NEXT_EDGE
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="edge"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="edge"></param>
-        /// <returns></returns>
-#endif
-        public static CvSubdiv2DEdge SUBDIV2D_NEXT_EDGE(CvSubdiv2DEdge edge)
-        {
-            unsafe
-            {
-                ulong edgeValue = (ulong)edge;
-                WCvQuadEdge2D* ptr = (WCvQuadEdge2D*)((long)edgeValue & ~3L);
-                int edge3 = (int)(edgeValue & 3);
-                return new CvSubdiv2DEdge(ptr->next(edge3));
-            }
-        }
-        #endregion
         #region SWAP
 #if LANG_JP
         /// <summary>

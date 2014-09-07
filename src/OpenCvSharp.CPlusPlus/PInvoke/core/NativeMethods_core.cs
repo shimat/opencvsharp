@@ -68,7 +68,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_LUT(IntPtr src, IntPtr lut, IntPtr dst, int interpolation);
+        public static extern void core_LUT(IntPtr src, IntPtr lut, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern CvScalar core_sum(IntPtr src);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -220,18 +220,13 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int core_solveCubic(IntPtr coeffs, IntPtr roots);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double core_solvePoly(IntPtr coeffs, IntPtr roots, int maxIters);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen1")]
-        public static extern int core_eigen(IntPtr src, IntPtr eigenvalues, int lowindex, int highindex);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen2")]
-        public static extern int core_eigen(IntPtr src, IntPtr eigenvalues,
-            IntPtr eigenvectors, int lowindex, int highindex);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen3")]
-        public static extern int core_eigen(IntPtr src, bool computeEigenvectors,
-            IntPtr eigenvalues, IntPtr eigenvectors);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen3")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int core_eigen(IntPtr src, IntPtr eigenvalues, IntPtr eigenvectors);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_calcCovarMatrix_Mat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] samples, 
             int nsamples, IntPtr covar, IntPtr mean, int flags, int ctype);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_eigen3")]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_calcCovarMatrix_InputArray(IntPtr samples, IntPtr covar,
             IntPtr mean, int flags, int ctype);
 
@@ -251,8 +246,6 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double core_Mahalanobis(IntPtr v1, IntPtr v2, IntPtr icovar);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double core_Mahalonobis(IntPtr v1, IntPtr v2, IntPtr icovar);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_dft(IntPtr src, IntPtr dst, int flags, int nonzeroRows);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -290,10 +283,10 @@ namespace OpenCvSharp.CPlusPlus
         #region Drawing
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_line(IntPtr img, Point pt1, Point pt2, CvScalar color, int thickness, int lineType, int shift);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_rectangle1")]
-        public static extern void core_rectangle(IntPtr img, Point pt1, Point pt2, CvScalar color, int thickness, int lineType, int shift);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_rectangle2")]
-        public static extern void core_rectangle(IntPtr img, Rect rect, CvScalar color, int thickness, int lineType, int shift);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_rectangle1(IntPtr img, Point pt1, Point pt2, CvScalar color, int thickness, int lineType, int shift);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_rectangle2(IntPtr img, Rect rect, CvScalar color, int thickness, int lineType, int shift);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_circle(IntPtr img, Point center, int radius, CvScalar color, int thickness, int lineType, int shift);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_ellipse1")]

@@ -1377,8 +1377,8 @@ namespace OpenCvSharp.CPlusPlus
                                              InputOutputArray cameraMatrix2, InputOutputArray distCoeffs2,
                                              Size imageSize, OutputArray R,
                                              OutputArray T, OutputArray E, OutputArray F,
-                                             TermCriteria? criteria = null,
-                                             CalibrationFlag flags = CalibrationFlag.FixIntrinsic)
+                                             CalibrationFlag flags = CalibrationFlag.FixIntrinsic,
+                                             TermCriteria? criteria = null)
         {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
@@ -1417,8 +1417,7 @@ namespace OpenCvSharp.CPlusPlus
                     cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
                     cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
                     imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
-                    criteria0, (int)flags
-                    );
+                    (int)flags, criteria0);
 
             cameraMatrix1.Fix();
             distCoeffs1.Fix();
@@ -1462,8 +1461,8 @@ namespace OpenCvSharp.CPlusPlus
                                              double[,] cameraMatrix2, double[] distCoeffs2,
                                              Size imageSize, OutputArray R,
                                              OutputArray T, OutputArray E, OutputArray F,
-                                             TermCriteria? criteria = null,
-                                             CalibrationFlag flags = CalibrationFlag.FixIntrinsic)
+                                             CalibrationFlag flags = CalibrationFlag.FixIntrinsic,
+                                             TermCriteria? criteria = null)
         {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
@@ -1494,7 +1493,7 @@ namespace OpenCvSharp.CPlusPlus
                         cameraMatrix1, distCoeffs1, distCoeffs1.Length,
                         cameraMatrix2, distCoeffs2, distCoeffs2.Length,
                         imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
-                        criteria0, (int)flags);
+                        (int)flags, criteria0);
             }
         }
 
