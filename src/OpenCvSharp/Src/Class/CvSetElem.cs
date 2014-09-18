@@ -29,7 +29,6 @@ namespace OpenCvSharp
         public CvSetElem()
         {
             this.ptr = base.AllocMemory(SizeOf);
-            base.NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
@@ -45,7 +44,6 @@ namespace OpenCvSharp
         public CvSetElem(IntPtr ptr)
         {
             this.ptr = ptr;
-            base.NotifyMemoryPressure(SizeOf);
         }
         #endregion
 
