@@ -146,12 +146,21 @@ CVAPI(void) core_findNonZero(cv::_InputArray *src, cv::_OutputArray *idx)
 
 CVAPI(CvScalar) core_mean(cv::_InputArray *src, cv::_InputArray *mask)
 {
-	return cv::mean(*src, entity(mask));
+    return cv::mean(*src, entity(mask));
 }
-CVAPI(void) core_meanStdDev(cv::_InputArray *src, cv::_OutputArray *mean, 
-					   cv::_OutputArray *stddev, cv::_InputArray *mask)
+
+CVAPI(void) core_meanStdDev_OutputArray(
+    cv::_InputArray *src, cv::_OutputArray *mean, cv::_OutputArray *stddev, cv::_InputArray *mask)
 {
 	cv::meanStdDev(*src, *mean, *stddev, entity(mask));
+}
+CVAPI(void) core_meanStdDev_Scalar(
+    cv::_InputArray *src, CvScalar *mean, CvScalar *stddev, cv::_InputArray *mask)
+{
+    cv::Scalar mean0, stddev0;
+    cv::meanStdDev(*src, mean0, stddev0, entity(mask));
+    *mean = mean0;
+    *stddev = stddev0;
 }
 
 CVAPI(double) core_norm1(cv::_InputArray *src1, int normType, cv::_InputArray *mask)
