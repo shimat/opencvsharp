@@ -240,7 +240,7 @@ namespace OpenCvSharp
         protected void NotifyMemoryPressure(long size)
         {
             // マルチスレッド動作時にロックがかかるらしい。いったん廃止
-            /*
+
             if (!IsEnabledDispose)
                 return;
             if (size == 0)
@@ -253,7 +253,6 @@ namespace OpenCvSharp
             
             AllocatedMemorySize = size;
             GC.AddMemoryPressure(size);
-            */
         }
 
 #if LANG_JP

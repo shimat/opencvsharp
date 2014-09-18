@@ -31,7 +31,6 @@ namespace OpenCvSharp
         public CvSubdiv2DPoint(IntPtr ptr)
         {
             this.ptr = ptr;
-            base.NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>

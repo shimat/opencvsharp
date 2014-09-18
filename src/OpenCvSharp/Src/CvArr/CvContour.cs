@@ -15,21 +15,7 @@ namespace OpenCvSharp
     public class CvContour : CvSeq<CvPoint>
     {
         #region Init and Disposal
-#if LANG_JP
-        /// <summary>
-        /// 一定のメモリを確保して初期化
-        /// </summary>
-#else
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-#endif
-        public CvContour()
-            : this(Marshal.AllocHGlobal(SizeOf))
-        {
-            AllocatedMemory = ptr;
-            NotifyMemoryPressure(SizeOf);
-        }
+
 #if LANG_JP
         /// <summary>
         /// ネイティブのデータポインタから初期化

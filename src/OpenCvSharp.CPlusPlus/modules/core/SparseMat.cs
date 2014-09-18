@@ -29,10 +29,6 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
             this.ptr = ptr;
-
-            //if (initialAlloc)
-            //    NotifyMemoryPressure(MemorySize());
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -47,7 +43,6 @@ namespace OpenCvSharp.CPlusPlus
         public SparseMat()
         {
             ptr = NativeMethods.core_SparseMat_new1();
-            NotifyMemoryPressure(SizeOf);
         }
 
 
@@ -94,7 +89,6 @@ namespace OpenCvSharp.CPlusPlus
             ptr = NativeMethods.core_SparseMat_new3(m.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
@@ -116,7 +110,6 @@ namespace OpenCvSharp.CPlusPlus
             ptr = NativeMethods.core_SparseMat_new4(m.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP

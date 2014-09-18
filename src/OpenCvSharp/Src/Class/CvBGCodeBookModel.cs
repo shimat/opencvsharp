@@ -53,7 +53,6 @@ namespace OpenCvSharp
         public CvBGCodeBookModel()
         {
             ptr = NativeMethods.cvCreateBGCodeBookModel();
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP
