@@ -59,7 +59,6 @@ namespace OpenCvSharp
         public CvConDensation(int dynamParams, int measureParams, int sampleCount)
         {
             ptr = NativeMethods.cvCreateConDensation(dynamParams, measureParams, sampleCount);
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP

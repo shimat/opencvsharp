@@ -135,7 +135,6 @@ namespace OpenCvSharp
                 SetBinRanges(ranges, uniform);
             }
             Type = type;
-            NotifyMemoryPressure(SizeOf);
         }
 
 #if LANG_JP

@@ -44,7 +44,6 @@ namespace OpenCvSharp
         public CvSeqBlock(IntPtr ptr)
         {
             this.ptr = ptr;
-            base.NotifyMemoryPressure(SizeOf);
         }
         #endregion
 
