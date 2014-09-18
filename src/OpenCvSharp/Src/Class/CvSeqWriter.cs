@@ -32,7 +32,6 @@ namespace OpenCvSharp
         public CvSeqWriter()
         {
             ptr = AllocMemory(SizeOf);
-            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>

@@ -67,7 +67,6 @@ namespace OpenCvSharp
             ptr = NativeMethods.cvCreateMat(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
-            NotifyMemoryPressure(MemorySize());
         }
 #if LANG_JP
         /// <summary>
@@ -128,7 +127,6 @@ namespace OpenCvSharp
             
             GCHandle gch = AllocGCHandle(data);
             NativeMethods.cvSetData(ptr, gch.AddrOfPinnedObject(), Cv.AUTOSTEP);
-            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
@@ -156,7 +154,6 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
             NativeMethods.cvSetData(ptr, data, Cv.AUTOSTEP);
-            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
@@ -185,7 +182,6 @@ namespace OpenCvSharp
                 throw new OpenCvSharpException("Failed to create CvMat");
             }
             NativeMethods.cvSet(ptr, value, IntPtr.Zero);
-            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -230,7 +226,6 @@ namespace OpenCvSharp
             {
                 throw new OpenCvSharpException("Failed to create CvMat");
             }
-            NotifyMemoryPressure(MemorySize());
         }
 
 #if LANG_JP
@@ -265,8 +260,6 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             ptr = p;
-            if(isEnabledDispose)
-                NotifyMemoryPressure(MemorySize());
         }
 #if LANG_JP
         /// <summary>
@@ -295,8 +288,6 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             ptr = AllocMemory(SizeOf);
-            if(isEnabledDispose)
-                NotifyMemoryPressure(MemorySize());
         }
 
         /// <summary>

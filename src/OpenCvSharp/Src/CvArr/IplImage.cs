@@ -97,8 +97,6 @@ namespace OpenCvSharp
             ptr = NativeMethods.cvLoadImage(fileName, flags);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create IplImage");
-
-            NotifyMemoryPressure(SizeOf + ImageSize);
         }
 #if LANG_JP
         /// <summary>
@@ -120,8 +118,6 @@ namespace OpenCvSharp
             ptr = NativeMethods.cvCreateImage(size, depth, channels);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create IplImage");
-
-            NotifyMemoryPressure(SizeOf + ImageSize);
         }
 #if LANG_JP
         /// <summary>
@@ -176,8 +172,6 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             this.ptr = ptr;
-            if (isEnabledDispose)
-                NotifyMemoryPressure(SizeOf + ImageSize);
         }
 
 #if LANG_JP
