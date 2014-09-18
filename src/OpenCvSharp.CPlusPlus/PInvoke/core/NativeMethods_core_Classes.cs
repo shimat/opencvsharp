@@ -155,6 +155,8 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_OutputArray_new_byGpuMat(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_OutputArray_new_byScalar(CvScalar val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_OutputArray_delete(IntPtr oa);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -162,6 +164,8 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_OutputArray_getMat(IntPtr oa);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern CvScalar core_OutputArray_getScalar(IntPtr oa);
         #endregion
 
         #region FileStorage

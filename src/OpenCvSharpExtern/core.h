@@ -148,10 +148,19 @@ CVAPI(MyCvScalar) core_mean(cv::_InputArray *src, cv::_InputArray *mask)
 {
 	return c(cv::mean(*src, entity(mask)));
 }
-CVAPI(void) core_meanStdDev(cv::_InputArray *src, cv::_OutputArray *mean, 
-					   cv::_OutputArray *stddev, cv::_InputArray *mask)
+
+CVAPI(void) core_meanStdDev_OutputArray(
+    cv::_InputArray *src, cv::_OutputArray *mean, cv::_OutputArray *stddev, cv::_InputArray *mask)
 {
-	cv::meanStdDev(*src, *mean, *stddev, entity(mask));
+    cv::meanStdDev(*src, *mean, *stddev, entity(mask));
+}
+CVAPI(void) core_meanStdDev_Scalar(
+    cv::_InputArray *src, MyCvScalar *mean, MyCvScalar *stddev, cv::_InputArray *mask)
+{
+    cv::Scalar mean0, stddev0;
+    cv::meanStdDev(*src, mean0, stddev0, entity(mask));
+    *mean = c(mean0);
+    *stddev = c(stddev0);
 }
 
 CVAPI(double) core_norm1(cv::_InputArray *src1, int normType, cv::_InputArray *mask)
