@@ -614,8 +614,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="mean">The output parameter: computed mean value</param>
         /// <param name="stddev">The output parameter: computed standard deviation</param>
         /// <param name="mask">The optional operation mask</param>
-        public static void MeanStdDev(InputArray src, OutputArray mean,
-                                      OutputArray stddev, InputArray mask = null)
+        public static void MeanStdDev(
+            InputArray src, OutputArray mean, OutputArray stddev, InputArray mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -626,9 +626,38 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             mean.ThrowIfNotReady();
             stddev.ThrowIfNotReady();
-            NativeMethods.core_meanStdDev(src.CvPtr, mean.CvPtr, stddev.CvPtr, ToPtr(mask));
+
+            NativeMethods.core_meanStdDev_OutputArray(src.CvPtr, mean.CvPtr, stddev.CvPtr, ToPtr(mask));
+            
             mean.Fix();
             stddev.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// computes mean value and standard deviation of all or selected array elements
+        /// </summary>
+        /// <param name="src">The source array; it should have 1 to 4 channels 
+        /// (so that the results can be stored in Scalar's)</param>
+        /// <param name="mean">The output parameter: computed mean value</param>
+        /// <param name="stddev">The output parameter: computed standard deviation</param>
+        /// <param name="mask">The optional operation mask</param>
+        public static void MeanStdDev(
+            InputArray src, out Scalar mean, out Scalar stddev, InputArray mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+
+            src.ThrowIfDisposed();
+
+            CvScalar mean0, stddev0;
+            NativeMethods.core_meanStdDev_Scalar(src.CvPtr, out mean0, out stddev0, ToPtr(mask));
+            mean = mean0;
+            stddev = stddev0;
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(mask);
         }
         #endregion
         #region Norm

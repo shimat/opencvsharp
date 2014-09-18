@@ -152,6 +152,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new OutputArray(mat);
         }
+
         #endregion
 
         #region Operators
