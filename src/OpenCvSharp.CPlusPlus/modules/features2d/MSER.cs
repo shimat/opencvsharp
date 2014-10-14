@@ -168,7 +168,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr msers;
             NativeMethods.features2d_MSER_detect(ptr, image.CvPtr, out msers, Cv2.ToPtr(mask));
 
-            using (VectorOfVectorPoint msersVec = new VectorOfVectorPoint(msers))
+            using (var msersVec = new VectorOfVectorPoint(msers))
             {
                 return msersVec.ToArray();
             }

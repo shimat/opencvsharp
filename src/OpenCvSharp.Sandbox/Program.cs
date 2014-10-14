@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -24,7 +25,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Mat src = new Mat("data/lenna.png", LoadMode.GrayScale);
+            Mat src = new Mat("data/lenna511.png", LoadMode.GrayScale);
+
             Mat zoom = new Mat();
             Mat f32 = new Mat();
 
