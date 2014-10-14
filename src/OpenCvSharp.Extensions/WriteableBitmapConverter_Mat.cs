@@ -9,7 +9,7 @@ namespace OpenCvSharp.Extensions
 {
     static partial class WriteableBitmapConverter
     {
-        #region ToIplImage
+        #region ToMat
 #if LANG_JP
         /// <summary>
         /// WriteableBitmapをMatに変換する
@@ -129,7 +129,7 @@ namespace OpenCvSharp.Extensions
                 else
                 {
                     int stride = w * ((bpp + 7) / 8);
-                    long imageSize = dst.DataEnd.ToInt64() - dst.DataStart.ToInt64();
+                    long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
                     if (imageSize < 0)
                         throw new OpenCvSharpException("The mat has invalid data pointer");
                     if (imageSize > Int32.MaxValue)
@@ -315,7 +315,7 @@ namespace OpenCvSharp.Extensions
             }
             else
             {
-                long imageSize = src.DataEnd.ToInt64() - src.DataStart.ToInt64();
+                long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
                 if (imageSize < 0)
                     throw new OpenCvSharpException("The mat has invalid data pointer");
                 if (imageSize > Int32.MaxValue)

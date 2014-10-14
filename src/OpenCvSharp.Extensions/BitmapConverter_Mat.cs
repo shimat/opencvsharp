@@ -8,7 +8,7 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.Extensions
 {
-    public static partial class BitmapConverter
+    static partial class BitmapConverter
     {
         #region ToMat
 #if LANG_JP
@@ -94,7 +94,8 @@ namespace OpenCvSharp.Extensions
                 int sstep = bd.Stride;
                 int offset = sstep - (w / 8);
                 uint dstep = (uint)dst.Step();
-                byte* dstData = (byte*)dst.Data.ToPointer();
+                IntPtr dstData = dst.Data;
+                byte* dstPtr = (byte*)dstData.ToPointer();
 
                 switch (src.PixelFormat)
                 {
@@ -126,7 +127,7 @@ namespace OpenCvSharp.Extensions
                                             break;
                                         }
                                         // IplImageは8bit/pixel
-                                        dstData[dstep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
+                                        dstPtr[dstep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
                                         b <<= 1;
                                         x++;
                                     }
@@ -152,14 +153,14 @@ namespace OpenCvSharp.Extensions
                         // Mat幅が4の倍数なら一気にコピー
                         if (dstep % 4 == 0)
                         {
-                            uint length = (uint)(dst.DataEnd.ToInt64() - dst.DataStart.ToInt64());
-                            Util.CopyMemory(dst.DataStart, bd.Scan0, length);
+                            uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
+                            Util.CopyMemory(dstData, bd.Scan0, length);
                         }
                         else
                         {
                             // 各行ごとにdstの行バイト幅コピー
                             byte* sp = (byte*)bd.Scan0;
-                            byte* dp = (byte*)dst.DataStart;
+                            byte* dp = (byte*)dst.Data;
                             for (int y = 0; y < h; y++)
                             {
                                 Util.CopyMemory(dp, sp, dstep);
@@ -178,17 +179,17 @@ namespace OpenCvSharp.Extensions
                         switch (dst.Channels())
                         {
                             case 4:
-                                uint length = (uint)(dst.DataEnd.ToInt64() - dst.DataStart.ToInt64());
-                                Util.CopyMemory(dst.DataStart, bd.Scan0, length);
+                                uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
+                                Util.CopyMemory(dstData, bd.Scan0, length);
                                 break;
                             case 3:
                                 for (int y = 0; y < h; y++)
                                 {
                                     for (int x = 0; x < w; x++)
                                     {
-                                        dstData[y * dstep + x * 3 + 0] = p[y * sstep + x * 4 + 0];
-                                        dstData[y * dstep + x * 3 + 1] = p[y * sstep + x * 4 + 1];
-                                        dstData[y * dstep + x * 3 + 2] = p[y * sstep + x * 4 + 2];
+                                        dstPtr[y * dstep + x * 3 + 0] = p[y * sstep + x * 4 + 0];
+                                        dstPtr[y * dstep + x * 3 + 1] = p[y * sstep + x * 4 + 1];
+                                        dstPtr[y * dstep + x * 3 + 2] = p[y * sstep + x * 4 + 2];
                                     }
                                 }
                                 break;
@@ -319,9 +320,9 @@ namespace OpenCvSharp.Extensions
             {
                 bd = dst.LockBits(rect, ImageLockMode.WriteOnly, pf);
 
-
-                byte* psrc = (byte*)(src.DataStart.ToPointer());
-                byte* pdst = (byte*)(bd.Scan0.ToPointer());
+                IntPtr srcData = src.Data;
+                byte* pSrc = (byte*)(srcData.ToPointer());
+                byte* pDst = (byte*)(bd.Scan0.ToPointer());
                 int ch = src.Channels();
                 int sstep = (int)src.Step();
                 int dstep = ((src.Width * ch) + 3) / 4 * 4; // 4の倍数に揃える
@@ -349,18 +350,18 @@ namespace OpenCvSharp.Extensions
                                     for (i = 0; i < 8; i++)
                                     {
                                         mask = (byte)(0x80 >> i);
-                                        if (x < w && psrc[sstep * y + x] == 0)
+                                        if (x < w && pSrc[sstep * y + x] == 0)
                                             b &= (byte)(mask ^ 0xff);
                                         else
                                             b |= mask;
 
                                         x++;
                                     }
-                                    pdst[bytePos] = b;
+                                    pDst[bytePos] = b;
                                 }
                             }
                             x = 0;
-                            pdst += stride;
+                            pDst += stride;
                         }
                         break;
                     }
@@ -370,8 +371,8 @@ namespace OpenCvSharp.Extensions
                     case PixelFormat.Format32bppArgb:
                         if (sstep == dstep)
                         {
-                            uint imageSize = (uint)(src.DataEnd.ToInt64() - src.DataStart.ToInt64());
-                            Util.CopyMemory(pdst, psrc, imageSize);
+                            uint imageSize = (uint)(src.DataEnd.ToInt64() - src.Data.ToInt64());
+                            Util.CopyMemory(pDst, pSrc, imageSize);
                         }
                         else
                         {
@@ -380,7 +381,7 @@ namespace OpenCvSharp.Extensions
                                 int offsetSrc = (y * sstep);
                                 int offsetDst = (y * dstep);
                                 // 一列ごとにコピー
-                                Util.CopyMemory(pdst + offsetDst, psrc + offsetSrc, w * ch);
+                                Util.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * ch);
                             }
                         }
                         break;

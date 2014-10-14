@@ -189,6 +189,7 @@ namespace OpenCvSharp
 #endif
         public static CvSeq PointSeqFromMat(SeqType seqKind, CvArr mat, out CvContour contourHeader, out CvSeqBlock block)
         {
+            /*
             if (mat == null)
                 throw new ArgumentNullException("mat");
             if (mat.ElemType != MatrixType.F32C2 && mat.ElemType != MatrixType.S32C2)
@@ -200,7 +201,8 @@ namespace OpenCvSharp
             if (result == IntPtr.Zero)
                 return null;
             else
-                return new CvSeq(result);
+                return new CvSeq(result);*/
+            throw new NotImplementedException();
         }
         #endregion
         #region PolarToCart
