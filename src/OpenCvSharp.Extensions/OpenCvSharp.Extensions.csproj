@@ -67,14 +67,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binarizer.cs" />
-    <Compile Include="BitmapConverter.cs" />
-    <Compile Include="BitmapConverter2.cs" />
+    <Compile Include="BitmapConverter_IplImage.cs" />
+    <Compile Include="BitmapConverter_Mat.cs" />
     <Compile Include="CvExtensions.cs" />
     <Compile Include="MyParallel.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WriteableBitmapConverter2.cs" />
-    <Compile Include="WriteableBitmapConverter.cs" />
+    <Compile Include="WriteableBitmapConverter_Mat.cs" />
+    <Compile Include="WriteableBitmapConverter_IplImage.cs" />
     <Compile Include="BitmapSourceConverter.cs" />
   </ItemGroup>
   <ItemGroup>

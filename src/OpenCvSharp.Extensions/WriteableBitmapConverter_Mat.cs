@@ -9,7 +9,7 @@ namespace OpenCvSharp.Extensions
 {
     static partial class WriteableBitmapConverter
     {
-        #region ToIplImage
+        #region ToMat
 #if LANG_JP
         /// <summary>
         /// WriteableBitmapをMatに変換する
@@ -31,7 +31,7 @@ namespace OpenCvSharp.Extensions
             }
 
             int w = src.PixelWidth;
-            int h = src.PixelHeight;            
+            int h = src.PixelHeight;
             MatType type = GetOptimumType(src.Format);
             Mat dst = new Mat(h, w, type);
             ToMat(src, dst);
@@ -64,7 +64,7 @@ namespace OpenCvSharp.Extensions
             int w = src.PixelWidth;
             int h = src.PixelHeight;
             int bpp = src.Format.BitsPerPixel;
-            int channels = GetOptimumChannels(src.Format);            
+            int channels = GetOptimumChannels(src.Format);
             if (dst.Channels() != channels)
             {
                 throw new ArgumentException("nChannels of dst is invalid", "dst");
@@ -129,7 +129,7 @@ namespace OpenCvSharp.Extensions
                 else
                 {
                     int stride = w * ((bpp + 7) / 8);
-                    long imageSize = dst.DataEnd.ToInt64() - dst.DataStart.ToInt64();
+                    long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
                     if (imageSize < 0)
                         throw new OpenCvSharpException("The mat has invalid data pointer");
                     if (imageSize > Int32.MaxValue)
@@ -159,7 +159,7 @@ namespace OpenCvSharp.Extensions
         {
             if (wb == null)
                 throw new ArgumentNullException("wb");
-            
+
             ToMat(wb, mat);
         }
 
@@ -192,7 +192,7 @@ namespace OpenCvSharp.Extensions
         {
             if (src == null)
                 throw new ArgumentNullException("src");
-            
+
             var wb = new WriteableBitmap(src.Width, src.Height, dpiX, dpiY, pf, bp);
             ToWriteableBitmap(src, wb);
             return wb;
@@ -259,7 +259,7 @@ namespace OpenCvSharp.Extensions
             if (src.Width != dst.PixelWidth || src.Height != dst.PixelHeight)
                 throw new ArgumentException("size of src must be equal to size of dst");
             //if (src.Depth != BitDepth.U8)
-                //throw new ArgumentException("bit depth of src must be BitDepth.U8", "src");
+            //throw new ArgumentException("bit depth of src must be BitDepth.U8", "src");
             if (src.Dims() > 2)
                 throw new ArgumentException("Mat dimensions must be 2");
 
@@ -267,7 +267,7 @@ namespace OpenCvSharp.Extensions
             int h = src.Height;
             int bpp = dst.Format.BitsPerPixel;
 
-            int channels = GetOptimumChannels(dst.Format);   
+            int channels = GetOptimumChannels(dst.Format);
             if (src.Channels() != channels)
             {
                 throw new ArgumentException("channels of dst != channels of PixelFormat", "dst");
@@ -315,7 +315,7 @@ namespace OpenCvSharp.Extensions
             }
             else
             {
-                long imageSize = src.DataEnd.ToInt64() - src.DataStart.ToInt64();
+                long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
                 if (imageSize < 0)
                     throw new OpenCvSharpException("The mat has invalid data pointer");
                 if (imageSize > Int32.MaxValue)
