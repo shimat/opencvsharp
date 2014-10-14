@@ -537,132 +537,232 @@ CVAPI(void) core_Mat_CvMat(cv::Mat *self, CvMat *outMat)
 	memcpy(outMat, &inMat, sizeof(CvMat));
 }
 
-CVAPI(cv::MatExpr*) core_operatorUnaryMinus_Mat(cv::Mat *mat)
+CVAPI(cv::MatExpr*) core_Mat_operatorUnaryMinus(cv::Mat *mat)
 {
 	cv::MatExpr expr = -(*mat);
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(cv::MatExpr*) core_operatorAdd_MatMat(cv::Mat *a, cv::Mat *b)
+CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatMat(cv::Mat *a, cv::Mat *b)
 {
 	cv::MatExpr expr = (*a) + (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorAdd_MatScalar(cv::Mat *a, CvScalar s)
+CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatScalar(cv::Mat *a, CvScalar s)
 {
 	cv::MatExpr expr = (*a) + cv::Scalar(s);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorAdd_ScalarMat(CvScalar s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorAdd_ScalarMat(CvScalar s, cv::Mat *a)
 {
 	cv::MatExpr expr = cv::Scalar(s) + (*a); 
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(cv::MatExpr*) core_operatorMinus_Mat(cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorMinus_Mat(cv::Mat *a)
 {
 	cv::MatExpr expr = -(*a);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorSubtract_MatMat(cv::Mat *a, cv::Mat *b)
+CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatMat(cv::Mat *a, cv::Mat *b)
 {
 	cv::MatExpr expr = (*a) - (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorSubtract_MatScalar(cv::Mat *a, CvScalar s)
+CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatScalar(cv::Mat *a, CvScalar s)
 {
 	cv::MatExpr expr = (*a) - cv::Scalar(s);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorSubtract_ScalarMat(CvScalar s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_ScalarMat(CvScalar s, cv::Mat *a)
 {
 	cv::MatExpr expr = cv::Scalar(s) - (*a); 
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(cv::MatExpr*) core_operatorMultiply_MatMat(cv::Mat *a, cv::Mat *b)
+CVAPI(cv::MatExpr*) core_Mat_operatorMultiply_MatMat(cv::Mat *a, cv::Mat *b)
 {
 	cv::MatExpr expr = (*a) * (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorMultiply_MatDouble(cv::Mat *a, double s)
+CVAPI(cv::MatExpr*) core_Mat_operatorMultiply_MatDouble(cv::Mat *a, double s)
 {
 	cv::MatExpr expr = (*a) * s;
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorMultiply_DoubleMat(double s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorMultiply_DoubleMat(double s, cv::Mat *a)
 {
 	cv::MatExpr expr = s * (*a); 
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(cv::MatExpr*) core_operatorDivide_MatMat(cv::Mat *a, cv::Mat *b)
+CVAPI(cv::MatExpr*) core_Mat_operatorDivide_MatMat(cv::Mat *a, cv::Mat *b)
 {
 	cv::MatExpr expr = (*a) / (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorDivide_MatDouble(cv::Mat *a, double s)
+CVAPI(cv::MatExpr*) core_Mat_operatorDivide_MatDouble(cv::Mat *a, double s)
 {
 	cv::MatExpr expr = (*a) / s;
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorDivide_DoubleMat(double s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorDivide_DoubleMat(double s, cv::Mat *a)
 {
 	cv::MatExpr expr = s / (*a); 
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(cv::MatExpr*) core_operatorAnd_MatMat(cv::Mat *a, cv::Mat *b)
+CVAPI(cv::MatExpr*) core_Mat_operatorAnd_MatMat(cv::Mat *a, cv::Mat *b)
 {
 	cv::MatExpr expr = (*a) & (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorAnd_MatDouble(cv::Mat *a, double s)
+CVAPI(cv::MatExpr*) core_Mat_operatorAnd_MatDouble(cv::Mat *a, double s)
 {
 	cv::MatExpr expr = (*a) & s;
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorAnd_DoubleMat(double s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorAnd_DoubleMat(double s, cv::Mat *a)
 {
 	cv::MatExpr expr = s & (*a); 
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(cv::MatExpr*) core_operatorOr_MatMat(cv::Mat *a, cv::Mat *b)
+CVAPI(cv::MatExpr*) core_Mat_operatorOr_MatMat(cv::Mat *a, cv::Mat *b)
 {
 	cv::MatExpr expr = (*a) | (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorOr_MatDouble(cv::Mat *a, double s)
+CVAPI(cv::MatExpr*) core_Mat_operatorOr_MatDouble(cv::Mat *a, double s)
 {
 	cv::MatExpr expr = (*a) | s;
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorOr_DoubleMat(double s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorOr_DoubleMat(double s, cv::Mat *a)
 {
 	cv::MatExpr expr = s | (*a); 
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(cv::MatExpr*) core_operatorXor_MatMat(cv::Mat *a, cv::Mat *b)
+CVAPI(cv::MatExpr*) core_Mat_operatorXor_MatMat(cv::Mat *a, cv::Mat *b)
 {
 	cv::MatExpr expr = (*a) ^ (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorXor_MatDouble(cv::Mat *a, double s)
+CVAPI(cv::MatExpr*) core_Mat_operatorXor_MatDouble(cv::Mat *a, double s)
 {
 	cv::MatExpr expr = (*a) ^ s;
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_operatorXor_DoubleMat(double s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorXor_DoubleMat(double s, cv::Mat *a)
 {
 	cv::MatExpr expr = s ^ (*a); 
 	return new cv::MatExpr(expr);
 }
 
-CVAPI(cv::MatExpr*) core_operatorNot_Mat(cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorNot(cv::Mat *a)
 {
 	cv::MatExpr expr = ~(*a);
+	return new cv::MatExpr(expr);
+}
+
+
+// Comparison Operators
+
+// <
+CVAPI(cv::MatExpr*) core_Mat_operatorLT_MatMat(cv::Mat *a, cv::Mat *b)
+{
+	cv::MatExpr expr = (*a) < (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorLT_DoubleMat(double a, cv::Mat *b)
+{
+	cv::MatExpr expr = a < (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorLT_MatDouble(cv::Mat *a, double b)
+{
+	cv::MatExpr expr = (*a) < b; 
+	return new cv::MatExpr(expr);
+}
+// <=
+CVAPI(cv::MatExpr*) core_Mat_operatorLE_MatMat(cv::Mat *a, cv::Mat *b)
+{
+	cv::MatExpr expr = (*a) <= (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorLE_DoubleMat(double a, cv::Mat *b)
+{
+	cv::MatExpr expr = a <= (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorLE_MatDouble(cv::Mat *a, double b)
+{
+	cv::MatExpr expr = (*a) <= b; 
+	return new cv::MatExpr(expr);
+}
+// >
+CVAPI(cv::MatExpr*) core_Mat_operatorGT_MatMat(cv::Mat *a, cv::Mat *b)
+{
+	cv::MatExpr expr = (*a) > (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorGT_DoubleMat(double a, cv::Mat *b)
+{
+	cv::MatExpr expr = a > (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorGT_MatDouble(cv::Mat *a, double b)
+{
+	cv::MatExpr expr = (*a) > b; 
+	return new cv::MatExpr(expr);
+}
+// >=
+CVAPI(cv::MatExpr*) core_Mat_operatorGE_MatMat(cv::Mat *a, cv::Mat *b)
+{
+	cv::MatExpr expr = (*a) >= (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorGE_DoubleMat(double a, cv::Mat *b)
+{
+	cv::MatExpr expr = a >= (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorGE_MatDouble(cv::Mat *a, double b)
+{
+	cv::MatExpr expr = (*a) >= b; 
+	return new cv::MatExpr(expr);
+}
+// ==
+CVAPI(cv::MatExpr*) core_Mat_operatorEQ_MatMat(cv::Mat *a, cv::Mat *b)
+{
+	cv::MatExpr expr = (*a) == (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorEQ_DoubleMat(double a, cv::Mat *b)
+{
+	cv::MatExpr expr = a == (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorEQ_MatDouble(cv::Mat *a, double b)
+{
+	cv::MatExpr expr = (*a) == b; 
+	return new cv::MatExpr(expr);
+}
+// !=
+CVAPI(cv::MatExpr*) core_Mat_operatorNE_MatMat(cv::Mat *a, cv::Mat *b)
+{
+	cv::MatExpr expr = (*a) != (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorNE_DoubleMat(double a, cv::Mat *b)
+{
+	cv::MatExpr expr = a != (*b); 
+	return new cv::MatExpr(expr);
+}
+CVAPI(cv::MatExpr*) core_Mat_operatorNE_MatDouble(cv::Mat *a, double b)
+{
+	cv::MatExpr expr = (*a) != b; 
 	return new cv::MatExpr(expr);
 }
 
