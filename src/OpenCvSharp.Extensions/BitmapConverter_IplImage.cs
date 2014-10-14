@@ -431,7 +431,7 @@ namespace OpenCvSharp.Extensions
                         {
                             for (int y = 0; y < h; y++)
                             {
-                                int offsetSrc = ((y + yo) * widthStepSrc) + xo;
+                                int offsetSrc = ((y + yo) * widthStepSrc) + (xo * ch);
                                 int offsetDst = (y * widthStepDst);
 
                                 /*
@@ -440,7 +440,7 @@ namespace OpenCvSharp.Extensions
                                     pdst[x + offset_dst] = psrc[x + offset_src];
                                 }
                                 //*/
-                                // 一列ごとにコピー
+                                // 一行ごとにコピー
                                 Util.CopyMemory(pdst + offsetDst, psrc + offsetSrc, w * ch);
                             }
                         }
