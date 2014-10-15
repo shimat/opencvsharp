@@ -350,9 +350,9 @@ CVAPI(int) core_Mat_rows(cv::Mat *self)
 	return self->rows;
 }
 
-CVAPI(cv::Mat*) core_Mat_setTo_Scalar(cv::Mat *self, CvScalar value, cv::Mat *mask)
+CVAPI(cv::Mat*) core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::Mat *mask)
 {
-	cv::Mat ret = self->setTo((cv::Scalar)value, entity(mask));
+	cv::Mat ret = self->setTo(cpp(value), entity(mask));
 	return new cv::Mat(ret);
 }
 CVAPI(cv::Mat*) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value, cv::_InputArray *mask)
@@ -396,12 +396,12 @@ CVAPI(cv::Mat*) core_Mat_subMat1(cv::Mat *self, int rowStart, int rowEnd, int co
 	cv::Mat ret = (*self)(rowRange, colRange);
 	return new cv::Mat(ret);
 }
-CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, CvSlice *ranges)
+CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, MyCvSlice *ranges)
 {
 	std::vector<cv::Range> rangesVec;
 	for (int i = 0; i < nRanges; i++)
 	{
-		rangesVec.push_back(ranges[i]);
+		rangesVec.push_back(cpp(ranges[i]));
 	}
 	cv::Mat ret = (*self)(&rangesVec[0]);
 	return new cv::Mat(ret);
@@ -479,9 +479,9 @@ CVAPI(void) core_Mat_resize1(cv::Mat *obj, size_t sz)
 {
 	obj->resize(sz);
 }
-CVAPI(void) core_Mat_resize2(cv::Mat *obj, size_t sz, CvScalar s)
+CVAPI(void) core_Mat_resize2(cv::Mat *obj, size_t sz, MyCvScalar s)
 {
-	obj->resize(sz, s);
+	obj->resize(sz, cpp(s));
 }
 CVAPI(void) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
 {
@@ -500,9 +500,9 @@ CVAPI(void) core_Mat_assignment_FromMatExpr(cv::Mat *self, cv::MatExpr *newMatEx
 {
 	*self = *newMatExpr;
 }
-CVAPI(void) core_Mat_assignment_FromScalar(cv::Mat *self, CvScalar scalar)
+CVAPI(void) core_Mat_assignment_FromScalar(cv::Mat *self, MyCvScalar scalar)
 {
-	*self = scalar;
+	*self = cpp(scalar);
 }
 
 CVAPI(void) core_Mat_IplImage(cv::Mat *self, IplImage *outImage)
@@ -548,14 +548,14 @@ CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatMat(cv::Mat *a, cv::Mat *b)
 	cv::MatExpr expr = (*a) + (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatScalar(cv::Mat *a, CvScalar s)
+CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatScalar(cv::Mat *a, MyCvScalar s)
 {
-	cv::MatExpr expr = (*a) + cv::Scalar(s);
+	cv::MatExpr expr = (*a) + cpp(s);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_operatorAdd_ScalarMat(CvScalar s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorAdd_ScalarMat(MyCvScalar s, cv::Mat *a)
 {
-	cv::MatExpr expr = cv::Scalar(s) + (*a); 
+	cv::MatExpr expr = cpp(s) + (*a); 
 	return new cv::MatExpr(expr);
 }
 
@@ -569,14 +569,14 @@ CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatMat(cv::Mat *a, cv::Mat *b)
 	cv::MatExpr expr = (*a) - (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatScalar(cv::Mat *a, CvScalar s)
+CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatScalar(cv::Mat *a, MyCvScalar s)
 {
-	cv::MatExpr expr = (*a) - cv::Scalar(s);
+	cv::MatExpr expr = (*a) - cpp(s);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_ScalarMat(CvScalar s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_ScalarMat(MyCvScalar s, cv::Mat *a)
 {
-	cv::MatExpr expr = cv::Scalar(s) - (*a); 
+	cv::MatExpr expr = cpp(s) - (*a); 
 	return new cv::MatExpr(expr);
 }
 
