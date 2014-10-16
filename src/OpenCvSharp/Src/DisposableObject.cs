@@ -137,7 +137,7 @@ namespace OpenCvSharp
         public bool IsDisposed { get; protected set; }
 #if LANG_JP
         /// <summary>
-        /// 解放処理を許可するかどうかを取得・設定する. trueならばDisposeは何もしない.
+        /// 解放処理を許可するかどうかを取得・設定する. falseならばDisposeは何もしない.
         /// 通常はユーザはこのフラグを変更してはならない. CvCapture.QueryFrameで取得したIplImageのように, 
         /// 解放処理をするとエラーとなるオブジェクトの場合に自動的にこのフラグがtrueとなる。
         /// </summary>
