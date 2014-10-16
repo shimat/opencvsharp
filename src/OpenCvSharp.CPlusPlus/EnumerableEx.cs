@@ -257,7 +257,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// Enumerable.Count
+        /// 
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="enumerable"></param>
