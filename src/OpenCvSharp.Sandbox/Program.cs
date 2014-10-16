@@ -25,11 +25,32 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            Mat src = new Mat("data/lenna.png", LoadMode.GrayScale);
+            Mat zoom = new Mat();
+            Mat f32 = new Mat();
+
+            Cv2.Resize(src, zoom, new Size(960, 1280), 0, 0, Interpolation.Cubic);
+            zoom.ConvertTo(f32, MatType.CV_32FC1);
+
+            Scalar mean, stddev;
+            Cv2.MeanStdDev(f32, out mean, out stddev);
+            Console.WriteLine(mean[0]);
+            Console.WriteLine(stddev[0]);
+
+            Mat meanm = new Mat(), stddevm = new Mat();
+            Cv2.MeanStdDev(f32, meanm, stddevm);
+            Console.WriteLine(meanm.At<double>(0));
+            Console.WriteLine(stddevm.At<double>(0));
+            meanm.ToString();
+
+            /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
+            var img2 = new IplImage("data/match2.png", LoadMode.Color);
+            Surf(img1, img2);*/
+
             //Mat[] mats = StitchingPreprocess(400, 400, 10);
             //Stitching(mats);
             //Track();
             //Run();
-            Surf();
         }
 
         private static void Clahe()

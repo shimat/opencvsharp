@@ -8,7 +8,7 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.Extensions
 {
-    public static partial class BitmapConverter
+    static partial class BitmapConverter
     {
         #region ToMat
 #if LANG_JP
@@ -28,7 +28,7 @@ namespace OpenCvSharp.Extensions
         {
             if (src == null)
                 throw new ArgumentNullException("src");
-            
+
             int w = src.Width;
             int h = src.Height;
             int channels;
@@ -94,114 +94,115 @@ namespace OpenCvSharp.Extensions
                 int sstep = bd.Stride;
                 int offset = sstep - (w / 8);
                 uint dstep = (uint)dst.Step();
-                byte* dstData = (byte*)dst.Data.ToPointer();
+                IntPtr dstData = dst.Data;
+                byte* dstPtr = (byte*)dstData.ToPointer();
 
                 switch (src.PixelFormat)
                 {
                     case PixelFormat.Format1bppIndexed:
-                    {
-                        if (dst.Channels() != 1)
                         {
-                            throw new ArgumentException("Invalid nChannels");
-                        }
-                        int x = 0;
-                        int y;
-                        int bytePos;
-                        byte b;
-                        int i;
-                        for (y = 0; y < h; y++)
-                        {
-                            // 横は必ず4byte幅に切り上げられる。
-                            // この行の各バイトを調べていく
-                            for (bytePos = 0; bytePos < sstep; bytePos++)
+                            if (dst.Channels() != 1)
                             {
-                                if (x < w)
+                                throw new ArgumentException("Invalid nChannels");
+                            }
+                            int x = 0;
+                            int y;
+                            int bytePos;
+                            byte b;
+                            int i;
+                            for (y = 0; y < h; y++)
+                            {
+                                // 横は必ず4byte幅に切り上げられる。
+                                // この行の各バイトを調べていく
+                                for (bytePos = 0; bytePos < sstep; bytePos++)
                                 {
-                                    // 現在の位置のバイトからそれぞれのビット8つを取り出す
-                                    b = p[bytePos];
-                                    for (i = 0; i < 8; i++)
+                                    if (x < w)
                                     {
-                                        if (x >= w)
+                                        // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                                        b = p[bytePos];
+                                        for (i = 0; i < 8; i++)
                                         {
-                                            break;
+                                            if (x >= w)
+                                            {
+                                                break;
+                                            }
+                                            // IplImageは8bit/pixel
+                                            dstPtr[dstep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
+                                            b <<= 1;
+                                            x++;
                                         }
-                                        // IplImageは8bit/pixel
-                                        dstData[dstep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
-                                        b <<= 1;
-                                        x++;
                                     }
                                 }
+                                // 次の行へ
+                                x = 0;
+                                p += sstep;
                             }
-                            // 次の行へ
-                            x = 0;
-                            p += sstep;
                         }
-                    }
                         break;
 
                     case PixelFormat.Format8bppIndexed:
                     case PixelFormat.Format24bppRgb:
-                    {
-                        if (src.PixelFormat == PixelFormat.Format8bppIndexed)
-                            if (dst.Channels() != 1)
-                                throw new ArgumentException("Invalid nChannels");
-                        if (src.PixelFormat == PixelFormat.Format24bppRgb)
-                            if (dst.Channels() != 3)
-                                throw new ArgumentException("Invalid nChannels");
+                        {
+                            if (src.PixelFormat == PixelFormat.Format8bppIndexed)
+                                if (dst.Channels() != 1)
+                                    throw new ArgumentException("Invalid nChannels");
+                            if (src.PixelFormat == PixelFormat.Format24bppRgb)
+                                if (dst.Channels() != 3)
+                                    throw new ArgumentException("Invalid nChannels");
 
-                        // Mat幅が4の倍数なら一気にコピー
-                        if (dstep % 4 == 0)
-                        {
-                            uint length = (uint)(dst.DataEnd.ToInt64() - dst.DataStart.ToInt64());
-                            Util.CopyMemory(dst.DataStart, bd.Scan0, length);
-                        }
-                        else
-                        {
-                            // 各行ごとにdstの行バイト幅コピー
-                            byte* sp = (byte*)bd.Scan0;
-                            byte* dp = (byte*)dst.DataStart;
-                            for (int y = 0; y < h; y++)
+                            // Mat幅が4の倍数なら一気にコピー
+                            if (dstep % 4 == 0)
                             {
-                                Util.CopyMemory(dp, sp, dstep);
-                                sp += sstep;
-                                dp += dstep;
+                                uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
+                                Util.CopyMemory(dstData, bd.Scan0, length);
+                            }
+                            else
+                            {
+                                // 各行ごとにdstの行バイト幅コピー
+                                byte* sp = (byte*)bd.Scan0;
+                                byte* dp = (byte*)dst.Data;
+                                for (int y = 0; y < h; y++)
+                                {
+                                    Util.CopyMemory(dp, sp, dstep);
+                                    sp += sstep;
+                                    dp += dstep;
+                                }
                             }
                         }
-                    }
                         break;
 
                     case PixelFormat.Format32bppRgb:
                     case PixelFormat.Format32bppArgb:
                     case PixelFormat.Format32bppPArgb:
-                    {
-                        // 4チャネルならアラインメント調整いらない(はず)
-                        switch (dst.Channels())
                         {
-                            case 4:
-                                uint length = (uint)(dst.DataEnd.ToInt64() - dst.DataStart.ToInt64());
-                                Util.CopyMemory(dst.DataStart, bd.Scan0, length);
-                                break;
-                            case 3:
-                                for (int y = 0; y < h; y++)
-                                {
-                                    for (int x = 0; x < w; x++)
+                            // 4チャネルならアラインメント調整いらない(はず)
+                            switch (dst.Channels())
+                            {
+                                case 4:
+                                    uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
+                                    Util.CopyMemory(dstData, bd.Scan0, length);
+                                    break;
+                                case 3:
+                                    for (int y = 0; y < h; y++)
                                     {
-                                        dstData[y * dstep + x * 3 + 0] = p[y * sstep + x * 4 + 0];
-                                        dstData[y * dstep + x * 3 + 1] = p[y * sstep + x * 4 + 1];
-                                        dstData[y * dstep + x * 3 + 2] = p[y * sstep + x * 4 + 2];
+                                        for (int x = 0; x < w; x++)
+                                        {
+                                            dstPtr[y * dstep + x * 3 + 0] = p[y * sstep + x * 4 + 0];
+                                            dstPtr[y * dstep + x * 3 + 1] = p[y * sstep + x * 4 + 1];
+                                            dstPtr[y * dstep + x * 3 + 2] = p[y * sstep + x * 4 + 2];
+                                        }
                                     }
-                                }
-                                break;
-                            default:
-                                throw new ArgumentException("Invalid nChannels");
+                                    break;
+                                default:
+                                    throw new ArgumentException("Invalid nChannels");
+                            }
                         }
-                    }
                         break;
                 }
             }
             finally
             {
-                if(bd != null)
+                if (bd != null)
                     src.UnlockBits(bd);
             }
         }
@@ -319,9 +320,9 @@ namespace OpenCvSharp.Extensions
             {
                 bd = dst.LockBits(rect, ImageLockMode.WriteOnly, pf);
 
-
-                byte* psrc = (byte*)(src.DataStart.ToPointer());
-                byte* pdst = (byte*)(bd.Scan0.ToPointer());
+                IntPtr srcData = src.Data;
+                byte* pSrc = (byte*)(srcData.ToPointer());
+                byte* pDst = (byte*)(bd.Scan0.ToPointer());
                 int ch = src.Channels();
                 int sstep = (int)src.Step();
                 int dstep = ((src.Width * ch) + 3) / 4 * 4; // 4の倍数に揃える
@@ -330,48 +331,48 @@ namespace OpenCvSharp.Extensions
                 switch (pf)
                 {
                     case PixelFormat.Format1bppIndexed:
-                    {
-                        // BitmapDataは4byte幅だが、IplImageは1byte幅
-                        // 手作業で移し替える				 
-                        //int offset = stride - (w / 8);
-                        int x = 0;
-                        int y;
-                        int bytePos;
-                        byte mask;
-                        byte b = 0;
-                        int i;
-                        for (y = 0; y < h; y++)
                         {
-                            for (bytePos = 0; bytePos < stride; bytePos++)
+                            // BitmapDataは4byte幅だが、IplImageは1byte幅
+                            // 手作業で移し替える				 
+                            //int offset = stride - (w / 8);
+                            int x = 0;
+                            int y;
+                            int bytePos;
+                            byte mask;
+                            byte b = 0;
+                            int i;
+                            for (y = 0; y < h; y++)
                             {
-                                if (x < w)
+                                for (bytePos = 0; bytePos < stride; bytePos++)
                                 {
-                                    for (i = 0; i < 8; i++)
+                                    if (x < w)
                                     {
-                                        mask = (byte)(0x80 >> i);
-                                        if (x < w && psrc[sstep * y + x] == 0)
-                                            b &= (byte)(mask ^ 0xff);
-                                        else
-                                            b |= mask;
+                                        for (i = 0; i < 8; i++)
+                                        {
+                                            mask = (byte)(0x80 >> i);
+                                            if (x < w && pSrc[sstep * y + x] == 0)
+                                                b &= (byte)(mask ^ 0xff);
+                                            else
+                                                b |= mask;
 
-                                        x++;
+                                            x++;
+                                        }
+                                        pDst[bytePos] = b;
                                     }
-                                    pdst[bytePos] = b;
                                 }
+                                x = 0;
+                                pDst += stride;
                             }
-                            x = 0;
-                            pdst += stride;
+                            break;
                         }
-                        break;
-                    }
 
                     case PixelFormat.Format8bppIndexed:
                     case PixelFormat.Format24bppRgb:
                     case PixelFormat.Format32bppArgb:
                         if (sstep == dstep)
                         {
-                            uint imageSize = (uint)(src.DataEnd.ToInt64() - src.DataStart.ToInt64());
-                            Util.CopyMemory(pdst, psrc, imageSize);
+                            uint imageSize = (uint)(src.DataEnd.ToInt64() - src.Data.ToInt64());
+                            Util.CopyMemory(pDst, pSrc, imageSize);
                         }
                         else
                         {
@@ -380,7 +381,7 @@ namespace OpenCvSharp.Extensions
                                 int offsetSrc = (y * sstep);
                                 int offsetDst = (y * dstep);
                                 // 一列ごとにコピー
-                                Util.CopyMemory(pdst + offsetDst, psrc + offsetSrc, w * ch);
+                                Util.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * ch);
                             }
                         }
                         break;

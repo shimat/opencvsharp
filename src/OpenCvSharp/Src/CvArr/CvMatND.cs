@@ -69,8 +69,6 @@ namespace OpenCvSharp
             ptr = NativeMethods.cvCreateMatND(dims, sizes, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
-            
-            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
@@ -130,7 +128,6 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             this.ptr = ptr;
-            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>

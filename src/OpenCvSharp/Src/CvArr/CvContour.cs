@@ -28,7 +28,6 @@ namespace OpenCvSharp
             : this(Marshal.AllocHGlobal(SizeOf))
         {
             AllocatedMemory = ptr;
-            NotifyMemoryPressure(SizeOf);
         }
 #if LANG_JP
         /// <summary>
