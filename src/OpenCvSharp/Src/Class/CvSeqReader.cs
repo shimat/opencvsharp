@@ -29,7 +29,6 @@ namespace OpenCvSharp
         public CvSeqReader()
         {
             this.ptr = base.AllocMemory(SizeOf);
-            base.NotifyMemoryPressure(SizeOf);
         }
         #endregion
 

@@ -57,6 +57,11 @@ extern "C"
 		double val[4];
 	} MyCvScalar;
 
+    typedef struct MyCvSlice
+    {
+        int  start_index, end_index;
+    } MyCvSlice;
+
 	typedef struct MyCvMoments
 	{
 		double  m00, m10, m01, m20, m11, m02, m30, m21, m12, m03; /* spatial moments */
@@ -176,6 +181,18 @@ static inline MyCvScalar c(cv::Scalar s)
 static inline cv::Scalar cpp(MyCvScalar s)
 {
 	return cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
+}
+
+static inline MyCvSlice c(cv::Range s)
+{
+	MyCvSlice ret;
+    ret.start_index = s.start;
+    ret.end_index = s.end;
+	return ret;
+}
+static inline cv::Range cpp(MyCvSlice s)
+{
+	return cv::Range(s.start_index, s.end_index);
 }
 
 static inline MyCvMoments c(cv::Moments m)
