@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
@@ -31,13 +30,6 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
             this.ptr = ptr;
-        }
-
-        private long MemorySize()
-        {
-            long elemSize = ElemSize();
-            long dataLength = DataEnd.ToInt64() - DataStart.ToInt64();
-            return SizeOf + (elemSize*dataLength);
         }
 
 #if LANG_JP
@@ -1132,184 +1124,6 @@ namespace OpenCvSharp.CPlusPlus
 
         #endregion
 
-        #region Comparison
-
-#pragma warning disable 1591
-        public static MatExpr operator <(Mat a, Mat b)
-        {
-            if (a == null) 
-                throw new ArgumentNullException("a");
-            if (b == null) 
-                throw new ArgumentNullException("b");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorLT_MatMat(a.CvPtr, b.CvPtr);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(a);
-            GC.KeepAlive(b);
-            return ret;
-        }
-
-        public static MatExpr operator <(Mat a, double b)
-        {
-            if (a == null)
-                throw new ArgumentNullException("a");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorLT_MatDouble(a.CvPtr, b);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(a);
-            return ret;
-        }
-
-        public static MatExpr operator <(double a, Mat b)
-        {
-            if (b == null)
-                throw new ArgumentNullException("b");
-            IntPtr expr = NativeMethods.core_Mat_operatorLT_DoubleMat(a, b.CvPtr);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(b);
-            return ret;
-        }
-
-        public static MatExpr operator <=(Mat a, Mat b)
-        {
-            if (a == null)
-                throw new ArgumentNullException("a");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorLE_MatMat(a.CvPtr, b.CvPtr);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(a);
-            GC.KeepAlive(b);
-            return ret;
-        }
-
-        public static MatExpr operator <=(Mat a, double b)
-        {
-            if (a == null)
-                throw new ArgumentNullException("a");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorLE_MatDouble(a.CvPtr, b);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(a);
-            return ret;
-        }
-
-        public static MatExpr operator <=(double a, Mat b)
-        {
-            if (b == null)
-                throw new ArgumentNullException("b");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorLE_DoubleMat(a, b.CvPtr);
-            MatExpr ret = new MatExpr(expr);
-            
-            GC.KeepAlive(b);
-            return ret;
-        }
-
-        /*
-        public static MatExpr operator ==(Mat a, Mat b)
-        {
-            // If both are null, or both are same instance, return true.
-            if (ReferenceEquals(a, b))
-                return true;
-            // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
-                return false;
-
-        }
-        public static MatExpr operator ==(Mat a, double s) { throw new NotImplementedException(); }
-        public static MatExpr operator ==(double s, Mat a) { throw new NotImplementedException(); }
-
-        public static MatExpr operator !=(Mat a, Mat b) { throw new NotImplementedException(); }
-        public static MatExpr operator !=(Mat a, double s) { throw new NotImplementedException(); }
-        public static MatExpr operator !=(double s, Mat a) { throw new NotImplementedException(); }
-        */
-
-        public static MatExpr operator >=(Mat a, Mat b)
-        {
-            if (a == null)
-                throw new ArgumentNullException("a");
-            if (b == null)
-                throw new ArgumentNullException("b");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorGT_MatMat(a.CvPtr, b.CvPtr);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(a);
-            GC.KeepAlive(b);
-            return ret;
-        }
-
-        public static MatExpr operator >=(Mat a, double b)
-        {
-            if (a == null)
-                throw new ArgumentNullException("a");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorGT_MatDouble(a.CvPtr, b);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(a);
-            return ret;
-        }
-
-        public static MatExpr operator >=(double a, Mat b)
-        {
-            if (b == null)
-                throw new ArgumentNullException("b");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorGT_DoubleMat(a, b.CvPtr);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(b);
-            return ret;
-        }
-
-        public static MatExpr operator >(Mat a, Mat b)
-        {
-            if (a == null)
-                throw new ArgumentNullException("a");
-            if (b == null)
-                throw new ArgumentNullException("b");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorGE_MatMat(a.CvPtr, b.CvPtr);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(a);
-            GC.KeepAlive(b);
-            return ret;
-        }
-
-        public static MatExpr operator >(Mat a, double b)
-        {
-            if (a == null)
-                throw new ArgumentNullException("a");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorGE_MatDouble(a.CvPtr, b);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(a);
-            return ret;
-        }
-
-        public static MatExpr operator >(double a, Mat b)
-        {
-            if (b == null)
-                throw new ArgumentNullException("b");
-
-            IntPtr expr = NativeMethods.core_Mat_operatorGE_DoubleMat(a, b.CvPtr);
-            MatExpr ret = new MatExpr(expr);
-
-            GC.KeepAlive(b);
-            return ret;
-        }
-#pragma warning restore 1591
-
-        #endregion
-
         #region And
 
         /// <summary>
@@ -1487,6 +1301,190 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #endregion
+
+        #endregion
+
+        #region Comparison
+
+        /// <summary>
+        /// operator &lt;
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public MatExpr LessThan(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            IntPtr expr = NativeMethods.core_Mat_operatorLT_MatMat(ptr, m.CvPtr);
+            MatExpr ret = new MatExpr(expr);
+
+            GC.KeepAlive(m);
+            return ret;
+        }
+
+        /// <summary>
+        /// operator &lt;
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public MatExpr LessThan(double d)
+        {
+            IntPtr expr = NativeMethods.core_Mat_operatorLT_MatDouble(ptr, d);
+            MatExpr ret = new MatExpr(expr);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// operator &lt;=
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public MatExpr LessThanOrEqual(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            IntPtr expr = NativeMethods.core_Mat_operatorLE_MatMat(ptr, m.CvPtr);
+            MatExpr ret = new MatExpr(expr);
+
+            GC.KeepAlive(m);
+            return ret;
+        }
+
+        /// <summary>
+        /// operator &lt;=
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public MatExpr LessThanOrEqual(double d)
+        {
+            IntPtr expr = NativeMethods.core_Mat_operatorLE_MatDouble(ptr, d);
+            MatExpr ret = new MatExpr(expr);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// operator ==
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public MatExpr Equals(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            IntPtr expr = NativeMethods.core_Mat_operatorEQ_MatMat(ptr, m.CvPtr);
+            MatExpr ret = new MatExpr(expr);
+
+            GC.KeepAlive(m);
+            return ret;
+        }
+
+        /// <summary>
+        /// operator ==
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public MatExpr Equals(double d)
+        {
+            IntPtr expr = NativeMethods.core_Mat_operatorEQ_MatDouble(ptr, d);
+            MatExpr ret = new MatExpr(expr);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// operator !=
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public MatExpr NotEquals(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            IntPtr expr = NativeMethods.core_Mat_operatorNE_MatMat(ptr, m.CvPtr);
+            MatExpr ret = new MatExpr(expr);
+
+            GC.KeepAlive(m);
+            return ret;
+        }
+
+        /// <summary>
+        /// operator !=
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public MatExpr NotEquals(double d)
+        {
+            IntPtr expr = NativeMethods.core_Mat_operatorNE_MatDouble(ptr, d);
+            MatExpr ret = new MatExpr(expr);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// operator &gt;
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public MatExpr GreaterThan(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            IntPtr expr = NativeMethods.core_Mat_operatorGT_MatMat(ptr, m.CvPtr);
+            MatExpr ret = new MatExpr(expr);
+
+            GC.KeepAlive(m);
+            return ret;
+        }
+
+        /// <summary>
+        /// operator &gt;
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public MatExpr GreaterThan(double d)
+        {
+            IntPtr expr = NativeMethods.core_Mat_operatorGT_MatDouble(ptr, d);
+            MatExpr ret = new MatExpr(expr);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// operator &gt;=
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public MatExpr GreaterThanOrEqual(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            IntPtr expr = NativeMethods.core_Mat_operatorGE_MatMat(ptr, m.CvPtr);
+            MatExpr ret = new MatExpr(expr);
+
+            GC.KeepAlive(m);
+            return ret;
+        }
+
+        /// <summary>
+        /// operator &gt;=
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public MatExpr GreaterThanOrEqual(double d)
+        {
+            IntPtr expr = NativeMethods.core_Mat_operatorGE_MatDouble(ptr, d);
+            MatExpr ret = new MatExpr(expr);
+
+            return ret;
+        }
 
         #endregion
 
