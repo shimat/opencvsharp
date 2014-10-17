@@ -80,15 +80,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;D:\lib\OpenCV\2.4.9\build\x86\vc11\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\</OutDir>
-    <IncludePath>D:\lib\OpenCV\2.4.9\build\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>D:\lib\OpenCV\2.4.9\build\x64\vc11\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\</OutDir>
-    <IncludePath>D:\lib\OpenCV\2.4.9\build\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
