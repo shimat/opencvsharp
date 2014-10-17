@@ -52,7 +52,7 @@ CVAPI(void) gpu_ORB_GPU_convertKeyPoints(ORB_GPU *obj, cv::Mat *h_keypoints, std
 
 CVAPI(int) gpu_ORB_GPU_descriptorSize(ORB_GPU *obj)
 {
-    obj->descriptorSize();
+    return obj->descriptorSize();
 }
 
 CVAPI(void) gpu_ORB_GPU_release(ORB_GPU *obj)
