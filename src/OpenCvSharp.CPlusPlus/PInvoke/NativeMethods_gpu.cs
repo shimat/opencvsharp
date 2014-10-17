@@ -402,5 +402,51 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe float* gpu_StereoBM_GPU_avergeTexThreshold(IntPtr obj);
         #endregion
+
+        #region FAST_GPU
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_FAST_GPU_new(int threshold, int nonmaxSuppression, double keypointsRatio);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_operator1(IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_operator2(IntPtr obj, IntPtr image, IntPtr mask,
+                                                         IntPtr keypoints);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_downloadKeypoints(IntPtr obj, IntPtr d_keypoints,
+                                                                 IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_convertKeypoints(IntPtr obj, IntPtr h_keypoints,
+                                                                IntPtr keypoints);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_release(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_FAST_GPU_nonmaxSuppression_get(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_nonmaxSuppression_set(IntPtr obj, int value);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_FAST_GPU_threshold_get(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_threshold_set(IntPtr obj, int value);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double gpu_FAST_GPU_keypointsRatio_get(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_FAST_GPU_keypointsRatio_set(IntPtr obj, double value);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_FAST_GPU_calcKeyPointsLocation(IntPtr obj, IntPtr image, IntPtr mask);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_FAST_GPU_getKeyPoints(IntPtr obj, IntPtr keypoints);
+
+        #endregion
     }
 }

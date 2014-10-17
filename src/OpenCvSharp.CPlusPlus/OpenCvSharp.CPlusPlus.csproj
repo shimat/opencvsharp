@@ -117,6 +117,7 @@
     <Compile Include="modules\gpu\GpuMatRowColIndexer.cs" />
     <Compile Include="modules\gpu\HOGDescriptor.cs" />
     <Compile Include="modules\gpu\StereoBM_GPU.cs" />
+    <Compile Include="modules\gpu\FAST_GPU.cs" />
     <Compile Include="modules\imgproc\CLAHE.cs" />
     <Compile Include="modules\ml\Class\CvDTreeNode.cs" />
     <Compile Include="modules\ml\Class\CvDTreeSplit.cs" />
