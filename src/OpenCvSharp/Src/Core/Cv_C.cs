@@ -5694,7 +5694,7 @@ namespace OpenCvSharp
             IntPtr ptr = NativeMethods.cvCreateMemStorage(blockSize);
             if (ptr == IntPtr.Zero)
                 return null;
-            return new CvMemStorage(ptr);
+            return new CvMemStorage(ptr, true);
         }
         #endregion
         #region CreatePOSITObject
