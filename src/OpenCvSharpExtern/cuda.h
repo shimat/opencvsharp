@@ -243,9 +243,9 @@ CVAPI(uint64) cuda_CudaMem_step1(CudaMem *obj)
 {
 	return static_cast<uint64>(obj->step1());
 }
-CVAPI(CvSize) cuda_CudaMem_size(CudaMem *obj)
+CVAPI(MyCvSize) cuda_CudaMem_size(CudaMem *obj)
 {
-	return (CvSize)obj->size();
+	return c(obj->size());
 }
 CVAPI(int) cuda_CudaMem_empty(CudaMem *obj)
 {
