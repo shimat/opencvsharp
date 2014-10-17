@@ -5,9 +5,9 @@ namespace OpenCvSharp.CPlusPlus.Gpu
     // ReSharper disable InconsistentNaming
 
     /// <summary>
-    /// Class used for corner detection using the FAST algorithm.
+    /// Class for extracting ORB features and descriptors from an image.
     /// </summary>
-    public class FAST_GPU : DisposableCvObject
+    public class ORB_GPU : DisposableCvObject
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -17,20 +17,28 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <summary>
         /// all features have same size
         /// </summary>
-        public const int FEATURE_SIZE = 7;
+        public const int DEFAULT_FAST_THRESHOLD = 20;
 
         #region Init and Disposal
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="threshold">Threshold on difference between intensity of the central pixel and pixels on a circle around this pixel.</param>
-        /// <param name="nonmaxSuppression">If it is true, non-maximum suppression is applied to detected corners (keypoints).</param>
-        /// <param name="keypointsRatio">Inner buffer size for keypoints store is determined as (keypointsRatio * image_width * image_height).</param>
-        public FAST_GPU(int threshold, bool nonmaxSuppression = true, double keypointsRatio = 0.05)
+        /// <param name="nFeatures">The number of desired features.</param>
+        /// <param name="scaleFactor">Coefficient by which we divide the dimensions from one scale pyramid level to the next.</param>
+        /// <param name="nLevels">The number of levels in the scale pyramid.</param>
+        /// <param name="edgeThreshold">How far from the boundary the points should be.</param>
+        /// <param name="firstLevel">The level at which the image is given. If 1, that means we will also look at the image scaleFactor times bigger.</param>
+        /// <param name="WTA_K"></param>
+        /// <param name="scoreType"></param>
+        /// <param name="patchSize"></param>
+        public ORB_GPU(int nFeatures = 500, float scaleFactor = 1.2f, int nLevels = 8, int edgeThreshold = 31,
+                     int firstLevel = 0, int WTA_K = 2, ScoreType scoreType = 0, int patchSize = 31)
         {
             Cv2Gpu.ThrowIfGpuNotAvailable();
-            ptr = NativeMethods.gpu_FAST_GPU_new(threshold, nonmaxSuppression ? 1 : 0, keypointsRatio);
+            ptr = NativeMethods.gpu_ORB_GPU_new(
+                nFeatures, scaleFactor, nLevels, edgeThreshold,
+                firstLevel, WTA_K, (int)scoreType, patchSize);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -60,7 +68,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                 {
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.gpu_FAST_GPU_delete(ptr);
+                        NativeMethods.gpu_ORB_GPU_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -78,57 +86,32 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <summary>
         /// 
         /// </summary>
-        public bool NonmaxSuppression
+        public int DescriptorSize
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.gpu_FAST_GPU_nonmaxSuppression_get(ptr) != 0;
-            }
-            set
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.gpu_FAST_GPU_nonmaxSuppression_set(ptr, value ? 0 : 1);
+                return NativeMethods.gpu_ORB_GPU_descriptorSize(ptr);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public int Threshold
+        public bool BlurForDescriptor
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.gpu_FAST_GPU_threshold_get(ptr);
+                return NativeMethods.gpu_ORB_GPU_blurForDescriptor_get(ptr) != 0;
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.gpu_FAST_GPU_threshold_set(ptr, value);
-            }
-        }
-
-        /// <summary>
-        /// max keypoints = keypointsRatio * img.size().area()
-        /// </summary>
-        public double KeypointsRatio
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.gpu_FAST_GPU_keypointsRatio_get(ptr);
-            }
-            set
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.gpu_FAST_GPU_keypointsRatio_set(ptr, value);
+                NativeMethods.gpu_ORB_GPU_blurForDescriptor_set(ptr, value ? 0 : 1);
             }
         }
 
@@ -143,11 +126,11 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
-            NativeMethods.gpu_FAST_GPU_release(ptr);
+            NativeMethods.gpu_ORB_GPU_release(ptr);
         }
 
         /// <summary>
-        /// Finds the keypoints using FAST detector.
+        /// Detects keypoints and computes descriptors for them.
         /// </summary>
         /// <param name="image">Image where keypoints (corners) are detected. 
         /// Only 8-bit grayscale images are supported.</param>
@@ -164,7 +147,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             if (keypoints == null)
                 throw new ArgumentNullException("keypoints");
 
-            NativeMethods.gpu_FAST_GPU_operator1(ptr, image.CvPtr, mask.CvPtr, keypoints.CvPtr);
+            NativeMethods.gpu_ORB_GPU_operator1(ptr, image.CvPtr, mask.CvPtr, keypoints.CvPtr);
 
             GC.KeepAlive(image);
             GC.KeepAlive(mask);
@@ -172,7 +155,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         }
 
         /// <summary>
-        /// Finds the keypoints using FAST detector.
+        /// Detects keypoints and computes descriptors for them.
         /// </summary>
         /// <param name="image">Image where keypoints (corners) are detected. 
         /// Only 8-bit grayscale images are supported.</param>
@@ -189,7 +172,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 
             using (var keypointsVec = new VectorOfKeyPoint())
             {
-                NativeMethods.gpu_FAST_GPU_operator2(ptr, image.CvPtr, mask.CvPtr, keypointsVec.CvPtr);
+                NativeMethods.gpu_ORB_GPU_operator2(ptr, image.CvPtr, mask.CvPtr, keypointsVec.CvPtr);
                 keypoints = keypointsVec.ToArray();
             }
 
@@ -198,11 +181,69 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         }
 
         /// <summary>
+        /// Detects keypoints and computes descriptors for them.
+        /// </summary>
+        /// <param name="image">Image where keypoints (corners) are detected. 
+        /// Only 8-bit grayscale images are supported.</param>
+        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
+        /// <param name="keypoints">The output vector of keypoints.</param>
+        /// <param name="descriptors"></param>
+        public void Run(GpuMat image, GpuMat mask, GpuMat keypoints, GpuMat descriptors)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (mask == null)
+                throw new ArgumentNullException("mask");
+            if (keypoints == null)
+                throw new ArgumentNullException("keypoints");
+            if (descriptors == null)
+                throw new ArgumentNullException("descriptors");
+
+            NativeMethods.gpu_ORB_GPU_operator3(ptr, image.CvPtr, mask.CvPtr, keypoints.CvPtr, descriptors.CvPtr);
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(mask);
+            GC.KeepAlive(keypoints);
+            GC.KeepAlive(descriptors);
+        }
+
+        /// <summary>
+        /// Detects keypoints and computes descriptors for them.
+        /// </summary>
+        /// <param name="image">Image where keypoints (corners) are detected. 
+        /// Only 8-bit grayscale images are supported.</param>
+        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
+        /// <param name="keypoints">The output vector of keypoints.</param>
+        public void Run(GpuMat image, GpuMat mask, out KeyPoint[] keypoints, GpuMat descriptors)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (mask == null)
+                throw new ArgumentNullException("mask");
+            if (descriptors == null)
+                throw new ArgumentNullException("descriptors");
+
+            using (var keypointsVec = new VectorOfKeyPoint())
+            {
+                NativeMethods.gpu_ORB_GPU_operator4(ptr, image.CvPtr, mask.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
+                keypoints = keypointsVec.ToArray();
+            }
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(mask);
+            GC.KeepAlive(descriptors);
+        }
+
+        /// <summary>
         /// Download keypoints from GPU to CPU memory.
         /// </summary>
         /// <param name="dKeypoints"></param>
         /// <returns></returns>
-        public KeyPoint[] DownloadKeypoints(GpuMat dKeypoints)
+        public KeyPoint[] DownloadKeyPoints(GpuMat dKeypoints)
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
@@ -212,7 +253,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             KeyPoint[] result;
             using (var keypoints = new VectorOfKeyPoint())
             {
-                NativeMethods.gpu_FAST_GPU_downloadKeypoints(ptr, dKeypoints.CvPtr, keypoints.CvPtr);
+                NativeMethods.gpu_ORB_GPU_downloadKeyPoints(ptr, dKeypoints.CvPtr, keypoints.CvPtr);
                 result = keypoints.ToArray();
             }
 
@@ -225,7 +266,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// </summary>
         /// <param name="hKeypoints"></param>
         /// <returns></returns>
-        public KeyPoint[] ConvertKeypoints(Mat hKeypoints)
+        public KeyPoint[] ConvertKeyPoints(Mat hKeypoints)
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
@@ -235,55 +276,41 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             KeyPoint[] result;
             using (var keypoints = new VectorOfKeyPoint())
             {
-                NativeMethods.gpu_FAST_GPU_convertKeypoints(ptr, hKeypoints.CvPtr, keypoints.CvPtr);
+                NativeMethods.gpu_ORB_GPU_convertKeyPoints(ptr, hKeypoints.CvPtr, keypoints.CvPtr);
                 result = keypoints.ToArray();
             }
 
             GC.KeepAlive(hKeypoints);
             return result;
         }
-
+        
         /// <summary>
-        /// Find keypoints and compute it’s response if nonmaxSuppression is true.
+        /// 
         /// </summary>
-        /// <param name="image">Image where keypoints (corners) are detected. Only 8-bit grayscale images are supported.</param>
-        /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
-        /// <returns>count of detected keypoints</returns>
-        public int CalcKeyPointsLocation(GpuMat image, GpuMat mask)
-        {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (mask == null)
-                throw new ArgumentNullException("mask");
-
-            int result = NativeMethods.gpu_FAST_GPU_calcKeyPointsLocation(ptr, image.CvPtr, mask.CvPtr);
-
-            GC.KeepAlive(image);
-            GC.KeepAlive(mask);
-            return result;
-        }
-
-        /// <summary>
-        /// Gets final array of keypoints.
-        /// Performs nonmax suppression if needed.
-        /// </summary>
-        /// <param name="keypoints"></param>
+        /// <param name="threshold"></param>
+        /// <param name="nonmaxSuppression"></param>
         /// <returns>Final count of keypoints</returns>
-        public int GetKeyPoints(GpuMat keypoints)
+        public void SetFastParams(int threshold, bool nonmaxSuppression)
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
-            if (keypoints == null)
-                throw new ArgumentNullException("keypoints");
 
-            int result = NativeMethods.gpu_FAST_GPU_getKeyPoints(ptr, keypoints.CvPtr);
-
-            GC.KeepAlive(keypoints);
-            return result;
+            NativeMethods.gpu_ORB_GPU_setFastParams(ptr, threshold, nonmaxSuppression ? 1 : 0);
         }
 
         #endregion
+
+#pragma warning disable 1591
+        public enum ScoreType
+        {
+            XRow = 0,
+            YRow,
+            ResponseRow,
+            AngleRow,
+            OctaveRow,
+            SizeRow,
+            RowsCount,
+        }
+#pragma warning restore 1591
     }
 }

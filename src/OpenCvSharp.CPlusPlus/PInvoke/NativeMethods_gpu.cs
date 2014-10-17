@@ -411,17 +411,18 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void gpu_FAST_GPU_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gpu_FAST_GPU_operator1(IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
+        public static extern void gpu_FAST_GPU_operator1(
+            IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gpu_FAST_GPU_operator2(IntPtr obj, IntPtr image, IntPtr mask,
-                                                         IntPtr keypoints);
+        public static extern void gpu_FAST_GPU_operator2(
+            IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gpu_FAST_GPU_downloadKeypoints(IntPtr obj, IntPtr d_keypoints,
-                                                                 IntPtr keypoints);
+        public static extern void gpu_FAST_GPU_downloadKeypoints(
+            IntPtr obj, IntPtr d_keypoints, IntPtr keypoints);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gpu_FAST_GPU_convertKeypoints(IntPtr obj, IntPtr h_keypoints,
-                                                                IntPtr keypoints);
+        public static extern void gpu_FAST_GPU_convertKeypoints(
+            IntPtr obj, IntPtr h_keypoints, IntPtr keypoints);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void gpu_FAST_GPU_release(IntPtr obj);
@@ -446,6 +447,52 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int gpu_FAST_GPU_getKeyPoints(IntPtr obj, IntPtr keypoints);
+
+        #endregion
+
+        #region ORB_GPU
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr gpu_ORB_GPU_new(
+            int nFeatures, float scaleFactor, int nLevels, int edgeThreshold,
+            int firstLevel, int WTA_K, int scoreType, int patchSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_operator1(
+            IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_operator2(
+            IntPtr obj, IntPtr image, IntPtr mask,IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_operator3(
+            IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints, IntPtr descriptors);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_operator4(
+            IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints,IntPtr descriptors);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_downloadKeyPoints(
+            IntPtr obj, IntPtr d_keypoints,IntPtr keypoints);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_convertKeyPoints(
+            IntPtr obj, IntPtr h_keypoints,IntPtr keypoints);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_ORB_GPU_descriptorSize(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_release(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_setFastParams(
+            IntPtr obj, int threshold, int nonmaxSuppression);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int gpu_ORB_GPU_blurForDescriptor_get(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void gpu_ORB_GPU_blurForDescriptor_set(IntPtr obj, int value);
 
         #endregion
     }
