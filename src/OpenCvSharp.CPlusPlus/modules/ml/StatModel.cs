@@ -34,6 +34,9 @@ namespace OpenCvSharp.CPlusPlus.ML
         #region Methods
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override IntPtr InfoPtr
         {
             get { throw new NotImplementedException(); }

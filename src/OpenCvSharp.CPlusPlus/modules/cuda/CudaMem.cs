@@ -438,9 +438,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// <param name="rows">Number of rows in a 2D array.</param>
         /// <param name="cols">Number of columns in a 2D array.</param>
         /// <param name="type">Array type. </param>
-        /// <param name="allocType"></param>
-        public void Create(
-            int rows, int cols, MatType type)
+        public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
             NativeMethods.cuda_CudaMem_create(ptr, rows, cols, type);
