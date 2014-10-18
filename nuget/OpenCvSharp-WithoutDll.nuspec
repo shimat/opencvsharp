@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-WithoutDll</id>
-        <version>2.4.9.20140906</version>
+        <version>2.4.9.20141018</version>
         <title>OpenCvSharp (without DLLs)</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -11,7 +11,8 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <releaseNotes>- Fixed Mat bugs 
-- Added CascadeClassifier_GPU, MOG_GPU and MOG2_GPU</releaseNotes>
+- Fixed CvMemStorage memory leak
+- Added FAST_GPU and ORB_GPU</releaseNotes>
         <copyright>Copyright 2008-2014</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
