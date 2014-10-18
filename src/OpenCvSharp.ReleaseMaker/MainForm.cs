@@ -31,8 +31,10 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            textBox_Src.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Visual Studio " + VSVersion + @"\Projects\OpenCvSharp");
-            textBox_Dst.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            textBox_Src.Text = Path.Combine(myDocuments, @"Visual Studio " + VSVersion + @"\Projects\OpenCvSharp 2.x");
+            textBox_Dst.Text = desktop;
         }
 
         /// <summary>

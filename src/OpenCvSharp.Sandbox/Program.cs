@@ -27,11 +27,6 @@ namespace OpenCvSharp.Sandbox
         {
             Mat src = new Mat("data/lenna511.png", LoadMode.GrayScale);
 
-            IplImage a = new IplImage(@"C:\\a.png");
-            a.ROI = new CvRect(1, 1, 40, 40);
-            var bmp = a.ToBitmap();
-            bmp.Save("C:\\b.png", ImageFormat.Png);
-
             Mat zoom = new Mat();
             Mat f32 = new Mat();
 
