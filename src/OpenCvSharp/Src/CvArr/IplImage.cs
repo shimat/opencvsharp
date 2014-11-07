@@ -366,10 +366,17 @@ namespace OpenCvSharp
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
-            
-            byte[] bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            return FromImageData(bytes, mode);
+            if (stream.Length > Int32.MaxValue)
+                throw new ArgumentException("Not supported stream (too long)");
+
+            byte[] buf = new byte[stream.Length];
+            {
+                long currentPosition = stream.Position;
+                stream.Position = 0;
+                stream.Read(buf, 0, buf.Length);
+                stream.Position = currentPosition;
+            }
+            return FromImageData(buf, mode);
         }
         #endregion
         #region FromPixelData
