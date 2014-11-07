@@ -151,7 +151,7 @@ namespace OpenCvSharp.Extensions
                                 throw new ArgumentException("Invalid nChannels");
 
                         // Mat幅が4の倍数なら一気にコピー
-                        if (dstep % 4 == 0)
+                        if (dstep % 4 == 0 && !dst.IsSubmatrix() && dst.IsContinuous())
                         {
                             uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
                             Util.CopyMemory(dstData, bd.Scan0, length);
@@ -179,8 +179,22 @@ namespace OpenCvSharp.Extensions
                         switch (dst.Channels())
                         {
                             case 4:
-                                uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
-                                Util.CopyMemory(dstData, bd.Scan0, length);
+                                if (!dst.IsSubmatrix() && dst.IsContinuous())
+                                {
+                                    uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
+                                    Util.CopyMemory(dstData, bd.Scan0, length);
+                                }
+                                else
+                                {
+                                    byte* sp = (byte*)bd.Scan0;
+                                    byte* dp = (byte*)dst.Data;
+                                    for (int y = 0; y < h; y++)
+                                    {
+                                        Util.CopyMemory(dp, sp, dstep);
+                                        sp += sstep;
+                                        dp += dstep;
+                                    }
+                                }
                                 break;
                             case 3:
                                 for (int y = 0; y < h; y++)
@@ -228,6 +242,7 @@ namespace OpenCvSharp.Extensions
             {
                 throw new ArgumentNullException("src");
             }
+
             PixelFormat pf;
             switch (src.Channels())
             {
@@ -369,7 +384,7 @@ namespace OpenCvSharp.Extensions
                     case PixelFormat.Format8bppIndexed:
                     case PixelFormat.Format24bppRgb:
                     case PixelFormat.Format32bppArgb:
-                        if (sstep == dstep)
+                        if (sstep == dstep && !src.IsSubmatrix() && src.IsContinuous())
                         {
                             uint imageSize = (uint)(src.DataEnd.ToInt64() - src.Data.ToInt64());
                             Util.CopyMemory(pDst, pSrc, imageSize);
