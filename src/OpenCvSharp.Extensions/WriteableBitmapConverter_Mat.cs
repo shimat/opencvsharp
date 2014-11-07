@@ -129,12 +129,26 @@ namespace OpenCvSharp.Extensions
                 else
                 {
                     int stride = w * ((bpp + 7) / 8);
-                    long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
-                    if (imageSize < 0)
-                        throw new OpenCvSharpException("The mat has invalid data pointer");
-                    if (imageSize > Int32.MaxValue)
-                        throw new OpenCvSharpException("Too big mat data");
-                    src.CopyPixels(Int32Rect.Empty, dst.Data, (int)imageSize, stride);
+                    if (!dst.IsSubmatrix() && dst.IsContinuous())
+                    {
+                        long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
+                        if (imageSize < 0)
+                            throw new OpenCvSharpException("The mat has invalid data pointer");
+                        if (imageSize > Int32.MaxValue)
+                            throw new OpenCvSharpException("Too big mat data");
+                        src.CopyPixels(Int32Rect.Empty, dst.Data, (int)imageSize, stride);
+                    }
+                    else
+                    {
+                        var roi = new Int32Rect { X = 0, Y = 0, Width = w, Height = 1 };
+                        IntPtr dstData = dst.Data;
+                        for (int y = 0; y < h; y++)
+                        {
+                            roi.Y = y;
+                            src.CopyPixels(roi, dstData, stride, stride);
+                            dstData = new IntPtr(dst.Data.ToInt64() + stride);
+                        }
+                    }
                 }
 
             }
