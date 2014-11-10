@@ -751,18 +751,18 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="line_iterator"></param>
+        /// <param name="lineIterator"></param>
 #else
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="line_iterator"></param>
+        /// <param name="lineIterator"></param>
 #endif
-        public static void NEXT_LINE_POINT(CvLineIterator line_iterator)
+        public static void NEXT_LINE_POINT(CvLineIterator lineIterator)
         {
-            int _line_iterator_mask = line_iterator.Err < 0 ? -1 : 0;
-            line_iterator.Err += line_iterator.MinusDelta + (line_iterator.PlusDelta & _line_iterator_mask);
-            line_iterator.Ptr = new IntPtr(line_iterator.Ptr.ToInt64() + line_iterator.MinusStep + (line_iterator.PlusStep & _line_iterator_mask));
+            int lineIteratorMask = lineIterator.Err < 0 ? -1 : 0;
+            lineIterator.Err += lineIterator.MinusDelta + (lineIterator.PlusDelta & lineIteratorMask);
+            lineIterator.Ptr = new IntPtr(lineIterator.Ptr.ToInt64() + lineIterator.MinusStep + (lineIterator.PlusStep & lineIteratorMask));
         }
         #endregion
         #region NEXT_SEQ_ELEM
@@ -781,8 +781,8 @@ namespace OpenCvSharp
 #endif
         public static void NEXT_SEQ_ELEM(int elemSize, CvSeqReader reader)
         {
-            reader.Ptr = new IntPtr(reader.Ptr.ToInt32() + elemSize);
-            if (reader.Ptr.ToInt32() >= reader.BlockMax.ToInt32())
+            reader.Ptr = new IntPtr(reader.Ptr.ToInt64() + elemSize);
+            if (reader.Ptr.ToInt64() >= reader.BlockMax.ToInt64())
             {
                 NativeMethods.cvChangeSeqBlock(reader.CvPtr, 1);                
             }
@@ -1100,8 +1100,8 @@ namespace OpenCvSharp
 #endif
         public static void PREV_SEQ_ELEM(int elemSize, CvSeqReader reader)
         {
-            reader.Ptr = new IntPtr(reader.Ptr.ToInt32() - elemSize);
-            if (reader.Ptr.ToInt32() < reader.BlockMin.ToInt32())
+            reader.Ptr = new IntPtr(reader.Ptr.ToInt64() - elemSize);
+            if (reader.Ptr.ToInt64() < reader.BlockMin.ToInt64())
             {
                 NativeMethods.cvChangeSeqBlock(reader.CvPtr, -1);
             }
@@ -1293,23 +1293,23 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="elem_ptr"></param>
+        /// <param name="elemPtr"></param>
         /// <param name="writer"></param>
 #else
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="elem_ptr"></param>
+        /// <param name="elemPtr"></param>
         /// <param name="writer"></param>
 #endif
-        public static void WRITE_SEQ_ELEM_VAR(IntPtr elem_ptr, CvSeqWriter writer)
+        public static void WRITE_SEQ_ELEM_VAR(IntPtr elemPtr, CvSeqWriter writer)
         {
             int elemSize = writer.Seq.ElemSize;
             if (writer.Ptr.ToInt64() >= writer.BlockMax.ToInt64())
             {
                 NativeMethods.cvCreateSeqBlock(writer.CvPtr);
             }
-            Util.CopyMemory(writer.Ptr, elem_ptr, elemSize);
+            Util.CopyMemory(writer.Ptr, elemPtr, elemSize);
             writer.Ptr = new IntPtr(writer.Ptr.ToInt64() + elemSize);
         }
         #endregion

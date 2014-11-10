@@ -28,7 +28,7 @@ namespace OpenCvSharp.Extensions
         {
             if (src == null)
                 throw new ArgumentNullException("src");
-            
+
             int w = src.Width;
             int h = src.Height;
             int channels;
@@ -77,8 +77,6 @@ namespace OpenCvSharp.Extensions
                 throw new NotSupportedException("Mat depth != CV_8U");
             if (dst.Dims() != 2)
                 throw new NotSupportedException("Mat dims != 2");
-            //if (dst.IsSubmatrix())
-            //    throw new NotSupportedException("Submatrix is not supported");
             if (src.Width != dst.Width || src.Height != dst.Height)
                 throw new ArgumentException("src.Size != dst.Size");
 
@@ -96,6 +94,9 @@ namespace OpenCvSharp.Extensions
                 uint dstep = (uint)dst.Step();
                 IntPtr dstData = dst.Data;
                 byte* dstPtr = (byte*)dstData.ToPointer();
+
+                bool submat = dst.IsSubmatrix();
+                bool continuous = dst.IsContinuous();
 
                 switch (src.PixelFormat)
                 {
@@ -150,8 +151,8 @@ namespace OpenCvSharp.Extensions
                             if (dst.Channels() != 3)
                                 throw new ArgumentException("Invalid nChannels");
 
-                        // Mat幅が4の倍数なら一気にコピー
-                        if (dstep % 4 == 0 && !dst.IsSubmatrix() && dst.IsContinuous())
+                        // ステップが同じで連続なら、一気にコピー
+                        if (dstep == sstep && !submat && continuous)
                         {
                             uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
                             Util.CopyMemory(dstData, bd.Scan0, length);
@@ -175,11 +176,10 @@ namespace OpenCvSharp.Extensions
                     case PixelFormat.Format32bppArgb:
                     case PixelFormat.Format32bppPArgb:
                     {
-                        // 4チャネルならアラインメント調整いらない(はず)
                         switch (dst.Channels())
                         {
                             case 4:
-                                if (!dst.IsSubmatrix() && dst.IsContinuous())
+                                if (!submat && continuous)
                                 {
                                     uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
                                     Util.CopyMemory(dstData, bd.Scan0, length);
@@ -384,7 +384,9 @@ namespace OpenCvSharp.Extensions
                     case PixelFormat.Format8bppIndexed:
                     case PixelFormat.Format24bppRgb:
                     case PixelFormat.Format32bppArgb:
-                        if (sstep == dstep && !src.IsSubmatrix() && src.IsContinuous())
+                        bool submat = src.IsSubmatrix();
+                        bool continuous = src.IsContinuous();
+                        if (sstep == dstep && !submat && continuous)
                         {
                             uint imageSize = (uint)(src.DataEnd.ToInt64() - src.Data.ToInt64());
                             Util.CopyMemory(pDst, pSrc, imageSize);
@@ -393,8 +395,8 @@ namespace OpenCvSharp.Extensions
                         {
                             for (int y = 0; y < h; y++)
                             {
-                                int offsetSrc = (y * sstep);
-                                int offsetDst = (y * dstep);
+                                long offsetSrc = (y * sstep);
+                                long offsetDst = (y * dstep);
                                 // 一列ごとにコピー
                                 Util.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * ch);
                             }

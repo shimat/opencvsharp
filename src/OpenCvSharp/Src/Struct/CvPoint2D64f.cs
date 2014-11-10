@@ -95,6 +95,7 @@ namespace OpenCvSharp
         {
             return new CvPoint(Convert.ToInt32(self.X), Convert.ToInt32(self.Y));
         }
+
 #if LANG_JP
         /// <summary>
         /// CvPointからの明示的なキャスト
@@ -112,6 +113,7 @@ namespace OpenCvSharp
         {
             return new CvPoint2D64f(p.X, p.Y);
         }
+
 #if LANG_JP
         /// <summary>
         /// CvPoint2D32fへの暗黙のキャスト
@@ -129,6 +131,7 @@ namespace OpenCvSharp
         {
             return new CvPoint2D32f(Convert.ToSingle(self.X), Convert.ToSingle(self.Y));
         }
+
 #if LANG_JP
         /// <summary>
         /// CvPoint2D32fからの明示的なキャスト

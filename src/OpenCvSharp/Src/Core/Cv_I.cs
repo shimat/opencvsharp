@@ -317,7 +317,7 @@ namespace OpenCvSharp
 #endif
         public static int InitLineIterator(CvArr image, CvPoint pt1, CvPoint pt2, out CvLineIterator lineIterator)
         {
-            return InitLineIterator(image, pt1, pt2, out lineIterator, PixelConnectivity.Connectivity_8);
+            return InitLineIterator(image, pt1, pt2, out lineIterator, PixelConnectivity.Connectivity8);
         }
 #if LANG_JP
         /// <summary>

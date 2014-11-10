@@ -9,16 +9,10 @@ namespace OpenCvSharp.CPlusPlus
     /// </summary>
     public class CvCamShiftTracker : DisposableCvObject
     {
-        #region Fields
-        /// <summary>
-        /// sizeof(CvCamShiftTracker) 
-        /// </summary>
-        public static readonly int SizeOf = NativeMethods.legacy_CvCamShiftTracker_sizeof().ToInt32();
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed = false;
-        #endregion
 
         #region Init and Disposal
         /// <summary>

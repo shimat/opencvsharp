@@ -112,6 +112,7 @@ namespace OpenCvSharp
         {
             return new CvPoint(Convert.ToInt32(self.X), Convert.ToInt32(self.Y));
         }
+
 #if LANG_JP
         /// <summary>
         /// CvPointからの明示的なキャスト

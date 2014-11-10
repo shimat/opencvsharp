@@ -216,6 +216,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// Only 8-bit grayscale images are supported.</param>
         /// <param name="mask">Optional input mask that marks the regions where we should detect features.</param>
         /// <param name="keypoints">The output vector of keypoints.</param>
+        /// <param name="descriptors"></param>
         public void Run(GpuMat image, GpuMat mask, out KeyPoint[] keypoints, GpuMat descriptors)
         {
             if (disposed)

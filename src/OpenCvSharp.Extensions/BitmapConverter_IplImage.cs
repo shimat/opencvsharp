@@ -571,7 +571,7 @@ namespace OpenCvSharp.Extensions
 
                 Win32API.SetDIBitsToDevice(
                     hdc, x, y, sw, sh, fromX, fromY, (uint)fromY, sh,
-                    new IntPtr(img.ImageData.ToInt32() + fromY * img.WidthStep),
+                    new IntPtr(img.ImageData.ToInt64() + fromY * img.WidthStep),
                     ref bmi, Win32API.DIB_RGB_COLORS);
 
                 Marshal.FreeHGlobal(buffer);

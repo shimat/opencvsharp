@@ -124,7 +124,7 @@ namespace OpenCvSharp
 #endif
         public CvSubdiv2DEdge ToCvSubdiv2DEdge()
         {
-            return new CvSubdiv2DEdge((uint)this.CvPtr.ToInt32());
+            return new CvSubdiv2DEdge((uint)CvPtr.ToInt32());
             //uint value = (uint)Marshal.ReadInt32(this.CvPtr);
             //return new CvSubdiv2DEdge(value);
         }

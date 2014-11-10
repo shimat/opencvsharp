@@ -82,9 +82,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return NativeMethods.vector_vector_KeyPoint_getSize1(ptr).ToInt32(); }
         }
+
         public int Size { get { return Size1; } }
+
         /// <summary>
-        /// vector.size()
+        /// vector[i].size()
         /// </summary>
         public long[] Size2
         {

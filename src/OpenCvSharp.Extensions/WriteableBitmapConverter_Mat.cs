@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.Extensions
 {
@@ -31,7 +32,7 @@ namespace OpenCvSharp.Extensions
             }
 
             int w = src.PixelWidth;
-            int h = src.PixelHeight;            
+            int h = src.PixelHeight;
             MatType type = GetOptimumType(src.Format);
             Mat dst = new Mat(h, w, type);
             ToMat(src, dst);
@@ -64,7 +65,7 @@ namespace OpenCvSharp.Extensions
             int w = src.PixelWidth;
             int h = src.PixelHeight;
             int bpp = src.Format.BitsPerPixel;
-            int channels = GetOptimumChannels(src.Format);            
+            int channels = GetOptimumChannels(src.Format);
             if (dst.Channels() != channels)
             {
                 throw new ArgumentException("nChannels of dst is invalid", "dst");
@@ -129,7 +130,10 @@ namespace OpenCvSharp.Extensions
                 else
                 {
                     int stride = w * ((bpp + 7) / 8);
-                    if (!dst.IsSubmatrix() && dst.IsContinuous())
+                    bool submat = dst.IsSubmatrix();
+                    bool continuous = dst.IsContinuous();
+
+                    if (!submat && continuous)
                     {
                         long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
                         if (imageSize < 0)
@@ -140,13 +144,14 @@ namespace OpenCvSharp.Extensions
                     }
                     else
                     {
+                        // 高さ1pxの矩形ごと(≒1行ごと)にコピー
                         var roi = new Int32Rect { X = 0, Y = 0, Width = w, Height = 1 };
                         IntPtr dstData = dst.Data;
                         for (int y = 0; y < h; y++)
                         {
                             roi.Y = y;
                             src.CopyPixels(roi, dstData, stride, stride);
-                            dstData = new IntPtr(dst.Data.ToInt64() + stride);
+                            dstData = new IntPtr(dstData.ToInt64() + stride);
                         }
                     }
                 }
@@ -173,7 +178,7 @@ namespace OpenCvSharp.Extensions
         {
             if (wb == null)
                 throw new ArgumentNullException("wb");
-            
+
             ToMat(wb, mat);
         }
 
@@ -206,7 +211,7 @@ namespace OpenCvSharp.Extensions
         {
             if (src == null)
                 throw new ArgumentNullException("src");
-            
+
             var wb = new WriteableBitmap(src.Width, src.Height, dpiX, dpiY, pf, bp);
             ToWriteableBitmap(src, wb);
             return wb;
@@ -273,7 +278,7 @@ namespace OpenCvSharp.Extensions
             if (src.Width != dst.PixelWidth || src.Height != dst.PixelHeight)
                 throw new ArgumentException("size of src must be equal to size of dst");
             //if (src.Depth != BitDepth.U8)
-                //throw new ArgumentException("bit depth of src must be BitDepth.U8", "src");
+            //throw new ArgumentException("bit depth of src must be BitDepth.U8", "src");
             if (src.Dims() > 2)
                 throw new ArgumentException("Mat dimensions must be 2");
 
@@ -281,7 +286,7 @@ namespace OpenCvSharp.Extensions
             int h = src.Height;
             int bpp = dst.Format.BitsPerPixel;
 
-            int channels = GetOptimumChannels(dst.Format);   
+            int channels = GetOptimumChannels(dst.Format);
             if (src.Channels() != channels)
             {
                 throw new ArgumentException("channels of dst != channels of PixelFormat", "dst");
