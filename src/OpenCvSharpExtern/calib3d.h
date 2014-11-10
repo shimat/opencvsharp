@@ -368,9 +368,9 @@ CVAPI(double) calib3d_stereoCalibrate_array(cv::Point3d **objectPoints, int opSi
                                      CvTermCriteria criteria,                              
 									 int flags )
 {
-	std::vector<std::vector<cv::Point3d>> objectPointsVec(opSize1);
-	std::vector<std::vector<cv::Point2d>> imagePoints1Vec(ip1Size1);
-	std::vector<std::vector<cv::Point2d>> imagePoints2Vec(ip2Size1);
+	std::vector<std::vector<cv::Point3d> > objectPointsVec(opSize1);
+	std::vector<std::vector<cv::Point2d> > imagePoints1Vec(ip1Size1);
+	std::vector<std::vector<cv::Point2d> > imagePoints2Vec(ip2Size1);
 	for (int i = 0; i < opSize1; i++)
 		objectPointsVec[i] = std::vector<cv::Point3d>(
 			objectPoints[i], objectPoints[i] + opSizes2[i]);
