@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.Extensions
 {
@@ -129,12 +130,30 @@ namespace OpenCvSharp.Extensions
                 else
                 {
                     int stride = w * ((bpp + 7) / 8);
-                    long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
-                    if (imageSize < 0)
-                        throw new OpenCvSharpException("The mat has invalid data pointer");
-                    if (imageSize > Int32.MaxValue)
-                        throw new OpenCvSharpException("Too big mat data");
-                    src.CopyPixels(Int32Rect.Empty, dst.Data, (int)imageSize, stride);
+                    bool submat = dst.IsSubmatrix();
+                    bool continuous = dst.IsContinuous();
+
+                    if (!submat && continuous)
+                    {
+                        long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
+                        if (imageSize < 0)
+                            throw new OpenCvSharpException("The mat has invalid data pointer");
+                        if (imageSize > Int32.MaxValue)
+                            throw new OpenCvSharpException("Too big mat data");
+                        src.CopyPixels(Int32Rect.Empty, dst.Data, (int)imageSize, stride);
+                    }
+                    else
+                    {
+                        // 高さ1pxの矩形ごと(≒1行ごと)にコピー
+                        var roi = new Int32Rect { X = 0, Y = 0, Width = w, Height = 1 };
+                        IntPtr dstData = dst.Data;
+                        for (int y = 0; y < h; y++)
+                        {
+                            roi.Y = y;
+                            src.CopyPixels(roi, dstData, stride, stride);
+                            dstData = new IntPtr(dstData.ToInt64() + stride);
+                        }
+                    }
                 }
 
             }
