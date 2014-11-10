@@ -346,7 +346,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">Source images (though you may pass CvMat** as well), all are of the same size and type </param>
         /// <param name="dst">Destination image. </param>
-        /// <param name="patch_size">Size of patch slid though the source images. </param>
+        /// <param name="patchSize">Size of patch slid though the source images. </param>
         /// <param name="hist">Histogram. </param>
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <returns></returns>
@@ -372,7 +372,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">Source images (though you may pass CvMat** as well), all are of the same size and type </param>
         /// <param name="dst">Destination image. </param>
-        /// <param name="patch_size">Size of patch slid though the source images. </param>
+        /// <param name="patchSize">Size of patch slid though the source images. </param>
         /// <param name="hist">Histogram. </param>
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <param name="factor">Normalization factor for histograms, will affect normalization scale of destination image, pass 1. if unsure. </param>
