@@ -41,7 +41,7 @@ Imports SampleBase
         Private Function SumLinePixelsNative(ByVal image As IplImage, ByVal pt1 As CvPoint, ByVal pt2 As CvPoint) As CvScalar
             Dim [iterator] As CvLineIterator
             Dim blue_sum As Integer = 0, green_sum As Integer = 0, red_sum As Integer = 0
-            Dim count As Integer = Cv.InitLineIterator(image, pt1, pt2, [iterator], PixelConnectivity.Connectivity_8, False)
+        Dim count As Integer = Cv.InitLineIterator(image, pt1, pt2, [iterator], PixelConnectivity.Connectivity8, False)
 
             For i As Integer = 0 To count - 1
                 blue_sum += Marshal.ReadByte([iterator].Ptr, 0) 'blue_sum += iterator.ptr[0];
@@ -64,7 +64,7 @@ Imports SampleBase
         ''' <returns></returns>
         Private Function SumLinePixelsManaged(ByVal image As IplImage, ByVal pt1 As CvPoint, ByVal pt2 As CvPoint) As CvScalar
             Dim blue_sum As Double = 0, green_sum As Double = 0, red_sum As Double = 0
-            Dim [iterator] As New CvLineIterator(image, pt1, pt2, PixelConnectivity.Connectivity_8, False)
+        Dim [iterator] As New CvLineIterator(image, pt1, pt2, PixelConnectivity.Connectivity8, False)
 
             For Each pixel As CvScalar In [iterator]
                 blue_sum += pixel.Val0 'blue_sum += iterator.ptr[0];

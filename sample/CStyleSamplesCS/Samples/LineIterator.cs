@@ -43,7 +43,7 @@ namespace CStyleSamplesCS
         {
             CvLineIterator iterator;
             int blue_sum = 0, green_sum = 0, red_sum = 0;
-            int count = Cv.InitLineIterator(image, pt1, pt2, out iterator, PixelConnectivity.Connectivity_8, false);
+            int count = Cv.InitLineIterator(image, pt1, pt2, out iterator, PixelConnectivity.Connectivity8, false);
 
             for (int i = 0; i < count; i++)
             {
@@ -67,18 +67,18 @@ namespace CStyleSamplesCS
         /// <returns></returns>
         private CvScalar SumLinePixelsManaged(IplImage image, CvPoint pt1, CvPoint pt2)
         {            
-            double blue_sum = 0, green_sum = 0, red_sum = 0;
-            CvLineIterator iterator = new CvLineIterator(image, pt1, pt2, PixelConnectivity.Connectivity_8, false);
+            double blueSum = 0, greenSum = 0, redSum = 0;
+            var iterator = new CvLineIterator(image, pt1, pt2, PixelConnectivity.Connectivity8, false);
 
             foreach (CvScalar pixel in iterator)
             {
-                blue_sum += pixel.Val0;   //blue_sum += iterator.ptr[0];
-                green_sum += pixel.Val1;  //green_sum += iterator.ptr[1];
-                red_sum += pixel.Val2;    //red_sum += iterator.ptr[2];
+                blueSum += pixel.Val0;   //blue_sum += iterator.ptr[0];
+                greenSum += pixel.Val1;  //green_sum += iterator.ptr[1];
+                redSum += pixel.Val2;    //red_sum += iterator.ptr[2];
 
                 PrintCoordinate(image, iterator);
             }
-            return new CvScalar(blue_sum, green_sum, red_sum);
+            return new CvScalar(blueSum, greenSum, redSum);
         }
 
         /// <summary>
