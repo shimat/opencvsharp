@@ -103,9 +103,9 @@ static void dump(T *obj, const std::string &outFile)
     int size = sizeof(T);
     std::vector<uchar> bytes(size);
     std::memcpy(&bytes[0], (uchar*)obj, size);
-
-    auto fp = fopen(outFile.c_str(), "w");
-    for (auto it = bytes.begin(); it != bytes.end(); it++)
+    
+    FILE *fp = fopen(outFile.c_str(), "w");
+    for (std::vector<uchar>::iterator it = bytes.begin(); it != bytes.end(); it++)
     {
         std::fprintf(fp, "%x,", (int)*it);
     }
