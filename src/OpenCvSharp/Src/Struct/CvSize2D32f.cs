@@ -94,6 +94,7 @@ namespace OpenCvSharp
         {
             return new CvSize(Convert.ToInt32(self.Width), Convert.ToInt32(self.Height));
         }
+
 #if LANG_JP
         /// <summary>
         /// CvSize からの明示的なキャスト
@@ -129,6 +130,7 @@ namespace OpenCvSharp
         {
             return (this.Width == obj.Width && this.Height == obj.Height);
         }
+
 #if LANG_JP
         /// <summary>
         /// == 演算子のオーバーロード
@@ -148,6 +150,7 @@ namespace OpenCvSharp
         {
             return lhs.Equals(rhs);
         }
+
 #if LANG_JP
         /// <summary>
         /// != 演算子のオーバーロード

@@ -267,18 +267,18 @@ namespace OpenCvSharp
         /// <summary>
         /// ファイルノードで表現された整数値を返す．
         /// </summary>
-        /// <param name="default_value">nodeがnullの場合の戻り値</param>
+        /// <param name="defaultValue">nodeがnullの場合の戻り値</param>
         /// <returns>ファイルノードで表現された整数値</returns>
 #else
         /// <summary>
         /// Retrieves integer value from file node
         /// </summary>
-        /// <param name="default_value">The value that is returned if node is null. </param>
-        /// <returns>integer that is represented by the file node. If the file node is null, default_value is returned.</returns>
+        /// <param name="defaultValue">The value that is returned if node is null. </param>
+        /// <returns>integer that is represented by the file node. If the file node is null, defaultValue is returned.</returns>
 #endif
-        public int ReadInt(int default_value)
+        public int ReadInt(int defaultValue)
         {
-            return Cv.ReadInt(this, default_value);
+            return Cv.ReadInt(this, defaultValue);
         }
         #endregion        
         
@@ -302,18 +302,18 @@ namespace OpenCvSharp
         /// <summary>
         /// ファイルノードで表現された浮動小数点型の値を返す．
         /// </summary>
-        /// <param name="default_value">nodeがnullの場合の戻り値</param>
+        /// <param name="defaultValue">nodeがnullの場合の戻り値</param>
         /// <returns>ファイルノードで表現された浮動小数点型の値</returns>
 #else
         /// <summary>
         /// Retrieves floating-point value from file node
         /// </summary>
-        /// <param name="default_value">The value that is returned if node is null. </param>
-        /// <returns>returns floating-point value that is represented by the file node. If the file node is null, default_value is returned.</returns>
+        /// <param name="defaultValue">The value that is returned if node is null. </param>
+        /// <returns>returns floating-point value that is represented by the file node. If the file node is null, defaultValue is returned.</returns>
 #endif
-        public double ReadReal(double default_value)
+        public double ReadReal(double defaultValue)
         {
-            return Cv.ReadReal(this, default_value);
+            return Cv.ReadReal(this, defaultValue);
         }
         #endregion
         #region ReadString
@@ -326,7 +326,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Retrieves text string from file node
         /// </summary>
-        /// <returns>returns text string that is represented by the file node. If the file node is null, default_value is returned.</returns>
+        /// <returns>returns text string that is represented by the file node.</returns>
 #endif
         public string ReadString()
         {
@@ -336,18 +336,18 @@ namespace OpenCvSharp
         /// <summary>
         /// ファイルノードで表現された文字列を返す．
         /// </summary>
-        /// <param name="default_value">nodeがnullの場合の戻り値</param>
+        /// <param name="defaultValue">nodeがnullの場合の戻り値</param>
         /// <returns>ファイルノードで表現された文字列</returns>
 #else
         /// <summary>
         /// Retrieves text string from file node
         /// </summary>
-        /// <param name="default_value">The value that is returned if node is null. </param>
-        /// <returns>returns text string that is represented by the file node. If the file node is null, default_value is returned.</returns>
+        /// <param name="defaultValue">The value that is returned if node is null. </param>
+        /// <returns>returns text string that is represented by the file node. If the file node is null, defaultValue is returned.</returns>
 #endif
-        public string ReadString(string default_value)
+        public string ReadString(string defaultValue)
         {
-            return Cv.ReadString(this, default_value);
+            return Cv.ReadString(this, defaultValue);
         }
         #endregion
         #endregion

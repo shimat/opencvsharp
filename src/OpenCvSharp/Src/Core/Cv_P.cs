@@ -150,23 +150,27 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="contour">入力輪郭</param>
         /// <param name="pt">入力輪郭に対して調べる点</param>
-        /// <param name="measure_dist">非0の場合, この関数は与えた点に最も近い輪郭までの距離を求める.</param>
+        /// <param name="measureDist">非0の場合, この関数は与えた点に最も近い輪郭までの距離を求める.</param>
         /// <returns>点が輪郭の内側にあるか，外側にあるか，輪郭上に乗っている（あるいは，頂点と一致している）かを判別し，それぞれの場合に応じて正か負か0を返す．
-        /// measure_dist=0の場合，戻り値はそれぞれ+1，-1，0である． measure_dist≠0の場合，点と最近傍輪郭までの符号付きの距離を返す．</returns>
+        /// measureDist=0の場合，戻り値はそれぞれ+1，-1，0である． measureDist≠0の場合，点と最近傍輪郭までの符号付きの距離を返す．</returns>
 #else
         /// <summary>
         /// Point in contour test
         /// </summary>
         /// <param name="contour">Input contour.</param>
         /// <param name="pt">The point tested against the contour.</param>
-        /// <param name="measure_dist">If it is true, the function estimates distance from the point to the nearest contour edge.</param>
-        /// <returns>The function cvPointPolygonTest determines whether the point is inside contour, outside, or lies on an edge (or coinsides with a vertex). It returns positive, negative or zero value, correspondingly. When measure_dist=0, the return value is +1, -1 and 0, respectively. When measure_dist≠0, it is a signed distance between the point and the nearest contour edge.</returns> 
+        /// <param name="measureDist">If it is true, the function estimates distance from the point to the nearest contour edge.</param>
+        /// <returns>The function cvPointPolygonTest determines whether the point is inside contour, 
+        /// outside, or lies on an edge (or coinsides with a vertex). 
+        /// It returns positive, negative or zero value, correspondingly. 
+        /// When measureDist=0, the return value is +1, -1 and 0, respectively. 
+        /// When measureDist≠0, it is a signed distance between the point and the nearest contour edge.</returns> 
 #endif
-        public static double PointPolygonTest(CvArr contour, CvPoint2D32f pt, bool measure_dist)
+        public static double PointPolygonTest(CvArr contour, CvPoint2D32f pt, bool measureDist)
         {
             if (contour == null)
                 throw new ArgumentNullException("contour");
-            return NativeMethods.cvPointPolygonTest(contour.CvPtr, pt, System.Convert.ToInt32(measure_dist));
+            return NativeMethods.cvPointPolygonTest(contour.CvPtr, pt, measureDist ? 1 : 0);
         }
         #endregion
         #region PointSeqFromMat
@@ -678,18 +682,13 @@ namespace OpenCvSharp
 #endif
         public static void ProjectPCA(CvArr data, CvArr avg, CvArr eigenvects, CvArr result)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-            if (avg == null)
-            {
-                throw new ArgumentNullException("avg");
-            }
-            if (eigenvects == null)
-            {
+            if (data == null)            
+                throw new ArgumentNullException("data");            
+            if (avg == null)            
+                throw new ArgumentNullException("avg");            
+            if (eigenvects == null)            
                 throw new ArgumentNullException("eigenvects");
-            }
+            
             NativeMethods.cvProjectPCA(data.CvPtr, avg.CvPtr, eigenvects.CvPtr, result.CvPtr);
         }
         #endregion

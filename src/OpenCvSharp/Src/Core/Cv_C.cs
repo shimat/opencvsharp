@@ -272,7 +272,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="hist">テンプレートのヒストグラム</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <returns></returns>
@@ -282,14 +282,14 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">Source images (though you may pass CvMat** as well), all are of the same size and type </param>
         /// <param name="dst">Destination image. </param>
-        /// <param name="patch_size">Size of patch slid though the source images. </param>
+        /// <param name="patchSize">Size of patch slid though the source images. </param>
         /// <param name="hist">Histogram. </param>
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <returns></returns>
 #endif
-        public static void CalcArrBackProjectPatch(CvArr[] image, CvArr dst, CvSize patch_size, CvHistogram hist, HistogramComparison method)
+        public static void CalcArrBackProjectPatch(CvArr[] image, CvArr dst, CvSize patchSize, CvHistogram hist, HistogramComparison method)
         {
-            CalcArrBackProjectPatch(image, dst, patch_size, hist, method, 1f);
+            CalcArrBackProjectPatch(image, dst, patchSize, hist, method, 1f);
         }
 #if LANG_JP
         /// <summary>
@@ -297,7 +297,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="hist">テンプレートのヒストグラム</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <param name="factor">ヒストグラムの正規化係数．出力画像の正規化スケールに影響する．値に確信がない場合は，１にする．</param>
@@ -308,32 +308,27 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">Source images (though you may pass CvMat** as well), all are of the same size and type </param>
         /// <param name="dst">Destination image. </param>
-        /// <param name="patch_size">Size of patch slid though the source images. </param>
+        /// <param name="patchSize">Size of patch slid though the source images. </param>
         /// <param name="hist">Histogram. </param>
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <param name="factor">Normalization factor for histograms, will affect normalization scale of destination image, pass 1. if unsure. </param>
         /// <returns></returns>
 #endif
-        public static void CalcArrBackProjectPatch(CvArr[] image, CvArr dst, CvSize patch_size, CvHistogram hist, HistogramComparison method, float factor)
+        public static void CalcArrBackProjectPatch(CvArr[] image, CvArr dst, CvSize patchSize, CvHistogram hist, HistogramComparison method, float factor)
         {
-            if (image == null)
-            {
-                throw new ArgumentNullException("image");
-            }
+            if (image == null)            
+                throw new ArgumentNullException("image");            
             if (dst == null)
-            {
-                throw new ArgumentNullException("dst");
-            }
-            if (hist == null)
-            {
+                throw new ArgumentNullException("dst");            
+            if (hist == null)            
                 throw new ArgumentNullException("hist");
-            }
-            IntPtr[] image_ptr = new IntPtr[image.Length];
+            
+            IntPtr[] imagePtr = new IntPtr[image.Length];
             for (int i = 0; i < image.Length; i++)
             {
-                image_ptr[i] = image[i].CvPtr;
+                imagePtr[i] = image[i].CvPtr;
             }
-            NativeMethods.cvCalcArrBackProjectPatch(image_ptr, dst.CvPtr, patch_size, hist.CvPtr, (int)method, factor);
+            NativeMethods.cvCalcArrBackProjectPatch(imagePtr, dst.CvPtr, patchSize, hist.CvPtr, (int)method, factor);
         }
 #if LANG_JP
         /// <summary>
@@ -341,7 +336,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="hist">テンプレートのヒストグラム</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <returns></returns>
@@ -356,9 +351,9 @@ namespace OpenCvSharp
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <returns></returns>
 #endif
-        public static void CalcBackProjectPatch(IplImage[] image, CvArr dst, CvSize patch_size, CvHistogram hist, HistogramComparison method)
+        public static void CalcBackProjectPatch(IplImage[] image, CvArr dst, CvSize patchSize, CvHistogram hist, HistogramComparison method)
         {
-            CalcArrBackProjectPatch(image, dst, patch_size, hist, method, 1f);
+            CalcArrBackProjectPatch(image, dst, patchSize, hist, method, 1f);
         }
 #if LANG_JP
         /// <summary>
@@ -366,7 +361,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="hist">テンプレートのヒストグラム</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <param name="factor">ヒストグラムの正規化係数．出力画像の正規化スケールに影響する．値に確信がない場合は，１にする．</param>
@@ -383,9 +378,9 @@ namespace OpenCvSharp
         /// <param name="factor">Normalization factor for histograms, will affect normalization scale of destination image, pass 1. if unsure. </param>
         /// <returns></returns>
 #endif
-        public static void CalcBackProjectPatch(IplImage[] image, CvArr dst, CvSize patch_size, CvHistogram hist, HistogramComparison method, float factor)
+        public static void CalcBackProjectPatch(IplImage[] image, CvArr dst, CvSize patchSize, CvHistogram hist, HistogramComparison method, float factor)
         {
-            CalcArrBackProjectPatch(image, dst, patch_size, hist, method, factor);
+            CalcArrBackProjectPatch(image, dst, patchSize, hist, method, factor);
         }
         #endregion
         #region CalcBayesianProb
@@ -5787,7 +5782,7 @@ namespace OpenCvSharp
             CvMat[] pyramid = new CvMat[length];
             for (int i = 0; i < length; i++)
             {
-                IntPtr p = new IntPtr(result.ToInt32() + (CvMat.SizeOf * i));
+                IntPtr p = new IntPtr(result.ToInt64() + (CvMat.SizeOf * i));
                 pyramid[i] = new CvMat(p, false);
             }
             return pyramid;
@@ -5888,9 +5883,15 @@ namespace OpenCvSharp
         /// <summary>
         /// シーケンスを生成する
         /// </summary>
-        /// <param name="seqFlags">生成されたシーケンスのフラグ．生成されたシーケンスが，特定のシーケンスタイプを引数にとるような関数に一切渡されない場合は，この値に0を指定してもかまわない．そうでない場合は，定義済みのシーケンスタイプのリストから適切なタイプが選択されなければならない．</param>
-        /// <param name="headerSize">シーケンスのヘッダサイズ．sizeof(CvSeq)以上でなければならない． また，特別なタイプかその拡張が指示されている場合，そのタイプは基本タイプのヘッダと合致していなければならない．</param>
-        /// <param name="elemSize">シーケンスの要素サイズ（バイト単位）．サイズはシーケンスタイプと合致しなければならない．例えば，点群のシーケンスを作成する場合，要素タイプにCV_SEQ_ELTYPE_POINTを指定し，パラメータ elem_size は sizeof(CvPoint) と等しくなければならない．</param>
+        /// <param name="seqFlags">生成されたシーケンスのフラグ．生成されたシーケンスが，
+        /// 特定のシーケンスタイプを引数にとるような関数に一切渡されない場合は，
+        /// この値に0を指定してもかまわない．そうでない場合は，定義済みのシーケンスタイプのリストから
+        /// 適切なタイプが選択されなければならない．</param>
+        /// <param name="headerSize">シーケンスのヘッダサイズ．sizeof(CvSeq)以上でなければならない．
+        /// また，特別なタイプかその拡張が指示されている場合，そのタイプは基本タイプのヘッダと合致していなければならない．</param>
+        /// <param name="elemSize">シーケンスの要素サイズ（バイト単位）．
+        /// サイズはシーケンスタイプと合致しなければならない．例えば，点群のシーケンスを作成する場合，
+        /// 要素タイプにCV_SEQ_ELTYPE_POINTを指定し，パラメータ elemSize は sizeof(CvPoint) と等しくなければならない．</param>
         /// <param name="storage">シーケンスが保存される場所</param>
         /// <returns></returns>
 #else
@@ -5899,7 +5900,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="seqFlags">Flags of the created sequence. If the sequence is not passed to any function working with a specific type of sequences, the sequence value may be set to 0, otherwise the appropriate type must be selected from the list of predefined sequence types. </param>
         /// <param name="headerSize">Size of the sequence header; must be greater or equal to sizeof(CvSeq). If a specific type or its extension is indicated, this type must fit the base type header. </param>
-        /// <param name="elemSize">Size of the sequence elements in bytes. The size must be consistent with the sequence type. For example, for a sequence of points to be created, the element type CV_SEQ_ELTYPE_POINT should be specified and the parameter elem_size must be equal to sizeof(CvPoint). </param>
+        /// <param name="elemSize">Size of the sequence elements in bytes. The size must be consistent with the sequence type. For example, for a sequence of points to be created, the element type CV_SEQ_ELTYPE_POINT should be specified and the parameter elemSize must be equal to sizeof(CvPoint). </param>
         /// <param name="storage">Sequence location. </param>
         /// <returns></returns>
 #endif
@@ -6223,11 +6224,11 @@ namespace OpenCvSharp
         /// 指定された名前と範囲のトラックバー（スライダ，レンジコントロールとも呼ばれる）を作成する．
         /// 作成されたトラックバーは，与えられたウィンドウの最上段に表示される.
         /// </summary>
-        /// <param name="trackbar_name">トラックバーの名前</param>
-        /// <param name="window_name">トラックバーの親ウィンドウの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="windowName">トラックバーの親ウィンドウの名前</param>
         /// <param name="value">ref of value</param>
         /// <param name="count">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="on_change">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <param name="onChange">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -6235,25 +6236,24 @@ namespace OpenCvSharp
         /// assigns the variable to be syncronized with trackbar position and specifies callback function to be called on trackbar position change.
         /// The created trackbar is displayed on top of given window.
         /// </summary>
-        /// <param name="trackbar_name">Name of created trackbar. </param>
-        /// <param name="window_name">Name of the window which will e used as a parent for created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
+        /// <param name="windowName">Name of the window which will e used as a parent for created trackbar. </param>
         /// <param name="value">Ref of int value</param>
         /// <param name="count">Maximal position of the slider. Minimal position is always 0. </param>
-        /// <param name="on_change">Reference to the function to be called every time the slider changes the position.
+        /// <param name="onChange">Reference to the function to be called every time the slider changes the position.
         /// This function should be prototyped as void Foo(int);Can be null if callback is not required. </param>
         /// <returns></returns>
 #endif
-        public static int CreateTrackbar(string trackbar_name, string window_name, ref int value, int count, CvTrackbarCallback on_change)
+        public static int CreateTrackbar(string trackbarName, string windowName, ref int value, int count, CvTrackbarCallback onChange)
         {
-            //return CvDll.cvCreateTrackbar(trackbar_name, window_name, ref value, count, on_change);
-            if (string.IsNullOrEmpty(trackbar_name))
-                throw new ArgumentNullException("trackbar_name");
-            if (string.IsNullOrEmpty(window_name))
-                throw new ArgumentNullException("window_name");
-            CvWindow window = CvWindow.GetWindowByName(window_name);
+            if (string.IsNullOrEmpty(trackbarName))
+                throw new ArgumentNullException("trackbarName");
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException("windowName");
+            CvWindow window = CvWindow.GetWindowByName(windowName);
             if (window != null)
             {
-                return NativeMethods.cvCreateTrackbar(trackbar_name, window_name, ref value, count, on_change);
+                return NativeMethods.cvCreateTrackbar(trackbarName, windowName, ref value, count, onChange);
             }
             return 0;
         }
@@ -6263,11 +6263,11 @@ namespace OpenCvSharp
         /// 指定された名前と範囲のトラックバー（スライダ，レンジコントロールとも呼ばれる）を作成する．
         /// 作成されたトラックバーは，与えられたウィンドウの最上段に表示される.
         /// </summary>
-        /// <param name="trackbar_name">トラックバーの名前</param>
-        /// <param name="window_name">トラックバーの親ウィンドウの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="windowName">トラックバーの親ウィンドウの名前</param>
         /// <param name="value">スライダの初期位置</param>
         /// <param name="count">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="on_change">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <param name="onChange">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -6275,25 +6275,24 @@ namespace OpenCvSharp
         /// assigns the variable to be syncronized with trackbar position and specifies callback function to be called on trackbar position change. 
         /// The created trackbar is displayed on top of given window.
         /// </summary>
-        /// <param name="trackbar_name">Name of created trackbar. </param>
-        /// <param name="window_name">Name of the window which will e used as a parent for created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
+        /// <param name="windowName">Name of the window which will e used as a parent for created trackbar. </param>
         /// <param name="value">Initial position of the slider.</param>
         /// <param name="count">Maximal position of the slider. Minimal position is always 0. </param>
-        /// <param name="on_change">Reference to the function to be called every time the slider changes the position. 
+        /// <param name="onChange">Reference to the function to be called every time the slider changes the position. 
         /// This function should be prototyped as void Foo(int);Can be null if callback is not required. </param>
         /// <returns></returns>
 #endif
-        public static int CreateTrackbar(string trackbar_name, string window_name, int value, int count, CvTrackbarCallback on_change)
+        public static int CreateTrackbar(string trackbarName, string windowName, int value, int count, CvTrackbarCallback onChange)
         {
-            //return CvDll.cvCreateTrackbar(trackbar_name, window_name, ref value, count, on_change);
-            if (string.IsNullOrEmpty(trackbar_name))
-                throw new ArgumentNullException("trackbar_name");
-            if (string.IsNullOrEmpty(window_name))
-                throw new ArgumentNullException("window_name");
-            CvWindow window = CvWindow.GetWindowByName(window_name);
+            if (string.IsNullOrEmpty(trackbarName))
+                throw new ArgumentNullException("trackbarName");
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException("windowName");
+            CvWindow window = CvWindow.GetWindowByName(windowName);
             if (window != null)
             {
-                CvTrackbar trackbar = window.CreateTrackbar(trackbar_name, value, count, on_change);
+                CvTrackbar trackbar = window.CreateTrackbar(trackbarName, value, count, onChange);
                 return trackbar.Result;
             }
             return 0;
@@ -6304,11 +6303,11 @@ namespace OpenCvSharp
         /// 指定された名前と範囲のトラックバー（スライダ，レンジコントロールとも呼ばれる）を作成する．
         /// 作成されたトラックバーは，与えられたウィンドウの最上段に表示される.
         /// </summary>
-        /// <param name="trackbar_name">トラックバーの名前</param>
-        /// <param name="window_name">トラックバーの親ウィンドウの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="windowName">トラックバーの親ウィンドウの名前</param>
         /// <param name="value">スライダの初期位置</param>
         /// <param name="count">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="on_change">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <param name="onChange">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
         /// <param name="userdata"></param>
         /// <returns></returns>
 #else
@@ -6317,26 +6316,25 @@ namespace OpenCvSharp
         /// assigns the variable to be syncronized with trackbar position and specifies callback function to be called on trackbar position change. 
         /// The created trackbar is displayed on top of given window.
         /// </summary>
-        /// <param name="trackbar_name">Name of created trackbar. </param>
-        /// <param name="window_name">Name of the window which will e used as a parent for created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
+        /// <param name="windowName">Name of the window which will e used as a parent for created trackbar. </param>
         /// <param name="value">Initial position of the slider.</param>
         /// <param name="count">Maximal position of the slider. Minimal position is always 0. </param>
-        /// <param name="on_change">Reference to the function to be called every time the slider changes the position. 
+        /// <param name="onChange">Reference to the function to be called every time the slider changes the position. 
         /// This function should be prototyped as void Foo(int);Can be null if callback is not required. </param>
         /// <param name="userdata"></param>
         /// <returns></returns>
 #endif
-        public static int CreateTrackbar2(string trackbar_name, string window_name, int value, int count, CvTrackbarCallback2 on_change, object userdata)
+        public static int CreateTrackbar2(string trackbarName, string windowName, int value, int count, CvTrackbarCallback2 onChange, object userdata)
         {
-            //return CvDll.cvCreateTrackbar(trackbar_name, window_name, ref value, count, on_change);
-            if (string.IsNullOrEmpty(trackbar_name))
-                throw new ArgumentNullException("trackbar_name");
-            if (string.IsNullOrEmpty(window_name))
-                throw new ArgumentNullException("window_name");
-            CvWindow window = CvWindow.GetWindowByName(window_name);
+            if (string.IsNullOrEmpty(trackbarName))
+                throw new ArgumentNullException("trackbarName");
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException("windowName");
+            CvWindow window = CvWindow.GetWindowByName(windowName);
             if (window != null)
             {
-                CvTrackbar trackbar = window.CreateTrackbar2(trackbar_name, value, count, on_change, userdata);
+                CvTrackbar trackbar = window.CreateTrackbar2(trackbarName, value, count, onChange, userdata);
                 return trackbar.Result;
             }
             return 0;
@@ -6353,7 +6351,7 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
@@ -6363,12 +6361,12 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
+        /// <param name="frameSize">Size of video frames. </param>
         /// <returns></returns>
 #endif
-        public static CvVideoWriter CreateVideoWriter(string filename, string fourcc, double fps, CvSize frame_size)
+        public static CvVideoWriter CreateVideoWriter(string filename, string fourcc, double fps, CvSize frameSize)
         {
-            return new CvVideoWriter(filename, fourcc, fps, frame_size);
+            return new CvVideoWriter(filename, fourcc, fps, frameSize);
         }
 #if LANG_JP
         /// <summary>
@@ -6380,8 +6378,8 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
-        /// <param name="is_color">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
+        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
@@ -6391,13 +6389,13 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
-        /// <param name="is_color">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
 #endif
-        public static CvVideoWriter CreateVideoWriter(string filename, string fourcc, double fps, CvSize frame_size, bool is_color)
+        public static CvVideoWriter CreateVideoWriter(string filename, string fourcc, double fps, CvSize frameSize, bool isColor)
         {
-            return new CvVideoWriter(filename, fourcc, fps, frame_size, is_color);
+            return new CvVideoWriter(filename, fourcc, fps, frameSize, isColor);
         }
         #endregion
         #region CrossProduct
