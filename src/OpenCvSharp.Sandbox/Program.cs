@@ -270,8 +270,6 @@ namespace OpenCvSharp.Sandbox
                     GC.Collect();
                 }
             }
-
         }
-
     }
 }
