@@ -71,6 +71,9 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentException("nChannels of dst is invalid", "dst");
             }
 
+            bool submat = dst.IsSubmatrix();
+            bool continuous = dst.IsContinuous();
+
             unsafe
             {
                 byte* p = (byte*)(dst.Data);
@@ -79,6 +82,9 @@ namespace OpenCvSharp.Extensions
                 // 1bppは手作業でコピー
                 if (bpp == 1)
                 {
+                    if (submat)
+                        throw new NotImplementedException("submatrix not supported");
+
                     // BitmapImageのデータを配列にコピー
                     // 要素1つに横8ピクセル分のデータが入っている。   
                     int stride = (w / 8) + 1;
@@ -130,9 +136,6 @@ namespace OpenCvSharp.Extensions
                 else
                 {
                     int stride = w * ((bpp + 7) / 8);
-                    bool submat = dst.IsSubmatrix();
-                    bool continuous = dst.IsContinuous();
-
                     if (!submat && continuous)
                     {
                         long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
@@ -292,21 +295,26 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentException("channels of dst != channels of PixelFormat", "dst");
             }
 
-            if (bpp == 1)
+            bool submat = src.IsSubmatrix();
+            bool continuous = src.IsContinuous();
+            unsafe
             {
-                unsafe
+                byte* pSrc = (byte*)(src.Data);
+                int sstep = (int)src.Step();
+
+                if (bpp == 1)
                 {
+                    if (submat)
+                        throw new NotImplementedException("submatrix not supported");
+
                     // 手作業で移し替える
                     int stride = w / 8 + 1;
-                    if (stride < 2)
-                    {
+                    if (stride < 2)                    
                         stride = 2;
-                    }
+                    
                     byte[] pixels = new byte[h * stride];
-                    byte* p = (byte*)(src.Data);
-                    int x = 0;
-                    long step = src.Step();
-                    for (int y = 0; y < h; y++)
+
+                    for (int x = 0, y = 0; y < h; y++)
                     {
                         int offset = y * stride;
                         for (int bytePos = 0; bytePos < stride; bytePos++)
@@ -318,7 +326,7 @@ namespace OpenCvSharp.Extensions
                                 for (int i = 0; i < 8; i++)
                                 {
                                     b <<= 1;
-                                    if (x < w && p[step * y + x] != 0)
+                                    if (x < w && pSrc[sstep * y + x] != 0)
                                     {
                                         b |= 1;
                                     }
@@ -330,16 +338,40 @@ namespace OpenCvSharp.Extensions
                         x = 0;
                     }
                     dst.WritePixels(new Int32Rect(0, 0, w, h), pixels, stride, 0);
+                    return;
                 }
-            }
-            else
-            {
-                long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
-                if (imageSize < 0)
-                    throw new OpenCvSharpException("The mat has invalid data pointer");
-                if (imageSize > Int32.MaxValue)
-                    throw new OpenCvSharpException("Too big mat data");
-                dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, (int)src.Step());
+
+                // 一気にコピー            
+                if (!submat && continuous)
+                {                    
+                    long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
+                    if (imageSize < 0)
+                        throw new OpenCvSharpException("The mat has invalid data pointer");
+                    if (imageSize > Int32.MaxValue)
+                        throw new OpenCvSharpException("Too big mat data");
+                    dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, sstep);
+                    return;
+                }
+
+                // 一列ごとにコピー
+                try
+                {
+                    dst.Lock();
+
+                    int dstep = dst.BackBufferStride;
+                    byte* pDst = (byte*)dst.BackBuffer;
+
+                    for (int y = 0; y < h; y++)
+                    {
+                        long offsetSrc = (y * sstep);
+                        long offsetDst = (y * dstep);
+                        Util.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * channels);
+                    }
+                }
+                finally
+                {
+                    dst.Unlock();
+                }
             }
         }
         #endregion
