@@ -174,7 +174,7 @@ namespace OpenCvSharp
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.ToString());
             }
         }
 
