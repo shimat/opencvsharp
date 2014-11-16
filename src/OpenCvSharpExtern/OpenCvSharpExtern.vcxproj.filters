@@ -138,9 +138,6 @@
     <ClInclude Include="ml_EM.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_DescriptorExtractor.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
     <ClInclude Include="my_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -199,9 +196,6 @@
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_CvBoostTree.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="ml_ANN_MLP.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_StatModel.h">

@@ -62,6 +62,7 @@ namespace OpenCvSharp
             DllMsvcr,
             DllMsvcp,
 
+            "cudart32_60",
             DllCore,// 
             DllFlann, // core
             DllImgproc, // core
