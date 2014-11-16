@@ -7,14 +7,6 @@ namespace OpenCvSharp.CPlusPlus
     static partial class Cv2
     {
         /// <summary>
-        /// 
-        /// </summary>
-        public static void InitModule_Video()
-        {
-            NativeMethods.video_initModule_video();
-        }
-
-        /// <summary>
         /// Finds an object center, size, and orientation.
         /// </summary>
         /// <param name="probImage">Back projection of the object histogram. </param>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
@@ -10,12 +9,13 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// Good Features To Track Detector
     /// </summary>
-    public class GFTTDetector : FeatureDetector
+    public class GFTTDetector : Feature2D
     {
         private bool disposed;
-        private Ptr<GFTTDetector> detectorPtr;
+        private Ptr<GFTTDetector> ptrObj;
 
         #region Init & Disposal
+
         /// <summary>
         /// 
         /// </summary>
@@ -25,40 +25,24 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="blockSize"></param>
         /// <param name="useHarrisDetector"></param>
         /// <param name="k"></param>
-        public GFTTDetector(int maxCorners = 1000, double qualityLevel = 0.01, double minDistance = 1,
-                          int blockSize = 3, bool useHarrisDetector = false, double k = 0.04)
+        public static GFTTDetector Create(
+            int maxCorners = 1000, double qualityLevel = 0.01, double minDistance = 1,
+            int blockSize = 3, bool useHarrisDetector = false, double k = 0.04)
         {
-            ptr = NativeMethods.features2d_GFTTDetector_new(maxCorners, qualityLevel, minDistance, 
+            IntPtr ptr = NativeMethods.features2d_GFTTDetector_create(
+                maxCorners, qualityLevel, minDistance, 
                 blockSize, useHarrisDetector ? 1 : 0, k);
+            return new GFTTDetector(ptr);
         }
 
         /// <summary>
-        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// 
         /// </summary>
-        internal GFTTDetector(Ptr<GFTTDetector> detectorPtr)
+        /// <param name="p"></param>
+        protected GFTTDetector(IntPtr p)
         {
-            this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
-        }
-        /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
-        /// </summary>
-        internal GFTTDetector(IntPtr rawPtr)
-        {
-            detectorPtr = null;
-            ptr = rawPtr;
-        }
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new GFTTDetector FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<GFTTDetector> pointer");
-            var ptrObj = new Ptr<GFTTDetector>(ptr);
-            return new GFTTDetector(ptrObj);
+            ptrObj = new Ptr<GFTTDetector>(p);
+            ptr = ptrObj.Get();
         }
 
 #if LANG_JP
@@ -87,19 +71,14 @@ namespace OpenCvSharp.CPlusPlus
                     // releases managed resources
                     if (disposing)
                     {
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
                     // releases unmanaged resources
-                    if (detectorPtr != null)
-                    {
-                        detectorPtr.Dispose();
-                        detectorPtr = null;
-                    }
-                    else
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.features2d_GFTTDetector_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
+                    
                     disposed = true;
                 }
                 finally
@@ -110,19 +89,128 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Methods
+        #region Properties
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public KeyPoint[] Run(Mat image, Mat mask)
+        public int MaxFeatures
         {
-            ThrowIfDisposed();
-            return base.Detect(image, mask);
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_GFTTDetector_getMaxFeatures(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_GFTTDetector_setMaxFeatures(ptr, value);
+            }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public double QualityLevel
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_GFTTDetector_getQualityLevel(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_GFTTDetector_setQualityLevel(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double MinDistance
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_GFTTDetector_getMinDistance(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_GFTTDetector_setMinDistance(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int BlockSize
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_GFTTDetector_getBlockSize(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_GFTTDetector_setBlockSize(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool HarrisDetector
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_GFTTDetector_getHarrisDetector(ptr) != 0;
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_GFTTDetector_setHarrisDetector(ptr, value ? 1 : 0);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double K
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_GFTTDetector_getK(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_GFTTDetector_setK(ptr, value);
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)
@@ -132,6 +220,8 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
                 return NativeMethods.features2d_GFTTDetector_info(ptr);
             }
         }

@@ -109,7 +109,8 @@ enum { THRESH_BINARY     = 0, // value = value > threshold ? max_value : 0
        THRESH_TOZERO     = 3, // value = value > threshold ? value : 0
        THRESH_TOZERO_INV = 4, // value = value > threshold ? 0 : value
        THRESH_MASK       = 7,
-       THRESH_OTSU       = 8  // use Otsu algorithm to choose the optimal threshold value
+       THRESH_OTSU       = 8, // use Otsu algorithm to choose the optimal threshold value
+       THRESH_TRIANGLE   = 16  // use Triangle algorithm to choose the optimal threshold value
      };
 
 //! adaptive threshold algorithm
@@ -698,8 +699,7 @@ public:
 
 /**
  * Draw lines on the given canvas.
- *
- * @param image     The image, where lines will be drawn.
+ * @param _image    The image, where lines will be drawn.
  *                  Should have the size of the image, where the lines were found
  * @param lines     The lines that need to be drawn
  */
@@ -707,11 +707,10 @@ public:
 
 /**
  * Draw both vectors on the image canvas. Uses blue for lines 1 and red for lines 2.
- *
  * @param size      The size of the image, where lines were found.
  * @param lines1    The first lines that need to be drawn. Color - Blue.
  * @param lines2    The second lines that need to be drawn. Color - Red.
- * @param image     Optional image, where lines will be drawn.
+ * @param _image    Optional image, where lines will be drawn.
  *                  Should have the size of the image, where the lines were found
  * @return          The number of mismatching pixels between lines1 and lines2.
  */

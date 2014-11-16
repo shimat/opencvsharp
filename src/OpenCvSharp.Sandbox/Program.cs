@@ -78,12 +78,12 @@ namespace OpenCvSharp.Sandbox
             Mat src = new Mat("data/match1.png");
             Mat src2 = new Mat("data/match2.png");
             //Detect the keypoints and generate their descriptors using SURF
-            SURF surf = new SURF(500, 4, 2, true);
+            SURF surf = SURF.Create(500, 4, 2, true);
             KeyPoint[] keypoints1, keypoints2;
             MatOfFloat descriptors1 = new MatOfFloat();
             MatOfFloat descriptors2 = new MatOfFloat();
-            surf.Run(src, null, out keypoints1, descriptors1);
-            surf.Run(src2, null, out keypoints2, descriptors2);
+            surf.Compute(src, null, out keypoints1, descriptors1);
+            surf.Compute(src2, null, out keypoints2, descriptors2);
             // Matching descriptor vectors with a brute force matcher
             BFMatcher matcher = new BFMatcher(NormType.L2, false);
             DMatch[] matches = matcher.Match(descriptors1, descriptors2);//例外が発生する箇所
@@ -225,7 +225,7 @@ namespace OpenCvSharp.Sandbox
             string[] algoNames = Algorithm.GetList();
             Console.WriteLine(String.Join("\n", algoNames));
 
-            SIFT al1 = new SIFT();
+            SIFT al1 = SIFT.Create();
             string[] ppp = al1.GetParams();
             Console.WriteLine(ppp);
             var t = al1.ParamType("contrastThreshold");

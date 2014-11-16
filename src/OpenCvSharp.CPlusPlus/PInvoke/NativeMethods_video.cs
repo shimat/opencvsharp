@@ -8,9 +8,6 @@ namespace OpenCvSharp.CPlusPlus
     static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void video_initModule_video();
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern CvBox2D video_CamShift(
             IntPtr probImage, ref CvRect window, CvTermCriteria criteria);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

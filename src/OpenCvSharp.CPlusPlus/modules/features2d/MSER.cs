@@ -16,12 +16,22 @@ namespace OpenCvSharp.CPlusPlus
     /// Maximal Stable Extremal Regions class
     /// </summary>
 #endif
-    public class MSER : FeatureDetector
+    public class MSER : Feature2D
     {
         private bool disposed;
-        private Ptr<MSER> detectorPtr;
+        private Ptr<MSER> ptrObj;
 
         #region Init & Disposal
+
+        /// <summary>
+        /// Creates instance by raw pointer cv::SURF*
+        /// </summary>
+        protected MSER(IntPtr p)
+        {
+            ptrObj = new Ptr<MSER>(p);
+            ptr = ptrObj.Get();
+        }
+
 #if LANG_JP
         /// <summary>
         /// MSERのパラメータを生成する
@@ -49,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="minMargin">ignore too small margin</param>
         /// <param name="edgeBlurSize">the aperture size for edge blur</param>
 #endif
-        public MSER(
+        public static MSER Create(
             int delta = 5, 
             int minArea = 60, 
             int maxArea = 14400, 
@@ -60,37 +70,9 @@ namespace OpenCvSharp.CPlusPlus
             double minMargin = 0.003, 
             int edgeBlurSize = 5)
         {
-            ptr = NativeMethods.features2d_MSER_new(delta, minArea, maxArea, maxVariation, minDiversity,
+            IntPtr ptr = NativeMethods.features2d_MSER_create(delta, minArea, maxArea, maxVariation, minDiversity,
                                                 maxEvolution, areaThreshold, minMargin, edgeBlurSize);
-        }
-
-        /// <summary>
-        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
-        /// </summary>
-        internal MSER(Ptr<MSER> detectorPtr)
-        {
-            this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
-        }
-        /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
-        /// </summary>
-        internal MSER(IntPtr rawPtr)
-        {
-            detectorPtr = null;
-            ptr = rawPtr;
-        }
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new MSER FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<MSER> pointer");
-            var ptrObj = new Ptr<MSER>(ptr);
-            return new MSER(ptrObj);
+            return new MSER(ptr);
         }
 
 #if LANG_JP
@@ -119,19 +101,14 @@ namespace OpenCvSharp.CPlusPlus
                     // releases managed resources
                     if (disposing)
                     {
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
                     // releases unmanaged resources
-                    if (detectorPtr != null)
-                    {
-                        detectorPtr.Dispose();
-                        detectorPtr = null;
-                    }
-                    else
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.features2d_MSER_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
+
                     disposed = true;
                 }
                 finally
@@ -142,36 +119,113 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Methods
-#if LANG_JP
+        #region Properties
+
         /// <summary>
-        /// MSERのすべての輪郭情報を抽出する
+        /// 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Extracts the contours of Maximally Stable Extremal Regions
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-#endif
-        public Point[][] Run(Mat image, Mat mask)
+        public int Delta
         {
-            ThrowIfDisposed();
-            if (image == null)
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_MSER_getDelta(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_MSER_setDelta(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MinArea
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_MSER_getMinArea(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_MSER_setMinArea(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MaxArea
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_MSER_getMaxArea(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_MSER_setMaxArea(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Pass2Only
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_MSER_getPass2Only(ptr) != 0;
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_MSER_setDelta(ptr, value ? 1 : 0);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="msers"></param>
+        /// <param name="bboxes"></param>
+        public virtual void DetectRegions(
+            InputArray image, out Point[][] msers, out Rect[] bboxes)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (image == null) 
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
 
-            IntPtr msers;
-            NativeMethods.features2d_MSER_detect(ptr, image.CvPtr, out msers, Cv2.ToPtr(mask));
-
-            using (VectorOfVectorPoint msersVec = new VectorOfVectorPoint(msers))
+            using (var msersVec = new VectorOfVectorPoint())
+            using (var bboxesVec = new VectorOfRect())
             {
-                return msersVec.ToArray();
+                NativeMethods.features2d_MSER_detectRegions(
+                    ptr, image.CvPtr, msersVec.CvPtr, bboxesVec.CvPtr);
+                msers = msersVec.ToArray();
+                bboxes = bboxesVec.ToArray();
             }
+
+            GC.KeepAlive(image);
         }
 
         /// <summary>
@@ -180,7 +234,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override IntPtr InfoPtr
         {
-            get { return NativeMethods.features2d_MSER_info(ptr); }
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name); 
+                return NativeMethods.features2d_MSER_info(ptr);
+            }
         }
         #endregion
     }

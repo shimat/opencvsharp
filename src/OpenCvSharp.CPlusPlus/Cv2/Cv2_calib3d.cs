@@ -7,6 +7,8 @@ namespace OpenCvSharp.CPlusPlus
 {
     // ReSharper disable InconsistentNaming
 
+    using FeatureDetector = Feature2D;
+
     static partial class Cv2
     {
         #region Rodrigues

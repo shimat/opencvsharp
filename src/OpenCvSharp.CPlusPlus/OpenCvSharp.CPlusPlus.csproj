@@ -113,8 +113,6 @@
     <Compile Include="modules\imgproc\Enum\ColorMapMode.cs" />
     <Compile Include="modules\video\BackgroundSubtractorKNN.cs" />
     <Compile Include="modules\xfeatures2d\BriefDescriptorExtractor.cs" />
-    <Compile Include="modules\features2d\DescriptorExtractor.cs" />
-    <Compile Include="modules\features2d\IDescriptorExtractor.cs" />
     <Compile Include="modules\flann\FlannDistance.cs" />
     <Compile Include="Cv2\Cv2_cuda.cs" />
     <Compile Include="modules\imgproc\CLAHE.cs" />
@@ -248,7 +246,6 @@
     <Compile Include="PInvoke\NativeMethods_features2d.cs" />
     <Compile Include="PInvoke\NativeMethods_imgproc_Subdiv2D.cs" />
     <Compile Include="PInvoke\NativeMethods_legacy.cs" />
-    <Compile Include="modules\features2d\FeatureDetector.cs" />
     <Compile Include="modules\imgproc\Subdiv2D.cs" />
     <Compile Include="modules\video\BackgroundSubtractor.cs" />
     <Compile Include="modules\legacy\CvCamShiftTracker.cs" />

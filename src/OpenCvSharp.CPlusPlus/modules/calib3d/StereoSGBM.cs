@@ -60,7 +60,7 @@ namespace OpenCvSharp.CPlusPlus
             int speckleWindowSize = 0, int speckleRange = 0,
             StereoSGBMMode mode = StereoSGBMMode.SGBM)
         {
-            IntPtr ptrObj = NativeMethods.calib3d_createStereoSGBM(
+            IntPtr ptrObj = NativeMethods.calib3d_StereoSGBM_create(
                 minDisparity, numDisparities, blockSize,
                 p1, p2, disp12MaxDiff, preFilterCap, uniquenessRatio,
                 speckleWindowSize, speckleRange, (int) mode);

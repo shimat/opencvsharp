@@ -14,12 +14,22 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
     /// FREAK implementation
     /// </summary>
 #endif
-    public class FREAK : DescriptorExtractor
+    public class FREAK : Feature2D
     {
         private bool disposed;
-        private Ptr<FREAK> detectorPtr;
+        private Ptr<FREAK> ptrObj;
 
         #region Init & Disposal
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected FREAK(IntPtr p)
+        {
+            ptrObj = new Ptr<FREAK>(p);
+            ptr = ptrObj.Get();
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -28,7 +38,7 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
         /// <param name="patternScale">scaling of the description pattern</param>
         /// <param name="nOctaves">number of octaves covered by the detected keypoints</param>
         /// <param name="selectedPairs">(optional) user defined selected pairs</param>
-        public FREAK(
+        public static FREAK Create(
             bool orientationNormalized = true,
             bool scaleNormalized = true,
             float patternScale = 22.0f,
@@ -38,38 +48,10 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
             int[] selectedPairsArray = EnumerableEx.ToArray(selectedPairs);
             int selectedPairslength = selectedPairs == null ? 0 : selectedPairsArray.Length;
 
-            ptr = NativeMethods.xfeatures2d_FREAK_new(orientationNormalized ? 1 : 0,
+            IntPtr ptr = NativeMethods.xfeatures2d_FREAK_create(orientationNormalized ? 1 : 0,
                 scaleNormalized ? 1 : 0, patternScale, nOctaves, 
                 selectedPairsArray, selectedPairslength);
-        }
-
-        /// <summary>
-        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
-        /// </summary>
-        internal FREAK(Ptr<FREAK> detectorPtr)
-        {
-            this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
-        }
-        /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
-        /// </summary>
-        internal FREAK(IntPtr rawPtr)
-        {
-            detectorPtr = null;
-            ptr = rawPtr;
-        }
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new FREAK FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<FREAK> pointer");
-            var ptrObj = new Ptr<FREAK>(ptr);
-            return new FREAK(ptrObj);
+            return new FREAK(ptr);
         }
 
 #if LANG_JP
@@ -98,19 +80,14 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
                     // releases managed resources
                     if (disposing)
                     {
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
                     // releases unmanaged resources
-                    if (detectorPtr != null)
-                    {
-                        detectorPtr.Dispose();
-                        detectorPtr = null;
-                    }
-                    else
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.xfeatures2d_FREAK_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
+
                     disposed = true;
                 }
                 finally
@@ -122,52 +99,6 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
         #endregion
 
         #region Methods
-        /// <summary>
-        /// returns the descriptor size in bytes
-        /// </summary>
-        /// <returns></returns>
-        public override int DescriptorSize()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.xfeatures2d_FREAK_descriptorSize(ptr);
-        }
-
-        /// <summary>
-        /// returns the descriptor type
-        /// </summary>
-        /// <returns></returns>
-        public override int DescriptorType()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.xfeatures2d_FREAK_descriptorType(ptr);
-        }
-
-        /// <summary>
-        /// select the 512 "best description pairs"
-        /// </summary>
-        /// <param name="images">grayscale images set</param>
-        /// <param name="keypoints">set of detected keypoints</param>
-        /// <param name="corrThresh">correlation threshold</param>
-        /// <param name="verbose">print construction information</param>
-        /// <returns>list of best pair indexes</returns>
-        public int[] SelectPairs(IEnumerable<Mat> images, out KeyPoint[][] keypoints,
-            double corrThresh = 0.7, bool verbose = true)
-        {
-            if (images == null)
-                throw new ArgumentNullException("images");
-
-            IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
-
-            using (var outVec = new VectorOfInt32())
-            using (var keypointsVec = new VectorOfVectorKeyPoint())
-            {
-                NativeMethods.xfeatures2d_FREAK_selectPairs(ptr, imagesPtrs, imagesPtrs.Length,
-                    keypointsVec.CvPtr, corrThresh, verbose ? 1 : 0, outVec.CvPtr);
-                keypoints = keypointsVec.ToArray();
-                return outVec.ToArray();
-            }
-        }
-
 
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)
@@ -177,6 +108,8 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
         {
             get
             {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name); 
                 return NativeMethods.xfeatures2d_FREAK_info(ptr);
             }
         }

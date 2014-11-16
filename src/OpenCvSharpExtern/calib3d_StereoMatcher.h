@@ -84,9 +84,9 @@ CVAPI(void) calib3d_Ptr_StereoBM_delete(cv::Ptr<cv::StereoBM> *obj)
 	delete obj;
 }
 
-CVAPI(cv::Ptr<cv::StereoBM>*) calib3d_createStereoBM(int numDisparities, int blockSize)
+CVAPI(cv::Ptr<cv::StereoBM>*) calib3d_StereoBM_create(int numDisparities, int blockSize)
 {
-	cv::Ptr<cv::StereoBM> obj = cv::createStereoBM(numDisparities, blockSize);
+	cv::Ptr<cv::StereoBM> obj = cv::StereoBM::create(numDisparities, blockSize);
 	return new cv::Ptr<cv::StereoBM>(obj);
 }
 
@@ -176,13 +176,13 @@ CVAPI(void) calib3d_Ptr_StereoSGBM_delete(cv::Ptr<cv::StereoSGBM> *obj)
 	delete obj;
 }
 
-CVAPI(cv::Ptr<cv::StereoSGBM>*) calib3d_createStereoSGBM(
+CVAPI(cv::Ptr<cv::StereoSGBM>*) calib3d_StereoSGBM_create(
 	int minDisparity, int numDisparities, int blockSize,
 	int P1, int P2, int disp12MaxDiff,
 	int preFilterCap, int uniquenessRatio,
 	int speckleWindowSize, int speckleRange, int mode)
 {
-	cv::Ptr<cv::StereoSGBM> obj = cv::createStereoSGBM(
+	cv::Ptr<cv::StereoSGBM> obj = cv::StereoSGBM::create(
 		minDisparity, numDisparities, blockSize,
 		P1, P2, disp12MaxDiff,
 		preFilterCap, uniquenessRatio,

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
@@ -16,47 +18,69 @@ namespace OpenCvSharp.CPlusPlus
     public class BRISK : Feature2D
     {
         private bool disposed;
-        private Ptr<BRISK> detectorPtr;
+        private Ptr<BRISK> ptrObj;
 
         #region Init & Disposal
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected BRISK()
+            : base()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        protected BRISK(IntPtr p)
+            : base()
+        {
+            ptrObj = new Ptr<BRISK>(p);
+            ptr = ptrObj.Get();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="thresh"></param>
         /// <param name="octaves"></param>
         /// <param name="patternScale"></param>
-        public BRISK(int thresh = 30, int octaves = 3, float patternScale = 1.0f)
+        public static BRISK Create(int thresh = 30, int octaves = 3, float patternScale = 1.0f)
         {
-            ptr = NativeMethods.features2d_BRISK_new(thresh, octaves, patternScale);
+            IntPtr p = NativeMethods.features2d_BRISK_create1(thresh, octaves, patternScale);
+            return new BRISK(p);
         }
 
         /// <summary>
-        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// custom setup
         /// </summary>
-        internal BRISK(Ptr<BRISK> detectorPtr)
+        /// <param name="radiusList"></param>
+        /// <param name="numberList"></param>
+        /// <param name="dMax"></param>
+        /// <param name="dMin"></param>
+        /// <param name="indexChange"></param>
+        /// <returns></returns>
+        public static BRISK Create(
+            IEnumerable<float> radiusList, IEnumerable<int> numberList,
+            float dMax = 5.85f, float dMin = 8.2f,
+            IEnumerable<int> indexChange = null)
         {
-            this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
-        }
-        /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
-        /// </summary>
-        internal BRISK(IntPtr rawPtr)
-        {
-            detectorPtr = null;
-            ptr = rawPtr;
-        }
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new BRISK FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<BRISK> pointer");
-            var ptrObj = new Ptr<BRISK>(ptr);
-            return new BRISK(ptrObj);
+            if (radiusList == null) 
+                throw new ArgumentNullException("radiusList");
+            if (numberList == null) 
+                throw new ArgumentNullException("numberList");
+            float[] radiusListArray = Util.ToArray(radiusList);
+            int[] numberListArray = Util.ToArray(numberList);
+            int[] indexChangeArray = Util.ToArray(indexChange);
+
+            IntPtr p = NativeMethods.features2d_BRISK_create2(
+                radiusListArray, radiusListArray.Length, 
+                numberListArray, numberListArray.Length,
+                dMax, dMin,
+                indexChangeArray, indexChangeArray.Length);
+            return new BRISK(p);
         }
 
 #if LANG_JP
@@ -85,18 +109,12 @@ namespace OpenCvSharp.CPlusPlus
                     // releases managed resources
                     if (disposing)
                     {
-                    }
-                    // releases unmanaged resources
-                    if (detectorPtr != null)
-                    {
-                        detectorPtr.Dispose();
-                        detectorPtr = null;
-                    }
-                    else
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.features2d_BRISK_delete(ptr);
-                        ptr = IntPtr.Zero;
+                        // releases unmanaged resources
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
                     disposed = true;
                 }
@@ -109,89 +127,6 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Methods
-        /// <summary>
-        /// returns the descriptor size in bytes
-        /// </summary>
-        /// <returns></returns>
-        public int DescriptorSize()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.features2d_BRISK_descriptorSize(ptr);
-        }
-
-        /// <summary>
-        /// returns the descriptor type
-        /// </summary>
-        /// <returns></returns>
-        public int DescriptorType()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.features2d_BRISK_descriptorType(ptr);
-        }
-
-        /// <summary>
-        /// Compute the BRISK features on an image
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public KeyPoint[] Run(InputArray image, InputArray mask = null)
-        {
-            ThrowIfDisposed();
-            if (image == null)
-                throw new ArgumentNullException("image");
-            image.ThrowIfDisposed();
-
-            using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
-            {
-                NativeMethods.features2d_BRISK_run1(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr);
-                return keyPointsVec.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Compute the BRISK features and descriptors on an image
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <param name="keyPoints"></param>
-        /// <param name="descriptors"></param>
-        /// <param name="useProvidedKeypoints"></param>
-        public void Run(InputArray image, InputArray mask, out KeyPoint[] keyPoints,
-            OutputArray descriptors, bool useProvidedKeypoints = false)
-        {
-            ThrowIfDisposed();
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (descriptors == null)
-                throw new ArgumentNullException("descriptors");
-            image.ThrowIfDisposed();
-            descriptors.ThrowIfNotReady();
-
-            using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
-            {
-                NativeMethods.features2d_BRISK_run2(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr,
-                    descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
-                keyPoints = keyPointsVec.ToArray();
-            }
-            descriptors.Fix();
-        }
-        /// <summary>
-        /// Compute the BRISK features and descriptors on an image
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <param name="keyPoints"></param>
-        /// <param name="descriptors"></param>
-        /// <param name="useProvidedKeypoints"></param>
-        public void Run(InputArray image, InputArray mask, out KeyPoint[] keyPoints,
-            out float[] descriptors, bool useProvidedKeypoints = false)
-        {
-            MatOfFloat descriptorsMat = new MatOfFloat();
-            Run(image, mask, out keyPoints, descriptorsMat, useProvidedKeypoints);
-            descriptors = descriptorsMat.ToArray();
-        }
-
 
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)
@@ -204,6 +139,7 @@ namespace OpenCvSharp.CPlusPlus
                 return NativeMethods.features2d_BRISK_info(ptr);
             }
         }
+
         #endregion
     }
 }

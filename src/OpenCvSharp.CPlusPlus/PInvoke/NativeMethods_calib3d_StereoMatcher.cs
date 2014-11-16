@@ -63,7 +63,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void calib3d_Ptr_StereoBM_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr calib3d_createStereoBM(int numDisparities, int blockSize);
+        public static extern IntPtr calib3d_StereoBM_create(int numDisparities, int blockSize);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_Ptr_StereoBM_info(IntPtr obj);
@@ -125,7 +125,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void calib3d_Ptr_StereoSGBM_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr calib3d_createStereoSGBM(
+        public static extern IntPtr calib3d_StereoSGBM_create(
             int minDisparity, int numDisparities, int blockSize,
             int P1, int P2, int disp12MaxDiff,
             int preFilterCap, int uniquenessRatio,

@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
-    /// 
+    /// Abstract base class for 2D image feature detectors and descriptor extractors
     /// </summary>
-    public class Feature2D : FeatureDetector, IDescriptorExtractor
+    public class Feature2D : Algorithm
     {
         private bool disposed;
+
         /// <summary>
         /// cv::Ptr&lt;Feature2D&gt;
         /// </summary>
-        private Ptr<Feature2D> detectorPtr;
+        private Ptr<Feature2D> ptrObj;
 
         /// <summary>
         /// 
@@ -21,39 +23,24 @@ namespace OpenCvSharp.CPlusPlus
             : base()
         {
         }
+
         /// <summary>
         /// Creates instance from cv::Ptr&lt;T&gt; .
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new Feature2D FromPtr(IntPtr ptr)
+        internal static Feature2D FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid cv::Ptr<Feature2D> pointer");
             var ptrObj = new Ptr<Feature2D>(ptr);
             var detector = new Feature2D
                 {
-                    detectorPtr = ptrObj, 
+                    ptrObj = ptrObj, 
                     ptr = ptrObj.Get()
                 };
             return detector;
         }
-        /// <summary>
-        /// Creates instance from raw pointer T*
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new Feature2D FromRawPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid Feature2D pointer");
-            var detector = new Feature2D
-                {
-                    detectorPtr = null, 
-                    ptr = ptr
-                };
-            return detector;
-        }
-
 
 #if LANG_JP
     /// <summary>
@@ -85,9 +72,9 @@ namespace OpenCvSharp.CPlusPlus
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (detectorPtr != null)
-                            detectorPtr.Dispose();
-                        detectorPtr = null;
+                        if (ptrObj != null)
+                            ptrObj.Dispose();
+                        ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -100,19 +87,150 @@ namespace OpenCvSharp.CPlusPlus
         }
         
         /// <summary>
+        /// Pointer to algorithm information (cv::AlgorithmInfo*)
+        /// </summary>
+        /// <returns></returns>
+        public override IntPtr InfoPtr
+        {
+            get { return NativeMethods.features2d_Feature2D_info(ptr); }
+        }
+
+        /// <summary>
+        /// Detect keypoints in an image.
+        /// </summary>
+        /// <param name="image">The image.</param>
+        /// <param name="mask">Mask specifying where to look for keypoints (optional). 
+        /// Must be a char matrix with non-zero values in the region of interest.</param>
+        /// <returns>The detected keypoints.</returns>
+        public KeyPoint[] Detect(Mat image, Mat mask = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+
+            image.ThrowIfDisposed();
+            try
+            {
+                using (var keypoints = new VectorOfKeyPoint())
+                {
+                    NativeMethods.features2d_Feature2D_detect_Mat1(ptr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask));
+                    return keypoints.ToArray();
+                }
+            }
+            finally
+            {
+                GC.KeepAlive(image);
+                GC.KeepAlive(mask);
+            }
+        }
+
+        /// <summary>
+        /// Detect keypoints in an image.
+        /// </summary>
+        /// <param name="image">The image.</param>
+        /// <param name="mask">Mask specifying where to look for keypoints (optional). 
+        /// Must be a char matrix with non-zero values in the region of interest.</param>
+        /// <returns>The detected keypoints.</returns>
+        public KeyPoint[] Detect(InputArray image, Mat mask = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+
+            image.ThrowIfDisposed();
+            try
+            {
+                using (var keypoints = new VectorOfKeyPoint())
+                {
+                    NativeMethods.features2d_Feature2D_detect_InputArray(ptr, image.CvPtr, keypoints.CvPtr,
+                        Cv2.ToPtr(mask));
+                    return keypoints.ToArray();
+                }
+            }
+            finally
+            {
+                GC.KeepAlive(image);
+                GC.KeepAlive(mask);
+            }
+        }
+
+        /// <summary>
+        /// Detect keypoints in an image set.
+        /// </summary>
+        /// <param name="images">Image collection.</param>
+        /// <param name="masks">Masks for image set. masks[i] is a mask for images[i].</param>
+        /// <returns>Collection of keypoints detected in an input images. keypoints[i] is a set of keypoints detected in an images[i].</returns>
+        public KeyPoint[][] Detect(IEnumerable<Mat> images, IEnumerable<Mat> masks = null)
+        {
+            if (images == null)
+                throw new ArgumentNullException("images");
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+
+            Mat[] imagesArray = Util.ToArray(images);
+            IntPtr[] imagesPtr = new IntPtr[imagesArray.Length];
+            for (int i = 0; i < imagesArray.Length; i++)
+                imagesPtr[i] = imagesArray[i].CvPtr;
+
+            using (var keypoints = new VectorOfVectorKeyPoint())
+            {
+                if (masks == null)
+                {
+                    NativeMethods.features2d_Feature2D_detect_Mat2(
+                        ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, null);
+                }
+                else
+                {
+                    IntPtr[] masksPtr = EnumerableEx.SelectPtrs(masks);
+                    if (masksPtr.Length != imagesArray.Length)
+                        throw new ArgumentException("masks.Length != images.Length");
+                    NativeMethods.features2d_Feature2D_detect_Mat2(
+                        ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, masksPtr);
+                }
+                return keypoints.ToArray();
+            }
+        }
+
+        /// <summary>
         /// Compute the descriptors for a set of keypoints in an image.
         /// </summary>
         /// <param name="image">The image.</param>
         /// <param name="keypoints">The input keypoints. Keypoints for which a descriptor cannot be computed are removed.</param>
         /// <param name="descriptors">Copmputed descriptors. Row i is the descriptor for keypoint i.</param>param>
-        public virtual void Compute(Mat image, ref KeyPoint[] keypoints, Mat descriptors)
+        public virtual void Compute(InputArray image, out KeyPoint[] keypoints, OutputArray descriptors)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
-            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+
+            using (var keypointsVec = new VectorOfKeyPoint())
             {
-                NativeMethods.features2d_Feature2D_compute(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
+                NativeMethods.features2d_Feature2D_compute1(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
                 keypoints = keypointsVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Compute the descriptors for a set of keypoints in an image.
+        /// </summary>
+        /// <param name="image">The image.</param>
+        /// <param name="inKeypoints">The input keypoints. Keypoints for which a descriptor cannot be computed are removed.</param>
+        /// <param name="outKeypoints"></param>
+        /// <param name="descriptors">Copmputed descriptors. Row i is the descriptor for keypoint i.</param>param>
+        public virtual void Compute(InputArray image, KeyPoint[] inKeypoints, out KeyPoint[] outKeypoints, OutputArray descriptors)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+
+            using (var keypointsVec = new VectorOfKeyPoint(inKeypoints))
+            {
+                NativeMethods.features2d_Feature2D_compute1(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
+                outKeypoints = keypointsVec.ToArray();
             }
         }
 
@@ -125,6 +243,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="descriptors">Descriptor collection. descriptors[i] are descriptors computed for set keypoints[i].</param>
         public virtual void Compute(IEnumerable<Mat> images, ref KeyPoint[][] keypoints, IEnumerable<Mat> descriptors)
         {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
             if (images == null)
                 throw new ArgumentNullException("images");
             if (descriptors == null)
@@ -135,7 +255,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (var keypointsVec = new VectorOfVectorKeyPoint(keypoints))
             {
-                NativeMethods.features2d_DescriptorExtractor_compute2(
+                NativeMethods.features2d_Feature2D_compute2(
                     ptr, imagesPtrs, imagesPtrs.Length, keypointsVec.CvPtr,
                     descriptorsPtrs, descriptorsPtrs.Length);
 
@@ -143,28 +263,48 @@ namespace OpenCvSharp.CPlusPlus
             }
         }
 
-        /*
         /// <summary>
-        /// Create feature detector by detector name.
+        /// 
         /// </summary>
-        /// <param name="detectorType"></param>
         /// <returns></returns>
-        public static new Feature2D Create(string detectorType)
+        public virtual int DescriptorSize()
         {
-            if(String.IsNullOrEmpty(detectorType))
-                throw new ArgumentNullException("detectorType");
-            // gets cv::Ptr<Feature2D>
-            IntPtr ptr = NativeMethods.features2d_Feature2D_create(detectorType);
-            try
-            {
-                Feature2D detector = FromPtr(ptr);
-                return detector;
-            }
-            catch (OpenCvSharpException)
-            {
-                throw new OpenCvSharpException("Detector name '{0}' is not valid.", detectorType);
-            }
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            return NativeMethods.features2d_Feature2D_descriptorSize(ptr);
         }
-        */
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual int DescriptorType()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            return NativeMethods.features2d_Feature2D_descriptorType(ptr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual int DefaultNorm()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            return NativeMethods.features2d_Feature2D_defaultNorm(ptr);
+        }
+
+        /// <summary>
+        /// Return true if detector object is empty
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool Empty()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            return NativeMethods.features2d_Feature2D_empty(ptr) != 0;
+        }
     }
 }

@@ -14,51 +14,31 @@ namespace OpenCvSharp.CPlusPlus
     /// Detects corners using FAST algorithm by E. Rosten
     /// </summary>
 #endif
-    public class FastFeatureDetector : FeatureDetector
+    public class FastFeatureDetector : Feature2D
     {
         private bool disposed;
-        private Ptr<FastFeatureDetector> detectorPtr;
+        private Ptr<FastFeatureDetector> ptrObj;
 
         #region Init & Disposal
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected FastFeatureDetector(IntPtr ptr)
+        {
+            ptrObj = new Ptr<FastFeatureDetector>(ptr);
+            ptr = ptrObj.Get();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="threshold"></param>
         /// <param name="nonmaxSuppression"></param>
-        public FastFeatureDetector(int threshold = 10, bool nonmaxSuppression = true)
+        public static FastFeatureDetector Create(int threshold = 10, bool nonmaxSuppression = true)
         {
-            ptr = NativeMethods.features2d_FastFeatureDetector_new(threshold, nonmaxSuppression ? 1 : 0);
-        }
-
-        /// <summary>
-        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
-        /// </summary>
-        internal FastFeatureDetector(Ptr<FastFeatureDetector> detectorPtr)
-        {
-            this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
-        }
-
-        /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
-        /// </summary>
-        internal FastFeatureDetector(IntPtr rawPtr)
-        {
-            detectorPtr = null;
-            ptr = rawPtr;
-        }
-
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new FastFeatureDetector FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<FastFeatureDetector> pointer");
-            var ptrObj = new Ptr<FastFeatureDetector>(ptr);
-            return new FastFeatureDetector(ptrObj);
+            IntPtr ptr = NativeMethods.features2d_FastFeatureDetector_create(threshold, nonmaxSuppression ? 1 : 0);
+            return new FastFeatureDetector(ptr);
         }
 
 #if LANG_JP
@@ -87,19 +67,14 @@ namespace OpenCvSharp.CPlusPlus
                     // releases managed resources
                     if (disposing)
                     {
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
                     // releases unmanaged resources
-                    if (detectorPtr != null)
-                    {
-                        detectorPtr.Dispose();
-                        detectorPtr = null;
-                    }
-                    else
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.features2d_FastFeatureDetector_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
+                    
                     disposed = true;
                 }
                 finally
@@ -110,19 +85,68 @@ namespace OpenCvSharp.CPlusPlus
         }
         #endregion
 
-        #region Methods
+        #region Properties
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public KeyPoint[] Run(Mat image, Mat mask)
+        public int Threshold
         {
-            ThrowIfDisposed();
-            return base.Detect(image, mask);
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_FastFeatureDetector_getThreshold(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_FastFeatureDetector_setThreshold(ptr, value);
+            }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool NonmaxSuppression
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_FastFeatureDetector_getNonmaxSuppression(ptr) != 0;
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_FastFeatureDetector_setNonmaxSuppression(ptr, value ? 1 : 0);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Type
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_FastFeatureDetector_getType(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_FastFeatureDetector_setType(ptr, value);
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)
@@ -132,9 +156,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
                 return NativeMethods.features2d_FastFeatureDetector_info(ptr);
             }
         }
+
         #endregion
     }
 }

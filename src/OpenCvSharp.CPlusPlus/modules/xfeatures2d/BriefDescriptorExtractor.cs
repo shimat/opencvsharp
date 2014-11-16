@@ -2,6 +2,8 @@
 
 namespace OpenCvSharp.CPlusPlus.XFeatures2D
 {
+    using DescriptorExtractor = Feature2D;
+
     /// <summary>
     /// BRIEF Descriptor
     /// </summary>
@@ -15,52 +17,37 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
 #pragma warning restore 1591
 
         private bool disposed;
+
         /// <summary>
-        /// cv::Ptr&lt;DescriptorExtractor&gt;
+        /// cv::Ptr&lt;BriefDescriptorExtractor&gt;
         /// </summary>
-        private Ptr<BriefDescriptorExtractor> extractorPtr;
+        private Ptr<BriefDescriptorExtractor> ptrObj;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected BriefDescriptorExtractor()
+        {
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ptr"></param>
+        protected BriefDescriptorExtractor(IntPtr ptr)
+        {
+            ptrObj = new Ptr<BriefDescriptorExtractor>(ptr);
+            ptr = ptrObj.Get();
+        }
 
         /// <summary>
         /// bytes is a length of descriptor in bytes. It can be equal 16, 32 or 64 bytes.
         /// </summary>
         /// <param name="bytes"></param>
-        public BriefDescriptorExtractor(int bytes = 32)
+        public static BriefDescriptorExtractor Create(int bytes = 32)
         {
-            ptr = NativeMethods.xfeatures2d_BriefDescriptorExtractor_new(bytes);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        internal BriefDescriptorExtractor(Ptr<BriefDescriptorExtractor> extractorPtr, IntPtr ptr)
-        {
-            this.extractorPtr = null;
-            this.ptr = IntPtr.Zero;
-        }
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal new static BriefDescriptorExtractor FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid BriefDescriptorExtractor pointer");
-
-            var ptrObj = new Ptr<BriefDescriptorExtractor>(ptr);
-            var extractor = new BriefDescriptorExtractor(ptrObj,ptrObj.Get());
-            return extractor;
-        }
-        /// <summary>
-        /// Creates instance from raw T*
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal new static BriefDescriptorExtractor FromRawPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid BriefDescriptorExtractor pointer");
-            var extractor = new BriefDescriptorExtractor(null, ptr);
-            return extractor;
+            IntPtr p = NativeMethods.xfeatures2d_BriefDescriptorExtractor_create(bytes);
+            return new BriefDescriptorExtractor(p);
         }
 
         /// <summary>
@@ -79,21 +66,16 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
                     // releases managed resources
                     if (disposing)
                     {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        if (extractorPtr != null)
+                        if (ptrObj != null)
                         {
-                            extractorPtr.Dispose();
+                            ptrObj.Dispose();
                         }
-                        else
-                        {
-                            NativeMethods.xfeatures2d_BriefDescriptorExtractor_delete(ptr);
-                        }
-                        extractorPtr = null;
+                        ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
+                    
+                    // releases unmanaged resources
+                    
                     disposed = true;
                 }
                 finally
@@ -109,28 +91,12 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
         /// <returns></returns>
         public override IntPtr InfoPtr
         {
-            get { return NativeMethods.xfeatures2d_BriefDescriptorExtractor_info(ptr); }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override int DescriptorSize()
-        {
-            if (disposed)
-                throw new ObjectDisposedException("BriefDescriptorExtractor");
-            return NativeMethods.xfeatures2d_BriefDescriptorExtractor_descriptorSize(ptr);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override int DescriptorType()
-        {
-            if (disposed)
-                throw new ObjectDisposedException("BriefDescriptorExtractor");
-            return NativeMethods.xfeatures2d_BriefDescriptorExtractor_descriptorType(ptr);
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name); 
+                return NativeMethods.xfeatures2d_BriefDescriptorExtractor_info(ptr);
+            }
         }
     }
 }

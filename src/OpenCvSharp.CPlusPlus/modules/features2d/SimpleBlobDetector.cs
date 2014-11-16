@@ -6,10 +6,10 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// Class for extracting blobs from an image.
     /// </summary>
-    public class SimpleBlobDetector : FeatureDetector
+    public class SimpleBlobDetector : Feature2D
     {
         private bool disposed;
-        private Ptr<SimpleBlobDetector> detectorPtr;
+        private Ptr<SimpleBlobDetector> ptrObj;
 
         /// <summary>
         /// SimpleBlobDetector parameters
@@ -173,46 +173,28 @@ namespace OpenCvSharp.CPlusPlus
         }
         
         #region Init & Disposal
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected SimpleBlobDetector(IntPtr p)
+        {
+            ptrObj = new Ptr<SimpleBlobDetector>(p);
+            ptr = ptrObj.Get();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="parameters"></param>
-        public SimpleBlobDetector(Params parameters = null)
+        public static SimpleBlobDetector Create(Params parameters = null)
         {
             if (parameters == null)
                 parameters = new Params();
-            ptr = NativeMethods.features2d_SimpleBlobDetector_new(ref parameters.data);
+            IntPtr ptr = NativeMethods.features2d_SimpleBlobDetector_create(ref parameters.data);
+            return new SimpleBlobDetector(ptr);
         }
                 
-        /// <summary>
-        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
-        /// </summary>
-        internal SimpleBlobDetector(Ptr<SimpleBlobDetector> detectorPtr)
-        {
-            this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
-        }
-        /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
-        /// </summary>
-        internal SimpleBlobDetector(IntPtr rawPtr)
-        {
-            detectorPtr = null;
-            ptr = rawPtr;
-        }
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new SimpleBlobDetector FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<SimpleBlobDetector> pointer");
-            var ptrObj = new Ptr<SimpleBlobDetector>(ptr);
-            return new SimpleBlobDetector(ptrObj);
-        }
-
 #if LANG_JP
     /// <summary>
     /// リソースの解放
@@ -239,19 +221,14 @@ namespace OpenCvSharp.CPlusPlus
                     // releases managed resources
                     if (disposing)
                     {
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
                     // releases unmanaged resources
-                    if (detectorPtr != null)
-                    {
-                        detectorPtr.Dispose();
-                        detectorPtr = null;
-                    }
-                    else
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.features2d_SimpleBlobDetector_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
+
                     disposed = true;
                 }
                 finally
@@ -263,18 +240,6 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Methods
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public KeyPoint[] Run(Mat image, Mat mask)
-        {
-            ThrowIfDisposed();
-            return base.Detect(image, mask);
-        }
-
 
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)
@@ -282,8 +247,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override IntPtr InfoPtr
         {
-            get { return NativeMethods.features2d_GFTTDetector_info(ptr); }
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name); 
+                return NativeMethods.features2d_GFTTDetector_info(ptr);
+            }
         }
+
         #endregion
     }
 }

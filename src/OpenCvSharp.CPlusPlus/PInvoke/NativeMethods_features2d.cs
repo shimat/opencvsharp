@@ -10,82 +10,72 @@ namespace OpenCvSharp.CPlusPlus
         // ReSharper disable InconsistentNaming
 
         // FeatureDetector
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "features2d_FeatureDetector_detect1")]
-        public static extern void features2d_FeatureDetector_detect(IntPtr detector, IntPtr image, IntPtr keypoints, IntPtr mask);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "features2d_FeatureDetector_detect2")]
-        public static extern void features2d_FeatureDetector_detect(IntPtr detector, IntPtr[] images, int imageLength, IntPtr keypoints, IntPtr[] mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int features2d_FeatureDetector_empty(IntPtr detector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern IntPtr features2d_FeatureDetector_create([MarshalAs(UnmanagedType.LPStr)] string detectorType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_Feature2D_compute(IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr descriptors);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern IntPtr features2d_Feature2D_create([MarshalAs(UnmanagedType.LPStr)] string detectorType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_FeatureDetector_info(IntPtr obj);
+        public static extern IntPtr features2d_Feature2D_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_Ptr_FeatureDetector_get(IntPtr ptr);
+        public static extern void features2d_Feature2D_detect_Mat1(IntPtr detector, IntPtr image, IntPtr keypoints, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_Ptr_FeatureDetector_delete(IntPtr ptr);
+        public static extern void features2d_Feature2D_detect_Mat2(IntPtr detector, IntPtr[] images, int imageLength, IntPtr keypoints, IntPtr[] mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_Feature2D_detect_InputArray(IntPtr detector, IntPtr image, IntPtr keypoints, IntPtr mask);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_Feature2D_compute1(IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr descriptors);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_Feature2D_compute2(
+            IntPtr detector, IntPtr[] images, int imageLength,
+            IntPtr keypoints, IntPtr[] descriptors, int descriptorsLength);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_Feature2D_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Ptr_Feature2D_delete(IntPtr ptr);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_Feature2D_descriptorSize(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_Feature2D_descriptorType(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_Feature2D_defaultNorm(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_Feature2D_empty(IntPtr obj);
+
         // BRISK
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_BRISK_new(int thresh, int octaves, float patternScale);
+        public static extern IntPtr features2d_BRISK_create1(int thresh, int octaves, float patternScale);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_BRISK_delete(IntPtr obj);
+        public static extern IntPtr features2d_BRISK_create2(
+            float[] radiusList, int radiusListLength, int[] numberList, int numberListLength,
+            float dMax, float dMin,
+            int[] indexChange, int indexChangeLength);
+        
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int features2d_BRISK_descriptorSize(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int features2d_BRISK_descriptorType(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_BRISK_run1(IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_BRISK_run2(IntPtr obj, IntPtr image, IntPtr mask,
-            IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_BRISK_info(IntPtr obj);
-
+        public static extern void features2d_Ptr_BRISK_delete(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_BRISK_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_Ptr_BRISK_delete(IntPtr ptr);
+        public static extern IntPtr features2d_BRISK_info(IntPtr obj);
 
         // ORB
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_ORB_new(int nFeatures, float scaleFactor, int nlevels, int edgeThreshold,
+        public static extern IntPtr features2d_ORB_create(int nFeatures, float scaleFactor, int nlevels, int edgeThreshold,
             int firstLevel, int wtaK, int scoreType, int patchSize);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_ORB_delete(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int features2d_ORB_descriptorSize(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int features2d_ORB_descriptorType(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_ORB_run1(IntPtr obj, IntPtr image, IntPtr mask, IntPtr keypoints);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_ORB_run2(IntPtr obj, IntPtr image, IntPtr mask,
-            IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_ORB_info(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_Ptr_ORB_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Ptr_ORB_delete(IntPtr ptr);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_ORB_info(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_Ptr_ORB_get(IntPtr ptr);
+
         // MSER
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_MSER_new(int delta, int minArea, int maxArea,
+        public static extern IntPtr features2d_MSER_create(int delta, int minArea, int maxArea,
                                                         double maxVariation, double minDiversity, int maxEvolution,
                                                         double areaThreshold, double minMargin, int edgeBlurSize);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_MSER_delete(IntPtr obj);
+        public static extern void features2d_Ptr_MSER_delete(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_MSER_detect(IntPtr obj, IntPtr image, out IntPtr msers, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -93,8 +83,29 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_MSER_get(IntPtr ptr);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_Ptr_MSER_delete(IntPtr ptr);
+        public static extern void features2d_MSER_detectRegions(
+            IntPtr obj, IntPtr image,
+            IntPtr msers,
+            IntPtr bboxes);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_MSER_setDelta(IntPtr obj, int delta);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_MSER_getDelta(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_MSER_setMinArea(IntPtr obj, int minArea);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_MSER_getMinArea(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_MSER_setMaxArea(IntPtr obj, int maxArea);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_MSER_getMaxArea(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_MSER_setPass2Only(IntPtr obj, int f);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_MSER_getPass2Only(IntPtr obj);
 
         // FAST
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -103,20 +114,31 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void features2d_FAST2(IntPtr image, IntPtr keypoints, int threshold, int nonmaxSupression, int type);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_FastFeatureDetector_new(int threshold, int nonmaxSuppression);
+        public static extern IntPtr features2d_FastFeatureDetector_create(int threshold, int nonmaxSuppression);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_FastFeatureDetector_delete(IntPtr obj);
+        public static extern void features2d_Ptr_FastFeatureDetector_delete(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_FastFeatureDetector_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_FastFeatureDetector_get(IntPtr ptr);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_Ptr_FastFeatureDetector_delete(IntPtr ptr);
+        public static extern void features2d_FastFeatureDetector_setThreshold(IntPtr obj, int threshold);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_FastFeatureDetector_getThreshold(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_FastFeatureDetector_setNonmaxSuppression(IntPtr obj, int f);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_FastFeatureDetector_getNonmaxSuppression(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_FastFeatureDetector_setType(IntPtr obj, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_FastFeatureDetector_getType(IntPtr obj);
 
         // GFTTDetector
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_GFTTDetector_new(int maxCorners, double qualityLevel, 
+        public static extern IntPtr features2d_GFTTDetector_create(int maxCorners, double qualityLevel, 
             double minDistance, int blockSize, int useHarrisDetector, double k);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_GFTTDetector_delete(IntPtr obj);
@@ -128,13 +150,35 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Ptr_GFTTDetector_delete(IntPtr ptr);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_GFTTDetector_setMaxFeatures(IntPtr obj, int maxFeatures);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_GFTTDetector_getMaxFeatures(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_GFTTDetector_setQualityLevel(IntPtr obj, double qlevel);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double features2d_GFTTDetector_getQualityLevel(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_GFTTDetector_setMinDistance(IntPtr obj, double minDistance);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double features2d_GFTTDetector_getMinDistance(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_GFTTDetector_setBlockSize(IntPtr obj, int blockSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_GFTTDetector_getBlockSize(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_GFTTDetector_setHarrisDetector(IntPtr obj, int val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_GFTTDetector_getHarrisDetector(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_GFTTDetector_setK(IntPtr obj, double k);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double features2d_GFTTDetector_getK(IntPtr obj);
+        
         // SimpleBlobDetector
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_SimpleBlobDetector_new(
+        public static extern IntPtr features2d_SimpleBlobDetector_create(
             ref SimpleBlobDetector.WParams parameters);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void features2d_SimpleBlobDetector_delete(IntPtr obj);
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_SimpleBlobDetector_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

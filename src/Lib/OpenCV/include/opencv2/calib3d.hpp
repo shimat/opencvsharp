@@ -56,10 +56,13 @@ enum { LMEDS  = 4, //!< least-median algorithm
        RANSAC = 8  //!< RANSAC algorithm
      };
 
-enum { ITERATIVE = 0,
-       EPNP      = 1, // F.Moreno-Noguer, V.Lepetit and P.Fua "EPnP: Efficient Perspective-n-Point Camera Pose Estimation"
-       P3P       = 2  // X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang; "Complete Solution Classification for the Perspective-Three-Point Problem"
-     };
+enum { SOLVEPNP_ITERATIVE = 0,
+       SOLVEPNP_EPNP      = 1, // F.Moreno-Noguer, V.Lepetit and P.Fua "EPnP: Efficient Perspective-n-Point Camera Pose Estimation"
+       SOLVEPNP_P3P       = 2, // X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang; "Complete Solution Classification for the Perspective-Three-Point Problem"
+       SOLVEPNP_DLS       = 3, // Joel A. Hesch and Stergios I. Roumeliotis. "A Direct Least-Squares (DLS) Method for PnP"
+       SOLVEPNP_UPNP      = 4  // A.Penate-Sanchez, J.Andrade-Cetto, F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length Estimation"
+
+};
 
 enum { CALIB_CB_ADAPTIVE_THRESH = 1,
        CALIB_CB_NORMALIZE_IMAGE = 2,
@@ -108,7 +111,8 @@ CV_EXPORTS_W void Rodrigues( InputArray src, OutputArray dst, OutputArray jacobi
 //! computes the best-fit perspective transformation mapping srcPoints to dstPoints.
 CV_EXPORTS_W Mat findHomography( InputArray srcPoints, InputArray dstPoints,
                                  int method = 0, double ransacReprojThreshold = 3,
-                                 OutputArray mask=noArray());
+                                 OutputArray mask=noArray(), const int maxIters = 2000,
+                                 const double confidence = 0.995);
 
 //! variant of findHomography for backward compatibility
 CV_EXPORTS Mat findHomography( InputArray srcPoints, InputArray dstPoints,
@@ -152,15 +156,15 @@ CV_EXPORTS_W void projectPoints( InputArray objectPoints,
 CV_EXPORTS_W bool solvePnP( InputArray objectPoints, InputArray imagePoints,
                             InputArray cameraMatrix, InputArray distCoeffs,
                             OutputArray rvec, OutputArray tvec,
-                            bool useExtrinsicGuess = false, int flags = ITERATIVE );
+                            bool useExtrinsicGuess = false, int flags = SOLVEPNP_ITERATIVE );
 
 //! computes the camera pose from a few 3D points and the corresponding projections. The outliers are possible.
-CV_EXPORTS_W void solvePnPRansac( InputArray objectPoints, InputArray imagePoints,
+CV_EXPORTS_W bool solvePnPRansac( InputArray objectPoints, InputArray imagePoints,
                                   InputArray cameraMatrix, InputArray distCoeffs,
                                   OutputArray rvec, OutputArray tvec,
                                   bool useExtrinsicGuess = false, int iterationsCount = 100,
-                                  float reprojectionError = 8.0, int minInliersCount = 100,
-                                  OutputArray inliers = noArray(), int flags = ITERATIVE );
+                                  float reprojectionError = 8.0, double confidence = 0.99,
+                                  OutputArray inliers = noArray(), int flags = SOLVEPNP_ITERATIVE );
 
 //! initializes camera matrix from a few 3D points and the corresponding projections.
 CV_EXPORTS_W Mat initCameraMatrix2D( InputArrayOfArrays objectPoints,
@@ -181,7 +185,7 @@ CV_EXPORTS_W void drawChessboardCorners( InputOutputArray image, Size patternSiz
 //! finds circles' grid pattern of the specified size in the image
 CV_EXPORTS_W bool findCirclesGrid( InputArray image, Size patternSize,
                                    OutputArray centers, int flags = CALIB_CB_SYMMETRIC_GRID,
-                                   const Ptr<FeatureDetector> &blobDetector = makePtr<SimpleBlobDetector>());
+                                   const Ptr<FeatureDetector> &blobDetector = SimpleBlobDetector::create());
 
 //! finds intrinsic and extrinsic camera parameters from several fews of a known calibration pattern.
 CV_EXPORTS_W double calibrateCamera( InputArrayOfArrays objectPoints,
@@ -382,17 +386,19 @@ public:
 
     CV_WRAP virtual Rect getROI2() const = 0;
     CV_WRAP virtual void setROI2(Rect roi2) = 0;
-};
 
-CV_EXPORTS_W Ptr<StereoBM> createStereoBM(int numDisparities = 0, int blockSize = 21);
+    CV_WRAP static Ptr<StereoBM> create(int numDisparities = 0, int blockSize = 21);
+};
 
 
 class CV_EXPORTS_W StereoSGBM : public StereoMatcher
 {
 public:
-    enum { MODE_SGBM = 0,
-           MODE_HH   = 1
-         };
+    enum
+    {
+        MODE_SGBM = 0,
+        MODE_HH   = 1
+    };
 
     CV_WRAP virtual int getPreFilterCap() const = 0;
     CV_WRAP virtual void setPreFilterCap(int preFilterCap) = 0;
@@ -408,14 +414,13 @@ public:
 
     CV_WRAP virtual int getMode() const = 0;
     CV_WRAP virtual void setMode(int mode) = 0;
+
+    CV_WRAP static Ptr<StereoSGBM> create(int minDisparity, int numDisparities, int blockSize,
+                                          int P1 = 0, int P2 = 0, int disp12MaxDiff = 0,
+                                          int preFilterCap = 0, int uniquenessRatio = 0,
+                                          int speckleWindowSize = 0, int speckleRange = 0,
+                                          int mode = StereoSGBM::MODE_SGBM);
 };
-
-
-CV_EXPORTS_W Ptr<StereoSGBM> createStereoSGBM(int minDisparity, int numDisparities, int blockSize,
-                                            int P1 = 0, int P2 = 0, int disp12MaxDiff = 0,
-                                            int preFilterCap = 0, int uniquenessRatio = 0,
-                                            int speckleWindowSize = 0, int speckleRange = 0,
-                                            int mode = StereoSGBM::MODE_SGBM);
 
 namespace fisheye
 {

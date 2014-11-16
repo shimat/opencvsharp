@@ -16,7 +16,7 @@ namespace OpenCvSharp.CPlusPlus
 
         private bool disposed;
         private readonly ReleaseFunc releaseFunc;
-        private readonly ObjFunc objFunc;
+        private readonly ObjFunc getFunc;
 
         private static readonly Dictionary<Type, ReleaseFunc> definedReleaseFunctions;
         private static readonly Dictionary<Type, ObjFunc> definedGetFunctions;
@@ -33,7 +33,6 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_delete },
                     { typeof(BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_delete },
                     { typeof(FlannBasedMatcher), NativeMethods.features2d_Ptr_FlannBasedMatcher_delete },
-                    { typeof(FeatureDetector), NativeMethods.features2d_Ptr_FeatureDetector_delete },
                     { typeof(Feature2D), NativeMethods.features2d_Ptr_Feature2D_delete },
                     { typeof(BRISK), NativeMethods.features2d_Ptr_BRISK_delete },
                     //{ typeof(DenseFeatureDetector), NativeMethods.features2d_Ptr_DenseFeatureDetector_delete },
@@ -44,7 +43,6 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(ORB), NativeMethods.features2d_Ptr_ORB_delete },
                     { typeof(SimpleBlobDetector), NativeMethods.features2d_Ptr_SimpleBlobDetector_delete },
                     { typeof(StarDetector), NativeMethods.xfeatures2d_Ptr_StarDetector_delete },
-                    { typeof(DescriptorExtractor), NativeMethods.features2d_Ptr_DescriptorExtractor_delete },
                     { typeof(BriefDescriptorExtractor), NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_delete },
                     { typeof(SIFT), NativeMethods.xfeatures2d_Ptr_SIFT_delete },
                     { typeof(SURF), NativeMethods.xfeatures2d_Ptr_SURF_delete },
@@ -69,7 +67,6 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_get },
                     { typeof(BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_get },
                     { typeof(FlannBasedMatcher), NativeMethods.features2d_Ptr_FlannBasedMatcher_get },
-                    { typeof(FeatureDetector), NativeMethods.features2d_Ptr_FeatureDetector_get },
                     { typeof(Feature2D), NativeMethods.features2d_Ptr_Feature2D_get },
                     { typeof(BRISK), NativeMethods.features2d_Ptr_BRISK_get },
                     //{ typeof(DenseFeatureDetector), NativeMethods.features2d_Ptr_DenseFeatureDetector_get },
@@ -80,7 +77,6 @@ namespace OpenCvSharp.CPlusPlus
                     { typeof(ORB), NativeMethods.features2d_Ptr_ORB_get },
                     { typeof(SimpleBlobDetector), NativeMethods.features2d_Ptr_SimpleBlobDetector_get },
                     { typeof(StarDetector), NativeMethods.xfeatures2d_Ptr_StarDetector_get },
-                    { typeof(DescriptorExtractor), NativeMethods.features2d_Ptr_DescriptorExtractor_get },
                     { typeof(BriefDescriptorExtractor), NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_get },
                     { typeof(SIFT), NativeMethods.xfeatures2d_Ptr_SIFT_get },
                     { typeof(SURF), NativeMethods.xfeatures2d_Ptr_SURF_get },
@@ -109,8 +105,8 @@ namespace OpenCvSharp.CPlusPlus
             Type type = typeof(T);
             if (!definedReleaseFunctions.TryGetValue(type, out releaseFunc))
                 throw new OpenCvSharpException("Ptr<{0}> not supported", type.Name);
-            //if (!definedGetFunctions.TryGetValue(type, out objFunc))
-            //    throw new OpenCvSharpException("Ptr<{0}> not supported", type.Name);
+            if (!definedGetFunctions.TryGetValue(type, out getFunc))
+                throw new OpenCvSharpException("Ptr<{0}> not supported", type.Name);
 
             this.ptr = ptr;
         }
@@ -147,7 +143,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public virtual IntPtr Get()
         {
-            return objFunc(ptr);
+            return getFunc(ptr);
         }
     }
 }

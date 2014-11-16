@@ -16,9 +16,19 @@ namespace OpenCvSharp.CPlusPlus
     public class ORB : Feature2D
     {
         private bool disposed;
-        private Ptr<ORB> detectorPtr;
+        private Ptr<ORB> ptrObj;
 
         #region Init & Disposal
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ORB(IntPtr p)
+        {
+            ptrObj = new Ptr<ORB>(p);
+            ptr = ptrObj.Get();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -30,40 +40,15 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="wtaK"></param>
         /// <param name="scoreType"></param>
         /// <param name="patchSize"></param>
-        public ORB(int nFeatures = 500, float scaleFactor = 1.2f, int nLevels = 8, int edgeThreshold = 31,
-            int firstLevel = 0, int wtaK = 2, ORBScore scoreType = ORBScore.Harris, int patchSize = 31)
+        public static ORB Create(
+            int nFeatures = 500, float scaleFactor = 1.2f, int nLevels = 8, 
+            int edgeThreshold = 31, int firstLevel = 0, int wtaK = 2, 
+            ORBScore scoreType = ORBScore.Harris, int patchSize = 31)
         {
-            ptr = NativeMethods.features2d_ORB_new(nFeatures, scaleFactor, nLevels, edgeThreshold,
+            IntPtr ptr = NativeMethods.features2d_ORB_create(
+                nFeatures, scaleFactor, nLevels, edgeThreshold,
                 firstLevel, wtaK, (int)scoreType, patchSize);
-        }
-
-        /// <summary>
-        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
-        /// </summary>
-        internal ORB(Ptr<ORB> detectorPtr)
-        {
-            this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
-        }
-        /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
-        /// </summary>
-        internal ORB(IntPtr rawPtr)
-        {
-            detectorPtr = null;
-            ptr = rawPtr;
-        }
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static new ORB FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<ORB> pointer");
-            var ptrObj = new Ptr<ORB>(ptr);
-            return new ORB(ptrObj);
+            return new ORB(ptr);
         }
 
 #if LANG_JP
@@ -92,19 +77,14 @@ namespace OpenCvSharp.CPlusPlus
                     // releases managed resources
                     if (disposing)
                     {
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
                     // releases unmanaged resources
-                    if (detectorPtr != null)
-                    {
-                        detectorPtr.Dispose();
-                        detectorPtr = null;
-                    }
-                    else
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.features2d_ORB_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
+                    
                     disposed = true;
                 }
                 finally
@@ -116,89 +96,6 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Methods
-        /// <summary>
-        /// returns the descriptor size in bytes
-        /// </summary>
-        /// <returns></returns>
-        public int DescriptorSize()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.features2d_ORB_descriptorSize(ptr);
-        }
-
-        /// <summary>
-        /// returns the descriptor type
-        /// </summary>
-        /// <returns></returns>
-        public int DescriptorType()
-        {
-            ThrowIfDisposed();
-            return NativeMethods.features2d_ORB_descriptorType(ptr);
-        }
-
-        /// <summary>
-        /// Compute the ORB features on an image
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public KeyPoint[] Run(InputArray image, InputArray mask = null)
-        {
-            ThrowIfDisposed();
-            if (image == null)
-                throw new ArgumentNullException("image");
-            image.ThrowIfDisposed();
-
-            using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
-            {
-                NativeMethods.features2d_ORB_run1(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr);
-                return keyPointsVec.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Compute the ORB features and descriptors on an image
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <param name="keyPoints"></param>
-        /// <param name="descriptors"></param>
-        /// <param name="useProvidedKeypoints"></param>
-        public void Run(InputArray image, InputArray mask, out KeyPoint[] keyPoints,
-            OutputArray descriptors, bool useProvidedKeypoints = false)
-        {
-            ThrowIfDisposed();
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (descriptors == null)
-                throw new ArgumentNullException("descriptors");
-            image.ThrowIfDisposed();
-            descriptors.ThrowIfNotReady();
-
-            using (VectorOfKeyPoint keyPointsVec = new VectorOfKeyPoint())
-            {
-                NativeMethods.features2d_ORB_run2(ptr, image.CvPtr, Cv2.ToPtr(mask), keyPointsVec.CvPtr,
-                    descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
-                keyPoints = keyPointsVec.ToArray();
-            }
-            descriptors.Fix();
-        }
-        /// <summary>
-        /// Compute the ORB features and descriptors on an image
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
-        /// <param name="keyPoints"></param>
-        /// <param name="descriptors"></param>
-        /// <param name="useProvidedKeypoints"></param>
-        public void Run(InputArray image, InputArray mask, out KeyPoint[] keyPoints,
-            out float[] descriptors, bool useProvidedKeypoints = false)
-        {
-            MatOfFloat descriptorsMat = new MatOfFloat();
-            Run(image, mask, out keyPoints, descriptorsMat, useProvidedKeypoints);
-            descriptors = descriptorsMat.ToArray();
-        }
-
 
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)
@@ -206,8 +103,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public override IntPtr InfoPtr
         {
-            get { return NativeMethods.features2d_ORB_info(ptr); }
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name); 
+                return NativeMethods.features2d_ORB_info(ptr);
+            }
         }
+
         #endregion
     }
 }
