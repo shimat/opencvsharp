@@ -114,7 +114,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns>等しければtrue</returns>
 #else
         /// <summary>
-        /// Compares two CvPoint objects. The result specifies whether the values of the X and Y properties of the two CvPoint objects are equal.
+        /// Compares two Point objects. The result specifies whether the values of the X and Y properties of the two Point objects are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -133,7 +133,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns>等しくなければtrue</returns>
 #else
         /// <summary>
-        /// Compares two CvPoint objects. The result specifies whether the values of the X or Y properties of the two CvPoint objects are unequal.
+        /// Compares two Point objects. The result specifies whether the values of the X or Y properties of the two Point objects are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>

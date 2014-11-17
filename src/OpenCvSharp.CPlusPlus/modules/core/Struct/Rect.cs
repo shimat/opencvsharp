@@ -34,11 +34,11 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
         /// <summary>
-        /// プロパティを初期化しない状態の CvRect 構造体を表します。 
+        /// プロパティを初期化しない状態の Rect 構造体を表します。 
         /// </summary>
 #else
         /// <summary>
-        /// Represents a CvRect structure with its properties left uninitialized. 
+        /// Represents a Rect structure with its properties left uninitialized. 
         /// </summary>
 #endif
         public static readonly Rect Empty = new Rect();
@@ -264,7 +264,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
 #else
         /// <summary>
-        /// Determines the CvRect structure that represents the intersection of two rectangles. 
+        /// Determines the Rect structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="a">A rectangle to intersect. </param>
         /// <param name="b">A rectangle to intersect. </param>
@@ -284,7 +284,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
 #else
         /// <summary>
-        /// Gets a CvRect structure that contains the union of two CvRect structures. 
+        /// Gets a Rect structure that contains the union of two Rect structures. 
         /// </summary>
         /// <param name="a">A rectangle to union. </param>
         /// <param name="b">A rectangle to union. </param>
@@ -304,7 +304,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
 #else
         /// <summary>
-        /// Gets the y-coordinate of the top edge of this CvRect structure. 
+        /// Gets the y-coordinate of the top edge of this Rect structure. 
         /// </summary>
 #endif
         public int Top
@@ -318,7 +318,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
 #else
         /// <summary>
-        /// Gets the y-coordinate that is the sum of the Y and Height property values of this CvRect structure.
+        /// Gets the y-coordinate that is the sum of the Y and Height property values of this Rect structure.
         /// </summary>
 #endif
         public int Bottom
@@ -331,7 +331,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
 #else
         /// <summary>
-        /// Gets the x-coordinate of the left edge of this CvRect structure. 
+        /// Gets the x-coordinate of the left edge of this Rect structure. 
         /// </summary>
 #endif
         public int Left
@@ -345,7 +345,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
 #else
         /// <summary>
-        /// Gets the x-coordinate that is the sum of X and Width property values of this CvRect structure. 
+        /// Gets the x-coordinate that is the sum of X and Width property values of this Rect structure. 
         /// </summary>
 #endif
         public int Right
@@ -475,13 +475,13 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
         /// <summary>
-        /// このCvRectを指定の量だけ膨らませる 
+        /// このRectを指定の量だけ膨らませる 
         /// </summary>
         /// <param name="width">水平方向の膨張量</param>
         /// <param name="height">垂直方向の膨張量</param>
 #else
         /// <summary>
-        /// Inflates this CvRect by the specified amount. 
+        /// Inflates this Rect by the specified amount. 
         /// </summary>
         /// <param name="width">The amount to inflate this Rectangle horizontally. </param>
         /// <param name="height">The amount to inflate this Rectangle vertically. </param>
@@ -495,12 +495,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 #if LANG_JP
         /// <summary>
-        /// このCvRectを指定の量だけ膨らませる 
+        /// このRectを指定の量だけ膨らませる 
         /// </summary>
         /// <param name="size">この四角形の膨張量</param>
 #else
         /// <summary>
-        /// Inflates this CvRect by the specified amount. 
+        /// Inflates this Rect by the specified amount. 
         /// </summary>
         /// <param name="size">The amount to inflate this rectangle. </param>
 #endif
@@ -511,7 +511,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 #if LANG_JP
         /// <summary>
-        /// このCvRectを指定の量だけ膨らませる 
+        /// このRectを指定の量だけ膨らませる 
         /// </summary>
         /// <param name="rect">対象の矩形</param>
         /// <param name="x">水平方向の膨張量</param>
@@ -519,7 +519,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
 #else
         /// <summary>
-        /// Creates and returns an inflated copy of the specified CvRect structure.
+        /// Creates and returns an inflated copy of the specified Rect structure.
         /// </summary>
         /// <param name="rect">The Rectangle with which to start. This rectangle is not modified. </param>
         /// <param name="x">The amount to inflate this Rectangle horizontally. </param>
@@ -541,7 +541,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
 #else
         /// <summary>
-        /// Determines the CvRect structure that represents the intersection of two rectangles. 
+        /// Determines the Rect structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="a">A rectangle to intersect. </param>
         /// <param name="b">A rectangle to intersect. </param>
@@ -566,7 +566,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
 #else
         /// <summary>
-        /// Determines the CvRect structure that represents the intersection of two rectangles. 
+        /// Determines the Rect structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="rect">A rectangle to intersect. </param>
         /// <returns></returns>
@@ -607,7 +607,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
 #else
         /// <summary>
-        /// Gets a CvRect structure that contains the union of two CvRect structures. 
+        /// Gets a Rect structure that contains the union of two Rect structures. 
         /// </summary>
         /// <param name="rect">A rectangle to union. </param>
         /// <returns></returns>
@@ -625,7 +625,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
 #else
         /// <summary>
-        /// Gets a CvRect structure that contains the union of two CvRect structures. 
+        /// Gets a Rect structure that contains the union of two Rect structures. 
         /// </summary>
         /// <param name="a">A rectangle to union. </param>
         /// <param name="b">A rectangle to union. </param>
