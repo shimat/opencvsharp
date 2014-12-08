@@ -45,6 +45,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return ToArray(Select(enumerable, selector));
         }
+
         /// <summary>
         /// Enumerable.Select -> ToArray
         /// </summary>
@@ -61,7 +62,7 @@ namespace OpenCvSharp.CPlusPlus
             {
                 result.Add(selector(source));
             }
-            return ToArray(result);
+            return result.ToArray();
         }
 
         /// <summary>
@@ -79,6 +80,7 @@ namespace OpenCvSharp.CPlusPlus
                 return obj.CvPtr;
             });
         }
+
         /// <summary>
         /// Enumerable.Select -> ToArray
         /// </summary>
@@ -111,7 +113,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("predicate");
             foreach (TSource elem in enumerable)
             {
-                if(predicate(elem))
+                if (predicate(elem))
                     yield return elem;
             }
         }
@@ -176,7 +178,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (enumerable == null)
                 throw new ArgumentNullException("enumerable");
-            if (typeof(TSource).IsValueType)
+            if (typeof (TSource).IsValueType)
                 return false;
 
             foreach (TSource elem in enumerable)
