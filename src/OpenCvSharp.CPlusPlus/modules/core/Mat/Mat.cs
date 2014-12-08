@@ -609,14 +609,14 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
     /// <summary>
-    /// System.IO.StreamのインスタンスからIplImageを生成する
+    /// System.IO.StreamのインスタンスからMatを生成する
     /// </summary>
     /// <param name="stream"></param>
     /// <param name="mode"></param>
     /// <returns></returns>
 #else
         /// <summary>
-        /// Creates the IplImage instance from System.IO.Stream
+        /// Creates the Mat instance from System.IO.Stream
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="mode"></param>
@@ -641,14 +641,14 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
     /// <summary>
-    /// 画像データ(JPEG等の画像をメモリに展開したもの)からIplImageを生成する (cvDecodeImage)
+    /// 画像データ(JPEG等の画像をメモリに展開したもの)からMatを生成する (cv::decode)
     /// </summary>
     /// <param name="imageBytes"></param>
     /// <param name="mode"></param>
     /// <returns></returns>
 #else
         /// <summary>
-        /// Creates the IplImage instance from image data (using cvDecodeImage) 
+        /// Creates the Mat instance from image data (using cv::decode) 
         /// </summary>
         /// <param name="imageBytes"></param>
         /// <param name="mode"></param>
@@ -663,14 +663,14 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
     /// <summary>
-    /// 画像データ(JPEG等の画像をメモリに展開したもの)からIplImageを生成する (cvDecodeImage)
+    /// 画像データ(JPEG等の画像をメモリに展開したもの)からMatを生成する (cv::decode)
     /// </summary>
     /// <param name="imageBytes"></param>
     /// <param name="mode"></param>
     /// <returns></returns>
 #else
         /// <summary>
-        /// Creates the IplImage instance from image data (using cvDecodeImage) 
+        /// Creates the Mat instance from image data (using cv::decode) 
         /// </summary>
         /// <param name="imageBytes"></param>
         /// <param name="mode"></param>
