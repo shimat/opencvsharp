@@ -25,30 +25,40 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            int xSize = 2400;
+            int ySize = 2400;
+            var points = GetStationPositions(@"C:\hokkaido.csv", xSize, ySize, 200, 200);
+
+            using (Mat img = Mat.Zeros(ySize, xSize, MatType.CV_8UC3))
             {
-                Mat src = new Mat("data/lenna.png", LoadMode.GrayScale);
-                Mat part = src[new Rect(0, 100, src.Width, 200)];
+                foreach (var p in points)
+                {
+                    img.Circle((int)p.X, (int)p.Y, 5, Scalar.Red, -1);
+                    if (p.X < 0 || p.Y < 0 || p.X >= xSize + 1 || p.Y >= ySize + 1)
+                    {
+                        p.ToString();
+                    }
+                }
 
-                var srcb = src.ToWriteableBitmap();
-                var partb = part.ToWriteableBitmap();
+                var subdiv = new Subdiv2D();
+                subdiv.InitDelaunay(new Rect(0, 0, xSize + 1, ySize + 1));
+                subdiv.Insert(points.Select(p => new Point2f((float)p.X, (float)p.Y)));
 
-                //srcb.Save(@"c:\temp\src.png", ImageFormat.Png);
-                //partb.Save(@"c:\temp\part.png", ImageFormat.Png);
-                srcb.ToString();
-                partb.ToString();
-            }
+                Point2f[][] facetList;
+                Point2f[] facetCenters;
+                subdiv.GetVoronoiFacetList(null, out facetList, out facetCenters);
 
-            {
-                IplImage src = new IplImage("data/lenna.png", LoadMode.GrayScale);
-                var srcb = src.ToWriteableBitmap();
-                //srcb.Save(@"c:\temp\src2.png", ImageFormat.Png);               
+                foreach (Point2f[] poly in facetList)
+                {
+                    Point[] polyInt = poly.Select(p => new Point((int)p.X, (int)p.Y)).ToArray();
+                    img.Polylines(new[] { polyInt }, true, Scalar.Green, 2);
+                }
 
-                src.ROI = new CvRect(101, 101, 201, 201);
-                var partb = src.ToWriteableBitmap();
-                //partb.Save(@"c:\temp\part2.png", ImageFormat.Png);
-
-                srcb.ToString();
-                partb.ToString();
+                img.SaveImage(@"C:\temp\hokkaido-voronoi.png");
+                using (var window = new Window(WindowMode.StretchImage, img))
+                {
+                    Cv2.WaitKey();
+                }
             }
 
             /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
@@ -59,6 +69,34 @@ namespace OpenCvSharp.Sandbox
             //Stitching(mats);
             //Track();
             //Run();
+        }
+
+        static Point2d[] GetStationPositions(string csvFile, int xSize, int ySize, int xOffset, int yOffset)
+        {
+            var ret = new List<Point2d>();
+
+            using (var reader = new StreamReader(csvFile))
+            {
+                reader.ReadLine();
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] tokens = line.Split(',');
+                    double lon = Double.Parse(tokens[1]);
+                    double lat = Double.Parse(tokens[2]);
+                    ret.Add(new Point2d(lon, lat));
+                }
+            }
+
+            double lonMax = ret.Max(p => p.X);
+            double lonMin = ret.Min(p => p.X);
+            double latMax = ret.Max(p => p.Y);
+            double latMin = ret.Min(p => p.Y);
+            double xScale = (xSize - xOffset) / (lonMax - lonMin);
+            double yScale = (ySize - yOffset) / (latMax - latMin);
+            return ret.Select(p => new Point2d((p.X - lonMin) * xScale, (p.Y - latMin) * yScale))
+                .Select(p => new Point2d(p.X + xOffset, ySize - p.Y))
+                .ToArray();
         }
 
         private static void Clahe()
