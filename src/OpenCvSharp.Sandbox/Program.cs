@@ -25,6 +25,11 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            var img = new Mat("data/match2.png", LoadMode.Color);
+            var bytes = img.ToBytes(".bmp");
+            File.WriteAllBytes("C:/a.bmp", bytes);
+
+            /*
             int xSize = 2400;
             int ySize = 2400;
             var points = GetStationPositions(@"C:\hokkaido.csv", xSize, ySize, 200, 200);
@@ -60,6 +65,7 @@ namespace OpenCvSharp.Sandbox
                     Cv2.WaitKey();
                 }
             }
+            */
 
             /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
             var img2 = new IplImage("data/match2.png", LoadMode.Color);
