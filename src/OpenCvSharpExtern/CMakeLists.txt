@@ -1,31 +1,30 @@
 
-include_directories(${OpenCV_INCLUDE_DIR})
-link_directories(${OpenCV_LIBRARY_DIR} ${OpenCV_LIBRARIES})
+set(OPENCV_VERSION "2410")
 
-set(OPENCVSHARP_FILES 
-	calib3d.cpp
-	contrib.cpp
-	core.cpp
-	features2d.cpp
-	flann.cpp
-	gpu.cpp
-	highgui.cpp
-	imgproc.cpp
-	legacy.cpp
-	ml.cpp
-	nonfree.cpp
-	objdetect.cpp
-	photo.cpp
-	std_vector.cpp
-	stitching.cpp
-	superres.cpp
-	video.cpp
-)
+set(OPENCV_INCLUDE_DIR "" CACHE PATH "OpenCV include path")
+set(OPENCV_LIBRARY_DIR "" CACHE PATH "OpenCV library path")
 
-add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
+include_directories(${OPENCV_INCLUDE_DIR})
+link_directories(${OPENCV_LIBRARY_DIR})
 
-install(TARGETS OpenCvSharpExtern
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib/static
-)
+file(GLOB SOURCE_FILES "*.cpp")
+file(GLOB HEADER_FILES "*.h")
+
+#add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
+add_library(OpenCvSharpExtern SHARED ${SOURCE_FILES})
+
+# linking all OpenCV lib files
+file(GLOB OPENCV_LIB_FILES "${OPENCV_LIBRARY_DIR}/*${OPENCV_VERSION}.lib")
+file(GLOB OPENCV_A_FILES "${OPENCV_LIBRARY_DIR}/*${OPENCV_VERSION}.a")
+file(GLOB OPENCV_DYLIB_FILES "${OPENCV_LIBRARY_DIR}/*${OPENCV_VERSION}.dylib")
+target_link_libraries(OpenCvSharpExtern PRIVATE ${OPENCV_LIB_FILES})
+target_link_libraries(OpenCvSharpExtern PRIVATE ${OPENCV_A_FILES})
+target_link_libraries(OpenCvSharpExtern PRIVATE ${OPENCV_DYLIB_FILES})
+
+
+#
+#install(TARGETS OpenCvSharpExtern
+#        RUNTIME DESTINATION bin
+#        LIBRARY DESTINATION lib
+#        ARCHIVE DESTINATION lib/static
+#)
