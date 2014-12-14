@@ -762,10 +762,12 @@ CVAPI(void) vector_Mat_assignToArray(vector<cv::Mat>* vector, cv::Mat** arr)
 }
 CVAPI(void) vector_Mat_addref(vector<cv::Mat>* vector)
 {
-	for (auto m = vector->begin(); m != vector->end(); m++)
-	{
-		m->addref();
-	}
+  for (std::vector<cv::Mat>::iterator m = vector->begin(); 
+       m != vector->end(); 
+       m++)
+    {
+      	m->addref();
+    }
 }
 CVAPI(void) vector_Mat_delete(vector<cv::Mat>* vector)
 {

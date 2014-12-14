@@ -31,27 +31,37 @@ static int p(T obj, const std::string &caption = "MessageBox")
 
 static inline cv::_InputArray entity(cv::_InputArray *obj)
 {
-    return (obj != NULL) ? *obj : cv::noArray();
+    if (obj != NULL) 
+        return *obj;
+    return cv::noArray();
 }
 static inline cv::_OutputArray entity(cv::_OutputArray *obj)
 {
-    return (obj != NULL) ? *obj : cv::noArray();
+    if (obj != NULL)
+      return *obj;
+    return cv::noArray();
 }
 static inline cv::Mat entity(cv::Mat *obj)
 {
-    return (obj != NULL) ? *obj : cv::Mat();
+    if (obj != NULL)
+      return *obj;
+    return cv::Mat();
 }
 static inline cv::gpu::GpuMat entity(cv::gpu::GpuMat *obj)
 {
-	return (obj != NULL) ? *obj : cv::gpu::GpuMat();
+    if (obj != NULL) 
+      return *obj;
+    return cv::gpu::GpuMat();
 }
 static inline cv::gpu::Stream entity(cv::gpu::Stream *obj)
 {
-	return (obj != NULL) ? *obj : cv::gpu::Stream::Null();
+    if (obj != NULL) 
+      return *obj;
+    return cv::gpu::Stream::Null();
 }
 
 template <typename T>
-static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
+static inline cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
 {
     return new cv::Ptr<T>(ptr);
 }

@@ -9,11 +9,11 @@
 
 CVAPI(cv::Algorithm*) core_Algorithm_new()
 {
-	return new cv::Algorithm();
+    return new cv::Algorithm();
 }
 CVAPI(void) core_Algorithm_delete(cv::Algorithm *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 CVAPI(cv::Ptr<cv::Algorithm>*) core_Algorithm_create(const char *name)
@@ -61,7 +61,7 @@ CVAPI(void) core_Algorithm_getString(cv::Algorithm *obj, const char *name,
 }
 CVAPI(cv::Mat*) core_Algorithm_getMat(cv::Algorithm *obj, const char *name) 
 {
-	cv::Mat &mat = obj->getMat(name);
+	const cv::Mat &mat = obj->getMat(name);
 	return new cv::Mat(mat);
 }
 CVAPI(void) core_Algorithm_getMatVector(cv::Algorithm *obj, const char *name,
