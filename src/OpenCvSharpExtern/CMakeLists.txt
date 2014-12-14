@@ -1,6 +1,5 @@
 
 set(OPENCV_VERSION "2410")
-
 set(OPENCV_INCLUDE_DIR "" CACHE PATH "OpenCV include path")
 set(OPENCV_LIBRARY_DIR "" CACHE PATH "OpenCV library path")
 
@@ -9,8 +8,6 @@ link_directories(${OPENCV_LIBRARY_DIR})
 
 file(GLOB SOURCE_FILES "*.cpp")
 file(GLOB HEADER_FILES "*.h")
-
-#add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 add_library(OpenCvSharpExtern SHARED ${SOURCE_FILES})
 
 # linking all OpenCV lib files
@@ -22,7 +19,6 @@ target_link_libraries(OpenCvSharpExtern PRIVATE ${OPENCV_A_FILES})
 target_link_libraries(OpenCvSharpExtern PRIVATE ${OPENCV_DYLIB_FILES})
 
 
-#
 #install(TARGETS OpenCvSharpExtern
 #        RUNTIME DESTINATION bin
 #        LIBRARY DESTINATION lib
