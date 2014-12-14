@@ -27,12 +27,14 @@ CVAPI(void) gpu_MOG_GPU_initialize(MOG_GPU *obj, CvSize frameSize, int frameType
 
 CVAPI(void) gpu_MOG_GPU_operator(MOG_GPU *obj, GpuMat *frame, GpuMat *fgmask, float learningRate, Stream *stream)
 {
-	(*obj)(*frame, *fgmask, learningRate, entity(stream));
+    Stream stream0 = entity(stream);
+    (*obj)(*frame, *fgmask, learningRate, stream0);
 }
 
 CVAPI(void) gpu_MOG_GPU_getBackgroundImage(MOG_GPU *obj, GpuMat *backgroundImage, Stream *stream)
 {
-	obj->getBackgroundImage(*backgroundImage, entity(stream));
+    Stream stream0 = entity(stream);
+    obj->getBackgroundImage(*backgroundImage, stream0);
 }
 
 CVAPI(void) gpu_MOG_GPU_release(MOG_GPU *obj)
@@ -83,12 +85,14 @@ CVAPI(void) gpu_MOG2_GPU_initialize(MOG2_GPU *obj, CvSize frameSize, int frameTy
 
 CVAPI(void) gpu_MOG2_GPU_operator(MOG2_GPU *obj, GpuMat *frame, GpuMat *fgmask, float learningRate, Stream *stream)
 {
-	(*obj)(*frame, *fgmask, learningRate, entity(stream));
+    Stream stream0 = entity(stream);
+    (*obj)(*frame, *fgmask, learningRate, stream0);
 }
 
 CVAPI(void) gpu_MOG2_GPU_getBackgroundImage(MOG2_GPU *obj, GpuMat *backgroundImage, Stream *stream)
 {
-	obj->getBackgroundImage(*backgroundImage, entity(stream));
+    Stream stream0 = entity(stream);
+    obj->getBackgroundImage(*backgroundImage, stream0);
 }
 
 CVAPI(void) gpu_MOG2_GPU_release(MOG2_GPU *obj)
