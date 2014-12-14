@@ -11,7 +11,7 @@
 #pragma region Init & Release
 CVAPI(uint64) core_Mat_sizeof()
 {
-	return sizeof(cv::Mat);
+    return sizeof(cv::Mat);
 }
 
 CVAPI(cv::Mat*) core_Mat_new1()
@@ -160,7 +160,7 @@ CVAPI(void) core_Mat_convertTo(cv::Mat *self, cv::Mat *m, int rtype, double alph
 
 CVAPI(void) core_Mat_copyTo(cv::Mat *self, cv::Mat *m, cv::Mat *mask)
 {
-	cv::Mat &maskMat = (mask == NULL) ? cv::Mat() : *mask;
+	const cv::Mat &maskMat = (mask == NULL) ? cv::Mat() : *mask;
 	self->copyTo(*m, maskMat);
 }
 

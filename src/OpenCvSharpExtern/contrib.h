@@ -91,16 +91,16 @@ CVAPI(cv::AlgorithmInfo*) contrib_FaceRecognizer_info(cv::FaceRecognizer *obj)
 
 CVAPI(cv::Ptr<cv::FaceRecognizer>*) contrib_createEigenFaceRecognizer(int numComponents, double threshold)
 {
-    return clone(cv::createEigenFaceRecognizer(numComponents, threshold));
+  return clone(cv::createEigenFaceRecognizer(numComponents, threshold));
 }
 CVAPI(cv::Ptr<cv::FaceRecognizer>*) contrib_createFisherFaceRecognizer(int numComponents, double threshold)
 {
-    return clone(cv::createFisherFaceRecognizer(numComponents, threshold));
+  return clone(cv::createFisherFaceRecognizer(numComponents, threshold));
 }
 CVAPI(cv::Ptr<cv::FaceRecognizer>*) contrib_createLBPHFaceRecognizer(
     int radius, int neighbors, int gridX, int gridY, double threshold)
 {
-    return clone(cv::createLBPHFaceRecognizer(radius, neighbors, gridX, gridY, threshold));
+  return clone(cv::createLBPHFaceRecognizer(radius, neighbors, gridX, gridY, threshold));
 }
 
 CVAPI(cv::FaceRecognizer*) contrib_Ptr_FaceRecognizer_obj(cv::Ptr<cv::FaceRecognizer> *obj)
