@@ -494,17 +494,17 @@ namespace OpenCvSharp.Extensions
             int bmpH = img.Height;
             CvRect roi = Cv.GetImageROI(img);
 
-            unsafe
+            if (roi.Width == dstRect.Width && roi.Height == dstRect.Height)
             {
+                DrawToHdc(img, hdc, dstRect.X, dstRect.Y, dstRect.Width, dstRect.Height, roi.X, roi.Y);
+                return;
+            }
+
+            unsafe
+            {                
                 int headerSize = sizeof(Win32API.BITMAPINFOHEADER) + 1024;
                 IntPtr buffer = Marshal.AllocHGlobal(headerSize);
                 Win32API.BITMAPINFO bmi = (Win32API.BITMAPINFO)Marshal.PtrToStructure(buffer, typeof(Win32API.BITMAPINFO));
-
-                if (roi.Width == dstRect.Width && roi.Height == dstRect.Height)
-                {
-                    DrawToHdc(img, hdc, dstRect.X, dstRect.Y, dstRect.Width, dstRect.Height, roi.X, roi.Y);
-                    return;
-                }
 
                 if (roi.Width > dstRect.Width)
                 {
