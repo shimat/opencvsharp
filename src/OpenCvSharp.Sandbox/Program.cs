@@ -25,10 +25,6 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            var img = new Mat("C:\\temp\\in.png", LoadMode.Color);
-            var bytes = img.ToBytes(".png");
-            File.WriteAllBytes("C:\\temp\\out.png", bytes);
-
             /*
             int xSize = 2400;
             int ySize = 2400;
