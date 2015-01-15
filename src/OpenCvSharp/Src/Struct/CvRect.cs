@@ -182,7 +182,7 @@ namespace OpenCvSharp
         /// <returns>等しければtrue</returns>
 #else
         /// <summary>
-        /// Compares two CvPoint objects. The result specifies whether the members of each object are equal.
+        /// Compares two CvRect objects. The result specifies whether the members of each object are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -201,7 +201,7 @@ namespace OpenCvSharp
         /// <returns>等しくなければtrue</returns>
 #else
         /// <summary>
-        /// Compares two CvPoint objects. The result specifies whether the members of each object are unequal.
+        /// Compares two CvRect objects. The result specifies whether the members of each object are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -451,7 +451,7 @@ namespace OpenCvSharp
 #endif
         public CvPoint BottomRight
         {
-            get { return new CvPoint(X + Width, Y + Height); }
+            get { return new CvPoint(X + Width - 1, Y + Height - 1); }
         }
         #endregion
 
