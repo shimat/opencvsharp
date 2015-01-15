@@ -436,7 +436,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool Contains(int x, int y)
         {
-            return (X <= x && Y <= y && X + Width > x && Y + Height > y);
+            return(X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
 #if LANG_JP
         /// <summary>
@@ -470,7 +470,10 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool Contains(Rect rect)
         {
-            return Contains(rect.TopLeft) && Contains(rect.BottomRight);
+            return X <= rect.X &&
+                   (rect.X + rect.Width) <= (X + Width) &&
+                   Y <= rect.Y &&
+                   (rect.Y + rect.Height) <= (Y + Height);
         }
 
 #if LANG_JP

@@ -474,7 +474,7 @@ namespace OpenCvSharp
 #endif
         public bool Contains(int x, int y)
         {
-            return (X <= x && Y <= y && X + Width > x && Y + Height > y);
+            return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
 #if LANG_JP
         /// <summary>
@@ -508,7 +508,10 @@ namespace OpenCvSharp
 #endif
         public bool Contains(CvRect rect)
         {
-            return Contains(rect.TopLeft) && Contains(rect.BottomRight);
+            return X <= rect.X &&
+                   (rect.X + rect.Width) <= (X + Width) &&
+                   Y <= rect.Y &&
+                   (rect.Y + rect.Height) <= (Y + Height);
         }
         #endregion
         #region Inflate
