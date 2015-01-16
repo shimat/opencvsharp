@@ -25,10 +25,6 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            var img = new Mat("data/match2.png", LoadMode.Color);
-            var bytes = img.ToBytes(".bmp");
-            File.WriteAllBytes("C:/a.bmp", bytes);
-
             /*
             int xSize = 2400;
             int ySize = 2400;

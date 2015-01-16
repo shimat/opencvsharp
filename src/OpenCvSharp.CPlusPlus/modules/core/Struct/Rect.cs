@@ -145,7 +145,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns>等しければtrue</returns>
 #else
         /// <summary>
-        /// Compares two CvPoint objects. The result specifies whether the members of each object are equal.
+        /// Compares two Rect objects. The result specifies whether the members of each object are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -164,7 +164,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns>等しくなければtrue</returns>
 #else
         /// <summary>
-        /// Compares two CvPoint objects. The result specifies whether the members of each object are unequal.
+        /// Compares two Rect objects. The result specifies whether the members of each object are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -355,11 +355,11 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
         /// <summary>
-        /// 矩形の左上頂点の位置 [CvPoint(X, Y)]
+        /// 矩形の左上頂点の位置 [Point(X, Y)]
         /// </summary>
 #else
         /// <summary>
-        /// Coordinate of the left-most rectangle corner [CvPoint(X, Y)]
+        /// Coordinate of the left-most rectangle corner [Point(X, Y)]
         /// </summary>
 #endif
         public Point Location
@@ -396,7 +396,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
 #else
         /// <summary>
-        /// Coordinate of the left-most rectangle corner [CvPoint(X, Y)]
+        /// Coordinate of the left-most rectangle corner [Point(X, Y)]
         /// </summary>
 #endif
         public Point TopLeft
@@ -409,12 +409,12 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
 #else
         /// <summary>
-        /// Coordinate of the right-most rectangle corner [CvPoint(X+Width, Y+Height)]
+        /// Coordinate of the right-most rectangle corner [Point(X+Width, Y+Height)]
         /// </summary>
 #endif
         public Point BottomRight
         {
-            get { return new Point(X + Width, Y + Height); }
+            get { return new Point(X + Width - 1, Y + Height - 1); }
         }
         #endregion
 
@@ -436,7 +436,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool Contains(int x, int y)
         {
-            return (X <= x && Y <= y && X + Width > x && Y + Height > y);
+            return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
 #if LANG_JP
         /// <summary>
@@ -470,7 +470,10 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool Contains(Rect rect)
         {
-            return Contains(rect.TopLeft) && Contains(rect.BottomRight);
+            return X <= rect.X &&
+                   (rect.X + rect.Width) <= (X + Width) &&
+                   Y <= rect.Y &&
+                   (rect.Y + rect.Height) <= (Y + Height);
         }
 
 #if LANG_JP
