@@ -436,7 +436,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public bool Contains(int x, int y)
         {
-            return(X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
+            return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
 #if LANG_JP
         /// <summary>
