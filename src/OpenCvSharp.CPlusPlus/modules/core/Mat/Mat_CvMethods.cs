@@ -1755,7 +1755,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat PyrUp(Size? dstSize = null, BorderType borderType = BorderType.Default)
         {
             var dst = new Mat();
-            Cv2.PyrDown(this, dst, dstSize, borderType);
+            Cv2.PyrUp(this, dst, dstSize, borderType);
             return dst;
         }
 
