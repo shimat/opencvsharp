@@ -119,7 +119,7 @@ namespace OpenCvSharp
         
         // 
         BayerBgToGray = CvConst.COLOR_BayerBG2GRAY,
-        ayerGbToGray = CvConst.COLOR_BayerGB2GRAY,
+        BayerGbToGray = CvConst.COLOR_BayerGB2GRAY,
         BayerRGToGray = CvConst.COLOR_BayerRG2GRAY,
         BayerGRToGray = CvConst.COLOR_BayerGR2GRAY,
             //YUV 4:2:0 formats family
