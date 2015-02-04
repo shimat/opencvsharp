@@ -46,11 +46,11 @@ namespace OpenCvSharp.Extensions
             switch (src.PixelFormat)
             {
                 case PixelFormat.Format24bppRgb:
-                case PixelFormat.Format32bppRgb:
                     channels = 3; break;
+                case PixelFormat.Format32bppRgb:
                 case PixelFormat.Format32bppArgb:
                 case PixelFormat.Format32bppPArgb:
-                    channels = 3; break;
+                    channels = 4; break;
                 case PixelFormat.Format8bppIndexed:
                 case PixelFormat.Format1bppIndexed:
                     channels = 1; break;
