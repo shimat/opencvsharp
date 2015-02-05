@@ -104,12 +104,13 @@ foreach ($p in $platforms)
 {
     $hasPlatform = HasPlatform $manager $p
     if(-not $hasPlatform)
-    {
-        [void]$manager.AddPlatform($p, "Any CPU", $true)
-        trap [Exception] {
-            Write-Host($error[0])
+    {        
+        trap [Exception] 
+        {
             continue
         }
+        
+        [void]$manager.AddPlatform($p, "Any CPU", $true)
     }
 }
 
