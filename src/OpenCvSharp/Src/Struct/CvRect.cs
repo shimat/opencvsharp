@@ -182,7 +182,7 @@ namespace OpenCvSharp
         /// <returns>等しければtrue</returns>
 #else
         /// <summary>
-        /// Compares two CvPoint objects. The result specifies whether the members of each object are equal.
+        /// Compares two CvRect objects. The result specifies whether the members of each object are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -201,7 +201,7 @@ namespace OpenCvSharp
         /// <returns>等しくなければtrue</returns>
 #else
         /// <summary>
-        /// Compares two CvPoint objects. The result specifies whether the members of each object are unequal.
+        /// Compares two CvRect objects. The result specifies whether the members of each object are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -451,7 +451,7 @@ namespace OpenCvSharp
 #endif
         public CvPoint BottomRight
         {
-            get { return new CvPoint(X + Width, Y + Height); }
+            get { return new CvPoint(X + Width - 1, Y + Height - 1); }
         }
         #endregion
 
@@ -474,7 +474,7 @@ namespace OpenCvSharp
 #endif
         public bool Contains(int x, int y)
         {
-            return (X <= x && Y <= y && X + Width > x && Y + Height > y);
+            return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
 #if LANG_JP
         /// <summary>
@@ -508,7 +508,10 @@ namespace OpenCvSharp
 #endif
         public bool Contains(CvRect rect)
         {
-            return Contains(rect.TopLeft) && Contains(rect.BottomRight);
+            return X <= rect.X &&
+                   (rect.X + rect.Width) <= (X + Width) &&
+                   Y <= rect.Y &&
+                   (rect.Y + rect.Height) <= (Y + Height);
         }
         #endregion
         #region Inflate

@@ -60,15 +60,15 @@ namespace OpenCvSharp
         /// <summary>
         /// 反復回数による終了条件を設定して初期化
         /// </summary>
-        /// <param name="max_iter">反復数の最大値</param>
+        /// <param name="maxIter">反復数の最大値</param>
 #else
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="max_iter">maximum number of iterations</param>
+        /// <param name="maxIter">maximum number of iterations</param>
 #endif
-        public CvTermCriteria(int max_iter)
-            : this(CriteriaType.Iteration, max_iter, 0)
+        public CvTermCriteria(int maxIter)
+            : this(CriteriaType.Iteration, maxIter, 0)
         {
         }
 #if LANG_JP
@@ -90,17 +90,17 @@ namespace OpenCvSharp
         /// <summary>
         /// 繰り返し回数と目標精度による終了条件を設定して初期化
         /// </summary>yy
-        /// <param name="max_iter">反復数の最大値</param>
+        /// <param name="maxIter">反復数の最大値</param>
         /// <param name="epsilon">目標精度</param>
 #else
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="max_iter">maximum number of iterations</param>
+        /// <param name="maxIter">maximum number of iterations</param>
         /// <param name="epsilon">accuracy to achieve</param>
 #endif
-        public CvTermCriteria(int max_iter, double epsilon)
-            : this(CriteriaType.Epsilon | CriteriaType.Iteration, max_iter, epsilon)
+        public CvTermCriteria(int maxIter, double epsilon)
+            : this(CriteriaType.Epsilon | CriteriaType.Iteration, maxIter, epsilon)
         {
         }
 #if LANG_JP
@@ -108,20 +108,20 @@ namespace OpenCvSharp
         /// すべて指定して初期化
         /// </summary>
         /// <param name="type">終了条件</param>
-        /// <param name="max_iter">反復数の最大値</param>
+        /// <param name="maxIter">反復数の最大値</param>
         /// <param name="epsilon">目標精度</param>
 #else
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="type">a combination of CriteriaType flags</param>
-        /// <param name="max_iter">maximum number of iterations</param>
+        /// <param name="maxIter">maximum number of iterations</param>
         /// <param name="epsilon">accuracy to achieve</param>
 #endif
-        public CvTermCriteria(CriteriaType type,  int max_iter, double epsilon)
+        public CvTermCriteria(CriteriaType type, int maxIter, double epsilon)
         {
             this.Type = type;
-            this.MaxIter = max_iter;
+            this.MaxIter = maxIter;
             this.Epsilon = epsilon;
         }
         #endregion
@@ -132,21 +132,21 @@ namespace OpenCvSharp
         /// <summary>
         /// 終了条件をチェックし，type= Iteration|Epsilon に設定し，反復数の max_iterとeprilon の両方が有効になるように変換する
         /// </summary>
-        /// <param name="default_eps"></param>
-        /// <param name="default_max_iters"></param>
+        /// <param name="defaultEps"></param>
+        /// <param name="defaultMaxIters"></param>
         /// <returns>変換結果</returns>
 #else
         /// <summary>
         /// Check termination criteria and transform it so that type=CriteriaType.Iteration | CriteriaType.Epsilon,
         /// and both max_iter and epsilon are valid
         /// </summary>
-        /// <param name="default_eps">Default epsilon</param>
-        /// <param name="default_max_iters">Default maximum number of iteration</param>
+        /// <param name="defaultEps">Default epsilon</param>
+        /// <param name="defaultMaxIters">Default maximum number of iteration</param>
         /// <returns></returns>
 #endif
-        public CvTermCriteria Check(double default_eps, int default_max_iters)
+        public CvTermCriteria Check(double defaultEps, int defaultMaxIters)
         {
-            return Cv.CheckTermCriteria(this, default_eps, default_max_iters);
+            return Cv.CheckTermCriteria(this, defaultEps, defaultMaxIters);
         }
         #endregion
         #endregion

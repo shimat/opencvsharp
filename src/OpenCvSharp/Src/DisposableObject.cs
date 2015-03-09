@@ -245,7 +245,7 @@ namespace OpenCvSharp
                 return;
             if (size == 0)
                 return;
-            if (size <= 0)
+            if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
             
             if (AllocatedMemorySize > 0)

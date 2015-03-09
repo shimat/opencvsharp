@@ -10,7 +10,7 @@
 CVAPI(cv::Mat*) imgproc_getGaborKernel(CvSize ksize, double sigma, double theta, 
 	double lambd, double gamma, double psi, int ktype)
 {
-	cv::Mat ret = cv::getGaborKernel(ksize, sigma, theta, lambd, gamma, ktype);
+	cv::Mat ret = cv::getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype);
 	return new cv::Mat(ret);
 }
 
