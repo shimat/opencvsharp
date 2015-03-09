@@ -4,7 +4,7 @@ using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp
 {
-    // ReSharper disable InconsistentNaming_
+    // ReSharper disable InconsistentNaming
 
     public static partial class Cv
     {
@@ -1954,8 +1954,7 @@ namespace OpenCvSharp
         /// <param name="edges">Image to store the edges found by the function. </param>
         /// <param name="threshold1">The first threshold. </param>
         /// <param name="threshold2">The second threshold. </param>
-        /// <param name="
-        public static void Canny(CvArr image, CvArr edges, double threshold1, double threshold2, ApertureSize apertureSize">Aperture parameter for Sobel operator. </param>
+        /// <param name="apertureSize">Aperture parameter for Sobel operator. </param>
 #endif
         public static void Canny(CvArr image, CvArr edges, double threshold1, double threshold2, ApertureSize apertureSize)
         {
