@@ -132,7 +132,7 @@ namespace OpenCvSharp.CPlusPlus
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.ml_CvNormalBayesClassifier_delete(ptr);
+                        NativeMethods.ml_CvNormalBayesClassifier_destruct(ptr);
                     }
                     disposed = true;
                 }

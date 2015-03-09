@@ -16,7 +16,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr ml_CvNormalBayesClassifier_new2_Mat(
             IntPtr trainData, IntPtr responses, IntPtr varIdx, IntPtr sampleIdx);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ml_CvNormalBayesClassifier_delete(IntPtr obj);
+        public static extern void ml_CvNormalBayesClassifier_destruct(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int ml_CvNormalBayesClassifier_train_CvMat(
