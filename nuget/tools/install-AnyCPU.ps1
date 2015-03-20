@@ -25,8 +25,8 @@ $platforms = @(
     "x64";
 )
 $copyFilesX86 = @(
-    "msvcp110.dll";
-    "msvcr110.dll";
+    "msvcp120.dll";
+    "msvcr120.dll";
     "OpenCvSharpExtern.dll";
     "opencv_calib3d2410.dll";
     "opencv_contrib2410.dll";
@@ -49,8 +49,8 @@ $copyFilesX86 = @(
     "opencv_videostab2410.dll";
 )
 $copyFilesX64 = @(
-    "msvcp110.dll";
-    "msvcr110.dll";
+    "msvcp120.dll";
+    "msvcr120.dll";
     "OpenCvSharpExtern.dll";
     "opencv_calib3d2410.dll";
     "opencv_contrib2410.dll";
