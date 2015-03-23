@@ -1631,6 +1631,41 @@ namespace OpenCvSharp
 #endif
         public static void CalibrateCamera2(CvMat objectPoints, CvMat imagePoints, CvMat pointCounts, CvSize imageSize, CvMat intrinsicMatrix, CvMat distortionCoeffs, CvMat rotationVectors, CvMat translationVectors, CalibrationFlag flags)
         {
+            double result;
+            CalibrateCamera2(objectPoints, imagePoints, pointCounts, imageSize, intrinsicMatrix, distortionCoeffs, rotationVectors, translationVectors, flags, out result);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 内部パラメータと各画像に対する 外部パラメータを推定する．
+        /// </summary>
+        /// <param name="objectPoints">オブジェクト（キャリブレーションパターン）上の点群座標の結合行列．3xN または Nx3の配列．Nはすべてのビューでの点の数の合計である.</param>
+        /// <param name="imagePoints">対応する画像上の点群座標の結合行列． 2xN またはNx2 の配列．Nはすべてのビューでの点の数の合計である．</param>
+        /// <param name="pointCounts">それぞれのビューに含まれる点の数を表すベクトル．サ イズは 1xM または Mx1 でMはビューの数．1xM or Mx1</param>
+        /// <param name="imageSize">画像サイズ．内部カメラ行列の初期化のみに用いられる.</param>
+        /// <param name="intrinsicMatrix">出力されるカメラ行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. CV_CALIB_USE_INTRINSIC_GUESS  や CV_CALIB_FIX_ASPECT_RATION が指定され た場合，fx, fy, cx, cyのパラメータのうち いくつか，またはすべてを初期化する必要がある．</param>
+        /// <param name="distortionCoeffs">出力される1x4のひずみ係数ベクトル [k1, k2, p1, p2]. </param>
+        /// <param name="rotationVectors">出力される3xMの回転ベクトルの配列 (コンパクトな回転行列の表記についてはcvRodrigues2を参照)．</param>
+        /// <param name="translationVectors">出力される3xMの並進ベクトルの配列．</param>
+        /// <param name="flags">処理フラグ</param>
+        /// <param name="reprojectionError">The function outputs the final re-projection error.</param>
+#else
+        /// <summary>
+        /// Finds intrinsic and extrinsic camera parameters using calibration pattern
+        /// </summary>
+        /// <param name="objectPoints">The joint matrix of object points, 3xN or Nx3, where N is the total number of points in all views. </param>
+        /// <param name="imagePoints">The joint matrix of corresponding image points, 2xN or Nx2, where N is the total number of points in all views. </param>
+        /// <param name="pointCounts">Vector containing numbers of points in each particular view, 1xM or Mx1, where M is the number of a scene views. </param>
+        /// <param name="imageSize">Size of the image, used only to initialize intrinsic camera matrix. </param>
+        /// <param name="intrinsicMatrix">The output camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATION are specified, some or all of fx, fy, cx, cy must be initialized. </param>
+        /// <param name="distortionCoeffs">The output 4x1 or 1x4 vector of distortion coefficients [k1, k2, p1, p2]. </param>
+        /// <param name="rotationVectors">The output 3xM or Mx3 array of rotation vectors (compact representation of rotation matrices, see cvRodrigues2). </param>
+        /// <param name="translationVectors">The output 3xM or Mx3 array of translation vectors. </param>
+        /// <param name="flags">Different flags</param>
+        /// <param name="reprojectionError">The function outputs the final re-projection error.</param>
+#endif
+        public static void CalibrateCamera2(CvMat objectPoints, CvMat imagePoints, CvMat pointCounts, CvSize imageSize, CvMat intrinsicMatrix, CvMat distortionCoeffs, CvMat rotationVectors, CvMat translationVectors, CalibrationFlag flags, out double reprojectionError)
+        {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
             if (imagePoints == null)
@@ -1644,7 +1679,7 @@ namespace OpenCvSharp
 
             IntPtr rotationVectorsPtr = ToPtr(rotationVectors);
             IntPtr translationVectorsPtr = ToPtr(translationVectors);
-            NativeMethods.cvCalibrateCamera2(objectPoints.CvPtr, imagePoints.CvPtr, pointCounts.CvPtr, imageSize, intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, rotationVectorsPtr, translationVectorsPtr, flags);
+            reprojectionError = NativeMethods.cvCalibrateCamera2(objectPoints.CvPtr, imagePoints.CvPtr, pointCounts.CvPtr, imageSize, intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, rotationVectorsPtr, translationVectorsPtr, flags);
         }
         #endregion
         #region CalibrationMatrixValues

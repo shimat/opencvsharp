@@ -1469,7 +1469,7 @@ namespace OpenCvSharp
         [DllImport(DllCalib3d, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvCalcMatMulDeriv(IntPtr A, IntPtr B, IntPtr dABdA, IntPtr dABdB);
         [DllImport(DllCalib3d, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cvCalibrateCamera2(IntPtr object_points, IntPtr image_points, IntPtr point_counts, CvSize image_size,
+        public static extern double cvCalibrateCamera2(IntPtr object_points, IntPtr image_points, IntPtr point_counts, CvSize image_size,
             IntPtr intrinsic_matrix, IntPtr distortion_coeffs, IntPtr rotation_vectors, IntPtr translation_vectors, CalibrationFlag flags);
         [DllImport(DllCalib3d, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cvCalibrationMatrixValues(IntPtr camera_matrix, CvSize image_size, double aperture_width, double aperture_height,
