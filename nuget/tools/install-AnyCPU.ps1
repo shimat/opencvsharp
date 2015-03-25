@@ -104,15 +104,14 @@ foreach ($p in $platforms)
 {
     $hasPlatform = HasPlatform $manager $p
     if(-not $hasPlatform)
-    {
+    {        
+        trap [Exception] 
+        {
+            continue
+        }
+        
         [void]$manager.AddPlatform($p, "Any CPU", $true)
     }
 }
 
-
-#foreach ($config in $configs)
-#{
-#    [System.Windows.Forms.MessageBox]::Show(HasPlatform)
-#}
-        
 
