@@ -46,11 +46,11 @@ namespace OpenCvSharp.Extensions
             switch (src.PixelFormat)
             {
                 case PixelFormat.Format24bppRgb:
-                case PixelFormat.Format32bppRgb:
                     channels = 3; break;
+                case PixelFormat.Format32bppRgb:
                 case PixelFormat.Format32bppArgb:
                 case PixelFormat.Format32bppPArgb:
-                    channels = 3; break;
+                    channels = 4; break;
                 case PixelFormat.Format8bppIndexed:
                 case PixelFormat.Format1bppIndexed:
                     channels = 1; break;
@@ -494,17 +494,17 @@ namespace OpenCvSharp.Extensions
             int bmpH = img.Height;
             CvRect roi = Cv.GetImageROI(img);
 
-            unsafe
+            if (roi.Width == dstRect.Width && roi.Height == dstRect.Height)
             {
+                DrawToHdc(img, hdc, dstRect.X, dstRect.Y, dstRect.Width, dstRect.Height, roi.X, roi.Y);
+                return;
+            }
+
+            unsafe
+            {                
                 int headerSize = sizeof(Win32API.BITMAPINFOHEADER) + 1024;
                 IntPtr buffer = Marshal.AllocHGlobal(headerSize);
                 Win32API.BITMAPINFO bmi = (Win32API.BITMAPINFO)Marshal.PtrToStructure(buffer, typeof(Win32API.BITMAPINFO));
-
-                if (roi.Width == dstRect.Width && roi.Height == dstRect.Height)
-                {
-                    DrawToHdc(img, hdc, dstRect.X, dstRect.Y, dstRect.Width, dstRect.Height, roi.X, roi.Y);
-                    return;
-                }
 
                 if (roi.Width > dstRect.Width)
                 {
