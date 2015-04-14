@@ -62,11 +62,11 @@ namespace OpenCvSharp.CPlusPlus
               
         // CvBoostParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ml_CvBoostParams_sizeof();
+        public static extern int ml_BoostParams_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ml_CvBoostParams_new1();
+        public static extern IntPtr ml_BoostParams_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ml_CvBoostParams_new2(
+        public static extern IntPtr ml_BoostParams_new2(
             int boostType, int weakCount, double weightTrimRate,
             int maxDepth, int useSurrogates, IntPtr priors);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

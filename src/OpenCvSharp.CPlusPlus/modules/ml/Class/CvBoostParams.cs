@@ -44,7 +44,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public CvBoostParams()
         {
-            ptr = NativeMethods.ml_CvBoostParams_new1();
+            ptr = NativeMethods.ml_BoostParams_new1();
         }
 
 #if LANG_JP
@@ -79,7 +79,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             base.priors = priors;
 
-            ptr = NativeMethods.ml_CvBoostParams_new2(
+            ptr = NativeMethods.ml_BoostParams_new2(
                 (int)boostType,
                 weakCount,
                 weightTrimRate,
