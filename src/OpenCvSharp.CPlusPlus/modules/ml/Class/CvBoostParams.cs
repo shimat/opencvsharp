@@ -118,7 +118,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (IsEnabledDispose)
                     {
                         if(ptr != IntPtr.Zero)
-                            NativeMethods.ml_CvBoostParams_delete(ptr);
+                            NativeMethods.ml_BoostParams_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;

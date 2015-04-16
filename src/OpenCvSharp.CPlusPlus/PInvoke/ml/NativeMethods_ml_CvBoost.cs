@@ -70,7 +70,7 @@ namespace OpenCvSharp.CPlusPlus
             int boostType, int weakCount, double weightTrimRate,
             int maxDepth, int useSurrogates, IntPtr priors);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ml_CvBoostParams_delete(IntPtr obj);
+        public static extern void ml_BoostParams_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe int* ml_BoostParams_boost_type(IntPtr obj);
