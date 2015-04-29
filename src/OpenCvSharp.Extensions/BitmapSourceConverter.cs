@@ -102,16 +102,15 @@ namespace OpenCvSharp.Extensions
                 src.WidthStep);
         }
 
-        #region ToBitmapSource
 #if LANG_JP
         /// <summary>
-        /// IplImageをBitmapSourceに変換する. 
+        /// MatをBitmapSourceに変換する. 
         /// </summary>
         /// <param name="src">変換するIplImage</param>
         /// <returns>WPFのBitmapSource</returns>
 #else
         /// <summary>
-        /// Converts IplImage to BitmapSource.
+        /// Converts Mat to BitmapSource.
         /// </summary>
         /// <param name="src">Input IplImage</param>
         /// <returns>BitmapSource</returns>
@@ -134,7 +133,7 @@ namespace OpenCvSharp.Extensions
 
 #if LANG_JP
         /// <summary>
-        /// IplImageをBitmapSourceに変換する. 
+        /// MatをBitmapSourceに変換する. 
         /// </summary>
         /// <param name="src">変換するIplImage</param>
         /// <param name="horizontalResolution"></param>
@@ -144,7 +143,7 @@ namespace OpenCvSharp.Extensions
         /// <returns>WPFのBitmapSource</returns>
 #else
         /// <summary>
-        /// Converts IplImage to BitmapSource.
+        /// Converts Mat to BitmapSource.
         /// </summary>
         /// <param name="src">Input IplImage</param>
         /// <param name="horizontalResolution"></param>
@@ -313,7 +312,5 @@ namespace OpenCvSharp.Extensions
 
             throw new ArgumentOutOfRangeException("type", "Not supported MatType");
         }
-
-        #endregion
     }
 }
