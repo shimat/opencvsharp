@@ -442,12 +442,13 @@ namespace OpenCvSharp.CPlusPlus
 
 			if(param == null)
 				param = new CvSVMParams();
-	        var cGrid0 = cGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var gammaGrid0 = gammaGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var pGrid0 = pGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var nuGrid0 = nuGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var coefGrid0 = coefGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var degreeGrid0 = degreeGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
+	        var defaultGrid = GetDefaultGrid(SVMParamType.C);
+            var cGrid0 = cGrid.GetValueOrDefault(defaultGrid);
+            var gammaGrid0 = gammaGrid.GetValueOrDefault(defaultGrid);
+            var pGrid0 = pGrid.GetValueOrDefault(defaultGrid);
+            var nuGrid0 = nuGrid.GetValueOrDefault(defaultGrid);
+            var coefGrid0 = coefGrid.GetValueOrDefault(defaultGrid);
+            var degreeGrid0 = degreeGrid.GetValueOrDefault(defaultGrid);
 
             return NativeMethods.ml_CvSVM_train_auto_CvMat(
                 ptr,
@@ -533,12 +534,13 @@ namespace OpenCvSharp.CPlusPlus
 
             if (param == null)
                 param = new CvSVMParams();
-            var cGrid0 = cGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var gammaGrid0 = gammaGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var pGrid0 = pGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var nuGrid0 = nuGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var coefGrid0 = coefGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
-            var degreeGrid0 = degreeGrid.GetValueOrDefault(GetDefaultGrid(SVMParamType.C));
+            var defaultGrid = GetDefaultGrid(SVMParamType.C);
+            var cGrid0 = cGrid.GetValueOrDefault(defaultGrid);
+            var gammaGrid0 = gammaGrid.GetValueOrDefault(defaultGrid);
+            var pGrid0 = pGrid.GetValueOrDefault(defaultGrid);
+            var nuGrid0 = nuGrid.GetValueOrDefault(defaultGrid);
+            var coefGrid0 = coefGrid.GetValueOrDefault(defaultGrid);
+            var degreeGrid0 = degreeGrid.GetValueOrDefault(defaultGrid);
 
             return NativeMethods.ml_CvSVM_train_auto_CvMat(
                 ptr,
