@@ -450,7 +450,7 @@ namespace OpenCvSharp
                 }
                 vectsPtr[i] = vects[i].CvPtr;
             }
-            NativeMethods.cvCalcCovarMatrix(vectsPtr, vects.Length, cov_mat.CvPtr, avg.CvPtr, flags);
+            NativeMethods.cvCalcCovarMatrix(vectsPtr, vects.Length, covMat.CvPtr, avg.CvPtr, flags);
         }
         #endregion
         #region CalcEMD2
@@ -893,7 +893,7 @@ namespace OpenCvSharp
             if (flow == null)
                 throw new ArgumentNullException("flow");
 
-            NativeMethods.cvCalcOpticalFlowFarneback(prev.CvPtr, next.CvPtr, flow.CvPtr, pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags);
+            NativeMethods.cvCalcOpticalFlowFarneback(prev.CvPtr, next.CvPtr, flow.CvPtr, pyrScale, levels, winsize, iterations, polyN, polySigma, flags);
         }
         #endregion
         #region CalcOpticalFlowPyrLK
