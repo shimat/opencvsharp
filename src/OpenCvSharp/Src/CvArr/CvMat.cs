@@ -2157,7 +2157,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <returns></returns>
 #endif
-        public UnmanagedMemoryStream GetDataStream(string ext, int[] prms)
+        public UnmanagedMemoryStream GetDataStream()
         {
             unsafe
             {
