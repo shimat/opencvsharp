@@ -271,7 +271,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="hist">テンプレートのヒストグラム</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <returns></returns>
@@ -281,14 +281,14 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">Source images (though you may pass CvMat** as well), all are of the same size and type </param>
         /// <param name="dst">Destination image. </param>
-        /// <param name="patch_size">Size of patch slid though the source images. </param>
+        /// <param name="patchSize">Size of patch slid though the source images. </param>
         /// <param name="hist">Histogram. </param>
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <returns></returns>
 #endif
-        public static void CalcArrBackProjectPatch(CvArr[] image, CvArr dst, CvSize patch_size, CvHistogram hist, HistogramComparison method)
+        public static void CalcArrBackProjectPatch(CvArr[] image, CvArr dst, CvSize patchSize, CvHistogram hist, HistogramComparison method)
         {
-            CalcArrBackProjectPatch(image, dst, patch_size, hist, method, 1f);
+            CalcArrBackProjectPatch(image, dst, patchSize, hist, method, 1f);
         }
 #if LANG_JP
         /// <summary>
@@ -296,7 +296,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="hist">テンプレートのヒストグラム</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <param name="factor">ヒストグラムの正規化係数．出力画像の正規化スケールに影響する．値に確信がない場合は，１にする．</param>
@@ -307,32 +307,27 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">Source images (though you may pass CvMat** as well), all are of the same size and type </param>
         /// <param name="dst">Destination image. </param>
-        /// <param name="patch_size">Size of patch slid though the source images. </param>
+        /// <param name="patchSize">Size of patch slid though the source images. </param>
         /// <param name="hist">Histogram. </param>
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <param name="factor">Normalization factor for histograms, will affect normalization scale of destination image, pass 1. if unsure. </param>
         /// <returns></returns>
 #endif
-        public static void CalcArrBackProjectPatch(CvArr[] image, CvArr dst, CvSize patch_size, CvHistogram hist, HistogramComparison method, float factor)
+        public static void CalcArrBackProjectPatch(CvArr[] image, CvArr dst, CvSize patchSize, CvHistogram hist, HistogramComparison method, float factor)
         {
-            if (image == null)
-            {
-                throw new ArgumentNullException("image");
-            }
+            if (image == null)            
+                throw new ArgumentNullException("image");            
             if (dst == null)
-            {
-                throw new ArgumentNullException("dst");
-            }
-            if (hist == null)
-            {
+                throw new ArgumentNullException("dst");            
+            if (hist == null)            
                 throw new ArgumentNullException("hist");
-            }
-            IntPtr[] image_ptr = new IntPtr[image.Length];
+            
+            IntPtr[] imagePtr = new IntPtr[image.Length];
             for (int i = 0; i < image.Length; i++)
             {
-                image_ptr[i] = image[i].CvPtr;
+                imagePtr[i] = image[i].CvPtr;
             }
-            NativeMethods.cvCalcArrBackProjectPatch(image_ptr, dst.CvPtr, patch_size, hist.CvPtr, (int)method, factor);
+            NativeMethods.cvCalcArrBackProjectPatch(imagePtr, dst.CvPtr, patchSize, hist.CvPtr, (int)method, factor);
         }
 #if LANG_JP
         /// <summary>
@@ -340,7 +335,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="hist">テンプレートのヒストグラム</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <returns></returns>
@@ -350,14 +345,14 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">Source images (though you may pass CvMat** as well), all are of the same size and type </param>
         /// <param name="dst">Destination image. </param>
-        /// <param name="patch_size">Size of patch slid though the source images. </param>
+        /// <param name="patchSize">Size of patch slid though the source images. </param>
         /// <param name="hist">Histogram. </param>
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <returns></returns>
 #endif
-        public static void CalcBackProjectPatch(IplImage[] image, CvArr dst, CvSize patch_size, CvHistogram hist, HistogramComparison method)
+        public static void CalcBackProjectPatch(IplImage[] image, CvArr dst, CvSize patchSize, CvHistogram hist, HistogramComparison method)
         {
-            CalcArrBackProjectPatch(image, dst, patch_size, hist, method, 1f);
+            CalcArrBackProjectPatch(image, dst, patchSize, hist, method, 1f);
         }
 #if LANG_JP
         /// <summary>
@@ -365,7 +360,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像群（ CvMat** 形式でも構わない）．すべて同じサイズ．</param>
         /// <param name="dst">出力画像</param>
-        /// <param name="patch_size">入力画像群上をスライドさせるテンプレートのサイズ</param>
+        /// <param name="patchSize">入力画像群上をスライドさせるテンプレートのサイズ</param>
         /// <param name="hist">テンプレートのヒストグラム</param>
         /// <param name="method">比較方法．値は関数 cvCompareHist に渡される（この関数に関する記述を参照）</param>
         /// <param name="factor">ヒストグラムの正規化係数．出力画像の正規化スケールに影響する．値に確信がない場合は，１にする．</param>
@@ -376,15 +371,15 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">Source images (though you may pass CvMat** as well), all are of the same size and type </param>
         /// <param name="dst">Destination image. </param>
-        /// <param name="patch_size">Size of patch slid though the source images. </param>
+        /// <param name="patchSize">Size of patch slid though the source images. </param>
         /// <param name="hist">Histogram. </param>
         /// <param name="method">Compasion method, passed to cvCompareHist (see description of that function). </param>
         /// <param name="factor">Normalization factor for histograms, will affect normalization scale of destination image, pass 1. if unsure. </param>
         /// <returns></returns>
 #endif
-        public static void CalcBackProjectPatch(IplImage[] image, CvArr dst, CvSize patch_size, CvHistogram hist, HistogramComparison method, float factor)
+        public static void CalcBackProjectPatch(IplImage[] image, CvArr dst, CvSize patchSize, CvHistogram hist, HistogramComparison method, float factor)
         {
-            CalcArrBackProjectPatch(image, dst, patch_size, hist, method, factor);
+            CalcArrBackProjectPatch(image, dst, patchSize, hist, method, factor);
         }
         #endregion
         #region CalcBayesianProb
@@ -426,7 +421,7 @@ namespace OpenCvSharp
         /// ベクトル集合の共変動行列を計算する
         /// </summary>
         /// <param name="vects">入力ベクトル．これらはすべて同じタイプで同じサイズでなくてはならない．</param>
-        /// <param name="cov_mat">浮動小数点型の正方な出力共変動行列</param>
+        /// <param name="covMat">浮動小数点型の正方な出力共変動行列</param>
         /// <param name="avg">入力または出力配列（フラグに依存する） - 入力ベクトルの平均ベクトル</param>
         /// <param name="flags">操作フラグ</param>
 #else
@@ -434,16 +429,16 @@ namespace OpenCvSharp
         /// Calculates covariation matrix of the set of vectors
         /// </summary>
         /// <param name="vects">The input vectors. They all must have the same type and the same size. The vectors do not have to be 1D, they can be 2D (e.g. images) etc. </param>
-        /// <param name="cov_mat">The output covariation matrix that should be floating-point and square. </param>
+        /// <param name="covMat">The output covariation matrix that should be floating-point and square. </param>
         /// <param name="avg">The input or output (depending on the flags) array - the mean (average) vector of the input vectors. </param>
         /// <param name="flags">The operation flags</param>
 #endif
-        public static void CalcCovarMatrix(CvArr[] vects, CvArr cov_mat, CvArr avg, CovarMatrixFlag flags)
+        public static void CalcCovarMatrix(CvArr[] vects, CvArr covMat, CvArr avg, CovarMatrixFlag flags)
         {
             if (vects == null)
                 throw new ArgumentNullException("vects");
-            if (cov_mat == null)
-                throw new ArgumentNullException("cov_mat");
+            if (covMat == null)
+                throw new ArgumentNullException("covMat");
             if (avg == null)
                 throw new ArgumentNullException("avg");
             IntPtr[] vectsPtr = new IntPtr[vects.Length];
@@ -866,12 +861,12 @@ namespace OpenCvSharp
         /// <param name="prev"></param>
         /// <param name="next"></param>
         /// <param name="flow"></param>
-        /// <param name="pyr_scale"></param>
+        /// <param name="pyrScale"></param>
         /// <param name="levels"></param>
         /// <param name="winsize"></param>
         /// <param name="iterations"></param>
-        /// <param name="poly_n"></param>
-        /// <param name="poly_sigma"></param>
+        /// <param name="polyN"></param>
+        /// <param name="polySigma"></param>
         /// <param name="flags"></param>
 #else
         /// <summary>
@@ -880,16 +875,16 @@ namespace OpenCvSharp
         /// <param name="prev"></param>
         /// <param name="next"></param>
         /// <param name="flow"></param>
-        /// <param name="pyr_scale"></param>
+        /// <param name="pyrScale"></param>
         /// <param name="levels"></param>
         /// <param name="winsize"></param>
         /// <param name="iterations"></param>
-        /// <param name="poly_n"></param>
-        /// <param name="poly_sigma"></param>
+        /// <param name="polyN"></param>
+        /// <param name="polySigma"></param>
         /// <param name="flags"></param>
 #endif
         public static void CalcOpticalFlowFarneback(CvArr prev, CvArr next, CvArr flow,
-            double pyr_scale, int levels, int winsize, int iterations, int poly_n, double poly_sigma, LKFlowFlag flags)
+            double pyrScale, int levels, int winsize, int iterations, int polyN, double polySigma, LKFlowFlag flags)
         {
             if (prev == null)
                 throw new ArgumentNullException("prev");
@@ -1085,99 +1080,99 @@ namespace OpenCvSharp
         /// <summary>
         /// 内部パラメータと各画像に対する 外部パラメータを推定する．
         /// </summary>
-        /// <param name="object_points">オブジェクト（キャリブレーションパターン）上の点群座標の結合行列．3xN または Nx3の配列．Nはすべてのビューでの点の数の合計である.</param>
-        /// <param name="image_points">対応する画像上の点群座標の結合行列． 2xN またはNx2 の配列．Nはすべてのビューでの点の数の合計である．</param>
-        /// <param name="point_counts">それぞれのビューに含まれる点の数を表すベクトル．サ イズは 1xM または Mx1 でMはビューの数．1xM or Mx1</param>
-        /// <param name="image_size">画像サイズ．内部カメラ行列の初期化のみに用いられる.</param>
-        /// <param name="intrinsic_matrix">出力されるカメラ行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. CV_CALIB_USE_INTRINSIC_GUESS  や CV_CALIB_FIX_ASPECT_RATION が指定され た場合，fx, fy, cx, cyのパラメータのうち いくつか，またはすべてを初期化する必要がある．</param>
-        /// <param name="distortion_coeffs">出力される1x4のひずみ係数ベクトル [k1, k2, p1, p2]. </param>
+        /// <param name="objectPoints">オブジェクト（キャリブレーションパターン）上の点群座標の結合行列．3xN または Nx3の配列．Nはすべてのビューでの点の数の合計である.</param>
+        /// <param name="imagePoints">対応する画像上の点群座標の結合行列． 2xN またはNx2 の配列．Nはすべてのビューでの点の数の合計である．</param>
+        /// <param name="pointCounts">それぞれのビューに含まれる点の数を表すベクトル．サ イズは 1xM または Mx1 でMはビューの数．1xM or Mx1</param>
+        /// <param name="imageSize">画像サイズ．内部カメラ行列の初期化のみに用いられる.</param>
+        /// <param name="intrinsicMatrix">出力されるカメラ行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. CV_CALIB_USE_INTRINSIC_GUESS  や CV_CALIB_FIX_ASPECT_RATION が指定され た場合，fx, fy, cx, cyのパラメータのうち いくつか，またはすべてを初期化する必要がある．</param>
+        /// <param name="distortionCoeffs">出力される1x4のひずみ係数ベクトル [k1, k2, p1, p2]. </param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="object_points">The joint matrix of object points, 3xN or Nx3, where N is the total number of points in all views. </param>
-        /// <param name="image_points">The joint matrix of corresponding image points, 2xN or Nx2, where N is the total number of points in all views. </param>
-        /// <param name="point_counts">Vector containing numbers of points in each particular view, 1xM or Mx1, where M is the number of a scene views. </param>
-        /// <param name="image_size">Size of the image, used only to initialize intrinsic camera matrix. </param>
-        /// <param name="intrinsic_matrix">The output camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATION are specified, some or all of fx, fy, cx, cy must be initialized. </param>
-        /// <param name="distortion_coeffs">The output 4x1 or 1x4 vector of distortion coefficients [k1, k2, p1, p2]. </param>
+        /// <param name="objectPoints">The joint matrix of object points, 3xN or Nx3, where N is the total number of points in all views. </param>
+        /// <param name="imagePoints">The joint matrix of corresponding image points, 2xN or Nx2, where N is the total number of points in all views. </param>
+        /// <param name="pointCounts">Vector containing numbers of points in each particular view, 1xM or Mx1, where M is the number of a scene views. </param>
+        /// <param name="imageSize">Size of the image, used only to initialize intrinsic camera matrix. </param>
+        /// <param name="intrinsicMatrix">The output camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATION are specified, some or all of fx, fy, cx, cy must be initialized. </param>
+        /// <param name="distortionCoeffs">The output 4x1 or 1x4 vector of distortion coefficients [k1, k2, p1, p2]. </param>
 #endif
-        public static void CalibrateCamera2(CvMat object_points, CvMat image_points, CvMat point_counts, CvSize image_size, CvMat intrinsic_matrix, CvMat distortion_coeffs)
+        public static void CalibrateCamera2(CvMat objectPoints, CvMat imagePoints, CvMat pointCounts, CvSize imageSize, CvMat intrinsicMatrix, CvMat distortionCoeffs)
         {
-            CalibrateCamera2(object_points, image_points, point_counts, image_size, intrinsic_matrix, distortion_coeffs, null, null, CalibrationFlag.Default);
+            CalibrateCamera2(objectPoints, imagePoints, pointCounts, imageSize, intrinsicMatrix, distortionCoeffs, null, null, CalibrationFlag.Default);
         }
 #if LANG_JP
         /// <summary>
         /// 内部パラメータと各画像に対する 外部パラメータを推定する．
         /// </summary>
-        /// <param name="object_points">オブジェクト（キャリブレーションパターン）上の点群座標の結合行列．3xN または Nx3の配列．Nはすべてのビューでの点の数の合計である.</param>
-        /// <param name="image_points">対応する画像上の点群座標の結合行列． 2xN またはNx2 の配列．Nはすべてのビューでの点の数の合計である．</param>
-        /// <param name="point_counts">それぞれのビューに含まれる点の数を表すベクトル．サ イズは 1xM または Mx1 でMはビューの数．1xM or Mx1</param>
-        /// <param name="image_size">画像サイズ．内部カメラ行列の初期化のみに用いられる.</param>
-        /// <param name="intrinsic_matrix">出力されるカメラ行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. CV_CALIB_USE_INTRINSIC_GUESS  や CV_CALIB_FIX_ASPECT_RATION が指定され た場合，fx, fy, cx, cyのパラメータのうち いくつか，またはすべてを初期化する必要がある．</param>
-        /// <param name="distortion_coeffs">出力される1x4のひずみ係数ベクトル [k1, k2, p1, p2]. </param>
-        /// <param name="rotation_vectors">出力される3xMの回転ベクトルの配列 (コンパクトな回転行列の表記についてはcvRodrigues2を参照)．</param>
-        /// <param name="translation_vectors">出力される3xMの並進ベクトルの配列．</param>
+        /// <param name="objectPoints">オブジェクト（キャリブレーションパターン）上の点群座標の結合行列．3xN または Nx3の配列．Nはすべてのビューでの点の数の合計である.</param>
+        /// <param name="imagePoints">対応する画像上の点群座標の結合行列． 2xN またはNx2 の配列．Nはすべてのビューでの点の数の合計である．</param>
+        /// <param name="pointCounts">それぞれのビューに含まれる点の数を表すベクトル．サ イズは 1xM または Mx1 でMはビューの数．1xM or Mx1</param>
+        /// <param name="imageSize">画像サイズ．内部カメラ行列の初期化のみに用いられる.</param>
+        /// <param name="intrinsicMatrix">出力されるカメラ行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. CV_CALIB_USE_INTRINSIC_GUESS  や CV_CALIB_FIX_ASPECT_RATION が指定され た場合，fx, fy, cx, cyのパラメータのうち いくつか，またはすべてを初期化する必要がある．</param>
+        /// <param name="distortionCoeffs">出力される1x4のひずみ係数ベクトル [k1, k2, p1, p2]. </param>
+        /// <param name="rotationVectors">出力される3xMの回転ベクトルの配列 (コンパクトな回転行列の表記についてはcvRodrigues2を参照)．</param>
+        /// <param name="translationVectors">出力される3xMの並進ベクトルの配列．</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="object_points">The joint matrix of object points, 3xN or Nx3, where N is the total number of points in all views. </param>
-        /// <param name="image_points">The joint matrix of corresponding image points, 2xN or Nx2, where N is the total number of points in all views. </param>
-        /// <param name="point_counts">Vector containing numbers of points in each particular view, 1xM or Mx1, where M is the number of a scene views. </param>
-        /// <param name="image_size">Size of the image, used only to initialize intrinsic camera matrix. </param>
-        /// <param name="intrinsic_matrix">The output camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATION are specified, some or all of fx, fy, cx, cy must be initialized. </param>
-        /// <param name="distortion_coeffs">The output 4x1 or 1x4 vector of distortion coefficients [k1, k2, p1, p2]. </param>
-        /// <param name="rotation_vectors">The output 3xM or Mx3 array of rotation vectors (compact representation of rotation matrices, see cvRodrigues2). </param>
-        /// <param name="translation_vectors">The output 3xM or Mx3 array of translation vectors. </param>
+        /// <param name="objectPoints">The joint matrix of object points, 3xN or Nx3, where N is the total number of points in all views. </param>
+        /// <param name="imagePoints">The joint matrix of corresponding image points, 2xN or Nx2, where N is the total number of points in all views. </param>
+        /// <param name="pointCounts">Vector containing numbers of points in each particular view, 1xM or Mx1, where M is the number of a scene views. </param>
+        /// <param name="imageSize">Size of the image, used only to initialize intrinsic camera matrix. </param>
+        /// <param name="intrinsicMatrix">The output camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATION are specified, some or all of fx, fy, cx, cy must be initialized. </param>
+        /// <param name="distortionCoeffs">The output 4x1 or 1x4 vector of distortion coefficients [k1, k2, p1, p2]. </param>
+        /// <param name="rotationVectors">The output 3xM or Mx3 array of rotation vectors (compact representation of rotation matrices, see cvRodrigues2). </param>
+        /// <param name="translationVectors">The output 3xM or Mx3 array of translation vectors. </param>
 #endif
-        public static void CalibrateCamera2(CvMat object_points, CvMat image_points, CvMat point_counts, CvSize image_size, CvMat intrinsic_matrix, CvMat distortion_coeffs, CvMat rotation_vectors, CvMat translation_vectors)
+        public static void CalibrateCamera2(CvMat objectPoints, CvMat imagePoints, CvMat pointCounts, CvSize imageSize, CvMat intrinsicMatrix, CvMat distortionCoeffs, CvMat rotationVectors, CvMat translationVectors)
         {
-            CalibrateCamera2(object_points, image_points, point_counts, image_size, intrinsic_matrix, distortion_coeffs, rotation_vectors, translation_vectors, CalibrationFlag.Default);
+            CalibrateCamera2(objectPoints, imagePoints, pointCounts, imageSize, intrinsicMatrix, distortionCoeffs, rotationVectors, translationVectors, CalibrationFlag.Default);
         }
 #if LANG_JP
         /// <summary>
         /// 内部パラメータと各画像に対する 外部パラメータを推定する．
         /// </summary>
-        /// <param name="object_points">オブジェクト（キャリブレーションパターン）上の点群座標の結合行列．3xN または Nx3の配列．Nはすべてのビューでの点の数の合計である.</param>
-        /// <param name="image_points">対応する画像上の点群座標の結合行列． 2xN またはNx2 の配列．Nはすべてのビューでの点の数の合計である．</param>
-        /// <param name="point_counts">それぞれのビューに含まれる点の数を表すベクトル．サ イズは 1xM または Mx1 でMはビューの数．1xM or Mx1</param>
-        /// <param name="image_size">画像サイズ．内部カメラ行列の初期化のみに用いられる.</param>
-        /// <param name="intrinsic_matrix">出力されるカメラ行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. CV_CALIB_USE_INTRINSIC_GUESS  や CV_CALIB_FIX_ASPECT_RATION が指定され た場合，fx, fy, cx, cyのパラメータのうち いくつか，またはすべてを初期化する必要がある．</param>
-        /// <param name="distortion_coeffs">出力される1x4のひずみ係数ベクトル [k1, k2, p1, p2]. </param>
-        /// <param name="rotation_vectors">出力される3xMの回転ベクトルの配列 (コンパクトな回転行列の表記についてはcvRodrigues2を参照)．</param>
-        /// <param name="translation_vectors">出力される3xMの並進ベクトルの配列．</param>
+        /// <param name="objectPoints">オブジェクト（キャリブレーションパターン）上の点群座標の結合行列．3xN または Nx3の配列．Nはすべてのビューでの点の数の合計である.</param>
+        /// <param name="imagePoints">対応する画像上の点群座標の結合行列． 2xN またはNx2 の配列．Nはすべてのビューでの点の数の合計である．</param>
+        /// <param name="pointCounts">それぞれのビューに含まれる点の数を表すベクトル．サ イズは 1xM または Mx1 でMはビューの数．1xM or Mx1</param>
+        /// <param name="imageSize">画像サイズ．内部カメラ行列の初期化のみに用いられる.</param>
+        /// <param name="intrinsicMatrix">出力されるカメラ行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. CV_CALIB_USE_INTRINSIC_GUESS  や CV_CALIB_FIX_ASPECT_RATION が指定され た場合，fx, fy, cx, cyのパラメータのうち いくつか，またはすべてを初期化する必要がある．</param>
+        /// <param name="distortionCoeffs">出力される1x4のひずみ係数ベクトル [k1, k2, p1, p2]. </param>
+        /// <param name="rotationVectors">出力される3xMの回転ベクトルの配列 (コンパクトな回転行列の表記についてはcvRodrigues2を参照)．</param>
+        /// <param name="translationVectors">出力される3xMの並進ベクトルの配列．</param>
         /// <param name="flags">処理フラグ</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="object_points">The joint matrix of object points, 3xN or Nx3, where N is the total number of points in all views. </param>
-        /// <param name="image_points">The joint matrix of corresponding image points, 2xN or Nx2, where N is the total number of points in all views. </param>
-        /// <param name="point_counts">Vector containing numbers of points in each particular view, 1xM or Mx1, where M is the number of a scene views. </param>
-        /// <param name="image_size">Size of the image, used only to initialize intrinsic camera matrix. </param>
-        /// <param name="intrinsic_matrix">The output camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATION are specified, some or all of fx, fy, cx, cy must be initialized. </param>
-        /// <param name="distortion_coeffs">The output 4x1 or 1x4 vector of distortion coefficients [k1, k2, p1, p2]. </param>
-        /// <param name="rotation_vectors">The output 3xM or Mx3 array of rotation vectors (compact representation of rotation matrices, see cvRodrigues2). </param>
-        /// <param name="translation_vectors">The output 3xM or Mx3 array of translation vectors. </param>
+        /// <param name="objectPoints">The joint matrix of object points, 3xN or Nx3, where N is the total number of points in all views. </param>
+        /// <param name="imagePoints">The joint matrix of corresponding image points, 2xN or Nx2, where N is the total number of points in all views. </param>
+        /// <param name="pointCounts">Vector containing numbers of points in each particular view, 1xM or Mx1, where M is the number of a scene views. </param>
+        /// <param name="imageSize">Size of the image, used only to initialize intrinsic camera matrix. </param>
+        /// <param name="intrinsicMatrix">The output camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATION are specified, some or all of fx, fy, cx, cy must be initialized. </param>
+        /// <param name="distortionCoeffs">The output 4x1 or 1x4 vector of distortion coefficients [k1, k2, p1, p2]. </param>
+        /// <param name="rotationVectors">The output 3xM or Mx3 array of rotation vectors (compact representation of rotation matrices, see cvRodrigues2). </param>
+        /// <param name="translationVectors">The output 3xM or Mx3 array of translation vectors. </param>
         /// <param name="flags">Different flags</param>
 #endif
-        public static void CalibrateCamera2(CvMat object_points, CvMat image_points, CvMat point_counts, CvSize image_size, CvMat intrinsic_matrix, CvMat distortion_coeffs, CvMat rotation_vectors, CvMat translation_vectors, CalibrationFlag flags)
+        public static void CalibrateCamera2(CvMat objectPoints, CvMat imagePoints, CvMat pointCounts, CvSize imageSize, CvMat intrinsicMatrix, CvMat distortionCoeffs, CvMat rotationVectors, CvMat translationVectors, CalibrationFlag flags)
         {
-            if (object_points == null)
-                throw new ArgumentNullException("object_points");
-            if (image_points == null)
-                throw new ArgumentNullException("image_points");
-            if (point_counts == null)
-                throw new ArgumentNullException("point_counts");
-            if (intrinsic_matrix == null)
-                throw new ArgumentNullException("intrinsic_matrix");
-            if (distortion_coeffs == null)
-                throw new ArgumentNullException("distortion_coeffs");
+            if (objectPoints == null)
+                throw new ArgumentNullException("objectPoints");
+            if (imagePoints == null)
+                throw new ArgumentNullException("imagePoints");
+            if (pointCounts == null)
+                throw new ArgumentNullException("pointCounts");
+            if (intrinsicMatrix == null)
+                throw new ArgumentNullException("intrinsicMatrix");
+            if (distortionCoeffs == null)
+                throw new ArgumentNullException("distortionCoeffs");
 
-            IntPtr rotation_vectors_ptr = ToPtr(rotation_vectors);
-            IntPtr translation_vectors_ptr = ToPtr(translation_vectors);
-            NativeMethods.cvCalibrateCamera2(object_points.CvPtr, image_points.CvPtr, point_counts.CvPtr, image_size, intrinsic_matrix.CvPtr, distortion_coeffs.CvPtr, rotation_vectors_ptr, translation_vectors_ptr, flags);
+            IntPtr rotationVectorsPtr = ToPtr(rotationVectors);
+            IntPtr translationVectorsPtr = ToPtr(translationVectors);
+            NativeMethods.cvCalibrateCamera2(objectPoints.CvPtr, imagePoints.CvPtr, pointCounts.CvPtr, imageSize, intrinsicMatrix.CvPtr, distortionCoeffs.CvPtr, rotationVectorsPtr, translationVectorsPtr, flags);
         }
         #endregion
         #region CalibrationMatrixValues
@@ -1185,183 +1180,183 @@ namespace OpenCvSharp
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="camera_matrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
+        /// <param name="cameraMatrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="camera_matrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
-        /// <param name="image_size">Image size in pixels </param>
+        /// <param name="cameraMatrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
+        /// <param name="imageSize">Image size in pixels </param>
 #endif
-        public static void CalibrationMatrixValues(CvMat camera_matrix, CvSize image_size)
+        public static void CalibrationMatrixValues(CvMat cameraMatrix, CvSize imageSize)
         {
             double fovx, fovy;
-            double focal_length;
-            CvPoint2D64f principal_point;
-            double pixel_aspect_ratio;
-            CalibrationMatrixValues(camera_matrix, image_size, 0, 0,
-                out fovx, out fovy, out focal_length, out principal_point, out pixel_aspect_ratio);
+            double focalLength;
+            CvPoint2D64f principalPoint;
+            double pixelAspectRatio;
+            CalibrationMatrixValues(cameraMatrix, imageSize, 0, 0,
+                out fovx, out fovy, out focalLength, out principalPoint, out pixelAspectRatio);
         }
 #if LANG_JP
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="camera_matrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="cameraMatrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="camera_matrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
-        /// <param name="image_size">Image size in pixels </param>
-        /// <param name="aperture_width">Aperture width in realworld units</param>
-        /// <param name="aperture_height">Aperture width in realworld units</param>
+        /// <param name="cameraMatrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
+        /// <param name="imageSize">Image size in pixels </param>
+        /// <param name="apertureWidth">Aperture width in realworld units</param>
+        /// <param name="apertureHeight">Aperture width in realworld units</param>
 #endif
-        public static void CalibrationMatrixValues(CvMat camera_matrix, CvSize image_size, double aperture_width, double aperture_height)
+        public static void CalibrationMatrixValues(CvMat cameraMatrix, CvSize imageSize, double apertureWidth, double apertureHeight)
         {
             double fovx, fovy;
-            double focal_length;
-            CvPoint2D64f principal_point;
-            double pixel_aspect_ratio;
-            CalibrationMatrixValues(camera_matrix, image_size, aperture_width, aperture_height,
-                out fovx, out fovy, out focal_length, out principal_point, out pixel_aspect_ratio);
+            double focalLength;
+            CvPoint2D64f principalPoint;
+            double pixelAspectRatio;
+            CalibrationMatrixValues(cameraMatrix, imageSize, apertureWidth, apertureHeight,
+                out fovx, out fovy, out focalLength, out principalPoint, out pixelAspectRatio);
         }
 #if LANG_JP
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="camera_matrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="cameraMatrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
         /// <param name="fovx">x-方向の画角．degree単位.</param>
         /// <param name="fovy">y-方向の画角．degree単位.</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="camera_matrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
-        /// <param name="image_size">Image size in pixels </param>
-        /// <param name="aperture_width">Aperture width in realworld units</param>
-        /// <param name="aperture_height">Aperture width in realworld units</param>
+        /// <param name="cameraMatrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
+        /// <param name="imageSize">Image size in pixels </param>
+        /// <param name="apertureWidth">Aperture width in realworld units</param>
+        /// <param name="apertureHeight">Aperture width in realworld units</param>
         /// <param name="fovx">Field of view angle in x direction in degrees</param>
         /// <param name="fovy">Field of view angle in y direction in degrees</param>
 #endif
         public static void CalibrationMatrixValues(
-            CvMat camera_matrix, CvSize image_size, double aperture_width, double aperture_height,
+            CvMat cameraMatrix, CvSize imageSize, double apertureWidth, double apertureHeight,
             out double fovx, out double fovy)
         {
-            double focal_length;
-            CvPoint2D64f principal_point;
-            double pixel_aspect_ratio;
-            CalibrationMatrixValues(camera_matrix, image_size, aperture_width, aperture_height,
-                out fovx, out fovy, out focal_length, out principal_point, out pixel_aspect_ratio);
+            double focalLength;
+            CvPoint2D64f principalPoint;
+            double pixelAspectRatio;
+            CalibrationMatrixValues(cameraMatrix, imageSize, apertureWidth, apertureHeight,
+                out fovx, out fovy, out focalLength, out principalPoint, out pixelAspectRatio);
         }
 #if LANG_JP
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="camera_matrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="cameraMatrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
         /// <param name="fovx">x-方向の画角．degree単位.</param>
         /// <param name="fovy">y-方向の画角．degree単位.</param>
-        /// <param name="focal_length">焦点距離．実際の長さ単位.</param>
+        /// <param name="focalLength">焦点距離．実際の長さ単位.</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="camera_matrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
-        /// <param name="image_size">Image size in pixels </param>
-        /// <param name="aperture_width">Aperture width in realworld units</param>
-        /// <param name="aperture_height">Aperture width in realworld units</param>
+        /// <param name="cameraMatrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
+        /// <param name="imageSize">Image size in pixels </param>
+        /// <param name="apertureWidth">Aperture width in realworld units</param>
+        /// <param name="apertureHeight">Aperture width in realworld units</param>
         /// <param name="fovx">Field of view angle in x direction in degrees</param>
         /// <param name="fovy">Field of view angle in y direction in degrees</param>
-        /// <param name="focal_length">Focal length in realworld units</param>
+        /// <param name="focalLength">Focal length in realworld units</param>
 #endif
         public static void CalibrationMatrixValues(
-            CvMat camera_matrix, CvSize image_size, double aperture_width, double aperture_height,
-            out double fovx, out double fovy, out double focal_length)
+            CvMat cameraMatrix, CvSize imageSize, double apertureWidth, double apertureHeight,
+            out double fovx, out double fovy, out double focalLength)
         {
-            CvPoint2D64f principal_point;
-            double pixel_aspect_ratio;
-            CalibrationMatrixValues(camera_matrix, image_size, aperture_width, aperture_height,
-                out fovx, out fovy, out focal_length, out principal_point, out pixel_aspect_ratio);
+            CvPoint2D64f principalPoint;
+            double pixelAspectRatio;
+            CalibrationMatrixValues(cameraMatrix, imageSize, apertureWidth, apertureHeight,
+                out fovx, out fovy, out focalLength, out principalPoint, out pixelAspectRatio);
         }
 #if LANG_JP
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="camera_matrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="cameraMatrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
         /// <param name="fovx">x-方向の画角．degree単位.</param>
         /// <param name="fovy">y-方向の画角．degree単位.</param>
-        /// <param name="focal_length">焦点距離．実際の長さ単位.</param>
-        /// <param name="principal_point">主点（光学中心）実際の長さ単位.</param>
+        /// <param name="focalLength">焦点距離．実際の長さ単位.</param>
+        /// <param name="principalPoint">主点（光学中心）実際の長さ単位.</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="camera_matrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
-        /// <param name="image_size">Image size in pixels </param>
-        /// <param name="aperture_width">Aperture width in realworld units</param>
-        /// <param name="aperture_height">Aperture width in realworld units</param>
+        /// <param name="cameraMatrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
+        /// <param name="imageSize">Image size in pixels </param>
+        /// <param name="apertureWidth">Aperture width in realworld units</param>
+        /// <param name="apertureHeight">Aperture width in realworld units</param>
         /// <param name="fovx">Field of view angle in x direction in degrees</param>
         /// <param name="fovy">Field of view angle in y direction in degrees</param>
-        /// <param name="focal_length">Focal length in realworld units</param>
-        /// <param name="principal_point">The principal point in realworld units</param>
+        /// <param name="focalLength">Focal length in realworld units</param>
+        /// <param name="principalPoint">The principal point in realworld units</param>
 #endif
         public static void CalibrationMatrixValues(
-            CvMat camera_matrix, CvSize image_size, double aperture_width, double aperture_height,
-            out double fovx, out double fovy, out double focal_length, out CvPoint2D64f principal_point)
+            CvMat cameraMatrix, CvSize imageSize, double apertureWidth, double apertureHeight,
+            out double fovx, out double fovy, out double focalLength, out CvPoint2D64f principalPoint)
         {
-            double pixel_aspect_ratio;
-            CalibrationMatrixValues(camera_matrix, image_size, aperture_width, aperture_height,
-                out fovx, out fovy, out focal_length, out principal_point, out pixel_aspect_ratio);
+            double pixelAspectRatio;
+            CalibrationMatrixValues(cameraMatrix, imageSize, apertureWidth, apertureHeight,
+                out fovx, out fovy, out focalLength, out principalPoint, out pixelAspectRatio);
         }
 #if LANG_JP
         /// <summary>
         /// 様々なカメラ特性を計算する
         /// </summary>
-        /// <param name="camera_matrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
-        /// <param name="image_size">画像のサイズ．ピクセル単位.</param>
-        /// <param name="aperture_width">アパーチャ幅．実際の長さ単位．</param>
-        /// <param name="aperture_height">アパーチャ高さ．実際の長さ単位．</param>
+        /// <param name="cameraMatrix">内部パラメータ行列（例えば cvCalibrateCamera2 によって求められたもの）． </param>
+        /// <param name="imageSize">画像のサイズ．ピクセル単位.</param>
+        /// <param name="apertureWidth">アパーチャ幅．実際の長さ単位．</param>
+        /// <param name="apertureHeight">アパーチャ高さ．実際の長さ単位．</param>
         /// <param name="fovx">x-方向の画角．degree単位.</param>
         /// <param name="fovy">y-方向の画角．degree単位.</param>
-        /// <param name="focal_length">焦点距離．実際の長さ単位.</param>
-        /// <param name="principal_point">主点（光学中心）実際の長さ単位.</param>
-        /// <param name="pixel_aspect_ratio">ピクセルのアスペクト比 fy/fx</param>
+        /// <param name="focalLength">焦点距離．実際の長さ単位.</param>
+        /// <param name="principalPoint">主点（光学中心）実際の長さ単位.</param>
+        /// <param name="pixelAspectRatio">ピクセルのアスペクト比 fy/fx</param>
 #else
         /// <summary>
         /// Finds intrinsic and extrinsic camera parameters using calibration pattern
         /// </summary>
-        /// <param name="camera_matrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
-        /// <param name="image_size">Image size in pixels </param>
-        /// <param name="aperture_width">Aperture width in realworld units</param>
-        /// <param name="aperture_height">Aperture width in realworld units</param>
+        /// <param name="cameraMatrix">The matrix of intrinsic parameters, e.g. computed by cvCalibrateCamera2</param>
+        /// <param name="imageSize">Image size in pixels </param>
+        /// <param name="apertureWidth">Aperture width in realworld units</param>
+        /// <param name="apertureHeight">Aperture width in realworld units</param>
         /// <param name="fovx">Field of view angle in x direction in degrees</param>
         /// <param name="fovy">Field of view angle in y direction in degrees</param>
-        /// <param name="focal_length">Focal length in realworld units</param>
-        /// <param name="principal_point">The principal point in realworld units</param>
-        /// <param name="pixel_aspect_ratio">The pixel aspect ratio ~ fy/fx</param>
+        /// <param name="focalLength">Focal length in realworld units</param>
+        /// <param name="principalPoint">The principal point in realworld units</param>
+        /// <param name="pixelAspectRatio">The pixel aspect ratio ~ fy/fx</param>
 #endif
         public static void CalibrationMatrixValues(
-            CvMat camera_matrix, CvSize image_size, double aperture_width, double aperture_height,
-            out double fovx, out double fovy, out double focal_length, out CvPoint2D64f principal_point, out double pixel_aspect_ratio)
+            CvMat cameraMatrix, CvSize imageSize, double apertureWidth, double apertureHeight,
+            out double fovx, out double fovy, out double focalLength, out CvPoint2D64f principalPoint, out double pixelAspectRatio)
         {
-            if (camera_matrix == null)
-            {
-                throw new ArgumentNullException("camera_matrix");
-            }
-            NativeMethods.cvCalibrationMatrixValues(camera_matrix.CvPtr, image_size, aperture_width, aperture_height,
-                out fovx, out fovy, out focal_length, out principal_point, out pixel_aspect_ratio);
+            if (cameraMatrix == null)
+                throw new ArgumentNullException("cameraMatrix");
+            
+            NativeMethods.cvCalibrationMatrixValues(
+                cameraMatrix.CvPtr, imageSize, apertureWidth, apertureHeight,
+                out fovx, out fovy, out focalLength, out principalPoint, out pixelAspectRatio);
         }
         #endregion
         #region CamShift
@@ -1369,7 +1364,7 @@ namespace OpenCvSharp
         /// <summary>
         /// オブジェクト中心，サイズおよび姿勢を求める
         /// </summary>
-        /// <param name="prob_image">オブジェクトヒストグラムのバックプロジェクション</param>
+        /// <param name="probImage">オブジェクトヒストグラムのバックプロジェクション</param>
         /// <param name="window">初期探索ウィンドウ</param>
         /// <param name="criteria">ウィンドウ探索を終了するための条件． </param>
         /// <returns></returns>
@@ -1377,22 +1372,22 @@ namespace OpenCvSharp
         /// <summary>
         /// Finds object center, size, and orientation
         /// </summary>
-        /// <param name="prob_image">Back projection of object histogram (see cvCalcBackProject). </param>
+        /// <param name="probImage">Back projection of object histogram (see cvCalcBackProject). </param>
         /// <param name="window">Initial search window. </param>
         /// <param name="criteria">Criteria applied to determine when the window search should be finished. </param>
         /// <returns>The function returns number of iterations made within cvMeanShift. </returns>
 #endif
-        public static int CamShift(CvArr prob_image, CvRect window, CvTermCriteria criteria)
+        public static int CamShift(CvArr probImage, CvRect window, CvTermCriteria criteria)
         {
             CvConnectedComp comp;
             CvBox2D box;
-            return CamShift(prob_image, window, criteria, out comp, out box);
+            return CamShift(probImage, window, criteria, out comp, out box);
         }
 #if LANG_JP
         /// <summary>
         /// オブジェクト中心，サイズおよび姿勢を求める
         /// </summary>
-        /// <param name="prob_image">オブジェクトヒストグラムのバックプロジェクション</param>
+        /// <param name="probImage">オブジェクトヒストグラムのバックプロジェクション</param>
         /// <param name="window">初期探索ウィンドウ</param>
         /// <param name="criteria">ウィンドウ探索を終了するための条件． </param>
         /// <param name="comp">結果として得られる構造体．収束した探索ウィンドウの座標（comp->rect フィールド），およびウィンドウ内の全ピクセルの合計値（comp->area フィールド）が含まれる． </param>
@@ -1401,22 +1396,22 @@ namespace OpenCvSharp
         /// <summary>
         /// Finds object center, size, and orientation
         /// </summary>
-        /// <param name="prob_image">Back projection of object histogram (see cvCalcBackProject). </param>
+        /// <param name="probImage">Back projection of object histogram (see cvCalcBackProject). </param>
         /// <param name="window">Initial search window. </param>
         /// <param name="criteria">Criteria applied to determine when the window search should be finished. </param>
         /// <param name="comp">Resultant structure that contains converged search window coordinates (comp->rect field) and sum of all pixels inside the window (comp->area field). </param>
         /// <returns>The function returns number of iterations made within cvMeanShift. </returns>
 #endif
-        public static int CamShift(CvArr prob_image, CvRect window, CvTermCriteria criteria, out CvConnectedComp comp)
+        public static int CamShift(CvArr probImage, CvRect window, CvTermCriteria criteria, out CvConnectedComp comp)
         {
             CvBox2D box;
-            return CamShift(prob_image, window, criteria, out comp, out box);
+            return CamShift(probImage, window, criteria, out comp, out box);
         }
 #if LANG_JP
         /// <summary>
         /// オブジェクト中心，サイズおよび姿勢を求める
         /// </summary>
-        /// <param name="prob_image">オブジェクトヒストグラムのバックプロジェクション</param>
+        /// <param name="probImage">オブジェクトヒストグラムのバックプロジェクション</param>
         /// <param name="window">初期探索ウィンドウ</param>
         /// <param name="criteria">ウィンドウ探索を終了するための条件． </param>
         /// <param name="comp">結果として得られる構造体．収束した探索ウィンドウの座標（comp->rect フィールド），およびウィンドウ内の全ピクセルの合計値（comp->area フィールド）が含まれる． </param>
@@ -1426,22 +1421,22 @@ namespace OpenCvSharp
         /// <summary>
         /// Finds object center, size, and orientation
         /// </summary>
-        /// <param name="prob_image">Back projection of object histogram (see cvCalcBackProject). </param>
+        /// <param name="probImage">Back projection of object histogram (see cvCalcBackProject). </param>
         /// <param name="window">Initial search window. </param>
         /// <param name="criteria">Criteria applied to determine when the window search should be finished. </param>
         /// <param name="comp">Resultant structure that contains converged search window coordinates (comp->rect field) and sum of all pixels inside the window (comp->area field). </param>
         /// <param name="box">Circumscribed box for the object. If not NULL, contains object size and orientation. </param>
         /// <returns>The function returns number of iterations made within cvMeanShift. </returns>
 #endif
-        public static int CamShift(CvArr prob_image, CvRect window, CvTermCriteria criteria, out CvConnectedComp comp, out CvBox2D box)
+        public static int CamShift(CvArr probImage, CvRect window, CvTermCriteria criteria, out CvConnectedComp comp, out CvBox2D box)
         {
-            if (prob_image == null)
-                throw new ArgumentNullException("prob_image");
+            if (probImage == null)
+                throw new ArgumentNullException("probImage");
 
             comp = new CvConnectedComp();
             box = new CvBox2D();
 
-            return NativeMethods.cvCamShift(prob_image.CvPtr, window, criteria, comp.CvPtr, ref box);
+            return NativeMethods.cvCamShift(probImage.CvPtr, window, criteria, comp.CvPtr, ref box);
         }
         #endregion
         #region Canny
@@ -1477,7 +1472,7 @@ namespace OpenCvSharp
         /// <param name="edges">この関数によって得られたエッジ画像</param>
         /// <param name="threshold1">１番目の閾値</param>
         /// <param name="threshold2">２番目の閾値</param>
-        /// <param name="aperture_size">Sobel演算子のアパーチャサイズ</param>
+        /// <param name="apertureSize">Sobel演算子のアパーチャサイズ</param>
 #else
         /// <summary>
         /// Finds the edges on the input image image and marks them in the output image edges using the Canny algorithm. 
@@ -1487,15 +1482,15 @@ namespace OpenCvSharp
         /// <param name="edges">Image to store the edges found by the function. </param>
         /// <param name="threshold1">The first threshold. </param>
         /// <param name="threshold2">The second threshold. </param>
-        /// <param name="aperture_size">Aperture parameter for Sobel operator. </param>
+        /// <param name="apertureSize">Aperture parameter for Sobel operator. </param>
 #endif
-        public static void Canny(CvArr image, CvArr edges, double threshold1, double threshold2, ApertureSize aperture_size)
+        public static void Canny(CvArr image, CvArr edges, double threshold1, double threshold2, ApertureSize apertureSize)
         {
             if (image == null)
                 throw new ArgumentNullException();
             if (edges == null)
                 throw new ArgumentNullException();
-            NativeMethods.cvCanny(image.CvPtr, edges.CvPtr, threshold1, threshold2, aperture_size);
+            NativeMethods.cvCanny(image.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize);
         }
         #endregion
         #region CartToPolar
@@ -1818,8 +1813,8 @@ namespace OpenCvSharp
         /// 円を描画する
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
 #else
@@ -1827,22 +1822,22 @@ namespace OpenCvSharp
         /// Draws a circle
         /// </summary>
         /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
 #endif
-        public static void Circle(CvArr img, int center_x, int center_y, int radius, CvScalar color)
+        public static void Circle(CvArr img, int centerX, int centerY, int radius, CvScalar color)
         {
-            Circle(img, new CvPoint(center_x, center_y), radius, color);
+            Circle(img, new CvPoint(centerX, centerY), radius, color);
         }
 #if LANG_JP
         /// <summary>
         /// 円を描画する
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
@@ -1851,71 +1846,71 @@ namespace OpenCvSharp
         /// Draws a circle
         /// </summary>
         /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
-        /// <param name="radius">Radius of the circle. </param>
-        /// <param name="color">Circle color. </param>
-        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-#endif
-        public static void Circle(CvArr img, int center_x, int center_y, int radius, CvScalar color, int thickness)
-        {
-            Circle(img, new CvPoint(center_x, center_y), radius, color, thickness);
-        }
-#if LANG_JP
-        /// <summary>
-        /// 円を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
-        /// <param name="radius">円の半径</param>
-        /// <param name="color">円の色</param>
-        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
-        /// <param name="line_type">線の種類</param>
-#else
-        /// <summary>
-        /// Draws a circle
-        /// </summary>
-        /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-        /// <param name="line_type">Type of the circle boundary.</param>
 #endif
-        public static void Circle(CvArr img, int center_x, int center_y, int radius, CvScalar color, int thickness, LineType line_type)
+        public static void Circle(CvArr img, int centerX, int centerY, int radius, CvScalar color, int thickness)
         {
-            Circle(img, new CvPoint(center_x, center_y), radius, color, thickness, line_type);
+            Circle(img, new CvPoint(centerX, centerY), radius, color, thickness);
         }
 #if LANG_JP
         /// <summary>
         /// 円を描画する
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
-        /// <param name="line_type">線の種類</param>
+        /// <param name="lineType">線の種類</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="img">Image where the circle is drawn. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
+        /// <param name="lineType">Type of the circle boundary.</param>
+#endif
+        public static void Circle(CvArr img, int centerX, int centerY, int radius, CvScalar color, int thickness, LineType lineType)
+        {
+            Circle(img, new CvPoint(centerX, centerY), radius, color, thickness, lineType);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
+        /// <param name="lineType">線の種類</param>
         /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数.</param>
 #else
         /// <summary>
         /// Draws a circle
         /// </summary>
         /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-        /// <param name="line_type">Type of the circle boundary.</param>
+        /// <param name="lineType">Type of the circle boundary.</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. </param>
 #endif
-        public static void Circle(CvArr img, int center_x, int center_y, int radius, CvScalar color, int thickness, LineType line_type, int shift)
+        public static void Circle(CvArr img, int centerX, int centerY, int radius, CvScalar color, int thickness, LineType lineType, int shift)
         {
-            Circle(img, new CvPoint(center_x, center_y), radius, color, thickness, line_type, shift);
+            Circle(img, new CvPoint(centerX, centerY), radius, color, thickness, lineType, shift);
         }
 
 #if LANG_JP
@@ -1971,7 +1966,7 @@ namespace OpenCvSharp
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
-        /// <param name="line_type">線の種類</param>
+        /// <param name="lineType">線の種類</param>
 #else
         /// <summary>
         /// Draws a circle
@@ -1981,11 +1976,11 @@ namespace OpenCvSharp
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-        /// <param name="line_type">Type of the circle boundary.</param>
+        /// <param name="lineType">Type of the circle boundary.</param>
 #endif
-        public static void Circle(CvArr img, CvPoint center, int radius, CvScalar color, int thickness, LineType line_type)
+        public static void Circle(CvArr img, CvPoint center, int radius, CvScalar color, int thickness, LineType lineType)
         {
-            Circle(img, center, radius, color, thickness, line_type, 0);
+            Circle(img, center, radius, color, thickness, lineType, 0);
         }
 #if LANG_JP
         /// <summary>
@@ -1996,7 +1991,7 @@ namespace OpenCvSharp
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
-        /// <param name="line_type">線の種類</param>
+        /// <param name="lineType">線の種類</param>
         /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数.</param>
 #else
         /// <summary>
@@ -2007,24 +2002,24 @@ namespace OpenCvSharp
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-        /// <param name="line_type">Type of the circle boundary.</param>
+        /// <param name="lineType">Type of the circle boundary.</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. </param>
 #endif
-        public static void Circle(CvArr img, CvPoint center, int radius, CvScalar color, int thickness, LineType line_type, int shift)
+        public static void Circle(CvArr img, CvPoint center, int radius, CvScalar color, int thickness, LineType lineType, int shift)
         {
             if (img == null)
             {
                 throw new ArgumentNullException("img");
             }
-            NativeMethods.cvCircle(img.CvPtr, center, radius, color, thickness, line_type, shift);
+            NativeMethods.cvCircle(img.CvPtr, center, radius, color, thickness, lineType, shift);
         }
 #if LANG_JP
         /// <summary>
         /// 円を描画する
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
 #else
@@ -2032,22 +2027,22 @@ namespace OpenCvSharp
         /// Draws a circle
         /// </summary>
         /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
 #endif
-        public static void DrawCircle(CvArr img, int center_x, int center_y, int radius, CvScalar color)
+        public static void DrawCircle(CvArr img, int centerX, int centerY, int radius, CvScalar color)
         {
-            Circle(img, new CvPoint(center_x, center_y), radius, color);
+            Circle(img, new CvPoint(centerX, centerY), radius, color);
         }
 #if LANG_JP
         /// <summary>
         /// 円を描画する
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
@@ -2056,71 +2051,71 @@ namespace OpenCvSharp
         /// Draws a circle
         /// </summary>
         /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
-        /// <param name="radius">Radius of the circle. </param>
-        /// <param name="color">Circle color. </param>
-        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-#endif
-        public static void DrawCircle(CvArr img, int center_x, int center_y, int radius, CvScalar color, int thickness)
-        {
-            Circle(img, new CvPoint(center_x, center_y), radius, color, thickness);
-        }
-#if LANG_JP
-        /// <summary>
-        /// 円を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
-        /// <param name="radius">円の半径</param>
-        /// <param name="color">円の色</param>
-        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
-        /// <param name="line_type">線の種類</param>
-#else
-        /// <summary>
-        /// Draws a circle
-        /// </summary>
-        /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-        /// <param name="line_type">Type of the circle boundary.</param>
 #endif
-        public static void DrawCircle(CvArr img, int center_x, int center_y, int radius, CvScalar color, int thickness, LineType line_type)
+        public static void DrawCircle(CvArr img, int centerX, int centerY, int radius, CvScalar color, int thickness)
         {
-            Circle(img, new CvPoint(center_x, center_y), radius, color, thickness, line_type);
+            Circle(img, new CvPoint(centerX, centerY), radius, color, thickness);
         }
 #if LANG_JP
         /// <summary>
         /// 円を描画する
         /// </summary>
         /// <param name="img">画像</param>
-        /// <param name="center_x">円の中心のx座標</param>
-        /// <param name="center_y">円の中心のy座標</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
-        /// <param name="line_type">線の種類</param>
+        /// <param name="lineType">線の種類</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="img">Image where the circle is drawn. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
+        /// <param name="lineType">Type of the circle boundary.</param>
+#endif
+        public static void DrawCircle(CvArr img, int centerX, int centerY, int radius, CvScalar color, int thickness, LineType lineType)
+        {
+            Circle(img, new CvPoint(centerX, centerY), radius, color, thickness, lineType);
+        }
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
+        /// <param name="lineType">線の種類</param>
         /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数.</param>
 #else
         /// <summary>
         /// Draws a circle
         /// </summary>
         /// <param name="img">Image where the circle is drawn. </param>
-        /// <param name="center_x">X-coordinate of the center of the circle. </param>
-        /// <param name="center_y">Y-coordinate of the center of the circle. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-        /// <param name="line_type">Type of the circle boundary.</param>
+        /// <param name="lineType">Type of the circle boundary.</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. </param>
 #endif
-        public static void DrawCircle(CvArr img, int center_x, int center_y, int radius, CvScalar color, int thickness, LineType line_type, int shift)
+        public static void DrawCircle(CvArr img, int centerX, int centerY, int radius, CvScalar color, int thickness, LineType lineType, int shift)
         {
-            Circle(img, new CvPoint(center_x, center_y), radius, color, thickness, line_type, shift);
+            Circle(img, new CvPoint(centerX, centerY), radius, color, thickness, lineType, shift);
         }
 
 #if LANG_JP
@@ -2176,7 +2171,7 @@ namespace OpenCvSharp
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
-        /// <param name="line_type">線の種類</param>
+        /// <param name="lineType">線の種類</param>
 #else
         /// <summary>
         /// Draws a circle
@@ -2186,11 +2181,11 @@ namespace OpenCvSharp
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-        /// <param name="line_type">Type of the circle boundary.</param>
+        /// <param name="lineType">Type of the circle boundary.</param>
 #endif
-        public static void DrawCircle(CvArr img, CvPoint center, int radius, CvScalar color, int thickness, LineType line_type)
+        public static void DrawCircle(CvArr img, CvPoint center, int radius, CvScalar color, int thickness, LineType lineType)
         {
-            Circle(img, center, radius, color, thickness, line_type, 0);
+            Circle(img, center, radius, color, thickness, lineType, 0);
         }
 #if LANG_JP
         /// <summary>
@@ -2201,7 +2196,7 @@ namespace OpenCvSharp
         /// <param name="radius">円の半径</param>
         /// <param name="color">円の色</param>
         /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．</param>
-        /// <param name="line_type">線の種類</param>
+        /// <param name="lineType">線の種類</param>
         /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数.</param>
 #else
         /// <summary>
@@ -2212,12 +2207,12 @@ namespace OpenCvSharp
         /// <param name="radius">Radius of the circle. </param>
         /// <param name="color">Circle color. </param>
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. </param>
-        /// <param name="line_type">Type of the circle boundary.</param>
+        /// <param name="lineType">Type of the circle boundary.</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. </param>
 #endif
-        public static void DrawCircle(CvArr img, CvPoint center, int radius, CvScalar color, int thickness, LineType line_type, int shift)
+        public static void DrawCircle(CvArr img, CvPoint center, int radius, CvScalar color, int thickness, LineType lineType, int shift)
         {
-            Circle(img, center, radius, color, thickness, line_type, shift);
+            Circle(img, center, radius, color, thickness, lineType, shift);
         }
         #endregion
         #region ClearGraph
@@ -2761,6 +2756,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region ComposeRT
+// ReSharper disable InconsistentNaming
 #if LANG_JP
         /// <summary>
         /// Computes r3 = rodrigues(rodrigues(r2)*rodrigues(r1)),
@@ -2825,6 +2821,7 @@ namespace OpenCvSharp
 
             NativeMethods.cvComposeRT(rvec1.CvPtr, tvec1.CvPtr, rvec2.CvPtr, tvec2.CvPtr, rvec3Ptr, tvec3Ptr, dr3dr1Ptr, dr3dt1Ptr, dr3dr2Ptr, dr3dt2Ptr, dt3dr1Ptr, dt3dt1Ptr, dt3dr2Ptr, dt3dt2Ptr);
         }
+// ReSharper restore InconsistentNaming
         #endregion
         #region ComputeCorrespondEpilines
 #if LANG_JP
@@ -2832,27 +2829,27 @@ namespace OpenCvSharp
         /// 2枚の画像間の点対応から基礎行列（F行列）を計算する
         /// </summary>
         /// <param name="points">入力点で大きさは2xN, Nx2, 3xN，また はNx3の配列である (ここで N は 点の数)． マルチチャンネルの 1xN，または Nx1 の配列も使用可能．</param>
-        /// <param name="which_image">pointsを含む画像のインデックス（1 または 2）．</param>
-        /// <param name="fundamental_matrix">基礎行列</param>
-        /// <param name="correspondent_lines">計算されたエピポーラ線．大きさは3xN また Nx3 の配列．</param>
+        /// <param name="whichImage">pointsを含む画像のインデックス（1 または 2）．</param>
+        /// <param name="fundamentalMatrix">基礎行列</param>
+        /// <param name="correspondentLines">計算されたエピポーラ線．大きさは3xN また Nx3 の配列．</param>
 #else
         /// <summary>
         /// For points in one image of stereo pair computes the corresponding epilines in the other image
         /// </summary>
         /// <param name="points">The input points. 2xN, Nx2, 3xN or Nx3 array (where N number of points). Multi-channel 1xN or Nx1 array is also acceptable. </param>
-        /// <param name="which_image">Index of the image (1 or 2) that contains the points</param>
-        /// <param name="fundamental_matrix">Fundamental matrix </param>
-        /// <param name="correspondent_lines">Computed epilines, 3xN or Nx3 array </param>
+        /// <param name="whichImage">Index of the image (1 or 2) that contains the points</param>
+        /// <param name="fundamentalMatrix">Fundamental matrix </param>
+        /// <param name="correspondentLines">Computed epilines, 3xN or Nx3 array </param>
 #endif
-        public static void ComputeCorrespondEpilines(CvMat points, int which_image, CvMat fundamental_matrix, out CvMat correspondent_lines)
+        public static void ComputeCorrespondEpilines(CvMat points, int whichImage, CvMat fundamentalMatrix, out CvMat correspondentLines)
         {
             if (points == null)
                 throw new ArgumentNullException("points");
-            if (fundamental_matrix == null)
-                throw new ArgumentNullException("fundamental_matrix");
+            if (fundamentalMatrix == null)
+                throw new ArgumentNullException("fundamentalMatrix");
             int size = Math.Max(points.Rows, points.Cols);
-            correspondent_lines = new CvMat(3, size, MatrixType.F32C1);
-            NativeMethods.cvComputeCorrespondEpilines(points.CvPtr, which_image, fundamental_matrix.CvPtr, correspondent_lines.CvPtr);
+            correspondentLines = new CvMat(3, size, MatrixType.F32C1);
+            NativeMethods.cvComputeCorrespondEpilines(points.CvPtr, whichImage, fundamentalMatrix.CvPtr, correspondentLines.CvPtr);
         }
         #endregion
         #region ContourArea
@@ -3622,8 +3619,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("contour");
             if (convexhull == null)
                 throw new ArgumentNullException("convexhull");
-            IntPtr storage_ptr = (storage == null) ? IntPtr.Zero : storage.CvPtr;
-            return new CvSeq<CvConvexityDefect>(NativeMethods.cvConvexityDefects(contour.CvPtr, convexhull.CvPtr, storage_ptr));
+            IntPtr storagePtr = ToPtr(storage);
+            return new CvSeq<CvConvexityDefect>(NativeMethods.cvConvexityDefects(contour.CvPtr, convexhull.CvPtr, storagePtr));
         }
 
 #if LANG_JP
@@ -3794,18 +3791,18 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像</param>
         /// <param name="eigenvv">結果保存用の画像．入力画像の6倍のサイズが必要．</param>
-        /// <param name="block_size">隣接ブロックのサイズ</param>
+        /// <param name="blockSize">隣接ブロックのサイズ</param>
 #else
         /// <summary>
         /// Calculates eigenvalues and eigenvectors of image blocks for corner detection
         /// </summary>
         /// <param name="image">Input image. </param>
         /// <param name="eigenvv">Image to store the results. It must be 6 times wider than the input image. </param>
-        /// <param name="block_size">Neighborhood size.</param>
+        /// <param name="blockSize">Neighborhood size.</param>
 #endif
-        public static void CornerEigenValsAndVecs(CvArr image, CvArr eigenvv, int block_size)
+        public static void CornerEigenValsAndVecs(CvArr image, CvArr eigenvv, int blockSize)
         {
-            CornerEigenValsAndVecs(image, eigenvv, block_size, ApertureSize.Size3);
+            CornerEigenValsAndVecs(image, eigenvv, blockSize, ApertureSize.Size3);
         }
 #if LANG_JP
         /// <summary>
@@ -3813,24 +3810,24 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像</param>
         /// <param name="eigenvv">結果保存用の画像．入力画像の6倍のサイズが必要．</param>
-        /// <param name="block_size">隣接ブロックのサイズ</param>
-        /// <param name="aperture_size">Sobel演算子のアパーチャサイズ(cvSobel参照)．</param>
+        /// <param name="blockSize">隣接ブロックのサイズ</param>
+        /// <param name="apertureSize">Sobel演算子のアパーチャサイズ(cvSobel参照)．</param>
 #else
         /// <summary>
         /// Calculates eigenvalues and eigenvectors of image blocks for corner detection
         /// </summary>
         /// <param name="image">Input image. </param>
         /// <param name="eigenvv">Image to store the results. It must be 6 times wider than the input image. </param>
-        /// <param name="block_size">Neighborhood size.</param>
-        /// <param name="aperture_size">Aperture parameter for Sobel operator</param>
+        /// <param name="blockSize">Neighborhood size.</param>
+        /// <param name="apertureSize">Aperture parameter for Sobel operator</param>
 #endif
-        public static void CornerEigenValsAndVecs(CvArr image, CvArr eigenvv, int block_size, ApertureSize aperture_size)
+        public static void CornerEigenValsAndVecs(CvArr image, CvArr eigenvv, int blockSize, ApertureSize apertureSize)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
             if (eigenvv == null)
                 throw new ArgumentNullException("eigenvv");
-            NativeMethods.cvCornerEigenValsAndVecs(image.CvPtr, eigenvv.CvPtr, block_size, aperture_size);
+            NativeMethods.cvCornerEigenValsAndVecs(image.CvPtr, eigenvv.CvPtr, blockSize, apertureSize);
         }
         #endregion
         #region CornerHarris
@@ -3843,8 +3840,8 @@ namespace OpenCvSharp
         /// を計算し，検出結果として出力画像に保存する．結果画像の極大値を求めることで，画像のコーナーを検出することができる． 
         /// </summary>
         /// <param name="image">入力画像</param>
-        /// <param name="harris_responce">検出結果を保存する画像．入力画像 image と同じサイズでなくてはならない.</param>
-        /// <param name="block_size">隣接ブロックのサイズ</param>
+        /// <param name="harrisResponce">検出結果を保存する画像．入力画像 image と同じサイズでなくてはならない.</param>
+        /// <param name="blockSize">隣接ブロックのサイズ</param>
 #else
         /// <summary>
         /// Runs the Harris edge detector on image. 
@@ -3852,12 +3849,12 @@ namespace OpenCvSharp
         /// for each pixel it calculates 2x2 gradient covariation matrix M over block_size×block_size neighborhood.
         /// </summary>
         /// <param name="image">Input image. </param>
-        /// <param name="harris_responce">Image to store the Harris detector responces. Should have the same size as image.</param>
-        /// <param name="block_size">Neighborhood size.</param>
+        /// <param name="harrisResponce">Image to store the Harris detector responces. Should have the same size as image.</param>
+        /// <param name="blockSize">Neighborhood size.</param>
 #endif
-        public static void CornerHarris(CvArr image, CvArr harris_responce, int block_size)
+        public static void CornerHarris(CvArr image, CvArr harrisResponce, int blockSize)
         {
-            CornerHarris(image, harris_responce, block_size, ApertureSize.Size3, 0.04);
+            CornerHarris(image, harrisResponce, blockSize, ApertureSize.Size3, 0.04);
         }
 #if LANG_JP
         /// <summary>
@@ -3868,9 +3865,9 @@ namespace OpenCvSharp
         /// を計算し，検出結果として出力画像に保存する．結果画像の極大値を求めることで，画像のコーナーを検出することができる． 
         /// </summary>
         /// <param name="image">入力画像</param>
-        /// <param name="harris_responce">検出結果を保存する画像．入力画像 image と同じサイズでなくてはならない.</param>
-        /// <param name="block_size">隣接ブロックのサイズ</param>
-        /// <param name="aperture_size">Sobel演算子のアパーチャサイズ(cvSobel参照)．入力画像が浮動小数点型である場合，このパラメータは差分を計算するために用いられる固定小数点型フィルタの数を表す</param>
+        /// <param name="harrisResponce">検出結果を保存する画像．入力画像 image と同じサイズでなくてはならない.</param>
+        /// <param name="blockSize">隣接ブロックのサイズ</param>
+        /// <param name="apertureSize">Sobel演算子のアパーチャサイズ(cvSobel参照)．入力画像が浮動小数点型である場合，このパラメータは差分を計算するために用いられる固定小数点型フィルタの数を表す</param>
 #else
         /// <summary>
         /// Runs the Harris edge detector on image. 
@@ -3878,13 +3875,13 @@ namespace OpenCvSharp
         /// for each pixel it calculates 2x2 gradient covariation matrix M over block_size×block_size neighborhood.
         /// </summary>
         /// <param name="image">Input image. </param>
-        /// <param name="harris_responce">Image to store the Harris detector responces. Should have the same size as image.</param>
-        /// <param name="block_size">Neighborhood size.</param>
-        /// <param name="aperture_size">Aperture parameter for Sobel operator (see cvSobel). format. In the case of floating-point input format this parameter is the number of the fixed float filter used for differencing. </param>
+        /// <param name="harrisResponce">Image to store the Harris detector responces. Should have the same size as image.</param>
+        /// <param name="blockSize">Neighborhood size.</param>
+        /// <param name="apertureSize">Aperture parameter for Sobel operator (see cvSobel). format. In the case of floating-point input format this parameter is the number of the fixed float filter used for differencing. </param>
 #endif
-        public static void CornerHarris(CvArr image, CvArr harris_responce, int block_size, ApertureSize aperture_size)
+        public static void CornerHarris(CvArr image, CvArr harrisResponce, int blockSize, ApertureSize apertureSize)
         {
-            CornerHarris(image, harris_responce, block_size, aperture_size, 0.04);
+            CornerHarris(image, harrisResponce, blockSize, apertureSize, 0.04);
         }
 #if LANG_JP
         /// <summary>
@@ -3895,9 +3892,9 @@ namespace OpenCvSharp
         /// を計算し，検出結果として出力画像に保存する．結果画像の極大値を求めることで，画像のコーナーを検出することができる． 
         /// </summary>
         /// <param name="image">入力画像</param>
-        /// <param name="harris_responce">検出結果を保存する画像．入力画像 image と同じサイズでなくてはならない.</param>
-        /// <param name="block_size">隣接ブロックのサイズ</param>
-        /// <param name="aperture_size">Sobel演算子のアパーチャサイズ(cvSobel参照)．入力画像が浮動小数点型である場合，このパラメータは差分を計算するために用いられる固定小数点型フィルタの数を表す</param>
+        /// <param name="harrisResponce">検出結果を保存する画像．入力画像 image と同じサイズでなくてはならない.</param>
+        /// <param name="blockSize">隣接ブロックのサイズ</param>
+        /// <param name="apertureSize">Sobel演算子のアパーチャサイズ(cvSobel参照)．入力画像が浮動小数点型である場合，このパラメータは差分を計算するために用いられる固定小数点型フィルタの数を表す</param>
         /// <param name="k">Harris検出器のパラメータ</param>
 #else
         /// <summary>
@@ -3906,18 +3903,18 @@ namespace OpenCvSharp
         /// for each pixel it calculates 2x2 gradient covariation matrix M over block_size×block_size neighborhood.
         /// </summary>
         /// <param name="image">Input image. </param>
-        /// <param name="harris_responce">Image to store the Harris detector responces. Should have the same size as image.</param>
-        /// <param name="block_size">Neighborhood size.</param>
-        /// <param name="aperture_size">Aperture parameter for Sobel operator (see cvSobel). format. In the case of floating-point input format this parameter is the number of the fixed float filter used for differencing. </param>
+        /// <param name="harrisResponce">Image to store the Harris detector responces. Should have the same size as image.</param>
+        /// <param name="blockSize">Neighborhood size.</param>
+        /// <param name="apertureSize">Aperture parameter for Sobel operator (see cvSobel). format. In the case of floating-point input format this parameter is the number of the fixed float filter used for differencing. </param>
         /// <param name="k">Harris detector free parameter.</param>
 #endif
-        public static void CornerHarris(CvArr image, CvArr harris_responce, int block_size, ApertureSize aperture_size, double k)
+        public static void CornerHarris(CvArr image, CvArr harrisResponce, int blockSize, ApertureSize apertureSize, double k)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
-            if (harris_responce == null)
-                throw new ArgumentNullException("harris_responce");
-            NativeMethods.cvCornerHarris(image.CvPtr, harris_responce.CvPtr, block_size, aperture_size, k);
+            if (harrisResponce == null)
+                throw new ArgumentNullException("harrisResponce");
+            NativeMethods.cvCornerHarris(image.CvPtr, harrisResponce.CvPtr, blockSize, apertureSize, k);
         }
         #endregion
         #region CornerMinEigenVal
@@ -3928,18 +3925,18 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像</param>
         /// <param name="eigenval">最小固有値を保存する画像．image と同じサイズでなくてはならない．</param>
-        /// <param name="block_size">隣接ブロックのサイズ</param>
+        /// <param name="blockSize">隣接ブロックのサイズ</param>
 #else
         /// <summary>
         /// Calculates minimal eigenvalue of gradient matrices for corner detection
         /// </summary>
         /// <param name="image">Input image. </param>
         /// <param name="eigenval">Image to store the minimal eigen values. Should have the same size as image</param>
-        /// <param name="block_size">Neighborhood size.</param>
+        /// <param name="blockSize">Neighborhood size.</param>
 #endif
-        public static void CornerMinEigenVal(CvArr image, CvArr eigenval, int block_size)
+        public static void CornerMinEigenVal(CvArr image, CvArr eigenval, int blockSize)
         {
-            CornerMinEigenVal(image, eigenval, block_size, ApertureSize.Size3);
+            CornerMinEigenVal(image, eigenval, blockSize, ApertureSize.Size3);
         }
 #if LANG_JP
         /// <summary>
@@ -3948,24 +3945,24 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">入力画像</param>
         /// <param name="eigenval">最小固有値を保存する画像．image と同じサイズでなくてはならない．</param>
-        /// <param name="block_size">隣接ブロックのサイズ</param>
-        /// <param name="aperture_size">Sobel演算子のアパーチャサイズ(cvSobel参照)．入力画像が浮動小数点型である場合，このパラメータは差分を計算するために用いられる固定小数点型フィルタの数を表す</param>
+        /// <param name="blockSize">隣接ブロックのサイズ</param>
+        /// <param name="apertureSize">Sobel演算子のアパーチャサイズ(cvSobel参照)．入力画像が浮動小数点型である場合，このパラメータは差分を計算するために用いられる固定小数点型フィルタの数を表す</param>
 #else
         /// <summary>
         /// Calculates minimal eigenvalue of gradient matrices for corner detection
         /// </summary>
         /// <param name="image">Input image. </param>
         /// <param name="eigenval">Image to store the minimal eigen values. Should have the same size as image</param>
-        /// <param name="block_size">Neighborhood size.</param>
-        /// <param name="aperture_size">Aperture parameter for Sobel operator (see cvSobel). format. In the case of floating-point input format this parameter is the number of the fixed float filter used for differencing. </param>
+        /// <param name="blockSize">Neighborhood size.</param>
+        /// <param name="apertureSize">Aperture parameter for Sobel operator (see cvSobel). format. In the case of floating-point input format this parameter is the number of the fixed float filter used for differencing. </param>
 #endif
-        public static void CornerMinEigenVal(CvArr image, CvArr eigenval, int block_size, ApertureSize aperture_size)
+        public static void CornerMinEigenVal(CvArr image, CvArr eigenval, int blockSize, ApertureSize apertureSize)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
             if (eigenval == null)
                 throw new ArgumentNullException("eigenval");
-            NativeMethods.cvCornerMinEigenVal(image.CvPtr, eigenval.CvPtr, block_size, aperture_size);
+            NativeMethods.cvCornerMinEigenVal(image.CvPtr, eigenval.CvPtr, blockSize, apertureSize);
         }
         #endregion
         #region CorrectMatches
@@ -3973,34 +3970,34 @@ namespace OpenCvSharp
         /// <summary>
         /// The Optimal Triangulation Method
         /// </summary>
-        /// <param name="F">3x3 fundamental matrix</param>
+        /// <param name="f">3x3 fundamental matrix</param>
         /// <param name="points1">2xN matrix containing the first set of points</param>
         /// <param name="points2">2xN matrix containing the second set of points</param>
-        /// <param name="new_points1">the optimized points1_. if this is null, the corrected points are placed back in points1_</param>
-        /// <param name="new_points2">the optimized points2_. if this is null, the corrected points are placed back in points2_</param>
+        /// <param name="newPoints1">the optimized points1_. if this is null, the corrected points are placed back in points1_</param>
+        /// <param name="newPoints2">the optimized points2_. if this is null, the corrected points are placed back in points2_</param>
 #else
         /// <summary>
         /// The Optimal Triangulation Method
         /// </summary>
-        /// <param name="F">3x3 fundamental matrix</param>
+        /// <param name="f">3x3 fundamental matrix</param>
         /// <param name="points1">2xN matrix containing the first set of points</param>
         /// <param name="points2">2xN matrix containing the second set of points</param>
-        /// <param name="new_points1">the optimized points1_. if this is null, the corrected points are placed back in points1_</param>
-        /// <param name="new_points2">the optimized points2_. if this is null, the corrected points are placed back in points2_</param>
+        /// <param name="newPoints1">the optimized points1_. if this is null, the corrected points are placed back in points1_</param>
+        /// <param name="newPoints2">the optimized points2_. if this is null, the corrected points are placed back in points2_</param>
 #endif
-        public static void CorrectMatches(CvMat F, CvMat points1, CvMat points2, CvMat new_points1, CvMat new_points2)
+        public static void CorrectMatches(CvMat f, CvMat points1, CvMat points2, CvMat newPoints1, CvMat newPoints2)
         {
-            if (F == null)
-                throw new ArgumentNullException("F");
+            if (f == null)
+                throw new ArgumentNullException("f");
             if (points1 == null)
                 throw new ArgumentNullException("points1");
             if (points2 == null)
                 throw new ArgumentNullException("points2");
 
-            IntPtr new_points1_ptr = (new_points1 == null) ? IntPtr.Zero : new_points1.CvPtr;
-            IntPtr new_points2_ptr = (new_points2 == null) ? IntPtr.Zero : new_points2.CvPtr;
+            IntPtr newPoints1Ptr = ToPtr(newPoints1);
+            IntPtr newPoints2Ptr = ToPtr(newPoints2);
 
-            NativeMethods.cvCorrectMatches(F.CvPtr, points1.CvPtr, points2.CvPtr, new_points1_ptr, new_points2_ptr);
+            NativeMethods.cvCorrectMatches(f.CvPtr, points1.CvPtr, points2.CvPtr, newPoints1Ptr, newPoints2Ptr);
         }
         #endregion
         #region CountNonZero
@@ -4103,7 +4100,7 @@ namespace OpenCvSharp
         /// <param name="name">ボタンの名前． （これが null の場合，”button &lt;number of boutton&gt;” という名前になります）</param>
         /// <param name="callback">ボタン状態が変更される度に呼び出されるデりゲート</param>
         /// <param name="userdata">コールバック関数に渡されるオブジェクト</param>
-        /// <param name="button_type">ボタンの種類</param>
+        /// <param name="buttonType">ボタンの種類</param>
 #else
         /// <summary>
         /// Create a button on the control panel
@@ -4111,11 +4108,11 @@ namespace OpenCvSharp
         /// <param name="name">Name of the button ( if null, the name will be “button &lt;number of boutton&gt;”)</param>
         /// <param name="callback">Pointer to the function to be called every time the button changed its state.</param>
         /// <param name="userdata">object passed to the callback function. </param>
-        /// <param name="button_type">button type</param>
+        /// <param name="buttonType">button type</param>
 #endif
-        public static int CreateButton(string name, CvButtonCallback callback, object userdata, ButtonType button_type)
+        public static int CreateButton(string name, CvButtonCallback callback, object userdata, ButtonType buttonType)
         {
-            CvButton button = new CvButton(name, callback, userdata, button_type);
+            CvButton button = new CvButton(name, callback, userdata, buttonType);
             return button.Result;
         }
 #if LANG_JP
@@ -4125,8 +4122,8 @@ namespace OpenCvSharp
         /// <param name="name">ボタンの名前． （これが null の場合，”button &lt;number of boutton&gt;” という名前になります）</param>
         /// <param name="callback">ボタン状態が変更される度に呼び出されるデりゲート</param>
         /// <param name="userdata">コールバック関数に渡されるオブジェクト</param>
-        /// <param name="button_type">ボタンの種類</param>
-        /// <param name="initial_button_state">ボタンのデフォルトの状態．チェックボックスとラジオボックスの場合，これは 0 または 1 になります．</param>
+        /// <param name="buttonType">ボタンの種類</param>
+        /// <param name="initialButtonState">ボタンのデフォルトの状態．チェックボックスとラジオボックスの場合，これは 0 または 1 になります．</param>
 #else
         /// <summary>
         /// Create a button on the control panel
@@ -4134,12 +4131,12 @@ namespace OpenCvSharp
         /// <param name="name">Name of the button ( if null, the name will be “button &lt;number of boutton&gt;”)</param>
         /// <param name="callback">Pointer to the function to be called every time the button changed its state.</param>
         /// <param name="userdata">object passed to the callback function. </param>
-        /// <param name="button_type">button type</param>
-        /// <param name="initial_button_state">Default state of the button. Use for checkbox and radiobox, its value could be 0 or 1. </param>
+        /// <param name="buttonType">button type</param>
+        /// <param name="initialButtonState">Default state of the button. Use for checkbox and radiobox, its value could be 0 or 1. </param>
 #endif
-        public static int CreateButton(string name, CvButtonCallback callback, object userdata, ButtonType button_type, int initial_button_state)
+        public static int CreateButton(string name, CvButtonCallback callback, object userdata, ButtonType buttonType, int initialButtonState)
         {
-            CvButton button = new CvButton(name, callback, userdata, button_type, initial_button_state);
+            CvButton button = new CvButton(name, callback, userdata, buttonType, initialButtonState);
             return button.Result;
         }
         #endregion
@@ -4333,53 +4330,53 @@ namespace OpenCvSharp
         /// <summary>
         /// 空のグラフを生成する
         /// </summary>
-        /// <param name="graph_flags">生成したグラフのタイプ．無向グラフの場合，CV_SEQ_KIND_GRAPH，有向グラフの場合，CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED． </param>
-        /// <param name="vtx_size">グラフのヘッダサイズ （sizeof(CvGraph)以上）</param>
-        /// <param name="edge_size">グラフの頂点サイズ</param>
+        /// <param name="graphFlags">生成したグラフのタイプ．無向グラフの場合，CV_SEQ_KIND_GRAPH，有向グラフの場合，CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED． </param>
+        /// <param name="vtxSize">グラフのヘッダサイズ （sizeof(CvGraph)以上）</param>
+        /// <param name="edgeSize">グラフの頂点サイズ</param>
         /// <param name="storage">グラフの辺サイズ</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Creates empty graph
         /// </summary>
-        /// <param name="graph_flags">Type of the created graph. Usually, it is either CV_SEQ_KIND_GRAPH for generic unoriented graphs and CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED for generic oriented graphs. </param>
-        /// <param name="vtx_size">Graph vertex size; the custom vertex structure must start with CvGraphVtx  (use CV_GRAPH_VERTEX_FIELDS()) </param>
-        /// <param name="edge_size">Graph edge size; the custom edge structure must start with CvGraphEdge  (use CV_GRAPH_EDGE_FIELDS()) </param>
+        /// <param name="graphFlags">Type of the created graph. Usually, it is either CV_SEQ_KIND_GRAPH for generic unoriented graphs and CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED for generic oriented graphs. </param>
+        /// <param name="vtxSize">Graph vertex size; the custom vertex structure must start with CvGraphVtx  (use CV_GRAPH_VERTEX_FIELDS()) </param>
+        /// <param name="edgeSize">Graph edge size; the custom edge structure must start with CvGraphEdge  (use CV_GRAPH_EDGE_FIELDS()) </param>
         /// <param name="storage">The graph container. </param>
         /// <returns>The function cvCreateGraph creates an empty graph and returns it.</returns>
 #endif
-        public static CvGraph CreateGraph(SeqType graph_flags, int vtx_size, int edge_size, CvMemStorage storage)
+        public static CvGraph CreateGraph(SeqType graphFlags, int vtxSize, int edgeSize, CvMemStorage storage)
         {
-            return CreateGraph(graph_flags, vtx_size, edge_size, storage, CvGraph.SizeOf);
+            return CreateGraph(graphFlags, vtxSize, edgeSize, storage, CvGraph.SizeOf);
         }
 #if LANG_JP
         /// <summary>
         /// 空のグラフを生成する
         /// </summary>
-        /// <param name="graph_flags">生成したグラフのタイプ．無向グラフの場合，CV_SEQ_KIND_GRAPH，有向グラフの場合，CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED． </param>
-        /// <param name="header_size">グラフのヘッダサイズ （sizeof(CvGraph)以上）</param>
-        /// <param name="vtx_size">グラフの頂点サイズ</param>
-        /// <param name="edge_size">グラフの辺サイズ</param>
+        /// <param name="graphFlags">生成したグラフのタイプ．無向グラフの場合，CV_SEQ_KIND_GRAPH，有向グラフの場合，CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED． </param>
+        /// <param name="headerSize">グラフのヘッダサイズ （sizeof(CvGraph)以上）</param>
+        /// <param name="vtxSize">グラフの頂点サイズ</param>
+        /// <param name="edgeSize">グラフの辺サイズ</param>
         /// <param name="storage">グラフコンテナ</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Creates empty graph
         /// </summary>
-        /// <param name="graph_flags">Type of the created graph. Usually, it is either CV_SEQ_KIND_GRAPH for generic unoriented graphs and CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED for generic oriented graphs. </param>
-        /// <param name="header_size">Graph header size; may not be less than sizeof(CvGraph).</param>
-        /// <param name="vtx_size">Graph vertex size; the custom vertex structure must start with CvGraphVtx  (use CV_GRAPH_VERTEX_FIELDS()) </param>
-        /// <param name="edge_size">Graph edge size; the custom edge structure must start with CvGraphEdge  (use CV_GRAPH_EDGE_FIELDS()) </param>
+        /// <param name="graphFlags">Type of the created graph. Usually, it is either CV_SEQ_KIND_GRAPH for generic unoriented graphs and CV_SEQ_KIND_GRAPH | CV_GRAPH_FLAG_ORIENTED for generic oriented graphs. </param>
+        /// <param name="headerSize">Graph header size; may not be less than sizeof(CvGraph).</param>
+        /// <param name="vtxSize">Graph vertex size; the custom vertex structure must start with CvGraphVtx  (use CV_GRAPH_VERTEX_FIELDS()) </param>
+        /// <param name="edgeSize">Graph edge size; the custom edge structure must start with CvGraphEdge  (use CV_GRAPH_EDGE_FIELDS()) </param>
         /// <param name="storage">The graph container. </param>
         /// <returns>The function cvCreateGraph creates an empty graph and returns it.</returns>
 #endif
-        public static CvGraph CreateGraph(SeqType graph_flags, int vtx_size, int edge_size, CvMemStorage storage, int header_size)
+        public static CvGraph CreateGraph(SeqType graphFlags, int vtxSize, int edgeSize, CvMemStorage storage, int headerSize)
         {
             if (storage == null)
             {
                 throw new ArgumentNullException("storage");
             }
-            IntPtr result = NativeMethods.cvCreateGraph(graph_flags, header_size, vtx_size, edge_size, storage.CvPtr);
+            IntPtr result = NativeMethods.cvCreateGraph(graphFlags, headerSize, vtxSize, edgeSize, storage.CvPtr);
             if (result == IntPtr.Zero)
                 return null;
             return new CvGraph(result);
@@ -4507,42 +4504,42 @@ namespace OpenCvSharp
         /// <summary>
         /// カルマンフィルタ構造体の領域確保を行う.
         /// </summary>
-        /// <param name="dynam_params">状態ベクトルの次元数</param>
-        /// <param name="measure_params">観測ベクトルの次元</param>
+        /// <param name="dynamParams">状態ベクトルの次元数</param>
+        /// <param name="measureParams">観測ベクトルの次元</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Allocates Kalman filter structure
         /// </summary>
-        /// <param name="dynam_params">dimensionality of the state vector </param>
-        /// <param name="measure_params">dimensionality of the measurement vector </param>
+        /// <param name="dynamParams">dimensionality of the state vector </param>
+        /// <param name="measureParams">dimensionality of the measurement vector </param>
         /// <returns>Kalman structure</returns>
 #endif
-        public static CvKalman CreateKalman(int dynam_params, int measure_params)
+        public static CvKalman CreateKalman(int dynamParams, int measureParams)
         {
-            return new CvKalman(dynam_params, measure_params);
+            return new CvKalman(dynamParams, measureParams);
         }
 #if LANG_JP
         /// <summary>
         /// カルマンフィルタ構造体の領域確保を行う.
         /// </summary>
-        /// <param name="dynam_params">状態ベクトルの次元数</param>
-        /// <param name="measure_params">観測ベクトルの次元</param>
-        /// <param name="control_params">コントロールベクトルの次元</param>
+        /// <param name="dynamParams">状態ベクトルの次元数</param>
+        /// <param name="measureParams">観測ベクトルの次元</param>
+        /// <param name="controlParams">コントロールベクトルの次元</param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Allocates Kalman filter structure
         /// </summary>
-        /// <param name="dynam_params">dimensionality of the state vector </param>
-        /// <param name="measure_params">dimensionality of the measurement vector </param>
-        /// <param name="control_params">dimensionality of the control vector </param>
+        /// <param name="dynamParams">dimensionality of the state vector </param>
+        /// <param name="measureParams">dimensionality of the measurement vector </param>
+        /// <param name="controlParams">dimensionality of the control vector </param>
         /// <returns></returns>
 
 #endif
-        public static CvKalman CreateKalman(int dynam_params, int measure_params, int control_params)
+        public static CvKalman CreateKalman(int dynamParams, int measureParams, int controlParams)
         {
-            return new CvKalman(dynam_params, measure_params, control_params);
+            return new CvKalman(dynamParams, measureParams, controlParams);
         }
         #endregion
         #region CreateMat
@@ -4789,7 +4786,7 @@ namespace OpenCvSharp
             CvMat[] pyramid = new CvMat[length];
             for (int i = 0; i < length; i++)
             {
-                IntPtr p = new IntPtr(result.ToInt32() + (CvMat.SizeOf * i));
+                IntPtr p = new IntPtr(result.ToInt64() + (CvMat.SizeOf * i));
                 pyramid[i] = new CvMat(p, false);
             }
             return pyramid;
@@ -4801,9 +4798,15 @@ namespace OpenCvSharp
         /// <summary>
         /// シーケンスを生成する
         /// </summary>
-        /// <param name="seqFlags">生成されたシーケンスのフラグ．生成されたシーケンスが，特定のシーケンスタイプを引数にとるような関数に一切渡されない場合は，この値に0を指定してもかまわない．そうでない場合は，定義済みのシーケンスタイプのリストから適切なタイプが選択されなければならない．</param>
-        /// <param name="headerSize">シーケンスのヘッダサイズ．sizeof(CvSeq)以上でなければならない． また，特別なタイプかその拡張が指示されている場合，そのタイプは基本タイプのヘッダと合致していなければならない．</param>
-        /// <param name="elemSize">シーケンスの要素サイズ（バイト単位）．サイズはシーケンスタイプと合致しなければならない．例えば，点群のシーケンスを作成する場合，要素タイプにCV_SEQ_ELTYPE_POINTを指定し，パラメータ elem_size は sizeof(CvPoint) と等しくなければならない．</param>
+        /// <param name="seqFlags">生成されたシーケンスのフラグ．生成されたシーケンスが，
+        /// 特定のシーケンスタイプを引数にとるような関数に一切渡されない場合は，
+        /// この値に0を指定してもかまわない．そうでない場合は，定義済みのシーケンスタイプのリストから
+        /// 適切なタイプが選択されなければならない．</param>
+        /// <param name="headerSize">シーケンスのヘッダサイズ．sizeof(CvSeq)以上でなければならない．
+        /// また，特別なタイプかその拡張が指示されている場合，そのタイプは基本タイプのヘッダと合致していなければならない．</param>
+        /// <param name="elemSize">シーケンスの要素サイズ（バイト単位）．
+        /// サイズはシーケンスタイプと合致しなければならない．例えば，点群のシーケンスを作成する場合，
+        /// 要素タイプにCV_SEQ_ELTYPE_POINTを指定し，パラメータ elemSize は sizeof(CvPoint) と等しくなければならない．</param>
         /// <param name="storage">シーケンスが保存される場所</param>
         /// <returns></returns>
 #else
@@ -4812,7 +4815,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="seqFlags">Flags of the created sequence. If the sequence is not passed to any function working with a specific type of sequences, the sequence value may be set to 0, otherwise the appropriate type must be selected from the list of predefined sequence types. </param>
         /// <param name="headerSize">Size of the sequence header; must be greater or equal to sizeof(CvSeq). If a specific type or its extension is indicated, this type must fit the base type header. </param>
-        /// <param name="elemSize">Size of the sequence elements in bytes. The size must be consistent with the sequence type. For example, for a sequence of points to be created, the element type CV_SEQ_ELTYPE_POINT should be specified and the parameter elem_size must be equal to sizeof(CvPoint). </param>
+        /// <param name="elemSize">Size of the sequence elements in bytes. The size must be consistent with the sequence type. For example, for a sequence of points to be created, the element type CV_SEQ_ELTYPE_POINT should be specified and the parameter elemSize must be equal to sizeof(CvPoint). </param>
         /// <param name="storage">Sequence location. </param>
         /// <returns></returns>
 #endif
@@ -5053,11 +5056,11 @@ namespace OpenCvSharp
         /// 指定された名前と範囲のトラックバー（スライダ，レンジコントロールとも呼ばれる）を作成する．
         /// 作成されたトラックバーは，与えられたウィンドウの最上段に表示される.
         /// </summary>
-        /// <param name="trackbar_name">トラックバーの名前</param>
-        /// <param name="window_name">トラックバーの親ウィンドウの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="windowName">トラックバーの親ウィンドウの名前</param>
         /// <param name="value">ref of value</param>
         /// <param name="count">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="on_change">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <param name="onChange">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -5065,25 +5068,24 @@ namespace OpenCvSharp
         /// assigns the variable to be syncronized with trackbar position and specifies callback function to be called on trackbar position change.
         /// The created trackbar is displayed on top of given window.
         /// </summary>
-        /// <param name="trackbar_name">Name of created trackbar. </param>
-        /// <param name="window_name">Name of the window which will e used as a parent for created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
+        /// <param name="windowName">Name of the window which will e used as a parent for created trackbar. </param>
         /// <param name="value">Ref of int value</param>
         /// <param name="count">Maximal position of the slider. Minimal position is always 0. </param>
-        /// <param name="on_change">Reference to the function to be called every time the slider changes the position.
+        /// <param name="onChange">Reference to the function to be called every time the slider changes the position.
         /// This function should be prototyped as void Foo(int);Can be null if callback is not required. </param>
         /// <returns></returns>
 #endif
-        public static int CreateTrackbar(string trackbar_name, string window_name, ref int value, int count, CvTrackbarCallback on_change)
+        public static int CreateTrackbar(string trackbarName, string windowName, ref int value, int count, CvTrackbarCallback onChange)
         {
-            //return CvDll.cvCreateTrackbar(trackbar_name, window_name, ref value, count, on_change);
-            if (string.IsNullOrEmpty(trackbar_name))
-                throw new ArgumentNullException("trackbar_name");
-            if (string.IsNullOrEmpty(window_name))
-                throw new ArgumentNullException("window_name");
-            CvWindow window = CvWindow.GetWindowByName(window_name);
+            if (string.IsNullOrEmpty(trackbarName))
+                throw new ArgumentNullException("trackbarName");
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException("windowName");
+            CvWindow window = CvWindow.GetWindowByName(windowName);
             if (window != null)
             {
-                return NativeMethods.cvCreateTrackbar(trackbar_name, window_name, ref value, count, on_change);
+                return NativeMethods.cvCreateTrackbar(trackbarName, windowName, ref value, count, onChange);
             }
             return 0;
         }
@@ -5093,11 +5095,11 @@ namespace OpenCvSharp
         /// 指定された名前と範囲のトラックバー（スライダ，レンジコントロールとも呼ばれる）を作成する．
         /// 作成されたトラックバーは，与えられたウィンドウの最上段に表示される.
         /// </summary>
-        /// <param name="trackbar_name">トラックバーの名前</param>
-        /// <param name="window_name">トラックバーの親ウィンドウの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="windowName">トラックバーの親ウィンドウの名前</param>
         /// <param name="value">スライダの初期位置</param>
         /// <param name="count">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="on_change">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <param name="onChange">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -5105,25 +5107,24 @@ namespace OpenCvSharp
         /// assigns the variable to be syncronized with trackbar position and specifies callback function to be called on trackbar position change. 
         /// The created trackbar is displayed on top of given window.
         /// </summary>
-        /// <param name="trackbar_name">Name of created trackbar. </param>
-        /// <param name="window_name">Name of the window which will e used as a parent for created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
+        /// <param name="windowName">Name of the window which will e used as a parent for created trackbar. </param>
         /// <param name="value">Initial position of the slider.</param>
         /// <param name="count">Maximal position of the slider. Minimal position is always 0. </param>
-        /// <param name="on_change">Reference to the function to be called every time the slider changes the position. 
+        /// <param name="onChange">Reference to the function to be called every time the slider changes the position. 
         /// This function should be prototyped as void Foo(int);Can be null if callback is not required. </param>
         /// <returns></returns>
 #endif
-        public static int CreateTrackbar(string trackbar_name, string window_name, int value, int count, CvTrackbarCallback on_change)
+        public static int CreateTrackbar(string trackbarName, string windowName, int value, int count, CvTrackbarCallback onChange)
         {
-            //return CvDll.cvCreateTrackbar(trackbar_name, window_name, ref value, count, on_change);
-            if (string.IsNullOrEmpty(trackbar_name))
-                throw new ArgumentNullException("trackbar_name");
-            if (string.IsNullOrEmpty(window_name))
-                throw new ArgumentNullException("window_name");
-            CvWindow window = CvWindow.GetWindowByName(window_name);
+            if (string.IsNullOrEmpty(trackbarName))
+                throw new ArgumentNullException("trackbarName");
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException("windowName");
+            CvWindow window = CvWindow.GetWindowByName(windowName);
             if (window != null)
             {
-                CvTrackbar trackbar = window.CreateTrackbar(trackbar_name, value, count, on_change);
+                CvTrackbar trackbar = window.CreateTrackbar(trackbarName, value, count, onChange);
                 return trackbar.Result;
             }
             return 0;
@@ -5134,11 +5135,11 @@ namespace OpenCvSharp
         /// 指定された名前と範囲のトラックバー（スライダ，レンジコントロールとも呼ばれる）を作成する．
         /// 作成されたトラックバーは，与えられたウィンドウの最上段に表示される.
         /// </summary>
-        /// <param name="trackbar_name">トラックバーの名前</param>
-        /// <param name="window_name">トラックバーの親ウィンドウの名前</param>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="windowName">トラックバーの親ウィンドウの名前</param>
         /// <param name="value">スライダの初期位置</param>
         /// <param name="count">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="on_change">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <param name="onChange">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
         /// <param name="userdata"></param>
         /// <returns></returns>
 #else
@@ -5147,26 +5148,25 @@ namespace OpenCvSharp
         /// assigns the variable to be syncronized with trackbar position and specifies callback function to be called on trackbar position change. 
         /// The created trackbar is displayed on top of given window.
         /// </summary>
-        /// <param name="trackbar_name">Name of created trackbar. </param>
-        /// <param name="window_name">Name of the window which will e used as a parent for created trackbar. </param>
+        /// <param name="trackbarName">Name of created trackbar. </param>
+        /// <param name="windowName">Name of the window which will e used as a parent for created trackbar. </param>
         /// <param name="value">Initial position of the slider.</param>
         /// <param name="count">Maximal position of the slider. Minimal position is always 0. </param>
-        /// <param name="on_change">Reference to the function to be called every time the slider changes the position. 
+        /// <param name="onChange">Reference to the function to be called every time the slider changes the position. 
         /// This function should be prototyped as void Foo(int);Can be null if callback is not required. </param>
         /// <param name="userdata"></param>
         /// <returns></returns>
 #endif
-        public static int CreateTrackbar2(string trackbar_name, string window_name, int value, int count, CvTrackbarCallback2 on_change, object userdata)
+        public static int CreateTrackbar2(string trackbarName, string windowName, int value, int count, CvTrackbarCallback2 onChange, object userdata)
         {
-            //return CvDll.cvCreateTrackbar(trackbar_name, window_name, ref value, count, on_change);
-            if (string.IsNullOrEmpty(trackbar_name))
-                throw new ArgumentNullException("trackbar_name");
-            if (string.IsNullOrEmpty(window_name))
-                throw new ArgumentNullException("window_name");
-            CvWindow window = CvWindow.GetWindowByName(window_name);
+            if (string.IsNullOrEmpty(trackbarName))
+                throw new ArgumentNullException("trackbarName");
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException("windowName");
+            CvWindow window = CvWindow.GetWindowByName(windowName);
             if (window != null)
             {
-                CvTrackbar trackbar = window.CreateTrackbar2(trackbar_name, value, count, on_change, userdata);
+                CvTrackbar trackbar = window.CreateTrackbar2(trackbarName, value, count, onChange, userdata);
                 return trackbar.Result;
             }
             return 0;
@@ -5183,7 +5183,7 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
@@ -5193,12 +5193,12 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
+        /// <param name="frameSize">Size of video frames. </param>
         /// <returns></returns>
 #endif
-        public static CvVideoWriter CreateVideoWriter(string filename, string fourcc, double fps, CvSize frame_size)
+        public static CvVideoWriter CreateVideoWriter(string filename, string fourcc, double fps, CvSize frameSize)
         {
-            return new CvVideoWriter(filename, fourcc, fps, frame_size);
+            return new CvVideoWriter(filename, fourcc, fps, frameSize);
         }
 #if LANG_JP
         /// <summary>
@@ -5210,8 +5210,8 @@ namespace OpenCvSharp
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
         /// </param>
         /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frame_size">ビデオフレームのサイズ</param>
-        /// <param name="is_color">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
+        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
         /// <returns>CvVideoWriter</returns>
 #else
         /// <summary>
@@ -5221,13 +5221,13 @@ namespace OpenCvSharp
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
         /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frame_size">Size of video frames. </param>
-        /// <param name="is_color">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
 #endif
-        public static CvVideoWriter CreateVideoWriter(string filename, string fourcc, double fps, CvSize frame_size, bool is_color)
+        public static CvVideoWriter CreateVideoWriter(string filename, string fourcc, double fps, CvSize frameSize, bool isColor)
         {
-            return new CvVideoWriter(filename, fourcc, fps, frame_size, is_color);
+            return new CvVideoWriter(filename, fourcc, fps, frameSize, isColor);
         }
         #endregion
         #region CrossProduct
