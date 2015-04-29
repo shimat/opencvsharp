@@ -2161,7 +2161,7 @@ namespace OpenCvSharp
         {
             unsafe
             {
-                return new UnmanagedMemoryStream(DataByte, Rows*Cols);
+                return new UnmanagedMemoryStream(DataByte, Rows*Step);
             }
         }
         #endregion
