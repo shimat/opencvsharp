@@ -1151,7 +1151,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (var centersVec = new VectorOfPoint2f())
             {
-                int ret = NativeMethods.calib3d_findCirclesGrid_InputArray(
+                int ret = NativeMethods.calib3d_findCirclesGrid_vector(
                 image.CvPtr, patternSize, centersVec.CvPtr, (int)flags, ToPtr(blobDetector));
                 centers = centersVec.ToArray();
                 return ret != 0;
