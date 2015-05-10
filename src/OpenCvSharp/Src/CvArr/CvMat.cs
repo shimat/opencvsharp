@@ -2157,11 +2157,11 @@ namespace OpenCvSharp
         /// </summary>
         /// <returns></returns>
 #endif
-        public UnmanagedMemoryStream GetDataStream(string ext, int[] prms)
+        public UnmanagedMemoryStream GetDataStream()
         {
             unsafe
             {
-                return new UnmanagedMemoryStream(DataByte, Rows*Cols);
+                return new UnmanagedMemoryStream(DataByte, Rows*Step);
             }
         }
         #endregion

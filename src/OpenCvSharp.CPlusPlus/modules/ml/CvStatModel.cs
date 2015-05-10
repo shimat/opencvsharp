@@ -81,7 +81,7 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Clear()
         {
             if (disposed)
-                throw new ObjectDisposedException("CvStatModel");
+                throw new ObjectDisposedException(GetType().Name);
             NativeMethods.ml_CvStatModel_clear(ptr);
         }
 
@@ -116,7 +116,7 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Save(string filename, string name)
         {
             if (disposed)
-                throw new ObjectDisposedException("CvStatModel");
+                throw new ObjectDisposedException(GetType().Name);
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
 
@@ -154,7 +154,7 @@ namespace OpenCvSharp.CPlusPlus
         public virtual void Load(string filename, string name)
         {
             if (disposed)
-                throw new ObjectDisposedException("CvStatModel");
+                throw new ObjectDisposedException(GetType().Name);
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException("filename");
 
@@ -176,13 +176,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
 	    public virtual void Write(CvFileStorage storage, string name)
 	    {
-	        if (disposed)
-	            throw new ObjectDisposedException("CvStatModel");
-	        if (storage == null)
-	            throw new ArgumentNullException("storage");
-	        if (string.IsNullOrEmpty(name))
-	            throw new ArgumentNullException("name");
-            NativeMethods.ml_CvStatModel_write(ptr, storage.CvPtr, name);
+            // OPENCV_ERROR( CV_StsNotImplemented, "CvStatModel::write", "" );
+	        throw new NotImplementedException();
 	    }
 
 #if LANG_JP
@@ -200,13 +195,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public virtual void Read(CvFileStorage storage, CvFileNode node)
         {
-            if (disposed)
-                throw new ObjectDisposedException("CvStatModel");
-            if (storage == null)
-                throw new ArgumentNullException("storage");
-            if (node == null)
-                throw new ArgumentNullException("node");
-            NativeMethods.ml_CvStatModel_read(ptr, storage.CvPtr, node.CvPtr);
+            // OPENCV_ERROR( CV_StsNotImplemented, "CvStatModel::read", "" );
+            throw new NotImplementedException();
         }
         #endregion
     }

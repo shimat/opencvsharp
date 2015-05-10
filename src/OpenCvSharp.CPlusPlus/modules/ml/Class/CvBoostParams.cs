@@ -44,7 +44,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public CvBoostParams()
         {
-            ptr = NativeMethods.ml_CvBoostParams_new1();
+            ptr = NativeMethods.ml_BoostParams_new1();
         }
 
 #if LANG_JP
@@ -79,7 +79,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             base.priors = priors;
 
-            ptr = NativeMethods.ml_CvBoostParams_new2(
+            ptr = NativeMethods.ml_BoostParams_new2(
                 (int)boostType,
                 weakCount,
                 weightTrimRate,
@@ -118,7 +118,7 @@ namespace OpenCvSharp.CPlusPlus
                     if (IsEnabledDispose)
                     {
                         if(ptr != IntPtr.Zero)
-                            NativeMethods.ml_CvBoostParams_delete(ptr);
+                            NativeMethods.ml_BoostParams_delete(ptr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -145,10 +145,10 @@ namespace OpenCvSharp.CPlusPlus
 	    {
 	        get
 	        {
-	            int val = *NativeMethods.ml_CvBoostParams_boost_type(ptr);
+	            int val = *NativeMethods.ml_BoostParams_boost_type(ptr);
 	            return (BoostType)val;
 	        }
-	        set { *NativeMethods.ml_CvBoostParams_boost_type(ptr) = (int)value; }
+	        set { *NativeMethods.ml_BoostParams_boost_type(ptr) = (int)value; }
 	    }
 
 #if LANG_JP
@@ -162,8 +162,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public unsafe int WeakCount
         {
-            get { return *NativeMethods.ml_CvBoostParams_weak_count(ptr); }
-            set { *NativeMethods.ml_CvBoostParams_weak_count(ptr) = value; }
+            get { return *NativeMethods.ml_BoostParams_weak_count(ptr); }
+            set { *NativeMethods.ml_BoostParams_weak_count(ptr) = value; }
         }
 #if LANG_JP
         /// <summary>
@@ -178,12 +178,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             get
             {
-                int val = *NativeMethods.ml_CvBoostParams_split_criteria(ptr);
+                int val = *NativeMethods.ml_BoostParams_split_criteria(ptr);
                 return (BoostSplitCriteria)val;
             }
             set
             {
-                *NativeMethods.ml_CvBoostParams_split_criteria(ptr) = (int)value;
+                *NativeMethods.ml_BoostParams_split_criteria(ptr) = (int)value;
             }
         }
 #if LANG_JP
@@ -201,8 +201,8 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public unsafe double WeightTrimRate
         {
-            get { return *NativeMethods.ml_CvBoostParams_weight_trim_rate(ptr); }
-            set { *NativeMethods.ml_CvBoostParams_weight_trim_rate(ptr) = value; }
+            get { return *NativeMethods.ml_BoostParams_weight_trim_rate(ptr); }
+            set { *NativeMethods.ml_BoostParams_weight_trim_rate(ptr) = value; }
         }
         #endregion
     }
