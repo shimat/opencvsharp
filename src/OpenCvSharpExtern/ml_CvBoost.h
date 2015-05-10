@@ -134,7 +134,7 @@ CVAPI(int*) ml_BoostParams_split_criteria_get(cv::BoostParams *obj)
 {
 	return &(obj->split_criteria);
 }
-CVAPI(double*) CvBoostParams_weight_trim_rate_get(CvBoostParams *obj)
+CVAPI(double*) ml_BoostParams_weight_trim_rate_get(CvBoostParams *obj)
 {
 	return &(obj->weight_trim_rate);
 }
