@@ -322,7 +322,7 @@ namespace OpenCvSharp
             {
                 throw new ArgumentNullException("data");
             }
-            return new CvMat(data.GetLength(0), data.GetLength(1), MatrixType.F64C1, data);
+            return new CvMat(data.GetLength(0), 1, MatrixType.F64C1, data);
         }
 #if LANG_JP
         /// <summary>
@@ -2488,7 +2488,7 @@ namespace OpenCvSharp
             int rows = Rows;
             int cols = Cols;   
             IntPtr p = CvPtr;
-            CvScalar[,] result = new CvScalar[cols, rows];
+            CvScalar[,] result = new CvScalar[rows, cols];
 
             for (int r = 0; r < rows; r++)
             {
