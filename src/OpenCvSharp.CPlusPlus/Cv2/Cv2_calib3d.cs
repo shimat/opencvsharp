@@ -1042,7 +1042,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (var cornersVec = new VectorOfPoint2f(corners))
             {
-                int ret = NativeMethods.calib3d_find4QuadCornerSubpix_InputArray(
+                int ret = NativeMethods.calib3d_find4QuadCornerSubpix_vector(
                     img.CvPtr, cornersVec.CvPtr, regionSize);
 
                 Point2f[] newCorners = cornersVec.ToArray();
