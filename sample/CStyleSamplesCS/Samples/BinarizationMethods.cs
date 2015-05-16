@@ -18,6 +18,8 @@ namespace CStyleSamplesCS
     {
         public BinarizationMethods()
         {
+            const int Size = 61;
+
             using (var imgSrc = new IplImage(FilePath.Image.Binarization, LoadMode.GrayScale))
             using (var imgGauss = imgSrc.Clone())
             using (var imgNiblack = new IplImage(imgSrc.Size, BitDepth.U8, 1))
@@ -30,22 +32,19 @@ namespace CStyleSamplesCS
 
                 Stopwatch sw = Stopwatch.StartNew();
                 {
-                    const int Size = 31;
                     const double K = -0.2;
                     Binarizer.NiblackFast(imgGauss, imgNiblack, Size, K);
                 }
                 Console.WriteLine("Niblack: {0}ms", sw.ElapsedMilliseconds);
                 sw.Reset(); sw.Start();
                 {
-                    const int Size = 31;
                     const double K = 0.2;
-                    const double R = 32;
+                    const double R = 64;
                     Binarizer.SauvolaFast(imgGauss, imgSauvola, Size, K, R);
                 }
                 Console.WriteLine("Sauvola: {0}ms", sw.ElapsedMilliseconds); 
                 sw.Reset(); sw.Start();
                 {
-                    const int Size = 31;
                     const byte ContrastMin = 15;
                     const byte BgThreshold = 127;
                     Binarizer.Bernsen(imgGauss, imgBernsen, Size, ContrastMin, BgThreshold);
@@ -53,7 +52,6 @@ namespace CStyleSamplesCS
                 Console.WriteLine("bernsen: {0}ms", sw.ElapsedMilliseconds);
                 sw.Reset(); sw.Start();
                 {
-                    const int Size = 31;
                     const double K = -0.14;
                     Binarizer.Nick(imgGauss, imgNick, Size, K);
                 }
