@@ -39,8 +39,8 @@ namespace OpenCvSharp
         
         public const string Version = "2410";
 
-        public const string DllMsvcr = "msvcr110";
-        public const string DllMsvcp = "msvcp110";
+        public const string DllMsvcr = "msvcr120";
+        public const string DllMsvcp = "msvcp120";
 
         public const string DllCalib3d = "opencv_calib3d" + Version;
         public const string DllCore = "opencv_core" + Version;
