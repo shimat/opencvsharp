@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-WithoutDll</id>
-        <version>2.4.10.20150309</version>
+        <version>2.4.10.20150528</version>
         <title>OpenCvSharp (without DLLs)</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -22,43 +22,14 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="Content\_._" target="Content\_._" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net20\OpenCvSharp.Blob.XML" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net20\OpenCvSharp.CPlusPlus.dll" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net20\OpenCvSharp.CPlusPlus.dll.config" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.XML" target="lib\net20\OpenCvSharp.CPlusPlus.XML" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net20\OpenCvSharp.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net20\OpenCvSharp.dll.config" />
-        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net20\OpenCvSharp.UserInterface.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net20\OpenCvSharp.XML" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net35\OpenCvSharp.Blob.dll" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net35\OpenCvSharp.Blob.dll.config" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net35\OpenCvSharp.Blob.XML" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net35\OpenCvSharp.CPlusPlus.dll" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net35\OpenCvSharp.CPlusPlus.dll.config" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.XML" target="lib\net35\OpenCvSharp.CPlusPlus.XML" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net35\OpenCvSharp.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net35\OpenCvSharp.dll.config" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net35\OpenCvSharp.Extensions.dll" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net35\OpenCvSharp.Extensions.XML" />
-        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net35\OpenCvSharp.UserInterface.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net35\OpenCvSharp.XML" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net40\OpenCvSharp.Blob.dll" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net40\OpenCvSharp.Blob.dll.config" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net40\OpenCvSharp.Blob.XML" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll" target="lib\net40\OpenCvSharp.CPlusPlus.dll" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config" target="lib\net40\OpenCvSharp.CPlusPlus.dll.config" />
-        <file src="..\src\OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.XML" target="lib\net40\OpenCvSharp.CPlusPlus.XML" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net40\OpenCvSharp.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net40\OpenCvSharp.dll.config" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net40\OpenCvSharp.Extensions.dll" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net40\OpenCvSharp.Extensions.XML" />
-        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net40\OpenCvSharp.UserInterface.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.XML" target="lib\net40\OpenCvSharp.XML" />
+				<file src="OpenCvSharp-WithoutDll\NativeDlls.props" target="build\OpenCvSharp-WithoutDll.props" />
+        <file src="..\lib\vc++\x64\msvcp120.dll" target="NativeDlls\x64\msvcp120.dll" />
+        <file src="..\lib\vc++\x64\msvcr120.dll" target="NativeDlls\x64\msvcr120.dll" />
+        <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
+        <file src="..\lib\vc++\x86\msvcp120.dll" target="NativeDlls\x86\msvcp120.dll" />
+        <file src="..\lib\vc++\x86\msvcr120.dll" target="NativeDlls\x86\msvcr120.dll" />
+        <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
         <file src="tools\init.ps1" target="tools\init.ps1" />
-        <file src="tools\install-WithoutDll.ps1" target="tools\install.ps1" />
         <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
     </files>
 </package>
