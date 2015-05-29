@@ -417,7 +417,95 @@ namespace OpenCvSharp.Extensions
 
         }
 
+#if LANG_JP
+        /// <summary>
+        /// Nickの手法による二値化処理を行う。
+        /// </summary>
+        /// <param name="imgSrc">入力画像</param>
+        /// <param name="imgDst">出力画像</param>
+        /// <param name="kernelSize">局所領域のサイズ</param>
+        /// <param name="k">係数</param>
+#else
+        /// <summary>
+        /// Binarizes by Nick's method
+        /// </summary>
+        /// <param name="src">Input image</param>
+        /// <param name="dst">Output image</param>
+        /// <param name="kernelSize">Window size</param>
+        /// <param name="k">Adequate coefficient</param>
+#endif
+        public static void Nick(IplImage src, IplImage dst, int kernelSize, double k)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
 
+            // グレースケールのみ
+            if (src.NChannels != 1)
+                throw new ArgumentException("src must be gray scale image");
+            if (dst.NChannels != 1)
+                throw new ArgumentException("dst must be gray scale image");
+
+            // サイズのチェック
+            if (kernelSize < 3)
+                throw new ArgumentOutOfRangeException("kernelSize", "size must be 3 and above");
+            if (kernelSize % 2 == 0)
+                throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
+
+            int borderSize = kernelSize / 2;
+            CvRect roi = src.ROI;
+            int width = roi.Width;
+            int height = roi.Height;
+            if (width != dst.Width || height != dst.Height)
+                throw new ArgumentException("src.Size == dst.Size");
+
+            using (IplImage imgTemp = new IplImage(width + (borderSize * 2), height + (borderSize * 2), src.Depth, src.NChannels))
+            using (IplImage imgSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
+            using (IplImage imgSqSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
+            {
+                Cv.CopyMakeBorder(src, imgTemp, new CvPoint(borderSize, borderSize), BorderType.Replicate, CvScalar.ScalarAll(0));
+                Cv.Integral(imgTemp, imgSum, imgSqSum);
+
+                unsafe
+                {
+                    byte* pSrc = src.ImageDataPtr;
+                    byte* pDst = dst.ImageDataPtr;
+                    double* pSum = (double*)imgSum.ImageDataPtr;
+                    double* pSqSum = (double*)imgSqSum.ImageDataPtr;
+                    int stepSrc = src.WidthStep;
+                    int stepDst = dst.WidthStep;
+                    int stepSum = imgSum.WidthStep / sizeof(double);
+                    int ylim = height + borderSize;
+                    int xlim = width + borderSize;
+                    int kernelPixels = kernelSize * kernelSize;
+                    for (int y = borderSize; y < ylim; y++)
+                    {
+                        for (int x = borderSize; x < xlim; x++)
+                        {
+                            int x1 = x - borderSize;
+                            int y1 = y - borderSize;
+                            int x2 = x + borderSize + 1;
+                            int y2 = y + borderSize + 1;
+                            double sum = pSum[stepSum * y2 + x2] - pSum[stepSum * y2 + x1] - pSum[stepSum * y1 + x2] + pSum[stepSum * y1 + x1];
+                            double sqsum = pSqSum[stepSum * y2 + x2] - pSqSum[stepSum * y2 + x1] - pSqSum[stepSum * y1 + x2] + pSqSum[stepSum * y1 + x1];
+                            double mean = sum / kernelPixels;
+                            double term = (sqsum - mean * mean) / kernelPixels;
+                            if (term < 0.0) term = 0.0;
+                            term = Math.Sqrt(term);
+
+                            double threshold = mean + k * term;
+                            int offsetSrc = stepSrc * (y + roi.Y - borderSize) + (x + roi.X - borderSize);
+                            int offsetDst = stepDst * (y - borderSize) + (x - borderSize);
+                            if (pSrc[offsetSrc] < threshold)
+                                pDst[offsetDst] = 0;
+                            else
+                                pDst[offsetDst] = 255;
+                        }
+                    }
+                }
+            }
+        }
 
 
         /// <summary>
