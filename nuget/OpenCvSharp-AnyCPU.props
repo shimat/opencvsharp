@@ -1,0 +1,185 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<NativeDlls>$(MSBuildThisFileDirectory)\..\NativeDlls</NativeDlls>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="$(NativeDlls)\x86\OpenCvSharpExtern.dll">
+			<Link>dll\x86\OpenCvSharpExtern.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\msvcp120.dll">
+			<Link>dll\x86\msvcp120.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\msvcr120.dll">
+			<Link>dll\x86\msvcr120.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_calib3d2410.dll">
+			<Link>dll\x86\opencv_calib3d2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_contrib2410.dll">
+			<Link>dll\x86\opencv_contrib2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_core2410.dll">
+			<Link>dll\x86\opencv_core2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_features2d2410.dll">
+			<Link>dll\x86\opencv_features2d2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_ffmpeg2410.dll">
+			<Link>dll\x86\opencv_ffmpeg2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_flann2410.dll">
+			<Link>dll\x86\opencv_flann2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_gpu2410.dll">
+			<Link>dll\x86\opencv_gpu2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_highgui2410.dll">
+			<Link>dll\x86\opencv_highgui2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_imgproc2410.dll">
+			<Link>dll\x86\opencv_imgproc2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_legacy2410.dll">
+			<Link>dll\x86\opencv_legacy2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_ml2410.dll">
+			<Link>dll\x86\opencv_ml2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_nonfree2410.dll">
+			<Link>dll\x86\opencv_nonfree2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_objdetect2410.dll">
+			<Link>dll\x86\opencv_objdetect2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_ocl2410.dll">
+			<Link>dll\x86\opencv_ocl2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_photo2410.dll">
+			<Link>dll\x86\opencv_photo2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_stitching2410.dll">
+			<Link>dll\x86\opencv_stitching2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_superres2410.dll">
+			<Link>dll\x86\opencv_superres2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_video2410.dll">
+			<Link>dll\x86\opencv_video2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x86\opencv_videostab2410.dll">
+			<Link>dll\x86\opencv_videostab2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="$(NativeDlls)\x64\msvcp120.dll">
+			<Link>dll\x64\msvcp120.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\msvcr120.dll">
+			<Link>dll\x64\msvcr120.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_calib3d2410.dll">
+			<Link>dll\x64\opencv_calib3d2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_contrib2410.dll">
+			<Link>dll\x64\opencv_contrib2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_core2410.dll">
+			<Link>dll\x64\opencv_core2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_features2d2410.dll">
+			<Link>dll\x64\opencv_features2d2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_ffmpeg2410_64.dll">
+			<Link>dll\x64\opencv_ffmpeg2410_64.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_flann2410.dll">
+			<Link>dll\x64\opencv_flann2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_gpu2410.dll">
+			<Link>dll\x64\opencv_gpu2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_highgui2410.dll">
+			<Link>dll\x64\opencv_highgui2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_imgproc2410.dll">
+			<Link>dll\x64\opencv_imgproc2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_legacy2410.dll">
+			<Link>dll\x64\opencv_legacy2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_ml2410.dll">
+			<Link>dll\x64\opencv_ml2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_nonfree2410.dll">
+			<Link>dll\x64\opencv_nonfree2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_objdetect2410.dll">
+			<Link>dll\x64\opencv_objdetect2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_ocl2410.dll">
+			<Link>dll\x64\opencv_ocl2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_photo2410.dll">
+			<Link>dll\x64\opencv_photo2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_stitching2410.dll">
+			<Link>dll\x64\opencv_stitching2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_superres2410.dll">
+			<Link>dll\x64\opencv_superres2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_video2410.dll">
+			<Link>dll\x64\opencv_video2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\opencv_videostab2410.dll">
+			<Link>dll\x64\opencv_videostab2410.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(NativeDlls)\x64\OpenCvSharpExtern.dll">
+			<Link>dll\x64\OpenCvSharpExtern.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
