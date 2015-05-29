@@ -88,6 +88,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return NativeMethods.vector_Vec4f_getSize(ptr).ToInt32(); }
         }
+
         /// <summary>
         /// &amp;vector[0]
         /// </summary>

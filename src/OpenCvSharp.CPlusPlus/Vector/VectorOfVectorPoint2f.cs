@@ -75,9 +75,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return NativeMethods.vector_vector_Point2f_getSize1(ptr).ToInt32(); }
         }
+
         public int Size { get { return Size1; } }
+
         /// <summary>
-        /// vector.size()
+        /// vector[i].size()
         /// </summary>
         public long[] Size2
         {
@@ -93,8 +95,7 @@ namespace OpenCvSharp.CPlusPlus
                 }
                 return size2;
             }
-        }
-        
+        }        
 
         /// <summary>
         /// &amp;vector[0]

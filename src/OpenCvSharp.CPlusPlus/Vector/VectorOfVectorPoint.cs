@@ -77,7 +77,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return NativeMethods.vector_vector_Point_getSize1(ptr).ToInt32(); }
         }
+
         public int Size { get { return Size1; } }
+
         /// <summary>
         /// vector.size()
         /// </summary>
