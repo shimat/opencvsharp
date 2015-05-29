@@ -102,10 +102,11 @@ namespace OpenCvSharp.Extensions
                 {
                     case PixelFormat.Format1bppIndexed:
                     {
-                        if (dst.Channels() != 1)
-                        {
+                        if (dst.Channels() != 1)                        
                             throw new ArgumentException("Invalid nChannels");
-                        }
+                        if (submat)
+                            throw new NotImplementedException("submatrix not supported");
+
                         int x = 0;
                         int y;
                         int bytePos;
@@ -331,6 +332,9 @@ namespace OpenCvSharp.Extensions
             Rectangle rect = new Rectangle(0, 0, w, h);
             BitmapData bd = null;
 
+            bool submat = src.IsSubmatrix();
+            bool continuous = src.IsContinuous();
+
             try
             {
                 bd = dst.LockBits(rect, ImageLockMode.WriteOnly, pf);
@@ -347,6 +351,9 @@ namespace OpenCvSharp.Extensions
                 {
                     case PixelFormat.Format1bppIndexed:
                     {
+                        if (submat)
+                            throw new NotImplementedException("submatrix not supported");
+
                         // BitmapDataは4byte幅だが、IplImageは1byte幅
                         // 手作業で移し替える				 
                         //int offset = stride - (w / 8);
@@ -384,8 +391,6 @@ namespace OpenCvSharp.Extensions
                     case PixelFormat.Format8bppIndexed:
                     case PixelFormat.Format24bppRgb:
                     case PixelFormat.Format32bppArgb:
-                        bool submat = src.IsSubmatrix();
-                        bool continuous = src.IsContinuous();
                         if (sstep == dstep && !submat && continuous)
                         {
                             uint imageSize = (uint)(src.DataEnd.ToInt64() - src.Data.ToInt64());
@@ -395,8 +400,8 @@ namespace OpenCvSharp.Extensions
                         {
                             for (int y = 0; y < h; y++)
                             {
-                                int offsetSrc = (y * sstep);
-                                int offsetDst = (y * dstep);
+                                long offsetSrc = (y * sstep);
+                                long offsetDst = (y * dstep);
                                 // 一列ごとにコピー
                                 Util.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * ch);
                             }
