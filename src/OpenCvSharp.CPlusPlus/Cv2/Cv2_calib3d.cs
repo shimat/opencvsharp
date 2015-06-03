@@ -1126,9 +1126,12 @@ namespace OpenCvSharp.CPlusPlus
 
             int ret = NativeMethods.calib3d_findCirclesGrid_InputArray(
                 image.CvPtr, patternSize, centers.CvPtr, (int)flags, ToPtr(blobDetector));
+
             centers.Fix();
+            GC.KeepAlive(image);
             return ret != 0;
         }
+
         /// <summary>
         /// Finds centers in the grid of circles.
         /// </summary>
@@ -1148,15 +1151,18 @@ namespace OpenCvSharp.CPlusPlus
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-
+            
             using (var centersVec = new VectorOfPoint2f())
             {
                 int ret = NativeMethods.calib3d_findCirclesGrid_vector(
-                image.CvPtr, patternSize, centersVec.CvPtr, (int)flags, ToPtr(blobDetector));
+                    image.CvPtr, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector));
                 centers = centersVec.ToArray();
+
+                GC.KeepAlive(image);
                 return ret != 0;
             }
         }
+
         #endregion
         #region CalibrateCamera
         /// <summary>
