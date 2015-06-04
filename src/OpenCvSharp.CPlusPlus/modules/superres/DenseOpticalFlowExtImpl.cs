@@ -42,10 +42,10 @@ namespace OpenCvSharp.CPlusPlus
 
             var ptrObj = new Ptr<DenseOpticalFlowExt>(ptr);
             var obj = new DenseOpticalFlowExtImpl
-                {
-                    detectorPtr = ptrObj, 
-                    ptr = ptrObj.Obj
-                };
+            {
+                detectorPtr = ptrObj,
+                ptr = ptrObj.Obj
+            };
             return obj;
         }
 
@@ -58,10 +58,10 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid DenseOpticalFlowExt pointer");
             var obj = new DenseOpticalFlowExtImpl
-                {
-                    detectorPtr = null,
-                    ptr = ptr
-                };
+            {
+                detectorPtr = null,
+                ptr = ptr
+            };
             return obj;
         }
 
@@ -113,6 +113,7 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)
         /// </summary>
@@ -129,7 +130,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frame1"></param>
         /// <param name="flow1"></param>
         /// <param name="flow2"></param>
-        protected override void Calc(
+        public override void Calc(
             InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null)
         {
             if (frame0 == null)
@@ -141,14 +142,14 @@ namespace OpenCvSharp.CPlusPlus
             frame0.ThrowIfDisposed();
             frame1.ThrowIfDisposed();
             flow1.ThrowIfNotReady();
-            if(flow2 != null)
+            if (flow2 != null)
                 flow2.ThrowIfNotReady();
 
             NativeMethods.superres_DenseOpticalFlowExt_calc(
                 ptr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2));
 
             flow1.Fix();
-            if(flow2 != null)
+            if (flow2 != null)
                 flow2.Fix();
         }
 
@@ -158,7 +159,7 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         public override void CollectGarbage()
         {
-            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(ptr); 
+            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(ptr);
         }
 
         #endregion

@@ -30,6 +30,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -39,6 +40,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_GPU();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -68,6 +70,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -77,6 +80,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -133,6 +137,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frame1"></param>
         /// <param name="flow1"></param>
         /// <param name="flow2"></param>
-        protected abstract void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null);
+        public abstract void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null);
     }
 }
