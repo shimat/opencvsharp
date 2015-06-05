@@ -9,7 +9,7 @@ namespace OpenCvSharp.CPlusPlus
     /// EMモデルクラス
     /// </summary>
 #else
-	/// <summary>
+    /// <summary>
     /// EM model (cv::EM)
     /// </summary>
 #endif
@@ -19,35 +19,39 @@ namespace OpenCvSharp.CPlusPlus
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
+
         private Ptr<EM> modelPtr;
 
         #region Constants
+
 #pragma warning disable 1591
 // ReSharper disable InconsistentNaming
         // Default parameters
-	    public const int DEFAULT_NCLUSTERS = 5, 
+        public const int DEFAULT_NCLUSTERS = 5,
             DEFAULT_MAX_ITERS = 100;
+
         // Type of covariation matrices
-		public const EMCovMatType COV_MAT_SPHERICAL = EMCovMatType.Spherical;
-		public const EMCovMatType COV_MAT_DIAGONAL = EMCovMatType.Diagonal;
-		public const EMCovMatType COV_MAT_GENERIC = EMCovMatType.Generic;
+        public const EMCovMatType COV_MAT_SPHERICAL = EMCovMatType.Spherical;
+        public const EMCovMatType COV_MAT_DIAGONAL = EMCovMatType.Diagonal;
+        public const EMCovMatType COV_MAT_GENERIC = EMCovMatType.Generic;
         // The initial step
-		public const EMStartStep START_E_STEP = EMStartStep.E;
-		public const EMStartStep START_M_STEP = EMStartStep.M;
-		public const EMStartStep START_AUTO_STEP = EMStartStep.Auto;
+        public const EMStartStep START_E_STEP = EMStartStep.E;
+        public const EMStartStep START_M_STEP = EMStartStep.M;
+        public const EMStartStep START_AUTO_STEP = EMStartStep.Auto;
 // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
+
         #endregion
 
         #region Init and Disposal
 
 #if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="nClusters"></param>
-        /// <param name="covMatType"></param>
-        /// <param name="termCrit"></param>
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="nClusters"></param>
+    /// <param name="covMatType"></param>
+    /// <param name="termCrit"></param>
 #else
         /// <summary>
         /// Training constructor
@@ -57,13 +61,13 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="termCrit"></param>
 #endif
         public EM(
-            int nClusters = DEFAULT_NCLUSTERS, 
-            EMCovMatType covMatType = EMCovMatType.Diagonal, 
+            int nClusters = DEFAULT_NCLUSTERS,
+            EMCovMatType covMatType = EMCovMatType.Diagonal,
             TermCriteria? termCrit = null)
         {
             var termCrit0 = termCrit.GetValueOrDefault(
                 TermCriteria.Both(DEFAULT_MAX_ITERS, Double.Epsilon));
-            ptr = NativeMethods.ml_EM_new(nClusters, (int)covMatType, termCrit0);
+            ptr = NativeMethods.ml_EM_new(nClusters, (int) covMatType, termCrit0);
         }
 
         /// <summary>
@@ -74,6 +78,7 @@ namespace OpenCvSharp.CPlusPlus
             this.modelPtr = detectorPtr;
             this.ptr = detectorPtr.Get();
         }
+
         /// <summary>
         /// Creates instance by raw pointer cv::SURF*
         /// </summary>
@@ -82,6 +87,7 @@ namespace OpenCvSharp.CPlusPlus
             modelPtr = null;
             ptr = rawPtr;
         }
+
         /// <summary>
         /// Creates instance from cv::Ptr&lt;T&gt; .
         /// ptr is disposed when the wrapper disposes. 
@@ -96,13 +102,13 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
+    /// <param name="disposing">
+    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+    ///</param>
 #else
         /// <summary>
         /// Clean up any resources being used.
@@ -130,7 +136,7 @@ namespace OpenCvSharp.CPlusPlus
                         }
                         else
                         {
-                            if(ptr != IntPtr.Zero)
+                            if (ptr != IntPtr.Zero)
                                 NativeMethods.ml_EM_delete(ptr);
                             ptr = IntPtr.Zero;
                         }
@@ -143,22 +149,15 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.ml_EM_info(ptr); }
-        }
 
 #if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
 #else
         /// <summary>
         /// 
@@ -173,33 +172,34 @@ namespace OpenCvSharp.CPlusPlus
                 return NativeMethods.ml_EM_isTrained(ptr) != 0;
             }
         }
+
         #endregion
 
         #region Methods
 
 #if LANG_JP
-	    /// <summary>
-	    /// サンプル集合からガウス混合パラメータを推定する
-	    /// </summary>
-	    /// <param name="samples"></param>
-        /// <param name="logLikelihoods"></param>
-	    /// <param name="labels"></param>
-        /// <param name="probs"></param>
+    /// <summary>
+    /// サンプル集合からガウス混合パラメータを推定する
+    /// </summary>
+    /// <param name="samples"></param>
+    /// <param name="logLikelihoods"></param>
+    /// <param name="labels"></param>
+    /// <param name="probs"></param>
 #else
         /// <summary>
-	    /// Estimates Gaussian mixture parameters from the sample set
-	    /// </summary>
-	    /// <param name="samples"></param>
+        /// Estimates Gaussian mixture parameters from the sample set
+        /// </summary>
+        /// <param name="samples"></param>
         /// <param name="logLikelihoods"></param>
-	    /// <param name="labels"></param>
+        /// <param name="labels"></param>
         /// <param name="probs"></param>
 #endif
         public virtual bool Train(
-            InputArray samples, 
+            InputArray samples,
             OutputArray logLikelihoods = null,
             OutputArray labels = null,
             OutputArray probs = null)
-	    {
+        {
             if (disposed)
                 throw new ObjectDisposedException("EM");
             if (samples == null)
@@ -213,10 +213,10 @@ namespace OpenCvSharp.CPlusPlus
                 probs.ThrowIfNotReady();
 
             int ret = NativeMethods.ml_EM_train(
-                ptr, 
-                samples.CvPtr, 
-                Cv2.ToPtr(logLikelihoods), 
-                Cv2.ToPtr(labels), 
+                ptr,
+                samples.CvPtr,
+                Cv2.ToPtr(logLikelihoods),
+                Cv2.ToPtr(labels),
                 Cv2.ToPtr(probs));
 
             if (logLikelihoods != null)
@@ -227,30 +227,30 @@ namespace OpenCvSharp.CPlusPlus
                 probs.Fix();
 
             return ret != 0;
-	    }
+        }
 
 #if LANG_JP
-	    /// <summary>
-	    /// サンプル集合からガウス混合パラメータを推定する
-	    /// </summary>
-	    /// <param name="samples"></param>
-	    /// <param name="means0"></param>
-	    /// <param name="covs0"></param>
-	    /// <param name="weights0"></param>
-	    /// <param name="logLikelihoods"></param>
-	    /// <param name="labels"></param>
-        /// <param name="probs"></param>
+    /// <summary>
+    /// サンプル集合からガウス混合パラメータを推定する
+    /// </summary>
+    /// <param name="samples"></param>
+    /// <param name="means0"></param>
+    /// <param name="covs0"></param>
+    /// <param name="weights0"></param>
+    /// <param name="logLikelihoods"></param>
+    /// <param name="labels"></param>
+    /// <param name="probs"></param>
 #else
         /// <summary>
-	    /// Estimates Gaussian mixture parameters from the sample set
-	    /// </summary>
-	    /// <param name="samples"></param>
-	    /// <param name="means0"></param>
-	    /// <param name="covs0"></param>
-	    /// <param name="weights0"></param>
-	    /// <param name="logLikelihoods"></param>
-	    /// <param name="labels"></param>
-	    /// <param name="probs"></param>
+        /// Estimates Gaussian mixture parameters from the sample set
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="means0"></param>
+        /// <param name="covs0"></param>
+        /// <param name="weights0"></param>
+        /// <param name="logLikelihoods"></param>
+        /// <param name="labels"></param>
+        /// <param name="probs"></param>
 #endif
         public virtual bool TrainE(
             InputArray samples,
@@ -302,14 +302,14 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-	    /// <summary>
-	    /// サンプル集合からガウス混合パラメータを推定する
-	    /// </summary>
-	    /// <param name="samples"></param>
-	    /// <param name="probs0"></param>
-	    /// <param name="logLikelihoods"></param>
-	    /// <param name="labels"></param>
-        /// <param name="probs"></param>
+    /// <summary>
+    /// サンプル集合からガウス混合パラメータを推定する
+    /// </summary>
+    /// <param name="samples"></param>
+    /// <param name="probs0"></param>
+    /// <param name="logLikelihoods"></param>
+    /// <param name="labels"></param>
+    /// <param name="probs"></param>
 #else
         /// <summary>
         /// Estimates Gaussian mixture parameters from the sample set
@@ -362,11 +362,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-	    /// サンプルに対する応答を予測する
-	    /// </summary>
-	    /// <param name="sample"></param>
-	    /// <param name="probs"></param>
+    /// <summary>
+    /// サンプルに対する応答を予測する
+    /// </summary>
+    /// <param name="sample"></param>
+    /// <param name="probs"></param>
 #else
         /// <summary>
         /// Predicts the response for sample
@@ -381,31 +381,32 @@ namespace OpenCvSharp.CPlusPlus
             if (sample == null)
                 throw new ArgumentNullException("sample");
             sample.ThrowIfDisposed();
-            if(probs != null)
+            if (probs != null)
                 probs.ThrowIfNotReady();
 
             Vec2d ret;
             NativeMethods.ml_EM_predict(ptr, sample.CvPtr, Cv2.ToPtr(probs), out ret);
-            if (probs != null) 
+            if (probs != null)
                 probs.Fix();
             return ret;
         }
 
 #if LANG_JP
-        /// <summary>
-        /// メモリを解放し，モデルの状態をリセットする
-        /// </summary>
+    /// <summary>
+    /// メモリを解放し，モデルの状態をリセットする
+    /// </summary>
 #else
-		/// <summary>
+        /// <summary>
         /// Deallocates memory and resets the model state
         /// </summary>
 #endif
-        public void Clear() 
+        public void Clear()
         {
             if (disposed)
                 throw new ObjectDisposedException("EM");
             NativeMethods.ml_EM_clear(ptr);
         }
+
         #endregion
     }
 }

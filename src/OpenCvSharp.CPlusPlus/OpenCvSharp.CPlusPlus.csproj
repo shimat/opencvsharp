@@ -89,7 +89,6 @@
     <Compile Include="modules\bgsegm\BackgroundSubtractorGMG.cs" />
     <Compile Include="modules\bgsegm\BackgroundSubtractorMOG.cs" />
     <Compile Include="modules\calib3d\StereoMatcher.cs" />
-    <Compile Include="modules\cuda\CudaMem.cs" />
     <Compile Include="modules\cuda\DescriptorFormat.cs" />
     <Compile Include="modules\cuda\DeviceInfo.cs" />
     <Compile Include="modules\cuda\DisposableGpuObject.cs" />
@@ -208,7 +207,6 @@
     <Compile Include="modules\core\SVD.cs" />
     <Compile Include="modules\core\PCA.cs" />
     <Compile Include="modules\core\InputOutputArray.cs" />
-    <Compile Include="modules\core\AlgorithmInfo.cs" />
     <Compile Include="modules\features2d\BFMatcher.cs" />
     <Compile Include="modules\xfeatures2d\FREAK.cs" />
     <Compile Include="modules\features2d\ORB.cs" />

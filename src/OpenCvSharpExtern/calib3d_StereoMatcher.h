@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_CALIB3D_STEREOMATCHER_H_
 #define _CPP_CALIB3D_STEREOMATCHER_H_
 
@@ -14,11 +10,6 @@ CVAPI(void) calib3d_StereoMatcher_compute(
 	cv::Ptr<cv::StereoMatcher> *obj, cv::_InputArray *left, cv::_InputArray *right, cv::_OutputArray *disparity)
 {
 	(*obj)->compute(*left, *right, *disparity);
-}
-
-CVAPI(cv::AlgorithmInfo*) calib3d_Ptr_StereoMatcher_info(cv::Ptr<cv::StereoMatcher> *obj)
-{
-	return (*obj)->info();
 }
 
 CVAPI(int) calib3d_StereoMatcher_getMinDisparity(cv::Ptr<cv::StereoMatcher> *obj)
@@ -88,11 +79,6 @@ CVAPI(cv::Ptr<cv::StereoBM>*) calib3d_StereoBM_create(int numDisparities, int bl
 {
 	cv::Ptr<cv::StereoBM> obj = cv::StereoBM::create(numDisparities, blockSize);
 	return new cv::Ptr<cv::StereoBM>(obj);
-}
-
-CVAPI(cv::AlgorithmInfo*) calib3d_Ptr_StereoBM_info(cv::Ptr<cv::StereoBM> *obj)
-{
-	return (*obj)->info();
 }
 
 CVAPI(int) calib3d_StereoBM_getPreFilterType(cv::Ptr<cv::StereoBM> *obj)
@@ -188,11 +174,6 @@ CVAPI(cv::Ptr<cv::StereoSGBM>*) calib3d_StereoSGBM_create(
 		preFilterCap, uniquenessRatio,
 		speckleWindowSize, speckleRange, mode);
 	return new cv::Ptr<cv::StereoSGBM>(obj);
-}
-
-CVAPI(cv::AlgorithmInfo*) calib3d_Ptr_StereoSGBM_info(cv::Ptr<cv::StereoSGBM> *obj)
-{
-	return (*obj)->info();
 }
 
 CVAPI(int) calib3d_StereoSGBM_getPreFilterCap(cv::Ptr<cv::StereoSGBM> *obj)

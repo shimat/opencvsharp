@@ -214,23 +214,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             EnsureSizeIsEnough(size.Height, size.Width, type, m);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rows">Number of rows in a 2D array.</param>
-        /// <param name="cols">Number of columns in a 2D array.</param>
-        /// <param name="type">Array type.</param>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static GpuMat AllocMatFromBuf(int rows, int cols, MatType type, GpuMat mat)
-        {
-            ThrowIfGpuNotAvailable();
-            if (mat == null)
-                throw new ArgumentNullException("mat");
-            IntPtr ret = NativeMethods.cuda_allocMatFromBuf(rows, cols, type, mat.CvPtr);
-            return new GpuMat(ret);
-        }
-
         #endregion
 
         /// <summary>

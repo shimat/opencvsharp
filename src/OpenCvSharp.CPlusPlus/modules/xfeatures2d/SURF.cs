@@ -201,15 +201,6 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
             }
         }
         
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.xfeatures2d_SURF_info(ptr); }
-        }
-
         #endregion
     }
 }

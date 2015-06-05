@@ -35,10 +35,10 @@ namespace OpenCvSharp.CPlusPlus
                 throw new OpenCvSharpException("Invalid cv::Ptr<Feature2D> pointer");
             var ptrObj = new Ptr<Feature2D>(ptr);
             var detector = new Feature2D
-                {
-                    ptrObj = ptrObj, 
-                    ptr = ptrObj.Get()
-                };
+            {
+                ptrObj = ptrObj,
+                ptr = ptrObj.Get()
+            };
             return detector;
         }
 
@@ -84,15 +84,6 @@ namespace OpenCvSharp.CPlusPlus
                     base.Dispose(disposing);
                 }
             }
-        }
-        
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.features2d_Feature2D_info(ptr); }
         }
 
         /// <summary>
@@ -220,7 +211,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="inKeypoints">The input keypoints. Keypoints for which a descriptor cannot be computed are removed.</param>
         /// <param name="outKeypoints"></param>
         /// <param name="descriptors">Copmputed descriptors. Row i is the descriptor for keypoint i.</param>param>
-        public virtual void Compute(InputArray image, KeyPoint[] inKeypoints, out KeyPoint[] outKeypoints, OutputArray descriptors)
+        public virtual void Compute(InputArray image, KeyPoint[] inKeypoints, out KeyPoint[] outKeypoints,
+            OutputArray descriptors)
         {
             if (image == null)
                 throw new ArgumentNullException("image");

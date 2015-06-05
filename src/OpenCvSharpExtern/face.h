@@ -1,7 +1,4 @@
-#if WIN32
-#pragma once
-#endif
-
+#ifdef ENABLED_CONTRIB
 #ifndef _CPP_FACE_H_
 #define _CPP_FACE_H_
 
@@ -78,4 +75,5 @@ CVAPI(void) face_Ptr_FaceRecognizer_delete(cv::Ptr<FaceRecognizer> *obj)
 	delete obj;
 }
 
+#endif
 #endif

@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // TODO:
+
     static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -33,8 +35,6 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int ml_EM_isTrained(IntPtr model);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ml_EM_info(IntPtr model);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ml_EM_read(IntPtr model, IntPtr fn);
 

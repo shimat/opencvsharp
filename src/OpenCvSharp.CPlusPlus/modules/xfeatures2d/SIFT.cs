@@ -101,20 +101,6 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
         #endregion
 
         #region Properties
-        
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name); 
-                return NativeMethods.xfeatures2d_SIFT_info(ptr);
-            }
-        }
 
         #endregion
     }

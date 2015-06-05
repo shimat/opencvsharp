@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_ML_ANN_MLP_H_
 #define _CPP_ML_ANN_MLP_H_
 
@@ -9,9 +5,11 @@
 using namespace cv::ml;
 
 
-CVAPI(cv::Ptr<ANN_MLP>*) ml_ANN_MLP_create(ANN_MLP::Params params)
+// TODO
+
+CVAPI(cv::Ptr<ANN_MLP>*) ml_ANN_MLP_create()
 {
-	cv::Ptr<ANN_MLP> val = ANN_MLP::create(params);
+	cv::Ptr<ANN_MLP> val = ANN_MLP::create();
 	return new cv::Ptr<ANN_MLP>(val);
 }
 CVAPI(void) ml_ANN_MLP_delete(cv::Ptr<ANN_MLP> *obj)
@@ -19,13 +17,13 @@ CVAPI(void) ml_ANN_MLP_delete(cv::Ptr<ANN_MLP> *obj)
 	delete obj;
 }
 
-CVAPI(ANN_MLP::Params) ml_ANN_MLP_getParams(cv::Ptr<ANN_MLP> *obj)
+CVAPI(int) ml_ANN_MLP_getTrainMethod(cv::Ptr<ANN_MLP> *obj)
 {
-	return (*obj)->getParams();
+	return (*obj)->getTrainMethod();
 }
-CVAPI(void) ml_ANN_MLP_setParams(cv::Ptr<ANN_MLP> *obj, ANN_MLP::Params value)
+CVAPI(void) ml_ANN_MLP_setTrainMethod(cv::Ptr<ANN_MLP> *obj, int method, double param1, double param2)
 {
-	(*obj)->setParams(value);
+	(*obj)->setTrainMethod(method, param1, param2);
 }
 
 CVAPI(cv::Mat*) ml_ANN_MLP_getWeights(cv::Ptr<ANN_MLP> *obj, int layerIdx)

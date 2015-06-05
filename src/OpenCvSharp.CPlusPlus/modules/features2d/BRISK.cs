@@ -67,16 +67,16 @@ namespace OpenCvSharp.CPlusPlus
             float dMax = 5.85f, float dMin = 8.2f,
             IEnumerable<int> indexChange = null)
         {
-            if (radiusList == null) 
+            if (radiusList == null)
                 throw new ArgumentNullException("radiusList");
-            if (numberList == null) 
+            if (numberList == null)
                 throw new ArgumentNullException("numberList");
             float[] radiusListArray = Util.ToArray(radiusList);
             int[] numberListArray = Util.ToArray(numberList);
             int[] indexChangeArray = Util.ToArray(indexChange);
 
             IntPtr p = NativeMethods.features2d_BRISK_create2(
-                radiusListArray, radiusListArray.Length, 
+                radiusListArray, radiusListArray.Length,
                 numberListArray, numberListArray.Length,
                 dMax, dMin,
                 indexChangeArray, indexChangeArray.Length);
@@ -124,21 +124,10 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get
-            {
-                return NativeMethods.features2d_BRISK_info(ptr);
-            }
-        }
 
         #endregion
     }

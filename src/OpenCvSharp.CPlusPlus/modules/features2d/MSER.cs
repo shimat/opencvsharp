@@ -228,19 +228,6 @@ namespace OpenCvSharp.CPlusPlus
             GC.KeepAlive(image);
         }
 
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name); 
-                return NativeMethods.features2d_MSER_info(ptr);
-            }
-        }
         #endregion
     }
 }

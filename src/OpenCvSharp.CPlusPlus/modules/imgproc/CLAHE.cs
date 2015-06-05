@@ -8,6 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     public sealed class CLAHE : Algorithm
     {
         private bool disposed;
+
         /// <summary>
         /// cv::Ptr&lt;CLAHE&gt;
         /// </summary>
@@ -34,10 +35,10 @@ namespace OpenCvSharp.CPlusPlus
 
             var ptrObj = new Ptr<CLAHE>(ptr);
             var ret = new CLAHE
-                {
-                    ptr = ptrObj.Get(),
-                    ptrObj = ptrObj,
-                };
+            {
+                ptr = ptrObj.Get(),
+                ptrObj = ptrObj,
+            };
             return ret;
         }
 
@@ -100,15 +101,6 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.imgproc_CLAHE_info(ptr); }
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="src"></param>
@@ -117,9 +109,9 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
-            if (src == null) 
+            if (src == null)
                 throw new ArgumentNullException("src");
-            if (dst == null) 
+            if (dst == null)
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -153,7 +145,7 @@ namespace OpenCvSharp.CPlusPlus
 
             return NativeMethods.imgproc_CLAHE_getClipLimit(ptr);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>

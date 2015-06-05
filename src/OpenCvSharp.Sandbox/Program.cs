@@ -222,17 +222,6 @@ namespace OpenCvSharp.Sandbox
             var dm = DescriptorMatcher.Create("BruteForce");
             dm.Clear();
 
-            string[] algoNames = Algorithm.GetList();
-            Console.WriteLine(String.Join("\n", algoNames));
-
-            SIFT al1 = SIFT.Create();
-            string[] ppp = al1.GetParams();
-            Console.WriteLine(ppp);
-            var t = al1.ParamType("contrastThreshold");
-            double d = al1.GetDouble("contrastThreshold");
-            t.ToString();
-            d.ToString();
-
             var src = new Mat("data/lenna.png");
             var rand = new Random();
             var memory = new List<long>(100);

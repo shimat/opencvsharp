@@ -211,16 +211,5 @@ namespace OpenCvSharp.CPlusPlus
 
         #endregion
 
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get
-            {
-                return NativeMethods.calib3d_Ptr_StereoSGBM_info(ptr);
-            }
-        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
@@ -39,13 +38,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
-            
+
             var ptrObj = new Ptr<SuperResolution>(ptr);
             var obj = new SuperResolutionImpl
-                {
-                    detectorPtr = ptrObj,
-                    ptr = ptrObj.Get()
-                };
+            {
+                detectorPtr = ptrObj,
+                ptr = ptrObj.Get()
+            };
             return obj;
         }
 
@@ -58,10 +57,10 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
             var obj = new SuperResolutionImpl
-                {
-                    detectorPtr = null,
-                    ptr = ptr
-                };
+            {
+                detectorPtr = null,
+                ptr = ptr
+            };
             return obj;
         }
 
@@ -113,14 +112,6 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.superres_SuperResolution_info(ptr); }
-        }
 
         /// <summary>
         /// 
@@ -133,6 +124,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("fs");
             NativeMethods.superres_SuperResolution_setInput(ptr, fs.CvPtr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -146,6 +138,7 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.superres_SuperResolution_nextFrame(ptr, frame.CvPtr);
             frame.Fix();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -154,6 +147,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             NativeMethods.superres_SuperResolution_reset(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -171,6 +165,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             // ネイティブ実装なので特別に空で。
         }
+
         /// <summary>
         /// 
         /// </summary>

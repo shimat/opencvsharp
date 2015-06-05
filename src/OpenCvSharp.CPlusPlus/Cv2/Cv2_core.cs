@@ -1510,20 +1510,6 @@ namespace OpenCvSharp.CPlusPlus
             NativeMethods.core_exp_Mat(src.CvPtr, dst.CvPtr);
             dst.Fix();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <returns></returns>
-        public static float[] Exp(float[] src)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            var dst = new float[src.Length];
-            NativeMethods.core_exp_Array(src, dst, dst.Length);
-            return dst;
-        }
         #endregion
         #region Log
         /// <summary>
@@ -1543,19 +1529,6 @@ namespace OpenCvSharp.CPlusPlus
             dst.Fix();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <returns></returns>
-        public static float[] Log(float[] src)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            var dst = new float[src.Length];
-            NativeMethods.core_log_Array(src, dst, dst.Length);
-            return dst;
-        }
         #endregion
         #region CubeRoot
         /// <summary>
@@ -1578,27 +1551,6 @@ namespace OpenCvSharp.CPlusPlus
         public static float FastAtan2(float y, float x)
         {
             return NativeMethods.core_fastAtan2(y, x);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="y"></param>
-        /// <param name="x"></param>
-        /// <param name="angleInDegrees"></param>
-        /// <returns></returns>
-        public static float[] FastAtan2(float[] y, float[] x, bool angleInDegrees)
-        {
-            if (y == null)
-                throw new ArgumentNullException("y");
-            if (x == null)
-                throw new ArgumentNullException("x");
-            if (y.Length != x.Length)
-                throw new ArgumentException("y.Length != x.Length");
-            if (y.Length  == 0)
-                throw new ArgumentException("y.Length == 0");
-            float[] dst = new float[y.Length];
-            NativeMethods.core_fastAtan2_Array(y, x, dst, dst.Length, angleInDegrees ? 1 : 0);
-            return dst;
         }
         #endregion
         #region PolarToCart
@@ -1702,26 +1654,6 @@ namespace OpenCvSharp.CPlusPlus
             magnitude.ThrowIfNotReady();
             NativeMethods.core_magnitude_Mat(x.CvPtr, y.CvPtr, magnitude.CvPtr);
             magnitude.Fix();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public static float[] Magnitude(float[] x, float[] y)
-        {
-            if (y == null)
-                throw new ArgumentNullException("y");
-            if (x == null)
-                throw new ArgumentNullException("x");
-            if (y.Length != x.Length)
-                throw new ArgumentException("y.Length != x.Length");
-            if (y.Length == 0)
-                throw new ArgumentException("y.Length == 0");
-            float[] dst = new float[y.Length];
-            NativeMethods.core_magnitude_Array(y, x, dst, dst.Length);
-            return dst;
         }
         #endregion
         #region CheckRange
@@ -3176,7 +3108,6 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.core_getTextSize(text, (int)fontFace, fontScale, thickness, out baseLine);
         }
         #endregion
-        #endregion
-        
+        #endregion     
     }
 }

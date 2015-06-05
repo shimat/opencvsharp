@@ -90,6 +90,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_DenseOpticalFlow_info(IntPtr obj);
 
+        // TODO
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_createOptFlow_DualTVL1();
 

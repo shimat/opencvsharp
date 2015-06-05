@@ -10,15 +10,6 @@ namespace OpenCvSharp.CPlusPlus
     public abstract class BackgroundSubtractor : Algorithm
     {
         /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.video_BackgroundSubtractor_info(ptr); }
-        }
-
-        /// <summary>
         /// the update operator that takes the next video frame and returns the current foreground mask as 8-bit binary image.
         /// </summary>
         /// <param name="image"></param>

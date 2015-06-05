@@ -135,15 +135,6 @@ namespace OpenCvSharp.CPlusPlus.Face
         #region Methods
 
         /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.face_FaceRecognizer_info(ptr); }
-        }
-
-        /// <summary>
         /// Trains a FaceRecognizer.
         /// </summary>
         /// <param name="src"></param>

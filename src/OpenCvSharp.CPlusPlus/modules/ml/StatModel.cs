@@ -9,17 +9,18 @@ namespace OpenCvSharp.CPlusPlus.ML
     /// ML 統計モデルのための基本クラス
     /// </summary>
 #else
-	/// <summary>
+    /// <summary>
     /// Base class for statistical models in ML
     /// </summary>
 #endif
-    abstract public class StatModel : Algorithm
-	{
+    public abstract class StatModel : Algorithm
+    {
         #region Init and Disposal
+
 #if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
+    /// <summary>
+    /// 初期化
+    /// </summary>
 #else
         /// <summary>
         /// Default constructor
@@ -32,14 +33,7 @@ namespace OpenCvSharp.CPlusPlus.ML
         #endregion
 
         #region Methods
-        #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public override IntPtr InfoPtr
-        {
-            get { throw new NotImplementedException(); }
-        }
+        #endregion
     }
 }

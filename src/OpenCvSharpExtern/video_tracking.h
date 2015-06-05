@@ -1,7 +1,3 @@
-#ifdef WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_VIDEO_TRACKING_H_
 #define _CPP_VIDEO_TRACKING_H_
 
@@ -160,12 +156,8 @@ CVAPI(void) video_DenseOpticalFlow_collectGarbage(cv::DenseOpticalFlow *obj)
 {
 	obj->collectGarbage();
 }
-CVAPI(cv::AlgorithmInfo*) video_DenseOpticalFlow_info(cv::DenseOpticalFlow *obj)
-{
-	return obj->info();
-}
 
-CVAPI(cv::Ptr<cv::DenseOpticalFlow>*) video_createOptFlow_DualTVL1()
+CVAPI(cv::Ptr<cv::DualTVL1OpticalFlow>*) video_createOptFlow_DualTVL1()
 {
 	return clone(cv::createOptFlow_DualTVL1());
 }

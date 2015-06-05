@@ -147,9 +147,5 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_ensureSizeIsEnough(
             int rows, int cols, int type, IntPtr m);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_allocMatFromBuf(
-            int rows, int cols, int type, IntPtr mat);
     }
 }

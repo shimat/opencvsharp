@@ -280,13 +280,5 @@ namespace OpenCvSharp.CPlusPlus
         
         #endregion
 
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.bgsegm_BackgroundSubtractorGMG_info(ptr); }
-        }
     }
 }

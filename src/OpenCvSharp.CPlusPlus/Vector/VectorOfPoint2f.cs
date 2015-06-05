@@ -15,6 +15,7 @@ namespace OpenCvSharp.CPlusPlus
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -22,6 +23,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             ptr = NativeMethods.vector_Point2f_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -30,6 +32,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             this.ptr = ptr;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -40,6 +43,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentOutOfRangeException("size");
             ptr = NativeMethods.vector_Point2f_new2(new IntPtr(size));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -77,9 +81,11 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -95,15 +101,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return NativeMethods.vector_Point2f_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
         public Point2f[] ToArray()
-        {            
+        {
             int size = Size;
             if (size == 0)
             {
@@ -112,10 +120,11 @@ namespace OpenCvSharp.CPlusPlus
             Point2f[] dst = new Point2f[size];
             using (ArrayAddress1<Point2f> dstPtr = new ArrayAddress1<Point2f>(dst))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, Point2f.SizeOf * dst.Length);
+                Util.CopyMemory(dstPtr, ElemPtr, Point2f.SizeOf*dst.Length);
             }
             return dst;
         }
+
         #endregion
     }
 }

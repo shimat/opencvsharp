@@ -122,19 +122,6 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return NativeMethods.features2d_FlannBasedMatcher_info(ptr);
-            }
-        }
-
-        /// <summary>
         /// Add descriptors to train descriptor collection.
         /// </summary>
         /// <param name="descriptors">Descriptors to add. Each descriptors[i] is a descriptors set from one image.</param>

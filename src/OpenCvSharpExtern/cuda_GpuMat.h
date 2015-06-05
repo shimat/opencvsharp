@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_GPU_GPUMAT_H_
 #define _CPP_GPU_GPUMAT_H_
 
@@ -284,12 +280,5 @@ CVAPI(void) cuda_ensureSizeIsEnough(int rows, int cols, int type, GpuMat *m)
 {
 	ensureSizeIsEnough(rows, cols, type, *m);
 }
-
-CVAPI(GpuMat*) cuda_allocMatFromBuf(int rows, int cols, int type, GpuMat *mat)
-{
-	GpuMat gm = allocMatFromBuf(rows, cols, type, *mat);
-	return new GpuMat(gm);
-}
-
 
 #endif

@@ -159,15 +159,6 @@ namespace OpenCvSharp.CPlusPlus
         #region Methods
 
         /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.features2d_DescriptorMatcher_info(ptr); }
-        }
-
-        /// <summary>
         /// Add descriptors to train descriptor collection.
         /// </summary>
         /// <param name="descriptors">Descriptors to add. Each descriptors[i] is a descriptors set from one image.</param>

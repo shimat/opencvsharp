@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_ML_STATMODEL_H_
 #define _CPP_ML_STATMODEL_H_
 
@@ -58,12 +54,6 @@ CVAPI(float) ml_StatModel_predict(
 CVAPI(void) ml_StatModel_save(cv::Ptr<StatModel> *obj, const char *filename)
 {
 	return (*obj)->save(cv::String(filename));
-}
-
-CVAPI(void) ml_StatModel_getDefaultModelName(cv::Ptr<StatModel> *obj, char *buf, int bufLength)
-{
-	cv::String str = (*obj)->getDefaultModelName();
-	copyString(str, buf, bufLength);
 }
 
 #endif

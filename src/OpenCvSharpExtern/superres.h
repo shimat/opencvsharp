@@ -1,16 +1,7 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_SUPERRES_H_
 #define _CPP_SUPERRES_H_
 
 #include "include_opencv.h"
-
-CVAPI(int) superres_initModule_superres()
-{
-    return cv::superres::initModule_superres() ? 1 : 0;
-}
 
 CVAPI(void) superres_FrameSource_nextFrame(
 	cv::Ptr<cv::superres::FrameSource> *obj, cv::_OutputArray *frame)
@@ -68,10 +59,6 @@ CVAPI(void) superres_SuperResolution_collectGarbage(cv::superres::SuperResolutio
 {
     obj->collectGarbage();
 }
-CVAPI(cv::AlgorithmInfo*) superres_SuperResolution_info(cv::superres::SuperResolution *obj)
-{
-    return obj->info();
-}
 
 CVAPI(cv::Ptr<cv::superres::SuperResolution>*) superres_createSuperResolution_BTVL1()
 {
@@ -98,8 +85,6 @@ CVAPI(void) superres_Ptr_SuperResolution_delete(cv::Ptr<cv::superres::SuperResol
 }
 
 
-
-
 CVAPI(void) superres_DenseOpticalFlowExt_calc(cv::superres::DenseOpticalFlowExt *obj,
     cv::_InputArray *frame0, cv::_InputArray *frame1, cv::_OutputArray *flow1, cv::_OutputArray *flow2)
 {
@@ -108,10 +93,6 @@ CVAPI(void) superres_DenseOpticalFlowExt_calc(cv::superres::DenseOpticalFlowExt 
 CVAPI(void) superres_DenseOpticalFlowExt_collectGarbage(cv::superres::DenseOpticalFlowExt *obj)
 {
     obj->collectGarbage();
-}
-CVAPI(cv::AlgorithmInfo*) superres_DenseOpticalFlowExt_info(cv::superres::DenseOpticalFlowExt *obj)
-{
-    return obj->info();
 }
 
 CVAPI(cv::superres::DenseOpticalFlowExt*) superres_Ptr_DenseOpticalFlowExt_get(
@@ -125,11 +106,11 @@ CVAPI(void) superres_Ptr_DenseOpticalFlowExt_delete(
     delete ptr;
 }
 
-CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_Farneback()
+CVAPI(cv::Ptr<cv::superres::FarnebackOpticalFlow>*) superres_createOptFlow_Farneback()
 {
     return clone(cv::superres::createOptFlow_Farneback());
 }
-CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_Farneback_CUDA()
+CVAPI(cv::Ptr<cv::superres::FarnebackOpticalFlow>*) superres_createOptFlow_Farneback_CUDA()
 {
     return clone(cv::superres::createOptFlow_Farneback_CUDA());
 }
@@ -144,11 +125,11 @@ CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_Simple
 {
     return clone(cv::superres::createOptFlow_Simple());
 }*/
-CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_DualTVL1()
+CVAPI(cv::Ptr<cv::superres::DualTVL1OpticalFlow>*) superres_createOptFlow_DualTVL1()
 {
     return clone(cv::superres::createOptFlow_DualTVL1());
 }
-CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_DualTVL1_CUDA()
+CVAPI(cv::Ptr<cv::superres::DualTVL1OpticalFlow>*) superres_createOptFlow_DualTVL1_CUDA()
 {
     return clone(cv::superres::createOptFlow_DualTVL1_CUDA());
 }
@@ -158,11 +139,11 @@ CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_DualTV
     return clone(cv::superres::createOptFlow_DualTVL1_OCL());
 }
 */
-CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_Brox_GPU()
+CVAPI(cv::Ptr<cv::superres::BroxOpticalFlow>*) superres_createOptFlow_Brox_GPU()
 {
     return clone(cv::superres::createOptFlow_Brox_CUDA());
 }
-CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_PyrLK_GPU()
+CVAPI(cv::Ptr<cv::superres::PyrLKOpticalFlow>*) superres_createOptFlow_PyrLK_GPU()
 {
     return clone(cv::superres::createOptFlow_PyrLK_CUDA());
 }

@@ -85,78 +85,10 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void cuda_printShortCudaDeviceInfo(int device);
         #endregion
 
-        #region CudaMem
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_registerPageLocked(IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_unregisterPageLocked(IntPtr m);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_CudaMem_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_CudaMem_new2(IntPtr m);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_CudaMem_new3(int rows, int cols, int type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_CudaMem_new4(IntPtr m);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cuda_CudaMem_delete(IntPtr m);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cuda_CudaMem_opAssign(IntPtr left, IntPtr right);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_CudaMem_clone(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cuda_CudaMem_create(IntPtr obj, int rows, int cols, int type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cuda_CudaMem_release(IntPtr obj);
-        
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_CudaMem_createMatHeader(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_CudaMem_createGpuMatHeader(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_isContinuous(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ulong cuda_CudaMem_elemSize(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ulong cuda_CudaMem_elemSize1(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_type(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_depth(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_channels(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ulong cuda_CudaMem_step1(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize cuda_CudaMem_size(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_empty(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_flags(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_rows(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_cols(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ulong cuda_CudaMem_step(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* cuda_CudaMem_data(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe int* cuda_CudaMem_refcount(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* cuda_CudaMem_datastart(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe byte* cuda_CudaMem_dataend(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int cuda_CudaMem_alloc_type(IntPtr obj);
-
-        #endregion
 
         #region Stream
 

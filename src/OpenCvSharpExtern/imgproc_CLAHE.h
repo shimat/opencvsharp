@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_IMGPROC_CLAHE_H_
 #define _CPP_IMGPROC_CLAHE_H_
 
@@ -22,11 +18,6 @@ CVAPI(void) imgproc_Ptr_CLAHE_delete(cv::Ptr<cv::CLAHE> *obj)
 CVAPI(cv::CLAHE*) imgproc_Ptr_CLAHE_get(cv::Ptr<cv::CLAHE> *obj)
 {
 	return obj->get();
-}
-
-CVAPI(cv::AlgorithmInfo*) imgproc_CLAHE_info(cv::CLAHE *obj)
-{
-	return obj->info();
 }
 
 

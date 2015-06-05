@@ -42,10 +42,10 @@ namespace OpenCvSharp.CPlusPlus
 
             var ptrObj = new Ptr<DenseOpticalFlow>(ptr);
             var obj = new DenseOpticalFlowImpl
-                {
-                    detectorPtr = ptrObj,
-                    ptr = ptrObj.Get()
-                };
+            {
+                detectorPtr = ptrObj,
+                ptr = ptrObj.Get()
+            };
             return obj;
         }
 
@@ -58,10 +58,10 @@ namespace OpenCvSharp.CPlusPlus
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid DenseOpticalFlow pointer");
             var obj = new DenseOpticalFlowImpl
-                {
-                    detectorPtr = null,
-                    ptr = ptr
-                };
+            {
+                detectorPtr = null,
+                ptr = ptr
+            };
             return obj;
         }
 
@@ -113,14 +113,6 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.video_DenseOpticalFlow_info(ptr); }
-        }
 
         /// <summary>
         /// 
@@ -148,7 +140,7 @@ namespace OpenCvSharp.CPlusPlus
 
             flow.Fix();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -158,6 +150,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ObjectDisposedException("DenseOpticalFlowImpl");
             NativeMethods.video_DenseOpticalFlow_collectGarbage(ptr);
         }
+
         #endregion
     }
 }

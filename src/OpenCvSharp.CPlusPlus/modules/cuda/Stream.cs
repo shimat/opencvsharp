@@ -11,6 +11,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
     /// <param name="status"></param>
     /// <param name="userData"></param>
     public delegate void StreamCallback(Stream stream, int status, object userData);
+
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void StreamCallbackInternal(IntPtr stream, int status, IntPtr userData);
 
@@ -29,6 +30,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
+
         private StreamCallbackInternal callbackInternal;
         private GCHandle callbackHandle;
         private GCHandle userDataHandle;
@@ -76,9 +78,9 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         }
 
 #if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
 #else
         /// <summary>
         /// Clean up any resources being used.
@@ -88,14 +90,15 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         {
             Dispose(true);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
+    /// <param name="disposing">
+    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+    ///</param>
 #else
         /// <summary>
         /// Clean up any resources being used.
@@ -112,7 +115,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                 try
                 {
                     if (disposing)
-                    {                        
+                    {
                     }
                     if (IsEnabledDispose)
                     {
@@ -187,24 +190,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// </summary>
         /// <param name="src"></param>
         /// <param name="dst"></param>
-        public void EnqueueDownload(GpuMat src, CudaMem dst)
-        {
-            ThrowIfDisposed();
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-
-            NativeMethods.cuda_Stream_enqueueDownload_CudaMem(ptr, src.CvPtr, dst.CvPtr);
-        }
-        /// <summary>
-        /// Downloads asynchronously.
-        /// Warning! cv::Mat must point to page locked memory (i.e. to CudaMem data or to its subMat)
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
         public void EnqueueDownload(GpuMat src, Mat dst)
         {
             ThrowIfDisposed();
@@ -216,25 +201,6 @@ namespace OpenCvSharp.CPlusPlus.Gpu
             dst.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueDownload_Mat(ptr, src.CvPtr, dst.CvPtr);
-        }
-
-        /// <summary>
-        /// Uploads asynchronously.
-        /// Warning! cv::Mat must point to page locked memory (i.e. to CudaMem data or to its ROI)
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        public void EnqueueUpload(CudaMem src, GpuMat dst)
-        {
-            ThrowIfDisposed();
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null) 
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-
-            NativeMethods.cuda_Stream_enqueueUpload_CudaMem(ptr, src.CvPtr, dst.CvPtr);
         }
 
         /// <summary>
@@ -288,6 +254,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
 
             NativeMethods.cuda_Stream_enqueueMemSet(ptr, src.CvPtr, val);
         }
+
         /// <summary>
         /// Memory set asynchronously
         /// </summary>
@@ -341,7 +308,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
                 callbackHandle.Free();
             if (userDataHandle.IsAllocated)
                 userDataHandle.Free();
-            
+
             IntPtr userDataPtr = IntPtr.Zero;
             if (userData != null)
             {
@@ -364,5 +331,3 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         }
     }
 }
-
-

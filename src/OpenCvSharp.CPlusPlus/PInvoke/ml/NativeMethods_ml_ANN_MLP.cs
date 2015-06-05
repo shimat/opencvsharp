@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // TODO
+
     static partial class NativeMethods
     {
         

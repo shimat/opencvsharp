@@ -5,11 +5,10 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.CPlusPlus
 {
+    // TODO
+
     static partial class NativeMethods
     {
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int superres_initModule_superres();
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void superres_FrameSource_nextFrame(IntPtr obj, IntPtr frame);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -53,8 +52,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr superres_Ptr_SuperResolution_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void superres_Ptr_SuperResolution_delete(IntPtr ptr);
-
-
+        
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void superres_DenseOpticalFlowExt_calc(

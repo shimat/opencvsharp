@@ -49,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
             int selectedPairslength = selectedPairs == null ? 0 : selectedPairsArray.Length;
 
             IntPtr ptr = NativeMethods.xfeatures2d_FREAK_create(orientationNormalized ? 1 : 0,
-                scaleNormalized ? 1 : 0, patternScale, nOctaves, 
+                scaleNormalized ? 1 : 0, patternScale, nOctaves,
                 selectedPairsArray, selectedPairslength);
             return new FREAK(ptr);
         }
@@ -96,23 +96,11 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
                 }
             }
         }
+
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name); 
-                return NativeMethods.xfeatures2d_FREAK_info(ptr);
-            }
-        }
         #endregion
     }
 }

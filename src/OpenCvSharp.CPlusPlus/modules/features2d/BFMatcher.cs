@@ -14,6 +14,7 @@ namespace OpenCvSharp.CPlusPlus
         private Ptr<BFMatcher> detectorPtr;
 
         #region Init & Disposal
+
         /// <summary>
         /// 
         /// </summary>
@@ -21,7 +22,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="crossCheck"></param>
         public BFMatcher(NormType normType = NormType.L2, bool crossCheck = false)
         {
-            ptr = NativeMethods.features2d_BFMatcher_new((int)normType, crossCheck ? 1 : 0);
+            ptr = NativeMethods.features2d_BFMatcher_new((int) normType, crossCheck ? 1 : 0);
         }
 
         /// <summary>
@@ -32,6 +33,7 @@ namespace OpenCvSharp.CPlusPlus
             this.detectorPtr = detectorPtr;
             this.ptr = detectorPtr.Get();
         }
+
         /// <summary>
         /// Creates instance by raw pointer T*
         /// </summary>
@@ -40,12 +42,13 @@ namespace OpenCvSharp.CPlusPlus
             detectorPtr = null;
             ptr = rawPtr;
         }
+
         /// <summary>
         /// Creates instance from cv::Ptr&lt;T&gt; .
         /// ptr is disposed when the wrapper disposes. 
         /// </summary>
         /// <param name="ptr"></param>
-        internal static new BFMatcher FromPtr(IntPtr ptr)
+        internal new static BFMatcher FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid cv::Ptr<BFMatcher> pointer");
@@ -100,9 +103,11 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Return true if the matcher supports mask in match methods.
         /// </summary>
@@ -113,17 +118,6 @@ namespace OpenCvSharp.CPlusPlus
             return NativeMethods.features2d_BFMatcher_isMaskSupported(ptr) != 0;
         }
 
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get
-            {
-                return NativeMethods.features2d_BFMatcher_info(ptr);
-            }
-        }
         #endregion
     }
 }

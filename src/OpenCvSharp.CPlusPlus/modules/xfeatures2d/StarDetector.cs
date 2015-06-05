@@ -106,20 +106,6 @@ namespace OpenCvSharp.CPlusPlus.XFeatures2D
 
         #region Methods
 
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name); 
-                return NativeMethods.xfeatures2d_StarDetector_info(ptr);
-            }
-        }
-
         #endregion
     }
 }

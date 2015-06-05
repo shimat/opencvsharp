@@ -13,6 +13,7 @@ namespace OpenCvSharp.CPlusPlus
         /// cv::Ptr&lt;T&gt;
         /// </summary>
         private Ptr<BackgroundSubtractorMOG> objectPtr;
+
         /// <summary>
         /// 
         /// </summary>
@@ -85,6 +86,7 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Properties
@@ -166,14 +168,5 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #endregion
-
-        /// <summary>
-        /// Pointer to algorithm information (cv::AlgorithmInfo*)
-        /// </summary>
-        /// <returns></returns>
-        public override IntPtr InfoPtr
-        {
-            get { return NativeMethods.bgsegm_BackgroundSubtractorMOG_info(ptr); }
-        }
     }
 }

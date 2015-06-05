@@ -176,14 +176,6 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern float core_fastAtan2(float y, float x);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_exp_Array(float[] src, float[] dst, int n);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_log_Array(float[] src, float[] dst, int n);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_fastAtan2_Array(float[] y, float[] x, float[] dst, int n, int angleInDegrees);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_magnitude_Array(float[] x, float[] y, float[] dst, int n);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_polarToCart(IntPtr magnitude, IntPtr angle, IntPtr x, IntPtr y, int angleInDegrees);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_cartToPolar(IntPtr x, IntPtr y, IntPtr magnitude, IntPtr angle, int angleInDegrees);
