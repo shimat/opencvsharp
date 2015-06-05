@@ -31,6 +31,8 @@ namespace OpenCvSharp.CPlusPlus
 
         private static readonly string[] DllNames =
         {
+            "opencv_world",
+            /*
             "opencv_cudacodec", // core
             "opencv_cudaarithm", // core
             "opencv_cudalegacy", // objdetect
@@ -45,7 +47,7 @@ namespace OpenCvSharp.CPlusPlus
             "opencv_bgsegm",
             "opencv_face",
             "opencv_optflow",
-            "opencv_xfeatures2d",
+            "opencv_xfeatures2d",*/
         };
 
         /// <summary>
