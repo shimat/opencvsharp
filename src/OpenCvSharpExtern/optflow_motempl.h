@@ -1,7 +1,4 @@
-#ifdef WIN32
-#pragma once
-#endif
-
+#ifdef ENABLED_CONTRIB
 #ifndef _CPP_OPTFLOW_MOTEMPL_H_
 #define _CPP_OPTFLOW_MOTEMPL_H_
 
@@ -37,4 +34,5 @@ CVAPI(void) optflow_motempl_segmentMotion(
 	segmentMotion(*mhi, *segmask, *boundingRects, timestamp, segThresh);
 }
 
+#endif
 #endif

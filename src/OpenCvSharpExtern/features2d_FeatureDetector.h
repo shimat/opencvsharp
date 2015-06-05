@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_FEATURES2DFEATUREDETECTOR_H_
 #define _CPP_FEATURES2DFEATUREDETECTOR_H_
 
@@ -16,11 +12,6 @@ CVAPI(cv::Feature2D*) features2d_Ptr_Feature2D_get(cv::Ptr<cv::Feature2D>* ptr)
 CVAPI(void) features2d_Ptr_Feature2D_delete(cv::Ptr<cv::Feature2D>* ptr)
 {
 	delete ptr;
-}
-
-CVAPI(cv::AlgorithmInfo*) features2d_Feature2D_info(cv::FeatureDetector *obj)
-{
-	return obj->info();
 }
 
 CVAPI(void) features2d_Feature2D_detect_Mat1(
@@ -125,11 +116,6 @@ CVAPI(void) features2d_Ptr_BRISK_delete(cv::Ptr<cv::BRISK> *ptr)
 	delete ptr;
 }
 
-CVAPI(cv::AlgorithmInfo*) features2d_BRISK_info(cv::BRISK *obj)
-{
-	return obj->info();
-}
-
 CVAPI(cv::BRISK*) features2d_Ptr_BRISK_get(cv::Ptr<cv::BRISK> *ptr)
 {
     return ptr->get();
@@ -156,11 +142,6 @@ CVAPI(cv::ORB*) features2d_Ptr_ORB_get(cv::Ptr<cv::ORB> *ptr)
 {
 	return ptr->get();
 }
-CVAPI(cv::AlgorithmInfo*) features2d_ORB_info(cv::ORB *obj)
-{
-	return obj->info();
-}
-
 
 #pragma endregion
 
@@ -184,10 +165,6 @@ CVAPI(void) features2d_MSER_detectRegions(
 	std::vector<cv::Rect> *bboxes)
 {
 	obj->detectRegions(*image, *msers, *bboxes);
-}
-CVAPI(cv::AlgorithmInfo*) features2d_MSER_info(cv::MSER *obj)
-{
-	return obj->info();
 }
 
 CVAPI(cv::MSER*) features2d_Ptr_MSER_get(cv::Ptr<cv::MSER> *ptr)
@@ -245,11 +222,6 @@ CVAPI(void) features2d_Ptr_FastFeatureDetector_delete(cv::Ptr<cv::FastFeatureDet
 	delete ptr;
 }
 
-CVAPI(cv::AlgorithmInfo*) features2d_FastFeatureDetector_info(cv::FastFeatureDetector *obj)
-{
-	return obj->info();
-}
-
 CVAPI(cv::FastFeatureDetector*) features2d_Ptr_FastFeatureDetector_get(cv::Ptr<cv::FastFeatureDetector> *ptr)
 {
     return ptr->get();
@@ -300,10 +272,6 @@ CVAPI(void) features2d_Ptr_GFTTDetector_delete(cv::Ptr<cv::GFTTDetector> *ptr)
 	delete ptr;
 }
 
-CVAPI(cv::AlgorithmInfo*) features2d_GFTTDetector_info(cv::GFTTDetector *obj)
-{
-	return obj->info();
-}
 CVAPI(cv::GFTTDetector*) features2d_Ptr_GFTTDetector_get(cv::Ptr<cv::GFTTDetector> *ptr)
 {
     return ptr->get();

@@ -1,7 +1,4 @@
-#if WIN32
-#pragma once
-#endif
-
+#ifdef ENABLED_CONTRIB
 #ifndef _CPP_BGSEGM_H_
 #define _CPP_BGSEGM_H_
 
@@ -185,4 +182,5 @@ CVAPI(void) bgsegm_BackgroundSubtractorGMG_setMaxVal(cv::Ptr<BackgroundSubtracto
 
 #pragma endregion
 
+#endif
 #endif

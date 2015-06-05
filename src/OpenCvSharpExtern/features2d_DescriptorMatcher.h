@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_FEATURES2D_DESCRIPTROMATCHER_H_
 #define _CPP_FEATURES2D_DESCRIPTROMATCHER_H_
 
@@ -119,11 +115,6 @@ CVAPI(void) features2d_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::DescriptorMatche
 	delete ptr;
 }
 
-CVAPI(cv::AlgorithmInfo*) features2d_DescriptorMatcher_info(cv::DescriptorMatcher *obj)
-{
-	return obj->info();
-}
-
 #pragma endregion
 
 #pragma region BFMatcher
@@ -139,11 +130,6 @@ CVAPI(void) features2d_BFMatcher_delete(cv::BFMatcher *obj)
 CVAPI(int) features2d_BFMatcher_isMaskSupported(cv::BFMatcher *obj)
 {
 	return obj->isMaskSupported() ? 1 : 0;
-}
-
-CVAPI(cv::AlgorithmInfo*) features2d_BFMatcher_info(cv::BFMatcher *obj)
-{
-	return obj->info();
 }
 
 CVAPI(cv::BFMatcher*) features2d_Ptr_BFMatcher_get(cv::Ptr<cv::BFMatcher> *ptr)
@@ -205,11 +191,6 @@ CVAPI(void) features2d_FlannBasedMatcher_train(cv::FlannBasedMatcher *obj)
 CVAPI(int) features2d_FlannBasedMatcher_isMaskSupported(cv::FlannBasedMatcher *obj)
 {
     return obj->isMaskSupported() ? 1 : 0;
-}
-
-CVAPI(cv::AlgorithmInfo*) features2d_FlannBasedMatcher_info(cv::FlannBasedMatcher *obj)
-{
-    return obj->info();
 }
 
 CVAPI(cv::FlannBasedMatcher*) features2d_Ptr_FlannBasedMatcher_get(cv::Ptr<cv::FlannBasedMatcher> *ptr)

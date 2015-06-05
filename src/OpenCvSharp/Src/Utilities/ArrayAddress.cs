@@ -16,7 +16,7 @@ namespace OpenCvSharp.Utilities
         protected Array array;
         protected GCHandle gch;
         private bool disposed;
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -82,7 +82,7 @@ namespace OpenCvSharp.Utilities
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class ArrayAddress2<T> : DisposableObject
-        where T : struct 
+        where T : struct
     {
         private bool disposed;
         protected T[][] array;
@@ -95,6 +95,7 @@ namespace OpenCvSharp.Utilities
         public ArrayAddress2()
         {
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -103,6 +104,7 @@ namespace OpenCvSharp.Utilities
         {
             Initialize(array);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -115,9 +117,9 @@ namespace OpenCvSharp.Utilities
             var list = new List<T[]>();
             foreach (IEnumerable<T> e in enumerable)
             {
-                if(e == null)
+                if (e == null)
                     throw new ArgumentException("enumerable contains null");
-                list.Add( new List<T>(e).ToArray() );
+                list.Add(new List<T>(e).ToArray());
             }
 
             Initialize(list.ToArray());
@@ -165,10 +167,10 @@ namespace OpenCvSharp.Utilities
         }
 
 #if LANG_JP
-        /// <summary>
-        /// ポインタを得る
-        /// </summary>
-        /// <returns></returns>
+    /// <summary>
+    /// ポインタを得る
+    /// </summary>
+    /// <returns></returns>
 #else
         /// <summary>
         /// 
@@ -178,12 +180,13 @@ namespace OpenCvSharp.Utilities
         {
             get { return ptr; }
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ポインタへの暗黙のキャスト
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// ポインタへの暗黙のキャスト
+    /// </summary>
+    /// <param name="self"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// 

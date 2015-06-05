@@ -66,9 +66,6 @@
     <ClInclude Include="core_FileStorage.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core_AlgorithmInfo.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="core_InputArray.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>

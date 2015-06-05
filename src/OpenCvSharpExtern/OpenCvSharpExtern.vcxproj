@@ -28,7 +28,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -39,7 +39,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -77,12 +77,12 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Lib\OpenCV\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\lib\opencv\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Lib\OpenCV\lib\x64\vc11;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\lib\opencv\x64\vc12\lib;$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)Lib\OpenCV\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)Lib\OpenCV\lib\x86\vc11;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\lib\opencv\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\lib\opencv\x86\vc12\lib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -160,7 +160,7 @@
       <DisableSpecificWarnings>4251;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_bgsegm300.lib;opencv_calib3d300.lib;opencv_ccalib300.lib;opencv_core300.lib;opencv_cuda300.lib;opencv_cudaarithm300.lib;opencv_cudabgsegm300.lib;opencv_cudacodec300.lib;opencv_cudafeatures2d300.lib;opencv_cudafilters300.lib;opencv_cudaimgproc300.lib;opencv_cudalegacy300.lib;opencv_cudaoptflow300.lib;opencv_cudastereo300.lib;opencv_cudawarping300.lib;opencv_cudev300.lib;opencv_datasets300.lib;opencv_face300.lib;opencv_features2d300.lib;opencv_flann300.lib;opencv_highgui300.lib;opencv_imgcodecs300.lib;opencv_imgproc300.lib;opencv_line_descriptor300.lib;opencv_ml300.lib;opencv_objdetect300.lib;opencv_optflow300.lib;opencv_photo300.lib;opencv_reg300.lib;opencv_rgbd300.lib;opencv_saliency300.lib;opencv_shape300.lib;opencv_stitching300.lib;opencv_superres300.lib;opencv_surface_matching300.lib;opencv_text300.lib;opencv_tracking300.lib;opencv_video300.lib;opencv_videoio300.lib;opencv_videostab300.lib;opencv_xfeatures2d300.lib;opencv_ximgproc300.lib;opencv_xobjdetect300.lib;opencv_xphoto300.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_ts300.lib;opencv_world300.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -238,7 +238,6 @@
     <ClInclude Include="calib3d.h" />
     <ClInclude Include="calib3d_StereoMatcher.h" />
     <ClInclude Include="core.h" />
-    <ClInclude Include="core_AlgorithmInfo.h" />
     <ClInclude Include="core_InputArray.h" />
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />

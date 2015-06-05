@@ -1,7 +1,3 @@
-#ifdef WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_VIDEO_BACKGROUND_SEGM_H_
 #define _CPP_VIDEO_BACKGROUND_SEGM_H_
 
@@ -27,10 +23,6 @@ CVAPI(cv::BackgroundSubtractor*) video_Ptr_BackgroundSubtractor_get(cv::Ptr<cv::
 	return ptr->get();
 }
 
-CVAPI(cv::AlgorithmInfo*) video_BackgroundSubtractor_info(cv::Ptr<cv::BackgroundSubtractor> *obj)
-{
-	return (*obj)->info();
-}
 #pragma endregion
 
 #pragma region BackgroundSubtractorMOG2
@@ -48,10 +40,6 @@ CVAPI(cv::BackgroundSubtractorMOG2*) video_Ptr_BackgroundSubtractorMOG2_get(
 	cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr)
 {
 	return ptr->get();
-}
-CVAPI(cv::AlgorithmInfo*) video_BackgroundSubtractorMOG2_info(cv::Ptr<cv::BackgroundSubtractorMOG2> *obj)
-{
-	return (*obj)->info();
 }
 
 CVAPI(int) video_BackgroundSubtractorMOG2_getHistory(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr)

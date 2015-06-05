@@ -1,7 +1,4 @@
-#ifdef WIN32
-#pragma once
-#endif
-
+#ifdef ENABLED_CONTRIB
 #ifndef _CPP_OPTFLOW_H_
 #define _CPP_OPTFLOW_H_
 
@@ -42,4 +39,5 @@ CVAPI(void) optflow_calcOpticalFlowSF2(
 		occThr, upscaleAveragingRadius, upscaleSigmaDist, upscaleSigmaColor, speedUpThr);
 }
 
+#endif
 #endif

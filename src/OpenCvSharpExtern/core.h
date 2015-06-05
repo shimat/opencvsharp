@@ -373,23 +373,6 @@ CVAPI(float) core_fastAtan2(float y, float x)
 	return cv::fastAtan2(y, x);
 }
 
-CVAPI(void) core_exp_Array(const float *src, float *dst, int n)
-{
-	cv::exp(src, dst, n);
-}
-CVAPI(void) core_log_Array(const float *src, float *dst, int n)
-{
-	cv::log(src, dst, n);
-}
-CVAPI(void) core_fastAtan2_Array(const float *y, const float *x, float *dst, int n, int angleInDegrees)
-{
-	cv::fastAtan2(y, x, dst, n, angleInDegrees != 0);
-}
-CVAPI(void) core_magnitude_Array(const float *x, const float *y, float *dst, int n)
-{
-	cv::magnitude(x, y, dst, n);
-}
-
 CVAPI(void) core_polarToCart(cv::_InputArray *magnitude, cv::_InputArray *angle,
 	cv::_OutputArray *x, cv::_OutputArray *y, int angleInDegrees)
 {
