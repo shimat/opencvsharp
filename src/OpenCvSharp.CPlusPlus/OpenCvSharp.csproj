@@ -85,12 +85,12 @@
     <Compile Include="Cv2\Cv2_face.cs" />
     <Compile Include="Cv2\Cv2_video.cs" />
     <Compile Include="Cv2\Cv2_superres.cs" />
-    <Compile Include="CvCircleSegment.cs" />
+    <Compile Include="Modules\imgproc\CvCircleSegment.cs" />
     <Compile Include="CvConst.cs" />
-    <Compile Include="CvLine2D.cs" />
-    <Compile Include="CvLine3D.cs" />
-    <Compile Include="CvLineSegmentPoint.cs" />
-    <Compile Include="CvLineSegmentPolar.cs" />
+    <Compile Include="Modules\imgproc\CvLine2D.cs" />
+    <Compile Include="Modules\imgproc\CvLine3D.cs" />
+    <Compile Include="Modules\imgproc\CvLineSegmentPoint.cs" />
+    <Compile Include="Modules\imgproc\CvLineSegmentPolar.cs" />
     <Compile Include="CvObject.cs" />
     <Compile Include="Delegate\CvCallback.cs" />
     <Compile Include="Delegate\CvCloneFunc.cs" />
@@ -107,7 +107,7 @@
     <Compile Include="Delegate\CvWriteFunc.cs" />
     <Compile Include="DisposableCvObject.cs" />
     <Compile Include="DisposableObject.cs" />
-    <Compile Include="EnumerableEx.cs" />
+    <Compile Include="Util\EnumerableEx.cs" />
     <Compile Include="Enum\AdaptiveThresholdType.cs" />
     <Compile Include="Enum\AngleUnit.cs" />
     <Compile Include="Enum\ApertureSize.cs" />
@@ -198,9 +198,9 @@
     <Compile Include="Enum\WindowMode.cs" />
     <Compile Include="Enum\WindowProperty.cs" />
     <Compile Include="ICvPtrHolder.cs" />
-    <Compile Include="ImageEncodingParam.cs" />
+    <Compile Include="Modules\highgui\ImageEncodingParam.cs" />
     <Compile Include="LoadLibraryException.cs" />
-    <Compile Include="FourCC.cs" />
+    <Compile Include="Modules\highgui\FourCC.cs" />
     <Compile Include="Modules\bgsegm\BackgroundSubtractorGMG.cs" />
     <Compile Include="Modules\bgsegm\BackgroundSubtractorMOG.cs" />
     <Compile Include="Modules\calib3d\StereoMatcher.cs" />
@@ -351,7 +351,6 @@
     <Compile Include="PInvoke\NativeMethods_stitching.cs" />
     <Compile Include="Util\PInvokeHelper.cs" />
     <Compile Include="Util\WindowsLibraryLoader.cs" />
-    <Compile Include="Pointer.cs" />
     <Compile Include="Util\ArrayAddress.cs" />
     <Compile Include="Util\DynamicInvoker.cs" />
     <Compile Include="Util\Platform.cs" />
@@ -448,7 +447,7 @@
     <Compile Include="Modules\objdetect\HistogramNormType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector\VectorOfPoint2f.cs" />
-    <Compile Include="PlatformUtil.cs" />
+    <Compile Include="Util\PlatformUtil.cs" />
     <Compile Include="Vector\VectorOfFloat.cs" />
     <Compile Include="Vector\VectorOfRect.cs" />
     <Compile Include="Vector\VectorOfPoint.cs" />
@@ -479,7 +478,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
-    <None Include="OpenCvSharp.CPlusPlus.dll.config">
+    <None Include="OpenCvSharp.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

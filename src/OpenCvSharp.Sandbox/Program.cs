@@ -69,6 +69,7 @@ namespace OpenCvSharp.Sandbox
             Window.ShowImages(src, dst20, dst40, dst44);
         }
 
+        /*
         private static void Surf()
         {
             Mat src = new Mat("data/match1.png");
@@ -87,7 +88,7 @@ namespace OpenCvSharp.Sandbox
             Cv2.DrawMatches(src, keypoints1, src2, keypoints2, matches, view);
 
             Window.ShowImages(view);
-        }
+        }*/
 
         private static Mat[] StitchingPreprocess(int width, int height, int count)
         {
@@ -117,7 +118,7 @@ namespace OpenCvSharp.Sandbox
             result.SaveImage(@"C:\temp\parts.png");
             using (new Window(result))
             {
-                Cv.WaitKey();
+                Cv2.WaitKey();
             }
 
             return mats.ToArray();

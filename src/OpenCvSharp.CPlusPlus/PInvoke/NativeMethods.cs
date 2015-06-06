@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
 using OpenCvSharp.Util;
@@ -87,6 +88,21 @@ namespace OpenCvSharp
             // calib3d, contrib, core, features2d, flann, highgui, imgproc, legacy,
             // ml, nonfree, objdetect, photo, superres, video, videostab
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
+
+            // Redirection of error occurred in native library 
+            IntPtr zero = IntPtr.Zero;
+            IntPtr current = redirectError(ErrorHandlerThrowException, zero, ref zero);
+            if (current != IntPtr.Zero)
+            {
+                ErrorHandlerDefault = (CvErrorCallback)Marshal.GetDelegateForFunctionPointer(
+                    current,
+                    typeof(CvErrorCallback)
+                );
+            }
+            else
+            {
+                ErrorHandlerDefault = null;
+            }
         }
 
         /// <summary>
@@ -160,5 +176,40 @@ namespace OpenCvSharp
         {
             return (Type.GetType("Mono.Runtime") != null);
         }
+
+        #region Error redirection
+        /// <summary>
+        /// Custom error handler to be thrown by OpenCV
+        /// </summary>
+        public static readonly CvErrorCallback ErrorHandlerThrowException =
+            delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
+            {
+                try
+                {
+                    //cvSetErrStatus(CvStatus.StsOk);
+                    return 0;
+                }
+                finally
+                {
+
+                    throw new OpenCVException(status, funcName, errMsg, fileName, line);
+                }
+            };
+
+        /// <summary>
+        /// Custom error handler to ignore all OpenCV errors
+        /// </summary>
+        public static readonly CvErrorCallback ErrorHandlerIgnorance =
+            delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
+            {
+                //cvSetErrStatus(CvStatus.StsOk);
+                return 0;
+            };
+
+        /// <summary>
+        /// Default error handler
+        /// </summary>
+        public static CvErrorCallback ErrorHandlerDefault;
+        #endregion
     }
 }

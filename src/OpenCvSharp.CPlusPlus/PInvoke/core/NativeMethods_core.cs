@@ -37,6 +37,9 @@ namespace OpenCvSharp
         public static extern int core_useOptimized();
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr redirectError(CvErrorCallback errCallback, IntPtr userdata, ref IntPtr prevUserdata);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_cvarrToMat(IntPtr arr, int copyData, int allowND, int coiMode);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_extractImageCOI(IntPtr arr, IntPtr coiimg, int coi);

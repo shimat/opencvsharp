@@ -193,38 +193,8 @@ namespace OpenCvSharp.Util
             {
                 return (T)(object)ptr;
             }
-            // Pointer<U>は一段階読み込んで実体化
-            if (CheckType(t, typeof(OpenCvSharp.Pointer<>)))
-            {
-                //ptr = (IntPtr)Marshal.PtrToStructure(ptr, typeof(IntPtr));
-                ptr = Marshal.ReadIntPtr(ptr);
-                return (T)Activator.CreateInstance(t, ptr);
-            }
-            // OpenCvSharpのクラスっぽいなら、IntPtrを取るコンストラクタでインスタンス生成を試みる
-            /*
-            if (t.IsClass)
-            {
-                ConstructorInfo info = t.GetConstructor(new Type[] { typeof(IntPtr), typeof(bool) });
-                if (info != null)
-                {
-                    return (T)info.Invoke(new object[] { ptr, false });
-                }
-                else
-                {
-                    info = t.GetConstructor(new Type[] { typeof(IntPtr) });
-                    if (info == null)
-                    {
-                        throw new OpenCvSharpException("{0} is invalid type for this method. Value type or OpenCV's class are valid.", t.Name);
-                    }
-                    return (T)info.Invoke(new object[] { ptr });
-                }                
-            }
-            // 普通に*Tで実体化
-            else
-            //*/
-            {                
-                return (T)Marshal.PtrToStructure(ptr, typeof(T));
-            }
+            
+            return (T)Marshal.PtrToStructure(ptr, typeof(T));
         }
 
 #if LANG_JP

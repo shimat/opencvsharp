@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {

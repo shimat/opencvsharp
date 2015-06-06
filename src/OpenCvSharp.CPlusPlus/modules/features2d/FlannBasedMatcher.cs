@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenCvSharp.Flann;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
