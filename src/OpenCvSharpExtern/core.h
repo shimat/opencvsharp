@@ -71,6 +71,11 @@ CVAPI(int) core_useOptimized()
 	return cv::useOptimized() ? 1 : 0;
 }
 
+CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* userdata, void** prevUserdata)
+{
+	return cv::redirectError(errCallback, userdata, prevUserdata);
+}
+
 CVAPI(cv::Mat*) core_cvarrToMat(CvArr *arr, int copyData, int allowND, int coiMode)
 {
 	cv::Mat ret = cv::cvarrToMat(arr, copyData != 0, allowND != 0, coiMode);
