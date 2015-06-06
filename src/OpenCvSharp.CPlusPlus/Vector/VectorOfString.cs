@@ -1,7 +1,6 @@
 ﻿using System;
-using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 

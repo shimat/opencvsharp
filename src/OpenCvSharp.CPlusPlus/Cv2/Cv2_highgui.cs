@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Runtime.InteropServices;
 using System.Text;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class Cv2
     {
@@ -132,7 +132,7 @@ namespace OpenCvSharp.CPlusPlus
                 List<int> p = new List<int>();
                 foreach (ImageEncodingParam item in prms)
                 {
-                    p.Add((int)item.EncodingID);
+                    p.Add((int)item.EncodingId);
                     p.Add(item.Value);
                 }
                 return ImWrite(fileName, img, p.ToArray());
@@ -212,7 +212,7 @@ namespace OpenCvSharp.CPlusPlus
                 List<int> p = new List<int>();
                 foreach (ImageEncodingParam item in prms)
                 {
-                    p.Add((int)item.EncodingID);
+                    p.Add((int)item.EncodingId);
                     p.Add(item.Value);
                 }
                 ImEncode(ext, img, out buf, p.ToArray());

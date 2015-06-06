@@ -1,5 +1,5 @@
 ﻿
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.ML
 {
 #if LANG_JP
     /// <summary>
@@ -10,7 +10,7 @@ namespace OpenCvSharp.CPlusPlus
 	/// SVM params type
 	/// </summary>
 #endif
-	public enum SVMParamType : int
+	public enum SvmParamType : int
 	{
 		/// <summary>
 		/// [CvSVM::C]

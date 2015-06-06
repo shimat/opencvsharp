@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// OpenCV Functions of C++ I/F (cv::xxx) 

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 #pragma warning disable 1591
 // ReSharper disable InconsistentNaming
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
@@ -46,21 +46,21 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern int objdetect_CascadeClassifier_load(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fileName);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_CascadeClassifier_detectMultiScale1")]
-        public static extern void objdetect_CascadeClassifier_detectMultiScale(
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void objdetect_CascadeClassifier_detectMultiScale1(
             IntPtr obj, IntPtr image, IntPtr objects,
-            double scaleFactor, int minNeighbors, int flags, CvSize minSize, CvSize maxSize);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_CascadeClassifier_detectMultiScale2")]
-        public static extern void objdetect_CascadeClassifier_detectMultiScale(
+            double scaleFactor, int minNeighbors, int flags, Size minSize, Size maxSize);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void objdetect_CascadeClassifier_detectMultiScale2(
             IntPtr obj, IntPtr image, IntPtr objects,
             IntPtr rejectLevels, IntPtr levelWeights,
             double scaleFactor, int minNeighbors, int flags,
-            CvSize minSize, CvSize maxSize, int outputRejectLevels);
+            Size minSize, Size maxSize, int outputRejectLevels);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int objdetect_CascadeClassifier_isOldFormatCascade(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize objdetect_CascadeClassifier_getOriginalWindowSize(IntPtr obj);
+        public static extern Size objdetect_CascadeClassifier_getOriginalWindowSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int objdetect_CascadeClassifier_getFeatureType(IntPtr obj);
 
@@ -72,7 +72,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr objdetect_HOGDescriptor_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr objdetect_HOGDescriptor_new2(CvSize winSize, CvSize blockSize, CvSize blockStride, CvSize cellSize,
+        public static extern IntPtr objdetect_HOGDescriptor_new2(Size winSize, Size blockSize, Size blockStride, Size cellSize,
             int nbins, int derivAperture, double winSigma, [MarshalAs(UnmanagedType.I4)] HistogramNormType histogramNormType,
             double l2HysThreshold, int gammaCorrection, int nlevels);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
@@ -101,30 +101,30 @@ namespace OpenCvSharp.CPlusPlus
             EntryPoint = "objdetect_HOGDescriptor_detect1")]
         public static extern void objdetect_HOGDescriptor_detect(
             IntPtr self, IntPtr img, IntPtr foundLocations,
-            double hitThreshold, CvSize winStride, CvSize padding, [In] Point[] searchLocations, int searchLocationsLength);
+            double hitThreshold, Size winStride, Size padding, [In] Point[] searchLocations, int searchLocationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl,
             EntryPoint = "objdetect_HOGDescriptor_detect2")]
         public static extern void objdetect_HOGDescriptor_detect(
             IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr weights,
-            double hitThreshold, CvSize winStride, CvSize padding, [In] Point[] searchLocations, int searchLocationsLength);
+            double hitThreshold, Size winStride, Size padding, [In] Point[] searchLocations, int searchLocationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_HOGDescriptor_detectMultiScale1")]
         public static extern void objdetect_HOGDescriptor_detectMultiScale(
             IntPtr self, IntPtr img, IntPtr foundLocations,
-            double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold);
+            double hitThreshold, Size winStride, Size padding, double scale, int groupThreshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl,
             EntryPoint = "objdetect_HOGDescriptor_detectMultiScale2")]
         public static extern void objdetect_HOGDescriptor_detectMultiScale(
             IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr foundWeights,
-            double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold);
+            double hitThreshold, Size winStride, Size padding, double scale, int groupThreshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_computeGradient(
-            IntPtr self, IntPtr img, IntPtr grad, IntPtr angleOfs, CvSize paddingTL, CvSize paddingBR);
+            IntPtr self, IntPtr img, IntPtr grad, IntPtr angleOfs, Size paddingTL, Size paddingBR);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_detectROI(
             IntPtr obj, IntPtr img,
             Point[] locations, int locationsLength,
             IntPtr foundLocations, IntPtr confidences,
-            double hitThreshold, CvSize winStride, CvSize padding);
+            double hitThreshold, Size winStride, Size padding);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_detectMultiScaleROI(
             IntPtr obj, IntPtr img, IntPtr foundLocations,
@@ -138,13 +138,13 @@ namespace OpenCvSharp.CPlusPlus
 
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize objdetect_HOGDescriptor_winSize_get(IntPtr self);
+        public static extern Size objdetect_HOGDescriptor_winSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize objdetect_HOGDescriptor_blockSize_get(IntPtr self);
+        public static extern Size objdetect_HOGDescriptor_blockSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize objdetect_HOGDescriptor_blockStride_get(IntPtr self);
+        public static extern Size objdetect_HOGDescriptor_blockStride_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize objdetect_HOGDescriptor_cellSize_get(IntPtr self);
+        public static extern Size objdetect_HOGDescriptor_cellSize_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int objdetect_HOGDescriptor_nbins_get(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -161,13 +161,13 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int objdetect_HOGDescriptor_nlevels_get(IntPtr self);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void objdetect_HOGDescriptor_winSize_set(IntPtr self, CvSize value);
+        public static extern void objdetect_HOGDescriptor_winSize_set(IntPtr self, Size value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void objdetect_HOGDescriptor_blockSize_set(IntPtr self, CvSize value);
+        public static extern void objdetect_HOGDescriptor_blockSize_set(IntPtr self, Size value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void objdetect_HOGDescriptor_blockStride_set(IntPtr self, CvSize value);
+        public static extern void objdetect_HOGDescriptor_blockStride_set(IntPtr self, Size value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void objdetect_HOGDescriptor_cellSize_set(IntPtr self, CvSize value);
+        public static extern void objdetect_HOGDescriptor_cellSize_set(IntPtr self, Size value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void objdetect_HOGDescriptor_nbins_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

@@ -1,5 +1,5 @@
 ﻿
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.ML
 {
 #if LANG_JP
     /// <summary>
@@ -10,7 +10,7 @@ namespace OpenCvSharp.CPlusPlus
 	/// The kernel type of SVM
 	/// </summary>
 #endif
-	public enum SVMKernelType : int
+	public enum SvmKernelType : int
 	{
 #if LANG_JP
 		/// <summary>

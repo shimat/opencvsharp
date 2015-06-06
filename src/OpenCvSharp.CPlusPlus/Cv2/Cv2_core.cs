@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class Cv2
     {
@@ -138,81 +138,6 @@ namespace OpenCvSharp.CPlusPlus
             return (sz + n - 1) & -n;
         }
 
-        #region CvArrToMat
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="arr"></param>
-        /// <param name="copyData"></param>
-        /// <param name="allowND"></param>
-        /// <param name="coiMode"></param>
-        /// <returns></returns>
-        public static Mat CvArrToMat(CvArr arr, bool copyData = false, bool allowND = true, int coiMode = 0)
-        {
-            if (arr == null)
-                throw new ArgumentNullException("arr");
-            arr.ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_cvarrToMat(arr.CvPtr, copyData ? 1 : 0, allowND ? 1 : 0, coiMode);
-            return new Mat(matPtr);
-        }
-        #endregion
-        #region ExtractImageCOI
-#if LANG_JP
-        /// <summary>
-        /// 選択されたチャンネルの画像を取り出す
-        /// </summary>
-        /// <param name="arr">入力配列. CvMat または IplImage の参照.</param>
-        /// <param name="coiimg">出力行列. 1チャンネルで, 入力配列srcと同じサイズ・ビット深度を持つ.</param>
-        /// <param name="coi">0以上の場合, 指定されたチャンネルについて取り出される。
-        /// 0未満の場合, 入力配列srcがIplImageでCOIが指定されていれば, そのCOIについて取り出される. [既定値は-1]</param>
-#else
-        /// <summary>
-        /// Extract the selected image channel
-        /// </summary>
-        /// <param name="arr">The source array. It should be a pointer to CvMat or IplImage</param>
-        /// <param name="coiimg">The destination array; will have single-channel, and the same size and the same depth as src</param>
-        /// <param name="coi">If the parameter is &gt;=0, it specifies the channel to extract; 
-        /// If it is &lt;0, src must be a pointer to IplImage with valid COI set - then the selected COI is extracted. [By default this is -1]</param>
-#endif
-        public static void ExtractImageCOI(CvArr arr, OutputArray coiimg, int coi = -1)
-        {
-            if (arr == null)
-                throw new ArgumentNullException("arr");
-            if (coiimg == null)
-                throw new ArgumentNullException("coiimg");
-            arr.ThrowIfDisposed();
-            coiimg.ThrowIfNotReady();
-            NativeMethods.core_extractImageCOI(arr.CvPtr, coiimg.CvPtr, coi);
-            coiimg.Fix();
-        }
-        #endregion
-        #region InsertImageCOI
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="coiimg"></param>
-        /// <param name="arr"></param>
-        /// <param name="coi">[既定値は-1]</param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="coiimg"></param>
-        /// <param name="arr"></param>
-        /// <param name="coi">[By default this is -1]</param>
-#endif
-        public static void InsertImageCOI(InputArray coiimg, CvArr arr, int coi = -1)
-        {
-            if (coiimg == null)
-                throw new ArgumentNullException("coiimg");
-            if (arr == null)
-                throw new ArgumentNullException("arr");
-            coiimg.ThrowIfDisposed();
-            arr.ThrowIfDisposed();
-            NativeMethods.core_insertImageCOI(coiimg.CvPtr, arr.CvPtr, coi);
-        }
-        #endregion
         #endregion
 
         #region Abs
@@ -651,10 +576,7 @@ namespace OpenCvSharp.CPlusPlus
 
             src.ThrowIfDisposed();
 
-            CvScalar mean0, stddev0;
-            NativeMethods.core_meanStdDev_Scalar(src.CvPtr, out mean0, out stddev0, ToPtr(mask));
-            mean = mean0;
-            stddev = stddev0;
+            NativeMethods.core_meanStdDev_Scalar(src.CvPtr, out mean, out stddev, ToPtr(mask));
 
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
@@ -805,11 +727,11 @@ namespace OpenCvSharp.CPlusPlus
             if (src == null)
                 throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
-            CvPoint minLoc0, maxLoc0;
-            NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal, out minLoc0, out maxLoc0, ToPtr(mask));
-            minLoc = minLoc0;
-            maxLoc = maxLoc0;
+
+            NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal, out minLoc, out maxLoc, ToPtr(mask));
+            GC.KeepAlive(src);
         }
+
         #endregion
         #region MinMaxIdx
         /// <summary>
@@ -1689,9 +1611,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("a");
             src.ThrowIfDisposed();
 
-            CvPoint pos0;
-            int ret = NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos0, minVal, maxVal);
-            pos = pos0;
+            int ret = NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos, minVal, maxVal);
+            GC.KeepAlive(src);
             return ret != 0;
         }
         #endregion
@@ -2611,7 +2532,7 @@ namespace OpenCvSharp.CPlusPlus
         public static void Line(InputOutputArray img, int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color, 
             int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
-            Line(img, new CvPoint(pt1X, pt1Y), new CvPoint(pt2X, pt2Y), color, thickness, lineType, shift);
+            Line(img, new Point(pt1X, pt1Y), new Point(pt2X, pt2Y), color, thickness, lineType, shift);
         }
 
 #if LANG_JP
@@ -2930,7 +2851,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
 
-            Point[] ptsArray = Util.ToArray(pts);
+            Point[] ptsArray = Util.Utility.ToArray(pts);
             NativeMethods.core_fillConvexPoly(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
             GC.KeepAlive(img);
         }
@@ -2969,14 +2890,14 @@ namespace OpenCvSharp.CPlusPlus
             List<int> nptsList = new List<int>();
             foreach (IEnumerable<Point> pts1 in pts)
             {
-                Point[] pts1Arr = Util.ToArray(pts1);
+                Point[] pts1Arr = Util.Utility.ToArray(pts1);
                 ptsList.Add(pts1Arr);
                 nptsList.Add(pts1Arr.Length);
             }
             Point[][] ptsArr = ptsList.ToArray();
             int[] npts = nptsList.ToArray();
             int ncontours = ptsArr.Length;
-            using (ArrayAddress2<Point> ptsPtr = new ArrayAddress2<Point>(ptsArr))
+            using (var ptsPtr = new ArrayAddress2<Point>(ptsArr))
             {
                 NativeMethods.core_fillPoly(img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int)lineType, shift, offset0);
             }
@@ -3005,7 +2926,7 @@ namespace OpenCvSharp.CPlusPlus
             List<int> nptsList = new List<int>();
             foreach (IEnumerable<Point> pts1 in pts)
             {
-                Point[] pts1Arr = Util.ToArray(pts1);
+                Point[] pts1Arr = Util.Utility.ToArray(pts1);
                 ptsList.Add(pts1Arr);
                 nptsList.Add(pts1Arr.Length);
             }

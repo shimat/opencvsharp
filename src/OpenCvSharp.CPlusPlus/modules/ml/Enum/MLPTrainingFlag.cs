@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.ML
 {
 #if LANG_JP
     /// <summary>

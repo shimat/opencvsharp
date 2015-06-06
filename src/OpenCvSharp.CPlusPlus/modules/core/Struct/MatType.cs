@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
 // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
@@ -25,7 +23,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             Value = value;
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -35,6 +33,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return self.Value;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -44,6 +43,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new MatType(value);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -51,6 +51,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return Value & (CV_DEPTH_MAX - 1); }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -58,6 +59,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return Depth < CV_32F; }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -70,31 +72,36 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Value == other.Value;
         }
+
         public bool Equals(int other)
         {
             return Value == other;
         }
+
         public override bool Equals(object other)
         {
             if (other == null)
                 return false;
             if (other.GetType() != typeof (MatType))
                 return false;
-            return Equals((MatType)other);
+            return Equals((MatType) other);
         }
 
         public static bool operator ==(MatType self, MatType other)
         {
             return self.Equals(other);
         }
+
         public static bool operator !=(MatType self, MatType other)
         {
             return !self.Equals(other);
         }
+
         public static bool operator ==(MatType self, int other)
         {
             return self.Equals(other);
         }
+
         public static bool operator !=(MatType self, int other)
         {
             return !self.Equals(other);
@@ -150,8 +157,8 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         private const int CV_CN_MAX = 512,
-          CV_CN_SHIFT = 3,
-          CV_DEPTH_MAX = (1 << CV_CN_SHIFT);
+            CV_CN_SHIFT = 3,
+            CV_DEPTH_MAX = (1 << CV_CN_SHIFT);
 
         /// <summary>
         /// type depth constants
@@ -204,26 +211,32 @@ namespace OpenCvSharp.CPlusPlus
         {
             return MakeType(CV_8U, ch);
         }
+
         public static MatType CV_8SC(int ch)
         {
             return MakeType(CV_8S, ch);
         }
+
         public static MatType CV_16UC(int ch)
         {
             return MakeType(CV_16U, ch);
         }
+
         public static MatType CV_16SC(int ch)
         {
             return MakeType(CV_16S, ch);
         }
+
         public static MatType CV_32SC(int ch)
         {
             return MakeType(CV_32S, ch);
         }
+
         public static MatType CV_32FC(int ch)
         {
             return MakeType(CV_32F, ch);
         }
+
         public static MatType CV_64FC(int ch)
         {
             return MakeType(CV_64F, ch);

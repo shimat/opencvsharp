@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Extensions", "O
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Blob", "OpenCvSharp.Blob\OpenCvSharp.Blob.csproj", "{383AE960-7F56-47A4-BFF2-B2B81B6A49B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.CPlusPlus", "OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj", "{524CC7B4-75B9-4925-9DA4-3DACD40F4814}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp", "OpenCvSharp.CPlusPlus\OpenCvSharp.csproj", "{524CC7B4-75B9-4925-9DA4-3DACD40F4814}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.ReleaseMaker", "OpenCvSharp.ReleaseMaker\OpenCvSharp.ReleaseMaker.csproj", "{E2C8C528-B7C7-40AF-BB7F-1147A41E2E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp", "OpenCvSharp\OpenCvSharp.csproj", "{4C2356B8-1A1E-4F92-A51C-A49CA116867F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Contrib", "OpenCvSharp\OpenCvSharp.Contrib.csproj", "{4C2356B8-1A1E-4F92-A51C-A49CA116867F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCvSharpExtern", "OpenCvSharpExtern\OpenCvSharpExtern.vcxproj", "{8E7279F8-F801-4672-B42F-1ED2C68B16A4}"
 EndProject

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// OpenCV C++ n-dimensional dense array class (cv::Mat)
@@ -485,70 +485,6 @@ namespace OpenCvSharp.CPlusPlus
 
 #if LANG_JP
     /// <summary>
-    /// CvMatデータから初期化
-    /// </summary>
-    /// <param name="m">CvMat 行列構造体へのポインタ．
-    /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
-    /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
-    /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
-    /// コピーする（true）か，共有する（false）かを指定するフラグです．
-    /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
-    /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
-    /// デストラクトされない限り，データを解放するべきではありません．</param>
-#else
-        /// <summary>
-        /// converts old-style CvMat to the new matrix; the data is not copied by default
-        /// </summary>
-        /// <param name="m">Old style CvMat object</param>
-        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style CvMat should be 
-        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
-        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
-        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
-#endif
-        public Mat(CvMat m, bool copyData = false)
-        {
-            if (m == null)
-                throw new ArgumentNullException("m");
-            m.ThrowIfDisposed();
-            ptr = NativeMethods.core_Mat_new_FromCvMat(m.CvPtr, copyData ? 1 : 0);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
-        }
-
-#if LANG_JP
-    /// <summary>
-    /// IplImageデータから初期化
-    /// </summary>
-    /// <param name="img">IplImage 画像構造体へのポインタ．
-    /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
-    /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
-    /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
-    /// コピーする（true）か，共有する（false）かを指定するフラグです．
-    /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
-    /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
-    /// デストラクトされない限り，データを解放するべきではありません．</param>
-#else
-        /// <summary>
-        /// converts old-style IplImage to the new matrix; the data is not copied by default
-        /// </summary>
-        /// <param name="img">Old style IplImage object</param>
-        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style IplImage should be 
-        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
-        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
-        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
-#endif
-        public Mat(IplImage img, bool copyData = false)
-        {
-            if (img == null)
-                throw new ArgumentNullException("img");
-            img.ThrowIfDisposed();
-            ptr = NativeMethods.core_Mat_new_FromIplImage(img.CvPtr, copyData ? 1 : 0);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException();
-        }
-
-#if LANG_JP
-    /// <summary>
     /// リソースの解放
     /// </summary>
 #else
@@ -746,7 +682,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static MatExpr Ones(int rows, int cols, MatType type)
         {
-            IntPtr retPtr = NativeMethods.core_Mat_ones(rows, cols, type);
+            IntPtr retPtr = NativeMethods.core_Mat_ones1(rows, cols, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -773,7 +709,7 @@ namespace OpenCvSharp.CPlusPlus
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
 
-            IntPtr retPtr = NativeMethods.core_Mat_ones(sizes.Length, sizes, type);
+            IntPtr retPtr = NativeMethods.core_Mat_ones2(sizes.Length, sizes, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -791,7 +727,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static MatExpr Zeros(int rows, int cols, MatType type)
         {
-            IntPtr retPtr = NativeMethods.core_Mat_zeros(rows, cols, type);
+            IntPtr retPtr = NativeMethods.core_Mat_zeros1(rows, cols, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -818,7 +754,7 @@ namespace OpenCvSharp.CPlusPlus
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
 
-            IntPtr retPtr = NativeMethods.core_Mat_zeros(sizes.Length, sizes, type);
+            IntPtr retPtr = NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -828,67 +764,6 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         #region Operators
-
-        #region Cast
-
-        /// <summary>
-        /// Creates the IplImage clone instance for the matrix.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static explicit operator IplImage(Mat self)
-        {
-            return self.ToIplImage(false);
-        }
-
-        /// <summary>
-        /// Creates the IplImage clone instance or header for the matrix.
-        /// </summary>
-        /// <param name="adjustAlignment">If true, this method returns an IplImage that is adjusted alignment;
-        /// otherwise, a header of IplImage is returned.</param>
-        /// <returns></returns>
-        public IplImage ToIplImage(bool adjustAlignment = true)
-        {
-            ThrowIfDisposed();
-
-            if (adjustAlignment)
-            {
-                IntPtr imgPtr;
-                NativeMethods.core_Mat_IplImage_alignment(ptr, out imgPtr);
-                return new IplImage(imgPtr);
-            }
-
-            IplImage img = new IplImage(false);
-            NativeMethods.core_Mat_IplImage(ptr, img.CvPtr);
-            return img;
-        }
-
-        /// <summary>
-        /// Creates the CvMat clone instance for the matrix.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static explicit operator CvMat(Mat self)
-        {
-            return self.ToCvMat();
-        }
-
-
-        /// <summary>
-        /// Creates the CvMat header or clone instance for the matrix.
-        /// </summary>
-        /// <returns></returns>
-        public CvMat ToCvMat()
-        {
-            ThrowIfDisposed();
-
-            CvMat mat = new CvMat(false);
-            NativeMethods.core_Mat_CvMat(ptr, mat.CvPtr);
-
-            return mat;
-        }
-
-        #endregion
 
         #region Arithmetic
 
@@ -1685,7 +1560,7 @@ namespace OpenCvSharp.CPlusPlus
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                 }
             }
-
+            
             /// <summary>
             /// Extracts a rectangular submatrix.
             /// </summary>
@@ -1912,7 +1787,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException("m");
-            NativeMethods.core_Mat_assignTo(ptr, m.CvPtr, type);
+            NativeMethods.core_Mat_assignTo2(ptr, m.CvPtr, type);
         }
 
         /// <summary>
@@ -1921,7 +1796,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="m">Destination array.</param>
         public void AssignTo(Mat m)
         {
-            NativeMethods.core_Mat_assignTo(ptr, m.CvPtr);
+            NativeMethods.core_Mat_assignTo1(ptr, m.CvPtr);
         }
 
         #endregion
@@ -1950,7 +1825,7 @@ namespace OpenCvSharp.CPlusPlus
         public int CheckVector(int elemChannels)
         {
             ThrowIfDisposed();
-            return NativeMethods.core_Mat_checkVector(ptr, elemChannels);
+            return NativeMethods.core_Mat_checkVector1(ptr, elemChannels);
         }
 
         /// <summary>
@@ -1962,7 +1837,7 @@ namespace OpenCvSharp.CPlusPlus
         public int CheckVector(int elemChannels, int depth)
         {
             ThrowIfDisposed();
-            return NativeMethods.core_Mat_checkVector(ptr, elemChannels, depth);
+            return NativeMethods.core_Mat_checkVector2(ptr, elemChannels, depth);
         }
 
         /// <summary>
@@ -1975,7 +1850,7 @@ namespace OpenCvSharp.CPlusPlus
         public int CheckVector(int elemChannels, int depth, bool requireContinuous)
         {
             ThrowIfDisposed();
-            return NativeMethods.core_Mat_checkVector(
+            return NativeMethods.core_Mat_checkVector3(
                 ptr, elemChannels, depth, requireContinuous ? 1 : 0);
         }
 
@@ -2341,7 +2216,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Inv(MatrixDecomposition method = MatrixDecomposition.LU)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_inv(ptr, (int) method);
+            IntPtr retPtr = NativeMethods.core_Mat_inv2(ptr, (int) method);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2386,11 +2261,7 @@ namespace OpenCvSharp.CPlusPlus
         public void LocateROI(out Size wholeSize, out Point ofs)
         {
             ThrowIfDisposed();
-            CvSize wholeSize2;
-            CvPoint ofs2;
-            NativeMethods.core_Mat_locateROI(ptr, out wholeSize2, out ofs2);
-            wholeSize = wholeSize2;
-            ofs = ofs2;
+            NativeMethods.core_Mat_locateROI(ptr, out wholeSize, out ofs);
         }
 
         #endregion
@@ -2409,7 +2280,7 @@ namespace OpenCvSharp.CPlusPlus
             if (m == null)
                 throw new ArgumentNullException();
             IntPtr mPtr = m.CvPtr;
-            IntPtr retPtr = NativeMethods.core_Mat_mul(ptr, mPtr, scale);
+            IntPtr retPtr = NativeMethods.core_Mat_mul2(ptr, mPtr, scale);
             MatExpr retVal = new MatExpr(retPtr);
             return retVal;
         }
@@ -2427,7 +2298,7 @@ namespace OpenCvSharp.CPlusPlus
         public Mat Reshape(int cn, int rows = 0)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_reshape(ptr, cn, rows);
+            IntPtr retPtr = NativeMethods.core_Mat_reshape2(ptr, cn, rows);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2443,7 +2314,7 @@ namespace OpenCvSharp.CPlusPlus
             ThrowIfDisposed();
             if (newDims == null)
                 throw new ArgumentNullException("newDims");
-            IntPtr retPtr = NativeMethods.core_Mat_reshape(ptr, cn, newDims.Length, newDims);
+            IntPtr retPtr = NativeMethods.core_Mat_reshape3(ptr, cn, newDims.Length, newDims);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2501,7 +2372,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = NativeMethods.core_Mat_setTo(ptr, value, maskPtr);
+            IntPtr retPtr = NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2519,7 +2390,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("value");
             value.ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = NativeMethods.core_Mat_setTo(ptr, value.CvPtr, maskPtr);
+            IntPtr retPtr = NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -3319,7 +3190,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentException("colStart >= colEnd");
 
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_subMat(ptr, rowStart, rowEnd, colStart, colEnd);
+            IntPtr retPtr = NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -3345,6 +3216,7 @@ namespace OpenCvSharp.CPlusPlus
             return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
         }
 
+        
         /// <summary>
         /// 
         /// </summary>
@@ -3352,6 +3224,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public Mat SubMat(params Range[] ranges)
         {
+            throw new NotImplementedException();
+            /*
             if (ranges == null)
                 throw new ArgumentNullException();
 
@@ -3362,9 +3236,9 @@ namespace OpenCvSharp.CPlusPlus
                 slices[i] = ranges[i];
             }
 
-            IntPtr retPtr = NativeMethods.core_Mat_subMat(ptr, slices.Length, slices);
+            IntPtr retPtr = NativeMethods.core_Mat_subMat1(ptr, ranges.Length, ranges);
             Mat retVal = new Mat(retPtr);
-            return retVal;
+            return retVal;*/
         }
 
         #endregion

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
@@ -45,7 +45,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void highgui_setMouseCallback(string winName, [MarshalAs(UnmanagedType.FunctionPtr)] CvMouseCallback onMouse, IntPtr userData);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern int highgui_createTrackbar([MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName,
-            ref int value, int count, [MarshalAs(UnmanagedType.FunctionPtr)] CvTrackbarCallback2 onChange, IntPtr userData);
+            ref int value, int count, IntPtr onChange, IntPtr userData);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern int highgui_getTrackbarPos([MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
@@ -82,12 +82,12 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr highgui_VideoWriter_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern IntPtr highgui_VideoWriter_new2([MarshalAs(UnmanagedType.LPStr)] string fileName, int fourcc,
-            double fps, CvSize frameSize, int isColor);
+            double fps, Size frameSize, int isColor);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void highgui_VideoWriter_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern int highgui_VideoWriter_open(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fileName, int fourcc, double fps,
-            CvSize frameSize, int isColor);
+            Size frameSize, int isColor);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int highgui_VideoWriter_isOpened(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

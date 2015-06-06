@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.CPlusPlus.Gpu
+namespace OpenCvSharp.Gpu
 {
     /// <summary>
     /// 

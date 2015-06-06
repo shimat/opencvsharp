@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.CPlusPlus.ML
+namespace OpenCvSharp.ML
 {
     // ReSharper disable InconsistentNaming
 

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -16,6 +15,7 @@ namespace OpenCvSharp.CPlusPlus
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -23,6 +23,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             ptr = NativeMethods.vector_vector_DMatch_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -59,9 +60,11 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -70,7 +73,10 @@ namespace OpenCvSharp.CPlusPlus
             get { return NativeMethods.vector_vector_DMatch_getSize1(ptr).ToInt32(); }
         }
 
-        public int Size { get { return Size1; } }
+        public int Size
+        {
+            get { return Size1; }
+        }
 
         /// <summary>
         /// vector[i].size()
@@ -90,7 +96,7 @@ namespace OpenCvSharp.CPlusPlus
                 return size2;
             }
         }
-        
+
 
         /// <summary>
         /// &amp;vector[0]
@@ -99,9 +105,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return NativeMethods.vector_vector_DMatch_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
@@ -124,6 +132,7 @@ namespace OpenCvSharp.CPlusPlus
             }
             return ret;
         }
+
         #endregion
     }
 }

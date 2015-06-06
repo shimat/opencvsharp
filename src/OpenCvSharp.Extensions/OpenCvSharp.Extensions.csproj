@@ -67,26 +67,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binarizer.cs" />
-    <Compile Include="BitmapConverter_IplImage.cs" />
     <Compile Include="BitmapConverter_Mat.cs" />
     <Compile Include="CvExtensions.cs" />
     <Compile Include="MyParallel.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WriteableBitmapConverter_Mat.cs" />
-    <Compile Include="WriteableBitmapConverter_IplImage.cs" />
     <Compile Include="BitmapSourceConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
+    <ProjectReference Include="..\OpenCvSharp.CPlusPlus\OpenCvSharp.csproj">
       <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
-      <Name>OpenCvSharp.CPlusPlus</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
-      <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
       <Name>OpenCvSharp</Name>
     </ProjectReference>
   </ItemGroup>

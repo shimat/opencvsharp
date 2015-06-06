@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// File Storage Node class
@@ -20,31 +20,6 @@ namespace OpenCvSharp.CPlusPlus
         public FileNode()
         {
             ptr = NativeMethods.core_FileNode_new1();
-        }
-
-        /// <summary>
-        /// The full constructor wrapping CvFileNode structure.
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="node"></param>
-        public FileNode(CvFileStorage fs, CvFileNode node)
-        {
-            if (fs == null)
-                throw new ArgumentNullException("fs");
-            if (node == null)
-                throw new ArgumentNullException("node");
-            NativeMethods.core_FileNode_new2(fs.CvPtr, node.CvPtr);
-        }
-
-        /// <summary>
-        /// The copy constructor
-        /// </summary>
-        /// <param name="node"></param>
-        public FileNode(FileNode node)
-        {
-            if (node == null)
-                throw new ArgumentNullException("node");
-            NativeMethods.core_FileNode_new3(node.CvPtr);
         }
 
         /// <summary>

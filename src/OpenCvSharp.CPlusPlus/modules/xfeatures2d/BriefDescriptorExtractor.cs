@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.CPlusPlus.XFeatures2D
+namespace OpenCvSharp.XFeatures2D
 {
     using DescriptorExtractor = Feature2D;
 

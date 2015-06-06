@@ -19,8 +19,8 @@ namespace OpenCvSharp.UserInterface
     public partial class CvWindowEx : Form, IDisposable
     {
         #region Fields
-        private List<Keys> _pressedKeys;
-        private static List<CvWindowEx> windows;
+        private List<Keys> pressedKeys;
+        private static readonly List<CvWindowEx> windows;
         #endregion
 
         #region Initialization and dispose
@@ -44,7 +44,7 @@ namespace OpenCvSharp.UserInterface
         public CvWindowEx()
         {
             InitializeComponent();
-            _pressedKeys = null;
+            pressedKeys = null;
             _pictureBox.Image = null;
             this.Show();
             windows.Add(this);
@@ -60,7 +60,7 @@ namespace OpenCvSharp.UserInterface
         /// </summary>
         /// <param name="image"></param>
 #endif
-        public CvWindowEx(IplImage image) : this()
+        public CvWindowEx(Mat image) : this()
         {
             Image = image;
         }
@@ -93,7 +93,7 @@ namespace OpenCvSharp.UserInterface
         /// <param name="image"></param>
         /// <param name="sizeMode"></param>
 #endif
-        public CvWindowEx(IplImage image, PictureBoxSizeMode sizeMode)
+        public CvWindowEx(Mat image, PictureBoxSizeMode sizeMode)
             : this()
         {
             Image = image;
@@ -119,9 +119,9 @@ namespace OpenCvSharp.UserInterface
         #region Event handlers
         private void CvWindowEx_KeyDown(object sender, KeyEventArgs e)
         {
-            if (_pressedKeys != null)
+            if (pressedKeys != null)
             {
-                _pressedKeys.Add(e.KeyCode);
+                pressedKeys.Add(e.KeyCode);
             }
         }
         #endregion
@@ -136,16 +136,16 @@ namespace OpenCvSharp.UserInterface
         /// Gets or sets an image to be shown
         /// </summary>
 #endif
-        public IplImage Image
+        public Mat Image
         {
             get { return _pictureBox.ImageIpl; }
             set
             {
                 if (value != null)
                 {
-                    CvSize size = value.Size;
+                    Size size = value.Size();
                     size.Height += _panelTrackbar.ClientSize.Height;
-                    SetClientSize(size);
+                    SetClientSize(new System.Drawing.Size(size.Width, size.Height));
                 }
                 _pictureBox.ImageIpl = value;
             }
@@ -198,7 +198,7 @@ namespace OpenCvSharp.UserInterface
         /// </summary>
         /// <param name="image">Image to be shown. </param>
 #endif
-        public void ShowImage(IplImage image)
+        public void ShowImage(Mat image)
         {
             Image = image;
         }
@@ -230,7 +230,7 @@ namespace OpenCvSharp.UserInterface
                 int pos = ((TrackBar)o).Value;
                 onChange(pos);
             };
-            SetClientSize(new CvSize(ClientSize.Width, ClientSize.Height + t.Height));
+            SetClientSize(new System.Drawing.Size(ClientSize.Width, ClientSize.Height + t.Height));
             _panelTrackbar.Height += t.Height;
             _panelTrackbar.Controls.Add(t);
             return t;
@@ -307,7 +307,7 @@ namespace OpenCvSharp.UserInterface
         /// </summary>
         /// <param name="images"></param>
 #endif
-        static public void ShowImages(params IplImage[] images)
+        static public void ShowImages(params Mat[] images)
         {
             if (images == null)
             {
@@ -318,7 +318,7 @@ namespace OpenCvSharp.UserInterface
                 return;
             }
             var windows = new List<CvWindowEx>();
-            foreach (IplImage img in images)
+            foreach (Mat img in images)
             {
                 windows.Add(new CvWindowEx(img));
             }
@@ -336,14 +336,14 @@ namespace OpenCvSharp.UserInterface
         /// </summary>
         private void StartKeyCheck()
         {
-            _pressedKeys = new List<Keys>();
+            pressedKeys = new List<Keys>();
         }
         /// <summary>
         /// 
         /// </summary>
         private void EndKeyCheck()
         {
-            _pressedKeys = null;
+            pressedKeys = null;
         }
         /// <summary>
         /// 
@@ -366,19 +366,19 @@ namespace OpenCvSharp.UserInterface
         /// <returns></returns>
         private Keys GetPressedKey()
         {
-            if (_pressedKeys == null || _pressedKeys.Count == 0)
+            if (pressedKeys == null || pressedKeys.Count == 0)
                 return Keys.None;
             else
-                return _pressedKeys[0];
+                return pressedKeys[0];
         }
 
         /// <summary>
         /// ClientSizeを画面からはみ出ない大きさに調整して設定する.
         /// </summary>
         /// <param name="size"></param>
-        private void SetClientSize(CvSize size)
+        private void SetClientSize(System.Drawing.Size size)
         {
-            Size screenSize = Screen.PrimaryScreen.Bounds.Size;
+            var screenSize = Screen.PrimaryScreen.Bounds.Size;
             if (size.Width > screenSize.Width)
             {
                 double ratio = (double)screenSize.Width / size.Width;
@@ -391,7 +391,7 @@ namespace OpenCvSharp.UserInterface
                 size.Width = Convert.ToInt32(size.Width * ratio);
                 size.Height = Convert.ToInt32(size.Height * ratio);
             }
-            ClientSize = new Size(size.Width, size.Height);
+            ClientSize = new System.Drawing.Size(size.Width, size.Height);
         }
         #endregion
 

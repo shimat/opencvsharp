@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// Raster image moments
@@ -216,55 +215,6 @@ namespace OpenCvSharp.CPlusPlus
             Nu03 = Mu03 * s3;
         }
 
-        #endregion
-
-        #region Cast
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static explicit operator CvMoments(Moments self)
-        {
-            if (self == null)
-                throw new ArgumentNullException("self");
-            double am00 = Math.Abs(self.M00);
-            return new CvMoments
-                {
-                    M00 = self.M00,
-                    M10 = self.M10,
-                    M01 = self.M01,
-                    M20 = self.M20,
-                    M11 = self.M11,
-                    M02 = self.M02,
-                    M30 = self.M30,
-                    M21 = self.M21,
-                    M12 = self.M12,
-                    M03 = self.M03,
-                    Mu20 = self.Mu20,
-                    Mu11 = self.Mu11,
-                    Mu02 = self.Mu02,
-                    Mu30 = self.Mu30,
-                    Mu21 = self.Mu21,
-                    Mu12 = self.Mu12,
-                    Mu03 = self.Mu03,
-                    InvSqrtM00 = am00 > Double.Epsilon ? 1.0 / Math.Sqrt(am00) : 0
-                };
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
-        public static explicit operator Moments(CvMoments m)
-        {
-            if (m == null)
-                throw new ArgumentNullException("m");
-            return new Moments(
-                m.M00, m.M10, m.M01, m.M20, m.M11, m.M02, m.M30, m.M21, m.M12, m.M03);
-        }
         #endregion
 
         #region Methods

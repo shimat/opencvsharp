@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -128,7 +128,7 @@ namespace OpenCvSharp.CPlusPlus
             var dst = new T[arySize];
             using (var dstPtr = new ArrayAddress1<T>(dst))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
+                Util.Utility.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
             }
             return dst;
         }

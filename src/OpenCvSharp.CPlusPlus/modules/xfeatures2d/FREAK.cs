@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 // ReSharper disable once InconsistentNaming
 
-namespace OpenCvSharp.CPlusPlus.XFeatures2D
+namespace OpenCvSharp.XFeatures2D
 {
 #if LANG_JP
     /// <summary>

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Gpu
+namespace OpenCvSharp.Gpu
 {
     /// <summary>
     /// Functions of OpenCV GPU module

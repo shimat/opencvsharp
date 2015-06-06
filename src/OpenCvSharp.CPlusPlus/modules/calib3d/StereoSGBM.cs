@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 #pragma warning disable 1591

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
@@ -17,25 +17,29 @@ namespace OpenCvSharp.CPlusPlus
     public class Window : DisposableObject
     {
         #region Field
-        static internal Dictionary<string, Window> Windows = new Dictionary<string, Window>();
-        static private uint windowCount = 0;
+
+        internal static Dictionary<string, Window> Windows = new Dictionary<string, Window>();
+        private static uint windowCount = 0;
 
         private string name;
         private Mat image;
         private CvMouseCallback mouseCallback;
-        private readonly Dictionary<string, CvTrackbar> trackbars;        
+        private readonly Dictionary<string, CvTrackbar> trackbars;
         private ScopedGCHandle callbackHandle;
+
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed = false;
+
         #endregion
 
         #region Init and Disposal
+
 #if LANG_JP
-        /// <summary>
-        /// 適当なウィンドウ名で初期化
-        /// </summary>
+    /// <summary>
+    /// 適当なウィンドウ名で初期化
+    /// </summary>
 #else
         /// <summary>
         /// Creates a window with a random name
@@ -45,11 +49,12 @@ namespace OpenCvSharp.CPlusPlus
             : this(DefaultName(), WindowMode.AutoSize, null)
         {
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 適当なウィンドウ名で、始めから表示しておく画像を指定して初期化
-        /// </summary>
-        /// <param name="image">ウィンドウに表示する画像</param>
+    /// <summary>
+    /// 適当なウィンドウ名で、始めから表示しておく画像を指定して初期化
+    /// </summary>
+    /// <param name="image">ウィンドウに表示する画像</param>
 #else
         /// <summary>
         /// Creates a window with a random name and a specified image
@@ -61,12 +66,13 @@ namespace OpenCvSharp.CPlusPlus
         {
 
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 適当なウィンドウ名で、画像の表示モードを指定して初期化
-        /// </summary>
-        /// <param name="flags">ウィンドウのフラグ</param>
-        /// <param name="image">ウィンドウに表示する画像</param>
+    /// <summary>
+    /// 適当なウィンドウ名で、画像の表示モードを指定して初期化
+    /// </summary>
+    /// <param name="flags">ウィンドウのフラグ</param>
+    /// <param name="image">ウィンドウに表示する画像</param>
 #else
         /// <summary>
         /// Creates a window with a specified image and flag
@@ -79,11 +85,12 @@ namespace OpenCvSharp.CPlusPlus
             : this(DefaultName(), flags, image)
         {
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウ名を指定して初期化
-        /// </summary>
-        /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
+    /// <summary>
+    /// ウィンドウ名を指定して初期化
+    /// </summary>
+    /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
 #else
         /// <summary>
         /// Creates a window
@@ -94,12 +101,13 @@ namespace OpenCvSharp.CPlusPlus
             : this(name, WindowMode.AutoSize, null)
         {
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウ名と画像の表示モードを指定して初期化
-        /// </summary>
-        /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
-        /// <param name="flags">ウィンドウのフラグ</param>
+    /// <summary>
+    /// ウィンドウ名と画像の表示モードを指定して初期化
+    /// </summary>
+    /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
+    /// <param name="flags">ウィンドウのフラグ</param>
 #else
         /// <summary>
         /// Creates a window
@@ -112,12 +120,13 @@ namespace OpenCvSharp.CPlusPlus
             : this(name, flags, null)
         {
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウ名と始めから表示しておく画像を指定して初期化
-        /// </summary>
-        /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
-        /// <param name="image">ウィンドウに表示する画像</param>
+    /// <summary>
+    /// ウィンドウ名と始めから表示しておく画像を指定して初期化
+    /// </summary>
+    /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
+    /// <param name="image">ウィンドウに表示する画像</param>
 #else
         /// <summary>
         /// Creates a window
@@ -129,13 +138,14 @@ namespace OpenCvSharp.CPlusPlus
             : this(name, WindowMode.AutoSize, image)
         {
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウ名と画像の表示モードと始めから表示しておく画像を指定して初期化
-        /// </summary>
-        /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
-        /// <param name="flags">ウィンドウのフラグ</param>
-        /// <param name="image">ウィンドウに表示する画像</param>
+    /// <summary>
+    /// ウィンドウ名と画像の表示モードと始めから表示しておく画像を指定して初期化
+    /// </summary>
+    /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
+    /// <param name="flags">ウィンドウのフラグ</param>
+    /// <param name="image">ウィンドウに表示する画像</param>
 #else
         /// <summary>
         /// Creates a window
@@ -149,10 +159,10 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-            
+
             this.name = name;
-            NativeMethods.highgui_namedWindow(name, (int)flags);
-            
+            NativeMethods.highgui_namedWindow(name, (int) flags);
+
             this.image = image;
             ShowImage(image);
             trackbars = new Dictionary<string, CvTrackbar>();
@@ -162,23 +172,24 @@ namespace OpenCvSharp.CPlusPlus
             }
             this.callbackHandle = null;
         }
+
         /// <summary>
         /// ウィンドウ名が指定されなかったときに、適当な名前を作成して返す.
         /// </summary>
         /// <returns></returns>
-        static private string DefaultName()
+        private static string DefaultName()
         {
             return string.Format("window{0}", windowCount++);
         }
 
 #if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
+    /// <summary>
+    /// リソースの解放
+    /// </summary>
+    /// <param name="disposing">
+    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+    ///</param>
 #else
         /// <summary>
         /// Clean up any resources being used.
@@ -221,10 +232,11 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウを閉じる
-        /// </summary>
+    /// <summary>
+    /// ウィンドウを閉じる
+    /// </summary>
 #else
         /// <summary>
         /// Destroys this window. 
@@ -236,9 +248,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 全ての HighGUI ウィンドウを破棄する
-        /// </summary>
+    /// <summary>
+    /// 全ての HighGUI ウィンドウを破棄する
+    /// </summary>
 #else
         /// <summary>
         /// Destroys all the opened HighGUI windows. 
@@ -266,13 +278,15 @@ namespace OpenCvSharp.CPlusPlus
             Windows.Clear();
             NativeMethods.highgui_destroyAllWindows();
         }
+
         #endregion
 
         #region Properties
+
 #if LANG_JP
-        /// <summary>
-		/// 表示する画像を取得・設定する
-		/// </summary>
+    /// <summary>
+    /// 表示する画像を取得・設定する
+    /// </summary>
 #else
         /// <summary>
         /// Gets or sets an image to be shown
@@ -283,10 +297,11 @@ namespace OpenCvSharp.CPlusPlus
             get { return image; }
             set { ShowImage(value); }
         }
+
 #if LANG_JP
-        /// <summary>
-		/// ウィンドウの名前を取得する
-        /// </summary>
+    /// <summary>
+    /// ウィンドウの名前を取得する
+    /// </summary>
 #else
         /// <summary>
         /// Gets window name
@@ -297,10 +312,11 @@ namespace OpenCvSharp.CPlusPlus
             get { return name; }
             private set { name = value; }
         }
+
 #if LANG_JP
-		/// <summary>
-		/// ウィンドウハンドルを取得する
-        /// </summary>
+    /// <summary>
+    /// ウィンドウハンドルを取得する
+    /// </summary>
 #else
         /// <summary>
         /// Gets window handle
@@ -308,7 +324,11 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public IntPtr Handle
         {
-            get { return OpenCvSharp.NativeMethods.cvGetWindowHandle(name); }
+            get
+            {
+                throw new NotImplementedException();
+                //return OpenCvSharp.NativeMethods.cvGetWindowHandle(name);
+            }
         }
 
         /// <summary>
@@ -327,10 +347,11 @@ namespace OpenCvSharp.CPlusPlus
                 callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
             }
         }
+
 #if LANG_JP
-       	/// <summary>
-		/// マウスイベントが発生したときのイベントハンドラ
-        /// </summary>
+    /// <summary>
+    /// マウスイベントが発生したときのイベントハンドラ
+    /// </summary>
 #else
         /// <summary>
         /// Event handler to be called every time mouse event occurs in the specified window. 
@@ -344,7 +365,7 @@ namespace OpenCvSharp.CPlusPlus
                     throw new ArgumentNullException();
                 if (callbackHandle != null && callbackHandle.IsAllocated)
                     callbackHandle.Dispose();
-                
+
                 mouseCallback += value;
                 callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
                 NativeMethods.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
@@ -355,7 +376,7 @@ namespace OpenCvSharp.CPlusPlus
                     throw new ArgumentNullException();
                 if (callbackHandle != null && callbackHandle.IsAllocated)
                     callbackHandle.Dispose();
-                
+
                 mouseCallback -= value;
                 callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
                 NativeMethods.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
@@ -363,9 +384,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// Qtを有効にしてビルドされたhighguiライブラリであればtrueを返す
-        /// </summary>
+    /// <summary>
+    /// Qtを有効にしてビルドされたhighguiライブラリであればtrueを返す
+    /// </summary>
 #else
         /// <summary>
         /// Returns true if the library is compiled with Qt
@@ -373,18 +394,25 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static bool HasQt
         {
-            get { return OpenCvSharp.NativeMethods.HasQt; }
+            get
+            {
+                throw new NotImplementedException();
+                //return OpenCvSharp.NativeMethods.HasQt;
+            }
         }
+
         #endregion
 
         #region Methods
+
         #region CreateTrackbar
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-        /// </summary>
-        /// <param name="name">トラックバーの名前</param>
-        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+    /// <summary>
+    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+    /// </summary>
+    /// <param name="name">トラックバーの名前</param>
+    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
@@ -393,20 +421,21 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
-        public CvTrackbar CreateTrackbar(string name, CvTrackbarCallback callback)
+        public CvTrackbar CreateTrackbar(string name, CvTrackbarCallback2 callback)
         {
             CvTrackbar trackbar = new CvTrackbar(name, this.name, callback);
             trackbars.Add(name, trackbar);
             return trackbar;
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-        /// </summary>
-        /// <param name="name">トラックバーの名前</param>
-        /// <param name="value">スライダの初期位置</param>
-        /// <param name="max">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+    /// <summary>
+    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+    /// </summary>
+    /// <param name="name">トラックバーの名前</param>
+    /// <param name="value">スライダの初期位置</param>
+    /// <param name="max">スライダの最大値．最小値は常に 0.</param>
+    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
@@ -417,21 +446,22 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
-        public CvTrackbar CreateTrackbar(string name, int value, int max, CvTrackbarCallback callback)
+        public CvTrackbar CreateTrackbar(string name, int value, int max, CvTrackbarCallback2 callback)
         {
             CvTrackbar trackbar = new CvTrackbar(name, this.name, value, max, callback);
             trackbars.Add(name, trackbar);
             return trackbar;
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-        /// </summary>
-        /// <param name="name">トラックバーの名前</param>
-        /// <param name="value">スライダの初期位置</param>
-        /// <param name="max">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
-        /// <param name="userdata"></param>
+    /// <summary>
+    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+    /// </summary>
+    /// <param name="name">トラックバーの名前</param>
+    /// <param name="value">スライダの初期位置</param>
+    /// <param name="max">スライダの最大値．最小値は常に 0.</param>
+    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+    /// <param name="userdata"></param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
@@ -449,14 +479,17 @@ namespace OpenCvSharp.CPlusPlus
             trackbars.Add(name, trackbar);
             return trackbar;
         }
+
         #endregion
+
         #region DisplayOverlay
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウ画像上に，delay ミリ秒間だけテキストをオーバレイ表示します．これは，画像データを変更しません．テキストは画像の一番上に表示されます．
-        /// </summary>
-        /// <param name="text">ウィンドウ画像上に描画される，オーバレイテキスト．</param>
-        /// <param name="delayms">オーバレイテキストを表示する時間．直前のオーバレイテキストがタイムアウトするより前に，この関数が呼ばれると，タイマーは再起動されてテキストが更新されます．この値が0の場合，テキストは表示されません．</param>
+    /// <summary>
+    /// ウィンドウ画像上に，delay ミリ秒間だけテキストをオーバレイ表示します．これは，画像データを変更しません．テキストは画像の一番上に表示されます．
+    /// </summary>
+    /// <param name="text">ウィンドウ画像上に描画される，オーバレイテキスト．</param>
+    /// <param name="delayms">オーバレイテキストを表示する時間．直前のオーバレイテキストがタイムアウトするより前に，この関数が呼ばれると，タイマーは再起動されてテキストが更新されます．この値が0の場合，テキストは表示されません．</param>
 #else
         /// <summary>
         /// Display text on the window's image as an overlay for delay milliseconds. This is not editing the image's data. The text is display on the top of the image.
@@ -466,16 +499,20 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void DisplayOverlay(string text, int delayms)
         {
-            Cv.DisplayOverlay(name, text, delayms);
+            throw new NotImplementedException();
+            //Cv.DisplayOverlay(name, text, delayms);
         }
+
         #endregion
+
         #region DisplayStatusBar
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウのステータスバーに，delay ミリ秒間だけテキストを表示します．
-        /// </summary>
-        /// <param name="text">ウィンドウのステータスバー上に描画されるテキスト．</param>
-        /// <param name="delayms">テキストが表示される時間．直前のテキストがタイムアウトするより前に，この関数が呼ばれると，タイマーは再起動されてテキストが更新されます．この値が0の場合，テキストは表示されません．</param>
+    /// <summary>
+    /// ウィンドウのステータスバーに，delay ミリ秒間だけテキストを表示します．
+    /// </summary>
+    /// <param name="text">ウィンドウのステータスバー上に描画されるテキスト．</param>
+    /// <param name="delayms">テキストが表示される時間．直前のテキストがタイムアウトするより前に，この関数が呼ばれると，タイマーは再起動されてテキストが更新されます．この値が0の場合，テキストは表示されません．</param>
 #else
         /// <summary>
         /// 
@@ -485,16 +522,20 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void DisplayStatusBar(string text, int delayms)
         {
-            Cv.DisplayStatusBar(name, text, delayms);
+            throw new NotImplementedException();
+            //Cv.DisplayStatusBar(name, text, delayms);
         }
+
         #endregion
+
         #region GetProperty
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウのプロパティを取得する
-        /// </summary>
-        /// <param name="propId">プロパティの種類</param>
-        /// <returns>プロパティの値</returns>
+    /// <summary>
+    /// ウィンドウのプロパティを取得する
+    /// </summary>
+    /// <param name="propId">プロパティの種類</param>
+    /// <returns>プロパティの値</returns>
 #else
         /// <summary>
         /// Get Property of the window
@@ -506,12 +547,15 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Cv2.GetWindowProperty(name, propId);
         }
-        #endregion        
+
+        #endregion
+
         #region LoadWindowParameters
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウのパラメータを読み込みます．
-        /// </summary>
+    /// <summary>
+    /// ウィンドウのパラメータを読み込みます．
+    /// </summary>
 #else
         /// <summary>
         /// Load parameters of the window.
@@ -519,16 +563,20 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void LoadWindowParameters()
         {
-            Cv.LoadWindowParameters(name);
+            throw new NotImplementedException();
+            //Cv.LoadWindowParameters(name);
         }
+
         #endregion
+
         #region Move
+
 #if LANG_JP
-	    /// <summary>
-	    /// ウィンドウの位置を変更する
-	    /// </summary>
-	    /// <param name="x">左上のコーナーの新しい x 座標</param>
-        /// <param name="y">左上のコーナーの新しい y 座標</param>
+    /// <summary>
+    /// ウィンドウの位置を変更する
+    /// </summary>
+    /// <param name="x">左上のコーナーの新しい x 座標</param>
+    /// <param name="y">左上のコーナーの新しい y 座標</param>
 #else
         /// <summary>
         /// Sets window position
@@ -540,14 +588,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             NativeMethods.highgui_moveWindow(name, x, y);
         }
+
         #endregion
+
         #region Resize
+
 #if LANG_JP
-	    /// <summary>
-	    /// ウィンドウサイズを変更する
-	    /// </summary>
-	    /// <param name="width">新しい幅</param>
-        /// <param name="height">新しい高さ</param>
+    /// <summary>
+    /// ウィンドウサイズを変更する
+    /// </summary>
+    /// <param name="width">新しい幅</param>
+    /// <param name="height">新しい高さ</param>
 #else
         /// <summary>
         /// Sets window size
@@ -559,12 +610,15 @@ namespace OpenCvSharp.CPlusPlus
         {
             NativeMethods.highgui_resizeWindow(name, width, height);
         }
+
         #endregion
+
         #region SaveWindowParameters
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウのパラメータを保存します．
-        /// </summary>
+    /// <summary>
+    /// ウィンドウのパラメータを保存します．
+    /// </summary>
 #else
         /// <summary>
         /// Save parameters of the window.
@@ -572,16 +626,20 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void SaveWindowParameters()
         {
-            Cv.SaveWindowParameters(name);
+            throw new NotImplementedException();
+            //Cv.SaveWindowParameters(name);
         }
+
         #endregion
+
         #region SetProperty
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウのプロパティを設定する
-        /// </summary>
-        /// <param name="propId">プロパティの種類</param>
-        /// <param name="propValue">プロパティに設定する値</param>
+    /// <summary>
+    /// ウィンドウのプロパティを設定する
+    /// </summary>
+    /// <param name="propId">プロパティの種類</param>
+    /// <param name="propValue">プロパティに設定する値</param>
 #else
         /// <summary>
         /// Set Property of the window
@@ -593,12 +651,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             Cv2.SetWindowProperty(name, propId, propValue);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// ウィンドウのプロパティを設定する
-        /// </summary>
-        /// <param name="propId">プロパティの種類</param>
-        /// <param name="propValue">プロパティに設定する値</param>
+    /// <summary>
+    /// ウィンドウのプロパティを設定する
+    /// </summary>
+    /// <param name="propId">プロパティの種類</param>
+    /// <param name="propValue">プロパティに設定する値</param>
 #else
         /// <summary>
         /// Set Property of the window
@@ -610,15 +669,18 @@ namespace OpenCvSharp.CPlusPlus
         {
             Cv2.SetWindowProperty(name, propId, propValue);
         }
+
         #endregion
+
         #region ShowImage
+
 #if LANG_JP
-        /// <summary>
-	    /// 指定したウィンドウ内に画像を表示する(cvShowImage相当)．
-	    /// このウィンドウのフラグに AutoSize が指定されていた場合は，画像はオリジナルサイズで表示される．
-	    /// それ以外の場合，ウィンドウサイズに合わせて 表示画像サイズが変更される． 
-	    /// </summary>
-        /// <param name="img">画像ヘッダ</param>
+    /// <summary>
+    /// 指定したウィンドウ内に画像を表示する(cvShowImage相当)．
+    /// このウィンドウのフラグに AutoSize が指定されていた場合は，画像はオリジナルサイズで表示される．
+    /// それ以外の場合，ウィンドウサイズに合わせて 表示画像サイズが変更される． 
+    /// </summary>
+    /// <param name="img">画像ヘッダ</param>
 #else
         /// <summary>
         /// Shows the image in this window
@@ -633,29 +695,33 @@ namespace OpenCvSharp.CPlusPlus
                 NativeMethods.highgui_imshow(name, img.CvPtr);
             }
         }
+
         #endregion
+
         #region WaitKey
+
 #if LANG_JP
-        /// <summary>
-	    /// 何かキーが押されるまで待機する．
-	    /// </summary>
-        /// <returns>押されたキーのキーコード</returns>
+    /// <summary>
+    /// 何かキーが押されるまで待機する．
+    /// </summary>
+    /// <returns>押されたキーのキーコード</returns>
 #else
         /// <summary>
         /// Waits for a pressed key
         /// </summary>
         /// <returns>Key code</returns>
 #endif
-        static public int WaitKey()
+        public static int WaitKey()
         {
             return NativeMethods.highgui_waitKey(0);
         }
+
 #if LANG_JP
-	    /// <summary>
-	    /// 何かキーが押されるか、若しくはdelayで指定した時間(ミリ秒)待機する。
-	    /// </summary>
-	    /// <param name="delay">遅延時間（ミリ秒）</param>
-        /// <returns>キーが押された場合はそのキーコードを，キーが押されないまま指定されたタイムアウト時間が過ぎてしまった場合は -1</returns>
+    /// <summary>
+    /// 何かキーが押されるか、若しくはdelayで指定した時間(ミリ秒)待機する。
+    /// </summary>
+    /// <param name="delay">遅延時間（ミリ秒）</param>
+    /// <returns>キーが押された場合はそのキーコードを，キーが押されないまま指定されたタイムアウト時間が過ぎてしまった場合は -1</returns>
 #else
         /// <summary>
         /// Waits for a pressed key
@@ -663,18 +729,20 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="delay">Delay in milliseconds. </param>
         /// <returns>Key code</returns>
 #endif
-        static public int WaitKey(int delay)
+        public static int WaitKey(int delay)
         {
             return NativeMethods.highgui_waitKey(delay);
         }
+
         #endregion
 
         #region ShowImages
+
 #if LANG_JP
-        /// <summary>
-	    /// 引数に指定した画像をそれぞれ別のウィンドウで表示し、キー入力待ち状態にする。
-	    /// </summary>
-        /// <param name="images">表示させる画像。任意の個数を指定できる。</param>
+    /// <summary>
+    /// 引数に指定した画像をそれぞれ別のウィンドウで表示し、キー入力待ち状態にする。
+    /// </summary>
+    /// <param name="images">表示させる画像。任意の個数を指定できる。</param>
 #else
         /// <summary>
         /// 
@@ -687,7 +755,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("images");
             if (images.Length == 0)
                 return;
-            
+
             var windows = new List<Window>();
             foreach (Mat img in images)
             {
@@ -701,6 +769,7 @@ namespace OpenCvSharp.CPlusPlus
                 w.Close();
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -727,20 +796,23 @@ namespace OpenCvSharp.CPlusPlus
                 windows.Add(new Window(namesArray[i], imagesArray[i]));
             }
 
-            Cv.WaitKey();
+            Cv2.WaitKey();
 
             foreach (Window w in windows)
             {
                 w.Close();
             }
         }
+
         #endregion
+
         #region GetWindowByName
+
 #if LANG_JP
-        /// <summary>
-        /// 指定した名前に対応するウィンドウを得る
-        /// </summary>
-        /// <param name="name"></param>
+    /// <summary>
+    /// 指定した名前に対応するウィンドウを得る
+    /// </summary>
+    /// <param name="name"></param>
 #else
         /// <summary>
         /// Retrieves a created window by name
@@ -748,7 +820,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="name"></param>
         /// <returns></returns>
 #endif
-        static public Window GetWindowByName(string name)
+        public static Window GetWindowByName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -763,7 +835,9 @@ namespace OpenCvSharp.CPlusPlus
                 return null;
             }
         }
+
         #endregion
+
         #endregion
     }
 }

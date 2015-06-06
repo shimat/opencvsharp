@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -23,17 +23,17 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cuda_GpuMat_new5(IntPtr gpumat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_new6(CvSize size, int type);
+        public static extern IntPtr cuda_GpuMat_new6(Size size, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_new7(CvSize size, int type, IntPtr data, ulong step);
+        public static extern IntPtr cuda_GpuMat_new7(Size size, int type, IntPtr data, ulong step);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_new8(int rows, int cols, int type, CvScalar s);
+        public static extern IntPtr cuda_GpuMat_new8(int rows, int cols, int type, Scalar s);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_new9(IntPtr m, CvSlice rowRange, CvSlice colRange);
+        public static extern IntPtr cuda_GpuMat_new9(IntPtr m, Range rowRange, Range colRange);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_new10(IntPtr m, CvRect roi);
+        public static extern IntPtr cuda_GpuMat_new10(IntPtr m, Rect roi);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_new11(CvSize size, int type, CvScalar s);
+        public static extern IntPtr cuda_GpuMat_new11(Size size, int type, Scalar s);
         
         #endregion
 
@@ -47,9 +47,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_GpuMat_opAssign(IntPtr left, IntPtr right);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_opRange1(IntPtr src, CvRect roi);
+        public static extern IntPtr cuda_GpuMat_opRange1(IntPtr src, Rect roi);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_opRange2(IntPtr src, CvSlice rowRange, CvSlice colRange);
+        public static extern IntPtr cuda_GpuMat_opRange2(IntPtr src, Range rowRange, Range colRange);
         
         #endregion
 
@@ -99,19 +99,19 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_GpuMat_assignTo(IntPtr obj, IntPtr m, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cuda_GpuMat_setTo(IntPtr obj, CvScalar s, IntPtr mask);
+        public static extern IntPtr cuda_GpuMat_setTo(IntPtr obj, Scalar s, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cuda_GpuMat_reshape(IntPtr obj, int cn, int rows);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_GpuMat_create1(IntPtr obj, int rows, int cols, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cuda_GpuMat_create2(IntPtr obj, CvSize size, int type);
+        public static extern void cuda_GpuMat_create2(IntPtr obj, Size size, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_GpuMat_release(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_GpuMat_swap(IntPtr obj, IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cuda_GpuMat_locateROI(IntPtr obj, out CvSize wholeSize, out CvPoint ofs);
+        public static extern void cuda_GpuMat_locateROI(IntPtr obj, out Size wholeSize, out Point ofs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cuda_GpuMat_adjustROI(IntPtr obj, int dtop, int dbottom, int dleft, int drightt);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -129,7 +129,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong cuda_GpuMat_step1(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize cuda_GpuMat_size(IntPtr obj);
+        public static extern Size cuda_GpuMat_size(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cuda_GpuMat_empty(IntPtr obj);
 

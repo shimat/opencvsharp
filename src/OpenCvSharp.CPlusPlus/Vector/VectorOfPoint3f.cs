@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -40,7 +40,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Point3f[] array = Util.ToArray(data);
+            Point3f[] array = Util.Utility.ToArray(data);
             ptr = NativeMethods.vector_Point3f_new3(array, new IntPtr(array.Length));
         }
 
@@ -104,7 +104,7 @@ namespace OpenCvSharp.CPlusPlus
             Point3f[] dst = new Point3f[size];
             using (ArrayAddress1<Point3f> dstPtr = new ArrayAddress1<Point3f>(dst))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, Point3f.SizeOf * dst.Length);
+                Util.Utility.CopyMemory(dstPtr, ElemPtr, Point3f.SizeOf * dst.Length);
             }
             return dst;
         }

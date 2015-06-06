@@ -3,13 +3,10 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ml_initModule_ml();
-
         // StatModel
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

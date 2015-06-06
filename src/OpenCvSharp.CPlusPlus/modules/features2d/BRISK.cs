@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     // ReSharper disable once InconsistentNaming
 
@@ -71,9 +70,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("radiusList");
             if (numberList == null)
                 throw new ArgumentNullException("numberList");
-            float[] radiusListArray = Util.ToArray(radiusList);
-            int[] numberListArray = Util.ToArray(numberList);
-            int[] indexChangeArray = Util.ToArray(indexChange);
+            float[] radiusListArray = Util.Utility.ToArray(radiusList);
+            int[] numberListArray = Util.Utility.ToArray(numberList);
+            int[] indexChangeArray = Util.Utility.ToArray(indexChange);
 
             IntPtr p = NativeMethods.features2d_BRISK_create2(
                 radiusListArray, radiusListArray.Length,

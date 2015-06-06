@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -11,37 +11,43 @@ namespace OpenCvSharp.CPlusPlus
     public struct Rect : IEquatable<Rect>
     {
         #region Field
+
         /// <summary>
         /// 
         /// </summary>
         public int X;
+
         /// <summary>
         /// 
         /// </summary>
         public int Y;
+
         /// <summary>
         /// 
         /// </summary>
         public int Width;
+
         /// <summary>
         /// 
         /// </summary>
         public int Height;
+
         /// <summary>
         /// sizeof(Rect)
         /// </summary>
-        public const int SizeOf = sizeof(int) * 4;
+        public const int SizeOf = sizeof (int)*4;
 
 #if LANG_JP
-        /// <summary>
-        /// プロパティを初期化しない状態の Rect 構造体を表します。 
-        /// </summary>
+    /// <summary>
+    /// プロパティを初期化しない状態の Rect 構造体を表します。 
+    /// </summary>
 #else
         /// <summary>
         /// Represents a Rect structure with its properties left uninitialized. 
         /// </summary>
 #endif
         public static readonly Rect Empty = new Rect();
+
         #endregion
 
         /// <summary>
@@ -96,35 +102,16 @@ namespace OpenCvSharp.CPlusPlus
             return r;
         }
 
-        #region Cast
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static implicit operator CvRect(Rect self)
-        {
-            return new CvRect(self.X, self.Y, self.Width, self.Height);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-        public static implicit operator Rect(CvRect rect)
-        {
-            return new Rect(rect.X, rect.Y, rect.Width, rect.Height);
-        }
-        #endregion
-
         #region Operators
+
         #region == / !=
+
 #if LANG_JP
-        /// <summary>
-        /// 指定したオブジェクトと等しければtrueを返す 
-        /// </summary>
-        /// <param name="obj">比較するオブジェクト</param>
-        /// <returns>型が同じで、メンバの値が等しければtrue</returns>
+    /// <summary>
+    /// 指定したオブジェクトと等しければtrueを返す 
+    /// </summary>
+    /// <param name="obj">比較するオブジェクト</param>
+    /// <returns>型が同じで、メンバの値が等しければtrue</returns>
 #else
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
@@ -136,13 +123,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return (X == obj.X && Y == obj.Y && Width == obj.Width && Height == obj.Height);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// == 演算子のオーバーロード
-        /// </summary>
-        /// <param name="lhs">左辺値</param>
-        /// <param name="rhs">右辺値</param>
-        /// <returns>等しければtrue</returns>
+    /// <summary>
+    /// == 演算子のオーバーロード
+    /// </summary>
+    /// <param name="lhs">左辺値</param>
+    /// <param name="rhs">右辺値</param>
+    /// <returns>等しければtrue</returns>
 #else
         /// <summary>
         /// Compares two Rect objects. The result specifies whether the members of each object are equal.
@@ -155,13 +143,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return lhs.Equals(rhs);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// != 演算子のオーバーロード
-        /// </summary>
-        /// <param name="lhs">左辺値</param>
-        /// <param name="rhs">右辺値</param>
-        /// <returns>等しくなければtrue</returns>
+    /// <summary>
+    /// != 演算子のオーバーロード
+    /// </summary>
+    /// <param name="lhs">左辺値</param>
+    /// <param name="rhs">右辺値</param>
+    /// <returns>等しくなければtrue</returns>
 #else
         /// <summary>
         /// Compares two Rect objects. The result specifies whether the members of each object are unequal.
@@ -174,15 +163,18 @@ namespace OpenCvSharp.CPlusPlus
         {
             return !lhs.Equals(rhs);
         }
+
         #endregion
+
         #region + / -
+
 #if LANG_JP
-        /// <summary>
-        /// あるオフセットで矩形を移動させる
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="pt"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// あるオフセットで矩形を移動させる
+    /// </summary>
+    /// <param name="rect"></param>
+    /// <param name="pt"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Shifts rectangle by a certain offset
@@ -195,13 +187,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Rect(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// あるオフセットで矩形を移動させる
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="pt"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// あるオフセットで矩形を移動させる
+    /// </summary>
+    /// <param name="rect"></param>
+    /// <param name="pt"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Shifts rectangle by a certain offset
@@ -216,12 +209,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ応じて、矩形を膨張または縮小する
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 指定したサイズ応じて、矩形を膨張または縮小する
+    /// </summary>
+    /// <param name="rect"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Expands or shrinks rectangle by a certain amount
@@ -234,13 +227,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Rect(rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ応じて、矩形を膨張または縮小する
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 指定したサイズ応じて、矩形を膨張または縮小する
+    /// </summary>
+    /// <param name="rect"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Expands or shrinks rectangle by a certain amount
@@ -253,15 +247,18 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Rect(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
         }
+
         #endregion
+
         #region & / |
+
 #if LANG_JP
-        /// <summary>
-        /// 2つの矩形の交差部分を表す矩形を取得する
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 2つの矩形の交差部分を表す矩形を取得する
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Determines the Rect structure that represents the intersection of two rectangles. 
@@ -276,12 +273,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 2つの矩形の和集合を表す矩形を取得する 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 2つの矩形の和集合を表す矩形を取得する 
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Gets a Rect structure that contains the union of two Rect structures. 
@@ -294,14 +291,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Union(a, b);
         }
+
         #endregion
+
         #endregion
 
         #region Properties
+
 #if LANG_JP
-        /// <summary>
-        /// 上端のy座標 
-        /// </summary>
+    /// <summary>
+    /// 上端のy座標 
+    /// </summary>
 #else
         /// <summary>
         /// Gets the y-coordinate of the top edge of this Rect structure. 
@@ -312,10 +312,11 @@ namespace OpenCvSharp.CPlusPlus
             get { return Y; }
             set { Y = value; }
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 下端のy座標 (Y + Height) 
-        /// </summary>
+    /// <summary>
+    /// 下端のy座標 (Y + Height) 
+    /// </summary>
 #else
         /// <summary>
         /// Gets the y-coordinate that is the sum of the Y and Height property values of this Rect structure.
@@ -325,10 +326,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return Y + Height - 1; }
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 左端のx座標
-        /// </summary>
+    /// <summary>
+    /// 左端のx座標
+    /// </summary>
 #else
         /// <summary>
         /// Gets the x-coordinate of the left edge of this Rect structure. 
@@ -339,10 +341,11 @@ namespace OpenCvSharp.CPlusPlus
             get { return X; }
             set { X = value; }
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 右端のx座標 (X + Width)
-        /// </summary>
+    /// <summary>
+    /// 右端のx座標 (X + Width)
+    /// </summary>
 #else
         /// <summary>
         /// Gets the x-coordinate that is the sum of X and Width property values of this Rect structure. 
@@ -354,9 +357,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 矩形の左上頂点の位置 [Point(X, Y)]
-        /// </summary>
+    /// <summary>
+    /// 矩形の左上頂点の位置 [Point(X, Y)]
+    /// </summary>
 #else
         /// <summary>
         /// Coordinate of the left-most rectangle corner [Point(X, Y)]
@@ -371,10 +374,11 @@ namespace OpenCvSharp.CPlusPlus
                 Y = value.Y;
             }
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 矩形の大きさ [CvSize(Width, Height)]
-        /// </summary>
+    /// <summary>
+    /// 矩形の大きさ [CvSize(Width, Height)]
+    /// </summary>
 #else
         /// <summary>
         /// Size of the rectangle [CvSize(Width, Height)]
@@ -391,9 +395,9 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 左上の頂点
-        /// </summary>
+    /// <summary>
+    /// 左上の頂点
+    /// </summary>
 #else
         /// <summary>
         /// Coordinate of the left-most rectangle corner [Point(X, Y)]
@@ -403,10 +407,11 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return new Point(X, Y); }
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 右下の頂点
-        /// </summary>
+    /// <summary>
+    /// 右下の頂点
+    /// </summary>
 #else
         /// <summary>
         /// Coordinate of the right-most rectangle corner [Point(X+Width, Y+Height)]
@@ -416,16 +421,18 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return new Point(X + Width - 1, Y + Height - 1); }
         }
+
         #endregion
 
         #region Methods
+
 #if LANG_JP
-        /// <summary>
-        /// 指定した点がこの矩形に含まれているかどうかを判断する
-        /// </summary>
-        /// <param name="x">x座標</param>
-        /// <param name="y">y座標</param>
-        /// <returns></returns>
+    /// <summary>
+    /// 指定した点がこの矩形に含まれているかどうかを判断する
+    /// </summary>
+    /// <param name="x">x座標</param>
+    /// <param name="y">y座標</param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Determines if the specified point is contained within the rectangular region defined by this Rectangle. 
@@ -438,12 +445,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 指定した点がこの矩形に含まれているかどうかを判断する
-        /// </summary>
-        /// <param name="pt">点</param>
-        /// <returns></returns>
+    /// <summary>
+    /// 指定した点がこの矩形に含まれているかどうかを判断する
+    /// </summary>
+    /// <param name="pt">点</param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Determines if the specified point is contained within the rectangular region defined by this Rectangle. 
@@ -455,12 +463,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Contains(pt.X, pt.Y);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 指定した矩形がこの矩形に含まれているかどうかを判断する
-        /// </summary>
-        /// <param name="rect">矩形</param>
-        /// <returns></returns>
+    /// <summary>
+    /// 指定した矩形がこの矩形に含まれているかどうかを判断する
+    /// </summary>
+    /// <param name="rect">矩形</param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Determines if the specified rectangle is contained within the rectangular region defined by this Rectangle. 
@@ -477,11 +486,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// このRectを指定の量だけ膨らませる 
-        /// </summary>
-        /// <param name="width">水平方向の膨張量</param>
-        /// <param name="height">垂直方向の膨張量</param>
+    /// <summary>
+    /// このRectを指定の量だけ膨らませる 
+    /// </summary>
+    /// <param name="width">水平方向の膨張量</param>
+    /// <param name="height">垂直方向の膨張量</param>
 #else
         /// <summary>
         /// Inflates this Rect by the specified amount. 
@@ -493,14 +502,15 @@ namespace OpenCvSharp.CPlusPlus
         {
             X -= width;
             Y -= height;
-            Width += (2 * width);
-            Height += (2 * height);
+            Width += (2*width);
+            Height += (2*height);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// このRectを指定の量だけ膨らませる 
-        /// </summary>
-        /// <param name="size">この四角形の膨張量</param>
+    /// <summary>
+    /// このRectを指定の量だけ膨らませる 
+    /// </summary>
+    /// <param name="size">この四角形の膨張量</param>
 #else
         /// <summary>
         /// Inflates this Rect by the specified amount. 
@@ -512,14 +522,15 @@ namespace OpenCvSharp.CPlusPlus
 
             Inflate(size.Width, size.Height);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// このRectを指定の量だけ膨らませる 
-        /// </summary>
-        /// <param name="rect">対象の矩形</param>
-        /// <param name="x">水平方向の膨張量</param>
-        /// <param name="y">垂直方向の膨張量</param>
-        /// <returns></returns>
+    /// <summary>
+    /// このRectを指定の量だけ膨らませる 
+    /// </summary>
+    /// <param name="rect">対象の矩形</param>
+    /// <param name="x">水平方向の膨張量</param>
+    /// <param name="y">垂直方向の膨張量</param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Creates and returns an inflated copy of the specified Rect structure.
@@ -536,12 +547,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 2つの矩形の交差部分を表す矩形を取得する
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 2つの矩形の交差部分を表す矩形を取得する
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Determines the Rect structure that represents the intersection of two rectangles. 
@@ -561,12 +572,13 @@ namespace OpenCvSharp.CPlusPlus
                 return new Rect(x1, y1, x2 - x1, y2 - y1);
             return Empty;
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 2 つの矩形の交差部分を表す矩形を取得する
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 2 つの矩形の交差部分を表す矩形を取得する
+    /// </summary>
+    /// <param name="rect"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Determines the Rect structure that represents the intersection of two rectangles. 
@@ -580,11 +592,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定した矩形がこの矩形と交差するかどうか判定する
-        /// </summary>
-        /// <param name="rect">矩形</param>
-        /// <returns></returns>
+    /// <summary>
+    /// 指定した矩形がこの矩形と交差するかどうか判定する
+    /// </summary>
+    /// <param name="rect">矩形</param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Determines if this rectangle intersects with rect. 
@@ -599,15 +611,15 @@ namespace OpenCvSharp.CPlusPlus
                 (X + Width > rect.X) &&
                 (Y < rect.Y + rect.Height) &&
                 (Y + Height > rect.Y)
-            );
+                );
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 2つの矩形の和集合を表す矩形を取得する 
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 2つの矩形の和集合を表す矩形を取得する 
+    /// </summary>
+    /// <param name="rect"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Gets a Rect structure that contains the union of two Rect structures. 
@@ -619,13 +631,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Union(this, rect);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 2つの矩形の和集合を表す矩形を取得する 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 2つの矩形の和集合を表す矩形を取得する 
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Gets a Rect structure that contains the union of two Rect structures. 
@@ -645,11 +658,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// Equalsのオーバーライド
-        /// </summary>
-        /// <param name="obj">比較するオブジェクト</param>
-        /// <returns></returns>
+    /// <summary>
+    /// Equalsのオーバーライド
+    /// </summary>
+    /// <param name="obj">比較するオブジェクト</param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
@@ -661,11 +674,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             return base.Equals(obj);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// GetHashCodeのオーバーライド
-        /// </summary>
-        /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
+    /// <summary>
+    /// GetHashCodeのオーバーライド
+    /// </summary>
+    /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
 #else
         /// <summary>
         /// Returns a hash code for this object.
@@ -676,11 +690,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             return X.GetHashCode() ^ Y.GetHashCode() ^ Width.GetHashCode() ^ Height.GetHashCode();
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 文字列形式を返す 
-        /// </summary>
-        /// <returns>文字列形式</returns>
+    /// <summary>
+    /// 文字列形式を返す 
+    /// </summary>
+    /// <returns>文字列形式</returns>
 #else
         /// <summary>
         /// Converts this object to a human readable string.

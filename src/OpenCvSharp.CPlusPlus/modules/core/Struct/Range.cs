@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -31,26 +29,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             Start = start;
             End = end;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static implicit operator CvSlice(Range self)
-        {
-            return new CvSlice(self.Start, self.End);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="slice"></param>
-        /// <returns></returns>
-        public static implicit operator Range(CvSlice slice)
-        {
-            return new Range(slice.StartIndex, slice.EndIndex);
         }
 
         /// <summary>

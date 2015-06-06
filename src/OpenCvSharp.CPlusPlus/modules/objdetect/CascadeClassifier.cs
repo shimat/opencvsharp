@@ -4,7 +4,7 @@ using System.IO;
 
 // ReSharper disable InconsistentNaming
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// Cascade classifier class for object detection.
@@ -142,7 +142,7 @@ namespace OpenCvSharp.CPlusPlus
 
             using (var objectsVec = new VectorOfRect())
             {
-                NativeMethods.objdetect_CascadeClassifier_detectMultiScale(
+                NativeMethods.objdetect_CascadeClassifier_detectMultiScale1(
                     ptr, image.CvPtr, objectsVec.CvPtr, 
                     scaleFactor, minNeighbors, (int)flags, minSize0, maxSize0);
                 return objectsVec.ToArray();
@@ -187,7 +187,7 @@ namespace OpenCvSharp.CPlusPlus
             using (var rejectLevelsVec = new VectorOfInt32())
             using (var levelWeightsVec = new VectorOfDouble())
             {
-                NativeMethods.objdetect_CascadeClassifier_detectMultiScale(
+                NativeMethods.objdetect_CascadeClassifier_detectMultiScale2(
                     ptr, image.CvPtr, objectsVec.CvPtr, rejectLevelsVec.CvPtr, levelWeightsVec.CvPtr,
                     scaleFactor, minNeighbors, (int)flags, minSize0, maxSize0, outputRejectLevels ? 1 : 0);
 

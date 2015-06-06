@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus.Gpu
+namespace OpenCvSharp.Gpu
 {
 #if LANG_JP
     /// <summary>
@@ -1195,7 +1195,7 @@ namespace OpenCvSharp.CPlusPlus.Gpu
         /// </summary>
         /// <param name="wholeSize"></param>
         /// <param name="ofs"></param>
-        public void LocateROI(out CvSize wholeSize, out CvPoint ofs)
+        public void LocateROI(out Size wholeSize, out Point ofs)
         {
             ThrowIfDisposed();
             NativeMethods.cuda_GpuMat_locateROI(ptr, out wholeSize, out ofs);

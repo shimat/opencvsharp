@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
@@ -26,9 +26,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorAdd_MatMatExpr(IntPtr m, IntPtr e);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_operatorAdd_MatExprScalar(IntPtr e, CvScalar s);
+        public static extern IntPtr core_operatorAdd_MatExprScalar(IntPtr e, Scalar s);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_operatorAdd_ScalarMatExpr(CvScalar s, IntPtr e);
+        public static extern IntPtr core_operatorAdd_ScalarMatExpr(Scalar s, IntPtr e);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorAdd_MatExprMatExpr(IntPtr e1, IntPtr e2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -36,9 +36,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorSubtract_MatMatExpr(IntPtr m, IntPtr e);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_operatorSubtract_MatExprScalar(IntPtr e, CvScalar s);
+        public static extern IntPtr core_operatorSubtract_MatExprScalar(IntPtr e, Scalar s);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_operatorSubtract_ScalarMatExpr(CvScalar s, IntPtr e);
+        public static extern IntPtr core_operatorSubtract_ScalarMatExpr(Scalar s, IntPtr e);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_operatorSubtract_MatExprMatExpr(IntPtr e1, IntPtr e2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -87,7 +87,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_MatExpr_mul_toMat(IntPtr self, IntPtr m, double scale);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize core_MatExpr_size(IntPtr self);
+        public static extern Size core_MatExpr_size(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_MatExpr_type(IntPtr self);
 

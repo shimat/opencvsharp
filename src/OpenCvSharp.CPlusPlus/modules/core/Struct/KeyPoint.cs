@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
@@ -20,103 +17,87 @@ namespace OpenCvSharp.CPlusPlus
     public struct KeyPoint : IEquatable<KeyPoint>
     {
         #region Properties
+
 #if LANG_JP
-        /// <summary>
-        /// 特徴点の座標
-        /// </summary>
+    /// <summary>
+    /// 特徴点の座標
+    /// </summary>
 #else
         /// <summary>
         /// Coordinate of the point
         /// </summary>
 #endif
         public Point2f Pt;
-        /*{
-            get { return p.pt; }
-            set { p.pt = value; }
-        }*/
+
 #if LANG_JP
-        /// <summary>
-        /// 特徴点のサイズ
-        /// </summary>
+    /// <summary>
+    /// 特徴点のサイズ
+    /// </summary>
 #else
         /// <summary>
         /// Feature size
         /// </summary>
 #endif
         public float Size;
-        /*{
-            get { return p.size; }
-            set { p.size = value; }
-        }*/
+
 #if LANG_JP
-        /// <summary>
-        /// 特徴点の向き(度数法)。 向きが定義されない、若しくは計算されない場合には負数。
-        /// </summary>
+    /// <summary>
+    /// 特徴点の向き(度数法)。 向きが定義されない、若しくは計算されない場合には負数。
+    /// </summary>
 #else
         /// <summary>
         /// Feature orientation in degrees (has negative value if the orientation is not defined/not computed)
         /// </summary>
 #endif
         public float Angle;
-        /*{
-            get { return p.angle; }
-            set { p.angle = value; }
-        }*/
+
 #if LANG_JP
-        /// <summary>
-        /// 特徴点の強さ（もっとも顕著なキーポイントを求めるために使われる）
-        /// </summary>
+    /// <summary>
+    /// 特徴点の強さ（もっとも顕著なキーポイントを求めるために使われる）
+    /// </summary>
 #else
         /// <summary>
         /// Feature strength (can be used to select only the most prominent key points)
         /// </summary>
 #endif
         public float Response;
-        /*{
-            get { return p.response; }
-            set { p.response = value; }
-        }*/
+
 #if LANG_JP
-        /// <summary>
-        /// 特徴点が見つかったscale-spaceのoctave。サイズと相関がある場合がある。
-        /// </summary>
+    /// <summary>
+    /// 特徴点が見つかったscale-spaceのoctave。サイズと相関がある場合がある。
+    /// </summary>
 #else
         /// <summary>
         /// Scale-space octave in which the feature has been found; may correlate with the size
         /// </summary>
 #endif
         public int Octave;
-        /*{
-            get { return p.octave; }
-            set { p.octave = value; }
-        }*/
+
 #if LANG_JP
-        /// <summary>
-        /// 特徴点のクラス（特徴点分類機または物体検出器において用いられる）
-        /// </summary>
+    /// <summary>
+    /// 特徴点のクラス（特徴点分類機または物体検出器において用いられる）
+    /// </summary>
 #else
         /// <summary>
         /// Point class (can be used by feature classifiers or object detectors)
         /// </summary>
 #endif
-        public int ClassID;
-        /*{
-            get { return p.class_id; }
-            set { p.class_id = value; }
-        }*/
+        public int ClassId;
+
         #endregion
 
         #region Constructors
+
 #if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="pt">特徴点の座標</param>
-        /// <param name="size">特徴点のサイズ</param>
-        /// <param name="angle">特徴点の向き(度数法)。 向きが定義されない、若しくは計算されない場合には負数。</param>
-        /// <param name="response">特徴点の強さ（もっとも顕著なキーポイントを求めるために使われる）</param>
-        /// <param name="octave">特徴点が見つかったscale-spaceのoctave。サイズと相関がある場合がある。</param>
-        /// <param name="class_id">特徴点のクラス（特徴点分類機または物体検出器において用いられる）</param>
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="pt">特徴点の座標</param>
+    /// <param name="size">特徴点のサイズ</param>
+    /// <param name="angle">特徴点の向き(度数法)。 向きが定義されない、若しくは計算されない場合には負数。</param>
+    /// <param name="response">特徴点の強さ（もっとも顕著なキーポイントを求めるために使われる）</param>
+    /// <param name="octave">特徴点が見つかったscale-spaceのoctave。サイズと相関がある場合がある。</param>
+    /// <param name="classId">特徴点のクラス（特徴点分類機または物体検出器において用いられる）</param>
 #else
         /// <summary>
         /// Complete constructor
@@ -126,29 +107,30 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="angle">Feature orientation in degrees (has negative value if the orientation is not defined/not computed)</param>
         /// <param name="response">Feature strength (can be used to select only the most prominent key points)</param>
         /// <param name="octave">Scale-space octave in which the feature has been found; may correlate with the size</param>
-        /// <param name="class_id">Point class (can be used by feature classifiers or object detectors)</param>
+        /// <param name="classId">Point class (can be used by feature classifiers or object detectors)</param>
 #endif
-        public KeyPoint(CvPoint2D32f pt, float size, float angle = -1, float response = 0, int octave = 0, int class_id = -1)
+        public KeyPoint(Point2f pt, float size, float angle = -1, float response = 0, int octave = 0,
+            int classId = -1)
         {
             Pt = pt;
             Size = size;
             Angle = angle;
             Response = response;
             Octave = octave;
-            ClassID = class_id;
+            ClassId = classId;
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="x">特徴点のx座標</param>
-        /// <param name="y">特徴点のy座標</param>
-        /// <param name="size">特徴点のサイズ</param>
-        /// <param name="angle">特徴点の向き(度数法)。 向きが定義されない、若しくは計算されない場合には負数。</param>
-        /// <param name="response">特徴点の強さ（もっとも顕著なキーポイントを求めるために使われる）</param>
-        /// <param name="octave">特徴点が見つかったscale-spaceのoctave。サイズと相関がある場合がある。</param>
-        /// <param name="class_id">特徴点のクラス（特徴点分類機または物体検出器において用いられる）</param>
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="x">特徴点のx座標</param>
+    /// <param name="y">特徴点のy座標</param>
+    /// <param name="size">特徴点のサイズ</param>
+    /// <param name="angle">特徴点の向き(度数法)。 向きが定義されない、若しくは計算されない場合には負数。</param>
+    /// <param name="response">特徴点の強さ（もっとも顕著なキーポイントを求めるために使われる）</param>
+    /// <param name="octave">特徴点が見つかったscale-spaceのoctave。サイズと相関がある場合がある。</param>
+    /// <param name="classId">特徴点のクラス（特徴点分類機または物体検出器において用いられる）</param>
 #else
         /// <summary>
         /// Complete constructor
@@ -159,21 +141,24 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="angle">Feature orientation in degrees (has negative value if the orientation is not defined/not computed)</param>
         /// <param name="response">Feature strength (can be used to select only the most prominent key points)</param>
         /// <param name="octave">Scale-space octave in which the feature has been found; may correlate with the size</param>
-        /// <param name="class_id">Point class (can be used by feature classifiers or object detectors)</param>
+        /// <param name="classId">Point class (can be used by feature classifiers or object detectors)</param>
 #endif
-        public KeyPoint(float x, float y, float size, float angle = -1, float response = 0, int octave = 0, int class_id = -1)
-            : this(new CvPoint2D32f(x, y), size, angle, response, octave, class_id)
+        public KeyPoint(float x, float y, float size, float angle = -1, float response = 0, int octave = 0,
+            int classId = -1)
+            : this(new Point2f(x, y), size, angle, response, octave, classId)
         {
         }
+
         #endregion
 
         #region Operators
+
 #if LANG_JP
-        /// <summary>
-        /// 指定したオブジェクトと等しければtrueを返す 
-        /// </summary>
-        /// <param name="obj">比較するオブジェクト</param>
-        /// <returns>型が同じで、メンバの値が等しければtrue</returns>
+    /// <summary>
+    /// 指定したオブジェクトと等しければtrueを返す 
+    /// </summary>
+    /// <param name="obj">比較するオブジェクト</param>
+    /// <returns>型が同じで、メンバの値が等しければtrue</returns>
 #else
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
@@ -185,20 +170,21 @@ namespace OpenCvSharp.CPlusPlus
         {
             return (
                 this.Pt == obj.Pt &&
-                this.Size == obj.Size && 
+                this.Size == obj.Size &&
                 this.Angle == obj.Angle &&
                 this.Response == obj.Response &&
                 this.Octave == obj.Octave &&
-                this.ClassID == obj.ClassID
-            );
+                this.ClassId == obj.ClassId
+                );
         }
+
 #if LANG_JP
-        /// <summary>
-        /// == 演算子のオーバーロード
-        /// </summary>
-        /// <param name="lhs">左辺値</param>
-        /// <param name="rhs">右辺値</param>
-        /// <returns>等しければtrue</returns>
+    /// <summary>
+    /// == 演算子のオーバーロード
+    /// </summary>
+    /// <param name="lhs">左辺値</param>
+    /// <param name="rhs">右辺値</param>
+    /// <returns>等しければtrue</returns>
 #else
         /// <summary>
         /// Compares two CvPoint objects. The result specifies whether the members of each object are equal.
@@ -211,13 +197,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return lhs.Equals(rhs);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// != 演算子のオーバーロード
-        /// </summary>
-        /// <param name="lhs">左辺値</param>
-        /// <param name="rhs">右辺値</param>
-        /// <returns>等しくなければtrue</returns>
+    /// <summary>
+    /// != 演算子のオーバーロード
+    /// </summary>
+    /// <param name="lhs">左辺値</param>
+    /// <param name="rhs">右辺値</param>
+    /// <returns>等しくなければtrue</returns>
 #else
         /// <summary>
         /// Compares two CvPoint objects. The result specifies whether the members of each object are unequal.
@@ -230,31 +217,34 @@ namespace OpenCvSharp.CPlusPlus
         {
             return !lhs.Equals(rhs);
         }
+
         #endregion
 
         #region Overrided Methods
+
 #if LANG_JP
-        /// <summary>
-        /// Equalsのオーバーライド
-        /// </summary>
-        /// <param name="obj">比較するオブジェクト</param>
-        /// <returns></returns>
+    /// <summary>
+    /// Equalsのオーバーライド
+    /// </summary>
+    /// <param name="obj">比較するオブジェクト</param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
         /// </summary>
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-#endif        
+#endif
         public override bool Equals(object obj)
         {
             return base.Equals(obj);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// GetHashCodeのオーバーライド
-        /// </summary>
-        /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
+    /// <summary>
+    /// GetHashCodeのオーバーライド
+    /// </summary>
+    /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
 #else
         /// <summary>
         /// Returns a hash code for this object.
@@ -271,26 +261,28 @@ namespace OpenCvSharp.CPlusPlus
                     this.Angle.GetHashCode() +
                     this.Response.GetHashCode() +
                     this.Octave.GetHashCode() +
-                    this.ClassID.GetHashCode()
-                );
+                    this.ClassId.GetHashCode()
+                    );
             }
         }
-        
+
 #if LANG_JP
-        /// <summary>
-        /// 文字列形式を返す 
-        /// </summary>
-        /// <returns>文字列形式</returns>
+    /// <summary>
+    /// 文字列形式を返す 
+    /// </summary>
+    /// <returns>文字列形式</returns>
 #else
         /// <summary>
         /// Converts this object to a human readable string.
         /// </summary>
         /// <returns>A string that represents this object.</returns>
-#endif        
+#endif
         public override string ToString()
         {
-            return String.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassID:{5}]", Pt, Size, Angle, Response, Octave, ClassID);
+            return String.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]", Pt, Size, Angle,
+                Response, Octave, ClassId);
         }
+
         #endregion
     }
 }

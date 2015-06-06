@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp;
-using OpenCvSharp.CPlusPlus.Gpu;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Gpu;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// Proxy datatype for passing Mat's and List&lt;&gt;'s as output parameters
@@ -48,7 +46,7 @@ namespace OpenCvSharp.CPlusPlus
                 using (ArrayAddress1<T> aa = new ArrayAddress1<T>(array))
                 {
                     int elemSize = Marshal.SizeOf(typeof(T));
-                    Util.CopyMemory(aa.Pointer, mat.Data, size * elemSize);
+                    Util.Utility.CopyMemory(aa.Pointer, mat.Data, size * elemSize);
                 }
                 // リストにコピー
                 list.Clear();

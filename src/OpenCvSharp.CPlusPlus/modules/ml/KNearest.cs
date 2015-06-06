@@ -1,7 +1,6 @@
 ﻿using System;
-using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus.ML
+namespace OpenCvSharp.ML
 {
 #if LANG_JP
     /// <summary>

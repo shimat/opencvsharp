@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -49,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            KeyPoint[] array = Util.ToArray(data);
+            KeyPoint[] array = Util.Utility.ToArray(data);
             ptr = NativeMethods.vector_KeyPoint_new3(array, new IntPtr(array.Length));
         }
 
@@ -111,9 +111,9 @@ namespace OpenCvSharp.CPlusPlus
                 return new KeyPoint[0];
             }
             KeyPoint[] dst = new KeyPoint[size];
-            using (ArrayAddress1<KeyPoint> dstPtr = new ArrayAddress1<KeyPoint>(dst))
+            using (var dstPtr = new ArrayAddress1<KeyPoint>(dst))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(KeyPoint)) * dst.Length);
+                Util.Utility.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(KeyPoint)) * dst.Length);
             }
             return dst;
         }

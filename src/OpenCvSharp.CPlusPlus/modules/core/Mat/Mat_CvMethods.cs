@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     partial class Mat
     {
@@ -664,7 +664,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public void Line(int pt1X, int pt1Y, int pt2X, int pt2Y, CvScalar color,
+        public void Line(int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color,
             int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
         {
             Cv2.Line(this, pt1X, pt1Y, pt2X, pt2Y, color, thickness, lineType, shift);
@@ -1348,7 +1348,7 @@ namespace OpenCvSharp.CPlusPlus
         /// or when the corner position moves by less than criteria.epsilon on some iteration.</param>
         /// <returns></returns>
         public Point2f[] CornerSubPix(IEnumerable<Point2f> inputCorners,
-            Size winSize, Size zeroZone, CvTermCriteria criteria)
+            Size winSize, Size zeroZone, TermCriteria criteria)
         {
             return Cv2.CornerSubPix(this, inputCorners, winSize, zeroZone, criteria);
         }
@@ -1520,8 +1520,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>The destination image. It will have the same size and the same type as src</returns>
 #endif
-        public Mat Erode(InputArray element, CvPoint? anchor = null, int iterations = 1, 
-            BorderType borderType = BorderType.Constant, CvScalar? borderValue = null)
+        public Mat Erode(InputArray element, Point? anchor = null, int iterations = 1, 
+            BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
             Cv2.Erode(this, dst, element, anchor, iterations, borderType, borderValue);
@@ -1552,8 +1552,8 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns>Destination image. It will have the same size and the same type as src</returns>
 #endif
         public Mat MorphologyEx(MorphologyOperation op, InputArray element,
-            CvPoint? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant,
-            CvScalar? borderValue = null)
+            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant,
+            Scalar? borderValue = null)
         {
             var dst = new Mat();
             Cv2.MorphologyEx(this, dst, op, element, anchor, iterations, borderType, borderValue);
@@ -1631,7 +1631,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
         /// <returns>Destination image. It has the same size as map1 and the same type as src</returns>
         public Mat Remap(InputArray map1, InputArray map2, Interpolation interpolation = Interpolation.Linear, 
-            BorderType borderMode = BorderType.Constant, CvScalar? borderValue = null)
+            BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
             Cv2.Remap(this, dst, map1, map2, interpolation, borderMode, borderValue);

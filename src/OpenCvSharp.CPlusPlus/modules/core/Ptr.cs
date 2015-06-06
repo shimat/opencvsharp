@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.CPlusPlus.Face;
-using OpenCvSharp.CPlusPlus.XFeatures2D;
+using OpenCvSharp.Face;
+using OpenCvSharp.XFeatures2D;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// Template class for smart reference-counting pointers

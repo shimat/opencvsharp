@@ -7,17 +7,8 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Functions of cvblob library
     /// </summary>
-    static public class CvBlobLib
+    public static class CvBlobLib
     {
-        #region Constants
-        /// <summary>
-        /// Size of a label in bits.
-        /// </summary>
-        public const BitDepth DepthLabel = (BitDepth)(sizeof(UInt32) * 8);
-        #endregion
-
-        #region Public Methods
-        #region Angle
         /// <summary>
         /// Calculates angle orientation of a blob.
         /// This function uses central moments so cvCentralMoments should have been called before for this blob. (cvAngle)
@@ -30,22 +21,20 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blob");
             return blob.Angle();
         }
-        #endregion
-        #region Centroid
+
         /// <summary>
         /// Calculates centroid.
         /// Centroid will be returned and stored in the blob structure. (cvCentroid)
         /// </summary>
         /// <param name="blob">Blob whose centroid will be calculated.</param>
         /// <returns>Centroid.</returns>
-        public static CvPoint2D64f CalcCentroid(CvBlob blob)
+        public static Point2d CalcCentroid(CvBlob blob)
         {
             if (blob == null)
                 throw new ArgumentNullException("blob");
             return blob.CalcCentroid();
         }
-        #endregion
-        #region ContourPolygonArea
+
         /// <summary>
         /// Calculates area of a polygonal contour. 
         /// </summary>
@@ -57,8 +46,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("polygon");
             return polygon.Area();
         }
-        #endregion
-        #region ContourPolygonCircularity
+
         /// <summary>
         /// Calculates the circularity of a polygon (compactness measure).
         /// </summary>
@@ -70,8 +58,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("polygon");
             return polygon.Circularity();
         }
-        #endregion
-        #region ContourPolygonPerimeter
+
         /// <summary>
         /// Calculates perimeter of a chain code contour.
         /// </summary>
@@ -83,8 +70,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("polygon");
             return polygon.Perimeter();
         }
-        #endregion
-        #region ContourChainCodePerimeter
+
         /// <summary>
         /// Calculates perimeter of a chain code contour.
         /// </summary>
@@ -96,8 +82,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("cc");
             return cc.Perimeter();
         }
-        #endregion
-        #region ConvertChainCodesToPolygon
+
         /// <summary>
         /// Convert a chain code contour to a polygon.
         /// </summary>
@@ -109,8 +94,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("cc");
             return cc.ConvertToPolygon();
         }
-        #endregion
-        #region FilterByArea
+
         /// <summary>
         /// Filter blobs by area. 
         /// Those blobs whose areas are not in range will be erased from the input list of blobs. (cvFilterByArea)
@@ -124,8 +108,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blobs");
             blobs.FilterByArea(minArea, maxArea);
         }
-        #endregion
-        #region FilterByLabel
+
         /// <summary>
         /// Filter blobs by label.
         /// Delete all blobs except those with label l.
@@ -138,21 +121,19 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blobs");
             blobs.FilterByLabel(label);
         }
-        #endregion
-        #region FilterLabels
+
         /// <summary>
         /// Draw a binary image with the blobs that have been given. (cvFilterLabels)
         /// </summary>
         /// <param name="blobs">List of blobs to be drawn.</param>
         /// <param name="imgOut">Output binary image (depth=IPL_DEPTH_8U and nchannels=1).</param>
-        public static void FilterLabels(CvBlobs blobs, IplImage imgOut)
+        public static void FilterLabels(CvBlobs blobs, Mat imgOut)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
             blobs.FilterLabels(imgOut);
         }
-        #endregion
-        #region GetLabel
+
         /// <summary>
         /// Get the label value from a labeled image.
         /// </summary>
@@ -166,8 +147,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blobs");
             return blobs.GetLabel(x, y);
         }
-        #endregion
-        #region GreaterBlob
+
         /// <summary>
         /// Find greater blob. (cvGreaterBlob)
         /// </summary>
@@ -191,15 +171,14 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blobs");
             return blobs.LargestBlob();
         }
-        #endregion
-        #region Label
+
         /// <summary>
         /// Label the connected parts of a binary image. (cvLabel)
         /// </summary>
         /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
         /// <param name="blobs">List of blobs.</param>
         /// <returns>Number of pixels that has been labeled.</returns>
-        public static int Label(IplImage img, CvBlobs blobs)
+        public static int Label(Mat img, CvBlobs blobs)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
@@ -208,8 +187,7 @@ namespace OpenCvSharp.Blob
 
             return blobs.Label(img);
         }
-        #endregion
-        #region BlobMeanColor
+
         /// <summary>
         /// Calculates mean color of a blob in an image.
         /// </summary>
@@ -217,14 +195,13 @@ namespace OpenCvSharp.Blob
         /// <param name="targetBlob">The target blob</param>
         /// <param name="originalImage">Original image.</param>
         /// <returns>Average color.</returns>
-        public static CvScalar BlobMeanColor(CvBlobs blobs, CvBlob targetBlob, IplImage originalImage)
+        public static Scalar BlobMeanColor(CvBlobs blobs, CvBlob targetBlob, Mat originalImage)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
             return blobs.BlobMeanColor(targetBlob, originalImage);
         }
-        #endregion
-        #region PolygonContourConvexHull
+
         /// <summary>
         /// Calculates convex hull of a contour.
         /// Uses the Melkman Algorithm. Code based on the version in http://w3.impa.br/~rdcastan/Cgeometry/.
@@ -237,8 +214,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("polygon");
             return polygon.ContourConvexHull();
         }
-        #endregion
-        #region RenderBlob
+
         /// <summary>
         /// Draws or prints information about a blob.
         /// </summary>
@@ -246,10 +222,11 @@ namespace OpenCvSharp.Blob
         /// <param name="blob">Blob.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        public static void RenderBlob(LabelData labels, CvBlob blob, IplImage imgSource, IplImage imgDest)
+        public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest)
         {
-            RenderBlob(labels, blob, imgSource, imgDest, (RenderBlobsMode)0x000f, CvColor.White, 1.0);
+            RenderBlob(labels, blob, imgSource, imgDest, (RenderBlobsMode) 0x000f, Scalar.White, 1.0);
         }
+
         /// <summary>
         /// Draws or prints information about a blob.
         /// </summary>
@@ -258,10 +235,12 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
-        public static void RenderBlob(LabelData labels, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
+        public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest,
+            RenderBlobsMode mode)
         {
-            RenderBlob(labels, blob, imgSource, imgDest, mode, CvColor.White, 1.0);
+            RenderBlob(labels, blob, imgSource, imgDest, mode, Scalar.White, 1.0);
         }
+
         /// <summary>
         /// Draws or prints information about a blob.
         /// </summary>
@@ -271,10 +250,12 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="color">Color to render (if CV_BLOB_RENDER_COLOR is used).</param>
-        public static void RenderBlob(LabelData labels, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, CvScalar color)
+        public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest,
+            RenderBlobsMode mode, Scalar color)
         {
             RenderBlob(labels, blob, imgSource, imgDest, mode, color, 1.0);
         }
+
         /// <summary>
         /// Draws or prints information about a blob.
         /// </summary>
@@ -285,7 +266,8 @@ namespace OpenCvSharp.Blob
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="color">Color to render (if CV_BLOB_RENDER_COLOR is used).</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
-        public static void RenderBlob(LabelData labels, CvBlob blob, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, CvScalar color, double alpha)
+        public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest,
+            RenderBlobsMode mode, Scalar color, double alpha)
         {
             if (labels == null)
                 throw new ArgumentNullException("labels");
@@ -298,18 +280,18 @@ namespace OpenCvSharp.Blob
 
             BlobRenderer.PerformOne(labels, blob, imgSource, imgDest, mode, color, alpha);
         }
-        #endregion
-        #region RenderBlobs
+
         /// <summary>
         /// Draws or prints information about blobs. (cvRenderBlobs)
         /// </summary>
         /// <param name="blobs">List of blobs.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        public static void RenderBlobs(CvBlobs blobs, IplImage imgSource, IplImage imgDest)
+        public static void RenderBlobs(CvBlobs blobs, Mat imgSource, Mat imgDest)
         {
-            RenderBlobs(blobs, imgSource, imgDest, (RenderBlobsMode)0x000f, 1.0);
+            RenderBlobs(blobs, imgSource, imgDest, (RenderBlobsMode) 0x000f, 1.0);
         }
+
         /// <summary>
         /// Draws or prints information about blobs. (cvRenderBlobs)
         /// </summary>
@@ -317,10 +299,11 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
-        public static void RenderBlobs(CvBlobs blobs, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
+        public static void RenderBlobs(CvBlobs blobs, Mat imgSource, Mat imgDest, RenderBlobsMode mode)
         {
             RenderBlobs(blobs, imgSource, imgDest, mode, 1.0);
         }
+
         /// <summary>
         /// Draws or prints information about blobs. (cvRenderBlobs)
         /// </summary>
@@ -329,7 +312,8 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
-        public static void RenderBlobs(CvBlobs blobs, IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, double alpha)
+        public static void RenderBlobs(CvBlobs blobs, Mat imgSource, Mat imgDest, RenderBlobsMode mode,
+            double alpha)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
@@ -340,70 +324,70 @@ namespace OpenCvSharp.Blob
 
             BlobRenderer.PerformMany(blobs, imgSource, imgDest, mode, alpha);
         }
-        #endregion
-        #region RenderContourChainCode
+
         /// <summary>
         /// Draw a contour.
         /// </summary>
         /// <param name="contour"> Chain code contour.</param>
         /// <param name="img">Image to draw on.</param>
-        public static void RenderContourChainCode(CvContourChainCode contour, IplImage img)
+        public static void RenderContourChainCode(CvContourChainCode contour, Mat img)
         {
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.Render(img);
         }
+
         /// <summary>
         /// Draw a contour.
         /// </summary>
         /// <param name="contour"> Chain code contour.</param>
         /// <param name="img">Image to draw on.</param>
         /// <param name="color">Color to draw (default, white).</param>
-        public static void RenderContourChainCode(CvContourChainCode contour, IplImage img, CvScalar color)
+        public static void RenderContourChainCode(CvContourChainCode contour, Mat img, Scalar color)
         {
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.Render(img, color);
         }
-        #endregion
-        #region RenderContourPolygon
+
         /// <summary>
         /// Draw a polygon.
         /// </summary>
         /// <param name="contour">Polygon contour.</param>
         /// <param name="img">Image to draw on.</param>
-        public static void RenderContourPolygon(CvContourPolygon contour, IplImage img)
+        public static void RenderContourPolygon(CvContourPolygon contour, Mat img)
         {
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.Render(img);
         }
+
         /// <summary>
         /// Draw a polygon.
         /// </summary>
         /// <param name="contour">Polygon contour.</param>
         /// <param name="img">Image to draw on.</param>
         /// <param name="color">Color to draw (default, white).</param>
-        public static void RenderContourPolygon(CvContourPolygon contour, IplImage img, CvScalar color)
+        public static void RenderContourPolygon(CvContourPolygon contour, Mat img, Scalar color)
         {
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.Render(img, color);
         }
-        #endregion
-        #region RenderTracks
+
         /// <summary>
         /// Prints tracks information.
         /// </summary>
         /// <param name="tracks">List of tracks.</param>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        public static void RenderTracks(CvTracks tracks, IplImage imgSource, IplImage imgDest)
+        public static void RenderTracks(CvTracks tracks, Mat imgSource, Mat imgDest)
         {
             if (tracks == null)
                 throw new ArgumentNullException("tracks");
             tracks.Render(imgSource, imgDest);
         }
+
         /// <summary>
         /// Prints tracks information.
         /// </summary>
@@ -411,12 +395,13 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_TRACK_RENDER_ID.</param>
-        public static void RenderTracks(CvTracks tracks, IplImage imgSource, IplImage imgDest, RenderTracksMode mode)
+        public static void RenderTracks(CvTracks tracks, Mat imgSource, Mat imgDest, RenderTracksMode mode)
         {
             if (tracks == null)
                 throw new ArgumentNullException("tracks");
             tracks.Render(imgSource, imgDest, mode);
         }
+
         /// <summary>
         /// Prints tracks information.
         /// </summary>
@@ -424,15 +409,18 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_TRACK_RENDER_ID.</param>
-        /// <param name="font">OpenCV font for print on the image.</param>
-        public static void RenderTracks(CvTracks tracks, IplImage imgSource, IplImage imgDest, RenderTracksMode mode, CvFont font)
+        /// <param name="textColor"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="thickness"></param>
+        public static void RenderTracks(CvTracks tracks, Mat imgSource, Mat imgDest, RenderTracksMode mode,
+            Scalar textColor, FontFace fontFace = FontFace.HersheySimplex, double fontScale = 1d, int thickness = 1)
         {
             if (tracks == null)
                 throw new ArgumentNullException("tracks");
-            tracks.Render(imgSource, imgDest, mode, font);
+            tracks.Render(imgSource, imgDest, mode, textColor, fontFace, fontScale);
         }
-        #endregion
-        #region SaveImageBlob
+
         /// <summary>
         /// Save the image of a blob to a file.
         /// The function uses an image (that can be the original pre-processed image or a processed one, or even the result of cvRenderBlobs, for example) and a blob structure.
@@ -441,29 +429,15 @@ namespace OpenCvSharp.Blob
         /// <param name="fileName">Name of the file.</param>
         /// <param name="img">Image.</param>
         /// <param name="blob">Blob.</param>
-        public static void SaveImageBlob(string fileName, IplImage img, CvBlob blob)
+        public static void SaveImageBlob(string fileName, Mat img, CvBlob blob)
         {
-            if(String.IsNullOrEmpty(fileName))
+            if (String.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
-            if(blob == null)
+            if (blob == null)
                 throw new ArgumentNullException("blob");
             blob.SaveImage(fileName, img);
         }
-        #endregion
-        #region SetImageRoItoBlob
-        /// <summary>
-        /// Set the ROI of an image to the bounding box of a blob.
-        /// </summary>
-        /// <param name="img">Image.</param>
-        /// <param name="blob">Blob.</param>
-        public static void SetImageRoItoBlob(IplImage img, CvBlob blob)
-        {
-            if (blob == null)
-                throw new ArgumentNullException("blob");
-            blob.SetImageRoiToBlob(img);
-        }
-        #endregion
-        #region SimplifyPolygon
+
         /// <summary>
         /// Simplify a polygon reducing the number of vertex according the distance "delta". 
         /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
@@ -474,6 +448,7 @@ namespace OpenCvSharp.Blob
         {
             return polygon.Simplify();
         }
+
         /// <summary>
         /// Simplify a polygon reducing the number of vertex according the distance "delta". 
         /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
@@ -487,8 +462,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("polygon");
             return polygon.Simplify(delta);
         }
-        #endregion
-        #region UpdateTracks
+
         /// <summary>
         /// Updates list of tracks based on current blobs. 
         /// </summary>
@@ -502,6 +476,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blobs");
             blobs.UpdateTracks(tracks, thDistance, thInactive);
         }
+
         /// <summary>
         /// Updates list of tracks based on current blobs. 
         /// </summary>
@@ -523,8 +498,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("blobs");
             blobs.UpdateTracks(tracks, thDistance, thInactive, thActive);
         }
-        #endregion
-        #region WriteContourPolygonCsv
+
         /// <summary>
         /// Write a contour to a CSV (Comma-separated values) file.
         /// </summary>
@@ -536,8 +510,7 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("polygon");
             polygon.WriteAsCsv(filename);
         }
-        #endregion
-        #region WriteContourPolygonSvg
+
         /// <summary>
         /// Write a contour to a SVG file.
         /// </summary>
@@ -547,6 +520,7 @@ namespace OpenCvSharp.Blob
         {
             polygon.WriteAsSvg(fileName);
         }
+
         /// <summary>
         /// Write a contour to a SVG file.
         /// </summary>
@@ -554,13 +528,12 @@ namespace OpenCvSharp.Blob
         /// <param name="fileName">File name.</param>
         /// <param name="stroke">Stroke color (black by default).</param>
         /// <param name="fill">Fill color (white by default).</param>
-        public static void WriteContourPolygonSvg(CvContourPolygon polygon, string fileName, CvScalar stroke, CvScalar fill)
+        public static void WriteContourPolygonSvg(CvContourPolygon polygon, string fileName,
+            Scalar stroke, Scalar fill)
         {
             if (polygon == null)
                 throw new ArgumentNullException("polygon");
             polygon.WriteAsSvg(fileName, stroke, fill);
         }
-        #endregion
-        #endregion
     }
 }

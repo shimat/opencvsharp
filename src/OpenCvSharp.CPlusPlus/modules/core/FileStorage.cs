@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// XML/YAML File Storage Class.
@@ -231,19 +231,6 @@ namespace OpenCvSharp.CPlusPlus
                 return null;
             return new FileNode(node);
         }
-
-        /// <summary>
-        /// Returns pointer to the underlying C FileStorage structure
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <returns></returns>
-        public static explicit operator CvFileStorage(FileStorage fs)
-        {
-            IntPtr ptr = NativeMethods.core_FileStorage_toLegacy(fs.CvPtr);
-            var ret = new CvFileStorage(ptr) {IsEnabledDispose = false};
-            return ret;
-        }
-
 
         /// <summary>
         /// Writes one or more numbers of the specified format to the currently written structure

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     internal delegate TResult Func<in T1, out TResult>(T1 t1);
 

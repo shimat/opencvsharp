@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using OpenCvSharp.CPlusPlus.Gpu;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -117,9 +116,9 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_Stream_enqueueCopy(IntPtr obj, IntPtr src, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cuda_Stream_enqueueMemSet(IntPtr obj, IntPtr src, CvScalar val);
+        public static extern void cuda_Stream_enqueueMemSet(IntPtr obj, IntPtr src, Scalar val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void cuda_Stream_enqueueMemSet_WithMask(IntPtr obj, IntPtr src, CvScalar val, IntPtr mask);
+        public static extern void cuda_Stream_enqueueMemSet_WithMask(IntPtr obj, IntPtr src, Scalar val, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_Stream_enqueueConvert(
             IntPtr obj, IntPtr src, IntPtr dst, int dtype, double a, double b);
@@ -153,10 +152,10 @@ namespace OpenCvSharp.CPlusPlus
         
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cuda_CascadeClassifier_GPU_detectMultiScale1(IntPtr obj,
-            IntPtr image, IntPtr objectsBuf, double scaleFactor, int minNeighbors, CvSize minSize);
+            IntPtr image, IntPtr objectsBuf, double scaleFactor, int minNeighbors, Size minSize);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int cuda_CascadeClassifier_GPU_detectMultiScale2(IntPtr obj,
-            IntPtr image, IntPtr objectsBuf, CvSize maxObjectSize, CvSize minSize, double scaleFactor,
+            IntPtr image, IntPtr objectsBuf, Size maxObjectSize, Size minSize, double scaleFactor,
             int minNeighbors);
         
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -170,7 +169,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void cuda_CascadeClassifier_GPU_visualizeInPlace_set(IntPtr obj, int value);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize cuda_CascadeClassifier_GPU_getClassifierSize(IntPtr obj);
+        public static extern Size cuda_CascadeClassifier_GPU_getClassifierSize(IntPtr obj);
         
         #endregion
 
@@ -178,7 +177,7 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int HOGDescriptor_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr HOGDescriptor_new( CvSize win_size, CvSize block_size, CvSize block_stride, CvSize cell_size, 
+        public static extern IntPtr HOGDescriptor_new(Size win_size, Size block_size, Size block_stride, Size cell_size, 
 	        int nbins, double winSigma, double threshold_L2Hys, bool gamma_correction, int nlevels);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void HOGDescriptor_delete(IntPtr obj);
@@ -195,21 +194,21 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void HOGDescriptor_setSVMDetector(IntPtr obj, IntPtr svmdetector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_detect(IntPtr obj, IntPtr img, IntPtr found_locations, double hit_threshold, CvSize win_stride, CvSize padding);
+        public static extern void HOGDescriptor_detect(IntPtr obj, IntPtr img, IntPtr found_locations, double hit_threshold, Size win_stride, Size padding);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void HOGDescriptor_detectMultiScale(IntPtr obj, IntPtr img, IntPtr found_locations, 
-										           double hit_threshold, CvSize win_stride, CvSize padding, double scale, int group_threshold);
+										           double hit_threshold, Size win_stride, Size padding, double scale, int group_threshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_getDescriptors(IntPtr obj, IntPtr img, CvSize win_stride, IntPtr descriptors, [MarshalAs(UnmanagedType.I4)] Gpu.DescriptorFormat descr_format);
+        public static extern void HOGDescriptor_getDescriptors(IntPtr obj, IntPtr img, Size win_stride, IntPtr descriptors, [MarshalAs(UnmanagedType.I4)] Gpu.DescriptorFormat descr_format);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize HOGDescriptor_win_size_get(IntPtr obj);
+        public static extern Size HOGDescriptor_win_size_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize HOGDescriptor_block_size_get(IntPtr obj);
+        public static extern Size HOGDescriptor_block_size_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize HOGDescriptor_block_stride_get(IntPtr obj);
+        public static extern Size HOGDescriptor_block_stride_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize HOGDescriptor_cell_size_get(IntPtr obj);
+        public static extern Size HOGDescriptor_cell_size_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int HOGDescriptor_nbins_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -222,13 +221,13 @@ namespace OpenCvSharp.CPlusPlus
         public static extern int HOGDescriptor_gamma_correction_get(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_win_size_set(IntPtr obj, CvSize value);
+        public static extern void HOGDescriptor_win_size_set(IntPtr obj, Size value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_block_size_set(IntPtr obj, CvSize value);
+        public static extern void HOGDescriptor_block_size_set(IntPtr obj, Size value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_block_stride_set(IntPtr obj, CvSize value);
+        public static extern void HOGDescriptor_block_stride_set(IntPtr obj, Size value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_cell_size_set(IntPtr obj, CvSize value);
+        public static extern void HOGDescriptor_cell_size_set(IntPtr obj, Size value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void HOGDescriptor_nbins_set(IntPtr obj, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -249,7 +248,7 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_MOG_GPU_initialize(
-            IntPtr obj, CvSize frameSize, int frameType);
+            IntPtr obj, Size frameSize, int frameType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_MOG_GPU_operator(
             IntPtr obj, IntPtr frame, IntPtr fgmask, float learningRate, IntPtr stream);
@@ -276,7 +275,7 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_MOG2_GPU_initialize(
-            IntPtr obj, CvSize frameSize, int frameType);
+            IntPtr obj, Size frameSize, int frameType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void cuda_MOG2_GPU_operator(
             IntPtr obj, IntPtr frame, IntPtr fgmask, float learningRate, IntPtr stream);

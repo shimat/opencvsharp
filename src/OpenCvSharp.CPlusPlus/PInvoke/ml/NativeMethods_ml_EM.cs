@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     // TODO:
 
@@ -11,7 +11,7 @@ namespace OpenCvSharp.CPlusPlus
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ml_EM_new(
-            int nclusters, int covMatType, CvTermCriteria termCrit);
+            int nclusters, int covMatType, TermCriteria termCrit);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ml_EM_delete(IntPtr model);
 

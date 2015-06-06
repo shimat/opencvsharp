@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security;
 using System.Security.Permissions;
-using OpenCvSharp;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
 // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// P/Invoke methods of OpenCV 2.x C++ interface
@@ -22,15 +21,17 @@ namespace OpenCvSharp.CPlusPlus
         /// </summary>
         private static bool tried = false;
 
-        /// <summary>
-        /// DLL file name
-        /// </summary>
+        public const string DllMsvcr = "msvcr120";
+        public const string DllMsvcp = "msvcp120";
+
         public const string DllExtern = "OpenCvSharpExtern";
 
-        public const string Version = OpenCvSharp.NativeMethods.Version;
+        public const string Version = "300";
 
         private static readonly string[] DllNames =
         {
+            DllMsvcr,
+            DllMsvcp,
             "opencv_world",
             /*
             "opencv_cudacodec", // core
@@ -50,6 +51,9 @@ namespace OpenCvSharp.CPlusPlus
             "opencv_xfeatures2d",*/
         };
 
+        public const string DllFfmpegX86 = "opencv_ffmpeg" + Version;
+        public const string DllFfmpegX64 = DllFfmpegX86 + "_64";
+        
         /// <summary>
         /// Static constructor
         /// </summary>
@@ -68,12 +72,12 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="additionalPaths"></param>
         public static void LoadLibraries(IEnumerable<string> additionalPaths = null)
         {
-            if (OpenCvSharp.NativeMethods.IsUnix())
+            if (IsUnix())
                 return;
 
             string[] ap = EnumerableEx.ToArray(additionalPaths);
 
-            OpenCvSharp.NativeMethods.LoadLibraries(ap);
+            LoadLibraries(ap);
 
             foreach (string dll in DllNames)
             {
@@ -96,7 +100,6 @@ namespace OpenCvSharp.CPlusPlus
 
             try
             {
-                Cv.GetTickCount();
                 core_Mat_sizeof();
             }
             catch (DllNotFoundException e)
@@ -126,6 +129,36 @@ namespace OpenCvSharp.CPlusPlus
                 catch{}
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Returns whether the OS is Windows or not
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsWindows()
+        {
+            return !IsUnix();
+        }
+
+        /// <summary>
+        /// Returns whether the OS is *nix or not
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsUnix()
+        {
+            var p = Environment.OSVersion.Platform;
+            return (p == PlatformID.Unix ||
+                    p == PlatformID.MacOSX ||
+                    (int)p == 128);
+        }
+
+        /// <summary>
+        /// Returns whether the runtime is Mono or not
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsMono()
+        {
+            return (Type.GetType("Mono.Runtime") != null);
         }
     }
 }

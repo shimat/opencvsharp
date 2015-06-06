@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
@@ -483,7 +483,7 @@ namespace OpenCvSharp.CPlusPlus
                 byte c2 = Convert.ToByte(value[1]);
                 byte c3 = Convert.ToByte(value[2]);
                 byte c4 = Convert.ToByte(value[3]);
-                int v = Cv.FOURCC(c1, c2, c3, c4);
+                int v = FourCCCalcurator.Run(c1, c2, c3, c4);
                 NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FourCC, v);
             }
         }

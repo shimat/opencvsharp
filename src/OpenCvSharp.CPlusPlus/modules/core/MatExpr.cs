@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// Matrix expression
@@ -989,14 +989,14 @@ namespace OpenCvSharp.CPlusPlus
         /// <summary>
         /// 
         /// </summary>
-        public MatrixType Type
+        public MatType Type
         {
             get
             {
                 ThrowIfDisposed();
                 try
                 {
-                    return (MatrixType)NativeMethods.core_MatExpr_type(ptr);
+                    return (MatType)NativeMethods.core_MatExpr_type(ptr);
                 }
                 catch (BadImageFormatException ex)
                 {

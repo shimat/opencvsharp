@@ -1,8 +1,9 @@
 ﻿using System;
+using OpenCvSharp.ML;
 
 // ReSharper disable once InconsistentNaming
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>

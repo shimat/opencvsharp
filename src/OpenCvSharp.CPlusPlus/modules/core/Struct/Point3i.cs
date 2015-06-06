@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -16,18 +14,21 @@ namespace OpenCvSharp.CPlusPlus
         /// 
         /// </summary>
         public int X;
+
         /// <summary>
         /// 
         /// </summary>
         public int Y;
+
         /// <summary>
         /// 
         /// </summary>
         public int Z;
+
         /// <summary>
         /// 
         /// </summary>
-        public const int SizeOf = sizeof(int) + sizeof(int) + sizeof(int);
+        public const int SizeOf = sizeof (int) + sizeof (int) + sizeof (int);
 
         /// <summary>
         /// 
@@ -43,6 +44,7 @@ namespace OpenCvSharp.CPlusPlus
         }
 
         #region Cast
+
         /// <summary>
         /// 
         /// </summary>
@@ -52,6 +54,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Vec3i(point.X, point.Y, point.Z);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -61,16 +64,19 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Point3i(vec.Item0, vec.Item1, vec.Item2);
         }
+
         #endregion
 
         #region Operators
+
         #region == / !=
+
 #if LANG_JP
-        /// <summary>
-        /// 指定したオブジェクトと等しければtrueを返す 
-        /// </summary>
-        /// <param name="obj">比較するオブジェクト</param>
-        /// <returns>型が同じで、メンバの値が等しければtrue</returns>
+    /// <summary>
+    /// 指定したオブジェクトと等しければtrueを返す 
+    /// </summary>
+    /// <param name="obj">比較するオブジェクト</param>
+    /// <returns>型が同じで、メンバの値が等しければtrue</returns>
 #else
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
@@ -82,13 +88,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return (this.X == obj.X && this.Y == obj.Y && this.Z == obj.Z);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// == 演算子のオーバーロード。x,y座標値が等しければtrueを返す 
-        /// </summary>
-        /// <param name="lhs">左辺値</param>
-        /// <param name="rhs">右辺値</param>
-        /// <returns>等しければtrue</returns>
+    /// <summary>
+    /// == 演算子のオーバーロード。x,y座標値が等しければtrueを返す 
+    /// </summary>
+    /// <param name="lhs">左辺値</param>
+    /// <param name="rhs">右辺値</param>
+    /// <returns>等しければtrue</returns>
 #else
         /// <summary>
         /// Compares two CvPoint objects. The result specifies whether the values of the X and Y properties of the two CvPoint objects are equal.
@@ -101,13 +108,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return lhs.Equals(rhs);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// != 演算子のオーバーロード。x,y座標値が等しくなければtrueを返す 
-        /// </summary>
-        /// <param name="lhs">左辺値</param>
-        /// <param name="rhs">右辺値</param>
-        /// <returns>等しくなければtrue</returns>
+    /// <summary>
+    /// != 演算子のオーバーロード。x,y座標値が等しくなければtrueを返す 
+    /// </summary>
+    /// <param name="lhs">左辺値</param>
+    /// <param name="rhs">右辺値</param>
+    /// <returns>等しくなければtrue</returns>
 #else
         /// <summary>
         /// Compares two CvPoint2D32f objects. The result specifies whether the values of the X or Y properties of the two CvPoint2D32f objects are unequal.
@@ -120,14 +128,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             return !lhs.Equals(rhs);
         }
+
         #endregion
+
         #region + / -
+
 #if LANG_JP
-        /// <summary>
-        /// 単項プラス演算子
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 単項プラス演算子
+    /// </summary>
+    /// <param name="pt"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Unary plus operator
@@ -139,12 +150,13 @@ namespace OpenCvSharp.CPlusPlus
         {
             return pt;
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 単項マイナス演算子
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// 単項マイナス演算子
+    /// </summary>
+    /// <param name="pt"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Unary minus operator
@@ -156,13 +168,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Point3i(-pt.X, -pt.Y, -pt.Z);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// あるオフセットで点を移動させる
-        /// </summary>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// あるオフセットで点を移動させる
+    /// </summary>
+    /// <param name="p1"></param>
+    /// <param name="p2"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Shifts point by a certain offset
@@ -175,13 +188,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Point3i(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// あるオフセットで点を移動させる
-        /// </summary>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// あるオフセットで点を移動させる
+    /// </summary>
+    /// <param name="p1"></param>
+    /// <param name="p2"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Shifts point by a certain offset
@@ -194,13 +208,14 @@ namespace OpenCvSharp.CPlusPlus
         {
             return new Point3i(p1.X - p2.X, p1.Y - p2.Y, p1.Z - p2.Z);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// あるオフセットで点を移動させる
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <param name="scale"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// あるオフセットで点を移動させる
+    /// </summary>
+    /// <param name="pt"></param>
+    /// <param name="scale"></param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Shifts point by a certain offset
@@ -211,18 +226,21 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public static Point3i operator *(Point3i pt, double scale)
         {
-            return new Point3i((int)(pt.X * scale), (int)(pt.Y * scale), (int)(pt.Z * scale));
+            return new Point3i((int) (pt.X*scale), (int) (pt.Y*scale), (int) (pt.Z*scale));
         }
+
         #endregion
+
         #endregion
 
         #region Override
+
 #if LANG_JP
-        /// <summary>
-        /// Equalsのオーバーライド
-        /// </summary>
-        /// <param name="obj">比較するオブジェクト</param>
-        /// <returns></returns>
+    /// <summary>
+    /// Equalsのオーバーライド
+    /// </summary>
+    /// <param name="obj">比較するオブジェクト</param>
+    /// <returns></returns>
 #else
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
@@ -234,11 +252,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             return base.Equals(obj);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// GetHashCodeのオーバーライド
-        /// </summary>
-        /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
+    /// <summary>
+    /// GetHashCodeのオーバーライド
+    /// </summary>
+    /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
 #else
         /// <summary>
         /// Returns a hash code for this object.
@@ -249,11 +268,12 @@ namespace OpenCvSharp.CPlusPlus
         {
             return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode();
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 文字列形式を返す 
-        /// </summary>
-        /// <returns>文字列形式</returns>
+    /// <summary>
+    /// 文字列形式を返す 
+    /// </summary>
+    /// <returns>文字列形式</returns>
 #else
         /// <summary>
         /// Converts this object to a human readable string.
@@ -264,6 +284,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return string.Format("(x:{0} y:{1} z:{2})", X, Y, Z);
         }
+
         #endregion
     }
 }

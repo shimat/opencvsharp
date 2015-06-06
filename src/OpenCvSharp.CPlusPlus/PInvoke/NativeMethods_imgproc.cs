@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
@@ -13,11 +13,11 @@ namespace OpenCvSharp.CPlusPlus
         public static extern IntPtr imgproc_getStructuringElement(int shape, Size ksize, Point anchor);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_copyMakeBorder(IntPtr src, IntPtr dst, int top, int bottom, int left,
-                                                         int right, int borderType, CvScalar value);
+                                                         int right, int borderType, Scalar value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_medianBlur(IntPtr src, IntPtr dst, int ksize);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_GaussianBlur(IntPtr src, IntPtr dst, CvSize ksize, double sigmaX,
+        public static extern void imgproc_GaussianBlur(IntPtr src, IntPtr dst, Size ksize, double sigmaX,
                                                        double sigmaY, int borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_bilateralFilter(IntPtr src, IntPtr dst, int d, double sigmaColor,
@@ -56,7 +56,7 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_preCornerDetect(IntPtr src, IntPtr dst, int ksize, int borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cornerSubPix(IntPtr image, IntPtr corners,
-            Size winSize, Size zeroZone, CvTermCriteria criteria);
+            Size winSize, Size zeroZone, TermCriteria criteria);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_goodFeaturesToTrack(IntPtr src, IntPtr corners,
             int maxCorners, double qualityLevel, double minDistance, IntPtr mask, int blockSize, int useHarrisDetector, double k);
@@ -70,49 +70,49 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_HoughCircles(IntPtr src, IntPtr circles,
             int method, double dp, double minDist, double param1, double param2, int minRadius, int maxRadius);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_erode(IntPtr src, IntPtr dst, IntPtr kernel, Point anchor, int iterations, int borderType, CvScalar borderValue);
+        public static extern void imgproc_erode(IntPtr src, IntPtr dst, IntPtr kernel, Point anchor, int iterations, int borderType, Scalar borderValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_dilate(IntPtr src, IntPtr dst, IntPtr kernel, Point anchor, int iterations, int borderType, CvScalar borderValue);
+        public static extern void imgproc_dilate(IntPtr src, IntPtr dst, IntPtr kernel, Point anchor, int iterations, int borderType, Scalar borderValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_morphologyEx(IntPtr src, IntPtr dst, int op, IntPtr kernel, Point anchor, int iterations, int borderType, CvScalar borderValue);
+        public static extern void imgproc_morphologyEx(IntPtr src, IntPtr dst, int op, IntPtr kernel, Point anchor, int iterations, int borderType, Scalar borderValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_resize(IntPtr src, IntPtr dst, CvSize dsize, double fx, double fy, int interpolation);
+        public static extern void imgproc_resize(IntPtr src, IntPtr dst, Size dsize, double fx, double fy, int interpolation);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_warpAffine(IntPtr src, IntPtr dst, IntPtr m, CvSize dsize, int flags, int borderMode, CvScalar borderValue);
+        public static extern void imgproc_warpAffine(IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags, int borderMode, Scalar borderValue);
         
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_warpPerspective_MisInputArray(
-            IntPtr src, IntPtr dst, IntPtr m, CvSize dsize, int flags, int borderMode, CvScalar borderValue);
+            IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags, int borderMode, Scalar borderValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_warpPerspective_MisArray(
             IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.LPArray)] float[,] m, int mRow, int mCol, 
-            CvSize dsize, int flags, int borderMode, CvScalar borderValue);
+            Size dsize, int flags, int borderMode, Scalar borderValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_remap(IntPtr src, IntPtr dst, IntPtr map1, IntPtr map2, int interpolation, int borderMode, CvScalar borderValue);
+        public static extern void imgproc_remap(IntPtr src, IntPtr dst, IntPtr map1, IntPtr map2, int interpolation, int borderMode, Scalar borderValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2, int dstmap1Type, int nninterpolation);
         
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr imgproc_getRotationMatrix2D(CvPoint2D32f center, double angle, double scale);
+        public static extern IntPtr imgproc_getRotationMatrix2D(Point2f center, double angle, double scale);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_invertAffineTransform(IntPtr M, IntPtr iM);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_getPerspectiveTransform1")]
-        public static extern IntPtr imgproc_getPerspectiveTransform(Point2f[] src, Point2f[] dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_getPerspectiveTransform1")]
-        public static extern IntPtr imgproc_getPerspectiveTransform(IntPtr src, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_getAffineTransform1")]
-        public static extern IntPtr imgproc_getAffineTransform(Point2f[] src, Point2f[] dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_getAffineTransform2")]
-        public static extern IntPtr imgproc_getAffineTransform(IntPtr src, IntPtr dst);
+        public static extern void imgproc_invertAffineTransform(IntPtr m, IntPtr im);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr imgproc_getPerspectiveTransform1(Point2f[] src, Point2f[] dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr imgproc_getPerspectiveTransform2(IntPtr src, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr imgproc_getAffineTransform1(Point2f[] src, Point2f[] dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr imgproc_getAffineTransform2(IntPtr src, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_getRectSubPix(IntPtr image, Size patchSize, Point2f center, IntPtr patch, int patchType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_integral1")]
-        public static extern void imgproc_integral(IntPtr src, IntPtr sum, int sdepth);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_integral2")]
-        public static extern void imgproc_integral(IntPtr src, IntPtr sum, IntPtr sqsum, int sdepth);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_integral3")]
-        public static extern void imgproc_integral(IntPtr src, IntPtr sum, IntPtr sqsum, IntPtr tilted, int sdepth);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_integral1(IntPtr src, IntPtr sum, int sdepth);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_integral2(IntPtr src, IntPtr sum, IntPtr sqsum, int sdepth);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_integral3(IntPtr src, IntPtr sum, IntPtr sqsum, IntPtr tilted, int sdepth);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_accumulate(IntPtr src, IntPtr dst, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -124,34 +124,34 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_PSNR(IntPtr src1, IntPtr src2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvPoint2D64f imgproc_phaseCorrelate(IntPtr src1, IntPtr src2, IntPtr window);
+        public static extern Point2d imgproc_phaseCorrelate(IntPtr src1, IntPtr src2, IntPtr window);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvPoint2D64f imgproc_phaseCorrelateRes(IntPtr src1, IntPtr src2, IntPtr window, out double response);
+        public static extern Point2d imgproc_phaseCorrelateRes(IntPtr src1, IntPtr src2, IntPtr window, out double response);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_createHanningWindow(IntPtr dst, CvSize winSize, int type);
+        public static extern void imgproc_createHanningWindow(IntPtr dst, Size winSize, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_threshold(IntPtr src, IntPtr dst, double thresh, double maxval, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_adaptiveThreshold(IntPtr src, IntPtr dst,
             double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double c);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_pyrDown(IntPtr src, IntPtr dst, CvSize dstsize, int borderType);
+        public static extern void imgproc_pyrDown(IntPtr src, IntPtr dst, Size dstsize, int borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_pyrUp(IntPtr src, IntPtr dst, CvSize dstsize, int borderType);
+        public static extern void imgproc_pyrUp(IntPtr src, IntPtr dst, Size dstsize, int borderType);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_undistort(IntPtr src, IntPtr dst,
             IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr newCameraMatrix);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_initUndistortRectifyMap(IntPtr cameraMatrix,IntPtr distCoeffs,
-            IntPtr r, IntPtr newCameraMatrix, CvSize size, int m1Type, IntPtr map1, IntPtr map2);
+            IntPtr r, IntPtr newCameraMatrix, Size size, int m1Type, IntPtr map1, IntPtr map2);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern float imgproc_initWideAngleProjMap(IntPtr cameraMatrix, IntPtr distCoeffs,
-            CvSize imageSize, int destImageWidth, int m1Type, IntPtr map1, IntPtr map2,
+            Size imageSize, int destImageWidth, int m1Type, IntPtr map1, IntPtr map2,
             int projType, double alpha);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr imgproc_getDefaultNewCameraMatrix(IntPtr cameraMatrix, CvSize imgSize,
+        public static extern IntPtr imgproc_getDefaultNewCameraMatrix(IntPtr cameraMatrix, Size imgSize,
             int centerPrincipalPoint);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_undistortPoints(IntPtr src, IntPtr dst,
@@ -176,9 +176,9 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void imgproc_watershed(IntPtr image, IntPtr markers);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_pyrMeanShiftFiltering(IntPtr src, IntPtr dst,
-            double sp, double sr, int maxLevel, CvTermCriteria termcrit);
+            double sp, double sr, int maxLevel, TermCriteria termcrit);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_grabCut(IntPtr img, IntPtr mask, CvRect rect,
+        public static extern void imgproc_grabCut(IntPtr img, IntPtr mask, Rect rect,
                                                   IntPtr bgdModel, IntPtr fgdModel,
                                                   int iterCount, int mode);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -189,12 +189,12 @@ namespace OpenCvSharp.CPlusPlus
                                                     int distanceType, int maskSize);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_floodFill1")]
         public static extern int imgproc_floodFill(IntPtr image,
-                                                    CvPoint seedPoint, CvScalar newVal, out CvRect rect,
-                                                    CvScalar loDiff, CvScalar upDiff, int flags);
+                                                    Point seedPoint, Scalar newVal, out Rect rect,
+                                                    Scalar loDiff, Scalar upDiff, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_floodFill2")]
         public static extern int imgproc_floodFill(IntPtr image, IntPtr mask,
-                                                    CvPoint seedPoint, CvScalar newVal, out CvRect rect,
-                                                    CvScalar loDiff, CvScalar upDiff, int flags);
+                                                    Point seedPoint, Scalar newVal, out Rect rect,
+                                                    Scalar loDiff, Scalar upDiff, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -204,32 +204,32 @@ namespace OpenCvSharp.CPlusPlus
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_findContours1_vector(IntPtr image, out IntPtr contours,
-            out IntPtr hierarchy, int mode, int method, CvPoint offset);
+            out IntPtr hierarchy, int mode, int method, Point offset);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_findContours1_OutputArray(IntPtr image, out IntPtr contours,
-            IntPtr hierarchy, int mode, int method, CvPoint offset);
+            IntPtr hierarchy, int mode, int method, Point offset);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_findContours2_vector(IntPtr image, out IntPtr contours,
-            int mode, int method, CvPoint offset);
+            int mode, int method, Point offset);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_findContours2_OutputArray(IntPtr image, out IntPtr contours,
-            int mode, int method, CvPoint offset);
+            int mode, int method, Point offset);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_drawContours_vector(IntPtr image,
             IntPtr[] contours, int contoursSize1, int[] contoursSize2,
-            int contourIdx, CvScalar color, int thickness, int lineType,
-            Vec4i[] hierarchy, int hiearchyLength, int maxLevel, CvPoint offset);
+            int contourIdx, Scalar color, int thickness, int lineType,
+            Vec4i[] hierarchy, int hiearchyLength, int maxLevel, Point offset);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_drawContours_vector(IntPtr image,
             IntPtr[] contours, int contoursSize1, int[] contoursSize2,
-            int contourIdx, CvScalar color, int thickness, int lineType,
-            IntPtr hierarchy, int hiearchyLength, int maxLevel, CvPoint offset);
+            int contourIdx, Scalar color, int thickness, int lineType,
+            IntPtr hierarchy, int hiearchyLength, int maxLevel, Point offset);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_drawContours_InputArray(IntPtr image,
             IntPtr[] contours, int contoursLength,
-            int contourIdx, CvScalar color, int thickness, int lineType,
-            IntPtr hierarchy, int maxLevel, CvPoint offset);
+            int contourIdx, Scalar color, int thickness, int lineType,
+            IntPtr hierarchy, int maxLevel, Point offset);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_approxPolyDP_InputArray(IntPtr curve, IntPtr approxCurve,
@@ -247,11 +247,11 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_arcLength_Point2f(Point2f[] curve, int curveLength, int closed);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvRect imgproc_boundingRect_InputArray(IntPtr curve);
+        public static extern Rect imgproc_boundingRect_InputArray(IntPtr curve);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvRect imgproc_boundingRect_Point(Point[] curve, int curveLength);
+        public static extern Rect imgproc_boundingRect_Point(Point[] curve, int curveLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvRect imgproc_boundingRect_Point2f(Point2f[] curve, int curveLength);
+        public static extern Rect imgproc_boundingRect_Point2f(Point2f[] curve, int curveLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_contourArea_InputArray(IntPtr contour, int oriented);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -259,11 +259,11 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_contourArea_Point2f(Point2f[] contour, int contourLength, int oriented);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvBox2D imgproc_minAreaRect_InputArray(IntPtr points);
+        public static extern RotatedRect imgproc_minAreaRect_InputArray(IntPtr points);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvBox2D imgproc_minAreaRect_Point(Point[] points, int pointsLength);
+        public static extern RotatedRect imgproc_minAreaRect_Point(Point[] points, int pointsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvBox2D imgproc_minAreaRect_Point2f(Point2f[] points, int pointsLength);
+        public static extern RotatedRect imgproc_minAreaRect_Point2f(Point2f[] points, int pointsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_minEnclosingCircle_InputArray(IntPtr points, out Point2f center, out float radius);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -319,11 +319,11 @@ namespace OpenCvSharp.CPlusPlus
             int p2Length,out IntPtr p12, int handleNested);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvBox2D imgproc_fitEllipse_InputArray(IntPtr points);
+        public static extern RotatedRect imgproc_fitEllipse_InputArray(IntPtr points);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvBox2D imgproc_fitEllipse_Point(Point[] points, int pointsLength);
+        public static extern RotatedRect imgproc_fitEllipse_Point(Point[] points, int pointsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvBox2D imgproc_fitEllipse_Point2f(Point2f[] points, int pointsLength);
+        public static extern RotatedRect imgproc_fitEllipse_Point2f(Point2f[] points, int pointsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_fitLine_InputArray(IntPtr points, IntPtr line,
                                                              int distType, double param, double reps, double aeps);

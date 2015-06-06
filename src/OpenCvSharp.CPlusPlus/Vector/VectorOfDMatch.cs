@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -113,7 +113,7 @@ namespace OpenCvSharp.CPlusPlus
             DMatch[] dst = new DMatch[size];
             using (ArrayAddress1<DMatch> dstPtr = new ArrayAddress1<DMatch>(dst))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(DMatch)) * dst.Length);
+                Util.Utility.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(DMatch)) * dst.Length);
             }
             return dst;
         }

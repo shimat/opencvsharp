@@ -1,7 +1,6 @@
-﻿
-using System;
+﻿using System;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp.ML
 {
 #if LANG_JP
     /// <summary>
@@ -12,7 +11,7 @@ namespace OpenCvSharp.CPlusPlus
 	/// Type of SVM
 	/// </summary>
 #endif
-	public enum SVMType : int
+	public enum SvmType : int
 	{
 #if LANG_JP
 		/// <summary>

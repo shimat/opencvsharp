@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// Represents std::vector 
@@ -11,10 +11,12 @@ namespace OpenCvSharp.CPlusPlus
         /// vector.size()
         /// </summary>
         int Size { get; }
+
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         IntPtr ElemPtr { get; }
+
         /// <summary>
         /// Convert std::vector&lt;T&gt; to managed array T[]
         /// </summary>

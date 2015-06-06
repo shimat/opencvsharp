@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Utilities;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// Abstract base class for 2D image feature detectors and descriptor extractors
@@ -160,7 +159,7 @@ namespace OpenCvSharp.CPlusPlus
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
-            Mat[] imagesArray = Util.ToArray(images);
+            Mat[] imagesArray = Util.Utility.ToArray(images);
             IntPtr[] imagesPtr = new IntPtr[imagesArray.Length];
             for (int i = 0; i < imagesArray.Length; i++)
                 imagesPtr[i] = imagesArray[i].CvPtr;

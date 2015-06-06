@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -106,16 +106,16 @@ namespace OpenCvSharp.CPlusPlus
         public static extern void calib3d_StereoBM_setSmallerBlockSize(IntPtr obj, int value);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvRect calib3d_StereoBM_getROI1(IntPtr obj);
+        public static extern Rect calib3d_StereoBM_getROI1(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_StereoBM_setROI1(IntPtr obj, CvRect value);
+        public static extern void calib3d_StereoBM_setROI1(IntPtr obj, Rect value);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvRect calib3d_StereoBM_getROI2(IntPtr obj);
+        public static extern Rect calib3d_StereoBM_getROI2(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void calib3d_StereoBM_setROI2(IntPtr obj, CvRect value);
+        public static extern void calib3d_StereoBM_setROI2(IntPtr obj, Rect value);
 
         #endregion
 

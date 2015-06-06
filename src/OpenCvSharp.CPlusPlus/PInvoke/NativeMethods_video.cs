@@ -3,18 +3,17 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvBox2D video_CamShift(
-            IntPtr probImage, ref CvRect window, CvTermCriteria criteria);
+        public static extern RotatedRect video_CamShift(
+            IntPtr probImage, ref Rect window, TermCriteria criteria);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int video_meanShift(
-            IntPtr probImage, ref CvRect window, CvTermCriteria criteria);
-
-
+            IntPtr probImage, ref Rect window, TermCriteria criteria);
+        
         // Kalman filter
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_KalmanFilter_new1();
@@ -56,21 +55,21 @@ namespace OpenCvSharp.CPlusPlus
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int video_buildOpticalFlowPyramid(
             IntPtr img, IntPtr pyramid,
-            CvSize winSize, int maxLevel, int withDerivatives,
+            Size winSize, int maxLevel, int withDerivatives,
             int pyrBorder, int derivBorder, int tryReuseInputImage);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void video_calcOpticalFlowPyrLK_InputArray(
             IntPtr prevImg, IntPtr nextImg,
             IntPtr prevPts, IntPtr nextPts,
             IntPtr status, IntPtr err,
-            CvSize winSize, int maxLevel, CvTermCriteria criteria,
+            Size winSize, int maxLevel, TermCriteria criteria,
             int flags, double minEigThreshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void video_calcOpticalFlowPyrLK_vector(
             IntPtr prevImg, IntPtr nextImg,
             Point2f[] prevPts, int prevPtsSize,
             IntPtr nextPts, IntPtr status, IntPtr err,
-            CvSize winSize, int maxLevel, CvTermCriteria criteria,
+            Size winSize, int maxLevel, TermCriteria criteria,
             int flags, double minEigThreshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void video_calcOpticalFlowFarneback(

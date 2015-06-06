@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -49,27 +49,6 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return new Size();}
         }
-
-        #region Cast
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static implicit operator CvSize(Size self)
-        {
-            return new CvSize(self.Width, self.Height);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        public static implicit operator Size(CvSize size)
-        {
-            return new Size(size.Width, size.Height);
-        }
-        #endregion
 
         #region Operators
 #if LANG_JP

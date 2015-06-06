@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// A matrix whose element is 32SC1 (cv::Mat_&lt;int&gt;)
@@ -17,9 +17,9 @@ namespace OpenCvSharp.CPlusPlus
         #region Init
 
 #if LANG_JP
-        /// <summary>
-        /// Creates empty Mat
-        /// </summary>
+    /// <summary>
+    /// Creates empty Mat
+    /// </summary>
 #else
         /// <summary>
         /// Creates empty Mat
@@ -31,10 +31,10 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// OpenCVネイティブの cv::Mat* ポインタから初期化
-        /// </summary>
-        /// <param name="ptr"></param>
+    /// <summary>
+    /// OpenCVネイティブの cv::Mat* ポインタから初期化
+    /// </summary>
+    /// <param name="ptr"></param>
 #else
         /// <summary>
         /// Creates from native cv::Mat* pointer
@@ -47,10 +47,10 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// Matオブジェクトから初期化 
-        /// </summary>
-        /// <param name="mat">Matオブジェクト</param>
+    /// <summary>
+    /// Matオブジェクトから初期化 
+    /// </summary>
+    /// <param name="mat">Matオブジェクト</param>
 #else
         /// <summary>
         /// Initializes by Mat object
@@ -63,11 +63,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列として初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列として初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
 #else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
@@ -81,11 +81,11 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列として初期化
-        /// </summary>
-        /// <param name="size">2次元配列のサイズ： Size(cols, rows) ． 
-        /// Size コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列として初期化
+    /// </summary>
+    /// <param name="size">2次元配列のサイズ： Size(cols, rows) ． 
+    /// Size コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
 #else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
@@ -99,13 +99,13 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
@@ -121,12 +121,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-        /// </summary>
-        /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) ． Size() コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+    /// <summary>
+    /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
+    /// </summary>
+    /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) ． Size() コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
+    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
@@ -142,18 +142,18 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
-        /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
+    /// <summary>
+    /// 他の行列の部分行列として初期化
+    /// </summary>
+    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+    /// これらのコンストラクタによってデータがコピーされる事はありません．
+    /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+    /// 関連した参照カウンタがあれば，それがインクリメントされます．
+    /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+    /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+    /// Mat.Clone() を利用してください．</param>
+    /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
+    /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
 #else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
@@ -173,17 +173,17 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="ranges">多次元行列の各次元毎の選択範囲を表す配列．</param>
+    /// <summary>
+    /// 他の行列の部分行列として初期化
+    /// </summary>
+    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+    /// これらのコンストラクタによってデータがコピーされる事はありません．
+    /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+    /// 関連した参照カウンタがあれば，それがインクリメントされます．
+    /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+    /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+    /// Mat.Clone() を利用してください．</param>
+    /// <param name="ranges">多次元行列の各次元毎の選択範囲を表す配列．</param>
 #else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
@@ -201,17 +201,17 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
+    /// <summary>
+    /// 他の行列の部分行列として初期化
+    /// </summary>
+    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
+    /// これらのコンストラクタによってデータがコピーされる事はありません．
+    /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
+    /// 関連した参照カウンタがあれば，それがインクリメントされます．
+    /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
+    /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
+    /// Mat.Clone() を利用してください．</param>
+    /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
 #else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
@@ -229,20 +229,20 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="step">行列の各行が占めるバイト数を指定できます．
-        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-        /// 実際の step は cols*elemSize() として計算されます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="step">行列の各行が占めるバイト数を指定できます．
+    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+    /// 実際の step は cols*elemSize() として計算されます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -262,20 +262,20 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="step">行列の各行が占めるバイト数を指定できます．
-        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-        /// 実際の step は cols*elemSize() として計算されます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="step">行列の各行が占めるバイト数を指定できます．
+    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+    /// 実際の step は cols*elemSize() として計算されます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -293,21 +293,22 @@ namespace OpenCvSharp.CPlusPlus
             : base(rows, cols, ThisType, data, step)
         {
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="step">行列の各行が占めるバイト数を指定できます．
-        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-        /// 実際の step は cols*elemSize() として計算されます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="rows">2次元配列における行数．</param>
+    /// <param name="cols">2次元配列における列数．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="step">行列の各行が占めるバイト数を指定できます．
+    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
+    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
+    /// 実際の step は cols*elemSize() として計算されます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -327,18 +328,18 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
-        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
-        /// 行列は連続したものとみなされます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
+    /// （最後のステップは常に要素サイズになります）．これが指定されないと，
+    /// 行列は連続したものとみなされます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -357,18 +358,18 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
-        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
-        /// 行列は連続したものとみなされます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
+    /// （最後のステップは常に要素サイズになります）．これが指定されないと，
+    /// 行列は連続したものとみなされます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -385,19 +386,20 @@ namespace OpenCvSharp.CPlusPlus
             : base(sizes, ThisType, data, steps)
         {
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
-        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
-        /// 行列は連続したものとみなされます．</param>
+    /// <summary>
+    /// 利用者が別に確保したデータで初期化
+    /// </summary>
+    /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
+    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
+    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
+    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
+    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
+    /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
+    /// （最後のステップは常に要素サイズになります）．これが指定されないと，
+    /// 行列は連続したものとみなされます．</param>
 #else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
@@ -416,10 +418,10 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// N次元行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+    /// <summary>
+    /// N次元行列として初期化
+    /// </summary>
+    /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
 #else
         /// <summary>
         /// constructs n-dimensional matrix
@@ -432,12 +434,12 @@ namespace OpenCvSharp.CPlusPlus
         }
 
 #if LANG_JP
-        /// <summary>
-        /// N次元行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+    /// <summary>
+    /// N次元行列として初期化
+    /// </summary>
+    /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
+    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
+    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
         /// constructs n-dimensional matrix
@@ -451,74 +453,23 @@ namespace OpenCvSharp.CPlusPlus
         {
         }
 
-#if LANG_JP
-        /// <summary>
-        /// CvMatデータから初期化
-        /// </summary>
-        /// <param name="m">CvMat 行列構造体へのポインタ．
-        /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
-        /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
-        /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
-        /// コピーする（true）か，共有する（false）かを指定するフラグです．
-        /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
-        /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
-        /// デストラクトされない限り，データを解放するべきではありません．</param>
-#else
-        /// <summary>
-        /// converts old-style CvMat to the new matrix; the data is not copied by default
-        /// </summary>
-        /// <param name="m">Old style CvMat object</param>
-        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style CvMat should be 
-        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
-        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
-        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
-#endif
-        public MatOfInt(CvMat m, bool copyData = false)
-            : base(m, copyData)
-        {
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// IplImageデータから初期化
-        /// </summary>
-        /// <param name="img">IplImage 画像構造体へのポインタ．
-        /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
-        /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
-        /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
-        /// コピーする（true）か，共有する（false）かを指定するフラグです．
-        /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
-        /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
-        /// デストラクトされない限り，データを解放するべきではありません．</param>
-#else
-        /// <summary>
-        /// converts old-style IplImage to the new matrix; the data is not copied by default
-        /// </summary>
-        /// <param name="img">Old style IplImage object</param>
-        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style IplImage should be 
-        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
-        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
-        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
-#endif
-        public MatOfInt(IplImage img, bool copyData = false)
-            : base(img, copyData)
-        {
-        }
         #endregion
 
         #region Indexer
+
         /// <summary>
         /// Matrix indexer
         /// </summary>
         public sealed unsafe class Indexer : MatIndexer<int>
         {
-            private readonly byte *ptr;
+            private readonly byte* ptr;
 
             internal Indexer(Mat parent)
                 : base(parent)
             {
-                this.ptr = (byte*)parent.Data.ToPointer();
+                this.ptr = (byte*) parent.Data.ToPointer();
             }
+
             /// <summary>
             /// 1-dimensional indexer
             /// </summary>
@@ -526,15 +477,10 @@ namespace OpenCvSharp.CPlusPlus
             /// <returns>A value to the specified array element.</returns>
             public override int this[int i0]
             {
-                get
-                {
-                    return *(int*)(ptr + (steps[0] * i0));
-                }
-                set
-                {
-                    *(int*)(ptr + (steps[0] * i0)) = value;
-                }
+                get { return *(int*) (ptr + (steps[0]*i0)); }
+                set { *(int*) (ptr + (steps[0]*i0)) = value; }
             }
+
             /// <summary>
             /// 2-dimensional indexer
             /// </summary>
@@ -543,15 +489,10 @@ namespace OpenCvSharp.CPlusPlus
             /// <returns>A value to the specified array element.</returns>
             public override int this[int i0, int i1]
             {
-                get
-                {
-                    return *(int*)(ptr + (steps[0] * i0) + (steps[1] * i1));
-                }
-                set
-                {
-                    *(int*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
-                }
+                get { return *(int*) (ptr + (steps[0]*i0) + (steps[1]*i1)); }
+                set { *(int*) (ptr + (steps[0]*i0) + (steps[1]*i1)) = value; }
             }
+
             /// <summary>
             /// 3-dimensional indexer
             /// </summary>
@@ -561,15 +502,10 @@ namespace OpenCvSharp.CPlusPlus
             /// <returns>A value to the specified array element.</returns>
             public override int this[int i0, int i1, int i2]
             {
-                get
-                {
-                    return *(int*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
-                }
-                set
-                {
-                    *(int*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
-                }
+                get { return *(int*) (ptr + (steps[0]*i0) + (steps[1]*i1) + (steps[2]*i2)); }
+                set { *(int*) (ptr + (steps[0]*i0) + (steps[1]*i1) + (steps[2]*i2)) = value; }
             }
+
             /// <summary>
             /// n-dimensional indexer
             /// </summary>
@@ -582,37 +518,40 @@ namespace OpenCvSharp.CPlusPlus
                     long offset = 0;
                     for (int i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += steps[i]*idx[i];
                     }
-                    return *(int*)(ptr + offset);
+                    return *(int*) (ptr + offset);
                 }
                 set
                 {
                     long offset = 0;
                     for (int i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += steps[i]*idx[i];
                     }
-                    *(int*)(ptr + offset) = value;
+                    *(int*) (ptr + offset) = value;
                 }
             }
         }
+
         /// <summary>
         /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
         /// </summary>
         /// <returns></returns>
-        public override MatIndexer<int> GetIndexer() 
+        public override MatIndexer<int> GetIndexer()
         {
             return new Indexer(this);
         }
+
         #endregion
 
         #region FromArray
+
 #if LANG_JP
-        /// <summary>
-        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
-        /// </summary>
-        /// <param name="arr">この行列にコピーされるデータ</param>
+    /// <summary>
+    /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
+    /// </summary>
+    /// <param name="arr">この行列にコピーされるデータ</param>
 #else
         /// <summary>
         /// Initializes as N x 1 matrix and copys array data to this
@@ -626,16 +565,17 @@ namespace OpenCvSharp.CPlusPlus
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
-            int numElems = arr.Length / ThisChannels;
+            int numElems = arr.Length/ThisChannels;
             var mat = new MatOfInt(numElems, 1);
             mat.SetArray(0, 0, arr);
             return mat;
         }
+
 #if LANG_JP
-        /// <summary>
-        /// M x N の行列として初期化し、指定した配列からデータをコピーする
-        /// </summary>
-        /// <param name="arr">この行列にコピーされるデータ</param>
+    /// <summary>
+    /// M x N の行列として初期化し、指定した配列からデータをコピーする
+    /// </summary>
+    /// <param name="arr">この行列にコピーされるデータ</param>
 #else
         /// <summary>
         /// Initializes as M x N matrix and copys array data to this
@@ -655,11 +595,12 @@ namespace OpenCvSharp.CPlusPlus
             mat.SetArray(0, 0, arr);
             return mat;
         }
+
 #if LANG_JP
-        /// <summary>
-        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
-        /// </summary>
-        /// <param name="enumerable">この行列にコピーされるデータ</param>
+    /// <summary>
+    /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
+    /// </summary>
+    /// <param name="enumerable">この行列にコピーされるデータ</param>
 #else
         /// <summary>
         /// Initializes as N x 1 matrix and copys array data to this
@@ -670,22 +611,25 @@ namespace OpenCvSharp.CPlusPlus
         {
             return FromArray(EnumerableEx.ToArray(enumerable));
         }
+
         #endregion
 
         #region ToArray
+
         /// <summary>
         /// Convert this mat to managed array
         /// </summary>
         /// <returns></returns>
         public override int[] ToArray()
         {
-            long numOfElems = (long)Total();
+            long numOfElems = (long) Total();
             if (numOfElems == 0)
                 return new int[0];
             int[] arr = new int[numOfElems];
             GetArray(0, 0, arr);
             return arr;
         }
+
         /// <summary>
         /// Convert this mat to managed rectangular array
         /// </summary>
@@ -698,9 +642,11 @@ namespace OpenCvSharp.CPlusPlus
             GetArray(0, 0, arr);
             return arr;
         }
+
         #endregion
 
         #region GetEnumerator
+
         /// <summary>
         /// 
         /// </summary>

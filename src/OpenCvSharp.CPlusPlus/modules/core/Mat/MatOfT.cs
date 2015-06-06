@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// Type-specific abstract matrix 
@@ -431,60 +431,6 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         protected Mat(IEnumerable<int> sizes, MatType type, Scalar s)
             : base(sizes, type, s)
-        {
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// CvMatデータから初期化
-        /// </summary>
-        /// <param name="m">CvMat 行列構造体へのポインタ．
-        /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
-        /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
-        /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
-        /// コピーする（true）か，共有する（false）かを指定するフラグです．
-        /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
-        /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
-        /// デストラクトされない限り，データを解放するべきではありません．</param>
-#else
-        /// <summary>
-        /// converts old-style CvMat to the new matrix; the data is not copied by default
-        /// </summary>
-        /// <param name="m">Old style CvMat object</param>
-        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style CvMat should be 
-        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
-        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
-        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
-#endif
-        protected Mat(CvMat m, bool copyData = false)
-            : base(m, copyData)
-        {
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// IplImageデータから初期化
-        /// </summary>
-        /// <param name="img">IplImage 画像構造体へのポインタ．
-        /// デフォルトでは，元の画像と新しい行列とでデータが共有されますが，
-        /// copyData フラグがセットされている場合は，画像データの完全なコピーが作成されます．</param>
-        /// <param name="copyData">古い形式の CvMat または IplImage を新しく作成される行列に
-        /// コピーする（true）か，共有する（false）かを指定するフラグです．
-        /// データがコピーされる場合，確保されたバッファは Mat の参照カウント機構を用いて管理されます．
-        /// データが共有される場合，参照カウンタは NULL になり，ユーザは，作成された行列が
-        /// デストラクトされない限り，データを解放するべきではありません．</param>
-#else
-        /// <summary>
-        /// converts old-style IplImage to the new matrix; the data is not copied by default
-        /// </summary>
-        /// <param name="img">Old style IplImage object</param>
-        /// <param name="copyData">Flag to specify whether the underlying data of the the old-style IplImage should be 
-        /// copied to (true) or shared with (false) the newly constructed matrix. When the data is copied, 
-        /// the allocated buffer is managed using Mat reference counting mechanism. While the data is shared, 
-        /// the reference counter is NULL, and you should not deallocate the data until the matrix is not destructed.</param>
-#endif
-        protected Mat(IplImage img, bool copyData = false)
-            : base(img, copyData)
         {
         }
 

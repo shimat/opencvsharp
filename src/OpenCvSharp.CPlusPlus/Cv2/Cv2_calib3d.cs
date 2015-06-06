@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -1614,16 +1614,13 @@ namespace OpenCvSharp.CPlusPlus
             P2.ThrowIfNotReady();
             Q.ThrowIfNotReady();
 
-            CvRect validPixROI10, validPixROI20;
             NativeMethods.calib3d_stereoRectify_InputArray(
                     cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
                     cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
                     imageSize, R.CvPtr, T.CvPtr, 
                     R1.CvPtr, R2.CvPtr, P1.CvPtr, P2.CvPtr, Q.CvPtr,
-                    (int)flags, alpha, newImageSize, out validPixROI10, out validPixROI20);
+                    (int)flags, alpha, newImageSize, out validPixROI1, out validPixROI2);
 
-            validPixROI1 = validPixROI10;
-            validPixROI2 = validPixROI20;
             R1.Fix();
             R2.Fix();
             P1.Fix();
@@ -1732,15 +1729,12 @@ namespace OpenCvSharp.CPlusPlus
             P1 = new double[3, 4];
             P2 = new double[3, 4];
             Q = new double[4, 4];
-            CvRect validPixROI10, validPixROI20;
             NativeMethods.calib3d_stereoRectify_array(
                     cameraMatrix1, distCoeffs1, distCoeffs1.Length,
                     cameraMatrix2, distCoeffs2, distCoeffs2.Length,
                     imageSize, R, T,
                     R1, R2, P1, P2, Q,
-                    (int)flags, alpha, newImageSize, out validPixROI10, out validPixROI20);
-            validPixROI1 = validPixROI10;
-            validPixROI2 = validPixROI20;
+                    (int)flags, alpha, newImageSize, out validPixROI1, out validPixROI2);
         }
 
 
@@ -1936,7 +1930,6 @@ namespace OpenCvSharp.CPlusPlus
 
             IntPtr[] imgpt1Ptrs = EnumerableEx.SelectPtrs(imgpt1);
             IntPtr[] imgpt3Ptrs = EnumerableEx.SelectPtrs(imgpt3);
-            CvRect roi10, roi20;
             float ret = NativeMethods.calib3d_rectify3Collinear_InputArray(
                 cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
                 cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
@@ -1944,9 +1937,7 @@ namespace OpenCvSharp.CPlusPlus
                 imgpt1Ptrs, imgpt1Ptrs.Length, imgpt3Ptrs, imgpt3Ptrs.Length,
                 imageSize, R12.CvPtr, T12.CvPtr, R13.CvPtr, T13.CvPtr,
                 R1.CvPtr, R2.CvPtr, R3.CvPtr, P1.CvPtr, P2.CvPtr, P3.CvPtr,
-                Q.CvPtr, alpha, newImgSize, out roi10, out roi20, (int)flags);
-            roi1 = roi10;
-            roi2 = roi20;
+                Q.CvPtr, alpha, newImgSize, out roi1, out roi2, (int)flags);
             R1.Fix();
             R2.Fix();
             R3.Fix();
@@ -1982,11 +1973,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException();
             cameraMatrix.ThrowIfDisposed();
 
-            CvRect validPixROI0;
             IntPtr mat = NativeMethods.calib3d_getOptimalNewCameraMatrix_InputArray(
                 cameraMatrix.CvPtr, ToPtr(distCoeffs), imageSize, alpha, newImgSize,
-                out validPixROI0, centerPrincipalPoint ? 1 : 0);
-            validPixROI = validPixROI0;
+                out validPixROI, centerPrincipalPoint ? 1 : 0);
             return new Mat(mat);
         }
         /// <summary>

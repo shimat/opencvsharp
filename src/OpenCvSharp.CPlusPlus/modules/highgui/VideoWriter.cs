@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
@@ -60,7 +59,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
 #endif
         public VideoWriter(string fileName, string fourcc, double fps, Size frameSize, bool isColor = true)
-            : this(fileName, Cv.FOURCC(fourcc), fps, frameSize, isColor)
+            : this(fileName, FourCCCalcurator.Run(fourcc), fps, frameSize, isColor)
         {
         }
 
@@ -253,7 +252,7 @@ namespace OpenCvSharp.CPlusPlus
 #endif
         public void Open(string fileName, string fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            Open(fileName, Cv.FOURCC(fourcc), fps, frameSize, isColor);
+            Open(fileName, FourCCCalcurator.Run(fourcc), fps, frameSize, isColor);
         }
 #if LANG_JP
         /// <summary>

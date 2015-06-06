@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -49,7 +49,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Vec4i[] array = Util.ToArray(data);
+            Vec4i[] array = Util.Utility.ToArray(data);
             ptr = NativeMethods.vector_Vec4i_new3(array, new IntPtr(array.Length));
         }
 
@@ -128,7 +128,7 @@ namespace OpenCvSharp.CPlusPlus
             T[] dst = new T[arySize];
             using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
             {
-                Util.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
+                Util.Utility.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
             }
             return dst;
         }

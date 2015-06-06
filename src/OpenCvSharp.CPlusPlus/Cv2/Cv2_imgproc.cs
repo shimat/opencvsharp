@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
 // ReSharper disable InconsistentNaming
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class Cv2
     {
@@ -472,7 +472,7 @@ namespace OpenCvSharp.CPlusPlus
         /// or when the corner position moves by less than criteria.epsilon on some iteration.</param>
         /// <returns></returns>
         public static Point2f[] CornerSubPix(InputArray image, IEnumerable<Point2f> inputCorners,
-            Size winSize, Size zeroZone, CvTermCriteria criteria)
+            Size winSize, Size zeroZone, TermCriteria criteria)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -480,7 +480,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("inputCorners");
             image.ThrowIfDisposed();
 
-            var inputCornersSrc = Util.ToArray(inputCorners);
+            var inputCornersSrc = Util.Utility.ToArray(inputCorners);
             var inputCornersCopy = new Point2f[inputCornersSrc.Length];
             Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
             using (var vector = new VectorOfPoint2f(inputCornersCopy))
@@ -720,7 +720,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
         public static void Erode(InputArray src, OutputArray dst, InputArray element,
-            CvPoint? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, CvScalar? borderValue = null)
+            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -763,7 +763,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
         public static void MorphologyEx(InputArray src, OutputArray dst, MorphologyOperation op, InputArray element,
-            CvPoint? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, CvScalar? borderValue = null)
+            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -772,8 +772,8 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            CvPoint anchor0 = anchor.GetValueOrDefault(new CvPoint(-1, -1));
-            CvScalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
+            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
             NativeMethods.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             dst.Fix();
@@ -833,7 +833,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
-            CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
+            Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
             dst.Fix();
         }
@@ -878,7 +878,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
-            CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
+            Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_warpPerspective_MisInputArray(
                 src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
             dst.Fix();
@@ -922,7 +922,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("m");
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
+            Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             int mRow = m.GetLength(0);
             int mCol = m.GetLength(1);
             NativeMethods.imgproc_warpPerspective_MisArray(
@@ -944,7 +944,7 @@ namespace OpenCvSharp.CPlusPlus
         /// the source image are not modified by the function.</param>
         /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
         public static void Remap(InputArray src, OutputArray dst, InputArray map1, InputArray map2,
-            Interpolation interpolation = Interpolation.Linear, BorderType borderMode = BorderType.Constant, CvScalar? borderValue = null)
+            Interpolation interpolation = Interpolation.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -958,7 +958,7 @@ namespace OpenCvSharp.CPlusPlus
             dst.ThrowIfNotReady();
             map1.ThrowIfDisposed();
             map2.ThrowIfDisposed();
-            CvScalar borderValue0 = borderValue.GetValueOrDefault(CvScalar.ScalarAll(0));
+            Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int)interpolation, (int)borderMode, borderValue0);
             dst.Fix();
         }
@@ -1038,9 +1038,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            Point2f[] srcArray = Util.ToArray(src);
-            Point2f[] dstArray = Util.ToArray(dst);
-            IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform(srcArray, dstArray);
+            Point2f[] srcArray = Util.Utility.ToArray(src);
+            Point2f[] dstArray = Util.Utility.ToArray(dst);
+            IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform1(srcArray, dstArray);
             return new Mat(ret);
         }
         /// <summary>
@@ -1057,7 +1057,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform(src.CvPtr, dst.CvPtr);
+            IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform2(src.CvPtr, dst.CvPtr);
             return new Mat(ret);
         }
         #endregion
@@ -1074,9 +1074,9 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            Point2f[] srcArray = Util.ToArray(src);
-            Point2f[] dstArray = Util.ToArray(dst);
-            IntPtr ret = NativeMethods.imgproc_getAffineTransform(srcArray, dstArray);
+            Point2f[] srcArray = Util.Utility.ToArray(src);
+            Point2f[] dstArray = Util.Utility.ToArray(dst);
+            IntPtr ret = NativeMethods.imgproc_getAffineTransform1(srcArray, dstArray);
             return new Mat(ret);
         }
         /// <summary>
@@ -1093,7 +1093,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("dst");
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            IntPtr ret = NativeMethods.imgproc_getAffineTransform(src.CvPtr, dst.CvPtr);
+            IntPtr ret = NativeMethods.imgproc_getAffineTransform2(src.CvPtr, dst.CvPtr);
             return new Mat(ret);
         }
         #endregion
@@ -1135,7 +1135,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("sum");
             src.ThrowIfDisposed();
             sum.ThrowIfNotReady();
-            NativeMethods.imgproc_integral(src.CvPtr, sum.CvPtr, sdepth);
+            NativeMethods.imgproc_integral1(src.CvPtr, sum.CvPtr, sdepth);
             sum.Fix();
         }
         /// <summary>
@@ -1156,7 +1156,7 @@ namespace OpenCvSharp.CPlusPlus
             src.ThrowIfDisposed();
             sum.ThrowIfNotReady();
             sqsum.ThrowIfNotReady();
-            NativeMethods.imgproc_integral(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth);
+            NativeMethods.imgproc_integral2(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth);
             sum.Fix();
             sqsum.Fix();
         }
@@ -1182,7 +1182,7 @@ namespace OpenCvSharp.CPlusPlus
             sum.ThrowIfNotReady();
             sqsum.ThrowIfNotReady();
             tilted.ThrowIfNotReady();
-            NativeMethods.imgproc_integral(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth);
+            NativeMethods.imgproc_integral3(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth);
             sum.Fix();
             sqsum.Fix();
             tilted.Fix();
@@ -2026,10 +2026,8 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfNotReady();
             Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            CvRect rect0;
-            int ret = NativeMethods.imgproc_floodFill(image.CvPtr, seedPoint, newVal, out rect0,
+            int ret = NativeMethods.imgproc_floodFill(image.CvPtr, seedPoint, newVal, out rect,
                 loDiff0, upDiff0, (int)flags);
-            rect = rect0;
             image.Fix();
             return ret;
         }
@@ -2093,10 +2091,8 @@ namespace OpenCvSharp.CPlusPlus
             mask.ThrowIfNotReady();
             Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            CvRect rect0;
             int ret = NativeMethods.imgproc_floodFill(image.CvPtr, mask.CvPtr, seedPoint, 
-                newVal, out rect0, loDiff0, upDiff0, (int)flags);
-            rect = rect0;
+                newVal, out rect, loDiff0, upDiff0, (int)flags);
             image.Fix();
             mask.Fix();
             return ret;
@@ -2261,7 +2257,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             image.ThrowIfNotReady();
 
-            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            Point offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr, hierarchyPtr;
             NativeMethods.imgproc_findContours1_vector(image.CvPtr, out contoursPtr, out hierarchyPtr, (int)mode, (int)method, offset0);
 
@@ -2316,7 +2312,7 @@ namespace OpenCvSharp.CPlusPlus
             image.ThrowIfNotReady();
             hierarchy.ThrowIfNotReady();
 
-            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            Point offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
             NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, out contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
 
@@ -2358,7 +2354,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             image.ThrowIfNotReady();
 
-            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            Point offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
             NativeMethods.imgproc_findContours2_vector(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
             image.Fix();
@@ -2398,7 +2394,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("image");
             image.ThrowIfNotReady();
 
-            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            Point offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
             NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
             image.Fix();
@@ -2461,7 +2457,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("contours");
             image.ThrowIfNotReady();
 
-            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            Point offset0 = offset.GetValueOrDefault(new Point());
             Point[][] contoursArray = EnumerableEx.SelectToArray(contours, EnumerableEx.ToArray);
             int[] contourSize2 = EnumerableEx.SelectToArray(contoursArray, pts => pts.Length);
             using (var contoursPtr = new ArrayAddress2<Point>(contoursArray))
@@ -2532,7 +2528,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("contours");
             image.ThrowIfNotReady();
 
-            CvPoint offset0 = offset.GetValueOrDefault(new Point());
+            Point offset0 = offset.GetValueOrDefault(new Point());
             IntPtr[] contoursPtr = EnumerableEx.SelectPtrs(contours);
             NativeMethods.imgproc_drawContours_InputArray(image.CvPtr, contoursPtr, contoursPtr.Length,
                         contourIdx, color, thickness, (int)lineType, ToPtr(hierarchy), maxLevel, offset0);

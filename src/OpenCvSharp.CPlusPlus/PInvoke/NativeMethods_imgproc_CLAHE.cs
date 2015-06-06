@@ -3,12 +3,12 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr imgproc_createCLAHE(double clipLimit, CvSize tileGridSize);
+        public static extern IntPtr imgproc_createCLAHE(double clipLimit, Size tileGridSize);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_Ptr_CLAHE_delete(IntPtr obj);
@@ -30,10 +30,10 @@ namespace OpenCvSharp.CPlusPlus
         public static extern double imgproc_CLAHE_getClipLimit(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_CLAHE_setTilesGridSize(IntPtr obj, CvSize tileGridSize);
+        public static extern void imgproc_CLAHE_setTilesGridSize(IntPtr obj, Size tileGridSize);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern CvSize imgproc_CLAHE_getTilesGridSize(IntPtr obj);
+        public static extern Size imgproc_CLAHE_getTilesGridSize(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_CLAHE_collectGarbage(IntPtr obj);

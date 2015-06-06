@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -20,10 +20,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("probImage");
             probImage.ThrowIfDisposed();
 
-            CvRect window0 = window;
             RotatedRect result = NativeMethods.video_CamShift(
-                probImage.CvPtr, ref window0, criteria);
-            window = window0;
+                probImage.CvPtr, ref window, criteria);
             return result;
         }
 
@@ -41,10 +39,8 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentNullException("probImage");
             probImage.ThrowIfDisposed();
 
-            CvRect window0 = window;
             int result = NativeMethods.video_meanShift(
-                probImage.CvPtr, ref window0, criteria);
-            window = window0;
+                probImage.CvPtr, ref window, criteria);
             return result;
         }
 

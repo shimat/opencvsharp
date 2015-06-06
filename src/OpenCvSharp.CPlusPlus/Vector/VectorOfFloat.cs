@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp.CPlusPlus
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -16,6 +16,7 @@ namespace OpenCvSharp.CPlusPlus
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -23,6 +24,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             ptr = NativeMethods.vector_float_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,6 +35,7 @@ namespace OpenCvSharp.CPlusPlus
                 throw new ArgumentOutOfRangeException("size");
             ptr = NativeMethods.vector_float_new2(new IntPtr(size));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -41,7 +44,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            float[] array = Util.ToArray(data);
+            float[] array = Util.Utility.ToArray(data);
             ptr = NativeMethods.vector_float_new3(array, new IntPtr(array.Length));
         }
 
@@ -70,9 +73,11 @@ namespace OpenCvSharp.CPlusPlus
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -88,15 +93,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             get { return NativeMethods.vector_float_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
         public float[] ToArray()
-        {            
+        {
             int size = Size;
             if (size == 0)
             {
@@ -106,6 +113,7 @@ namespace OpenCvSharp.CPlusPlus
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);
             return dst;
         }
+
         #endregion
     }
 }
