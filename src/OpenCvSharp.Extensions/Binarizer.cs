@@ -30,7 +30,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
 #endif
-        public static void Niblack(IplImage src, IplImage dst, int kernelSize, double k)
+        public static void Niblack(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -38,9 +38,9 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (src.NChannels != 1)
+            if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.NChannels != 1)
+            if (dst.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -49,32 +49,29 @@ namespace OpenCvSharp.Extensions
             if (kernelSize % 2 == 0)
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
-            CvRect roi = src.ROI;
-            int width = roi.Width;
-            int height = roi.Height;
-            if (width != dst.Width || height != dst.Height)
-                throw new ArgumentException("src.Size == dst.Size");
+            int width = src.Width;
+            int height = src.Height;
+            dst.Create(src.Size(), src.Type());
 
-            unsafe
+            using (var tSrcMat = new MatOfByte(src))
+            using (var tDstMat = new MatOfByte(dst))
             {
-                byte* pSrc = src.ImageDataPtr;
-                byte* pDst = dst.ImageDataPtr;
-                int stepSrc = src.WidthStep;
-                int stepDst = dst.WidthStep;
+                var tSrc = tSrcMat.GetIndexer();
+                var tDst = tDstMat.GetIndexer();
+
                 //for (int y = 0; y < gray.Height; y++)
                 MyParallel.For(0, height, delegate(int y)
                 {
                     for (int x = 0; x < width; x++)
                     {
                         double m, s;
-                        MeanStddev(src, x + roi.X, y + roi.Y, kernelSize, out m, out s);
+                        MeanStddev(src, x, y, kernelSize, out m, out s);
                         double threshold = m + k * s;
-                        int offsetSrc = stepSrc * (y + roi.Y) + (x + roi.X);
-                        int offsetDst = stepDst * y + x;
-                        if (pSrc[offsetSrc] < threshold)
-                            pDst[offsetDst] = 0;
+
+                        if (tSrc[y, x] < threshold)
+                            tDst[y, x] = 0;
                         else
-                            pDst[offsetDst] = 255;
+                            tDst[y, x] = 255;
                     }
                 }
                 );
@@ -98,7 +95,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
 #endif
-        public static void NiblackFast(IplImage src, IplImage dst, int kernelSize, double k)
+        public static void NiblackFast(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -106,9 +103,9 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (src.NChannels != 1)
+            if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.NChannels != 1)
+            if (dst.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -118,28 +115,27 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
             int borderSize = kernelSize / 2;
-            CvRect roi = src.ROI;
-            int width = roi.Width;
-            int height = roi.Height;
-            if (width != dst.Width || height != dst.Height)
-                throw new ArgumentException("src.Size == dst.Size");
+            int width = src.Width;
+            int height = src.Height;
+            dst.Create(src.Size(), src.Type());
 
-            using (IplImage imgTemp = new IplImage(width + (borderSize * 2), height + (borderSize * 2), src.Depth, src.NChannels))
-            using (IplImage imgSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
-            using (IplImage imgSqSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
+            using (var tempMat = new Mat(height + (borderSize * 2), width + (borderSize * 2), src.Type()))
+            using (var sumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
+            using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
             {
-                Cv.CopyMakeBorder(src, imgTemp, new CvPoint(borderSize, borderSize), BorderType.Replicate, CvScalar.ScalarAll(0));
-                Cv.Integral(imgTemp, imgSum, imgSqSum);
+                Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderType.Replicate, Scalar.All(0));
+                Cv2.Integral(tempMat, sumMat, sqSumMat);
 
-                unsafe
+                using (var tSrcMat = new MatOfByte(src))
+                using (var tDstMat = new MatOfByte(dst))
+                using (var tSumMat = new MatOfDouble(sumMat))
+                using (var tSqSumMat = new MatOfDouble(sqSumMat))
                 {
-                    byte* pSrc = src.ImageDataPtr;
-                    byte* pDst = dst.ImageDataPtr;
-                    double* pSum = (double*)imgSum.ImageDataPtr;
-                    double* pSqSum = (double*)imgSqSum.ImageDataPtr;
-                    int stepSrc = src.WidthStep;
-                    int stepDst = dst.WidthStep;
-                    int stepSum = imgSum.WidthStep / sizeof(double);
+                    var tSrc = tSrcMat.GetIndexer();
+                    var tDst = tDstMat.GetIndexer();
+                    var tSum = tSumMat.GetIndexer();
+                    var tSqSum = tSqSumMat.GetIndexer();
+
                     int ylim = height + borderSize;
                     int xlim = width + borderSize;
                     int kernelPixels = kernelSize * kernelSize;
@@ -151,20 +147,18 @@ namespace OpenCvSharp.Extensions
                             int y1 = y - borderSize;
                             int x2 = x + borderSize + 1;
                             int y2 = y + borderSize + 1;
-                            double sum = pSum[stepSum * y2 + x2] - pSum[stepSum * y2 + x1] - pSum[stepSum * y1 + x2] + pSum[stepSum * y1 + x1];
-                            double sqsum = pSqSum[stepSum * y2 + x2] - pSqSum[stepSum * y2 + x1] - pSqSum[stepSum * y1 + x2] + pSqSum[stepSum * y1 + x1];
+                            double sum = tSum[y2, x2] - tSum[y2, x1] - tSum[y1, x2] + tSum[y1, x1];
+                            double sqsum = tSqSum[y2, x2] - tSqSum[y2, x1] - tSqSum[y1, x2] + tSqSum[y1, x1];
                             double mean = sum / kernelPixels;
                             double var = (sqsum / kernelPixels) - (mean * mean);
                             if (var < 0.0) var = 0.0;
                             double stddev = Math.Sqrt(var);
 
                             double threshold = mean + k * stddev;
-                            int offsetSrc = stepSrc * (y + roi.Y - borderSize) + (x + roi.X - borderSize);
-                            int offsetDst = stepDst * (y - borderSize) + (x - borderSize);
-                            if (pSrc[offsetSrc] < threshold)
-                                pDst[offsetDst] = 0;
+                            if (tSrc[y - borderSize, x - borderSize] < threshold)
+                                tDst[y - borderSize, x - borderSize] = 0;
                             else
-                                pDst[offsetDst] = 255;
+                                tDst[y - borderSize, x - borderSize] = 255;
                         }
                     }
                 }
@@ -192,7 +186,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="k">Adequate coefficient</param>
         /// <param name="r">Adequate coefficient</param>
 #endif
-        public static void Sauvola(IplImage src, IplImage dst, int kernelSize, double k, double r)
+        public static void Sauvola(Mat src, Mat dst, int kernelSize, double k, double r)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -200,9 +194,9 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (src.NChannels != 1)
+            if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.NChannels != 1)
+            if (dst.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -211,34 +205,29 @@ namespace OpenCvSharp.Extensions
             if (kernelSize % 2 == 0)
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
-            CvRect roi = src.ROI;
-            int width = roi.Width;
-            int height = roi.Height;
+            int width = src.Width;
+            int height = src.Height;
+            dst.Create(src.Size(), src.Type());
 
-            if (width != dst.Width || height != dst.Height)
-                throw new ArgumentException("src.Size == dst.Size");
-
-            unsafe
+            using (var tSrcMat = new MatOfByte(src))
+            using (var tDstMat = new MatOfByte(dst))
             {
-                byte* pSrc = src.ImageDataPtr;
-                byte* pDst = dst.ImageDataPtr;
-                int stepSrc = src.WidthStep;
-                int stepDst = dst.WidthStep;
+                var tSrc = tSrcMat.GetIndexer();
+                var tDst = tDstMat.GetIndexer();
+
                 //for (int y = 0; y < height; y++)
                 MyParallel.For(0, height, delegate(int y)
                 {
                     for (int x = 0; x < width; x++)
                     {
                         double m, s;
-                        MeanStddev(src, x + roi.X, y + roi.Y, kernelSize, out m, out s);
+                        MeanStddev(src, x, y, kernelSize, out m, out s);
                         double threshold = m * (1 + k * (s / r - 1));
 
-                        int offsetSrc = stepSrc * (y + roi.Y) + (x + roi.X);
-                        int offsetDst = stepDst * y + x;
-                        if (pSrc[offsetSrc] < threshold)
-                            pDst[offsetDst] = 0;
+                        if (tSrc[y, x] < threshold)
+                            tDst[y, x] = 0;
                         else
-                            pDst[offsetDst] = 255;
+                            tDst[y, x] = 255;
                     }
                 }
                 );
@@ -266,7 +255,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="k">Adequate coefficient</param>
         /// <param name="r">Adequate coefficient</param>
 #endif
-        public static void SauvolaFast(IplImage src, IplImage dst, int kernelSize, double k, double r)
+        public static void SauvolaFast(Mat src, Mat dst, int kernelSize, double k, double r)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -274,9 +263,9 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (src.NChannels != 1)
+            if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.NChannels != 1)
+            if (dst.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -284,33 +273,31 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be 3 and above");
             if (kernelSize % 2 == 0)
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
-            if (r == 0)
+            if (Math.Abs(r) < 1e-9f)
                 throw new ArgumentOutOfRangeException("r", "r == 0");
 
             int borderSize = kernelSize / 2;
-            CvRect roi = src.ROI;
-            int width = roi.Width;
-            int height = roi.Height;
-            if (width != dst.Width || height != dst.Height)
-                throw new ArgumentException("src.Size == dst.Size");
+            int width = src.Width;
+            int height = src.Height;
+            dst.Create(src.Size(), src.Type());
 
-            using (IplImage imgTemp = new IplImage(width + (borderSize * 2), height + (borderSize * 2), src.Depth, src.NChannels))
-            using (IplImage imgSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
-            using (IplImage imgSqSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
+            using (var tempMat = new Mat(height + (borderSize * 2), width + (borderSize * 2), src.Type()))
+            using (var sumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
+            using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
             {
-                Cv.CopyMakeBorder(src, imgTemp, new CvPoint(borderSize, borderSize), BorderType.Replicate, CvScalar.ScalarAll(0));
-                Cv.Integral(imgTemp, imgSum, imgSqSum);
+                Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderType.Replicate, Scalar.All(0));
+                Cv2.Integral(tempMat, sumMat, sqSumMat);
 
-                unsafe
+                using (var tSrcMat = new MatOfByte(src))
+                using (var tDstMat = new MatOfByte(dst))
+                using (var tSumMat = new MatOfDouble(sumMat))
+                using (var tSqSumMat = new MatOfDouble(sqSumMat))
                 {
-                    byte* pSrc = src.ImageDataPtr;
-                    byte* pDst = dst.ImageDataPtr;
-                    //byte* pTemp = imgTemp.ImageDataPtr;
-                    double* pSum = (double*)imgSum.ImageDataPtr;
-                    double* pSqSum = (double*)imgSqSum.ImageDataPtr;
-                    int stepSrc = src.WidthStep;
-                    int stepDst = dst.WidthStep;
-                    int stepSum = imgSum.WidthStep / sizeof(double);
+                    var tSrc = tSrcMat.GetIndexer();
+                    var tDst = tDstMat.GetIndexer();
+                    var tSum = tSumMat.GetIndexer();
+                    var tSqSum = tSqSumMat.GetIndexer();
+
                     int ylim = height + borderSize;
                     int xlim = width + borderSize;
                     int kernelPixels = kernelSize * kernelSize;
@@ -322,20 +309,18 @@ namespace OpenCvSharp.Extensions
                             int y1 = y - borderSize;
                             int x2 = x + borderSize + 1;
                             int y2 = y + borderSize + 1;
-                            double sum = pSum[stepSum * y2 + x2] - pSum[stepSum * y2 + x1] - pSum[stepSum * y1 + x2] + pSum[stepSum * y1 + x1];
-                            double sqsum = pSqSum[stepSum * y2 + x2] - pSqSum[stepSum * y2 + x1] - pSqSum[stepSum * y1 + x2] + pSqSum[stepSum * y1 + x1];
+                            double sum = tSum[y2, x2] - tSum[y2, x1] - tSum[y1, x2] + tSum[y1, x1];
+                            double sqsum = tSqSum[y2, x2] - tSqSum[y2, x1] - tSqSum[y1, x2] + tSqSum[y1, x1];
                             double mean = sum / kernelPixels;
                             double var = (sqsum / kernelPixels) - (mean * mean);
                             if (var < 0.0) var = 0.0;
                             double stddev = Math.Sqrt(var);
 
                             double threshold = mean * (1 + k * (stddev / r - 1));
-                            int offsetSrc = stepSrc * (y + roi.Y - borderSize) + (x + roi.X - borderSize);
-                            int offsetDst = stepDst * (y - borderSize) + (x - borderSize);
-                            if (pSrc[offsetSrc] < threshold)
-                                pDst[offsetDst] = 0;
+                            if (tSrc[y - borderSize, x - borderSize] < threshold)
+                                tDst[y - borderSize, x - borderSize] = 0;
                             else
-                                pDst[offsetDst] = 255;
+                                tDst[y - borderSize, x - borderSize] = 255;
                         }
                     }
                 }
@@ -362,7 +347,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="constrastMin">Adequate coefficient</param>
         /// <param name="bgThreshold">Adequate coefficient</param>
 #endif
-        public static void Bernsen(IplImage src, IplImage dst, int kernelSize, byte constrastMin, byte bgThreshold)
+        public static void Bernsen(Mat src, Mat dst, int kernelSize, byte constrastMin, byte bgThreshold)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -370,9 +355,9 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (src.NChannels != 1)
+            if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.NChannels != 1)
+            if (dst.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -381,24 +366,23 @@ namespace OpenCvSharp.Extensions
             if (kernelSize % 2 == 0)
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
-            CvRect roi = src.ROI;
-            int width = roi.Width;
-            int height = roi.Height;
-            if (width != dst.Width || height != dst.Height)
-                throw new ArgumentException("src.Size == dst.Size");
+            int width = src.Width;
+            int height = src.Height;
+            dst.Create(src.Size(), src.Type());
 
-            unsafe
+            using (var tSrcMat = new MatOfByte(src))
+            using (var tDstMat = new MatOfByte(dst))
             {
-                byte* pSrc = src.ImageDataPtr;
-                byte* pDst = dst.ImageDataPtr;
-                int widthStep = dst.WidthStep;
+                var tSrc = tSrcMat.GetIndexer();
+                var tDst = tDstMat.GetIndexer();
 
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
                     {
                         byte min, max;
-                        MinMax(src, x + roi.X, y + roi.Y, kernelSize, out min, out max);
+                        MinMax(src, x, y, kernelSize, out min, out max);
+
                         int contrast = max - min;
                         byte threshold;
                         if (contrast < constrastMin)
@@ -406,11 +390,10 @@ namespace OpenCvSharp.Extensions
                         else
                             threshold = (byte)((max + min) / 2);
 
-                        int offset = (widthStep * y) + x;
-                        if (pSrc[offset] <= threshold)
-                            pDst[offset] = 0;
+                        if (tSrc[y, x] <= threshold)
+                            tDst[y, x] = 0;
                         else
-                            pDst[offset] = 255;
+                            tDst[y, x] = 255;
                     }
                 }
             }
@@ -434,7 +417,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
 #endif
-        public static void Nick(IplImage src, IplImage dst, int kernelSize, double k)
+        public static void Nick(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -442,9 +425,9 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException("dst");
 
             // グレースケールのみ
-            if (src.NChannels != 1)
+            if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.NChannels != 1)
+            if (dst.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
@@ -454,28 +437,27 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
 
             int borderSize = kernelSize / 2;
-            CvRect roi = src.ROI;
-            int width = roi.Width;
-            int height = roi.Height;
-            if (width != dst.Width || height != dst.Height)
-                throw new ArgumentException("src.Size == dst.Size");
+            int width = src.Width;
+            int height = src.Height;
+            dst.Create(src.Size(), src.Type());
 
-            using (IplImage imgTemp = new IplImage(width + (borderSize * 2), height + (borderSize * 2), src.Depth, src.NChannels))
-            using (IplImage imgSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
-            using (IplImage imgSqSum = new IplImage(imgTemp.Width + 1, imgTemp.Height + 1, BitDepth.F64, 1))
+            using (var tempMat = new Mat(height + (borderSize * 2), width + (borderSize * 2), src.Type()))
+            using (var sumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
+            using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
             {
-                Cv.CopyMakeBorder(src, imgTemp, new CvPoint(borderSize, borderSize), BorderType.Replicate, CvScalar.ScalarAll(0));
-                Cv.Integral(imgTemp, imgSum, imgSqSum);
+                Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderType.Replicate, Scalar.All(0));
+                Cv2.Integral(tempMat, sumMat, sqSumMat);
 
-                unsafe
+                using (var tSrcMat = new MatOfByte(src))
+                using (var tDstMat = new MatOfByte(dst))
+                using (var tSumMat = new MatOfDouble(sumMat))
+                using (var tSqSumMat = new MatOfDouble(sqSumMat))
                 {
-                    byte* pSrc = src.ImageDataPtr;
-                    byte* pDst = dst.ImageDataPtr;
-                    double* pSum = (double*)imgSum.ImageDataPtr;
-                    double* pSqSum = (double*)imgSqSum.ImageDataPtr;
-                    int stepSrc = src.WidthStep;
-                    int stepDst = dst.WidthStep;
-                    int stepSum = imgSum.WidthStep / sizeof(double);
+                    var tSrc = tSrcMat.GetIndexer();
+                    var tDst = tDstMat.GetIndexer();
+                    var tSum = tSumMat.GetIndexer();
+                    var tSqSum = tSqSumMat.GetIndexer();
+
                     int ylim = height + borderSize;
                     int xlim = width + borderSize;
                     int kernelPixels = kernelSize * kernelSize;
@@ -487,20 +469,18 @@ namespace OpenCvSharp.Extensions
                             int y1 = y - borderSize;
                             int x2 = x + borderSize + 1;
                             int y2 = y + borderSize + 1;
-                            double sum = pSum[stepSum * y2 + x2] - pSum[stepSum * y2 + x1] - pSum[stepSum * y1 + x2] + pSum[stepSum * y1 + x1];
-                            double sqsum = pSqSum[stepSum * y2 + x2] - pSqSum[stepSum * y2 + x1] - pSqSum[stepSum * y1 + x2] + pSqSum[stepSum * y1 + x1];
+                            double sum = tSum[y2, x2] - tSum[y2, x1] - tSum[y1, x2] + tSum[y1, x1];
+                            double sqsum = tSqSum[y2, x2] - tSqSum[y2, x1] - tSqSum[y1, x2] + tSqSum[y1, x1];
                             double mean = sum / kernelPixels;
                             double term = (sqsum - mean * mean) / kernelPixels;
                             if (term < 0.0) term = 0.0;
                             term = Math.Sqrt(term);
 
                             double threshold = mean + k * term;
-                            int offsetSrc = stepSrc * (y + roi.Y - borderSize) + (x + roi.X - borderSize);
-                            int offsetDst = stepDst * (y - borderSize) + (x - borderSize);
-                            if (pSrc[offsetSrc] < threshold)
-                                pDst[offsetDst] = 0;
+                            if (tSrc[y - borderSize, x - borderSize] < threshold)
+                                tDst[y - borderSize, x - borderSize] = 0;
                             else
-                                pDst[offsetDst] = 255;
+                                tDst[y - borderSize, x - borderSize] = 255;
                         }
                     }
                 }
@@ -517,30 +497,33 @@ namespace OpenCvSharp.Extensions
         /// <param name="size">周辺画素の探索サイズ。奇数でなければならない</param>
         /// <param name="mean">出力される平均</param>
         /// <param name="stddev">出力される標準偏差</param>
-        private static unsafe void MeanStddev(IplImage img, int x, int y, int size, out double mean, out double stddev)
+        private static void MeanStddev(Mat img, int x, int y, int size, out double mean, out double stddev)
         {
             int count = 0;
             int sum = 0;
             int sqsum = 0;
-            byte* p = img.ImageDataPtr;
             int size2 = size / 2;
-            int widthStep = img.WidthStep;
             int xs = Math.Max(x - size2, 0);
             int xe = Math.Min(x + size2, img.Width);
             int ys = Math.Max(y - size2, 0);
             int ye = Math.Min(y + size2, img.Height);
             byte v;
 
-            for (int xx = xs; xx < xe; xx++)
+            using (var tImg = new MatOfByte(img))
             {
-                for (int yy = ys; yy < ye; yy++)
+                var indexer = tImg.GetIndexer();
+                for (int xx = xs; xx < xe; xx++)
                 {
-                    v = p[widthStep * yy + xx];
-                    sum += v;
-                    sqsum += v * v;
-                    count++;
+                    for (int yy = ys; yy < ye; yy++)
+                    {
+                        v = indexer[yy, xx];
+                        sum += v;
+                        sqsum += v*v;
+                        count++;
+                    }
                 }
             }
+
             mean = (double)sum / count;
             double var = ((double)sqsum / count) - (mean * mean);
             if (var < 0.0) var = 0.0;
@@ -556,11 +539,9 @@ namespace OpenCvSharp.Extensions
         /// <param name="size">周辺画素の探索サイズ。奇数でなければならない</param>
         /// <param name="min">出力される最小値</param>
         /// <param name="max">出力される最大値</param>
-        private static unsafe void MinMax(IplImage img, int x, int y, int size, out byte min, out byte max)
+        private static void MinMax(Mat img, int x, int y, int size, out byte min, out byte max)
         {
-            byte* p = img.ImageDataPtr;
             int size2 = size / 2;
-            int widthStep = img.WidthStep;
             min = byte.MaxValue;
             max = byte.MinValue;
             int xs = Math.Max(x - size2, 0);
@@ -568,15 +549,20 @@ namespace OpenCvSharp.Extensions
             int ys = Math.Max(y - size2, 0);
             int ye = Math.Min(y + size2, img.Height);
 
-            for (int xx = xs; xx < xe; xx++)
+            using (var tImg = new MatOfByte(img))
             {
-                for (int yy = ys; yy < ye; yy++)
+                var indexer = tImg.GetIndexer();
+
+                for (int xx = xs; xx < xe; xx++)
                 {
-                    byte v = p[widthStep * yy + xx];
-                    if (max < v)
-                        max = v;
-                    else if (min > v)
-                        min = v;
+                    for (int yy = ys; yy < ye; yy++)
+                    {
+                        byte v = indexer[yy, xx];
+                        if (max < v)
+                            max = v;
+                        else if (min > v)
+                            min = v;
+                    }
                 }
             }
         }

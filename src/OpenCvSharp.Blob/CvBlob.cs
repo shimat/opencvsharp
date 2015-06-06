@@ -10,6 +10,7 @@ namespace OpenCvSharp.Blob
     public class CvBlob : ICloneable
     {
         #region Init
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -35,10 +36,11 @@ namespace OpenCvSharp.Blob
             MaxY = y;
             M10 = x;
             M01 = y;
-            M11 = x * y;
-            M20 = x * x;
-            M02 = y * y;
+            M11 = x*y;
+            M20 = x*x;
+            M02 = y*y;
         }
+
         #endregion
 
         #region Properties
@@ -52,6 +54,7 @@ namespace OpenCvSharp.Blob
         /// Area (moment 00)
         /// </summary>
         public int Area { get; set; }
+
         /// <summary>
         /// Area (moment 00)
         /// </summary>
@@ -61,19 +64,22 @@ namespace OpenCvSharp.Blob
             set { Area = value; }
         }
 
-		/// <summary>
+        /// <summary>
         /// X min
         /// </summary>
-        public int MinX { get; set; }	
-		/// <summary>
+        public int MinX { get; set; }
+
+        /// <summary>
         /// X max
         /// </summary>
         public int MaxX { get; set; }
-		/// <summary>
+
+        /// <summary>
         /// Y min
         /// </summary>
         public int MinY { get; set; }
-		/// <summary>
+
+        /// <summary>
         /// Y max
         /// </summary>
         public int MaxY { get; set; }
@@ -81,12 +87,9 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// CvRect(MinX, MinY, MaxX - MinX, MaxY - MinY)
         /// </summary>
-        public CvRect Rect
+        public Rect Rect
         {
-            get
-            {
-                return new CvRect(MinX, MinY, MaxX - MinX, MaxY - MinY);
-            }
+            get { return new Rect(MinX, MinY, MaxX - MinX, MaxY - MinY); }
             set
             {
                 MinX = value.Left;
@@ -96,57 +99,66 @@ namespace OpenCvSharp.Blob
             }
         }
 
-		/// <summary>
+        /// <summary>
         /// Centroid
         /// </summary>
-        public CvPoint2D64f Centroid { get; internal set; }
+        public Point2d Centroid { get; internal set; }
 
-		/// <summary>
+        /// <summary>
         /// Moment 10
         /// </summary>
         public double M10 { get; set; }
-		/// <summary>
+
+        /// <summary>
         /// Moment 01
         /// </summary>
         public double M01 { get; set; }
-		/// <summary>
+
+        /// <summary>
         /// Moment 11
         /// </summary>
         public double M11 { get; set; }
-		/// <summary>
+
+        /// <summary>
         /// Moment 20
         /// </summary>
         public double M20 { get; set; }
-		/// <summary>
+
+        /// <summary>
         /// Moment 02
         /// </summary>
         public double M02 { get; set; }
-	    
-		/// <summary>
+
+        /// <summary>
         /// True if central moments are being calculated
         /// </summary>
         public bool CentralMoments { get; set; }
-		/// <summary>
+
+        /// <summary>
         /// Central moment 11
         /// </summary>
-        public double U11 { get; internal set; } 
-		/// <summary>
+        public double U11 { get; internal set; }
+
+        /// <summary>
         /// Central moment 20
         /// </summary>
-        public double U20 { get; internal set; } 
-		/// <summary>
+        public double U20 { get; internal set; }
+
+        /// <summary>
         /// Central moment 02
         /// </summary>
-        public double U02 { get; internal set; } 
+        public double U02 { get; internal set; }
 
         /// <summary>
         /// Normalized central moment 11.
         /// </summary>
-        public double N11 { get; internal set; } 
+        public double N11 { get; internal set; }
+
         /// <summary>
         /// Normalized central moment 20.
         /// </summary>
         public double N20 { get; internal set; }
+
         /// <summary>
         /// Normalized central moment 02.
         /// </summary>
@@ -156,23 +168,26 @@ namespace OpenCvSharp.Blob
         /// Hu moment 1.
         /// </summary>
         public double P1 { get; set; }
+
         /// <summary>
         /// Hu moment 2.
         /// </summary>
-        public double P2 { get; set; } 
+        public double P2 { get; set; }
 
         /// <summary>
         /// Contour
         /// </summary>
         public CvContourChainCode Contour { get; internal set; }
+
         /// <summary>
         /// Internal contours
         /// </summary>
         public List<CvContourChainCode> InternalContours { get; internal set; }
-		#endregion
 
-		#region Methods
-        #region Angle
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Calculates angle orientation of a blob.
         /// This function uses central moments so cvCentralMoments should have been called before for this blob. (cvAngle)
@@ -180,22 +195,21 @@ namespace OpenCvSharp.Blob
         /// <returns>Angle orientation in radians.</returns>
         public double Angle()
         {
-            return 0.5 * Math.Atan2(2.0 * U11, (U20 - U02));
+            return 0.5*Math.Atan2(2.0*U11, (U20 - U02));
         }
-        #endregion
-        #region CalcCentroid
+
+
         /// <summary>
-		/// Calculates centroid.
-		/// Centroid will be returned and stored in the blob structure. (cvCentroid)
-		/// </summary>
-		/// <returns>Centroid.</returns>
-		public CvPoint2D64f CalcCentroid()
-		{
-            Centroid = new CvPoint2D64f(M10 / Area, M01 / Area);
+        /// Calculates centroid.
+        /// Centroid will be returned and stored in the blob structure. (cvCentroid)
+        /// </summary>
+        /// <returns>Centroid.</returns>
+        public Point2d CalcCentroid()
+        {
+            Centroid = new Point2d(M10 / Area, M01 / Area);
             return Centroid;
         }
-        #endregion
-        #region SaveImage
+
         /// <summary>
         /// Save the image of a blob to a file.
         /// The function uses an image (that can be the original pre-processed image or a processed one, or even the result of cvRenderBlobs, for example) and a blob structure.
@@ -203,53 +217,41 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
         /// <param name="img">Image.</param>
-        public void SaveImage(string fileName, IplImage img)
+        public void SaveImage(string fileName, Mat img)
         {
             if (String.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
             if (img == null)
                 throw new ArgumentNullException("img");
-            CvRect roi = Cv.GetImageROI(img);
-            SetImageRoiToBlob(img);
-            Cv.SaveImage(fileName, img);
-            Cv.SetImageROI(img, roi);
+
+            using (var subMat = img.SubMat(Rect))
+            {
+                subMat.SaveImage(fileName);
+            }
         }
-        #endregion
-        #region SetImageRoiToBlob
-        /// <summary>
-        /// Set the ROI of an image to the bounding box of a blob.
-        /// </summary>
-        /// <param name="img">Image.</param>
-        public void SetImageRoiToBlob(IplImage img)
-        {
-            if(img == null)
-                throw new ArgumentNullException("img");
-            img.ROI = Rect;
-        }
-        #endregion
-        #region SetMoments
+
         /// <summary>
         /// Set central/hu moments and centroid value from moment values (M**)
         /// </summary>
         public void SetMoments()
         {
             // 重心
-            Centroid = new CvPoint2D64f(M10 / Area, M01 / Area);
+            Centroid = new Point2d(M10/Area, M01/Area);
             // 各モーメント
-            U11 = M11 - (M10 * M01) / M00;
-            U20 = M20 - (M10 * M10) / M00;
-            U02 = M02 - (M01 * M01) / M00;
+            U11 = M11 - (M10*M01)/M00;
+            U20 = M20 - (M10*M10)/M00;
+            U02 = M02 - (M01*M01)/M00;
 
-            double m00Pow2 = M00 * M00;
-            N11 = U11 / m00Pow2;
-            N20 = U20 / m00Pow2;
-            N02 = U02 / m00Pow2;
+            double m00Pow2 = M00*M00;
+            N11 = U11/m00Pow2;
+            N20 = U20/m00Pow2;
+            N02 = U02/m00Pow2;
 
             P1 = N20 + N02;
             double nn = N20 - N02;
-            P2 = nn * nn + 4.0 * (N11 * N11);
+            P2 = nn*nn + 4.0*(N11*N11);
         }
-        #endregion
+
         #endregion
 
         #region ICloneable
@@ -262,30 +264,30 @@ namespace OpenCvSharp.Blob
         {
             return new CvBlob
             {
-              Area  = Area,
-              CentralMoments = CentralMoments,
-              Centroid = Centroid,
-              Contour = Contour.Clone(),
-              InternalContours = new List<CvContourChainCode>(InternalContours),
-              Label = Label,
-              M00 = M00,
-              M01 = M01,
-              M02 = M02,
-              M10 = M10,
-              M11 = M11,
-              M20 = M20,
-              MaxX = MaxX,
-              MaxY = MaxY,
-              MinX = MinX,
-              MinY = MinY,
-              N02 = N02,
-              N11 = N11,
-              N20 = N20,
-              P1 = P1,
-              P2 = P2,
-              U02 = U02,
-              U11 = U11,
-              U20 = U20,
+                Area = Area,
+                CentralMoments = CentralMoments,
+                Centroid = Centroid,
+                Contour = Contour.Clone(),
+                InternalContours = new List<CvContourChainCode>(InternalContours),
+                Label = Label,
+                M00 = M00,
+                M01 = M01,
+                M02 = M02,
+                M10 = M10,
+                M11 = M11,
+                M20 = M20,
+                MaxX = MaxX,
+                MaxY = MaxY,
+                MinX = MinX,
+                MinY = MinY,
+                N02 = N02,
+                N11 = N11,
+                N20 = N20,
+                P1 = P1,
+                P2 = P2,
+                U02 = U02,
+                U11 = U11,
+                U20 = U20,
             };
         }
 
