@@ -77,9 +77,6 @@ namespace OpenCvSharp
                 return;
 
             string[] ap = EnumerableEx.ToArray(additionalPaths);
-
-            LoadLibraries(ap);
-
             foreach (string dll in DllNames)
             {
                 WindowsLibraryLoader.Instance.LoadLibrary(dll + Version, ap);

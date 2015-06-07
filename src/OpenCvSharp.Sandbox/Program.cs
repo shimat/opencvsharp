@@ -47,6 +47,8 @@ namespace OpenCvSharp.Sandbox
             //Stitching(mats);
             //Track();
             //Run();
+
+            Console.Read();
         }
 
         private static void Clahe()
