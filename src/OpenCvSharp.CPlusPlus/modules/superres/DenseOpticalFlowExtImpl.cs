@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
@@ -151,8 +150,9 @@ namespace OpenCvSharp.CPlusPlus
             flow1.Fix();
             if (flow2 != null)
                 flow2.Fix();
+            GC.KeepAlive(frame0);
+            GC.KeepAlive(frame1);
         }
-
 
         /// <summary>
         /// 

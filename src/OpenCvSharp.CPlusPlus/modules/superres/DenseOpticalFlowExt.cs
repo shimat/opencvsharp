@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
@@ -67,7 +66,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
@@ -77,7 +76,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_GPU()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1_GPU();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
@@ -87,7 +86,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_OCL()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1_OCL();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
