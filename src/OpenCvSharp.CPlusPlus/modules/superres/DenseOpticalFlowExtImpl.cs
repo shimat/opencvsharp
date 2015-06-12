@@ -120,7 +120,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frame1"></param>
         /// <param name="flow1"></param>
         /// <param name="flow2"></param>
-        protected override void Calc(
+        public override void Calc(
             InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null)
         {
             if (frame0 == null)

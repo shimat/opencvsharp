@@ -14,6 +14,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return FrameSource.CreateEmptySource();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -23,6 +24,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return FrameSource.CreateVideoSource(fileName);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -32,6 +34,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return FrameSource.CreateVideoSourceCuda(fileName);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -51,6 +54,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return SuperResolution.CreateBTVL1();
         }
+
         /// <summary>
         /// Create Bilateral TV-L1 Super Resolution.
         /// </summary>
@@ -59,6 +63,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return SuperResolution.CreateBTVL1_CUDA();
         }
+
         /// <summary>
         /// Create Bilateral TV-L1 Super Resolution.
         /// </summary>
@@ -79,6 +84,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return DenseOpticalFlowExt.CreateFarneback();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -87,6 +93,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return DenseOpticalFlowExt.CreateFarneback_CUDA();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -96,6 +103,7 @@ namespace OpenCvSharp.CPlusPlus
             throw new NotImplementedException();
             //return DenseOpticalFlowExt.CreateFarneback_OCL();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -104,6 +112,7 @@ namespace OpenCvSharp.CPlusPlus
         {
             return DenseOpticalFlowExt.CreateSimple();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -112,23 +121,27 @@ namespace OpenCvSharp.CPlusPlus
         {
             return DenseOpticalFlowExt.CreateDualTVL1();
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateOptFlow_DualTVL1_GPU()
         {
+            //throw new NotImplementedException();
             return DenseOpticalFlowExt.CreateDualTVL1_CUDA();
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateOptFlow_DualTVL1_OCL()
         {
-            throw new NotImplementedException();
-            //return DenseOpticalFlowExt.CreateDualTVL1_OCL();
+            //throw new NotImplementedException();
+            return DenseOpticalFlowExt.CreateDualTVL1_OCL();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -137,22 +150,25 @@ namespace OpenCvSharp.CPlusPlus
         {
             return DenseOpticalFlowExt.CreateBrox_CUDA();
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateOptFlow_PyrLK_GPU()
         {
+            //throw new NotImplementedException();
             return DenseOpticalFlowExt.CreatePyrLK_CUDA();
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateOptFlow_PyrLK_OCL()
         {
-            throw new NotImplementedException();
-            //return DenseOpticalFlowExt.CreatePyrLK_OCL();
+            //throw new NotImplementedException();
+            return DenseOpticalFlowExt.CreatePyrLK_OCL();
         }
     }
 }
