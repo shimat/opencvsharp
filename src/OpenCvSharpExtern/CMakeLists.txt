@@ -20,8 +20,10 @@ target_link_libraries(OpenCvSharpExtern PRIVATE ${OPENCV_A_FILES})
 target_link_libraries(OpenCvSharpExtern PRIVATE ${OPENCV_DYLIB_FILES})
 endif()
 
-#install(TARGETS OpenCvSharpExtern
+if(UNIX)
+install(TARGETS OpenCvSharpExtern
 #        RUNTIME DESTINATION bin
-#        LIBRARY DESTINATION lib
+        LIBRARY DESTINATION lib
 #        ARCHIVE DESTINATION lib/static
-#)
+)
+endif()
