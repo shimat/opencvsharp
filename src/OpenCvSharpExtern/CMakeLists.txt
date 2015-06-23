@@ -29,8 +29,10 @@ file(GLOB OPENCV_SO_FILES "${OPENCV_LIBRARY_DIR}/libopencv_*.so.${OPENCV_VERSION
 target_link_libraries(OpenCvSharpExtern PRIVATE ${OPENCV_SO_FILES})
 endif()
 
-#install(TARGETS OpenCvSharpExtern
+if(UNIX)
+install(TARGETS OpenCvSharpExtern
 #        RUNTIME DESTINATION bin
-#        LIBRARY DESTINATION lib
+        LIBRARY DESTINATION lib
 #        ARCHIVE DESTINATION lib/static
-#)
+)
+endif()
