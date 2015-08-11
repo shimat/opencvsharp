@@ -2488,6 +2488,18 @@ namespace OpenCvSharp.CPlusPlus
             return Cv2.PointPolygonTest(this, pt, measureDist);
         }
 
+        /// <summary>
+        /// computes the distance transform map
+        /// </summary>
+        /// <param name="distanceType"></param>
+        /// <param name="maskSize"></param>
+        public MatOfFloat DistanceTransform(DistanceType distanceType, DistanceMaskSize maskSize)
+        {
+            var dst = new MatOfFloat();
+            Cv2.DistanceTransform(this, dst, distanceType, maskSize);
+            return dst;
+        }
+
         #endregion
     }
 }
