@@ -398,6 +398,7 @@ namespace OpenCvSharp
         /// <param name="minNeighbors">（これから 1 を引いた値が）オブジェクトを構成する近傍矩形の最小数となる． min_neighbors-1 よりも少ない矩形しか含まないようなグループは全て棄却される． もし min_neighbors が 0 である場合，この関数はグループを一つも生成せず，候補となる矩形を全て返す．これはユーザがカスタマイズしたグループ化処理を適用したい場合に有用である． </param>
         /// <param name="flags">処理モード</param>
         /// <param name="minSize">最小ウィンドウサイズ．デフォルトでは分類器の学習に用いられたサンプルのサイズが設定される（顔検出の場合は，~20×20）.</param>
+        /// <param name="maxSize"></param>
         /// <returns>CvAvgCompを要素とするCvSeq</returns>
 #else
         /// <summary>
@@ -409,11 +410,12 @@ namespace OpenCvSharp
         /// <param name="minNeighbors">Minimum number (minus 1) of neighbor rectangles that makes up an object. All the groups of a smaller number of rectangles than min_neighbors-1 are rejected. If min_neighbors is 0, the function does not any grouping at all and returns all the detected candidate rectangles, which may be useful if the user wants to apply a customized grouping procedure. </param>
         /// <param name="flags">Mode of operation. Currently the only flag that may be specified is CV_HAAR_DO_CANNY_PRUNING. If it is set, the function uses Canny edge detector to reject some image regions that contain too few or too much edges and thus can not contain the searched object. The particular threshold values are tuned for face detection and in this case the pruning speeds up the processing. </param>
         /// <param name="minSize">Minimum window size. By default, it is set to the size of samples the classifier has been trained on (~20×20 for face detection). </param>
+        /// <param name="maxSize"></param>
         /// <returns></returns>
 #endif
-        public CvSeq HaarDetectObjects(CvArr image, CvMemStorage storage, double scaleFactor, int minNeighbors, HaarDetectionType flags, CvSize minSize)
+        public CvSeq HaarDetectObjects(CvArr image, CvMemStorage storage, double scaleFactor, int minNeighbors, HaarDetectionType flags, CvSize minSize, CvSize maxSize)
         {
-            return Cv.HaarDetectObjects(image, this, storage, scaleFactor, minNeighbors, flags, minSize);
+            return Cv.HaarDetectObjects(image, this, storage, scaleFactor, minNeighbors, flags, minSize, maxSize);
         }
         #endregion
         #region Run

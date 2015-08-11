@@ -24,7 +24,7 @@ namespace OpenCvSharp
 #endif
         public static CvSeq<CvAvgComp> HaarDetectObjects(CvArr image, CvHaarClassifierCascade cascade, CvMemStorage storage)
         {
-            return HaarDetectObjects(image, cascade, storage, 1.1, 3, HaarDetectionType.Zero, new CvSize(0, 0));
+            return HaarDetectObjects(image, cascade, storage, 1.1, 3, HaarDetectionType.Zero, new CvSize(0, 0), new CvSize(0, 0));
         }
 #if LANG_JP
         /// <summary>
@@ -47,7 +47,7 @@ namespace OpenCvSharp
 #endif
         public static CvSeq<CvAvgComp> HaarDetectObjects(CvArr image, CvHaarClassifierCascade cascade, CvMemStorage storage, double scaleFactor)
         {
-            return HaarDetectObjects(image, cascade, storage, scaleFactor, 3, HaarDetectionType.Zero, new CvSize(0, 0));
+            return HaarDetectObjects(image, cascade, storage, scaleFactor, 3, HaarDetectionType.Zero, new CvSize(0, 0), new CvSize(0, 0));
         }
 #if LANG_JP
         /// <summary>
@@ -72,7 +72,7 @@ namespace OpenCvSharp
 #endif
         public static CvSeq<CvAvgComp> HaarDetectObjects(CvArr image, CvHaarClassifierCascade cascade, CvMemStorage storage, double scaleFactor, int minNeighbors)
         {
-            return HaarDetectObjects(image, cascade, storage, scaleFactor, minNeighbors, HaarDetectionType.Zero, new CvSize(0, 0));
+            return HaarDetectObjects(image, cascade, storage, scaleFactor, minNeighbors, HaarDetectionType.Zero, new CvSize(0, 0), new CvSize(0, 0));
         }
 #if LANG_JP
         /// <summary>
