@@ -143,7 +143,6 @@ namespace OpenCvSharp.CPlusPlus
                 flow2.Fix();
         }
 
-
         /// <summary>
         /// 
         /// </summary>

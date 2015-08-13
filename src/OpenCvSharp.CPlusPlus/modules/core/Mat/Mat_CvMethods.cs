@@ -1167,7 +1167,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="normalize">Indicates, whether the kernel is normalized by its area or not</param>
         /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
         /// <returns>The destination image; will have the same size and the same type as src</returns>
-        public Mat BoxFilter(MatType ddepth, Size ksize, Point? anchor = null, 
+        public Mat BoxFilter(MatType ddepth, Size ksize, Point? anchor = null,
             bool normalize = true, BorderType borderType = BorderType.Default)
         {
             var dst = new Mat();
@@ -1182,7 +1182,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
         /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
         /// <returns>The destination image; will have the same size and the same type as src</returns>
-        public Mat Blur(Size ksize, Point? anchor = null, 
+        public Mat Blur(Size ksize, Point? anchor = null,
             BorderType borderType = BorderType.Default)
         {
             var dst = new Mat();
@@ -1203,7 +1203,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="delta">The optional value added to the filtered pixels before storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
         /// <returns>The destination image. It will have the same size and the same number of channels as src</returns>
-        public Mat Filter2D(MatType ddepth, InputArray kernel, Point? anchor = null, 
+        public Mat Filter2D(MatType ddepth, InputArray kernel, Point? anchor = null,
             double delta = 0, BorderType borderType = BorderType.Default)
         {
             var dst = new Mat();
@@ -1377,7 +1377,7 @@ namespace OpenCvSharp.CPlusPlus
             InputArray mask, int blockSize, bool useHarrisDetector, double k)
         {
             return Cv2.GoodFeaturesToTrack(this, maxCorners, qualityLevel,
-                    minDistance, mask, blockSize, useHarrisDetector, k);
+                minDistance, mask, blockSize, useHarrisDetector, k);
         }
 
 #if LANG_JP
@@ -1491,7 +1491,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>The destination image. It will have the same size and the same type as src</returns>
 #endif
-        public Mat Dilate(InputArray element, Point? anchor = null, int iterations = 1, 
+        public Mat Dilate(InputArray element, Point? anchor = null, int iterations = 1,
             BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1520,7 +1520,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>The destination image. It will have the same size and the same type as src</returns>
 #endif
-        public Mat Erode(InputArray element, CvPoint? anchor = null, int iterations = 1, 
+        public Mat Erode(InputArray element, CvPoint? anchor = null, int iterations = 1,
             BorderType borderType = BorderType.Constant, CvScalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1573,7 +1573,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="interpolation">interpolation method</param>
         /// <returns>output image; it has the size dsize (when it is non-zero) or the size computed 
         /// from src.size(), fx, and fy; the type of dst is the same as of src.</returns>
-        public Mat Resize(Size dsize, double fx = 0, double fy = 0, 
+        public Mat Resize(Size dsize, double fx = 0, double fy = 0,
             Interpolation interpolation = Interpolation.Linear)
         {
             var dst = new Mat();
@@ -1593,7 +1593,7 @@ namespace OpenCvSharp.CPlusPlus
         /// it means that the pixels in the destination image corresponding to the "outliers" 
         /// in the source image are not modified by the function.</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
-        public Mat WarpAffine(InputArray m, Size dsize, Interpolation flags = Interpolation.Linear, 
+        public Mat WarpAffine(InputArray m, Size dsize, Interpolation flags = Interpolation.Linear,
             BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1611,7 +1611,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
         /// <returns>output image that has the size dsize and the same type as src.</returns>
-        public Mat WarpPerspective(Mat m, Size dsize, Interpolation flags = Interpolation.Linear, 
+        public Mat WarpPerspective(Mat m, Size dsize, Interpolation flags = Interpolation.Linear,
             BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1630,7 +1630,7 @@ namespace OpenCvSharp.CPlusPlus
         /// the source image are not modified by the function.</param>
         /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
         /// <returns>Destination image. It has the same size as map1 and the same type as src</returns>
-        public Mat Remap(InputArray map1, InputArray map2, Interpolation interpolation = Interpolation.Linear, 
+        public Mat Remap(InputArray map1, InputArray map2, Interpolation interpolation = Interpolation.Linear,
             BorderType borderMode = BorderType.Constant, CvScalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1724,11 +1724,11 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="c">Constant subtracted from the mean or weighted mean (see the details below). 
         /// Normally, it is positive but may be zero or negative as well.</param>
         /// <returns>Destination image of the same size and the same type as src.</returns>
-        public Mat AdaptiveThreshold(double maxValue, AdaptiveThresholdType adaptiveMethod, 
+        public Mat AdaptiveThreshold(double maxValue, AdaptiveThresholdType adaptiveMethod,
             ThresholdType thresholdType, int blockSize, double c)
         {
             var dst = new Mat();
-            Cv2.AdaptiveThreshold(this, dst, maxValue, adaptiveMethod, 
+            Cv2.AdaptiveThreshold(this, dst, maxValue, adaptiveMethod,
                 thresholdType, blockSize, c);
             return dst;
         }
@@ -1959,7 +1959,7 @@ namespace OpenCvSharp.CPlusPlus
         /// 4 (default) or 8, used within the function. Connectivity determines which 
         /// neighbors of a pixel are considered. </param>
         /// <returns></returns>
-        public int FloodFill(InputOutputArray mask, Point seedPoint, Scalar newVal, 
+        public int FloodFill(InputOutputArray mask, Point seedPoint, Scalar newVal,
             out Rect rect, Scalar? loDiff = null, Scalar? upDiff = null,
             FloodFillFlag flags = FloodFillFlag.Link4)
         {
@@ -2047,7 +2047,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public void FindContours(out Point[][] contours, out HiearchyIndex[] hierarchy, 
+        public void FindContours(out Point[][] contours, out HiearchyIndex[] hierarchy,
             ContourRetrieval mode, ContourChain method, Point? offset = null)
         {
             Cv2.FindContours(this, out contours, out hierarchy, mode, method, offset);
@@ -2084,22 +2084,22 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public void FindContours(out Mat[] contours, OutputArray hierarchy, 
+        public void FindContours(out Mat[] contours, OutputArray hierarchy,
             ContourRetrieval mode, ContourChain method, Point? offset = null)
         {
             Cv2.FindContours(this, out contours, hierarchy, mode, method, offset);
         }
 
 #if LANG_JP
-        /// <summary>
-        /// 2値画像中の輪郭を検出します．
-        /// 入力画像は，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
-        /// また，この関数は，輪郭抽出処理中に入力画像の中身を書き換えます．
-        /// </summary>
-        /// <param name="mode">輪郭抽出モード</param>
-        /// <param name="method">輪郭の近似手法</param>
-        /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
-        /// <return>検出された輪郭．各輪郭は，点のベクトルとして格納されます．</return>
+    /// <summary>
+    /// 2値画像中の輪郭を検出します．
+    /// 入力画像は，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
+    /// また，この関数は，輪郭抽出処理中に入力画像の中身を書き換えます．
+    /// </summary>
+    /// <param name="mode">輪郭抽出モード</param>
+    /// <param name="method">輪郭の近似手法</param>
+    /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
+    /// <return>検出された輪郭．各輪郭は，点のベクトルとして格納されます．</return>
 #else
         /// <summary>
         /// Finds contours in a binary image.
@@ -2116,16 +2116,17 @@ namespace OpenCvSharp.CPlusPlus
         {
             return Cv2.FindContoursAsArray(this, mode, method, offset);
         }
+
 #if LANG_JP
-        /// <summary>
-        /// 2値画像中の輪郭を検出します．
-        /// 入力画像は，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
-        /// また，この関数は，輪郭抽出処理中に入力画像の中身を書き換えます．
-        /// </summary>
-        /// <param name="mode">輪郭抽出モード</param>
-        /// <param name="method">輪郭の近似手法</param>
-        /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
-        /// <return>検出された輪郭．各輪郭は，点のベクトルとして格納されます．</return>
+    /// <summary>
+    /// 2値画像中の輪郭を検出します．
+    /// 入力画像は，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
+    /// また，この関数は，輪郭抽出処理中に入力画像の中身を書き換えます．
+    /// </summary>
+    /// <param name="mode">輪郭抽出モード</param>
+    /// <param name="method">輪郭の近似手法</param>
+    /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
+    /// <return>検出された輪郭．各輪郭は，点のベクトルとして格納されます．</return>
 #else
         /// <summary>
         /// Finds contours in a binary image.
@@ -2185,7 +2186,7 @@ namespace OpenCvSharp.CPlusPlus
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
         {
-            Cv2.DrawContours(this, contours, contourIdx, color, 
+            Cv2.DrawContours(this, contours, contourIdx, color,
                 thickness, lineType, hierarchy, maxLevel, offset);
         }
 
@@ -2234,7 +2235,7 @@ namespace OpenCvSharp.CPlusPlus
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
         {
-            Cv2.DrawContours(image, contours, contourIdx, color, 
+            Cv2.DrawContours(image, contours, contourIdx, color,
                 thickness, lineType, hierarchy, maxLevel, offset);
         }
 
@@ -2488,6 +2489,18 @@ namespace OpenCvSharp.CPlusPlus
         public double PointPolygonTest(Point2f pt, bool measureDist)
         {
             return Cv2.PointPolygonTest(this, pt, measureDist);
+        }
+
+        /// <summary>
+        /// Computes the distance transform map
+        /// </summary>
+        /// <param name="distanceType"></param>
+        /// <param name="maskSize"></param>
+        public MatOfFloat DistanceTransform(DistanceType distanceType, DistanceMaskSize maskSize)
+        {
+            var dst = new MatOfFloat();
+            Cv2.DistanceTransform(this, dst, distanceType, maskSize);
+            return dst;
         }
 
         #endregion
