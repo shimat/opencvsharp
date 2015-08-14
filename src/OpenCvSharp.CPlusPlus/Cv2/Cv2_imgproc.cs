@@ -2251,7 +2251,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
         public static void FindContours(InputOutputArray image, out Point[][] contours,
-            out HiearchyIndex[] hierarchy, ContourRetrieval mode, ContourChain method, Point? offset = null)
+            out HierarchyIndex[] hierarchy, ContourRetrieval mode, ContourChain method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2266,7 +2266,7 @@ namespace OpenCvSharp
             {
                 contours = contoursVec.ToArray();
                 Vec4i[] hierarchyOrg = hierarchyVec.ToArray();
-                hierarchy = EnumerableEx.SelectToArray(hierarchyOrg, HiearchyIndex.FromVec4i);
+                hierarchy = EnumerableEx.SelectToArray(hierarchyOrg, HierarchyIndex.FromVec4i);
             }
             image.Fix();
         }
@@ -2447,7 +2447,7 @@ namespace OpenCvSharp
             Scalar color,
             int thickness = 1,
             LineType lineType = LineType.Link8,
-            IEnumerable<HiearchyIndex> hierarchy = null,
+            IEnumerable<HierarchyIndex> hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
         {

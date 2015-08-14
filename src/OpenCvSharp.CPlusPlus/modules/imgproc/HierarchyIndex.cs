@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// <summary>
     /// Information about the image topology for cv::findContours
     /// </summary>
-    public class HiearchyIndex
+    public class HierarchyIndex
     {
         /// <summary>
         /// 
@@ -28,7 +28,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public HiearchyIndex()
+        public HierarchyIndex()
         {
             Next = 0;
             Previous = 0;
@@ -43,7 +43,7 @@ namespace OpenCvSharp
         /// <param name="previous"></param>
         /// <param name="child"></param>
         /// <param name="parent"></param>
-        public HiearchyIndex(int next, int previous, int child, int parent)
+        public HierarchyIndex(int next, int previous, int child, int parent)
         {
             Next = next;
             Previous = previous;
@@ -56,9 +56,9 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
-        public static HiearchyIndex FromVec4i(Vec4i vec)
+        public static HierarchyIndex FromVec4i(Vec4i vec)
         {
-            return new HiearchyIndex
+            return new HierarchyIndex
             {
                 Next = vec.Item0,
                 Previous = vec.Item1,
