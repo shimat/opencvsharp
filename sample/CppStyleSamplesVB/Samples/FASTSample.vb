@@ -3,7 +3,6 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
-Imports OpenCvSharp.CPlusPlus
 Imports SampleBase
 
 ''' <summary>
@@ -12,7 +11,7 @@ Imports SampleBase
 Friend Module FASTSample
     Public Sub Start()
         Using imgSrc As New Mat(FilePath.Image.Lenna, LoadMode.Color), _
-            imgGray As New Mat(imgSrc.Size, MatrixType.U8C1), _
+            imgGray As New Mat(imgSrc.Size, MatType.CV_8UC1), _
             imgDst As Mat = imgSrc.Clone()
             Cv2.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray, 0)
 
@@ -20,7 +19,7 @@ Friend Module FASTSample
             Cv2.FAST(imgGray, keypoints, 50, True)
 
             For Each kp As KeyPoint In keypoints
-                imgDst.Circle(kp.Pt, 3, CvColor.Red, -1, LineType.AntiAlias, 0)
+                imgDst.Circle(kp.Pt, 3, Scalar.Red, -1, LineType.AntiAlias, 0)
             Next kp
 
             Cv2.ImShow("FAST", imgDst)

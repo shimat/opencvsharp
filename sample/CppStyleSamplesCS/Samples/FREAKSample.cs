@@ -1,5 +1,5 @@
 ﻿using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.XFeatures2D;
 using SampleBase;
 
 namespace CppStyleSamplesCS
@@ -15,13 +15,13 @@ namespace CppStyleSamplesCS
             var dst = new Mat(FilePath.Image.Lenna, LoadMode.Color);
 
             // ORB
-            var orb = new ORB(1000);
+            var orb = ORB.Create(1000);
             KeyPoint[] keypoints = orb.Detect(gray);
 
             // FREAK
-            FREAK freak = new FREAK();
+            FREAK freak = FREAK.Create();
             Mat freakDescriptors = new Mat();
-            freak.Compute(gray, ref keypoints, freakDescriptors);
+            freak.Compute(gray, out keypoints, freakDescriptors);
 
             if (keypoints != null)
             {
@@ -43,7 +43,7 @@ namespace CppStyleSamplesCS
 
             using (new Window("FREAK", dst))
             {
-                Cv.WaitKey();
+                Cv2.WaitKey();
             }
         }
     }

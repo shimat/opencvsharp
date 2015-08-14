@@ -1,5 +1,4 @@
 ﻿using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using SampleBase;
 
 namespace CppStyleSamplesCS
@@ -23,7 +22,7 @@ namespace CppStyleSamplesCS
                 using (new Window("MSER gray", gray))
                 using (new Window("MSER dst", dst))
                 {
-                    Cv.WaitKey();
+                    Cv2.WaitKey();
                 }
             }
         }
@@ -35,11 +34,13 @@ namespace CppStyleSamplesCS
         /// <param name="dst"></param>
         private void CppStyleMSER(Mat gray, Mat dst)
         {
-            MSER mser = new MSER();
-            Point[][] contours = mser.Run(gray, null);     // operator()
+            MSER mser = MSER.Create();
+            Point[][] contours;
+            Rect[] bboxes;
+            mser.DetectRegions(gray, out contours, out bboxes); 
             foreach (Point[] pts in contours)
             {
-                CvColor color = CvColor.Random();
+                Scalar color = Scalar.RandomColor();
                 foreach (Point p in pts)
                 {
                     dst.Circle(p, 1, color);

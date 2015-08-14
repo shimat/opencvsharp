@@ -223,10 +223,6 @@
       <Project>{383ae960-7f56-47a4-bff2-b2b81b6a49b5}</Project>
       <Name>OpenCvSharp.Blob</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.Contrib.csproj">
-      <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
-      <Name>OpenCvSharp.Contrib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

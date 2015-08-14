@@ -121,17 +121,13 @@
       <Project>{383ae960-7f56-47a4-bff2-b2b81b6a49b5}</Project>
       <Name>OpenCvSharp.Blob</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenCvSharp.CPlusPlus\OpenCvSharp.csproj">
+    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
       <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
       <Name>OpenCvSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj">
       <Project>{f1110c7b-46b1-4504-871e-135b57f9de67}</Project>
       <Name>OpenCvSharp.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.Contrib.csproj">
-      <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
-      <Name>OpenCvSharp.Contrib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

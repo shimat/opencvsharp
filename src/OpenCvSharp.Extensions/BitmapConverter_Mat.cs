@@ -6,6 +6,15 @@ using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Extensions
 {
+#if LANG_JP
+    /// <summary>
+    /// System.Drawing.BitmapとMatの相互変換メソッドを提供するクラス
+    /// </summary>
+#else
+    /// <summary>
+    /// static class which provides conversion between System.Drawing.Bitmap and Mat
+    /// </summary>
+#endif
     public static class BitmapConverter
     {
         #region ToMat

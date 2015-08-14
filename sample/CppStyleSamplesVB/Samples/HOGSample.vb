@@ -4,9 +4,7 @@ Imports System.Diagnostics
 Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
-Imports OpenCvSharp.CPlusPlus
 Imports SampleBase
-Imports CPP = OpenCvSharp.CPlusPlus
 'using GPU = OpenCvSharp.Gpu;
 
 ' Namespace OpenCvSharpSamplesVB
@@ -34,16 +32,21 @@ Friend Module HOGSample
         Console.WriteLine(Environment.NewLine & String.Format("Detection time = {0}ms", watch.ElapsedMilliseconds))
         Console.WriteLine(Environment.NewLine & String.Format("{0} region(s) found", found.Length))
 
-        For Each rect As CvRect In found
+        For Each rect As Rect In found
             ' the HOG detector returns slightly larger rectangles than the real objects.
             ' so we slightly shrink the rectangles to get a nicer output.
-            Dim r As CvRect = New CvRect With {.X = rect.X + CInt(Math.Truncate(Math.Round(rect.Width * 0.1))), .Y = rect.Y + CInt(Math.Truncate(Math.Round(rect.Height * 0.1))), .Width = CInt(Math.Truncate(Math.Round(rect.Width * 0.8))), .Height = CInt(Math.Truncate(Math.Round(rect.Height * 0.8)))}
-            img.Rectangle(r.TopLeft, r.BottomRight, CvColor.Red, 3, LineType.Link8, 0)
+            Dim r As Rect = New Rect With {
+                .X = rect.X + CInt(Math.Truncate(Math.Round(rect.Width * 0.1))),
+                .Y = rect.Y + CInt(Math.Truncate(Math.Round(rect.Height * 0.1))),
+                .Width = CInt(Math.Truncate(Math.Round(rect.Width * 0.8))),
+                .Height = CInt(Math.Truncate(Math.Round(rect.Height * 0.8)))
+            }
+            img.Rectangle(r.TopLeft, r.BottomRight, Scalar.Red, 3, LineType.Link8, 0)
         Next rect
 
-        Using window As New CvWindow("people detector", WindowMode.None, img.ToIplImage())
+        Using window As New Window("people detector", WindowMode.None, img)
             window.SetProperty(WindowProperty.Fullscreen, 1)
-            Cv.WaitKey(0)
+            Cv2.WaitKey(0)
         End Using
     End Sub
 End Module

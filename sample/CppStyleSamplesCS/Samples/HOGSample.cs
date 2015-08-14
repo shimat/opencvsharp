@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using SampleBase;
 
 namespace CppStyleSamplesCS
@@ -53,7 +52,7 @@ namespace CppStyleSamplesCS
             using (var window = new Window("people detector", WindowMode.None, img))
             {
                 window.SetProperty(WindowProperty.Fullscreen, 1);
-                Cv.WaitKey(0);
+                Cv2.WaitKey(0);
             }
         }
     }

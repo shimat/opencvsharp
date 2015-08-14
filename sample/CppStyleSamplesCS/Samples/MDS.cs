@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 
 namespace CppStyleSamplesCS
 {
@@ -98,9 +97,9 @@ namespace CppStyleSamplesCS
                     double y = at[1, c];
                     x = x * 0.7 + img.Width * 0.1;
                     y = y * 0.7 + img.Height * 0.1;
-                    img.Circle((int)x, (int)y, 5, CvColor.Red, -1);
+                    img.Circle((int)x, (int)y, 5, Scalar.Red, -1);
                     Point textPos = new Point(x + 5, y + 10);
-                    img.PutText(CityNames[c], textPos, FontFace.HersheySimplex, 0.5, CvColor.White);
+                    img.PutText(CityNames[c], textPos, FontFace.HersheySimplex, 0.5, Scalar.White);
                 }
                 window.Image = img;
                 Cv2.WaitKey();

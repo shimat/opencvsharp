@@ -4,7 +4,6 @@ Imports System.Linq
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports OpenCvSharp
-Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
 Imports SampleBase
@@ -34,8 +33,8 @@ Friend Module HoughLinesSample
                 Dim b As Double = Math.Sin(theta)
                 Dim x0 As Double = a * rho
                 Dim y0 As Double = b * rho
-                Dim pt1 As Point = New Point With {.X = Cv.Round(x0 + 1000 * (-b)), .Y = Cv.Round(y0 + 1000 * (a))}
-                Dim pt2 As Point = New Point With {.X = Cv.Round(x0 - 1000 * (-b)), .Y = Cv.Round(y0 - 1000 * (a))}
+                Dim pt1 As Point = New Point With {.X = Math.Round(x0 + 1000 * (-b)), .Y = Math.Round(y0 + 1000 * (a))}
+                Dim pt2 As Point = New Point With {.X = Math.Round(x0 - 1000 * (-b)), .Y = Math.Round(y0 - 1000 * (a))}
                 imgStd.Line(pt1, pt2, New Scalar(0, 0, 255), 3, LineType.AntiAlias, 0)
             Next i
 
@@ -47,9 +46,9 @@ Friend Module HoughLinesSample
 
 
             ' (5)検出結果表示用のウィンドウを確保し表示する
-            Using TempCvWindow As CvWindow = New CvWindow("Hough_line_standard", WindowMode.AutoSize, imgStd.ToIplImage()), _
-                 TempCvWindowProb As CvWindow = New CvWindow("Hough_line_probabilistic", WindowMode.AutoSize, imgProb.ToIplImage())
-                CvWindow.WaitKey(0)
+            Using TempCvWindow As Window = New Window("Hough_line_standard", WindowMode.AutoSize, imgStd), _
+                 TempCvWindowProb As Window = New Window("Hough_line_probabilistic", WindowMode.AutoSize, imgProb)
+                Window.WaitKey(0)
             End Using
         End Using
     End Sub

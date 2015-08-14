@@ -1,7 +1,6 @@
 ﻿using System;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
-using OpenCvSharp.CPlusPlus.Flann;
+using OpenCvSharp.Flann;
 
 namespace CppStyleSamplesCS
 {

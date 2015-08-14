@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.UserInterface", "OpenCvSharp.UserInterface\OpenCvSharp.UserInterface.csproj", "{DB12E2F1-1A50-4D12-A92F-4C3D705ECC1F}"
 EndProject
@@ -9,11 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Extensions", "O
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Blob", "OpenCvSharp.Blob\OpenCvSharp.Blob.csproj", "{383AE960-7F56-47A4-BFF2-B2B81B6A49B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp", "OpenCvSharp.CPlusPlus\OpenCvSharp.csproj", "{524CC7B4-75B9-4925-9DA4-3DACD40F4814}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp", "OpenCvSharp\OpenCvSharp.csproj", "{524CC7B4-75B9-4925-9DA4-3DACD40F4814}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.ReleaseMaker", "OpenCvSharp.ReleaseMaker\OpenCvSharp.ReleaseMaker.csproj", "{E2C8C528-B7C7-40AF-BB7F-1147A41E2E23}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Contrib", "OpenCvSharp\OpenCvSharp.Contrib.csproj", "{4C2356B8-1A1E-4F92-A51C-A49CA116867F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCvSharpExtern", "OpenCvSharpExtern\OpenCvSharpExtern.vcxproj", "{8E7279F8-F801-4672-B42F-1ED2C68B16A4}"
 EndProject
@@ -179,32 +177,6 @@ Global
 		{E2C8C528-B7C7-40AF-BB7F-1147A41E2E23}.Release-Static|Win32.ActiveCfg = Release|Any CPU
 		{E2C8C528-B7C7-40AF-BB7F-1147A41E2E23}.Release-Static|x64.ActiveCfg = Release|Any CPU
 		{E2C8C528-B7C7-40AF-BB7F-1147A41E2E23}.Release-Static|x86.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|x64.Build.0 = Debug|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Debug|x86.Build.0 = Debug|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|Win32.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|x64.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|x64.Build.0 = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|x86.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release|x86.Build.0 = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-JP|Any CPU.ActiveCfg = Release JP|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-JP|Any CPU.Build.0 = Release JP|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-JP|Win32.ActiveCfg = Release JP|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-JP|x64.ActiveCfg = Release JP|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-JP|x64.Build.0 = Release JP|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-JP|x86.ActiveCfg = Release JP|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-JP|x86.Build.0 = Release JP|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-Static|Any CPU.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-Static|Any CPU.Build.0 = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-Static|Win32.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-Static|x64.ActiveCfg = Release|Any CPU
-		{4C2356B8-1A1E-4F92-A51C-A49CA116867F}.Release-Static|x86.ActiveCfg = Release|Any CPU
 		{8E7279F8-F801-4672-B42F-1ED2C68B16A4}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{8E7279F8-F801-4672-B42F-1ED2C68B16A4}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8E7279F8-F801-4672-B42F-1ED2C68B16A4}.Debug|Win32.Build.0 = Debug|Win32

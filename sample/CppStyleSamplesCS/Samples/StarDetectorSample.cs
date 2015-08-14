@@ -1,5 +1,5 @@
 ﻿using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.XFeatures2D;
 using SampleBase;
 
 namespace CppStyleSamplesCS
@@ -14,8 +14,8 @@ namespace CppStyleSamplesCS
             var dst = new Mat(FilePath.Image.Lenna, LoadMode.Color);
             var gray = new Mat(FilePath.Image.Lenna, LoadMode.GrayScale);
 
-            StarDetector detector = new StarDetector(45);
-            KeyPoint[] keypoints = detector.Run(gray);
+            StarDetector detector = StarDetector.Create(45);
+            KeyPoint[] keypoints = detector.Detect(gray);
 
             if (keypoints != null)
             {
@@ -37,7 +37,7 @@ namespace CppStyleSamplesCS
 
             using (new Window("StarDetector features", dst))
             {
-                Cv.WaitKey();
+                Cv2.WaitKey();
             }
         }
     }

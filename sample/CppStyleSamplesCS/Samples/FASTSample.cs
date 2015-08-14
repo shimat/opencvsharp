@@ -1,5 +1,4 @@
 ﻿using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using SampleBase;
 
 namespace CppStyleSamplesCS
@@ -22,7 +21,7 @@ namespace CppStyleSamplesCS
 
                 foreach (KeyPoint kp in keypoints)
                 {
-                    imgDst.Circle(kp.Pt, 3, CvColor.Red, -1, LineType.AntiAlias, 0);
+                    imgDst.Circle(kp.Pt, 3, Scalar.Red, -1, LineType.AntiAlias, 0);
                 }
 
                 Cv2.ImShow("FAST", imgDst);

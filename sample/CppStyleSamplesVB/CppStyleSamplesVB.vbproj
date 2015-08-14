@@ -105,26 +105,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenCvSharp">
-      <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140906\lib\net40\OpenCvSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OpenCvSharp.Blob">
-      <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140906\lib\net40\OpenCvSharp.Blob.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OpenCvSharp.CPlusPlus">
-      <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140906\lib\net40\OpenCvSharp.CPlusPlus.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OpenCvSharp.Extensions">
-      <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140906\lib\net40\OpenCvSharp.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OpenCvSharp.UserInterface">
-      <HintPath>..\packages\OpenCvSharp-WithoutDll.2.4.9.20140906\lib\net40\OpenCvSharp.UserInterface.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -188,7 +168,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -214,6 +193,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj">
+      <Project>{f1110c7b-46b1-4504-871e-135b57f9de67}</Project>
+      <Name>OpenCvSharp.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj">
+      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
+      <Name>OpenCvSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SampleBase\SampleBase.csproj">
       <Project>{2d245c04-0f27-458a-a185-16242a3f918c}</Project>
       <Name>SampleBase</Name>

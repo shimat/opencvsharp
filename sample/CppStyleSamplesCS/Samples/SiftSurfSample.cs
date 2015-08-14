@@ -1,5 +1,5 @@
 ﻿using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
+using OpenCvSharp.XFeatures2D;
 using SampleBase;
 
 namespace CppStyleSamplesCS
@@ -27,14 +27,14 @@ namespace CppStyleSamplesCS
             Cv2.CvtColor(src1, gray1, ColorConversion.BgrToGray);
             Cv2.CvtColor(src2, gray2, ColorConversion.BgrToGray);
 
-            var sift = new SIFT();
+            var sift = SIFT.Create();
 
             // Detect the keypoints and generate their descriptors using SIFT
             KeyPoint[] keypoints1, keypoints2;
             var descriptors1 = new MatOfFloat();
             var descriptors2 = new MatOfFloat();
-            sift.Run(gray1, null, out keypoints1, descriptors1);
-            sift.Run(gray2, null, out keypoints2, descriptors2);
+            sift.Compute(gray1, null, out keypoints1, descriptors1);
+            sift.Compute(gray2, null, out keypoints2, descriptors2);
 
             // Match descriptor vectors
             var bfMatcher = new BFMatcher(NormType.L2, false);
@@ -63,14 +63,14 @@ namespace CppStyleSamplesCS
             Cv2.CvtColor(src1, gray1, ColorConversion.BgrToGray);
             Cv2.CvtColor(src2, gray2, ColorConversion.BgrToGray);
 
-            var surf = new SURF(500, 4, 2, true);
+            var surf = SURF.Create(500, 4, 2, true);
 
             // Detect the keypoints and generate their descriptors using SURF
             KeyPoint[] keypoints1, keypoints2;
             var descriptors1 = new MatOfFloat();
             var descriptors2 = new MatOfFloat();
-            surf.Run(gray1, null, out keypoints1, descriptors1);
-            surf.Run(gray2, null, out keypoints2, descriptors2);
+            surf.Compute(gray1, null, out keypoints1, descriptors1);
+            surf.Compute(gray2, null, out keypoints2, descriptors2);
 
             // Match descriptor vectors 
             var bfMatcher = new BFMatcher(NormType.L2, false);
