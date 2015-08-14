@@ -2047,7 +2047,7 @@ namespace OpenCvSharp
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public void FindContours(out Point[][] contours, out HiearchyIndex[] hierarchy, 
+        public void FindContours(out Point[][] contours, out HierarchyIndex[] hierarchy, 
             ContourRetrieval mode, ContourChain method, Point? offset = null)
         {
             Cv2.FindContours(this, out contours, out hierarchy, mode, method, offset);
@@ -2181,7 +2181,7 @@ namespace OpenCvSharp
             Scalar color,
             int thickness = 1,
             LineType lineType = LineType.Link8,
-            IEnumerable<HiearchyIndex> hierarchy = null,
+            IEnumerable<HierarchyIndex> hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
         {
@@ -2488,6 +2488,18 @@ namespace OpenCvSharp
         public double PointPolygonTest(Point2f pt, bool measureDist)
         {
             return Cv2.PointPolygonTest(this, pt, measureDist);
+        }
+
+        /// <summary>
+        /// Computes the distance transform map
+        /// </summary>
+        /// <param name="distanceType"></param>
+        /// <param name="maskSize"></param>
+        public MatOfFloat DistanceTransform(DistanceType distanceType, DistanceMaskSize maskSize)
+        {
+            var dst = new MatOfFloat();
+            Cv2.DistanceTransform(this, dst, distanceType, maskSize);
+            return dst;
         }
 
         #endregion
