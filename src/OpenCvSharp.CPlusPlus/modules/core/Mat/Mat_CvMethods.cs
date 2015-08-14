@@ -2045,7 +2045,7 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public void FindContours(out Point[][] contours, out HiearchyIndex[] hierarchy, 
+        public void FindContours(out Point[][] contours, out HierarchyIndex[] hierarchy, 
             ContourRetrieval mode, ContourChain method, Point? offset = null)
         {
             Cv2.FindContours(this, out contours, out hierarchy, mode, method, offset);
@@ -2179,7 +2179,7 @@ namespace OpenCvSharp.CPlusPlus
             Scalar color,
             int thickness = 1,
             LineType lineType = LineType.Link8,
-            IEnumerable<HiearchyIndex> hierarchy = null,
+            IEnumerable<HierarchyIndex> hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
         {
