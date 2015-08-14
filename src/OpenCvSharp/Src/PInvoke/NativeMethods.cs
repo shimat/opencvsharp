@@ -1554,8 +1554,15 @@ namespace OpenCvSharp
         #endregion
         #region Objdetect
         [DllImport(DllObjdetect, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr cvHaarDetectObjects(IntPtr image, IntPtr cascade, IntPtr storage, double scale_factor, int min_neighbors,
-            [MarshalAs(UnmanagedType.U4)] HaarDetectionType flags, CvSize min_size);
+        public static extern IntPtr cvHaarDetectObjects(
+            IntPtr image,
+            IntPtr cascade,
+            IntPtr storage, 
+            double scale_factor, 
+            int min_neighbors,
+            [MarshalAs(UnmanagedType.U4)] HaarDetectionType flags,
+            CvSize min_size,
+            CvSize max_size);
         [DllImport(DllObjdetect, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr cvLoadHaarClassifierCascade([MarshalAs(UnmanagedType.LPStr)] string directory, CvSize orig_window_size);
         [DllImport(DllObjdetect, CallingConvention = CallingConvention.Cdecl)]

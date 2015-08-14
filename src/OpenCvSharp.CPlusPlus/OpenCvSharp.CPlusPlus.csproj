@@ -55,6 +55,7 @@
     <DocumentationFile>bin\Release\OpenCvSharp.CPlusPlus.XML</DocumentationFile>
     <NoWarn>
     </NoWarn>
+    <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release JP|AnyCPU' ">
     <OutputPath>bin\Release JP\</OutputPath>

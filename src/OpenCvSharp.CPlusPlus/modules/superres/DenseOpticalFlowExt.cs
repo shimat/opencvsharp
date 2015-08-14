@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace OpenCvSharp.CPlusPlus
@@ -30,6 +29,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -39,6 +39,7 @@ namespace OpenCvSharp.CPlusPlus
             IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_GPU();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -65,25 +66,27 @@ namespace OpenCvSharp.CPlusPlus
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_GPU()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1_GPU();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_OCL()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1_OCL();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
 
@@ -133,6 +136,6 @@ namespace OpenCvSharp.CPlusPlus
         /// <param name="frame1"></param>
         /// <param name="flow1"></param>
         /// <param name="flow2"></param>
-        protected abstract void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null);
+        public abstract void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null);
     }
 }
