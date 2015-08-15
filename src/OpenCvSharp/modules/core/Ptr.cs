@@ -62,6 +62,7 @@ namespace OpenCvSharp
                     { typeof(SVM), NativeMethods.ml_Ptr_SVM_delete },
                     { typeof(EM), NativeMethods.ml_Ptr_EM_delete },
                     { typeof(NormalBayesClassifier), NativeMethods.ml_Ptr_NormalBayesClassifier_delete },
+                    { typeof(KNearest), NativeMethods.ml_Ptr_KNearest_delete },
                 };
             definedGetFunctions = new Dictionary<Type, ObjFunc>
                 {
@@ -98,6 +99,7 @@ namespace OpenCvSharp
                     { typeof(SVM), NativeMethods.ml_Ptr_SVM_get },
                     { typeof(EM), NativeMethods.ml_Ptr_EM_get },
                     { typeof(NormalBayesClassifier), NativeMethods.ml_Ptr_NormalBayesClassifier_get },
+                    { typeof(KNearest), NativeMethods.ml_Ptr_KNearest_get },
                 };
         }
 
