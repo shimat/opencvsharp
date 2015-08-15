@@ -168,16 +168,10 @@
     <ClInclude Include="ml_RTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="ml_KNearest.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
     <ClInclude Include="ml_DTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_CvDTree.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="ml_CvKNearest.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_CvBoost.h">
@@ -217,6 +211,9 @@
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_NormalBayesClassifier.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_KNearest.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
   </ItemGroup>
