@@ -1,5 +1,4 @@
 ﻿using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using SampleBase;
 
 namespace CppStyleSamplesCS
@@ -13,7 +12,7 @@ namespace CppStyleSamplesCS
         public void Run()
         {
             using (var capture = new VideoCapture(FilePath.Movie.Bach))
-            using (var mog = new BackgroundSubtractorMOG())
+            using (var mog = BackgroundSubtractorMOG.Create())
             using (var windowSrc = new Window("src"))
             using (var windowDst = new Window("dst"))
             {

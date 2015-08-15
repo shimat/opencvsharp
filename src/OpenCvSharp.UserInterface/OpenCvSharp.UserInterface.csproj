@@ -92,7 +92,7 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenCvSharp.CPlusPlus\OpenCvSharp.csproj">
+    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
       <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
       <Name>OpenCvSharp</Name>
     </ProjectReference>

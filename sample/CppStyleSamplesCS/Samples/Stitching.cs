@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 
 namespace CppStyleSamplesCS
 {
@@ -34,7 +33,7 @@ namespace CppStyleSamplesCS
 
             using (new Window(result))
             {
-                Cv.WaitKey();
+                Cv2.WaitKey();
             }
 
             return mats.ToArray();

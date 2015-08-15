@@ -1,6 +1,5 @@
 ﻿Imports System
 Imports OpenCvSharp
-Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
 Imports SampleBase
@@ -10,16 +9,15 @@ Imports SampleBase
 ''' </summary>
 Friend Module StarDetectorSample
     Public Sub Start()
-        Using img As New IplImage(FilePath.Image.Lenna, LoadMode.GrayScale), _
-        cimg As New IplImage(img.Size, BitDepth.U8, 3)
-            Cv.CvtColor(img, cimg, ColorConversion.GrayToBgr)
+        Using src As New Mat(FilePath.Image.Lenna, LoadMode.GrayScale),
+              dst As New Mat()
+            Cv2.CvtColor(src, dst, ColorConversion.GrayToBgr)
 
-            CppStyleStarDetector(img, cimg) ' C++-style
+            CppStyleStarDetector(src, dst) ' C++-style
 
-            Using New CvWindow("img", img)
-                Using New CvWindow("features", cimg)
-                    Cv.WaitKey()
-                End Using
+            Using w1 As New Window("img", src),
+                  w2 As New Window("features", dst)
+                Cv2.WaitKey()
             End Using
         End Using
     End Sub
@@ -27,13 +25,13 @@ Friend Module StarDetectorSample
     ''' <summary>
     ''' Extracts keypoints by C++-style code (cv::StarDetector)
     ''' </summary>
-    ''' <param name="img"></param>
-    ''' <param name="cimg"></param>
-    Private Sub CppStyleStarDetector(ByVal img As IplImage, ByVal cimg As IplImage)
-        Dim src As New Mat(img, False)
-        Dim dst As New Mat(cimg, False)
-        Dim detector As New StarDetector(45)
-        Dim keypoints() As KeyPoint = detector.Run(src)
+    ''' <param name="src"></param>
+    ''' <param name="dst"></param>
+    Private Sub CppStyleStarDetector(ByVal src As Mat, ByVal dst As Mat)
+        Dim detector As OpenCvSharp.XFeatures2D.StarDetector = OpenCvSharp.XFeatures2D.StarDetector.Create()
+        Dim keypoints() As KeyPoint
+        Dim descriptors As Mat
+        detector.Compute(src, keypoints, descriptors)
 
         If keypoints IsNot Nothing Then
             For Each kpt As KeyPoint In keypoints

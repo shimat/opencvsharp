@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using SampleBase;
 
 namespace CppStyleSamplesCS

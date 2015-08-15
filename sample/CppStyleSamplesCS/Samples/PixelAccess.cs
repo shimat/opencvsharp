@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using SampleBase;
 
 namespace CppStyleSamplesCS

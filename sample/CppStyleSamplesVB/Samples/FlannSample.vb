@@ -3,7 +3,6 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Text
 Imports OpenCvSharp
-Imports OpenCvSharp.CPlusPlus
 
 ' Namespace OpenCvSharpSamplesVB
 ''' <summary>

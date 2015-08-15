@@ -1,5 +1,4 @@
 ﻿using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using SampleBase;
 
 namespace CppStyleSamplesCS
@@ -14,7 +13,7 @@ namespace CppStyleSamplesCS
             var gray = new Mat(FilePath.Image.Lenna, LoadMode.GrayScale);
             var dst = new Mat(FilePath.Image.Lenna, LoadMode.Color);
 
-            BRISK brisk = new BRISK();
+            BRISK brisk = BRISK.Create();
             KeyPoint[] keypoints = brisk.Detect(gray);
 
             if (keypoints != null)
@@ -37,7 +36,7 @@ namespace CppStyleSamplesCS
 
             using (new Window("BRISK features", dst))
             {
-                Cv.WaitKey();
+                Cv2.WaitKey();
             }
         }
     }

@@ -1,12 +1,11 @@
 ﻿using System;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using SampleBase;
 
 namespace CppStyleSamplesCS
 {
     /// <summary>
-    /// ハフ変換による直線検出
+    /// Hough Transform Sample / ハフ変換による直線検出
     /// </summary>
     /// <remarks>http://opencv.jp/sample/special_transforms.html#hough_line</remarks>
     class HoughLinesSample : ISample
@@ -41,8 +40,8 @@ namespace CppStyleSamplesCS
                     double b = Math.Sin(theta);
                     double x0 = a * rho;
                     double y0 = b * rho;
-                    Point pt1 = new Point { X = Cv.Round(x0 + 1000 * (-b)), Y = Cv.Round(y0 + 1000 * (a)) };
-                    Point pt2 = new Point { X = Cv.Round(x0 - 1000 * (-b)), Y = Cv.Round(y0 - 1000 * (a)) };
+                    Point pt1 = new Point { X = (int)Math.Round(x0 + 1000 * (-b)), Y = (int)Math.Round(y0 + 1000 * (a)) };
+                    Point pt2 = new Point { X = (int)Math.Round(x0 - 1000 * (-b)), Y = (int)Math.Round(y0 - 1000 * (a)) };
                     imgStd.Line(pt1, pt2, Scalar.Red, 3, LineType.AntiAlias, 0);
                 }
 
@@ -50,14 +49,14 @@ namespace CppStyleSamplesCS
                 CvLineSegmentPoint[] segProb = Cv2.HoughLinesP(imgGray, 1, Math.PI / 180, 50, 50, 10);
                 foreach (CvLineSegmentPoint s in segProb)
                 {
-                    imgProb.Line(s.P1, s.P2, CvColor.Red, 3, LineType.AntiAlias, 0);
+                    imgProb.Line(s.P1, s.P2, Scalar.Red, 3, LineType.AntiAlias, 0);
                 }
 
                 // (5) Show results
                 using (new Window("Hough_line_standard", WindowMode.AutoSize, imgStd))
                 using (new Window("Hough_line_probabilistic", WindowMode.AutoSize, imgProb))
                 {
-                    CvWindow.WaitKey(0);
+                    Window.WaitKey(0);
                 }
             }
         }

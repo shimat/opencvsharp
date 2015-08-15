@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Drawing;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 using System.Windows.Forms;
 using OpenCvSharp.Extensions;
 using SampleBase;

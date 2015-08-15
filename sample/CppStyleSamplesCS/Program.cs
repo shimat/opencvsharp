@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 
 namespace CppStyleSamplesCS
 {
@@ -18,7 +17,6 @@ namespace CppStyleSamplesCS
                 //new VideoWriterSample();
                 //new VideoCaptureSample();
                 //new MatToBitmap();
-                //new MatToIplImage();
                 //new SiftSurfSample();
                 //new HistSample();
                 //new Subdiv2DSample();
@@ -38,8 +36,6 @@ namespace CppStyleSamplesCS
                 //new MatOperations();
                 //new FaceDetection();
                 //new SuperResolutionSample();
-                //new DTree();
-                //new LetterRecog();
                 //new SVM();
                 //new StarDetectorSample();
                 //new BRISKSample();

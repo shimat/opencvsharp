@@ -1,6 +1,5 @@
 ﻿using System;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 
 namespace CppStyleSamplesCS
 {
@@ -10,6 +9,8 @@ namespace CppStyleSamplesCS
     /// <remarks>http://opencv.jp/sample/svm.html#svm</remarks>
     internal class SVM : ISample
     {
+        // TODO
+
         private static double f(double x)
         {
             return x + 50 * Math.Sin(x / 15.0);
@@ -18,14 +19,14 @@ namespace CppStyleSamplesCS
         public void Run()
         {
             // Training data          
-            var points = new CvPoint2D32f[500];
+            var points = new Point2f[500];
             var responses = new int[points.Length];
             var rand = new Random();
             for (int i = 0; i < responses.Length; i++)
             {
-                double x = rand.Next(0, 300);
-                double y = rand.Next(0, 300);
-                points[i] = new CvPoint2D32f(x, y);
+                float x = rand.Next(0, 300);
+                float y = rand.Next(0, 300);
+                points[i] = new Point2f(x, y);
                 responses[i] = (y > f(x)) ? 1 : 2;
             }
 
@@ -53,7 +54,7 @@ namespace CppStyleSamplesCS
             // Train
             var dataMat = new Mat(points.Length, 2, MatType.CV_32FC1, points);
             var resMat = new Mat(responses.Length, 1, MatType.CV_32SC1, responses);
-            using (var svm = new CvSVM())
+            using (var svm = new OpenCvSharp.ML.SVM())
             {
                 // normalize data
                 dataMat /= 300.0;
@@ -80,9 +81,9 @@ namespace CppStyleSamplesCS
                         for (int y = 0; y < 300; y++)
                         {
                             float[] sample = {x / 300f, y / 300f};
-                            var sampleMat = new CvMat(1, 2, MatrixType.F32C1, sample);
+                            var sampleMat = new Mat(1, 2, MatType.CV_32FC1, sample);
                             int ret = (int)svm.Predict(sampleMat);
-                            var plotRect = new CvRect(x, 300 - y, 1, 1);
+                            var plotRect = new Rect(x, 300 - y, 1, 1);
                             if (ret == 1)
                                 retPlot.Rectangle(plotRect, Scalar.Red);
                             else if (ret == 2)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
 
 namespace CppStyleSamplesCS
 {
@@ -23,7 +22,7 @@ namespace CppStyleSamplesCS
             Mat img = Mat.Zeros(Size, Size, MatType.CV_8UC3);
             foreach (var p in points)
             {
-                img.Circle(p, 4, CvColor.Red, -1);
+                img.Circle(p, 4, Scalar.Red, -1);
             }
 
             // Initializes Subdiv2D
@@ -42,7 +41,7 @@ namespace CppStyleSamplesCS
                 var before = list.Last();
                 foreach (var p in list)
                 {
-                    vonoroi.Line(before, p, new CvColor(64, 255, 128), 1);
+                    vonoroi.Line(before, p, new Scalar(64, 255, 128), 1);
                     before = p;
                 }
             }
@@ -54,7 +53,7 @@ namespace CppStyleSamplesCS
             {
                 var p1 = new Point(edge.Item0, edge.Item1);
                 var p2 = new Point(edge.Item2, edge.Item3);
-                delaunay.Line(p1, p2, new CvColor(64, 255, 128), 1);
+                delaunay.Line(p1, p2, new Scalar(64, 255, 128), 1);
             }
 
             Cv2.ImShow("voronoi", vonoroi);

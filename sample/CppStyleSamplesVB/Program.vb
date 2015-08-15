@@ -6,7 +6,6 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 
 Imports OpenCvSharp
-Imports OpenCvSharp.CPlusPlus
 
 Friend NotInheritable Class Program
 
