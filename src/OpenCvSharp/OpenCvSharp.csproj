@@ -107,6 +107,8 @@
     <Compile Include="Delegate\CvWriteFunc.cs" />
     <Compile Include="DisposableCvObject.cs" />
     <Compile Include="DisposableObject.cs" />
+    <Compile Include="Modules\ml\ParamGrid.cs" />
+    <Compile Include="Modules\ml\TrainData.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
     <Compile Include="Enum\AdaptiveThresholdType.cs" />
     <Compile Include="Enum\AngleUnit.cs" />

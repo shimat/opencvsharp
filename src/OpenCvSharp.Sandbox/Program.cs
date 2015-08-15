@@ -25,6 +25,9 @@ namespace OpenCvSharp.Sandbox
             Mat zoom = new Mat();
             Mat f32 = new Mat();
 
+            Mat hoge = new Mat(-1, -1, MatType.CV_8UC1);
+            hoge.ToString();
+
             Cv2.Resize(src, zoom, new Size(960, 1280), 0, 0, Interpolation.Cubic);
             zoom.ConvertTo(f32, MatType.CV_32FC1);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenCvSharp.Face;
+using OpenCvSharp.ML;
 using OpenCvSharp.XFeatures2D;
 
 namespace OpenCvSharp
@@ -58,6 +59,7 @@ namespace OpenCvSharp
                     { typeof(CLAHE), NativeMethods.imgproc_Ptr_CLAHE_delete },
                     { typeof(StereoBM), NativeMethods.calib3d_Ptr_StereoBM_delete },
                     { typeof(StereoSGBM), NativeMethods.calib3d_Ptr_StereoSGBM_delete },
+                    { typeof(SVM), NativeMethods.ml_Ptr_SVM_delete },
                     //{ typeof(EM), NativeMethods.ml_Ptr_EM_delete },
                 };
             definedGetFunctions = new Dictionary<Type, ObjFunc>
@@ -92,6 +94,7 @@ namespace OpenCvSharp
                     { typeof(CLAHE), NativeMethods.imgproc_Ptr_CLAHE_get },
                     //{ typeof(StereoBM), NativeMethods.calib3d_Ptr_StereoBM_get },
                     //{ typeof(StereoSGBM), NativeMethods.calib3d_Ptr_StereoSGBM_get },
+                    { typeof(SVM), NativeMethods.ml_Ptr_SVM_get },
                     //{ typeof(EM), NativeMethods.ml_Ptr_EM_get },
                 };
         }
