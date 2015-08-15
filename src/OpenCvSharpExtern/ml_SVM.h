@@ -112,7 +112,7 @@ CVAPI(ParamGridStruct) ml_SVM_getDefaultGrid(int param_id)
 	return c(cv::ml::SVM::getDefaultGrid(param_id));
 }
 
-CVAPI(cv::Ptr<SVM>*) ml_SVM_create()
+CVAPI(cv::Ptr<cv::ml::SVM>*) ml_SVM_create()
 {
 	cv::Ptr<cv::ml::SVM> ptr = cv::ml::SVM::create();
 	return new cv::Ptr<cv::ml::SVM>(ptr);

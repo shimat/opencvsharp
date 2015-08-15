@@ -6,6 +6,6 @@
 //#include "ml_DTrees.h"
 #include "ml_EM.h"
 //#include "ml_KNearest.h"
-//#include "ml_NormalBayesClassifier.h"
+#include "ml_NormalBayesClassifier.h"
 //#include "ml_RTrees.h"
 #include "ml_SVM.h"

@@ -39,7 +39,7 @@ namespace OpenCvSharp
         public static extern void ml_EM_read(IntPtr model, IntPtr fn);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ml_Ptr_EM_obj(IntPtr ptr);
+        public static extern IntPtr ml_Ptr_EM_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ml_Ptr_EM_delete(IntPtr ptr);
 
