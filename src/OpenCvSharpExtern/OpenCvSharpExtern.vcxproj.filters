@@ -165,9 +165,6 @@
     <ClInclude Include="ml_Boost.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="ml_SVM.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
     <ClInclude Include="ml_RTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
@@ -221,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="bgsegm.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_SVM.h">
+      <Filter>Header Files\ml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

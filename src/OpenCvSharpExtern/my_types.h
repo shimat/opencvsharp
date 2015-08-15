@@ -7,8 +7,11 @@
 #ifndef _MY_TYPES_H_
 #define _MY_TYPES_H_
 
-typedef unsigned int uint32;
+typedef unsigned char uchar;
 typedef unsigned short uint16;
+typedef unsigned short ushort;
+typedef unsigned int uint32;
+
 namespace cv
 {
     typedef cv::Vec<uchar, 6> Vec6b;

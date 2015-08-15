@@ -54,6 +54,8 @@ namespace OpenCvSharp.XFeatures2D
             int lineThresholdBinarized = 8,
             int suppressNonmaxSize = 5)
         {
+            throw new NotImplementedException("not implemented xfeatures2d");
+
             IntPtr ptr = NativeMethods.xfeatures2d_StarDetector_create(
                 maxSize, responseThreshold, lineThresholdProjected, 
                 lineThresholdBinarized, suppressNonmaxSize);

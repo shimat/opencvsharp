@@ -373,6 +373,7 @@
     <ClInclude Include="ml_CvNormalBayesClassifier.h" />
     <ClInclude Include="ml_RTrees.h" />
     <ClInclude Include="ml_StatModel.h" />
+    <ClInclude Include="ml_SVM.h" />
     <ClInclude Include="optflow.h" />
     <ClInclude Include="optflow_motempl.h" />
     <ClInclude Include="my_functions.h" />
@@ -386,7 +387,6 @@
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="ml_KNearest.h" />
     <ClInclude Include="ml_NormalBayesClassifier.h" />
-    <ClInclude Include="ml_SVM.h" />
     <ClInclude Include="video_tracking.h" />
     <ClInclude Include="photo.h" />
     <ClInclude Include="std_vector.h" />

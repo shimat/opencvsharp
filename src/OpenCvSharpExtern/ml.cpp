@@ -8,4 +8,4 @@
 //#include "ml_KNearest.h"
 //#include "ml_NormalBayesClassifier.h"
 //#include "ml_RTrees.h"
-//#include "ml_SVM.h"
+#include "ml_SVM.h"
