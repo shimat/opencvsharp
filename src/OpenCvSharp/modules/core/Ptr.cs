@@ -60,7 +60,8 @@ namespace OpenCvSharp
                     { typeof(StereoBM), NativeMethods.calib3d_Ptr_StereoBM_delete },
                     { typeof(StereoSGBM), NativeMethods.calib3d_Ptr_StereoSGBM_delete },
                     { typeof(SVM), NativeMethods.ml_Ptr_SVM_delete },
-                    //{ typeof(EM), NativeMethods.ml_Ptr_EM_delete },
+                    { typeof(EM), NativeMethods.ml_Ptr_EM_delete },
+                    { typeof(NormalBayesClassifier), NativeMethods.ml_Ptr_NormalBayesClassifier_delete },
                 };
             definedGetFunctions = new Dictionary<Type, ObjFunc>
                 {
@@ -95,7 +96,8 @@ namespace OpenCvSharp
                     //{ typeof(StereoBM), NativeMethods.calib3d_Ptr_StereoBM_get },
                     //{ typeof(StereoSGBM), NativeMethods.calib3d_Ptr_StereoSGBM_get },
                     { typeof(SVM), NativeMethods.ml_Ptr_SVM_get },
-                    //{ typeof(EM), NativeMethods.ml_Ptr_EM_get },
+                    { typeof(EM), NativeMethods.ml_Ptr_EM_get },
+                    { typeof(NormalBayesClassifier), NativeMethods.ml_Ptr_NormalBayesClassifier_get },
                 };
         }
 

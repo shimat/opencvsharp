@@ -25,7 +25,7 @@ namespace OpenCvSharp.ML
         #region Init and Disposal
 
         /// <summary>
-        /// Creates instance by raw pointer cv::SVM*
+        /// Creates instance by raw pointer cv::ml::SVM*
         /// </summary>
         protected SVM(IntPtr p)
         {
@@ -283,6 +283,10 @@ namespace OpenCvSharp.ML
 	    {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
+            if (alpha == null)
+                throw new ArgumentNullException("alpha");
+            if (svidx == null)
+                throw new ArgumentNullException("svidx");
 
             alpha.ThrowIfNotReady();
             svidx.ThrowIfNotReady();

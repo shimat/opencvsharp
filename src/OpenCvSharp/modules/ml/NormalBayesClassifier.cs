@@ -17,21 +17,29 @@ namespace OpenCvSharp.ML
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
+        private Ptr<NormalBayesClassifier> ptrObj;
 
         #region Init and Disposal
-#if LANG_JP
+
         /// <summary>
-        /// 既定の初期化
+        /// Creates instance by raw pointer cv::ml::NormalBayesClassifier*
         /// </summary>
-#else
-		/// <summary>
-        /// Default constructor
-        /// </summary>
-#endif
-        public NormalBayesClassifier()
+        protected NormalBayesClassifier(IntPtr p)
         {
-            
+            ptrObj = new Ptr<NormalBayesClassifier>(p);
+            ptr = ptrObj.Get();
         }
+
+        /// <summary>
+        /// Creates empty model. 
+        /// Use StatModel::train to train the model after creation.
+        /// </summary>
+        /// <returns></returns>
+        public static NormalBayesClassifier Create()
+	    {
+            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_create();
+            return new NormalBayesClassifier(ptr);
+	    }
 
 #if LANG_JP
         /// <summary>
@@ -58,9 +66,11 @@ namespace OpenCvSharp.ML
                 {
                     if (disposing)
                     {
-                    }
-                    if (IsEnabledDispose)
-                    {
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
                     disposed = true;
                 }
@@ -76,6 +86,45 @@ namespace OpenCvSharp.ML
         #endregion
 
         #region Methods
-        #endregion
+
+        /// <summary>
+        /// Predicts the response for sample(s).
+        /// </summary>
+        /// <param name="inputs"></param>
+        /// <param name="outputs"></param>
+        /// <param name="outputProbs"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// The method estimates the most probable classes for input vectors. Input vectors (one or more)
+        /// are stored as rows of the matrix inputs. In case of multiple input vectors, there should be one 
+        /// output vector outputs. The predicted class for a single input vector is returned by the method. 
+        /// The vector outputProbs contains the output probabilities corresponding to each element of result.
+        /// </remarks>
+	    public float PredictProb(InputArray inputs, OutputArray outputs,
+	        OutputArray outputProbs, int flags = 0)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+            if (outputs == null)
+                throw new ArgumentNullException("outputs");
+            if (outputProbs == null)
+                throw new ArgumentNullException("outputProbs");
+
+            inputs.ThrowIfDisposed();
+            outputs.ThrowIfNotReady();
+            outputProbs.ThrowIfNotReady();
+
+            float result = NativeMethods.ml_NormalBayesClassifier_predictProb(
+                ptr, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags);
+            outputs.Fix();
+            outputProbs.Fix();
+            GC.KeepAlive(inputs);
+            return result;
+        }
+
+	    #endregion
     }
 }
