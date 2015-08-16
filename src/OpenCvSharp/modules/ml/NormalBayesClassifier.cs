@@ -72,6 +72,7 @@ namespace OpenCvSharp.ML
                             ptrObj = null;
                         }
                     }
+                    ptr = IntPtr.Zero;
                     disposed = true;
                 }
                 finally

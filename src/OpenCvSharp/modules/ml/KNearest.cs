@@ -71,6 +71,7 @@ namespace OpenCvSharp.ML
                             ptrObj = null;
                         }
                     }
+                    ptr = IntPtr.Zero;
                     disposed = true;
                 }
                 finally
@@ -95,7 +96,7 @@ namespace OpenCvSharp.ML
         /// <summary>
         /// Whether classification or regression model should be trained.
         /// </summary>
-        public bool IsClassifier
+        public new bool IsClassifier
         {
             get { return NativeMethods.ml_KNearest_getIsClassifier(ptr) != 0; }
             set { NativeMethods.ml_KNearest_setIsClassifier(ptr, value ? 1 : 0); }
