@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppStyleSamplesCS", "CppStyleSamplesCS\CppStyleSamplesCS.csproj", "{E4666B99-145A-436D-9540-2E4593A061A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplesCS", "SamplesCS\SamplesCS.csproj", "{E4666B99-145A-436D-9540-2E4593A061A6}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CppStyleSamplesVB", "CppStyleSamplesVB\CppStyleSamplesVB.vbproj", "{4A14A20D-8E2A-4559-A038-F0204A22C283}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SamplesVB", "SamplesVB\SamplesVB.vbproj", "{4A14A20D-8E2A-4559-A038-F0204A22C283}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E5CC1BCA-0DD8-4C43-A8CC-990F99E71E42}"
 	ProjectSection(SolutionItems) = preProject
