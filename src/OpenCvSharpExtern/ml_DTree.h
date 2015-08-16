@@ -218,7 +218,7 @@ CVAPI(void) ml_Ptr_DTrees_delete(cv::Ptr<DTrees> *obj)
 	delete obj;
 }
 
-CVAPI(DTrees*) ml_Ptr_DTrees_get(cv::Ptr<DTrees>* obj)
+CVAPI(DTrees*) ml_Ptr_DTrees_get(cv::Ptr<DTrees> *obj)
 {
 	return obj->get();
 }
