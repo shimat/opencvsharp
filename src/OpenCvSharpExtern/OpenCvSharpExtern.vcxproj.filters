@@ -162,12 +162,6 @@
     <ClInclude Include="calib3d.h">
       <Filter>Header Files\calib3d</Filter>
     </ClInclude>
-    <ClInclude Include="ml_RTrees.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="ml_CvBoostTree.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
     <ClInclude Include="ml_StatModel.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
@@ -208,6 +202,9 @@
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_DTree.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_RTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
   </ItemGroup>
