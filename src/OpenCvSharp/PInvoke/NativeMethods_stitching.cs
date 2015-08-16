@@ -8,10 +8,13 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void stitching_Stitcher_delete(IntPtr obj);
+        public static extern IntPtr stitching_createStitcher(int try_use_cpu);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr stitching_Stitcher_createDefault(int tryUseGpu);
+        public static extern void stitching_Ptr_Stitcher_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr stitching_Ptr_Stitcher_get(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double stitching_Stitcher_registrationResol(IntPtr obj);

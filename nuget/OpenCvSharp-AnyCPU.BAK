@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>OpenCvSharp3-WithoutDll</id>
+        <id>OpenCvSharp3-AnyCPU</id>
         <version>2.4.10.20150816</version>
-        <title>OpenCvSharp3 (without DLLs)</title>
+        <title>OpenCvSharp3</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
@@ -22,7 +22,7 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="OpenCvSharp-WithoutDll.props" target="build\OpenCvSharp-WithoutDll.props" />
+        <file src="OpenCvSharp-AnyCPU.props" target="build\OpenCvSharp-AnyCPU.props" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net20\OpenCvSharp.Blob.XML" />
@@ -60,9 +60,13 @@
         <file src="..\lib\vc++\x64\msvcp120.dll" target="NativeDlls\x64\msvcp120.dll" />
         <file src="..\lib\vc++\x64\msvcr120.dll" target="NativeDlls\x64\msvcr120.dll" />
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_ffmpeg300.dll" target="NativeDlls\x64\opencv_ffmpeg300.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_world300.dll" target="NativeDlls\x64\opencv_world300.dll" />
         <file src="..\lib\vc++\x86\msvcp120.dll" target="NativeDlls\x86\msvcp120.dll" />
         <file src="..\lib\vc++\x86\msvcr120.dll" target="NativeDlls\x86\msvcr120.dll" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_ffmpeg300.dll" target="NativeDlls\x86\opencv_ffmpeg300.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_world300.dll" target="NativeDlls\x86\opencv_world300.dll" />
         <file src="tools\init.ps1" target="tools\init.ps1" />
         <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
     </files>

@@ -60,6 +60,7 @@ namespace OpenCvSharp
     public sealed class Stitcher : DisposableCvObject
     {
         private bool disposed;
+        private Ptr<Stitcher> ptrObj;
 
         #region Enum
 
@@ -93,9 +94,9 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="tryUseGpu">Flag indicating whether GPU should be used 
         /// whenever it's possible.</param>
-        public static Stitcher CreateDefault(bool tryUseGpu = false)
+        public static Stitcher Create(bool tryUseGpu = false)
         {
-            IntPtr ptr = NativeMethods.stitching_Stitcher_createDefault(tryUseGpu ? 1 : 0);
+            IntPtr ptr = NativeMethods.stitching_createStitcher(tryUseGpu ? 1 : 0);
             return new Stitcher(ptr);
         }
 
@@ -109,13 +110,17 @@ namespace OpenCvSharp
             {
                 try
                 {
+                    // releases managed resources
                     if (disposing)
                     {
+                        if (ptrObj != null)
+                        {
+                            ptrObj.Dispose();
+                            ptrObj = null;
+                        }
                     }
-                    if (ptr != IntPtr.Zero)
-                    {
-                        NativeMethods.stitching_Stitcher_delete(ptr);
-                    }
+                    // releases unmanaged resources
+                    ptr = IntPtr.Zero;
                     disposed = true;
                 }
                 finally

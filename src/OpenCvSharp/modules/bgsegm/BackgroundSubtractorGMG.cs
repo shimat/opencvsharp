@@ -30,6 +30,8 @@ namespace OpenCvSharp
         public static BackgroundSubtractorGMG Create(
             int initializationFrames = 120, double decisionThreshold = 0.8)
         {
+            throw new NotImplementedException("not implemented bgsegm");
+
             IntPtr ptr = NativeMethods.bgsegm_createBackgroundSubtractorGMG(
                 initializationFrames, decisionThreshold);
             return new BackgroundSubtractorGMG(ptr);
