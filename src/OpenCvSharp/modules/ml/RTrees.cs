@@ -23,7 +23,7 @@ namespace OpenCvSharp.ML
 		#region Init and Disposal
 
         /// <summary>
-        /// Creates instance by raw pointer cv::ml::Boost*
+        /// Creates instance by raw pointer cv::ml::RTrees*
         /// </summary>
         protected RTrees(IntPtr p)
             : base()
@@ -41,6 +41,7 @@ namespace OpenCvSharp.ML
             IntPtr ptr = NativeMethods.ml_RTrees_create();
             return new RTrees(ptr);
 	    }
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放

@@ -207,6 +207,9 @@
     <ClInclude Include="ml_RTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
+    <ClInclude Include="ml_ANN_MLP.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

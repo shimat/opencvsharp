@@ -242,10 +242,6 @@
     <Compile Include="Modules\ml\EM.cs" />
     <Compile Include="Modules\ml\KNearest.cs" />
     <Compile Include="Modules\ml\SVM.cs" />
-    <Compile Include="Modules\ml\Enum\MLPActivationFunc.cs" />
-    <Compile Include="Modules\ml\Enum\MLPTrainingFlag.cs" />
-    <Compile Include="Modules\ml\Enum\MLPTrainingMethod.cs" />
-    <Compile Include="Modules\ml\Enum\TrainSamplePartMode.cs" />
     <Compile Include="Modules\stitching\Stitcher.cs" />
     <Compile Include="Modules\video\OpticalFlowFlags.cs" />
     <Compile Include="Modules\calib3d\SolvePnPFlag.cs" />
