@@ -233,7 +233,7 @@ namespace OpenCvSharp.ML
             /// The RPROP algorithm. See @cite RPROP93 for details.
             /// </summary>
             RProp = 1  
-        };
+        }
 
         #endregion
     }
