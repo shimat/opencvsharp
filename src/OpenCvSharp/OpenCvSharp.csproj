@@ -242,7 +242,6 @@
     <Compile Include="Modules\ml\EM.cs" />
     <Compile Include="Modules\ml\KNearest.cs" />
     <Compile Include="Modules\ml\SVM.cs" />
-    <Compile Include="Modules\ml\Enum\DTreeDataLayout.cs" />
     <Compile Include="Modules\ml\Enum\MLPActivationFunc.cs" />
     <Compile Include="Modules\ml\Enum\MLPTrainingFlag.cs" />
     <Compile Include="Modules\ml\Enum\MLPTrainingMethod.cs" />
