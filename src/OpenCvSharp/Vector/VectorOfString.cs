@@ -13,6 +13,7 @@ namespace OpenCvSharp
         private bool disposed;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -20,6 +21,7 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.vector_string_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -28,6 +30,7 @@ namespace OpenCvSharp
         {
             this.ptr = ptr;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -64,9 +67,11 @@ namespace OpenCvSharp
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -82,9 +87,11 @@ namespace OpenCvSharp
         {
             get { return NativeMethods.vector_string_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
@@ -106,6 +113,7 @@ namespace OpenCvSharp
             }
             return ret;
         }
+
         #endregion
     }
 }

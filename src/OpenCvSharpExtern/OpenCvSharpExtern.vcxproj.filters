@@ -165,12 +165,6 @@
     <ClInclude Include="ml_RTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="ml_DTrees.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
-    <ClInclude Include="ml_CvDTree.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
     <ClInclude Include="ml_CvBoostTree.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
@@ -211,6 +205,9 @@
       <Filter>Header Files\ml</Filter>
     </ClInclude>
     <ClInclude Include="ml_Boost.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_DTree.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
   </ItemGroup>

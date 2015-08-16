@@ -16,6 +16,7 @@ namespace OpenCvSharp
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -23,6 +24,7 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.vector_int32_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,6 +35,7 @@ namespace OpenCvSharp
                 throw new ArgumentOutOfRangeException("size");
             ptr = NativeMethods.vector_int32_new2(new IntPtr(size));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -40,6 +43,7 @@ namespace OpenCvSharp
         {
             this.ptr = ptr;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -77,9 +81,11 @@ namespace OpenCvSharp
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -95,15 +101,17 @@ namespace OpenCvSharp
         {
             get { return NativeMethods.vector_int32_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
         public int[] ToArray()
-        {            
+        {
             int size = Size;
             if (size == 0)
             {
@@ -113,6 +121,7 @@ namespace OpenCvSharp
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);
             return dst;
         }
+
         #endregion
     }
 }

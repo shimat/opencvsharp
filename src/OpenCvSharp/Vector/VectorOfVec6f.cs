@@ -16,6 +16,7 @@ namespace OpenCvSharp
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -23,6 +24,7 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.vector_Vec6f_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,6 +35,7 @@ namespace OpenCvSharp
                 throw new ArgumentOutOfRangeException("size");
             ptr = NativeMethods.vector_Vec6f_new2(new IntPtr(size));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -44,6 +47,7 @@ namespace OpenCvSharp
             Vec6f[] array = Util.Utility.ToArray(data);
             ptr = NativeMethods.vector_Vec6f_new3(array, new IntPtr(array.Length));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -78,9 +82,11 @@ namespace OpenCvSharp
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -96,9 +102,11 @@ namespace OpenCvSharp
         {
             get { return NativeMethods.vector_Vec6f_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
@@ -107,6 +115,7 @@ namespace OpenCvSharp
         {
             return ToArray<Vec6f>();
         }
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
@@ -114,8 +123,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public T[] ToArray<T>() where T : struct
         {
-            int typeSize = Marshal.SizeOf(typeof(T));
-            if (typeSize != sizeof(float) * 6)
+            int typeSize = Marshal.SizeOf(typeof (T));
+            if (typeSize != sizeof (float)*6)
             {
                 throw new OpenCvSharpException();
             }
@@ -128,10 +137,11 @@ namespace OpenCvSharp
             var dst = new T[arySize];
             using (var dstPtr = new ArrayAddress1<T>(dst))
             {
-                Util.Utility.CopyMemory(dstPtr, ElemPtr, typeSize * dst.Length);
+                Util.Utility.CopyMemory(dstPtr, ElemPtr, typeSize*dst.Length);
             }
             return dst;
         }
+
         #endregion
     }
 }

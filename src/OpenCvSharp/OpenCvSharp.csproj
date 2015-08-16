@@ -242,16 +242,10 @@
     <Compile Include="Modules\ml\EM.cs" />
     <Compile Include="Modules\ml\KNearest.cs" />
     <Compile Include="Modules\ml\SVM.cs" />
-    <Compile Include="Modules\ml\Enum\BoostSplitCriteria.cs" />
-    <Compile Include="Modules\ml\Enum\BoostType.cs" />
     <Compile Include="Modules\ml\Enum\DTreeDataLayout.cs" />
-    <Compile Include="Modules\ml\Enum\EMStartStep.cs" />
     <Compile Include="Modules\ml\Enum\MLPActivationFunc.cs" />
     <Compile Include="Modules\ml\Enum\MLPTrainingFlag.cs" />
     <Compile Include="Modules\ml\Enum\MLPTrainingMethod.cs" />
-    <Compile Include="Modules\ml\Enum\SvmKernelType.cs" />
-    <Compile Include="Modules\ml\Enum\SvmParamType.cs" />
-    <Compile Include="Modules\ml\Enum\SvmType.cs" />
     <Compile Include="Modules\ml\Enum\TrainSamplePartMode.cs" />
     <Compile Include="Modules\stitching\Stitcher.cs" />
     <Compile Include="Modules\video\OpticalFlowFlags.cs" />
@@ -362,6 +356,8 @@
     <Compile Include="Util\StructurePointer.cs" />
     <Compile Include="Util\TimeMeasurer.cs" />
     <Compile Include="Util\Utility.cs" />
+    <Compile Include="Vector\VectorOfDTreesSplit.cs" />
+    <Compile Include="Vector\VectorOfDTreesNode.cs" />
     <Compile Include="Vector\VectorOfDouble.cs" />
     <Compile Include="Vector\VectorOfInt32.cs" />
     <Compile Include="Vector\VectorOfDMatch.cs" />

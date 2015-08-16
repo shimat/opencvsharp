@@ -16,6 +16,7 @@ namespace OpenCvSharp
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -23,6 +24,7 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.vector_KeyPoint_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -31,6 +33,7 @@ namespace OpenCvSharp
         {
             this.ptr = ptr;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -41,6 +44,7 @@ namespace OpenCvSharp
                 throw new ArgumentOutOfRangeException("size");
             ptr = NativeMethods.vector_KeyPoint_new2(new IntPtr(size));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -78,9 +82,11 @@ namespace OpenCvSharp
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -96,15 +102,17 @@ namespace OpenCvSharp
         {
             get { return NativeMethods.vector_KeyPoint_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
         public KeyPoint[] ToArray()
-        {            
+        {
             int size = Size;
             if (size == 0)
             {
@@ -113,10 +121,11 @@ namespace OpenCvSharp
             KeyPoint[] dst = new KeyPoint[size];
             using (var dstPtr = new ArrayAddress1<KeyPoint>(dst))
             {
-                Util.Utility.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(KeyPoint)) * dst.Length);
+                Util.Utility.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof (KeyPoint))*dst.Length);
             }
             return dst;
         }
+
         #endregion
     }
 }

@@ -15,6 +15,7 @@ namespace OpenCvSharp
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -22,6 +23,7 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.vector_Point2i_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -32,6 +34,7 @@ namespace OpenCvSharp
                 throw new ArgumentOutOfRangeException("size");
             ptr = NativeMethods.vector_Point2i_new2(new IntPtr(size));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -40,6 +43,7 @@ namespace OpenCvSharp
         {
             this.ptr = ptr;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -77,9 +81,11 @@ namespace OpenCvSharp
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -95,15 +101,17 @@ namespace OpenCvSharp
         {
             get { return NativeMethods.vector_Point2i_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
         public Point[] ToArray()
-        {            
+        {
             int size = Size;
             if (size == 0)
             {
@@ -112,10 +120,11 @@ namespace OpenCvSharp
             Point[] dst = new Point[size];
             using (var dstPtr = new ArrayAddress1<Point>(dst))
             {
-                Util.Utility.CopyMemory(dstPtr, ElemPtr, Point.SizeOf * dst.Length);
+                Util.Utility.CopyMemory(dstPtr, ElemPtr, Point.SizeOf*dst.Length);
             }
             return dst;
         }
+
         #endregion
     }
 }

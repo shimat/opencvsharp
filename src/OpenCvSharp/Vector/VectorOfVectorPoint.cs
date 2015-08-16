@@ -15,6 +15,7 @@ namespace OpenCvSharp
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -22,6 +23,7 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.vector_vector_Point_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -30,6 +32,7 @@ namespace OpenCvSharp
         {
             this.ptr = ptr;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -66,9 +69,11 @@ namespace OpenCvSharp
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -77,7 +82,10 @@ namespace OpenCvSharp
             get { return NativeMethods.vector_vector_Point_getSize1(ptr).ToInt32(); }
         }
 
-        public int Size { get { return Size1; } }
+        public int Size
+        {
+            get { return Size1; }
+        }
 
         /// <summary>
         /// vector.size()
@@ -97,7 +105,7 @@ namespace OpenCvSharp
                 return size2;
             }
         }
-        
+
 
         /// <summary>
         /// &amp;vector[0]
@@ -106,9 +114,11 @@ namespace OpenCvSharp
         {
             get { return NativeMethods.vector_vector_Point_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
@@ -131,6 +141,7 @@ namespace OpenCvSharp
             }
             return ret;
         }
+
         #endregion
     }
 }

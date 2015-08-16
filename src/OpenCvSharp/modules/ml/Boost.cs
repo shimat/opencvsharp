@@ -16,9 +16,10 @@ namespace OpenCvSharp.ML
 		#region Init and Disposal
 
         /// <summary>
-        /// Creates instance by raw pointer cv::ml::SVM*
+        /// Creates instance by raw pointer cv::ml::Boost*
         /// </summary>
         protected Boost(IntPtr p)
+            : base()
         {
             ptrObj = new Ptr<Boost>(p);
             ptr = ptrObj.Get();
@@ -28,7 +29,7 @@ namespace OpenCvSharp.ML
         /// Creates the empty model.
         /// </summary>
         /// <returns></returns>
-        public static Boost Create()
+        public static new Boost Create()
 	    {
             IntPtr ptr = NativeMethods.ml_Boost_create();
             return new Boost(ptr);
