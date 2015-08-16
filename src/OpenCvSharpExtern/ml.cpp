@@ -2,7 +2,7 @@
 
 #include "ml_StatModel.h"
 #include "ml_ANN_MLP.h"
-//#include "ml_Boost.h"
+#include "ml_Boost.h"
 //#include "ml_DTrees.h"
 #include "ml_EM.h"
 #include "ml_KNearest.h"
