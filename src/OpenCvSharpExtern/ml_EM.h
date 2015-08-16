@@ -4,32 +4,32 @@
 #include "include_opencv.h"
 using namespace cv::ml;
 
-// TODO
-
-CVAPI(cv::Ptr<EM>*) ml_EM_create()
-{
-	cv::Ptr<EM> obj = EM::create();
-	return new cv::Ptr<EM>(obj);
-}
-
-CVAPI(void) ml_EM_delete(cv::Ptr<EM> *obj)
-{
-	delete obj;
-}
-
-CVAPI(EM*) ml_Ptr_EM_get(cv::Ptr<EM> *obj)
-{
-	return obj->get();
-}
 
 CVAPI(int) ml_EM_getClustersNumber(cv::Ptr<EM> *obj)
 {
 	return (*obj)->getClustersNumber();
 }
-
 CVAPI(void) ml_EM_setClustersNumber(cv::Ptr<EM> *obj, int val)
 {
 	(*obj)->setClustersNumber(val);
+}
+
+CVAPI(int) ml_EM_getCovarianceMatrixType(cv::Ptr<EM> *obj)
+{
+	return (*obj)->getCovarianceMatrixType();
+}
+CVAPI(void) ml_EM_setCovarianceMatrixType(cv::Ptr<EM> *obj, int val)
+{
+	(*obj)->setCovarianceMatrixType(val);
+}
+
+CVAPI(MyCvTermCriteria) ml_EM_getTermCriteria(cv::ml::EM *obj)
+{
+	return c(obj->getTermCriteria());
+}
+CVAPI(void) ml_EM_setTermCriteria(cv::ml::EM *obj, MyCvTermCriteria val)
+{
+	obj->setTermCriteria(cpp(val));
 }
 
 CVAPI(cv::Mat*) ml_EM_getWeights(cv::Ptr<EM> *obj)
@@ -56,12 +56,6 @@ CVAPI(void) ml_EM_getCovs(cv::Ptr<EM> *obj, std::vector<cv::Mat*> *covs)
 }
 
 
-CVAPI(int) ml_EM_train(
-	cv::Ptr<EM> *obj, cv::Ptr<TrainData> *trainData, int flags)
-{
-	return (*obj)->train(*trainData, flags) ? 1 : 0;
-}
-
 CVAPI(CvVec2d) ml_EM_predict2(
 	cv::Ptr<EM> *obj, cv::_InputArray *sample, cv::_OutputArray *probs)
 {
@@ -72,13 +66,12 @@ CVAPI(CvVec2d) ml_EM_predict2(
 	return ret;
 }
 
-
 CVAPI(int) ml_EM_trainEM(
 	cv::Ptr<EM> *obj,
-    cv::_InputArray *samples, 
-    cv::_OutputArray *logLikelihoods, 
-    cv::_OutputArray *labels, 
-    cv::_OutputArray *probs)
+	cv::_InputArray *samples,
+	cv::_OutputArray *logLikelihoods,
+	cv::_OutputArray *labels,
+	cv::_OutputArray *probs)
 {
 	bool ret = (*obj)->trainEM(*samples, entity(logLikelihoods), entity(labels), entity(probs));
 	return ret ? 1 : 0;
@@ -86,17 +79,17 @@ CVAPI(int) ml_EM_trainEM(
 
 CVAPI(int) ml_EM_trainE(
 	cv::Ptr<EM> *obj,
-    cv::_InputArray *samples,
-    cv::_InputArray *means0,
-    cv::_InputArray *covs0,
-    cv::_InputArray *weights0,
-    cv::_OutputArray *logLikelihoods,
-    cv::_OutputArray *labels,
-    cv::_OutputArray *probs)
+	cv::_InputArray *samples,
+	cv::_InputArray *means0,
+	cv::_InputArray *covs0,
+	cv::_InputArray *weights0,
+	cv::_OutputArray *logLikelihoods,
+	cv::_OutputArray *labels,
+	cv::_OutputArray *probs)
 {
 	bool ret = (*obj)->trainE(
-        *samples, *means0, entity(covs0), entity(weights0), 
-        entity(logLikelihoods), entity(labels), entity(probs));
+		*samples, *means0, entity(covs0), entity(weights0),
+		entity(logLikelihoods), entity(labels), entity(probs));
 	return ret ? 1 : 0;
 }
 
@@ -111,6 +104,23 @@ CVAPI(int) ml_EM_trainM(
 	bool ret = (*obj)->trainM(
         *samples, *probs0, entity(logLikelihoods), entity(labels), entity(probs));
 	return ret ? 1 : 0;
+}
+
+
+CVAPI(cv::Ptr<EM>*) ml_EM_create()
+{
+	cv::Ptr<EM> obj = EM::create();
+	return new cv::Ptr<EM>(obj);
+}
+
+CVAPI(void) ml_EM_delete(cv::Ptr<EM> *obj)
+{
+	delete obj;
+}
+
+CVAPI(EM*) ml_Ptr_EM_get(cv::Ptr<EM> *obj)
+{
+	return obj->get();
 }
 
 #endif

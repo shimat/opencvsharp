@@ -44,7 +44,8 @@ CVAPI(void) ml_KNearest_setAlgorithmType(cv::ml::KNearest *obj, int val)
 CVAPI(float) ml_KNearest_findNearest(cv::ml::KNearest *obj, cv::_InputArray *samples, int k,
 	cv::_OutputArray *results, cv::_OutputArray *neighborResponses, cv::_OutputArray *dist)
 {
-	return obj->findNearest(*samples, k, *results, *neighborResponses, *dist);
+	return obj->findNearest(
+		entity(samples), k, entity(results), entity(neighborResponses), entity(dist));
 }
 
 
