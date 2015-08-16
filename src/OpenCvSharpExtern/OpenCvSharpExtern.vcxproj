@@ -368,7 +368,7 @@
     <ClInclude Include="ml.h" />
     <ClInclude Include="ml_Boost.h" />
     <ClInclude Include="ml_CvBoostTree.h" />
-    <ClInclude Include="ml_CvDTree.h" />
+    <ClInclude Include="ml_DTree.h" />
     <ClInclude Include="ml_KNearest.h" />
     <ClInclude Include="ml_NormalBayesClassifier.h" />
     <ClInclude Include="ml_RTrees.h" />
@@ -382,7 +382,6 @@
     <ClInclude Include="objdetect_HOGDescriptor.h" />
     <ClInclude Include="core_Algorithm.h" />
     <ClInclude Include="flann.h" />
-    <ClInclude Include="ml_DTrees.h" />
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="video_tracking.h" />
     <ClInclude Include="photo.h" />

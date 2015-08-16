@@ -1,5 +1,5 @@
-#ifndef _CPP_ML_CVBOOST_H_
-#define _CPP_ML_CVBOOST_H_
+#ifndef _CPP_ML_BOOST_H_
+#define _CPP_ML_BOOST_H_
 
 #include "include_opencv.h"
 using namespace cv::ml;
@@ -44,7 +44,7 @@ CVAPI(void) ml_Ptr_Boost_delete(cv::Ptr<Boost> *obj)
 	delete obj;
 }
 
-CVAPI(cv::ml::Boost*) ml_Ptr_Boost_get(cv::Ptr<Boost>* obj)
+CVAPI(Boost*) ml_Ptr_Boost_get(cv::Ptr<Boost>* obj)
 {
 	return obj->get();
 }

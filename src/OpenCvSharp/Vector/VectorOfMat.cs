@@ -15,6 +15,7 @@ namespace OpenCvSharp
         private bool disposed = false;
 
         #region Init and Dispose
+
         /// <summary>
         /// 
         /// </summary>
@@ -22,6 +23,7 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.vector_Mat_new1();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -32,6 +34,7 @@ namespace OpenCvSharp
                 throw new ArgumentOutOfRangeException("size");
             ptr = NativeMethods.vector_Mat_new2(new IntPtr(size));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -66,9 +69,11 @@ namespace OpenCvSharp
                 }
             }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// vector.size()
         /// </summary>
@@ -84,9 +89,11 @@ namespace OpenCvSharp
         {
             get { return NativeMethods.vector_Mat_getPointer(ptr); }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
@@ -127,6 +134,7 @@ namespace OpenCvSharp
         {
             NativeMethods.vector_Mat_addref(ptr);
         }
+
         #endregion
     }
 }

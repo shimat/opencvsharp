@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
+using OpenCvSharp.ML;
 
 namespace OpenCvSharp
 {
     /// <summary>
     /// 
     /// </summary>
-    internal class VectorOfVectorDouble : DisposableCvObject, IStdVector<double[]>
+    internal class VectorOfDTreesNode : DisposableCvObject, IStdVector<DTrees.Node>
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -19,20 +21,41 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public VectorOfVectorDouble()
+        public VectorOfDTreesNode()
         {
-            ptr = NativeMethods.vector_vector_double_new1();
+            ptr = NativeMethods.vector_DTrees_Node_new1();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptr"></param>
+        public VectorOfDTreesNode(IntPtr ptr)
+        {
+            this.ptr = ptr;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfVectorDouble(int size)
+        public VectorOfDTreesNode(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException("size");
-            ptr = NativeMethods.vector_vector_double_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_DTrees_Node_new2(new IntPtr(size));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public VectorOfDTreesNode(IEnumerable<DTrees.Node> data)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            DTrees.Node[] array = EnumerableEx.ToArray(data);
+            ptr = NativeMethods.vector_DTrees_Node_new3(array, new IntPtr(array.Length));
         }
 
         /// <summary>
@@ -50,7 +73,7 @@ namespace OpenCvSharp
                 {
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.vector_vector_double_delete(ptr);
+                        NativeMethods.vector_DTrees_Node_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -68,42 +91,17 @@ namespace OpenCvSharp
         /// <summary>
         /// vector.size()
         /// </summary>
-        public int Size1
-        {
-            get { return NativeMethods.vector_vector_double_getSize1(ptr).ToInt32(); }
-        }
-
         public int Size
         {
-            get { return Size1; }
+            get { return NativeMethods.vector_DTrees_Node_getSize(ptr).ToInt32(); }
         }
-
-        /// <summary>
-        /// vector[i].size()
-        /// </summary>
-        public long[] Size2
-        {
-            get
-            {
-                int size1 = Size1;
-                IntPtr[] size2Org = new IntPtr[size1];
-                NativeMethods.vector_vector_double_getSize2(ptr, size2Org);
-                long[] size2 = new long[size1];
-                for (int i = 0; i < size1; i++)
-                {
-                    size2[i] = size2Org[i].ToInt64();
-                }
-                return size2;
-            }
-        }
-
 
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_vector_double_getPointer(ptr); }
+            get { return NativeMethods.vector_DTrees_Node_getPointer(ptr); }
         }
 
         #endregion
@@ -114,23 +112,19 @@ namespace OpenCvSharp
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public double[][] ToArray()
+        public DTrees.Node[] ToArray()
         {
-            int size1 = Size1;
-            if (size1 == 0)
-                return new double[0][];
-            long[] size2 = Size2;
-
-            var ret = new double[size1][];
-            for (int i = 0; i < size1; i++)
+            int size = Size;
+            if (size == 0)
             {
-                ret[i] = new double[size2[i]];
+                return new DTrees.Node[0];
             }
-            using (var retPtr = new ArrayAddress2<double>(ret))
+            var dst = new DTrees.Node[size];
+            using (var dstPtr = new ArrayAddress1<DTrees.Node>(dst))
             {
-                NativeMethods.vector_vector_double_copy(ptr, retPtr);
+                Utility.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(DTrees.Node)) * dst.Length);
             }
-            return ret;
+            return dst;
         }
 
         #endregion
