@@ -36,7 +36,7 @@ namespace OpenCvSharp.ML
         /// Returns the number of variables in training samples
         /// </summary>
         /// <returns></returns>
-        public int GetVarCount()
+        public virtual int GetVarCount()
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
@@ -47,7 +47,7 @@ namespace OpenCvSharp.ML
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool Empty()
+        public virtual bool Empty()
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
@@ -58,7 +58,7 @@ namespace OpenCvSharp.ML
         /// Returns true if the model is trained
         /// </summary>
         /// <returns></returns>
-        public bool IsTrained()
+        public virtual bool IsTrained()
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
@@ -69,7 +69,7 @@ namespace OpenCvSharp.ML
         /// Returns true if the model is classifier
         /// </summary>
         /// <returns></returns>
-        public bool IsClassifier()
+        public virtual bool IsClassifier()
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
@@ -84,7 +84,7 @@ namespace OpenCvSharp.ML
         /// <param name="flags"> optional flags, depending on the model. Some of the models can be updated with the 
         /// new training samples, not completely overwritten (such as NormalBayesClassifier or ANN_MLP).</param>
         /// <returns></returns>
-        public bool Train(TrainData trainData, int flags = 0)
+        public virtual bool Train(TrainData trainData, int flags = 0)
         {
             throw new NotImplementedException();
         }
@@ -96,7 +96,7 @@ namespace OpenCvSharp.ML
         /// <param name="layout">SampleTypes value</param>
         /// <param name="responses">vector of responses associated with the training samples.</param>
         /// <returns></returns>
-        public bool Train(InputArray samples, SampleTypes layout, InputArray responses)
+        public virtual bool Train(InputArray samples, SampleTypes layout, InputArray responses)
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
@@ -125,7 +125,7 @@ namespace OpenCvSharp.ML
         /// sounds a bit confusing.</param>
         /// <param name="resp">the optional output responses.</param>
         /// <returns></returns>
-        public float CalcError(TrainData data, bool test, OutputArray resp)
+        public virtual float CalcError(TrainData data, bool test, OutputArray resp)
         {
             throw new NotImplementedException();
         }
@@ -137,7 +137,7 @@ namespace OpenCvSharp.ML
         /// <param name="results">The optional output matrix of results.</param>
         /// <param name="flags">The optional flags, model-dependent.</param>
         /// <returns></returns>
-        public float Predict(InputArray samples, OutputArray results = null, Flags flags = 0)
+        public virtual float Predict(InputArray samples, OutputArray results = null, Flags flags = 0)
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
