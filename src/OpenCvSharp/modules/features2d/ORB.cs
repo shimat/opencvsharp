@@ -10,8 +10,14 @@ namespace OpenCvSharp
     /// </summary>
 #else
     /// <summary>
-    /// ORB implementation
+    /// Class implementing the ORB (*oriented BRIEF*) keypoint detector and descriptor extractor
     /// </summary>
+    /// <remarks>
+    /// described in @cite RRKB11 . The algorithm uses FAST in pyramids to detect stable keypoints, 
+    /// selects the strongest features using FAST or Harris response, finds their orientation 
+    /// using first-order moments and computes the descriptors using BRIEF (where the coordinates 
+    /// of random point pairs (or k-tuples) are rotated according to the measured orientation).
+    /// </remarks>
 #endif
     public class ORB : Feature2D
     {
@@ -84,7 +90,7 @@ namespace OpenCvSharp
                         }
                     }
                     // releases unmanaged resources
-                    
+                    ptr = IntPtr.Zero;
                     disposed = true;
                 }
                 finally
@@ -93,6 +99,189 @@ namespace OpenCvSharp
                 }
             }
         }
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MaxFeatures
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getMaxFeatures(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setMaxFeatures(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double ScaleFactor
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getScaleFactor(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setScaleFactor(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int NLevels
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getNLevels(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setNLevels(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int EdgeThreshold
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getEdgeThreshold(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setEdgeThreshold(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int FirstLevel
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getFirstLevel(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setFirstLevel(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+// ReSharper disable once InconsistentNaming
+        public int WTA_K
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getWTA_K(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setWTA_K(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ScoreType
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getScoreType(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setScoreType(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int PatchSize
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getPatchSize(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setPatchSize(ptr, value);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int FastThreshold
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_ORB_getFastThreshold(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_ORB_setFastThreshold(ptr, value);
+            }
+        }
+
         #endregion
 
         #region Methods

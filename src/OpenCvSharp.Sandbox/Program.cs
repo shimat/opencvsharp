@@ -131,7 +131,7 @@ namespace OpenCvSharp.Sandbox
 
         private static void Stitching(Mat[] images)
         {
-            var stitcher = Stitcher.CreateDefault(false);
+            var stitcher = Stitcher.Create(false);
 
             Mat pano = new Mat();
 

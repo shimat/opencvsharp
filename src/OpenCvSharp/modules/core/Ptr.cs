@@ -69,6 +69,7 @@ namespace OpenCvSharp
                 {typeof (Boost), NativeMethods.ml_Ptr_Boost_delete},
                 {typeof (ANN_MLP), NativeMethods.ml_Ptr_ANN_MLP_delete},
                 {typeof (LogisticRegression), NativeMethods.ml_Ptr_LogisticRegression_delete},
+                {typeof (Stitcher), NativeMethods.stitching_Ptr_Stitcher_delete},
             };
             definedGetFunctions = new Dictionary<Type, ObjFunc>
             {
@@ -111,6 +112,7 @@ namespace OpenCvSharp
                 {typeof (Boost), NativeMethods.ml_Ptr_Boost_get},
                 {typeof (ANN_MLP), NativeMethods.ml_Ptr_ANN_MLP_get},
                 {typeof (LogisticRegression), NativeMethods.ml_Ptr_LogisticRegression_get},
+                {typeof (Stitcher), NativeMethods.stitching_Ptr_Stitcher_get},
             };
         }
 

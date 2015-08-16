@@ -28,7 +28,6 @@ namespace SamplesCS
                 //new MDS();
                 //new DFT();
                 //new PixelAccess();
-                //new StereoCorrespondence();
                 //new MorphologySample();
                 //new MergeSplitSample();
                 //new NormalArrayOperations();

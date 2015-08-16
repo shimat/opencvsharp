@@ -111,6 +111,12 @@
     <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
     <Compile Include="Modules\ml\TrainData.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_SimpleBlobDetector.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_BRISK.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_GFTTDetector.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_FastFeatureDetector.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_MSER.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_ORB.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_LogisticRegression.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_StatModel.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
@@ -283,7 +289,7 @@
     <Compile Include="PInvoke\NativeMethods_bgsegm.cs" />
     <Compile Include="PInvoke\NativeMethods_video_BackgroundSubtractor.cs" />
     <Compile Include="PInvoke\NativeMethods_xfeatures2d.cs" />
-    <Compile Include="PInvoke\NativeMethods_features2d_DescriptorMatcher.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_DescriptorMatcher.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_EM.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_SVM.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_KNearest.cs" />
@@ -341,7 +347,7 @@
     <Compile Include="Modules\core\Struct\Point3i.cs" />
     <Compile Include="Modules\core\Struct\Rangef.cs" />
     <Compile Include="Modules\core\Struct\Point2d.cs" />
-    <Compile Include="PInvoke\NativeMethods_features2d_DescriptorExtractor.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_DescriptorExtractor.cs" />
     <Compile Include="PInvoke\NativeMethods_stitching.cs" />
     <Compile Include="Util\PInvokeHelper.cs" />
     <Compile Include="Util\WindowsLibraryLoader.cs" />
@@ -365,7 +371,7 @@
     <Compile Include="Vector\VectorOfVectorPoint.cs" />
     <Compile Include="Vector\VectorOfString.cs" />
     <Compile Include="Modules\highgui\Window.cs" />
-    <Compile Include="PInvoke\NativeMethods_features2d.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d.cs" />
     <Compile Include="PInvoke\NativeMethods_imgproc_Subdiv2D.cs" />
     <Compile Include="Modules\imgproc\Subdiv2D.cs" />
     <Compile Include="Modules\video\BackgroundSubtractor.cs" />

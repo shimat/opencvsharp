@@ -13,8 +13,8 @@ namespace SamplesCS
     {
         public void Run()
         {
-            //SubMat();
-            //RowColRangeOperation();
+            SubMat();
+            RowColRangeOperation();
             RowColOperation();
         }
 

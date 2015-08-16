@@ -10,7 +10,7 @@ namespace SamplesCS
     {
         private static Mat[] SelectStitchingImages(int width, int height, int count)
         {
-            Mat source = new Mat(@"img\Penguins.jpg", LoadMode.Color);
+            Mat source = new Mat(@"Data\Image\lenna.png", LoadMode.Color);
             Mat result = source.Clone();
 
             var rand = new Random();
@@ -41,13 +41,14 @@ namespace SamplesCS
 
         public void Run()
         {
-            Mat[] images = SelectStitchingImages(400, 400, 10);
+            Mat[] images = SelectStitchingImages(200, 200, 10);
 
-            var stitcher = Stitcher.CreateDefault(false);
+           var stitcher = Stitcher.Create(false);
 
             Mat pano = new Mat();
 
             Console.Write("Stitching start...");
+            // TODO: does not work??
             var status = stitcher.Stitch(images, pano);
             Console.WriteLine(" finish (status:{0})", status);
 
