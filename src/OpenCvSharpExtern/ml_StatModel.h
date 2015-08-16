@@ -15,6 +15,11 @@ CVAPI(int) ml_StatModel_getVarCount(cv::Ptr<StatModel> *obj)
 	return (*obj)->getVarCount();
 }
 
+CVAPI(int) ml_StatModel_empty(cv::Ptr<StatModel> *obj)
+{
+	return (*obj)->empty() ? 1 : 0;
+}
+
 CVAPI(int) ml_StatModel_isTrained(cv::Ptr<StatModel> *obj)
 {
 	return (*obj)->isTrained() ? 1 : 0;

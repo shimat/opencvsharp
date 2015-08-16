@@ -30,10 +30,6 @@ namespace OpenCvSharp
         public const int DEFAULT_NCLUSTERS = 5,
             DEFAULT_MAX_ITERS = 100;
 
-        // Type of covariation matrices
-        public const EMCovMatType COV_MAT_SPHERICAL = EMCovMatType.Spherical;
-        public const EMCovMatType COV_MAT_DIAGONAL = EMCovMatType.Diagonal;
-        public const EMCovMatType COV_MAT_GENERIC = EMCovMatType.Generic;
         // The initial step
         public const EMStartStep START_E_STEP = EMStartStep.E;
         public const EMStartStep START_M_STEP = EMStartStep.M;
@@ -95,6 +91,7 @@ namespace OpenCvSharp
                             ptrObj = null;
                         }
                     }
+                    ptr = IntPtr.Zero;
                     disposed = true;
                 }
                 finally

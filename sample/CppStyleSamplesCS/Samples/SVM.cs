@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenCvSharp;
+using OpenCvSharp.ML;
 
 namespace CppStyleSamplesCS
 {
@@ -7,10 +8,8 @@ namespace CppStyleSamplesCS
     /// Support Vector Machine
     /// </summary>
     /// <remarks>http://opencv.jp/sample/svm.html#svm</remarks>
-    internal class SVM : ISample
+    internal class SVMSample : ISample
     {
-        // TODO
-
         private static double f(double x)
         {
             return x + 50 * Math.Sin(x / 15.0);
@@ -54,24 +53,23 @@ namespace CppStyleSamplesCS
             // Train
             var dataMat = new Mat(points.Length, 2, MatType.CV_32FC1, points);
             var resMat = new Mat(responses.Length, 1, MatType.CV_32SC1, responses);
-            using (var svm = new OpenCvSharp.ML.SVM())
+            using (var svm = SVM.Create())
             {
                 // normalize data
                 dataMat /= 300.0;
 
-                var criteria = TermCriteria.Both(1000, 0.000001);
-                var param = new CvSVMParams(
-                    SVMType.CSvc,
-                    SVMKernelType.Rbf,
-                    100.0, // degree
-                    100.0, // gamma
-                    1.0, // coeff0
-                    1.0, // c
-                    0.5, // nu
-                    0.1, // p
-                    null,
-                    criteria);
-                svm.Train(dataMat, resMat, null, null, param);
+                // SVM parameters
+                svm.Type = SVM.Types.CSvc;
+                svm.KernelType = SVM.KernelTypes.Rbf;
+                svm.TermCriteria = TermCriteria.Both(1000, 0.000001);
+                svm.Degree = 100.0;
+                svm.Gamma = 100.0;
+                svm.Coef0 = 1.0;
+                svm.C = 1.0;
+                svm.Nu = 0.5;
+                svm.P = 0.1;
+
+                svm.Train(dataMat, SampleTypes.RowSample, resMat);
 
                 // Predict for each 300x300 pixel
                 using (Mat retPlot = Mat.Zeros(300, 300, MatType.CV_8UC3))

@@ -12,7 +12,7 @@ namespace CppStyleSamplesCS
         static void Main(string[] args)
         {
             ISample sample =
-                new ClaheTest();
+                //new ClaheTest();
                 //new BgSubtractorMOG();  
                 //new VideoWriterSample();
                 //new VideoCaptureSample();
@@ -36,7 +36,7 @@ namespace CppStyleSamplesCS
                 //new MatOperations();
                 //new FaceDetection();
                 //new SuperResolutionSample();
-                //new SVM();
+                new SVMSample();
                 //new StarDetectorSample();
                 //new BRISKSample();
                 //new FREAKSample();

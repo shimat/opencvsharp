@@ -107,8 +107,10 @@
     <Compile Include="Delegate\CvWriteFunc.cs" />
     <Compile Include="DisposableCvObject.cs" />
     <Compile Include="DisposableObject.cs" />
+    <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
     <Compile Include="Modules\ml\TrainData.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_StatModel.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
     <Compile Include="Enum\AdaptiveThresholdType.cs" />
     <Compile Include="Enum\AngleUnit.cs" />
@@ -243,7 +245,6 @@
     <Compile Include="Modules\ml\Enum\BoostSplitCriteria.cs" />
     <Compile Include="Modules\ml\Enum\BoostType.cs" />
     <Compile Include="Modules\ml\Enum\DTreeDataLayout.cs" />
-    <Compile Include="Modules\ml\Enum\EMCovMatType.cs" />
     <Compile Include="Modules\ml\Enum\EMStartStep.cs" />
     <Compile Include="Modules\ml\Enum\MLPActivationFunc.cs" />
     <Compile Include="Modules\ml\Enum\MLPTrainingFlag.cs" />
@@ -459,7 +460,7 @@
     <Compile Include="Vector\VectorOfVec3f.cs" />
     <Compile Include="Vector\VectorOfMat.cs" />
     <Compile Include="WCvMoments.cs" />
-    <Compile Include="PInvoke\Win32API.cs" />
+    <Compile Include="PInvoke\Win32Api.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
