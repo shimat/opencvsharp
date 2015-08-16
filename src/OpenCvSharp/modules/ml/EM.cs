@@ -11,7 +11,7 @@ namespace OpenCvSharp
     /// </summary>
 #else
     /// <summary>
-    /// EM model (cv::EM)
+    /// The class implements the Expectation Maximization algorithm.
     /// </summary>
 #endif
     public class EM : Algorithm
@@ -20,8 +20,7 @@ namespace OpenCvSharp
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
-
-        private Ptr<EM> modelPtr;
+        private Ptr<EM> ptrObj;
 
         #region Constants
 
@@ -46,61 +45,24 @@ namespace OpenCvSharp
 
         #region Init and Disposal
 
-#if LANG_JP
-    /// <summary>
-    /// 初期化
-    /// </summary>
-    /// <param name="nClusters"></param>
-    /// <param name="covMatType"></param>
-    /// <param name="termCrit"></param>
-#else
         /// <summary>
-        /// Training constructor
+        /// Creates instance by raw pointer cv::ml::EM*
         /// </summary>
-        /// <param name="nClusters"></param>
-        /// <param name="covMatType"></param>
-        /// <param name="termCrit"></param>
-#endif
-        public EM(
-            int nClusters = DEFAULT_NCLUSTERS,
-            EMCovMatType covMatType = EMCovMatType.Diagonal,
-            TermCriteria? termCrit = null)
+        protected EM(IntPtr p)
         {
-            var termCrit0 = termCrit.GetValueOrDefault(
-                TermCriteria.Both(DEFAULT_MAX_ITERS, Double.Epsilon));
-            ptr = NativeMethods.ml_EM_new(nClusters, (int) covMatType, termCrit0);
+            ptrObj = new Ptr<EM>(p);
+            ptr = ptrObj.Get();
         }
 
         /// <summary>
-        /// Creates instance by cv::Ptr&lt;cv::SURF&gt;
+        /// Creates empty EM model. 
         /// </summary>
-        internal EM(Ptr<EM> detectorPtr)
-        {
-            this.modelPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
-        }
-
-        /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
-        /// </summary>
-        internal EM(IntPtr rawPtr)
-        {
-            modelPtr = null;
-            ptr = rawPtr;
-        }
-
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static EM FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<EM> pointer");
-            var ptrObj = new Ptr<EM>(ptr);
-            return new EM(ptrObj);
-        }
+        /// <returns></returns>
+        public static EM Create()
+	    {
+            IntPtr ptr = NativeMethods.ml_SVM_create();
+            return new EM(ptr);
+	    }
 
 #if LANG_JP
     /// <summary>
@@ -127,19 +89,10 @@ namespace OpenCvSharp
                 {
                     if (disposing)
                     {
-                    }
-                    if (IsEnabledDispose)
-                    {
-                        if (modelPtr != null)
+                        if (ptrObj != null)
                         {
-                            modelPtr.Dispose();
-                            modelPtr = null;
-                        }
-                        else
-                        {
-                            if (ptr != IntPtr.Zero)
-                                NativeMethods.ml_EM_delete(ptr);
-                            ptr = IntPtr.Zero;
+                            ptrObj.Dispose();
+                            ptrObj = null;
                         }
                     }
                     disposed = true;
@@ -155,79 +108,87 @@ namespace OpenCvSharp
 
         #region Properties
 
-#if LANG_JP
-    /// <summary>
-    /// 
-    /// </summary>
-#else
         /// <summary>
-        /// 
+        /// The number of mixture components in the Gaussian mixture model.
+        /// Default value of the parameter is EM::DEFAULT_NCLUSTERS=5. 
+        /// Some of EM implementation could determine the optimal number of mixtures 
+        /// within a specified value range, but that is not the case in ML yet.
         /// </summary>
-#endif
-        public bool IsTrained
+        public int ClustersNumber
         {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException("EM");
-                return NativeMethods.ml_EM_isTrained(ptr) != 0;
-            }
+            get { return NativeMethods.ml_EM_getClustersNumber(ptr); }
+            set { NativeMethods.ml_EM_setClustersNumber(ptr, value); }
+        }
+
+        /// <summary>
+        /// Constraint on covariance matrices which defines type of matrices.
+        /// </summary>
+        public int CovarianceMatrixType
+        {
+            get { return NativeMethods.ml_EM_getCovarianceMatrixType(ptr); }
+            set { NativeMethods.ml_EM_setCovarianceMatrixType(ptr, value); }
+        }
+
+        /// <summary>
+        /// The termination criteria of the %EM algorithm.
+        /// The EM algorithm can be terminated by the number of iterations 
+        /// termCrit.maxCount (number of M-steps) or when relative change of likelihood 
+        /// logarithm is less than termCrit.epsilon. 
+        /// Default maximum number of iterations is EM::DEFAULT_MAX_ITERS=100.
+        /// </summary>
+        public TermCriteria TermCriteria
+        {
+            get { return NativeMethods.ml_EM_getTermCriteria(ptr); }
+            set { NativeMethods.ml_EM_setTermCriteria(ptr, value); }
         }
 
         #endregion
 
         #region Methods
 
-#if LANG_JP
-    /// <summary>
-    /// サンプル集合からガウス混合パラメータを推定する
-    /// </summary>
-    /// <param name="samples"></param>
-    /// <param name="logLikelihoods"></param>
-    /// <param name="labels"></param>
-    /// <param name="probs"></param>
-#else
         /// <summary>
-        /// Estimates Gaussian mixture parameters from the sample set
+        /// Returns weights of the mixtures.
+        /// Returns vector with the number of elements equal to the number of mixtures.
         /// </summary>
-        /// <param name="samples"></param>
-        /// <param name="logLikelihoods"></param>
-        /// <param name="labels"></param>
-        /// <param name="probs"></param>
-#endif
-        public virtual bool Train(
-            InputArray samples,
-            OutputArray logLikelihoods = null,
-            OutputArray labels = null,
-            OutputArray probs = null)
+        /// <returns></returns>
+        public Mat GetWeights()
         {
             if (disposed)
-                throw new ObjectDisposedException("EM");
-            if (samples == null)
-                throw new ArgumentNullException("samples");
-            samples.ThrowIfDisposed();
-            if (logLikelihoods != null)
-                logLikelihoods.ThrowIfNotReady();
-            if (labels != null)
-                labels.ThrowIfNotReady();
-            if (probs != null)
-                probs.ThrowIfNotReady();
+                throw new ObjectDisposedException(GetType().Name);
+            IntPtr p = NativeMethods.ml_EM_getWeights(ptr);
+            return new Mat(p);
+        }
 
-            int ret = NativeMethods.ml_EM_train(
-                ptr,
-                samples.CvPtr,
-                Cv2.ToPtr(logLikelihoods),
-                Cv2.ToPtr(labels),
-                Cv2.ToPtr(probs));
+        /// <summary>
+        /// Returns the cluster centers (means of the Gaussian mixture).
+        /// Returns matrix with the number of rows equal to the number of mixtures and 
+        /// number of columns equal to the space dimensionality.
+        /// </summary>
+        /// <returns></returns>
+        public Mat GetMeans()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            IntPtr p = NativeMethods.ml_EM_getMeans(ptr);
+            return new Mat(p);
+        }
 
-            if (logLikelihoods != null)
-                logLikelihoods.Fix();
-            if (labels != null)
-                labels.Fix();
-            if (probs != null)
-                probs.Fix();
+        /// <summary>
+        /// Returns covariation matrices.
+        /// Returns vector of covariation matrices. Number of matrices is the number of 
+        /// gaussian mixtures, each matrix is a square floating-point matrix NxN, where N is the space dimensionality.
+        /// </summary>
+        public Mat[] GetCovs()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
 
-            return ret != 0;
+            using (var vec = new VectorOfMat())
+            {
+                NativeMethods.ml_EM_getCovs(ptr, vec.CvPtr);
+                return vec.ToArray();
+            }
+            
         }
 
 #if LANG_JP
@@ -263,7 +224,7 @@ namespace OpenCvSharp
             OutputArray probs = null)
         {
             if (disposed)
-                throw new ObjectDisposedException("EM");
+                throw new ObjectDisposedException(GetType().Name);
             if (samples == null)
                 throw new ArgumentNullException("samples");
             if (means0 == null)
@@ -298,6 +259,10 @@ namespace OpenCvSharp
                 labels.Fix();
             if (probs != null)
                 probs.Fix();
+            GC.KeepAlive(samples);
+            GC.KeepAlive(means0);
+            GC.KeepAlive(covs0);
+            GC.KeepAlive(weights0);
 
             return ret != 0;
         }
@@ -329,7 +294,7 @@ namespace OpenCvSharp
             OutputArray probs = null)
         {
             if (disposed)
-                throw new ObjectDisposedException("EM");
+                throw new ObjectDisposedException(GetType().Name);
             if (samples == null)
                 throw new ArgumentNullException("samples");
             if (probs0 == null)
@@ -358,6 +323,8 @@ namespace OpenCvSharp
                 labels.Fix();
             if (probs != null)
                 probs.Fix();
+            GC.KeepAlive(samples);
+            GC.KeepAlive(probs0);
 
             return ret != 0;
         }
@@ -375,38 +342,62 @@ namespace OpenCvSharp
         /// <param name="sample"></param>
         /// <param name="probs"></param>
 #endif
-        public virtual Vec2d Predict(InputArray sample, OutputArray probs = null)
+        public virtual Vec2d Predict2(InputArray sample, OutputArray probs = null)
         {
             if (disposed)
-                throw new ObjectDisposedException("EM");
+                throw new ObjectDisposedException(GetType().Name);
             if (sample == null)
                 throw new ArgumentNullException("sample");
             sample.ThrowIfDisposed();
             if (probs != null)
                 probs.ThrowIfNotReady();
 
-            Vec2d ret;
-            NativeMethods.ml_EM_predict(ptr, sample.CvPtr, Cv2.ToPtr(probs), out ret);
+            Vec2d ret = NativeMethods.ml_EM_predict2(ptr, sample.CvPtr, Cv2.ToPtr(probs));
             if (probs != null)
                 probs.Fix();
+            GC.KeepAlive(sample);
             return ret;
         }
 
-#if LANG_JP
-    /// <summary>
-    /// メモリを解放し，モデルの状態をリセットする
-    /// </summary>
-#else
+        #endregion
+
+        #region Types
+
         /// <summary>
-        /// Deallocates memory and resets the model state
+        /// Type of covariation matrices
         /// </summary>
-#endif
-        public void Clear()
+        public enum Types
         {
-            if (disposed)
-                throw new ObjectDisposedException("EM");
-            NativeMethods.ml_EM_clear(ptr);
-        }
+            /// <summary>
+            /// A scaled identity matrix \f$\mu_k * I\f$. 
+            /// There is the only parameter \f$\mu_k\f$ to be estimated for each matrix. 
+            /// The option may be used in special cases, when the constraint is relevant, 
+            /// or as a first step in the optimization (for example in case when the data is 
+            /// preprocessed with PCA). The results of such preliminary estimation may be 
+            /// passed again to the optimization procedure, this time with covMatType=EM::COV_MAT_DIAGONAL.
+            /// </summary>
+            CovMatSpherical = 0,
+
+            /// <summary>
+            /// A diagonal matrix with positive diagonal elements. 
+            /// The number of free parameters is d for each matrix. 
+            /// This is most commonly used option yielding good estimation results. 
+            /// </summary>
+            CovMatDiagonal = 1,
+
+            /// <summary>
+            /// A symmetric positively defined matrix. The number of free parameters in each 
+            /// matrix is about \f$d^2/2\f$. It is not recommended to use this option, unless 
+            /// there is pretty accurate initial estimation of the parameters and/or a huge number 
+            /// of training samples.
+            /// </summary>
+            CovMatGeneric = 2,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            CovMatDefault = CovMatSpherical,
+        };
 
         #endregion
     }

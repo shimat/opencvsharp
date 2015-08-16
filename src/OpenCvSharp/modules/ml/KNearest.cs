@@ -123,50 +123,42 @@ namespace OpenCvSharp.ML
 
         #region Methods
 
-        /// <summary>
-        /// Finds the neighbors and predicts responses for input vectors.
-        /// </summary>
-        /// <param name="samples">Input samples stored by rows. 
-        /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
-        /// <param name="k">Number of used nearest neighbors. Should be greater than 1.</param>
-        /// <param name="results">Vector with results of prediction (regression or classification) for each 
-        /// input sample. It is a single-precision floating-point vector with `[number_of_samples]` elements.</param>
-        /// <param name="neighborResponses">neighborResponses Optional output values for corresponding neighbors. 
-        /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
-        /// <param name="dist">Optional output distances from the input vectors to the corresponding neighbors. 
-        /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
-        /// <returns></returns>
+	    /// <summary>
+	    /// Finds the neighbors and predicts responses for input vectors.
+	    /// </summary>
+	    /// <param name="samples">Input samples stored by rows. 
+	    /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
+	    /// <param name="k">Number of used nearest neighbors. Should be greater than 1.</param>
+	    /// <param name="results">Vector with results of prediction (regression or classification) for each 
+	    /// input sample. It is a single-precision floating-point vector with `[number_of_samples]` elements.</param>
+	    /// <param name="neighborResponses">neighborResponses Optional output values for corresponding neighbors. 
+	    /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
+	    /// <param name="dist">Optional output distances from the input vectors to the corresponding neighbors. 
+	    /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
+	    /// <returns></returns>
 	    public float FindNearest(InputArray samples, int k, OutputArray results,
 	        OutputArray neighborResponses = null, OutputArray dist = null)
-        {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            if (samples == null)
-                throw new ArgumentNullException("samples");
-            if (results == null) 
-                throw new ArgumentNullException("results");
-            samples.ThrowIfDisposed();
-            results.ThrowIfNotReady();
+	    {
+	        if (disposed)
+	            throw new ObjectDisposedException(GetType().Name);
+	        if (samples == null)
+	            throw new ArgumentNullException("samples");
+	        if (results == null)
+	            throw new ArgumentNullException("results");
+	        samples.ThrowIfDisposed();
+	        results.ThrowIfNotReady();
 
-            float ret;
-            using (var temp1 = new Mat())
-            using (var temp2 = new Mat())
-            {
-                if (neighborResponses == null)
-                    neighborResponses = temp1;
-                if (dist == null)
-                    dist = temp2;
-
-                ret = NativeMethods.ml_KNearest_findNearest(
-                    samples.CvPtr, k, results.CvPtr, neighborResponses.CvPtr, dist.CvPtr);
-            }
+	        float ret = NativeMethods.ml_KNearest_findNearest(
+	            samples.CvPtr, k, results.CvPtr, Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist));
 
             GC.KeepAlive(samples);
-            results.Fix();
-            neighborResponses.Fix();
-            dist.Fix();
-            return ret;
-        }
+	        results.Fix();
+            if (neighborResponses != null)
+    	        neighborResponses.Fix();
+	        if (dist != null)
+                dist.Fix();
+	        return ret;
+	    }
 
 	    #endregion
 

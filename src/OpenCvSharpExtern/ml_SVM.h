@@ -104,7 +104,7 @@ CVAPI(cv::Mat*) ml_SVM_getSupportVectors(cv::ml::SVM *obj)
 CVAPI(double) ml_SVM_getDecisionFunction(
 	cv::ml::SVM *obj, int i, cv::_OutputArray *alpha, cv::_OutputArray *svidx)
 {
-	return obj->getDecisionFunction(i, *alpha, *svidx);
+	return obj->getDecisionFunction(i, entity(alpha), entity(svidx));
 }
 
 CVAPI(ParamGridStruct) ml_SVM_getDefaultGrid(int param_id)

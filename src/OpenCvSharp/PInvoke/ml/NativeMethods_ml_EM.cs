@@ -5,22 +5,36 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
-    // TODO:
-
     static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ml_EM_new(
-            int nclusters, int covMatType, TermCriteria termCrit);
+        public static extern int ml_EM_getClustersNumber(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ml_EM_delete(IntPtr model);
+        public static extern void ml_EM_setClustersNumber(IntPtr obj, int val);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ml_EM_clear(IntPtr model);
+        public static extern int ml_EM_getCovarianceMatrixType(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ml_EM_train(
-            IntPtr model, IntPtr samples, IntPtr logLikelihoods, IntPtr labels, 
-            IntPtr probs);
+        public static extern void ml_EM_setCovarianceMatrixType(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern TermCriteria ml_EM_getTermCriteria(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ml_EM_setTermCriteria(IntPtr obj, TermCriteria val);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_EM_getWeights(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ml_EM_getMeans(IntPtr obj);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ml_EM_getCovs(IntPtr obj, IntPtr covs);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern Vec2d ml_EM_predict2(IntPtr model, IntPtr sample, IntPtr probs);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ml_EM_trainEM(
+            IntPtr obj, IntPtr samples, IntPtr logLikelihoods, IntPtr labels, IntPtr probs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int ml_EM_trainE(
             IntPtr model, IntPtr samples, IntPtr means0, IntPtr covs0, IntPtr weights0,
@@ -29,19 +43,12 @@ namespace OpenCvSharp
         public static extern int ml_EM_trainM(
             IntPtr model, IntPtr samples, IntPtr probs0, IntPtr logLikelihoods, 
             IntPtr labels, IntPtr probs);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ml_EM_predict(
-            IntPtr model, IntPtr sample, IntPtr probs, out Vec2d ret);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ml_EM_isTrained(IntPtr model);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ml_EM_read(IntPtr model, IntPtr fn);
-
+        public static extern IntPtr ml_EM_create();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ml_Ptr_EM_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ml_Ptr_EM_delete(IntPtr ptr);
-
     }
 }

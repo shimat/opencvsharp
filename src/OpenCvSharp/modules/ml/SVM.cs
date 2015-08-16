@@ -101,7 +101,7 @@ namespace OpenCvSharp.ML
 
         /// <summary>
         /// Parameter gamma of a kernel function.
-        /// For SVM::POLY, SVM::RBF, SVM::SIGMOID or SVM::CHI2. Default value is 1. */
+        /// For SVM::POLY, SVM::RBF, SVM::SIGMOID or SVM::CHI2. Default value is 1. 
         /// </summary>
 	    public double Gamma
 	    {
