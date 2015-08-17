@@ -95,8 +95,6 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp\bin\Release\OpenCvSharp.dll.config", 
             @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll", 
             @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config", 
-            @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll", 
-            @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.dll.config", 
             @"OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll", 
             @"OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll", 
         };
@@ -112,14 +110,13 @@ namespace OpenCvSharp.ReleaseMaker
         private static readonly string[] XmlFiles = {
             @"OpenCvSharp\bin\{0}\OpenCvSharp.xml", 
             @"OpenCvSharp.Blob\bin\{0}\OpenCvSharp.Blob.xml", 
-            @"OpenCvSharp.CPlusPlus\bin\Release\OpenCvSharp.CPlusPlus.xml", 
             @"OpenCvSharp.Extensions\bin\{0}\OpenCvSharp.Extensions.xml", 
             @"OpenCvSharp.UserInterface\bin\{0}\OpenCvSharp.UserInterface.xml", 
         };
 
         private static readonly string[] Platforms = { 
             "x86", 
-            //"x64" 
+            "x64" 
         };
         private static readonly string[] Languages = { 
             "Release", 
