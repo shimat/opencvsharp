@@ -48,12 +48,12 @@ namespace OpenCvSharp.Extensions
         /// <param name="thetaMax"></param>
         /// <returns></returns>
 #endif
-        public static CvLineSegmentPoint[] HoughLinesProbabilisticEx(this CvArr img, double rho, double theta, int threshold, double minLineLength, double maxLineGap, 
-            double thetaMin = 0, double thetaMax = Cv.PI)
+        public static CvLineSegmentPoint[] HoughLinesProbabilisticEx(this Mat img, double rho, double theta, int threshold, double minLineLength, double maxLineGap,
+            double thetaMin = 0, double thetaMax = Math.PI)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            if (img.ElemType != MatrixType.U8C1)
+            if (img.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("The source matrix must be 8-bit, single-channel image.");
             if (rho <= 0)
                 throw new ArgumentOutOfRangeException("rho");
@@ -65,7 +65,7 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentOutOfRangeException("minLineLength");
             if (thetaMax < thetaMin)
                 throw new ArgumentException();
-            if (thetaMax > Cv.PI)
+            if (thetaMax > Math.PI)
                 throw new ArgumentOutOfRangeException("thetaMax", "thetaMax <= pi");
             if (thetaMin < 0)
                 throw new ArgumentOutOfRangeException("thetaMin", "thetaMin >= 0");
@@ -73,36 +73,16 @@ namespace OpenCvSharp.Extensions
             unsafe
             {
                 // 画像パラメータの収集
-                byte* data;
-                int width;
-                int height;
-                int step;
+                byte* data = (byte*)img.DataStart;
+                int width = img.Cols;
+                int height = img.Rows;
+                int step = (int)img.Step();
 
-                if (img is IplImage)
-                {
-                    IplImage obj = (IplImage)img;
-                    data = obj.ImageDataPtr;
-                    width = obj.Width;
-                    height = obj.Height;
-                    step = obj.WidthStep;
-                }
-                else if (img is CvMat)
-                {
-                    CvMat obj = (CvMat)img;
-                    data = obj.DataByte;
-                    width = obj.Width;
-                    height = obj.Height;
-                    step = obj.Step;
-                }
-                else
-                {
-                    throw new NotImplementedException("The source matrix of this method must be IplImage or CvMat.");
-                }
 
                 // sin, cosのLUTを作っておく
-                double numAngleAll = Cv.PI / theta;
-                int angleMin = (int)Math.Round(numAngleAll * (thetaMin / Cv.PI)); //(int)Math.Round(thetaMin * 180 / Cv.PI);
-                int angleMax = (int)Math.Round(numAngleAll * (thetaMax / Cv.PI)); 
+                double numAngleAll = Math.PI / theta;
+                int angleMin = (int)Math.Round(numAngleAll * (thetaMin / Math.PI)); //(int)Math.Round(thetaMin * 180 / Cv.PI);
+                int angleMax = (int)Math.Round(numAngleAll * (thetaMax / Math.PI)); 
                 int numAngle = angleMax - angleMin;
                 int numRho = (int)Math.Round(((width + height) * 2 + 1) / rho);
                 double[] sin = new double[angleMax];  // 大きめに作成。angleMinより手前の要素は使わない
@@ -118,7 +98,7 @@ namespace OpenCvSharp.Extensions
                 }
 
                 // 1. 非0の点を収集
-                CvPoint[] points = new CvPoint[Cv.CountNonZero(img)];
+                Point[] points = new Point[Cv2.CountNonZero(img)];
                 bool[] mask = new bool[width * height];
                 int i = 0;
                 for (int y = 0; y < height; y++)
@@ -130,7 +110,7 @@ namespace OpenCvSharp.Extensions
                         if (p[x] != 0)
                         {
                             mask[offset + x] = true;
-                            points[i++] = new CvPoint(x, y);
+                            points[i++] = new Point(x, y);
                         }
                         else
                         {
@@ -147,7 +127,7 @@ namespace OpenCvSharp.Extensions
                 List<CvLineSegmentPoint> result = new List<CvLineSegmentPoint>();
                 for (int count = 0; count < points.Length; count++)
                 {
-                    CvPoint pt = points[count];
+                    Point pt = points[count];
 
                     // 画素データが更新されているのは除外
                     if (!mask[pt.Y * width + pt.X])
@@ -199,7 +179,7 @@ namespace OpenCvSharp.Extensions
                     }
 
                     // 2.3 線分画素を両端方向に追尾し、線分を抽出
-                    CvPoint[] lineEnd = { new CvPoint(), new CvPoint() };
+                    Point[] lineEnd = { new Point(), new Point() };
                     for (int k = 0; k < 2; k++)
                     {
                         int gap = 0;

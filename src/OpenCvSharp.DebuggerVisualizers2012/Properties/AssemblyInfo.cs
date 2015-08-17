@@ -39,22 +39,8 @@ using System.Runtime.InteropServices;
 
 // OpenCvSharp objects' debugger visualizer
 [assembly: DebuggerVisualizer(
-    typeof(OpenCvSharp.DebuggerVisualizers2012.IplImageDebuggerVisualizer),
-    typeof(OpenCvSharp.DebuggerVisualizers2012.IplImageObjectSource),
-    Target = typeof(OpenCvSharp.IplImage),
-    Description = "IplImage View Visualizer"
-)]
-
-[assembly: DebuggerVisualizer(
-    typeof(OpenCvSharp.DebuggerVisualizers2012.CvMatDebuggerVisualizer),
-    typeof(OpenCvSharp.DebuggerVisualizers2012.CvMatObjectSource),
-    Target = typeof(OpenCvSharp.CvMat),
-    Description = "CvMat View Visualizer"
-)]
-
-[assembly: DebuggerVisualizer(
     typeof(OpenCvSharp.DebuggerVisualizers2012.MatDebuggerVisualizer),
     typeof(OpenCvSharp.DebuggerVisualizers2012.MatObjectSource),
-    Target = typeof(OpenCvSharp.CPlusPlus.Mat),
+    Target = typeof(OpenCvSharp.Mat),
     Description = "Mat View Visualizer"
 )]

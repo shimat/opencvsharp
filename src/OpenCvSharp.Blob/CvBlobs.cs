@@ -63,13 +63,13 @@ namespace OpenCvSharp.Blob
         /// Constructor (init and cvLabel)
         /// </summary>
         /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and nchannels=1).</param>
-        public CvBlobs(IplImage img)
+        public CvBlobs(Mat img)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
             if (img.IsDisposed)
                 throw new ArgumentException("img is disposed");
-            if (img.Depth != BitDepth.U8 || img.NChannels != 1)
+            if (img.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("img.Depth == BitDepth.U8 && img.NChannels == 1");
 
             Label(img);
@@ -84,50 +84,42 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="targetBlob">The target blob</param>
         /// <param name="originalImage">Original image.</param>
-        public CvScalar BlobMeanColor(CvBlob targetBlob, IplImage originalImage)
+        public Scalar BlobMeanColor(CvBlob targetBlob, Mat originalImage)
         {
             if (targetBlob == null)
                 throw new ArgumentNullException("targetBlob");
             if (originalImage == null)
                 throw new ArgumentNullException("originalImage");
-            if (originalImage.Depth != BitDepth.U8)
-                throw new ArgumentException("imgOut.Depth != BitDepth.U8");
-            if (originalImage.NChannels != 3)
-                throw new ArgumentException("imgOut.NChannels != 3");
+            if (originalImage.Type() != MatType.CV_8UC3)
+                throw new ArgumentException("imgOut.Depth != BitDepth.U8 || imgOut.NChannels != 3");
             if (Labels == null)
                 throw new ArgumentException("blobs.Labels == null");
 
-            int step = originalImage.WidthStep;
-            CvRect roi = originalImage.ROI;
-            int width = roi.Width;
-            int height = roi.Height;
-            int offset = roi.X + (roi.Y * step);
-
+            int width = originalImage.Cols;
+            int height = originalImage.Rows;
             int mb = 0;
             int mg = 0;
             int mr = 0;
-            unsafe
+
+            var indexer = originalImage.GetGenericIndexer<Vec3b>();
+            for (int r = 0; r < height; r++)
             {
-                byte* imgData = originalImage.ImageDataPtr + offset;
-                for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
                 {
-                    for (int c = 0; c < width; c++)
+                    if (Labels[r, c] == targetBlob.Label)
                     {
-                        if (Labels[r, c] == targetBlob.Label)
-                        {
-                            mb += imgData[3 * c + 0];
-                            mg += imgData[3 * c + 1];
-                            mr += imgData[3 * c + 2];
-                        }
+                        var v = indexer[r, c];
+                        mb += v.Item0;
+                        mg += v.Item1;
+                        mr += v.Item2;
                     }
-                    imgData += step;
                 }
             }
 
             GC.KeepAlive(originalImage);
 
             int pixels = targetBlob.Area;
-            return new CvColor((byte)(mr / pixels), (byte)(mg / pixels), (byte)(mb / pixels));
+            return new Scalar((byte) (mb/pixels), (byte) (mg/pixels), (byte) (mr/pixels));
         }
 
         #endregion
@@ -186,43 +178,35 @@ namespace OpenCvSharp.Blob
         /// Draw a binary image with the blobs that have been given. (cvFilterLabels)
         /// </summary>
         /// <param name="imgOut">Output binary image (depth=IPL_DEPTH_8U and nchannels=1).</param>
-        public void FilterLabels(IplImage imgOut)
+        public void FilterLabels(Mat imgOut)
         {
             if (imgOut == null)
                 throw new ArgumentNullException("imgOut");
-            if (imgOut.Depth != BitDepth.U8)
-                throw new ArgumentException("imgOut.Depth != BitDepth.U8");
-            if (imgOut.NChannels != 1)
-                throw new ArgumentException("imgOut.NChannels != 1");
+            if (imgOut.Type() != MatType.CV_8UC1)
+                throw new ArgumentException("imgOut.Depth != BitDepth.U8 || imgOut.NChannels != 1");
             if (Labels == null)
                 throw new ArgumentException("blobs.Labels == null");
 
-            CvRect roi = Labels.Roi;
-            int w = roi.Width;
-            int h = roi.Height;
-            int step = imgOut.WidthStep;
-            int offset = roi.X + (roi.Y * step);
+            Size size = Labels.Size;
+            int w = size.Width;
+            int h = size.Height;
+            var indexer = imgOut.GetGenericIndexer<byte>();
 
-            unsafe
+            for (int r = 0; r < h; r++)
             {
-                byte* imgData = imgOut.ImageDataPtr + offset;
-
-                for (int r = 0; r < h; r++, imgData += step)
+                for (int c = 0; c < w; c++)
                 {
-                    for (int c = 0; c < w; c++)
+                    int label = Labels[r, c];
+                    if (label != 0)
                     {
-                        int label = Labels[r, c];
-                        if (label != 0)
-                        {
-                            if (ContainsKey(label))
-                                imgData[c] = 0xff;
-                            else
-                                imgData[c] = 0x00;
-                        }
+                        if (ContainsKey(label))
+                            indexer[r, c] = 0xff;
                         else
-                        {
-                            imgData[c] = 0x00;
-                        }
+                            indexer[r, c] = 0x00;
+                    }
+                    else
+                    {
+                        indexer[r, c] = 0x00;
                     }
                 }
             }
@@ -289,12 +273,12 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="img">Input binary image (depth=IPL_DEPTH_8U and num. channels=1).</param>
         /// <returns>Number of pixels that has been labeled.</returns>
-        public int Label(IplImage img)
+        public int Label(Mat img)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
 
-            Labels = new LabelData(img.Height, img.Width, img.ROI);
+            Labels = new LabelData(img.Height, img.Width);
             return Labeller.Perform(img, this);
         }
 
@@ -307,7 +291,7 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        public void RenderBlobs(IplImage imgSource, IplImage imgDest)
+        public void RenderBlobs(Mat imgSource, Mat imgDest)
         {
             CvBlobLib.RenderBlobs(this, imgSource, imgDest);
         }
@@ -318,7 +302,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
-        public void RenderBlobs(IplImage imgSource, IplImage imgDest, RenderBlobsMode mode)
+        public void RenderBlobs(Mat imgSource, Mat imgDest, RenderBlobsMode mode)
         {
             CvBlobLib.RenderBlobs(this, imgSource, imgDest, mode);
         }
@@ -330,7 +314,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
-        public void RenderBlobs(IplImage imgSource, IplImage imgDest, RenderBlobsMode mode, Double alpha)
+        public void RenderBlobs(Mat imgSource, Mat imgDest, RenderBlobsMode mode, Double alpha)
         {
             CvBlobLib.RenderBlobs(this, imgSource, imgDest, mode, alpha);
         }
@@ -491,7 +475,7 @@ namespace OpenCvSharp.Blob
                     int area = 0;
                     foreach (CvTrack t in tt)
                     {
-                        int a = (t.MaxX - t.MinX) * (t.MaxY - t.MinY);
+                        int a = (t.MaxX - t.MinX)*(t.MaxY - t.MinY);
                         if (a > area)
                         {
                             area = a;
@@ -626,7 +610,7 @@ namespace OpenCvSharp.Blob
             int nBlobs, int nTracks, CvBlobs blobs, CvTracks tracks,
             List<CvBlob> bb, List<CvTrack> tt)
         {
-        retry:
+            retry:
             var retryList = new List<int>();
 
             for (int j = 0; j < nTracks; j++)
@@ -664,7 +648,7 @@ namespace OpenCvSharp.Blob
             int nBlobs, int nTracks, CvBlobs blobs,
             CvTracks tracks, List<CvBlob> bb, List<CvTrack> tt)
         {
-        retry:
+            retry:
             var retryList = new List<int>();
 
             for (int i = 0; i < nBlobs; i++)

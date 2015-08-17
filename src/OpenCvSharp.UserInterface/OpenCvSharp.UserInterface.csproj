@@ -92,17 +92,13 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
+    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
       <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
-      <Name>OpenCvSharp.CPlusPlus</Name>
+      <Name>OpenCvSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj">
       <Project>{f1110c7b-46b1-4504-871e-135b57f9de67}</Project>
       <Name>OpenCvSharp.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
-      <Project>{4C2356B8-1A1E-4F92-A51C-A49CA116867F}</Project>
-      <Name>OpenCvSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

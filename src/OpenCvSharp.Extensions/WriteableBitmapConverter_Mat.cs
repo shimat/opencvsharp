@@ -3,13 +3,142 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using OpenCvSharp.CPlusPlus;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Extensions
 {
-    static partial class WriteableBitmapConverter
+    static class WriteableBitmapConverter
     {
+        private static readonly Dictionary<PixelFormat, int> optimumChannels;
+        private static readonly Dictionary<PixelFormat, MatType> optimumTypes;
+
+        static WriteableBitmapConverter()
+        {
+            optimumChannels = new Dictionary<PixelFormat, int>();
+            optimumChannels[PixelFormats.Indexed1] =
+            optimumChannels[PixelFormats.Indexed8] =
+            optimumChannels[PixelFormats.Gray2] =
+            optimumChannels[PixelFormats.Gray4] =
+            optimumChannels[PixelFormats.Gray8] =
+            optimumChannels[PixelFormats.Gray16] =
+            optimumChannels[PixelFormats.Gray32Float] =
+            optimumChannels[PixelFormats.Indexed1] =
+            optimumChannels[PixelFormats.Indexed2] =
+            optimumChannels[PixelFormats.Indexed4] =
+            optimumChannels[PixelFormats.Indexed8] =
+            optimumChannels[PixelFormats.BlackWhite] = 1;
+            optimumChannels[PixelFormats.Bgr24] =
+            optimumChannels[PixelFormats.Bgr555] =
+            optimumChannels[PixelFormats.Bgr565] =
+            optimumChannels[PixelFormats.Rgb24] =
+            optimumChannels[PixelFormats.Rgb48] =
+            optimumChannels[PixelFormats.Rgb128Float] = 3;
+            optimumChannels[PixelFormats.Bgr32] =
+            optimumChannels[PixelFormats.Bgra32] =
+            optimumChannels[PixelFormats.Cmyk32] =
+            optimumChannels[PixelFormats.Pbgra32] =
+            optimumChannels[PixelFormats.Prgba64] =
+            optimumChannels[PixelFormats.Prgba128Float] =
+            optimumChannels[PixelFormats.Rgba64] =
+            optimumChannels[PixelFormats.Rgba128Float] = 4;
+
+            optimumTypes = new Dictionary<PixelFormat, MatType>();
+            optimumTypes[PixelFormats.Indexed1] =
+            optimumTypes[PixelFormats.Indexed8] =
+            optimumTypes[PixelFormats.Gray2] =
+            optimumTypes[PixelFormats.Gray4] =
+            optimumTypes[PixelFormats.Gray8] =
+            optimumTypes[PixelFormats.Indexed1] =
+            optimumTypes[PixelFormats.Indexed2] =
+            optimumTypes[PixelFormats.Indexed4] =
+            optimumTypes[PixelFormats.Indexed8] =
+            optimumTypes[PixelFormats.BlackWhite] = MatType.CV_8UC1;
+            optimumTypes[PixelFormats.Gray16] = MatType.CV_16UC1;
+            optimumTypes[PixelFormats.Rgb48] = MatType.CV_16UC3;
+            optimumTypes[PixelFormats.Rgba64] = MatType.CV_16UC4;
+            optimumTypes[PixelFormats.Pbgra32] =
+            optimumTypes[PixelFormats.Prgba64] = MatType.CV_32SC4;
+            optimumTypes[PixelFormats.Gray32Float] = MatType.CV_32FC1;
+            optimumTypes[PixelFormats.Rgb128Float] = MatType.CV_32FC3;
+            optimumTypes[PixelFormats.Prgba128Float] =
+            optimumTypes[PixelFormats.Rgba128Float] = MatType.CV_32FC4;
+            optimumTypes[PixelFormats.Bgr24] =
+            optimumTypes[PixelFormats.Rgb24] =
+            optimumTypes[PixelFormats.Bgr555] =
+            optimumTypes[PixelFormats.Bgr565] = MatType.CV_8UC3;
+            optimumTypes[PixelFormats.Bgr32] =
+            optimumTypes[PixelFormats.Bgra32] =
+            optimumTypes[PixelFormats.Cmyk32] = MatType.CV_8UC4;
+        }
+
+        /// <summary>
+        /// 指定したPixelFormatに適合するIplImageのチャンネル数を返す
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        private static int GetOptimumChannels(PixelFormat f)
+        {
+            try
+            {
+                return optimumChannels[f];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ArgumentException("Not supported PixelFormat");
+            }
+        }
+
+        /// <summary>
+        /// 指定したPixelFormatに適合するMatTypeを返す
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        private static MatType GetOptimumType(PixelFormat f)
+        {
+            try
+            {
+                return optimumTypes[f];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ArgumentException("Not supported PixelFormat");
+            }
+        }
+
+        /// <summary>
+        /// 指定したIplImageのビット深度・チャンネル数に適合するPixelFormatを返す
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static PixelFormat GetOptimumPixelFormats(MatType type)
+        {
+            if (type == MatType.CV_8UC1 || type == MatType.CV_8SC1)
+                return PixelFormats.Gray8;
+            if (type == MatType.CV_8UC3 || type == MatType.CV_8SC3)
+                return PixelFormats.Bgr24;
+            if (type == MatType.CV_8UC4 || type == MatType.CV_8SC4)
+                return PixelFormats.Bgra32;
+
+            if (type == MatType.CV_16UC1 || type == MatType.CV_16SC1)
+                return PixelFormats.Gray16;
+            if (type == MatType.CV_16UC3 || type == MatType.CV_16SC3)
+                return PixelFormats.Rgb48;
+            if (type == MatType.CV_16UC4 || type == MatType.CV_16SC4)
+                return PixelFormats.Rgba64;
+
+            if (type == MatType.CV_32SC4)
+                return PixelFormats.Prgba64;
+
+            if (type == MatType.CV_32FC1)
+                return PixelFormats.Gray32Float;
+            if (type == MatType.CV_32FC3)
+                return PixelFormats.Rgb128Float;
+            if (type == MatType.CV_32FC4)
+                return PixelFormats.Rgba128Float;
+
+            throw new ArgumentOutOfRangeException("type", "Not supported MatType");
+        }
+
         #region ToMat
 #if LANG_JP
         /// <summary>
@@ -365,7 +494,7 @@ namespace OpenCvSharp.Extensions
                     {
                         long offsetSrc = (y * sstep);
                         long offsetDst = (y * dstep);
-                        Util.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * channels);
+                        Utility.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * channels);
                     }
                 }
                 finally
