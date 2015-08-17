@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-WithoutDll</id>
-        <version>2.4.10.20150816</version>
+        <version>3.0.0.20150816</version>
         <title>OpenCvSharp3 (without DLLs)</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -22,7 +22,7 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="OpenCvSharp-WithoutDll.props" target="build\OpenCvSharp-WithoutDll.props" />
+        <file src="OpenCvSharp3-WithoutDll.props" target="build\OpenCvSharp3-WithoutDll.props" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net20\OpenCvSharp.Blob.XML" />

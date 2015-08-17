@@ -22,7 +22,7 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="OpenCvSharp-AnyCPU.props" target="build\OpenCvSharp-AnyCPU.props" />
+        <file src="OpenCvSharp3-AnyCPU.props" target="build\OpenCvSharp3-AnyCPU.props" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net20\OpenCvSharp.Blob.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net20\OpenCvSharp.Blob.dll.config" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net20\OpenCvSharp.Blob.XML" />

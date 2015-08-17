@@ -41,8 +41,8 @@
 			<Link>dll\x64\opencv_world300.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>	
-		<None Include="$(NativeDlls)\x64\opencv_ffmpeg300.dll">
-			<Link>dll\x4\opencv_ffmpeg300_64.dll</Link>
+		<None Include="$(NativeDlls)\x64\opencv_ffmpeg300_64.dll">
+			<Link>dll\x64\opencv_ffmpeg300_64.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>	
 	</ItemGroup>
