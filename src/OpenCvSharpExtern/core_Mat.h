@@ -171,7 +171,7 @@ CVAPI(void) core_Mat_convertTo(cv::Mat *self, cv::Mat *m, int rtype, double alph
 
 CVAPI(void) core_Mat_copyTo(cv::Mat *self, cv::Mat *m, cv::Mat *mask)
 {
-	cv::Mat &maskMat = (mask == NULL) ? cv::Mat() : *mask;
+	const cv::Mat &maskMat = (mask == NULL) ? cv::Mat() : *mask;
 	self->copyTo(*m, maskMat);
 }
 
@@ -513,10 +513,10 @@ CVAPI(void) core_Mat_IplImage(cv::Mat *self, IplImage *outImage)
 }
 CVAPI(void) core_Mat_IplImage_alignment(cv::Mat *self, IplImage **outImage)
 {
-	// ƒLƒƒƒXƒg‚ÌŒ‹‰Ê‚ğQl‚Ég‚¤.
-    // ƒƒ‚ƒŠŠÇ—‚Ì–â‘è‚©‚çA’¼Ú‚Íg‚í‚È‚¢.
+	// ã‚­ãƒ£ã‚¹ãƒˆã®çµæœã‚’å‚è€ƒã«ä½¿ã†.
+    // ãƒ¡ãƒ¢ãƒªç®¡ç†ã®å•é¡Œã‹ã‚‰ã€ç›´æ¥ã¯ä½¿ã‚ãªã„.
     IplImage dummy = (IplImage)(*self);
-    // alignment‚ğ‚»‚ë‚¦‚é
+    // alignmentã‚’ãã‚ãˆã‚‹
     IplImage *img = cvCreateImage(cvSize(dummy.width, dummy.height), dummy.depth, dummy.nChannels);
     int height = img->height;
     size_t sstep = self->step;
