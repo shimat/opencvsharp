@@ -238,8 +238,8 @@ CVAPI(int) stitching_Stitcher_stitch2_MatArray(
 
 CVAPI(void) stitching_Stitcher_component(cv::Stitcher *obj, int **pointer, int *length) 
 { 
-    std::vector<int> &val = obj->component();
-    *pointer = &val[0];
+    const std::vector<int> &val = obj->component();
+    *pointer = const_cast<int*>(&val[0]);
     *length = static_cast<int>(val.size());
 }
 
