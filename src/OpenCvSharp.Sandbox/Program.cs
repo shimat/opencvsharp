@@ -7,13 +7,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Blob;
-using OpenCvSharp.CPlusPlus;
-using OpenCvSharp.CPlusPlus.Gpu;
-using OpenCvSharp.CPlusPlus.XFeatures2D;
+using OpenCvSharp;
+using OpenCvSharp.Gpu;
 using OpenCvSharp.Extensions;
-using Point = OpenCvSharp.CPlusPlus.Point;
-using Rect = OpenCvSharp.CPlusPlus.Rect;
-using Size = OpenCvSharp.CPlusPlus.Size;
 
 namespace OpenCvSharp.Sandbox
 {
@@ -28,6 +24,9 @@ namespace OpenCvSharp.Sandbox
             Mat src = new Mat("data/lenna.png", LoadMode.GrayScale);
             Mat zoom = new Mat();
             Mat f32 = new Mat();
+
+            Mat hoge = new Mat(-1, -1, MatType.CV_8UC1);
+            hoge.ToString();
 
             Cv2.Resize(src, zoom, new Size(960, 1280), 0, 0, Interpolation.Cubic);
             zoom.ConvertTo(f32, MatType.CV_32FC1);
@@ -51,6 +50,8 @@ namespace OpenCvSharp.Sandbox
             //Stitching(mats);
             //Track();
             //Run();
+
+            Console.Read();
         }
 
         private static void Clahe()
@@ -73,6 +74,7 @@ namespace OpenCvSharp.Sandbox
             Window.ShowImages(src, dst20, dst40, dst44);
         }
 
+        /*
         private static void Surf()
         {
             Mat src = new Mat("data/match1.png");
@@ -91,7 +93,7 @@ namespace OpenCvSharp.Sandbox
             Cv2.DrawMatches(src, keypoints1, src2, keypoints2, matches, view);
 
             Window.ShowImages(view);
-        }
+        }*/
 
         private static Mat[] StitchingPreprocess(int width, int height, int count)
         {
@@ -121,7 +123,7 @@ namespace OpenCvSharp.Sandbox
             result.SaveImage(@"C:\temp\parts.png");
             using (new Window(result))
             {
-                Cv.WaitKey();
+                Cv2.WaitKey();
             }
 
             return mats.ToArray();
@@ -129,7 +131,7 @@ namespace OpenCvSharp.Sandbox
 
         private static void Stitching(Mat[] images)
         {
-            var stitcher = Stitcher.CreateDefault(false);
+            var stitcher = Stitcher.Create(false);
 
             Mat pano = new Mat();
 
@@ -143,56 +145,6 @@ namespace OpenCvSharp.Sandbox
             foreach (Mat image in images)
             {
                 image.Dispose();
-            }
-        }
-
-        private static void Track()
-        {
-            using (var video = new CvCapture("data/bach.mp4"))
-            {
-                IplImage frame = null;
-                IplImage gray = null;
-                IplImage binary = null;
-                IplImage render = null;
-                IplImage renderTracks = null;
-                CvTracks tracks = new CvTracks();
-                CvWindow window = new CvWindow("render");
-                CvWindow windowTracks = new CvWindow("tracks");
-
-                for (int i = 0; ; i++)
-                {
-                    frame = video.QueryFrame();
-                    //if (frame == null)
-                    //    frame = new IplImage("data/shapes.png");
-                    if (gray == null)
-                    {
-                        gray = new IplImage(frame.Size, BitDepth.U8, 1);
-                        binary = new IplImage(frame.Size, BitDepth.U8, 1);
-                        render = new IplImage(frame.Size, BitDepth.U8, 3);
-                        renderTracks = new IplImage(frame.Size, BitDepth.U8, 3);
-                    }
-
-                    render.Zero();
-                    renderTracks.Zero();
-
-                    Cv.CvtColor(frame, gray, ColorConversion.BgrToGray);
-                    Cv.Threshold(gray, binary, 0, 255, ThresholdType.Otsu);
-
-                    CvBlobs blobs = new CvBlobs(binary);
-                    CvBlobs newBlobs = new CvBlobs(blobs
-                        .OrderByDescending(pair => pair.Value.Area)
-                        .Take(200)
-                        .ToDictionary(pair => pair.Key, pair => pair.Value), blobs.Labels);
-                    newBlobs.RenderBlobs(binary, render);
-                    window.ShowImage(render);
-
-                    newBlobs.UpdateTracks(tracks, 10.0, Int32.MaxValue);
-                    tracks.Render(binary, renderTracks);
-                    windowTracks.ShowImage(renderTracks);
-
-                    Cv.WaitKey(200);
-                    Console.WriteLine(i);
-                }
             }
         }
 

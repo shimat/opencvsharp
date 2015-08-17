@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-using OpenCvSharp.CPlusPlus;
-using OpenCvSharp.Utilities;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Extensions
 {
-    static partial class BitmapConverter
+#if LANG_JP
+    /// <summary>
+    /// System.Drawing.BitmapとMatの相互変換メソッドを提供するクラス
+    /// </summary>
+#else
+    /// <summary>
+    /// static class which provides conversion between System.Drawing.Bitmap and Mat
+    /// </summary>
+#endif
+    public static class BitmapConverter
     {
         #region ToMat
 #if LANG_JP
@@ -156,7 +163,7 @@ namespace OpenCvSharp.Extensions
                         if (dstep == sstep && !submat && continuous)
                         {
                             uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
-                            Util.CopyMemory(dstData, bd.Scan0, length);
+                            Utility.CopyMemory(dstData, bd.Scan0, length);
                         }
                         else
                         {
@@ -165,7 +172,7 @@ namespace OpenCvSharp.Extensions
                             byte* dp = (byte*)dst.Data;
                             for (int y = 0; y < h; y++)
                             {
-                                Util.CopyMemory(dp, sp, dstep);
+                                Utility.CopyMemory(dp, sp, dstep);
                                 sp += sstep;
                                 dp += dstep;
                             }
@@ -183,7 +190,7 @@ namespace OpenCvSharp.Extensions
                                 if (!submat && continuous)
                                 {
                                     uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
-                                    Util.CopyMemory(dstData, bd.Scan0, length);
+                                    Utility.CopyMemory(dstData, bd.Scan0, length);
                                 }
                                 else
                                 {
@@ -191,7 +198,7 @@ namespace OpenCvSharp.Extensions
                                     byte* dp = (byte*)dst.Data;
                                     for (int y = 0; y < h; y++)
                                     {
-                                        Util.CopyMemory(dp, sp, dstep);
+                                        Utility.CopyMemory(dp, sp, dstep);
                                         sp += sstep;
                                         dp += dstep;
                                     }
@@ -394,7 +401,7 @@ namespace OpenCvSharp.Extensions
                         if (sstep == dstep && !submat && continuous)
                         {
                             uint imageSize = (uint)(src.DataEnd.ToInt64() - src.Data.ToInt64());
-                            Util.CopyMemory(pDst, pSrc, imageSize);
+                            Utility.CopyMemory(pDst, pSrc, imageSize);
                         }
                         else
                         {
@@ -403,7 +410,7 @@ namespace OpenCvSharp.Extensions
                                 long offsetSrc = (y * sstep);
                                 long offsetDst = (y * dstep);
                                 // 一列ごとにコピー
-                                Util.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * ch);
+                                Utility.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * ch);
                             }
                         }
                         break;

@@ -21,21 +21,7 @@ namespace OpenCvSharp.NUnitTest
         [Test]
         public void SimpleTest()
         {
-            using (var src = new IplImage(@"Image\Blob\shapes2.png", LoadMode.GrayScale))
-            using (var binary = new IplImage(src.Size, BitDepth.U8, 1))
-            using (var render = new IplImage(src.Size, BitDepth.U8, 3))
-            {
-                Cv.Threshold(src, binary, 0, 255, ThresholdType.Otsu);
-
-                var blobs = new CvBlobs(binary);
-                blobs.RenderBlobs(src, render);
-                using (new CvWindow(render))
-                {
-                    Cv.WaitKey();
-                }
-            }
         }
-        
     }
 }
 

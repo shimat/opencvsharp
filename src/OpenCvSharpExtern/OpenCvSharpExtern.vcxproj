@@ -208,8 +208,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)OpenCvSharp.Sandbox\dll\x86\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-Static|Win32'">
@@ -283,8 +282,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)OpenCvSharp.Sandbox\dll\x64\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-Static|x64'">
@@ -359,6 +357,12 @@
     <ClInclude Include="face.h" />
     <ClInclude Include="cuda.h" />
     <ClInclude Include="cuda_GpuMat.h" />
+    <ClInclude Include="features2d_BRISK.h" />
+    <ClInclude Include="features2d_FastFeatureDetector.h" />
+    <ClInclude Include="features2d_GFTTDetector.h" />
+    <ClInclude Include="features2d_MSER.h" />
+    <ClInclude Include="features2d_ORB.h" />
+    <ClInclude Include="features2d_SimpleBlobDetector.h" />
     <ClInclude Include="imgproc_CLAHE.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />
     <ClInclude Include="features2d_FeatureDetector.h" />
@@ -368,13 +372,14 @@
     <ClInclude Include="imgproc_Subdiv2D.h" />
     <ClInclude Include="include_opencv.h" />
     <ClInclude Include="ml.h" />
-    <ClInclude Include="ml_CvBoost.h" />
-    <ClInclude Include="ml_CvBoostTree.h" />
-    <ClInclude Include="ml_CvDTree.h" />
-    <ClInclude Include="ml_CvKNearest.h" />
-    <ClInclude Include="ml_CvNormalBayesClassifier.h" />
-    <ClInclude Include="ml_RTrees.h" />
+    <ClInclude Include="ml_ANN_MLP.h" />
+    <ClInclude Include="ml_Boost.h" />
+    <ClInclude Include="ml_DTree.h" />
+    <ClInclude Include="ml_KNearest.h" />
+    <ClInclude Include="ml_LogisticRegressionh.h" />
+    <ClInclude Include="ml_NormalBayesClassifier.h" />
     <ClInclude Include="ml_StatModel.h" />
+    <ClInclude Include="ml_SVM.h" />
     <ClInclude Include="optflow.h" />
     <ClInclude Include="optflow_motempl.h" />
     <ClInclude Include="my_functions.h" />
@@ -383,12 +388,8 @@
     <ClInclude Include="objdetect_HOGDescriptor.h" />
     <ClInclude Include="core_Algorithm.h" />
     <ClInclude Include="flann.h" />
-    <ClInclude Include="ml_Boost.h" />
-    <ClInclude Include="ml_DTrees.h" />
     <ClInclude Include="ml_EM.h" />
-    <ClInclude Include="ml_KNearest.h" />
-    <ClInclude Include="ml_NormalBayesClassifier.h" />
-    <ClInclude Include="ml_SVM.h" />
+    <ClInclude Include="ml_RTrees.h" />
     <ClInclude Include="video_tracking.h" />
     <ClInclude Include="photo.h" />
     <ClInclude Include="std_vector.h" />

@@ -151,7 +151,7 @@
             this.textBox_Version.Name = "textBox_Version";
             this.textBox_Version.Size = new System.Drawing.Size(50, 19);
             this.textBox_Version.TabIndex = 10;
-            this.textBox_Version.Text = "3.0alpha";
+            this.textBox_Version.Text = "3.0.0";
             // 
             // MainForm
             // 
