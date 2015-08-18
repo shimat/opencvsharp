@@ -21,7 +21,7 @@ namespace OpenCvSharp
         /// Connectivity 4 (N,S,E,W)
         /// </summary>
 #endif
-        Connectivity_4 = 4,
+        Connectivity4 = 4,
 
 
 #if LANG_JP
@@ -33,6 +33,6 @@ namespace OpenCvSharp
         /// Connectivity 8 (N,S,E,W,NE,SE,SW,NW)
         /// </summary>
 #endif
-        Connectivity_8 = 8,
+        Connectivity8 = 8,
     }
 }

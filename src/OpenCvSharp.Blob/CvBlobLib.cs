@@ -250,24 +250,9 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="color">Color to render (if CV_BLOB_RENDER_COLOR is used).</param>
-        public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest,
-            RenderBlobsMode mode, Scalar color)
-        {
-            RenderBlob(labels, blob, imgSource, imgDest, mode, color, 1.0);
-        }
-
-        /// <summary>
-        /// Draws or prints information about a blob.
-        /// </summary>
-        /// <param name="labels">Label data.</param>
-        /// <param name="blob">Blob.</param>
-        /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
-        /// <param name="color">Color to render (if CV_BLOB_RENDER_COLOR is used).</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
         public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest,
-            RenderBlobsMode mode, Scalar color, double alpha)
+            RenderBlobsMode mode, Scalar color, double alpha = 1.0)
         {
             if (labels == null)
                 throw new ArgumentNullException("labels");
@@ -299,21 +284,9 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
-        public static void RenderBlobs(CvBlobs blobs, Mat imgSource, Mat imgDest, RenderBlobsMode mode)
-        {
-            RenderBlobs(blobs, imgSource, imgDest, mode, 1.0);
-        }
-
-        /// <summary>
-        /// Draws or prints information about blobs. (cvRenderBlobs)
-        /// </summary>
-        /// <param name="blobs">List of blobs.</param>
-        /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
         public static void RenderBlobs(CvBlobs blobs, Mat imgSource, Mat imgDest, RenderBlobsMode mode,
-            double alpha)
+            double alpha = 1.0)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
@@ -418,7 +391,7 @@ namespace OpenCvSharp.Blob
         {
             if (tracks == null)
                 throw new ArgumentNullException("tracks");
-            tracks.Render(imgSource, imgDest, mode, textColor, fontFace, fontScale);
+            tracks.Render(imgSource, imgDest, mode, textColor, fontFace, fontScale, thickness);
         }
 
         /// <summary>

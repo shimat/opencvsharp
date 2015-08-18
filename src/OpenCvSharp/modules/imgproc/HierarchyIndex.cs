@@ -12,14 +12,17 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         public int Next { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
         public int Previous { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
         public int Child { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

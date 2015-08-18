@@ -107,6 +107,7 @@
     <Compile Include="Delegate\CvWriteFunc.cs" />
     <Compile Include="DisposableCvObject.cs" />
     <Compile Include="DisposableObject.cs" />
+    <Compile Include="Modules\imgproc\ConnectedComponent.cs" />
     <Compile Include="Modules\ml\LogisticRegression.cs" />
     <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
