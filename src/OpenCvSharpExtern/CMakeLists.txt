@@ -5,17 +5,14 @@ link_directories(${OpenCV_LIBRARY_DIR} ${OpenCV_LIBRARIES})
 set(OPENCVSHARP_FILES 
 	bgsegm.cpp
 	calib3d.cpp
-	contrib.cpp
 	core.cpp
 	cuda.cpp
 	face.cpp
 	features2d.cpp
 	flann.cpp
-	gpu.cpp
 	highgui.cpp
 	imgproc.cpp
 	ml.cpp
-	nonfree.cpp
 	objdetect.cpp
 	optflow.cpp
 	photo.cpp
