@@ -114,15 +114,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Samples\ConnectedComponentsSample.cs" />
     <Compile Include="Samples\BgSubtractorMOG.cs" />
-    <Compile Include="Samples\EM.cs" />
-    <Compile Include="Samples\ClaheTest.cs" />
+    <Compile Include="Samples\ClaheSample.cs" />
     <Compile Include="Samples\Stitching.cs" />
     <Compile Include="Samples\SuperResolutionSample.cs" />
     <Compile Include="Samples\FaceDetection.cs" />
     <Compile Include="Samples\HistSample.cs" />
     <Compile Include="Samples\DFT.cs" />
-    <Compile Include="Samples\SVM.cs" />
+    <Compile Include="Samples\SVMSample.cs" />
     <Compile Include="Samples\VideoWriterSample.cs" />
     <Compile Include="Samples\VideoCaptureSample.cs" />
     <Compile Include="Samples\MatToBitmap.cs" />

@@ -8,6 +8,7 @@ namespace SamplesCS
     /// DFT, inverse DFT
     /// http://stackoverflow.com/questions/19761526/how-to-do-inverse-dft-in-opencv
     /// </summary>
+// ReSharper disable once InconsistentNaming
     class DFT : ISample
     {
         public void Run()

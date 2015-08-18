@@ -8,7 +8,7 @@ using SampleBase;
 
 namespace SamplesCS
 {
-    class ClaheTest : ISample
+    class ClaheSample : ISample
     {
         public void Run()
         {

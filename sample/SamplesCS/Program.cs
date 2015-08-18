@@ -12,34 +12,36 @@ namespace SamplesCS
         static void Main(string[] args)
         {
             ISample sample =
-                //new ClaheTest();
-                //new BgSubtractorMOG();  
-                //new VideoWriterSample();
-                //new VideoCaptureSample();
-                //new MatToBitmap();
-                //new SiftSurfSample();
-                //new HistSample();
-                //new Subdiv2DSample();
+                //new BgSubtractorMOG();
+                //new BRISKSample();
+                //new ClaheSample();
+                new ConnectedComponentsSample();
+                //new DFT();
+                //new FaceDetection();
                 //new FASTSample();
                 //new FlannSample(); 
+                //new FREAKSample();
+                //new HistSample();
                 //new HOGSample();
                 //new HoughLinesSample();
-                //new MSERSample();
-                //new MDS();
-                //new DFT();
-                //new PixelAccess();
-                //new MorphologySample();
-                //new MergeSplitSample();
-                //new NormalArrayOperations();
-                //new SolveEquation();
                 //new MatOperations();
-                //new FaceDetection();
-                //new SuperResolutionSample();
-                new SVMSample();
+                //new MatToBitmap();
+                //new MDS();
+                //new MSERSample();
+                //new NormalArrayOperations();
+                //new MergeSplitSample();
+                //new MorphologySample();
+                //new PixelAccess();
+                //new SiftSurfSample();
+                //new SolveEquation();
                 //new StarDetectorSample();
-                //new BRISKSample();
-                //new FREAKSample();
                 //new Stitching();
+                //new Subdiv2DSample();
+                //new SuperResolutionSample();
+                //new SVMSample();
+                //new VideoWriterSample();
+                //new VideoCaptureSample();
+                               
             sample.Run();
         }
     }
