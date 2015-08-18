@@ -46,11 +46,11 @@ static int p(T obj, const std::string &caption = "MessageBox")
 
 static inline cv::_InputArray entity(cv::_InputArray *obj)
 {
-    return (obj != NULL) ? *obj : cv::noArray();
+    return (obj != NULL) ? *obj : static_cast<cv::_InputArray>(cv::noArray());
 }
 static inline cv::_OutputArray entity(cv::_OutputArray *obj)
 {
-    return (obj != NULL) ? *obj : cv::noArray();
+    return (obj != NULL) ? *obj : static_cast<cv::_OutputArray>(cv::noArray());
 }
 static inline cv::_InputOutputArray entity(cv::_InputOutputArray *obj)
 {
@@ -70,7 +70,7 @@ static inline cv::cuda::Stream entity(cv::cuda::Stream *obj)
 }
 
 template <typename T>
-static inline cv::Ptr<T> *clone(cv::Ptr<T> &ptr)
+static inline cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
 {
     return new cv::Ptr<T>(ptr);
 }
