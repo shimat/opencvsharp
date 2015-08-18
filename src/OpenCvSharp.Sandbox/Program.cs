@@ -21,37 +21,60 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Mat src = new Mat("data/lenna.png", LoadMode.GrayScale);
-            Mat zoom = new Mat();
-            Mat f32 = new Mat();
+            Blob();
 
-            Mat hoge = new Mat(-1, -1, MatType.CV_8UC1);
-            hoge.ToString();
-
-            Cv2.Resize(src, zoom, new Size(960, 1280), 0, 0, Interpolation.Cubic);
-            zoom.ConvertTo(f32, MatType.CV_32FC1);
-
-            Scalar mean, stddev;
-            Cv2.MeanStdDev(f32, out mean, out stddev);
-            Console.WriteLine(mean[0]);
-            Console.WriteLine(stddev[0]);
-
-            Mat meanm = new Mat(), stddevm = new Mat();
-            Cv2.MeanStdDev(f32, meanm, stddevm);
-            Console.WriteLine(meanm.At<double>(0));
-            Console.WriteLine(stddevm.At<double>(0));
-            meanm.ToString();
-
-            /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
-            var img2 = new IplImage("data/match2.png", LoadMode.Color);
-            Surf(img1, img2);*/
-
-            //Mat[] mats = StitchingPreprocess(400, 400, 10);
-            //Stitching(mats);
-            //Track();
-            //Run();
-
+            Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void Blob()
+        {
+            Mat src = new Mat("data/shapes.png", LoadMode.Color);
+            Mat gray = src.CvtColor(ColorConversion.BgrToGray);
+            Mat binary = gray.Threshold(0, 255, ThresholdType.Otsu | ThresholdType.Binary);
+            Mat labelView = src.EmptyClone();
+            Mat rectView = binary.CvtColor(ColorConversion.GrayToBgr);
+
+            ConnectedComponents cc = Cv2.ConnectedComponentsEx(binary);
+            if (cc.LabelCount <= 1)
+                return;
+
+            // draw labels
+            /*
+            Scalar[] colors = cc.Blobs.Select(_ => Scalar.RandomColor()).ToArray();
+            int height = cc.Labels.GetLength(0);
+            int width = cc.Labels.GetLength(1);
+            var labelViewIndexer = labelView.GetGenericIndexer<Vec3b>();
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int labelValue = cc.Labels[y, x];
+                    labelViewIndexer[y, x] = colors[labelValue].ToVec3b();
+                }
+            }
+            */
+            cc.RenderBlobs(labelView);
+
+            // draw bonding boxes except background
+            foreach (var blob in cc.Blobs.Skip(1))
+            {
+                rectView.Rectangle(blob.Rect, Scalar.Red);
+            }
+
+            // filter maximum blob
+            ConnectedComponents.Blob maxBlob = cc.GetLargestBlob();
+                //cc.Blobs.Skip(1).OrderByDescending(b => b.Area).First();
+            Mat filtered = cc.FilterByBlob(src, maxBlob);
+
+            using (new Window("src", src))
+            using (new Window("binary", binary))
+            using (new Window("labels", labelView))
+            using (new Window("bonding boxes", rectView))
+            using (new Window("maximum blob", filtered))
+            {
+                Cv2.WaitKey();
+            }
         }
 
         private static void Clahe()

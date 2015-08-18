@@ -2016,6 +2016,113 @@ namespace OpenCvSharp
             return dst;
         }
 
+        /// <summary>
+        /// computes the connected components labeled image of boolean image. 
+        /// image with 4 or 8 way connectivity - returns N, the total number of labels [0, N-1] where 0 
+        /// represents the background label. ltype specifies the output label image type, an important 
+        /// consideration based on the total number of labels or alternatively the total number of 
+        /// pixels in the source image.
+        /// </summary>
+        /// <param name="labels">destination labeled image</param>
+        /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <returns>The number of labels</returns>
+        public int ConnectedComponents(OutputArray labels,
+            PixelConnectivity connectivity = PixelConnectivity.Connectivity8)
+        {
+            return ConnectedComponents(labels, connectivity, MatType.CV_32S);
+        }
+
+        /// <summary>
+        /// computes the connected components labeled image of boolean image. 
+        /// image with 4 or 8 way connectivity - returns N, the total number of labels [0, N-1] where 0 
+        /// represents the background label. ltype specifies the output label image type, an important 
+        /// consideration based on the total number of labels or alternatively the total number of 
+        /// pixels in the source image.
+        /// </summary>
+        /// <param name="labels">destination labeled image</param>
+        /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <param name="ltype">output image label type. Currently CV_32S and CV_16U are supported.</param>
+        /// <returns>The number of labels</returns>
+        public int ConnectedComponents(OutputArray labels,
+            PixelConnectivity connectivity, MatType ltype)
+        {
+            return Cv2.ConnectedComponents(this, labels, connectivity, ltype);
+        }
+
+        /// <summary>
+        /// computes the connected components labeled image of boolean image. 
+        /// image with 4 or 8 way connectivity - returns N, the total number of labels [0, N-1] where 0 
+        /// represents the background label. ltype specifies the output label image type, an important 
+        /// consideration based on the total number of labels or alternatively the total number of 
+        /// pixels in the source image.
+        /// </summary>
+        /// <param name="labels">destination labeled rectangular array</param>
+        /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <returns>The number of labels</returns>
+        public int ConnectedComponents(out int[,] labels, PixelConnectivity connectivity)
+        {
+            return Cv2.ConnectedComponents(this, out labels, connectivity);
+        }
+
+        /// <summary>
+        /// computes the connected components labeled image of boolean image. 
+        /// image with 4 or 8 way connectivity - returns N, the total number of labels [0, N-1] where 0 
+        /// represents the background label. ltype specifies the output label image type, an important 
+        /// consideration based on the total number of labels or alternatively the total number of 
+        /// pixels in the source image.
+        /// </summary>
+        /// <param name="labels">destination labeled image</param>
+        /// <param name="stats">statistics output for each label, including the background label, 
+        /// see below for available statistics. Statistics are accessed via stats(label, COLUMN) 
+        /// where COLUMN is one of cv::ConnectedComponentsTypes</param>
+        /// <param name="centroids">floating point centroid (x,y) output for each label, 
+        /// including the background label</param>
+        /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <returns></returns>
+        public int ConnectedComponentsWithStats(
+            OutputArray labels, OutputArray stats, OutputArray centroids,
+            PixelConnectivity connectivity = PixelConnectivity.Connectivity8)
+        {
+            return ConnectedComponentsWithStats(labels, stats, centroids, connectivity, MatType.CV_32S);
+        }
+
+        /// <summary>
+        /// computes the connected components labeled image of boolean image. 
+        /// image with 4 or 8 way connectivity - returns N, the total number of labels [0, N-1] where 0 
+        /// represents the background label. ltype specifies the output label image type, an important 
+        /// consideration based on the total number of labels or alternatively the total number of 
+        /// pixels in the source image.
+        /// </summary>
+        /// <param name="labels">destination labeled image</param>
+        /// <param name="stats">statistics output for each label, including the background label, 
+        /// see below for available statistics. Statistics are accessed via stats(label, COLUMN) 
+        /// where COLUMN is one of cv::ConnectedComponentsTypes</param>
+        /// <param name="centroids">floating point centroid (x,y) output for each label, 
+        /// including the background label</param>
+        /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <param name="ltype">output image label type. Currently CV_32S and CV_16U are supported.</param>
+        /// <returns></returns>
+        public int ConnectedComponentsWithStats(
+            OutputArray labels, OutputArray stats, OutputArray centroids,
+            PixelConnectivity connectivity, MatType ltype)
+        {
+            return Cv2.ConnectedComponentsWithStats(this, labels, stats, centroids, connectivity, ltype);
+        }
+
+        /// <summary>
+        /// computes the connected components labeled image of boolean image. 
+        /// image with 4 or 8 way connectivity - returns N, the total number of labels [0, N-1] where 0 
+        /// represents the background label. ltype specifies the output label image type, an important 
+        /// consideration based on the total number of labels or alternatively the total number of 
+        /// pixels in the source image.
+        /// </summary>
+        /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <returns></returns>
+        public ConnectedComponents ConnectedComponentsEx(PixelConnectivity connectivity = PixelConnectivity.Connectivity8)
+        {
+            return Cv2.ConnectedComponentsEx(this, connectivity);
+        }
+
 #if LANG_JP
     /// <summary>
     /// 2値画像中の輪郭を検出します．
@@ -2249,6 +2356,7 @@ namespace OpenCvSharp
         /// The type should match the type of the input curve</param>
         /// <returns>The result of the approximation; 
         /// The type should match the type of the input curve</returns>
+// ReSharper disable once InconsistentNaming
         public Mat ApproxPolyDP(double epsilon, bool closed)
         {
             var dst = new Mat();

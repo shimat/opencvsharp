@@ -1,11 +1,8 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_IMGPROC_H_
 #define _CPP_IMGPROC_H_
 
 #include "include_opencv.h"
+
 
 CVAPI(cv::Mat*) imgproc_getGaborKernel(CvSize ksize, double sigma, double theta, 
 	double lambd, double gamma, double psi, int ktype)
@@ -404,11 +401,13 @@ CVAPI(void) imgproc_distanceTransformWithLabels(cv::_InputArray *src, cv::_Outpu
 {
 	cv::distanceTransform(*src, *dst, *labels, distanceType, maskSize, labelType);
 }
+
 CVAPI(void) imgproc_distanceTransform(cv::_InputArray *src, cv::_OutputArray *dst,
                                      int distanceType, int maskSize )
 {
 	cv::distanceTransform(*src, *dst, distanceType, maskSize);
 }
+
 CVAPI(int) imgproc_floodFill1(cv::_InputOutputArray *image,
                           MyCvPoint seedPoint, MyCvScalar newVal, MyCvRect *rect,
                           MyCvScalar loDiff, MyCvScalar upDiff, int flags)
@@ -427,20 +426,37 @@ CVAPI(int) imgproc_floodFill2(cv::_InputOutputArray *image, cv::_InputOutputArra
 	*rect = c(rect0);
 	return ret;
 }
+
 CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
 {
 	cv::cvtColor(*src, *dst, code, dstCn); 
 }
+
 CVAPI(MyCvMoments) imgproc_moments(cv::_InputArray *arr, int binaryImage )
 {
 	cv::Moments m = cv::moments(*arr, binaryImage != 0);
 	return c(m);
 }
+
+
 CVAPI(void) imgproc_matchTemplate(cv::_InputArray *image, cv::_InputArray *templ,
 	cv::_OutputArray *result, int method)
 {
 	cv::matchTemplate(*image, *templ, *result, method);
 }
+
+CVAPI(int) imgproc_connectedComponents(cv::_InputArray *image, cv::_OutputArray *labels,
+    int connectivity, int ltype)
+{
+    return cv::connectedComponents(entity(image), entity(labels), connectivity, ltype);
+}
+
+CVAPI(int) imgproc_connectedComponentsWithStats(cv::_InputArray *image, cv::_OutputArray *labels,
+    cv::_OutputArray *stats, cv::_OutputArray *centroids, int connectivity, int ltype)
+{
+    return cv::connectedComponentsWithStats(entity(image), entity(labels), entity(stats), entity(centroids), connectivity, ltype);
+}
+
 CVAPI(void) imgproc_findContours1_vector(cv::_InputOutputArray *image, std::vector<std::vector<cv::Point> > **contours,
 	std::vector<cv::Vec4i> **hierarchy, int mode, int method, MyCvPoint offset)
 {
