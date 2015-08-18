@@ -85,6 +85,9 @@ class Program
 }
 ```
 
+### Samples
+- https://github.com/shimat/opencvsharp/tree/master/sample
+- https://github.com/VahidN/OpenCVSharp-Samples
 
 ## License
 OpenCvSharp is licensed under the 
