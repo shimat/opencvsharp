@@ -4,6 +4,7 @@
 
 #include "features2d_BRISK.h"
 #include "features2d_GFTTDetector.h"
+#include "features2d_KAZE.h"
 #include "features2d_MSER.h"
 #include "features2d_ORB.h"
 #include "features2d_SimpleBlobDetector.h"
