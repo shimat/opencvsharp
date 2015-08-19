@@ -6,7 +6,7 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-    /// KAZE 実装
+    /// AKAZE 実装
     /// </summary>
 #else
     /// <summary>
@@ -111,19 +111,19 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public int AKAZEDescriptorType // avoid name conflict
+        public AKAZEDescriptorType AKAZEDescriptorType // avoid name conflict
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.features2d_AKAZE_getDescriptorType(ptr);
+                return (AKAZEDescriptorType)NativeMethods.features2d_AKAZE_getDescriptorType(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.features2d_AKAZE_setDescriptorType(ptr, value);
+                NativeMethods.features2d_AKAZE_setDescriptorType(ptr, (int)value);
             }
         }
 

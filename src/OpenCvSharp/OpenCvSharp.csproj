@@ -85,6 +85,9 @@
     <Compile Include="Cv2\Cv2_face.cs" />
     <Compile Include="Cv2\Cv2_video.cs" />
     <Compile Include="Cv2\Cv2_superres.cs" />
+    <Compile Include="Modules\features2d\AgastFeatureDetector.cs" />
+    <Compile Include="Modules\features2d\Enum\FASTType.cs" />
+    <Compile Include="Modules\features2d\Enum\AGASTType.cs" />
     <Compile Include="Modules\features2d\Enum\AKAZEDescriptorType.cs" />
     <Compile Include="Modules\features2d\Enum\KAZEDiffusivity.cs" />
     <Compile Include="Modules\features2d\AKAZE.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
     <Compile Include="Modules\ml\TrainData.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_AgastFeatureDetector.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_AKAZE.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_KAZE.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_SimpleBlobDetector.cs" />

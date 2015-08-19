@@ -8,48 +8,77 @@ namespace OpenCvSharp
 {
     static partial class Cv2
     {
-        #region FAST/FASTX
         /// <summary>
-        /// detects corners using FAST algorithm by E. Rosten
+        /// Detects corners using the FAST algorithm
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="keypoints"></param>
-        /// <param name="threshold"></param>
-        /// <param name="nonmaxSupression"></param>
-        public static void FAST(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression = true)
+        /// <param name="image">grayscale image where keypoints (corners) are detected.</param>
+        /// <param name="threshold">threshold on difference between intensity of the central pixel 
+        /// and pixels of a circle around this pixel.</param>
+        /// <param name="nonmaxSupression">if true, non-maximum suppression is applied to 
+        /// detected corners (keypoints).</param>
+        /// <returns>keypoints detected on the image.</returns>
+        public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression = true)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
+
             using (var kp = new VectorOfKeyPoint())
             {
                 NativeMethods.features2d_FAST1(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
-                keypoints = kp.ToArray();
+                GC.KeepAlive(image);
+                return kp.ToArray();
             }
-            GC.KeepAlive(image);
         }
 
         /// <summary>
-        /// detects corners using FAST algorithm by E. Rosten
+        /// Detects corners using the FAST algorithm
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="keypoints"></param>
-        /// <param name="threshold"></param>
-        /// <param name="nonmaxSupression"></param>
-        /// <param name="type"></param>
-        public static void FAST(InputArray image, out KeyPoint[] keypoints, int threshold, bool nonmaxSupression, int type)
+        /// <param name="image">grayscale image where keypoints (corners) are detected.</param>
+        /// <param name="threshold">threshold on difference between intensity of the central pixel 
+        /// and pixels of a circle around this pixel.</param>
+        /// <param name="nonmaxSupression">if true, non-maximum suppression is applied to 
+        /// detected corners (keypoints).</param>
+        /// <param name="type">one of the three neighborhoods as defined in the paper</param>
+        /// <returns>keypoints detected on the image.</returns>
+        public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression, FASTType type)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
+
             using (var kp = new VectorOfKeyPoint())
             {
-                NativeMethods.features2d_FAST2(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, type);
-                keypoints = kp.ToArray();
+                NativeMethods.features2d_FAST2(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, (int)type);
+                GC.KeepAlive(image);
+                return kp.ToArray();
             }
-            GC.KeepAlive(image);
         }
-        #endregion
+
+        /// <summary>
+        /// Detects corners using the AGAST algorithm
+        /// </summary>
+        /// <param name="image">grayscale image where keypoints (corners) are detected.</param>
+        /// <param name="threshold">threshold on difference between intensity of the central pixel 
+        /// and pixels of a circle around this pixel.</param>
+        /// <param name="nonmaxSuppression">if true, non-maximum suppression is applied to 
+        /// detected corners (keypoints).</param>
+        /// <param name="type">one of the four neighborhoods as defined in the paper</param>
+        /// <returns>keypoints detected on the image.</returns>
+        public static KeyPoint[] AGAST(InputArray image, int threshold, bool nonmaxSuppression, AGASTType type)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            image.ThrowIfDisposed();
+            
+            using (var vector = new VectorOfKeyPoint())
+            {
+                NativeMethods.features2d_AGAST(image.CvPtr, vector.CvPtr, threshold, nonmaxSuppression ? 1 : 0,
+                    (int) type);
+                GC.KeepAlive(image);
+                return vector.ToArray();
+            }
+        }
 
         /// <summary>
         /// Draw keypoints.

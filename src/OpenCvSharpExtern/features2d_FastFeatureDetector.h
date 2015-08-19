@@ -3,6 +3,16 @@
 
 #include "include_opencv.h"
 
+CVAPI(void) features2d_FAST1(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression)
+{
+    cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0);
+}
+
+CVAPI(void) features2d_FAS2(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression, int type)
+{
+    cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0, type);
+}
+
 
 CVAPI(cv::Ptr<cv::FastFeatureDetector>*) features2d_FastFeatureDetector_create(
 	int threshold, int nonmaxSuppression)
