@@ -190,14 +190,14 @@ namespace OpenCvSharp
         /// <param name="image">The image.</param>
         /// <param name="keypoints">The input keypoints. Keypoints for which a descriptor cannot be computed are removed.</param>
         /// <param name="descriptors">Copmputed descriptors. Row i is the descriptor for keypoint i.</param>param>
-        public virtual void Compute(InputArray image, out KeyPoint[] keypoints, OutputArray descriptors)
+        public virtual void Compute(InputArray image, ref KeyPoint[] keypoints, OutputArray descriptors)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
-            using (var keypointsVec = new VectorOfKeyPoint())
+            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {
                 NativeMethods.features2d_Feature2D_compute1(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
                 keypoints = keypointsVec.ToArray();
