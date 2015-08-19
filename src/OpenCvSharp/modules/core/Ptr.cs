@@ -42,6 +42,7 @@ namespace OpenCvSharp
                 {typeof (FREAK), NativeMethods.xfeatures2d_Ptr_FREAK_delete},
                 {typeof (GFTTDetector), NativeMethods.features2d_Ptr_GFTTDetector_delete},
                 {typeof (KAZE), NativeMethods.features2d_Ptr_KAZE_delete},
+                {typeof (AKAZE), NativeMethods.features2d_Ptr_AKAZE_delete},
                 {typeof (MSER), NativeMethods.features2d_Ptr_MSER_delete},
                 {typeof (ORB), NativeMethods.features2d_Ptr_ORB_delete},
                 {typeof (SimpleBlobDetector), NativeMethods.features2d_Ptr_SimpleBlobDetector_delete},
@@ -86,6 +87,7 @@ namespace OpenCvSharp
                 {typeof (FREAK), NativeMethods.xfeatures2d_Ptr_FREAK_get},
                 {typeof (GFTTDetector), NativeMethods.features2d_Ptr_GFTTDetector_get},
                 {typeof (KAZE), NativeMethods.features2d_Ptr_KAZE_get},
+                {typeof (AKAZE), NativeMethods.features2d_Ptr_AKAZE_get},
                 {typeof (MSER), NativeMethods.features2d_Ptr_MSER_get},
                 {typeof (ORB), NativeMethods.features2d_Ptr_ORB_get},
                 {typeof (SimpleBlobDetector), NativeMethods.features2d_Ptr_SimpleBlobDetector_get},
@@ -161,7 +163,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Returns Ptr&lt;T&gt;.obj pointer
+        /// Returns Ptr&lt;T&gt;.get() pointer
         /// </summary>
         public virtual IntPtr Get()
         {
