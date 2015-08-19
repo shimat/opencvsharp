@@ -68,6 +68,13 @@ CVAPI(void) features2d_Feature2D_compute2(
 	detector->compute(imageVec, *keypoints, descriptorsVec);
 }
 
+CVAPI(void) features2d_Feature2D_detectAndCompute(
+    cv::Feature2D *detector, cv::_InputArray *image, cv::_InputArray *mask, 
+    std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors, int useProvidedKeypoints)
+{
+    detector->detectAndCompute(entity(image), entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
+}
+
 CVAPI(int) features2d_Feature2D_descriptorSize(cv::Ptr<cv::Feature2D> *obj)
 {
 	return obj->get()->descriptorSize();
