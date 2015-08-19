@@ -21,10 +21,22 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Blob();
+            Feature();
+            //Blob();
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void Feature()
+        {
+            Mat img = new Mat("data/lenna.png", LoadMode.GrayScale);
+            KAZE kaze = KAZE.Create();
+
+            Mat descriptors = new Mat();
+            KeyPoint[] keyPoints = kaze.Detect(img);
+            kaze.Compute(img, ref keyPoints, descriptors);
+            descriptors.ToString();
         }
 
         private static void Blob()
