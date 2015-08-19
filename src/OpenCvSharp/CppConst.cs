@@ -131,6 +131,15 @@ namespace OpenCvSharp
             DrawMatchesFlags_DRAW_RICH_KEYPOINTS = 4;
 
         /// <summary>
+        /// cv::KAZE
+        /// </summary>
+        public const int
+            KAZE_DIFF_PM_G1 = 0,
+            KAZE_DIFF_PM_G2 = 1,
+            KAZE_DIFF_WEICKERT = 2,
+            KAZE_DIFF_CHARBONNIER = 3;
+
+        /// <summary>
         /// cv::ORB
         /// </summary>
         public const int
