@@ -10,42 +10,56 @@ namespace OpenCvSharp
     /// </summary>
 #else
     /// <summary>
-    /// Class implementing the KAZE keypoint detector and descriptor extractor
+    /// Class implementing the AKAZE keypoint detector and descriptor extractor, 
+    /// described in @cite ANB13
     /// </summary>
+    /// <remarks>
+    /// AKAZE descriptors can only be used with KAZE or AKAZE keypoints. 
+    /// Try to avoid using *extract* and *detect* instead of *operator()* due to performance reasons. 
+    /// .. [ANB13] Fast Explicit Diffusion for Accelerated Features in Nonlinear Scale 
+    /// Spaces. Pablo F. Alcantarilla, Jesús Nuevo and Adrien Bartoli. 
+    /// In British Machine Vision Conference (BMVC), Bristol, UK, September 2013.
+    /// </remarks>
 #endif
-    public class KAZE : Feature2D
+    public class AKAZE : Feature2D
     {
         private bool disposed;
-        private Ptr<KAZE> ptrObj;
+        private Ptr<AKAZE> ptrObj;
 
         #region Init & Disposal
 
         /// <summary>
         /// 
         /// </summary>
-        protected KAZE(IntPtr p)
+        protected AKAZE(IntPtr p)
         {
-            ptrObj = new Ptr<KAZE>(p);
+            ptrObj = new Ptr<AKAZE>(p);
             ptr = ptrObj.Get();
         }
 
         /// <summary>
-        /// The KAZE constructor
+        /// The AKAZE constructor
         /// </summary>
-        /// <param name="extended">Set to enable extraction of extended (128-byte) descriptor.</param>
-        /// <param name="upright">Set to enable use of upright descriptors (non rotation-invariant).</param>
-        /// <param name="threshold">Detector response threshold to accept point</param>
-        /// <param name="nOctaves">Maximum octave evolution of the image</param>
-        /// <param name="nOctaveLayers">Default number of sublevels per scale level</param>
-        /// <param name="diffusivity">Diffusivity type. DIFF_PM_G1, DIFF_PM_G2, DIFF_WEICKERT or DIFF_CHARBONNIER</param>
-        public static KAZE Create(
-            bool extended = false, bool upright = false, float threshold = 0.001f,
-            int nOctaves = 4, int nOctaveLayers = 4, KAZEDiffusivity diffusivity = KAZEDiffusivity.DiffPmG2)
+        /// <param name="descriptorType"></param>
+        /// <param name="descriptorSize"></param>
+        /// <param name="descriptorChannels"></param>
+        /// <param name="threshold"></param>
+        /// <param name="nOctaves"></param>
+        /// <param name="nOctaveLayers"></param>
+        /// <param name="diffusivity"></param>
+        public static AKAZE Create(
+            OpenCvSharp.AKAZEDescriptorType descriptorType = OpenCvSharp.AKAZEDescriptorType.MLDB,
+            int descriptorSize = 0,
+            int descriptorChannels = 3,
+            float threshold = 0.001f,
+            int nOctaves = 4,
+            int nOctaveLayers = 4,
+            KAZEDiffusivity diffusivity = KAZEDiffusivity.DiffPmG2)
         {
-            IntPtr ptr = NativeMethods.features2d_KAZE_create(
-                extended, upright, threshold,
-                nOctaves, nOctaveLayers, (int) diffusivity);
-            return new KAZE(ptr);
+            IntPtr ptr = NativeMethods.features2d_AKAZE_create(
+                (int) descriptorType, descriptorSize, descriptorChannels,
+                threshold, nOctaves, nOctaveLayers, (int) diffusivity);
+            return new AKAZE(ptr);
         }
 
 #if LANG_JP
@@ -93,85 +107,63 @@ namespace OpenCvSharp
         #endregion
 
         #region Properties
-
+        
         /// <summary>
         /// 
         /// </summary>
-        public int Diffusivity
+        public int AKAZEDescriptorType // avoid name conflict
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.features2d_KAZE_getDiffusivity(ptr);
+                return NativeMethods.features2d_AKAZE_getDescriptorType(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.features2d_KAZE_setDiffusivity(ptr, value);
+                NativeMethods.features2d_AKAZE_setDescriptorType(ptr, value);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public bool Extended
+        public int AKAZEDescriptorSize // avoid name conflict
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.features2d_KAZE_getExtended(ptr);
+                return NativeMethods.features2d_AKAZE_getDescriptorSize(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.features2d_KAZE_setExtended(ptr, value);
+                NativeMethods.features2d_AKAZE_setDescriptorSize(ptr, value);
             }
         }
-
 
         /// <summary>
         /// 
         /// </summary>
-        public int NOctaveLayers
+        public int AKAZEDescriptorChannels // avoid name conflict
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.features2d_KAZE_getNOctaveLayers(ptr);
+                return NativeMethods.features2d_AKAZE_getDescriptorChannels(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.features2d_KAZE_setNOctaveLayers(ptr, value);
+                NativeMethods.features2d_AKAZE_setDescriptorChannels(ptr, value);
             }
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int NOctaves
-        {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.features2d_KAZE_getNOctaves(ptr);
-            }
-            set
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.features2d_KAZE_setNOctaves(ptr, value);
-            }
-        }
-
 
         /// <summary>
         /// 
@@ -182,33 +174,70 @@ namespace OpenCvSharp
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.features2d_KAZE_getThreshold(ptr);
+                return NativeMethods.features2d_AKAZE_getThreshold(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.features2d_KAZE_setThreshold(ptr, value);
+                NativeMethods.features2d_AKAZE_setThreshold(ptr, value);
             }
         }
-
 
         /// <summary>
         /// 
         /// </summary>
-        public bool Upright
+        public int NOctaves
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.features2d_KAZE_getUpright(ptr);
+                return NativeMethods.features2d_AKAZE_getNOctaves(ptr);
             }
             set
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.features2d_KAZE_setUpright(ptr, value);
+                NativeMethods.features2d_AKAZE_setNOctaves(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int NOctaveLayers
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_AKAZE_getNOctaveLayers(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_AKAZE_setNOctaveLayers(ptr, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Diffusivity
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_AKAZE_getDiffusivity(ptr);
+            }
+            set
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                NativeMethods.features2d_AKAZE_setDiffusivity(ptr, value);
             }
         }
 
