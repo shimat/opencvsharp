@@ -85,6 +85,62 @@ namespace OpenCvSharp
                 }
             }
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual int DescriptorSize
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_Feature2D_descriptorSize(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual int DescriptorType
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_Feature2D_descriptorType(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual int DefaultNorm
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_Feature2D_defaultNorm(ptr);
+            }
+        }
+
+        /// <summary>
+        /// Return true if detector object is empty
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool Empty
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.features2d_Feature2D_empty(ptr) != 0;
+            }
+        }
 
         /// <summary>
         /// Detect keypoints in an image.
@@ -256,47 +312,40 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Detects keypoints and computes the descriptors
         /// </summary>
-        /// <returns></returns>
-        public virtual int DescriptorSize()
+        /// <param name="image"></param>
+        /// <param name="mask"></param>
+        /// <param name="keypoints"></param>
+        /// <param name="descriptors"></param>
+        /// <param name="useProvidedKeypoints"></param>
+        public virtual void DetectAndCompute(
+            InputArray image,
+            InputArray mask,
+            out KeyPoint[] keypoints,
+            OutputArray descriptors,
+            bool useProvidedKeypoints = false)
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
-            return NativeMethods.features2d_Feature2D_descriptorSize(ptr);
-        }
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (descriptors == null)
+                throw new ArgumentNullException("descriptors");
+            image.ThrowIfDisposed();
+            if (mask != null)
+                mask.ThrowIfDisposed();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual int DescriptorType()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            return NativeMethods.features2d_Feature2D_descriptorType(ptr);
-        }
+            using (var keypointsVec = new VectorOfKeyPoint())
+            {
+                NativeMethods.features2d_Feature2D_detectAndCompute(
+                    ptr, image.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr, descriptors.CvPtr, useProvidedKeypoints ? 1 : 0);
+                keypoints = keypointsVec.ToArray();
+            }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual int DefaultNorm()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            return NativeMethods.features2d_Feature2D_defaultNorm(ptr);
-        }
-
-        /// <summary>
-        /// Return true if detector object is empty
-        /// </summary>
-        /// <returns></returns>
-        public virtual bool Empty()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            return NativeMethods.features2d_Feature2D_empty(ptr) != 0;
+            GC.KeepAlive(image);
+            GC.KeepAlive(mask);
+            descriptors.Fix();
         }
     }
 }

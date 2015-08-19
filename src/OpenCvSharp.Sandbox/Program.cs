@@ -33,9 +33,10 @@ namespace OpenCvSharp.Sandbox
             Mat img = new Mat("data/lenna.png", LoadMode.GrayScale);
             KAZE kaze = KAZE.Create();
 
+            
+            KeyPoint[] keyPoints;
             Mat descriptors = new Mat();
-            KeyPoint[] keyPoints = kaze.Detect(img);
-            kaze.Compute(img, ref keyPoints, descriptors);
+            kaze.DetectAndCompute(img, null, out keyPoints, descriptors);
             descriptors.ToString();
         }
 

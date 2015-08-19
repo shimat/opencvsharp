@@ -119,6 +119,7 @@
     <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
     <Compile Include="Modules\ml\TrainData.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_Feature2D.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_AgastFeatureDetector.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_AKAZE.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_KAZE.cs" />
