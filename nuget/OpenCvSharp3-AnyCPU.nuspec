@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-AnyCPU</id>
-        <version>3.0.0.20150816</version>
+        <version>3.0.0.20150819</version>
         <title>OpenCvSharp3</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -10,7 +10,8 @@
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/mandrill-ico.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <releaseNotes>- support OpenCV 3.0</releaseNotes>
+        <releaseNotes>- support OpenCV 3.0
+- Added KAZE, AKAZE, AGAST and  connectedComponent</releaseNotes>
         <copyright>Copyright 2008-2015</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
