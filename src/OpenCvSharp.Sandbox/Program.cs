@@ -37,7 +37,10 @@ namespace OpenCvSharp.Sandbox
             KeyPoint[] keyPoints;
             Mat descriptors = new Mat();
             kaze.DetectAndCompute(img, null, out keyPoints, descriptors);
-            descriptors.ToString();
+
+            Mat dst = new Mat();
+            Cv2.DrawKeypoints(img, keyPoints, dst);
+            Window.ShowImages(dst);
         }
 
         private static void Blob()

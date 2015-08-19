@@ -363,6 +363,7 @@
     <ClInclude Include="features2d_FastFeatureDetector.h" />
     <ClInclude Include="features2d_GFTTDetector.h" />
     <ClInclude Include="features2d_KAZE.h" />
+    <ClInclude Include="features2d_KeyPointsFilter.h" />
     <ClInclude Include="features2d_MSER.h" />
     <ClInclude Include="features2d_ORB.h" />
     <ClInclude Include="features2d_SimpleBlobDetector.h" />
