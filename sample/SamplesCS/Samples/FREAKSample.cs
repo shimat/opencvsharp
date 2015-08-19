@@ -21,7 +21,7 @@ namespace SamplesCS
             // FREAK
             FREAK freak = FREAK.Create();
             Mat freakDescriptors = new Mat();
-            freak.Compute(gray, out keypoints, freakDescriptors);
+            freak.Compute(gray, ref keypoints, freakDescriptors);
 
             if (keypoints != null)
             {

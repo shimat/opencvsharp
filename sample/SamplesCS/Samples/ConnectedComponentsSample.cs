@@ -1,4 +1,5 @@
-﻿using OpenCvSharp;
+﻿using System.Linq;
+using OpenCvSharp;
 
 namespace SamplesCS
 {
@@ -9,7 +10,7 @@ namespace SamplesCS
     {
         public void Run()
         {
-            Mat src = new Mat("data/shapes.png", LoadMode.Color);
+            Mat src = new Mat("Data/Image/shapes.png", LoadMode.Color);
             Mat gray = src.CvtColor(ColorConversion.BgrToGray);
             Mat binary = gray.Threshold(0, 255, ThresholdType.Otsu | ThresholdType.Binary);
             Mat labelView = src.EmptyClone();

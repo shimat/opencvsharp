@@ -15,7 +15,7 @@ namespace SamplesCS
                 //new BgSubtractorMOG();
                 //new BRISKSample();
                 //new ClaheSample();
-                new ConnectedComponentsSample();
+                //new ConnectedComponentsSample();
                 //new DFT();
                 //new FaceDetection();
                 //new FASTSample();
@@ -24,6 +24,7 @@ namespace SamplesCS
                 //new HistSample();
                 //new HOGSample();
                 //new HoughLinesSample();
+                new KAZESample();
                 //new MatOperations();
                 //new MatToBitmap();
                 //new MDS();

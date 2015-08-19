@@ -16,8 +16,7 @@ namespace SamplesCS
             {
                 Cv2.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray, 0);
 
-                KeyPoint[] keypoints;
-                Cv2.FAST(imgGray, out keypoints, 50, true);
+                KeyPoint[] keypoints = Cv2.FAST(imgGray, 50, true);
 
                 foreach (KeyPoint kp in keypoints)
                 {

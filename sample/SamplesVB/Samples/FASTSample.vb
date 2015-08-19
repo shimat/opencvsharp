@@ -15,8 +15,7 @@ Friend Module FASTSample
             imgDst As Mat = imgSrc.Clone()
             Cv2.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray, 0)
 
-            Dim keypoints() As KeyPoint
-            Cv2.FAST(imgGray, keypoints, 50, True)
+            Dim keypoints() = Cv2.FAST(imgGray, 50, True)
 
             For Each kp As KeyPoint In keypoints
                 imgDst.Circle(kp.Pt, 3, Scalar.Red, -1, LineType.AntiAlias, 0)
