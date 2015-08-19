@@ -131,6 +131,15 @@ namespace OpenCvSharp
             DrawMatchesFlags_DRAW_RICH_KEYPOINTS = 4;
 
         /// <summary>
+        /// cv::AKAZE
+        /// </summary>
+        public const int
+            AKAZE_DESCRIPTOR_KAZE_UPRIGHT = 2,
+            AKAZE_DESCRIPTOR_KAZE = 3,
+            AKAZE_DESCRIPTOR_MLDB_UPRIGHT = 4,
+            AKAZE_DESCRIPTOR_MLDB = 5;
+
+        /// <summary>
         /// cv::KAZE
         /// </summary>
         public const int
