@@ -29,7 +29,7 @@ namespace OpenCvSharp
             Fps = -1;
             FrameSize = Size.Zero;
             IsColor = true;
-            ptr = NativeMethods.highgui_VideoWriter_new1();
+            ptr = NativeMethods.videoio_VideoWriter_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoWriter");
         }
@@ -127,7 +127,7 @@ namespace OpenCvSharp
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
-            ptr = NativeMethods.highgui_VideoWriter_new2(fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
+            ptr = NativeMethods.videoio_VideoWriter_new2(fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoWriter");
         }
@@ -168,7 +168,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.highgui_VideoWriter_delete(ptr);
+                        NativeMethods.videoio_VideoWriter_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -318,7 +318,7 @@ namespace OpenCvSharp
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
-            NativeMethods.highgui_VideoWriter_open(ptr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
+            NativeMethods.videoio_VideoWriter_open(ptr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
         }
         #endregion
         #region IsOpened
@@ -329,7 +329,7 @@ namespace OpenCvSharp
         public bool IsOpened()
         {
             ThrowIfDisposed();
-            return NativeMethods.highgui_VideoWriter_isOpened(ptr) != 0;
+            return NativeMethods.videoio_VideoWriter_isOpened(ptr) != 0;
         }
         #endregion
         #region Release
@@ -340,7 +340,7 @@ namespace OpenCvSharp
         public void Release()
         {
             ThrowIfDisposed();
-            NativeMethods.highgui_VideoWriter_release(ptr);
+            NativeMethods.videoio_VideoWriter_release(ptr);
         }
         #endregion
         #region Write
@@ -363,7 +363,7 @@ namespace OpenCvSharp
             if(image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            NativeMethods.highgui_VideoWriter_write(ptr, image.CvPtr);
+            NativeMethods.videoio_VideoWriter_write(ptr, image.CvPtr);
         }
         #endregion
         #endregion

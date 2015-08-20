@@ -133,6 +133,7 @@
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_ORB.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_LogisticRegression.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_StatModel.cs" />
+    <Compile Include="PInvoke\NativeMethods_videoio.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
     <Compile Include="Enum\AdaptiveThresholdType.cs" />
     <Compile Include="Enum\AngleUnit.cs" />
@@ -349,8 +350,8 @@
     <Compile Include="Modules\features2d\BRISK.cs" />
     <Compile Include="Modules\features2d\SimpleBlobDetector.cs" />
     <Compile Include="Modules\features2d\DenseFeatureDetector.cs" />
-    <Compile Include="Modules\highgui\VideoWriter.cs" />
-    <Compile Include="Modules\highgui\VideoCapture.cs" />
+    <Compile Include="Modules\videoio\VideoWriter.cs" />
+    <Compile Include="Modules\videoio\VideoCapture.cs" />
     <Compile Include="Modules\imgproc\HierarchyIndex.cs" />
     <Compile Include="Modules\imgproc\Moments.cs" />
     <Compile Include="Modules\xfeatures2d\SIFT.cs" />

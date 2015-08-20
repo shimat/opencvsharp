@@ -340,6 +340,7 @@
     <ClCompile Include="stitching.cpp" />
     <ClCompile Include="superres.cpp" />
     <ClCompile Include="video.cpp" />
+    <ClCompile Include="videoio.cpp" />
     <ClCompile Include="xfeatures2d.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -394,6 +395,7 @@
     <ClInclude Include="flann.h" />
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="ml_RTrees.h" />
+    <ClInclude Include="videoio.h" />
     <ClInclude Include="video_tracking.h" />
     <ClInclude Include="photo.h" />
     <ClInclude Include="std_vector.h" />
