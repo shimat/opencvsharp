@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _INCLUDE_OPENCV_H_
 #define _INCLUDE_OPENCV_H_
 

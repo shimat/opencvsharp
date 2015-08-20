@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_CONTRIB_H_
 #define _CPP_CONTRIB_H_
 
@@ -16,6 +12,17 @@ CVAPI(void) contrib_applyColorMap(cv::_InputArray *src, cv::_OutputArray *dst, i
 {
     cv::applyColorMap(*src, *dst, colormap);
 }
+
+CVAPI(int) contrib_chamerMatching(cv::Mat *img, cv::Mat *templ,
+	std::vector<std::vector<cv::Point> > *results, std::vector<float> *cost,
+	double templScale, int maxMatches, double minMatchDistance, int padX,
+	int padY, int scales, double minScale, double maxScale,
+	double orientationWeight, double truncate)
+{
+	return cv::chamerMatching(*img, *templ, *results, *cost, templScale, maxMatches, minMatchDistance,
+		padX, padY, scales, minScale, maxScale, orientationWeight, truncate);
+}
+
 
 #pragma region CvAdaptiveSkinDetector
 CVAPI(CvAdaptiveSkinDetector*) contrib_CvAdaptiveSkinDetector_new(int samplingDivider, int morphingMethod)
