@@ -55,6 +55,9 @@
     <ClCompile Include="bgsegm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="videoio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="features2d_KeyPointsFilter.h">
       <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="videoio.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

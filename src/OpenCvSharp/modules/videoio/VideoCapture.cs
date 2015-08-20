@@ -48,7 +48,7 @@ namespace OpenCvSharp
         {
             try
             {
-                ptr = NativeMethods.highgui_VideoCapture_new();
+                ptr = NativeMethods.videoio_VideoCapture_new1();
             }
             catch (AccessViolationException e)
             {
@@ -80,7 +80,7 @@ namespace OpenCvSharp
         {
             try
             {
-                ptr = NativeMethods.highgui_VideoCapture_new_fromDevice(index);
+                ptr = NativeMethods.videoio_VideoCapture_new3(index);
             }
             catch (AccessViolationException e)
             {
@@ -218,7 +218,7 @@ namespace OpenCvSharp
             /*if (!File.Exists(fileName))
                 throw new FileNotFoundException("File not found", fileName);*/
 
-            ptr = NativeMethods.highgui_VideoCapture_new_fromFile(fileName);
+            ptr = NativeMethods.videoio_VideoCapture_new2(fileName);
 
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoCapture");
@@ -281,7 +281,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        NativeMethods.highgui_VideoCapture_delete(ptr);
+                        NativeMethods.videoio_VideoCapture_delete(ptr);
                     }
                     disposed = true;
                 }
@@ -322,11 +322,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.PosMsec);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.PosMsec);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosMsec, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.PosMsec, value);
             }
         }
 
@@ -343,13 +343,13 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.PosFrames);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.PosFrames);
             }
             set
             {
                 if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosFrames, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.PosFrames, value);
             }
         }
 
@@ -366,13 +366,13 @@ namespace OpenCvSharp
         {
             get
             {
-                return (CapturePosAviRatio)(int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.PosAviRatio);
+                return (CapturePosAviRatio)(int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.PosAviRatio);
             }
             set
             {
                 if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PosAviRatio, (int)value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.PosAviRatio, (int)value);
             }
         }
 
@@ -389,13 +389,13 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.FrameWidth);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.FrameWidth);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FrameWidth, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.FrameWidth, value);
             }
         }
 
@@ -412,13 +412,13 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.FrameHeight);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.FrameHeight);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FrameHeight, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.FrameHeight, value);
             }
         }
 
@@ -435,13 +435,13 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Fps);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Fps);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Fps, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Fps, value);
             }
         }
 
@@ -462,7 +462,7 @@ namespace OpenCvSharp
         {
             get
             {
-                int src = (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.FourCC);
+                int src = (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.FourCC);
                 IntBytes bytes = new IntBytes { Value = src };
                 char[] fourcc = new []{
                     Convert.ToChar(bytes.B1),
@@ -484,7 +484,7 @@ namespace OpenCvSharp
                 byte c3 = Convert.ToByte(value[2]);
                 byte c4 = Convert.ToByte(value[3]);
                 int v = FourCCCalcurator.Run(c1, c2, c3, c4);
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.FourCC, v);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.FourCC, v);
             }
         }
 
@@ -501,7 +501,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.FrameCount);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.FrameCount);
             }
         }
 
@@ -520,13 +520,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Brightness);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Brightness);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Brightness, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Brightness, value);
             }
         }
 
@@ -545,13 +545,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Contrast);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Contrast);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Contrast, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Contrast, value);
             }
         }
 
@@ -570,13 +570,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Saturation);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Saturation);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Saturation, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Saturation, value);
             }
         }
 
@@ -595,13 +595,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Hue);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Hue);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Hue, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Hue, value);
             }
         }
 
@@ -618,11 +618,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Format);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Format);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Format, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Format, value);
             }
         }
 
@@ -640,11 +640,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Mode);
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Mode);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Mode, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Mode, value);
             }
         }
 
@@ -664,13 +664,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Gain);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Gain);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Gain, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Gain, value);
             }
         }
 
@@ -690,13 +690,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Exposure);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Exposure);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Exposure, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Exposure, value);
             }
         }
 
@@ -714,11 +714,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.ConvertRgb) != 0;
+                return (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.ConvertRgb) != 0;
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.ConvertRgb, value ? 0 : 1);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.ConvertRgb, value ? 0 : 1);
             }
         }
 
@@ -736,11 +736,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.WhiteBalance);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.WhiteBalance);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.WhiteBalance, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.WhiteBalance, value);
             }
         }
 
@@ -758,11 +758,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Rectification);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Rectification);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Rectification, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Rectification, value);
             }
         }
 
@@ -780,11 +780,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Monocrome);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Monocrome);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Monocrome, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Monocrome, value);
             }
         }
         #endregion
@@ -804,11 +804,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Sharpness);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Sharpness);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Sharpness, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Sharpness, value);
             }
         }
 
@@ -829,11 +829,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.AutoExposure);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.AutoExposure);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.AutoExposure, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.AutoExposure, value);
             }
         }
 
@@ -852,11 +852,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Gamma);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Gamma);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Gamma, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Gamma, value);
             }
         }
 
@@ -875,11 +875,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Temperature);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Temperature);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Temperature, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Temperature, value);
             }
         }
 
@@ -898,11 +898,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.Trigger);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Trigger);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.Trigger, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Trigger, value);
             }
         }
 
@@ -921,11 +921,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.TriggerDelay);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.TriggerDelay);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.TriggerDelay, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.TriggerDelay, value);
             }
         }
 
@@ -944,11 +944,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.WhiteBalanceRedV);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.WhiteBalanceRedV);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.WhiteBalanceRedV, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.WhiteBalanceRedV, value);
             }
         }
 
@@ -969,11 +969,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.MaxDC1394);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.MaxDC1394);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.MaxDC1394, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.MaxDC1394, value);
             }
         }
 
@@ -992,11 +992,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.AutoGrab);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.AutoGrab);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.AutoGrab, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.AutoGrab, value);
             }
         }
 
@@ -1016,7 +1016,7 @@ namespace OpenCvSharp
             get
             {
                 // double to const char*
-                double d = NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.SupportedPreviewSizesString);
+                double d = NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.SupportedPreviewSizesString);
                 unsafe
                 {
                     char* p = (char*)(long)d;  // problematic cast
@@ -1041,7 +1041,7 @@ namespace OpenCvSharp
             get
             {
                 // double to const char*
-                double d = NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.PreviewFormat);
+                double d = NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.PreviewFormat);
                 unsafe
                 {
                     char* p = (char*)(long)d;  // problematic cast
@@ -1068,11 +1068,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_OutputMode);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_OutputMode);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_OutputMode, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_OutputMode, value);
             }
         }
 
@@ -1091,11 +1091,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_FrameMaxDepth);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_FrameMaxDepth);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_FrameMaxDepth, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_FrameMaxDepth, value);
             }
         }
 
@@ -1114,11 +1114,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_Baseline);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_Baseline);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_Baseline, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_Baseline, value);
             }
         }
 
@@ -1137,11 +1137,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_FocalLength);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_FocalLength);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_FocalLength, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_FocalLength, value);
             }
         }
 
@@ -1160,11 +1160,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_RegistrationON);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_RegistrationON);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_RegistrationON, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_RegistrationON, value);
             }
         }
 
@@ -1187,11 +1187,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_Registratiob);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_Registratiob);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_Registratiob, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_Registratiob, value);
             }
         }
 
@@ -1210,11 +1210,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_ImageGeneratorOutputMode);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_ImageGeneratorOutputMode);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_ImageGeneratorOutputMode, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_ImageGeneratorOutputMode, value);
             }
         }
 
@@ -1233,11 +1233,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorBaseline);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorBaseline);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorBaseline, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorBaseline, value);
             }
         }
 
@@ -1256,11 +1256,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorFocalLength);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorFocalLength);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorFocalLength, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorFocalLength, value);
             }
         }
 
@@ -1279,11 +1279,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorRegistrationON);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorRegistrationON);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorRegistrationON, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_DepthGeneratorRegistrationON, value);
             }
         }
 // ReSharper restore InconsistentNaming
@@ -1306,11 +1306,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.GStreamerQueueLength);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.GStreamerQueueLength);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.GStreamerQueueLength, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.GStreamerQueueLength, value);
             }
         }
 
@@ -1331,11 +1331,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.PvAPIMulticastIP);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.PvAPIMulticastIP);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.PvAPIMulticastIP, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.PvAPIMulticastIP, value);
             }
         }
         #endregion
@@ -1357,11 +1357,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_Downsampling);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_Downsampling);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_Downsampling, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_Downsampling, value);
             }
         }
 
@@ -1380,7 +1380,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_DataFormat);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_DataFormat);
             }
         }
 
@@ -1399,11 +1399,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_OffsetX);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_OffsetX);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_OffsetX, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_OffsetX, value);
             }
         }
 
@@ -1422,11 +1422,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_OffsetY);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_OffsetY);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_OffsetY, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_OffsetY, value);
             }
         }
 
@@ -1445,11 +1445,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_TrgSource);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_TrgSource);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_TrgSource, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_TrgSource, value);
             }
         }
 
@@ -1468,11 +1468,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_TrgSoftware);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_TrgSoftware);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_TrgSoftware, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_TrgSoftware, value);
             }
         }
 
@@ -1491,11 +1491,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpiSelector);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpiSelector);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpiSelector, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpiSelector, value);
             }
         }
 
@@ -1514,11 +1514,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpiMode);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpiMode);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpiMode, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpiMode, value);
             }
         }
 
@@ -1537,11 +1537,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpiLevel);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpiLevel);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpiLevel, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpiLevel, value);
             }
         }
 
@@ -1560,11 +1560,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpoSelector);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpoSelector);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpoSelector, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpoSelector, value);
             }
         }
 
@@ -1583,11 +1583,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpoMode);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_GpoMode);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpoMode, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_GpoMode, value);
             }
         }
 
@@ -1606,11 +1606,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_LedSelector);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_LedSelector);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_LedSelector, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_LedSelector, value);
             }
         }
 
@@ -1629,11 +1629,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_LedMode);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_LedMode);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_LedMode, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_LedMode, value);
             }
         }
 
@@ -1652,11 +1652,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_ManualWB);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_ManualWB);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_ManualWB, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_ManualWB, value);
             }
         }
 
@@ -1675,11 +1675,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_AutoWB);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_AutoWB);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_AutoWB, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_AutoWB, value);
             }
         }
 
@@ -1698,11 +1698,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_AEAG);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_AEAG);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_AEAG, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_AEAG, value);
             }
         }
 
@@ -1721,11 +1721,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_ExpPriority);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_ExpPriority);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_ExpPriority, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_ExpPriority, value);
             }
         }
 
@@ -1744,11 +1744,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_AEMaxLimit);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_AEMaxLimit);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_AEMaxLimit, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_AEMaxLimit, value);
             }
         }
 
@@ -1767,11 +1767,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_AGMaxLimit);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_AGMaxLimit);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_AGMaxLimit, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_AGMaxLimit, value);
             }
         }
 
@@ -1790,11 +1790,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_AEAGLevel);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_AEAGLevel);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_AEAGLevel, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_AEAGLevel, value);
             }
         }
 
@@ -1813,11 +1813,11 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.highgui_VideoCapture_get(ptr, (int)CaptureProperty.XI_Timeout);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.XI_Timeout);
             }
             set
             {
-                NativeMethods.highgui_VideoCapture_set(ptr, (int)CaptureProperty.XI_Timeout, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.XI_Timeout, value);
             }
         }
 // ReSharper restore InconsistentNaming
@@ -1841,7 +1841,7 @@ namespace OpenCvSharp
 #endif
         public double Get(CaptureProperty propertyId)
         {
-            return NativeMethods.highgui_VideoCapture_get(ptr, (int)propertyId);
+            return NativeMethods.videoio_VideoCapture_get(ptr, (int)propertyId);
         }
 #if LANG_JP
         /// <summary>
@@ -1858,7 +1858,7 @@ namespace OpenCvSharp
 #endif
         public double Get(int propertyId)
         {
-            return NativeMethods.highgui_VideoCapture_get(ptr, propertyId);
+            return NativeMethods.videoio_VideoCapture_get(ptr, propertyId);
         }
         #endregion
         #region Grab
@@ -1880,7 +1880,7 @@ namespace OpenCvSharp
         public bool Grab()
         {
             ThrowIfDisposed();
-            return NativeMethods.highgui_VideoCapture_grab(ptr) != 0;
+            return NativeMethods.videoio_VideoCapture_grab(ptr) != 0;
         }
         #endregion
         #region Retrieve
@@ -1905,7 +1905,7 @@ namespace OpenCvSharp
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            return NativeMethods.highgui_VideoCapture_retrieve(ptr, image.CvPtr, channel) != 0;
+            return NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, channel) != 0;
         }
 
 #if LANG_JP
@@ -1931,7 +1931,7 @@ namespace OpenCvSharp
             if (image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            return NativeMethods.highgui_VideoCapture_retrieve(ptr, image.CvPtr, (int)streamIdx) != 0;
+            return NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, (int)streamIdx) != 0;
         }
         #endregion
         #region Read
@@ -1956,7 +1956,7 @@ namespace OpenCvSharp
             if(image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            NativeMethods.highgui_VideoCapture_read(ptr, image.CvPtr);
+            NativeMethods.videoio_VideoCapture_read(ptr, image.CvPtr);
         }
         #endregion
         #region Set
@@ -1977,7 +1977,7 @@ namespace OpenCvSharp
 #endif
         public int Set(CaptureProperty propertyId, double value)
         {
-            return NativeMethods.highgui_VideoCapture_set(ptr, (int)propertyId, value);
+            return NativeMethods.videoio_VideoCapture_set(ptr, (int)propertyId, value);
         }
 #if LANG_JP
         /// <summary>
@@ -1996,7 +1996,7 @@ namespace OpenCvSharp
 #endif
         public int Set(int propertyId, double value)
         {
-            return NativeMethods.highgui_VideoCapture_set(ptr, propertyId, value);
+            return NativeMethods.videoio_VideoCapture_set(ptr, propertyId, value);
         }
         #endregion
         #region Open
@@ -2016,7 +2016,7 @@ namespace OpenCvSharp
         public void Open(string fileName)
         {
             ThrowIfDisposed();
-            NativeMethods.highgui_VideoCapture_open_fromFile(ptr, fileName);
+            NativeMethods.videoio_VideoCapture_open1(ptr, fileName);
             captureType = CaptureType.File;
         }
 
@@ -2041,7 +2041,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             try
             {
-                NativeMethods.highgui_VideoCapture_open_fromDevice(ptr, index);
+                NativeMethods.videoio_VideoCapture_open2(ptr, index);
             }
             catch (AccessViolationException e)
             {
@@ -2107,7 +2107,7 @@ namespace OpenCvSharp
         public void Release()
         {
             ThrowIfDisposed();
-            NativeMethods.highgui_VideoCapture_release(ptr);
+            NativeMethods.videoio_VideoCapture_release(ptr);
         }
         #endregion
         #region IsOpened
@@ -2118,7 +2118,7 @@ namespace OpenCvSharp
         public bool IsOpened()
         {
             ThrowIfDisposed();
-            return NativeMethods.highgui_VideoCapture_isOpened(ptr) != 0;
+            return NativeMethods.videoio_VideoCapture_isOpened(ptr) != 0;
         }
         #endregion
         #endregion
