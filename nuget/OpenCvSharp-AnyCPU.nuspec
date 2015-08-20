@@ -79,47 +79,47 @@
         <file src="..\lib\vc++\x64\msvcp120.dll" target="NativeDlls\x64\msvcp120.dll" />
         <file src="..\lib\vc++\x64\msvcr120.dll" target="NativeDlls\x64\msvcr120.dll" />
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_calib3d2410.dll" target="NativeDlls\x64\opencv_calib3d2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_contrib2410.dll" target="NativeDlls\x64\opencv_contrib2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_core2410.dll" target="NativeDlls\x64\opencv_core2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_features2d2410.dll" target="NativeDlls\x64\opencv_features2d2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_ffmpeg2410_64.dll" target="NativeDlls\x64\opencv_ffmpeg2410_64.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_flann2410.dll" target="NativeDlls\x64\opencv_flann2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_gpu2410.dll" target="NativeDlls\x64\opencv_gpu2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_highgui2410.dll" target="NativeDlls\x64\opencv_highgui2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_imgproc2410.dll" target="NativeDlls\x64\opencv_imgproc2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_legacy2410.dll" target="NativeDlls\x64\opencv_legacy2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_ml2410.dll" target="NativeDlls\x64\opencv_ml2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_nonfree2410.dll" target="NativeDlls\x64\opencv_nonfree2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_objdetect2410.dll" target="NativeDlls\x64\opencv_objdetect2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_ocl2410.dll" target="NativeDlls\x64\opencv_ocl2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_photo2410.dll" target="NativeDlls\x64\opencv_photo2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_stitching2410.dll" target="NativeDlls\x64\opencv_stitching2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_superres2410.dll" target="NativeDlls\x64\opencv_superres2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_video2410.dll" target="NativeDlls\x64\opencv_video2410.dll" />
-        <file src="..\lib\opencv\x64\vc12\opencv_videostab2410.dll" target="NativeDlls\x64\opencv_videostab2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_calib3d2410.dll" target="NativeDlls\x64\opencv_calib3d2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_contrib2410.dll" target="NativeDlls\x64\opencv_contrib2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_core2410.dll" target="NativeDlls\x64\opencv_core2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_features2d2410.dll" target="NativeDlls\x64\opencv_features2d2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_ffmpeg2410_64.dll" target="NativeDlls\x64\opencv_ffmpeg2410_64.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_flann2410.dll" target="NativeDlls\x64\opencv_flann2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_gpu2410.dll" target="NativeDlls\x64\opencv_gpu2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_highgui2410.dll" target="NativeDlls\x64\opencv_highgui2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_imgproc2410.dll" target="NativeDlls\x64\opencv_imgproc2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_legacy2410.dll" target="NativeDlls\x64\opencv_legacy2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_ml2410.dll" target="NativeDlls\x64\opencv_ml2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_nonfree2410.dll" target="NativeDlls\x64\opencv_nonfree2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_objdetect2410.dll" target="NativeDlls\x64\opencv_objdetect2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_ocl2410.dll" target="NativeDlls\x64\opencv_ocl2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_photo2410.dll" target="NativeDlls\x64\opencv_photo2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_stitching2410.dll" target="NativeDlls\x64\opencv_stitching2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_superres2410.dll" target="NativeDlls\x64\opencv_superres2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_video2410.dll" target="NativeDlls\x64\opencv_video2410.dll" />
+        <file src="..\lib\opencv\x64\vc12\bin\opencv_videostab2410.dll" target="NativeDlls\x64\opencv_videostab2410.dll" />
         <file src="..\lib\vc++\x86\msvcp120.dll" target="NativeDlls\x86\msvcp120.dll" />
         <file src="..\lib\vc++\x86\msvcr120.dll" target="NativeDlls\x86\msvcr120.dll" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_calib3d2410.dll" target="NativeDlls\x86\opencv_calib3d2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_contrib2410.dll" target="NativeDlls\x86\opencv_contrib2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_core2410.dll" target="NativeDlls\x86\opencv_core2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_features2d2410.dll" target="NativeDlls\x86\opencv_features2d2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_ffmpeg2410.dll" target="NativeDlls\x86\opencv_ffmpeg2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_flann2410.dll" target="NativeDlls\x86\opencv_flann2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_gpu2410.dll" target="NativeDlls\x86\opencv_gpu2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_highgui2410.dll" target="NativeDlls\x86\opencv_highgui2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_imgproc2410.dll" target="NativeDlls\x86\opencv_imgproc2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_legacy2410.dll" target="NativeDlls\x86\opencv_legacy2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_ml2410.dll" target="NativeDlls\x86\opencv_ml2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_nonfree2410.dll" target="NativeDlls\x86\opencv_nonfree2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_objdetect2410.dll" target="NativeDlls\x86\opencv_objdetect2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_ocl2410.dll" target="NativeDlls\x86\opencv_ocl2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_photo2410.dll" target="NativeDlls\x86\opencv_photo2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_stitching2410.dll" target="NativeDlls\x86\opencv_stitching2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_superres2410.dll" target="NativeDlls\x86\opencv_superres2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_video2410.dll" target="NativeDlls\x86\opencv_video2410.dll" />
-        <file src="..\lib\opencv\x86\vc12\opencv_videostab2410.dll" target="NativeDlls\x86\opencv_videostab2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_calib3d2410.dll" target="NativeDlls\x86\opencv_calib3d2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_contrib2410.dll" target="NativeDlls\x86\opencv_contrib2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_core2410.dll" target="NativeDlls\x86\opencv_core2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_features2d2410.dll" target="NativeDlls\x86\opencv_features2d2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_ffmpeg2410.dll" target="NativeDlls\x86\opencv_ffmpeg2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_flann2410.dll" target="NativeDlls\x86\opencv_flann2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_gpu2410.dll" target="NativeDlls\x86\opencv_gpu2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_highgui2410.dll" target="NativeDlls\x86\opencv_highgui2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_imgproc2410.dll" target="NativeDlls\x86\opencv_imgproc2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_legacy2410.dll" target="NativeDlls\x86\opencv_legacy2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_ml2410.dll" target="NativeDlls\x86\opencv_ml2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_nonfree2410.dll" target="NativeDlls\x86\opencv_nonfree2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_objdetect2410.dll" target="NativeDlls\x86\opencv_objdetect2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_ocl2410.dll" target="NativeDlls\x86\opencv_ocl2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_photo2410.dll" target="NativeDlls\x86\opencv_photo2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_stitching2410.dll" target="NativeDlls\x86\opencv_stitching2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_superres2410.dll" target="NativeDlls\x86\opencv_superres2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_video2410.dll" target="NativeDlls\x86\opencv_video2410.dll" />
+        <file src="..\lib\opencv\x86\vc12\bin\opencv_videostab2410.dll" target="NativeDlls\x86\opencv_videostab2410.dll" />
         <file src="tools\init.ps1" target="tools\init.ps1" />
         <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
     </files>

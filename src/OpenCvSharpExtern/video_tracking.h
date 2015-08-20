@@ -1,7 +1,3 @@
-#ifdef WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_VIDEO_TRACKING_H_
 #define _CPP_VIDEO_TRACKING_H_
 

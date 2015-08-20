@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_CORE_ALGORITHM_H_
 #define _CPP_CORE_ALGORITHM_H_
 

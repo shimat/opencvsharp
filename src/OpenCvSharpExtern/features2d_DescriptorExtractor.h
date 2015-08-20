@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_FEATURES2D_DESCRIPTREXTRACTOR_H_
 #define _CPP_FEATURES2D_DESCRIPTREXTRACTOR_H_
 

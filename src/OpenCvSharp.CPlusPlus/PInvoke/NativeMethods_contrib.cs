@@ -64,6 +64,13 @@ namespace OpenCvSharp.CPlusPlus
         #endregion
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int contrib_chamerMatching(IntPtr img, IntPtr templ,
+            IntPtr results, IntPtr cost,
+            double templScale, int maxMatches, double minMatchDistance, int padX,
+            int padY, int scales, double minScale, double maxScale,
+            double orientationWeight, double truncate);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void contrib_applyColorMap(IntPtr src, IntPtr dst, int colormap);
 
     }

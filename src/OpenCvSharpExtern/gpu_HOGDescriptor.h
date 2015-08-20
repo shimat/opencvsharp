@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_GPU_WHOGDESCRIPTOR_H_
 #define _CPP_GPU_WHOGDESCRIPTOR_H_
 
