@@ -52,7 +52,8 @@ namespace CStyleSamplesCS
 
                     // 顔の検出
                     Stopwatch watch = Stopwatch.StartNew();
-                    CvSeq<CvAvgComp> faces = Cv.HaarDetectObjects(smallImg, cascade, storage, ScaleFactor, MinNeighbors, 0, new CvSize(30, 30));
+                    CvSeq<CvAvgComp> faces = Cv.HaarDetectObjects(
+                        smallImg, cascade, storage, ScaleFactor, MinNeighbors, 0, new CvSize(30, 30), new CvSize(0, 0));
                     watch.Stop();
                     Console.WriteLine("detection time = {0}ms\n", watch.ElapsedMilliseconds);
 

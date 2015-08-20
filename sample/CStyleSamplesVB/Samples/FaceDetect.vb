@@ -49,7 +49,7 @@ Friend Module FaceDetect
 
                         ' 顔の検出
                         Dim watch As Stopwatch = Stopwatch.StartNew()
-                        Dim faces As CvSeq(Of CvAvgComp) = Cv.HaarDetectObjects(smallImg, cascade, storage, ScaleFactor, MinNeighbors, 0, New CvSize(30, 30))
+                        Dim faces As CvSeq(Of CvAvgComp) = Cv.HaarDetectObjects(smallImg, cascade, storage, ScaleFactor, MinNeighbors, 0, New CvSize(30, 30), New CvSize(0, 0))
                         watch.Stop()
                         Form1.TextBox1.AppendText(Environment.NewLine & String.Format("detection time = {0}ms" & vbLf, watch.ElapsedMilliseconds))
 
