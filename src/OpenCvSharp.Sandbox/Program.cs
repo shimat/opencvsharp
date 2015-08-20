@@ -48,7 +48,7 @@ namespace OpenCvSharp.Sandbox
             Mat src = new Mat("data/shapes.png", LoadMode.Color);
             Mat gray = src.CvtColor(ColorConversion.BgrToGray);
             Mat binary = gray.Threshold(0, 255, ThresholdType.Otsu | ThresholdType.Binary);
-            Mat labelView = src.EmptyClone();
+            Mat labelView = new Mat();
             Mat rectView = binary.CvtColor(ColorConversion.GrayToBgr);
 
             ConnectedComponents cc = Cv2.ConnectedComponentsEx(binary);

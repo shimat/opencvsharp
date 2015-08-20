@@ -117,13 +117,19 @@ namespace OpenCvSharp
         {
             if (img == null) 
                 throw new ArgumentNullException("img");
+            /*
             if (img.Empty())
                 throw new ArgumentException("img is empty");
             if (img.Type() != MatType.CV_8UC3)
-                throw new ArgumentException("img must be CV_8UC3");
-
+                throw new ArgumentException("img must be CV_8UC3");*/
             if (Blobs == null || Blobs.Count == 0)
                 throw new OpenCvSharpException("Blobs is empty");
+            if (Labels == null)
+                throw new OpenCvSharpException("Labels is empty");
+
+            int height = Labels.GetLength(0);
+            int width = Labels.GetLength(1);
+            img.Create(new Size(width, height), MatType.CV_8UC3);
 
             Scalar[] colors = new Scalar[Blobs.Count];
             colors[0] = Scalar.All(0);
@@ -131,9 +137,7 @@ namespace OpenCvSharp
             {
                 colors[i] = Scalar.RandomColor();
             }
-
-            int height = Labels.GetLength(0);
-            int width = Labels.GetLength(1);
+            
             using (var imgt = new MatOfByte3(img))
             {
                 var indexer = imgt.GetIndexer();
