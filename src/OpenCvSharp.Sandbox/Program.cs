@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Blob;
-using OpenCvSharp;
 using OpenCvSharp.Gpu;
 using OpenCvSharp.Extensions;
 
@@ -81,7 +76,8 @@ namespace OpenCvSharp.Sandbox
             // filter maximum blob
             ConnectedComponents.Blob maxBlob = cc.GetLargestBlob();
                 //cc.Blobs.Skip(1).OrderByDescending(b => b.Area).First();
-            Mat filtered = cc.FilterByBlob(src, maxBlob);
+            Mat filtered = new Mat();
+            cc.FilterByBlob(src, filtered, maxBlob);
 
             using (new Window("src", src))
             using (new Window("binary", binary))

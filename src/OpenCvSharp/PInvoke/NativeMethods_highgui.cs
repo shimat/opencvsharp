@@ -15,18 +15,6 @@ namespace OpenCvSharp
         public static extern void highgui_destroyAllWindows();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern void highgui_imshow([MarshalAs(UnmanagedType.LPStr)] string winname, IntPtr mat);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern IntPtr highgui_imread(string filename, int flags);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern int highgui_imwrite([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr img, [In] int[] @params, int paramsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr highgui_imdecode_Mat(IntPtr buf, int flags);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr highgui_imdecode_vector(byte[] buf, IntPtr bufLength, int flags);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern void highgui_imencode_CvMat([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr img, out IntPtr buf, [In] int[] @params, int paramsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern int highgui_imencode_vector([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr img, IntPtr buf, [In] int[] @params, int paramsLength);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int highgui_startWindowThread();

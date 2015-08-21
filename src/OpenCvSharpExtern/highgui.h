@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_HIGHGUI_H_
 #define _CPP_HIGHGUI_H_
 
@@ -23,45 +19,11 @@ CVAPI(void) highgui_imshow(const char *winname, cv::Mat *mat)
 {
 	cv::imshow(winname, *mat);
 }
-CVAPI(cv::Mat*) highgui_imread(const char *filename, int flags)
-{
-	cv::Mat ret = cv::imread(filename, flags);
-	return new cv::Mat(ret); 
-}
-CVAPI(int) highgui_imwrite(const char *filename, cv::Mat *img, int *params, int paramsLength)
-{
-	std::vector<int> paramsVec;
-	paramsVec.assign(params, params + paramsLength);
-	return cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
-}
-CVAPI(cv::Mat*) highgui_imdecode_Mat(cv::Mat *buf, int flags)
-{
-	cv::Mat ret = cv::imdecode(*buf, flags);
-	return new cv::Mat(ret);
-}
-CVAPI(cv::Mat*) highgui_imdecode_vector(uchar *buf, size_t bufLength, int flags)
-{
-	std::vector<uchar> bufVec(buf, buf + bufLength);
-	cv::Mat ret = cv::imdecode(bufVec, flags);
-	return new cv::Mat(ret);
-}
-CVAPI(void) highgui_imencode_CvMat(const char *ext, cv::Mat *img, CvMat **buf, 
-								   int *params, int paramsLength)
-{
-	//std::vector<int> paramsVec;
-	//paramsVec.assign(params, params + paramsLength);
-	//cv::imencode(ext, *img, paramsVec);
-	CvMat imgMat = (CvMat)(*img);
-	*buf = cvEncodeImage(ext, &imgMat, params);
-}
-CVAPI(int) highgui_imencode_vector(const char *ext, cv::_InputArray *img, 
-								   std::vector<uchar> *buf, int *params, int paramsLength)
-{
-	std::vector<int> paramsVec;
-	if(params != NULL)
-		paramsVec = std::vector<int>(params, params + paramsLength);
-	return cv::imencode(ext, *img, *buf, paramsVec) ? 1 : 0;
-}
+
+
+
+
+
 CVAPI(int) highgui_startWindowThread()
 {
 	return cv::startWindowThread();

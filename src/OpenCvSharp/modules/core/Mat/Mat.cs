@@ -66,7 +66,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fileName");
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
-            ptr = NativeMethods.highgui_imread(fileName, (int) flags);
+            ptr = NativeMethods.imgcodecs_imread(fileName, (int) flags);
         }
 
 #if LANG_JP
