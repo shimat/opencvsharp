@@ -25,7 +25,7 @@ namespace OpenCvSharp.Sandbox
 
         private static void Feature()
         {
-            Mat img = new Mat("data/lenna.png", LoadMode.GrayScale);
+            Mat img = new Mat("data/lenna.png", ImreadModes.GrayScale);
             KAZE kaze = KAZE.Create();
 
             
@@ -40,7 +40,7 @@ namespace OpenCvSharp.Sandbox
 
         private static void Blob()
         {
-            Mat src = new Mat("data/shapes.png", LoadMode.Color);
+            Mat src = new Mat("data/shapes.png", ImreadModes.Color);
             Mat gray = src.CvtColor(ColorConversion.BgrToGray);
             Mat binary = gray.Threshold(0, 255, ThresholdType.Otsu | ThresholdType.Binary);
             Mat labelView = new Mat();
@@ -91,7 +91,7 @@ namespace OpenCvSharp.Sandbox
 
         private static void Clahe()
         {
-            Mat src = new Mat("data/tsukuba_left.png", LoadMode.GrayScale);
+            Mat src = new Mat("data/tsukuba_left.png", ImreadModes.GrayScale);
             Mat dst20 = new Mat();
             Mat dst40 = new Mat();
             Mat dst44 = new Mat();
@@ -132,7 +132,7 @@ namespace OpenCvSharp.Sandbox
 
         private static Mat[] StitchingPreprocess(int width, int height, int count)
         {
-            Mat source = new Mat(@"C:\Penguins.jpg", LoadMode.Color);
+            Mat source = new Mat(@"C:\Penguins.jpg", ImreadModes.Color);
             Mat result = source.Clone();
 
             var rand = new Random();

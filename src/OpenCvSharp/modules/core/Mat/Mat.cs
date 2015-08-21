@@ -60,7 +60,7 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of file to be loaded.</param>
         /// <param name="flags">Specifies color type of the loaded image</param>
 #endif
-        public Mat(string fileName, LoadMode flags = LoadMode.Color)
+        public Mat(string fileName, ImreadModes flags = ImreadModes.Color)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
@@ -559,7 +559,7 @@ namespace OpenCvSharp
         /// <param name="mode"></param>
         /// <returns></returns>
 #endif
-        public static Mat FromStream(Stream stream, LoadMode mode)
+        public static Mat FromStream(Stream stream, ImreadModes mode)
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
@@ -591,7 +591,7 @@ namespace OpenCvSharp
         /// <param name="mode"></param>
         /// <returns></returns>
 #endif
-        public static Mat ImDecode(byte[] imageBytes, LoadMode mode = LoadMode.Color)
+        public static Mat ImDecode(byte[] imageBytes, ImreadModes mode = ImreadModes.Color)
         {
             if (imageBytes == null)
                 throw new ArgumentNullException("imageBytes");
@@ -613,7 +613,7 @@ namespace OpenCvSharp
         /// <param name="mode"></param>
         /// <returns></returns>
 #endif
-        public static Mat FromImageData(byte[] imageBytes, LoadMode mode = LoadMode.Color)
+        public static Mat FromImageData(byte[] imageBytes, ImreadModes mode = ImreadModes.Color)
         {
             return ImDecode(imageBytes, mode);
         }
