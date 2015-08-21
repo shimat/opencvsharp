@@ -92,6 +92,6 @@ namespace OpenCvSharp
         public static extern double videoio_VideoWriter_get(IntPtr obj, int propId);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int videoio_VideoWriter_fourcc(char c1, char c2, char c3, char c4);
+        public static extern int videoio_VideoWriter_fourcc(byte c1, byte c2, byte c3, byte c4);
     }
 }
