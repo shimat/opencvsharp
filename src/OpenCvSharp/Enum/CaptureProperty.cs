@@ -1,582 +1,744 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
 #if LANG_JP
-	/// <summary>
-	/// CvCaptureのプロパティID
-	/// </summary>
+    /// <summary>
+    /// CvCaptureのプロパティID
+    /// </summary>
 #else
     /// <summary>
     /// Property identifiers for CvCapture
     /// </summary>
 #endif
-    public enum CaptureProperty : int
+    public enum CaptureProperty
     {
         #region Basic
+
 #if LANG_JP
-		/// <summary>
-		/// ファイル中の現在の位置（ミリ秒単位），あるいはビデオキャプチャのタイムスタンプ値
-        /// [CV_CAP_PROP_POS_MSEC]
-		/// </summary>
+    /// <summary>
+    /// ファイル中の現在の位置（ミリ秒単位），あるいはビデオキャプチャのタイムスタンプ値
+    /// </summary>
 #else
         /// <summary>
         /// Position in milliseconds from the file beginning
-        /// [CV_CAP_PROP_POS_MSEC]
         /// </summary>
 #endif
-        PosMsec = CvConst.CV_CAP_PROP_POS_MSEC,
+        PosMsec = 0,
 
 
 #if LANG_JP
-		/// <summary>
-		/// 次にデコード/キャプチャされるフレームのインデックス．0 から始まる
-        /// [CV_CAP_PROP_POS_FRAMES]
-		/// </summary>
+    /// <summary>
+    /// 次にデコード/キャプチャされるフレームのインデックス．0 から始まる
+    /// </summary>
 #else
         /// <summary>
         /// Position in frames (only for video files)
-        /// [CV_CAP_PROP_POS_FRAMES]
         /// </summary>
 #endif
-        PosFrames = CvConst.CV_CAP_PROP_POS_FRAMES,
-
+        PosFrames = 1,
 
 #if LANG_JP
-		/// <summary>
-		/// ビデオファイル内の相対的な位置 (0 - ファイルの最初，1 - ファイルの最後）
-        /// [CV_CAP_PROP_POS_AVI_RATIO]
-		/// </summary>
+    /// <summary>
+    /// ビデオファイル内の相対的な位置 (0 - ファイルの最初，1 - ファイルの最後）
+    /// </summary>
 #else
         /// <summary>
         /// Position in relative units (0 - start of the file, 1 - end of the file)
-        /// [CV_CAP_PROP_POS_AVI_RATIO]
         /// </summary>
 #endif
-        PosAviRatio = CvConst.CV_CAP_PROP_POS_AVI_RATIO,
-
+        PosAviRatio = 2,
 
 #if LANG_JP
-		/// <summary>
-		/// ビデオストリーム中のフレームの幅
-        /// [CV_CAP_PROP_FRAME_WIDTH]
-		/// </summary>
+    /// <summary>
+    /// ビデオストリーム中のフレームの幅
+    /// </summary>
 #else
         /// <summary>
         /// Width of frames in the video stream (only for cameras)
-        /// [CV_CAP_PROP_FRAME_WIDTH]
         /// </summary>
 #endif
-        FrameWidth = CvConst.CV_CAP_PROP_FRAME_WIDTH,
-
+        FrameWidth = 3,
 
 #if LANG_JP
-		/// <summary>
-		/// ビデオストリーム中のフレームの高さ
-        /// [CV_CAP_PROP_FRAME_HEIGHT]
-		/// </summary>
+    /// <summary>
+    /// ビデオストリーム中のフレームの高さ
+    /// </summary>
 #else
         /// <summary>
         /// Height of frames in the video stream (only for cameras)
-        /// [CV_CAP_PROP_FRAME_HEIGHT]
         /// </summary>
 #endif
-        FrameHeight = CvConst.CV_CAP_PROP_FRAME_HEIGHT,
-
+        FrameHeight = 4,
 
 #if LANG_JP
-		/// <summary>
-		/// フレームレート
-        /// [CV_CAP_PROP_FPS]
-		/// </summary>
+    /// <summary>
+    /// フレームレート
+    /// </summary>
 #else
         /// <summary>
         /// Frame rate (only for cameras)
-        /// [CV_CAP_PROP_FPS]
         /// </summary>
 #endif
-        Fps = CvConst.CV_CAP_PROP_FPS,
-
+        Fps = 5,
 
 #if LANG_JP
-		/// <summary>
-		/// コーデックを表す 4 文字
-        /// [CV_CAP_PROP_FOURCC]
-		/// </summary>
+    /// <summary>
+    /// コーデックを表す 4 文字
+    /// </summary>
 #else
         /// <summary>
         /// 4-character code of codec (only for cameras). 
-        /// [CV_CAP_PROP_FOURCC]
         /// </summary>
 #endif
-        FourCC = CvConst.CV_CAP_PROP_FOURCC,
-
+        // ReSharper disable once InconsistentNaming
+        FourCC = 6,
 
 #if LANG_JP
-		/// <summary>
-		/// ビデオファイル中のフレーム数 
-        /// [CV_CAP_PROP_FRAME_COUNT]
-		/// </summary>
+    /// <summary>
+    /// ビデオファイル中のフレーム数 
+    /// </summary>
 #else
         /// <summary>
         /// Number of frames in the video stream
-        /// [CV_CAP_PROP_FRAME_COUNT]
         /// </summary>
 #endif
-        FrameCount = CvConst.CV_CAP_PROP_FRAME_COUNT,
-
+        FrameCount = 7,
 
 #if LANG_JP
-		/// <summary>
-		/// retrieve() によって返されるMat オブジェクトのフォーマット．
-        /// [CV_CAP_PROP_FORMAT]
-		/// </summary>
+    /// <summary>
+    /// retrieve() によって返されるMat オブジェクトのフォーマット．
+    /// </summary>
 #else
         /// <summary>
         /// The format of the Mat objects returned by retrieve()
-        /// [CV_CAP_PROP_FORMAT]
         /// </summary>
 #endif
-        Format = CvConst.CV_CAP_PROP_FORMAT,
-
+        Format = 8,
 
 #if LANG_JP
-		/// <summary>
-		/// 現在のキャプチャモードを表す，バックエンド固有の値．
-        /// [CV_CAP_PROP_MODE]
-		/// </summary>
+    /// <summary>
+    /// 現在のキャプチャモードを表す，バックエンド固有の値．
+    /// </summary>
 #else
         /// <summary>
         /// A backend-specific value indicating the current capture mode
-        /// [CV_CAP_PROP_MODE]
         /// </summary>
 #endif
-        Mode = CvConst.CV_CAP_PROP_MODE,
-
+        Mode = 9,
 
 #if LANG_JP
-		/// <summary>
-		/// 明度
-        /// [CV_CAP_PROP_BRIGHTNESS]
-		/// </summary>
+    /// <summary>
+    /// 明度
+    /// </summary>
 #else
         /// <summary>
         /// Brightness of image (only for cameras) 
-        /// [CV_CAP_PROP_BRIGHTNESS]
         /// </summary>
 #endif
-        Brightness = CvConst.CV_CAP_PROP_BRIGHTNESS,
+        Brightness = 10,
 
 
 #if LANG_JP
-		/// <summary>
-		/// コントラスト
-        /// [CV_CAP_PROP_CONTRAST]
-		/// </summary>
+    /// <summary>
+    /// コントラスト
+    /// </summary>
 #else
         /// <summary>
         /// contrast of image (only for cameras) 
-        /// [CV_CAP_PROP_CONTRAST]
         /// </summary>
 #endif
-        Contrast = CvConst.CV_CAP_PROP_CONTRAST,
-
+        Contrast = 11,
 
 #if LANG_JP
-		/// <summary>
-		/// 彩度
-        /// [CV_CAP_PROP_SATURATION]
-		/// </summary>
+    /// <summary>
+    /// 彩度
+    /// </summary>
 #else
         /// <summary>
         /// Saturation of image (only for cameras) 
-        /// [CV_CAP_PROP_SATURATION]
         /// </summary>
 #endif
-        Saturation = CvConst.CV_CAP_PROP_SATURATION,
+        Saturation = 12,
 
 
 #if LANG_JP
-		/// <summary>
-		/// 色相
-        /// [CV_CAP_PROP_HUE]
-		/// </summary>
+    /// <summary>
+    /// 色相
+    /// </summary>
 #else
         /// <summary>
         /// hue of image (only for cameras) 
-        /// [CV_CAP_PROP_HUE]
         /// </summary>
 #endif
-        Hue = CvConst.CV_CAP_PROP_HUE,
+        Hue = 13,
 
 
 #if LANG_JP
-		/// <summary>
-		/// 画像のゲイン（カメラの場合のみ）．
-        /// [CV_CAP_PROP_GAIN]
-		/// </summary>
+    /// <summary>
+    /// 画像のゲイン（カメラの場合のみ）．
+    /// </summary>
 #else
         /// <summary>
         /// Gain of the image (only for cameras)
-        /// [CV_CAP_PROP_GAIN]
         /// </summary>
 #endif
-        Gain = CvConst.CV_CAP_PROP_GAIN,
+        Gain = 14,
 
 
 #if LANG_JP
-		/// <summary>
-		/// 露出（カメラの場合のみ）．
-        /// [CV_CAP_PROP_EXPOSURE]
-		/// </summary>
+    /// <summary>
+    /// 露出（カメラの場合のみ）．
+    /// </summary>
 #else
         /// <summary>
         /// Exposure (only for cameras)
-        /// [CV_CAP_PROP_EXPOSURE]
         /// </summary>
 #endif
-        Exposure = CvConst.CV_CAP_PROP_EXPOSURE,
+        Exposure = 15,
 
 
 #if LANG_JP
-		/// <summary>
-		/// 画像がRGBに変換されるか否かを表す，ブール値のフラグ．
-        /// [CV_CAP_PROP_CONVERT_RGB]
-		/// </summary>
+    /// <summary>
+    /// 画像がRGBに変換されるか否かを表す，ブール値のフラグ．
+    /// </summary>
 #else
         /// <summary>
         /// Boolean flags indicating whether images should be converted to RGB
-        /// [CV_CAP_PROP_CONVERT_RGB]
         /// </summary>
 #endif
-        ConvertRgb = CvConst.CV_CAP_PROP_CONVERT_RGB,
+        ConvertRgb = 16,
 
 
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_WHITE_BALANCE]
-		/// </summary>
-#else
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_WHITE_BALANCE]
         /// </summary>
-#endif
-        WhiteBalance = CvConst.CV_CAP_PROP_WHITE_BALANCE,
+        WhiteBalanceBlueU = 17,
 
 
 #if LANG_JP
-		/// <summary>
-		/// TOWRITE（注意：現在のところ，DC1394 v 2.x バックエンドでのみサポートされます）．
-        /// [CV_CAP_PROP_RECTIFICATION]
-		/// </summary>
+    /// <summary>
+    /// TOWRITE（注意：現在のところ，DC1394 v 2.x バックエンドでのみサポートされます）．
+    /// </summary>
 #else
         /// <summary>
         /// TOWRITE (note: only supported by DC1394 v 2.x backend currently)
-        /// [CV_CAP_PROP_RECTIFICATION]
         /// </summary>
 #endif
-        Rectification = CvConst.CV_CAP_PROP_RECTIFICATION,
+        Rectification = 18,
 
-
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_MONOCROME]
-		/// </summary>
-#else
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_MONOCROME]
         /// </summary>
-#endif
-        Monocrome = CvConst.CV_CAP_PROP_MONOCROME,
-        #endregion
+        Monocrome = 19,
 
-        #region Added for 2.3
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_SHARPNESS]
-		/// </summary>
-#else
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_SHARPNESS]
         /// </summary>
-#endif
-        Sharpness = CvConst.CV_CAP_PROP_SHARPNESS,
-#if LANG_JP
-		/// <summary>
-		/// exposure control done by camera,
-        /// user can adjust refernce level using this feature
-        /// [CV_CAP_PROP_AUTO_EXPOSURE]
-		/// </summary>
-#else
+        Sharpness = 20,
+
         /// <summary>
         /// exposure control done by camera,
         /// user can adjust refernce level using this feature
-        /// [CV_CAP_PROP_AUTO_EXPOSURE]
         /// </summary>
-#endif
-        AutoExposure = CvConst.CV_CAP_PROP_AUTO_EXPOSURE, 
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_GAMMA]
-		/// </summary>
-#else
+        AutoExposure = 21,
+
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_GAMMA]
         /// </summary>
-#endif
-        Gamma = CvConst.CV_CAP_PROP_GAMMA,
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_TEMPERATURE]
-		/// </summary>
-#else
+        Gamma = 22,
+
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_TEMPERATURE]
         /// </summary>
-#endif
-        Temperature = CvConst.CV_CAP_PROP_TEMPERATURE,
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_TRIGGER]
-		/// </summary>
-#else
+        Temperature = 23,
+
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_TRIGGER]
         /// </summary>
-#endif
-        Trigger = CvConst.CV_CAP_PROP_TRIGGER,
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_TRIGGER_DELAY]
-		/// </summary>
-#else
+        Trigger = 24,
+
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_TRIGGER_DELAY]
         /// </summary>
-#endif
-        TriggerDelay = CvConst.CV_CAP_PROP_TRIGGER_DELAY,
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_WHITE_BALANCE_RED_V]
-		/// </summary>
-#else
+        TriggerDelay = 25,
+
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_WHITE_BALANCE_RED_V]
         /// </summary>
-#endif
-        WhiteBalanceRedV = CvConst.CV_CAP_PROP_WHITE_BALANCE_RED_V,
-#if LANG_JP
-		/// <summary>
-		/// 
-        /// [CV_CAP_PROP_MAX_DC1394]
-		/// </summary>
-#else
+        WhiteBalanceRedV = 26,
+
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_MAX_DC1394]
         /// </summary>
-#endif
-        MaxDC1394 = CvConst.CV_CAP_PROP_MAX_DC1394,
-#if LANG_JP
-		/// <summary>
-		/// property for highgui class CvCapture_Android only
-        /// [CV_CAP_PROP_AUTOGRAB]
-		/// </summary>
-#else
+        Zoom = 27,
+
         /// <summary>
-        /// property for highgui class CvCapture_Android only
-        /// [CV_CAP_PROP_AUTOGRAB]
+        /// 
         /// </summary>
-#endif
-        AutoGrab = CvConst.CV_CAP_PROP_AUTOGRAB, 
-#if LANG_JP
-		/// <summary>
-		/// readonly, tricky property, returns cpnst char* indeed
-        /// [CV_CAP_PROP_SUPPORTED_PREVIEW_SIZES_STRING]
-		/// </summary>
-#else
+        Focus = 28,
+
         /// <summary>
-        /// readonly, tricky property, returns cpnst char* indeed
-        /// [CV_CAP_PROP_SUPPORTED_PREVIEW_SIZES_STRING]
+        /// 
         /// </summary>
-#endif
-        SupportedPreviewSizesString = CvConst.CV_CAP_PROP_SUPPORTED_PREVIEW_SIZES_STRING, 
-#if LANG_JP
-		/// <summary>
-		/// readonly, tricky property, returns cpnst char* indeed
-        /// [CV_CAP_PROP_PREVIEW_FORMAT]
-		/// </summary>
-#else
+        Guid = 29,
+
         /// <summary>
-        /// readonly, tricky property, returns cpnst char* indeed
-        /// [CV_CAP_PROP_PREVIEW_FORMAT]
+        /// 
         /// </summary>
-#endif
-        PreviewFormat = CvConst.CV_CAP_PROP_PREVIEW_FORMAT,
+        IsoSpeed = 30,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        BackLight = 32,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Pan = 33,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Tilt = 34,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Roll = 35,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Iris = 36,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Settings = 37,
+
         #endregion
 
         #region OpenNI
+
         // Properties of cameras available through OpenNI interfaces
 
         /// <summary>
         /// 
         /// </summary>
-        OpenNI_OutputMode = CvConst.CV_CAP_PROP_OPENNI_OUTPUT_MODE,
+        OpenNI_OutputMode = 100,
+
         /// <summary>
-        /// 
+        /// in mm
         /// </summary>
-        OpenNI_FrameMaxDepth = CvConst.CV_CAP_PROP_OPENNI_FRAME_MAX_DEPTH, // in mm
+        OpenNI_FrameMaxDepth = 101,
+
         /// <summary>
-        /// 
+        /// in mm
         /// </summary>
-        OpenNI_Baseline = CvConst.CV_CAP_PROP_OPENNI_BASELINE, // in mm
+        OpenNI_Baseline = 102,
+
         /// <summary>
-        /// 
+        /// in pixels
         /// </summary>
-        OpenNI_FocalLength = CvConst.CV_CAP_PROP_OPENNI_FOCAL_LENGTH, // in pixels
-        /// <summary>
-        /// 
-        /// </summary>
-        OpenNI_RegistrationON = CvConst.CV_CAP_PROP_OPENNI_REGISTRATION_ON, // flag
+        OpenNI_FocalLength = 103,
+
         /// <summary>
         /// flag that synchronizes the remapping depth map to image map
         /// by changing depth generator's view point (if the flag is "on") or
         /// sets this view point to its normal one (if the flag is "off").
         /// </summary>
-        OpenNI_Registratiob = CvConst.CV_CAP_PROP_OPENNI_REGISTRATION, 
+        OpenNI_Registration = 104,
+
         /// <summary>
         /// 
         /// </summary>
-        OpenNI_ImageGeneratorOutputMode = CvConst.CV_CAP_OPENNI_IMAGE_GENERATOR_OUTPUT_MODE,
+        OPENNI_ApproxFrameSync = 105,
+
         /// <summary>
         /// 
         /// </summary>
-        OpenNI_DepthGeneratorBaseline = CvConst.CV_CAP_OPENNI_DEPTH_GENERATOR_BASELINE,
+        OPENNI_MaxBufferSize = 106,
+
         /// <summary>
         /// 
         /// </summary>
-        OpenNI_DepthGeneratorFocalLength = CvConst.CV_CAP_OPENNI_DEPTH_GENERATOR_FOCAL_LENGTH,
+        OPENNI_CircleBuffer = 107,
+
         /// <summary>
         /// 
         /// </summary>
-        OpenNI_DepthGeneratorRegistrationON = CvConst.CV_CAP_OPENNI_DEPTH_GENERATOR_REGISTRATION_ON,
+        OPENNI_MaxTimeDuration = 108,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OPENNI_GeneratorPresent = 109,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OPENNI2_Sync = 110,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OPENNI2_Mirror = 111,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OpenNI_DepthGenerator = 1 << 31,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OpenNI_ImageGenerator = 1 << 30,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OpenNI_ImageGeneratorPresent = OpenNI_ImageGenerator + OPENNI_GeneratorPresent,
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OpenNI_ImageGeneratorOutputMode = OpenNI_ImageGenerator + OpenNI_OutputMode,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OpenNI_DepthGeneratorBaseline = OpenNI_ImageGenerator + OpenNI_Baseline,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OpenNI_DepthGeneratorFocalLength = OpenNI_ImageGenerator + OpenNI_FocalLength,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        OpenNI_DepthGeneratorRegistrationON = OpenNI_ImageGenerator + OpenNI_Registration,
+
         #endregion
 
         #region GStreamer
+
         // Properties of cameras available through GStreamer interface
 
         /// <summary>
         /// default is 1
         /// </summary>
-        GStreamerQueueLength = CvConst.CV_CAP_GSTREAMER_QUEUE_LENGTH, 
+        GStreamerQueueLength = 200,
+
+        #endregion
+
+        #region PVAPI
+
         /// <summary>
         /// ip for anable multicast master mode. 0 for disable multicast
         /// </summary>
-        PvAPIMulticastIP = CvConst.CV_CAP_PROP_PVAPI_MULTICASTIP, 
+        PvAPIMulticastIP = 300,
+
+        /// <summary>
+        /// Determines how a frame is initiated
+        /// </summary>
+        PVAPI_FrameStartTriggerMode = 301, 
+
+        /// <summary>
+        /// Horizontal sub-sampling of the image
+        /// </summary>
+        PVAPI_DecimationHorizontal = 302, 
+
+        /// <summary>
+        /// Vertical sub-sampling of the image
+        /// </summary>
+        PVAPI_DecimationVertical = 303, 
+
+        /// <summary>
+        /// Horizontal binning factor
+        /// </summary>
+        PVAPI_BinningX = 304, 
+
+        /// <summary>
+        /// Vertical binning factor
+        /// </summary>
+        PVAPI_BinningY = 305, 
+
+        /// <summary>
+        /// Pixel format
+        /// </summary>
+        PVAPI_PixelFormat = 306,
+
         #endregion
 
         #region XI
+
         // Properties of cameras available through XIMEA SDK interface
-        
+
         /// <summary>
         /// Change image resolution by binning or skipping. 
         /// </summary>
-        XI_Downsampling = CvConst.CV_CAP_PROP_XI_DOWNSAMPLING,      
+        XI_Downsampling = 400,
+
         /// <summary>
         /// Output data format.
         /// </summary>
-        XI_DataFormat = CvConst.CV_CAP_PROP_XI_DATA_FORMAT,       
+        XI_DataFormat = 401,
+
         /// <summary>
         /// Horizontal offset from the origin to the area of interest (in pixels).
         /// </summary>        
-        XI_OffsetX = CvConst.CV_CAP_PROP_XI_OFFSET_X,      
+        XI_OffsetX = 402,
+
         /// <summary>
         /// Vertical offset from the origin to the area of interest (in pixels).
         /// </summary>
-        XI_OffsetY = CvConst.CV_CAP_PROP_XI_OFFSET_Y,      
+        XI_OffsetY = 403,
+
         /// <summary>
         /// Defines source of trigger.
         /// </summary>
-        XI_TrgSource = CvConst.CV_CAP_PROP_XI_TRG_SOURCE,     
+        XI_TrgSource = 404,
+
         /// <summary>
         /// Generates an internal trigger. PRM_TRG_SOURCE must be set to TRG_SOFTWARE.
         /// </summary>
-        XI_TrgSoftware = CvConst.CV_CAP_PROP_XI_TRG_SOFTWARE,      
+        XI_TrgSoftware = 405,
+
         /// <summary>
         /// Selects general purpose input 
         /// </summary>
-        XI_GpiSelector = CvConst.CV_CAP_PROP_XI_GPI_SELECTOR,     
+        XI_GpiSelector = 406,
+
         /// <summary>
         /// Set general purpose input mode
         /// </summary>
-        XI_GpiMode = CvConst.CV_CAP_PROP_XI_GPI_MODE,     
+        XI_GpiMode = 407,
+
         /// <summary>
         /// Get general purpose level
         /// </summary>
-        XI_GpiLevel = CvConst.CV_CAP_PROP_XI_GPI_LEVEL,     
+        XI_GpiLevel = 408,
+
         /// <summary>
         /// Selects general purpose output 
         /// </summary>
-        XI_GpoSelector = CvConst.CV_CAP_PROP_XI_GPO_SELECTOR,     
+        XI_GpoSelector = 409,
+
         /// <summary>
         /// Set general purpose output mode
         /// </summary>
-        XI_GpoMode = CvConst.CV_CAP_PROP_XI_GPO_MODE,     
+        XI_GpoMode = 410,
+
         /// <summary>
         /// Selects camera signalling LED 
         /// </summary>
-        XI_LedSelector = CvConst.CV_CAP_PROP_XI_LED_SELECTOR,     
+        XI_LedSelector = 411,
+
         /// <summary>
         /// Define camera signalling LED functionality
         /// </summary>
-        XI_LedMode = CvConst.CV_CAP_PROP_XI_LED_MODE,     
+        XI_LedMode = 412,
+
         /// <summary>
         /// Calculates White Balance(must be called during acquisition)
         /// </summary>
-        XI_ManualWB = CvConst.CV_CAP_PROP_XI_MANUAL_WB,     
+        XI_ManualWB = 413,
+
         /// <summary>
         /// Automatic white balance
         /// </summary>
-        XI_AutoWB = CvConst.CV_CAP_PROP_XI_AUTO_WB,     
+        XI_AutoWB = 414,
+
         /// <summary>
         /// Automatic exposure/gain
         /// </summary>
-        XI_AEAG = CvConst.CV_CAP_PROP_XI_AEAG,      
+        XI_AEAG = 415,
+
         /// <summary>
         /// Exposure priority (0.5 - exposure 50%, gain 50%).
         /// </summary>
-        XI_ExpPriority = CvConst.CV_CAP_PROP_XI_EXP_PRIORITY,     
+        XI_ExpPriority = 416,
+
         /// <summary>
         /// Maximum limit of exposure in AEAG procedure
         /// </summary>
-        XI_AEMaxLimit = CvConst.CV_CAP_PROP_XI_AE_MAX_LIMIT,     
+        XI_AEMaxLimit = 417,
+
         /// <summary>
         /// Maximum limit of gain in AEAG procedure
         /// </summary>
-        XI_AGMaxLimit = CvConst.CV_CAP_PROP_XI_AG_MAX_LIMIT,     
+        XI_AGMaxLimit = 418,
+
         /// <summary>
         /// Average intensity of output signal AEAG should achieve(in %)
         /// </summary>
-        XI_AEAGLevel = CvConst.CV_CAP_PROP_XI_AEAG_LEVEL,      
+        XI_AEAGLevel = 419,
+
         /// <summary>
         /// Image capture timeout in milliseconds
         /// </summary>
-        XI_Timeout = CvConst.CV_CAP_PROP_XI_TIMEOUT       
+        XI_Timeout = 420,
+
+        #endregion
+
+        #region iOS
+
+        /// <summary>
+        /// 
+        /// </summary>
+        IOS_DeviceFocus        = 9001,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        IOS_DeviceExposure     = 9002,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        IOS_DeviceFlash      = 9003,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        IOS_DeviceWhiteBalance = 9004,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        IOS_DeviceTorch        = 9005,
+
+        #endregion
+
+        #region GIGA
+
+        /// <summary>
+        /// 
+        /// </summary>
+        GIGA_FrameOffsetX   = 10001,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        GIGA_FrameOffsetY   = 10002,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        GIGA_FrameWidthMax  = 10003,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        GIGA_FrameHeightMax  = 10004,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        GIGA_FrameSensWidth = 10005,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        GIGA_FrameSensHeight = 10006,
+
+        #endregion
+
+        #region INTELPERC
+
+        /// <summary>
+        /// 
+        /// </summary>
+        INTELPERC_ProfileCount               = 11001,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        INTELPERC_ProfileIdx                 = 11002,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        INTELPERC_DepthLowConfidenceValue  = 11003,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        INTELPERC_DepthSaturationValue      = 11004,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        INTELPERC_DepthConfidenceThreshold  = 11005,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        INTELPERC_DepthFocalLengthHorz     = 11006,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        INTELPERC_DepthFocalLengthVert = 11007,
+
+        #endregion
+
+        #region gPhoto2
+
+        /// <summary>
+        /// Capture only preview from liveview mode.
+        /// </summary>
+        GPhoto2_Preview           = 17001,  
+
+        /// <summary>
+        /// Readonly, returns (const char *).
+        /// </summary>
+        GPhoto2_WidgetEnumerate = 17002,  
+
+        /// <summary>
+        /// Trigger, only by set. Reload camera settings.
+        /// </summary>
+        GPhoto2_ReloadConfig = 17003,  
+
+        /// <summary>
+        /// Reload all settings on set.
+        /// </summary>
+        GPhoto2_ReloadOnChange = 17004,  
+
+        /// <summary>
+        /// Collect messages with details.
+        /// </summary>
+        GPhoto2_CollectMsgs = 17005,  
+
+        /// <summary>
+        /// Readonly, returns (const char *).
+        /// </summary>
+        GPhoto2_FlushMsgs = 17006,  
+
+        /// <summary>
+        /// Exposure speed. Can be readonly, depends on camera program.
+        /// </summary>
+        Speed                     = 17007,  
+      
+        /// <summary>
+        /// Aperture. Can be readonly, depends on camera program.
+        /// </summary>
+        Aperture                  = 17008,  
+        
+        /// <summary>
+        /// Camera exposure program.
+        /// </summary>
+        ExposureProgram           = 17009,  
+       
+        /// <summary>
+        /// Enter liveview mode.
+        /// </summary>
+        ViewFinder                = 17010,  
+
         #endregion
     }
 }
