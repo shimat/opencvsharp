@@ -1,6 +1,8 @@
 ﻿
 namespace OpenCvSharp
 {
+    // ReSharper disable InconsistentNaming
+
 #if LANG_JP
     /// <summary>
 	/// cvCmp, cvCmpS等のメソッドで用いる, CvArrの比較方法
@@ -10,89 +12,77 @@ namespace OpenCvSharp
     /// The flag specifying the relation between the elements to be checked
     /// </summary>
 #endif
-    public enum ArrComparison : int
+    public enum CmpTypes : int
     {
 #if LANG_JP
 		/// <summary>
 		/// src1(I) と value は等しい 
-        /// [CV_CMP_EQ]
 		/// </summary>
 #else
         /// <summary>
         /// src1(I) "equal to" src2(I)
-        /// [CV_CMP_EQ]
         /// </summary>
 #endif
-        EQ = CvConst.CV_CMP_EQ,
+        EQ = 0,
 
 
 #if LANG_JP
 		/// <summary>
 		/// src1(I) は value より大きい 
-        /// [CV_CMP_GT]
 		/// </summary>
 #else
         /// <summary>
         /// src1(I) "greater than" src2(I)
-        /// [CV_CMP_GT]
         /// </summary>
 #endif
-        GT = CvConst.CV_CMP_GT,
+        GT = 1,
 
 
 #if LANG_JP
 		/// <summary>
 		/// src1(I) は value より大きいか等しい 
-        /// [CV_CMP_GE]
 		/// </summary>
 #else
         /// <summary>
         /// src1(I) "greater or equal" src2(I)
-        /// [CV_CMP_GE]
         /// </summary>
 #endif
-        GE = CvConst.CV_CMP_GE,
+        GE = 2,
 
 
 #if LANG_JP
 		/// <summary>
 		/// src1(I) は value より小さい 
-        /// [CV_CMP_LT]
 		/// </summary>
 #else
         /// <summary>
         /// src1(I) "less than" src2(I)
-        /// [CV_CMP_LT]
         /// </summary>
 #endif
-        LT = CvConst.CV_CMP_LT,
+        LT = 3,
 
 
 #if LANG_JP
 		/// <summary>
 		/// src1(I) は value より小さいか等しい 
-        /// [CV_CMP_LE]
 		/// </summary>
 #else
         /// <summary>
         /// src1(I) "less or equal" src2(I)
-        /// [CV_CMP_LE]
         /// </summary>
 #endif
-        LE = CvConst.CV_CMP_LE,
+        LE = 4,
 
 
 #if LANG_JP
 		/// <summary>
 		/// src1(I) と value は等しくない 
-        /// [CV_CMP_NE]
 		/// </summary>
 #else
         /// <summary>
         /// src1(I) "not equal to" src2(I)
-        /// [CV_CMP_NE]
         /// </summary>
 #endif
-        NE = CvConst.CV_CMP_NE,
+        NE = 5,
     }
 }

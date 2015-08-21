@@ -534,7 +534,7 @@ namespace OpenCvSharp
         /// thus save some time. This technique is very useful for computing array cross-correlation 
         /// or convolution using DFT</param>
         /// <returns>The destination array, which size and type depends on the flags</returns>
-        public Mat Dft(DftFlag2 flags = DftFlag2.None, int nonzeroRows = 0)
+        public Mat Dft(DftFlags flags = 0, int nonzeroRows = 0)
         {
             var dst = new Mat();
             Cv2.Dft(this, dst, flags, nonzeroRows);
@@ -552,7 +552,7 @@ namespace OpenCvSharp
         /// thus save some time. This technique is very useful for computing array cross-correlation 
         /// or convolution using DFT</param>
         /// <returns>The destination array, which size and type depends on the flags</returns>
-        public Mat Idft(DftFlag2 flags = DftFlag2.None, int nonzeroRows = 0)
+        public Mat Idft(DftFlags flags = 0, int nonzeroRows = 0)
         {
             var dst = new Mat();
             Cv2.Idft(this, dst, flags, nonzeroRows);
@@ -564,7 +564,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
         /// <returns>The destination array; will have the same size and same type as src</returns>
-        public Mat Dct(DctFlag2 flags = DctFlag2.None)
+        public Mat Dct(DctFlags flags = 0)
         {
             var dst = new Mat();
             Cv2.Dct(this, dst, flags);
@@ -576,7 +576,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
         /// <returns>The destination array; will have the same size and same type as src</returns>
-        public Mat Idct(DctFlag2 flags = DctFlag2.None)
+        public Mat Idct(DctFlags flags = 0)
         {
             var dst = new Mat();
             Cv2.Idct(this, dst, flags);
@@ -1067,7 +1067,7 @@ namespace OpenCvSharp
         /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
         /// <param name="borderType">The border type</param>
         /// <param name="value">The border value if borderType == Constant</param>
-        public Mat CopyMakeBorder(int top, int bottom, int left, int right, BorderType borderType, Scalar? value = null)
+        public Mat CopyMakeBorder(int top, int bottom, int left, int right, BorderTypes borderType, Scalar? value = null)
         {
             var dst = new Mat();
             Cv2.CopyMakeBorder(this, dst, top, bottom, left, right, borderType, value);
@@ -1102,7 +1102,7 @@ namespace OpenCvSharp
         /// regardless of possible future modifications of all this semantics, it is recommended to specify all of ksize, sigmaX, and sigmaY.</param>
         /// <param name="borderType">pixel extrapolation method</param>
         public Mat GaussianBlur(Size ksize, double sigmaX,
-            double sigmaY = 0, BorderType borderType = BorderType.Default)
+            double sigmaY = 0, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.GaussianBlur(this, dst, ksize, sigmaX, sigmaY, borderType);
@@ -1125,7 +1125,7 @@ namespace OpenCvSharp
         /// <param name="borderType"></param>
         /// <returns>The destination image; will have the same size and the same type as src</returns>
         public Mat BilateralFilter(int d, double sigmaColor, double sigmaSpace,
-            BorderType borderType = BorderType.Default)
+            BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.BilateralFilter(this, dst, d, sigmaColor, sigmaSpace, borderType);
@@ -1150,7 +1150,7 @@ namespace OpenCvSharp
         /// <param name="borderType">Pixel extrapolation method.</param>
         /// <returns>The destination image; will have the same size and the same type as src</returns>
         public Mat AdaptiveBilateralFilter(Size ksize, double sigmaSpace, 
-            double maxSigmaColor = 20.0, Point? anchor = null, BorderType borderType = BorderType.Default)
+            double maxSigmaColor = 20.0, Point? anchor = null, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.AdaptiveBilateralFilter(this, dst, ksize, sigmaSpace, maxSigmaColor, anchor, borderType);
@@ -1168,7 +1168,7 @@ namespace OpenCvSharp
         /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
         /// <returns>The destination image; will have the same size and the same type as src</returns>
         public Mat BoxFilter(MatType ddepth, Size ksize, Point? anchor = null, 
-            bool normalize = true, BorderType borderType = BorderType.Default)
+            bool normalize = true, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.BoxFilter(this, dst, ddepth, ksize, anchor, normalize, borderType);
@@ -1183,7 +1183,7 @@ namespace OpenCvSharp
         /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
         /// <returns>The destination image; will have the same size and the same type as src</returns>
         public Mat Blur(Size ksize, Point? anchor = null, 
-            BorderType borderType = BorderType.Default)
+            BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.Blur(this, dst, ksize, anchor, borderType);
@@ -1204,7 +1204,7 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method</param>
         /// <returns>The destination image. It will have the same size and the same number of channels as src</returns>
         public Mat Filter2D(MatType ddepth, InputArray kernel, Point? anchor = null, 
-            double delta = 0, BorderType borderType = BorderType.Default)
+            double delta = 0, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.Filter2D(this, dst, ddepth, kernel, anchor, delta, borderType);
@@ -1222,7 +1222,7 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method</param>
         /// <returns>The destination image; will have the same size and the same number of channels as src</returns>
         public Mat SepFilter2D(MatType ddepth, InputArray kernelX, InputArray kernelY,
-            Point? anchor = null, double delta = 0, BorderType borderType = BorderType.Default)
+            Point? anchor = null, double delta = 0, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.SepFilter2D(this, dst, ddepth, kernelX, kernelY, anchor, delta, borderType);
@@ -1241,7 +1241,7 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method</param>
         /// <returns>The destination image; will have the same size and the same number of channels as src</returns>
         public Mat Sobel(MatType ddepth, int xorder, int yorder,
-            int ksize = 3, double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
+            int ksize = 3, double scale = 1, double delta = 0, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.Sobel(this, dst, ddepth, xorder, yorder, ksize, scale, delta, borderType);
@@ -1259,7 +1259,7 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method</param>
         /// <returns>The destination image; will have the same size and the same number of channels as src</returns>
         public Mat Scharr(MatType ddepth, int xorder, int yorder,
-            double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
+            double scale = 1, double delta = 0, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.Scharr(this, dst, ddepth, xorder, yorder, scale, delta, borderType);
@@ -1276,7 +1276,7 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method</param>
         /// <returns>Destination image; will have the same size and the same number of channels as src</returns>
         public Mat Laplacian(MatType ddepth,
-            int ksize = 1, double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
+            int ksize = 1, double scale = 1, double delta = 0, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.Laplacian(this, dst, ddepth, ksize, scale, delta, borderType);
@@ -1316,7 +1316,7 @@ namespace OpenCvSharp
         /// <param name="blockSize"></param>
         /// <param name="ksize"></param>
         /// <param name="borderType"></param>
-        public Mat CornerEigenValsAndVecs(int blockSize, int ksize, BorderType borderType = BorderType.Default)
+        public Mat CornerEigenValsAndVecs(int blockSize, int ksize, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.CornerEigenValsAndVecs(this, dst, blockSize, ksize, borderType);
@@ -1328,7 +1328,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ksize"></param>
         /// <param name="borderType"></param>
-        public Mat PreCornerDetect(int ksize, BorderType borderType = BorderType.Default)
+        public Mat PreCornerDetect(int ksize, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.PreCornerDetect(this, dst, ksize, borderType);
@@ -1477,7 +1477,7 @@ namespace OpenCvSharp
     /// <param name="element">膨張に用いられる構造要素． element=new Mat()  の場合， 3x3 の矩形構造要素が用いられます</param>
     /// <param name="anchor">構造要素内のアンカー位置．デフォルト値の (-1, -1) は，アンカーが構造要素の中心にあることを意味します</param>
     /// <param name="iterations">膨張が行われる回数. [既定値は1]</param>
-    /// <param name="borderType">ピクセル外挿手法．[既定値はBorderType.Constant]</param>
+    /// <param name="borderType">ピクセル外挿手法．[既定値はBorderTypes.Constant]</param>
     /// <param name="borderValue">定数境界モードで利用されるピクセル値．デフォルト値は特別な意味を持ちます．[既定値はCvCpp.MorphologyDefaultBorderValue()]</param>
     /// <returns>src と同じサイズ，同じ型の出力画像</returns>
 #else
@@ -1487,12 +1487,12 @@ namespace OpenCvSharp
         /// <param name="element">The structuring element used for dilation. If element=new Mat() , a 3x3 rectangular structuring element is used</param>
         /// <param name="anchor">Position of the anchor within the element. The default value (-1, -1) means that the anchor is at the element center</param>
         /// <param name="iterations">The number of times dilation is applied. [By default this is 1]</param>
-        /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
+        /// <param name="borderType">The pixel extrapolation method. [By default this is BorderTypes.Constant]</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>The destination image. It will have the same size and the same type as src</returns>
 #endif
         public Mat Dilate(InputArray element, Point? anchor = null, int iterations = 1, 
-            BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
+            BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
             Cv2.Dilate(this, dst, element, anchor, iterations, borderType, borderValue);
@@ -1506,7 +1506,7 @@ namespace OpenCvSharp
     /// <param name="element">収縮に用いられる構造要素． element=new Mat() の場合， 3x3 の矩形の構造要素が用いられます</param>
     /// <param name="anchor">構造要素内のアンカー位置．デフォルト値の (-1, -1) は，アンカーが構造要素の中心にあることを意味します</param>
     /// <param name="iterations">収縮が行われる回数. [既定値は1]</param>
-    /// <param name="borderType">ピクセル外挿手法．[既定値はBorderType.Constant]</param>
+    /// <param name="borderType">ピクセル外挿手法．[既定値はBorderTypes.Constant]</param>
     /// <param name="borderValue">定数境界モードで利用されるピクセル値．デフォルト値は特別な意味を持ちます．[既定値はCvCpp.MorphologyDefaultBorderValue()]</param>
     /// <returns>src と同じサイズ，同じ型の出力画像</returns>
 #else
@@ -1521,7 +1521,7 @@ namespace OpenCvSharp
         /// <returns>The destination image. It will have the same size and the same type as src</returns>
 #endif
         public Mat Erode(InputArray element, Point? anchor = null, int iterations = 1, 
-            BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
+            BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
             Cv2.Erode(this, dst, element, anchor, iterations, borderType, borderValue);
@@ -1536,7 +1536,7 @@ namespace OpenCvSharp
     /// <param name="element">構造要素</param>
     /// <param name="anchor">構造要素内のアンカー位置．デフォルト値の (-1, -1) は，アンカーが構造要素の中心にあることを意味します.</param>
     /// <param name="iterations">収縮と膨張が適用される回数. [既定値は1]</param>
-    /// <param name="borderType">ピクセル外挿手法. [既定値はBorderType.Constant]</param>
+    /// <param name="borderType">ピクセル外挿手法. [既定値はBorderTypes.Constant]</param>
     /// <param name="borderValue">定数境界モードで利用されるピクセル値．デフォルト値は特別な意味を持ちます． [既定値は CvCpp.MorphologyDefaultBorderValue()]</param>
     /// <returns>src と同じサイズ，同じ型の出力画像</returns>
 #else
@@ -1547,12 +1547,12 @@ namespace OpenCvSharp
         /// <param name="element">Structuring element</param>
         /// <param name="anchor">Position of the anchor within the element. The default value (-1, -1) means that the anchor is at the element center</param>
         /// <param name="iterations">Number of times erosion and dilation are applied. [By default this is 1]</param>
-        /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
+        /// <param name="borderType">The pixel extrapolation method. [By default this is BorderTypes.Constant]</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>Destination image. It will have the same size and the same type as src</returns>
 #endif
         public Mat MorphologyEx(MorphologyOperation op, InputArray element,
-            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant,
+            Point? anchor = null, int iterations = 1, BorderTypes borderType = BorderTypes.Constant,
             Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1594,7 +1594,7 @@ namespace OpenCvSharp
         /// in the source image are not modified by the function.</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
         public Mat WarpAffine(InputArray m, Size dsize, InterpolationFlags flags = InterpolationFlags.Linear, 
-            BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+            BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
             Cv2.WarpAffine(this, dst, m, dsize, flags, borderMode, borderValue);
@@ -1612,7 +1612,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
         /// <returns>output image that has the size dsize and the same type as src.</returns>
         public Mat WarpPerspective(Mat m, Size dsize, InterpolationFlags flags = InterpolationFlags.Linear, 
-            BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+            BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
             Cv2.WarpPerspective(this, dst, m, dsize, flags, borderMode, borderValue);
@@ -1631,7 +1631,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
         /// <returns>Destination image. It has the same size as map1 and the same type as src</returns>
         public Mat Remap(InputArray map1, InputArray map2, InterpolationFlags interpolation = InterpolationFlags.Linear, 
-            BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+            BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
             Cv2.Remap(this, dst, map1, map2, interpolation, borderMode, borderValue);
@@ -1739,7 +1739,7 @@ namespace OpenCvSharp
         /// <param name="dstSize">size of the output image; by default, it is computed as Size((src.cols+1)/2</param>
         /// <param name="borderType"></param>
         /// <returns></returns>
-        public Mat PyrDown(Size? dstSize = null, BorderType borderType = BorderType.Default)
+        public Mat PyrDown(Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.PyrDown(this, dst, dstSize, borderType);
@@ -1752,7 +1752,7 @@ namespace OpenCvSharp
         /// <param name="dstSize">size of the output image; by default, it is computed as Size(src.cols*2, (src.rows*2)</param>
         /// <param name="borderType"></param>
         /// <returns></returns>
-        public Mat PyrUp(Size? dstSize = null, BorderType borderType = BorderType.Default)
+        public Mat PyrUp(Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
         {
             var dst = new Mat();
             Cv2.PyrUp(this, dst, dstSize, borderType);

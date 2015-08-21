@@ -89,28 +89,13 @@ namespace OpenCvSharp
         // cvCanny
         public const int CV_SCHARR = -1;
 
-        // cvCopyMakeBorder
-        public const int IPL_BORDER_CONSTANT = 0,
-            IPL_BORDER_REPLICATE = 1,
-            IPL_BORDER_REFLECT = 2,
-            IPL_BORDER_REFLECT_101 = 4,
-            IPL_BORDER_WRAP = 3,
-            IPL_BORDER_DEFAULT = 4,
-            BORDER_ISOLATED = 16;
-
         // cvCheckArr
         public const int CV_CHECK_RANGE = 1;
         public const int CV_CHECK_QUIET = 2;
         // cvConvertImage
         public const int CV_CVTIMG_FLIP = 1;
         public const int CV_CVTIMG_SWAP_RB = 2;
-        // cvCmp
-        public const int CV_CMP_EQ = 0;
-        public const int CV_CMP_GT = 1;
-        public const int CV_CMP_GE = 2;
-        public const int CV_CMP_LT = 3;
-        public const int CV_CMP_LE = 4;
-        public const int CV_CMP_NE = 5;
+
         // cvConvexHull2
         public const int CV_CLOCKWISE = 1;
         public const int CV_COUNTER_CLOCKWISE = 2;
@@ -128,14 +113,6 @@ namespace OpenCvSharp
         public const int CV_SHAPE_CUSTOM = 100;
         public const int CV_SHAPE_ELLIPSE = 2;
         public const int CV_SHAPE_RECT = 0;
-
-        // cvDFT
-        public const int CV_DXT_FORWARD = 0;
-        public const int CV_DXT_INVERSE = 1;
-        public const int CV_DXT_INVERSE_SCALE = 3;
-        public const int CV_DXT_MUL_CONJ = 8;
-        public const int CV_DXT_ROWS = 4;
-        public const int CV_DXT_SCALE = 2;
 
         // cvError
         public const int CV_StsOk = 0;	/* everithing is ok                */

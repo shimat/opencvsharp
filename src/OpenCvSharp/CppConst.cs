@@ -84,21 +84,6 @@ namespace OpenCvSharp
             MORPH_ELLIPSE = 2;
 
         /// <summary>
-        /// cv::dft flags
-        /// </summary>
-        public const int DFT_INVERSE = 1,
-            DFT_SCALE = 2,
-            DFT_ROWS = 4,
-            DFT_COMPLEX_OUTPUT = 16,
-            DFT_REAL_OUTPUT = 32;
-
-        /// <summary>
-        /// cv::dct flags
-        /// </summary>
-        public const int DCT_INVERSE = DFT_INVERSE,
-            DCT_ROWS = DFT_ROWS;
-
-        /// <summary>
         /// cv::initWideAngleProjMap flags
         /// </summary>
         public const int

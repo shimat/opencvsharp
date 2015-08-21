@@ -188,7 +188,7 @@ namespace OpenCvSharp
             using (var cmp = new Mat(rows, cols, MatType.CV_32SC1, Scalar.All(label)))
             {
                 Mat result = new Mat();
-                Cv2.Compare(labels, cmp, result, ArrComparison.EQ);
+                Cv2.Compare(labels, cmp, result, CmpTypes.EQ);
                 return result;
             }
         }

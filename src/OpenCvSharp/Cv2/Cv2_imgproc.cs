@@ -64,7 +64,7 @@ namespace OpenCvSharp
         /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
         /// <param name="borderType">The border type</param>
         /// <param name="value">The border value if borderType == Constant</param>
-        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right, BorderType borderType, Scalar? value = null)
+        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right, BorderTypes borderType, Scalar? value = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -114,7 +114,7 @@ namespace OpenCvSharp
         /// regardless of possible future modifications of all this semantics, it is recommended to specify all of ksize, sigmaX, and sigmaY.</param>
         /// <param name="borderType">pixel extrapolation method</param>
         public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, 
-            double sigmaY = 0, BorderType borderType = BorderType.Default)
+            double sigmaY = 0, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -142,7 +142,8 @@ namespace OpenCvSharp
         /// (as long as their colors are close enough; see sigmaColor). Then d>0 , it specifies 
         /// the neighborhood size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace</param>
         /// <param name="borderType"></param>
-        public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, BorderType borderType = BorderType.Default)
+        public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor,
+            double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -200,8 +201,10 @@ namespace OpenCvSharp
         /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
         /// <param name="normalize">Indicates, whether the kernel is normalized by its area or not</param>
         /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
-        public static void BoxFilter(InputArray src, OutputArray dst, MatType ddepth, 
-            Size ksize, Point? anchor = null, bool normalize = true, BorderType borderType = BorderType.Default)
+        public static void BoxFilter(
+            InputArray src, OutputArray dst, MatType ddepth, 
+            Size ksize, Point? anchor = null, bool normalize = true,
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -223,8 +226,9 @@ namespace OpenCvSharp
         /// <param name="ksize">The smoothing kernel size</param>
         /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
         /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
-        public static void Blur(InputArray src, OutputArray dst, Size ksize, 
-            Point? anchor = null, BorderType borderType = BorderType.Default)
+        public static void Blur(
+            InputArray src, OutputArray dst, Size ksize, 
+            Point? anchor = null, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -252,8 +256,10 @@ namespace OpenCvSharp
         /// The special default value (-1,-1) means that the anchor is at the kernel center</param>
         /// <param name="delta">The optional value added to the filtered pixels before storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void Filter2D(InputArray src, OutputArray dst, MatType ddepth,
-	        InputArray kernel, Point? anchor = null, double delta = 0, BorderType borderType = BorderType.Default)
+        public static void Filter2D(
+            InputArray src, OutputArray dst, MatType ddepth,
+	        InputArray kernel, Point? anchor = null, double delta = 0, 
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -282,8 +288,10 @@ namespace OpenCvSharp
         /// <param name="anchor">The anchor position within the kernel; The default value (-1, 1) means that the anchor is at the kernel center</param>
         /// <param name="delta">The value added to the filtered results before storing them</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void SepFilter2D(InputArray src, OutputArray dst, MatType ddepth, InputArray kernelX, InputArray kernelY,
-            Point? anchor = null, double delta = 0, BorderType borderType = BorderType.Default)
+        public static void SepFilter2D(
+            InputArray src, OutputArray dst, MatType ddepth, InputArray kernelX, InputArray kernelY,
+            Point? anchor = null, double delta = 0, 
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -316,8 +324,10 @@ namespace OpenCvSharp
         /// <param name="scale">The optional scale factor for the computed derivative values (by default, no scaling is applied</param>
         /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void Sobel(InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
-            int ksize = 3, double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)        
+        public static void Sobel(
+            InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
+            int ksize = 3, double scale = 1, double delta = 0, 
+            BorderTypes borderType = BorderTypes.Default)        
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -342,8 +352,9 @@ namespace OpenCvSharp
         /// <param name="scale">The optional scale factor for the computed derivative values (by default, no scaling is applie</param>
         /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void Scharr(InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
-            double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
+        public static void Scharr(
+            InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
+            double scale = 1, double delta = 0, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -367,8 +378,10 @@ namespace OpenCvSharp
         /// <param name="scale">The optional scale factor for the computed Laplacian values (by default, no scaling is applied</param>
         /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void Laplacian(InputArray src, OutputArray dst, MatType ddepth,
-            int ksize = 1, double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
+        public static void Laplacian(
+            InputArray src, OutputArray dst, MatType ddepth,
+            int ksize = 1, double scale = 1, double delta = 0, 
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -424,8 +437,9 @@ namespace OpenCvSharp
         /// <param name="blockSize"></param>
         /// <param name="ksize"></param>
         /// <param name="borderType"></param>
-        public static void CornerEigenValsAndVecs(InputArray src, OutputArray dst, int blockSize, int ksize,
-            BorderType borderType = BorderType.Default)
+        public static void CornerEigenValsAndVecs(
+            InputArray src, OutputArray dst, int blockSize, int ksize,
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -445,8 +459,8 @@ namespace OpenCvSharp
         /// <param name="dst"></param>
         /// <param name="ksize"></param>
         /// <param name="borderType"></param>
-        public static void PreCornerDetect(InputArray src, OutputArray dst, int ksize,
-            BorderType borderType = BorderType.Default)
+        public static void PreCornerDetect(
+            InputArray src, OutputArray dst, int ksize, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -679,8 +693,10 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
-        public static void Dilate(InputArray src, OutputArray dst, InputArray element,
-            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
+        public static void Dilate(
+            InputArray src, OutputArray dst, InputArray element,
+            Point? anchor = null, int iterations = 1, 
+            BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -720,8 +736,10 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
-        public static void Erode(InputArray src, OutputArray dst, InputArray element,
-            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
+        public static void Erode(
+            InputArray src, OutputArray dst, InputArray element,
+            Point? anchor = null, int iterations = 1, 
+            BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -763,8 +781,10 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
-        public static void MorphologyEx(InputArray src, OutputArray dst, MorphologyOperation op, InputArray element,
-            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
+        public static void MorphologyEx(
+            InputArray src, OutputArray dst, MorphologyOperation op, InputArray element,
+            Point? anchor = null, int iterations = 1, 
+            BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -822,8 +842,10 @@ namespace OpenCvSharp
         /// it means that the pixels in the destination image corresponding to the "outliers" 
         /// in the source image are not modified by the function.</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
-        public static void WarpAffine(InputArray src, OutputArray dst, InputArray m, Size dsize,
-            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+        public static void WarpAffine(
+            InputArray src, OutputArray dst, InputArray m, Size dsize,
+            InterpolationFlags flags = InterpolationFlags.Linear, 
+            BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -866,8 +888,10 @@ namespace OpenCvSharp
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
 #endif
-        public static void WarpPerspective(InputArray src, OutputArray dst, InputArray m, Size dsize,
-            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, 
+        public static void WarpPerspective(
+            InputArray src, OutputArray dst, InputArray m, Size dsize,
+            InterpolationFlags flags = InterpolationFlags.Linear, 
+            BorderTypes borderMode = BorderTypes.Constant, 
             Scalar? borderValue = null)
         {
             if (src == null)
@@ -911,8 +935,10 @@ namespace OpenCvSharp
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
 #endif
-        public static void WarpPerspective(InputArray src, OutputArray dst, float[,] m, Size dsize,
-            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant,
+        public static void WarpPerspective(
+            InputArray src, OutputArray dst, float[,] m, Size dsize,
+            InterpolationFlags flags = InterpolationFlags.Linear, 
+            BorderTypes borderMode = BorderTypes.Constant,
             Scalar? borderValue = null)
         {
             if (src == null)
@@ -944,8 +970,10 @@ namespace OpenCvSharp
         /// it means that the pixels in the destination image that corresponds to the "outliers" in 
         /// the source image are not modified by the function.</param>
         /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
-        public static void Remap(InputArray src, OutputArray dst, InputArray map1, InputArray map2,
-            InterpolationFlags interpolation = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+        public static void Remap(
+            InputArray src, OutputArray dst, InputArray map1, InputArray map2,
+            InterpolationFlags interpolation = InterpolationFlags.Linear, 
+            BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1413,7 +1441,7 @@ namespace OpenCvSharp
         /// <param name="dstSize">size of the output image; by default, it is computed as Size((src.cols+1)/2</param>
         /// <param name="borderType"></param>
         public static void PyrDown(InputArray src, OutputArray dst,
-            Size? dstSize = null, BorderType borderType = BorderType.Default)
+            Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1433,7 +1461,7 @@ namespace OpenCvSharp
         /// <param name="dstSize">size of the output image; by default, it is computed as Size(src.cols*2, (src.rows*2)</param>
         /// <param name="borderType"></param>
         public static void PyrUp(InputArray src, OutputArray dst,
-            Size? dstSize = null, BorderType borderType = BorderType.Default)
+            Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
