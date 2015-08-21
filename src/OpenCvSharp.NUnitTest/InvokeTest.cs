@@ -86,7 +86,7 @@ namespace OpenCvSharp.NUnitTest
                 }
                 catch (MissingMethodException ex)
                 {
-                    Assert.Fail();
+                    Assert.Fail(ex.ToString());
                 }
                 catch (Exception ex)
                 {

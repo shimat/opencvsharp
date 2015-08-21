@@ -216,7 +216,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
-            Mat[] imagesArray = Util.Utility.ToArray(images);
+            Mat[] imagesArray = EnumerableEx.ToArray(images);
             IntPtr[] imagesPtr = new IntPtr[imagesArray.Length];
             for (int i = 0; i < imagesArray.Length; i++)
                 imagesPtr[i] = imagesArray[i].CvPtr;

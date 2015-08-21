@@ -257,21 +257,5 @@ namespace OpenCvSharp.Util
             }
         }
         #endregion
-
-        /// <summary>
-        /// IEnumerable&lt;T&gt;.ToArray of LINQ
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumerable"></param>
-        /// <returns></returns>
-        public static T[] ToArray<T>(IEnumerable<T> enumerable)
-        {
-            if (enumerable == null)
-                return null;
-            T[] array = enumerable as T[];
-            if (array != null)
-                return array;
-            return new List<T>(enumerable).ToArray();
-        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+
 using OpenCvSharp.Util;
 
 // ReSharper disable InconsistentNaming
@@ -481,7 +481,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("inputCorners");
             image.ThrowIfDisposed();
 
-            var inputCornersSrc = Util.Utility.ToArray(inputCorners);
+            var inputCornersSrc = EnumerableEx.ToArray(inputCorners);
             var inputCornersCopy = new Point2f[inputCornersSrc.Length];
             Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
             using (var vector = new VectorOfPoint2f(inputCornersCopy))
@@ -1039,8 +1039,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            Point2f[] srcArray = Util.Utility.ToArray(src);
-            Point2f[] dstArray = Util.Utility.ToArray(dst);
+            Point2f[] srcArray = EnumerableEx.ToArray(src);
+            Point2f[] dstArray = EnumerableEx.ToArray(dst);
             IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform1(srcArray, dstArray);
             return new Mat(ret);
         }
@@ -1075,11 +1075,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            Point2f[] srcArray = Util.Utility.ToArray(src);
-            Point2f[] dstArray = Util.Utility.ToArray(dst);
+            Point2f[] srcArray = EnumerableEx.ToArray(src);
+            Point2f[] dstArray = EnumerableEx.ToArray(dst);
             IntPtr ret = NativeMethods.imgproc_getAffineTransform1(srcArray, dstArray);
             return new Mat(ret);
         }
+
         /// <summary>
         /// 
         /// </summary>

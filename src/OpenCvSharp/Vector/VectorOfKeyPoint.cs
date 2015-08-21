@@ -53,7 +53,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            KeyPoint[] array = Util.Utility.ToArray(data);
+            KeyPoint[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_KeyPoint_new3(array, new IntPtr(array.Length));
         }
 

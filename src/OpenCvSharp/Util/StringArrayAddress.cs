@@ -27,7 +27,7 @@ namespace OpenCvSharp.Util
         /// </summary>
         /// <param name="enumerable"></param>
         public StringArrayAddress(IEnumerable<string> enumerable)
-            : this(Utility.ToArray(enumerable))
+            : this(EnumerableEx.ToArray(enumerable))
         {
         }
     }

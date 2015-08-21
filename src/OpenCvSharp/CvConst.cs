@@ -92,19 +92,6 @@ namespace OpenCvSharp
         // cvCanny
         public const int CV_SCHARR = -1;
 
-        // cvCheckHardwareSupport
-        public const int CV_CPU_NONE   = 0;    
-        public const int CV_CPU_MMX    = 1;
-        public const int CV_CPU_SSE    = 2;
-        public const int CV_CPU_SSE2   = 3;
-        public const int CV_CPU_SSE3   = 4;
-        public const int CV_CPU_SSSE3  = 5;
-        public const int CV_CPU_SSE4_1 = 6;
-        public const int CV_CPU_SSE4_2 = 7;
-        public const int CV_CPU_POPCNT = 8;
-        public const int CV_CPU_AVX    = 10;
-        public const int CV_HARDWARE_MAX_FEATURE = 255;
-
         // cvCopyMakeBorder
         public const int IPL_BORDER_CONSTANT = 0,
             IPL_BORDER_REPLICATE = 1,

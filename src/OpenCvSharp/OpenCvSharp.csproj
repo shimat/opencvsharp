@@ -187,7 +187,7 @@
     <Compile Include="Enum\GemmOperation.cs" />
     <Compile Include="Enum\GraphEdgeVtxFlag.cs" />
     <Compile Include="Enum\HaarDetectionType.cs" />
-    <Compile Include="Enum\HardwareSupport.cs" />
+    <Compile Include="Modules\core\Enum\CpuFeatures.cs" />
     <Compile Include="Enum\HistogramComparison.cs" />
     <Compile Include="Enum\HistogramFormat.cs" />
     <Compile Include="Enum\HomographyMethod.cs" />

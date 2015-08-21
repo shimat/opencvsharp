@@ -24,7 +24,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern long core_getCPUTickCount();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int core_checkHardwareSupport([MarshalAs(UnmanagedType.I4)] HardwareSupport feature);
+        public static extern int core_checkHardwareSupport(int feature);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int core_getNumberOfCPUs();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

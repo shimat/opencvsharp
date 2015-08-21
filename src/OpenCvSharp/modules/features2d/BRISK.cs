@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -70,9 +71,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("radiusList");
             if (numberList == null)
                 throw new ArgumentNullException("numberList");
-            float[] radiusListArray = Util.Utility.ToArray(radiusList);
-            int[] numberListArray = Util.Utility.ToArray(numberList);
-            int[] indexChangeArray = Util.Utility.ToArray(indexChange);
+            float[] radiusListArray = EnumerableEx.ToArray(radiusList);
+            int[] numberListArray = EnumerableEx.ToArray(numberList);
+            int[] indexChangeArray = EnumerableEx.ToArray(indexChange);
 
             IntPtr p = NativeMethods.features2d_BRISK_create2(
                 radiusListArray, radiusListArray.Length,

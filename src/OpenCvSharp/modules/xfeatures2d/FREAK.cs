@@ -46,8 +46,6 @@ namespace OpenCvSharp.XFeatures2D
             int nOctaves = 4,
             IEnumerable<int> selectedPairs = null)
         {
-            throw new NotImplementedException("not implemented xfeatures2d");
-
             int[] selectedPairsArray = EnumerableEx.ToArray(selectedPairs);
             int selectedPairslength = selectedPairs == null ? 0 : selectedPairsArray.Length;
 
