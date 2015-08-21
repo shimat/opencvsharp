@@ -121,6 +121,9 @@
     <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
     <Compile Include="Modules\ml\TrainData.cs" />
+    <Compile Include="Modules\shape\HausdorffDistanceExtractor.cs" />
+    <Compile Include="Modules\shape\ShapeContextDistanceExtractor.cs" />
+    <Compile Include="Modules\shape\ShapeDistanceExtractor.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_KeyPointsFilter.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_Feature2D.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_AgastFeatureDetector.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_LogisticRegression.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_StatModel.cs" />
     <Compile Include="PInvoke\NativeMethods_imgcodecs.cs" />
+    <Compile Include="PInvoke\shape\NativeMethods_shape_ShapeDistanceExtractor.cs" />
     <Compile Include="PInvoke\NativeMethods_videoio.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
     <Compile Include="Modules\imgproc\Enum\AdaptiveThresholdTypes.cs" />

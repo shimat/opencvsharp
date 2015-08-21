@@ -61,6 +61,9 @@
     <ClCompile Include="imgcodecs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -255,6 +258,9 @@
     <ClInclude Include="imgcodecs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="shape_ShapeDistanceExtractor.h">
+      <Filter>Header Files\shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -294,6 +300,9 @@
     </Filter>
     <Filter Include="Header Files\cuda">
       <UniqueIdentifier>{381d4d4f-0c83-4c35-a777-fb3214db09f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\shape">
+      <UniqueIdentifier>{eed306c8-8a82-4f4f-b9d5-447f88befafa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

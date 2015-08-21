@@ -336,6 +336,7 @@
     <ClCompile Include="flann.cpp" />
     <ClCompile Include="optflow.cpp" />
     <ClCompile Include="photo.cpp" />
+    <ClCompile Include="shape.cpp" />
     <ClCompile Include="std_vector.cpp" />
     <ClCompile Include="features2d.cpp" />
     <ClCompile Include="stitching.cpp" />
@@ -397,6 +398,7 @@
     <ClInclude Include="flann.h" />
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="ml_RTrees.h" />
+    <ClInclude Include="shape_ShapeDistanceExtractor.h" />
     <ClInclude Include="videoio.h" />
     <ClInclude Include="video_tracking.h" />
     <ClInclude Include="photo.h" />

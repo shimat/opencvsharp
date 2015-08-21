@@ -20,10 +20,6 @@ CVAPI(void) highgui_imshow(const char *winname, cv::Mat *mat)
 	cv::imshow(winname, *mat);
 }
 
-
-
-
-
 CVAPI(int) highgui_startWindowThread()
 {
 	return cv::startWindowThread();
@@ -74,99 +70,5 @@ CVAPI(void) highgui_setTrackbarPos(const char *trackbarName, const char *winName
 {
 	cv::setTrackbarPos(trackbarName, winName, pos);
 }
-
-#pragma region VideoCapture
-
-CVAPI(cv::VideoCapture*) highgui_VideoCapture_new()
-{
-	return new cv::VideoCapture();
-}
-CVAPI(cv::VideoCapture*) highgui_VideoCapture_new_fromFile(const char *fileName)
-{
-	return new cv::VideoCapture(fileName);
-}
-CVAPI(cv::VideoCapture*) highgui_VideoCapture_new_fromDevice(int device)
-{
-	return new cv::VideoCapture(device);
-}
-CVAPI(void) highgui_VideoCapture_delete(cv::VideoCapture *obj)
-{
-	delete obj;
-}
-
-CVAPI(void) highgui_VideoCapture_open_fromFile(cv::VideoCapture *obj, const char *fileName)
-{
-	obj->open(fileName);
-}
-CVAPI(void) highgui_VideoCapture_open_fromDevice(cv::VideoCapture *obj, int device)
-{
-	obj->open(device);
-}
-CVAPI(int) highgui_VideoCapture_isOpened(cv::VideoCapture *obj)
-{
-	return obj->isOpened();
-}
-CVAPI(void) highgui_VideoCapture_release(cv::VideoCapture *obj)
-{
-	obj->release();
-}
-
-CVAPI(int) highgui_VideoCapture_grab(cv::VideoCapture *obj)
-{
-	return obj->grab() ? 1: 0;
-}
-CVAPI(int) highgui_VideoCapture_retrieve(cv::VideoCapture *obj, cv::Mat *image, int channel)
-{
-	return obj->retrieve(*image, channel) ? 1 : 0;
-}
-CVAPI(int) highgui_VideoCapture_read(cv::VideoCapture *obj, cv::Mat *image)
-{
-	return obj->read(*image) ? 1 : 0;
-}
-
-CVAPI(int) highgui_VideoCapture_set(cv::VideoCapture *obj, int propId, double value)
-{
-	return obj->set(propId, value) ? 1 : 0;
-}
-CVAPI(double) highgui_VideoCapture_get(cv::VideoCapture *obj, int propId)
-{
-	return obj->get(propId);
-}
-
-#pragma endregion
-
-#pragma region VideoWriter
-CVAPI(cv::VideoWriter*) highgui_VideoWriter_new1()
-{
-	return new cv::VideoWriter;
-}
-CVAPI(cv::VideoWriter*) highgui_VideoWriter_new2(const char *fileName, int fourcc,
-	double fps, CvSize frameSize, int isColor)
-{
-	return new cv::VideoWriter(fileName, fourcc, fps, frameSize, isColor != 0);
-}
-CVAPI(void) highgui_VideoWriter_delete(cv::VideoWriter *obj)
-{
-	delete obj;
-}
-CVAPI(int) highgui_VideoWriter_open(cv::VideoWriter *obj, const char *fileName, int fourcc, double fps,
-	CvSize frameSize, int isColor)
-{	
-	return obj->open(fileName, fourcc, fps, frameSize, isColor != 0) ? 1 : 0;
-}
-CVAPI(int) highgui_VideoWriter_isOpened(cv::VideoWriter *obj)
-{
-	return obj->isOpened() ? 1 : 0;
-}
-CVAPI(void) highgui_VideoWriter_release(cv::VideoWriter *obj)
-{
-	obj->release();
-}
-CVAPI(void) highgui_VideoWriter_write(cv::VideoWriter *obj, cv::Mat *image)
-{
-	obj->write(*image);
-}
-
-#pragma endregion
 
 #endif
