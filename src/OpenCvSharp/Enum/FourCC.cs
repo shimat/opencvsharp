@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 #pragma warning disable 1591
 
@@ -17,24 +15,24 @@ namespace OpenCvSharp
 #endif
     public enum FourCC
     {
-        Default = CvConst.CV_FOURCC_DEFAULT,
-        Prompt = CvConst.CV_FOURCC_PROMPT,
-        PIM1 = CvConst.CV_FOURCC_PIM1,
-        MJPG = CvConst.CV_FOURCC_MJPG,
-        DIB = CvConst.CV_FOURCC_DIB,
-        DIVX = CvConst.CV_FOURCC_DIVX,
-        XVID = CvConst.CV_FOURCC_XVID,
-        MP42 = CvConst.CV_FOURCC_MP42,
-        MP43 = CvConst.CV_FOURCC_MP43,
-        MPG4 = CvConst.CV_FOURCC_MPG4,
-        MSVC = CvConst.CV_FOURCC_MSVC,
-        IV32 = CvConst.CV_FOURCC_IV32,
-        IV41 = CvConst.CV_FOURCC_IV41,
-        IV50 = CvConst.CV_FOURCC_IV50,
-        CVID = CvConst.CV_FOURCC_CVID,
-        IYUB = CvConst.CV_FOURCC_IYUB,
-        H261 = CvConst.CV_FOURCC_H261,
-        H263 = CvConst.CV_FOURCC_H263,
-        H264 = CvConst.CV_FOURCC_H264,
+        Default = -1,
+        Prompt = -1,
+        CVID = 1145656899,
+        DIB = 541215044,
+        DIVX = 1482049860,
+        H261 = 825635400,
+        H263 = 859189832,
+        H264 = 875967048,
+        IV32 = 842225225,
+        IV41 = 825513545,
+        IV50 = 808801865,
+        IYUB = 1448433993,
+        MJPG = 1196444237,
+        MP42 = 842289229,
+        MP43 = 859066445,
+        MPG4 = 877088845,
+        MSVC = 1129730893,
+        PIM1 = 827148624,
+        XVID = 1145656920,
     }
 }
