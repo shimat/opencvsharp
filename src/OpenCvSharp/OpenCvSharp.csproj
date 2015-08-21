@@ -195,7 +195,6 @@
     <Compile Include="Enum\HoughCirclesMethod.cs" />
     <Compile Include="Enum\HoughLinesMethod.cs" />
     <Compile Include="Modules\imgcodecs\Enum\ImwriteFlags.cs" />
-    <Compile Include="Enum\ImageOrigin.cs" />
     <Compile Include="Enum\InpaintMethod.cs" />
     <Compile Include="Enum\InsertPosition.cs" />
     <Compile Include="Enum\Interpolation.cs" />
@@ -217,7 +216,6 @@
     <Compile Include="Enum\ReduceDimension.cs" />
     <Compile Include="Enum\ReduceOperation.cs" />
     <Compile Include="Enum\RotateEdgeFlag.cs" />
-    <Compile Include="Enum\SeqType.cs" />
     <Compile Include="Enum\SmoothType.cs" />
     <Compile Include="Enum\SortFlag.cs" />
     <Compile Include="Enum\StereoBMPreset.cs" />
@@ -314,7 +312,7 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_Boost.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_ANN_MLP.cs" />
     <Compile Include="PInvoke\NativeMethods_cuda.cs" />
-    <Compile Include="PInvoke\NativeMethods_imgproc_CLAHE.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_CLAHE.cs" />
     <Compile Include="PInvoke\NativeMethods_photo.cs" />
     <Compile Include="Modules\calib3d\StereoBM.cs" />
     <Compile Include="Modules\core\Mat\MatIndexer.cs" />
@@ -389,7 +387,7 @@
     <Compile Include="Vector\VectorOfString.cs" />
     <Compile Include="Modules\highgui\Window.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d.cs" />
-    <Compile Include="PInvoke\NativeMethods_imgproc_Subdiv2D.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_Subdiv2D.cs" />
     <Compile Include="Modules\imgproc\Subdiv2D.cs" />
     <Compile Include="Modules\video\BackgroundSubtractor.cs" />
     <Compile Include="PInvoke\NativeMethods_video.cs" />
@@ -405,7 +403,7 @@
     <Compile Include="PInvoke\NativeMethods_objdetect.cs" />
     <Compile Include="Modules\objdetect\HOGDescriptor.cs" />
     <Compile Include="PInvoke\NativeMethods_highgui.cs" />
-    <Compile Include="PInvoke\NativeMethods_imgproc.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc.cs" />
     <Compile Include="PInvoke\core\NativeMethods_core_Mat.cs" />
     <Compile Include="PInvoke\NativeMethods_stdvector.cs" />
     <Compile Include="Modules\core\Struct\IVec.cs" />
