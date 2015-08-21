@@ -97,30 +97,6 @@ namespace OpenCvSharp
             IPL_BORDER_WRAP = 3,
             IPL_BORDER_DEFAULT = 4,
             BORDER_ISOLATED = 16;
-        // cvCreateCameraCapture
-        public const int CV_CAP_ANY = 0;
-        public const int CV_CAP_MIL = 100;
-        public const int CV_CAP_VFW = 200;
-        public const int CV_CAP_V4L = 200;
-        public const int CV_CAP_V4L2 = 200;
-        public const int CV_CAP_FIREWIRE = 300;
-        public const int CV_CAP_IEEE1394 = 300;
-        public const int CV_CAP_FIREWARE = 300;   // IEEE 1394 drivers
-        public const int CV_CAP_DC1394 = 300;
-        public const int CV_CAP_CMU1394 = 300;
-        public const int CV_CAP_STEREO = 400;
-        public const int CV_CAP_TYZX = 400;// TYZX proprietary drivers
-        public const int CV_TYZX_LEFT = 400;
-        public const int CV_TYZX_RIGHT = 401;
-        public const int CV_TYZX_COLOR = 402;
-        public const int CV_TYZX_Z = 403;
-        public const int CV_CAP_QT = 500;
-        public const int CV_CAP_UNICAP = 600;
-        public const int CV_CAP_DSHOW = 700;
-        public const int CV_CAP_PVAPI = 800;   // PvAPI, Prosilica GigE SDK
-        public const int CV_CAP_OPENNI = 900;   // OpenNI (for Kinect)
-        public const int CV_CAP_ANDROID = 1000;  // Android   
-        public const int CV_CAP_XIAPI = 1100;   // XIMEA Camera API
 
         // cv(Get/Set)CaptureProperty
         public const int CV_CAP_PROP_POS_MSEC = 0;
