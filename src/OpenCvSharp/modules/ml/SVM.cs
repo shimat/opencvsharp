@@ -246,13 +246,13 @@ namespace OpenCvSharp.ML
 	        bool balanced = false)
 	    {
             throw new NotImplementedException();
-
+            /*
 	        var cGridValue = cGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.C));
             var gammaGridValue = gammaGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Gamma));
             var pGridValue = pGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.P));
             var nuGridValue = nuGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Nu));
             var coeffGridValue = coeffGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Coef));
-            var degreeGridValue = degreeGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Degree));
+            var degreeGridValue = degreeGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Degree));*/
         }
 
         /// <summary>

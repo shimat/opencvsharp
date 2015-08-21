@@ -46,8 +46,6 @@ namespace OpenCvSharp.XFeatures2D
         /// <param name="bytes"></param>
         public static BriefDescriptorExtractor Create(int bytes = 32)
         {
-            throw new NotImplementedException("not implemented xfeatures2d");
-
             IntPtr p = NativeMethods.xfeatures2d_BriefDescriptorExtractor_create(bytes);
             return new BriefDescriptorExtractor(p);
         }

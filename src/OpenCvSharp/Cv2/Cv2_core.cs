@@ -8,6 +8,7 @@ namespace OpenCvSharp
     static partial class Cv2
     {
         #region Miscellaneous
+
         /// <summary>
         /// 
         /// </summary>
@@ -16,6 +17,7 @@ namespace OpenCvSharp
         {
             NativeMethods.core_setNumThreads(nthreads);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -32,6 +34,7 @@ namespace OpenCvSharp
         {
             return NativeMethods.core_getThreadNum();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -42,6 +45,7 @@ namespace OpenCvSharp
             NativeMethods.core_getBuildInformation(buf, (uint)buf.Capacity);
             return buf.ToString();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -50,6 +54,7 @@ namespace OpenCvSharp
         {
             return NativeMethods.core_getTickCount();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -58,6 +63,7 @@ namespace OpenCvSharp
         {
             return NativeMethods.core_getTickFrequency();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -66,15 +72,17 @@ namespace OpenCvSharp
         {
             return NativeMethods.core_getCPUTickCount();
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="feature"></param>
         /// <returns></returns>
-        public static bool CheckHardwareSupport(HardwareSupport feature)
+        public static bool CheckHardwareSupport(CpuFeatures feature)
         {
-            return NativeMethods.core_checkHardwareSupport(feature) != 0;
+            return NativeMethods.core_checkHardwareSupport((int)feature) != 0;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -83,6 +91,7 @@ namespace OpenCvSharp
         {
             return NativeMethods.core_getNumberOfCPUs();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -92,6 +101,7 @@ namespace OpenCvSharp
         {
             return NativeMethods.core_fastMalloc(new IntPtr(bufSize));
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1608,7 +1618,7 @@ namespace OpenCvSharp
             double minVal = double.MinValue, double maxVal = double.MaxValue)
         {
             if (src == null)
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException("src");
             src.ThrowIfDisposed();
 
             int ret = NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos, minVal, maxVal);
@@ -2148,6 +2158,7 @@ namespace OpenCvSharp
         /// <param name="u"></param>
         /// <param name="vt"></param>
         /// <param name="flags"></param>
+// ReSharper disable once InconsistentNaming
         public static void SVDecomp(InputArray src, OutputArray w,
             OutputArray u, OutputArray vt, SVDFlag flags = SVDFlag.None)
         {
@@ -2177,6 +2188,7 @@ namespace OpenCvSharp
         /// <param name="vt"></param>
         /// <param name="rhs"></param>
         /// <param name="dst"></param>
+// ReSharper disable once InconsistentNaming
         public static void SVBackSubst(InputArray w, InputArray u, InputArray vt,
             InputArray rhs, OutputArray dst)
         {
@@ -2851,7 +2863,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
 
-            Point[] ptsArray = Util.Utility.ToArray(pts);
+            Point[] ptsArray = EnumerableEx.ToArray(pts);
             NativeMethods.core_fillConvexPoly(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
             GC.KeepAlive(img);
         }
@@ -2890,7 +2902,7 @@ namespace OpenCvSharp
             List<int> nptsList = new List<int>();
             foreach (IEnumerable<Point> pts1 in pts)
             {
-                Point[] pts1Arr = Util.Utility.ToArray(pts1);
+                Point[] pts1Arr = EnumerableEx.ToArray(pts1);
                 ptsList.Add(pts1Arr);
                 nptsList.Add(pts1Arr.Length);
             }
@@ -2926,7 +2938,7 @@ namespace OpenCvSharp
             List<int> nptsList = new List<int>();
             foreach (IEnumerable<Point> pts1 in pts)
             {
-                Point[] pts1Arr = Util.Utility.ToArray(pts1);
+                Point[] pts1Arr = EnumerableEx.ToArray(pts1);
                 ptsList.Add(pts1Arr);
                 nptsList.Add(pts1Arr.Length);
             }

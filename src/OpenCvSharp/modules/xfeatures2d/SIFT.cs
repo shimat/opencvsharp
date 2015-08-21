@@ -48,8 +48,6 @@ namespace OpenCvSharp.XFeatures2D
             double contrastThreshold = 0.04, double edgeThreshold = 10,
             double sigma = 1.6)
         {
-            throw new NotImplementedException("not implemented xfeatures2d");
-
             IntPtr ptr = NativeMethods.xfeatures2d_SIFT_create(
                 nFeatures, nOctaveLayers, 
                 contrastThreshold, edgeThreshold, sigma);

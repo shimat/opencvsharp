@@ -44,7 +44,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            byte[] array = Util.Utility.ToArray(data);
+            byte[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_uchar_new3(array, new IntPtr(array.Length));
         }
 

@@ -32,8 +32,6 @@ namespace OpenCvSharp
         public static BackgroundSubtractorMOG Create(
             int history = 200, int nMixtures = 5, double backgroundRatio = 0.7, double noiseSigma = 0)
         {
-            throw new NotImplementedException("not implemented bgsegm");
-
             IntPtr ptr = NativeMethods.bgsegm_createBackgroundSubtractorMOG(
                 history, nMixtures, backgroundRatio, noiseSigma);
             return new BackgroundSubtractorMOG(ptr);

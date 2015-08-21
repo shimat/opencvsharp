@@ -44,7 +44,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Vec4f[] array = Util.Utility.ToArray(data);
+            Vec4f[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Vec4f_new3(array, new IntPtr(array.Length));
         }
 

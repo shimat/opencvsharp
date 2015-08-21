@@ -52,7 +52,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-            Point2f[] array = Util.Utility.ToArray(data);
+            Point2f[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Point2f_new3(array, new IntPtr(array.Length));
         }
 
