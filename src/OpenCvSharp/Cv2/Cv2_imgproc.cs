@@ -1366,7 +1366,7 @@ namespace OpenCvSharp
         /// <param name="maxval">maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types.</param>
         /// <param name="type">thresholding type (see the details below).</param>
         /// <returns>the computed threshold value when type == OTSU</returns>
-        public static double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdType type)
+        public static double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdTypes type)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1392,7 +1392,7 @@ namespace OpenCvSharp
         /// <param name="c">Constant subtracted from the mean or weighted mean (see the details below). 
         /// Normally, it is positive but may be zero or negative as well.</param>
         public static void AdaptiveThreshold(InputArray src, OutputArray dst,
-            double maxValue, AdaptiveThresholdType adaptiveMethod, ThresholdType thresholdType, int blockSize, double c)
+            double maxValue, AdaptiveThresholdType adaptiveMethod, ThresholdTypes thresholdType, int blockSize, double c)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2204,7 +2204,7 @@ namespace OpenCvSharp
         /// If image is WxH and templ is wxh then result will be (W-w+1) x (H-h+1).</param>
         /// <param name="method">Specifies the comparison method</param>
         public static void MatchTemplate(InputArray image, InputArray templ,
-            OutputArray result, MatchTemplateMethod method)
+            OutputArray result, TemplateMatchModes method)
         {
             if (image == null)
                 throw new ArgumentNullException("image");

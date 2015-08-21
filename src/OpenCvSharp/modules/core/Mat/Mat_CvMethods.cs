@@ -1706,7 +1706,7 @@ namespace OpenCvSharp
         /// <param name="maxval">maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types.</param>
         /// <param name="type">thresholding type (see the details below).</param>
         /// <returns>output array of the same size and type as src.</returns>
-        public Mat Threshold(double thresh, double maxval, ThresholdType type)
+        public Mat Threshold(double thresh, double maxval, ThresholdTypes type)
         {
             var dst = new Mat();
             Cv2.Threshold(this, dst, thresh, maxval, type);
@@ -1725,7 +1725,7 @@ namespace OpenCvSharp
         /// Normally, it is positive but may be zero or negative as well.</param>
         /// <returns>Destination image of the same size and the same type as src.</returns>
         public Mat AdaptiveThreshold(double maxValue, AdaptiveThresholdType adaptiveMethod, 
-            ThresholdType thresholdType, int blockSize, double c)
+            ThresholdTypes thresholdType, int blockSize, double c)
         {
             var dst = new Mat();
             Cv2.AdaptiveThreshold(this, dst, maxValue, adaptiveMethod, 
@@ -2009,7 +2009,7 @@ namespace OpenCvSharp
         /// <param name="method">Specifies the comparison method</param>
         /// <returns>A map of comparison results; will be single-channel 32-bit floating-point. 
         /// If image is WxH and templ is wxh then result will be (W-w+1) x (H-h+1).</returns>
-        public Mat MatchTemplate(InputArray templ, MatchTemplateMethod method)
+        public Mat MatchTemplate(InputArray templ, TemplateMatchModes method)
         {
             var dst = new Mat();
             Cv2.MatchTemplate(this, templ, dst, method);

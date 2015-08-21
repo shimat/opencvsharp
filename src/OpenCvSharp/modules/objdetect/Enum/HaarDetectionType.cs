@@ -15,18 +15,6 @@ namespace OpenCvSharp
     public enum HaarDetectionType : int
     {
 #if LANG_JP
-        /// <summary>
-        /// = 0
-        /// </summary>
-#else
-        /// <summary>
-        /// = 0
-        /// </summary>
-#endif
-        Zero = 0,
-
-
-#if LANG_JP
 		/// <summary>
         /// これがセットされると，関数は Canny エッジ検出器を 非常に多くのエッジを含む（あるいは非常に少ないエッジしか含まない） 画像領域を，
         /// 探索オブジェクトを含まない領域と見なして棄却する． 顔検出用には特別な閾値が調整されており，この場合，枝刈りにより処理が 高速化される．
@@ -39,7 +27,7 @@ namespace OpenCvSharp
         /// [CV_HAAR_DO_CANNY_PRUNING]
         /// </summary>
 #endif
-        DoCannyPruning = CvConst.CV_HAAR_DO_CANNY_PRUNING,
+        DoCannyPruning = 1,
 
 
 #if LANG_JP
@@ -55,7 +43,7 @@ namespace OpenCvSharp
         /// [CV_HAAR_SCALE_IMAGE]
         /// </summary>
 #endif
-        ScaleImage = CvConst.CV_HAAR_SCALE_IMAGE,
+        ScaleImage = 2,
 
 
 #if LANG_JP
@@ -69,7 +57,7 @@ namespace OpenCvSharp
         /// [CV_HAAR_FIND_BIGGEST_OBJECT]
         /// </summary>
 #endif
-        FindBiggestObject = CvConst.CV_HAAR_FIND_BIGGEST_OBJECT,
+        FindBiggestObject = 4,
 
 
 #if LANG_JP
@@ -92,6 +80,6 @@ namespace OpenCvSharp
         /// [CV_HAAR_DO_ROUGH_SEARCH]
         /// </summary>
 #endif
-        DoRoughSearch = CvConst.CV_HAAR_DO_ROUGH_SEARCH,
+        DoRoughSearch = 8,
     }
 }

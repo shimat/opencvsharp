@@ -42,7 +42,7 @@ namespace OpenCvSharp.Sandbox
         {
             Mat src = new Mat("data/shapes.png", ImreadModes.Color);
             Mat gray = src.CvtColor(ColorConversionCodes.BGR2GRAY);
-            Mat binary = gray.Threshold(0, 255, ThresholdType.Otsu | ThresholdType.Binary);
+            Mat binary = gray.Threshold(0, 255, ThresholdTypes.Otsu | ThresholdTypes.Binary);
             Mat labelView = new Mat();
             Mat rectView = binary.CvtColor(ColorConversionCodes.GRAY2BGR);
 

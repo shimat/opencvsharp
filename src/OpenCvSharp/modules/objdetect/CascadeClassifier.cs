@@ -127,7 +127,7 @@ namespace OpenCvSharp
             Mat image,
             double scaleFactor = 1.1,
             int minNeighbors = 3,
-            HaarDetectionType flags = HaarDetectionType.Zero,
+            HaarDetectionType flags = 0,
             Size? minSize = null,
             Size? maxSize = null)
         {
@@ -169,7 +169,7 @@ namespace OpenCvSharp
             out double[] levelWeights,
             double scaleFactor = 1.1,
             int minNeighbors = 3,
-            HaarDetectionType flags = HaarDetectionType.Zero,
+            HaarDetectionType flags = 0,
             Size? minSize = null,
             Size? maxSize = null,
             bool outputRejectLevels = false)
