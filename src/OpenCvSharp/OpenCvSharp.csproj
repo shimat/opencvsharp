@@ -194,7 +194,7 @@
     <Compile Include="Enum\HomographyMethod.cs" />
     <Compile Include="Enum\HoughCirclesMethod.cs" />
     <Compile Include="Enum\HoughLinesMethod.cs" />
-    <Compile Include="Enum\ImageEncodingID.cs" />
+    <Compile Include="Modules\imgcodecs\ImwriteFlags.cs" />
     <Compile Include="Enum\ImageOrigin.cs" />
     <Compile Include="Enum\InpaintMethod.cs" />
     <Compile Include="Enum\InsertPosition.cs" />
@@ -203,7 +203,7 @@
     <Compile Include="Enum\KMeansFlag.cs" />
     <Compile Include="Enum\LineType.cs" />
     <Compile Include="Enum\LKFlowFlag.cs" />
-    <Compile Include="Enum\LoadMode.cs" />
+    <Compile Include="Modules\imgcodecs\ImreadModes.cs" />
     <Compile Include="Enum\MarkerStyle.cs" />
     <Compile Include="Enum\MatchShapesMethod.cs" />
     <Compile Include="Enum\MatchTemplateMethod.cs" />

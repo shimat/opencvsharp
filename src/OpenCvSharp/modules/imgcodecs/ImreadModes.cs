@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
 	[Flags]
-	public enum LoadMode : int
+    public enum ImreadModes : int
 	{
         #if LANG_JP
 		/// <summary>
@@ -20,10 +20,10 @@ namespace OpenCvSharp
 		/// </summary>
 #else
         /// <summary>
-        /// 8 bit, color or gray [CV_LOAD_IMAGE_UNCHANGED]
+        /// If set, return the loaded image as is (with alpha channel, otherwise it gets cropped).
         /// </summary>
 #endif		
-        Unchanged = CvConst.CV_LOAD_IMAGE_UNCHANGED,
+        Unchanged = -1,
 
 
 #if LANG_JP
@@ -32,10 +32,10 @@ namespace OpenCvSharp
 		/// </summary>
 #else
         /// <summary>
-        /// 8 bit, gray [CV_LOAD_IMAGE_GRAYSCALE]
+        /// If set, always convert image to the single channel grayscale image.
         /// </summary>
 #endif
-		GrayScale = CvConst.CV_LOAD_IMAGE_GRAYSCALE,
+		GrayScale = 0,
 
 
 #if LANG_JP
@@ -44,10 +44,10 @@ namespace OpenCvSharp
 		/// </summary>
 #else
         /// <summary>
-        /// 8 bit unless combined with AnyDepth, color [CV_LOAD_IMAGE_COLOR]
+        /// If set, always convert image to the 3 channel BGR color image.
         /// </summary>
 #endif
-		Color = CvConst.CV_LOAD_IMAGE_COLOR,
+		Color = 1,
 
 
 #if LANG_JP
@@ -56,22 +56,27 @@ namespace OpenCvSharp
 		/// </summary>
 #else
         /// <summary>
-        /// any Depth, if specified on its own gray [CV_LOAD_IMAGE_ANYDEPTH]
+        /// If set, return 16-bit/32-bit image when the input has the corresponding depth, otherwise convert it to 8-bit.
         /// </summary>
 #endif
-		AnyDepth = CvConst.CV_LOAD_IMAGE_ANYDEPTH,
+		AnyDepth = 2,
 
 
-        #if LANG_JP
+#if LANG_JP
 		/// <summary>
 		/// 8 ビット，カラーまたはグレースケール [CV_LOAD_IMAGE_ANYCOLOR]. 
 		/// AnyDepth と併用可能.
 		/// </summary>
 #else
         /// <summary>
-        /// by itself equivalent to Unchanged but can be modified with AnyDepth [CV_LOAD_IMAGE_ANYCOLOR]
+        /// If set, the image is read in any possible color format.
         /// </summary>
 #endif
-        AnyColor = CvConst.CV_LOAD_IMAGE_ANYCOLOR,
+        AnyColor = 4,
+
+        /// <summary>
+        /// If set, use the gdal driver for loading the image.
+        /// </summary>
+        LoadGdal = 8,
 	};
 }

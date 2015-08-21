@@ -12,7 +12,7 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of file to be loaded.</param>
         /// <param name="flags">Specifies color type of the loaded image</param>
         /// <returns></returns>
-        public static Mat ImRead(string fileName, LoadMode flags = LoadMode.Color)
+        public static Mat ImRead(string fileName, ImreadModes flags = ImreadModes.Color)
         {
             return new Mat(fileName, flags);
         }
@@ -24,7 +24,7 @@ namespace OpenCvSharp
         /// <param name="mats">A vector of Mat objects holding each page, if more than one.</param>
         /// <param name="flags">Flag that can take values of @ref cv::ImreadModes, default with IMREAD_ANYCOLOR.</param>
         /// <returns></returns>
-        public static bool ImReadMulti(string filename, out Mat[] mats, LoadMode flags = LoadMode.AnyColor)
+        public static bool ImReadMulti(string filename, out Mat[] mats, ImreadModes flags = ImreadModes.AnyColor)
         {
             if (filename == null) 
                 throw new ArgumentNullException("filename");
@@ -85,7 +85,7 @@ namespace OpenCvSharp
         /// <param name="buf">The input array of vector of bytes.</param>
         /// <param name="flags">The same flags as in imread</param>
         /// <returns></returns>
-        public static Mat ImDecode(Mat buf, LoadMode flags)
+        public static Mat ImDecode(Mat buf, ImreadModes flags)
         {
             if (buf == null)
                 throw new ArgumentNullException("buf");
@@ -101,7 +101,7 @@ namespace OpenCvSharp
         /// <param name="buf">The input array of vector of bytes.</param>
         /// <param name="flags">The same flags as in imread</param>
         /// <returns></returns>
-        public static Mat ImDecode(InputArray buf, LoadMode flags)
+        public static Mat ImDecode(InputArray buf, ImreadModes flags)
         {
             if (buf == null)
                 throw new ArgumentNullException("buf");
@@ -117,7 +117,7 @@ namespace OpenCvSharp
         /// <param name="buf">The input array of vector of bytes.</param>
         /// <param name="flags">The same flags as in imread</param>
         /// <returns></returns>
-        public static Mat ImDecode(byte[] buf, LoadMode flags)
+        public static Mat ImDecode(byte[] buf, ImreadModes flags)
         {
             if (buf == null)
                 throw new ArgumentNullException("buf");

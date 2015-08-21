@@ -803,12 +803,6 @@ namespace OpenCvSharp
         public const int KMEANS_RANDOM_CENTERS = 0;
         public const int KMEANS_USE_INITIAL_LABELS = 1;
         public const int KMEANS_PP_CENTERS = 2;     // Uses k-Means++ algorithm for initialization
-        // cvLoadImage
-        public const int CV_LOAD_IMAGE_UNCHANGED = -1;
-        public const int CV_LOAD_IMAGE_GRAYSCALE = 0;
-        public const int CV_LOAD_IMAGE_COLOR = 1;
-        public const int CV_LOAD_IMAGE_ANYDEPTH = 2;
-        public const int CV_LOAD_IMAGE_ANYCOLOR = 3;
         // cvMatchContourTrees
         public const int CV_CONTOUR_TREES_MATCH_I1 = 1;
         // cvMatchShapes
@@ -891,10 +885,6 @@ namespace OpenCvSharp
         public const int CV_REDUCE_AVG = 1;
         public const int CV_REDUCE_MAX = 2;
         public const int CV_REDUCE_MIN = 3;
-        // cvSaveImage
-        public const int CV_IMWRITE_JPEG_QUALITY = 1;
-        public const int CV_IMWRITE_PNG_COMPRESSION = 16;
-        public const int CV_IMWRITE_PXM_BINARY = 32;
         // cvSet
         public const int CV_SET_ELEM_IDX_MASK_ = 67108863;
         public const int CV_SET_ELEM_FREE_FLAG_ = -2147483648;
