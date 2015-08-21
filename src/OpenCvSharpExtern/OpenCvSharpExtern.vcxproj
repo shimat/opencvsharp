@@ -329,6 +329,7 @@
     <ClCompile Include="cuda.cpp" />
     <ClCompile Include="face.cpp" />
     <ClCompile Include="highgui.cpp" />
+    <ClCompile Include="imgcodecs.cpp" />
     <ClCompile Include="imgproc.cpp" />
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
@@ -368,6 +369,7 @@
     <ClInclude Include="features2d_MSER.h" />
     <ClInclude Include="features2d_ORB.h" />
     <ClInclude Include="features2d_SimpleBlobDetector.h" />
+    <ClInclude Include="imgcodecs.h" />
     <ClInclude Include="imgproc_CLAHE.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />
     <ClInclude Include="features2d_FeatureDetector.h" />

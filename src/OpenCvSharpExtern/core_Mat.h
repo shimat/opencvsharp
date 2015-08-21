@@ -1,8 +1,4 @@
-﻿#if WIN32
-#pragma once
-#endif
-
-#ifndef _CPP_CORE_MAT_H_
+﻿#ifndef _CPP_CORE_MAT_H_
 #define _CPP_CORE_MAT_H_
 
 #include "include_opencv.h"

@@ -58,6 +58,9 @@
     <ClCompile Include="videoio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="imgcodecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -247,6 +250,9 @@
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
     <ClInclude Include="videoio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgcodecs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

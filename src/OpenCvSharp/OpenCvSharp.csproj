@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Cv2\Cv2.cs" />
     <Compile Include="Cv2\Cv2_features2d.cs" />
+    <Compile Include="Cv2\Cv2_imgcodecs.cs" />
     <Compile Include="Cv2\Cv2_ml.cs" />
     <Compile Include="Cv2\Cv2_xfeatures2d.cs" />
     <Compile Include="Cv2\Cv2_photo.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_ORB.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_LogisticRegression.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_StatModel.cs" />
+    <Compile Include="PInvoke\NativeMethods_imgcodecs.cs" />
     <Compile Include="PInvoke\NativeMethods_videoio.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
     <Compile Include="Enum\AdaptiveThresholdType.cs" />

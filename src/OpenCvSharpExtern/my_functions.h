@@ -1,9 +1,5 @@
 // Additional functions
 
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _MY_FUNCTIONS_H_
 #define _MY_FUNCTIONS_H_
 
