@@ -234,17 +234,6 @@ namespace OpenCvSharp
         public const int CV_CAP_ANDROID_COLOR_FRAME_BGRA = 3;
         public const int CV_CAP_ANDROID_COLOR_FRAME_RGBA = 4;
 
-        // cv(Get/Set)WindowProperty
-        public const int CV_WND_PROP_FULLSCREEN = 0,
-            CV_WND_PROP_AUTOSIZE = 1,
-            CV_WND_PROP_ASPECTRATIO = 2,
-            CV_WND_PROP_OPENGL = 3,
-            CV_WINDOW_NORMAL = 0,
-            CV_WINDOW_FULLSCREEN = 1,
-            CV_WINDOW_FREERATIO = 4,
-            CV_WINDOW_KEEPRATIO = 0;
-           
-
         // cvCheckArr
         public const int CV_CHECK_RANGE = 1;
         public const int CV_CHECK_QUIET = 2;
@@ -839,9 +828,6 @@ namespace OpenCvSharp
         public const int CV_EVENT_FLAG_CTRLKEY = 8;
         public const int CV_EVENT_FLAG_SHIFTKEY = 16;
         public const int CV_EVENT_FLAG_ALTKEY = 32;
-        // cvNamedWindow
-        public const int CV_WINDOW_AUTOSIZE = 1,
-            CV_WINDOW_OPENGL = 0x00001000;
 
         // cvNamedWindow(only for Qt)
         public const int CV_GUI_EXPANDED = 0;

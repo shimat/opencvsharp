@@ -543,7 +543,7 @@ namespace OpenCvSharp
         /// <param name="propId">Property identifier</param>
         /// <returns>Value of the specified property</returns>
 #endif
-        public WindowPropertyValue GetProperty(WindowProperty propId)
+        public double GetProperty(WindowProperty propId)
         {
             return Cv2.GetWindowProperty(name, propId);
         }
@@ -633,24 +633,6 @@ namespace OpenCvSharp
         #endregion
 
         #region SetProperty
-
-#if LANG_JP
-    /// <summary>
-    /// ウィンドウのプロパティを設定する
-    /// </summary>
-    /// <param name="propId">プロパティの種類</param>
-    /// <param name="propValue">プロパティに設定する値</param>
-#else
-        /// <summary>
-        /// Set Property of the window
-        /// </summary>
-        /// <param name="propId">Property identifier</param>
-        /// <param name="propValue">New value of the specified property</param>
-#endif
-        public void SetProperty(WindowProperty propId, WindowPropertyValue propValue)
-        {
-            Cv2.SetWindowProperty(name, propId, propValue);
-        }
 
 #if LANG_JP
     /// <summary>
