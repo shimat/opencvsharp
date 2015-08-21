@@ -68,7 +68,7 @@ namespace OpenCvSharp.Blob
         /// <param name="fontScale"></param>
         /// <param name="thickness"></param>
         public void Render(Mat imgSource, Mat imgDest, RenderTracksMode mode, Scalar textColor,
-            FontFace fontFace = FontFace.HersheySimplex, double fontScale = 1d, int thickness = 1)
+            HersheyFonts fontFace = HersheyFonts.HersheySimplex, double fontScale = 1d, int thickness = 1)
         {
             if (imgSource == null)
                 throw new ArgumentNullException("imgSource");

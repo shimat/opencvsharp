@@ -1768,7 +1768,7 @@ namespace OpenCvSharp
         /// <param name="distType"></param>
         /// <returns></returns>
 
-        public static float EMD(InputArray signature1, InputArray signature2, DistanceType distType)
+        public static float EMD(InputArray signature1, InputArray signature2, DistanceTypes distType)
         {
             float lowerBound;
             return EMD(signature1, signature1, distType, null, out lowerBound, null);
@@ -1782,7 +1782,7 @@ namespace OpenCvSharp
         /// <param name="cost"></param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2,
-            DistanceType distType, InputArray cost)
+            DistanceTypes distType, InputArray cost)
         {
             float lowerBound;
             return EMD(signature1, signature1, distType, cost, out lowerBound, null);
@@ -1797,7 +1797,7 @@ namespace OpenCvSharp
         /// <param name="lowerBound"></param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2,
-            DistanceType distType, InputArray cost, out float lowerBound)
+            DistanceTypes distType, InputArray cost, out float lowerBound)
         {
             return EMD(signature1, signature1, distType, cost, out lowerBound, null);
         }
@@ -1812,7 +1812,7 @@ namespace OpenCvSharp
         /// <param name="flow"></param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2,
-            DistanceType distType, InputArray cost, out float lowerBound, OutputArray flow)
+            DistanceTypes distType, InputArray cost, out float lowerBound, OutputArray flow)
         {
             if (signature1 == null)
                 throw new ArgumentNullException("signature1");
@@ -1940,9 +1940,9 @@ namespace OpenCvSharp
         public static void DistanceTransformWithLabels(InputArray src,
                                                        OutputArray dst,
                                                        OutputArray labels,
-                                                       DistanceType distanceType,
+                                                       DistanceTypes distanceType,
                                                        DistanceMaskSize maskSize,
-                                                       DistTransformLabelType labelType = DistTransformLabelType.CComp)
+                                                       DistanceTransformLabelTypes labelType = DistanceTransformLabelTypes.CComp)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1968,7 +1968,7 @@ namespace OpenCvSharp
         /// <param name="maskSize"></param>
         public static void DistanceTransform(InputArray src,
                                              OutputArray dst,
-                                             DistanceType distanceType,
+                                             DistanceTypes distanceType,
                                              DistanceMaskSize maskSize)
         {
             if (src == null)
@@ -3432,7 +3432,7 @@ namespace OpenCvSharp
         /// (distance between the coordinate origin and the line).</param>
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
-        public static void FitLine(InputArray points, OutputArray line, DistanceType distType,
+        public static void FitLine(InputArray points, OutputArray line, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3457,7 +3457,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine2D FitLine(IEnumerable<Point> points, DistanceType distType,
+        public static CvLine2D FitLine(IEnumerable<Point> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3480,7 +3480,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine2D FitLine(IEnumerable<Point2f> points, DistanceType distType,
+        public static CvLine2D FitLine(IEnumerable<Point2f> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3503,7 +3503,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine3D FitLine(IEnumerable<Point3i> points, DistanceType distType,
+        public static CvLine3D FitLine(IEnumerable<Point3i> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3526,7 +3526,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine3D FitLine(IEnumerable<Point3f> points, DistanceType distType,
+        public static CvLine3D FitLine(IEnumerable<Point3f> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)

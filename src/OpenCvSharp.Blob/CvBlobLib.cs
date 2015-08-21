@@ -387,7 +387,7 @@ namespace OpenCvSharp.Blob
         /// <param name="fontScale"></param>
         /// <param name="thickness"></param>
         public static void RenderTracks(CvTracks tracks, Mat imgSource, Mat imgDest, RenderTracksMode mode,
-            Scalar textColor, FontFace fontFace = FontFace.HersheySimplex, double fontScale = 1d, int thickness = 1)
+            Scalar textColor, HersheyFonts fontFace = HersheyFonts.HersheySimplex, double fontScale = 1d, int thickness = 1)
         {
             if (tracks == null)
                 throw new ArgumentNullException("tracks");
