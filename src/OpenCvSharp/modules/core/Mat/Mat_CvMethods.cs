@@ -1982,7 +1982,7 @@ namespace OpenCvSharp
         /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
         /// <returns>The destination image; will have the same size and the same depth as src</returns>
 #endif
-        public Mat CvtColor(ColorConversion code, int dstCn = 0)
+        public Mat CvtColor(ColorConversionCodes code, int dstCn = 0)
         {
             var dst = new Mat();
             Cv2.CvtColor(this, dst, code, dstCn);

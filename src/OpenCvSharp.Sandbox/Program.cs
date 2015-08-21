@@ -41,10 +41,10 @@ namespace OpenCvSharp.Sandbox
         private static void Blob()
         {
             Mat src = new Mat("data/shapes.png", ImreadModes.Color);
-            Mat gray = src.CvtColor(ColorConversion.BgrToGray);
+            Mat gray = src.CvtColor(ColorConversionCodes.BGR2GRAY);
             Mat binary = gray.Threshold(0, 255, ThresholdType.Otsu | ThresholdType.Binary);
             Mat labelView = new Mat();
-            Mat rectView = binary.CvtColor(ColorConversion.GrayToBgr);
+            Mat rectView = binary.CvtColor(ColorConversionCodes.GRAY2BGR);
 
             ConnectedComponents cc = Cv2.ConnectedComponentsEx(binary);
             if (cc.LabelCount <= 1)
