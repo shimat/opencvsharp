@@ -2998,7 +2998,7 @@ namespace OpenCvSharp
         /// <param name="lineType"></param>
         /// <param name="bottomLeftOrigin"></param>
         public static void PutText(InputOutputArray img, string text, Point org,
-            FontFace fontFace, double fontScale, Scalar color,
+            HersheyFonts fontFace, double fontScale, Scalar color,
             int thickness = 1, LineType lineType = LineType.Link8, bool bottomLeftOrigin = false) 
         {
             if (img == null)
@@ -3021,7 +3021,7 @@ namespace OpenCvSharp
         /// <param name="thickness"></param>
         /// <param name="baseLine"></param>
         /// <returns></returns>
-        public static Size GetTextSize(string text, FontFace fontFace,
+        public static Size GetTextSize(string text, HersheyFonts fontFace,
             double fontScale, int thickness, out int baseLine)
         {
             if (String.IsNullOrEmpty(text))

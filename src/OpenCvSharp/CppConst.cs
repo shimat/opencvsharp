@@ -176,22 +176,6 @@ namespace OpenCvSharp
             OPTFLOW_FARNEBACK_GAUSSIAN = 256;
 
         /// <summary>
-        /// applyColorMap
-        /// </summary>
-        public const int COLORMAP_AUTUMN = 0,
-            COLORMAP_BONE = 1,
-            COLORMAP_JET = 2,
-            COLORMAP_WINTER = 3,
-            COLORMAP_RAINBOW = 4,
-            COLORMAP_OCEAN = 5,
-            COLORMAP_SUMMER = 6,
-            COLORMAP_SPRING = 7,
-            COLORMAP_COOL = 8,
-            COLORMAP_HSV = 9,
-            COLORMAP_PINK = 10,
-            COLORMAP_HOT = 11;
-
-        /// <summary>
         /// cv::flann distance types
         /// </summary>
         public const int FLANN_DIST_EUCLIDEAN = 1,

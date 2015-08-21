@@ -169,9 +169,9 @@
     <Compile Include="Enum\DftFlag.cs" />
     <Compile Include="Enum\DiagType.cs" />
     <Compile Include="Enum\DisparityMode.cs" />
-    <Compile Include="Enum\DistanceType.cs" />
+    <Compile Include="Modules\imgproc\Enum\DistanceTypes.cs" />
     <Compile Include="Enum\DistributionType.cs" />
-    <Compile Include="Enum\DistTransformLabelType.cs" />
+    <Compile Include="Modules\imgproc\Enum\DistanceTransformLabelTypes.cs" />
     <Compile Include="Enum\DominantsFlag.cs" />
     <Compile Include="Enum\EigenObjectsIOFlag.cs" />
     <Compile Include="Enum\ElementShape.cs" />
@@ -179,14 +179,13 @@
     <Compile Include="Enum\FileStorageMode.cs" />
     <Compile Include="Enum\FlipMode.cs" />
     <Compile Include="Enum\FloodFillFlag.cs" />
-    <Compile Include="Enum\FontFace.cs" />
+    <Compile Include="Modules\core\Enum\HersheyFonts.cs" />
     <Compile Include="Enum\FontStyle.cs" />
     <Compile Include="Enum\FontWeight.cs" />
     <Compile Include="Enum\FourCC.cs" />
     <Compile Include="Enum\FundamentalMatMethod.cs" />
     <Compile Include="Enum\GemmOperation.cs" />
     <Compile Include="Enum\GraphEdgeVtxFlag.cs" />
-    <Compile Include="Enum\GraphScannerMask.cs" />
     <Compile Include="Enum\HaarDetectionType.cs" />
     <Compile Include="Enum\HardwareSupport.cs" />
     <Compile Include="Enum\HistogramComparison.cs" />

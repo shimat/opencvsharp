@@ -254,17 +254,6 @@ namespace OpenCvSharp
         public const int CV_PUSH_BUTTON = 0;
         public const int CV_CHECKBOX = 1;
         public const int CV_RADIOBOX = 2;
-        // cvCreateGraphScanner		
-        public const int CV_GRAPH_VERTEX = 1;
-        public const int CV_GRAPH_TREE_EDGE = 2;
-        public const int CV_GRAPH_BACK_EDGE = 4;
-        public const int CV_GRAPH_FORWARD_EDGE = 8;
-        public const int CV_GRAPH_CROSS_EDGE = 16;
-        public const int CV_GRAPH_ANY_EDGE = 30;
-        public const int CV_GRAPH_NEW_TREE = 32;
-        public const int CV_GRAPH_BACKTRACKING = 64;
-        public const int CV_GRAPH_OVER = -1;
-        public const int CV_GRAPH_ALL_ITEMS = -1;
 
         // cvCreateStereoBMState
         public const int CV_STEREO_BM_BASIC = 0;
@@ -283,17 +272,7 @@ namespace OpenCvSharp
         public const int CV_DXT_MUL_CONJ = 8;
         public const int CV_DXT_ROWS = 4;
         public const int CV_DXT_SCALE = 2;
-        // cvDistTransform
-        public const int CV_DIST_C = 3;
-        public const int CV_DIST_FAIR = 5;
-        public const int CV_DIST_HUBER = 7;
-        public const int CV_DIST_L1 = 1;
-        public const int CV_DIST_L12 = 4;
-        public const int CV_DIST_L2 = 2;
-        public const int CV_DIST_USER = -1;
-        public const int CV_DIST_WELSCH = 6;
-        public const int CV_DIST_LABEL_CCOMP = 0;
-        public const int CV_DIST_LABEL_PIXEL = 1;
+
         // cvError
         public const int CV_StsOk = 0;	/* everithing is ok                */
         public const int CV_StsBackTrace = -1;	/* pseudo error for back trace     */
@@ -448,17 +427,7 @@ namespace OpenCvSharp
         public const int CV_HOUGH_STANDARD = 0;
         public const int CV_HOUGH_PROBABILISTIC = 1;
         public const int CV_HOUGH_MULTI_SCALE = 2;
-        // cvInitFont
-        public const int CV_FONT_HERSHEY_SIMPLEX = 0;
-        public const int CV_FONT_HERSHEY_PLAIN = 1;
-        public const int CV_FONT_HERSHEY_DUPLEX = 2;
-        public const int CV_FONT_HERSHEY_COMPLEX = 3;
-        public const int CV_FONT_HERSHEY_TRIPLEX = 4;
-        public const int CV_FONT_HERSHEY_COMPLEX_SMALL = 5;
-        public const int CV_FONT_HERSHEY_SCRIPT_SIMPLEX = 6;
-        public const int CV_FONT_HERSHEY_SCRIPT_COMPLEX = 7;
-        public const int CV_FONT_ITALIC = 16;
-        public const int CV_FONT_VECTOR0 = CV_FONT_HERSHEY_SIMPLEX;
+
         // cvInpaint
         public const int CV_INPAINT_NS = 0;
         public const int CV_INPAINT_TELEA = 1;

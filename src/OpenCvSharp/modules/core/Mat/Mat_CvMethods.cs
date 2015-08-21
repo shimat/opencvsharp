@@ -964,7 +964,7 @@ namespace OpenCvSharp
         /// <param name="lineType"></param>
         /// <param name="bottomLeftOrigin"></param>
         public void PutText(string text, Point org,
-            FontFace fontFace, double fontScale, Scalar color,
+            HersheyFonts fontFace, double fontScale, Scalar color,
             int thickness = 1,
             LineType lineType = LineType.Link8,
             bool bottomLeftOrigin = false)
@@ -2558,7 +2558,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public CvLine2D FitLine2D(DistanceType distType, double param, double reps, double aeps)
+        public CvLine2D FitLine2D(DistanceTypes distType, double param, double reps, double aeps)
         {
             var line = new MatOfFloat();
             Cv2.FitLine(this, line, distType, param, reps, aeps);
@@ -2577,7 +2577,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public CvLine3D FitLine3D(DistanceType distType, double param, double reps, double aeps)
+        public CvLine3D FitLine3D(DistanceTypes distType, double param, double reps, double aeps)
         {
             var line = new MatOfFloat();
             Cv2.FitLine(this, line, distType, param, reps, aeps);
@@ -2603,7 +2603,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="distanceType"></param>
         /// <param name="maskSize"></param>
-        public MatOfFloat DistanceTransform(DistanceType distanceType, DistanceMaskSize maskSize)
+        public MatOfFloat DistanceTransform(DistanceTypes distanceType, DistanceMaskSize maskSize)
         {
             var dst = new MatOfFloat();
             Cv2.DistanceTransform(this, dst, distanceType, maskSize);
