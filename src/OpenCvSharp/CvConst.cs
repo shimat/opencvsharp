@@ -390,15 +390,7 @@ namespace OpenCvSharp
         public const int CV_GEMM_A_T = 1;
         public const int CV_GEMM_B_T = 2;
         public const int CV_GEMM_C_T = 4;
-        // CvGraphEdge/Vtx
-        public const int CV_GRAPH_ITEM_VISITED_FLAG = 1073741824;
-        public const int CV_GRAPH_SEARCH_TREE_NODE_FLAG = 536870912;
-        public const int CV_GRAPH_FORWARD_EDGE_FLAG = 268435456;
-        // cvHaarDetectObjects
-        public const int CV_HAAR_DO_CANNY_PRUNING = 1;
-        public const int CV_HAAR_SCALE_IMAGE = 2;
-        public const int CV_HAAR_FIND_BIGGEST_OBJECT = 4;
-        public const int CV_HAAR_DO_ROUGH_SEARCH = 8;
+
         // CvHaarFeature
         public const int CV_HAAR_FEATURE_MAX = 3;
         // CvHistogram
@@ -436,13 +428,7 @@ namespace OpenCvSharp
         public const int CV_CONTOURS_MATCH_I1 = 1;
         public const int CV_CONTOURS_MATCH_I2 = 2;
         public const int CV_CONTOURS_MATCH_I3 = 3;
-        // cvMatchTemplate
-        public const int CV_TM_SQDIFF = 0;
-        public const int CV_TM_SQDIFF_NORMED = 1;
-        public const int CV_TM_CCORR = 2;
-        public const int CV_TM_CCORR_NORMED = 3;
-        public const int CV_TM_CCOEFF = 4;
-        public const int CV_TM_CCOEFF_NORMED = 5;
+
         // cvMorphologyEx
         public const int CV_MOP_OPEN = 2;
         public const int CV_MOP_CLOSE = 3;
@@ -509,9 +495,7 @@ namespace OpenCvSharp
         public const int CV_REDUCE_AVG = 1;
         public const int CV_REDUCE_MAX = 2;
         public const int CV_REDUCE_MIN = 3;
-        // cvSet
-        public const int CV_SET_ELEM_IDX_MASK_ = 67108863;
-        public const int CV_SET_ELEM_FREE_FLAG_ = -2147483648;
+
         // cvSmooth
         public const int CV_BLUR_NO_SCALE = 0;
         public const int CV_BLUR = 1;
@@ -528,21 +512,7 @@ namespace OpenCvSharp
         public const int CV_SORT_DESCENDING = 16;
         // cvStereoRectify
         public const int CV_CALIB_ZERO_DISPARITY = 1024;
-        // cvSubdiv2DGetEdge
-        public const int CV_NEXT_AROUND_ORG = 0;
-        public const int CV_NEXT_AROUND_DST = 34;
-        public const int CV_PREV_AROUND_ORG = 17;
-        public const int CV_PREV_AROUND_DST = 51;
-        public const int CV_NEXT_AROUND_LEFT = 19;
-        public const int CV_NEXT_AROUND_RIGHT = 49;
-        public const int CV_PREV_AROUND_LEFT = 32;
-        public const int CV_PREV_AROUND_RIGHT = 2;
-        // cvSubdiv2DLocate
-        public const int CV_PTLOC_ERROR = -2;
-        public const int CV_PTLOC_OUTSIDE_RECT = -1;
-        public const int CV_PTLOC_INSIDE = 0;
-        public const int CV_PTLOC_VERTEX = 1;
-        public const int CV_PTLOC_ON_EDGE = 2;
+
         // cvSVD
         public const int CV_SVD_MODIFY_A = 1;
         public const int CV_SVD_U_T = 2;
@@ -551,14 +521,7 @@ namespace OpenCvSharp
         public const int CV_TERMCRIT_ITER = 1;
         public const int CV_TERMCRIT_NUMBER = 1;
         public const int CV_TERMCRIT_EPS = 2;
-        // cvThreshold
-        public const int CV_THRESH_BINARY = 0;
-        public const int CV_THRESH_BINARY_INV = 1;
-        public const int CV_THRESH_MASK = 7;
-        public const int CV_THRESH_OTSU = 8;
-        public const int CV_THRESH_TOZERO = 3;
-        public const int CV_THRESH_TOZERO_INV = 4;
-        public const int CV_THRESH_TRUNC = 2;
+
         // cvWarpAffine
         public const int CV_INTER_NN = 0;
         public const int CV_INTER_LINEAR = 1;

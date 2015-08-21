@@ -162,9 +162,7 @@
     <Compile Include="Enum\CriteriaType.cs" />
     <Compile Include="Enum\CvFaceElements.cs" />
     <Compile Include="Enum\CvFilter.cs" />
-    <Compile Include="Enum\CvNextEdgeType.cs" />
     <Compile Include="Enum\CvStatus.cs" />
-    <Compile Include="Enum\CvSubdiv2DPointLocation.cs" />
     <Compile Include="Enum\DctFlag.cs" />
     <Compile Include="Enum\DftFlag.cs" />
     <Compile Include="Enum\DiagType.cs" />
@@ -185,8 +183,7 @@
     <Compile Include="Enum\FourCC.cs" />
     <Compile Include="Enum\FundamentalMatMethod.cs" />
     <Compile Include="Enum\GemmOperation.cs" />
-    <Compile Include="Enum\GraphEdgeVtxFlag.cs" />
-    <Compile Include="Enum\HaarDetectionType.cs" />
+    <Compile Include="Modules\objdetect\Enum\HaarDetectionType.cs" />
     <Compile Include="Modules\core\Enum\CpuFeatures.cs" />
     <Compile Include="Enum\HistogramComparison.cs" />
     <Compile Include="Enum\HistogramFormat.cs" />
@@ -204,7 +201,7 @@
     <Compile Include="Modules\imgcodecs\Enum\ImreadModes.cs" />
     <Compile Include="Enum\MarkerStyle.cs" />
     <Compile Include="Enum\MatchShapesMethod.cs" />
-    <Compile Include="Enum\MatchTemplateMethod.cs" />
+    <Compile Include="Modules\imgproc\Enum\TemplateMatchModes.cs" />
     <Compile Include="Enum\MorphologyOperation.cs" />
     <Compile Include="Enum\MouseEvent.cs" />
     <Compile Include="Enum\MulSpectrumsFlag.cs" />
@@ -220,7 +217,7 @@
     <Compile Include="Enum\StereoBMPreset.cs" />
     <Compile Include="Enum\StereoRectificationFlag.cs" />
     <Compile Include="Enum\SvdFlag.cs" />
-    <Compile Include="Enum\ThresholdType.cs" />
+    <Compile Include="Modules\imgproc\Enum\ThresholdTypes.cs" />
     <Compile Include="Modules\highgui\Enum\WindowMode.cs" />
     <Compile Include="Enum\WindowProperty.cs" />
     <Compile Include="ICvPtrHolder.cs" />
