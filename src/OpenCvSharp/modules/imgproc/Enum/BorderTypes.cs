@@ -10,62 +10,62 @@ namespace OpenCvSharp
     /// Type of the border to create around the copied source image rectangle
     /// </summary>
 #endif
-    public enum BorderType 
+    public enum BorderTypes : int
     {
 #if LANG_JP
 		/// <summary>
 		/// 境界はこの関数の最後のパラメータとして渡された定数 value で埋められる. 
-        /// [IPL_BORDER_CONSTANT]
+		/// `iiiiii|abcdefgh|iiiiiii`  with some specified `i`
 		/// </summary>
 #else
         /// <summary>
         /// Border is filled with the fixed value, passed as last parameter of the function.
-        /// [IPL_BORDER_CONSTANT]
+        /// `iiiiii|abcdefgh|iiiiiii`  with some specified `i`
         /// </summary>
 #endif
-        Constant = CvConst.IPL_BORDER_CONSTANT,
+        Constant = 0,
 
 #if LANG_JP
 		/// <summary>
 		/// 画像の最も上/下の行と最も左/右の列（画像領域の一番外側の値）を用いて境界線を生成する．
-        /// [IPL_BORDER_REPLICATE]
+        /// `aaaaaa|abcdefgh|hhhhhhh`
 		/// </summary>
 #else
         /// <summary>
         /// The pixels from the top and bottom rows, the left-most and right-most columns are replicated to fill the border.
-        /// [IPL_BORDER_REPLICATE]
+        /// `aaaaaa|abcdefgh|hhhhhhh`
         /// </summary>
 #endif
-        Replicate = CvConst.IPL_BORDER_REPLICATE,
+        Replicate = 1,
 
         /// <summary>
-        /// [IPL_BORDER_REFLECT]
+        /// `fedcba|abcdefgh|hgfedcb`
         /// </summary>
-        Reflict = CvConst.IPL_BORDER_REFLECT,
+        Reflect = 2,
 
         /// <summary>
-        /// [IPL_BORDER_REFLECT_101]
+        /// `cdefgh|abcdefgh|abcdefg`
         /// </summary>
-        Reflict101 = CvConst.IPL_BORDER_REFLECT_101,
+        Wrap = 3,
 
         /// <summary>
-        /// [IPL_BORDER_WRAP]
+        /// `gfedcb|abcdefgh|gfedcba`
         /// </summary>
-        Wrap = CvConst.IPL_BORDER_WRAP,
+        Reflect101 = 4,
 
         /// <summary>
-        /// [BORDER_DEFAULT]
+        /// `uvwxyz|absdefgh|ijklmno`
         /// </summary>
-        Default = CvConst.IPL_BORDER_DEFAULT,
+        Transparent = 5, 
+        
+        /// <summary>
+        /// same as BORDER_REFLECT_101
+        /// </summary>
+        Default = Reflect101,
 
         /// <summary>
-        /// [cv::BORDER_ISOLATED]
+        /// do not look outside of ROI
         /// </summary>
-        Isolated = CvConst.BORDER_ISOLATED,
-
-        /// <summary>
-        /// -1
-        /// </summary>
-        Auto = -1,
+        Isolated = 16,
     }
 }

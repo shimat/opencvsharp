@@ -1253,13 +1253,13 @@ namespace OpenCvSharp
         #endregion
         #region Compare
         /// <summary>
-        /// compares elements of two arrays (dst = src1 [cmpop] src2)
+        /// Performs the per-element comparison of two arrays or an array and scalar value.
         /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        /// <param name="cmpop"></param>
-        public static void Compare(InputArray src1, InputArray src2, OutputArray dst, ArrComparison cmpop)
+        /// <param name="src1">first input array or a scalar; when it is an array, it must have a single channel.</param>
+        /// <param name="src2">second input array or a scalar; when it is an array, it must have a single channel.</param>
+        /// <param name="dst">output array of type ref CV_8U that has the same size and the same number of channels as the input arrays.</param>
+        /// <param name="cmpop">a flag, that specifies correspondence between the arrays (cv::CmpTypes)</param>
+        public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
         {
             if (src1 == null)
                 throw new ArgumentNullException("src1");
@@ -2258,7 +2258,7 @@ namespace OpenCvSharp
         /// thus the function can handle the rest of the rows more efficiently and 
         /// thus save some time. This technique is very useful for computing array cross-correlation 
         /// or convolution using DFT</param>
-        public static void Dft(InputArray src, OutputArray dst, DftFlag2 flags = DftFlag2.None, int nonzeroRows = 0)
+        public static void Dft(InputArray src, OutputArray dst, DftFlags flags = 0, int nonzeroRows = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2282,7 +2282,7 @@ namespace OpenCvSharp
         /// thus the function can handle the rest of the rows more efficiently and 
         /// thus save some time. This technique is very useful for computing array cross-correlation 
         /// or convolution using DFT</param>
-        public static void Idft(InputArray src, OutputArray dst, DftFlag2 flags = DftFlag2.None, int nonzeroRows = 0)
+        public static void Idft(InputArray src, OutputArray dst, DftFlags flags = 0, int nonzeroRows = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2301,7 +2301,7 @@ namespace OpenCvSharp
         /// <param name="src">The source floating-point array</param>
         /// <param name="dst">The destination array; will have the same size and same type as src</param>
         /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-        public static void Dct(InputArray src, OutputArray dst, DctFlag2 flags = DctFlag2.None)
+        public static void Dct(InputArray src, OutputArray dst, DctFlags flags = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2319,7 +2319,7 @@ namespace OpenCvSharp
         /// <param name="src">The source floating-point array</param>
         /// <param name="dst">The destination array; will have the same size and same type as src</param>
         /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-        public static void Idct(InputArray src, OutputArray dst, DctFlag2 flags = DctFlag2.None)
+        public static void Idct(InputArray src, OutputArray dst, DctFlags flags = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2340,8 +2340,9 @@ namespace OpenCvSharp
         /// <param name="c"></param>
         /// <param name="flags"></param>
         /// <param name="conjB"></param>
-        public static void MulSpectrums(InputArray a, InputArray b, OutputArray c,
-            MulSpectrumsFlag flags, bool conjB = false)
+        public static void MulSpectrums(
+            InputArray a, InputArray b, OutputArray c,
+            DftFlags flags, bool conjB = false)
         {
             if (a == null)
                 throw new ArgumentNullException("a");

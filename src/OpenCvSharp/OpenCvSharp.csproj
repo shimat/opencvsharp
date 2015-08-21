@@ -145,8 +145,8 @@
     <Compile Include="Enum\AngleUnit.cs" />
     <Compile Include="Enum\ApertureSize.cs" />
     <Compile Include="Enum\ApproxPolyMethod.cs" />
-    <Compile Include="Enum\ArrComparison.cs" />
-    <Compile Include="Enum\BorderType.cs" />
+    <Compile Include="Modules\core\Enum\CmpTypes.cs" />
+    <Compile Include="Modules\imgproc\Enum\BorderTypes.cs" />
     <Compile Include="Enum\ButtonType.cs" />
     <Compile Include="Enum\CalibrationFlag.cs" />
     <Compile Include="Enum\CameraChannels.cs" />
@@ -167,8 +167,8 @@
     <Compile Include="Enum\CvFaceElements.cs" />
     <Compile Include="Enum\CvFilter.cs" />
     <Compile Include="Enum\CvStatus.cs" />
-    <Compile Include="Enum\DctFlag.cs" />
-    <Compile Include="Enum\DftFlag.cs" />
+    <Compile Include="Modules\core\Enum\DctFlags.cs" />
+    <Compile Include="Modules\core\Enum\DftFlags.cs" />
     <Compile Include="Enum\DiagType.cs" />
     <Compile Include="Enum\DisparityMode.cs" />
     <Compile Include="Modules\imgproc\Enum\DistanceTypes.cs" />
@@ -208,7 +208,6 @@
     <Compile Include="Modules\imgproc\Enum\TemplateMatchModes.cs" />
     <Compile Include="Enum\MorphologyOperation.cs" />
     <Compile Include="Enum\MouseEvent.cs" />
-    <Compile Include="Enum\MulSpectrumsFlag.cs" />
     <Compile Include="Enum\NodeType.cs" />
     <Compile Include="Enum\NormType.cs" />
     <Compile Include="Enum\PCAFlag.cs" />
@@ -241,8 +240,6 @@
     <Compile Include="Modules\cuda\GpuMatRowColIndexer.cs" />
     <Compile Include="Modules\cuda\Stream.cs" />
     <Compile Include="Modules\face\FaceRecognizer.cs" />
-    <Compile Include="Modules\core\Enum\DctFlag2.cs" />
-    <Compile Include="Modules\core\Enum\DftFlag2.cs" />
     <Compile Include="Modules\calib3d\FindCirclesGridFlag.cs" />
     <Compile Include="Modules\core\FileStorage.cs" />
     <Compile Include="Modules\core\FileNode.cs" />
