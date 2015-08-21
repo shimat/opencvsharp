@@ -796,7 +796,7 @@ namespace OpenCvSharp
         /// it is computed as: (double)dsize.height/src.rows</param>
         /// <param name="interpolation">interpolation method</param>
         public static void Resize(InputArray src, OutputArray dst, Size dsize,
-            double fx = 0, double fy = 0, Interpolation interpolation = Interpolation.Linear)
+            double fx = 0, double fy = 0, InterpolationFlags interpolation = InterpolationFlags.Linear)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -823,7 +823,7 @@ namespace OpenCvSharp
         /// in the source image are not modified by the function.</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
         public static void WarpAffine(InputArray src, OutputArray dst, InputArray m, Size dsize,
-            Interpolation flags = Interpolation.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -867,7 +867,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
 #endif
         public static void WarpPerspective(InputArray src, OutputArray dst, InputArray m, Size dsize,
-            Interpolation flags = Interpolation.Linear, BorderType borderMode = BorderType.Constant, 
+            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, 
             Scalar? borderValue = null)
         {
             if (src == null)
@@ -912,7 +912,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
 #endif
         public static void WarpPerspective(InputArray src, OutputArray dst, float[,] m, Size dsize,
-            Interpolation flags = Interpolation.Linear, BorderType borderMode = BorderType.Constant,
+            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant,
             Scalar? borderValue = null)
         {
             if (src == null)
@@ -945,7 +945,7 @@ namespace OpenCvSharp
         /// the source image are not modified by the function.</param>
         /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
         public static void Remap(InputArray src, OutputArray dst, InputArray map1, InputArray map2,
-            Interpolation interpolation = Interpolation.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+            InterpolationFlags interpolation = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1392,7 +1392,7 @@ namespace OpenCvSharp
         /// <param name="c">Constant subtracted from the mean or weighted mean (see the details below). 
         /// Normally, it is positive but may be zero or negative as well.</param>
         public static void AdaptiveThreshold(InputArray src, OutputArray dst,
-            double maxValue, AdaptiveThresholdType adaptiveMethod, ThresholdTypes thresholdType, int blockSize, double c)
+            double maxValue, AdaptiveThresholdTypes adaptiveMethod, ThresholdTypes thresholdType, int blockSize, double c)
         {
             if (src == null)
                 throw new ArgumentNullException("src");

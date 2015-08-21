@@ -1573,8 +1573,8 @@ namespace OpenCvSharp
         /// <param name="interpolation">interpolation method</param>
         /// <returns>output image; it has the size dsize (when it is non-zero) or the size computed 
         /// from src.size(), fx, and fy; the type of dst is the same as of src.</returns>
-        public Mat Resize(Size dsize, double fx = 0, double fy = 0, 
-            Interpolation interpolation = Interpolation.Linear)
+        public Mat Resize(Size dsize, double fx = 0, double fy = 0,
+            InterpolationFlags interpolation = InterpolationFlags.Linear)
         {
             var dst = new Mat();
             Cv2.Resize(this, dst, dsize, fx, fy, interpolation);
@@ -1593,7 +1593,7 @@ namespace OpenCvSharp
         /// it means that the pixels in the destination image corresponding to the "outliers" 
         /// in the source image are not modified by the function.</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
-        public Mat WarpAffine(InputArray m, Size dsize, Interpolation flags = Interpolation.Linear, 
+        public Mat WarpAffine(InputArray m, Size dsize, InterpolationFlags flags = InterpolationFlags.Linear, 
             BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1611,7 +1611,7 @@ namespace OpenCvSharp
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
         /// <returns>output image that has the size dsize and the same type as src.</returns>
-        public Mat WarpPerspective(Mat m, Size dsize, Interpolation flags = Interpolation.Linear, 
+        public Mat WarpPerspective(Mat m, Size dsize, InterpolationFlags flags = InterpolationFlags.Linear, 
             BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1630,7 +1630,7 @@ namespace OpenCvSharp
         /// the source image are not modified by the function.</param>
         /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
         /// <returns>Destination image. It has the same size as map1 and the same type as src</returns>
-        public Mat Remap(InputArray map1, InputArray map2, Interpolation interpolation = Interpolation.Linear, 
+        public Mat Remap(InputArray map1, InputArray map2, InterpolationFlags interpolation = InterpolationFlags.Linear, 
             BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1724,7 +1724,7 @@ namespace OpenCvSharp
         /// <param name="c">Constant subtracted from the mean or weighted mean (see the details below). 
         /// Normally, it is positive but may be zero or negative as well.</param>
         /// <returns>Destination image of the same size and the same type as src.</returns>
-        public Mat AdaptiveThreshold(double maxValue, AdaptiveThresholdType adaptiveMethod, 
+        public Mat AdaptiveThreshold(double maxValue, AdaptiveThresholdTypes adaptiveMethod, 
             ThresholdTypes thresholdType, int blockSize, double c)
         {
             var dst = new Mat();

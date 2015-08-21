@@ -137,7 +137,7 @@
     <Compile Include="PInvoke\NativeMethods_imgcodecs.cs" />
     <Compile Include="PInvoke\NativeMethods_videoio.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
-    <Compile Include="Enum\AdaptiveThresholdType.cs" />
+    <Compile Include="Modules\imgproc\Enum\AdaptiveThresholdTypes.cs" />
     <Compile Include="Enum\AngleUnit.cs" />
     <Compile Include="Enum\ApertureSize.cs" />
     <Compile Include="Enum\ApproxPolyMethod.cs" />
@@ -193,7 +193,7 @@
     <Compile Include="Modules\imgcodecs\Enum\ImwriteFlags.cs" />
     <Compile Include="Enum\InpaintMethod.cs" />
     <Compile Include="Enum\InsertPosition.cs" />
-    <Compile Include="Enum\Interpolation.cs" />
+    <Compile Include="Modules\imgproc\Enum\InterpolationFlags.cs" />
     <Compile Include="Enum\InvertMethod.cs" />
     <Compile Include="Enum\KMeansFlag.cs" />
     <Compile Include="Enum\LineType.cs" />
