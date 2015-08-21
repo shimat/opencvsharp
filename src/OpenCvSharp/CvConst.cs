@@ -44,9 +44,6 @@ namespace OpenCvSharp
         public const int CV_MAT_CN_MASK = ((CV_CN_MAX - 1) << CV_CN_SHIFT);
         public const int CV_MAT_TYPE_MASK = (CV_DEPTH_MAX * CV_CN_MAX - 1);
 
-        // cvAdaptiveThreshold
-        public const int CV_ADAPTIVE_THRESH_MEAN_C = 0;
-        public const int CV_ADAPTIVE_THRESH_GAUSSIAN_C = 1;
         // cvApproxPoly
         public const int CV_POLY_APPROX_DP = 0;
         // cvLine, cvCircle, ...
@@ -521,14 +518,5 @@ namespace OpenCvSharp
         public const int CV_TERMCRIT_ITER = 1;
         public const int CV_TERMCRIT_NUMBER = 1;
         public const int CV_TERMCRIT_EPS = 2;
-
-        // cvWarpAffine
-        public const int CV_INTER_NN = 0;
-        public const int CV_INTER_LINEAR = 1;
-        public const int CV_INTER_CUBIC = 2;
-        public const int CV_INTER_AREA = 3;
-        public const int CV_INTER_LANCZOS4 = 4;
-        public const int CV_WARP_FILL_OUTLIERS = 8;
-        public const int CV_WARP_INVERSE_MAP = 16;
     }
 }
