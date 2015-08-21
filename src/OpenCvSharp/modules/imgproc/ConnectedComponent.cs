@@ -41,24 +41,28 @@ namespace OpenCvSharp
         /// <summary>
         /// Filter a image with the specified label value. 
         /// </summary>
-        /// <param name="img">Source image.</param>
+        /// <param name="src">Source image.</param>
+        /// <param name="dst">Destination image.</param>
         /// <param name="labelValue">Label value.</param>
         /// <returns>Filtered image.</returns>
-        public Mat FilterByLabel(Mat img, int labelValue)
+        public Mat FilterByLabel(Mat src, Mat dst, int labelValue)
         {
-            return FilterByLabels(img, new[] {labelValue});
+            return FilterByLabels(src, dst, new[] {labelValue});
         }
 
         /// <summary>
         /// Filter a image with the specified label values. 
         /// </summary>
-        /// <param name="img">Source image.</param>
+        /// <param name="src">Source image.</param>
+        /// <param name="dst">Destination image.</param>
         /// <param name="labelValues">Label values.</param>
         /// <returns>Filtered image.</returns>
-        public Mat FilterByLabels(Mat img, IEnumerable<int> labelValues)
+        public Mat FilterByLabels(Mat src, Mat dst, IEnumerable<int> labelValues)
         {
-            if (img == null)
-                throw new ArgumentNullException("img");
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
             if (labelValues == null)
                 throw new ArgumentNullException("labelValues");
             int[] labelArray = EnumerableEx.ToArray(labelValues);
@@ -81,8 +85,7 @@ namespace OpenCvSharp
                         Cv2.BitwiseOr(mask, maskI, mask);
                     }
                 }
-                Mat dst = new Mat();
-                img.CopyTo(dst, mask);
+                src.CopyTo(dst, mask);
                 return dst;
             }
         }
@@ -90,23 +93,25 @@ namespace OpenCvSharp
         /// <summary>
         /// Filter a image with the specified blob object. 
         /// </summary>
-        /// <param name="img">Source image.</param>
+        /// <param name="src">Source image.</param>
+        /// <param name="dst">Destination image.</param>
         /// <param name="blob">Blob value.</param>
         /// <returns>Filtered image.</returns>
-        public Mat FilterByBlob(Mat img, Blob blob)
+        public Mat FilterByBlob(Mat src, Mat dst, Blob blob)
         {
-            return FilterByLabels(img, new[] {blob.Label});
+            return FilterByLabels(src, dst, new[] {blob.Label});
         }
 
         /// <summary>
         /// Filter a image with the specified blob objects. 
         /// </summary>
-        /// <param name="img">Source image.</param>
+        /// <param name="src">Source image.</param>
+        /// <param name="dst">Destination image.</param>
         /// <param name="blobs">Blob values.</param>
         /// <returns>Filtered image.</returns>
-        public Mat FilterBlobs(Mat img, IEnumerable<Blob> blobs)
+        public Mat FilterBlobs(Mat src, Mat dst, IEnumerable<Blob> blobs)
         {
-            return FilterByLabels(img, EnumerableEx.Select(blobs, b => b.Label));
+            return FilterByLabels(src, dst, EnumerableEx.Select(blobs, b => b.Label));
         }
 
         /// <summary>
