@@ -2117,7 +2117,7 @@ namespace OpenCvSharp
         /// <param name="code">The color space conversion code</param>
         /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
 #endif
-        public static void CvtColor(InputArray src, OutputArray dst, ColorConversion code, int dstCn = 0)
+        public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
