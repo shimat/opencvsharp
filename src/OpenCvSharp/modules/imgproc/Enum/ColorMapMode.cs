@@ -9,17 +9,17 @@ namespace OpenCvSharp
     /// </summary>
     public enum ColorMapMode : int
     {
-        Autumn = CppConst.COLORMAP_AUTUMN,
-        Bone = CppConst.COLORMAP_BONE,
-        Jet = CppConst.COLORMAP_JET,
-        Winter = CppConst.COLORMAP_WINTER,
-        Rainbow =CppConst.COLORMAP_RAINBOW,
-        Ocean = CppConst.COLORMAP_OCEAN,
-        Summer = CppConst.COLORMAP_SUMMER,
-        Spring = CppConst.COLORMAP_SPRING,
-        Cool = CppConst.COLORMAP_COOL,
-        Hsv = CppConst.COLORMAP_HSV,
-        Pink =CppConst.COLORMAP_PINK,
-        Hot = CppConst.COLORMAP_HOT
+        Autumn = 0,
+        Bone = 1,
+        Jet = 2,
+        Winter = 3,
+        Rainbow = 4,
+        Ocean = 5,
+        Summer = 6,
+        Spring = 7,
+        Cool = 8,
+        Hsv = 9,
+        Pink = 10,
+        Hot = 11,
     }
 }
