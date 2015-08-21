@@ -12,7 +12,7 @@ namespace OpenCvSharp
         /// <param name="winname">Name of the window in the window caption that may be used as a window identifier.</param>
         public static void NamedWindow(string winname)
         {
-            NamedWindow(winname, WindowMode.None);
+            NamedWindow(winname, WindowMode.Normal);
         }
 
         /// <summary>
@@ -135,19 +135,6 @@ namespace OpenCvSharp
         /// <param name="winName">Name of the window.</param>
         /// <param name="propId">Window property to retrieve.</param>
         /// <param name="propValue">New value of the window property.</param>
-        public static void SetWindowProperty(string winName, WindowProperty propId, WindowPropertyValue propValue)
-        {
-            if (String.IsNullOrEmpty(winName))
-                throw new ArgumentNullException("winName");
-            NativeMethods.highgui_setWindowProperty(winName, (int) propId, (double) propValue);
-        }
-
-        /// <summary>
-        /// Changes parameters of a window dynamically.
-        /// </summary>
-        /// <param name="winName">Name of the window.</param>
-        /// <param name="propId">Window property to retrieve.</param>
-        /// <param name="propValue">New value of the window property.</param>
         public static void SetWindowProperty(string winName, WindowProperty propId, double propValue)
         {
             if (String.IsNullOrEmpty(winName))
@@ -161,11 +148,11 @@ namespace OpenCvSharp
         /// <param name="winName">Name of the window.</param>
         /// <param name="propId">Window property to retrieve.</param>
         /// <returns></returns>
-        public static WindowPropertyValue GetWindowProperty(string winName, WindowProperty propId)
+        public static double GetWindowProperty(string winName, WindowProperty propId)
         {
             if (String.IsNullOrEmpty(winName))
                 throw new ArgumentNullException("winName");
-            return (WindowPropertyValue) (int) NativeMethods.highgui_getWindowProperty(winName, (int) propId);
+            return NativeMethods.highgui_getWindowProperty(winName, (int) propId);
         }
 
 #if LANG_JP

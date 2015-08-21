@@ -194,7 +194,7 @@
     <Compile Include="Enum\HomographyMethod.cs" />
     <Compile Include="Enum\HoughCirclesMethod.cs" />
     <Compile Include="Enum\HoughLinesMethod.cs" />
-    <Compile Include="Modules\imgcodecs\ImwriteFlags.cs" />
+    <Compile Include="Modules\imgcodecs\Enum\ImwriteFlags.cs" />
     <Compile Include="Enum\ImageOrigin.cs" />
     <Compile Include="Enum\InpaintMethod.cs" />
     <Compile Include="Enum\InsertPosition.cs" />
@@ -203,7 +203,7 @@
     <Compile Include="Enum\KMeansFlag.cs" />
     <Compile Include="Enum\LineType.cs" />
     <Compile Include="Enum\LKFlowFlag.cs" />
-    <Compile Include="Modules\imgcodecs\ImreadModes.cs" />
+    <Compile Include="Modules\imgcodecs\Enum\ImreadModes.cs" />
     <Compile Include="Enum\MarkerStyle.cs" />
     <Compile Include="Enum\MatchShapesMethod.cs" />
     <Compile Include="Enum\MatchTemplateMethod.cs" />
@@ -224,10 +224,10 @@
     <Compile Include="Enum\StereoRectificationFlag.cs" />
     <Compile Include="Enum\SvdFlag.cs" />
     <Compile Include="Enum\ThresholdType.cs" />
-    <Compile Include="Enum\WindowMode.cs" />
+    <Compile Include="Modules\highgui\Enum\WindowMode.cs" />
     <Compile Include="Enum\WindowProperty.cs" />
     <Compile Include="ICvPtrHolder.cs" />
-    <Compile Include="Modules\highgui\ImageEncodingParam.cs" />
+    <Compile Include="Modules\imgcodecs\ImageEncodingParam.cs" />
     <Compile Include="LoadLibraryException.cs" />
     <Compile Include="Modules\highgui\FourCC.cs" />
     <Compile Include="Modules\bgsegm\BackgroundSubtractorGMG.cs" />
