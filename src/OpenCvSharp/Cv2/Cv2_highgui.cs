@@ -143,6 +143,20 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Updates window title
+        /// </summary>
+        /// <param name="winname"></param>
+        /// <param name="title"></param>
+        public static void SetWindowTitle(string winname, string title)
+        {
+            if (String.IsNullOrEmpty(winname)) 
+                throw new ArgumentNullException("winname");
+            if (String.IsNullOrEmpty(title))
+                throw new ArgumentNullException("title");
+            NativeMethods.highgui_setWindowTitle(winname, title);
+        }
+
+        /// <summary>
         /// Provides parameters of a window.
         /// </summary>
         /// <param name="winName">Name of the window.</param>
