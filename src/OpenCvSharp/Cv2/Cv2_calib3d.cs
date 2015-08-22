@@ -1193,7 +1193,7 @@ namespace OpenCvSharp
             InputOutputArray distCoeffs,
             out Mat[] rvecs, 
             out Mat[] tvecs,
-            CalibrationFlag flags = CalibrationFlag.Zero, 
+            CalibrationFlag flags = 0, 
             TermCriteria? criteria = null)
         {
             if (objectPoints == null)
@@ -1208,7 +1208,7 @@ namespace OpenCvSharp
             distCoeffs.ThrowIfNotReady();
 
             TermCriteria criteria0 = criteria.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 30, Double.Epsilon));
+                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, Double.Epsilon));
 
             IntPtr[] objectPointsPtrs = EnumerableEx.SelectPtrs(objectPoints);
             IntPtr[] imagePointsPtrs = EnumerableEx.SelectPtrs(imagePoints);
@@ -1263,7 +1263,7 @@ namespace OpenCvSharp
             double[] distCoeffs,
             out Vec3d[] rvecs,
             out Vec3d[] tvecs,
-            CalibrationFlag flags = CalibrationFlag.Zero,
+            CalibrationFlag flags = 0,
             TermCriteria? criteria = null)
         {
             if (objectPoints == null)
@@ -1276,7 +1276,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("distCoeffs");
 
             TermCriteria criteria0 = criteria.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 30, Double.Epsilon));
+                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, Double.Epsilon));
 
             using (var op = new ArrayAddress2<Point3d>(objectPoints))
             using (var ip = new ArrayAddress2<Point2d>(imagePoints))
@@ -1410,7 +1410,7 @@ namespace OpenCvSharp
             IntPtr[] ip2Ptrs = EnumerableEx.SelectPtrs(imagePoints2);
 
             TermCriteria criteria0 = criteria.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 30, 1e-6));
+                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, 1e-6));
 
             double result =
                 NativeMethods.calib3d_stereoCalibrate_InputArray(
@@ -1482,7 +1482,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("distCoeffs2");
 
             TermCriteria criteria0 = criteria.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 30, 1e-6));
+                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, 1e-6));
 
             using (var op = new ArrayAddress2<Point3d>(objectPoints))
             using (var ip1 = new ArrayAddress2<Point2d>(imagePoints1))

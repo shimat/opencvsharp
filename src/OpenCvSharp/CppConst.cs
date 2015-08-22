@@ -91,14 +91,6 @@ namespace OpenCvSharp
             PROJ_SPHERICAL_EQRECT = 1;
 
         /// <summary>
-        /// GrabCut algorithm flags
-        /// </summary>
-        public const int
-            GC_INIT_WITH_RECT = 0,
-            GC_INIT_WITH_MASK = 1,
-            GC_EVAL = 2;
-
-        /// <summary>
         /// Mask size for distance transform 
         /// </summary>
         public const int

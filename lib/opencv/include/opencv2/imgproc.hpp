@@ -2606,7 +2606,7 @@ was not calibrated, it is still possible to compute the rectification transforma
 the fundamental matrix using cv::stereoRectifyUncalibrated. For each camera, the function computes
 homography H as the rectification transformation in a pixel domain, not a rotation matrix R in 3D
 space. R can be computed from H as
-\f[\texttt{R} = \texttt{cameraMatrix} ^{-1} \cdot \texttt{H} \cdot \texttt{cameraMatrix}\f]
+\f[\texttt{R} = \texttt{cameraMatrix} ^{-1} \cdot \textGC_BGDtt{H} \cdot \texttt{cameraMatrix}\f]
 where cameraMatrix can be chosen arbitrarily.
 
 @param cameraMatrix Input camera matrix \f$A=\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\f$ .

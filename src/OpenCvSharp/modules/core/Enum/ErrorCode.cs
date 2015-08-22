@@ -1,215 +1,262 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
-#if LANG_JP
     /// <summary>
-    /// エラーステータス
+    /// Error status codes
     /// </summary>
-#else
-    /// <summary>
-    /// Error status
-    /// </summary>
-#endif
-    public enum CvStatus : int
+    public enum ErrorCode 
     {
         /* this part of CVStatus is compatible with IPLStatus 
            Some of below symbols are not [yet] used in OpenCV
         */
 
+        // ReSharper disable InconsistentNaming
+
         /// <summary>
         /// everithing is ok [CV_StsOk]
         /// </summary>
-        StsOk = CvConst.CV_StsOk,
+        StsOk = 0,
+
         /// <summary>
         /// pseudo error for back trace [CV_StsBackTrace]
         /// </summary>
-        StsBackTrace = CvConst.CV_StsBackTrace,
+        StsBackTrace = -1,
+
         /// <summary>
         /// unknown /unspecified error [CV_StsError]
         /// </summary>
-        StsError = CvConst.CV_StsError,
+        StsError = -2,
+
         /// <summary>
         /// internal error (bad state)  [CV_StsInternal]
         /// </summary>
-        StsInternal = CvConst.CV_StsInternal,
+        StsInternal = -3,
+
         /// <summary>
         /// insufficient memory [CV_StsNoMem]
         /// </summary>
-        StsNoMem = CvConst.CV_StsNoMem,
+        StsNoMem = -4,
+
         /// <summary>
         /// function arg/param is bad [CV_StsBadArg]
         /// </summary>
-        StsBadArg = CvConst.CV_StsBadArg,
+        StsBadArg = -5,
+
         /// <summary>
         /// unsupported function [CV_StsBadFunc]
         /// </summary>
-        StsBadFunc = CvConst.CV_StsBadFunc,
+        StsBadFunc = -6,
+
         /// <summary>
         /// iter. didn't converge [CV_StsNoConv]
         /// </summary>
-        StsNoConv = CvConst.CV_StsNoConv,
+        StsNoConv = -7,
+
         /// <summary>
         /// tracing [CV_StsAutoTrace]
         /// </summary>
-        StsAutoTrace = CvConst.CV_StsAutoTrace,
+        StsAutoTrace = -8,
 
 
         /// <summary>
         /// image header is NULL [CV_HeaderIsNull]
         /// </summary>
-        HeaderIsNull = CvConst.CV_HeaderIsNull,
+        HeaderIsNull = -9,
+
         /// <summary>
         /// image size is invalid [CV_BadImageSize]
         /// </summary>
-        BadImageSize = CvConst.CV_BadImageSize,
+        BadImageSize = -10,
+
         /// <summary>
         /// offset is invalid [CV_BadOffset]
         /// </summary>
-        BadOffset = CvConst.CV_BadOffset,
+        BadOffset = -11,
+
         /// <summary>
         /// [CV_BadOffset]
         /// </summary>
-        BadDataPtr = CvConst.CV_BadDataPtr,
+        BadDataPtr = -12,
+
         /// <summary>
         /// [CV_BadStep]
         /// </summary>
-        BadStep = CvConst.CV_BadStep,
+        BadStep = -13,
+
         /// <summary>
         /// [CV_BadModelOrChSeq]
         /// </summary>
-        BadModelOrChSeq = CvConst.CV_BadModelOrChSeq,
+        BadModelOrChSeq = -14,
+
         /// <summary>
         /// [CV_BadNumChannels]
         /// </summary>
-        BadNumChannels = CvConst.CV_BadNumChannels,
+        BadNumChannels = -15,
+
         /// <summary>
         /// [CV_BadNumChannel1U]
         /// </summary>
-        BadNumChannel1U = CvConst.CV_BadNumChannel1U,
+        BadNumChannel1U = -16,
+
         /// <summary>
         /// [CV_BadDepth]
         /// </summary>
-        BadDepth = CvConst.CV_BadDepth,
+        BadDepth = -17,
+
         /// <summary>
         /// [CV_BadAlphaChannel]
         /// </summary>
-        BadAlphaChannel = CvConst.CV_BadAlphaChannel,
+        BadAlphaChannel = -18,
+
         /// <summary>
         /// [CV_BadOrder]
         /// </summary>
-        BadOrder = CvConst.CV_BadOrder,
+        BadOrder = -19,
+
         /// <summary>
         /// [CV_BadOrigin]
         /// </summary>
-        BadOrigin = CvConst.CV_BadOrigin,
+        BadOrigin = -20,
+
         /// <summary>
         /// [CV_BadAlign]
         /// </summary>
-        BadAlign = CvConst.CV_BadAlign,
+        BadAlign = -21,
+
         /// <summary>
         /// [CV_BadCallBack]
         /// </summary>
-        BadCallBack = CvConst.CV_BadCallBack,
+        BadCallBack = -22,
+
         /// <summary>
         /// [CV_BadTileSize]
         /// </summary>
-        BadTileSize = CvConst.CV_BadTileSize,
+        BadTileSize = -23,
+
         /// <summary>
         /// [CV_BadCOI]
         /// </summary>
-        BadCOI = CvConst.CV_BadCOI,
+        BadCOI = -24,
+
         /// <summary>
         /// [CV_BadROISize]
         /// </summary>
-        BadROISize = CvConst.CV_BadROISize,
-
+        BadROISize = -25,
 
         /// <summary>
         /// [CV_MaskIsTiled]
         /// </summary>
-        MaskIsTiled = CvConst.CV_MaskIsTiled,
-
+        MaskIsTiled = -26,
 
         /// <summary>
         /// null pointer [CV_StsNullPtr]
         /// </summary>
-        StsNullPtr = CvConst.CV_StsNullPtr,
+        StsNullPtr = -27,
+
         /// <summary>
         /// incorrect vector length [CV_StsVecLengthErr]
         /// </summary>
-        StsVecLengthErr = CvConst.CV_StsVecLengthErr,
+        StsVecLengthErr = -28,
+
         /// <summary>
         /// incorr. filter structure content [CV_StsFilterStructContentErr]
         /// </summary>
-        StsFilterStructContentErr = CvConst.CV_StsFilterStructContentErr,
+        StsFilterStructContentErr = -29,
+
         /// <summary>
         /// incorr. transform kernel content [CV_StsKernelStructContentErr]
         /// </summary>
-        StsKernelStructContentErr = CvConst.CV_StsKernelStructContentErr,
+        StsKernelStructContentErr = -30,
+
         /// <summary>
         /// incorrect filter ofset value [CV_StsFilterOffsetErr]
         /// </summary>
-        StsFilterOffsetErr = CvConst.CV_StsFilterOffsetErr,
-
+        StsFilterOffsetErr = -31,
 
         /*extra for CV */
-
 
         /// <summary>
         /// the input/output structure size is incorrect [CV_StsBadSize]
         /// </summary>
-        StsBadSize = CvConst.CV_StsBadSize,
+        StsBadSize = -201,
+
         /// <summary>
         /// division by zero [CV_StsDivByZero]
         /// </summary>
-        StsDivByZero = CvConst.CV_StsDivByZero,
+        StsDivByZero = -202,
+
         /// <summary>
         /// in-place operation is not supported [CV_StsInplaceNotSupported]
         /// </summary>
-        StsInplaceNotSupported = CvConst.CV_StsInplaceNotSupported,
+        StsInplaceNotSupported = -203,
+
         /// <summary>
         /// request can't be completed [CV_StsObjectNotFound]
         /// </summary>
-        StsObjectNotFound = CvConst.CV_StsObjectNotFound,
+        StsObjectNotFound = -204,
+
         /// <summary>
         /// formats of input/output arrays differ [CV_StsUnmatchedFormats]
         /// </summary>
-        StsUnmatchedFormats = CvConst.CV_StsUnmatchedFormats,
+        StsUnmatchedFormats = -205,
+
         /// <summary>
         /// flag is wrong or not supported [CV_StsBadFlag]
         /// </summary>
-        StsBadFlag = CvConst.CV_StsBadFlag,
+        StsBadFlag = -206,
+
         /// <summary>
         /// bad CvPoint [CV_StsBadPoint]
         /// </summary>
-        StsBadPoint = CvConst.CV_StsBadPoint,
+        StsBadPoint = -207,
+
         /// <summary>
         /// bad format of mask (neither 8uC1 nor 8sC1) [CV_StsBadMask]
         /// </summary>
-        StsBadMask = CvConst.CV_StsBadMask,
+        StsBadMask = -208,
+
         /// <summary>
         /// sizes of input/output structures do not match [CV_StsUnmatchedSizes]
         /// </summary>
-        StsUnmatchedSizes = CvConst.CV_StsUnmatchedSizes,
+        StsUnmatchedSizes = -209,
+
         /// <summary>
         /// the data format/type is not supported by the function [CV_StsUnsupportedFormat]
         /// </summary>
-        StsUnsupportedFormat = CvConst.CV_StsUnsupportedFormat,
+        StsUnsupportedFormat = -210,
+
         /// <summary>
         /// some of parameters are out of range [CV_StsOutOfRange]
         /// </summary>
-        StsOutOfRange = CvConst.CV_StsOutOfRange,
+        StsOutOfRange = -211,
+
         /// <summary>
         /// invalid syntax/structure of the parsed file [CV_StsParseError]
         /// </summary>
-        StsParseError = CvConst.CV_StsParseError,
+        StsParseError = -212,
+
         /// <summary>
         /// the requested function/feature is not implemented [CV_StsNotImplemented]
         /// </summary>
-        StsNotImplemented = CvConst.CV_StsNotImplemented,
+        StsNotImplemented = -213,
+
         /// <summary>
         /// an allocated block has been corrupted [CV_StsBadMemBlock]
         /// </summary>
-        StsBadMemBlock = CvConst.CV_StsBadMemBlock,
+        StsBadMemBlock = -214,
+
+        /// <summary>
+        /// assertion failed
+        /// </summary>
+        StsAssert = -215,
+
+#pragma warning disable 1591
+        GpuNotSupported = -216,
+        GpuApiCallError = -217,
+        OpenGlNotSupported = -218,
+        OpenGlApiCallError = -219,
+        OpenCLApiCallError = -220,
+        OpenCLDoubleNotSupported = -221,
+        OpenCLInitError = -222,
+        OpenCLNoAMDBlasFft = -223
     }
 }

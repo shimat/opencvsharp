@@ -74,6 +74,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Scalar value0 = value.GetValueOrDefault(new Scalar());
             NativeMethods.imgproc_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -95,6 +96,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -123,6 +125,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -152,6 +155,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -214,6 +218,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -238,6 +243,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor0, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -273,6 +279,7 @@ namespace OpenCvSharp
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, 
                 anchor0, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -308,6 +315,7 @@ namespace OpenCvSharp
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth, 
                 kernelX.CvPtr, kernelY.CvPtr, anchor0, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -337,6 +345,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder, 
                 ksize, scale, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -364,6 +373,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder, 
                 scale, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -390,6 +400,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_Laplacian(src.CvPtr, dst.CvPtr, ddepth, ksize, scale, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -425,6 +436,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             edges.ThrowIfNotReady();
             NativeMethods.imgproc_Canny(src.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0);
+            GC.KeepAlive(src);
             edges.Fix();
         }
         #endregion
@@ -448,6 +460,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_cornerEigenValsAndVecs(src.CvPtr, dst.CvPtr, blockSize, ksize, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -469,6 +482,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_preCornerDetect(src.CvPtr, dst.CvPtr, ksize, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -501,6 +515,7 @@ namespace OpenCvSharp
             using (var vector = new VectorOfPoint2f(inputCornersCopy))
             {
                 NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria);
+                GC.KeepAlive(image);
                 return vector.ToArray();
             }
         }
@@ -538,6 +553,7 @@ namespace OpenCvSharp
                 IntPtr maskPtr = ToPtr(mask);
                 NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
                     minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k);
+                GC.KeepAlive(src);
                 return vector.ToArray();
             }
         }
@@ -577,6 +593,7 @@ namespace OpenCvSharp
             using (var vec = new VectorOfVec2f())
             {
                 NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
+                GC.KeepAlive(image);
                 return vec.ToArray<CvLineSegmentPolar>();
             }
         }
@@ -614,6 +631,7 @@ namespace OpenCvSharp
             using (var vec = new VectorOfVec4i())
             {
                 NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
+                GC.KeepAlive(image);
                 return vec.ToArray<CvLineSegmentPoint>();
             }
         }
@@ -655,6 +673,7 @@ namespace OpenCvSharp
             using (var vec = new VectorOfVec3f())
             {
                 NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
+                GC.KeepAlive(image);
                 return vec.ToArray<CvCircleSegment>();
             }
         }
@@ -709,6 +728,7 @@ namespace OpenCvSharp
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
             NativeMethods.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -752,6 +772,7 @@ namespace OpenCvSharp
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
             NativeMethods.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -797,6 +818,7 @@ namespace OpenCvSharp
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
             NativeMethods.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -825,6 +847,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_resize(src.CvPtr, dst.CvPtr, dsize, fx, fy, (int)interpolation);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -858,6 +881,7 @@ namespace OpenCvSharp
             m.ThrowIfDisposed();
             Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -906,6 +930,7 @@ namespace OpenCvSharp
             Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_warpPerspective_MisInputArray(
                 src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
 
@@ -954,6 +979,7 @@ namespace OpenCvSharp
             int mCol = m.GetLength(1);
             NativeMethods.imgproc_warpPerspective_MisArray(
                 src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int)flags, (int)borderMode, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -989,6 +1015,7 @@ namespace OpenCvSharp
             map2.ThrowIfDisposed();
             Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int)interpolation, (int)borderMode, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1017,6 +1044,8 @@ namespace OpenCvSharp
             dstmap1.ThrowIfDisposed();
             dstmap2.ThrowIfDisposed();
             NativeMethods.imgproc_convertMaps(map1.CvPtr, map2.CvPtr, dstmap1.CvPtr, dstmap2.CvPtr, dstmap1Type, nnInterpolation ? 1 : 0);
+            GC.KeepAlive(map1);
+            GC.KeepAlive(map2);
             dstmap1.Fix();
             dstmap2.Fix();
         }
@@ -1052,6 +1081,8 @@ namespace OpenCvSharp
             m.ThrowIfDisposed();
             im.ThrowIfNotReady();
             NativeMethods.imgproc_invertAffineTransform(m.CvPtr, im.CvPtr);
+            GC.KeepAlive(m);
+            im.Fix();
         }
         #endregion
         #region GetPerspectiveTransform
@@ -1087,6 +1118,8 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform2(src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             return new Mat(ret);
         }
         #endregion
@@ -1124,6 +1157,8 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             IntPtr ret = NativeMethods.imgproc_getAffineTransform2(src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             return new Mat(ret);
         }
         #endregion
@@ -1147,6 +1182,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             patch.ThrowIfNotReady();
             NativeMethods.imgproc_getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType);
+            GC.KeepAlive(image); 
             patch.Fix();
         }
         #endregion
@@ -1166,6 +1202,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             sum.ThrowIfNotReady();
             NativeMethods.imgproc_integral1(src.CvPtr, sum.CvPtr, sdepth);
+            GC.KeepAlive(src);
             sum.Fix();
         }
         /// <summary>
@@ -1187,6 +1224,7 @@ namespace OpenCvSharp
             sum.ThrowIfNotReady();
             sqsum.ThrowIfNotReady();
             NativeMethods.imgproc_integral2(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth);
+            GC.KeepAlive(src);
             sum.Fix();
             sqsum.Fix();
         }
@@ -1213,6 +1251,7 @@ namespace OpenCvSharp
             sqsum.ThrowIfNotReady();
             tilted.ThrowIfNotReady();
             NativeMethods.imgproc_integral3(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth);
+            GC.KeepAlive(src);
             sum.Fix();
             sqsum.Fix();
             tilted.Fix();
@@ -1234,6 +1273,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_accumulate(src.CvPtr, dst.CvPtr, ToPtr(mask));
+            GC.KeepAlive(src);
             dst.Fix();
         }
         /// <summary>
@@ -1251,6 +1291,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_accumulateSquare(src.CvPtr, dst.CvPtr, ToPtr(mask));
+            GC.KeepAlive(src);
             dst.Fix();
         }
         /// <summary>
@@ -1272,6 +1313,8 @@ namespace OpenCvSharp
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_accumulateProduct(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
             dst.Fix();
         }
         /// <summary>
@@ -1290,6 +1333,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_accumulateWeighted(src.CvPtr, dst.CvPtr, alpha, ToPtr(mask));
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1309,7 +1353,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src2");
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            return NativeMethods.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
+            var ret = NativeMethods.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            return ret;
         }
         #endregion
         #region PhaseCorrelate
@@ -1329,7 +1376,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src2");
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            return NativeMethods.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, ToPtr(window));
+            var ret = NativeMethods.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, ToPtr(window));
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            return ret;
         }
         #endregion
         #region PhaseCorrelateRes
@@ -1365,7 +1415,11 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             window.ThrowIfDisposed();
-            return NativeMethods.imgproc_phaseCorrelateRes(src1.CvPtr, src2.CvPtr, window.CvPtr, out response);
+            var ret = NativeMethods.imgproc_phaseCorrelateRes(src1.CvPtr, src2.CvPtr, window.CvPtr, out response);
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(window);
+            return ret;
         }
         #endregion
         #region CreateHanningWindow
@@ -1403,6 +1457,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             double ret = NativeMethods.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
+            GC.KeepAlive(src);
             dst.Fix();
             return ret;
         }
@@ -1429,6 +1484,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)adaptiveMethod, (int)thresholdType, blockSize, c);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1451,6 +1507,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Size dstSize0 = dstSize.GetValueOrDefault(new Size());
             NativeMethods.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         /// <summary>
@@ -1471,6 +1528,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Size dstSize0 = dstSize.GetValueOrDefault(new Size());
             NativeMethods.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1502,6 +1560,7 @@ namespace OpenCvSharp
             cameraMatrix.ThrowIfDisposed();
             NativeMethods.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
                 ToPtr(distCoeffs), ToPtr(newCameraMatrix));
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1517,7 +1576,8 @@ namespace OpenCvSharp
         /// <param name="m1Type"></param>
         /// <param name="map1"></param>
         /// <param name="map2"></param>
-        public static void InitUndistortRectifyMap(InputArray cameraMatrix, InputArray distCoeffs,
+        public static void InitUndistortRectifyMap(
+            InputArray cameraMatrix, InputArray distCoeffs,
             InputArray r, InputArray newCameraMatrix,
             Size size, MatType m1Type, OutputArray map1, OutputArray map2)
         {
@@ -1541,6 +1601,10 @@ namespace OpenCvSharp
             map2.ThrowIfNotReady();
             NativeMethods.imgproc_initUndistortRectifyMap(
                 cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(r);
+            GC.KeepAlive(newCameraMatrix);
             map1.Fix();
             map2.Fix();
         }
@@ -1559,8 +1623,10 @@ namespace OpenCvSharp
         /// <param name="projType"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public static float InitWideAngleProjMap(InputArray cameraMatrix, InputArray distCoeffs,
-            Size imageSize, int destImageWidth, MatType m1Type, OutputArray map1, OutputArray map2,
+        public static float InitWideAngleProjMap(
+            InputArray cameraMatrix, InputArray distCoeffs,
+            Size imageSize, int destImageWidth, MatType m1Type, 
+            OutputArray map1, OutputArray map2,
             ProjectionType projType, double alpha = 0)
         {
             if (cameraMatrix == null)
@@ -1577,6 +1643,8 @@ namespace OpenCvSharp
             map2.ThrowIfNotReady();
             float ret = NativeMethods.imgproc_initWideAngleProjMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
                 destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int)projType, alpha);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
             map1.Fix();
             map2.Fix();
             return ret;
@@ -1592,14 +1660,15 @@ namespace OpenCvSharp
         /// The parameter indicates whether this location should be at the image center or not.</param>
         /// <returns>the camera matrix that is either an exact copy of the input cameraMatrix 
         /// (when centerPrinicipalPoint=false), or the modified one (when centerPrincipalPoint=true).</returns>
-        public static Mat GetDefaultNewCameraMatrix(InputArray cameraMatrix,
-            Size? imgSize = null, bool centerPrincipalPoint = false)
+        public static Mat GetDefaultNewCameraMatrix(
+            InputArray cameraMatrix, Size? imgSize = null, bool centerPrincipalPoint = false)
         {
             if (cameraMatrix == null)
                 throw new ArgumentNullException("cameraMatrix");
             cameraMatrix.ThrowIfDisposed();
             Size imgSize0 = imgSize.GetValueOrDefault(new Size());
             IntPtr matPtr = NativeMethods.imgproc_getDefaultNewCameraMatrix(cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
+            GC.KeepAlive(cameraMatrix);
             return new Mat(matPtr);
         }
         #endregion
@@ -1619,7 +1688,8 @@ namespace OpenCvSharp
         /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4). 
         /// P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, 
         /// the identity new camera matrix is used.</param>
-        public static void UndistortPoints(InputArray src, OutputArray dst,
+        public static void UndistortPoints(
+            InputArray src, OutputArray dst,
             InputArray cameraMatrix, InputArray distCoeffs,
             InputArray r = null, InputArray p = null)
         {
@@ -1634,6 +1704,10 @@ namespace OpenCvSharp
             cameraMatrix.ThrowIfDisposed();
             NativeMethods.imgproc_undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, 
                 ToPtr(distCoeffs), ToPtr(r), ToPtr(p));
+            GC.KeepAlive(src);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(r);
+            GC.KeepAlive(p);
             dst.Fix();
         }
         #endregion
@@ -1698,6 +1772,8 @@ namespace OpenCvSharp
                 NativeMethods.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr,
                     dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0);
             }
+            GC.KeepAlive(images);
+            GC.KeepAlive(mask);
             hist.Fix();
         }
         #endregion
@@ -1736,6 +1812,8 @@ namespace OpenCvSharp
                 NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
                     backProject.CvPtr, rangesPtr, uniform ? 1 : 0);
             }
+            GC.KeepAlive(images);
+            GC.KeepAlive(hist);
             backProject.Fix();
         }
         #endregion
@@ -1755,7 +1833,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("h2");
             h1.ThrowIfDisposed();
             h2.ThrowIfDisposed();
-            return NativeMethods.imgproc_compareHist1(h1.CvPtr, h2.CvPtr, (int)method);
+            var ret = NativeMethods.imgproc_compareHist1(h1.CvPtr, h2.CvPtr, (int)method);
+            GC.KeepAlive(h1);
+            GC.KeepAlive(h2);
+            return ret;
         }
         #endregion
         #region EqualizeHist
@@ -1773,6 +1854,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_equalizeHist(src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1850,6 +1932,9 @@ namespace OpenCvSharp
             signature1.ThrowIfDisposed();
             signature2.ThrowIfDisposed();
             float ret = NativeMethods.imgproc_EMD(signature1.CvPtr, signature2.CvPtr, (int)distType, ToPtr(cost), out lowerBound, ToPtr(flow));
+            GC.KeepAlive(signature1);
+            GC.KeepAlive(signature2);
+            GC.KeepAlive(cost);
             if(flow != null)
                 flow.Fix();
             return ret;
@@ -1871,6 +1956,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             markers.ThrowIfNotReady();
             NativeMethods.imgproc_watershed(image.CvPtr, markers.CvPtr);
+            GC.KeepAlive(image);
             markers.Fix();
         }
         #endregion
@@ -1894,8 +1980,9 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             TermCriteria termcrit0 = termcrit.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 5, 1));
+                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 5, 1));
             NativeMethods.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1916,7 +2003,7 @@ namespace OpenCvSharp
         /// <param name="mode">Operation mode that could be one of GrabCutFlag value.</param>
         public static void GrabCut(InputArray img, InputOutputArray mask, Rect rect,
                                    InputOutputArray bgdModel, InputOutputArray fgdModel,
-                                   int iterCount, GrabCutFlag mode)
+                                   int iterCount, GrabCutModes mode)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
@@ -1932,29 +2019,11 @@ namespace OpenCvSharp
             fgdModel.ThrowIfNotReady();
             NativeMethods.imgproc_grabCut(img.CvPtr, mask.CvPtr, rect,
                 bgdModel.CvPtr, fgdModel.CvPtr, iterCount, (int)mode);
+            GC.KeepAlive(img);
             mask.Fix();
             bgdModel.Fix();
             fgdModel.Fix();
         }
-
-        // ReSharper disable InconsistentNaming
-        /// <summary>
-        /// GrabCut mask value [background]
-        /// </summary>
-        public const int GC_BGD = 0;
-        /// <summary>
-        /// GrabCut mask value [foreground]
-        /// </summary>
-        public const int GC_FGD = 1;
-        /// <summary>
-        /// GrabCut mask value [most probably background]
-        /// </summary>
-        public const int GC_PR_BGD = 2;
-        /// <summary>
-        /// GrabCut mask value [most probably foreground]
-        /// </summary>
-        public const int GC_PR_FGD = 3; 
-        // ReSharper restore InconsistentNaming
         #endregion
         #region DistanceTransform
         /// <summary>
@@ -1984,6 +2053,7 @@ namespace OpenCvSharp
             labels.ThrowIfNotReady();
             NativeMethods.imgproc_distanceTransformWithLabels(
                 src.CvPtr, dst.CvPtr, labels.CvPtr, (int)distanceType, (int)maskSize, (int)labelType);
+            GC.KeepAlive(src);
             dst.Fix();
             labels.Fix();
         }
@@ -2008,6 +2078,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_distanceTransform(
                 src.CvPtr, dst.CvPtr, (int)distanceType, (int)maskSize);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -2156,6 +2227,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             
             NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -2244,6 +2316,8 @@ namespace OpenCvSharp
             templ.ThrowIfDisposed();
             result.ThrowIfNotReady();
             NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int)method);
+            GC.KeepAlive(image);
+            GC.KeepAlive(templ);
             result.Fix();
         }
         #endregion
@@ -2775,6 +2849,7 @@ namespace OpenCvSharp
             curve.ThrowIfDisposed();
             approxCurve.ThrowIfNotReady();
             NativeMethods.imgproc_approxPolyDP_InputArray(curve.CvPtr, approxCurve.CvPtr, epsilon, closed ? 1 : 0);
+            GC.KeepAlive(curve);
             approxCurve.Fix();
         }
         /// <summary>
@@ -2834,7 +2909,9 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException("curve");
             curve.ThrowIfDisposed();
-            return NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
+            var ret = NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
+            GC.KeepAlive(curve);
+            return ret;
         }
 
         /// <summary>
@@ -2876,7 +2953,9 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException("curve");
             curve.ThrowIfDisposed();
-            return NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr);
+            var ret = NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr);
+            GC.KeepAlive(curve);
+            return ret;
         }
 
         /// <summary>
@@ -2917,7 +2996,9 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
-            return NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
+            var ret = NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
+            GC.KeepAlive(contour);
+            return ret;
         }
         /// <summary>
         /// Calculates the contour area
@@ -2957,7 +3038,9 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
-            return NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr);
+            var ret = NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr);
+            GC.KeepAlive(points);
+            return ret;
         }
         /// <summary>
         /// Finds the minimum area rotated rectangle enclosing a 2D point set.
@@ -2997,6 +3080,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
             NativeMethods.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius);
+            GC.KeepAlive(points);
         }
 
         /// <summary>
@@ -3042,7 +3126,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("contour1");
             if (contour2 == null)
                 throw new ArgumentNullException("contour2");
-            return NativeMethods.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter);
+            var ret = NativeMethods.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter);
+            GC.KeepAlive(contour1);
+            GC.KeepAlive(contour2);
+            return ret;
         }
         /// <summary>
         /// matches two contours using one of the available algorithms
@@ -3088,6 +3175,7 @@ namespace OpenCvSharp
             points.ThrowIfDisposed();
             hull.ThrowIfNotReady();
             NativeMethods.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0);
+            GC.KeepAlive(points);
             hull.Fix();
         }
 
@@ -3213,6 +3301,8 @@ namespace OpenCvSharp
             convexHull.ThrowIfDisposed();
             convexityDefects.ThrowIfNotReady();
             NativeMethods.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr);
+            GC.KeepAlive(contour);
+            GC.KeepAlive(convexHull);
             convexityDefects.Fix();
         }
 
@@ -3291,6 +3381,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
             int ret = NativeMethods.imgproc_isContourConvex_InputArray(contour.CvPtr);
+            GC.KeepAlive(contour);
             return ret != 0;
         }
         /// <summary>
@@ -3343,6 +3434,8 @@ namespace OpenCvSharp
             p2.ThrowIfDisposed();
             p12.ThrowIfNotReady();
             float ret = NativeMethods.imgproc_intersectConvexConvex_InputArray(p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0);
+            GC.KeepAlive(p1);
+            GC.KeepAlive(p2);
             p12.Fix();
             return ret;
         }
@@ -3414,7 +3507,9 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
-            return NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr);
+            var ret = NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr);
+            GC.KeepAlive(points);
+            return ret;
         }
         /// <summary>
         /// Fits ellipse to the set of 2D points.
@@ -3471,6 +3566,7 @@ namespace OpenCvSharp
             points.ThrowIfDisposed();
             line.ThrowIfNotReady();
             NativeMethods.imgproc_fitLine_InputArray(points.CvPtr, line.CvPtr, (int)distType, param, reps, aeps);
+            GC.KeepAlive(points);
             line.Fix();
         }
 
@@ -3579,7 +3675,9 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
-            return NativeMethods.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
+            var ret = NativeMethods.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
+            GC.KeepAlive(contour);
+            return ret;
         }
 
         /// <summary>
@@ -3616,14 +3714,71 @@ namespace OpenCvSharp
         }
         #endregion
 
+        #region RotatedRectangleIntersection
 
         /// <summary>
-        /// 
+        /// Finds out if there is any intersection between two rotated rectangles.
+        /// If there is then the vertices of the interesecting region are returned as well.
+        /// Below are some examples of intersection configurations. 
+        /// The hatched pattern indicates the intersecting region and the red 
+        /// vertices are returned by the function.
+        /// </summary>
+        /// <param name="rect1">First rectangle</param>
+        /// <param name="rect2">Second rectangle</param>
+        /// <param name="intersectingRegion">
+        /// The output array of the verticies of the intersecting region. 
+        /// It returns at most 8 vertices.
+        /// Stored as std::vector&lt;cv::Point2f&gt; or cv::Mat as Mx1 of type CV_32FC2.</param>
+        /// <returns></returns>
+        public static RectanglesIntersectTypes RotatedRectangleIntersection(
+            RotatedRect rect1, RotatedRect rect2, OutputArray intersectingRegion)
+        {
+            if (intersectingRegion == null)
+                throw new ArgumentNullException("intersectingRegion");
+            intersectingRegion.ThrowIfNotReady();
+
+            int ret = NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
+                rect1, rect2, intersectingRegion.CvPtr);
+
+            intersectingRegion.Fix();
+
+            return (RectanglesIntersectTypes)ret;
+        }
+
+        /// <summary>
+        /// Finds out if there is any intersection between two rotated rectangles.
+        /// If there is then the vertices of the interesecting region are returned as well.
+        /// Below are some examples of intersection configurations. 
+        /// The hatched pattern indicates the intersecting region and the red 
+        /// vertices are returned by the function.
+        /// </summary>
+        /// <param name="rect1">First rectangle</param>
+        /// <param name="rect2">Second rectangle</param>
+        /// <param name="intersectingRegion">
+        /// The output array of the verticies of the intersecting region. 
+        /// It returns at most 8 vertices.</param>
+        /// <returns></returns>
+        public static RectanglesIntersectTypes RotatedRectangleIntersection(
+            RotatedRect rect1, RotatedRect rect2, out Point2f[] intersectingRegion)
+        {
+            using (var intersectingRegionVec = new VectorOfPoint2f())
+            {
+                int ret = NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
+                    rect1, rect2, intersectingRegionVec.CvPtr);
+                intersectingRegion = intersectingRegionVec.ToArray();
+                return (RectanglesIntersectTypes) ret;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Applies a GNU Octave/MATLAB equivalent colormap on a given image.
         /// </summary>
         /// <param name="src"></param>
         /// <param name="dst"></param>
         /// <param name="colormap"></param>
-        public static void ApplyColorMap(InputArray src, OutputArray dst, ColorMapMode colormap)
+        public static void ApplyColorMap(InputArray src, OutputArray dst, ColormapTypes colormap)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -3632,6 +3787,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_applyColorMap(src.CvPtr, dst.CvPtr, (int)colormap);
+            GC.KeepAlive(src);
             dst.Fix();
         }
     }

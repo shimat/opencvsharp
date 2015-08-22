@@ -179,7 +179,7 @@ namespace OpenCvSharp
         /// Custom error handler to be thrown by OpenCV
         /// </summary>
         public static readonly CvErrorCallback ErrorHandlerThrowException =
-            delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
+            delegate(ErrorCode status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
             {
                 try
                 {
@@ -197,7 +197,7 @@ namespace OpenCvSharp
         /// Custom error handler to ignore all OpenCV errors
         /// </summary>
         public static readonly CvErrorCallback ErrorHandlerIgnorance =
-            delegate(CvStatus status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
+            delegate(ErrorCode status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
             {
                 //cvSetErrStatus(CvStatus.StsOk);
                 return 0;

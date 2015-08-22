@@ -1876,7 +1876,7 @@ namespace OpenCvSharp
         /// <param name="src">The source single-channel array</param>
         /// <param name="dst">The destination array of the same size and the same type as src</param>
         /// <param name="flags">The operation flags, a combination of the SortFlag values</param>
-        public static void Sort(InputArray src, OutputArray dst, SortFlag flags)
+        public static void Sort(InputArray src, OutputArray dst, SortFlags flags)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1895,7 +1895,7 @@ namespace OpenCvSharp
         /// <param name="src">The source single-channel array</param>
         /// <param name="dst">The destination integer array of the same size as src</param>
         /// <param name="flags">The operation flags, a combination of SortFlag values</param>
-        public static void SortIdx(InputArray src, OutputArray dst, SortFlag flags)
+        public static void SortIdx(InputArray src, OutputArray dst, SortFlags flags)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1987,7 +1987,7 @@ namespace OpenCvSharp
         /// <param name="covar"></param>
         /// <param name="mean"></param>
         /// <param name="flags"></param>
-        public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean, CovarMatrixFlag flags)
+        public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean, CovarFlags flags)
         {
             CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
         }
@@ -2000,7 +2000,7 @@ namespace OpenCvSharp
         /// <param name="flags"></param>
         /// <param name="ctype"></param>
         public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean,
-            CovarMatrixFlag flags, MatType ctype)
+            CovarFlags flags, MatType ctype)
         {
             if (samples == null)
                 throw new ArgumentNullException("samples");
@@ -2021,7 +2021,7 @@ namespace OpenCvSharp
         /// <param name="mean"></param>
         /// <param name="flags"></param>
         public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
-            InputOutputArray mean, CovarMatrixFlag flags)
+            InputOutputArray mean, CovarFlags flags)
         {
             CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
         }
@@ -2034,7 +2034,7 @@ namespace OpenCvSharp
         /// <param name="flags"></param>
         /// <param name="ctype"></param>
         public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
-            InputOutputArray mean, CovarMatrixFlag flags, MatType ctype)
+            InputOutputArray mean, CovarFlags flags, MatType ctype)
         {
             if (samples == null)
                 throw new ArgumentNullException("samples");

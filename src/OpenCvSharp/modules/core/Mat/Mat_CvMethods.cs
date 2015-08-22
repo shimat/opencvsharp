@@ -504,7 +504,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="flags">The operation flags, a combination of the SortFlag values</param>
         /// <returns>The destination array of the same size and the same type as src</returns>
-        public Mat Sort(SortFlag flags)
+        public Mat Sort(SortFlags flags)
         {
             var dst = new Mat();
             Cv2.Sort(this, dst, flags);
@@ -516,7 +516,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="flags">The operation flags, a combination of SortFlag values</param>
         /// <returns>The destination integer array of the same size as src</returns>
-        public Mat SortIdx(SortFlag flags)
+        public Mat SortIdx(SortFlags flags)
         {
             var dst = new Mat();
             Cv2.SortIdx(this, dst, flags);
@@ -1868,7 +1868,7 @@ namespace OpenCvSharp
         /// <param name="mode">Operation mode that could be one of GrabCutFlag value.</param>
         public void GrabCut(InputOutputArray mask, Rect rect,
             InputOutputArray bgdModel, InputOutputArray fgdModel,
-            int iterCount, GrabCutFlag mode)
+            int iterCount, GrabCutModes mode)
         {
             Cv2.GrabCut(this, mask, rect, bgdModel, fgdModel, iterCount, mode);
         }

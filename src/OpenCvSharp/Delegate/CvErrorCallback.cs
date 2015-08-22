@@ -28,7 +28,7 @@ namespace OpenCvSharp
 #endif
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int CvErrorCallback(
-        [MarshalAs(UnmanagedType.I4)] CvStatus status, 
+        [MarshalAs(UnmanagedType.I4)] ErrorCode status, 
         [MarshalAs(UnmanagedType.LPStr)] string funcName, 
         [MarshalAs(UnmanagedType.LPStr)] string errMsg,
         [MarshalAs(UnmanagedType.LPStr)] string fileName, 
