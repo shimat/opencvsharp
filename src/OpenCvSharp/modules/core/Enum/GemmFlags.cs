@@ -16,6 +16,11 @@ namespace OpenCvSharp
     [Flags]
     public enum GemmFlags : int
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        None = 0,
+
 #if LANG_JP
 		/// <summary>
 		/// src1を転置 

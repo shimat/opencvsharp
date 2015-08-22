@@ -12,8 +12,13 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum CalibrationFlag : int
+    public enum CalibrationFlags : int
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        None = 0,
+
 #if LANG_JP
 		/// <summary>
 		/// intrinsic_matrixは最適化が行われた正しい初 期値 fx, fy, cx, cyを含む．このパラメータがセッ トされていない場合，(cx, cy) は最初に画像中心にセットされ（image_size はこの計算に用いられ る），焦点距離は最小二乗法で計算される．

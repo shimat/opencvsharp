@@ -962,7 +962,7 @@ namespace OpenCvSharp
             InputArray image, 
             Size patternSize,
             OutputArray corners,
-            ChessboardFlag flags = ChessboardFlag.AdaptiveThresh | ChessboardFlag.NormalizeImage)
+            ChessboardFlags flags = ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -990,7 +990,7 @@ namespace OpenCvSharp
             InputArray image,
             Size patternSize,
             out Point2f[] corners,
-            ChessboardFlag flags = ChessboardFlag.AdaptiveThresh | ChessboardFlag.NormalizeImage)
+            ChessboardFlags flags = ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -1193,7 +1193,7 @@ namespace OpenCvSharp
             InputOutputArray distCoeffs,
             out Mat[] rvecs, 
             out Mat[] tvecs,
-            CalibrationFlag flags = 0, 
+            CalibrationFlags flags = CalibrationFlags.None, 
             TermCriteria? criteria = null)
         {
             if (objectPoints == null)
@@ -1263,7 +1263,7 @@ namespace OpenCvSharp
             double[] distCoeffs,
             out Vec3d[] rvecs,
             out Vec3d[] tvecs,
-            CalibrationFlag flags = 0,
+            CalibrationFlags flags = CalibrationFlags.None,
             TermCriteria? criteria = null)
         {
             if (objectPoints == null)
@@ -1379,7 +1379,7 @@ namespace OpenCvSharp
                                              InputOutputArray cameraMatrix2, InputOutputArray distCoeffs2,
                                              Size imageSize, OutputArray R,
                                              OutputArray T, OutputArray E, OutputArray F,
-                                             CalibrationFlag flags = CalibrationFlag.FixIntrinsic,
+                                             CalibrationFlags flags = CalibrationFlags.FixIntrinsic,
                                              TermCriteria? criteria = null)
         {
             if (objectPoints == null)
@@ -1463,7 +1463,7 @@ namespace OpenCvSharp
                                              double[,] cameraMatrix2, double[] distCoeffs2,
                                              Size imageSize, OutputArray R,
                                              OutputArray T, OutputArray E, OutputArray F,
-                                             CalibrationFlag flags = CalibrationFlag.FixIntrinsic,
+                                             CalibrationFlags flags = CalibrationFlags.FixIntrinsic,
                                              TermCriteria? criteria = null)
         {
             if (objectPoints == null)

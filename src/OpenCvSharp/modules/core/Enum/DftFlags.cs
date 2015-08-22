@@ -14,6 +14,11 @@ namespace OpenCvSharp
     [Flags]
     public enum DftFlags : int
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        None = 0,
+
 #if LANG_JP
 		/// <summary>
 		/// 1次元または2次元の逆変換を行う．結果のスケーリングは行わない． 

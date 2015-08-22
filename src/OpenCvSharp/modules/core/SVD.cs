@@ -24,7 +24,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src"></param>
         /// <param name="flags"></param>
-        public SVD(InputArray src, SVDFlag flags = SVDFlag.None)
+        public SVD(InputArray src, Flags flags = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -111,7 +111,7 @@ namespace OpenCvSharp
         /// <param name="src"></param>
         /// <param name="flags"></param>
         /// <returns></returns>
-        public SVD Run(InputArray src, SVDFlag flags = SVDFlag.None)
+        public SVD Run(InputArray src, Flags flags = 0)
         {
             if (disposed)
                 throw new ObjectDisposedException("SVD");
@@ -153,7 +153,7 @@ namespace OpenCvSharp
         /// <param name="vt"></param>
         /// <param name="flags"></param>
         public static void Compute(InputArray src, OutputArray w,
-            OutputArray u, OutputArray vt, SVDFlag flags = SVDFlag.None)
+            OutputArray u, OutputArray vt, Flags flags = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -179,7 +179,7 @@ namespace OpenCvSharp
         /// <param name="src"></param>
         /// <param name="w"></param>
         /// <param name="flags"></param>
-        public static void Compute(InputArray src, OutputArray w, SVDFlag flags = SVDFlag.None)
+        public static void Compute(InputArray src, OutputArray w, Flags flags = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -239,5 +239,50 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+#if LANG_JP
+   	/// <summary>
+	/// VDの操作フラグ
+	/// </summary>
+#else
+        /// <summary>
+        /// Operation flags for SVD
+        /// </summary>
+#endif
+        [Flags]
+        public enum Flags
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            None = 0,
+
+#if LANG_JP
+		/// <summary>
+		/// 計算中に行列Aの変更を行うことができる．このフラグの指定は処理速度を向上させる．
+		/// </summary>
+#else
+            /// <summary>
+            /// enables modification of matrix src1 during the operation. It speeds up the processing. 
+            /// </summary>
+#endif
+            ModifyA = 1,
+
+            /// <summary>
+            /// indicates that only a vector of singular values `w` is to be processed, 
+            /// while u and vt will be set to empty matrices
+            /// </summary>
+// ReSharper disable once InconsistentNaming
+            NoUV = 2,
+
+            /// <summary>
+            /// when the matrix is not square, by default the algorithm produces u and 
+            /// vt matrices of sufficiently large size for the further A reconstruction; 
+            /// if, however, FULL_UV flag is specified, u and vt will be full-size square 
+            /// orthogonal matrices.
+            /// </summary>
+// ReSharper disable once InconsistentNaming
+            FullUV = 4,
+        }
     }
 }

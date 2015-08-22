@@ -15,6 +15,6 @@ namespace OpenCvSharp
         /// <summary>
         /// [CV_DISPARITY_BIRCHFIELD]
         /// </summary>
-        Birchfield = CvConst.CV_DISPARITY_BIRCHFIELD,
+        Birchfield = 0,
     }
 }
