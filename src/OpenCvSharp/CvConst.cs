@@ -46,9 +46,6 @@ namespace OpenCvSharp
 
         // cvApproxPoly
         public const int CV_POLY_APPROX_DP = 0;
-        // cvLine, cvCircle, ...
-        public const int CV_AA = 16;
-
 
         // cvCalcCoverMatrixEx, cvCalcEigenObjects, ...
         public const int CV_EIGOBJ_NO_CALLBACK = 0;
@@ -61,19 +58,13 @@ namespace OpenCvSharp
         public const int CV_LKFLOW_INITIAL_GUESSES = 4;
         public const int OPTFLOW_USE_INITIAL_FLOW = 4;
         public const int CV_LKFLOW_GET_MIN_EIGENVALS = 8;
-        // cvCalcPCA
-        public const int CV_PCA_DATA_AS_ROW = 0;
-        public const int CV_PCA_DATA_AS_COL = 1;
-        public const int CV_PCA_USE_AVG = 2;
+
         // cvCanny
         public const int CV_SCHARR = -1;
 
         // cvCheckArr
         public const int CV_CHECK_RANGE = 1;
         public const int CV_CHECK_QUIET = 2;
-        // cvConvertImage
-        public const int CV_CVTIMG_FLIP = 1;
-        public const int CV_CVTIMG_SWAP_RB = 2;
 
         // cvConvexHull2
         public const int CV_CLOCKWISE = 1;
@@ -88,47 +79,16 @@ namespace OpenCvSharp
         public const int CV_STEREO_BM_FISH_EYE = 1;
         public const int CV_STEREO_BM_NARROW = 2;
 
-        // cvGet/SetErrMode
-        public const int CV_ErrModeLeaf = 0;
-        public const int CV_ErrModeParent = 1;
-        public const int CV_ErrModeSilent = 2;
-
         // CV_FACE_ELEMENTS
         public const int CV_FACE_MOUTH = 0;
         public const int CV_FACE_LEFT_EYE = 1;
         public const int CV_FACE_RIGHT_EYE = 2;
-        // CvFileNode
-        public const int CV_NODE_NONE = 0;
-        public const int CV_NODE_INT = 1;
-        public const int CV_NODE_INTEGER = CV_NODE_INT;
-        public const int CV_NODE_REAL = 2;
-        public const int CV_NODE_FLOAT = CV_NODE_REAL;
-        public const int CV_NODE_STR = 3;
-        public const int CV_NODE_STRING = CV_NODE_STR;
-        public const int CV_NODE_REF = 4;/* not used */
-        public const int CV_NODE_SEQ = 5;
-        public const int CV_NODE_MAP = 6;
-        public const int CV_NODE_TYPE_MASK = 7;
-        public const int CV_NODE_FLOW = 8; /* Used only for writing structures in YAML format. */
-        public const int CV_NODE_USER = 16;
-        public const int CV_NODE_EMPTY = 32;
-        public const int CV_NODE_NAMED = 64;
+
         // cvFindChessboardCorners
         public const int CV_CALIB_CB_ADAPTIVE_THRESH = 1;
         public const int CV_CALIB_CB_NORMALIZE_IMAGE = 2;
         public const int CV_CALIB_CB_FILTER_QUADS = 4;
-        // cvFindContours
-        public const int CV_CHAIN_CODE = 0;
-        public const int CV_CHAIN_APPROX_NONE = 1;
-        public const int CV_CHAIN_APPROX_SIMPLE = 2;
-        public const int CV_CHAIN_APPROX_TC89_L1 = 3;
-        public const int CV_CHAIN_APPROX_TC89_KCOS = 4;
-        public const int CV_LINK_RUNS = 5;
-        public const int CV_RETR_EXTERNAL = 0,
-            CV_RETR_LIST = 1,
-            CV_RETR_CCOMP = 2,
-            CV_RETR_TREE = 3,
-            CV_RETR_FLOODFILL = 3;
+
         // cvFindDominantPoints
         public const int CV_DOMINANT_IPAN = 1;
         // cvFindFundamentalMat
@@ -149,22 +109,6 @@ namespace OpenCvSharp
         public const int CV_IDP_BIRCHFIELD_PARAM3 = 12;
         public const int CV_IDP_BIRCHFIELD_PARAM4 = 15;
         public const int CV_IDP_BIRCHFIELD_PARAM5 = 25;
-        // cvFloodFill
-        public const int CV_FLOODFILL_FIXED_RANGE = 65536;
-        public const int CV_FLOODFILL_MASK_ONLY = 131072;
-        // cvFontQt
-        public const int CV_FONT_LIGHT = 25;//QFont::Light,
-        public const int CV_FONT_NORMAL = 50;//QFont::Normal,
-        public const int CV_FONT_DEMIBOLD = 63;//QFont::DemiBold,
-        public const int CV_FONT_BOLD = 75;//QFont::Bold,
-        public const int CV_FONT_BLACK = 87;//QFont::Black
-        public const int CV_STYLE_NORMAL = 0;//QFont::StyleNormal,
-        public const int CV_STYLE_ITALIC = 1;//QFont::StyleItalic,
-        public const int CV_STYLE_OBLIQUE = 2;//QFont::StyleOblique
-        // cvGEMM
-        public const int CV_GEMM_A_T = 1;
-        public const int CV_GEMM_B_T = 2;
-        public const int CV_GEMM_C_T = 4;
 
         // CvHaarFeature
         public const int CV_HAAR_FEATURE_MAX = 3;
@@ -177,14 +121,7 @@ namespace OpenCvSharp
         public const int CV_COMP_BHATTACHARYYA = 3;
         // cvHoughCircles
         public const int CV_HOUGH_GRADIENT = 3;
-        // cvHoughLines
-        public const int CV_HOUGH_STANDARD = 0;
-        public const int CV_HOUGH_PROBABILISTIC = 1;
-        public const int CV_HOUGH_MULTI_SCALE = 2;
 
-        // cvInpaint
-        public const int CV_INPAINT_NS = 0;
-        public const int CV_INPAINT_TELEA = 1;
         // cvInvert
         public const int CV_LU = 0;
         public const int CV_SVD = 1;
@@ -193,10 +130,6 @@ namespace OpenCvSharp
         public const int CV_CHOLESKY = 3;
         public const int CV_QR = 4;
         public const int CV_NORMAL = 16;
-        // cvKMeans2
-        public const int KMEANS_RANDOM_CENTERS = 0;
-        public const int KMEANS_USE_INITIAL_LABELS = 1;
-        public const int KMEANS_PP_CENTERS = 2;     // Uses k-Means++ algorithm for initialization
         // cvMatchContourTrees
         public const int CV_CONTOUR_TREES_MATCH_I1 = 1;
         // cvMatchShapes
@@ -204,12 +137,6 @@ namespace OpenCvSharp
         public const int CV_CONTOURS_MATCH_I2 = 2;
         public const int CV_CONTOURS_MATCH_I3 = 3;
 
-        // cvMorphologyEx
-        public const int CV_MOP_OPEN = 2;
-        public const int CV_MOP_CLOSE = 3;
-        public const int CV_MOP_GRADIENT = 4;
-        public const int CV_MOP_TOPHAT = 5;
-        public const int CV_MOP_BLACKHAT = 6;
         // cvMouseCallback
         public const int CV_EVENT_MOUSEMOVE = 0;
         public const int CV_EVENT_LBUTTONDOWN = 1;
@@ -232,34 +159,11 @@ namespace OpenCvSharp
         public const int CV_GUI_EXPANDED = 0;
         public const int CV_GUI_NORMAL = 2;
 
-        // cvNorm
-        public const int CV_C = 1,
-                         CV_L1 = 2,
-                         CV_L2 = 4,
-                         NORM_L2SQR = 5,
-                         NORM_HAMMING = 6,
-                         NORM_HAMMING2 = 7,
-                         CV_NORM_MASK = 7,
-                         CV_RELATIVE = 8,
-                         CV_DIFF = 16,
-                         CV_MINMAX = 32,
-                         CV_DIFF_C = (CV_DIFF | CV_C),
-                         CV_DIFF_L1 = (CV_DIFF | CV_L1),
-                         CV_DIFF_L2 = (CV_DIFF | CV_L2),
-                         CV_RELATIVE_C = (CV_RELATIVE | CV_C),
-                         CV_RELATIVE_L1 = (CV_RELATIVE | CV_L1),
-                         CV_RELATIVE_L2 = (CV_RELATIVE | CV_L2);
-
         // cvPyrDown, PyrUp, ...
         public const int CV_GAUSSIAN_5x5 = 7;
         // cvRandArr
         public const int CV_RAND_UNI = 0;
         public const int CV_RAND_NORMAL = 1;
-        // cvReduce
-        public const int CV_REDUCE_SUM = 0;
-        public const int CV_REDUCE_AVG = 1;
-        public const int CV_REDUCE_MAX = 2;
-        public const int CV_REDUCE_MIN = 3;
 
         // cvStereoRectify
         public const int CV_CALIB_ZERO_DISPARITY = 1024;

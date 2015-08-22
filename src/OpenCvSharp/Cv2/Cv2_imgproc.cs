@@ -584,7 +584,8 @@ namespace OpenCvSharp
         /// <returns>The output vector of lines. Each line is represented by a two-element vector (rho, theta) . 
         /// rho is the distance from the coordinate origin (0,0) (top-left corner of the image) and theta is the line rotation angle in radians</returns>
 #endif
-        public static CvLineSegmentPolar[] HoughLines(InputArray image, double rho, double theta, int threshold, 
+        public static CvLineSegmentPolar[] HoughLines(
+            InputArray image, double rho, double theta, int threshold, 
             double srn = 0, double stn = 0)
         {
             if (image == null)
@@ -622,7 +623,8 @@ namespace OpenCvSharp
         /// <param name="maxLineGap">The maximum allowed gap between points on the same line to link them. [By default this is 0]</param>
         /// <returns>The output lines. Each line is represented by a 4-element vector (x1, y1, x2, y2)</returns>
 #endif
-        public static CvLineSegmentPoint[] HoughLinesP(InputArray image, double rho, double theta, int threshold, 
+        public static CvLineSegmentPoint[] HoughLinesP(
+            InputArray image, double rho, double theta, int threshold, 
             double minLineLength = 0, double maxLineGap = 0)
         {
             if (image == null)
@@ -664,7 +666,8 @@ namespace OpenCvSharp
         /// <param name="maxRadius">Maximum circle radius. [By default this is 0] </param>
         /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
 #endif
-        public static CvCircleSegment[] HoughCircles(InputArray image, HoughCirclesMethod method, double dp, double minDist, 
+        public static CvCircleSegment[] HoughCircles(
+            InputArray image, HoughMethods method, double dp, double minDist, 
             double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
         {
             if (image == null)
@@ -803,7 +806,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
         public static void MorphologyEx(
-            InputArray src, OutputArray dst, MorphologyOperation op, InputArray element,
+            InputArray src, OutputArray dst, MorphTypes op, InputArray element,
             Point? anchor = null, int iterations = 1, 
             BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
@@ -2120,7 +2123,7 @@ namespace OpenCvSharp
         public static int FloodFill(InputOutputArray image,
                                     Point seedPoint, Scalar newVal, out Rect rect,
                                     Scalar? loDiff = null, Scalar? upDiff = null,
-                                    FloodFillFlag flags = FloodFillFlag.Link4)
+                                    FloodFillFlags flags = FloodFillFlags.Link4)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2182,7 +2185,7 @@ namespace OpenCvSharp
         public static int FloodFill(InputOutputArray image, InputOutputArray mask,
                                     Point seedPoint, Scalar newVal, out Rect rect,
                                     Scalar? loDiff = null, Scalar? upDiff = null,
-                                    FloodFillFlag flags = FloodFillFlag.Link4)
+                                    FloodFillFlags flags = FloodFillFlags.Link4)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2543,7 +2546,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
         public static void FindContours(InputOutputArray image, out Point[][] contours,
-            out HierarchyIndex[] hierarchy, ContourRetrieval mode, ContourChain method, Point? offset = null)
+            out HierarchyIndex[] hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2595,7 +2598,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
         public static void FindContours(InputOutputArray image, out Mat[] contours,
-            OutputArray hierarchy, ContourRetrieval mode, ContourChain method, Point? offset = null)
+            OutputArray hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2639,8 +2642,8 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static Point[][] FindContoursAsArray(InputOutputArray image, 
-            ContourRetrieval mode, ContourChain method, Point? offset = null)
+        public static Point[][] FindContoursAsArray(InputOutputArray image,
+            RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2679,8 +2682,8 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static MatOfPoint[] FindContoursAsMat(InputOutputArray image, 
-            ContourRetrieval mode, ContourChain method, Point? offset = null)
+        public static MatOfPoint[] FindContoursAsMat(InputOutputArray image,
+            RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2738,7 +2741,7 @@ namespace OpenCvSharp
             int contourIdx,
             Scalar color,
             int thickness = 1,
-            LineType lineType = LineType.Link8,
+            LineTypes lineType = LineTypes.Link8,
             IEnumerable<HierarchyIndex> hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
@@ -2809,7 +2812,7 @@ namespace OpenCvSharp
             int contourIdx,
             Scalar color,
             int thickness = 1,
-            LineType lineType = LineType.Link8,
+            LineTypes lineType = LineTypes.Link8,
             Mat hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
@@ -3790,5 +3793,545 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             dst.Fix();
         }
+
+        #region Drawing
+        #region Line
+#if LANG_JP
+        /// <summary>
+        /// 2点を結ぶ線分を画像上に描画する．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1X">線分の1番目の端点x</param>
+        /// <param name="pt1Y">線分の1番目の端点y</param>
+        /// <param name="pt2X">線分の2番目の端点x</param>
+        /// <param name="pt2Y">線分の2番目の端点y</param>
+        /// <param name="color">線分の色</param>
+        /// <param name="thickness">線分の太さ. [既定値は1]</param>
+        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a line segment connecting two points
+        /// </summary>
+        /// <param name="img">The image. </param>
+        /// <param name="pt1X">First point's x-coordinate of the line segment. </param>
+        /// <param name="pt1Y">First point's y-coordinate of the line segment. </param>
+        /// <param name="pt2X">Second point's x-coordinate of the line segment. </param>
+        /// <param name="pt2Y">Second point's y-coordinate of the line segment. </param>
+        /// <param name="color">Line color. </param>
+        /// <param name="thickness">Line thickness. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Line(InputOutputArray img, int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            Line(img, new Point(pt1X, pt1Y), new Point(pt2X, pt2Y), color, thickness, lineType, shift);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 2点を結ぶ線分を画像上に描画する．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">線分の1番目の端点</param>
+        /// <param name="pt2">線分の2番目の端点</param>
+        /// <param name="color">線分の色</param>
+        /// <param name="thickness">線分の太さ. [既定値は1]</param>
+        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a line segment connecting two points
+        /// </summary>
+        /// <param name="img">The image. </param>
+        /// <param name="pt1">First point of the line segment. </param>
+        /// <param name="pt2">Second point of the line segment. </param>
+        /// <param name="color">Line color. </param>
+        /// <param name="thickness">Line thickness. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Line(
+            InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfNotReady();
+            NativeMethods.core_line(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+        #endregion
+        #region Rectangle
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">矩形の一つの頂点</param>
+        /// <param name="pt2">矩形の反対側の頂点</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="pt1">One of the rectangle vertices. </param>
+        /// <param name="pt2">Opposite rectangle vertex. </param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle1(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="rect">矩形</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            InputOutputArray img, Rect rect, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle1(img.CvPtr, rect.TopLeft, rect.BottomRight, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">矩形の一つの頂点</param>
+        /// <param name="pt2">矩形の反対側の頂点</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="pt1">One of the rectangle vertices. </param>
+        /// <param name="pt2">Opposite rectangle vertex. </param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            Rect rect = Rect.FromLTRB(pt1.X, pt1.Y, pt2.X, pt2.Y);
+            NativeMethods.core_rectangle2(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            GC.KeepAlive(img);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="rect">矩形</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            Mat img, Rect rect, Scalar color, int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle2(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            GC.KeepAlive(img);
+        }
+
+        #endregion
+        #region Circle
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="img">Image where the circle is drawn. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
+        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
+#endif
+        public static void Circle(InputOutputArray img, int centerX, int centerY, int radius, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            Circle(img, new Point(centerX, centerY), radius, color, thickness, lineType, shift);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="center">円の中心</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="img">Image where the circle is drawn. </param>
+        /// <param name="center">Center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
+        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
+#endif
+        public static void Circle(InputOutputArray img, Point center, int radius, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+            NativeMethods.core_circle(img.CvPtr, center, radius, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+        #endregion
+        #region Ellipse
+#if LANG_JP
+        /// <summary>
+        /// 枠だけの楕円，楕円弧，もしくは塗りつぶされた扇形の楕円を描画する
+        /// </summary>
+        /// <param name="img">楕円が描画される画像</param>
+        /// <param name="center">楕円の中心</param>
+        /// <param name="axes">楕円の軸の長さ</param>
+        /// <param name="angle">回転角度</param>
+        /// <param name="startAngle">楕円弧の開始角度</param>
+        /// <param name="endAngle">楕円弧の終了角度</param>
+        /// <param name="color">楕円の色</param>
+        /// <param name="thickness">楕円弧の線の幅 [既定値は1]</param>
+        /// <param name="lineType">楕円弧の線の種類 [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と軸の長さの小数点以下の桁を表すビット数 [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple or thick elliptic arc or fills ellipse sector
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="center">Center of the ellipse. </param>
+        /// <param name="axes">Length of the ellipse axes. </param>
+        /// <param name="angle">Rotation angle. </param>
+        /// <param name="startAngle">Starting angle of the elliptic arc. </param>
+        /// <param name="endAngle">Ending angle of the elliptic arc. </param>
+        /// <param name="color">Ellipse color. </param>
+        /// <param name="thickness">Thickness of the ellipse arc. [By default this is 1]</param>
+        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
+#endif
+        public static void Ellipse(InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfNotReady();
+            NativeMethods.core_ellipse(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠だけの楕円，もしくは塗りつぶされた楕円を描画する
+        /// </summary>
+        /// <param name="img">楕円が描かれる画像．</param>
+        /// <param name="box">描画したい楕円を囲む矩形領域．</param>
+        /// <param name="color">楕円の色．</param>
+        /// <param name="thickness">楕円境界線の幅．[既定値は1]</param>
+        /// <param name="lineType">楕円境界線の種類．[既定値はLineType.Link8]</param>
+#else
+        /// <summary>
+        /// Draws simple or thick elliptic arc or fills ellipse sector
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="box">The enclosing box of the ellipse drawn </param>
+        /// <param name="color">Ellipse color. </param>
+        /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
+        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
+#endif
+        public static void Ellipse(InputOutputArray img, RotatedRect box, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+            NativeMethods.core_ellipse(img.CvPtr, box, color, thickness, (int)lineType);
+            img.Fix();
+        }
+        #endregion
+        #region FillConvexPoly
+#if LANG_JP
+        /// <summary>
+        /// 塗りつぶされた凸ポリゴンを描きます．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pts">ポリゴンの頂点．</param>
+        /// <param name="color">ポリゴンの色．</param>
+        /// <param name="lineType">ポリゴンの枠線の種類，</param>
+        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
+#else
+        /// <summary>
+        /// Fills a convex polygon.
+        /// </summary>
+        /// <param name="img">Image</param>
+        /// <param name="pts">The polygon vertices</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+#endif
+        public static void FillConvexPoly(Mat img, IEnumerable<Point> pts, Scalar color,
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+
+            Point[] ptsArray = EnumerableEx.ToArray(pts);
+            NativeMethods.core_fillConvexPoly(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
+            GC.KeepAlive(img);
+        }
+        #endregion
+        #region FillPoly
+#if LANG_JP
+        /// <summary>
+        /// 1つ，または複数のポリゴンで区切られた領域を塗りつぶします．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pts">ポリゴンの配列．各要素は，点の配列で表現されます．</param>
+        /// <param name="color">ポリゴンの色．</param>
+        /// <param name="lineType">ポリゴンの枠線の種類，</param>
+        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
+        /// <param name="offset"></param>
+#else
+        /// <summary>
+        /// Fills the area bounded by one or more polygons
+        /// </summary>
+        /// <param name="img">Image</param>
+        /// <param name="pts">Array of polygons, each represented as an array of points</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+        /// <param name="offset"></param>
+#endif
+        public static void FillPoly(InputOutputArray img, IEnumerable<IEnumerable<Point>> pts, Scalar color,
+            LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+            Point offset0 = offset.GetValueOrDefault(new Point());
+
+            List<Point[]> ptsList = new List<Point[]>();
+            List<int> nptsList = new List<int>();
+            foreach (IEnumerable<Point> pts1 in pts)
+            {
+                Point[] pts1Arr = EnumerableEx.ToArray(pts1);
+                ptsList.Add(pts1Arr);
+                nptsList.Add(pts1Arr.Length);
+            }
+            Point[][] ptsArr = ptsList.ToArray();
+            int[] npts = nptsList.ToArray();
+            int ncontours = ptsArr.Length;
+            using (var ptsPtr = new ArrayAddress2<Point>(ptsArr))
+            {
+                NativeMethods.core_fillPoly(img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int)lineType, shift, offset0);
+            }
+            img.Fix();
+        }
+        #endregion
+        #region Polylines
+        /// <summary>
+        /// draws one or more polygonal curves
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="pts"></param>
+        /// <param name="isClosed"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="shift"></param>
+        public static void Polylines(InputOutputArray img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+
+            List<Point[]> ptsList = new List<Point[]>();
+            List<int> nptsList = new List<int>();
+            foreach (IEnumerable<Point> pts1 in pts)
+            {
+                Point[] pts1Arr = EnumerableEx.ToArray(pts1);
+                ptsList.Add(pts1Arr);
+                nptsList.Add(pts1Arr.Length);
+            }
+            Point[][] ptsArr = ptsList.ToArray();
+            int[] npts = nptsList.ToArray();
+            int ncontours = ptsArr.Length;
+            using (ArrayAddress2<Point> ptsPtr = new ArrayAddress2<Point>(ptsArr))
+            {
+                NativeMethods.core_polylines(img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
+            }
+            img.Fix();
+        }
+        #endregion
+        #region ClipLine
+#if LANG_JP
+        /// <summary>
+        /// 線分が画像矩形内に収まるように切り詰めます．
+        /// </summary>
+        /// <param name="imgSize">画像サイズ．</param>
+        /// <param name="pt1">線分の1番目の端点．</param>
+        /// <param name="pt2">線分の2番目の端点．</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Clips the line against the image rectangle
+        /// </summary>
+        /// <param name="imgSize">The image size</param>
+        /// <param name="pt1">The first line point</param>
+        /// <param name="pt2">The second line point</param>
+        /// <returns></returns>
+#endif
+        public static bool ClipLine(Size imgSize, ref Point pt1, ref Point pt2)
+        {
+            return NativeMethods.core_clipLine(imgSize, ref pt1, ref pt2) != 0;
+        }
+#if LANG_JP
+        /// <summary>
+        /// 線分が画像矩形内に収まるように切り詰めます．
+        /// </summary>
+        /// <param name="imgRect">画像矩形．</param>
+        /// <param name="pt1">線分の1番目の端点．</param>
+        /// <param name="pt2">線分の2番目の端点．</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Clips the line against the image rectangle
+        /// </summary>
+        /// <param name="imgRect">sThe image rectangle</param>
+        /// <param name="pt1">The first line point</param>
+        /// <param name="pt2">The second line point</param>
+        /// <returns></returns>
+#endif
+        public static bool ClipLine(Rect imgRect, ref Point pt1, ref Point pt2)
+        {
+            return NativeMethods.core_clipLine(imgRect, ref pt1, ref pt2) != 0;
+        }
+        #endregion
+        #region PutText
+        /// <summary>
+        /// renders text string in the image
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="text"></param>
+        /// <param name="org"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="bottomLeftOrigin"></param>
+        public static void PutText(InputOutputArray img, string text, Point org,
+            HersheyFonts fontFace, double fontScale, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, bool bottomLeftOrigin = false)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (String.IsNullOrEmpty(text))
+                throw new ArgumentNullException(text);
+            img.ThrowIfDisposed();
+            NativeMethods.core_putText(img.CvPtr, text, org, (int)fontFace, fontScale, color,
+                thickness, (int)lineType, bottomLeftOrigin ? 1 : 0);
+            img.Fix();
+        }
+        #endregion
+        #region GetTextSize
+        /// <summary>
+        /// returns bounding box of the text string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="thickness"></param>
+        /// <param name="baseLine"></param>
+        /// <returns></returns>
+        public static Size GetTextSize(string text, HersheyFonts fontFace,
+            double fontScale, int thickness, out int baseLine)
+        {
+            if (String.IsNullOrEmpty(text))
+                throw new ArgumentNullException(text);
+            return NativeMethods.core_getTextSize(text, (int)fontFace, fontScale, thickness, out baseLine);
+        }
+        #endregion
+        #endregion     
     }
 }

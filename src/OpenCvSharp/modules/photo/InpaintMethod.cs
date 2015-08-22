@@ -23,7 +23,8 @@ namespace OpenCvSharp
         /// [CV_INPAINT_NS]
         /// </summary>
 #endif
-        NS = CvConst.CV_INPAINT_NS,
+// ReSharper disable once InconsistentNaming
+        NS = 0,
 
 
 #if LANG_JP
@@ -37,6 +38,6 @@ namespace OpenCvSharp
         /// [CV_INPAINT_TELEA]
         /// </summary>
 #endif
-        Telea = CvConst.CV_INPAINT_TELEA,
+        Telea = 1,
     }
 }

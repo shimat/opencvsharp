@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum FloodFillFlag : int
+    public enum FloodFillFlags : int
     {
 #if LANG_JP
 		/// <summary>
@@ -51,7 +51,7 @@ namespace OpenCvSharp
         /// [CV_FLOODFILL_FIXED_RANGE]
         /// </summary>
 #endif
-        FixedRange = CvConst.CV_FLOODFILL_FIXED_RANGE,
+        FixedRange = 1 << 16,
 
 
 #if LANG_JP
@@ -65,6 +65,6 @@ namespace OpenCvSharp
         /// [CV_FLOODFILL_MASK_ONLY]
         /// </summary>
 #endif
-        MaskOnly = CvConst.CV_FLOODFILL_MASK_ONLY,
+        MaskOnly = 1 << 17,
     }
 }
