@@ -126,7 +126,7 @@ namespace OpenCvSharp
         /// <param name="normType">Type of the norm</param>
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
-        public double Norm(NormType normType = NormType.L2, InputArray mask = null)
+        public double Norm(NormTypes normType = NormTypes.L2, InputArray mask = null)
         {
             return Cv2.Norm(this, normType, mask);
         }
@@ -146,7 +146,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
         public Mat Normalize(double alpha = 1, double beta = 0,
-            NormType normType = NormType.L2, int dtype = -1, InputArray mask = null)
+            NormTypes normType = NormTypes.L2, int dtype = -1, InputArray mask = null)
         {
             var dst = new Mat();
             Cv2.Normalize(this, dst, alpha, beta, normType, dtype, mask);
@@ -230,7 +230,7 @@ namespace OpenCvSharp
         /// <param name="dtype">When it is negative, the destination vector will have 
         /// the same type as the source matrix, otherwise, its type will be CV_MAKE_TYPE(CV_MAT_DEPTH(dtype), mtx.channels())</param>
         /// <returns></returns>
-        public Mat Reduce(ReduceDimension dim, ReduceOperation rtype, int dtype)
+        public Mat Reduce(ReduceDimension dim, ReduceTypes rtype, int dtype)
         {
             var dst = new Mat();
             Cv2.Reduce(this, dst, dim, rtype, dtype);
@@ -665,7 +665,7 @@ namespace OpenCvSharp
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
         public void Line(int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.Line(this, pt1X, pt1Y, pt2X, pt2Y, color, thickness, lineType, shift);
         }
@@ -691,8 +691,9 @@ namespace OpenCvSharp
         /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public void Line(Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8,
-            int shift = 0)
+        public void Line(
+            Point pt1, Point pt2, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.Line(this, pt1, pt2, color, thickness, lineType, shift);
         }
@@ -722,8 +723,9 @@ namespace OpenCvSharp
         /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public void Rectangle(Point pt1, Point pt2, Scalar color, int thickness = 1, LineType lineType = LineType.Link8,
-            int shift = 0)
+        public void Rectangle(
+            Point pt1, Point pt2, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.Rectangle(this, pt1, pt2, color, thickness, lineType, shift);
         }
@@ -747,8 +749,9 @@ namespace OpenCvSharp
         /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
-        public void Rectangle(Rect rect, Scalar color, int thickness = 1, LineType lineType = LineType.Link8,
-            int shift = 0)
+        public void Rectangle(
+            Rect rect, Scalar color, int thickness = 1,
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.Rectangle(this, rect, color, thickness, lineType, shift);
         }
@@ -781,7 +784,7 @@ namespace OpenCvSharp
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
 #endif
         public void Circle(int centerX, int centerY, int radius, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.Circle(this, centerX, centerY, radius, color, thickness, lineType, shift);
         }
@@ -808,7 +811,7 @@ namespace OpenCvSharp
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
 #endif
         public void Circle(Point center, int radius, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.Circle(this, center, radius, color, thickness, lineType, shift);
         }
@@ -844,8 +847,9 @@ namespace OpenCvSharp
         /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
 #endif
-        public void Ellipse(Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+        public void Ellipse(
+            Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.Ellipse(this, center, axes, angle, startAngle, endAngle, color, thickness, lineType, shift);
         }
@@ -868,7 +872,7 @@ namespace OpenCvSharp
         /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
 #endif
         public void Ellipse(RotatedRect box, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8)
+            int thickness = 1, LineTypes lineType = LineTypes.Link8)
         {
             Cv2.Ellipse(this, box, color, thickness, lineType);
         }
@@ -895,7 +899,7 @@ namespace OpenCvSharp
         /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
 #endif
         public void FillConvexPoly(IEnumerable<Point> pts, Scalar color,
-            LineType lineType = LineType.Link8, int shift = 0)
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.FillConvexPoly(this, pts, color, lineType, shift);
         }
@@ -924,7 +928,7 @@ namespace OpenCvSharp
         /// <param name="offset"></param>
 #endif
         public void FillPoly(IEnumerable<IEnumerable<Point>> pts, Scalar color,
-            LineType lineType = LineType.Link8, int shift = 0, Point? offset = null)
+            LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
         {
             Cv2.FillPoly(this, pts, color, lineType, shift, offset);
         }
@@ -943,7 +947,7 @@ namespace OpenCvSharp
         /// <param name="lineType"></param>
         /// <param name="shift"></param>
         public void Polylines(IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
-            int thickness = 1, LineType lineType = LineType.Link8, int shift = 0)
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Cv2.Polylines(this, pts, isClosed, color, thickness, lineType, shift);
         }
@@ -966,7 +970,7 @@ namespace OpenCvSharp
         public void PutText(string text, Point org,
             HersheyFonts fontFace, double fontScale, Scalar color,
             int thickness = 1,
-            LineType lineType = LineType.Link8,
+            LineTypes lineType = LineTypes.Link8,
             bool bottomLeftOrigin = false)
         {
             Cv2.PutText(this, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin);
@@ -1464,7 +1468,7 @@ namespace OpenCvSharp
         /// <param name="maxRadius">Maximum circle radius. [By default this is 0] </param>
         /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
 #endif
-        public CvCircleSegment[] HoughCircles(HoughCirclesMethod method, double dp, double minDist,
+        public CvCircleSegment[] HoughCircles(HoughMethods method, double dp, double minDist,
             double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
         {
             return Cv2.HoughCircles(this, method, dp, minDist, param1, param2, minRadius, maxRadius);
@@ -1551,7 +1555,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>Destination image. It will have the same size and the same type as src</returns>
 #endif
-        public Mat MorphologyEx(MorphologyOperation op, InputArray element,
+        public Mat MorphologyEx(MorphTypes op, InputArray element,
             Point? anchor = null, int iterations = 1, BorderTypes borderType = BorderTypes.Constant,
             Scalar? borderValue = null)
         {
@@ -1909,7 +1913,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int FloodFill(
             Point seedPoint, Scalar newVal, out Rect rect, Scalar? loDiff = null, Scalar? upDiff = null,
-            FloodFillFlag flags = FloodFillFlag.Link4)
+            FloodFillFlags flags = FloodFillFlags.Link4)
         {
             return Cv2.FloodFill(this, seedPoint, newVal, out rect,
                 loDiff, upDiff, flags);
@@ -1961,7 +1965,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int FloodFill(InputOutputArray mask, Point seedPoint, Scalar newVal, 
             out Rect rect, Scalar? loDiff = null, Scalar? upDiff = null,
-            FloodFillFlag flags = FloodFillFlag.Link4)
+            FloodFillFlags flags = FloodFillFlags.Link4)
         {
             return Cv2.FloodFill(this, mask, seedPoint,
                 newVal, out rect, loDiff, upDiff, flags);
@@ -2154,8 +2158,8 @@ namespace OpenCvSharp
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public void FindContours(out Point[][] contours, out HierarchyIndex[] hierarchy, 
-            ContourRetrieval mode, ContourChain method, Point? offset = null)
+        public void FindContours(out Point[][] contours, out HierarchyIndex[] hierarchy,
+            RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             Cv2.FindContours(this, out contours, out hierarchy, mode, method, offset);
         }
@@ -2191,8 +2195,8 @@ namespace OpenCvSharp
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public void FindContours(out Mat[] contours, OutputArray hierarchy, 
-            ContourRetrieval mode, ContourChain method, Point? offset = null)
+        public void FindContours(out Mat[] contours, OutputArray hierarchy,
+            RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             Cv2.FindContours(this, out contours, hierarchy, mode, method, offset);
         }
@@ -2219,7 +2223,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public Point[][] FindContoursAsArray(ContourRetrieval mode, ContourChain method, Point? offset = null)
+        public Point[][] FindContoursAsArray(RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             return Cv2.FindContoursAsArray(this, mode, method, offset);
         }
@@ -2245,7 +2249,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public MatOfPoint[] FindContoursAsMat(ContourRetrieval mode, ContourChain method, Point? offset = null)
+        public MatOfPoint[] FindContoursAsMat(RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             return Cv2.FindContoursAsMat(this, mode, method, offset);
         }
@@ -2287,7 +2291,7 @@ namespace OpenCvSharp
             int contourIdx,
             Scalar color,
             int thickness = 1,
-            LineType lineType = LineType.Link8,
+            LineTypes lineType = LineTypes.Link8,
             IEnumerable<HierarchyIndex> hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
@@ -2336,7 +2340,7 @@ namespace OpenCvSharp
             int contourIdx,
             Scalar color,
             int thickness = 1,
-            LineType lineType = LineType.Link8,
+            LineTypes lineType = LineTypes.Link8,
             Mat hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)

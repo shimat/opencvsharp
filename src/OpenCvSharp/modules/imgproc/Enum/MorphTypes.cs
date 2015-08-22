@@ -12,8 +12,18 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum MorphologyOperation : int
+    public enum MorphTypes : int
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        ERODE = 0,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        DILATE = 1, 
+
 #if LANG_JP
 		/// <summary>
 		/// オープニング [CV_MOP_OPEN].
@@ -22,10 +32,9 @@ namespace OpenCvSharp
 #else
         /// <summary>
         /// Opening 
-        /// [CV_MOP_OPEN]
         /// </summary>
 #endif
-        Open = CvConst.CV_MOP_OPEN,
+        Open = 2,
 
 
 #if LANG_JP
@@ -36,10 +45,9 @@ namespace OpenCvSharp
 #else
         /// <summary>
         /// Closing
-        /// [CV_MOP_CLOSE]
         /// </summary>
 #endif
-        Close = CvConst.CV_MOP_CLOSE,
+        Close = 3,
 
 
 #if LANG_JP
@@ -50,10 +58,9 @@ namespace OpenCvSharp
 #else
         /// <summary>
         /// Morphological gradient
-        /// [CV_MOP_GRADIENT]
         /// </summary>
 #endif
-        Gradient = CvConst.CV_MOP_GRADIENT,
+        Gradient = 4,
 
 
 #if LANG_JP
@@ -64,10 +71,9 @@ namespace OpenCvSharp
 #else
         /// <summary>
         /// "Top hat"
-        /// [CV_MOP_TOPHAT]
         /// </summary>
 #endif
-        TopHat = CvConst.CV_MOP_TOPHAT,
+        TopHat = 5,
 
 
 #if LANG_JP
@@ -78,9 +84,8 @@ namespace OpenCvSharp
 #else
         /// <summary>
         /// "Black hat"
-        /// [CV_MOP_BLACKHAT]
         /// </summary>
 #endif
-        BlackHat = CvConst.CV_MOP_BLACKHAT,
+        BlackHat = 6,
     }
 }

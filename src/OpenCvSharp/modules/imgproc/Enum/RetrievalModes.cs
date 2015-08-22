@@ -7,25 +7,23 @@ namespace OpenCvSharp
 	/// </summary>
 #else
     /// <summary>
-    /// Approximation methods for cvFindContours
+    /// mode of the contour retrieval algorithm
     /// </summary>
 #endif
-    public enum ContourRetrieval : int
+    public enum RetrievalModes : int
     {
 #if LANG_JP
 		/// <summary>
 		/// 最も外側の輪郭のみ抽出 
-        /// [CV_RETR_EXTERNAL]
 		/// </summary>
 #else
         /// <summary>
-        /// Retrieve only the extreme outer contours 
-        /// [CV_RETR_EXTERNAL]
+        /// retrieves only the extreme outer contours. 
+        /// It sets `hierarchy[i][2]=hierarchy[i][3]=-1` for all the contours.
         /// </summary>
 #endif
-        External = CvConst.CV_RETR_EXTERNAL,
-
-
+        External = 0,
+        
 #if LANG_JP
 		/// <summary>
 		/// 全ての輪郭を抽出し，リストに追加 
@@ -33,39 +31,38 @@ namespace OpenCvSharp
 		/// </summary>
 #else
         /// <summary>
-        /// Retrieve all the contours and puts them in the list 
-        /// [CV_RETR_LIST]
+        /// retrieves all of the contours without establishing any hierarchical relationships.
         /// </summary>
 #endif
-        List = CvConst.CV_RETR_LIST,
+        List = 1,
 
 
 #if LANG_JP
 		/// <summary>
 		/// 全ての輪郭を抽出し，二つのレベルを持つ階層構造を構成する．1番目のレベルは連結成分の外側の境界線，2番目のレベルは穴（連結成分の内側に存在する）の境界線 
-        /// [CV_RETR_CCOMP]
 		/// </summary>
 #else
         /// <summary>
-        /// Retrieve all the contours and organizes them into two-level hierarchy: top level are external boundaries of the components, second level are boundaries of the holes 
-        /// [CV_RETR_CCOMP]
+        /// retrieves all of the contours and organizes them into a two-level hierarchy. 
+        /// At the top level, there are external boundaries of the components. 
+        /// At the second level, there are boundaries of the holes. If there is another 
+        /// contour inside a hole of a connected component, it is still put at the top level.
         /// </summary>
 #endif
-        CComp = CvConst.CV_RETR_CCOMP,
+        CComp = 2,
 
 
 #if LANG_JP
 		/// <summary>
 		/// 全ての輪郭を抽出し，枝分かれした輪郭を完全に表現する階層構造を構成する 
-        /// [CV_RETR_TREE]
 		/// </summary>
 #else
         /// <summary>
-        /// Retrieve all the contours and reconstructs the full hierarchy of nested contours 
-        /// [CV_RETR_TREE]
+        /// retrieves all of the contours and reconstructs a full hierarchy 
+        /// of nested contours.
         /// </summary>
 #endif
-        Tree = CvConst.CV_RETR_TREE,
+        Tree = 3,
 
 
 #if LANG_JP
@@ -76,9 +73,8 @@ namespace OpenCvSharp
 #else
         /// <summary>
         /// 
-        /// [CV_RETR_FLOODFILL]
         /// </summary>
 #endif
-        FloodFill = CvConst.CV_RETR_FLOODFILL,
+        FloodFill = 4,
     }
 }
