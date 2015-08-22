@@ -5,9 +5,9 @@
 namespace OpenCvSharp
 {
     /// <summary>
-    /// Flags for applyColorMap
+    /// GNU Octave/MATLAB equivalent colormaps
     /// </summary>
-    public enum ColorMapMode : int
+    public enum ColormapTypes : int
     {
         Autumn = 0,
         Bone = 1,

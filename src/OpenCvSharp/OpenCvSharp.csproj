@@ -86,6 +86,7 @@
     <Compile Include="Cv2\Cv2_face.cs" />
     <Compile Include="Cv2\Cv2_video.cs" />
     <Compile Include="Cv2\Cv2_superres.cs" />
+    <Compile Include="Modules\core\Enum\CriteriaType.cs" />
     <Compile Include="Modules\features2d\AgastFeatureDetector.cs" />
     <Compile Include="Modules\features2d\KeyPointsFilter.cs" />
     <Compile Include="Modules\features2d\Enum\FASTType.cs" />
@@ -117,6 +118,8 @@
     <Compile Include="DisposableCvObject.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="Modules\imgproc\ConnectedComponent.cs" />
+    <Compile Include="Modules\imgproc\Enum\GrabCutClasses.cs" />
+    <Compile Include="Modules\imgproc\Enum\RectanglesIntersectTypes.cs" />
     <Compile Include="Modules\ml\LogisticRegression.cs" />
     <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
@@ -142,13 +145,11 @@
     <Compile Include="PInvoke\NativeMethods_videoio.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
     <Compile Include="Modules\imgproc\Enum\AdaptiveThresholdTypes.cs" />
-    <Compile Include="Enum\AngleUnit.cs" />
-    <Compile Include="Enum\ApertureSize.cs" />
     <Compile Include="Enum\ApproxPolyMethod.cs" />
     <Compile Include="Modules\core\Enum\CmpTypes.cs" />
     <Compile Include="Modules\imgproc\Enum\BorderTypes.cs" />
     <Compile Include="Enum\ButtonType.cs" />
-    <Compile Include="Enum\CalibrationFlag.cs" />
+    <Compile Include="Modules\calib3d\Enum\CalibrationFlag.cs" />
     <Compile Include="Enum\CameraChannels.cs" />
     <Compile Include="Enum\CaptureDevice.cs" />
     <Compile Include="Enum\CapturePosRatio.cs" />
@@ -162,11 +163,10 @@
     <Compile Include="Enum\ContourTreesMatchMethod.cs" />
     <Compile Include="Enum\ConvertImageFlag.cs" />
     <Compile Include="Enum\ConvexHullOrientation.cs" />
-    <Compile Include="Enum\CovarMatrixFlag.cs" />
-    <Compile Include="Enum\CriteriaType.cs" />
+    <Compile Include="Modules\core\Enum\CovarFlags.cs" />
     <Compile Include="Enum\CvFaceElements.cs" />
     <Compile Include="Enum\CvFilter.cs" />
-    <Compile Include="Enum\CvStatus.cs" />
+    <Compile Include="Modules\core\Enum\ErrorCode.cs" />
     <Compile Include="Modules\core\Enum\DctFlags.cs" />
     <Compile Include="Modules\core\Enum\DftFlags.cs" />
     <Compile Include="Enum\DiagType.cs" />
@@ -176,9 +176,8 @@
     <Compile Include="Modules\imgproc\Enum\DistanceTransformLabelTypes.cs" />
     <Compile Include="Enum\DominantsFlag.cs" />
     <Compile Include="Enum\EigenObjectsIOFlag.cs" />
-    <Compile Include="Enum\ElementShape.cs" />
+    <Compile Include="Modules\imgproc\Enum\MorphShapes.cs" />
     <Compile Include="Enum\ErrMode.cs" />
-    <Compile Include="Enum\FileStorageMode.cs" />
     <Compile Include="Enum\FlipMode.cs" />
     <Compile Include="Enum\FloodFillFlag.cs" />
     <Compile Include="Modules\core\Enum\HersheyFonts.cs" />
@@ -215,8 +214,7 @@
     <Compile Include="Enum\ReduceDimension.cs" />
     <Compile Include="Enum\ReduceOperation.cs" />
     <Compile Include="Enum\RotateEdgeFlag.cs" />
-    <Compile Include="Enum\SmoothType.cs" />
-    <Compile Include="Enum\SortFlag.cs" />
+    <Compile Include="Modules\core\Enum\SortFlags.cs" />
     <Compile Include="Enum\StereoBMPreset.cs" />
     <Compile Include="Enum\StereoRectificationFlag.cs" />
     <Compile Include="Enum\SvdFlag.cs" />
@@ -249,7 +247,7 @@
     <Compile Include="Modules\core\Struct\Rectf.cs" />
     <Compile Include="Modules\features2d\FlannBasedMatcher.cs" />
     <Compile Include="Modules\highgui\CvTrackbar.cs" />
-    <Compile Include="Modules\imgproc\Enum\ColorMapMode.cs" />
+    <Compile Include="Modules\imgproc\Enum\ColormapTypes.cs" />
     <Compile Include="Modules\video\BackgroundSubtractorKNN.cs" />
     <Compile Include="Modules\xfeatures2d\BriefDescriptorExtractor.cs" />
     <Compile Include="Modules\flann\FlannDistance.cs" />
@@ -268,7 +266,7 @@
     <Compile Include="Modules\features2d\Enum\DrawMatchesFlags.cs" />
     <Compile Include="Modules\features2d\Enum\ORBScore.cs" />
     <Compile Include="Modules\imgproc\Enum\ProjectionType.cs" />
-    <Compile Include="Modules\imgproc\Enum\GrabCutFlag.cs" />
+    <Compile Include="Modules\imgproc\Enum\GrabCutModes.cs" />
     <Compile Include="Modules\imgproc\Enum\DistanceMaskSize.cs" />
     <Compile Include="Modules\core\Enum\AlgorithmParamType.cs" />
     <Compile Include="Modules\core\SparseMatIndexer.cs" />

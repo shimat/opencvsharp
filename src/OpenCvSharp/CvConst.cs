@@ -48,29 +48,8 @@ namespace OpenCvSharp
         public const int CV_POLY_APPROX_DP = 0;
         // cvLine, cvCircle, ...
         public const int CV_AA = 16;
-        // cvCalibrateCamera2        
-        public const int CV_CALIB_USE_INTRINSIC_GUESS = 1;
-        public const int CV_CALIB_FIX_ASPECT_RATIO = 2;
-        public const int CV_CALIB_FIX_PRINCIPAL_POINT = 4;
-        public const int CV_CALIB_ZERO_TANGENT_DIST = 8;
-        public const int CV_CALIB_FIX_FOCAL_LENGTH = 16;
-        public const int CV_CALIB_FIX_K1 = 32;
-        public const int CV_CALIB_FIX_K2 = 64;
-        public const int CV_CALIB_FIX_K3 = 128;
-        public const int CV_CALIB_FIX_INTRINSIC = 256;
-        public const int CV_CALIB_SAME_FOCAL_LENGTH = 512;
-        public const int CV_CALIB_FIX_K4 = 2048;
-        public const int CV_CALIB_FIX_K5 = 4096;
-        public const int CV_CALIB_FIX_K6 = 8192;
-        public const int CV_CALIB_RATIONAL_MODEL = 16384;
 
-        // cvCalcCoverMatrix
-        public const int CV_COVAR_SCRAMBLED = 0;
-        public const int CV_COVAR_NORMAL = 1;
-        public const int CV_COVAR_USE_AVG = 2;
-        public const int CV_COVAR_SCALE = 4;
-        public const int CV_COVAR_ROWS = 8;
-        public const int CV_COVAR_COLS = 16;
+
         // cvCalcCoverMatrixEx, cvCalcEigenObjects, ...
         public const int CV_EIGOBJ_NO_CALLBACK = 0;
         public const int CV_EIGOBJ_INPUT_CALLBACK = 1;
@@ -108,64 +87,6 @@ namespace OpenCvSharp
         public const int CV_STEREO_BM_BASIC = 0;
         public const int CV_STEREO_BM_FISH_EYE = 1;
         public const int CV_STEREO_BM_NARROW = 2;
-        // cvCreateStructuringElementEx
-        public const int CV_SHAPE_CROSS = 1;
-        public const int CV_SHAPE_CUSTOM = 100;
-        public const int CV_SHAPE_ELLIPSE = 2;
-        public const int CV_SHAPE_RECT = 0;
-
-        // cvError
-        public const int CV_StsOk = 0;	/* everithing is ok                */
-        public const int CV_StsBackTrace = -1;	/* pseudo error for back trace     */
-        public const int CV_StsError = -2;		/* unknown /unspecified error      */
-        public const int CV_StsInternal = -3;	/* internal error (bad state)      */
-        public const int CV_StsNoMem = -4;		/* insufficient memory             */
-        public const int CV_StsBadArg = -5;		/* function arg_param is bad       */
-        public const int CV_StsBadFunc = -6;		/* unsupported function            */
-        public const int CV_StsNoConv = -7;		/* iter. didn't converge           */
-        public const int CV_StsAutoTrace = -8;	/* tracing                         */
-
-        public const int CV_HeaderIsNull = -9;	/* image header is NULL            */
-        public const int CV_BadImageSize = -10;	/* image size is invalid           */
-        public const int CV_BadOffset = -11;		/* offset is invalid               */
-        public const int CV_BadDataPtr = -12;		/**/
-        public const int CV_BadStep = -13;	/**/
-        public const int CV_BadModelOrChSeq = -14; /**/
-        public const int CV_BadNumChannels = -15;	/**/
-        public const int CV_BadNumChannel1U = -16; /**/
-        public const int CV_BadDepth = -17;		/**/
-        public const int CV_BadAlphaChannel = -18; /**/
-        public const int CV_BadOrder = -19;		/**/
-        public const int CV_BadOrigin = -20;		/**/
-        public const int CV_BadAlign = -21;		/**/
-        public const int CV_BadCallBack = -22;		/**/
-        public const int CV_BadTileSize = -23;		/**/
-        public const int CV_BadCOI = -24;	/**/
-        public const int CV_BadROISize = -25;		/**/
-
-        public const int CV_MaskIsTiled = -26;		/**/
-
-        public const int CV_StsNullPtr = -27;		/* null pointer */
-        public const int CV_StsVecLengthErr = -28;	/* incorrect vector length */
-        public const int CV_StsFilterStructContentErr = -29; /* incorr. filter structure content */
-        public const int CV_StsKernelStructContentErr = -30; /* incorr. transform kernel content */
-        public const int CV_StsFilterOffsetErr = -31;		/* incorrect filter ofset value */
-
-        /*extra for CV */
-        public const int CV_StsBadSize = -201;		/* the input/output structure size is incorrect  */
-        public const int CV_StsDivByZero = -202;	/* division by zero */
-        public const int CV_StsInplaceNotSupported = -203; /* inplace operation is not supported */
-        public const int CV_StsObjectNotFound = -204;		/* request can't be completed */
-        public const int CV_StsUnmatchedFormats = -205;	/* formats of input/output arrays differ */
-        public const int CV_StsBadFlag = -206;		/* flag is wrong or not supported */
-        public const int CV_StsBadPoint = -207;	/* bad CvPoint */
-        public const int CV_StsBadMask = -208;		/* bad format of mask (neither 8uC1 nor 8sC1)*/
-        public const int CV_StsUnmatchedSizes = -209;		/* sizes of input/output structures do not match */
-        public const int CV_StsUnsupportedFormat = -210;	/* the data format/type is not supported by the function*/
-        public const int CV_StsOutOfRange = -211;	/* some of parameters are out of range */
-        public const int CV_StsParseError = -212;	/* invalid syntax/structure of the parsed file */
-        public const int CV_StsNotImplemented = -213;		/* the requested function/feature is not implemented */
-        public const int CV_StsBadMemBlock = -214;	/* an allocated block has been corrupted */
 
         // cvGet/SetErrMode
         public const int CV_ErrModeLeaf = 0;
@@ -328,17 +249,7 @@ namespace OpenCvSharp
                          CV_RELATIVE_C = (CV_RELATIVE | CV_C),
                          CV_RELATIVE_L1 = (CV_RELATIVE | CV_L1),
                          CV_RELATIVE_L2 = (CV_RELATIVE | CV_L2);
-        // cvOpenFileStorage
-        public const int CV_STORAGE_READ = 0;
-        public const int CV_STORAGE_WRITE = 1;
-        public const int CV_STORAGE_WRITE_TEXT = 1;
-        public const int CV_STORAGE_WRITE_BINARY = 1;
-        public const int CV_STORAGE_APPEND = 2;
-        public const int CV_STORAGE_MEMORY = 4;
-        public const int CV_STORAGE_FORMAT_MASK = (7 << 3);
-        public const int CV_STORAGE_FORMAT_AUTO = 0;
-        public const int CV_STORAGE_FORMAT_XML = 8;
-        public const int CV_STORAGE_FORMAT_YAML = 16;
+
         // cvPyrDown, PyrUp, ...
         public const int CV_GAUSSIAN_5x5 = 7;
         // cvRandArr
@@ -350,20 +261,6 @@ namespace OpenCvSharp
         public const int CV_REDUCE_MAX = 2;
         public const int CV_REDUCE_MIN = 3;
 
-        // cvSmooth
-        public const int CV_BLUR_NO_SCALE = 0;
-        public const int CV_BLUR = 1;
-        public const int CV_GAUSSIAN = 2;
-        public const int CV_MEDIAN = 3;
-        public const int CV_BILATERAL = 4;
-        // cvSnakeImage
-        public const int CV_VALUE = 1;
-        public const int CV_ARRAY = 2;
-        // cvSort
-        public const int CV_SORT_EVERY_ROW = 0;
-        public const int CV_SORT_EVERY_COLUMN = 1;
-        public const int CV_SORT_ASCENDING = 0;
-        public const int CV_SORT_DESCENDING = 16;
         // cvStereoRectify
         public const int CV_CALIB_ZERO_DISPARITY = 1024;
 
@@ -371,9 +268,6 @@ namespace OpenCvSharp
         public const int CV_SVD_MODIFY_A = 1;
         public const int CV_SVD_U_T = 2;
         public const int CV_SVD_V_T = 4;
-        // CvTermCriteria
-        public const int CV_TERMCRIT_ITER = 1;
-        public const int CV_TERMCRIT_NUMBER = 1;
-        public const int CV_TERMCRIT_EPS = 2;
+
     }
 }

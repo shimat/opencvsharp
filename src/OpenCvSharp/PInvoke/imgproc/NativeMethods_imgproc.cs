@@ -357,6 +357,13 @@ namespace OpenCvSharp
             Point2f pt, int measureDist);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int imgproc_rotatedRectangleIntersection_OutputArray(
+            RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int imgproc_rotatedRectangleIntersection_vector(
+            RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_applyColorMap(IntPtr src, IntPtr dst, int colormap);
     }
 }
