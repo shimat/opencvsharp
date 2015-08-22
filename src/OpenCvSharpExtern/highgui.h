@@ -71,4 +71,10 @@ CVAPI(void) highgui_setTrackbarPos(const char *trackbarName, const char *winName
 	cv::setTrackbarPos(trackbarName, winName, pos);
 }
 
+CVAPI(int) highgui_createButton(const char *bar_name, cv::ButtonCallback on_change,
+	void* userdata, int type, int initial_button_state)
+{
+	return cv::createButton(bar_name, on_change, userdata, type, initial_button_state != 0);
+}
+
 #endif

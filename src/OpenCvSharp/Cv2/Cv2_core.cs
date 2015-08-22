@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.Util;
 
@@ -1741,7 +1740,7 @@ namespace OpenCvSharp
         /// <param name="dst"></param>
         /// <param name="flags"></param>
         public static void Gemm(InputArray src1, InputArray src2, double alpha,
-            InputArray src3, double gamma, OutputArray dst, GemmFlags flags = 0)
+            InputArray src3, double gamma, OutputArray dst, GemmFlags flags = GemmFlags.None)
         {
             if (src1 == null)
                 throw new ArgumentNullException("src1");
@@ -1932,8 +1931,8 @@ namespace OpenCvSharp
         /// <param name="dst">The destination matrix; will have NxM size and the same type as src</param>
         /// <param name="flags">The inversion method</param>
         /// <returns></returns>
-        public static double Invert(InputArray src, OutputArray dst, 
-            MatrixDecomposition flags = MatrixDecomposition.LU)
+        public static double Invert(InputArray src, OutputArray dst,
+            DecompTypes flags = DecompTypes.LU)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1956,8 +1955,8 @@ namespace OpenCvSharp
         /// <param name="dst"></param>
         /// <param name="flags"></param>
         /// <returns></returns>
-        public static bool Solve(InputArray src1, InputArray src2, OutputArray dst, 
-            MatrixDecomposition flags = MatrixDecomposition.LU)
+        public static bool Solve(InputArray src1, InputArray src2, OutputArray dst,
+            DecompTypes flags = DecompTypes.LU)
         {
             if (src1 == null)
                 throw new ArgumentNullException("src1");
@@ -2285,7 +2284,7 @@ namespace OpenCvSharp
         /// <param name="flags"></param>
 // ReSharper disable once InconsistentNaming
         public static void SVDecomp(InputArray src, OutputArray w,
-            OutputArray u, OutputArray vt, SVDFlag flags = SVDFlag.None)
+            OutputArray u, OutputArray vt, SVD.Flags flags = SVD.Flags.None)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2383,7 +2382,7 @@ namespace OpenCvSharp
         /// thus the function can handle the rest of the rows more efficiently and 
         /// thus save some time. This technique is very useful for computing array cross-correlation 
         /// or convolution using DFT</param>
-        public static void Dft(InputArray src, OutputArray dst, DftFlags flags = 0, int nonzeroRows = 0)
+        public static void Dft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2408,7 +2407,7 @@ namespace OpenCvSharp
         /// thus the function can handle the rest of the rows more efficiently and 
         /// thus save some time. This technique is very useful for computing array cross-correlation 
         /// or convolution using DFT</param>
-        public static void Idft(InputArray src, OutputArray dst, DftFlags flags = 0, int nonzeroRows = 0)
+        public static void Idft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2428,7 +2427,7 @@ namespace OpenCvSharp
         /// <param name="src">The source floating-point array</param>
         /// <param name="dst">The destination array; will have the same size and same type as src</param>
         /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-        public static void Dct(InputArray src, OutputArray dst, DctFlags flags = 0)
+        public static void Dct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -2447,7 +2446,7 @@ namespace OpenCvSharp
         /// <param name="src">The source floating-point array</param>
         /// <param name="dst">The destination array; will have the same size and same type as src</param>
         /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-        public static void Idct(InputArray src, OutputArray dst, DctFlags flags = 0)
+        public static void Idct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
         {
             if (src == null)
                 throw new ArgumentNullException("src");

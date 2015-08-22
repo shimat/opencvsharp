@@ -36,16 +36,6 @@ namespace OpenCvSharp
             Param_UCHAR = 11;
 
         /// <summary>
-        /// matrix decomposition types
-        /// </summary>
-        public const int DECOMP_LU = 0,
-            DECOMP_SVD = 1,
-            DECOMP_EIG = 2,
-            DECOMP_CHOLESKY = 3,
-            DECOMP_QR = 4,
-            DECOMP_NORMAL = 16;
-
-        /// <summary>
         /// InputArray kind
         /// </summary>
         public const int InputArray_KIND_SHIFT = 16,

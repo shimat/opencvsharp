@@ -800,7 +800,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public MatExpr Inv(MatrixDecomposition method = MatrixDecomposition.LU)
+        public MatExpr Inv(DecompTypes method = DecompTypes.LU)
         {
             ThrowIfDisposed();
             try

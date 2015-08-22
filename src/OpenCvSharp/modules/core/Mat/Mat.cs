@@ -2214,7 +2214,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="method">Matrix inversion method</param>
         /// <returns></returns>
-        public Mat Inv(MatrixDecomposition method = MatrixDecomposition.LU)
+        public Mat Inv(DecompTypes method = DecompTypes.LU)
         {
             ThrowIfDisposed();
             IntPtr retPtr = NativeMethods.core_Mat_inv2(ptr, (int) method);

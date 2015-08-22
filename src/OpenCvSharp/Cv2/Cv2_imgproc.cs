@@ -3123,7 +3123,7 @@ namespace OpenCvSharp
         /// <param name="method"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public static double MatchShapes(InputArray contour1, InputArray contour2, MatchShapesMethod method, double parameter = 0)
+        public static double MatchShapes(InputArray contour1, InputArray contour2, ShapeMatchModes method, double parameter = 0)
         {
             if (contour1 == null)
                 throw new ArgumentNullException("contour1");
@@ -3143,7 +3143,7 @@ namespace OpenCvSharp
         /// <param name="parameter"></param>
         /// <returns></returns>
         public static double MatchShapes(IEnumerable<Point> contour1, IEnumerable<Point> contour2,
-            MatchShapesMethod method, double parameter = 0)
+            ShapeMatchModes method, double parameter = 0)
         {
             if (contour1 == null)
                 throw new ArgumentNullException("contour1");

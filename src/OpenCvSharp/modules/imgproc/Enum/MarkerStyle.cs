@@ -3,11 +3,11 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// CvArr.DrawMarkerで用いるマーカーの形状
+	/// Mat.DrawMarkerで用いるマーカーの形状
 	/// </summary>
 #else
     /// <summary>
-    /// Marker styles for CvArr.DrawMarker
+    /// Marker styles for Mat.DrawMarker
     /// </summary>
 #endif
     public enum MarkerStyle : int

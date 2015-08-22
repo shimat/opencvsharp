@@ -15,28 +15,24 @@ namespace OpenCvSharp
 #if LANG_JP
 		/// <summary>
 		/// 一様分布 
-        /// [CV_RAND_UNI]
 		/// </summary>
 #else
         /// <summary>
         /// Uniform distribution
-        /// [CV_RAND_UNI]
         /// </summary>
 #endif
-        Uniform = CvConst.CV_RAND_UNI,
+        Uniform = 0,
 
 
 #if LANG_JP
 		/// <summary>
 		/// 正規分布（ガウス分布） 
-        /// [CV_RAND_NORMAL]
 		/// </summary>
 #else
         /// <summary>
         /// Normal or Gaussian distribution
-        /// [CV_RAND_NORMAL]
         /// </summary>
 #endif
-        Normal = CvConst.CV_RAND_NORMAL,
+        Normal = 1,
     }
 }
