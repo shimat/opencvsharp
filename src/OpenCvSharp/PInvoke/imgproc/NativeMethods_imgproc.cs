@@ -198,7 +198,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern WCvMoments imgproc_moments(IntPtr arr, int binaryImage);
+        public static extern Moments.NativeStruct imgproc_moments(IntPtr arr, int binaryImage);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_matchTemplate(IntPtr image, IntPtr templ, IntPtr result, int method);

@@ -584,7 +584,7 @@ namespace OpenCvSharp
         /// <returns>The output vector of lines. Each line is represented by a two-element vector (rho, theta) . 
         /// rho is the distance from the coordinate origin (0,0) (top-left corner of the image) and theta is the line rotation angle in radians</returns>
 #endif
-        public static CvLineSegmentPolar[] HoughLines(
+        public static LineSegmentPolar[] HoughLines(
             InputArray image, double rho, double theta, int threshold, 
             double srn = 0, double stn = 0)
         {
@@ -595,7 +595,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
                 GC.KeepAlive(image);
-                return vec.ToArray<CvLineSegmentPolar>();
+                return vec.ToArray<LineSegmentPolar>();
             }
         }
         #endregion
@@ -623,7 +623,7 @@ namespace OpenCvSharp
         /// <param name="maxLineGap">The maximum allowed gap between points on the same line to link them. [By default this is 0]</param>
         /// <returns>The output lines. Each line is represented by a 4-element vector (x1, y1, x2, y2)</returns>
 #endif
-        public static CvLineSegmentPoint[] HoughLinesP(
+        public static LineSegmentPoint[] HoughLinesP(
             InputArray image, double rho, double theta, int threshold, 
             double minLineLength = 0, double maxLineGap = 0)
         {
@@ -634,7 +634,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
                 GC.KeepAlive(image);
-                return vec.ToArray<CvLineSegmentPoint>();
+                return vec.ToArray<LineSegmentPoint>();
             }
         }
         #endregion
@@ -666,7 +666,7 @@ namespace OpenCvSharp
         /// <param name="maxRadius">Maximum circle radius. [By default this is 0] </param>
         /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
 #endif
-        public static CvCircleSegment[] HoughCircles(
+        public static CircleSegment[] HoughCircles(
             InputArray image, HoughMethods method, double dp, double minDist, 
             double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
         {
@@ -677,7 +677,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
                 GC.KeepAlive(image);
-                return vec.ToArray<CvCircleSegment>();
+                return vec.ToArray<CircleSegment>();
             }
         }
         #endregion
@@ -3585,7 +3585,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine2D FitLine(IEnumerable<Point> points, DistanceTypes distType,
+        public static Line2D FitLine(IEnumerable<Point> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3593,7 +3593,7 @@ namespace OpenCvSharp
             Point[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[4];
             NativeMethods.imgproc_fitLine_Point(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
-            return new CvLine2D(line);
+            return new Line2D(line);
         }
 
         /// <summary>
@@ -3608,7 +3608,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine2D FitLine(IEnumerable<Point2f> points, DistanceTypes distType,
+        public static Line2D FitLine(IEnumerable<Point2f> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3616,7 +3616,7 @@ namespace OpenCvSharp
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[4];
             NativeMethods.imgproc_fitLine_Point2f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
-            return new CvLine2D(line);
+            return new Line2D(line);
         }
 
         /// <summary>
@@ -3631,7 +3631,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine3D FitLine(IEnumerable<Point3i> points, DistanceTypes distType,
+        public static Line3D FitLine(IEnumerable<Point3i> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3639,7 +3639,7 @@ namespace OpenCvSharp
             Point3i[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[6];
             NativeMethods.imgproc_fitLine_Point3i(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
-            return new CvLine3D(line);
+            return new Line3D(line);
         }
 
         /// <summary>
@@ -3654,7 +3654,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine3D FitLine(IEnumerable<Point3f> points, DistanceTypes distType,
+        public static Line3D FitLine(IEnumerable<Point3f> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3662,7 +3662,7 @@ namespace OpenCvSharp
             Point3f[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[6];
             NativeMethods.imgproc_fitLine_Point3f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
-            return new CvLine3D(line);
+            return new Line3D(line);
         }
         #endregion
         #region PointPolygonTest

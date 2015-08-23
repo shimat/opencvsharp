@@ -14,7 +14,7 @@ namespace OpenCvSharp
 #endif
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct CvLineSegmentPolar : IEquatable<CvLineSegmentPolar>
+    public struct LineSegmentPolar : IEquatable<LineSegmentPolar>
     {
         #region Fields
 #if LANG_JP
@@ -39,7 +39,7 @@ namespace OpenCvSharp
         public float Theta;
         #endregion
 
-        #region Constructors
+        #region Init
 #if LANG_JP
         /// <summary>
         /// 初期化
@@ -53,7 +53,7 @@ namespace OpenCvSharp
         /// <param name="rho">Length of the line</param>
         /// <param name="theta">Angle of the line (radian)</param>
 #endif
-        public CvLineSegmentPolar(float rho, float theta)
+        public LineSegmentPolar(float rho, float theta)
         {
             this.Rho = rho;
             this.Theta = theta;
@@ -74,7 +74,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public bool Equals(CvLineSegmentPolar obj)
+        public bool Equals(LineSegmentPolar obj)
         {
             return (this.Rho == obj.Rho && this.Theta == obj.Theta);
         }
@@ -93,7 +93,7 @@ namespace OpenCvSharp
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
 #endif
-        public static bool operator ==(CvLineSegmentPolar lhs, CvLineSegmentPolar rhs)
+        public static bool operator ==(LineSegmentPolar lhs, LineSegmentPolar rhs)
         {
             return lhs.Equals(rhs);
         }
@@ -112,7 +112,7 @@ namespace OpenCvSharp
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
 #endif
-        public static bool operator !=(CvLineSegmentPolar lhs, CvLineSegmentPolar rhs)
+        public static bool operator !=(LineSegmentPolar lhs, LineSegmentPolar rhs)
         {
             return !lhs.Equals(rhs);
         }
@@ -184,11 +184,11 @@ namespace OpenCvSharp
         /// <param name="line2"></param>
         /// <returns></returns>
 #endif
-        public static Point? LineIntersection(CvLineSegmentPolar line1, CvLineSegmentPolar line2)
+        public static Point? LineIntersection(LineSegmentPolar line1, LineSegmentPolar line2)
         {
-            CvLineSegmentPoint seg1 = line1.ToSegmentPoint(5000);
-            CvLineSegmentPoint seg2 = line2.ToSegmentPoint(5000);
-            return CvLineSegmentPoint.LineIntersection(seg1, seg2);
+            var seg1 = line1.ToSegmentPoint(5000);
+            var seg2 = line2.ToSegmentPoint(5000);
+            return LineSegmentPoint.LineIntersection(seg1, seg2);
         }
 #if LANG_JP
         /// <summary>
@@ -203,7 +203,7 @@ namespace OpenCvSharp
         /// <param name="line"></param>
         /// <returns></returns>
 #endif
-        public Point? LineIntersection(CvLineSegmentPolar line)
+        public Point? LineIntersection(LineSegmentPolar line)
         {
             return LineIntersection(this, line);
         }
@@ -213,7 +213,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public CvLineSegmentPoint ToSegmentPoint(double scale)
+        public LineSegmentPoint ToSegmentPoint(double scale)
         {
             double cos = Math.Cos(Theta);
             double sin = Math.Sin(Theta);
@@ -221,7 +221,7 @@ namespace OpenCvSharp
             double y0 = sin * Rho;
             var p1 = new Point { X = (int)Math.Round(x0 + scale * -sin), Y = (int)Math.Round(y0 + scale * cos) };
             var p2 = new Point { X = (int)Math.Round(x0 - scale * -sin), Y = (int)Math.Round(y0 - scale * cos) };
-            return new CvLineSegmentPoint(p1, p2);
+            return new LineSegmentPoint(p1, p2);
         }
         /// <summary>
         /// 指定したx座標を両端とするような線分に変換する
@@ -229,7 +229,7 @@ namespace OpenCvSharp
         /// <param name="x1"></param>
         /// <param name="x2"></param>
         /// <returns></returns>
-        public CvLineSegmentPoint ToSegmentPointX(int x1, int x2)
+        public LineSegmentPoint ToSegmentPointX(int x1, int x2)
         {
             if (x1 > x2)
                 throw new ArgumentOutOfRangeException();
@@ -241,7 +241,7 @@ namespace OpenCvSharp
 
             var p1 = new Point(x1, y1.Value);
             var p2 = new Point(x2, y2.Value);
-            return new CvLineSegmentPoint(p1, p2);
+            return new LineSegmentPoint(p1, p2);
         }
         /// <summary>
         /// 指定したy座標を両端とするような線分に変換する
@@ -249,7 +249,7 @@ namespace OpenCvSharp
         /// <param name="y1"></param>
         /// <param name="y2"></param>
         /// <returns></returns>
-        public CvLineSegmentPoint ToSegmentPointY(int y1, int y2)
+        public LineSegmentPoint ToSegmentPointY(int y1, int y2)
         {
             if (y1 > y2)
                 throw new ArgumentOutOfRangeException();
@@ -261,7 +261,7 @@ namespace OpenCvSharp
 
             var p1 = new Point(x1.Value, y1);
             var p2 = new Point(x2.Value, y2);
-            return new CvLineSegmentPoint(p1, p2);
+            return new LineSegmentPoint(p1, p2);
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int? XPosOfLine(int y)
         {
-            var axis = new CvLineSegmentPolar(y, (float)(Math.PI / 2));     // 垂線90度 = x軸に平行       
+            var axis = new LineSegmentPolar(y, (float)(Math.PI / 2));     // 垂線90度 = x軸に平行       
             Point? node = LineIntersection(axis);
             if (node.HasValue)
                 return node.Value.X;
@@ -285,7 +285,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int? YPosOfLine(int x)
         {
-            var axis = new CvLineSegmentPolar(x, (float)0);     // 垂線0度 = y軸に平行       
+            var axis = new LineSegmentPolar(x, (float)0);     // 垂線0度 = y軸に平行       
             Point? node = LineIntersection(axis);
             if (node.HasValue)
                 return node.Value.Y;

@@ -5,24 +5,25 @@ using System.Text;
 namespace OpenCvSharp.Flann
 {
 #pragma warning disable 1591
+// ReSharper disable InconsistentNaming
 
     /// <summary>
     /// 
     /// </summary>
     public enum FlannDistance
     {
-        Euclidean = CppConst.FLANN_DIST_EUCLIDEAN,
-        L2 = CppConst.FLANN_DIST_L2,
-        Manhattan = CppConst.FLANN_DIST_MANHATTAN,
-        L1 = CppConst.FLANN_DIST_L1,
-        Minkowski = CppConst.FLANN_DIST_MINKOWSKI,
-        Max = CppConst.FLANN_DIST_MAX,
-        HistIntersect = CppConst.FLANN_DIST_HIST_INTERSECT,
-        Hellinger = CppConst.FLANN_DIST_HELLINGER,
-        ChiSquare = CppConst.FLANN_DIST_CHI_SQUARE,
-        CS = CppConst.FLANN_DIST_CS,
-        KullbackLeibler =  CppConst.FLANN_DIST_KULLBACK_LEIBLER,
-        KL = CppConst.FLANN_DIST_KL,
-        Hamming = CppConst.FLANN_DIST_HAMMING,
+        Euclidean = 1,
+        L2 = 1,
+        Manhattan = 2,
+        L1 = 2,
+        Minkowski = 3,
+        Max = 4,
+        HistIntersect = 5,
+        Hellinger = 6,
+        ChiSquare = 7,
+        CS = 7,
+        KullbackLeibler =  8,
+        KL = 8,
+        Hamming = 9,
     }
 }

@@ -1887,7 +1887,7 @@ namespace OpenCvSharp
         /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
         /// <returns></returns>
 #endif
-        public bool Retrieve(Mat image, CameraChannels streamIdx = 0)
+        public bool Retrieve(Mat image, CameraChannels streamIdx = CameraChannels.OpenNI_DepthMap)
         {
             ThrowIfDisposed();
             if (image == null)

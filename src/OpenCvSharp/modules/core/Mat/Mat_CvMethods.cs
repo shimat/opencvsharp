@@ -1409,7 +1409,7 @@ namespace OpenCvSharp
         /// <returns>The output vector of lines. Each line is represented by a two-element vector (rho, theta) . 
         /// rho is the distance from the coordinate origin (0,0) (top-left corner of the image) and theta is the line rotation angle in radians</returns>
 #endif
-        public CvLineSegmentPolar[] HoughLines(double rho, double theta, int threshold,
+        public LineSegmentPolar[] HoughLines(double rho, double theta, int threshold,
             double srn = 0, double stn = 0)
         {
             return Cv2.HoughLines(this, rho, theta, threshold, srn, stn);
@@ -1436,7 +1436,7 @@ namespace OpenCvSharp
         /// <param name="maxLineGap">The maximum allowed gap between points on the same line to link them. [By default this is 0]</param>
         /// <returns>The output lines. Each line is represented by a 4-element vector (x1, y1, x2, y2)</returns>
 #endif
-        public CvLineSegmentPoint[] HoughLinesP(double rho, double theta, int threshold,
+        public LineSegmentPoint[] HoughLinesP(double rho, double theta, int threshold,
             double minLineLength = 0, double maxLineGap = 0)
         {
             return Cv2.HoughLinesP(this, rho, theta, threshold, minLineLength, maxLineGap);
@@ -1468,7 +1468,7 @@ namespace OpenCvSharp
         /// <param name="maxRadius">Maximum circle radius. [By default this is 0] </param>
         /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
 #endif
-        public CvCircleSegment[] HoughCircles(HoughMethods method, double dp, double minDist,
+        public CircleSegment[] HoughCircles(HoughMethods method, double dp, double minDist,
             double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
         {
             return Cv2.HoughCircles(this, method, dp, minDist, param1, param2, minRadius, maxRadius);
@@ -2562,11 +2562,11 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public CvLine2D FitLine2D(DistanceTypes distType, double param, double reps, double aeps)
+        public Line2D FitLine2D(DistanceTypes distType, double param, double reps, double aeps)
         {
             var line = new MatOfFloat();
             Cv2.FitLine(this, line, distType, param, reps, aeps);
-            return new CvLine2D(line.ToArray());
+            return new Line2D(line.ToArray());
         }
 
         /// <summary>
@@ -2581,11 +2581,11 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public CvLine3D FitLine3D(DistanceTypes distType, double param, double reps, double aeps)
+        public Line3D FitLine3D(DistanceTypes distType, double param, double reps, double aeps)
         {
             var line = new MatOfFloat();
             Cv2.FitLine(this, line, distType, param, reps, aeps);
-            return new CvLine3D(line.ToArray());
+            return new Line3D(line.ToArray());
         }
 
         /// <summary>
