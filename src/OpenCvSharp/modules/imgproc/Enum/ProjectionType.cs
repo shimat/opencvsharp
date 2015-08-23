@@ -15,11 +15,11 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        SphericalOrtho = CppConst.PROJ_SPHERICAL_ORTHO,
+        SphericalOrtho = 0,
 
         /// <summary>
         /// 
         /// </summary>
-        SphericalEqRect = CppConst.PROJ_SPHERICAL_EQRECT,
+        SphericalEqRect = 1,
     }
 }

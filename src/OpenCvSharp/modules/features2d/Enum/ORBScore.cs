@@ -11,11 +11,11 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        Fast = CppConst.ORB_FAST_SCORE,
+        Fast = 1,
 
         /// <summary>
         /// 
         /// </summary>
-        Harris = CppConst.ORB_HARRIS_SCORE,
+        Harris = 0,
     }
 }
