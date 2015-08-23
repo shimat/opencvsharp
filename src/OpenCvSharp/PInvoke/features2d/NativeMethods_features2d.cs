@@ -41,5 +41,25 @@ namespace OpenCvSharp
             IntPtr[] matches1to2, int matches1to2Size1, int[] matches1to2Size2,
             IntPtr outImg, Scalar matchColor, Scalar singlePointColor,
             IntPtr[] matchesMask, int matchesMaskSize1, int[] matchesMaskSize2, int flags);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_evaluateFeatureDetector(
+            IntPtr img1, IntPtr img2, IntPtr H1to2,
+            IntPtr keypoints1, IntPtr keypoints2,
+            out float repeatability, out int correspCount);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void features2d_computeRecallPrecisionCurve(
+            IntPtr[] matches1to2, int matches1to2Size1, int[] matches1to2Size2,
+            IntPtr[] correctMatches1to2Mask, int correctMatches1to2MaskSize1, int[] correctMatches1to2MaskSize2,
+            IntPtr recallPrecisionCurve);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float features2d_getRecall(
+            Point2f[] recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int features2d_getNearestPoint(
+            Point2f[] recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision);
     }
 }

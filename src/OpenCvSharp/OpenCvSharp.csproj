@@ -149,7 +149,7 @@
     <Compile Include="Modules\imgproc\Enum\BorderTypes.cs" />
     <Compile Include="Modules\highgui\Enum\ButtonTypes.cs" />
     <Compile Include="Modules\calib3d\Enum\CalibrationFlags.cs" />
-    <Compile Include="Enum\CameraChannels.cs" />
+    <Compile Include="Modules\videoio\Enum\CameraChannels.cs" />
     <Compile Include="Modules\videoio\Enum\CaptureDevice.cs" />
     <Compile Include="Modules\videoio\Enum\CapturePosRatio.cs" />
     <Compile Include="Modules\videoio\Enum\CaptureProperty.cs" />
@@ -162,16 +162,15 @@
     <Compile Include="Modules\core\Enum\ErrorCode.cs" />
     <Compile Include="Modules\core\Enum\DctFlags.cs" />
     <Compile Include="Modules\core\Enum\DftFlags.cs" />
-    <Compile Include="Enum\DisparityMode.cs" />
     <Compile Include="Modules\imgproc\Enum\DistanceTypes.cs" />
     <Compile Include="Modules\core\Enum\DistributionType.cs" />
     <Compile Include="Modules\imgproc\Enum\DistanceTransformLabelTypes.cs" />
     <Compile Include="Modules\imgproc\Enum\MorphShapes.cs" />
-    <Compile Include="Enum\FlipMode.cs" />
+    <Compile Include="Modules\imgproc\Enum\FlipMode.cs" />
     <Compile Include="Modules\imgproc\Enum\FloodFillFlags.cs" />
     <Compile Include="Modules\core\Enum\HersheyFonts.cs" />
     <Compile Include="Modules\videoio\Enum\FourCC.cs" />
-    <Compile Include="Enum\FundamentalMatMethod.cs" />
+    <Compile Include="Modules\calib3d\Enum\FundamentalMatMethod.cs" />
     <Compile Include="Modules\core\Enum\GemmFlags.cs" />
     <Compile Include="Modules\objdetect\Enum\HaarDetectionType.cs" />
     <Compile Include="Modules\core\Enum\CpuFeatures.cs" />
@@ -180,7 +179,6 @@
     <Compile Include="Modules\imgproc\Enum\HoughMethods.cs" />
     <Compile Include="Modules\imgcodecs\Enum\ImwriteFlags.cs" />
     <Compile Include="Modules\photo\InpaintMethod.cs" />
-    <Compile Include="Enum\InsertPosition.cs" />
     <Compile Include="Modules\imgproc\Enum\InterpolationFlags.cs" />
     <Compile Include="Modules\core\Enum\DecompTypes.cs" />
     <Compile Include="Modules\core\Enum\KMeansFlags.cs" />
@@ -193,9 +191,8 @@
     <Compile Include="Modules\highgui\Enum\MouseEvent.cs" />
     <Compile Include="Modules\core\Enum\NormTypes.cs" />
     <Compile Include="Modules\imgproc\Enum\PixelConnectivity.cs" />
-    <Compile Include="Enum\ReduceDimension.cs" />
+    <Compile Include="Modules\core\Enum\ReduceDimension.cs" />
     <Compile Include="Modules\core\Enum\ReduceTypes.cs" />
-    <Compile Include="Enum\RotateEdgeFlag.cs" />
     <Compile Include="Modules\core\Enum\SortFlags.cs" />
     <Compile Include="Modules\calib3d\Enum\StereoRectificationFlags.cs" />
     <Compile Include="Modules\imgproc\Enum\ThresholdTypes.cs" />
@@ -407,7 +404,6 @@
     <Compile Include="Modules\flann\IndexParams\SavedIndexParams.cs" />
     <Compile Include="Modules\flann\IndexParams\SearchParams.cs" />
     <Compile Include="Modules\core\Struct\Vecb.cs" />
-    <Compile Include="CppConst.cs" />
     <Compile Include="Cv2\Cv2_highgui.cs" />
     <Compile Include="Modules\core\Mat\Mat.cs" />
     <Compile Include="Modules\core\MatExpr.cs" />

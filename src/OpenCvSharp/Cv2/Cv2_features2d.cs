@@ -230,7 +230,101 @@ namespace OpenCvSharp
                     }
                 }
             }
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="img1"></param>
+        /// <param name="img2"></param>
+        /// <param name="H1to2"></param>
+        /// <param name="keypoints1"></param>
+        /// <param name="keypoints2"></param>
+        /// <param name="repeatability"></param>
+        /// <param name="correspCount"></param>
+        public static void EvaluateFeatureDetector(
+            Mat img1, Mat img2, Mat H1to2,
+            ref KeyPoint[] keypoints1, ref KeyPoint[] keypoints2,
+            out float repeatability, out int correspCount)
+        {
+            if (img1 == null) 
+                throw new ArgumentNullException("img1");
+            if (img2 == null) 
+                throw new ArgumentNullException("img2");
+            if (H1to2 == null) 
+                throw new ArgumentNullException("H1to2");
+            if (keypoints1 == null) 
+                throw new ArgumentNullException("keypoints1");
+            if (keypoints2 == null) 
+                throw new ArgumentNullException("keypoints2");
+
+            using (var keypoints1Vec = new VectorOfKeyPoint(keypoints1))
+            using (var keypoints2Vec = new VectorOfKeyPoint(keypoints2))
+            {
+                NativeMethods.features2d_evaluateFeatureDetector(
+                    img1.CvPtr, img2.CvPtr, H1to2.CvPtr,
+                    keypoints1Vec.CvPtr, keypoints2Vec.CvPtr, 
+                    out repeatability, out correspCount);
+                keypoints1 = keypoints1Vec.ToArray();
+                keypoints2 = keypoints2Vec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matches1to2"></param>
+        /// <param name="correctMatches1to2Mask"></param>
+        /// <returns>recallPrecisionCurve</returns>
+        public static Point2f[] ComputeRecallPrecisionCurve(
+            DMatch[][] matches1to2, byte[][] correctMatches1to2Mask)
+        {
+            if (matches1to2 == null)
+                throw new ArgumentNullException("matches1to2");
+            if (correctMatches1to2Mask == null)
+                throw new ArgumentNullException("correctMatches1to2Mask");
+
+            using (var dm = new ArrayAddress2<DMatch>(matches1to2))
+            using (var cm = new ArrayAddress2<byte>(correctMatches1to2Mask))
+            using (var recall = new VectorOfPoint2f())
+            {
+                NativeMethods.features2d_computeRecallPrecisionCurve(
+                    dm.Pointer, dm.Dim1Length, dm.Dim2Lengths,
+                    cm.Pointer, cm.Dim1Length, cm.Dim2Lengths,
+                    recall.CvPtr);
+                return recall.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recallPrecisionCurve"></param>
+        /// <param name="lPrecision"></param>
+        /// <returns></returns>
+        public static float GetRecall(
+            IEnumerable<Point2f> recallPrecisionCurve, float lPrecision)
+        {
+            if (recallPrecisionCurve == null)
+                throw new ArgumentNullException("recallPrecisionCurve");
+
+            var array = EnumerableEx.ToArray(recallPrecisionCurve);
+            return NativeMethods.features2d_getRecall(array, array.Length, lPrecision);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recallPrecisionCurve"></param>
+        /// <param name="lPrecision"></param>
+        /// <returns></returns>
+        public static int GetNearestPoint(
+            IEnumerable<Point2f> recallPrecisionCurve, float lPrecision)
+        {
+            if (recallPrecisionCurve == null)
+                throw new ArgumentNullException("recallPrecisionCurve");
+            var array = EnumerableEx.ToArray(recallPrecisionCurve);
+            return NativeMethods.features2d_getNearestPoint(array, array.Length, lPrecision);
         }
     }
 }
