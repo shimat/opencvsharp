@@ -398,6 +398,7 @@
     <ClInclude Include="flann.h" />
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="ml_RTrees.h" />
+    <ClInclude Include="photo_HDR.h" />
     <ClInclude Include="shape_ShapeDistanceExtractor.h" />
     <ClInclude Include="videoio.h" />
     <ClInclude Include="video_tracking.h" />

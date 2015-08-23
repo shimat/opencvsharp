@@ -124,6 +124,8 @@
     <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
     <Compile Include="Modules\ml\TrainData.cs" />
+    <Compile Include="Modules\photo\EdgePreservingMethods.cs" />
+    <Compile Include="Modules\photo\SeamlessCloneMethods.cs" />
     <Compile Include="Modules\shape\HausdorffDistanceExtractor.cs" />
     <Compile Include="Modules\shape\ShapeContextDistanceExtractor.cs" />
     <Compile Include="Modules\shape\ShapeDistanceExtractor.cs" />

@@ -114,9 +114,6 @@
     <ClInclude Include="std_vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="photo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="superres.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -261,6 +258,12 @@
     <ClInclude Include="shape_ShapeDistanceExtractor.h">
       <Filter>Header Files\shape</Filter>
     </ClInclude>
+    <ClInclude Include="photo_HDR.h">
+      <Filter>Header Files\photo</Filter>
+    </ClInclude>
+    <ClInclude Include="photo.h">
+      <Filter>Header Files\photo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -303,6 +306,9 @@
     </Filter>
     <Filter Include="Header Files\shape">
       <UniqueIdentifier>{eed306c8-8a82-4f4f-b9d5-447f88befafa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\photo">
+      <UniqueIdentifier>{a91945a2-e61d-4a10-82c3-14772eaa2d21}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
