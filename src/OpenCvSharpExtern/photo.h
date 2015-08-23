@@ -41,4 +41,15 @@ CVAPI(void) photo_fastNlMeansDenoisingColoredMulti(cv::_InputArray **srcImgs, in
 	cv::fastNlMeansDenoisingColoredMulti(srcImgsVec, *dst, imgToDenoiseIndex, temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
 }
 
+CVAPI(void) photo_denoise_TVL1(
+	cv::Mat **observations, int observationsSize, cv::Mat *result, double lambda, int niters)
+{
+	std::vector<cv::Mat> observationsVec(observationsSize);
+	for (int i = 0; i < observationsSize; i++)
+	{
+		observationsVec[i] = *observations[i];
+	}
+	cv::denoise_TVL1(observationsVec, *result, lambda, niters);
+}
+
 #endif

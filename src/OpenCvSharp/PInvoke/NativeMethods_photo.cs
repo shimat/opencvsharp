@@ -29,5 +29,9 @@ namespace OpenCvSharp
             IntPtr dst, int imgToDenoiseIndex, int temporalWindowSize,
             float h, float hColor, int templateWindowSize, int searchWindowSize);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void photo_denoise_TVL1(
+            IntPtr[] observations, int observationsSize, IntPtr result, double lambda, int niters);
+
     }
 }
