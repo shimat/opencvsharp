@@ -30,10 +30,11 @@ namespace SamplesCS
                 //new MDS();
                 //new MSERSample();
                 //new NormalArrayOperations();
+                new PhotoMethods();
                 //new MergeSplitSample();
                 //new MorphologySample();
                 //new PixelAccess();
-                new SeamlessClone();
+                //new SeamlessClone();
                 //new SiftSurfSample();
                 //new SolveEquation();
                 //new StarDetectorSample();
