@@ -10,19 +10,19 @@ namespace OpenCvSharp
     [Flags]
     public enum InOutArrayKind
     {
-        None = CppConst.InputArray_NONE,
-        Mat = CppConst.InputArray_MAT,
-        Matx = CppConst.InputArray_MATX,
-        StdVector = CppConst.InputArray_STD_VECTOR,
-        VectorVector = CppConst.InputArray_STD_VECTOR_VECTOR,
-        VectorMat = CppConst.InputArray_STD_VECTOR_MAT,
-        Expr = CppConst.InputArray_EXPR,
-        OpenGLBuffer = CppConst.InputArray_OPENGL_BUFFER,
-        OpenGLTexture = CppConst.InputArray_OPENGL_TEXTURE,
-        GpuMat = CppConst.InputArray_GPU_MAT,
-        OclMat = CppConst.InputArray_OCL_MAT,
+        None = 0 << InputArray.KIND_SHIFT,
+        Mat = 1 << InputArray.KIND_SHIFT,
+        Matx = 2 << InputArray.KIND_SHIFT,
+        StdVector = 3 << InputArray.KIND_SHIFT,
+        VectorVector = 4 << InputArray.KIND_SHIFT,
+        VectorMat = 5 << InputArray.KIND_SHIFT,
+        Expr = 6 << InputArray.KIND_SHIFT,
+        OpenGLBuffer = 7 << InputArray.KIND_SHIFT,
+        OpenGLTexture = 8 << InputArray.KIND_SHIFT,
+        GpuMat = 9 << InputArray.KIND_SHIFT,
+        OclMat = 10 << InputArray.KIND_SHIFT,
 
-        FixedType = CppConst.InputArray_FIXED_TYPE,
-        FixedSize = CppConst.InputArray_FIXED_SIZE,
+        FixedType = 0x8000 << InputArray.KIND_SHIFT,
+        FixedSize = 0x4000 << InputArray.KIND_SHIFT,
     }
 }

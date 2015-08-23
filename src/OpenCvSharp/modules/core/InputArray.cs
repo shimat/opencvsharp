@@ -12,6 +12,13 @@ namespace OpenCvSharp
         private bool disposed;
         private object obj;
 
+#pragma warning disable 1591
+// ReSharper disable InconsistentNaming
+        public const int KIND_SHIFT = 16;
+        public const int KIND_MASK = ~(0x8000 << KIND_SHIFT | 0x4000 << KIND_SHIFT) - (1 << KIND_SHIFT) + 1;
+// ReSharper restore InconsistentNaming
+#pragma warning restore 1591
+
         #region Init & Disposal
         /// <summary>
         /// 

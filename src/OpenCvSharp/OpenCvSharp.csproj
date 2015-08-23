@@ -96,7 +96,6 @@
     <Compile Include="Modules\features2d\AKAZE.cs" />
     <Compile Include="Modules\features2d\KAZE.cs" />
     <Compile Include="Modules\imgproc\CvCircleSegment.cs" />
-    <Compile Include="CvConst.cs" />
     <Compile Include="Modules\imgproc\CvLine2D.cs" />
     <Compile Include="Modules\imgproc\CvLine3D.cs" />
     <Compile Include="Modules\imgproc\CvLineSegmentPoint.cs" />
@@ -146,7 +145,6 @@
     <Compile Include="PInvoke\NativeMethods_videoio.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
     <Compile Include="Modules\imgproc\Enum\AdaptiveThresholdTypes.cs" />
-    <Compile Include="Enum\ApproxPolyMethod.cs" />
     <Compile Include="Modules\core\Enum\CmpTypes.cs" />
     <Compile Include="Modules\imgproc\Enum\BorderTypes.cs" />
     <Compile Include="Modules\highgui\Enum\ButtonTypes.cs" />
@@ -160,7 +158,6 @@
     <Compile Include="Modules\imgproc\Enum\ColorConversionCodes.cs" />
     <Compile Include="Modules\imgproc\Enum\ContourApproximationModes.cs" />
     <Compile Include="Modules\imgproc\Enum\RetrievalModes.cs" />
-    <Compile Include="Enum\ContourTreesMatchMethod.cs" />
     <Compile Include="Modules\core\Enum\CovarFlags.cs" />
     <Compile Include="Modules\core\Enum\ErrorCode.cs" />
     <Compile Include="Modules\core\Enum\DctFlags.cs" />
@@ -170,7 +167,6 @@
     <Compile Include="Modules\imgproc\Enum\DistanceTypes.cs" />
     <Compile Include="Modules\core\Enum\DistributionType.cs" />
     <Compile Include="Modules\imgproc\Enum\DistanceTransformLabelTypes.cs" />
-    <Compile Include="Enum\DominantsFlag.cs" />
     <Compile Include="Modules\imgproc\Enum\MorphShapes.cs" />
     <Compile Include="Enum\FlipMode.cs" />
     <Compile Include="Modules\imgproc\Enum\FloodFillFlags.cs" />
@@ -180,9 +176,8 @@
     <Compile Include="Modules\core\Enum\GemmFlags.cs" />
     <Compile Include="Modules\objdetect\Enum\HaarDetectionType.cs" />
     <Compile Include="Modules\core\Enum\CpuFeatures.cs" />
-    <Compile Include="Enum\HistogramComparison.cs" />
-    <Compile Include="Enum\HistogramFormat.cs" />
-    <Compile Include="Enum\HomographyMethod.cs" />
+    <Compile Include="Enum\HistCompMethods.cs" />
+    <Compile Include="Modules\calib3d\Enum\HomographyMethods.cs" />
     <Compile Include="Modules\imgproc\Enum\HoughMethods.cs" />
     <Compile Include="Modules\imgcodecs\Enum\ImwriteFlags.cs" />
     <Compile Include="Modules\photo\InpaintMethod.cs" />
@@ -203,7 +198,7 @@
     <Compile Include="Modules\core\Enum\ReduceTypes.cs" />
     <Compile Include="Enum\RotateEdgeFlag.cs" />
     <Compile Include="Modules\core\Enum\SortFlags.cs" />
-    <Compile Include="Enum\StereoRectificationFlag.cs" />
+    <Compile Include="Modules\calib3d\Enum\StereoRectificationFlags.cs" />
     <Compile Include="Modules\imgproc\Enum\ThresholdTypes.cs" />
     <Compile Include="Modules\highgui\Enum\WindowMode.cs" />
     <Compile Include="Modules\highgui\Enum\WindowProperty.cs" />
@@ -224,7 +219,7 @@
     <Compile Include="Modules\cuda\GpuMatRowColIndexer.cs" />
     <Compile Include="Modules\cuda\Stream.cs" />
     <Compile Include="Modules\face\FaceRecognizer.cs" />
-    <Compile Include="Modules\calib3d\FindCirclesGridFlag.cs" />
+    <Compile Include="Modules\calib3d\Enum\FindCirclesGridFlags.cs" />
     <Compile Include="Modules\core\FileStorage.cs" />
     <Compile Include="Modules\core\FileNode.cs" />
     <Compile Include="Modules\core\MatExpr_CvMethods.cs" />
@@ -248,7 +243,7 @@
     <Compile Include="Modules\ml\SVM.cs" />
     <Compile Include="Modules\stitching\Stitcher.cs" />
     <Compile Include="Modules\video\OpticalFlowFlags.cs" />
-    <Compile Include="Modules\calib3d\SolvePnPFlag.cs" />
+    <Compile Include="Modules\calib3d\Enum\SolvePnPFlags.cs" />
     <Compile Include="Modules\features2d\Enum\DrawMatchesFlags.cs" />
     <Compile Include="Modules\features2d\Enum\ORBScore.cs" />
     <Compile Include="Modules\imgproc\Enum\ProjectionType.cs" />
@@ -376,7 +371,6 @@
     <Compile Include="Cv2\Cv2_calib3d.cs" />
     <Compile Include="Modules\core\Enum\DumpFormat.cs" />
     <Compile Include="Modules\core\Enum\InOutArrayKind.cs" />
-    <Compile Include="Modules\imgproc\Enum\StructuringElementShape.cs" />
     <Compile Include="PInvoke\core\NativeMethods_core.cs" />
     <Compile Include="PInvoke\calib3d\NativeMethods_calib3d.cs" />
     <Compile Include="PInvoke\NativeMethods.cs" />

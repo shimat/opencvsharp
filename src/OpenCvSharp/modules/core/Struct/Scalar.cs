@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// 
     /// </summary>
     [Serializable]
-    public struct Scalar : ICloneable, IEquatable<Scalar>
+    public struct Scalar : IEquatable<Scalar>
     {
         #region Field
 
@@ -422,20 +422,6 @@ namespace OpenCvSharp
         public static Scalar All(double v)
         {
             return new Scalar(v, v, v, v);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Scalar Clone()
-        {
-            return new Scalar(Val0, Val1, Val2, Val3);
-        }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
 
         /// <summary>

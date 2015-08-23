@@ -34,7 +34,7 @@ namespace OpenCvSharp
         /// <param name="shape"></param>
         /// <param name="ksize"></param>
         /// <returns></returns>
-        public static Mat GetStructuringElement(StructuringElementShape shape, Size ksize)
+        public static Mat GetStructuringElement(MorphShapes shape, Size ksize)
         {
             return GetStructuringElement(shape, ksize, new Point(-1, -1));
         }
@@ -45,7 +45,7 @@ namespace OpenCvSharp
         /// <param name="ksize"></param>
         /// <param name="anchor"></param>
         /// <returns></returns>
-        public static Mat GetStructuringElement(StructuringElementShape shape, Size ksize, Point anchor)
+        public static Mat GetStructuringElement(MorphShapes shape, Size ksize, Point anchor)
         {
             IntPtr matPtr = NativeMethods.imgproc_getStructuringElement((int)shape, ksize, anchor);
             return new Mat(matPtr);
@@ -1828,7 +1828,7 @@ namespace OpenCvSharp
         /// <param name="h2">The second compared histogram of the same size as h1</param>
         /// <param name="method">The comparison method</param>
         /// <returns></returns>
-        public static double CompareHist(InputArray h1, InputArray h2, HistogramComparison method)
+        public static double CompareHist(InputArray h1, InputArray h2, HistCompMethods method)
         {
             if (h1 == null)
                 throw new ArgumentNullException("h1");

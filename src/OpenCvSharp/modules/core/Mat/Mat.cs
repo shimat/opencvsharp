@@ -766,8 +766,6 @@ namespace OpenCvSharp
 
         #region Operators
 
-        #region Arithmetic
-
         #region Unary
 
         /// <summary>
@@ -1176,8 +1174,6 @@ namespace OpenCvSharp
             IntPtr retPtr = NativeMethods.core_Mat_operatorNot(m.CvPtr);
             return new MatExpr(retPtr);
         }
-
-        #endregion
 
         #endregion
 

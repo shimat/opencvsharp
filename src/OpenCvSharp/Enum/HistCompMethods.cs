@@ -1,5 +1,4 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
 #if LANG_JP
 	/// <summary>
@@ -10,7 +9,7 @@ namespace OpenCvSharp
     /// Comparison methods for cvCompareHist
     /// </summary>
 #endif
-    public enum HistogramComparison : int
+    public enum HistCompMethods : int
     {
 #if LANG_JP
 		/// <summary>
@@ -21,7 +20,7 @@ namespace OpenCvSharp
         /// Correlation [CV_COMP_CORREL]
         /// </summary>
 #endif
-        Correl = CvConst.CV_COMP_CORREL,
+        Correl = 0,
 
 
 #if LANG_JP
@@ -33,7 +32,7 @@ namespace OpenCvSharp
         /// Chi-Square [CV_COMP_CHISQR]
         /// </summary>
 #endif
-        Chisqr = CvConst.CV_COMP_CHISQR,
+        Chisqr = 1,
 
 
 #if LANG_JP
@@ -45,7 +44,7 @@ namespace OpenCvSharp
         /// Intersection [CV_COMP_INTERSECT]
         /// </summary>
 #endif
-        Intersect = CvConst.CV_COMP_INTERSECT,
+        Intersect = 2,
 
 
 #if LANG_JP
@@ -57,6 +56,25 @@ namespace OpenCvSharp
         /// Bhattacharyya distance [CV_COMP_BHATTACHARYYA]
         /// </summary>
 #endif
-        Bhattacharyya = CvConst.CV_COMP_BHATTACHARYYA,
+        Bhattacharyya = 3,
+
+        /// <summary>
+        /// Synonym for HISTCMP_BHATTACHARYYA
+        /// </summary>
+        Hellinger = Bhattacharyya,
+
+        /// <summary>
+        /// Alternative Chi-Square
+        /// \f[d(H_1,H_2) =  2 * \sum _I  \frac{\left(H_1(I)-H_2(I)\right)^2}{H_1(I)+H_2(I)}\f] 
+        /// This alternative formula is regularly used for texture comparison. See e.g. @cite Puzicha1997 
+        /// </summary>
+        ChisqrAlt = 4,
+
+        /// <summary>
+        /// Kullback-Leibler divergence 
+        /// \f[d(H_1,H_2) = \sum _I H_1(I) \log \left(\frac{H_1(I)}{H_2(I)}\right)\f] 
+        /// </summary>
+// ReSharper disable once InconsistentNaming
+        KLDiv = 5
     }
 }
