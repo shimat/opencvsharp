@@ -58,4 +58,52 @@ CVAPI(void) features2d_drawMatches2(cv::Mat *img1, cv::KeyPoint *keypoints1, int
 		*outImg, matchColor, singlePointColor, matchesMaskVec, flags);
 }
 
+
+CVAPI(void) features2d_evaluateFeatureDetector(
+	cv::Mat *img1, cv::Mat *img2, cv::Mat *H1to2,
+	std::vector<cv::KeyPoint> *keypoints1, std::vector<cv::KeyPoint> *keypoints2,
+	float *repeatability, int *correspCount/*,
+	const Ptr<FeatureDetector>& fdetector = Ptr<FeatureDetector>()*/)
+{
+	cv::evaluateFeatureDetector(*img1, *img2, *H1to2, keypoints1, keypoints2,
+		*repeatability, *correspCount);
+}
+
+CVAPI(void) features2d_computeRecallPrecisionCurve(
+	cv::DMatch **matches1to2, int matches1to2Size1, int *matches1to2Size2,
+	uchar **correctMatches1to2Mask, int correctMatches1to2MaskSize1, int *correctMatches1to2MaskSize2,
+	std::vector<cv::Point2f> *recallPrecisionCurve)
+{
+	std::vector<std::vector<cv::DMatch> > matches1to2Vec;
+	std::vector<std::vector<uchar> > correctMatches1to2MaskVec;
+	for (int i = 0; i < matches1to2Size1; i++)
+	{
+		matches1to2Vec.push_back(
+			std::vector<cv::DMatch>(matches1to2[i], matches1to2[i] + matches1to2Size2[i]));
+	}
+	for (int i = 0; i < correctMatches1to2MaskSize1; i++)
+	{
+		correctMatches1to2MaskVec.push_back(
+			std::vector<uchar>(correctMatches1to2Mask[i], correctMatches1to2Mask[i] + correctMatches1to2MaskSize2[i]));
+	}
+	cv::computeRecallPrecisionCurve(
+		matches1to2Vec, correctMatches1to2MaskVec, *recallPrecisionCurve);
+}
+
+CVAPI(float) features2d_getRecall(
+	cv::Point2f *recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision)
+{
+	std::vector<cv::Point2f> recallPrecisionCurveVec(
+		recallPrecisionCurve, recallPrecisionCurve + recallPrecisionCurveSize);
+	return cv::getRecall(recallPrecisionCurveVec, l_precision);
+}
+
+CVAPI(int) features2d_getNearestPoint(
+	cv::Point2f *recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision)
+{
+	std::vector<cv::Point2f> recallPrecisionCurveVec(
+		recallPrecisionCurve, recallPrecisionCurve + recallPrecisionCurveSize);
+	return cv::getNearestPoint(recallPrecisionCurveVec, l_precision);
+}
+
 #endif
