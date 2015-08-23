@@ -12,8 +12,8 @@ namespace SamplesCS
     {
         public void Run()
         {
-            var src1 = new Mat(FilePath.Image.Match1, LoadMode.Color);
-            var src2 = new Mat(FilePath.Image.Match2, LoadMode.Color);
+            var src1 = new Mat(FilePath.Image.Match1, ImreadModes.Color);
+            var src2 = new Mat(FilePath.Image.Match2, ImreadModes.Color);
 
             MatchBySift(src1, src2);
             MatchBySurf(src1, src2);
@@ -24,8 +24,8 @@ namespace SamplesCS
             var gray1 = new Mat();
             var gray2 = new Mat();
 
-            Cv2.CvtColor(src1, gray1, ColorConversion.BgrToGray);
-            Cv2.CvtColor(src2, gray2, ColorConversion.BgrToGray);
+            Cv2.CvtColor(src1, gray1, ColorConversionCodes.BGR2GRAY);
+            Cv2.CvtColor(src2, gray2, ColorConversionCodes.BGR2GRAY);
 
             var sift = SIFT.Create();
 
@@ -37,7 +37,7 @@ namespace SamplesCS
             sift.Compute(gray2, null, out keypoints2, descriptors2);
 
             // Match descriptor vectors
-            var bfMatcher = new BFMatcher(NormType.L2, false);
+            var bfMatcher = new BFMatcher(NormTypes.L2, false);
             var flannMatcher = new FlannBasedMatcher();
             DMatch[] bfMatches = bfMatcher.Match(descriptors1, descriptors2);
             DMatch[] flannMatches = flannMatcher.Match(descriptors1, descriptors2);
@@ -60,8 +60,8 @@ namespace SamplesCS
             var gray1 = new Mat();
             var gray2 = new Mat();
 
-            Cv2.CvtColor(src1, gray1, ColorConversion.BgrToGray);
-            Cv2.CvtColor(src2, gray2, ColorConversion.BgrToGray);
+            Cv2.CvtColor(src1, gray1, ColorConversionCodes.BGR2GRAY);
+            Cv2.CvtColor(src2, gray2, ColorConversionCodes.BGR2GRAY);
 
             var surf = SURF.Create(500, 4, 2, true);
 
@@ -73,7 +73,7 @@ namespace SamplesCS
             surf.Compute(gray2, null, out keypoints2, descriptors2);
 
             // Match descriptor vectors 
-            var bfMatcher = new BFMatcher(NormType.L2, false);
+            var bfMatcher = new BFMatcher(NormTypes.L2, false);
             var flannMatcher = new FlannBasedMatcher();
             DMatch[] bfMatches = bfMatcher.Match(descriptors1, descriptors2);
             DMatch[] flannMatches = flannMatcher.Match(descriptors1, descriptors2);

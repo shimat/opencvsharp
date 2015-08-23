@@ -10,11 +10,11 @@ namespace SamplesCS
     {
         public void Run()
         {
-            using (Mat src = new Mat(FilePath.Image.Distortion, LoadMode.Color))
+            using (Mat src = new Mat(FilePath.Image.Distortion, ImreadModes.Color))
             using (Mat gray = new Mat())
             using (Mat dst = src.Clone())
             {
-                Cv2.CvtColor(src, gray, ColorConversion.BgrToGray);
+                Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
                 CppStyleMSER(gray, dst);  // C++ style
 

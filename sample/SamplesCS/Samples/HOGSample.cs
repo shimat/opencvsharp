@@ -16,7 +16,7 @@ namespace SamplesCS
 
         public void Run()
         {
-            var img = Cv2.ImRead(FilePath.Image.Asahiyama, LoadMode.Color);
+            var img = Cv2.ImRead(FilePath.Image.Asahiyama, ImreadModes.Color);
 
             var hog = new HOGDescriptor();
             hog.SetSVMDetector(HOGDescriptor.GetDefaultPeopleDetector());
@@ -46,10 +46,10 @@ namespace SamplesCS
                     Width = (int)Math.Round(rect.Width * 0.8),
                     Height = (int)Math.Round(rect.Height * 0.8)
                 };
-                img.Rectangle(r.TopLeft, r.BottomRight, Scalar.Red, 3, LineType.Link8, 0);
+                img.Rectangle(r.TopLeft, r.BottomRight, Scalar.Red, 3);
             }
 
-            using (var window = new Window("people detector", WindowMode.None, img))
+            using (var window = new Window("people detector", WindowMode.Normal, img))
             {
                 window.SetProperty(WindowProperty.Fullscreen, 1);
                 Cv2.WaitKey(0);

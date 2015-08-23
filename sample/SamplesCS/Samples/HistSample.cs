@@ -12,7 +12,7 @@ namespace SamplesCS
     {
         public void Run()
         {
-            Mat src = Cv2.ImRead(FilePath.Image.Lenna, LoadMode.GrayScale);
+            Mat src = Cv2.ImRead(FilePath.Image.Lenna, ImreadModes.GrayScale);
 
             // Histogram view
             const int Width = 260, Height = 200;

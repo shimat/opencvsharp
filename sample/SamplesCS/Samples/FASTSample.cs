@@ -10,17 +10,17 @@ namespace SamplesCS
     {
         public void Run()
         {
-            using (Mat imgSrc = new Mat(FilePath.Image.Lenna, LoadMode.Color))
+            using (Mat imgSrc = new Mat(FilePath.Image.Lenna, ImreadModes.Color))
             using (Mat imgGray = new Mat())
             using (Mat imgDst = imgSrc.Clone())
             {
-                Cv2.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray, 0);
+                Cv2.CvtColor(imgSrc, imgGray, ColorConversionCodes.BGR2GRAY, 0);
 
                 KeyPoint[] keypoints = Cv2.FAST(imgGray, 50, true);
 
                 foreach (KeyPoint kp in keypoints)
                 {
-                    imgDst.Circle(kp.Pt, 3, Scalar.Red, -1, LineType.AntiAlias, 0);
+                    imgDst.Circle(kp.Pt, 3, Scalar.Red, -1, LineTypes.AntiAlias, 0);
                 }
 
                 Cv2.ImShow("FAST", imgDst);

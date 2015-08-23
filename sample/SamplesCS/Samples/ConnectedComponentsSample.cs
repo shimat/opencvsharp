@@ -10,11 +10,11 @@ namespace SamplesCS
     {
         public void Run()
         {
-            Mat src = new Mat("Data/Image/shapes.png", LoadMode.Color);
-            Mat gray = src.CvtColor(ColorConversion.BgrToGray);
-            Mat binary = gray.Threshold(0, 255, ThresholdType.Otsu | ThresholdType.Binary);
+            Mat src = new Mat("Data/Image/shapes.png", ImreadModes.Color);
+            Mat gray = src.CvtColor(ColorConversionCodes.BGR2GRAY);
+            Mat binary = gray.Threshold(0, 255, ThresholdTypes.Otsu | ThresholdTypes.Binary);
             Mat labelView = src.EmptyClone();
-            Mat rectView = binary.CvtColor(ColorConversion.GrayToBgr);
+            Mat rectView = binary.CvtColor(ColorConversionCodes.GRAY2BGR);
 
             ConnectedComponents cc = Cv2.ConnectedComponentsEx(binary);
             if (cc.LabelCount <= 1)
@@ -30,8 +30,9 @@ namespace SamplesCS
             }
 
             // filter maximum blob
-            ConnectedComponents.Blob maxBlob = cc.GetLargestBlob();
-            Mat filtered = cc.FilterByBlob(src, maxBlob);
+            var maxBlob = cc.GetLargestBlob();
+            var filtered = new Mat();
+            cc.FilterByBlob(src, filtered, maxBlob);
 
             using (new Window("src", src))
             using (new Window("binary", binary))

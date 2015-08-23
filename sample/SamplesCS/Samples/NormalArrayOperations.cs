@@ -31,7 +31,7 @@ namespace SamplesCS
             List<byte> output = new List<byte>();
 
             Cv2.Threshold(InputArray.Create(input), OutputArray.Create(output),
-                T, Max, ThresholdType.Binary);
+                T, Max, ThresholdTypes.Binary);
 
             Console.WriteLine("Threshold: {0}", T);
             Console.WriteLine("input:  {0}", String.Join(",", input));
@@ -50,7 +50,7 @@ namespace SamplesCS
             List<short> output = new List<short>();
 
             Cv2.Threshold(InputArray.Create(input), OutputArray.Create(output),
-                T, Max, ThresholdType.Binary);
+                T, Max, ThresholdTypes.Binary);
 
             Console.WriteLine("Threshold: {0}", T);
             Console.WriteLine("input:  {0}", String.Join(",", input));
@@ -74,7 +74,7 @@ namespace SamplesCS
             List<Point2f> output = new List<Point2f>();
 
             Cv2.Threshold(InputArray.Create(input), OutputArray.Create(output),
-                T, Max, ThresholdType.Binary);
+                T, Max, ThresholdTypes.Binary);
 
             Console.WriteLine("Threshold: {0}", T);
             Console.WriteLine("input:  {0}", String.Join(",", input));

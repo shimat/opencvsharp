@@ -9,9 +9,9 @@ Imports SampleBase
 ''' </summary>
 Friend Module StarDetectorSample
     Public Sub Start()
-        Using src As New Mat(FilePath.Image.Lenna, LoadMode.GrayScale),
+        Using src As New Mat(FilePath.Image.Lenna, ImreadModes.GrayScale),
               dst As New Mat()
-            Cv2.CvtColor(src, dst, ColorConversion.GrayToBgr)
+            Cv2.CvtColor(src, dst, ColorConversionCodes.GRAY2BGR)
 
             CppStyleStarDetector(src, dst) ' C++-style
 
@@ -38,9 +38,9 @@ Friend Module StarDetectorSample
                 Dim r As Single = kpt.Size / 2
                 Dim a = kpt.Pt
 
-                Cv2.Circle(dst, kpt.Pt, CInt(Math.Truncate(r)), New Scalar(0, 255, 0), 1, LineType.Link8, 0)
-                Cv2.Line(dst, New Point(kpt.Pt.X + r, kpt.Pt.Y + r), New Point(kpt.Pt.X - r, kpt.Pt.Y - r), New Scalar(0, 255, 0), 1, LineType.Link8, 0)
-                Cv2.Line(dst, New Point(kpt.Pt.X - r, kpt.Pt.Y + r), New Point(kpt.Pt.X + r, kpt.Pt.Y - r), New Scalar(0, 255, 0), 1, LineType.Link8, 0)
+                Cv2.Circle(dst, kpt.Pt, CInt(Math.Truncate(r)), New Scalar(0, 255, 0), 1, LineTypes.Link8, 0)
+                Cv2.Line(dst, New Point(kpt.Pt.X + r, kpt.Pt.Y + r), New Point(kpt.Pt.X - r, kpt.Pt.Y - r), New Scalar(0, 255, 0), 1, LineTypes.Link8, 0)
+                Cv2.Line(dst, New Point(kpt.Pt.X - r, kpt.Pt.Y + r), New Point(kpt.Pt.X + r, kpt.Pt.Y - r), New Scalar(0, 255, 0), 1, LineTypes.Link8, 0)
             Next kpt
         End If
 

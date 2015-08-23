@@ -21,15 +21,15 @@ namespace SamplesCS
         private void SampleCpp()
         {
             // (1) Load the image
-            using (Mat imgGray = new Mat(FilePath.Image.Goryokaku, LoadMode.GrayScale))
-            using (Mat imgStd = new Mat(FilePath.Image.Goryokaku, LoadMode.Color))
+            using (Mat imgGray = new Mat(FilePath.Image.Goryokaku, ImreadModes.GrayScale))
+            using (Mat imgStd = new Mat(FilePath.Image.Goryokaku, ImreadModes.Color))
             using (Mat imgProb = imgStd.Clone())
             {
                 // Preprocess
                 Cv2.Canny(imgGray, imgGray, 50, 200, 3, false);
 
                 // (3) Run Standard Hough Transform 
-                CvLineSegmentPolar[] segStd = Cv2.HoughLines(imgGray, 1, Math.PI / 180, 50, 0, 0);
+                LineSegmentPolar[] segStd = Cv2.HoughLines(imgGray, 1, Math.PI / 180, 50, 0, 0);
                 int limit = Math.Min(segStd.Length, 10);
                 for (int i = 0; i < limit; i++ )
                 {
@@ -42,14 +42,14 @@ namespace SamplesCS
                     double y0 = b * rho;
                     Point pt1 = new Point { X = (int)Math.Round(x0 + 1000 * (-b)), Y = (int)Math.Round(y0 + 1000 * (a)) };
                     Point pt2 = new Point { X = (int)Math.Round(x0 - 1000 * (-b)), Y = (int)Math.Round(y0 - 1000 * (a)) };
-                    imgStd.Line(pt1, pt2, Scalar.Red, 3, LineType.AntiAlias, 0);
+                    imgStd.Line(pt1, pt2, Scalar.Red, 3, LineTypes.AntiAlias, 0);
                 }
 
                 // (4) Run Probabilistic Hough Transform
-                CvLineSegmentPoint[] segProb = Cv2.HoughLinesP(imgGray, 1, Math.PI / 180, 50, 50, 10);
-                foreach (CvLineSegmentPoint s in segProb)
+                LineSegmentPoint[] segProb = Cv2.HoughLinesP(imgGray, 1, Math.PI / 180, 50, 50, 10);
+                foreach (LineSegmentPoint s in segProb)
                 {
-                    imgProb.Line(s.P1, s.P2, Scalar.Red, 3, LineType.AntiAlias, 0);
+                    imgProb.Line(s.P1, s.P2, Scalar.Red, 3, LineTypes.AntiAlias, 0);
                 }
 
                 // (5) Show results

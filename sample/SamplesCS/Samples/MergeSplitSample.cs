@@ -12,7 +12,7 @@ namespace SamplesCS
         {
             // Split/Merge Test
             {
-                Mat src = new Mat(FilePath.Image.Lenna, LoadMode.Color);
+                Mat src = new Mat(FilePath.Image.Lenna, ImreadModes.Color);
 
                 // Split each plane
                 Mat[] planes;

@@ -23,7 +23,7 @@ namespace SamplesCS
 
         public void ToBitmap()
         {
-            Mat img = new Mat(FilePath.Image.Lenna511, LoadMode.Color); // width % 4 != 0
+            Mat img = new Mat(FilePath.Image.Lenna511, ImreadModes.Color); // width % 4 != 0
 
             Bitmap bitmap = BitmapConverter.ToBitmap(img);
             // Bitmap bitmap = img.ToBitmap();
@@ -50,7 +50,7 @@ namespace SamplesCS
 
         public void ToBitmapGrayScale()
         {
-            Mat img = new Mat(FilePath.Image.Lenna511, LoadMode.GrayScale); // width % 4 != 0
+            Mat img = new Mat(FilePath.Image.Lenna511, ImreadModes.GrayScale); // width % 4 != 0
 
             Bitmap bitmap = BitmapConverter.ToBitmap(img);
             // Bitmap bitmap = img.ToBitmap();
@@ -90,7 +90,7 @@ namespace SamplesCS
 
         public void ToMatGrayScale()
         {
-            Mat img = new Mat(FilePath.Image.Lenna511, LoadMode.GrayScale);
+            Mat img = new Mat(FilePath.Image.Lenna511, ImreadModes.GrayScale);
             Bitmap bitmap = img.ToBitmap();
 
             Mat converted = BitmapConverter.ToMat(bitmap);

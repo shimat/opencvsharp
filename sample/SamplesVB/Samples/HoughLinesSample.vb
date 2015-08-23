@@ -16,14 +16,14 @@ Friend Module HoughLinesSample
     Public Sub Start()
 
         ' (1)画像の読み込み 
-        Using imgGray As New Mat(FilePath.Image.Goryokaku, LoadMode.GrayScale), _
-                 imgStd As New Mat(FilePath.Image.Goryokaku, LoadMode.Color), _
+        Using imgGray As New Mat(FilePath.Image.Goryokaku, ImreadModes.GrayScale), _
+                 imgStd As New Mat(FilePath.Image.Goryokaku, ImreadModes.Color), _
              imgProb As Mat = imgStd.Clone()
             ' Preprocess
-            Cv2.Canny(imgGray, imgGray, 50, 200, ApertureSize.Size3, False)
+            Cv2.Canny(imgGray, imgGray, 50, 200, 3, False)
 
             ' (3)標準的ハフ変換による線の検出と検出した線の描画
-            Dim segStd() As CvLineSegmentPolar = Cv2.HoughLines(imgGray, 1, Math.PI / 180, 50, 0, 0)
+            Dim segStd() As LineSegmentPolar = Cv2.HoughLines(imgGray, 1, Math.PI / 180, 50, 0, 0)
             Dim limit As Integer = Math.Min(segStd.Length, 10)
             For i As Integer = 0 To limit - 1
                 Dim rho As Single = segStd(i).Rho
@@ -35,13 +35,13 @@ Friend Module HoughLinesSample
                 Dim y0 As Double = b * rho
                 Dim pt1 As Point = New Point With {.X = Math.Round(x0 + 1000 * (-b)), .Y = Math.Round(y0 + 1000 * (a))}
                 Dim pt2 As Point = New Point With {.X = Math.Round(x0 - 1000 * (-b)), .Y = Math.Round(y0 - 1000 * (a))}
-                imgStd.Line(pt1, pt2, New Scalar(0, 0, 255), 3, LineType.AntiAlias, 0)
+                imgStd.Line(pt1, pt2, New Scalar(0, 0, 255), 3, LineTypes.AntiAlias, 0)
             Next i
 
             ' (4)確率的ハフ変換による線分の検出と検出した線分の描画
-            Dim segProb() As CvLineSegmentPoint = Cv2.HoughLinesP(imgGray, 1, Math.PI / 180, 50, 50, 10)
-            For Each s As CvLineSegmentPoint In segProb
-                imgProb.Line(s.P1, s.P2, New Scalar(0, 0, 255), 3, LineType.AntiAlias, 0)
+            Dim segProb() As LineSegmentPoint = Cv2.HoughLinesP(imgGray, 1, Math.PI / 180, 50, 50, 10)
+            For Each s As LineSegmentPoint In segProb
+                imgProb.Line(s.P1, s.P2, New Scalar(0, 0, 255), 3, LineTypes.AntiAlias, 0)
             Next s
 
 

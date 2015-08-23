@@ -10,15 +10,15 @@ Imports SampleBase
 ''' </summary>
 Friend Module FASTSample
     Public Sub Start()
-        Using imgSrc As New Mat(FilePath.Image.Lenna, LoadMode.Color), _
+        Using imgSrc As New Mat(FilePath.Image.Lenna, ImreadModes.Color), _
             imgGray As New Mat(imgSrc.Size, MatType.CV_8UC1), _
             imgDst As Mat = imgSrc.Clone()
-            Cv2.CvtColor(imgSrc, imgGray, ColorConversion.BgrToGray, 0)
+            Cv2.CvtColor(imgSrc, imgGray, ColorConversionCodes.BGR2GRAY, 0)
 
             Dim keypoints() = Cv2.FAST(imgGray, 50, True)
 
             For Each kp As KeyPoint In keypoints
-                imgDst.Circle(kp.Pt, 3, Scalar.Red, -1, LineType.AntiAlias, 0)
+                imgDst.Circle(kp.Pt, 3, Scalar.Red, -1, LineTypes.AntiAlias, 0)
             Next kp
 
             Cv2.ImShow("FAST", imgDst)

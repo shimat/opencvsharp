@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCvSharp;
 
 namespace SamplesCS
@@ -10,7 +8,7 @@ namespace SamplesCS
     {
         private static Mat[] SelectStitchingImages(int width, int height, int count)
         {
-            Mat source = new Mat(@"Data\Image\lenna.png", LoadMode.Color);
+            Mat source = new Mat(@"Data\Image\lenna.png", ImreadModes.Color);
             Mat result = source.Clone();
 
             var rand = new Random();

@@ -10,7 +10,7 @@ namespace SamplesCS
     {
         public void Run()
         {
-            Mat gray = new Mat(FilePath.Image.Lenna, LoadMode.GrayScale);
+            Mat gray = new Mat(FilePath.Image.Lenna, ImreadModes.GrayScale);
             Mat binary = new Mat();
             Mat dilate1 = new Mat();
             Mat dilate2 = new Mat();
@@ -18,7 +18,7 @@ namespace SamplesCS
             Mat kernel = new Mat(3, 3, MatType.CV_8UC1, kernelValues);
 
             // Binarize
-            Cv2.Threshold(gray, binary, 0, 255, ThresholdType.Otsu);
+            Cv2.Threshold(gray, binary, 0, 255, ThresholdTypes.Otsu);
 
             // empty kernel
             Cv2.Dilate(binary, dilate1, null);
