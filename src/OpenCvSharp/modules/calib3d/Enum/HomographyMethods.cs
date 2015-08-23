@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace OpenCvSharp
 {
 #if LANG_JP
@@ -10,47 +11,47 @@ namespace OpenCvSharp
     /// The method used to computed homography matrix
     /// </summary>
 #endif
-    public enum HomographyMethod : int
+    [Flags]
+    public enum HomographyMethods : int
     {
 #if LANG_JP
         /// <summary>
         /// 全ての点のペアを利用する標準的な手法
-        /// [= 0]
         /// </summary>
 #else
         /// <summary>
         /// Regular method using all the point pairs
-        /// [= 0]
         /// </summary>
 #endif
-        Zero = 0,
+        None = 0,
 
 
 #if LANG_JP
         /// <summary>
         /// LMedS推定によるロバストな手法
-        /// [CV_LMEDS]
         /// </summary>
 #else
         /// <summary>
         /// Least-Median robust method
-        /// [CV_LMEDS]
         /// </summary>
 #endif
-        LMedS = CvConst.CV_LMEDS,
+        LMedS = 4,
 
 
 #if LANG_JP
         /// <summary>
         /// RANSACアルゴリズムに基づくロバストな手法
-        /// [CV_RANSAC]
         /// </summary>
 #else
         /// <summary>
         /// RANSAC-based robust method
-        /// [CV_RANSAC]
         /// </summary>
 #endif
-        Ransac = CvConst.CV_RANSAC,
+        Ransac = 8,
+
+        /// <summary>
+        /// RHO algorithm
+        /// </summary>
+        Rho = 16,
     }
 }

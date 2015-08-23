@@ -109,7 +109,7 @@ namespace OpenCvSharp
         /// <param name="mask"> Optional output mask set by a robust method ( CV_RANSAC or CV_LMEDS ). Note that the input mask values are ignored.</param>
         /// <returns></returns>
         public static Mat FindHomography(InputArray srcPoints, InputArray dstPoints,
-            HomographyMethod method = HomographyMethod.Zero, double ransacReprojThreshold = 3,
+            HomographyMethods method = HomographyMethods.None, double ransacReprojThreshold = 3,
             OutputArray mask = null)
         {
             if (srcPoints == null)
@@ -136,7 +136,7 @@ namespace OpenCvSharp
         /// <param name="mask"> Optional output mask set by a robust method ( CV_RANSAC or CV_LMEDS ). Note that the input mask values are ignored.</param>
         /// <returns></returns>
         public static Mat FindHomography(IEnumerable<Point2d> srcPoints, IEnumerable<Point2d> dstPoints,
-            HomographyMethod method = HomographyMethod.Zero, double ransacReprojThreshold = 3,
+            HomographyMethods method = HomographyMethods.None, double ransacReprojThreshold = 3,
             OutputArray mask = null)
         {
             if (srcPoints == null)
@@ -665,7 +665,7 @@ namespace OpenCvSharp
             InputArray distCoeffs, 
             OutputArray rvec, OutputArray tvec,
             bool useExtrinsicGuess = false, 
-            SolvePnPFlag flags = SolvePnPFlag.Iterative)
+            SolvePnPFlags flags = SolvePnPFlags.Iterative)
         {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
@@ -714,7 +714,7 @@ namespace OpenCvSharp
             IEnumerable<double> distCoeffs,
             out double[] rvec, out double[] tvec, 
             bool useExtrinsicGuess = false, 
-            SolvePnPFlag flags = SolvePnPFlag.Iterative)
+            SolvePnPFlags flags = SolvePnPFlags.Iterative)
         {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
@@ -773,7 +773,7 @@ namespace OpenCvSharp
             float reprojectionError = 8.0f,
             int minInliersCount = 100,
             OutputArray inliers = null,
-            SolvePnPFlag flags = SolvePnPFlag.Iterative)
+            SolvePnPFlags flags = SolvePnPFlags.Iterative)
         {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
@@ -859,7 +859,7 @@ namespace OpenCvSharp
             int iterationsCount = 100,
             float reprojectionError = 8.0f,
             int minInliersCount = 100,
-            SolvePnPFlag flags = SolvePnPFlag.Iterative)
+            SolvePnPFlags flags = SolvePnPFlags.Iterative)
         {
             if (objectPoints == null)
                 throw new ArgumentNullException("objectPoints");
@@ -1116,7 +1116,7 @@ namespace OpenCvSharp
             InputArray image, 
             Size patternSize,
             OutputArray centers, 
-            FindCirclesGridFlag flags = FindCirclesGridFlag.SymmetricGrid,
+            FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
             FeatureDetector blobDetector = null)
         {
             if (image == null)
@@ -1144,7 +1144,7 @@ namespace OpenCvSharp
             InputArray image,
             Size patternSize,
             out Point2f[] centers,
-            FindCirclesGridFlag flags = FindCirclesGridFlag.SymmetricGrid,
+            FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
             FeatureDetector blobDetector = null)
         {
             if (image == null)
@@ -1533,7 +1533,7 @@ namespace OpenCvSharp
                                          OutputArray R1, OutputArray R2,
                                          OutputArray P1, OutputArray P2,
                                          OutputArray Q, 
-            StereoRectificationFlag flags = StereoRectificationFlag.ZeroDisparity,
+                                            StereoRectificationFlags flags = StereoRectificationFlags.ZeroDisparity,
                                          double alpha = -1, Size? newImageSize = null)
         {
             Size newImageSize0 = newImageSize.GetValueOrDefault(new Size(0, 0));
@@ -1576,7 +1576,7 @@ namespace OpenCvSharp
                                          Size imageSize, InputArray R, InputArray T,
                                          OutputArray R1, OutputArray R2,
                                          OutputArray P1, OutputArray P2,
-                                         OutputArray Q, StereoRectificationFlag flags,
+                                         OutputArray Q, StereoRectificationFlags flags,
                                          double alpha, Size newImageSize,
                                          out Rect validPixROI1, out Rect validPixROI2)
         {
@@ -1660,7 +1660,7 @@ namespace OpenCvSharp
                                          out double[,] R1, out double[,] R2,
                                          out double[,] P1, out double[,] P2,
                                          out double[,] Q,
-                                         StereoRectificationFlag flags = StereoRectificationFlag.ZeroDisparity,
+                                         StereoRectificationFlags flags = StereoRectificationFlags.ZeroDisparity,
                                          double alpha = -1, Size? newImageSize = null)
         {
             Size newImageSize0 = newImageSize.GetValueOrDefault(new Size(0, 0));
@@ -1707,7 +1707,7 @@ namespace OpenCvSharp
                                          Size imageSize, double[,] R, double[] T,
                                          out double[,] R1, out double[,] R2,
                                          out double[,] P1, out double[,] P2,
-                                         out double[,] Q, StereoRectificationFlag flags,
+                                         out double[,] Q, StereoRectificationFlags flags,
                                          double alpha, Size newImageSize,
                                          out Rect validPixROI1, out Rect validPixROI2)
         {
@@ -1870,7 +1870,7 @@ namespace OpenCvSharp
                                               OutputArray R1, OutputArray R2, OutputArray R3,
                                               OutputArray P1, OutputArray P2, OutputArray P3,
                                               OutputArray Q, double alpha, Size newImgSize,
-                                              out Rect roi1, out Rect roi2, StereoRectificationFlag flags)
+                                              out Rect roi1, out Rect roi2, StereoRectificationFlags flags)
         {
             if (cameraMatrix1 == null)
                 throw new ArgumentNullException("cameraMatrix1");
