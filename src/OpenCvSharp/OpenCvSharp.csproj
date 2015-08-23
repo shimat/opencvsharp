@@ -95,11 +95,11 @@
     <Compile Include="Modules\features2d\Enum\KAZEDiffusivity.cs" />
     <Compile Include="Modules\features2d\AKAZE.cs" />
     <Compile Include="Modules\features2d\KAZE.cs" />
-    <Compile Include="Modules\imgproc\CvCircleSegment.cs" />
-    <Compile Include="Modules\imgproc\CvLine2D.cs" />
-    <Compile Include="Modules\imgproc\CvLine3D.cs" />
-    <Compile Include="Modules\imgproc\CvLineSegmentPoint.cs" />
-    <Compile Include="Modules\imgproc\CvLineSegmentPolar.cs" />
+    <Compile Include="Modules\imgproc\CircleSegment.cs" />
+    <Compile Include="Modules\imgproc\Line2D.cs" />
+    <Compile Include="Modules\imgproc\Line3D.cs" />
+    <Compile Include="Modules\imgproc\LineSegmentPoint.cs" />
+    <Compile Include="Modules\imgproc\LineSegmentPolar.cs" />
     <Compile Include="CvObject.cs" />
     <Compile Include="Delegate\CvCallback.cs" />
     <Compile Include="Delegate\CvCloneFunc.cs" />
@@ -162,7 +162,6 @@
     <Compile Include="Modules\core\Enum\ErrorCode.cs" />
     <Compile Include="Modules\core\Enum\DctFlags.cs" />
     <Compile Include="Modules\core\Enum\DftFlags.cs" />
-    <Compile Include="Enum\DiagType.cs" />
     <Compile Include="Enum\DisparityMode.cs" />
     <Compile Include="Modules\imgproc\Enum\DistanceTypes.cs" />
     <Compile Include="Modules\core\Enum\DistributionType.cs" />
@@ -176,7 +175,7 @@
     <Compile Include="Modules\core\Enum\GemmFlags.cs" />
     <Compile Include="Modules\objdetect\Enum\HaarDetectionType.cs" />
     <Compile Include="Modules\core\Enum\CpuFeatures.cs" />
-    <Compile Include="Enum\HistCompMethods.cs" />
+    <Compile Include="Modules\imgproc\Enum\HistCompMethods.cs" />
     <Compile Include="Modules\calib3d\Enum\HomographyMethods.cs" />
     <Compile Include="Modules\imgproc\Enum\HoughMethods.cs" />
     <Compile Include="Modules\imgcodecs\Enum\ImwriteFlags.cs" />
@@ -204,7 +203,6 @@
     <Compile Include="Modules\highgui\Enum\WindowProperty.cs" />
     <Compile Include="ICvPtrHolder.cs" />
     <Compile Include="Modules\imgcodecs\ImageEncodingParam.cs" />
-    <Compile Include="LoadLibraryException.cs" />
     <Compile Include="Modules\highgui\FourCC.cs" />
     <Compile Include="Modules\bgsegm\BackgroundSubtractorGMG.cs" />
     <Compile Include="Modules\bgsegm\BackgroundSubtractorMOG.cs" />
@@ -447,7 +445,6 @@
     <Compile Include="Vector\VectorOfVec4i.cs" />
     <Compile Include="Vector\VectorOfVec3f.cs" />
     <Compile Include="Vector\VectorOfMat.cs" />
-    <Compile Include="WCvMoments.cs" />
     <Compile Include="PInvoke\Win32Api.cs" />
   </ItemGroup>
   <ItemGroup>

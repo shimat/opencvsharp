@@ -14,7 +14,7 @@ namespace OpenCvSharp
 #endif
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct CvLineSegmentPoint : IEquatable<CvLineSegmentPoint>
+    public struct LineSegmentPoint : IEquatable<LineSegmentPoint>
     {
         #region Fields
 
@@ -42,7 +42,7 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Constructors
+        #region Init
 
 #if LANG_JP
     /// <summary>
@@ -57,7 +57,7 @@ namespace OpenCvSharp
         /// <param name="p1">1st Point</param>
         /// <param name="p2">2nd Point</param>
 #endif
-        public CvLineSegmentPoint(Point p1, Point p2)
+        public LineSegmentPoint(Point p1, Point p2)
         {
             this.P1 = p1;
             this.P2 = p2;
@@ -80,7 +80,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public bool Equals(CvLineSegmentPoint obj)
+        public bool Equals(LineSegmentPoint obj)
         {
             return (this.P1 == obj.P1 && this.P2 == obj.P2);
         }
@@ -100,7 +100,7 @@ namespace OpenCvSharp
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
 #endif
-        public static bool operator ==(CvLineSegmentPoint lhs, CvLineSegmentPoint rhs)
+        public static bool operator ==(LineSegmentPoint lhs, LineSegmentPoint rhs)
         {
             return lhs.Equals(rhs);
         }
@@ -120,7 +120,7 @@ namespace OpenCvSharp
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
 #endif
-        public static bool operator !=(CvLineSegmentPoint lhs, CvLineSegmentPoint rhs)
+        public static bool operator !=(LineSegmentPoint lhs, LineSegmentPoint rhs)
         {
             return !lhs.Equals(rhs);
         }
@@ -200,7 +200,7 @@ namespace OpenCvSharp
         /// <param name="line2"></param>
         /// <returns></returns>
 #endif
-        public static Point? LineIntersection(CvLineSegmentPoint line1, CvLineSegmentPoint line2)
+        public static Point? LineIntersection(LineSegmentPoint line1, LineSegmentPoint line2)
         {
             int x1 = line1.P1.X;
             int y1 = line1.P1.Y;
@@ -242,7 +242,7 @@ namespace OpenCvSharp
         /// <param name="line"></param>
         /// <returns></returns>
 #endif
-        public Point? LineIntersection(CvLineSegmentPoint line)
+        public Point? LineIntersection(LineSegmentPoint line)
         {
             return LineIntersection(this, line);
         }
@@ -266,7 +266,7 @@ namespace OpenCvSharp
         /// <param name="seg2"></param>
         /// <returns></returns>
 #endif
-        public static Point? SegmentIntersection(CvLineSegmentPoint seg1, CvLineSegmentPoint seg2)
+        public static Point? SegmentIntersection(LineSegmentPoint seg1, LineSegmentPoint seg2)
         {
             if (IntersectedSegments(seg1, seg2))
                 return LineIntersection(seg1, seg2);
@@ -287,7 +287,7 @@ namespace OpenCvSharp
         /// <param name="seg"></param>
         /// <returns></returns>
 #endif
-        public Point? SegmentIntersection(CvLineSegmentPoint seg)
+        public Point? SegmentIntersection(LineSegmentPoint seg)
         {
             return SegmentIntersection(this, seg);
         }
@@ -307,7 +307,7 @@ namespace OpenCvSharp
         /// <param name="seg2"></param>
         /// <returns></returns>
 #endif
-        public static bool IntersectedSegments(CvLineSegmentPoint seg1, CvLineSegmentPoint seg2)
+        public static bool IntersectedSegments(LineSegmentPoint seg1, LineSegmentPoint seg2)
         {
             Point p1 = seg1.P1;
             Point p2 = seg1.P2;
@@ -360,7 +360,7 @@ namespace OpenCvSharp
         /// <param name="seg"></param>
         /// <returns></returns>
 #endif
-        public bool IntersectedSegments(CvLineSegmentPoint seg)
+        public bool IntersectedSegments(LineSegmentPoint seg)
         {
             return IntersectedSegments(this, seg);
         }
@@ -384,7 +384,7 @@ namespace OpenCvSharp
         /// <param name="seg">Segment</param>
         /// <returns></returns>
 #endif
-        public static bool IntersectedLineAndSegment(CvLineSegmentPoint line, CvLineSegmentPoint seg)
+        public static bool IntersectedLineAndSegment(LineSegmentPoint line, LineSegmentPoint seg)
         {
             Point p1 = line.P1;
             Point p2 = line.P2;
@@ -413,7 +413,7 @@ namespace OpenCvSharp
         /// <param name="seg"></param>
         /// <returns></returns>
 #endif
-        public static Point? LineAndSegmentIntersection(CvLineSegmentPoint line, CvLineSegmentPoint seg)
+        public static Point? LineAndSegmentIntersection(LineSegmentPoint line, LineSegmentPoint seg)
         {
             if (IntersectedLineAndSegment(line, seg))
                 return LineIntersection(line, seg);
@@ -436,7 +436,7 @@ namespace OpenCvSharp
         /// <param name="s"></param>
         /// <returns></returns>
 #endif
-        public double Length(CvLineSegmentPoint s)
+        public double Length(LineSegmentPoint s)
         {
             return P1.DistanceTo(P2);
         }
@@ -481,25 +481,6 @@ namespace OpenCvSharp
         {
             Offset(p.X, p.Y);
         }
-
-        #region Obsolete
-
-        /// <summary>
-        /// 線分が交差しているかどうか 
-        /// </summary>
-        /// <param name="seg1"></param>
-        /// <param name="seg2"></param>
-        /// <returns></returns>
-        private static bool _IntersectedSegments_(CvLineSegmentPoint seg1, CvLineSegmentPoint seg2)
-        {
-            return
-                Point.CrossProduct(seg1.P2 - seg1.P1, seg2.P1 - seg1.P1)*
-                Point.CrossProduct(seg1.P2 - seg1.P1, seg2.P2 - seg1.P1) < double.Epsilon &&
-                Point.CrossProduct(seg2.P2 - seg2.P1, seg1.P1 - seg2.P1)*
-                Point.CrossProduct(seg2.P2 - seg2.P1, seg1.P2 - seg2.P1) < double.Epsilon;
-        }
-
-        #endregion
 
         #endregion
     }

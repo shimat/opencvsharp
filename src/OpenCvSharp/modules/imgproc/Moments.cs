@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -155,7 +156,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         private void InitializeFromInputArray(InputArray array, bool binaryImage)
         {
-            WCvMoments m = NativeMethods.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0);
+            var m = NativeMethods.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0);
             Initialize(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
         }
 
@@ -253,5 +254,14 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+#pragma warning disable 1591
+        public struct NativeStruct
+        {
+            public double m00, m10, m01, m20, m11, m02, m30, m21, m12, m03; /* spatial moments */
+            public double mu20, mu11, mu02, mu30, mu21, mu12, mu03; /* central moments */
+            public double inv_sqrt_m00; /* m00 != 0 ? 1/sqrt(m00) : 0 */
+        }
     }
 }

@@ -24,7 +24,6 @@ namespace OpenCvSharp
             Param_UINT64 = 9,
             Param_SHORT = 10,
             Param_UCHAR = 11;
-
  
         /// <summary>
         /// cv::initWideAngleProjMap flags
@@ -56,32 +55,5 @@ namespace OpenCvSharp
             CASCADE_SCALE_IMAGE = 2,
             CASCADE_FIND_BIGGEST_OBJECT = 4,
             CASCADE_DO_ROUGH_SEARCH = 8;
-
-        /// <summary>
-        /// calcOpticalFlowPyrLK
-        /// </summary>
-        public const int
-            OPTFLOW_PYR_A_READY = 1,
-            OPTFLOW_PYR_B_READY = 2,
-            OPTFLOW_USE_INITIAL_FLOW = 4,
-            OPTFLOW_LK_GET_MIN_EIGENVALS = 8,
-            OPTFLOW_FARNEBACK_GAUSSIAN = 256;
-
-        /// <summary>
-        /// cv::flann distance types
-        /// </summary>
-        public const int FLANN_DIST_EUCLIDEAN = 1,
-                         FLANN_DIST_L2 = 1,
-                         FLANN_DIST_MANHATTAN = 2,
-                         FLANN_DIST_L1 = 2,
-                         FLANN_DIST_MINKOWSKI = 3,
-                         FLANN_DIST_MAX = 4,
-                         FLANN_DIST_HIST_INTERSECT = 5,
-                         FLANN_DIST_HELLINGER = 6,
-                         FLANN_DIST_CHI_SQUARE = 7,
-                         FLANN_DIST_CS = 7,
-                         FLANN_DIST_KULLBACK_LEIBLER = 8,
-                         FLANN_DIST_KL = 8,
-                         FLANN_DIST_HAMMING = 9;
     }
 }

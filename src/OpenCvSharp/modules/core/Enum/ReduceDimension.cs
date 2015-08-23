@@ -25,7 +25,6 @@ namespace OpenCvSharp
 #endif
         Row = 0,
 
-
 #if LANG_JP
         /// <summary>
         /// 行列を1列ベクトルに縮小する
@@ -37,10 +36,8 @@ namespace OpenCvSharp
         /// [= 1]
         /// </summary>
 #endif
-
-
-
         Column = 1,
+
 #if LANG_JP
         /// <summary>
         /// 出力行列のサイズから次元を解析し，自動的に選択する

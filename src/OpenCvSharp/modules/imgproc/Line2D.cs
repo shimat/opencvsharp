@@ -6,14 +6,14 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-    /// 
+    /// 始点と変化量であらわされる、2次元の直線を表すオブジェクト
     /// </summary>
 #else
     /// <summary>
-    /// 
+    /// 2-dimentional line vector
     /// </summary>
 #endif
-    public class CvLine2D
+    public class Line2D
     {
         #region Properties
 #if LANG_JP
@@ -58,7 +58,7 @@ namespace OpenCvSharp
         public double Y1 { get; set; }
         #endregion
 
-        #region Initialization
+        #region Init
 #if LANG_JP
         /// <summary>
         /// 初期化
@@ -76,7 +76,7 @@ namespace OpenCvSharp
         /// <param name="x1">Z-coordinate of some point on the line</param>
         /// <param name="y1">Z-coordinate of some point on the line</param>
 #endif
-        public CvLine2D(double vx, double vy, double x1, double y1)
+        public Line2D(double vx, double vy, double x1, double y1)
         {
             Vx = vx;
             Vy = vy;
@@ -94,7 +94,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="line">The returned value from cvFitLine</param>param>
 #endif
-        public CvLine2D(float[] line)
+        public Line2D(float[] line)
             : this(line[0], line[1], line[2], line[3])
         {
         }

@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// A 3-dimensional line object
     /// </summary>
 #endif
-    public class CvLine3D
+    public class Line3D
     {
         #region Properties
 #if LANG_JP
@@ -99,7 +99,7 @@ namespace OpenCvSharp
         /// <param name="y1">Z-coordinate of some point on the line</param>
         /// <param name="z1">Z-coordinate of some point on the line</param>
 #endif
-        public CvLine3D(double vx, double vy, double vz, double x1, double y1, double z1)
+        public Line3D(double vx, double vy, double vz, double x1, double y1, double z1)
         {
             Vx = vx;
             Vy = vy;
@@ -119,7 +119,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="line">The returned value from cvFitLine</param>param>
 #endif
-        public CvLine3D(float[] line)
+        public Line3D(float[] line)
             : this(line[0], line[1], line[2], line[3], line[4], line[5])
         {
         }

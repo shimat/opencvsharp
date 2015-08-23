@@ -14,7 +14,7 @@ namespace OpenCvSharp
 #endif
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct CvCircleSegment : IEquatable<CvCircleSegment>
+    public struct CircleSegment : IEquatable<CircleSegment>
     {
         #region Fields
 #if LANG_JP
@@ -39,7 +39,7 @@ namespace OpenCvSharp
         public float Radius;
         #endregion
 
-        #region Constructors
+        #region Init
 #if LANG_JP
         /// <summary>
         /// 初期化
@@ -53,7 +53,7 @@ namespace OpenCvSharp
         /// <param name="center">center</param>
         /// <param name="radius">radius</param>
 #endif
-        public CvCircleSegment(Point2f center, float radius)
+        public CircleSegment(Point2f center, float radius)
         {
             this.Center = center;
             this.Radius = radius;
@@ -74,7 +74,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public bool Equals(CvCircleSegment obj)
+        public bool Equals(CircleSegment obj)
         {
             return (this.Center == obj.Center && this.Radius == obj.Radius);
         }
@@ -93,7 +93,7 @@ namespace OpenCvSharp
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
 #endif
-        public static bool operator ==(CvCircleSegment lhs, CvCircleSegment rhs)
+        public static bool operator ==(CircleSegment lhs, CircleSegment rhs)
         {
             return lhs.Equals(rhs);
         }
@@ -112,7 +112,7 @@ namespace OpenCvSharp
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
 #endif
-        public static bool operator !=(CvCircleSegment lhs, CvCircleSegment rhs)
+        public static bool operator !=(CircleSegment lhs, CircleSegment rhs)
         {
             return !lhs.Equals(rhs);
         }
