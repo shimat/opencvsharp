@@ -12,8 +12,14 @@ namespace OpenCvSharp
     {
         private bool disposed;
 
+        private Mat img;
+        private Point pt1;
+        private Point pt2;
+        private PixelConnectivity connectivity;
+        private bool leftToRight;
+
         /// <summary>
-        /// Intializes the iterator
+        /// Constructor
         /// </summary>
         /// <param name="img"></param>
         /// <param name="pt1"></param>
@@ -30,8 +36,26 @@ namespace OpenCvSharp
         {
             if (img == null)
                 throw new ArgumentNullException("img");
+            this.img = img;
+            this.pt1 = pt1;
+            this.pt2 = pt2;
+            this.connectivity = connectivity;
+            this.leftToRight = leftToRight;
+        }
+
+        /// <summary>
+        /// Intializes the iterator
+        /// </summary>
+        /// <returns></returns>
+        private void Initialize()
+        {
+            if (ptr != IntPtr.Zero)
+                throw new OpenCvSharpException("invalid state");
+            img.ThrowIfDisposed();
+
             ptr = NativeMethods.imgproc_LineIterator_new(
                 img.CvPtr, pt1, pt2, (int)connectivity, leftToRight ? 1 : 0);
+            disposed = false;
         }
 
 #if LANG_JP
@@ -83,8 +107,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public IEnumerator<Pixel> GetEnumerator()
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            //if (disposed)
+            //    throw new ObjectDisposedException(GetType().Name);
+            Dispose();
+            Initialize();
 
             int count = NativeMethods.imgproc_LineIterator_count_get(ptr);
             for (int i = 0; i < count; i++)
@@ -92,6 +118,8 @@ namespace OpenCvSharp
                 Point pos = NativeMethods.imgproc_LineIterator_pos(ptr);
                 IntPtr value = NativeMethods.imgproc_LineIterator_operatorEntity(ptr);
                 yield return new Pixel(pos, value);
+
+                NativeMethods.imgproc_LineIterator_operatorPP(ptr);
             }
         }
 
@@ -113,6 +141,123 @@ namespace OpenCvSharp
                     throw new ObjectDisposedException(GetType().Name);
                 return NativeMethods.imgproc_LineIterator_ptr_get(ptr);
             } 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IntPtr Ptr0
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_ptr0_get(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Step
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_step_get(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ElemSize
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_elemSize_get(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Err
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_err_get(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_count_get(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MinusDelta
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_minusDelta_get(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int PlusDelta
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_plusDelta_get(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MinusStep
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_minusStep_get(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int PlusStep
+        {
+            get
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(GetType().Name);
+                return NativeMethods.imgproc_LineIterator_plusStep_get(ptr);
+            }
         }
 
         #endregion
@@ -154,6 +299,17 @@ namespace OpenCvSharp
             public T GetValue<T>() where T : struct
             {
                 return (T)Marshal.PtrToStructure(Value, typeof (T));
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="value"></param>
+            /// <returns></returns>
+            public void SetValue<T>(T value) where T : struct
+            {
+                Marshal.StructureToPtr(value, Value, false);
             }
 
             /// <summary>
