@@ -255,6 +255,9 @@
     <ClInclude Include="imgcodecs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="imgproc_LineIterator.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
