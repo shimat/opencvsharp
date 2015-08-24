@@ -34,7 +34,7 @@ namespace OpenCvSharp
         /// <param name="shape"></param>
         /// <param name="ksize"></param>
         /// <returns></returns>
-        public static Mat GetStructuringElement(StructuringElementShape shape, Size ksize)
+        public static Mat GetStructuringElement(MorphShapes shape, Size ksize)
         {
             return GetStructuringElement(shape, ksize, new Point(-1, -1));
         }
@@ -45,7 +45,7 @@ namespace OpenCvSharp
         /// <param name="ksize"></param>
         /// <param name="anchor"></param>
         /// <returns></returns>
-        public static Mat GetStructuringElement(StructuringElementShape shape, Size ksize, Point anchor)
+        public static Mat GetStructuringElement(MorphShapes shape, Size ksize, Point anchor)
         {
             IntPtr matPtr = NativeMethods.imgproc_getStructuringElement((int)shape, ksize, anchor);
             return new Mat(matPtr);
@@ -64,7 +64,7 @@ namespace OpenCvSharp
         /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
         /// <param name="borderType">The border type</param>
         /// <param name="value">The border value if borderType == Constant</param>
-        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right, BorderType borderType, Scalar? value = null)
+        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right, BorderTypes borderType, Scalar? value = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -74,6 +74,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Scalar value0 = value.GetValueOrDefault(new Scalar());
             NativeMethods.imgproc_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -95,6 +96,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -114,7 +116,7 @@ namespace OpenCvSharp
         /// regardless of possible future modifications of all this semantics, it is recommended to specify all of ksize, sigmaX, and sigmaY.</param>
         /// <param name="borderType">pixel extrapolation method</param>
         public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, 
-            double sigmaY = 0, BorderType borderType = BorderType.Default)
+            double sigmaY = 0, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -123,6 +125,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -142,7 +145,8 @@ namespace OpenCvSharp
         /// (as long as their colors are close enough; see sigmaColor). Then d>0 , it specifies 
         /// the neighborhood size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace</param>
         /// <param name="borderType"></param>
-        public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, BorderType borderType = BorderType.Default)
+        public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor,
+            double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -151,6 +155,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -200,8 +205,10 @@ namespace OpenCvSharp
         /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
         /// <param name="normalize">Indicates, whether the kernel is normalized by its area or not</param>
         /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
-        public static void BoxFilter(InputArray src, OutputArray dst, MatType ddepth, 
-            Size ksize, Point? anchor = null, bool normalize = true, BorderType borderType = BorderType.Default)
+        public static void BoxFilter(
+            InputArray src, OutputArray dst, MatType ddepth, 
+            Size ksize, Point? anchor = null, bool normalize = true,
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -211,6 +218,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -223,8 +231,9 @@ namespace OpenCvSharp
         /// <param name="ksize">The smoothing kernel size</param>
         /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
         /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
-        public static void Blur(InputArray src, OutputArray dst, Size ksize, 
-            Point? anchor = null, BorderType borderType = BorderType.Default)
+        public static void Blur(
+            InputArray src, OutputArray dst, Size ksize, 
+            Point? anchor = null, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -234,6 +243,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor0, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -252,8 +262,10 @@ namespace OpenCvSharp
         /// The special default value (-1,-1) means that the anchor is at the kernel center</param>
         /// <param name="delta">The optional value added to the filtered pixels before storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void Filter2D(InputArray src, OutputArray dst, MatType ddepth,
-	        InputArray kernel, Point? anchor = null, double delta = 0, BorderType borderType = BorderType.Default)
+        public static void Filter2D(
+            InputArray src, OutputArray dst, MatType ddepth,
+	        InputArray kernel, Point? anchor = null, double delta = 0, 
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -267,6 +279,7 @@ namespace OpenCvSharp
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, 
                 anchor0, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -282,8 +295,10 @@ namespace OpenCvSharp
         /// <param name="anchor">The anchor position within the kernel; The default value (-1, 1) means that the anchor is at the kernel center</param>
         /// <param name="delta">The value added to the filtered results before storing them</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void SepFilter2D(InputArray src, OutputArray dst, MatType ddepth, InputArray kernelX, InputArray kernelY,
-            Point? anchor = null, double delta = 0, BorderType borderType = BorderType.Default)
+        public static void SepFilter2D(
+            InputArray src, OutputArray dst, MatType ddepth, InputArray kernelX, InputArray kernelY,
+            Point? anchor = null, double delta = 0, 
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -300,6 +315,7 @@ namespace OpenCvSharp
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth, 
                 kernelX.CvPtr, kernelY.CvPtr, anchor0, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -316,8 +332,10 @@ namespace OpenCvSharp
         /// <param name="scale">The optional scale factor for the computed derivative values (by default, no scaling is applied</param>
         /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void Sobel(InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
-            int ksize = 3, double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)        
+        public static void Sobel(
+            InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
+            int ksize = 3, double scale = 1, double delta = 0, 
+            BorderTypes borderType = BorderTypes.Default)        
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -327,6 +345,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder, 
                 ksize, scale, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -342,8 +361,9 @@ namespace OpenCvSharp
         /// <param name="scale">The optional scale factor for the computed derivative values (by default, no scaling is applie</param>
         /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void Scharr(InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
-            double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
+        public static void Scharr(
+            InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
+            double scale = 1, double delta = 0, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -353,6 +373,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder, 
                 scale, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -367,8 +388,10 @@ namespace OpenCvSharp
         /// <param name="scale">The optional scale factor for the computed Laplacian values (by default, no scaling is applied</param>
         /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
         /// <param name="borderType">The pixel extrapolation method</param>
-        public static void Laplacian(InputArray src, OutputArray dst, MatType ddepth,
-            int ksize = 1, double scale = 1, double delta = 0, BorderType borderType = BorderType.Default)
+        public static void Laplacian(
+            InputArray src, OutputArray dst, MatType ddepth,
+            int ksize = 1, double scale = 1, double delta = 0, 
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -377,6 +400,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_Laplacian(src.CvPtr, dst.CvPtr, ddepth, ksize, scale, delta, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -412,6 +436,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             edges.ThrowIfNotReady();
             NativeMethods.imgproc_Canny(src.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0);
+            GC.KeepAlive(src);
             edges.Fix();
         }
         #endregion
@@ -424,8 +449,9 @@ namespace OpenCvSharp
         /// <param name="blockSize"></param>
         /// <param name="ksize"></param>
         /// <param name="borderType"></param>
-        public static void CornerEigenValsAndVecs(InputArray src, OutputArray dst, int blockSize, int ksize,
-            BorderType borderType = BorderType.Default)
+        public static void CornerEigenValsAndVecs(
+            InputArray src, OutputArray dst, int blockSize, int ksize,
+            BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -434,6 +460,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_cornerEigenValsAndVecs(src.CvPtr, dst.CvPtr, blockSize, ksize, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -445,8 +472,8 @@ namespace OpenCvSharp
         /// <param name="dst"></param>
         /// <param name="ksize"></param>
         /// <param name="borderType"></param>
-        public static void PreCornerDetect(InputArray src, OutputArray dst, int ksize,
-            BorderType borderType = BorderType.Default)
+        public static void PreCornerDetect(
+            InputArray src, OutputArray dst, int ksize, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -455,6 +482,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_preCornerDetect(src.CvPtr, dst.CvPtr, ksize, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -487,6 +515,7 @@ namespace OpenCvSharp
             using (var vector = new VectorOfPoint2f(inputCornersCopy))
             {
                 NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria);
+                GC.KeepAlive(image);
                 return vector.ToArray();
             }
         }
@@ -524,6 +553,7 @@ namespace OpenCvSharp
                 IntPtr maskPtr = ToPtr(mask);
                 NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
                     minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k);
+                GC.KeepAlive(src);
                 return vector.ToArray();
             }
         }
@@ -554,7 +584,8 @@ namespace OpenCvSharp
         /// <returns>The output vector of lines. Each line is represented by a two-element vector (rho, theta) . 
         /// rho is the distance from the coordinate origin (0,0) (top-left corner of the image) and theta is the line rotation angle in radians</returns>
 #endif
-        public static CvLineSegmentPolar[] HoughLines(InputArray image, double rho, double theta, int threshold, 
+        public static LineSegmentPolar[] HoughLines(
+            InputArray image, double rho, double theta, int threshold, 
             double srn = 0, double stn = 0)
         {
             if (image == null)
@@ -563,7 +594,8 @@ namespace OpenCvSharp
             using (var vec = new VectorOfVec2f())
             {
                 NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
-                return vec.ToArray<CvLineSegmentPolar>();
+                GC.KeepAlive(image);
+                return vec.ToArray<LineSegmentPolar>();
             }
         }
         #endregion
@@ -591,7 +623,8 @@ namespace OpenCvSharp
         /// <param name="maxLineGap">The maximum allowed gap between points on the same line to link them. [By default this is 0]</param>
         /// <returns>The output lines. Each line is represented by a 4-element vector (x1, y1, x2, y2)</returns>
 #endif
-        public static CvLineSegmentPoint[] HoughLinesP(InputArray image, double rho, double theta, int threshold, 
+        public static LineSegmentPoint[] HoughLinesP(
+            InputArray image, double rho, double theta, int threshold, 
             double minLineLength = 0, double maxLineGap = 0)
         {
             if (image == null)
@@ -600,7 +633,8 @@ namespace OpenCvSharp
             using (var vec = new VectorOfVec4i())
             {
                 NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
-                return vec.ToArray<CvLineSegmentPoint>();
+                GC.KeepAlive(image);
+                return vec.ToArray<LineSegmentPoint>();
             }
         }
         #endregion
@@ -632,7 +666,8 @@ namespace OpenCvSharp
         /// <param name="maxRadius">Maximum circle radius. [By default this is 0] </param>
         /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
 #endif
-        public static CvCircleSegment[] HoughCircles(InputArray image, HoughCirclesMethod method, double dp, double minDist, 
+        public static CircleSegment[] HoughCircles(
+            InputArray image, HoughMethods method, double dp, double minDist, 
             double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
         {
             if (image == null)
@@ -641,7 +676,8 @@ namespace OpenCvSharp
             using (var vec = new VectorOfVec3f())
             {
                 NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
-                return vec.ToArray<CvCircleSegment>();
+                GC.KeepAlive(image);
+                return vec.ToArray<CircleSegment>();
             }
         }
         #endregion
@@ -679,8 +715,10 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
-        public static void Dilate(InputArray src, OutputArray dst, InputArray element,
-            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
+        public static void Dilate(
+            InputArray src, OutputArray dst, InputArray element,
+            Point? anchor = null, int iterations = 1, 
+            BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -693,6 +731,7 @@ namespace OpenCvSharp
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
             NativeMethods.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -720,8 +759,10 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
-        public static void Erode(InputArray src, OutputArray dst, InputArray element,
-            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
+        public static void Erode(
+            InputArray src, OutputArray dst, InputArray element,
+            Point? anchor = null, int iterations = 1, 
+            BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -734,6 +775,7 @@ namespace OpenCvSharp
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
             NativeMethods.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -763,8 +805,10 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
-        public static void MorphologyEx(InputArray src, OutputArray dst, MorphologyOperation op, InputArray element,
-            Point? anchor = null, int iterations = 1, BorderType borderType = BorderType.Constant, Scalar? borderValue = null)
+        public static void MorphologyEx(
+            InputArray src, OutputArray dst, MorphTypes op, InputArray element,
+            Point? anchor = null, int iterations = 1, 
+            BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -777,6 +821,7 @@ namespace OpenCvSharp
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             IntPtr elementPtr = ToPtr(element);
             NativeMethods.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -805,6 +850,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_resize(src.CvPtr, dst.CvPtr, dsize, fx, fy, (int)interpolation);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -822,8 +868,10 @@ namespace OpenCvSharp
         /// it means that the pixels in the destination image corresponding to the "outliers" 
         /// in the source image are not modified by the function.</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
-        public static void WarpAffine(InputArray src, OutputArray dst, InputArray m, Size dsize,
-            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+        public static void WarpAffine(
+            InputArray src, OutputArray dst, InputArray m, Size dsize,
+            InterpolationFlags flags = InterpolationFlags.Linear, 
+            BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -836,6 +884,7 @@ namespace OpenCvSharp
             m.ThrowIfDisposed();
             Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -866,8 +915,10 @@ namespace OpenCvSharp
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
 #endif
-        public static void WarpPerspective(InputArray src, OutputArray dst, InputArray m, Size dsize,
-            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, 
+        public static void WarpPerspective(
+            InputArray src, OutputArray dst, InputArray m, Size dsize,
+            InterpolationFlags flags = InterpolationFlags.Linear, 
+            BorderTypes borderMode = BorderTypes.Constant, 
             Scalar? borderValue = null)
         {
             if (src == null)
@@ -882,6 +933,7 @@ namespace OpenCvSharp
             Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_warpPerspective_MisInputArray(
                 src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
 
@@ -911,8 +963,10 @@ namespace OpenCvSharp
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
 #endif
-        public static void WarpPerspective(InputArray src, OutputArray dst, float[,] m, Size dsize,
-            InterpolationFlags flags = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant,
+        public static void WarpPerspective(
+            InputArray src, OutputArray dst, float[,] m, Size dsize,
+            InterpolationFlags flags = InterpolationFlags.Linear, 
+            BorderTypes borderMode = BorderTypes.Constant,
             Scalar? borderValue = null)
         {
             if (src == null)
@@ -928,6 +982,7 @@ namespace OpenCvSharp
             int mCol = m.GetLength(1);
             NativeMethods.imgproc_warpPerspective_MisArray(
                 src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int)flags, (int)borderMode, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -944,8 +999,10 @@ namespace OpenCvSharp
         /// it means that the pixels in the destination image that corresponds to the "outliers" in 
         /// the source image are not modified by the function.</param>
         /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
-        public static void Remap(InputArray src, OutputArray dst, InputArray map1, InputArray map2,
-            InterpolationFlags interpolation = InterpolationFlags.Linear, BorderType borderMode = BorderType.Constant, Scalar? borderValue = null)
+        public static void Remap(
+            InputArray src, OutputArray dst, InputArray map1, InputArray map2,
+            InterpolationFlags interpolation = InterpolationFlags.Linear, 
+            BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -961,6 +1018,7 @@ namespace OpenCvSharp
             map2.ThrowIfDisposed();
             Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int)interpolation, (int)borderMode, borderValue0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -989,6 +1047,8 @@ namespace OpenCvSharp
             dstmap1.ThrowIfDisposed();
             dstmap2.ThrowIfDisposed();
             NativeMethods.imgproc_convertMaps(map1.CvPtr, map2.CvPtr, dstmap1.CvPtr, dstmap2.CvPtr, dstmap1Type, nnInterpolation ? 1 : 0);
+            GC.KeepAlive(map1);
+            GC.KeepAlive(map2);
             dstmap1.Fix();
             dstmap2.Fix();
         }
@@ -1024,6 +1084,8 @@ namespace OpenCvSharp
             m.ThrowIfDisposed();
             im.ThrowIfNotReady();
             NativeMethods.imgproc_invertAffineTransform(m.CvPtr, im.CvPtr);
+            GC.KeepAlive(m);
+            im.Fix();
         }
         #endregion
         #region GetPerspectiveTransform
@@ -1059,6 +1121,8 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform2(src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             return new Mat(ret);
         }
         #endregion
@@ -1096,6 +1160,8 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             IntPtr ret = NativeMethods.imgproc_getAffineTransform2(src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             return new Mat(ret);
         }
         #endregion
@@ -1119,6 +1185,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             patch.ThrowIfNotReady();
             NativeMethods.imgproc_getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType);
+            GC.KeepAlive(image); 
             patch.Fix();
         }
         #endregion
@@ -1138,6 +1205,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             sum.ThrowIfNotReady();
             NativeMethods.imgproc_integral1(src.CvPtr, sum.CvPtr, sdepth);
+            GC.KeepAlive(src);
             sum.Fix();
         }
         /// <summary>
@@ -1159,6 +1227,7 @@ namespace OpenCvSharp
             sum.ThrowIfNotReady();
             sqsum.ThrowIfNotReady();
             NativeMethods.imgproc_integral2(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth);
+            GC.KeepAlive(src);
             sum.Fix();
             sqsum.Fix();
         }
@@ -1185,6 +1254,7 @@ namespace OpenCvSharp
             sqsum.ThrowIfNotReady();
             tilted.ThrowIfNotReady();
             NativeMethods.imgproc_integral3(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth);
+            GC.KeepAlive(src);
             sum.Fix();
             sqsum.Fix();
             tilted.Fix();
@@ -1206,6 +1276,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_accumulate(src.CvPtr, dst.CvPtr, ToPtr(mask));
+            GC.KeepAlive(src);
             dst.Fix();
         }
         /// <summary>
@@ -1223,6 +1294,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_accumulateSquare(src.CvPtr, dst.CvPtr, ToPtr(mask));
+            GC.KeepAlive(src);
             dst.Fix();
         }
         /// <summary>
@@ -1244,6 +1316,8 @@ namespace OpenCvSharp
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_accumulateProduct(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
             dst.Fix();
         }
         /// <summary>
@@ -1262,6 +1336,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_accumulateWeighted(src.CvPtr, dst.CvPtr, alpha, ToPtr(mask));
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1281,7 +1356,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src2");
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            return NativeMethods.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
+            var ret = NativeMethods.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            return ret;
         }
         #endregion
         #region PhaseCorrelate
@@ -1301,7 +1379,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src2");
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            return NativeMethods.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, ToPtr(window));
+            var ret = NativeMethods.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, ToPtr(window));
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            return ret;
         }
         #endregion
         #region PhaseCorrelateRes
@@ -1337,7 +1418,11 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             window.ThrowIfDisposed();
-            return NativeMethods.imgproc_phaseCorrelateRes(src1.CvPtr, src2.CvPtr, window.CvPtr, out response);
+            var ret = NativeMethods.imgproc_phaseCorrelateRes(src1.CvPtr, src2.CvPtr, window.CvPtr, out response);
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(window);
+            return ret;
         }
         #endregion
         #region CreateHanningWindow
@@ -1375,6 +1460,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             double ret = NativeMethods.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
+            GC.KeepAlive(src);
             dst.Fix();
             return ret;
         }
@@ -1401,6 +1487,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)adaptiveMethod, (int)thresholdType, blockSize, c);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1413,7 +1500,7 @@ namespace OpenCvSharp
         /// <param name="dstSize">size of the output image; by default, it is computed as Size((src.cols+1)/2</param>
         /// <param name="borderType"></param>
         public static void PyrDown(InputArray src, OutputArray dst,
-            Size? dstSize = null, BorderType borderType = BorderType.Default)
+            Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1423,6 +1510,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Size dstSize0 = dstSize.GetValueOrDefault(new Size());
             NativeMethods.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         /// <summary>
@@ -1433,7 +1521,7 @@ namespace OpenCvSharp
         /// <param name="dstSize">size of the output image; by default, it is computed as Size(src.cols*2, (src.rows*2)</param>
         /// <param name="borderType"></param>
         public static void PyrUp(InputArray src, OutputArray dst,
-            Size? dstSize = null, BorderType borderType = BorderType.Default)
+            Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -1443,6 +1531,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             Size dstSize0 = dstSize.GetValueOrDefault(new Size());
             NativeMethods.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1474,6 +1563,7 @@ namespace OpenCvSharp
             cameraMatrix.ThrowIfDisposed();
             NativeMethods.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
                 ToPtr(distCoeffs), ToPtr(newCameraMatrix));
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1489,7 +1579,8 @@ namespace OpenCvSharp
         /// <param name="m1Type"></param>
         /// <param name="map1"></param>
         /// <param name="map2"></param>
-        public static void InitUndistortRectifyMap(InputArray cameraMatrix, InputArray distCoeffs,
+        public static void InitUndistortRectifyMap(
+            InputArray cameraMatrix, InputArray distCoeffs,
             InputArray r, InputArray newCameraMatrix,
             Size size, MatType m1Type, OutputArray map1, OutputArray map2)
         {
@@ -1513,6 +1604,10 @@ namespace OpenCvSharp
             map2.ThrowIfNotReady();
             NativeMethods.imgproc_initUndistortRectifyMap(
                 cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(r);
+            GC.KeepAlive(newCameraMatrix);
             map1.Fix();
             map2.Fix();
         }
@@ -1531,8 +1626,10 @@ namespace OpenCvSharp
         /// <param name="projType"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public static float InitWideAngleProjMap(InputArray cameraMatrix, InputArray distCoeffs,
-            Size imageSize, int destImageWidth, MatType m1Type, OutputArray map1, OutputArray map2,
+        public static float InitWideAngleProjMap(
+            InputArray cameraMatrix, InputArray distCoeffs,
+            Size imageSize, int destImageWidth, MatType m1Type, 
+            OutputArray map1, OutputArray map2,
             ProjectionType projType, double alpha = 0)
         {
             if (cameraMatrix == null)
@@ -1549,6 +1646,8 @@ namespace OpenCvSharp
             map2.ThrowIfNotReady();
             float ret = NativeMethods.imgproc_initWideAngleProjMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
                 destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int)projType, alpha);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
             map1.Fix();
             map2.Fix();
             return ret;
@@ -1564,14 +1663,15 @@ namespace OpenCvSharp
         /// The parameter indicates whether this location should be at the image center or not.</param>
         /// <returns>the camera matrix that is either an exact copy of the input cameraMatrix 
         /// (when centerPrinicipalPoint=false), or the modified one (when centerPrincipalPoint=true).</returns>
-        public static Mat GetDefaultNewCameraMatrix(InputArray cameraMatrix,
-            Size? imgSize = null, bool centerPrincipalPoint = false)
+        public static Mat GetDefaultNewCameraMatrix(
+            InputArray cameraMatrix, Size? imgSize = null, bool centerPrincipalPoint = false)
         {
             if (cameraMatrix == null)
                 throw new ArgumentNullException("cameraMatrix");
             cameraMatrix.ThrowIfDisposed();
             Size imgSize0 = imgSize.GetValueOrDefault(new Size());
             IntPtr matPtr = NativeMethods.imgproc_getDefaultNewCameraMatrix(cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
+            GC.KeepAlive(cameraMatrix);
             return new Mat(matPtr);
         }
         #endregion
@@ -1591,7 +1691,8 @@ namespace OpenCvSharp
         /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4). 
         /// P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, 
         /// the identity new camera matrix is used.</param>
-        public static void UndistortPoints(InputArray src, OutputArray dst,
+        public static void UndistortPoints(
+            InputArray src, OutputArray dst,
             InputArray cameraMatrix, InputArray distCoeffs,
             InputArray r = null, InputArray p = null)
         {
@@ -1606,6 +1707,10 @@ namespace OpenCvSharp
             cameraMatrix.ThrowIfDisposed();
             NativeMethods.imgproc_undistortPoints(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr, 
                 ToPtr(distCoeffs), ToPtr(r), ToPtr(p));
+            GC.KeepAlive(src);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(r);
+            GC.KeepAlive(p);
             dst.Fix();
         }
         #endregion
@@ -1670,6 +1775,8 @@ namespace OpenCvSharp
                 NativeMethods.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr,
                     dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0);
             }
+            GC.KeepAlive(images);
+            GC.KeepAlive(mask);
             hist.Fix();
         }
         #endregion
@@ -1708,6 +1815,8 @@ namespace OpenCvSharp
                 NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
                     backProject.CvPtr, rangesPtr, uniform ? 1 : 0);
             }
+            GC.KeepAlive(images);
+            GC.KeepAlive(hist);
             backProject.Fix();
         }
         #endregion
@@ -1719,7 +1828,7 @@ namespace OpenCvSharp
         /// <param name="h2">The second compared histogram of the same size as h1</param>
         /// <param name="method">The comparison method</param>
         /// <returns></returns>
-        public static double CompareHist(InputArray h1, InputArray h2, HistogramComparison method)
+        public static double CompareHist(InputArray h1, InputArray h2, HistCompMethods method)
         {
             if (h1 == null)
                 throw new ArgumentNullException("h1");
@@ -1727,7 +1836,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("h2");
             h1.ThrowIfDisposed();
             h2.ThrowIfDisposed();
-            return NativeMethods.imgproc_compareHist1(h1.CvPtr, h2.CvPtr, (int)method);
+            var ret = NativeMethods.imgproc_compareHist1(h1.CvPtr, h2.CvPtr, (int)method);
+            GC.KeepAlive(h1);
+            GC.KeepAlive(h2);
+            return ret;
         }
         #endregion
         #region EqualizeHist
@@ -1745,6 +1857,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_equalizeHist(src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1822,6 +1935,9 @@ namespace OpenCvSharp
             signature1.ThrowIfDisposed();
             signature2.ThrowIfDisposed();
             float ret = NativeMethods.imgproc_EMD(signature1.CvPtr, signature2.CvPtr, (int)distType, ToPtr(cost), out lowerBound, ToPtr(flow));
+            GC.KeepAlive(signature1);
+            GC.KeepAlive(signature2);
+            GC.KeepAlive(cost);
             if(flow != null)
                 flow.Fix();
             return ret;
@@ -1843,6 +1959,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             markers.ThrowIfNotReady();
             NativeMethods.imgproc_watershed(image.CvPtr, markers.CvPtr);
+            GC.KeepAlive(image);
             markers.Fix();
         }
         #endregion
@@ -1866,8 +1983,9 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             TermCriteria termcrit0 = termcrit.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Iteration | CriteriaType.Epsilon, 5, 1));
+                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 5, 1));
             NativeMethods.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -1888,7 +2006,7 @@ namespace OpenCvSharp
         /// <param name="mode">Operation mode that could be one of GrabCutFlag value.</param>
         public static void GrabCut(InputArray img, InputOutputArray mask, Rect rect,
                                    InputOutputArray bgdModel, InputOutputArray fgdModel,
-                                   int iterCount, GrabCutFlag mode)
+                                   int iterCount, GrabCutModes mode)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
@@ -1904,29 +2022,11 @@ namespace OpenCvSharp
             fgdModel.ThrowIfNotReady();
             NativeMethods.imgproc_grabCut(img.CvPtr, mask.CvPtr, rect,
                 bgdModel.CvPtr, fgdModel.CvPtr, iterCount, (int)mode);
+            GC.KeepAlive(img);
             mask.Fix();
             bgdModel.Fix();
             fgdModel.Fix();
         }
-
-        // ReSharper disable InconsistentNaming
-        /// <summary>
-        /// GrabCut mask value [background]
-        /// </summary>
-        public const int GC_BGD = 0;
-        /// <summary>
-        /// GrabCut mask value [foreground]
-        /// </summary>
-        public const int GC_FGD = 1;
-        /// <summary>
-        /// GrabCut mask value [most probably background]
-        /// </summary>
-        public const int GC_PR_BGD = 2;
-        /// <summary>
-        /// GrabCut mask value [most probably foreground]
-        /// </summary>
-        public const int GC_PR_FGD = 3; 
-        // ReSharper restore InconsistentNaming
         #endregion
         #region DistanceTransform
         /// <summary>
@@ -1956,6 +2056,7 @@ namespace OpenCvSharp
             labels.ThrowIfNotReady();
             NativeMethods.imgproc_distanceTransformWithLabels(
                 src.CvPtr, dst.CvPtr, labels.CvPtr, (int)distanceType, (int)maskSize, (int)labelType);
+            GC.KeepAlive(src);
             dst.Fix();
             labels.Fix();
         }
@@ -1980,6 +2081,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_distanceTransform(
                 src.CvPtr, dst.CvPtr, (int)distanceType, (int)maskSize);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -2021,7 +2123,7 @@ namespace OpenCvSharp
         public static int FloodFill(InputOutputArray image,
                                     Point seedPoint, Scalar newVal, out Rect rect,
                                     Scalar? loDiff = null, Scalar? upDiff = null,
-                                    FloodFillFlag flags = FloodFillFlag.Link4)
+                                    FloodFillFlags flags = FloodFillFlags.Link4)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2083,7 +2185,7 @@ namespace OpenCvSharp
         public static int FloodFill(InputOutputArray image, InputOutputArray mask,
                                     Point seedPoint, Scalar newVal, out Rect rect,
                                     Scalar? loDiff = null, Scalar? upDiff = null,
-                                    FloodFillFlag flags = FloodFillFlag.Link4)
+                                    FloodFillFlags flags = FloodFillFlags.Link4)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2128,6 +2230,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             
             NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
+            GC.KeepAlive(src);
             dst.Fix();
         }
         #endregion
@@ -2216,6 +2319,8 @@ namespace OpenCvSharp
             templ.ThrowIfDisposed();
             result.ThrowIfNotReady();
             NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int)method);
+            GC.KeepAlive(image);
+            GC.KeepAlive(templ);
             result.Fix();
         }
         #endregion
@@ -2441,7 +2546,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
         public static void FindContours(InputOutputArray image, out Point[][] contours,
-            out HierarchyIndex[] hierarchy, ContourRetrieval mode, ContourChain method, Point? offset = null)
+            out HierarchyIndex[] hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2493,7 +2598,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
         public static void FindContours(InputOutputArray image, out Mat[] contours,
-            OutputArray hierarchy, ContourRetrieval mode, ContourChain method, Point? offset = null)
+            OutputArray hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2537,8 +2642,8 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static Point[][] FindContoursAsArray(InputOutputArray image, 
-            ContourRetrieval mode, ContourChain method, Point? offset = null)
+        public static Point[][] FindContoursAsArray(InputOutputArray image,
+            RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2577,8 +2682,8 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static MatOfPoint[] FindContoursAsMat(InputOutputArray image, 
-            ContourRetrieval mode, ContourChain method, Point? offset = null)
+        public static MatOfPoint[] FindContoursAsMat(InputOutputArray image,
+            RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2636,7 +2741,7 @@ namespace OpenCvSharp
             int contourIdx,
             Scalar color,
             int thickness = 1,
-            LineType lineType = LineType.Link8,
+            LineTypes lineType = LineTypes.Link8,
             IEnumerable<HierarchyIndex> hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
@@ -2707,7 +2812,7 @@ namespace OpenCvSharp
             int contourIdx,
             Scalar color,
             int thickness = 1,
-            LineType lineType = LineType.Link8,
+            LineTypes lineType = LineTypes.Link8,
             Mat hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
@@ -2747,6 +2852,7 @@ namespace OpenCvSharp
             curve.ThrowIfDisposed();
             approxCurve.ThrowIfNotReady();
             NativeMethods.imgproc_approxPolyDP_InputArray(curve.CvPtr, approxCurve.CvPtr, epsilon, closed ? 1 : 0);
+            GC.KeepAlive(curve);
             approxCurve.Fix();
         }
         /// <summary>
@@ -2806,7 +2912,9 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException("curve");
             curve.ThrowIfDisposed();
-            return NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
+            var ret = NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
+            GC.KeepAlive(curve);
+            return ret;
         }
 
         /// <summary>
@@ -2848,7 +2956,9 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException("curve");
             curve.ThrowIfDisposed();
-            return NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr);
+            var ret = NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr);
+            GC.KeepAlive(curve);
+            return ret;
         }
 
         /// <summary>
@@ -2889,7 +2999,9 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
-            return NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
+            var ret = NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
+            GC.KeepAlive(contour);
+            return ret;
         }
         /// <summary>
         /// Calculates the contour area
@@ -2929,7 +3041,9 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
-            return NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr);
+            var ret = NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr);
+            GC.KeepAlive(points);
+            return ret;
         }
         /// <summary>
         /// Finds the minimum area rotated rectangle enclosing a 2D point set.
@@ -2969,6 +3083,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
             NativeMethods.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius);
+            GC.KeepAlive(points);
         }
 
         /// <summary>
@@ -3008,13 +3123,16 @@ namespace OpenCvSharp
         /// <param name="method"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public static double MatchShapes(InputArray contour1, InputArray contour2, MatchShapesMethod method, double parameter = 0)
+        public static double MatchShapes(InputArray contour1, InputArray contour2, ShapeMatchModes method, double parameter = 0)
         {
             if (contour1 == null)
                 throw new ArgumentNullException("contour1");
             if (contour2 == null)
                 throw new ArgumentNullException("contour2");
-            return NativeMethods.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter);
+            var ret = NativeMethods.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter);
+            GC.KeepAlive(contour1);
+            GC.KeepAlive(contour2);
+            return ret;
         }
         /// <summary>
         /// matches two contours using one of the available algorithms
@@ -3025,7 +3143,7 @@ namespace OpenCvSharp
         /// <param name="parameter"></param>
         /// <returns></returns>
         public static double MatchShapes(IEnumerable<Point> contour1, IEnumerable<Point> contour2,
-            MatchShapesMethod method, double parameter = 0)
+            ShapeMatchModes method, double parameter = 0)
         {
             if (contour1 == null)
                 throw new ArgumentNullException("contour1");
@@ -3060,6 +3178,7 @@ namespace OpenCvSharp
             points.ThrowIfDisposed();
             hull.ThrowIfNotReady();
             NativeMethods.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0);
+            GC.KeepAlive(points);
             hull.Fix();
         }
 
@@ -3185,6 +3304,8 @@ namespace OpenCvSharp
             convexHull.ThrowIfDisposed();
             convexityDefects.ThrowIfNotReady();
             NativeMethods.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr);
+            GC.KeepAlive(contour);
+            GC.KeepAlive(convexHull);
             convexityDefects.Fix();
         }
 
@@ -3263,6 +3384,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
             int ret = NativeMethods.imgproc_isContourConvex_InputArray(contour.CvPtr);
+            GC.KeepAlive(contour);
             return ret != 0;
         }
         /// <summary>
@@ -3315,6 +3437,8 @@ namespace OpenCvSharp
             p2.ThrowIfDisposed();
             p12.ThrowIfNotReady();
             float ret = NativeMethods.imgproc_intersectConvexConvex_InputArray(p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0);
+            GC.KeepAlive(p1);
+            GC.KeepAlive(p2);
             p12.Fix();
             return ret;
         }
@@ -3386,7 +3510,9 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException("points");
             points.ThrowIfDisposed();
-            return NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr);
+            var ret = NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr);
+            GC.KeepAlive(points);
+            return ret;
         }
         /// <summary>
         /// Fits ellipse to the set of 2D points.
@@ -3443,6 +3569,7 @@ namespace OpenCvSharp
             points.ThrowIfDisposed();
             line.ThrowIfNotReady();
             NativeMethods.imgproc_fitLine_InputArray(points.CvPtr, line.CvPtr, (int)distType, param, reps, aeps);
+            GC.KeepAlive(points);
             line.Fix();
         }
 
@@ -3458,7 +3585,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine2D FitLine(IEnumerable<Point> points, DistanceTypes distType,
+        public static Line2D FitLine(IEnumerable<Point> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3466,7 +3593,7 @@ namespace OpenCvSharp
             Point[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[4];
             NativeMethods.imgproc_fitLine_Point(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
-            return new CvLine2D(line);
+            return new Line2D(line);
         }
 
         /// <summary>
@@ -3481,7 +3608,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine2D FitLine(IEnumerable<Point2f> points, DistanceTypes distType,
+        public static Line2D FitLine(IEnumerable<Point2f> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3489,7 +3616,7 @@ namespace OpenCvSharp
             Point2f[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[4];
             NativeMethods.imgproc_fitLine_Point2f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
-            return new CvLine2D(line);
+            return new Line2D(line);
         }
 
         /// <summary>
@@ -3504,7 +3631,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine3D FitLine(IEnumerable<Point3i> points, DistanceTypes distType,
+        public static Line3D FitLine(IEnumerable<Point3i> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3512,7 +3639,7 @@ namespace OpenCvSharp
             Point3i[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[6];
             NativeMethods.imgproc_fitLine_Point3i(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
-            return new CvLine3D(line);
+            return new Line3D(line);
         }
 
         /// <summary>
@@ -3527,7 +3654,7 @@ namespace OpenCvSharp
         /// <param name="aeps">Sufficient accuracy for the angle. 
         /// 0.01 would be a good default value for reps and aeps.</param>
         /// <returns>Output line parameters.</returns>
-        public static CvLine3D FitLine(IEnumerable<Point3f> points, DistanceTypes distType,
+        public static Line3D FitLine(IEnumerable<Point3f> points, DistanceTypes distType,
             double param, double reps, double aeps)
         {
             if (points == null)
@@ -3535,7 +3662,7 @@ namespace OpenCvSharp
             Point3f[] pointsArray = EnumerableEx.ToArray(points);
             float[] line = new float[6];
             NativeMethods.imgproc_fitLine_Point3f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
-            return new CvLine3D(line);
+            return new Line3D(line);
         }
         #endregion
         #region PointPolygonTest
@@ -3551,7 +3678,9 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException("contour");
             contour.ThrowIfDisposed();
-            return NativeMethods.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
+            var ret = NativeMethods.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
+            GC.KeepAlive(contour);
+            return ret;
         }
 
         /// <summary>
@@ -3588,14 +3717,71 @@ namespace OpenCvSharp
         }
         #endregion
 
+        #region RotatedRectangleIntersection
 
         /// <summary>
-        /// 
+        /// Finds out if there is any intersection between two rotated rectangles.
+        /// If there is then the vertices of the interesecting region are returned as well.
+        /// Below are some examples of intersection configurations. 
+        /// The hatched pattern indicates the intersecting region and the red 
+        /// vertices are returned by the function.
+        /// </summary>
+        /// <param name="rect1">First rectangle</param>
+        /// <param name="rect2">Second rectangle</param>
+        /// <param name="intersectingRegion">
+        /// The output array of the verticies of the intersecting region. 
+        /// It returns at most 8 vertices.
+        /// Stored as std::vector&lt;cv::Point2f&gt; or cv::Mat as Mx1 of type CV_32FC2.</param>
+        /// <returns></returns>
+        public static RectanglesIntersectTypes RotatedRectangleIntersection(
+            RotatedRect rect1, RotatedRect rect2, OutputArray intersectingRegion)
+        {
+            if (intersectingRegion == null)
+                throw new ArgumentNullException("intersectingRegion");
+            intersectingRegion.ThrowIfNotReady();
+
+            int ret = NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
+                rect1, rect2, intersectingRegion.CvPtr);
+
+            intersectingRegion.Fix();
+
+            return (RectanglesIntersectTypes)ret;
+        }
+
+        /// <summary>
+        /// Finds out if there is any intersection between two rotated rectangles.
+        /// If there is then the vertices of the interesecting region are returned as well.
+        /// Below are some examples of intersection configurations. 
+        /// The hatched pattern indicates the intersecting region and the red 
+        /// vertices are returned by the function.
+        /// </summary>
+        /// <param name="rect1">First rectangle</param>
+        /// <param name="rect2">Second rectangle</param>
+        /// <param name="intersectingRegion">
+        /// The output array of the verticies of the intersecting region. 
+        /// It returns at most 8 vertices.</param>
+        /// <returns></returns>
+        public static RectanglesIntersectTypes RotatedRectangleIntersection(
+            RotatedRect rect1, RotatedRect rect2, out Point2f[] intersectingRegion)
+        {
+            using (var intersectingRegionVec = new VectorOfPoint2f())
+            {
+                int ret = NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
+                    rect1, rect2, intersectingRegionVec.CvPtr);
+                intersectingRegion = intersectingRegionVec.ToArray();
+                return (RectanglesIntersectTypes) ret;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Applies a GNU Octave/MATLAB equivalent colormap on a given image.
         /// </summary>
         /// <param name="src"></param>
         /// <param name="dst"></param>
         /// <param name="colormap"></param>
-        public static void ApplyColorMap(InputArray src, OutputArray dst, ColorMapMode colormap)
+        public static void ApplyColorMap(InputArray src, OutputArray dst, ColormapTypes colormap)
         {
             if (src == null)
                 throw new ArgumentNullException("src");
@@ -3604,7 +3790,548 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_applyColorMap(src.CvPtr, dst.CvPtr, (int)colormap);
+            GC.KeepAlive(src);
             dst.Fix();
         }
+
+        #region Drawing
+        #region Line
+#if LANG_JP
+        /// <summary>
+        /// 2点を結ぶ線分を画像上に描画する．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1X">線分の1番目の端点x</param>
+        /// <param name="pt1Y">線分の1番目の端点y</param>
+        /// <param name="pt2X">線分の2番目の端点x</param>
+        /// <param name="pt2Y">線分の2番目の端点y</param>
+        /// <param name="color">線分の色</param>
+        /// <param name="thickness">線分の太さ. [既定値は1]</param>
+        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a line segment connecting two points
+        /// </summary>
+        /// <param name="img">The image. </param>
+        /// <param name="pt1X">First point's x-coordinate of the line segment. </param>
+        /// <param name="pt1Y">First point's y-coordinate of the line segment. </param>
+        /// <param name="pt2X">Second point's x-coordinate of the line segment. </param>
+        /// <param name="pt2Y">Second point's y-coordinate of the line segment. </param>
+        /// <param name="color">Line color. </param>
+        /// <param name="thickness">Line thickness. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Line(InputOutputArray img, int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            Line(img, new Point(pt1X, pt1Y), new Point(pt2X, pt2Y), color, thickness, lineType, shift);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 2点を結ぶ線分を画像上に描画する．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">線分の1番目の端点</param>
+        /// <param name="pt2">線分の2番目の端点</param>
+        /// <param name="color">線分の色</param>
+        /// <param name="thickness">線分の太さ. [既定値は1]</param>
+        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a line segment connecting two points
+        /// </summary>
+        /// <param name="img">The image. </param>
+        /// <param name="pt1">First point of the line segment. </param>
+        /// <param name="pt2">Second point of the line segment. </param>
+        /// <param name="color">Line color. </param>
+        /// <param name="thickness">Line thickness. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Line(
+            InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfNotReady();
+            NativeMethods.core_line(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+        #endregion
+        #region Rectangle
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">矩形の一つの頂点</param>
+        /// <param name="pt2">矩形の反対側の頂点</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="pt1">One of the rectangle vertices. </param>
+        /// <param name="pt2">Opposite rectangle vertex. </param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle1(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="rect">矩形</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            InputOutputArray img, Rect rect, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle1(img.CvPtr, rect.TopLeft, rect.BottomRight, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">矩形の一つの頂点</param>
+        /// <param name="pt2">矩形の反対側の頂点</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="pt1">One of the rectangle vertices. </param>
+        /// <param name="pt2">Opposite rectangle vertex. </param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            Rect rect = Rect.FromLTRB(pt1.X, pt1.Y, pt2.X, pt2.Y);
+            NativeMethods.core_rectangle2(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            GC.KeepAlive(img);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="rect">矩形</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            Mat img, Rect rect, Scalar color, int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            NativeMethods.core_rectangle2(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            GC.KeepAlive(img);
+        }
+
+        #endregion
+        #region Circle
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="centerX">円の中心のx座標</param>
+        /// <param name="centerY">円の中心のy座標</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="img">Image where the circle is drawn. </param>
+        /// <param name="centerX">X-coordinate of the center of the circle. </param>
+        /// <param name="centerY">Y-coordinate of the center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
+        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
+#endif
+        public static void Circle(InputOutputArray img, int centerX, int centerY, int radius, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            Circle(img, new Point(centerX, centerY), radius, color, thickness, lineType, shift);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 円を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="center">円の中心</param>
+        /// <param name="radius">円の半径</param>
+        /// <param name="color">円の色</param>
+        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        /// <param name="img">Image where the circle is drawn. </param>
+        /// <param name="center">Center of the circle. </param>
+        /// <param name="radius">Radius of the circle. </param>
+        /// <param name="color">Circle color. </param>
+        /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
+        /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
+#endif
+        public static void Circle(InputOutputArray img, Point center, int radius, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+            NativeMethods.core_circle(img.CvPtr, center, radius, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+        #endregion
+        #region Ellipse
+#if LANG_JP
+        /// <summary>
+        /// 枠だけの楕円，楕円弧，もしくは塗りつぶされた扇形の楕円を描画する
+        /// </summary>
+        /// <param name="img">楕円が描画される画像</param>
+        /// <param name="center">楕円の中心</param>
+        /// <param name="axes">楕円の軸の長さ</param>
+        /// <param name="angle">回転角度</param>
+        /// <param name="startAngle">楕円弧の開始角度</param>
+        /// <param name="endAngle">楕円弧の終了角度</param>
+        /// <param name="color">楕円の色</param>
+        /// <param name="thickness">楕円弧の線の幅 [既定値は1]</param>
+        /// <param name="lineType">楕円弧の線の種類 [既定値はLineType.Link8]</param>
+        /// <param name="shift">中心座標と軸の長さの小数点以下の桁を表すビット数 [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple or thick elliptic arc or fills ellipse sector
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="center">Center of the ellipse. </param>
+        /// <param name="axes">Length of the ellipse axes. </param>
+        /// <param name="angle">Rotation angle. </param>
+        /// <param name="startAngle">Starting angle of the elliptic arc. </param>
+        /// <param name="endAngle">Ending angle of the elliptic arc. </param>
+        /// <param name="color">Ellipse color. </param>
+        /// <param name="thickness">Thickness of the ellipse arc. [By default this is 1]</param>
+        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
+#endif
+        public static void Ellipse(InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfNotReady();
+            NativeMethods.core_ellipse(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, (int)lineType, shift);
+            img.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠だけの楕円，もしくは塗りつぶされた楕円を描画する
+        /// </summary>
+        /// <param name="img">楕円が描かれる画像．</param>
+        /// <param name="box">描画したい楕円を囲む矩形領域．</param>
+        /// <param name="color">楕円の色．</param>
+        /// <param name="thickness">楕円境界線の幅．[既定値は1]</param>
+        /// <param name="lineType">楕円境界線の種類．[既定値はLineType.Link8]</param>
+#else
+        /// <summary>
+        /// Draws simple or thick elliptic arc or fills ellipse sector
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="box">The enclosing box of the ellipse drawn </param>
+        /// <param name="color">Ellipse color. </param>
+        /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
+        /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
+#endif
+        public static void Ellipse(InputOutputArray img, RotatedRect box, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+            NativeMethods.core_ellipse(img.CvPtr, box, color, thickness, (int)lineType);
+            img.Fix();
+        }
+        #endregion
+        #region FillConvexPoly
+#if LANG_JP
+        /// <summary>
+        /// 塗りつぶされた凸ポリゴンを描きます．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pts">ポリゴンの頂点．</param>
+        /// <param name="color">ポリゴンの色．</param>
+        /// <param name="lineType">ポリゴンの枠線の種類，</param>
+        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
+#else
+        /// <summary>
+        /// Fills a convex polygon.
+        /// </summary>
+        /// <param name="img">Image</param>
+        /// <param name="pts">The polygon vertices</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+#endif
+        public static void FillConvexPoly(Mat img, IEnumerable<Point> pts, Scalar color,
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+
+            Point[] ptsArray = EnumerableEx.ToArray(pts);
+            NativeMethods.core_fillConvexPoly(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
+            GC.KeepAlive(img);
+        }
+        #endregion
+        #region FillPoly
+#if LANG_JP
+        /// <summary>
+        /// 1つ，または複数のポリゴンで区切られた領域を塗りつぶします．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pts">ポリゴンの配列．各要素は，点の配列で表現されます．</param>
+        /// <param name="color">ポリゴンの色．</param>
+        /// <param name="lineType">ポリゴンの枠線の種類，</param>
+        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
+        /// <param name="offset"></param>
+#else
+        /// <summary>
+        /// Fills the area bounded by one or more polygons
+        /// </summary>
+        /// <param name="img">Image</param>
+        /// <param name="pts">Array of polygons, each represented as an array of points</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+        /// <param name="offset"></param>
+#endif
+        public static void FillPoly(InputOutputArray img, IEnumerable<IEnumerable<Point>> pts, Scalar color,
+            LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+            Point offset0 = offset.GetValueOrDefault(new Point());
+
+            List<Point[]> ptsList = new List<Point[]>();
+            List<int> nptsList = new List<int>();
+            foreach (IEnumerable<Point> pts1 in pts)
+            {
+                Point[] pts1Arr = EnumerableEx.ToArray(pts1);
+                ptsList.Add(pts1Arr);
+                nptsList.Add(pts1Arr.Length);
+            }
+            Point[][] ptsArr = ptsList.ToArray();
+            int[] npts = nptsList.ToArray();
+            int ncontours = ptsArr.Length;
+            using (var ptsPtr = new ArrayAddress2<Point>(ptsArr))
+            {
+                NativeMethods.core_fillPoly(img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int)lineType, shift, offset0);
+            }
+            img.Fix();
+        }
+        #endregion
+        #region Polylines
+        /// <summary>
+        /// draws one or more polygonal curves
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="pts"></param>
+        /// <param name="isClosed"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="shift"></param>
+        public static void Polylines(InputOutputArray img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfDisposed();
+
+            List<Point[]> ptsList = new List<Point[]>();
+            List<int> nptsList = new List<int>();
+            foreach (IEnumerable<Point> pts1 in pts)
+            {
+                Point[] pts1Arr = EnumerableEx.ToArray(pts1);
+                ptsList.Add(pts1Arr);
+                nptsList.Add(pts1Arr.Length);
+            }
+            Point[][] ptsArr = ptsList.ToArray();
+            int[] npts = nptsList.ToArray();
+            int ncontours = ptsArr.Length;
+            using (ArrayAddress2<Point> ptsPtr = new ArrayAddress2<Point>(ptsArr))
+            {
+                NativeMethods.core_polylines(img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
+            }
+            img.Fix();
+        }
+        #endregion
+        #region ClipLine
+#if LANG_JP
+        /// <summary>
+        /// 線分が画像矩形内に収まるように切り詰めます．
+        /// </summary>
+        /// <param name="imgSize">画像サイズ．</param>
+        /// <param name="pt1">線分の1番目の端点．</param>
+        /// <param name="pt2">線分の2番目の端点．</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Clips the line against the image rectangle
+        /// </summary>
+        /// <param name="imgSize">The image size</param>
+        /// <param name="pt1">The first line point</param>
+        /// <param name="pt2">The second line point</param>
+        /// <returns></returns>
+#endif
+        public static bool ClipLine(Size imgSize, ref Point pt1, ref Point pt2)
+        {
+            return NativeMethods.core_clipLine(imgSize, ref pt1, ref pt2) != 0;
+        }
+#if LANG_JP
+        /// <summary>
+        /// 線分が画像矩形内に収まるように切り詰めます．
+        /// </summary>
+        /// <param name="imgRect">画像矩形．</param>
+        /// <param name="pt1">線分の1番目の端点．</param>
+        /// <param name="pt2">線分の2番目の端点．</param>
+        /// <returns></returns>
+#else
+        /// <summary>
+        /// Clips the line against the image rectangle
+        /// </summary>
+        /// <param name="imgRect">sThe image rectangle</param>
+        /// <param name="pt1">The first line point</param>
+        /// <param name="pt2">The second line point</param>
+        /// <returns></returns>
+#endif
+        public static bool ClipLine(Rect imgRect, ref Point pt1, ref Point pt2)
+        {
+            return NativeMethods.core_clipLine(imgRect, ref pt1, ref pt2) != 0;
+        }
+        #endregion
+        #region PutText
+        /// <summary>
+        /// renders text string in the image
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="text"></param>
+        /// <param name="org"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="bottomLeftOrigin"></param>
+        public static void PutText(InputOutputArray img, string text, Point org,
+            HersheyFonts fontFace, double fontScale, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, bool bottomLeftOrigin = false)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (String.IsNullOrEmpty(text))
+                throw new ArgumentNullException(text);
+            img.ThrowIfDisposed();
+            NativeMethods.core_putText(img.CvPtr, text, org, (int)fontFace, fontScale, color,
+                thickness, (int)lineType, bottomLeftOrigin ? 1 : 0);
+            img.Fix();
+        }
+        #endregion
+        #region GetTextSize
+        /// <summary>
+        /// returns bounding box of the text string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="thickness"></param>
+        /// <param name="baseLine"></param>
+        /// <returns></returns>
+        public static Size GetTextSize(string text, HersheyFonts fontFace,
+            double fontScale, int thickness, out int baseLine)
+        {
+            if (String.IsNullOrEmpty(text))
+                throw new ArgumentNullException(text);
+            return NativeMethods.core_getTextSize(text, (int)fontFace, fontScale, thickness, out baseLine);
+        }
+        #endregion
+        #endregion     
     }
 }

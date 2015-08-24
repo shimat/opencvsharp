@@ -13,7 +13,7 @@ Imports SampleBase
 ''' </summary>
 Friend Module HOGSample
     Public Sub Start()
-        Dim img As Mat = Cv2.ImRead(FilePath.Image.Asahiyama, LoadMode.Color)
+        Dim img As Mat = Cv2.ImRead(FilePath.Image.Asahiyama, ImreadModes.Color)
 
         Dim hog As New HOGDescriptor()
         hog.SetSVMDetector(HOGDescriptor.GetDefaultPeopleDetector())
@@ -41,10 +41,10 @@ Friend Module HOGSample
                 .Width = CInt(Math.Truncate(Math.Round(rect.Width * 0.8))),
                 .Height = CInt(Math.Truncate(Math.Round(rect.Height * 0.8)))
             }
-            img.Rectangle(r.TopLeft, r.BottomRight, Scalar.Red, 3, LineType.Link8, 0)
+            img.Rectangle(r.TopLeft, r.BottomRight, Scalar.Red, 3, LineTypes.Link8, 0)
         Next rect
 
-        Using window As New Window("people detector", WindowMode.None, img)
+        Using window As New Window("people detector", WindowMode.Normal, img)
             window.SetProperty(WindowProperty.Fullscreen, 1)
             Cv2.WaitKey(0)
         End Using

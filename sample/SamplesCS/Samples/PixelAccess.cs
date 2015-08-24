@@ -23,7 +23,7 @@ namespace SamplesCS
         /// </summary>
         private void GetSet()
         {
-            using (Mat mat = new Mat(FilePath.Image.Lenna, LoadMode.Color))
+            using (Mat mat = new Mat(FilePath.Image.Lenna, ImreadModes.Color))
             {
                 for (int y = 0; y < mat.Height; y++)
                 {
@@ -45,7 +45,7 @@ namespace SamplesCS
         /// </summary>
         private void GenericIndexer()
         {
-            using (Mat mat = new Mat(FilePath.Image.Lenna, LoadMode.Color))
+            using (Mat mat = new Mat(FilePath.Image.Lenna, ImreadModes.Color))
             {
                 var indexer = mat.GetGenericIndexer<Vec3b>();
                 for (int y = 0; y < mat.Height; y++)
@@ -68,7 +68,7 @@ namespace SamplesCS
         /// </summary>
         private void TypeSpecificMat()
         {
-            using (Mat mat = new Mat(FilePath.Image.Lenna, LoadMode.Color))
+            using (Mat mat = new Mat(FilePath.Image.Lenna, ImreadModes.Color))
             {
                 MatOfByte3 mat3 = new MatOfByte3(mat);
                 var indexer = mat3.GetIndexer();

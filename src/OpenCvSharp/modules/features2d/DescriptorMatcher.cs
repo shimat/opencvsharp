@@ -44,20 +44,20 @@ namespace OpenCvSharp
                     return new FlannBasedMatcher();
 
                 case "BruteForce": // L2
-                    return new BFMatcher(NormType.L2);
+                    return new BFMatcher(NormTypes.L2);
 
                 case "BruteForce-SL2": // Squared L2
-                    return new BFMatcher(NormType.L2SQR);
+                    return new BFMatcher(NormTypes.L2SQR);
 
                 case "BruteForce-L1":
-                    return new BFMatcher(NormType.L1);
+                    return new BFMatcher(NormTypes.L1);
 
                 case "BruteForce-Hamming":
                 case "BruteForce-HammingLUT":
-                    return new BFMatcher(NormType.Hamming);
+                    return new BFMatcher(NormTypes.Hamming);
 
                 case "BruteForce-Hamming(2)":
-                    return new BFMatcher(NormType.Hamming2);
+                    return new BFMatcher(NormTypes.Hamming2);
 
                 default:
                     throw new OpenCvSharpException("Unknown matcher name '{0}'", descriptorMatcherType);

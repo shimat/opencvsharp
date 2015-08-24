@@ -198,7 +198,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern WCvMoments imgproc_moments(IntPtr arr, int binaryImage);
+        public static extern Moments.NativeStruct imgproc_moments(IntPtr arr, int binaryImage);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_matchTemplate(IntPtr image, IntPtr templ, IntPtr result, int method);
@@ -355,6 +355,13 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double imgproc_pointPolygonTest_Point2f(Point2f[] contour, int contourLength,
             Point2f pt, int measureDist);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int imgproc_rotatedRectangleIntersection_OutputArray(
+            RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int imgproc_rotatedRectangleIntersection_vector(
+            RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_applyColorMap(IntPtr src, IntPtr dst, int colormap);

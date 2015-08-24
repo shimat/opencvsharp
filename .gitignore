@@ -112,3 +112,4 @@ Help JP
 Help EN
 /src/Release-Static
 /src/OpenCvSharpExtern/Release-Static
+*.db

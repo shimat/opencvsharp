@@ -13,13 +13,13 @@ namespace SamplesCS
     {
         public void Run()
         {
-            Mat img = Cv2.ImRead(FilePath.Image.Lenna, LoadMode.GrayScale);
+            Mat img = Cv2.ImRead(FilePath.Image.Lenna, ImreadModes.GrayScale);
 
             // expand input image to optimal size
             Mat padded = new Mat(); 
             int m = Cv2.GetOptimalDFTSize(img.Rows);
             int n = Cv2.GetOptimalDFTSize(img.Cols); // on the border add zero values
-            Cv2.CopyMakeBorder(img, padded, 0, m - img.Rows, 0, n - img.Cols, BorderType.Constant, Scalar.All(0));
+            Cv2.CopyMakeBorder(img, padded, 0, m - img.Rows, 0, n - img.Cols, BorderTypes.Constant, Scalar.All(0));
             
             // Add to the expanded another plane with zeros
             Mat paddedF32 = new Mat();
@@ -69,7 +69,7 @@ namespace SamplesCS
             tmp.CopyTo(q2);
 
             // Transform the matrix with float values into a
-            Cv2.Normalize(spectrum, spectrum, 0, 1, NormType.MinMax); 
+            Cv2.Normalize(spectrum, spectrum, 0, 1, NormTypes.MinMax); 
                                      
             // Show the result
             Cv2.ImShow("Input Image"       , img);
@@ -77,8 +77,8 @@ namespace SamplesCS
 
             // calculating the idft
             Mat inverseTransform = new Mat();
-            Cv2.Dft(dft, inverseTransform, DftFlag2.Inverse | DftFlag2.RealOutput);
-            Cv2.Normalize(inverseTransform, inverseTransform, 0, 1, NormType.MinMax);
+            Cv2.Dft(dft, inverseTransform, DftFlags.Inverse | DftFlags.RealOutput);
+            Cv2.Normalize(inverseTransform, inverseTransform, 0, 1, NormTypes.MinMax);
             Cv2.ImShow("Reconstructed by Inverse DFT", inverseTransform);
             Cv2.WaitKey();
         }

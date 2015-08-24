@@ -35,7 +35,7 @@ namespace SamplesCS
             Mat y = new Mat(2, 1, MatType.CV_64FC1, yv);
             Mat x = new Mat();
 
-            Cv2.Solve(a, y, x, MatrixDecomposition.LU);
+            Cv2.Solve(a, y, x, DecompTypes.LU);
 
             Console.WriteLine("ByMat:");
             Console.WriteLine("X1 = {0}, X2 = {1}", x.At<double>(0), x.At<double>(1));
@@ -60,7 +60,7 @@ namespace SamplesCS
             Cv2.Solve(
                 InputArray.Create(a), InputArray.Create(y),
                 OutputArray.Create(x),
-                MatrixDecomposition.LU);
+                DecompTypes.LU);
 
             Console.WriteLine("ByNormalArray:");
             Console.WriteLine("X1 = {0}, X2 = {1}", x[0], x[1]);

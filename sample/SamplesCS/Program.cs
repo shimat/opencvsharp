@@ -24,15 +24,17 @@ namespace SamplesCS
                 //new HistSample();
                 //new HOGSample();
                 //new HoughLinesSample();
-                new KAZESample();
+                //new KAZESample();
                 //new MatOperations();
                 //new MatToBitmap();
                 //new MDS();
                 //new MSERSample();
                 //new NormalArrayOperations();
+                new PhotoMethods();
                 //new MergeSplitSample();
                 //new MorphologySample();
                 //new PixelAccess();
+                //new SeamlessClone();
                 //new SiftSurfSample();
                 //new SolveEquation();
                 //new StarDetectorSample();

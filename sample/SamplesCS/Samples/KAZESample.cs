@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using OpenCvSharp;
-using OpenCvSharp.XFeatures2D;
 using SampleBase;
 
 namespace SamplesCS
@@ -13,7 +12,7 @@ namespace SamplesCS
     {
         public void Run()
         {
-            var gray = new Mat(FilePath.Image.Lenna, LoadMode.GrayScale);
+            var gray = new Mat(FilePath.Image.Lenna, ImreadModes.GrayScale);
             var kaze = KAZE.Create();
             var akaze = AKAZE.Create();
 

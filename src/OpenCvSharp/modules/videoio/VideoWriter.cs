@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenCvSharp
 {
@@ -191,6 +190,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public string FileName { get; private set; }
+
 #if LANG_JP
         /// <summary>
         /// 作成されたビデオストリームのフレームレートを取得する
@@ -201,6 +201,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public double Fps { get; private set; }
+
 #if LANG_JP
         /// <summary>
         /// ビデオフレームのサイズを取得する
@@ -211,6 +212,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public Size FrameSize { get; private set; }
+
 #if LANG_JP
         /// <summary>
         /// カラーフレームかどうかの値を取得する
@@ -221,10 +223,11 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public bool IsColor { get; private set; }
+
         #endregion
 
         #region Methods
-        #region Open
+
 #if LANG_JP
         /// <summary>
         /// ビデオライタを開く
@@ -254,6 +257,7 @@ namespace OpenCvSharp
         {
             Open(fileName, FourCCCalcurator.Run(fourcc), fps, frameSize, isColor);
         }
+
 #if LANG_JP
         /// <summary>
         /// ビデオライタを開く
@@ -283,6 +287,7 @@ namespace OpenCvSharp
         {
             Open(fileName, (int)fourcc, fps, frameSize, isColor);
         }
+
 #if LANG_JP
         /// <summary>
         /// ビデオライタを開く
@@ -320,8 +325,7 @@ namespace OpenCvSharp
             IsColor = isColor;
             NativeMethods.videoio_VideoWriter_open(ptr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
         }
-        #endregion
-        #region IsOpened
+
         /// <summary>
         /// Returns true if video writer has been successfully initialized.
         /// </summary>
@@ -331,8 +335,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             return NativeMethods.videoio_VideoWriter_isOpened(ptr) != 0;
         }
-        #endregion
-        #region Release
+
         /// <summary>
         /// 
         /// </summary>
@@ -342,8 +345,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             NativeMethods.videoio_VideoWriter_release(ptr);
         }
-        #endregion
-        #region Write
+
 #if LANG_JP
         /// <summary>
         /// 一つのフレームをビデオファイルに書き込む/追加する
@@ -365,7 +367,41 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             NativeMethods.videoio_VideoWriter_write(ptr, image.CvPtr);
         }
-        #endregion
+
+        /// <summary>
+        /// Concatenates 4 chars to a fourcc code.
+        /// This static method constructs the fourcc code of the codec to be used in 
+        /// the constructor VideoWriter::VideoWriter or VideoWriter::open.
+        /// </summary>
+        /// <param name="c1"></param>
+        /// <param name="c2"></param>
+        /// <param name="c3"></param>
+        /// <param name="c4"></param>
+        /// <returns></returns>
+// ReSharper disable once InconsistentNaming
+        public static int FourCC(char c1, char c2, char c3, char c4)
+        {
+            return NativeMethods.videoio_VideoWriter_fourcc((byte) c1, (byte) c2, (byte) c3, (byte) c4);
+        }
+
+        /// <summary>
+        /// Concatenates 4 chars to a fourcc code.
+        /// This static method constructs the fourcc code of the codec to be used in 
+        /// the constructor VideoWriter::VideoWriter or VideoWriter::open.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        public static int FourCC(string code)
+        {
+            if (code == null)
+                throw new ArgumentNullException("code");
+            if (code.Length != 4)
+                throw new ArgumentException("code.Length != 4", "code");
+
+            return FourCC(code[0], code[1], code[2], code[3]);
+        }
+
         #endregion
     }
 }

@@ -36,9 +36,9 @@ namespace SamplesCS
                     Mat gray = new Mat();
                     Mat canny = new Mat();
                     Mat dst = new Mat();
-                    Cv2.CvtColor(frame, gray, ColorConversion.BgrToGray);
+                    Cv2.CvtColor(frame, gray, ColorConversionCodes.BGR2GRAY);
                     Cv2.Canny(gray, canny, 100, 180);
-                    Cv2.Resize(canny, dst, dsize, 0, 0, Interpolation.Linear);
+                    Cv2.Resize(canny, dst, dsize, 0, 0, InterpolationFlags.Linear);
                     // Write mat to VideoWriter
                     writer.Write(dst);
                 } 

@@ -34,11 +34,11 @@ namespace SamplesCS
         {
             Mat result;
 
-            using (var src = new Mat(FilePath.Image.Yalta, LoadMode.Color))
+            using (var src = new Mat(FilePath.Image.Yalta, ImreadModes.Color))
             using (var gray = new Mat())
             {
                 result = src.Clone();
-                Cv2.CvtColor(src, gray, ColorConversion.BgrToGray, 0);
+                Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
                 // Detect faces
                 Rect[] faces = cascade.DetectMultiScale(

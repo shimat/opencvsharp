@@ -15,6 +15,7 @@ namespace OpenCvSharp.Util
     {
         protected Array array;
         protected GCHandle gch;
+        protected object original;
         private bool disposed;
 
         /// <summary>
@@ -27,6 +28,16 @@ namespace OpenCvSharp.Util
                 throw new ArgumentNullException();
             this.array = array;
             this.gch = GCHandle.Alloc(array, GCHandleType.Pinned);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enumerable"></param>
+        public ArrayAddress1(IEnumerable<T> enumerable)
+            : this(EnumerableEx.ToArray(enumerable))
+        {
+            original = enumerable;
         }
 
         /// <summary>
@@ -52,6 +63,7 @@ namespace OpenCvSharp.Util
                 {
                     gch.Free();
                 }
+                original = null;
                 disposed = true;
                 base.Dispose(disposing);
             }
@@ -74,8 +86,15 @@ namespace OpenCvSharp.Util
         {
             return self.Pointer;
         }
-    }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Length
+        {
+            get { return array.Length; }
+        }
+    }
 
     /// <summary>
     /// Class to get address of specified jagged array 
@@ -88,6 +107,7 @@ namespace OpenCvSharp.Util
         protected T[][] array;
         protected GCHandle[] gch;
         protected IntPtr[] ptr;
+        protected object original;
 
         /// <summary>
         /// 
@@ -113,6 +133,7 @@ namespace OpenCvSharp.Util
         {
             if (enumerable == null)
                 throw new ArgumentNullException("enumerable");
+            original = enumerable;
 
             var list = new List<T[]>();
             foreach (IEnumerable<T> e in enumerable)

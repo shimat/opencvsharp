@@ -84,7 +84,7 @@ namespace SamplesCS
             }
 
             // scaling
-            Cv2.Normalize(result, result, 0, 800, NormType.MinMax);
+            Cv2.Normalize(result, result, 0, 800, NormTypes.MinMax);
 
             // opens a window
             using (Mat img = Mat.Zeros(600, 800, MatType.CV_8UC3))
@@ -99,7 +99,7 @@ namespace SamplesCS
                     y = y * 0.7 + img.Height * 0.1;
                     img.Circle((int)x, (int)y, 5, Scalar.Red, -1);
                     Point textPos = new Point(x + 5, y + 10);
-                    img.PutText(CityNames[c], textPos, FontFace.HersheySimplex, 0.5, Scalar.White);
+                    img.PutText(CityNames[c], textPos, HersheyFonts.HersheySimplex, 0.5, Scalar.White);
                 }
                 window.Image = img;
                 Cv2.WaitKey();

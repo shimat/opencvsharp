@@ -17,26 +17,26 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        PyrAReady = CppConst.OPTFLOW_PYR_A_READY,
+        PyrAReady = 1,
 
         /// <summary>
         /// 
         /// </summary>
-        PyrBReady = CppConst.OPTFLOW_PYR_B_READY,
+        PyrBReady = 2,
 
         /// <summary>
         /// 
         /// </summary>
-        UseInitialFlow = CppConst.OPTFLOW_USE_INITIAL_FLOW,
+        UseInitialFlow = 4,
 
         /// <summary>
         /// 
         /// </summary>
-        LkGetMinEigenvals = CppConst.OPTFLOW_LK_GET_MIN_EIGENVALS,
+        LkGetMinEigenvals = 8,
 
         /// <summary>
         /// 
         /// </summary>
-        FarnebackGaussian = CppConst.OPTFLOW_FARNEBACK_GAUSSIAN,
+        FarnebackGaussian = 256,
     }
 }
