@@ -20,7 +20,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="normType"></param>
         /// <param name="crossCheck"></param>
-        public BFMatcher(NormType normType = NormType.L2, bool crossCheck = false)
+        public BFMatcher(NormTypes normType = NormTypes.L2, bool crossCheck = false)
         {
             ptr = NativeMethods.features2d_BFMatcher_new((int) normType, crossCheck ? 1 : 0);
         }

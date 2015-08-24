@@ -23,7 +23,7 @@ namespace OpenCvSharp
         /// The numeric code for error status
         /// </summary>
 #endif
-        public CvStatus Status { get; set; }
+        public ErrorCode Status { get; set; }
 #if LANG_JP
         /// <summary>
         /// エラーが発生したOpenCVの関数名．
@@ -85,7 +85,7 @@ namespace OpenCvSharp
         /// <param name="fileName">The source file name where error is encountered</param>
         /// <param name="line">The line number in the souce where error is encountered</param>
 #endif
-        public OpenCVException(CvStatus status, string funcName, string errMsg, string fileName, int line)
+        public OpenCVException(ErrorCode status, string funcName, string errMsg, string fileName, int line)
             : base(errMsg)
         {
             Status = status;

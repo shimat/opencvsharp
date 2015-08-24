@@ -11,21 +11,21 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        DiffPmG1 = CppConst.KAZE_DIFF_PM_G1,
+        DiffPmG1 = 0,
 
         /// <summary>
         /// 
         /// </summary>
-        DiffPmG2 = CppConst.KAZE_DIFF_PM_G2,
+        DiffPmG2 = 1,
 
         /// <summary>
         /// 
         /// </summary>
-        DiffWeickert = CppConst.KAZE_DIFF_WEICKERT,
+        DiffWeickert = 2,
 
         /// <summary>
         /// 
         /// </summary>
-        DiffCharbonnier = CppConst.KAZE_DIFF_CHARBONNIER,
+        DiffCharbonnier = 3,
     }
 }

@@ -37,7 +37,7 @@ namespace OpenCvSharp
         /// <param name="flags"></param>
         /// <param name="encoding">Encoding of the file. Note that UTF-16 XML encoding is not supported 
         /// currently and you should use 8-bit encoding instead of it.</param>
-        public FileStorage(string source, FileStorageMode flags, string encoding = null)
+        public FileStorage(string source, Mode flags, string encoding = null)
         {
             if (source == null)
                 throw new ArgumentNullException("source");
@@ -157,7 +157,7 @@ namespace OpenCvSharp
         /// <param name="encoding">Encoding of the file. Note that UTF-16 XML encoding is not supported 
         /// currently and you should use 8-bit encoding instead of it.</param>
         /// <returns></returns>
-        public virtual bool Open(string fileName, FileStorageMode flags, string encoding = null)
+        public virtual bool Open(string fileName, Mode flags, string encoding = null)
         {
             if (disposed)
                 throw new ObjectDisposedException("FileStorage");
@@ -276,5 +276,79 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+#if LANG_JP
+    /// <summary>
+    /// FileStorageのモード
+    /// </summary>
+#else
+        /// <summary>
+        /// File storage mode
+        /// </summary>
+#endif
+        [Flags]
+        public enum Mode 
+        {
+#if LANG_JP
+        /// <summary>
+        /// データ読み込みのためのファイルオープン 
+        /// </summary>
+#else
+            /// <summary>
+            /// The storage is open for reading
+            /// </summary>
+#endif
+            Read = 0,
+
+#if LANG_JP
+        /// <summary>
+        /// データ書き込みのためのファイルオープン 
+        /// [CV_STORAGE_WRITE]
+        /// </summary>
+#else
+            /// <summary>
+            /// The storage is open for writing
+            /// [CV_STORAGE_WRITE]
+            /// </summary>
+#endif
+            Write = 1,
+
+#if LANG_JP
+        /// <summary>
+        /// データ追加書き込みのためのファイルオープン 
+        /// </summary>
+#else
+            /// <summary>
+            /// The storage is open for appending
+            /// </summary>
+#endif
+            Append = 2,
+
+            /// <summary>
+            /// flag, read data from source or write data to the internal buffer
+            /// (which is returned by FileStorage::release)
+            /// </summary>
+            Memory = 4,
+
+            /// <summary>
+            /// mask for format flags
+            /// </summary>
+            FotmatMask = (7 << 3),
+
+            /// <summary>
+            /// flag, auto format
+            /// </summary>
+            FormatAuto = 0,
+
+            /// <summary>
+            /// flag, XML format
+            /// </summary>
+            FormatXml = (1 << 3),
+
+            /// <summary>
+            /// flag, YAML format
+            /// </summary>
+            FormatYaml = (2 << 3),
+        }
     }
 }

@@ -464,7 +464,7 @@ namespace OpenCvSharp
             {
                 int src = (int)NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.FourCC);
                 IntBytes bytes = new IntBytes { Value = src };
-                char[] fourcc = new []{
+                char[] fourcc = {
                     Convert.ToChar(bytes.B1),
                     Convert.ToChar(bytes.B2),
                     Convert.ToChar(bytes.B3),
@@ -723,24 +723,18 @@ namespace OpenCvSharp
         }
 
 
-#if LANG_JP
-		/// <summary>
-		/// 
-		/// </summary>
-#else
         /// <summary>
         /// 
         /// </summary>
-#endif
-        public double WhiteBalance
+        public double WhiteBalanceBlueU
         {
             get
             {
-                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.WhiteBalance);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.WhiteBalanceBlueU);
             }
             set
             {
-                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.WhiteBalance, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.WhiteBalanceBlueU, value);
             }
         }
 
@@ -765,17 +759,10 @@ namespace OpenCvSharp
                 NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Rectification, value);
             }
         }
-
         
-#if LANG_JP
-		/// <summary>
-		/// 
-		/// </summary>
-#else
         /// <summary>
         /// 
         /// </summary>
-#endif
         public double Monocrome
         {
             get
@@ -787,19 +774,10 @@ namespace OpenCvSharp
                 NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Monocrome, value);
             }
         }
-        #endregion
-        #region Added for 2.3
-#if LANG_JP
-		/// <summary>
-        /// 
-		/// [CV_CAP_PROP_SHARPNESS]
-		/// </summary>
-#else
+
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_SHARPNESS]
         /// </summary>
-#endif
         public double Sharpness
         {
             get
@@ -812,19 +790,11 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// exposure control done by camera,
-        /// user can adjust refernce level using this feature
-		/// [CV_CAP_PROP_AUTO_EXPOSURE]
-		/// </summary>
-#else
         /// <summary>
         /// exposure control done by camera,
         /// user can adjust refernce level using this feature
         /// [CV_CAP_PROP_AUTO_EXPOSURE]
         /// </summary>
-#endif
         public double AutoExposure
         {
             get
@@ -837,17 +807,9 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// 
-		/// [CV_CAP_PROP_GAMMA]
-		/// </summary>
-#else
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_GAMMA]
         /// </summary>
-#endif
         public double Gamma
         {
             get
@@ -860,17 +822,10 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// 
-		/// [CV_CAP_PROP_TEMPERATURE]
-		/// </summary>
-#else
         /// <summary>
         /// 
         /// [CV_CAP_PROP_TEMPERATURE]
         /// </summary>
-#endif
         public double Temperature
         {
             get
@@ -883,17 +838,9 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// 
-		/// [CV_CAP_PROP_TRIGGER]
-		/// </summary>
-#else
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_TRIGGER]
         /// </summary>
-#endif
         public double Trigger
         {
             get
@@ -906,17 +853,9 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// 
-		/// [CV_CAP_PROP_TRIGGER_DELAY]
-		/// </summary>
-#else
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_TRIGGER_DELAY]
         /// </summary>
-#endif
         public double TriggerDelay
         {
             get
@@ -929,17 +868,9 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// 
-		/// [CV_CAP_PROP_WHITE_BALANCE_RED_V]
-		/// </summary>
-#else
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_WHITE_BALANCE_RED_V]
         /// </summary>
-#endif
         public double WhiteBalanceRedV
         {
             get
@@ -952,104 +883,158 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// 
-		/// [CV_CAP_PROP_MAX_DC1394]
-		/// </summary>
-#else
         /// <summary>
         /// 
-        /// [CV_CAP_PROP_MAX_DC1394]
         /// </summary>
-#endif
-// ReSharper disable InconsistentNaming
-        public double MaxDC1394
-// ReSharper restore InconsistentNaming
+        public double Zoom
         {
             get
             {
-                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.MaxDC1394);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Zoom);
             }
             set
             {
-                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.MaxDC1394, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Zoom, value);
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// property for highgui class CvCapture_Android only
-		/// [CV_CAP_PROP_AUTOGRAB]
-		/// </summary>
-#else
         /// <summary>
-        /// property for highgui class CvCapture_Android only
-        /// [CV_CAP_PROP_AUTOGRAB]
+        /// 
         /// </summary>
-#endif
-        public double AutoGrab
+        public double Focus
         {
             get
             {
-                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.AutoGrab);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Focus);
             }
             set
             {
-                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.AutoGrab, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Focus, value);
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// readonly, tricky property, returns cpnst char* indeed
-		/// [CV_CAP_PROP_SUPPORTED_PREVIEW_SIZES_STRING]
-		/// </summary>
-#else
         /// <summary>
-        /// readonly, tricky property, returns cpnst char* indeed
-        /// [CV_CAP_PROP_SUPPORTED_PREVIEW_SIZES_STRING]
+        /// 
         /// </summary>
-#endif
-        public string SupportedPreviewSizesString
+        public double Guid
         {
             get
             {
-                // double to const char*
-                double d = NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.SupportedPreviewSizesString);
-                unsafe
-                {
-                    char* p = (char*)(long)d;  // problematic cast
-                    return new string(p);
-                }
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Guid);
+            }
+            set
+            {
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Guid, value);
             }
         }
 
-#if LANG_JP
-		/// <summary>
-        /// readonly, tricky property, returns cpnst char* indeed
-		/// [CV_CAP_PROP_PREVIEW_FORMAT]
-		/// </summary>
-#else
         /// <summary>
-        /// readonly, tricky property, returns cpnst char* indeed
-        /// [CV_CAP_PROP_PREVIEW_FORMAT]
+        /// 
         /// </summary>
-#endif
-        public string PreviewFormat
+        public double IsoSpeed
         {
             get
             {
-                // double to const char*
-                double d = NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.PreviewFormat);
-                unsafe
-                {
-                    char* p = (char*)(long)d;  // problematic cast
-                    return new string(p);
-                }
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.IsoSpeed);
+            }
+            set
+            {
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.IsoSpeed, value);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double BackLight
+        {
+            get
+            {
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.BackLight);
+            }
+            set
+            {
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.BackLight, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Pan
+        {
+            get
+            {
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Pan);
+            }
+            set
+            {
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Pan, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Tilt
+        {
+            get
+            {
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Tilt);
+            }
+            set
+            {
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Tilt, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Roll
+        {
+            get
+            {
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Roll);
+            }
+            set
+            {
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Roll, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Iris
+        {
+            get
+            {
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Iris);
+            }
+            set
+            {
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Iris, value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Settings
+        {
+            get
+            {
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.Settings);
+            }
+            set
+            {
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.Settings, value);
+            }
+        }
+
         #endregion
+
         #region OpenNI
         // Properties of cameras available through OpenNI interfaces
 // ReSharper disable InconsistentNaming
@@ -1147,29 +1132,6 @@ namespace OpenCvSharp
 
 #if LANG_JP
 		/// <summary>
-        /// flag
-		/// [CV_CAP_PROP_OPENNI_REGISTRATION_ON]
-		/// </summary>
-#else
-        /// <summary>
-        /// flag
-        /// [CV_CAP_PROP_OPENNI_REGISTRATION_ON]
-        /// </summary>
-#endif
-        public double OpenNI_RegistrationON
-        {
-            get
-            {
-                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_RegistrationON);
-            }
-            set
-            {
-                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_RegistrationON, value);
-            }
-        }
-
-#if LANG_JP
-		/// <summary>
         /// flag that synchronizes the remapping depth map to image map
         /// by changing depth generator's view point (if the flag is "on") or
         /// sets this view point to its normal one (if the flag is "off").
@@ -1183,15 +1145,15 @@ namespace OpenCvSharp
         /// [CV_CAP_PROP_OPENNI_REGISTRATION]
         /// </summary>
 #endif
-        public double OpenNI_Registratiob
+        public double OpenNI_Registration
         {
             get
             {
-                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_Registratiob);
+                return NativeMethods.videoio_VideoCapture_get(ptr, (int)CaptureProperty.OpenNI_Registration);
             }
             set
             {
-                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_Registratiob, value);
+                NativeMethods.videoio_VideoCapture_set(ptr, (int)CaptureProperty.OpenNI_Registration, value);
             }
         }
 
@@ -1925,7 +1887,7 @@ namespace OpenCvSharp
         /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
         /// <returns></returns>
 #endif
-        public bool Retrieve(Mat image, CameraChannels streamIdx = CameraChannels.Zero)
+        public bool Retrieve(Mat image, CameraChannels streamIdx = CameraChannels.OpenNI_DepthMap)
         {
             ThrowIfDisposed();
             if (image == null)

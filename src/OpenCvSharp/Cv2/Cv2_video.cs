@@ -65,8 +65,8 @@ namespace OpenCvSharp
             InputArray img, OutputArray pyramid,
             Size winSize, int maxLevel,
             bool withDerivatives = true,
-            BorderType pyrBorder = BorderType.Reflict101,
-            BorderType derivBorder = BorderType.Constant,
+            BorderTypes pyrBorder = BorderTypes.Reflect101,
+            BorderTypes derivBorder = BorderTypes.Constant,
             bool tryReuseInputImage = true)
         {
             if (img == null)

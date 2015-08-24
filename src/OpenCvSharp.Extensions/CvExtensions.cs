@@ -48,7 +48,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="thetaMax"></param>
         /// <returns></returns>
 #endif
-        public static CvLineSegmentPoint[] HoughLinesProbabilisticEx(this Mat img, double rho, double theta, int threshold, double minLineLength, double maxLineGap,
+        public static LineSegmentPoint[] HoughLinesProbabilisticEx(this Mat img, double rho, double theta, int threshold, double minLineLength, double maxLineGap,
             double thetaMin = 0, double thetaMax = Math.PI)
         {
             if (img == null)
@@ -123,8 +123,8 @@ namespace OpenCvSharp.Extensions
                 Shuffle(points);
 
                 // 2. 画素をランダムに選択し処理
-                int[] accum = new int[numAngle * numRho];
-                List<CvLineSegmentPoint> result = new List<CvLineSegmentPoint>();
+                var accum = new int[numAngle * numRho];
+                var result = new List<LineSegmentPoint>();
                 for (int count = 0; count < points.Length; count++)
                 {
                     Point pt = points[count];
@@ -162,20 +162,20 @@ namespace OpenCvSharp.Extensions
                     int y0 = pt.Y;
                     int dx0, dy0;
                     bool xflag;
-                    const int Shift = 16;
+                    const int shift = 16;
                     if (Math.Abs(a) > Math.Abs(b))
                     {
                         xflag = true;
                         dx0 = a > 0 ? 1 : -1;
-                        dy0 = (int)Math.Round(b * (1 << Shift) / Math.Abs(a));
-                        y0 = (y0 << Shift) + (1 << (Shift - 1));
+                        dy0 = (int)Math.Round(b * (1 << shift) / Math.Abs(a));
+                        y0 = (y0 << shift) + (1 << (shift - 1));
                     }
                     else
                     {
                         xflag = false;
                         dy0 = b > 0 ? 1 : -1;
-                        dx0 = (int)Math.Round(a * (1 << Shift) / Math.Abs(b));
-                        x0 = (x0 << Shift) + (1 << (Shift - 1));
+                        dx0 = (int)Math.Round(a * (1 << shift) / Math.Abs(b));
+                        x0 = (x0 << shift) + (1 << (shift - 1));
                     }
 
                     // 2.3 線分画素を両端方向に追尾し、線分を抽出
@@ -200,11 +200,11 @@ namespace OpenCvSharp.Extensions
                             if (xflag)
                             {
                                 x1 = x;
-                                y1 = y >> Shift;
+                                y1 = y >> shift;
                             }
                             else
                             {
-                                x1 = x >> Shift;
+                                x1 = x >> shift;
                                 y1 = y;
                             }
 
@@ -252,11 +252,11 @@ namespace OpenCvSharp.Extensions
                                 if (xflag)
                                 {
                                     x1 = x;
-                                    y1 = y >> Shift;
+                                    y1 = y >> shift;
                                 }
                                 else
                                 {
-                                    x1 = x >> Shift;
+                                    x1 = x >> shift;
                                     y1 = y;
                                 }
 
@@ -290,7 +290,7 @@ namespace OpenCvSharp.Extensions
 
                     if (goodLine)
                     {
-                        result.Add(new CvLineSegmentPoint(lineEnd[0], lineEnd[1]));
+                        result.Add(new LineSegmentPoint(lineEnd[0], lineEnd[1]));
                     }
                 }
 
@@ -300,7 +300,7 @@ namespace OpenCvSharp.Extensions
 
         private static void Shuffle<T>(IList<T> list)
         {
-            Random rand = new Random();
+            var rand = new Random();
             for (int i = list.Count; i > 1; i--)
             {
                 int j = rand.Next(i);

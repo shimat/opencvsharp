@@ -73,6 +73,8 @@ namespace OpenCvSharp
                 {typeof (ANN_MLP), NativeMethods.ml_Ptr_ANN_MLP_delete},
                 {typeof (LogisticRegression), NativeMethods.ml_Ptr_LogisticRegression_delete},
                 {typeof (Stitcher), NativeMethods.stitching_Ptr_Stitcher_delete},
+                {typeof (ShapeContextDistanceExtractor), NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete},
+                {typeof (HausdorffDistanceExtractor), NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete},
             };
             definedGetFunctions = new Dictionary<Type, ObjFunc>
             {
@@ -119,6 +121,8 @@ namespace OpenCvSharp
                 {typeof (ANN_MLP), NativeMethods.ml_Ptr_ANN_MLP_get},
                 {typeof (LogisticRegression), NativeMethods.ml_Ptr_LogisticRegression_get},
                 {typeof (Stitcher), NativeMethods.stitching_Ptr_Stitcher_get},
+                {typeof (ShapeContextDistanceExtractor), NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get},
+                {typeof (HausdorffDistanceExtractor), NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get},
             };
         }
 

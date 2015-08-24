@@ -781,6 +781,16 @@ CVAPI(double) imgproc_pointPolygonTest_Point2f(cv::Point2f *contour, int contour
 	return cv::pointPolygonTest(contourVec, pt, measureDist != 0);
 }
 
+CVAPI(int) imgproc_rotatedRectangleIntersection_OutputArray(
+	MyCvBox2D rect1, MyCvBox2D rect2, cv::_OutputArray *intersectingRegion)
+{
+	return cv::rotatedRectangleIntersection(cpp(rect1), cpp(rect2), *intersectingRegion);
+}
+CVAPI(int) imgproc_rotatedRectangleIntersection_vector(
+	MyCvBox2D rect1, MyCvBox2D rect2, std::vector<cv::Point2f> *intersectingRegion)
+{
+	return cv::rotatedRectangleIntersection(cpp(rect1), cpp(rect2), *intersectingRegion);
+}
 
 CVAPI(void) imgproc_applyColorMap(cv::_InputArray *src, cv::_OutputArray *dst, int colormap)
 {

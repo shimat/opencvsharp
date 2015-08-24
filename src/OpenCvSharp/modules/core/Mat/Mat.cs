@@ -766,8 +766,6 @@ namespace OpenCvSharp
 
         #region Operators
 
-        #region Arithmetic
-
         #region Unary
 
         /// <summary>
@@ -1176,8 +1174,6 @@ namespace OpenCvSharp
             IntPtr retPtr = NativeMethods.core_Mat_operatorNot(m.CvPtr);
             return new MatExpr(retPtr);
         }
-
-        #endregion
 
         #endregion
 
@@ -2214,7 +2210,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="method">Matrix inversion method</param>
         /// <returns></returns>
-        public Mat Inv(MatrixDecomposition method = MatrixDecomposition.LU)
+        public Mat Inv(DecompTypes method = DecompTypes.LU)
         {
             ThrowIfDisposed();
             IntPtr retPtr = NativeMethods.core_Mat_inv2(ptr, (int) method);
@@ -4365,6 +4361,91 @@ namespace OpenCvSharp
             stream.Write(imageBytes, 0, imageBytes.Length);
         }
 
+        #endregion
+
+        #region DrawMarker
+#pragma warning disable 1591
+
+        public void DrawMarker(
+            int x, int y, Scalar color, 
+            MarkerStyle style = MarkerStyle.Cross, 
+            int size = 10, 
+            LineTypes lineType = LineTypes.Link8,
+            int thickness = 1)
+        {
+            int r = size / 2;
+
+            switch (style)
+            {
+                case MarkerStyle.CircleLine:
+                    Circle(x, y, r, color, thickness, lineType);
+                    break;
+                case MarkerStyle.CircleFilled:
+                    Circle(x, y, r, color, -1, lineType);
+                    break;
+                case MarkerStyle.Cross:
+                    Line(x, y - r, x, y + r, color, thickness, lineType);
+                    Line(x - r, y, x + r, y, color, thickness, lineType);
+                    break;
+                case MarkerStyle.TiltedCross:
+                    Line(x - r, y - r, x + r, y + r, color, thickness, lineType);
+                    Line(x + r, y - r, x - r, y + r, color, thickness, lineType);
+                    break;
+                case MarkerStyle.CircleAndCross:
+                    Circle(x, y, r, color, thickness, lineType);
+                    Line(x, y - r, x, y + r, color, thickness, lineType);
+                    Line(x - r, y, x + r, y, color, thickness, lineType);
+                    break;
+                case MarkerStyle.CircleAndTiltedCross:
+                    Circle(x, y, r, color, thickness, lineType);
+                    Line(x - r, y - r, x + r, y + r, color, thickness, lineType);
+                    Line(x + r, y - r, x - r, y + r, color, thickness, lineType);
+                    break;
+                case MarkerStyle.DiamondLine:
+                case MarkerStyle.DiamondFilled:
+                    {
+                        int r2 = (int)(size * Math.Sqrt(2) / 2.0);
+                        Point[] pts = 
+                        { 
+                            new Point(x, y-r2),
+                            new Point(x+r2, y),
+                            new Point(x, y+r2),
+                            new Point(x-r2, y)
+                        };
+                        switch (style)
+                        {
+                            case MarkerStyle.DiamondLine:
+                                Polylines(new [] { pts }, true, color, thickness, lineType); break;
+                            case MarkerStyle.DiamondFilled:
+                                FillConvexPoly(pts, color, lineType); break;
+                        }
+
+                    }
+                    break;
+                case MarkerStyle.SquareLine:
+                case MarkerStyle.SquareFilled:
+                    {
+                        Point[] pts = 
+                        { 
+                            new Point(x-r, y-r),
+                            new Point(x+r, y-r),
+                            new Point(x+r, y+r),
+                            new Point(x-r, y+r)
+                        };
+                        switch (style)
+                        {
+                            case MarkerStyle.SquareLine:
+                                Polylines(new [] { pts }, true, color, thickness, lineType); break;
+                            case MarkerStyle.SquareFilled:
+                                FillConvexPoly(pts, color, lineType); break;
+                        }
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+#pragma warning restore 1591
         #endregion
 
         /// <summary>

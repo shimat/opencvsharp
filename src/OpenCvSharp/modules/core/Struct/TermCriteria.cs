@@ -5,7 +5,7 @@ using System.Text;
 namespace OpenCvSharp
 {
     /// <summary>
-    /// 
+    /// The class defining termination criteria for iterative algorithms.
     /// </summary>
     public struct TermCriteria
     {
@@ -31,6 +31,7 @@ namespace OpenCvSharp
         /// <param name="maxCount"></param>
         /// <param name="epsilon"></param>
         public TermCriteria(CriteriaType type, int maxCount, double epsilon)
+            : this()
         {
             Type = type;
             MaxCount = maxCount;
@@ -46,7 +47,7 @@ namespace OpenCvSharp
         {
             return new TermCriteria
             {
-                Type = CriteriaType.Iteration | CriteriaType.Epsilon,
+                Type = CriteriaType.Count | CriteriaType.Eps,
                 MaxCount = maxCount,
                 Epsilon = epsilon,
             };
