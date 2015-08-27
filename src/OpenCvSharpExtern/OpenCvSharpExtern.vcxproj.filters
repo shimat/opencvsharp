@@ -267,6 +267,9 @@
     <ClInclude Include="imgproc_LineIterator.h">
       <Filter>Header Files\imgproc</Filter>
     </ClInclude>
+    <ClInclude Include="imgproc_LineSegmentDetectorh.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
