@@ -16,12 +16,26 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            LineIterator();
+            LineSegmentDetectorSample();
+            //LineIterator();
             //Feature();
             //Blob();
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void LineSegmentDetectorSample()
+        {
+            var img = new Mat("data/shapes.png", ImreadModes.GrayScale);
+            var lines = new Mat();
+            var view = img.Clone();
+
+            var detector = LineSegmentDetector.Create();
+            detector.Detect(img, lines);
+            detector.DrawSegments(view, lines);
+
+            Window.ShowImages(view);
         }
 
         private static void LineIterator()
