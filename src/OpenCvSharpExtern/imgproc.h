@@ -4,23 +4,23 @@
 #include "include_opencv.h"
 
 
-CVAPI(cv::Mat*) imgproc_getGaborKernel(CvSize ksize, double sigma, double theta, 
+CVAPI(cv::Mat*) imgproc_getGaborKernel(MyCvSize ksize, double sigma, double theta, 
 	double lambd, double gamma, double psi, int ktype)
 {
-	cv::Mat ret = cv::getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype);
+	cv::Mat ret = cv::getGaborKernel(cpp(ksize), sigma, theta, lambd, gamma, psi, ktype);
 	return new cv::Mat(ret);
 }
 
-CVAPI(cv::Mat*) imgproc_getStructuringElement(int shape, CvSize ksize, CvPoint anchor)
+CVAPI(cv::Mat*) imgproc_getStructuringElement(int shape, MyCvSize ksize, MyCvPoint anchor)
 {
-	cv::Mat ret = cv::getStructuringElement(shape, ksize, anchor);
+	cv::Mat ret = cv::getStructuringElement(shape, cpp(ksize), cpp(anchor));
 	return new cv::Mat(ret);
 }
 
 CVAPI(void) imgproc_copyMakeBorder(cv::_InputArray *src, cv::_OutputArray *dst, 
-	int top, int bottom, int left, int right, int borderType, CvScalar value)
+	int top, int bottom, int left, int right, int borderType, MyCvScalar value)
 {
-	cv::copyMakeBorder(*src, *dst, top, bottom, left, right, borderType, value);
+	cv::copyMakeBorder(*src, *dst, top, bottom, left, right, borderType, cpp(value));
 }
 
 CVAPI(void) imgproc_medianBlur(cv::_InputArray *src, cv::_OutputArray *dst, int ksize)
