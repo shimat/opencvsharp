@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfPoint3f : DisposableCvObject, IStdVector<Point3f>
+    internal class VectorOfPoint3f : DisposableCvObject, IStdVector<Point3f>
     {
         /// <summary>
         /// Track whether Dispose has been called

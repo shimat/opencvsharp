@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfVec6d : DisposableCvObject, IStdVector<Vec6d>
+    internal class VectorOfVec6d : DisposableCvObject, IStdVector<Vec6d>
     {
         /// <summary>
         /// Track whether Dispose has been called

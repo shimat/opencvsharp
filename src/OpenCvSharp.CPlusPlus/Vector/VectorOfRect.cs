@@ -7,7 +7,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
+    internal class VectorOfRect : DisposableCvObject, IStdVector<Rect>
     {
         /// <summary>
         /// Track whether Dispose has been called

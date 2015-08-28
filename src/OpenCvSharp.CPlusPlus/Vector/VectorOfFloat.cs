@@ -8,7 +8,7 @@ namespace OpenCvSharp.CPlusPlus
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfFloat : DisposableCvObject, IStdVector<float>
+    internal class VectorOfFloat : DisposableCvObject, IStdVector<float>
     {
         /// <summary>
         /// Track whether Dispose has been called

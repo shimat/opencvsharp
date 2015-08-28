@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Utilities;
 
 namespace OpenCvSharp.CPlusPlus
 {
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfDouble : DisposableCvObject, IStdVector<double>
+    internal class VectorOfDouble : DisposableCvObject, IStdVector<double>
     {
         /// <summary>
         /// Track whether Dispose has been called

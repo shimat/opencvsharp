@@ -25,43 +25,7 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            /*
-            int xSize = 2400;
-            int ySize = 2400;
-            var points = GetStationPositions(@"C:\hokkaido.csv", xSize, ySize, 200, 200);
-
-            using (Mat img = Mat.Zeros(ySize, xSize, MatType.CV_8UC3))
-            {
-                foreach (var p in points)
-                {
-                    img.Circle((int)p.X, (int)p.Y, 5, Scalar.Red, -1);
-                    if (p.X < 0 || p.Y < 0 || p.X >= xSize + 1 || p.Y >= ySize + 1)
-                    {
-                        p.ToString();
-                    }
-                }
-
-                var subdiv = new Subdiv2D();
-                subdiv.InitDelaunay(new Rect(0, 0, xSize + 1, ySize + 1));
-                subdiv.Insert(points.Select(p => new Point2f((float)p.X, (float)p.Y)));
-
-                Point2f[][] facetList;
-                Point2f[] facetCenters;
-                subdiv.GetVoronoiFacetList(null, out facetList, out facetCenters);
-
-                foreach (Point2f[] poly in facetList)
-                {
-                    Point[] polyInt = poly.Select(p => new Point((int)p.X, (int)p.Y)).ToArray();
-                    img.Polylines(new[] { polyInt }, true, Scalar.Green, 2);
-                }
-
-                img.SaveImage(@"C:\temp\hokkaido-voronoi.png");
-                using (var window = new Window(WindowMode.StretchImage, img))
-                {
-                    Cv2.WaitKey();
-                }
-            }
-            */
+            ChamferMatchingSample();
 
             /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
             var img2 = new IplImage("data/match2.png", LoadMode.Color);
@@ -73,32 +37,51 @@ namespace OpenCvSharp.Sandbox
             //Run();
         }
 
-        static Point2d[] GetStationPositions(string csvFile, int xSize, int ySize, int xOffset, int yOffset)
+        private static void ChamferMatchingSample()
         {
-            var ret = new List<Point2d>();
-
-            using (var reader = new StreamReader(csvFile))
+            using (var img = new Mat("data/lenna.png", LoadMode.GrayScale))
+            using (var templ = new Mat("data/lennas_eye.png", LoadMode.GrayScale))
             {
-                reader.ReadLine();
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                Point[][] points;
+                float[] cost;
+                
+                using (var imgEdge = img.Canny(50, 200))
+                using (var templEdge = templ.Canny(50, 200))
                 {
-                    string[] tokens = line.Split(',');
-                    double lon = Double.Parse(tokens[1]);
-                    double lat = Double.Parse(tokens[2]);
-                    ret.Add(new Point2d(lon, lat));
+                    imgEdge.SaveImage("e1.png");
+                    templEdge.SaveImage("e2.png");
+
+                    var ret = Cv2.ChamferMatching(imgEdge, templEdge, out points, out cost);
+
+                    int i = 0;
+
+                    Console.WriteLine(ret);
+                    Console.WriteLine(points.Count());
+
+                    using (var img3 = img.CvtColor(ColorConversion.GrayToRgb))
+                    {
+                        foreach (var point in points)
+                        {
+                            foreach (var point1 in point)
+                            {
+                                Vec3b c = new Vec3b(0, 255, 0);
+                                img3.Set<Vec3b>(point1.Y, point1.X, c);
+                            }
+
+                            Console.WriteLine(cost[i]);
+                            i++;
+                        }
+                        foreach (var point1 in points[0])
+                        {
+                            Vec3b c = new Vec3b(255, 0, 255);
+                            img3.Set<Vec3b>(point1.Y, point1.X, c);
+                        }
+
+                        Window.ShowImages(img3);
+                        img3.SaveImage("final.png");
+                    }
                 }
             }
-
-            double lonMax = ret.Max(p => p.X);
-            double lonMin = ret.Min(p => p.X);
-            double latMax = ret.Max(p => p.Y);
-            double latMin = ret.Min(p => p.Y);
-            double xScale = (xSize - xOffset) / (lonMax - lonMin);
-            double yScale = (ySize - yOffset) / (latMax - latMin);
-            return ret.Select(p => new Point2d((p.X - lonMin) * xScale, (p.Y - latMin) * yScale))
-                .Select(p => new Point2d(p.X + xOffset, ySize - p.Y))
-                .ToArray();
         }
 
         private static void Clahe()
