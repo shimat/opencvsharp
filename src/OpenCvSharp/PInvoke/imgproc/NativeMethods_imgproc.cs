@@ -365,5 +365,75 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_applyColorMap(IntPtr src, IntPtr dst, int colormap);
+
+
+        #region Drawing
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_line(
+            IntPtr img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_arrowedLine(
+            IntPtr img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift, double tipLength);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_rectangle_InputOutputArray(
+            IntPtr img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_rectangle_Mat(
+            IntPtr img, Rect rect, Scalar color, int thickness, int lineType, int shift);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_circle(IntPtr img, Point center, int radius, Scalar color, int thickness, int lineType, int shift);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_ellipse1(IntPtr img, Point center, Size axes,
+            double angle, double startAngle, double endAngle, Scalar color, int thickness, int lineType, int shift);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_ellipse2(IntPtr img, RotatedRect box, Scalar color, int thickness, int lineType);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_fillConvexPoly_Mat(
+            IntPtr img, Point[] pts, int npts, Scalar color, int lineType, int shift);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_fillConvexPoly_InputOutputArray(
+            IntPtr img, IntPtr points, Scalar color, int lineType, int shift);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_fillPoly_Mat(
+            IntPtr img, IntPtr[] pts, int[] npts, int ncontours,
+            Scalar color, int lineType, int shift, Point offset);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_fillPoly_InputOutputArray(
+            IntPtr img, IntPtr pts, Scalar color, int lineType, int shift, Point offset);
+        
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_polylines_Mat(
+            IntPtr img, IntPtr[] pts, int[] npts,
+            int ncontours, int isClosed, Scalar color, int thickness, int lineType, int shift);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_polylines_InputOutputArray(
+            IntPtr img, IntPtr pts, int isClosed, Scalar color, int thickness, int lineType, int shift);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int imgproc_clipLine1(Size imgSize, ref Point pt1, ref Point pt2);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int imgproc_clipLine2(Rect imgRect, ref Point pt1, ref Point pt2);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_ellipse2Poly(
+            Point center, Size axes, int angle, int arcStart, int arcEnd, int delta, IntPtr pts);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern void core_putText(IntPtr img, [MarshalAs(UnmanagedType.LPStr)] string text, Point org,
+            int fontFace, double fontScale, Scalar color,
+            int thickness, int lineType, int bottomLeftOrigin);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern Size core_getTextSize([MarshalAs(UnmanagedType.LPStr)] string text, int fontFace,
+            double fontScale, int thickness, out int baseLine);
+
+        #endregion
     }
 }

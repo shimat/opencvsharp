@@ -279,43 +279,5 @@ namespace OpenCvSharp
         public static extern void core_randShuffle(IntPtr dst, double iterFactor, ref ulong rng);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_randShuffle(IntPtr dst, double iterFactor, IntPtr rng);
-
-        #region Drawing
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_line(IntPtr img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_rectangle1(IntPtr img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_rectangle2(IntPtr img, Rect rect, Scalar color, int thickness, int lineType, int shift);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_circle(IntPtr img, Point center, int radius, Scalar color, int thickness, int lineType, int shift);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_ellipse1")]
-        public static extern void core_ellipse(IntPtr img, Point center, Size axes,
-            double angle, double startAngle, double endAngle, Scalar color, int thickness, int lineType, int shift);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_ellipse2")]
-        public static extern void core_ellipse(IntPtr img, RotatedRect box, Scalar color, int thickness, int lineType);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_fillConvexPoly(IntPtr img, Point[] pts, int npts, Scalar color, int lineType, int shift);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_fillPoly(IntPtr img, IntPtr[] pts, int[] npts, int ncontours,
-            Scalar color, int lineType, int shift, Point offset);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void core_polylines(IntPtr img, IntPtr[] pts, int[] npts,
-            int ncontours, int isClosed, Scalar color, int thickness, int lineType, int shift);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_clipLine1")]
-        public static extern int core_clipLine(Size imgSize, ref Point pt1, ref Point pt2);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_clipLine2")]
-        public static extern int core_clipLine(Rect imgRect, ref Point pt1, ref Point pt2);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern void core_putText(IntPtr img, [MarshalAs(UnmanagedType.LPStr)] string text, Point org,
-            int fontFace, double fontScale, Scalar color,
-            int thickness, int lineType, int bottomLeftOrigin);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern Size core_getTextSize([MarshalAs(UnmanagedType.LPStr)] string text, int fontFace,
-	        double fontScale, int thickness, out int baseLine);
-
-        #endregion
     }
 }

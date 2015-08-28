@@ -483,36 +483,6 @@ CVAPI(void) imgproc_findContours2_OutputArray(cv::_InputOutputArray *image, std:
 	cv::findContours(*image, **contours, mode, method, offset);
 }
 
-CVAPI(void) imgproc_drawContours_vector(cv::_InputOutputArray *image,
-	cv::Point **contours, int contoursSize1, int *contoursSize2,
-	int contourIdx, MyCvScalar color, int thickness, int lineType,
-	cv::Vec4i *hierarchy, int hiearchyLength, int maxLevel, MyCvPoint offset)
-{
-	std::vector<std::vector<cv::Point> > contoursVec;
-	for (int i = 0; i < contoursSize1; i++)
-	{
-		std::vector<cv::Point> c1(contours[i], contours[i] + contoursSize2[i]);
-		contoursVec.push_back(c1);
-	}
-	std::vector<cv::Vec4i> hiearchyVec;
-	if (hierarchy != NULL)
-	{
-		hiearchyVec = std::vector<cv::Vec4i>(hierarchy, hierarchy + hiearchyLength);
-	}
-
-	cv::drawContours(*image, contoursVec, contourIdx, cpp(color), thickness, lineType, hiearchyVec, maxLevel, cpp(offset));
-}
-CVAPI(void) imgproc_drawContours_InputArray(cv::_InputOutputArray *image,
-	cv::Mat **contours, int contoursLength,
-	int contourIdx, MyCvScalar color, int thickness, int lineType,
-	cv::_InputArray *hierarchy, int maxLevel, MyCvPoint offset)
-{
-	std::vector<std::vector<cv::Point> > contoursVec(contoursLength);
-	for (int i = 0; i < contoursLength; i++)
-		contoursVec[i] = *contours[i];
-	cv::drawContours(*image, contoursVec, contourIdx, cpp(color), thickness, lineType, entity(hierarchy), maxLevel, cpp(offset));
-}
-
 CVAPI(void) imgproc_approxPolyDP_InputArray(cv::_InputArray *curve, cv::_OutputArray *approxCurve, double epsilon, int closed)
 {
 	cv::approxPolyDP(*curve, *approxCurve, epsilon, closed != 0);
@@ -796,5 +766,159 @@ CVAPI(void) imgproc_applyColorMap(cv::_InputArray *src, cv::_OutputArray *dst, i
 {
 	cv::applyColorMap(*src, *dst, colormap);
 }
+
+#pragma region Drawing
+
+CVAPI(void) imgproc_line(
+	cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2, MyCvScalar color,
+	int thickness, int lineType, int shift)
+{
+	cv::line(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, lineType, shift);
+}
+
+CV_EXPORTS_W void imgproc_arrowedLine(
+	cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2, MyCvScalar color,
+	int thickness, int line_type, int shift, double tipLength)
+{
+	cv::arrowedLine(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, line_type, shift, tipLength);
+}
+
+CVAPI(void) imgproc_rectangle_InputOutputArray(
+	cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2,
+	MyCvScalar color, int thickness, int lineType, int shift)
+{
+	cv::rectangle(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, shift);
+}
+CVAPI(void) imgproc_rectangle_Mat(
+	cv::Mat *img, MyCvRect rect,
+	MyCvScalar color, int thickness, int lineType, int shift)
+{
+	cv::rectangle(*img, cpp(rect), cpp(color), thickness, shift);
+}
+
+CVAPI(void) imgproc_circle(
+	cv::_InputOutputArray *img, MyCvPoint center, int radius,
+	MyCvScalar color, int thickness, int lineType, int shift)
+{
+	cv::circle(*img, cpp(center), radius, cpp(color), thickness, lineType, shift);
+}
+
+CVAPI(void) imgproc_ellipse1(
+	cv::_InputOutputArray *img, MyCvPoint center, MyCvSize axes,
+	double angle, double startAngle, double endAngle,
+	MyCvScalar color, int thickness, int lineType, int shift)
+{
+	cv::ellipse(*img, cpp(center), cpp(axes), angle, startAngle, endAngle, cpp(color), thickness, lineType, shift);
+}
+CVAPI(void) imgproc_ellipse2(
+	cv::_InputOutputArray *img, MyCvBox2D box, MyCvScalar color, int thickness, int lineType)
+{
+	cv::ellipse(*img, cpp(box), cpp(color), thickness, lineType);
+}
+
+CVAPI(void) imgproc_fillConvexPoly_Mat(
+	cv::Mat *img, cv::Point *pts, int npts,	MyCvScalar color, int lineType, int shift)
+{
+	cv::fillConvexPoly(*img, pts, npts, cpp(color), lineType, shift);
+}
+CVAPI(void) imgproc_fillConvexPoly_InputOutputArray(
+	cv::_InputOutputArray *img, cv::_InputArray *points, MyCvScalar color, int lineType, int shift)
+{
+	cv::fillConvexPoly(*img, *points, cpp(color), lineType, shift);
+}
+
+CVAPI(void) imgproc_fillPoly_Mat(cv::Mat *img, const cv::Point **pts, const int *npts,
+	int ncontours, MyCvScalar color, int lineType, int shift, MyCvPoint offset)
+{
+	cv::fillPoly(*img, pts, npts, ncontours, cpp(color), lineType, shift, cpp(offset));
+}
+CVAPI(void) imgproc_fillPoly_InputOutputArray(cv::_InputOutputArray *img, cv::_InputArray *pts,
+	MyCvScalar color, int lineType, int shift, MyCvPoint offset)
+{
+	cv::fillPoly(*img, *pts, cpp(color), lineType, shift, cpp(offset));
+}
+
+CVAPI(void) imgproc_polylines_Mat(
+	cv::Mat *img, const cv::Point **pts, const int *npts,
+	int ncontours, int isClosed, MyCvScalar color,
+	int thickness, int lineType, int shift)
+{
+	cv::polylines(
+		*img, pts, npts, ncontours, isClosed != 0, cpp(color), thickness, lineType, shift);
+}
+CVAPI(void) imgproc_polylines_InputOutputArray(
+	cv::_InputOutputArray *img, cv::_InputArray *pts, int isClosed, MyCvScalar color,
+	int thickness, int lineType, int shift)
+{
+	cv::polylines(*img, *pts, isClosed != 0, cpp(color), thickness, lineType, shift);
+}
+
+CVAPI(void) imgproc_drawContours_vector(cv::_InputOutputArray *image,
+	cv::Point **contours, int contoursSize1, int *contoursSize2,
+	int contourIdx, MyCvScalar color, int thickness, int lineType,
+	cv::Vec4i *hierarchy, int hiearchyLength, int maxLevel, MyCvPoint offset)
+{
+	std::vector<std::vector<cv::Point> > contoursVec;
+	for (int i = 0; i < contoursSize1; i++)
+	{
+		std::vector<cv::Point> c1(contours[i], contours[i] + contoursSize2[i]);
+		contoursVec.push_back(c1);
+	}
+	std::vector<cv::Vec4i> hiearchyVec;
+	if (hierarchy != NULL)
+	{
+		hiearchyVec = std::vector<cv::Vec4i>(hierarchy, hierarchy + hiearchyLength);
+	}
+
+	cv::drawContours(*image, contoursVec, contourIdx, cpp(color), thickness, lineType, hiearchyVec, maxLevel, cpp(offset));
+}
+CVAPI(void) imgproc_drawContours_InputArray(cv::_InputOutputArray *image,
+	cv::Mat **contours, int contoursLength,
+	int contourIdx, MyCvScalar color, int thickness, int lineType,
+	cv::_InputArray *hierarchy, int maxLevel, MyCvPoint offset)
+{
+	std::vector<std::vector<cv::Point> > contoursVec(contoursLength);
+	for (int i = 0; i < contoursLength; i++)
+		contoursVec[i] = *contours[i];
+	cv::drawContours(*image, contoursVec, contourIdx, cpp(color), thickness, lineType, entity(hierarchy), maxLevel, cpp(offset));
+}
+
+CVAPI(int) imgproc_clipLine1(MyCvSize imgSize, MyCvPoint *pt1, MyCvPoint *pt2)
+{
+	cv::Point pt1c = cpp(*pt1), pt2c = cpp(*pt2);
+	bool result = cv::clipLine(cpp(imgSize), pt1c, pt2c);
+	*pt1 = c(pt1c);
+	*pt2 = c(pt2c);
+	return result ? 1 : 0;
+}
+CVAPI(int) imgproc_clipLine2(MyCvRect imgRect, MyCvPoint *pt1, MyCvPoint *pt2)
+{
+	cv::Point pt1c = cpp(*pt1), pt2c = cpp(*pt2);
+	bool result = cv::clipLine(cpp(imgRect), pt1c, pt2c);
+	*pt1 = c(pt1c);
+	*pt2 = c(pt2c);
+	return result ? 1 : 0;
+}
+
+CVAPI(void) imgproc_ellipse2Poly(MyCvPoint center, MyCvSize axes, int angle, int arcStart, int arcEnd,
+	int delta, std::vector<cv::Point> *pts)
+{
+	cv::ellipse2Poly(cpp(center), cpp(axes), angle, arcStart, arcEnd, delta, *pts);
+}
+
+CVAPI(void) core_putText(cv::_InputOutputArray *img, const char *text, MyCvPoint org,
+	int fontFace, double fontScale, MyCvScalar color,
+	int thickness, int lineType, int bottomLeftOrigin)
+{
+	cv::putText(*img, text, cpp(org), fontFace, fontScale, cpp(color), thickness, lineType, bottomLeftOrigin != 0);
+}
+
+CVAPI(MyCvSize) core_getTextSize(const char *text, int fontFace,
+	double fontScale, int thickness, int *baseLine)
+{
+	return c(cv::getTextSize(text, fontFace, fontScale, thickness, baseLine));
+}
+
+#pragma endregion
 
 #endif

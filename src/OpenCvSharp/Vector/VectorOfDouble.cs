@@ -8,7 +8,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfDouble : DisposableCvObject, IStdVector<double>
+    internal class VectorOfDouble : DisposableCvObject, IStdVector<double>
     {
         /// <summary>
         /// Track whether Dispose has been called
