@@ -754,12 +754,12 @@ CVAPI(double) imgproc_pointPolygonTest_InputArray(cv::_InputArray *contour, cv::
 {
 	return cv::pointPolygonTest(*contour, pt, measureDist != 0);
 }
-CVAPI(double) imgproc_pointPolygonTest_Point(cv::Point *contour, int contourLength, cv::Point2f pt, int measureDist)
+CVAPI(double) imgproc_pointPolygonTest_Point(cv::Point *contour, int contourLength, CvPoint2D32f pt, int measureDist)
 {
 	cv::Mat_<cv::Point> contourVec(contourLength, 1, contour);
 	return cv::pointPolygonTest(contourVec, pt, measureDist != 0);
 }
-CVAPI(double) imgproc_pointPolygonTest_Point2f(cv::Point2f *contour, int contourLength, cv::Point2f pt, int measureDist)
+CVAPI(double) imgproc_pointPolygonTest_Point2f(cv::Point2f *contour, int contourLength, CvPoint2D32f pt, int measureDist)
 {
 	cv::Mat_<cv::Point2f> contourVec(contourLength, 1, contour);
 	return cv::pointPolygonTest(contourVec, pt, measureDist != 0);
