@@ -17,29 +17,10 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        internal CLAHE()
+        private CLAHE(IntPtr p)
         {
-            ptr = IntPtr.Zero;
-            ptrObj = null;
-        }
-
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static CLAHE FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid CLAHE pointer");
-
-            var ptrObj = new Ptr<CLAHE>(ptr);
-            var ret = new CLAHE
-            {
-                ptr = ptrObj.Get(),
-                ptrObj = ptrObj,
-            };
-            return ret;
+            ptrObj = new Ptr<CLAHE>(p);
+            ptr = ptrObj.Get();
         }
 
         /// <summary>
@@ -52,9 +33,8 @@ namespace OpenCvSharp
         {
             IntPtr ptr = NativeMethods.imgproc_createCLAHE(
                 clipLimit, tileGridSize.GetValueOrDefault(new Size(8, 8)));
-            return FromPtr(ptr);
+            return new CLAHE(ptr);
         }
-
 
 #if LANG_JP
     /// <summary>
