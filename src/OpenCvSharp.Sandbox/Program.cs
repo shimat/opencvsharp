@@ -25,6 +25,9 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            double ret = Cv2.PointPolygonTest(new[] { new Point2f(0, 0), new Point2f(0, 10), new Point2f(10, 10), new Point2f(10, 0) }, new Point2f(5, 5), false);
+            ret.ToString();
+
             BForceMatcherSample();
             //ChamferMatchingSample();
 
