@@ -750,7 +750,7 @@ CVAPI(void) imgproc_fitLine_Point3f(cv::Point3f *points, int pointsLength, float
 	cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
 }
 
-CVAPI(double) imgproc_pointPolygonTest_InputArray(cv::_InputArray *contour, cv::Point2f pt, int measureDist)
+CVAPI(double) imgproc_pointPolygonTest_InputArray(cv::_InputArray *contour, CvPoint2D32f pt, int measureDist)
 {
 	return cv::pointPolygonTest(*contour, pt, measureDist != 0);
 }
