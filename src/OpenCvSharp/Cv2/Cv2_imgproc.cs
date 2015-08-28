@@ -2700,136 +2700,6 @@ namespace OpenCvSharp
             }
         }
         #endregion
-        #region DrawContours
-#if LANG_JP
-        /// <summary>
-        /// 輪郭線，または内側が塗りつぶされた輪郭を描きます．
-        /// </summary>
-        /// <param name="image">出力画像</param>
-        /// <param name="contours"> 入力される全輪郭．各輪郭は，点のベクトルとして格納されています．</param>
-        /// <param name="contourIdx">描かれる輪郭を示します．これが負値の場合，すべての輪郭が描画されます．</param>
-        /// <param name="color">輪郭の色．</param>
-        /// <param name="thickness">輪郭線の太さ．これが負値の場合（例えば thickness=CV_FILLED ），輪郭の内側が塗りつぶされます．</param>
-        /// <param name="lineType">線の連結性</param>
-        /// <param name="hierarchy">階層に関するオプションの情報．これは，特定の輪郭だけを描画したい場合にのみ必要になります．</param>
-        /// <param name="maxLevel">描画される輪郭の最大レベル．0ならば，指定された輪郭のみが描画されます．
-        /// 1ならば，指定された輪郭と，それに入れ子になったすべての輪郭が描画されます．2ならば，指定された輪郭と，
-        /// それに入れ子になったすべての輪郭，さらにそれに入れ子になったすべての輪郭が描画されます．このパラメータは， 
-        /// hierarchy が有効な場合のみ考慮されます．</param>
-        /// <param name="offset">輪郭をシフトするオプションパラメータ．指定された offset = (dx,dy) だけ，すべての描画輪郭がシフトされます．</param>
-#else
-        /// <summary>
-        /// draws contours in the image
-        /// </summary>
-        /// <param name="image">Destination image.</param>
-        /// <param name="contours">All the input contours. Each contour is stored as a point vector.</param>
-        /// <param name="contourIdx">Parameter indicating a contour to draw. If it is negative, all the contours are drawn.</param>
-        /// <param name="color">Color of the contours.</param>
-        /// <param name="thickness">Thickness of lines the contours are drawn with. If it is negative (for example, thickness=CV_FILLED ), 
-        /// the contour interiors are drawn.</param>
-        /// <param name="lineType">Line connectivity. </param>
-        /// <param name="hierarchy">Optional information about hierarchy. It is only needed if you want to draw only some of the contours</param>
-        /// <param name="maxLevel">Maximal level for drawn contours. If it is 0, only the specified contour is drawn. 
-        /// If it is 1, the function draws the contour(s) and all the nested contours. If it is 2, the function draws the contours, 
-        /// all the nested contours, all the nested-to-nested contours, and so on. This parameter is only taken into account 
-        /// when there is hierarchy available.</param>
-        /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
-#endif
-        public static void DrawContours(
-            InputOutputArray image,
-            IEnumerable<IEnumerable<Point>> contours,
-            int contourIdx,
-            Scalar color,
-            int thickness = 1,
-            LineTypes lineType = LineTypes.Link8,
-            IEnumerable<HierarchyIndex> hierarchy = null,
-            int maxLevel = Int32.MaxValue,
-            Point? offset = null)
-        {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (contours == null)
-                throw new ArgumentNullException("contours");
-            image.ThrowIfNotReady();
-
-            Point offset0 = offset.GetValueOrDefault(new Point());
-            Point[][] contoursArray = EnumerableEx.SelectToArray(contours, EnumerableEx.ToArray);
-            int[] contourSize2 = EnumerableEx.SelectToArray(contoursArray, pts => pts.Length);
-            using (var contoursPtr = new ArrayAddress2<Point>(contoursArray))
-            {
-                if (hierarchy == null)
-                {
-                    NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
-                        contourIdx, color, thickness, (int)lineType, IntPtr.Zero, 0, maxLevel, offset0);
-                }
-                else
-                {
-                    Vec4i[] hiearchyVecs = EnumerableEx.SelectToArray(hierarchy, hi => hi.ToVec4i());
-                    NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
-                        contourIdx, color, thickness, (int)lineType, hiearchyVecs, hiearchyVecs.Length, maxLevel, offset0);
-                }
-            }
-
-            image.Fix();
-        }
-#if LANG_JP
-        /// <summary>
-        /// 輪郭線，または内側が塗りつぶされた輪郭を描きます．
-        /// </summary>
-        /// <param name="image">出力画像</param>
-        /// <param name="contours"> 入力される全輪郭．各輪郭は，点のベクトルとして格納されています．</param>
-        /// <param name="contourIdx">描かれる輪郭を示します．これが負値の場合，すべての輪郭が描画されます．</param>
-        /// <param name="color">輪郭の色．</param>
-        /// <param name="thickness">輪郭線の太さ．これが負値の場合（例えば thickness=CV_FILLED ），輪郭の内側が塗りつぶされます．</param>
-        /// <param name="lineType">線の連結性</param>
-        /// <param name="hierarchy">階層に関するオプションの情報．これは，特定の輪郭だけを描画したい場合にのみ必要になります．</param>
-        /// <param name="maxLevel">描画される輪郭の最大レベル．0ならば，指定された輪郭のみが描画されます．
-        /// 1ならば，指定された輪郭と，それに入れ子になったすべての輪郭が描画されます．2ならば，指定された輪郭と，
-        /// それに入れ子になったすべての輪郭，さらにそれに入れ子になったすべての輪郭が描画されます．このパラメータは， 
-        /// hierarchy が有効な場合のみ考慮されます．</param>
-        /// <param name="offset">輪郭をシフトするオプションパラメータ．指定された offset = (dx,dy) だけ，すべての描画輪郭がシフトされます．</param>
-#else
-        /// <summary>
-        /// draws contours in the image
-        /// </summary>
-        /// <param name="image">Destination image.</param>
-        /// <param name="contours">All the input contours. Each contour is stored as a point vector.</param>
-        /// <param name="contourIdx">Parameter indicating a contour to draw. If it is negative, all the contours are drawn.</param>
-        /// <param name="color">Color of the contours.</param>
-        /// <param name="thickness">Thickness of lines the contours are drawn with. If it is negative (for example, thickness=CV_FILLED ), 
-        /// the contour interiors are drawn.</param>
-        /// <param name="lineType">Line connectivity. </param>
-        /// <param name="hierarchy">Optional information about hierarchy. It is only needed if you want to draw only some of the contours</param>
-        /// <param name="maxLevel">Maximal level for drawn contours. If it is 0, only the specified contour is drawn. 
-        /// If it is 1, the function draws the contour(s) and all the nested contours. If it is 2, the function draws the contours, 
-        /// all the nested contours, all the nested-to-nested contours, and so on. This parameter is only taken into account 
-        /// when there is hierarchy available.</param>
-        /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
-#endif
-        public static void DrawContours(
-            InputOutputArray image,
-            IEnumerable<Mat> contours,
-            int contourIdx,
-            Scalar color,
-            int thickness = 1,
-            LineTypes lineType = LineTypes.Link8,
-            Mat hierarchy = null,
-            int maxLevel = Int32.MaxValue,
-            Point? offset = null)
-        {
-            if (image == null)
-                throw new ArgumentNullException("image");
-            if (contours == null)
-                throw new ArgumentNullException("contours");
-            image.ThrowIfNotReady();
-
-            Point offset0 = offset.GetValueOrDefault(new Point());
-            IntPtr[] contoursPtr = EnumerableEx.SelectPtrs(contours);
-            NativeMethods.imgproc_drawContours_InputArray(image.CvPtr, contoursPtr, contoursPtr.Length,
-                        contourIdx, color, thickness, (int)lineType, ToPtr(hierarchy), maxLevel, offset0);
-            image.Fix();
-        }
-        #endregion
         #region ApproxPolyDP
 
         /// <summary>
@@ -3859,10 +3729,43 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfNotReady();
-            NativeMethods.core_line(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            NativeMethods.imgproc_line(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
             img.Fix();
         }
         #endregion
+
+        /// <summary>
+        /// Draws a arrow segment pointing from the first point to the second one.
+        /// The function arrowedLine draws an arrow between pt1 and pt2 points in the image. 
+        /// See also cv::line.
+        /// </summary>
+        /// <param name="img">Image.</param>
+        /// <param name="pt1">The point the arrow starts from.</param>
+        /// <param name="pt2">The point the arrow points to.</param>
+        /// <param name="color">Line color.</param>
+        /// <param name="thickness">Line thickness.</param>
+        /// <param name="lineType">Type of the line, see cv::LineTypes</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates.</param>
+        /// <param name="tipLength">The length of the arrow tip in relation to the arrow length</param>
+        public static void ArrowedLine(
+            InputOutputArray img, 
+            Point pt1, Point pt2, 
+            Scalar color,
+            int thickness = 1, 
+            LineTypes lineType = LineTypes.Link8,
+            int shift = 0, 
+            double tipLength = 0.1)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            img.ThrowIfNotReady();
+
+            NativeMethods.imgproc_arrowedLine(
+                img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift, tipLength);
+
+            img.Fix();
+        }
+
         #region Rectangle
 #if LANG_JP
         /// <summary>
@@ -3893,7 +3796,7 @@ namespace OpenCvSharp
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            NativeMethods.core_rectangle1(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
+            NativeMethods.imgproc_rectangle_InputOutputArray(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift);
             img.Fix();
         }
 
@@ -3924,7 +3827,7 @@ namespace OpenCvSharp
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            NativeMethods.core_rectangle1(img.CvPtr, rect.TopLeft, rect.BottomRight, color, thickness, (int)lineType, shift);
+            NativeMethods.imgproc_rectangle_InputOutputArray(img.CvPtr, rect.TopLeft, rect.BottomRight, color, thickness, (int)lineType, shift);
             img.Fix();
         }
 
@@ -3958,7 +3861,7 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException("img");
             Rect rect = Rect.FromLTRB(pt1.X, pt1.Y, pt2.X, pt2.Y);
-            NativeMethods.core_rectangle2(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            NativeMethods.imgproc_rectangle_Mat(img.CvPtr, rect, color, thickness, (int)lineType, shift);
             GC.KeepAlive(img);
         }
 
@@ -3988,7 +3891,7 @@ namespace OpenCvSharp
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            NativeMethods.core_rectangle2(img.CvPtr, rect, color, thickness, (int)lineType, shift);
+            NativeMethods.imgproc_rectangle_Mat(img.CvPtr, rect, color, thickness, (int)lineType, shift);
             GC.KeepAlive(img);
         }
 
@@ -4054,7 +3957,7 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
-            NativeMethods.core_circle(img.CvPtr, center, radius, color, thickness, (int)lineType, shift);
+            NativeMethods.imgproc_circle(img.CvPtr, center, radius, color, thickness, (int)lineType, shift);
             img.Fix();
         }
         #endregion
@@ -4088,13 +3991,14 @@ namespace OpenCvSharp
         /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
 #endif
-        public static void Ellipse(InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
+        public static void Ellipse(
+            InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
             int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfNotReady();
-            NativeMethods.core_ellipse(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, (int)lineType, shift);
+            NativeMethods.imgproc_ellipse1(img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, (int)lineType, shift);
             img.Fix();
         }
 
@@ -4123,7 +4027,7 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException("img");
             img.ThrowIfDisposed();
-            NativeMethods.core_ellipse(img.CvPtr, box, color, thickness, (int)lineType);
+            NativeMethods.imgproc_ellipse2(img.CvPtr, box, color, thickness, (int)lineType);
             img.Fix();
         }
         #endregion
@@ -4155,8 +4059,43 @@ namespace OpenCvSharp
             img.ThrowIfDisposed();
 
             Point[] ptsArray = EnumerableEx.ToArray(pts);
-            NativeMethods.core_fillConvexPoly(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
+            NativeMethods.imgproc_fillConvexPoly_Mat(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
             GC.KeepAlive(img);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 塗りつぶされた凸ポリゴンを描きます．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pts">ポリゴンの頂点．</param>
+        /// <param name="color">ポリゴンの色．</param>
+        /// <param name="lineType">ポリゴンの枠線の種類，</param>
+        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
+#else
+        /// <summary>
+        /// Fills a convex polygon.
+        /// </summary>
+        /// <param name="img">Image</param>
+        /// <param name="pts">The polygon vertices</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+#endif
+        public static void FillConvexPoly(InputOutputArray img, InputArray pts, Scalar color,
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (pts == null) 
+                throw new ArgumentNullException("pts");
+            img.ThrowIfDisposed();
+            pts.ThrowIfDisposed();
+
+            NativeMethods.imgproc_fillConvexPoly_InputOutputArray(
+                img.CvPtr, pts.CvPtr, color, (int)lineType, shift);
+            GC.KeepAlive(img);
+            GC.KeepAlive(pts);
         }
         #endregion
         #region FillPoly
@@ -4181,7 +4120,8 @@ namespace OpenCvSharp
         /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
         /// <param name="offset"></param>
 #endif
-        public static void FillPoly(InputOutputArray img, IEnumerable<IEnumerable<Point>> pts, Scalar color,
+        public static void FillPoly(
+            Mat img, IEnumerable<IEnumerable<Point>> pts, Scalar color,
             LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
         {
             if (img == null)
@@ -4202,8 +4142,48 @@ namespace OpenCvSharp
             int ncontours = ptsArr.Length;
             using (var ptsPtr = new ArrayAddress2<Point>(ptsArr))
             {
-                NativeMethods.core_fillPoly(img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int)lineType, shift, offset0);
+                NativeMethods.imgproc_fillPoly_Mat(
+                    img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int)lineType, shift, offset0);
             }
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 1つ，または複数のポリゴンで区切られた領域を塗りつぶします．
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pts">ポリゴンの配列．各要素は，点の配列で表現されます．</param>
+        /// <param name="color">ポリゴンの色．</param>
+        /// <param name="lineType">ポリゴンの枠線の種類，</param>
+        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
+        /// <param name="offset"></param>
+#else
+        /// <summary>
+        /// Fills the area bounded by one or more polygons
+        /// </summary>
+        /// <param name="img">Image</param>
+        /// <param name="pts">Array of polygons, each represented as an array of points</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+        /// <param name="offset"></param>
+#endif
+        public static void FillPoly(
+            InputOutputArray img, InputArray pts, Scalar color,
+            LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (pts == null) 
+                throw new ArgumentNullException("pts");
+            img.ThrowIfDisposed();
+            pts.ThrowIfDisposed();
+            Point offset0 = offset.GetValueOrDefault(new Point());
+
+            NativeMethods.imgproc_fillPoly_InputOutputArray(
+                img.CvPtr, pts.CvPtr, color, (int)lineType, shift, offset0);
+
+            GC.KeepAlive(pts);
             img.Fix();
         }
         #endregion
@@ -4218,7 +4198,8 @@ namespace OpenCvSharp
         /// <param name="thickness"></param>
         /// <param name="lineType"></param>
         /// <param name="shift"></param>
-        public static void Polylines(InputOutputArray img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
+        public static void Polylines(
+            Mat img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
             int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             if (img == null)
@@ -4238,11 +4219,172 @@ namespace OpenCvSharp
             int ncontours = ptsArr.Length;
             using (ArrayAddress2<Point> ptsPtr = new ArrayAddress2<Point>(ptsArr))
             {
-                NativeMethods.core_polylines(img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
+                NativeMethods.imgproc_polylines_Mat(
+                    img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
             }
+        }
+
+        /// <summary>
+        /// draws one or more polygonal curves
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="pts"></param>
+        /// <param name="isClosed"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        /// <param name="lineType"></param>
+        /// <param name="shift"></param>
+        public static void Polylines(
+            InputOutputArray img, InputArray pts, bool isClosed, Scalar color,
+            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException("img");
+            if (pts == null)
+                throw new ArgumentNullException("pts");
+            img.ThrowIfDisposed();
+            pts.ThrowIfDisposed();
+
+            NativeMethods.imgproc_polylines_InputOutputArray(
+                img.CvPtr, pts.CvPtr, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
+
             img.Fix();
+            GC.KeepAlive(pts);
+        }
+
+        #endregion
+
+        #region DrawContours
+#if LANG_JP
+        /// <summary>
+        /// 輪郭線，または内側が塗りつぶされた輪郭を描きます．
+        /// </summary>
+        /// <param name="image">出力画像</param>
+        /// <param name="contours"> 入力される全輪郭．各輪郭は，点のベクトルとして格納されています．</param>
+        /// <param name="contourIdx">描かれる輪郭を示します．これが負値の場合，すべての輪郭が描画されます．</param>
+        /// <param name="color">輪郭の色．</param>
+        /// <param name="thickness">輪郭線の太さ．これが負値の場合（例えば thickness=CV_FILLED ），輪郭の内側が塗りつぶされます．</param>
+        /// <param name="lineType">線の連結性</param>
+        /// <param name="hierarchy">階層に関するオプションの情報．これは，特定の輪郭だけを描画したい場合にのみ必要になります．</param>
+        /// <param name="maxLevel">描画される輪郭の最大レベル．0ならば，指定された輪郭のみが描画されます．
+        /// 1ならば，指定された輪郭と，それに入れ子になったすべての輪郭が描画されます．2ならば，指定された輪郭と，
+        /// それに入れ子になったすべての輪郭，さらにそれに入れ子になったすべての輪郭が描画されます．このパラメータは， 
+        /// hierarchy が有効な場合のみ考慮されます．</param>
+        /// <param name="offset">輪郭をシフトするオプションパラメータ．指定された offset = (dx,dy) だけ，すべての描画輪郭がシフトされます．</param>
+#else
+        /// <summary>
+        /// draws contours in the image
+        /// </summary>
+        /// <param name="image">Destination image.</param>
+        /// <param name="contours">All the input contours. Each contour is stored as a point vector.</param>
+        /// <param name="contourIdx">Parameter indicating a contour to draw. If it is negative, all the contours are drawn.</param>
+        /// <param name="color">Color of the contours.</param>
+        /// <param name="thickness">Thickness of lines the contours are drawn with. If it is negative (for example, thickness=CV_FILLED ), 
+        /// the contour interiors are drawn.</param>
+        /// <param name="lineType">Line connectivity. </param>
+        /// <param name="hierarchy">Optional information about hierarchy. It is only needed if you want to draw only some of the contours</param>
+        /// <param name="maxLevel">Maximal level for drawn contours. If it is 0, only the specified contour is drawn. 
+        /// If it is 1, the function draws the contour(s) and all the nested contours. If it is 2, the function draws the contours, 
+        /// all the nested contours, all the nested-to-nested contours, and so on. This parameter is only taken into account 
+        /// when there is hierarchy available.</param>
+        /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
+#endif
+        public static void DrawContours(
+            InputOutputArray image,
+            IEnumerable<IEnumerable<Point>> contours,
+            int contourIdx,
+            Scalar color,
+            int thickness = 1,
+            LineTypes lineType = LineTypes.Link8,
+            IEnumerable<HierarchyIndex> hierarchy = null,
+            int maxLevel = Int32.MaxValue,
+            Point? offset = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (contours == null)
+                throw new ArgumentNullException("contours");
+            image.ThrowIfNotReady();
+
+            Point offset0 = offset.GetValueOrDefault(new Point());
+            Point[][] contoursArray = EnumerableEx.SelectToArray(contours, EnumerableEx.ToArray);
+            int[] contourSize2 = EnumerableEx.SelectToArray(contoursArray, pts => pts.Length);
+            using (var contoursPtr = new ArrayAddress2<Point>(contoursArray))
+            {
+                if (hierarchy == null)
+                {
+                    NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                        contourIdx, color, thickness, (int)lineType, IntPtr.Zero, 0, maxLevel, offset0);
+                }
+                else
+                {
+                    Vec4i[] hiearchyVecs = EnumerableEx.SelectToArray(hierarchy, hi => hi.ToVec4i());
+                    NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                        contourIdx, color, thickness, (int)lineType, hiearchyVecs, hiearchyVecs.Length, maxLevel, offset0);
+                }
+            }
+
+            image.Fix();
+        }
+#if LANG_JP
+        /// <summary>
+        /// 輪郭線，または内側が塗りつぶされた輪郭を描きます．
+        /// </summary>
+        /// <param name="image">出力画像</param>
+        /// <param name="contours"> 入力される全輪郭．各輪郭は，点のベクトルとして格納されています．</param>
+        /// <param name="contourIdx">描かれる輪郭を示します．これが負値の場合，すべての輪郭が描画されます．</param>
+        /// <param name="color">輪郭の色．</param>
+        /// <param name="thickness">輪郭線の太さ．これが負値の場合（例えば thickness=CV_FILLED ），輪郭の内側が塗りつぶされます．</param>
+        /// <param name="lineType">線の連結性</param>
+        /// <param name="hierarchy">階層に関するオプションの情報．これは，特定の輪郭だけを描画したい場合にのみ必要になります．</param>
+        /// <param name="maxLevel">描画される輪郭の最大レベル．0ならば，指定された輪郭のみが描画されます．
+        /// 1ならば，指定された輪郭と，それに入れ子になったすべての輪郭が描画されます．2ならば，指定された輪郭と，
+        /// それに入れ子になったすべての輪郭，さらにそれに入れ子になったすべての輪郭が描画されます．このパラメータは， 
+        /// hierarchy が有効な場合のみ考慮されます．</param>
+        /// <param name="offset">輪郭をシフトするオプションパラメータ．指定された offset = (dx,dy) だけ，すべての描画輪郭がシフトされます．</param>
+#else
+        /// <summary>
+        /// draws contours in the image
+        /// </summary>
+        /// <param name="image">Destination image.</param>
+        /// <param name="contours">All the input contours. Each contour is stored as a point vector.</param>
+        /// <param name="contourIdx">Parameter indicating a contour to draw. If it is negative, all the contours are drawn.</param>
+        /// <param name="color">Color of the contours.</param>
+        /// <param name="thickness">Thickness of lines the contours are drawn with. If it is negative (for example, thickness=CV_FILLED ), 
+        /// the contour interiors are drawn.</param>
+        /// <param name="lineType">Line connectivity. </param>
+        /// <param name="hierarchy">Optional information about hierarchy. It is only needed if you want to draw only some of the contours</param>
+        /// <param name="maxLevel">Maximal level for drawn contours. If it is 0, only the specified contour is drawn. 
+        /// If it is 1, the function draws the contour(s) and all the nested contours. If it is 2, the function draws the contours, 
+        /// all the nested contours, all the nested-to-nested contours, and so on. This parameter is only taken into account 
+        /// when there is hierarchy available.</param>
+        /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
+#endif
+        public static void DrawContours(
+            InputOutputArray image,
+            IEnumerable<Mat> contours,
+            int contourIdx,
+            Scalar color,
+            int thickness = 1,
+            LineTypes lineType = LineTypes.Link8,
+            Mat hierarchy = null,
+            int maxLevel = Int32.MaxValue,
+            Point? offset = null)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+            if (contours == null)
+                throw new ArgumentNullException("contours");
+            image.ThrowIfNotReady();
+
+            Point offset0 = offset.GetValueOrDefault(new Point());
+            IntPtr[] contoursPtr = EnumerableEx.SelectPtrs(contours);
+            NativeMethods.imgproc_drawContours_InputArray(image.CvPtr, contoursPtr, contoursPtr.Length,
+                        contourIdx, color, thickness, (int)lineType, ToPtr(hierarchy), maxLevel, offset0);
+            image.Fix();
         }
         #endregion
+
         #region ClipLine
 #if LANG_JP
         /// <summary>
@@ -4263,7 +4405,7 @@ namespace OpenCvSharp
 #endif
         public static bool ClipLine(Size imgSize, ref Point pt1, ref Point pt2)
         {
-            return NativeMethods.core_clipLine(imgSize, ref pt1, ref pt2) != 0;
+            return NativeMethods.imgproc_clipLine1(imgSize, ref pt1, ref pt2) != 0;
         }
 #if LANG_JP
         /// <summary>
@@ -4284,10 +4426,32 @@ namespace OpenCvSharp
 #endif
         public static bool ClipLine(Rect imgRect, ref Point pt1, ref Point pt2)
         {
-            return NativeMethods.core_clipLine(imgRect, ref pt1, ref pt2) != 0;
+            return NativeMethods.imgproc_clipLine2(imgRect, ref pt1, ref pt2) != 0;
         }
         #endregion
-        #region PutText
+
+        /// <summary>
+        /// Approximates an elliptic arc with a polyline.
+        /// The function ellipse2Poly computes the vertices of a polyline that 
+        /// approximates the specified elliptic arc. It is used by cv::ellipse.
+        /// </summary>
+        /// <param name="center">Center of the arc.</param>
+        /// <param name="axes">Half of the size of the ellipse main axes. See the ellipse for details.</param>
+        /// <param name="angle">Rotation angle of the ellipse in degrees. See the ellipse for details.</param>
+        /// <param name="arcStart">Starting angle of the elliptic arc in degrees.</param>
+        /// <param name="arcEnd">Ending angle of the elliptic arc in degrees.</param>
+        /// <param name="delta">Angle between the subsequent polyline vertices. It defines the approximation</param>
+        /// <returns>Output vector of polyline vertices.</returns>
+        public static Point[] Ellipse2Poly(Point center, Size axes, int angle,
+            int arcStart, int arcEnd, int delta)
+        {
+            using (var vec = new VectorOfPoint())
+            {
+                NativeMethods.imgproc_ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta, vec.CvPtr);
+                return vec.ToArray();
+            }
+        }
+
         /// <summary>
         /// renders text string in the image
         /// </summary>
@@ -4313,8 +4477,7 @@ namespace OpenCvSharp
                 thickness, (int)lineType, bottomLeftOrigin ? 1 : 0);
             img.Fix();
         }
-        #endregion
-        #region GetTextSize
+
         /// <summary>
         /// returns bounding box of the text string
         /// </summary>
@@ -4331,7 +4494,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(text);
             return NativeMethods.core_getTextSize(text, (int)fontFace, fontScale, thickness, out baseLine);
         }
-        #endregion
+
         #endregion     
     }
 }

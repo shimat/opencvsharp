@@ -8,7 +8,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
+    internal class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
     {
         /// <summary>
         /// Track whether Dispose has been called
