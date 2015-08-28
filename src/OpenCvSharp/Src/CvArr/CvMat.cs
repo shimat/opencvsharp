@@ -68,6 +68,7 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CvMat");
         }
+
 #if LANG_JP
         /// <summary>
         /// 新たな行列とその内部データのためのヘッダを確保し、内部データに指定した配列を指定する (cvCreateMatHeader + cvSetData)
@@ -91,6 +92,7 @@ namespace OpenCvSharp
             : this(rows, cols, type, elements, false)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 新たな行列とその内部データのためのヘッダを確保し、内部データに指定した配列を指定する (cvCreateMatHeader + cvSetData)
@@ -128,6 +130,7 @@ namespace OpenCvSharp
             GCHandle gch = AllocGCHandle(data);
             NativeMethods.cvSetData(ptr, gch.AddrOfPinnedObject(), Cv.AUTOSTEP);
         }
+
 #if LANG_JP
         /// <summary>
         /// 新たな行列とその内部データのためのヘッダを確保し、内部データに指定した配列を指定する (cvCreateMatHeader + cvSetData)
@@ -155,6 +158,7 @@ namespace OpenCvSharp
                 throw new OpenCvSharpException("Failed to create CvMat");
             NativeMethods.cvSetData(ptr, data, Cv.AUTOSTEP);
         }
+
 #if LANG_JP
         /// <summary>
         /// 新たな行列とその内部データのためのヘッダを確保し、初期値を設定する.
@@ -200,6 +204,7 @@ namespace OpenCvSharp
             : this(filename, LoadMode.Color)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 指定されたファイルから画像を読み込んで初期化
@@ -243,6 +248,7 @@ namespace OpenCvSharp
             : this(ptr, true)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// ポインタと自動解放の可否を指定して初期化
@@ -261,19 +267,7 @@ namespace OpenCvSharp
         {
             ptr = p;
         }
-#if LANG_JP
-        /// <summary>
-        /// sizeof(CvMat)の分のメモリの割り当てだけ行って初期化
-        /// </summary>
-#else
-        /// <summary>
-        /// Allocates memory
-        /// </summary>
-#endif
-        public CvMat()
-            : this(true)
-        {
-        }
+
 #if LANG_JP
         /// <summary>
         /// sizeof(CvMat)の分のメモリの割り当てだけ行って、GC禁止設定で初期化
@@ -288,17 +282,6 @@ namespace OpenCvSharp
             : base(isEnabledDispose)
         {
             ptr = AllocMemory(SizeOf);
-        }
-
-        /// <summary>
-        /// sizeof(CvMat) + mat.data.length 
-        /// </summary>
-        /// <returns></returns>
-        private long MemorySize()
-        {
-            int elemSize = Cv.ELEM_SIZE(Type);
-            long dataSize = elemSize * Rows * Cols;
-            return SizeOf + dataSize;
         }
 
         #region Static initializer

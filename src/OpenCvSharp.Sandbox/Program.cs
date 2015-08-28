@@ -25,7 +25,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            ChamferMatchingSample();
+            BForceMatcherSample();
+            //ChamferMatchingSample();
 
             /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
             var img2 = new IplImage("data/match2.png", LoadMode.Color);
@@ -35,6 +36,39 @@ namespace OpenCvSharp.Sandbox
             //Stitching(mats);
             //Track();
             //Run();
+        }
+
+        private static void BForceMatcherSample()
+        {
+            var src1 = new Mat("data/match1.png");
+            var src2 = new Mat("data/match2.png");
+
+            var gray1 = new Mat();
+            var gray2 = new Mat();
+            Cv2.CvtColor(src1, gray1, ColorConversion.BgrToGray);
+            Cv2.CvtColor(src2, gray2, ColorConversion.BgrToGray);
+
+            var fast = new FastFeatureDetector(10);
+            var descriptorExtractor = new BriefDescriptorExtractor(32);
+
+            var descriptors1 = new Mat();
+            var descriptors2 = new Mat();
+
+            KeyPoint[] keypoints1 = fast.Run(gray1, null);
+            descriptorExtractor.Compute(gray1, ref keypoints1, descriptors1);
+
+            KeyPoint[] keypoints2 = fast.Run(gray2, null);
+            descriptorExtractor.Compute(gray2, ref keypoints2, descriptors2);
+
+            // Match descriptor vectors
+            var bfMatcher = new BFMatcher(NormType.L2, false);
+            
+            DMatch[][] bfMatches = bfMatcher.KnnMatch(descriptors1, descriptors2, 3, null, false);
+            bfMatches.ToString();
+
+            var view = new Mat();
+            Cv2.DrawMatches(src1, keypoints1, src2, keypoints2, bfMatches, view);
+            Window.ShowImages(view);
         }
 
         private static void ChamferMatchingSample()
