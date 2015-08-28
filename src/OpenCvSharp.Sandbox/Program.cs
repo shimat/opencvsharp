@@ -16,11 +16,53 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            Feature();
+            LineSegmentDetectorSample();
+            //LineIterator();
+            //Feature();
             //Blob();
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void LineSegmentDetectorSample()
+        {
+            var img = new Mat("data/shapes.png", ImreadModes.GrayScale);
+            var lines = new Mat();
+            var view = img.Clone();
+
+            var detector = LineSegmentDetector.Create();
+            detector.Detect(img, lines);
+            detector.DrawSegments(view, lines);
+
+            Window.ShowImages(view);
+        }
+
+        private static void LineIterator()
+        {
+            var img = new Mat("data/lenna.png", ImreadModes.Color);
+            var pt1 = new Point(100, 100);
+            var pt2 = new Point(300, 300);
+            var iterator = new LineIterator(img, pt1, pt2, PixelConnectivity.Connectivity8);
+
+            // invert color
+            foreach (var pixel in iterator)
+            {
+                Vec3b value = pixel.GetValue<Vec3b>();
+                value.Item0 = (byte)~value.Item0;
+                value.Item1 = (byte)~value.Item1;
+                value.Item2 = (byte)~value.Item2;
+                pixel.SetValue(value);
+            }
+
+            // re-enumeration works fine
+            foreach (var pixel in iterator)
+            {
+                Vec3b value = pixel.GetValue<Vec3b>();
+                Console.WriteLine("{0} = ({1},{2},{3})", pixel.Pos, value.Item0, value.Item1, value.Item2);
+            }
+
+            Window.ShowImages(img);
         }
 
         private static void Feature()
