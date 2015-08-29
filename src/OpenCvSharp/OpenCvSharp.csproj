@@ -96,6 +96,8 @@
     <Compile Include="Modules\features2d\AKAZE.cs" />
     <Compile Include="Modules\features2d\KAZE.cs" />
     <Compile Include="Modules\imgproc\CircleSegment.cs" />
+    <Compile Include="Modules\imgproc\GeneralizedHoughGuil.cs" />
+    <Compile Include="Modules\imgproc\GeneralizedHoughBallard.cs" />
     <Compile Include="Modules\imgproc\GeneralizedHough.cs" />
     <Compile Include="Modules\imgproc\Enum\LineSegmentDetectorModes.cs" />
     <Compile Include="Modules\imgproc\LineSegmentDetector.cs" />
