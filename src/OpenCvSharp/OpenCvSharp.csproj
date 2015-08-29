@@ -96,6 +96,7 @@
     <Compile Include="Modules\features2d\AKAZE.cs" />
     <Compile Include="Modules\features2d\KAZE.cs" />
     <Compile Include="Modules\imgproc\CircleSegment.cs" />
+    <Compile Include="Modules\imgproc\GeneralizedHough.cs" />
     <Compile Include="Modules\imgproc\Enum\LineSegmentDetectorModes.cs" />
     <Compile Include="Modules\imgproc\LineSegmentDetector.cs" />
     <Compile Include="Modules\imgproc\CLAHE.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_FastFeatureDetector.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_MSER.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_ORB.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_GeneralizedHough.cs" />
     <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_LineSegmentDetector.cs" />
     <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_LineIterator.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_LogisticRegression.cs" />
