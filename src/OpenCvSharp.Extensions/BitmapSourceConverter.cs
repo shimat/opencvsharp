@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Interop;
-using OpenCvSharp.CPlusPlus;
 
 namespace OpenCvSharp.Extensions
 {
@@ -27,80 +26,6 @@ namespace OpenCvSharp.Extensions
         /// <returns></returns>
         [DllImport("gdi32")]
         private static extern int DeleteObject(IntPtr hObject);
-        
-#if LANG_JP
-        /// <summary>
-        /// IplImageをBitmapSourceに変換する. 
-        /// </summary>
-        /// <param name="src">変換するIplImage</param>
-        /// <returns>WPFのBitmapSource</returns>
-#else
-        /// <summary>
-        /// Converts IplImage to BitmapSource.
-        /// </summary>
-        /// <param name="src">Input IplImage</param>
-        /// <returns>BitmapSource</returns>
-#endif
-        public static BitmapSource ToBitmapSource(
-            this IplImage src)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (src.IsDisposed)
-                throw new ObjectDisposedException(typeof(IplImage).ToString());
-
-            return ToBitmapSource(
-                src,
-                96, 
-                96, 
-                GetOptimumPixelFormats(src.Depth, src.NChannels), 
-                null);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// IplImageをBitmapSourceに変換する. 
-        /// </summary>
-        /// <param name="src">変換するIplImage</param>
-        /// <param name="horizontalResolution"></param>
-        /// <param name="verticalResolution"></param>
-        /// <param name="pixelFormat"></param>
-        /// <param name="palette"></param>
-        /// <returns>WPFのBitmapSource</returns>
-#else
-        /// <summary>
-        /// Converts IplImage to BitmapSource.
-        /// </summary>
-        /// <param name="src">Input IplImage</param>
-        /// <param name="horizontalResolution"></param>
-        /// <param name="verticalResolution"></param>
-        /// <param name="pixelFormat"></param>
-        /// <param name="palette"></param>
-        /// <returns>BitmapSource</returns>
-#endif
-        public static BitmapSource ToBitmapSource(
-            this IplImage src,
-            int horizontalResolution,
-            int verticalResolution,
-            PixelFormat pixelFormat,
-            BitmapPalette palette)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (src.IsDisposed)
-                throw new ObjectDisposedException(typeof(IplImage).ToString());
-
-            return BitmapSource.Create(
-                src.Width,
-                src.Height,
-                horizontalResolution,
-                verticalResolution,
-                pixelFormat,
-                palette,
-                src.ImageData,
-                src.WidthStep * src.Height,
-                src.WidthStep);
-        }
 
 #if LANG_JP
         /// <summary>
@@ -214,68 +139,6 @@ namespace OpenCvSharp.Extensions
                 {
                     DeleteObject(hBitmap);
                 }
-            }
-        }
-
-        /// <summary>
-        /// 指定したIplImageのビット深度・チャンネル数に適合するPixelFormatを返す
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        private static PixelFormat GetOptimumPixelFormats(BitDepth d, int c)
-        {
-            switch (d)
-            {
-                case BitDepth.U8:
-                case BitDepth.S8:
-                    switch (c)
-                    {
-                        case 1:
-                            return PixelFormats.Gray8;
-                        case 3:
-                            return PixelFormats.Bgr24;
-                        case 4:
-                            return PixelFormats.Bgra32;
-                        default:
-                            throw new ArgumentOutOfRangeException("c", "Not supported BitDepth and/or NChannels");
-                    }
-                case BitDepth.U16:
-                case BitDepth.S16:
-                    switch (c)
-                    {
-                        case 1:
-                            return PixelFormats.Gray16;
-                        case 3:
-                            return PixelFormats.Rgb48;
-                        case 4:
-                            return PixelFormats.Rgba64;
-                        default:
-                            throw new ArgumentOutOfRangeException("c", "Not supported BitDepth and/or NChannels");
-                    }
-                case BitDepth.S32:
-                    switch (c)
-                    {
-                        case 4:
-                            return PixelFormats.Prgba64;
-                        default:
-                            throw new ArgumentOutOfRangeException("c", "Not supported BitDepth and/or NChannels");
-                    }
-                case BitDepth.F32:
-                    switch (c)
-                    {
-                        case 1:
-                            return PixelFormats.Gray32Float;
-                        case 3:
-                            return PixelFormats.Rgb128Float;
-                        case 4:
-                            return PixelFormats.Rgba128Float;
-                        default:
-                            throw new ArgumentOutOfRangeException("c", "Not supported BitDepth and/or NChannels");
-                    }
-                case BitDepth.F64:
-                default:
-                    throw new ArgumentOutOfRangeException("c", "Not supported BitDepth");
             }
         }
 

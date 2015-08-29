@@ -7,7 +7,7 @@ namespace OpenCvSharp.Blob
     /// </summary>
     public class LabelData : ICloneable
     {
-        private CvRect roi;
+        private Size size;
         private int[,] values;
 
         /// <summary>
@@ -16,24 +16,31 @@ namespace OpenCvSharp.Blob
         public int[,] Values
         {
             get { return values; }
-            set { values = value; }
         }
+
         /// <summary>
-        /// Region of interest
+        /// Image sizw
         /// </summary>
-        public CvRect Roi
+        public Size Size
         {
-            get { return roi; }
-            set { roi = value; }
+            get { return size; } 
         }
+
         /// <summary>
         /// Row length
         /// </summary>
-        public int Rows { get { return Values.GetLength(0); } }
+        public int Rows
+        {
+            get { return Values.GetLength(0); }
+        }
+
         /// <summary>
         /// Column Length
         /// </summary>
-        public int Cols { get { return Values.GetLength(1); } }
+        public int Cols
+        {
+            get { return Values.GetLength(1); }
+        }
 
         /// <summary>
         /// 
@@ -42,38 +49,29 @@ namespace OpenCvSharp.Blob
         /// <param name="cols"></param>
         public LabelData(int rows, int cols)
         {
-            Values = new int[rows, cols];
-            Roi = new CvRect();
+            values = new int[rows, cols];
+            size = new Size(cols, rows);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="roi"></param>
-        public LabelData(int rows, int cols, CvRect roi)
-        {
-            Values = new int[rows, cols];
-            Roi = roi;
-        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="values"></param>
         public LabelData(int[,] values)
         {
-            Values = (int[,])values.Clone();
-            Roi = new CvRect();
+            values = (int[,]) values.Clone();
+            size.Height = values.GetLength(0);
+            size.Width = values.GetLength(1);
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="values"></param>
         /// <param name="roi"></param>
-        public LabelData(int[,] values, CvRect roi)
+        public LabelData(int[,] values, Rect roi)
         {
-            Values = (int[,])values.Clone();
-            Roi = roi;
+            values = (int[,]) values.Clone();
         }
 
         /// <summary>
@@ -86,6 +84,7 @@ namespace OpenCvSharp.Blob
         {
             return Values[row, col];
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -96,6 +95,7 @@ namespace OpenCvSharp.Blob
         {
             Values[row, col] = value;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -104,8 +104,8 @@ namespace OpenCvSharp.Blob
         /// <returns></returns>
         public int this[int row, int col]
         {
-            get { return Values[row + roi.Y, col + roi.X]; }
-            set { Values[row + roi.Y, col + roi.X] = value; }
+            get { return Values[row, col]; }
+            set { Values[row, col] = value; }
         }
 
         /// <summary>
@@ -113,18 +113,18 @@ namespace OpenCvSharp.Blob
         /// </summary>
         public void DebugShow()
         {
-            using (IplImage img = new IplImage(Cols, Rows, BitDepth.U8, 1))
+            using (Mat img = Mat.Zeros(Rows, Cols, MatType.CV_8UC1))
             {
-                img.Zero();
+                var indexer = img.GetGenericIndexer<byte>();
                 for (int r = 0; r < Rows; r++)
                 {
                     for (int c = 0; c < Cols; c++)
                     {
                         if (Values[r, c] != 0)
-                            img[r, c] = 255;
+                            indexer[r, c] = 255;
                     }
                 }
-                CvWindow.ShowImages(img);
+                Window.ShowImages(img);
             }
         }
 
@@ -134,7 +134,7 @@ namespace OpenCvSharp.Blob
         /// <returns></returns>
         public LabelData Clone()
         {
-            return new LabelData((int[,])Values.Clone(), roi);
+            return new LabelData((int[,]) Values.Clone());
         }
 
         object ICloneable.Clone()

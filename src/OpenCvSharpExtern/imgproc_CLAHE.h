@@ -4,9 +4,9 @@
 #include "include_opencv.h"
 
 
-CVAPI(cv::Ptr<cv::CLAHE>*) imgproc_createCLAHE(double clipLimit, CvSize tileGridSize)
+CVAPI(cv::Ptr<cv::CLAHE>*) imgproc_createCLAHE(double clipLimit, MyCvSize tileGridSize)
 {
-	cv::Ptr<cv::CLAHE> ret = cv::createCLAHE(clipLimit, tileGridSize);
+	cv::Ptr<cv::CLAHE> ret = cv::createCLAHE(clipLimit, cpp(tileGridSize));
 	return clone(ret);
 }
 
@@ -15,14 +15,9 @@ CVAPI(void) imgproc_Ptr_CLAHE_delete(cv::Ptr<cv::CLAHE> *obj)
 	delete obj;
 }
 
-CVAPI(cv::CLAHE*) imgproc_Ptr_CLAHE_obj(cv::Ptr<cv::CLAHE> *obj)
+CVAPI(cv::CLAHE*) imgproc_Ptr_CLAHE_get(cv::Ptr<cv::CLAHE> *obj)
 {
-	return obj->obj;
-}
-
-CVAPI(cv::AlgorithmInfo*) imgproc_CLAHE_info(cv::CLAHE *obj)
-{
-	return obj->info();
+	return obj->get();
 }
 
 
@@ -41,14 +36,14 @@ CVAPI(double) imgproc_CLAHE_getClipLimit(cv::CLAHE *obj)
 	return obj->getClipLimit();
 }
 
-CVAPI(void) imgproc_CLAHE_setTilesGridSize(cv::CLAHE *obj, CvSize tileGridSize)
+CVAPI(void) imgproc_CLAHE_setTilesGridSize(cv::CLAHE *obj, MyCvSize tileGridSize)
 {
-	obj->setTilesGridSize(tileGridSize);
+	obj->setTilesGridSize(cpp(tileGridSize));
 }
 
-CVAPI(CvSize) imgproc_CLAHE_getTilesGridSize(cv::CLAHE *obj)
+CVAPI(MyCvSize) imgproc_CLAHE_getTilesGridSize(cv::CLAHE *obj)
 {
-	return obj->getTilesGridSize();
+	return c(obj->getTilesGridSize());
 }
 
 CVAPI(void) imgproc_CLAHE_collectGarbage(cv::CLAHE *obj)

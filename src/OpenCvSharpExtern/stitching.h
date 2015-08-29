@@ -3,69 +3,20 @@
 
 #include "include_opencv.h"
 
-namespace cv
+CVAPI(cv::Ptr<cv::Stitcher>*) stitching_createStitcher(int try_use_cpu)
 {
-    // Hack!
-    class MyStitcher
-    {
-    public:
-        MyStitcher() {} // to make public this
-
-        double registr_resol_;
-        double seam_est_resol_;
-        double compose_resol_;
-        double conf_thresh_;
-        Ptr<detail::FeaturesFinder> features_finder_;
-        Ptr<detail::FeaturesMatcher> features_matcher_;
-        Mat matching_mask_;
-        Ptr<detail::BundleAdjusterBase> bundle_adjuster_;
-        bool do_wave_correct_;
-        detail::WaveCorrectKind wave_correct_kind_;
-        Ptr<WarperCreator> warper_;
-        Ptr<detail::ExposureCompensator> exposure_comp_;
-        Ptr<detail::SeamFinder> seam_finder_;
-        Ptr<detail::Blender> blender_;
-
-        std::vector<cv::Mat> imgs_;
-        std::vector<std::vector<cv::Rect> > rois_;
-        std::vector<cv::Size> full_img_sizes_;
-        std::vector<detail::ImageFeatures> features_;
-        std::vector<detail::MatchesInfo> pairwise_matches_;
-        std::vector<cv::Mat> seam_est_imgs_;
-        std::vector<int> indices_;
-        std::vector<detail::CameraParams> cameras_;
-        double work_scale_;
-        double seam_scale_;
-        double seam_work_aspect_;
-        double warped_image_scale_;
-    };
+	cv::Ptr<cv::Stitcher> ptr = cv::createStitcher(try_use_cpu != 0);
+	return new cv::Ptr<cv::Stitcher>(ptr);
 }
 
-CVAPI(void) stitching_Stitcher_delete(cv::MyStitcher *obj)
+CVAPI(void) stitching_Ptr_Stitcher_delete(cv::Ptr<cv::Stitcher> *obj)
 {
 	delete obj;
 }
 
-CVAPI(cv::Stitcher*) stitching_Stitcher_createDefault(int try_use_gpu)
+CVAPI(cv::Stitcher*) stitching_Ptr_Stitcher_get(cv::Ptr<cv::Stitcher> *obj)
 {
-    cv::Stitcher s = cv::Stitcher::createDefault(try_use_gpu != 0);
-
-    cv::MyStitcher *ret = new cv::MyStitcher;
-    ret->registr_resol_ = s.registrationResol();
-    ret->seam_est_resol_ = s.seamEstimationResol();
-    ret->compose_resol_ = s.compositingResol();
-    ret->conf_thresh_ = s.panoConfidenceThresh();
-    ret->do_wave_correct_ = s.waveCorrection();
-    ret->wave_correct_kind_ = s.waveCorrectKind();
-    ret->features_matcher_ = s.featuresMatcher();
-    ret->bundle_adjuster_ = s.bundleAdjuster();
-    ret->features_finder_ = s.featuresFinder();
-    ret->warper_ = s.warper();
-    ret->seam_finder_ = s.seamFinder();
-    ret->exposure_comp_ = s.exposureCompensator();
-    ret->blender_ = s.blender();
-    
-    return reinterpret_cast<cv::Stitcher*>(ret);
+	return obj->get();
 }
 
 #pragma region getter/setter
@@ -234,8 +185,8 @@ CVAPI(int) stitching_Stitcher_stitch2_MatArray(
 
 CVAPI(void) stitching_Stitcher_component(cv::Stitcher *obj, int **pointer, int *length) 
 { 
-    std::vector<int> val = obj->component();
-    *pointer = &val[0];
+    const std::vector<int> &val = obj->component();
+    *pointer = const_cast<int*>(&val[0]);
     *length = static_cast<int>(val.size());
 }
 

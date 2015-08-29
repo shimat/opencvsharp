@@ -4,6 +4,7 @@
 #include "include_opencv.h"
 
 #pragma region LatentSvmDetector
+/*
 CVAPI(cv::LatentSvmDetector*) objdetect_LatentSvmDetector_new()
 {
 	return new cv::LatentSvmDetector();
@@ -65,7 +66,7 @@ CVAPI(size_t) objdetect_LatentSvmDetector_getClassCount(cv::LatentSvmDetector *o
 {
 	return obj->getClassCount();
 }
-
+*/
 #pragma endregion
 
 #pragma region CascadeClassifier
@@ -112,10 +113,10 @@ CVAPI(void) objdetect_CascadeClassifier_detectMultiScale2(
 	std::vector<int> *rejectLevels,
 	std::vector<double> *levelWeights,
 	double scaleFactor, int minNeighbors, int flags,
-	CvSize minSize, CvSize maxSize, int outputRejectLevels)
+	MyCvSize minSize, MyCvSize maxSize, int outputRejectLevels)
 {
 	obj->detectMultiScale(*image, *objects, *rejectLevels, *levelWeights,
-		scaleFactor, minNeighbors, flags, minSize, maxSize, outputRejectLevels != 0);
+		scaleFactor, minNeighbors, flags, cpp(minSize), cpp(maxSize), outputRejectLevels != 0);
 }
 
 
@@ -123,17 +124,13 @@ CVAPI(int) objdetect_CascadeClassifier_isOldFormatCascade(cv::CascadeClassifier 
 {
 	return obj->isOldFormatCascade() ? 1 : 0;
 }
-CVAPI(CvSize) objdetect_CascadeClassifier_getOriginalWindowSize(cv::CascadeClassifier *obj)
+CVAPI(MyCvSize) objdetect_CascadeClassifier_getOriginalWindowSize(cv::CascadeClassifier *obj)
 {
-	return obj->getOriginalWindowSize();
+	return c(obj->getOriginalWindowSize());
 }
 CVAPI(int) objdetect_CascadeClassifier_getFeatureType(cv::CascadeClassifier *obj)
 {
 	return obj->getFeatureType();
-}
-CVAPI(int) objdetect_CascadeClassifier_setImage(cv::CascadeClassifier *obj, cv::Mat *img)
-{
-	return obj->setImage(*img) ? 1 : 0;
 }
 
 #pragma endregion

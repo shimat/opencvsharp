@@ -81,13 +81,13 @@ namespace OpenCvSharp.Blob
         /// <param name="img"></param>
         /// <param name="blobs"></param>
         /// <returns></returns>
-        public static int Perform(IplImage img, CvBlobs blobs)
+        public static int Perform(Mat img, CvBlobs blobs)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
-            if (img.Depth != BitDepth.U8 || img.NChannels != 1)
+            if (img.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("'img' must be a 1-channel U8 image.");
             
             LabelData labels = blobs.Labels;
@@ -100,22 +100,13 @@ namespace OpenCvSharp.Blob
             int numPixels = 0;
             blobs.Clear();
 
-            int step = img.WidthStep;
-            CvRect roi = img.ROI;
-            int w = roi.Width;
-            int h = roi.Height;
-            int offset = 0;
-            if (img.ROIPointer != IntPtr.Zero)
-            {
-                IplROI r = img.ROIValue;
-                w = r.width;
-                h = r.height;
-                offset = r.xOffset + (r.yOffset * step);
-            }
+            int w = img.Cols;
+            int h = img.Rows;
+            int step = (int)img.Step();
             byte[] imgIn;
             unsafe
             {
-                byte* imgInPtr = img.ImageDataPtr + offset;
+                byte* imgInPtr = (byte*)img.Data;
                 if ((long) h * step > Int32.MaxValue)
                     throw new ArgumentException("Too big image (image data > 2^31)");
                 int length = h * step;
@@ -156,7 +147,7 @@ namespace OpenCvSharp.Blob
                         lastLabel = label;
                         lastBlob = blob;
 
-                        blob.Contour.StartingPoint = new CvPoint(x, y);
+                        blob.Contour.StartingPoint = new Point(x, y);
                         int direction = 1;
                         int xx = x;
                         int yy = y;
@@ -273,7 +264,7 @@ namespace OpenCvSharp.Blob
                         labels[y + 1, x] = MarkerValue;
                         var contour = new CvContourChainCode
                         {
-                            StartingPoint = new CvPoint(x, y)
+                            StartingPoint = new Point(x, y)
                         };
 
                         int direction = 3;

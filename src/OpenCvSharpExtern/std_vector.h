@@ -758,16 +758,68 @@ CVAPI(void) vector_Mat_assignToArray(vector<cv::Mat>* vector, cv::Mat** arr)
 }
 CVAPI(void) vector_Mat_addref(vector<cv::Mat>* vector)
 {
-  for (std::vector<cv::Mat>::iterator m = vector->begin(); 
-       m != vector->end(); 
-       m++)
-    {
-      	m->addref();
-    }
+	for (std::vector<cv::Mat>::iterator m = vector->begin(); m != vector->end(); m++)
+	{
+		m->addref();
+	}
 }
 CVAPI(void) vector_Mat_delete(vector<cv::Mat>* vector)
 {
 	//vector->~vector();
+	delete vector;
+}
+#pragma endregion
+
+#pragma region cv::ml::DTrees::Node
+CVAPI(vector<cv::ml::DTrees::Node>*) vector_DTrees_Node_new1()
+{
+	return new vector<cv::ml::DTrees::Node>;
+}
+CVAPI(vector<cv::ml::DTrees::Node>*) vector_DTrees_Node_new2(size_t size)
+{
+	return new vector<cv::ml::DTrees::Node>(size);
+}
+CVAPI(vector<cv::ml::DTrees::Node>*) vector_DTrees_Node_new3(cv::ml::DTrees::Node *data, size_t dataLength)
+{
+	return new vector<cv::ml::DTrees::Node>(data, data + dataLength);
+}
+CVAPI(size_t) vector_DTrees_Node_getSize(vector<cv::ml::DTrees::Node> *vector)
+{
+	return vector->size();
+}
+CVAPI(cv::ml::DTrees::Node*) vector_DTrees_Node_getPointer(vector<cv::ml::DTrees::Node> *vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_DTrees_Node_delete(vector<cv::ml::DTrees::Node> *vector)
+{
+	delete vector;
+}
+#pragma endregion
+
+#pragma region cv::ml::DTrees::Split
+CVAPI(vector<cv::ml::DTrees::Split>*) vector_DTrees_Split_new1()
+{
+	return new vector<cv::ml::DTrees::Split>;
+}
+CVAPI(vector<cv::ml::DTrees::Split>*) vector_DTrees_Split_new2(size_t size)
+{
+	return new vector<cv::ml::DTrees::Split>(size);
+}
+CVAPI(vector<cv::ml::DTrees::Split>*) vector_DTrees_Split_new3(cv::ml::DTrees::Split *data, size_t dataLength)
+{
+	return new vector<cv::ml::DTrees::Split>(data, data + dataLength);
+}
+CVAPI(size_t) vector_DTrees_Split_getSize(vector<cv::ml::DTrees::Split> *vector)
+{
+	return vector->size();
+}
+CVAPI(cv::ml::DTrees::Split*) vector_DTrees_Split_getPointer(vector<cv::ml::DTrees::Split> *vector)
+{
+	return &(vector->at(0));
+}
+CVAPI(void) vector_DTrees_Split_delete(vector<cv::ml::DTrees::Split> *vector)
+{
 	delete vector;
 }
 #pragma endregion

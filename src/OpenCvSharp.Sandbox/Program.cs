@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Blob;
-using OpenCvSharp.CPlusPlus;
-using OpenCvSharp.CPlusPlus.Gpu;
+using OpenCvSharp.Gpu;
 using OpenCvSharp.Extensions;
-using Point = OpenCvSharp.CPlusPlus.Point;
-using Rect = OpenCvSharp.CPlusPlus.Rect;
-using Size = OpenCvSharp.CPlusPlus.Size;
 
 namespace OpenCvSharp.Sandbox
 {
@@ -25,105 +16,124 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            double ret = Cv2.PointPolygonTest(new[] { new Point2f(0, 0), new Point2f(0, 10), new Point2f(10, 10), new Point2f(10, 0) }, new Point2f(5, 5), false);
-            ret.ToString();
+            LineSegmentDetectorSample();
+            //LineIterator();
+            //Feature();
+            //Blob();
 
-            BForceMatcherSample();
-            //ChamferMatchingSample();
-
-            /*var img1 = new IplImage("data/lenna.png", LoadMode.Color);
-            var img2 = new IplImage("data/match2.png", LoadMode.Color);
-            Surf(img1, img2);*/
-
-            //Mat[] mats = StitchingPreprocess(400, 400, 10);
-            //Stitching(mats);
-            //Track();
-            //Run();
+            Console.WriteLine("Press any key to exit");
+            Console.Read();
         }
 
-        private static void BForceMatcherSample()
+        private static void LineSegmentDetectorSample()
         {
-            var src1 = new Mat("data/match1.png");
-            var src2 = new Mat("data/match2.png");
+            var img = new Mat("data/shapes.png", ImreadModes.GrayScale);
+            var lines = new Mat();
+            var view = img.Clone();
 
-            var gray1 = new Mat();
-            var gray2 = new Mat();
-            Cv2.CvtColor(src1, gray1, ColorConversion.BgrToGray);
-            Cv2.CvtColor(src2, gray2, ColorConversion.BgrToGray);
+            var detector = LineSegmentDetector.Create();
+            detector.Detect(img, lines);
+            detector.DrawSegments(view, lines);
 
-            var fast = new FastFeatureDetector(10);
-            var descriptorExtractor = new BriefDescriptorExtractor(32);
-
-            var descriptors1 = new Mat();
-            var descriptors2 = new Mat();
-
-            KeyPoint[] keypoints1 = fast.Run(gray1, null);
-            descriptorExtractor.Compute(gray1, ref keypoints1, descriptors1);
-
-            KeyPoint[] keypoints2 = fast.Run(gray2, null);
-            descriptorExtractor.Compute(gray2, ref keypoints2, descriptors2);
-
-            // Match descriptor vectors
-            var bfMatcher = new BFMatcher(NormType.L2, false);
-            
-            DMatch[][] bfMatches = bfMatcher.KnnMatch(descriptors1, descriptors2, 3, null, false);
-            bfMatches.ToString();
-
-            var view = new Mat();
-            Cv2.DrawMatches(src1, keypoints1, src2, keypoints2, bfMatches, view);
             Window.ShowImages(view);
         }
 
-        private static void ChamferMatchingSample()
+        private static void LineIterator()
         {
-            using (var img = new Mat("data/lenna.png", LoadMode.GrayScale))
-            using (var templ = new Mat("data/lennas_eye.png", LoadMode.GrayScale))
+            var img = new Mat("data/lenna.png", ImreadModes.Color);
+            var pt1 = new Point(100, 100);
+            var pt2 = new Point(300, 300);
+            var iterator = new LineIterator(img, pt1, pt2, PixelConnectivity.Connectivity8);
+
+            // invert color
+            foreach (var pixel in iterator)
             {
-                Point[][] points;
-                float[] cost;
-                
-                using (var imgEdge = img.Canny(50, 200))
-                using (var templEdge = templ.Canny(50, 200))
+                Vec3b value = pixel.GetValue<Vec3b>();
+                value.Item0 = (byte)~value.Item0;
+                value.Item1 = (byte)~value.Item1;
+                value.Item2 = (byte)~value.Item2;
+                pixel.SetValue(value);
+            }
+
+            // re-enumeration works fine
+            foreach (var pixel in iterator)
+            {
+                Vec3b value = pixel.GetValue<Vec3b>();
+                Console.WriteLine("{0} = ({1},{2},{3})", pixel.Pos, value.Item0, value.Item1, value.Item2);
+            }
+
+            Window.ShowImages(img);
+        }
+
+        private static void Feature()
+        {
+            Mat img = new Mat("data/lenna.png", ImreadModes.GrayScale);
+            KAZE kaze = KAZE.Create();
+
+            
+            KeyPoint[] keyPoints;
+            Mat descriptors = new Mat();
+            kaze.DetectAndCompute(img, null, out keyPoints, descriptors);
+
+            Mat dst = new Mat();
+            Cv2.DrawKeypoints(img, keyPoints, dst);
+            Window.ShowImages(dst);
+        }
+
+        private static void Blob()
+        {
+            Mat src = new Mat("data/shapes.png", ImreadModes.Color);
+            Mat gray = src.CvtColor(ColorConversionCodes.BGR2GRAY);
+            Mat binary = gray.Threshold(0, 255, ThresholdTypes.Otsu | ThresholdTypes.Binary);
+            Mat labelView = new Mat();
+            Mat rectView = binary.CvtColor(ColorConversionCodes.GRAY2BGR);
+
+            ConnectedComponents cc = Cv2.ConnectedComponentsEx(binary);
+            if (cc.LabelCount <= 1)
+                return;
+
+            // draw labels
+            /*
+            Scalar[] colors = cc.Blobs.Select(_ => Scalar.RandomColor()).ToArray();
+            int height = cc.Labels.GetLength(0);
+            int width = cc.Labels.GetLength(1);
+            var labelViewIndexer = labelView.GetGenericIndexer<Vec3b>();
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
                 {
-                    imgEdge.SaveImage("e1.png");
-                    templEdge.SaveImage("e2.png");
-
-                    var ret = Cv2.ChamferMatching(imgEdge, templEdge, out points, out cost);
-
-                    int i = 0;
-
-                    Console.WriteLine(ret);
-                    Console.WriteLine(points.Count());
-
-                    using (var img3 = img.CvtColor(ColorConversion.GrayToRgb))
-                    {
-                        foreach (var point in points)
-                        {
-                            foreach (var point1 in point)
-                            {
-                                Vec3b c = new Vec3b(0, 255, 0);
-                                img3.Set<Vec3b>(point1.Y, point1.X, c);
-                            }
-
-                            Console.WriteLine(cost[i]);
-                            i++;
-                        }
-                        foreach (var point1 in points[0])
-                        {
-                            Vec3b c = new Vec3b(255, 0, 255);
-                            img3.Set<Vec3b>(point1.Y, point1.X, c);
-                        }
-
-                        Window.ShowImages(img3);
-                        img3.SaveImage("final.png");
-                    }
+                    int labelValue = cc.Labels[y, x];
+                    labelViewIndexer[y, x] = colors[labelValue].ToVec3b();
                 }
+            }
+            */
+            cc.RenderBlobs(labelView);
+
+            // draw bonding boxes except background
+            foreach (var blob in cc.Blobs.Skip(1))
+            {
+                rectView.Rectangle(blob.Rect, Scalar.Red);
+            }
+
+            // filter maximum blob
+            ConnectedComponents.Blob maxBlob = cc.GetLargestBlob();
+                //cc.Blobs.Skip(1).OrderByDescending(b => b.Area).First();
+            Mat filtered = new Mat();
+            cc.FilterByBlob(src, filtered, maxBlob);
+
+            using (new Window("src", src))
+            using (new Window("binary", binary))
+            using (new Window("labels", labelView))
+            using (new Window("bonding boxes", rectView))
+            using (new Window("maximum blob", filtered))
+            {
+                Cv2.WaitKey();
             }
         }
 
         private static void Clahe()
         {
-            Mat src = new Mat("data/tsukuba_left.png", LoadMode.GrayScale);
+            Mat src = new Mat("data/tsukuba_left.png", ImreadModes.GrayScale);
             Mat dst20 = new Mat();
             Mat dst40 = new Mat();
             Mat dst44 = new Mat();
@@ -141,17 +151,18 @@ namespace OpenCvSharp.Sandbox
             Window.ShowImages(src, dst20, dst40, dst44);
         }
 
-        private static void Surf(IplImage img1, IplImage img2)
+        /*
+        private static void Surf()
         {
-            Mat src = new Mat(img1, true);
-            Mat src2 = new Mat(img2, true);
+            Mat src = new Mat("data/match1.png");
+            Mat src2 = new Mat("data/match2.png");
             //Detect the keypoints and generate their descriptors using SURF
-            SURF surf = new SURF(500, 4, 2, true);
+            SURF surf = SURF.Create(500, 4, 2, true);
             KeyPoint[] keypoints1, keypoints2;
             MatOfFloat descriptors1 = new MatOfFloat();
             MatOfFloat descriptors2 = new MatOfFloat();
-            surf.Run(src, null, out keypoints1, descriptors1);
-            surf.Run(src2, null, out keypoints2, descriptors2);
+            surf.Compute(src, null, out keypoints1, descriptors1);
+            surf.Compute(src2, null, out keypoints2, descriptors2);
             // Matching descriptor vectors with a brute force matcher
             BFMatcher matcher = new BFMatcher(NormType.L2, false);
             DMatch[] matches = matcher.Match(descriptors1, descriptors2);//例外が発生する箇所
@@ -159,11 +170,11 @@ namespace OpenCvSharp.Sandbox
             Cv2.DrawMatches(src, keypoints1, src2, keypoints2, matches, view);
 
             Window.ShowImages(view);
-        }
+        }*/
 
         private static Mat[] StitchingPreprocess(int width, int height, int count)
         {
-            Mat source = new Mat(@"C:\Penguins.jpg", LoadMode.Color);
+            Mat source = new Mat(@"C:\Penguins.jpg", ImreadModes.Color);
             Mat result = source.Clone();
 
             var rand = new Random();
@@ -189,7 +200,7 @@ namespace OpenCvSharp.Sandbox
             result.SaveImage(@"C:\temp\parts.png");
             using (new Window(result))
             {
-                Cv.WaitKey();
+                Cv2.WaitKey();
             }
 
             return mats.ToArray();
@@ -197,7 +208,7 @@ namespace OpenCvSharp.Sandbox
 
         private static void Stitching(Mat[] images)
         {
-            var stitcher = Stitcher.CreateDefault(false);
+            var stitcher = Stitcher.Create(false);
 
             Mat pano = new Mat();
 
@@ -211,56 +222,6 @@ namespace OpenCvSharp.Sandbox
             foreach (Mat image in images)
             {
                 image.Dispose();
-            }
-        }
-
-        private static void Track()
-        {
-            using (var video = new CvCapture("data/bach.mp4"))
-            {
-                IplImage frame = null;
-                IplImage gray = null;
-                IplImage binary = null;
-                IplImage render = null;
-                IplImage renderTracks = null;
-                CvTracks tracks = new CvTracks();
-                CvWindow window = new CvWindow("render");
-                CvWindow windowTracks = new CvWindow("tracks");
-
-                for (int i = 0; ; i++)
-                {
-                    frame = video.QueryFrame();
-                    //if (frame == null)
-                    //    frame = new IplImage("data/shapes.png");
-                    if (gray == null)
-                    {
-                        gray = new IplImage(frame.Size, BitDepth.U8, 1);
-                        binary = new IplImage(frame.Size, BitDepth.U8, 1);
-                        render = new IplImage(frame.Size, BitDepth.U8, 3);
-                        renderTracks = new IplImage(frame.Size, BitDepth.U8, 3);
-                    }
-
-                    render.Zero();
-                    renderTracks.Zero();
-
-                    Cv.CvtColor(frame, gray, ColorConversion.BgrToGray);
-                    Cv.Threshold(gray, binary, 0, 255, ThresholdType.Otsu);
-
-                    CvBlobs blobs = new CvBlobs(binary);
-                    CvBlobs newBlobs = new CvBlobs(blobs
-                        .OrderByDescending(pair => pair.Value.Area)
-                        .Take(200)
-                        .ToDictionary(pair => pair.Key, pair => pair.Value), blobs.Labels);
-                    newBlobs.RenderBlobs(binary, render);
-                    window.ShowImage(render);
-
-                    newBlobs.UpdateTracks(tracks, 10.0, Int32.MaxValue);
-                    tracks.Render(binary, renderTracks);
-                    windowTracks.ShowImage(renderTracks);
-
-                    Cv.WaitKey(200);
-                    Console.WriteLine(i);
-                }
             }
         }
 
@@ -289,17 +250,6 @@ namespace OpenCvSharp.Sandbox
         {
             var dm = DescriptorMatcher.Create("BruteForce");
             dm.Clear();
-
-            string[] algoNames = Algorithm.GetList();
-            Console.WriteLine(String.Join("\n", algoNames));
-
-            SIFT al1 = new SIFT();
-            string[] ppp = al1.GetParams();
-            Console.WriteLine(ppp);
-            var t = al1.ParamType("contrastThreshold");
-            double d = al1.GetDouble("contrastThreshold");
-            t.ToString();
-            d.ToString();
 
             var src = new Mat("data/lenna.png");
             var rand = new Random();
@@ -330,6 +280,8 @@ namespace OpenCvSharp.Sandbox
                     GC.Collect();
                 }
             }
+
         }
+
     }
 }

@@ -153,8 +153,10 @@ public:
      * @param feature_size is the size of the feature (considered as a ElementType[])
      * @param key_size is the number of bits that are turned on in the feature
      */
-    LshTable(unsigned int /*feature_size*/, unsigned int /*key_size*/, std::vector<size_t> & /*indices*/)
+    LshTable(unsigned int feature_size, unsigned int key_size)
     {
+        (void)feature_size;
+        (void)key_size;
         std::cerr << "LSH is not implemented for that type" << std::endl;
         assert(0);
     }
@@ -266,9 +268,7 @@ private:
         const size_t key_size_upper_bound = std::min(sizeof(BucketKey) * CHAR_BIT + 1, sizeof(size_t) * CHAR_BIT);
         if (key_size < key_size_lower_bound || key_size >= key_size_upper_bound)
         {
-            std::stringstream errorMessage;
-            errorMessage << "Invalid key_size (=" << key_size << "). Valid values for your system are " << key_size_lower_bound << " <= key_size < " << key_size_upper_bound << ".";
-            CV_Error(CV_StsBadArg, errorMessage.str());
+            CV_Error(cv::Error::StsBadArg, cv::format("Invalid key_size (=%d). Valid values for your system are %d <= key_size < %d.", (int)key_size, (int)key_size_lower_bound, (int)key_size_upper_bound));
         }
 
         speed_level_ = kHash;
@@ -341,20 +341,20 @@ private:
 // Specialization for unsigned char
 
 template<>
-inline LshTable<unsigned char>::LshTable( unsigned int feature_size,
-                                          unsigned int subsignature_size,
-                                          std::vector<size_t> & indices  )
+inline LshTable<unsigned char>::LshTable(unsigned int feature_size, unsigned int subsignature_size)
 {
     initialize(subsignature_size);
     // Allocate the mask
     mask_ = std::vector<size_t>((size_t)ceil((float)(feature_size * sizeof(char)) / (float)sizeof(size_t)), 0);
 
+    // A bit brutal but fast to code
+    std::vector<size_t> indices(feature_size * CHAR_BIT);
+    for (size_t i = 0; i < feature_size * CHAR_BIT; ++i) indices[i] = i;
+    std::random_shuffle(indices.begin(), indices.end());
+
     // Generate a random set of order of subsignature_size_ bits
     for (unsigned int i = 0; i < key_size_; ++i) {
-        //Ensure the Nth bit will be selected only once among the different LshTables
-        //to avoid having two different tables with signatures sharing many dimensions/many bits
-        size_t index = indices[0];
-        indices.erase( indices.begin() );
+        size_t index = indices[i];
 
         // Set that bit in the mask
         size_t divisor = CHAR_BIT * sizeof(size_t);

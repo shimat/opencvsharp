@@ -1,7 +1,6 @@
 #include "core.h"
 
 #include "core_Algorithm.h"
-#include "core_AlgorithmInfo.h"
 #include "core_FileStorage.h"
 #include "core_InputArray.h"
 #include "core_Mat.h"

@@ -3,8 +3,11 @@
 #ifndef _MY_TYPES_H_
 #define _MY_TYPES_H_
 
-typedef unsigned int uint32;
+typedef unsigned char uchar;
 typedef unsigned short uint16;
+typedef unsigned short ushort;
+typedef unsigned int uint32;
+
 namespace cv
 {
     typedef cv::Vec<uchar, 6> Vec6b;
@@ -14,12 +17,79 @@ namespace cv
 
 extern "C" 
 {
-    typedef struct CvPoint3D
+	#pragma region OpenCV1.0-compatible Types
+
+	typedef struct MyCvPoint
+	{
+		int x;
+		int y;
+	} MyCvPoint;
+
+	typedef struct MyCvPoint2D32f
+	{
+		float x;
+		float y;
+	} MyCvPoint2D32f;
+
+	typedef struct MyCvSize
+	{
+		int width;
+		int height;
+	} MyCvSize;
+
+	typedef struct MyCvSize2D32f
+	{
+		float width;
+		float height;
+	} MyCvSize2D32f;
+
+	typedef struct MyCvRect
+	{
+		int x;
+		int y;
+		int width;
+		int height;
+	} MyCvRect;
+
+	typedef struct MyCvScalar
+	{
+		double val[4];
+	} MyCvScalar;
+
+    typedef struct MyCvSlice
     {
-        int x;
-        int y;
-        int z;
-    } CvPoint3D;
+        int  start_index, end_index;
+    } MyCvSlice;
+
+	typedef struct MyCvMoments
+	{
+		double  m00, m10, m01, m20, m11, m02, m30, m21, m12, m03; /* spatial moments */
+		double  mu20, mu11, mu02, mu30, mu21, mu12, mu03; /* central moments */
+		double  inv_sqrt_m00; /* m00 != 0 ? 1/sqrt(m00) : 0 */
+	} MyCvMoments;
+
+	typedef struct MyCvTermCriteria
+	{
+		int    type;
+		int    max_iter;
+		double epsilon;
+	} MyCvTermCriteria;
+
+	typedef struct MyCvBox2D
+	{
+		MyCvPoint2D32f center; 
+		MyCvSize2D32f  size;
+		float angle;
+	} MyCvBox2D;
+
+	#pragma endregion
+
+	typedef struct CvPoint3D
+	{
+		int x;
+		int y;
+		int z;
+	} CvPoint3D;
 
     typedef struct CvVec2b { uchar val[2]; } CvVec2b;
     typedef struct CvVec3b { uchar val[3]; } CvVec3b;
@@ -45,6 +115,127 @@ extern "C"
     typedef struct CvVec3d { double val[3]; } CvVec3d;
     typedef struct CvVec4d { double val[4]; } CvVec4d;
     typedef struct CvVec6d { double val[6]; } CvVec6d;
+}
+
+
+static inline MyCvPoint c(cv::Point p)
+{
+	MyCvPoint ret = { p.x, p.y };
+	return ret;
+}
+static inline cv::Point cpp(MyCvPoint p)
+{
+	return cv::Point(p.x, p.y);
+}
+
+static inline MyCvPoint2D32f c(cv::Point2f p)
+{
+	MyCvPoint2D32f ret = { p.x, p.y };
+	return ret;
+}
+static inline cv::Point2f cpp(MyCvPoint2D32f p)
+{
+	return cv::Point2f(p.x, p.y);
+}
+
+static inline MyCvSize c(cv::Size s)
+{
+	MyCvSize ret = { s.width, s.height };
+	return ret;
+}
+static inline cv::Size cpp(MyCvSize s)
+{
+	return cv::Size(s.width, s.height);
+}
+
+static inline MyCvSize2D32f c(cv::Size2f s)
+{
+	MyCvSize2D32f ret = { s.width, s.height };
+	return ret;
+}
+static inline cv::Size2f cpp(MyCvSize2D32f s)
+{
+	return cv::Size2f(s.width, s.height);
+}
+
+static inline MyCvRect c(cv::Rect r)
+{
+	MyCvRect ret = { r.x, r.y, r.width, r.height };
+	return ret;
+}
+static inline cv::Rect cpp(MyCvRect r)
+{
+	return cv::Rect(r.x, r.y, r.width, r.height);
+}
+
+static inline MyCvScalar c(cv::Scalar s)
+{
+	MyCvScalar ret;
+	ret.val[0] = s[0];
+	ret.val[1] = s[1];
+	ret.val[2] = s[2];
+	ret.val[3] = s[3];
+	return ret;
+}
+static inline cv::Scalar cpp(MyCvScalar s)
+{
+	return cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
+}
+
+static inline MyCvSlice c(cv::Range s)
+{
+	MyCvSlice ret;
+    ret.start_index = s.start;
+    ret.end_index = s.end;
+	return ret;
+}
+static inline cv::Range cpp(MyCvSlice s)
+{
+	return cv::Range(s.start_index, s.end_index);
+}
+
+static inline MyCvMoments c(cv::Moments m)
+{
+	MyCvMoments ret;
+	ret.m00 = m.m00; ret.m10 = m.m10; ret.m01 = m.m01;
+	ret.m20 = m.m20; ret.m11 = m.m11; ret.m02 = m.m02;
+	ret.m30 = m.m30; ret.m21 = m.m21; ret.m12 = m.m12; ret.m03 = m.m03;
+	ret.mu20 = m.mu20; ret.mu11 = m.mu11; ret.mu02 = m.mu02;
+	ret.mu30 = m.mu30; ret.mu21 = m.mu21; ret.mu12 = m.mu12; ret.mu03 = m.mu03;
+	double am00 = std::abs(m.m00);
+	ret.inv_sqrt_m00 = am00 > DBL_EPSILON ? 1. / std::sqrt(am00) : 0;
+
+	return ret;
+}
+static inline cv::Moments cpp(MyCvMoments m)
+{
+	return cv::Moments(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
+}
+
+static inline MyCvTermCriteria c(cv::TermCriteria tc)
+{
+	MyCvTermCriteria ret;
+	ret.type = tc.type;
+	ret.max_iter = tc.maxCount;
+	ret.epsilon = tc.epsilon;
+	return ret;
+}
+static inline cv::TermCriteria cpp(MyCvTermCriteria tc)
+{
+	return cv::TermCriteria(tc.type, tc.max_iter, tc.epsilon);
+}
+
+static inline MyCvBox2D c(cv::RotatedRect r)
+{
+	MyCvBox2D ret;
+	ret.center = c(r.center);
+	ret.size = c(r.size);
+	ret.angle = r.angle;
+	return ret;
+}
+static inline cv::RotatedRect cpp(MyCvBox2D b)
+{
+	return cv::RotatedRect(cpp(b.center), cpp(b.size), b.angle);
 }
 
 #endif

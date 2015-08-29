@@ -26,7 +26,7 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Polygon based contour.
     /// </summary>
-    public class CvContourPolygon : List<CvPoint>
+    public class CvContourPolygon : List<Point>
     {
         /// <summary>
         /// 
@@ -34,11 +34,12 @@ namespace OpenCvSharp.Blob
         public CvContourPolygon()
         {
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="list"></param>
-        public CvContourPolygon(IEnumerable<CvPoint> list)
+        public CvContourPolygon(IEnumerable<Point> list)
             : base(list)
         {
         }
@@ -50,7 +51,7 @@ namespace OpenCvSharp.Blob
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (CvPoint p in this)
+            foreach (Point p in this)
             {
                 sb.AppendFormat("{0},{1}", p.X, p.Y).AppendLine();
             }
@@ -58,26 +59,30 @@ namespace OpenCvSharp.Blob
         }
 
         #region Area
+
         /// <summary>
         /// Calculates area of a polygonal contour. 
         /// </summary>
         /// <returns>Area of the contour.</returns>
         public double Area()
-        {                
+        {
             if (Count <= 2)
-	            return 1.0;
+                return 1.0;
 
-            CvPoint lastPoint = this[Count - 1];
+            Point lastPoint = this[Count - 1];
             double area = 0.0;
-            foreach (CvPoint point in this)
+            foreach (Point point in this)
             {
-                area += lastPoint.X * point.Y - lastPoint.Y * point.X;
+                area += lastPoint.X*point.Y - lastPoint.Y*point.X;
                 lastPoint = point;
             }
-            return area * 0.5;
+            return area*0.5;
         }
+
         #endregion
+
         #region Circularity
+
         /// <summary>
         /// Calculates the circularity of a polygon (compactness measure).
         /// </summary>
@@ -85,15 +90,18 @@ namespace OpenCvSharp.Blob
         public double Circularity()
         {
             double l = Perimeter();
-            double c = (l * l / Area()) - 4.0 * Cv.PI;
+            double c = (l*l/Area()) - 4.0*Math.PI;
 
             if (c >= 0.0)
                 return c;
             // This could happen if the blob it's only a pixel: the perimeter will be 0. Another solution would be to force "cvContourPolygonPerimeter" to be 1 or greater.
             return 0.0;
         }
+
         #endregion
+
         #region ContourConvexHull
+
         /// <summary>
         /// Calculates convex hull of a contour.
         /// Uses the Melkman Algorithm. Code based on the version in http://w3.impa.br/~rdcastan/Cgeometry/.
@@ -104,7 +112,7 @@ namespace OpenCvSharp.Blob
             if (Count <= 3)
                 return new CvContourPolygon(this);
 
-            List<CvPoint> dq = new List<CvPoint>(); // instead of std::deq...
+            var dq = new List<Point>(); // instead of std::deq...
 
             if (CrossProductPoints(this[0], this[1], this[2]) > 0)
             {
@@ -145,17 +153,19 @@ namespace OpenCvSharp.Blob
             return new CvContourPolygon(dq);
         }
 
-        private static double CrossProductPoints(CvPoint a, CvPoint b, CvPoint c)
+        private static double CrossProductPoints(Point a, Point b, Point c)
         {
             double abx = b.X - a.X;
             double aby = b.Y - a.Y;
             double acx = c.X - a.X;
             double acy = c.Y - a.Y;
-            return abx * acy - aby * acx;
+            return abx*acy - aby*acx;
         }
 
         #endregion
+
         #region ContourPolygonPerimeter
+
         /// <summary>
         /// Calculates perimeter of a chain code contour.
         /// </summary>
@@ -169,32 +179,37 @@ namespace OpenCvSharp.Blob
             }
             return perimeter;
         }
-        private static double DistancePointPoint(CvPoint a, CvPoint b)
+
+        private static double DistancePointPoint(Point a, Point b)
         {
             double abx = a.X - b.X;
             double aby = a.Y - b.Y;
-            return Math.Sqrt(abx * abx + aby * aby);
+            return Math.Sqrt(abx*abx + aby*aby);
         }
+
         #endregion
+
         #region Render
+
         /// <summary>
         /// Draw a polygon.
         /// </summary>
         /// <param name="img">Image to draw on.</param>
-        public void Render(IplImage img)
+        public void Render(Mat img)
         {
-            Render(img, new CvColor(255, 255, 255));
+            Render(img, new Scalar(255, 255, 255));
         }
+
         /// <summary>
         /// Draw a polygon.
         /// </summary>
         /// <param name="img">Image to draw on.</param>
         /// <param name="color">Color to draw (default, white).</param>
-        public void Render(IplImage img, CvScalar color)
+        public void Render(Mat img, Scalar color)
         {
             if (img == null)
                 throw new ArgumentNullException("img");
-            if (img.Depth != BitDepth.U8 || img.NChannels != 3)
+            if (img.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("Invalid img format (U8 3-channels)");
 
             if (Count == 0)
@@ -202,15 +217,18 @@ namespace OpenCvSharp.Blob
 
             int fx = this[Count - 1].X;
             int fy = this[Count - 1].Y;
-            foreach (CvPoint p in this)
+            foreach (Point p in this)
             {
-                Cv.Line(img, fx, fy, p.X, p.Y, color);
+                Cv2.Line(img, fx, fy, p.X, p.Y, color);
                 fx = p.X;
                 fy = p.Y;
             }
         }
+
         #endregion
+
         #region SimplifyPolygon
+
         /// <summary>
         /// Simplify a polygon reducing the number of vertex according the distance "delta". 
         /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
@@ -232,10 +250,10 @@ namespace OpenCvSharp.Blob
             double furtherDistance = 0.0;
             int furtherIndex = 0;
 
-            if(Count == 0)
+            if (Count == 0)
                 return new CvContourPolygon();
 
-            for (int i = 1; i< Count; i++)
+            for (int i = 1; i < Count; i++)
             {
                 double d = DistancePointPoint(this[i], this[0]);
                 if (d > furtherDistance)
@@ -280,8 +298,8 @@ namespace OpenCvSharp.Blob
             if (Math.Abs(i1 - endIndex) <= 1)
                 return;
 
-            CvPoint firstPoint = p[i1];
-            CvPoint lastPoint = (i2 < 0) ? p[0] : p[i2];
+            Point firstPoint = p[i1];
+            Point lastPoint = (i2 < 0) ? p[0] : p[i2];
 
             double furtherDistance = 0.0;
             int furtherIndex = 0;
@@ -306,7 +324,7 @@ namespace OpenCvSharp.Blob
             }
         }
 
-        private static double DistanceLinePoint(CvPoint a, CvPoint b, CvPoint c, bool isSegment = true) 
+        private static double DistanceLinePoint(Point a, Point b, Point c, bool isSegment = true)
         {
             if (isSegment)
             {
@@ -316,19 +334,22 @@ namespace OpenCvSharp.Blob
                 double dot2 = DotProductPoints(b, a, c);
                 if (dot2 > 0) return DistancePointPoint(a, c);
             }
-            return Math.Abs(CrossProductPoints(a, b, c) / DistancePointPoint(a, b));
+            return Math.Abs(CrossProductPoints(a, b, c)/DistancePointPoint(a, b));
         }
-        private static double DotProductPoints(CvPoint a, CvPoint b, CvPoint c)
+
+        private static double DotProductPoints(Point a, Point b, Point c)
         {
             double abx = b.X - a.X;
             double aby = b.Y - a.Y;
             double bcx = c.X - b.X;
             double bcy = c.Y - b.Y;
-            return abx * bcx + aby * bcy;
+            return abx*bcx + aby*bcy;
         }
 
         #endregion
+
         #region WriteAsCsv
+
         /// <summary>
         /// Write a contour to a CSV (Comma-separated values) file.
         /// </summary>
@@ -340,31 +361,35 @@ namespace OpenCvSharp.Blob
                 writer.Write(ToString());
             }
         }
+
         #endregion
+
         #region WriteAsSvg
+
         /// <summary>
         /// Write a contour to a SVG file.
         /// </summary>
         /// <param name="fileName">File name</param>
         public void WriteAsSvg(string fileName)
         {
-            WriteAsSvg(fileName, CvColor.Black, CvColor.White);
+            WriteAsSvg(fileName, Scalar.Black, Scalar.White);
         }
+
         /// <summary>
         /// Write a contour to a SVG file.
         /// </summary>
         /// <param name="fileName">File name</param>
         /// <param name="stroke">Stroke color</param>
         /// <param name="fill">Fill color</param>
-        public void WriteAsSvg(string fileName, CvScalar stroke, CvScalar fill)
+        public void WriteAsSvg(string fileName, Scalar stroke, Scalar fill)
         {
             int minx = Int32.MaxValue;
             int miny = Int32.MaxValue;
             int maxx = Int32.MinValue;
             int maxy = Int32.MinValue;
 
-            StringBuilder buffer = new StringBuilder();
-            foreach (CvPoint p in this)
+            var buffer = new StringBuilder();
+            foreach (Point p in this)
             {
                 if (p.X > maxx)
                     maxx = p.X;
@@ -377,18 +402,22 @@ namespace OpenCvSharp.Blob
                 buffer.AppendFormat("{0},{1} ", p.X, p.Y);
             }
 
-            using (StreamWriter writer = new StreamWriter(fileName, false))
+            using (var writer = new StreamWriter(fileName, false))
             {
                 writer.WriteLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
-                writer.WriteLine("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 20010904//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">" );
-                writer.WriteLine("<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" "+
+                writer.WriteLine(
+                    "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 20010904//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">");
+                writer.WriteLine(
+                    "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" " +
                     "width=\"{0}px\" height=\"{1}px\" viewBox=\"{2} {3} {4} {5}\" zoomAndPan=\"disable\" >",
                     maxx - minx, maxy - miny, minx, miny, maxx, maxy);
-                writer.WriteLine("<polygon fill=\"rgb({0},{1},{2})\" stroke=\"rgb({3},{4},{5})\" stroke-width=\"1\" points=\"{6}\"/>",
-                    fill.Val0, fill.Val1, fill.Val2, stroke.Val0, stroke.Val1, stroke.Val2, buffer.ToString());
+                writer.WriteLine(
+                    "<polygon fill=\"rgb({0},{1},{2})\" stroke=\"rgb({3},{4},{5})\" stroke-width=\"1\" points=\"{6}\"/>",
+                    fill.Val0, fill.Val1, fill.Val2, stroke.Val0, stroke.Val1, stroke.Val2, buffer);
                 writer.WriteLine("</svg>");
             }
         }
+
         #endregion
     }
 }
