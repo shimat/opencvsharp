@@ -44,27 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CvMatDebuggerVisualizer.cs" />
-    <Compile Include="CvMatViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CvMatViewer.designer.cs">
-      <DependentUpon>CvMatViewer.cs</DependentUpon>
-    </Compile>
     <Compile Include="ImageViewer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ImageViewer.designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="IplImageDebuggerVisualizer.cs" />
     <Compile Include="MatDebuggerVisualizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CvMatViewer.resx">
-      <DependentUpon>CvMatViewer.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -73,12 +62,8 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenCvSharp.CPlusPlus\OpenCvSharp.CPlusPlus.csproj">
-      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
-      <Name>OpenCvSharp.CPlusPlus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj">
-      <Project>{4c2356b8-1a1e-4f92-a51c-a49ca116867f}</Project>
+      <Project>{524cc7b4-75b9-4925-9da4-3dacd40f4814}</Project>
       <Name>OpenCvSharp</Name>
     </ProjectReference>
   </ItemGroup>

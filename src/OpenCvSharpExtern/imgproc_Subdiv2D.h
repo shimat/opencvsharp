@@ -65,9 +65,9 @@ CVAPI(void) imgproc_Subdiv2D_getVoronoiFacetList(cv::Subdiv2D *obj, int *idx, in
 	obj->getVoronoiFacetList(idxVec, **facetList, **facetCenters);
 }
 
-CVAPI(CvPoint2D32f) imgproc_Subdiv2D_getVertex(cv::Subdiv2D *obj, int vertex, int* firstEdge)
+CVAPI(MyCvPoint2D32f) imgproc_Subdiv2D_getVertex(cv::Subdiv2D *obj, int vertex, int* firstEdge)
 {
-	return obj->getVertex(vertex, firstEdge);
+	return c(obj->getVertex(vertex, firstEdge));
 }
 CVAPI(int) imgproc_Subdiv2D_getEdge(cv::Subdiv2D *obj, int edge, int nextEdgeType)
 {

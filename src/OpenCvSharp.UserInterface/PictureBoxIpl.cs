@@ -19,7 +19,7 @@ namespace OpenCvSharp.UserInterface
 #endif
     public class PictureBoxIpl : PictureBox
     {
-        private IplImage imageIpl;
+        private Mat imageIpl;
 
 
 #if LANG_JP
@@ -51,7 +51,7 @@ namespace OpenCvSharp.UserInterface
         [Browsable(false)]
         [Category()]
         [DefaultValue(null)]
-        public IplImage ImageIpl
+        public Mat ImageIpl
         {
             get { return imageIpl; }
             set
@@ -113,7 +113,7 @@ namespace OpenCvSharp.UserInterface
         /// </summary>
         /// <param name="img"></param>
 #endif
-        public void RefreshIplImage(IplImage img)
+        public void RefreshIplImage(Mat img)
         {
             if (img == null || Image == null)
             {
