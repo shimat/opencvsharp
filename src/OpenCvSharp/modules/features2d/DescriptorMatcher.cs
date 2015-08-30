@@ -204,7 +204,7 @@ namespace OpenCvSharp
         /// Return true if there are not train descriptors in collection.
         /// </summary>
         /// <returns></returns>
-        public virtual bool Empty()
+        public virtual new bool Empty()
         {
             ThrowIfDisposed();
             return NativeMethods.features2d_DescriptorMatcher_empty(ptr) != 0;

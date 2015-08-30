@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 
 namespace OpenCvSharp
@@ -11,71 +9,78 @@ namespace OpenCvSharp
     public abstract class Algorithm : DisposableCvObject
     {
         /// <summary>
-        /// 
+        /// Stores algorithm parameters in a file storage
         /// </summary>
-        private bool disposed;
-
-        #region Init & Disposal
-
-        /// <summary>
-        /// 
-        /// </summary>
-        internal Algorithm()
+        /// <param name="fs"></param>
+        public virtual void Write(FileStorage fs)
         {
-        }
+            if (ptr == IntPtr.Zero)
+                throw new ObjectDisposedException(GetType().Name);
+            if (fs == null)
+                throw new ArgumentNullException("fs");
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-#endif
-        public void Release()
-        {
-            Dispose(true);
+            NativeMethods.core_Algorithm_write(ptr, fs.CvPtr);
         }
 
         /// <summary>
-        /// Clean up any resources being used.
+        /// Reads algorithm parameters from a file storage
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-        protected override void Dispose(bool disposing)
+        /// <param name="fn"></param>
+        public virtual void Read(FileNode fn)
         {
-            if (!disposed)
+            if (ptr == IntPtr.Zero)
+                throw new ObjectDisposedException(GetType().Name);
+            if (fn == null)
+                throw new ArgumentNullException("fn");
+
+            NativeMethods.core_Algorithm_read(ptr, fn.CvPtr);
+        }
+
+        /// <summary>
+        /// Returns true if the Algorithm is empty (e.g. in the very beginning or after unsuccessful read
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool Empty
+        {
+            get
             {
-                disposed = true;
-                base.Dispose(disposing);
+                if (ptr == IntPtr.Zero)
+                    throw new ObjectDisposedException(GetType().Name);
+
+                return NativeMethods.core_Algorithm_empty(ptr) != 0;
             }
         }
 
-        #endregion
-
-        /*
         /// <summary>
-        /// Creates algorithm instance by name
+        /// Saves the algorithm to a file.
+        /// In order to make this method work, the derived class must 
+        /// implement Algorithm::write(FileStorage fs).
         /// </summary>
-        /// <param name="name">The algorithm name, one of the names returned by GetList()</param>
-        /// <typeparam name="T">Algorithm type (SIFT, FAST, etc.)</typeparam>
-        /// <returns></returns>
-        public static T Create<T>(string name)
-            where T : Algorithm
+        /// <param name="filename"></param>
+        public virtual void Save(string filename)
         {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
-            
-            // リフレクションでオブジェクト生成
-            Type t = typeof(T);
-            MethodInfo mi = t.GetMethod("CreateAlgorithm", BindingFlags.Public | BindingFlags.Static);
-            if (mi == null)
-                throw new OpenCvSharpException("Algorithm type [" + t.Name + "] not supported");
-            return (T)mi.Invoke(null, new object[] {name});
+            if (ptr == IntPtr.Zero)
+                throw new ObjectDisposedException(GetType().Name);
+            if (filename == null)
+                throw new ArgumentNullException("filename");
+
+            NativeMethods.core_Algorithm_save(ptr, filename);
         }
-        */
+
+        /// <summary>
+        /// Returns the algorithm string identifier.
+        /// This string is used as top level xml/yml node tag when the object 
+        /// is saved to a file or string.
+        /// </summary>
+        /// <returns></returns>
+        public virtual String GetDefaultName()
+        {
+            if (ptr == IntPtr.Zero)
+                throw new ObjectDisposedException(GetType().Name);
+
+            var buf = new StringBuilder(1024);
+            NativeMethods.core_Algorithm_getDefaultName(ptr, buf, buf.Capacity);
+            return buf.ToString();
+        }
     }
 }
