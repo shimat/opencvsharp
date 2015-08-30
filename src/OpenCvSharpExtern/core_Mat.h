@@ -1199,4 +1199,177 @@ CVAPI(void) core_Mat_push_back_Rect(cv::Mat *self, CvRect v)
 
 #pragma endregion
 
+#pragma region forEach
+typedef void *(Mat_foreach_uchar)(uchar *value, const int *position);
+typedef void *(Mat_foreach_Vec2b)(cv::Vec2b *value, const int *position);
+typedef void *(Mat_foreach_Vec3b)(cv::Vec3b *value, const int *position);
+typedef void *(Mat_foreach_Vec4b)(cv::Vec4b *value, const int *position);
+typedef void *(Mat_foreach_Vec6b)(cv::Vec6b *value, const int *position);
+typedef void *(Mat_foreach_short)(short *value, const int *position);
+typedef void *(Mat_foreach_Vec2s)(cv::Vec2s *value, const int *position);
+typedef void *(Mat_foreach_Vec3s)(cv::Vec3s *value, const int *position);
+typedef void *(Mat_foreach_Vec4s)(cv::Vec4s *value, const int *position);
+typedef void *(Mat_foreach_Vec6s)(cv::Vec6s *value, const int *position);
+typedef void *(Mat_foreach_int)(int *value, const int *position);
+typedef void *(Mat_foreach_Vec2i)(cv::Vec2i *value, const int *position);
+typedef void *(Mat_foreach_Vec3i)(cv::Vec3i *value, const int *position);
+typedef void *(Mat_foreach_Vec4i)(cv::Vec4i *value, const int *position);
+typedef void *(Mat_foreach_Vec6i)(cv::Vec6i *value, const int *position);
+typedef void *(Mat_foreach_float)(float *value, const int *position);
+typedef void *(Mat_foreach_Vec2f)(cv::Vec2f *value, const int *position);
+typedef void *(Mat_foreach_Vec3f)(cv::Vec3f *value, const int *position);
+typedef void *(Mat_foreach_Vec4f)(cv::Vec4f *value, const int *position);
+typedef void *(Mat_foreach_Vec6f)(cv::Vec6f *value, const int *position);
+typedef void *(Mat_foreach_double)(double *value, const int *position);
+typedef void *(Mat_foreach_Vec2d)(cv::Vec2d *value, const int *position);
+typedef void *(Mat_foreach_Vec3d)(cv::Vec3d *value, const int *position);
+typedef void *(Mat_foreach_Vec4d)(cv::Vec4d *value, const int *position);
+typedef void *(Mat_foreach_Vec6d)(cv::Vec6d *value, const int *position);
+
+template<typename TFunction, typename TElem>
+struct Functor
+{
+	TFunction *proc;
+	Functor(TFunction *_proc)
+	{
+		proc = _proc;
+	}
+	void operator()(TElem &value, const int *position) const
+	{
+		proc(&value, position);
+	}
+};
+
+CVAPI(void) core_Mat_forEach_uchar(cv::Mat *m, Mat_foreach_uchar proc)
+{
+	Functor<Mat_foreach_uchar, uchar> functor(proc);
+	m->forEach<uchar>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec2b(cv::Mat *m, Mat_foreach_Vec2b proc)
+{
+	Functor<Mat_foreach_Vec2b, cv::Vec2b> functor(proc);
+	m->forEach<cv::Vec2b>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec3b(cv::Mat *m, Mat_foreach_Vec3b proc)
+{
+	Functor<Mat_foreach_Vec3b, cv::Vec3b> functor(proc);
+	m->forEach<cv::Vec3b>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec4b(cv::Mat *m, Mat_foreach_Vec4b proc)
+{
+	Functor<Mat_foreach_Vec4b, cv::Vec4b> functor(proc);
+	m->forEach<cv::Vec4b>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec6b(cv::Mat *m, Mat_foreach_Vec6b proc)
+{
+	Functor<Mat_foreach_Vec6b, cv::Vec6b> functor(proc);
+	m->forEach<cv::Vec6b>(functor);
+}
+
+CVAPI(void) core_Mat_forEach_short(cv::Mat *m, Mat_foreach_short proc)
+{
+	Functor<Mat_foreach_short, short> functor(proc);
+	m->forEach<short>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec2s(cv::Mat *m, Mat_foreach_Vec2s proc)
+{
+	Functor<Mat_foreach_Vec2s, cv::Vec2s> functor(proc);
+	m->forEach<cv::Vec2s>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec3s(cv::Mat *m, Mat_foreach_Vec3s proc)
+{
+	Functor<Mat_foreach_Vec3s, cv::Vec3s> functor(proc);
+	m->forEach<cv::Vec3s>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec4s(cv::Mat *m, Mat_foreach_Vec4s proc)
+{
+	Functor<Mat_foreach_Vec4s, cv::Vec4s> functor(proc);
+	m->forEach<cv::Vec4s>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec6s(cv::Mat *m, Mat_foreach_Vec6s proc)
+{
+	Functor<Mat_foreach_Vec6s, cv::Vec6s> functor(proc);
+	m->forEach<cv::Vec6s>(functor);
+}
+
+CVAPI(void) core_Mat_forEach_int(cv::Mat *m, Mat_foreach_int proc)
+{
+	Functor<Mat_foreach_int, int> functor(proc);
+	m->forEach<int>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec2i(cv::Mat *m, Mat_foreach_Vec2i proc)
+{
+	Functor<Mat_foreach_Vec2i, cv::Vec2i> functor(proc);
+	m->forEach<cv::Vec2i>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec3i(cv::Mat *m, Mat_foreach_Vec3i proc)
+{
+	Functor<Mat_foreach_Vec3i, cv::Vec3i> functor(proc);
+	m->forEach<cv::Vec3i>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec4i(cv::Mat *m, Mat_foreach_Vec4i proc)
+{
+	Functor<Mat_foreach_Vec4i, cv::Vec4i> functor(proc);
+	m->forEach<cv::Vec4i>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec6i(cv::Mat *m, Mat_foreach_Vec6i proc)
+{
+	Functor<Mat_foreach_Vec6i, cv::Vec6i> functor(proc);
+	m->forEach<cv::Vec6i>(functor);
+}
+
+CVAPI(void) core_Mat_forEach_float(cv::Mat *m, Mat_foreach_float proc)
+{
+	Functor<Mat_foreach_float, float> functor(proc);
+	m->forEach<float>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec2f(cv::Mat *m, Mat_foreach_Vec2f proc)
+{
+	Functor<Mat_foreach_Vec2f, cv::Vec2f> functor(proc);
+	m->forEach<cv::Vec2f>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec3f(cv::Mat *m, Mat_foreach_Vec3f proc)
+{
+	Functor<Mat_foreach_Vec3f, cv::Vec3f> functor(proc);
+	m->forEach<cv::Vec3f>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec4f(cv::Mat *m, Mat_foreach_Vec4f proc)
+{
+	Functor<Mat_foreach_Vec4f, cv::Vec4f> functor(proc);
+	m->forEach<cv::Vec4f>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec6f(cv::Mat *m, Mat_foreach_Vec6f proc)
+{
+	Functor<Mat_foreach_Vec6f, cv::Vec6f> functor(proc);
+	m->forEach<cv::Vec6f>(functor);
+}
+
+
+CVAPI(void) core_Mat_forEach_double(cv::Mat *m, Mat_foreach_double proc)
+{
+	Functor<Mat_foreach_double, double> functor(proc);
+	m->forEach<double>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec2d(cv::Mat *m, Mat_foreach_Vec2d proc)
+{
+	Functor<Mat_foreach_Vec2d, cv::Vec2d> functor(proc);
+	m->forEach<cv::Vec2d>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec3d(cv::Mat *m, Mat_foreach_Vec3d proc)
+{
+	Functor<Mat_foreach_Vec3d, cv::Vec3d> functor(proc);
+	m->forEach<cv::Vec3d>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec4d(cv::Mat *m, Mat_foreach_Vec4d proc)
+{
+	Functor<Mat_foreach_Vec4d, cv::Vec4d> functor(proc);
+	m->forEach<cv::Vec4d>(functor);
+}
+CVAPI(void) core_Mat_forEach_Vec6d(cv::Mat *m, Mat_foreach_Vec6d proc)
+{
+	Functor<Mat_foreach_Vec6d, cv::Vec6d> functor(proc);
+	m->forEach<cv::Vec6d>(functor);
+}
+#pragma endregion
+
 #endif
