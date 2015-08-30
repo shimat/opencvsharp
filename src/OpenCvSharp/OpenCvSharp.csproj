@@ -136,6 +136,7 @@
     <Compile Include="Modules\shape\HausdorffDistanceExtractor.cs" />
     <Compile Include="Modules\shape\ShapeContextDistanceExtractor.cs" />
     <Compile Include="Modules\shape\ShapeDistanceExtractor.cs" />
+    <Compile Include="PInvoke\core\NativeMethods_core_Algorithm.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_KeyPointsFilter.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_Feature2D.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_AgastFeatureDetector.cs" />

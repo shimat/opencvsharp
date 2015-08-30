@@ -200,7 +200,7 @@ namespace OpenCvSharp.Face
         /// Serializes this object to a given filename.
         /// </summary>
         /// <param name="fileName"></param>
-        public virtual void Save(string fileName)
+        public virtual new void Save(string fileName)
         {
             if (fileName == null)
                 throw new ArgumentNullException("fileName");

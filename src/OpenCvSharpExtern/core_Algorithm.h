@@ -3,26 +3,30 @@
 
 #include "include_opencv.h"
 
-CVAPI(cv::Algorithm*) core_Algorithm_new()
+CVAPI(void) core_Algorithm_write(cv::Algorithm *obj, cv::FileStorage *fs)
 {
-	return new cv::Algorithm();
-}
-CVAPI(void) core_Algorithm_delete(cv::Algorithm *obj)
-{
-	delete obj;
+	obj->write(*fs);
 }
 
-CVAPI(cv::Ptr<cv::Algorithm>*) core_Ptr_Algorithm_new(cv::Algorithm *rawPtr)
+CVAPI(void) core_Algorithm_read(cv::Algorithm *obj, cv::FileNode *fn)
 {
-	return new cv::Ptr<cv::Algorithm>(rawPtr);
+	obj->read(*fn);
 }
-CVAPI(void) core_Ptr_Algorithm_delete(cv::Ptr<cv::Algorithm> *ptr)
+
+CVAPI(int) core_Algorithm_empty(cv::Algorithm *obj)
 {
-	delete ptr;
+	return obj->empty() ? 1 : 0;
 }
-CVAPI(cv::Algorithm*) core_Ptr_Algorithm_get(cv::Ptr<cv::Algorithm> *ptr)
+
+CVAPI(void) core_Algorithm_save(cv::Algorithm *obj, const char *filename)
 {
-	return ptr->get();
+	obj->save(filename);
+}
+
+CVAPI(void) core_Algorithm_getDefaultName(cv::Algorithm *obj, char *buf, int bufLength)
+{
+	cv::String str = obj->getDefaultName();
+	memcpy(buf, str.c_str(), std::min(bufLength, (int)str.size()));
 }
 
 #endif

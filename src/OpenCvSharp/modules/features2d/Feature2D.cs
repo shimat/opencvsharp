@@ -132,14 +132,11 @@ namespace OpenCvSharp
         /// Return true if detector object is empty
         /// </summary>
         /// <returns></returns>
-        public virtual bool Empty
+        public new virtual bool Empty()
         {
-            get
-            {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
-                return NativeMethods.features2d_Feature2D_empty(ptr) != 0;
-            }
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            return NativeMethods.features2d_Feature2D_empty(ptr) != 0;
         }
 
         /// <summary>

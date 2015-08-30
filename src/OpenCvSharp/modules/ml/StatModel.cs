@@ -47,7 +47,7 @@ namespace OpenCvSharp.ML
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual bool Empty()
+        public virtual new bool Empty()
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
