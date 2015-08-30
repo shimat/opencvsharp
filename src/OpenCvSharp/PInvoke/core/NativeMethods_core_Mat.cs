@@ -640,5 +640,84 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_Mat_pop_back(IntPtr obj, IntPtr nelems);
         #endregion
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_uchar(IntPtr m, MatForeachFunctionByte proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec2b(IntPtr m, MatForeachFunctionVec2b proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec3b(IntPtr m, MatForeachFunctionVec3b proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec4b(IntPtr m, MatForeachFunctionVec4b proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec6b(IntPtr m, MatForeachFunctionVec6b proc);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_short(IntPtr m, MatForeachFunctionInt16 proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec2s(IntPtr m, MatForeachFunctionVec2s proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec3s(IntPtr m, MatForeachFunctionVec3s proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec4s(IntPtr m, MatForeachFunctionVec4s proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec6s(IntPtr m, MatForeachFunctionVec6s proc);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_int(IntPtr m, MatForeachFunctionInt32 proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec2i(IntPtr m, MatForeachFunctionVec2i proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec3i(IntPtr m, MatForeachFunctionVec3i proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec4i(IntPtr m, MatForeachFunctionVec4i proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec6i(IntPtr m, MatForeachFunctionVec6i proc);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_float(IntPtr m, MatForeachFunctionFloat proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec2f(IntPtr m, MatForeachFunctionVec2f proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec3f(IntPtr m, MatForeachFunctionVec3f proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec4f(IntPtr m, MatForeachFunctionVec4f proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec6f(IntPtr m, MatForeachFunctionVec6f proc);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_double(IntPtr m, MatForeachFunctionDouble proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec2d(IntPtr m, MatForeachFunctionVec2d proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec3d(IntPtr m, MatForeachFunctionVec3d proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec4d(IntPtr m, MatForeachFunctionVec4d proc);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_Mat_forEach_Vec6d(IntPtr m, MatForeachFunctionVec6d proc);
     }
 }

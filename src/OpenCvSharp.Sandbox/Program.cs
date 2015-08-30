@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using OpenCvSharp.Blob;
@@ -16,13 +17,54 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            LineSegmentDetectorSample();
+            MatForEach();
+            //LineSegmentDetectorSample();
             //LineIterator();
             //Feature();
             //Blob();
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void MatForEach()
+        {
+            var img = new Mat("data/lenna.png", ImreadModes.Color);
+
+            var watch = Stopwatch.StartNew();
+            unsafe
+            {
+                img.ForEachAsVec3b((value, position) =>
+                {
+                    value->Item0 = (byte)(255 - value->Item0);
+                    value->Item1 = (byte)(255 - value->Item1);
+                    value->Item2 = (byte)(255 - value->Item2);
+                });
+            }
+            watch.Stop();
+
+            Console.WriteLine("{0}ms", watch.ElapsedMilliseconds);
+            //Window.ShowImages(img);
+
+            watch.Restart();
+
+            var indexer = img.GetGenericIndexer<Vec3b>();
+            int w = img.Width, h = img.Height;
+            for (int y = 0; y < h; y++)
+            {
+                for (int x = 0; x < w; x++)
+                {
+                    Vec3b v = indexer[y, x];
+                    v.Item0 = (byte)(255 - v.Item0);
+                    v.Item1 = (byte)(255 - v.Item1);
+                    v.Item2 = (byte)(255 - v.Item2);
+                    indexer[y, x] = v;
+                }
+            }
+
+            watch.Stop();
+            Console.WriteLine("{0}ms", watch.ElapsedMilliseconds);
+            Window.ShowImages(img);
         }
 
         private static void LineSegmentDetectorSample()

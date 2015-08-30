@@ -4477,6 +4477,412 @@ namespace OpenCvSharp
             return (TMat)constructor.Invoke(new object[] {this});
         }
 
+        #region ForEach
+// ReSharper disable InconsistentNaming
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsByte(MatForeachFunctionByte operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_uchar(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec2b(MatForeachFunctionVec2b operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec2b(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec3b(MatForeachFunctionVec3b operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec3b(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec4b(MatForeachFunctionVec4b operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec4b(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec6b(MatForeachFunctionVec6b operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec6b(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsInt16(MatForeachFunctionInt16 operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_short(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec2s(MatForeachFunctionVec2s operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec2s(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec3s(MatForeachFunctionVec3s operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec3s(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec4s(MatForeachFunctionVec4s operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec4s(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec6s(MatForeachFunctionVec6s operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec6s(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsInt32(MatForeachFunctionInt32 operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_int(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec2i(MatForeachFunctionVec2i operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec2i(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec3i(MatForeachFunctionVec3i operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec3i(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec4i(MatForeachFunctionVec4i operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec4i(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec6i(MatForeachFunctionVec6i operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec6i(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsFloat(MatForeachFunctionFloat operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_float(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec2f(MatForeachFunctionVec2f operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec2f(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec3f(MatForeachFunctionVec3f operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec3f(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec4f(MatForeachFunctionVec4f operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec4f(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec6f(MatForeachFunctionVec6f operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec6f(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsDouble(MatForeachFunctionDouble operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_double(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec2d(MatForeachFunctionVec2d operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec2d(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec3d(MatForeachFunctionVec3d operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec3d(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec4d(MatForeachFunctionVec4d operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec4d(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operation"></param>
+        public unsafe void ForEachAsVec6d(MatForeachFunctionVec6d operation)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (operation == null)
+                throw new ArgumentNullException("operation");
+
+            NativeMethods.core_Mat_forEach_Vec6d(ptr, operation);
+
+            GC.KeepAlive(operation);
+        }
+// ReSharper restore InconsistentNaming
+        #endregion
+
         #endregion
     }
 

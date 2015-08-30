@@ -699,6 +699,7 @@ namespace OpenCvSharp
             }
         }
         #endregion
+
         #endregion
 
         #region ICollection<T>
