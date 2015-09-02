@@ -32,7 +32,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("vec2");
             if (mat == null)
                 throw new ArgumentNullException("mat");
-            return NativeMethods.cvMahalanobis(vec1.CvPtr, vec2.CvPtr, mat.CvPtr);
+            try
+            {
+                return NativeMethods.cvMahalanobis(vec1.CvPtr, vec2.CvPtr, mat.CvPtr);
+            }
+            finally
+            {
+                KeepAlive(vec1, vec2, mat);
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -59,7 +66,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("vec2");
             if (mat == null)
                 throw new ArgumentNullException("mat");
-            return NativeMethods.cvMahalanobis(vec1.CvPtr, vec2.CvPtr, mat.CvPtr);
+            try
+            {
+                return NativeMethods.cvMahalanobis(vec1.CvPtr, vec2.CvPtr, mat.CvPtr);
+            }
+            finally
+            {
+                KeepAlive(vec1, vec2, mat);
+            }
         }
         #endregion
         #region MakeHistHeaderForArray
@@ -138,6 +152,7 @@ namespace OpenCvSharp
             {
                 IntPtr ptr = NativeMethods.cvMakeHistHeaderForArray(
                     dims, sizes, hist.CvPtr, data, rangesPtr, uniform);
+                KeepAlive(hist);
                 return new CvHistogram(ptr);
             }
         }
@@ -210,6 +225,7 @@ namespace OpenCvSharp
             using (var elementsPtr = new ArrayAddress1<T>(elements))
             {
                 IntPtr result = NativeMethods.cvMakeSeqHeaderForArray(seqType, headerSize, elemSize, elementsPtr, total, seq.CvPtr, block.CvPtr);
+                KeepAlive(seq, block);
                 return new CvSeq(result);
             }
         }
@@ -286,7 +302,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("tree1");
             if (tree2 == null)
                 throw new ArgumentNullException("tree2");
-            return NativeMethods.cvMatchContourTrees(tree1.CvPtr, tree2.CvPtr, method, threshold);
+            try
+            {
+                return NativeMethods.cvMatchContourTrees(tree1.CvPtr, tree2.CvPtr, method, threshold);
+            }
+            finally
+            {
+                KeepAlive(tree1, tree2);
+            }
         }
         #endregion
         #region MatchShapes
@@ -336,7 +359,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("object1");
             if (object2 == null)
                 throw new ArgumentNullException("object2");
-            return NativeMethods.cvMatchShapes(object1.CvPtr, object2.CvPtr, method, parameter);
+            try
+            {
+                return NativeMethods.cvMatchShapes(object1.CvPtr, object2.CvPtr, method, parameter);
+            }
+            finally
+            {
+                KeepAlive(object1, object2);
+            }
         }
         #endregion
         #region MatchTemplate
@@ -367,6 +397,7 @@ namespace OpenCvSharp
             if (result == null)
                 throw new ArgumentNullException("result");
             NativeMethods.cvMatchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, method);
+            KeepAlive(image, templ, result);
         }
         #endregion
         #region Max
@@ -395,6 +426,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvMax(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            KeepAlive(src1, src2, dst);
         }
         #endregion
         #region MaxRect
@@ -440,6 +472,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvMaxS(src.CvPtr, value, dst.CvPtr);
+            KeepAlive(src,  dst);
         }
         #endregion
         #region MeanShift
@@ -465,14 +498,17 @@ namespace OpenCvSharp
         public static int MeanShift(CvArr probImage, CvRect window, CvTermCriteria criteria, CvConnectedComp comp)
         {
             if (probImage == null)
-            {
                 throw new ArgumentNullException("probImage");
-            }
             if (comp == null)
-            {
                 throw new ArgumentNullException("comp");
+            try
+            {
+                return NativeMethods.cvMeanShift(probImage.CvPtr, window, criteria, comp.CvPtr);
             }
-            return NativeMethods.cvMeanShift(probImage.CvPtr, window, criteria, comp.CvPtr);
+            finally
+            {
+                KeepAlive(probImage, comp);
+            }
         }
         #endregion
         #region MemStorageAlloc
@@ -494,29 +530,37 @@ namespace OpenCvSharp
         public static IntPtr MemStorageAlloc(CvMemStorage storage, uint size)
         {
             if (storage == null)
-            {
                 throw new ArgumentNullException("storage");
+
+            try
+            {
+                return NativeMethods.cvMemStorageAlloc(storage.CvPtr, size);
             }
-            return NativeMethods.cvMemStorageAlloc(storage.CvPtr, size);
+            finally
+            {
+                KeepAlive(storage);
+            }
         }
+
         #endregion
         #region MemStorageAllocString
 #if LANG_JP
-        /// <summary>
-        /// ストレージ内にテキスト文字列を確保する
-        /// </summary>
-        /// <param name="storage">メモリストレージ</param>
-        /// <param name="str">文字列</param>
-        /// <returns></returns>
+    /// <summary>
+    /// ストレージ内にテキスト文字列を確保する
+    /// </summary>
+    /// <param name="storage">メモリストレージ</param>
+    /// <param name="str">文字列</param>
+    /// <returns></returns>
 #else
-        /// <summary>
-        /// Allocates text string in the storage
-        /// </summary>
-        /// <param name="storage">Memory storage</param>
-        /// <param name="str">The string</param>
-        /// <returns></returns>
+                /// <summary>
+                /// Allocates text string in the storage
+                /// </summary>
+                /// <param name="storage">Memory storage</param>
+                /// <param name="str">The string</param>
+                /// <returns></returns>
 #endif
-        public static CvString MemStorageAllocString(CvMemStorage storage, string str)
+            public static
+            CvString MemStorageAllocString(CvMemStorage storage, string str)
         {
             if (storage == null)
                 throw new ArgumentNullException("storage");
@@ -554,15 +598,11 @@ namespace OpenCvSharp
         public static void Merge(CvArr src0, CvArr src1, CvArr src2, CvArr src3, CvArr dst)
         {
             if (dst == null)
-            {
                 throw new ArgumentNullException("dst");
-            }
-            IntPtr p0 = (src0 == null) ? IntPtr.Zero : src0.CvPtr;
-            IntPtr p1 = (src1 == null) ? IntPtr.Zero : src1.CvPtr;
-            IntPtr p2 = (src2 == null) ? IntPtr.Zero : src2.CvPtr;
-            IntPtr p3 = (src3 == null) ? IntPtr.Zero : src3.CvPtr;
-            NativeMethods.cvMerge(p0, p1, p2, p3, dst.CvPtr);
+            NativeMethods.cvMerge(ToPtr(src0), ToPtr(src1), ToPtr(src2), ToPtr(src3), ToPtr(dst));
+            KeepAlive(src0, src1, src2, src3, dst);
         }
+
 #if LANG_JP
         /// <summary>
         /// 複数のシングルチャンネルの配列からマルチチャンネル配列を構成する．または，配列に一つのシングルチャンネルを挿入する
@@ -607,35 +647,36 @@ namespace OpenCvSharp
 #endif
         public static double mGet(CvMat mat, int row, int col)
         {
-#if DEBUG
-            if ((uint)row >= (uint)mat.Rows || (uint)col >= (uint)mat.Cols)
+            try
             {
-                throw new ArgumentOutOfRangeException();
-            }
-#endif
-            unsafe
-            {
-                switch (MAT_TYPE(mat.Type))
+                unsafe
                 {
-                    case CvConst.CV_32FC1:
-                        return ((float*)(mat.DataByte + (uint)mat.Step * row))[col];
-                    case CvConst.CV_64FC1:
-                        return ((double*)(mat.DataByte + (uint)mat.Step * row))[col];
+                    switch (MAT_TYPE(mat.Type))
+                    {
+                        case CvConst.CV_32FC1:
+                            return ((float*) (mat.DataByte + (uint) mat.Step*row))[col];
+                        case CvConst.CV_64FC1:
+                            return ((double*) (mat.DataByte + (uint) mat.Step*row))[col];
 
-                    case CvConst.CV_32SC1:
-                        return ((int*)(mat.DataByte + (uint)mat.Step * row))[col];
-                    case CvConst.CV_16UC1:
-                        return ((ushort*)(mat.DataByte + (uint)mat.Step * row))[col];
-                    case CvConst.CV_16SC1:
-                        return ((short*)(mat.DataByte + (uint)mat.Step * row))[col];
-                    case CvConst.CV_8SC1:
-                        return ((sbyte*)(mat.DataByte + (uint)mat.Step * row))[col];
-                    case CvConst.CV_8UC1:
-                        return ((byte*)(mat.DataByte + (uint)mat.Step * row))[col];
+                        case CvConst.CV_32SC1:
+                            return ((int*) (mat.DataByte + (uint) mat.Step*row))[col];
+                        case CvConst.CV_16UC1:
+                            return ((ushort*) (mat.DataByte + (uint) mat.Step*row))[col];
+                        case CvConst.CV_16SC1:
+                            return ((short*) (mat.DataByte + (uint) mat.Step*row))[col];
+                        case CvConst.CV_8SC1:
+                            return ((sbyte*) (mat.DataByte + (uint) mat.Step*row))[col];
+                        case CvConst.CV_8UC1:
+                            return ((byte*) (mat.DataByte + (uint) mat.Step*row))[col];
 
-                    default:
-                        throw new OpenCvSharpException("Cv.mGet supports only single-channel matrix.");
+                        default:
+                            throw new OpenCvSharpException("Cv.mGet supports only single-channel matrix.");
+                    }
                 }
+            }
+            finally
+            {
+                GC.KeepAlive(mat);
             }
         }
         #endregion
@@ -665,6 +706,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvMin(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            KeepAlive(src1, src2, dst);
         }
         #endregion
         #region MinMaxLoc
@@ -799,15 +841,13 @@ namespace OpenCvSharp
         public static void MinMaxLoc(CvArr arr, out double minVal, out double maxVal, out CvPoint minLoc, out CvPoint maxLoc, CvArr mask)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
             minVal = 0;
             maxVal = 0;
             minLoc = new CvPoint();
             maxLoc = new CvPoint();
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvMinMaxLoc(arr.CvPtr, ref minVal, ref maxVal, ref minLoc, ref maxLoc, maskPtr);
+            NativeMethods.cvMinMaxLoc(arr.CvPtr, ref minVal, ref maxVal, ref minLoc, ref maxLoc, ToPtr(mask));
+            KeepAlive(arr, mask);
         }
         #endregion
         #region MinAreaRect2
@@ -847,8 +887,14 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException("points");
-            IntPtr storagePtr = (storage == null) ? IntPtr.Zero : storage.CvPtr;
-            return NativeMethods.cvMinAreaRect2(points.CvPtr, storagePtr);
+            try
+            {
+                return NativeMethods.cvMinAreaRect2(points.CvPtr, ToPtr(storage));
+            }
+            finally
+            {
+                GC.KeepAlive(storage);
+            }
         }
         #endregion
         #region MinEnclosingCircle
@@ -876,7 +922,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("points");
             center = new CvPoint2D32f();
             radius = default(float);
-            return NativeMethods.cvMinEnclosingCircle(points.CvPtr, ref center, ref radius);
+            try
+            {
+                return NativeMethods.cvMinEnclosingCircle(points.CvPtr, ref center, ref radius);
+            }
+            finally
+            {
+                GC.KeepAlive(points);
+            }
         }
 
 #if LANG_JP
@@ -963,6 +1016,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvMinS(src.CvPtr, value, dst.CvPtr);
+            KeepAlive(src, dst);
         }
         #endregion
         #region MixChannels
@@ -999,6 +1053,7 @@ namespace OpenCvSharp
             int pairCount = fromTo.Length / 2;
 
             NativeMethods.cvMixChannels(srcPtr, src.Length, dstPtr, dst.Length, fromTo, pairCount);
+            KeepAlive(src, dst);
         }
         #endregion
         #region Moments
@@ -1024,6 +1079,7 @@ namespace OpenCvSharp
             
             moments = new CvMoments();
             NativeMethods.cvMoments(image.CvPtr, moments, isBinary);
+            KeepAlive(image);
         }
         #endregion
         #region MorphologyEx
@@ -1082,6 +1138,7 @@ namespace OpenCvSharp
             if (temp == null)
                 throw new ArgumentNullException("temp");
             NativeMethods.cvMorphologyEx(src.CvPtr, dst.CvPtr, temp.CvPtr, element.CvPtr, operation, iterations);
+            KeepAlive(src, dst, temp, element);
         }
         #endregion
         #region MoveWindow
@@ -1171,35 +1228,43 @@ namespace OpenCvSharp
 #endif
         public static void mSet(CvMat mat, int row, int col, double value)
         {
-#if DEBUG
-            if ((uint)row >= (uint)mat.Rows || (uint)col >= (uint)mat.Cols)
+            try
             {
-                throw new ArgumentOutOfRangeException();
-            }
-#endif
-            unsafe
-            {
-                switch (MAT_TYPE(mat.Type))
+                unsafe
                 {
-                    case CvConst.CV_32FC1:
-                        ((float*)(mat.DataByte + (uint)mat.Step * row))[col] = (float)value; break;
-                    case CvConst.CV_64FC1:
-                        ((double*)(mat.DataByte + (uint)mat.Step * row))[col] = (double)value; break;
+                    switch (MAT_TYPE(mat.Type))
+                    {
+                        case CvConst.CV_32FC1:
+                            ((float*) (mat.DataByte + (uint) mat.Step*row))[col] = (float) value;
+                            break;
+                        case CvConst.CV_64FC1:
+                            ((double*) (mat.DataByte + (uint) mat.Step*row))[col] = (double) value;
+                            break;
 
-                    case CvConst.CV_32SC1:
-                        ((int*)(mat.DataByte + (uint)mat.Step * row))[col] = (int)value; break;
-                    case CvConst.CV_16UC1:
-                        ((ushort*)(mat.DataByte + (uint)mat.Step * row))[col] = (ushort)value; break;
-                    case CvConst.CV_16SC1:
-                        ((short*)(mat.DataByte + (uint)mat.Step * row))[col] = (short)value; break;
-                    case CvConst.CV_8SC1:
-                        ((sbyte*)(mat.DataByte + (uint)mat.Step * row))[col] = (sbyte)value; break;
-                    case CvConst.CV_8UC1:
-                        ((byte*)(mat.DataByte + (uint)mat.Step * row))[col] = (byte)value; break;
+                        case CvConst.CV_32SC1:
+                            ((int*) (mat.DataByte + (uint) mat.Step*row))[col] = (int) value;
+                            break;
+                        case CvConst.CV_16UC1:
+                            ((ushort*) (mat.DataByte + (uint) mat.Step*row))[col] = (ushort) value;
+                            break;
+                        case CvConst.CV_16SC1:
+                            ((short*) (mat.DataByte + (uint) mat.Step*row))[col] = (short) value;
+                            break;
+                        case CvConst.CV_8SC1:
+                            ((sbyte*) (mat.DataByte + (uint) mat.Step*row))[col] = (sbyte) value;
+                            break;
+                        case CvConst.CV_8UC1:
+                            ((byte*) (mat.DataByte + (uint) mat.Step*row))[col] = (byte) value;
+                            break;
 
-                    default:
-                        throw new OpenCvSharpException("Cv.mSet supports only single-channel matrix.");
+                        default:
+                            throw new OpenCvSharpException("Cv.mSet supports only single-channel matrix.");
+                    }
                 }
+            }
+            finally
+            {
+                KeepAlive(mat);
             }
         }
         #endregion
@@ -1251,6 +1316,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvMul(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale);
+            KeepAlive(src1, src2, dst);
         }
         #endregion
         #region MulSpectrums
@@ -1280,6 +1346,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvMulSpectrums(src1.CvPtr, src2.CvPtr, dst.CvPtr, flags);
+            KeepAlive(src1, src2, dst);
         }
         #endregion
         #region MultiplyAcc
@@ -1327,8 +1394,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image2");
             if (acc == null)
                 throw new ArgumentNullException("acc");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvMultiplyAcc(image1.CvPtr, image2.CvPtr, acc.CvPtr, maskPtr);
+            NativeMethods.cvMultiplyAcc(image1.CvPtr, image2.CvPtr, acc.CvPtr, ToPtr(mask));
+            KeepAlive(image1, image2, acc, mask);
         }
         #endregion
         #region MulTransposed
@@ -1397,8 +1464,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr deltaPtr = (delta == null) ? IntPtr.Zero : delta.CvPtr;
-            NativeMethods.cvMulTransposed(src.CvPtr, dst.CvPtr, order, deltaPtr, scale);
+            NativeMethods.cvMulTransposed(src.CvPtr, dst.CvPtr, order, ToPtr(delta), scale);
+            KeepAlive(src, dst, delta);
         }
         #endregion
     }

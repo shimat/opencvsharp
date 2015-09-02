@@ -32,6 +32,7 @@ namespace OpenCvSharp
             if (mat == null)
                 throw new ArgumentNullException("mat");
             NativeMethods.cvPerspectiveTransform(src.CvPtr, dst.CvPtr, mat.CvPtr);
+            KeepAlive(src, dst, mat);
         }
         #endregion
         #region Point
@@ -170,7 +171,14 @@ namespace OpenCvSharp
         {
             if (contour == null)
                 throw new ArgumentNullException("contour");
-            return NativeMethods.cvPointPolygonTest(contour.CvPtr, pt, measureDist ? 1 : 0);
+            try
+            {
+                return NativeMethods.cvPointPolygonTest(contour.CvPtr, pt, measureDist ? 1 : 0);
+            }
+            finally
+            {
+                GC.KeepAlive(contour);
+            }
         }
         #endregion
         #region PointSeqFromMat
@@ -259,6 +267,7 @@ namespace OpenCvSharp
             IntPtr xPtr = (x == null) ? IntPtr.Zero : x.CvPtr;
             IntPtr yPtr = (y == null) ? IntPtr.Zero : y.CvPtr;
             NativeMethods.cvPolarToCart(magnitudePtr, angle.CvPtr, xPtr, yPtr, unit);
+            KeepAlive(magnitude, angle, x, y);
         }
         #endregion
         #region PolyLine
@@ -377,6 +386,8 @@ namespace OpenCvSharp
                 // 関数呼び出し
                 NativeMethods.cvPolyLine(img.CvPtr, ptsPtr.Pointer, npts, pts.Length, isClosed, color, thickness, lineType, shift);
             }
+
+            KeepAlive(img);
         }
 #if LANG_JP
         /// <summary>
@@ -505,6 +516,7 @@ namespace OpenCvSharp
             rotationMatrix = new float[3, 3];
             translationVector = new float[3];
             NativeMethods.cvPOSIT(positObject.CvPtr, imagePoints, focalLength, criteria, rotationMatrix, translationVector);
+            KeepAlive(positObject);
         }
         #endregion
         #region PostBoostingFindFace
@@ -522,6 +534,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("storage");
 
             IntPtr ptr = NativeMethods.cvPostBoostingFindFace(image.CvPtr, storage.CvPtr);
+            KeepAlive(image, storage);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -551,6 +564,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvPow(src.CvPtr, dst.CvPtr, power);
+            KeepAlive(src, dst);
         }
         #endregion
         #region PreCornerDetect
@@ -595,6 +609,7 @@ namespace OpenCvSharp
             if (corners == null)
                 throw new ArgumentNullException("corners");
             NativeMethods.cvPreCornerDetect(image.CvPtr, corners.CvPtr, apertureSize);
+            KeepAlive(image, corners);
         }
         #endregion
         #region PrevTreeNode
@@ -615,8 +630,14 @@ namespace OpenCvSharp
         {
             if (treeIterator == null)
                 throw new ArgumentNullException("treeIterator");
-            
-            return NativeMethods.cvPrevTreeNode(treeIterator);
+            try
+            {
+                return NativeMethods.cvPrevTreeNode(treeIterator);
+            }
+            finally
+            {
+                KeepAlive(treeIterator);
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -637,6 +658,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("treeIterator");
             
             IntPtr result = NativeMethods.cvPrevTreeNode(treeIterator);
+            KeepAlive(treeIterator);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -688,8 +710,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("avg");            
             if (eigenvects == null)            
                 throw new ArgumentNullException("eigenvects");
-            
             NativeMethods.cvProjectPCA(data.CvPtr, avg.CvPtr, eigenvects.CvPtr, result.CvPtr);
+            KeepAlive(data, avg, eigenvects, result);
         }
         #endregion
         #region ProjectPoints2
@@ -834,7 +856,11 @@ namespace OpenCvSharp
             IntPtr dpdfPtr = (dpdf == null) ? IntPtr.Zero : dpdf.CvPtr;
             IntPtr dpdcPtr = (dpdc == null) ? IntPtr.Zero : dpdc.CvPtr;
             IntPtr dpddistPtr = (dpddist == null) ? IntPtr.Zero : dpddist.CvPtr;
-            NativeMethods.cvProjectPoints2(objectPoints.CvPtr, rotationVector.CvPtr, translationVector.CvPtr, intrinsicMatrix.CvPtr, distortionCoeffsPtr, imagePoints.CvPtr, dpdrotPtr, dpdtPtr, dpdfPtr, dpdcPtr, dpddistPtr, aspectRatio);
+            NativeMethods.cvProjectPoints2(
+                objectPoints.CvPtr, rotationVector.CvPtr, translationVector.CvPtr, intrinsicMatrix.CvPtr, 
+                distortionCoeffsPtr, imagePoints.CvPtr, dpdrotPtr, dpdtPtr, dpdfPtr, dpdcPtr, dpddistPtr, aspectRatio);
+            KeepAlive(objectPoints, rotationVector, translationVector, intrinsicMatrix, distortionCoeffs,
+                imagePoints, dpdrot, dpdt, dpdf, dpdc, dpddist);
         }
         #endregion
         #region Ptr*D
@@ -856,7 +882,12 @@ namespace OpenCvSharp
         public static IntPtr Ptr1D(CvArr arr, int idx0)
         {
             MatrixType type;
-            return NativeMethods.cvPtr1D(arr.CvPtr, idx0, out type);
+            try { 
+            return NativeMethods.cvPtr1D(arr.CvPtr, idx0, out type); }
+            finally
+            {
+                KeepAlive(arr);   
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -877,7 +908,14 @@ namespace OpenCvSharp
 #endif
         public static IntPtr Ptr1D(CvArr arr, int idx0, out MatrixType type)
         {
-            return NativeMethods.cvPtr1D(arr.CvPtr, idx0, out type);
+            try
+            {
+                return NativeMethods.cvPtr1D(arr.CvPtr, idx0, out type);
+            }
+            finally
+            {
+                KeepAlive(arr);   
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -898,9 +936,17 @@ namespace OpenCvSharp
 #endif
         public static IntPtr Ptr2D(CvArr arr, int idx0, int idx1)
         {
-            MatrixType type;
-            return NativeMethods.cvPtr2D(arr.CvPtr, idx0, idx1, out type);
+            try
+            {
+                MatrixType type;
+                return NativeMethods.cvPtr2D(arr.CvPtr, idx0, idx1, out type);
+            }
+            finally
+            {
+                KeepAlive(arr);
+            }
         }
+
 #if LANG_JP
         /// <summary>
         /// 特定の配列要素へのポインタを返す．
@@ -922,8 +968,16 @@ namespace OpenCvSharp
 #endif
         public static IntPtr Ptr2D(CvArr arr, int idx0, int idx1, out MatrixType type)
         {
-            return NativeMethods.cvPtr2D(arr.CvPtr, idx0, idx1, out type);
+            try
+            {
+                return NativeMethods.cvPtr2D(arr.CvPtr, idx0, idx1, out type);
+            }
+            finally
+            {
+                KeepAlive(arr);
+            }
         }
+
 #if LANG_JP
         /// <summary>
         /// 特定の配列要素へのポインタを返す．
@@ -945,9 +999,17 @@ namespace OpenCvSharp
 #endif
         public static IntPtr Ptr3D(CvArr arr, int idx0, int idx1, int idx2)
         {
-            MatrixType type;
-            return NativeMethods.cvPtr3D(arr.CvPtr, idx0, idx1, idx2, out type);
+            try
+            {
+                MatrixType type;
+                return NativeMethods.cvPtr3D(arr.CvPtr, idx0, idx1, idx2, out type);
+            }
+            finally
+            {
+                KeepAlive(arr);
+            }
         }
+
 #if LANG_JP
         /// <summary>
         /// 特定の配列要素へのポインタを返す．
@@ -971,8 +1033,16 @@ namespace OpenCvSharp
 #endif
         public static IntPtr Ptr3D(CvArr arr, int idx0, int idx1, int idx2, out MatrixType type)
         {
-            return NativeMethods.cvPtr3D(arr.CvPtr, idx0, idx1, idx2, out type);
+            try
+            {
+                return NativeMethods.cvPtr3D(arr.CvPtr, idx0, idx1, idx2, out type);
+            }
+            finally
+            {
+                KeepAlive(arr);
+            }
         }
+
 #if LANG_JP
         /// <summary>
         /// 特定の配列要素へのポインタを返す．
@@ -990,9 +1060,17 @@ namespace OpenCvSharp
 #endif
         public static IntPtr PtrND(CvArr arr, params int[] idx)
         {
-            MatrixType type;
-            return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, true, IntPtr.Zero);
+            try
+            {
+                MatrixType type;
+                return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, true, IntPtr.Zero);
+            }
+            finally
+            {
+                KeepAlive(arr);
+            }
         }
+
 #if LANG_JP
         /// <summary>
         /// 特定の配列要素へのポインタを返す．
@@ -1012,8 +1090,16 @@ namespace OpenCvSharp
 #endif
         public static IntPtr PtrND(CvArr arr, int[] idx, out MatrixType type)
         {
-            return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, true, IntPtr.Zero);
+            try
+            {
+                return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, true, IntPtr.Zero);
+            }
+            finally
+            {
+                KeepAlive(arr);
+            }
         }
+
 #if LANG_JP
         /// <summary>
         /// 特定の配列要素へのポインタを返す．
@@ -1035,8 +1121,16 @@ namespace OpenCvSharp
 #endif
         public static IntPtr PtrND(CvArr arr, int[] idx, out MatrixType type, bool createNode)
         {
-            return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, createNode, IntPtr.Zero);
+            try
+            {
+                return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, createNode, IntPtr.Zero);
+            }
+            finally
+            {
+                KeepAlive(arr);
+            }
         }
+
 #if LANG_JP
         /// <summary>
         /// 特定の配列要素へのポインタを返す．
@@ -1064,12 +1158,19 @@ namespace OpenCvSharp
             {
                 return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, createNode, IntPtr.Zero);
             }
-
-            using (var precalcHashvalPtr = new StructurePointer<uint>(precalcHashval.Value))
+            try
             {
-                return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, createNode, precalcHashvalPtr);
+                using (var precalcHashvalPtr = new StructurePointer<uint>(precalcHashval.Value))
+                {
+                    return NativeMethods.cvPtrND(arr.CvPtr, idx, out type, createNode, precalcHashvalPtr);
+                }
+            }
+            finally
+            {
+                KeepAlive(arr);
             }
         }
+
         #endregion
         #region PutText
 #if LANG_JP
@@ -1100,6 +1201,7 @@ namespace OpenCvSharp
             if (font == null)
                 throw new ArgumentNullException("font");
             NativeMethods.cvPutText(img.CvPtr, text, org, font.CvPtr, color);
+            KeepAlive(img, font);
         }
         #endregion
         #region PyrDown
@@ -1217,6 +1319,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvPyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit);
+            KeepAlive(src, dst);
         }
         #endregion
         #region PyrSegmentation
@@ -1279,6 +1382,7 @@ namespace OpenCvSharp
             IntPtr compPtr;
             NativeMethods.cvPyrSegmentation(src.CvPtr, dst.CvPtr, storage.CvPtr, out compPtr, level, threshold1, threshold2);
             comp = new CvSeq(compPtr);
+            KeepAlive(src, dst, storage);
         }
         #endregion
         #region PyrUp
@@ -1321,6 +1425,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvPyrUp(src.CvPtr, dst.CvPtr, filter);
+            KeepAlive(src, dst);
         }
         #endregion
     }

@@ -96,6 +96,7 @@ namespace OpenCvSharp
             if (pts.Length == 0)
                 throw new ArgumentException();
             NativeMethods.cvFillConvexPoly(img.CvPtr, pts, pts.Length, color, lineType, shift);
+            KeepAlive(img);
         }
         #endregion
         #region FillPoly
@@ -181,6 +182,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.cvFillPoly(img.CvPtr, ptsPtr.Pointer, npts, contours, color, lineType, shift);
             }
+            KeepAlive(img);
         }
         #endregion
         #region Filter2D
@@ -231,6 +233,7 @@ namespace OpenCvSharp
             if (kernel == null)
                 throw new ArgumentNullException("kernel");
             NativeMethods.cvFilter2D(src.CvPtr, dst.CvPtr, kernel.CvPtr, anchor);
+            KeepAlive(src, dst, kernel);
         }
         #endregion
         #region FindChessboardCorners
@@ -313,6 +316,7 @@ namespace OpenCvSharp
             using (var cornersPtr = new ArrayAddress1<CvPoint2D32f>(corners))
             {
                 int result = NativeMethods.cvFindChessboardCorners(image.CvPtr, patternSize, cornersPtr, ref cornerCount, flags);
+                KeepAlive(image);
                 return result != 0;
             }
         }
@@ -461,6 +465,7 @@ namespace OpenCvSharp
             else
                 firstContour = new CvContour(firstContourPtr);
             
+            KeepAlive(image, storage);
             return result;
         }
         #endregion
@@ -494,6 +499,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("corners");
 
             NativeMethods.cvFindCornerSubPix(image.CvPtr, corners, count, win, zeroZone, criteria);
+            KeepAlive(image);
         }
         #endregion
         #region FindDominantPoints
@@ -528,9 +534,8 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException("contour");
 
-            IntPtr storagePtr = (storage == null) ? IntPtr.Zero : storage.CvPtr;
-
-            IntPtr result = NativeMethods.cvFindDominantPoints(contour.CvPtr, storagePtr, method, parameter1, parameter2, parameter3, parameter4);
+            IntPtr result = NativeMethods.cvFindDominantPoints(contour.CvPtr, ToPtr(storage), method, parameter1, parameter2, parameter3, parameter4);
+            KeepAlive(contour, storage);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -600,713 +605,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("rotationVector");
             if (translationVector == null)
                 throw new ArgumentNullException("translationVector");
-            IntPtr distortionCoeffsPtr = ToPtr(distortionCoeffs);
-            NativeMethods.cvFindExtrinsicCameraParams2(objectPoints.CvPtr, imagePoints.CvPtr, intrinsicMatrix.CvPtr, distortionCoeffsPtr, rotationVector.CvPtr, translationVector.CvPtr, useExtrinsicGuess);
+
+            NativeMethods.cvFindExtrinsicCameraParams2(
+                objectPoints.CvPtr, imagePoints.CvPtr, intrinsicMatrix.CvPtr, 
+                ToPtr(distortionCoeffs), rotationVector.CvPtr, translationVector.CvPtr, useExtrinsicGuess);
+            KeepAlive(objectPoints, imagePoints, intrinsicMatrix, distortionCoeffs, rotationVector, translationVector);
         }
 
-        #region C# Implementation
-        // ReSharper disable InconsistentNaming
-        // ReSharper disable TooWideLocalVariableScope
-#if LANG_JP
-        /// <summary>
-        /// 既知の内部パラメータを用いて，それぞれのビューにおける外部パラメータを推定する．
-        /// 3次元のオブジェクトの点とそれに対応する２次元投影点が指定されなければならない．この関数も逆投影誤差の最小化を行う．
-        /// </summary>
-        /// <param name="objectPoints">オブジェクトの点の配列．3xNまたはNx3でNはビューにおける点の数．</param>
-        /// <param name="imagePoints">対応する画像上の点の配列．2xNまたはNx2でNはビューにおける点の数．</param>
-        /// <param name="cameraMatrix">カメラ内部行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. </param>
-        /// <param name="distCoeffs">歪み係数のベクトル．4x1または1x4 [k1, k2, p1, p2]．nullの場合，歪み係数はすべて0 であるとする．</param>
-        /// <param name="rvec">出力される 3x1 の回転ベクトル</param>
-        /// <param name="tvec">出力される 3x1 の並進ベクトル</param>
-#else
-        /// <summary>
-        /// Finds extrinsic camera parameters for particular view
-        /// </summary>
-        /// <param name="objectPoints">The array of object points, 3xN or Nx3, where N is the number of points in the view. </param>
-        /// <param name="imagePoints">The array of corresponding image points, 2xN or Nx2, where N is the number of points in the view. </param>
-        /// <param name="cameraMatrix">The camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. </param>
-        /// <param name="distCoeffs">The vector of distortion coefficients, 4x1 or 1x4 [k1, k2, p1, p2]. If it is NULL, all distortion coefficients are considered 0's. </param>
-        /// <param name="rvec">The output 3x1 or 1x3 rotation vector (compact representation of a rotation matrix, see cvRodrigues2). </param>
-        /// <param name="tvec">The output 3x1 or 1x3 translation vector. </param>
-#endif
-        public static void FindExtrinsicCameraParams2Cs(CvMat objectPoints, CvMat imagePoints, CvMat cameraMatrix, CvMat distCoeffs, CvMat rvec, CvMat tvec)
-        {
-            FindExtrinsicCameraParams2Cs(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec, tvec, false);
-        }
-#if LANG_JP
-        /// <summary>
-        /// 既知の内部パラメータを用いて，それぞれのビューにおける外部パラメータを推定する．
-        /// 3次元のオブジェクトの点とそれに対応する２次元投影点が指定されなければならない．この関数も逆投影誤差の最小化を行う．
-        /// </summary>
-        /// <param name="objectPoints">オブジェクトの点の配列．3xNまたはNx3でNはビューにおける点の数．</param>
-        /// <param name="imagePoints">対応する画像上の点の配列．2xNまたはNx2でNはビューにおける点の数．</param>
-        /// <param name="cameraMatrix">カメラ内部行列 (A) [fx 0 cx; 0 fy cy; 0 0 1]. </param>
-        /// <param name="distCoeffs">歪み係数のベクトル．4x1または1x4 [k1, k2, p1, p2]．nullの場合，歪み係数はすべて0 であるとする．</param>
-        /// <param name="rvec">出力される 3x1 の回転ベクトル</param>
-        /// <param name="tvec">出力される 3x1 の並進ベクトル</param>
-        /// <param name="useExtrinsicGuess"></param>
-#else
-        /// <summary>
-        /// Finds extrinsic camera parameters for particular view
-        /// </summary>
-        /// <param name="objectPoints">The array of object points, 3xN or Nx3, where N is the number of points in the view. </param>
-        /// <param name="imagePoints">The array of corresponding image points, 2xN or Nx2, where N is the number of points in the view. </param>
-        /// <param name="cameraMatrix">The camera matrix (A) [fx 0 cx; 0 fy cy; 0 0 1]. </param>
-        /// <param name="distCoeffs">The vector of distortion coefficients, 4x1 or 1x4 [k1, k2, p1, p2]. If it is NULL, all distortion coefficients are considered 0's. </param>
-        /// <param name="rvec">The output 3x1 or 1x3 rotation vector (compact representation of a rotation matrix, see cvRodrigues2). </param>
-        /// <param name="tvec">The output 3x1 or 1x3 translation vector. </param>
-        /// <param name="useExtrinsicGuess"></param>
-#endif
-        public static void FindExtrinsicCameraParams2Cs(CvMat objectPoints, CvMat imagePoints, CvMat cameraMatrix, CvMat distCoeffs, CvMat rvec, CvMat tvec, bool useExtrinsicGuess)
-        {
-
-            if (objectPoints == null)
-                throw new ArgumentNullException("objectPoints");
-            if (imagePoints == null)
-                throw new ArgumentNullException("imagePoints");
-            if (cameraMatrix == null)
-                throw new ArgumentNullException("cameraMatrix");
-            if (rvec == null)
-                throw new ArgumentNullException("rvec");
-            if (tvec == null)
-                throw new ArgumentNullException("tvec");
-            //IntPtr distCoeffsPtr = ToPtr(distCoeffs);
-
-            unsafe
-            {
-                const int maxIter = 20;
-
-                double[] ar = new double[9] { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
-
-                double[] MM = new double[9],
-                       U = new double[9],
-                       V = new double[9],
-                       W = new double[3];
-                double* param = stackalloc double[6];
-
-                CvMat matA = new CvMat(3, 3, MatrixType.F64C1);
-                CvMat _Ar = new CvMat(3, 3, MatrixType.F64C1, ar);
-                CvMat matR = new CvMat(3, 3, MatrixType.F64C1);
-                CvMat _r = new CvMat(3, 1, MatrixType.F64C1, new IntPtr(param));
-                CvMat _t = new CvMat(3, 1, MatrixType.F64C1, new IntPtr(param + 3));
-                CvMat _Mc = new CvMat(1, 3, MatrixType.F64C1);
-                CvMat _MM = new CvMat(3, 3, MatrixType.F64C1, MM);
-                CvMat matU = new CvMat(3, 3, MatrixType.F64C1, U);
-                CvMat matV = new CvMat(3, 3, MatrixType.F64C1, V);
-                CvMat matW = new CvMat(3, 1, MatrixType.F64C1, W);
-                CvMat _param = new CvMat(6, 1, MatrixType.F64C1, new IntPtr(param));
-
-                CvMat _dpdr, _dpdt;
-
-
-                if (!IS_MAT(objectPoints.CvPtr) ||
-                    !IS_MAT(imagePoints.CvPtr) ||
-                    !IS_MAT(cameraMatrix.CvPtr) ||
-                    !IS_MAT(rvec.CvPtr) ||
-                    !IS_MAT(tvec.CvPtr))
-                {
-                    throw new ArgumentException();
-                }
-
-                int count = Math.Max(objectPoints.Cols, objectPoints.Rows);
-                CvMat matM = new CvMat(1, count, MatrixType.F64C3);
-                CvMat _m = new CvMat(1, count, MatrixType.F64C2);
-
-                ConvertPointsHomogeneous(objectPoints, matM);
-                ConvertPointsHomogeneous(imagePoints, _m);
-                Convert(cameraMatrix, matA);
-
-                if (!((rvec.ElemType == MatrixType.F64C1 || rvec.ElemType == MatrixType.F32C1) &&
-                    (rvec.Rows == 1 || rvec.Cols == 1) && rvec.Rows * rvec.Cols * rvec.ElemChannels == 3))
-                {
-                    throw new ArgumentException();
-                }
-                if (!((tvec.ElemType == MatrixType.F64C1 || tvec.ElemType == MatrixType.F32C1) &&
-                    (tvec.Rows == 1 || tvec.Cols == 1) && tvec.Rows * tvec.Cols * tvec.ElemChannels == 3))
-                {
-                    throw new ArgumentException();
-                }
-
-                CvMat _mn = new CvMat(1, count, MatrixType.F64C2);
-                CvMat _Mxy = new CvMat(1, count, MatrixType.F64C2);
-
-                // normalize image points
-                // (unapply the intrinsic matrix transformation and distortion)
-                UndistortPoints_(_m, _mn, matA, distCoeffs, null, _Ar);
-
-                if (useExtrinsicGuess)
-                {
-                    using (CvMat _r_temp = new CvMat(rvec.Rows, rvec.Cols, MatrixType.F64C1))
-                    using (CvMat _t_temp = new CvMat(tvec.Rows, tvec.Cols, MatrixType.F64C1))
-                    {
-                        Convert(rvec, _r_temp);
-                        Convert(tvec, _t_temp);
-                        for (int i = 0; i < Math.Max(rvec.Rows, rvec.Cols); i++)
-                        {
-                            param[i] = _r_temp.GetReal1D(i);
-                            param[i + 3] = _t_temp.GetReal1D(i);
-                        }
-                    }
-                }
-                else
-                {
-                    CvScalar Mc = Avg(matM);
-                    _Mc[0] = Mc.Val0;
-                    _Mc[1] = Mc.Val1;
-                    _Mc[2] = Mc.Val2;
-                    Reshape(matM, matM, 1, count);
-                    MulTransposed(matM, _MM, true, _Mc);
-                    SVD(_MM, matW, null, matV, SVDFlag.ModifyA | SVDFlag.V_T);
-
-                    // initialize extrinsic parameters
-                    if (W[2] / W[1] < 1e-3 || count < 4)
-                    {
-                        // a planar structure case (all M's lie in the same plane)
-                        double[] h = new double[9];
-                        CvMat R_transform = matV;
-                        CvMat T_transform = new CvMat(3, 1, MatrixType.F64C1);
-                        CvMat matH = new CvMat(3, 3, MatrixType.F64C1, h);
-                        CvMat _h1, _h2, _h3;
-
-                        if (V[2] * V[2] + V[5] * V[5] < 1e-10)
-                            SetIdentity(R_transform);
-
-                        if (Det(R_transform) < 0)
-                            Scale(R_transform, R_transform, -1);
-
-                        //GEMM(R_transform, _Mc, -1, null, 0, T_transform, GemmOperation.B_T);
-                        for (int r = 0; r < 3; r++)
-                        {                            
-                            for (int c = 0; c < 1; c++)
-                            {
-                                double sum = 0;
-                                for (int k = 0; k < 3; k++)
-                                {
-                                    sum += R_transform.GetReal2D(r, k) * _Mc.GetReal2D(c, k);
-                                }
-                                T_transform.SetReal2D(r, c, sum * -1);
-                            }
-                        }
-
-                        for (int i = 0; i < count; i++)
-                        {
-                            double* Rp = R_transform.DataDouble;
-                            double* Tp = T_transform.DataDouble;
-                            double* src = matM.DataDouble + i * 3;
-                            double* dst = _Mxy.DataDouble + i * 2;
-
-                            dst[0] = Rp[0] * src[0] + Rp[1] * src[1] + Rp[2] * src[2] + Tp[0];
-                            dst[1] = Rp[3] * src[0] + Rp[4] * src[1] + Rp[5] * src[2] + Tp[1];
-                        }
-
-                        FindHomography_(_Mxy, _mn, matH);
-
-                        GetCol(matH, out _h1, 0);
-                        GetCol(matH, out _h2, 0);
-                        GetCol(matH, out _h3, 0);                        
-                        _h2.DataDouble += 1;
-                        _h3.DataDouble += 2;
-                        double h1_norm = Math.Sqrt(h[0] * h[0] + h[3] * h[3] + h[6] * h[6]);
-                        double h2_norm = Math.Sqrt(h[1] * h[1] + h[4] * h[4] + h[7] * h[7]);
-                        Scale(_h1, _h1, 1.0 / h1_norm);
-                        Scale(_h2, _h2, 1.0 / h2_norm);
-                        Scale(_h3, _t, 2.0 / (h1_norm + h2_norm));                       
-                        CrossProduct(_h1, _h2, _h3);
-
-                        Rodrigues2_(matH, _r);
-                        Rodrigues2_(_r, matH);
-                        MatMulAdd(matH, T_transform, _t, _t);
-                        MatMul(matH, R_transform, matR);
-                        Rodrigues2_(matR, _r);
-                    }
-                    else
-                    {
-                        // non-planar structure. Use DLT method
-                        double[] LL = new double[12 * 12],
-                                 LW = new double[12],
-                                 LV = new double[12 * 12];
-                        CvMat _LL = new CvMat(12, 12, MatrixType.F64C1, LL);
-                        CvMat _LW = new CvMat(12, 1, MatrixType.F64C1, LW);
-                        CvMat _LV = new CvMat(12, 12, MatrixType.F64C1, LV);
-                        CvMat _RR, _tt;
-                        CvPoint3D64f* M = (CvPoint3D64f*)matM.DataDouble;
-                        CvPoint2D64f* mn = (CvPoint2D64f*)_mn.DataDouble;
-
-                        CvMat matL = new CvMat(2 * count, 12, MatrixType.F64C1);
-                        double* L = matL.DataDouble;
-
-                        for (int i = 0; i < count; i++, L += 24)
-                        {
-                            double x = -mn[i].X, y = -mn[i].Y;
-                            L[0] = L[16] = M[i].X;
-                            L[1] = L[17] = M[i].Y;
-                            L[2] = L[18] = M[i].Z;
-                            L[3] = L[19] = 1.0;
-                            L[4] = L[5] = L[6] = L[7] = 0.0;
-                            L[12] = L[13] = L[14] = L[15] = 0.0;
-                            L[8] = x * M[i].X;
-                            L[9] = x * M[i].Y;
-                            L[10] = x * M[i].Z;
-                            L[11] = x;
-                            L[20] = y * M[i].X;
-                            L[21] = y * M[i].Y;
-                            L[22] = y * M[i].Z;
-                            L[23] = y;
-                        }
-
-                        MulTransposed(matL, _LL, true);
-                        SVD(_LL, _LW, null, _LV, SVDFlag.ModifyA | SVDFlag.V_T);
-                        double[] LV12 = new double[12];
-                        Array.Copy(LV, 11 * 12, LV12, 0, 12);
-                        CvMat _RRt = new CvMat(3, 4, MatrixType.F64C1, LV12);
-                        GetCols(_RRt, out _RR, 0, 3);
-                        GetCol(_RRt, out _tt, 3);
-                        if (Det(_RR) < 0)
-                            Scale(_RRt, _RRt, -1);
-                        double sc = Norm(_RR);
-                        SVD(_RR, matW, matU, matV, SVDFlag.ModifyA | SVDFlag.U_T | SVDFlag.V_T);
-                        GEMM(matU, matV, 1, null, 0, matR, GemmOperation.A_T);
-                        Scale(_tt, _t, Norm(matR) / sc);
-                        Rodrigues2_(matR, _r);
-                    }
-                }
-
-                Cv.Reshape(matM, matM, 3, 1);
-                Cv.Reshape(_mn, _mn, 2, 1);
-
-                // refine extrinsic parameters using iterative algorithm
-                CvLevMarq solver = new CvLevMarq(6, count * 2, new CvTermCriteria(maxIter, float.Epsilon), true);
-                Copy(_param, solver.Param);
-
-                /*
-                Console.WriteLine("matM-----");
-                for (int i = 0; i < matM.Rows * matM.Cols; i++)
-                {
-                    Console.WriteLine("{0}\t", matM[i].Val0);
-                }
-                Console.WriteLine("_mn-----");
-                for (int i = 0; i < _mn.Rows * _mn.Cols; i++)
-                {
-                    Console.WriteLine(_mn[i].Val0);
-                }
-                Console.WriteLine("_param-----");
-                for (int i = 0; i < _param.Rows * _param.Cols; i++)
-                {
-                    Console.WriteLine(_param[i].Val0);
-                }*/
-
-                for (; ; )
-                {
-                    CvMat matJ, _err, __param;
-                    bool proceed = solver.Update(out __param, out matJ, out _err);
-                    Copy(__param, _param);
-                    if (!proceed || _err == null)
-                        break;
-                    Reshape(_err, _err, 2, 1);
-                    if (matJ != null)
-                    {
-                        GetCols(matJ, out _dpdr, 0, 3);
-                        GetCols(matJ, out _dpdt, 3, 6);
-                        ProjectPoints2(matM, _r, _t, matA, distCoeffs,
-                                          _err, _dpdr, _dpdt, null, null, null);
-                    }
-                    else
-                    {
-                        ProjectPoints2(matM, _r, _t, matA, distCoeffs, _err, null, null, null, null, null);
-                    }
-                    Sub(_err, _m, _err);
-                    Reshape(_err, _err, 1, 2 * count);
-                }
-                Copy(solver.Param, _param);
-
-                for (int i = 0; i < 3; i++)
-                {
-                    rvec.SetReal1D(i, param[i]);
-                    tvec.SetReal1D(i, param[i + 3]);
-                }
-            }
-            
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="_src"></param>
-        /// <param name="_dst"></param>
-        /// <param name="_cameraMatrix"></param>
-        /// <param name="_distCoeffs"></param>
-        /// <param name="matR"></param>
-        /// <param name="matP"></param>
-        internal unsafe static void UndistortPoints_(CvMat _src, CvMat _dst, CvMat _cameraMatrix, CvMat _distCoeffs, CvMat matR, CvMat matP)
-        {
-            double[,] A = new double[3, 3];
-            double[,] RR = new double[3, 3];
-            double[] k = new double[5] { 0, 0, 0, 0, 0 };
-            CvMat matA = new CvMat(3, 3, MatrixType.F64C1, A), _Dk;
-            CvMat _RR = new CvMat(3, 3, MatrixType.F64C1, RR);
-            int iters = 1;
-
-            /*
-            CV_Assert( CV_IS_MAT(_src) && CV_IS_MAT(_dst) &&
-                (_src->rows == 1 || _src->cols == 1) &&
-                (_dst->rows == 1 || _dst->cols == 1) &&
-                _src->cols + _src->rows - 1 == _dst->rows + _dst->cols - 1 &&
-                (CV_MAT_TYPE(_src->type) == CV_32FC2 || CV_MAT_TYPE(_src->type) == CV_64FC2) &&
-                (CV_MAT_TYPE(_dst->type) == CV_32FC2 || CV_MAT_TYPE(_dst->type) == CV_64FC2));
-
-            */
-            if (!(IS_MAT(_cameraMatrix.CvPtr) && _cameraMatrix.Rows == 3 && _cameraMatrix.Cols == 3))
-            {
-                throw new ArgumentException();
-            }
-
-            Convert(_cameraMatrix, matA);
-
-            if (_distCoeffs != null)
-            {
-                /*
-                CV_Assert( CV_IS_MAT(_distCoeffs) &&
-                    (_distCoeffs->rows == 1 || _distCoeffs->cols == 1) &&
-                    (_distCoeffs->rows*_distCoeffs->cols == 4 ||
-                    _distCoeffs->rows*_distCoeffs->cols == 5) );*/
-
-                _Dk = new CvMat(_distCoeffs.Rows, _distCoeffs.Cols, (MatrixType)MAKETYPE(CvConst.CV_64F, MAT_CN(_distCoeffs.Type)), k);
-
-                Convert(_distCoeffs, _Dk);
-                iters = 5;
-            }
-
-            if (matR != null)
-            {
-                if (!(IS_MAT(matR) && matR.Rows == 3 && matR.Cols == 3))
-                {
-                    throw new ArgumentException();
-                }
-                Convert(matR, _RR);
-            }
-            else
-                SetIdentity(_RR);
-
-            if (matP != null)
-            {
-                double[,] PP = new double[3, 3];
-                CvMat _P3x3;
-                CvMat _PP = new CvMat(3, 3, MatrixType.F64C1, PP);
-                if (!(IS_MAT(matP) && matP.Rows == 3 && (matP.Cols == 3 || matP.Cols == 4)))
-                {
-                }
-                GetCols(matP, out _P3x3, 0, 3);
-                Convert(_P3x3, _PP);
-                MatMul(_PP, _RR, _RR);
-            }
-
-            CvPoint2D32f* srcf = (CvPoint2D32f*)_src.DataByte;
-            CvPoint2D64f* srcd = (CvPoint2D64f*)_src.DataByte;
-            CvPoint2D32f* dstf = (CvPoint2D32f*)_dst.DataByte;
-            CvPoint2D64f* dstd = (CvPoint2D64f*)_dst.DataByte;
-            int stype = MAT_TYPE(_src.Type);
-            int dtype = MAT_TYPE(_dst.Type);
-            int sstep = _src.Rows == 1 ? 1 : _src.Step / ELEM_SIZE(stype);
-            int dstep = _dst.Rows == 1 ? 1 : _dst.Step / ELEM_SIZE(dtype);
-
-            int n = _src.Rows + _src.Cols - 1;
-
-            double fx = A[0, 0];
-            double fy = A[1, 1];
-            double ifx = 1.0 / fx;
-            double ify = 1.0 / fy;
-            double cx = A[0, 2];
-            double cy = A[1, 2];
-
-            for (int i = 0; i < n; i++)
-            {
-                double x, y, x0, y0;
-                if (stype == (int)MatrixType.F32C2)
-                {
-                    x = srcf[i * sstep].X;
-                    y = srcf[i * sstep].Y;
-                }
-                else
-                {
-                    x = srcd[i * sstep].X;
-                    y = srcd[i * sstep].Y;
-                }
-
-                x0 = x = (x - cx) * ifx;
-                y0 = y = (y - cy) * ify;
-
-                // compensate distortion iteratively
-                for (int j = 0; j < iters; j++)
-                {
-                    double r2 = x * x + y * y;
-                    double icdist = 1.0 / (1 + ((k[4] * r2 + k[1]) * r2 + k[0]) * r2);
-                    double deltaX = 2 * k[2] * x * y + k[3] * (r2 + 2 * x * x);
-                    double deltaY = k[2] * (r2 + 2 * y * y) + 2 * k[3] * x * y;
-                    x = (x0 - deltaX) * icdist;
-                    y = (y0 - deltaY) * icdist;
-                }
-
-                double xx = RR[0, 0] * x + RR[0, 1] * y + RR[0, 2];
-                double yy = RR[1, 0] * x + RR[1, 1] * y + RR[1, 2];
-                double ww = 1.0 / (RR[2, 0] * x + RR[2, 1] * y + RR[2, 2]);
-                x = xx * ww;
-                y = yy * ww;
-
-                if (dtype == (int)MatrixType.F32C2)
-                {
-                    dstf[i * dstep].X = (float)x;
-                    dstf[i * dstep].Y = (float)y;
-                }
-                else
-                {
-                    dstd[i * dstep].X = x;
-                    dstd[i * dstep].Y = y;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="objectPoints"></param>
-        /// <param name="imagePoints"></param>
-        /// <param name="__H"></param>
-        /// <returns></returns>
-        internal static unsafe int FindHomography_(CvMat objectPoints, CvMat imagePoints, CvMat __H)
-        {
-            //const double confidence = 0.995;
-            //const int maxIters = 2000;
-
-            double[] H = new double[9];
-            CvMat matH = new CvMat(3, 3, MatrixType.F64C1, H);
-
-            if (!IS_MAT(imagePoints) || !IS_MAT(objectPoints))
-            {
-                throw new ArgumentException();
-            }
-
-            int count = Math.Max(imagePoints.Cols, imagePoints.Rows);
-            if (count < 4)
-            {
-                throw new ArgumentException();
-            }
-
-            CvMat m = new CvMat(1, count, MatrixType.F64C2);
-            ConvertPointsHomogeneous(imagePoints, m);
-
-            CvMat M = new CvMat(1, count, MatrixType.F64C2);
-            ConvertPointsHomogeneous(objectPoints, M);
-
-            CvMat tempMask = null;
-            if (count > 4)
-            {
-                tempMask = new CvMat(1, count, MatrixType.U8C1);
-                Set(tempMask, CvScalar.ScalarAll(1.0));
-            }
-
-            CvHomographyEstimator estimator = new CvHomographyEstimator(Math.Min(count, 4));
-            bool result = estimator.RunKernel(M, m, matH) > 0;
-
-            if (result && count > 4)
-            {
-                icvCompressPoints((CvPoint2D64f*)M.DataByte, tempMask.DataByte, 1, count);
-                count = icvCompressPoints((CvPoint2D64f*)m.DataByte, tempMask.DataByte, 1, count);
-                M.Cols = m.Cols = count;
-                estimator.Refine(M, m, matH, 10);
-            }
-
-            if (result)
-                Convert(matH, __H);
-
-            return result ? 1 : 0;
-        }
-        private static unsafe int icvCompressPoints( CvPoint2D64f* ptr, byte* mask, int mstep, int count )
-        {
-            int i, j;
-            for( i = j = 0; i < count; i++ )
-                if( mask[i*mstep] != 0 )
-                {
-                    if( i > j )
-                        ptr[j] = ptr[i];
-                    j++;
-                }
-            return j;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <returns></returns>
-        internal static unsafe int Rodrigues2_(CvMat src, CvMat dst)
-        {
-            double[] J = new double[27];
-            CvMat matJ = new CvMat(3, 9, MatrixType.F64C1, J);
-
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-
-            /*
-            if( !CV_IS_MAT(src) )
-                CV_Error( !src ? CV_StsNullPtr : CV_StsBadArg, "Input argument is not a valid matrix" );
-
-            if( !CV_IS_MAT(dst) )
-                CV_Error( !dst ? CV_StsNullPtr : CV_StsBadArg,
-                "The first output argument is not a valid matrix" );
-            */
-
-            int depth = MAT_DEPTH(src.Type);
-            int elem_size = ELEM_SIZE(depth);
-
-            if (depth != CvConst.CV_32F && depth != CvConst.CV_64F)
-                throw new ArgumentException("The matrices must have 32f or 64f data type");
-
-            if (!ARE_DEPTHS_EQ(src, dst))
-                throw new ArgumentException("All the matrices must have the same data type");
-
-            if (src.Cols == 1 || src.Rows == 1)
-            {
-                double rx, ry, rz;
-                int step = src.Rows > 1 ? src.Step / elem_size : 1;
-
-                if (src.Rows + src.Cols * MAT_CN(src.Type) - 1 != 3)
-                    throw new ArgumentException("Input matrix must be 1x3, 3x1 or 3x3");
-
-                if (dst.Rows != 3 || dst.Cols != 3 || MAT_CN(dst.Type) != 1)
-                    throw new ArgumentException("Output matrix must be 3x3, single-channel floating point matrix");
-
-                if (depth == CvConst.CV_32F)
-                {
-                    rx = src.DataSingle[0];
-                    ry = src.DataSingle[step];
-                    rz = src.DataSingle[step * 2];
-                }
-                else
-                {
-                    rx = src.DataDouble[0];
-                    ry = src.DataDouble[step];
-                    rz = src.DataDouble[step * 2];
-                }
-                double theta = Math.Sqrt(rx * rx + ry * ry + rz * rz);
-
-                if (theta < double.Epsilon)
-                {
-                    SetIdentity(dst);
-                }
-                else
-                {
-                    double[] I = { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
-
-                    double c = Math.Cos(theta);
-                    double s = Math.Sin(theta);
-                    double c1 = 1.0 - c;
-                    double itheta = (theta != 0) ? 1.0 / theta : 0.0;
-
-                    rx *= itheta; ry *= itheta; rz *= itheta;
-
-                    double[] rrt = { rx * rx, rx * ry, rx * rz, rx * ry, ry * ry, ry * rz, rx * rz, ry * rz, rz * rz };
-                    double[] _r_x_ = { 0, -rz, ry, rz, 0, -rx, -ry, rx, 0 };
-                    double[] R = new double[9];
-                    CvMat matR = new CvMat(3, 3, MatrixType.F64C1, R);
-
-                    // R = cos(theta)*I + (1 - cos(theta))*r*rT + sin(theta)*[r_x]
-                    // where [r_x] is [0 -rz ry; rz 0 -rx; -ry rx 0]
-                    for (int k = 0; k < 9; k++)
-                        R[k] = c * I[k] + c1 * rrt[k] + s * _r_x_[k];
-
-                    Convert(matR, dst);
-
-                }
-            }
-            else if (src.Cols == 3 && src.Rows == 3)
-            {
-                double[] R = new double[9],
-                         U = new double[9],
-                         V = new double[9],
-                         W = new double[3];
-                double rx, ry, rz;
-                CvMat matR = new CvMat(3, 3, MatrixType.F64C1, R);
-                CvMat matU = new CvMat(3, 3, MatrixType.F64C1, U);
-                CvMat matV = new CvMat(3, 3, MatrixType.F64C1, V);
-                CvMat matW = new CvMat(3, 1, MatrixType.F64C1, W);
-                double theta, s, c;
-                int step = dst.Rows > 1 ? dst.Step / elem_size : 1;
-
-                if ((dst.Rows != 1 || dst.Cols * MAT_CN(dst.Type) != 3) &&
-                    (dst.Rows != 3 || dst.Cols != 1 || MAT_CN(dst.Type) != 1))
-                    throw new ArgumentException("Output matrix must be 1x3 or 3x1");
-
-                Convert(src, matR);
-                if (!CheckArr(matR, CheckArrFlag.Range | CheckArrFlag.Quiet, -100, 100))
-                {
-                    Zero(dst);
-                    return 0;
-                }
-
-                SVD(matR, matW, matU, matV, SVDFlag.ModifyA | SVDFlag.U_T | SVDFlag.V_T);
-                GEMM(matU, matV, 1, null, 0, matR, GemmOperation.A_T);
-
-                rx = R[7] - R[5];
-                ry = R[2] - R[6];
-                rz = R[3] - R[1];
-
-                s = Math.Sqrt((rx * rx + ry * ry + rz * rz) * 0.25);
-                c = (R[0] + R[4] + R[8] - 1) * 0.5;
-                c = c > 1.0 ? 1.0 : c < -1.0 ? -1.0 : c;
-                theta = Math.Acos(c);
-
-                if (s < 1e-5)
-                {
-                    double t;
-
-                    if (c > 0)
-                        rx = ry = rz = 0;
-                    else
-                    {
-                        t = (R[0] + 1) * 0.5;
-                        rx = Math.Sqrt(Math.Max(t, 0.0));
-                        t = (R[4] + 1) * 0.5;
-                        ry = Math.Sqrt(Math.Max(t, 0.0)) * (R[1] < 0 ? -1.0 : 1.0);
-                        t = (R[8] + 1) * 0.5;
-                        rz = Math.Sqrt(Math.Max(t, 0.0)) * (R[2] < 0 ? -1.0 : 1.0);
-                        if (Math.Abs(rx) < Math.Abs(ry) && Math.Abs(rx) < Math.Abs(rz) && (R[5] > 0) != (ry * rz > 0))
-                            rz = -rz;
-                        theta /= Math.Sqrt(rx * rx + ry * ry + rz * rz);
-                        rx *= theta;
-                        ry *= theta;
-                        rz *= theta;
-                    }
-                }
-                else
-                {
-                    double vth = 1 / (2 * s);
-
-                    vth *= theta;
-                    rx *= vth; ry *= vth; rz *= vth;
-                }
-
-                if (depth == CvConst.CV_32F)
-                {
-                    dst.DataSingle[0] = (float)rx;
-                    dst.DataSingle[step] = (float)ry;
-                    dst.DataSingle[step * 2] = (float)rz;
-                }
-                else
-                {
-                    dst.DataDouble[0] = rx;
-                    dst.DataDouble[step] = ry;
-                    dst.DataDouble[step * 2] = rz;
-                }
-            }
-
-            return 1;
-        }
-        // ReSharper restore InconsistentNaming
-        // ReSharper restore TooWideLocalVariableScope
-        #endregion
         #endregion
         #region FindFace
         /// <summary>
@@ -1323,6 +628,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("storage");
 
             IntPtr ptr = NativeMethods.cvFindFace(image.CvPtr, storage.CvPtr);
+            KeepAlive(image, storage);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -1406,6 +712,7 @@ namespace OpenCvSharp
             if (dist == null)
                 throw new ArgumentNullException("dist");
             NativeMethods.cvFindFeatures(tr.CvPtr, desc.CvPtr, results.CvPtr, dist.CvPtr, k, emax);
+            KeepAlive(tr, desc, results, dist);
         }
         #endregion
         #region FindFeaturesBoxed
@@ -1438,8 +745,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("boundsMax");
             if (result == null)
                 throw new ArgumentNullException("result");
-            return NativeMethods.cvFindFeaturesBoxed(tr.CvPtr, boundsMin.CvPtr, boundsMax.CvPtr, result.CvPtr);
+            try
+            {
+                return NativeMethods.cvFindFeaturesBoxed(tr.CvPtr, boundsMin.CvPtr, boundsMax.CvPtr, result.CvPtr);
+            }
+            finally
+            {
+                KeepAlive(tr, boundsMin, boundsMax, result);
+            }
         }
+
         #endregion
         #region FindFundamentalMat
 #if LANG_JP
@@ -1546,8 +861,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("points2");
             if (fundamentalMatrix == null)
                 throw new ArgumentNullException("fundamentalMatrix");
-            IntPtr statusPtr = (status == null) ? IntPtr.Zero : status.CvPtr;
-            return NativeMethods.cvFindFundamentalMat(points1.CvPtr, points2.CvPtr, fundamentalMatrix.CvPtr, method, param1, param2, statusPtr);
+
+            try
+            {
+                return NativeMethods.cvFindFundamentalMat(
+                    points1.CvPtr, points2.CvPtr, fundamentalMatrix.CvPtr, method, param1, param2, ToPtr(status));
+            }
+            finally
+            {
+                KeepAlive(points1, points2, fundamentalMatrix, status);
+            }
         }
         #endregion
         #region FindGraphEdge
@@ -1575,6 +898,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("graph");
             }
             IntPtr result = NativeMethods.cvFindGraphEdge(graph.CvPtr, startIdx, endIdx);
+            KeepAlive(graph);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -1630,6 +954,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("endVtx");
             
             IntPtr result = NativeMethods.cvFindGraphEdgeByPtr(graph.CvPtr, startVtx.CvPtr, endVtx.CvPtr);
+            KeepAlive(graph, startVtx, endVtx);
             if (result == IntPtr.Zero) 
                 return null; 
             else 
@@ -1758,8 +1083,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("dstPoints");
             if (homography == null)
                 throw new ArgumentNullException("homography");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            return NativeMethods.cvFindHomography(srcPoints.CvPtr, dstPoints.CvPtr, homography.CvPtr, method, ransacReprojThreshold, maskPtr);
+            try
+            {
+                return NativeMethods.cvFindHomography(
+                    srcPoints.CvPtr, dstPoints.CvPtr, homography.CvPtr, method, ransacReprojThreshold, ToPtr(mask));
+            }
+            finally
+            {
+                KeepAlive(srcPoints, dstPoints, homography, mask);
+            }
         }
         #endregion
         #region FindNearestPoint2D
@@ -1786,6 +1118,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("subdiv");
             }
             IntPtr result = NativeMethods.cvFindNearestPoint2D(subdiv.CvPtr, pt);
+            KeepAlive(subdiv);
             return new CvSubdiv2DPoint(result);
         }
         #endregion
@@ -1809,6 +1142,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("scanner");
             }
             IntPtr result = NativeMethods.cvFindNextContour(scanner.CvPtr);
+            KeepAlive(scanner);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -1878,6 +1212,7 @@ namespace OpenCvSharp
             if (depthImage == null)
                 throw new ArgumentNullException("depthImage");
             NativeMethods.cvFindStereoCorrespondence(leftImage.CvPtr, rightImage.CvPtr, mode, depthImage.CvPtr, maxDisparity, param1, param2, param3, param4, param5);
+            KeepAlive(leftImage, rightImage, depthImage);
         }
         #endregion
         #region FindStereoCorrespondenceBM
@@ -1910,6 +1245,7 @@ namespace OpenCvSharp
             if (state == null)
                 throw new ArgumentNullException("state");
             NativeMethods.cvFindStereoCorrespondenceBM(left.CvPtr, right.CvPtr, disparity.CvPtr, state.CvPtr);
+            KeepAlive(left, right, disparity, state);
         }
         // ReSharper restore InconsistentNaming
         #endregion
@@ -1972,6 +1308,7 @@ namespace OpenCvSharp
             if (state == null)
                 throw new ArgumentNullException("state");
             NativeMethods.cvFindStereoCorrespondenceGC(left.CvPtr, right.CvPtr, dispLeft.CvPtr, dispRight.CvPtr, state.CvPtr, useDisparityGuess);
+            KeepAlive(left, right, dispLeft, dispRight, state);
         }
         // ReSharper restore InconsistentNaming
         #endregion
@@ -2039,7 +1376,14 @@ namespace OpenCvSharp
 #endif
         public static CvBox2D FitEllipse2(CvArr points)
         {
-            return NativeMethods.cvFitEllipse2(points.CvPtr);
+            try
+            {
+                return NativeMethods.cvFitEllipse2(points.CvPtr);
+            }
+            finally
+            {
+                KeepAlive(points);
+            }
         }
 #if LANG_JP
         /// <summary>
@@ -2096,6 +1440,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("line");
             //line = new float[2 * points.ElemChannels]; // 4 or 6
             NativeMethods.cvFitLine(points.CvPtr, distType, param, reps, aeps, line);
+            KeepAlive(points);
         }
 
         #region FitLine2D
@@ -2259,11 +1604,10 @@ namespace OpenCvSharp
         public static void Flip(CvArr src, CvArr dst, FlipMode flipMode)
         {
             if (src == null)
-            {
                 throw new ArgumentNullException("src");
-            }
-            IntPtr dstPtr = (dst == null) ? IntPtr.Zero : dst.CvPtr;
-            NativeMethods.cvFlip(src.CvPtr, dstPtr, flipMode);
+
+            NativeMethods.cvFlip(src.CvPtr, ToPtr(dst), flipMode);
+            KeepAlive(src, dst);
         }
 #if LANG_JP
         /// <summary>
@@ -2472,14 +1816,11 @@ namespace OpenCvSharp
             CvScalar loDiff, CvScalar upDiff, out CvConnectedComp comp, FloodFillFlag flags, CvArr mask)
         {
             if (image == null)
-            {
                 throw new ArgumentNullException("image");
-            }
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
 
             comp = new CvConnectedComp();
-
-            NativeMethods.cvFloodFill(image.CvPtr, seedPoint, newVal, loDiff, upDiff, comp.CvPtr, (int)flags, maskPtr);
+            NativeMethods.cvFloodFill(image.CvPtr, seedPoint, newVal, loDiff, upDiff, comp.CvPtr, (int)flags, ToPtr(mask));
+            KeepAlive(image, comp, mask);
         }
         #endregion
         #region Floor
@@ -2516,10 +1857,10 @@ namespace OpenCvSharp
         public static void FlushSeqWriter(CvSeqWriter writer)
         {
             if (writer == null)
-            {
                 throw new ArgumentNullException("writer");
-            }
+            
             NativeMethods.cvFlushSeqWriter(writer.CvPtr);
+            KeepAlive(writer);
         }
         #endregion
         #region FontQt

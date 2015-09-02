@@ -26,6 +26,58 @@ namespace OpenCvSharp
         // ReSharper disable InconsistentNaming
 
         #region Helper Method
+
+        /// <summary>
+        /// References the specified object, which makes it ineligible for garbage collection 
+        /// from the start of the current routine to the point where this method is called.
+        /// </summary>
+        /// <param name="arg1"></param>
+        private static void KeepAlive(object arg1)
+        {
+            GC.KeepAlive(arg1);
+        }
+
+        /// <summary>
+        /// References the specified object, which makes it ineligible for garbage collection 
+        /// from the start of the current routine to the point where this method is called.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        private static void KeepAlive(object arg1, object arg2)
+        {
+            GC.KeepAlive(arg1);
+            GC.KeepAlive(arg2);
+        }
+
+        /// <summary>
+        /// References the specified object, which makes it ineligible for garbage collection 
+        /// from the start of the current routine to the point where this method is called.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        private static void KeepAlive(object arg1, object arg2, object arg3)
+        {
+            GC.KeepAlive(arg1);
+            GC.KeepAlive(arg2);
+            GC.KeepAlive(arg3);
+        }
+
+        /// <summary>
+        /// References the specified object, which makes it ineligible for garbage collection 
+        /// from the start of the current routine to the point where this method is called.
+        /// </summary>
+        /// <param name="args"></param>
+        private static void KeepAlive(params object[] args)
+        {
+            if (args == null)
+                return;
+            foreach (var o in args)
+            {
+                GC.KeepAlive(o);
+            }
+        }
+
         /// <summary>
         /// Returns obj.CvPtr if obj != null; otherwise, IntPtr.Zero
         /// </summary>

@@ -30,10 +30,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvAbsDiff(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
+            KeepAlive(src1, src2, dst);
         }
         #endregion
         #region AbsDiffS
@@ -919,7 +916,7 @@ namespace OpenCvSharp
             if (arr == null)
                 throw new ArgumentNullException("arr");
             var ret = NativeMethods.cvAvg(arr.CvPtr, ToPtr(mask));
-            GC.KeepAlive(mask);
+            KeepAlive(arr, mask);
             return ret;
         }
         #endregion
@@ -968,8 +965,7 @@ namespace OpenCvSharp
             mean = new CvScalar();
             stdDev = new CvScalar();
             NativeMethods.cvAvgSdv(arr.CvPtr, ref mean, ref stdDev, ToPtr(mask));
-
-            GC.KeepAlive(mask);
+            KeepAlive(arr, mask);
         }
         #endregion
     }
