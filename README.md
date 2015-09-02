@@ -44,7 +44,7 @@ For more details, see the **[Wiki](https://github.com/shimat/opencvsharp/wiki)**
 ```C#
 // Edge detection by Canny algorithm
 using OpenCvSharp;
-using OpenCvSharp.CPlusPlus;
+// using OpenCvSharp.CPlusPlus;  //for OpenCvSharp2
 
 class Program 
 {
