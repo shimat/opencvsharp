@@ -50,7 +50,7 @@ class Program
 {
     static void Main() 
     {
-        Mat src = new Mat("lenna.png", LoadMode.GrayScale);
+        Mat src = new Mat("lenna.png", ImreadMode.GrayScale);
         Mat dst = new Mat();
         
         Cv2.Canny(src, dst, 50, 200);
