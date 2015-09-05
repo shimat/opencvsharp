@@ -93,6 +93,7 @@
     <Compile Include="Src\Delegate\CvCallback.cs" />
     <Compile Include="Src\Delegate\CvOpenGLCallback.cs" />
     <Compile Include="Src\Delegate\CvButtonCallback.cs" />
+    <Compile Include="Src\EnumerableEx.cs" />
     <Compile Include="Src\Enum\EigenObjectsIOFlag.cs" />
     <Compile Include="Src\Enum\HardwareSupport.cs" />
     <Compile Include="Src\Enum\KMeansFlag.cs" />

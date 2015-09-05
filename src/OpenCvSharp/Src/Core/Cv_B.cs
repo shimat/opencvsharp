@@ -37,6 +37,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("eigenvects");
             
             NativeMethods.cvBackProjectPCA(proj.CvPtr, avg.CvPtr, eigenvects.CvPtr, result.CvPtr);
+            KeepAlive(proj, avg, eigenvects, result);
         }
         #endregion
         #region BGCodeBookClearStale
@@ -98,8 +99,8 @@ namespace OpenCvSharp
             if (model == null)
                 throw new ArgumentNullException("model");
 
-            IntPtr maskPtr = ToPtr(mask);
-            NativeMethods.cvBGCodeBookClearStale(model.CvPtr, staleThresh, roi, maskPtr);
+            NativeMethods.cvBGCodeBookClearStale(model.CvPtr, staleThresh, roi, ToPtr(mask));
+            KeepAlive(model, mask);
         }
         #endregion
         #region BGCodeBookDiff
@@ -151,8 +152,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("image");
             if (fgmask == null)
                 throw new ArgumentNullException("fgmask");
-
-            return NativeMethods.cvBGCodeBookDiff(model.CvPtr, image.CvPtr, fgmask.CvPtr, roi);
+            try
+            {
+                return NativeMethods.cvBGCodeBookDiff(model.CvPtr, image.CvPtr, fgmask.CvPtr, roi);
+            }
+            finally
+            {
+                KeepAlive(model, image, fgmask);
+            }
         }
         #endregion
         #region BGCodeBookUpdate
@@ -216,8 +223,8 @@ namespace OpenCvSharp
             if (image == null)
                 throw new ArgumentNullException("image");
 
-            IntPtr maskPtr = ToPtr(mask);
-            NativeMethods.cvBGCodeBookUpdate(model.CvPtr, image.CvPtr, roi, maskPtr);
+            NativeMethods.cvBGCodeBookUpdate(model.CvPtr, image.CvPtr, roi, ToPtr(mask));
+            KeepAlive(model, image, mask);
         }
         #endregion
         #region BoundingRect
@@ -261,10 +268,15 @@ namespace OpenCvSharp
         public static CvRect BoundingRect(CvArr points, bool update)
         {
             if (points == null)
-            {
                 throw new ArgumentNullException("points");
+            try
+            {
+                return NativeMethods.cvBoundingRect(points.CvPtr, update);
             }
-            return NativeMethods.cvBoundingRect(points.CvPtr, update);
+            finally
+            {
+                GC.KeepAlive(points);
+            }
         }
 #if LANG_JP
         /// <summary>
