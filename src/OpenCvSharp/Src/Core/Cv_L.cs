@@ -49,6 +49,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvLaplace(src.CvPtr, dst.CvPtr, apertureSize);
+            KeepAlive(src, dst);
         }
         #endregion
         #region LatentSvmDetectObjects
@@ -135,6 +136,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("storage");
 
             IntPtr p = NativeMethods.cvLatentSvmDetectObjects(image.CvPtr, detector.CvPtr, storage.CvPtr, overlapThreshold, numThreads);
+            KeepAlive(image, detector, storage);
             if (p == IntPtr.Zero)
                 return null;
             else
@@ -353,6 +355,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("img");
             
             NativeMethods.cvLine(img.CvPtr, pt1, pt2, color, thickness, lineType, shift);
+            GC.KeepAlive(img);
         }
 #if LANG_JP
         /// <summary>
@@ -613,6 +616,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("dst");
 
             NativeMethods.cvLinearPolar(src.CvPtr, dst.CvPtr, center, maxRadius, flags);
+            KeepAlive(src, dst);
         }
         #endregion
         #region Load
@@ -713,6 +717,7 @@ namespace OpenCvSharp
             IntPtr memstoragePtr = (memstorage == null) ? IntPtr.Zero : memstorage.CvPtr;
             StringBuilder realNameSb = new StringBuilder(1024);
             IntPtr result = NativeMethods.cvLoad(filename, memstoragePtr, name, realNameSb);
+            GC.KeepAlive(memstorage);
             realName = realNameSb.ToString();
             try
             {
@@ -907,6 +912,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvLog(src.CvPtr, dst.CvPtr);
+            KeepAlive(src, dst);
         }
         #endregion
         #region LogPolar
@@ -963,6 +969,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvLogPolar(src.CvPtr, dst.CvPtr, center, M, flags);
+            KeepAlive(src, dst);
         }
         #endregion
         #region LSHAdd
@@ -1001,12 +1008,10 @@ namespace OpenCvSharp
         public static void LSHAdd(CvLSH lsh, CvMat data, CvMat indices)
         {
             if (lsh == null)
-            {
                 throw new ArgumentNullException("lsh");
-            }
-            IntPtr indicesPtr = (indices == null) ? IntPtr.Zero : indices.CvPtr;
 
-            NativeMethods.cvLSHAdd(lsh.CvPtr, data.CvPtr, indicesPtr);
+            NativeMethods.cvLSHAdd(lsh.CvPtr, data.CvPtr, ToPtr(indices));
+            KeepAlive(lsh, data, indices);
         }
         #endregion
         #region LSHQuery
@@ -1044,6 +1049,7 @@ namespace OpenCvSharp
             if (dist == null)
                 throw new ArgumentNullException("dist");
             NativeMethods.cvLSHQuery(lsh.CvPtr, queryPoints.CvPtr, indices.CvPtr, dist.CvPtr, k, emax);
+            KeepAlive(lsh, queryPoints, indices, dist);
         }
         #endregion
         #region LSHRemove
@@ -1068,6 +1074,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("indices");
 
             NativeMethods.cvLSHRemove(lsh.CvPtr, indices.CvPtr);
+            KeepAlive(lsh, indices);
         }
         #endregion
         #region LSHSize
@@ -1087,10 +1094,11 @@ namespace OpenCvSharp
         public static uint LSHSize(CvLSH lsh)
         {
             if (lsh == null)
-            {
                 throw new ArgumentNullException("lsh");
-            }
-            return NativeMethods.LSHSize(lsh.CvPtr);
+            
+            var ret = NativeMethods.LSHSize(lsh.CvPtr);
+            GC.KeepAlive(lsh);
+            return ret;
         }
         #endregion
         #region LUT
@@ -1118,6 +1126,7 @@ namespace OpenCvSharp
             if (lut == null)
                 throw new ArgumentNullException("lut");
             NativeMethods.cvLUT(src.CvPtr, dst.CvPtr, lut.CvPtr);
+            KeepAlive(src, dst, lut);
         }
 #if LANG_JP
         /// <summary>
@@ -1148,6 +1157,7 @@ namespace OpenCvSharp
             using (CvMat lutMat = new CvMat(256, 1, MatrixType.U8C1, lut))
             {
                 NativeMethods.cvLUT(src.CvPtr, dst.CvPtr, lutMat.CvPtr);
+                KeepAlive(src, dst);
             }
         }
 #if LANG_JP
@@ -1179,6 +1189,7 @@ namespace OpenCvSharp
             using (CvMat lutMat = new CvMat(256, 1, MatrixType.S16C1, lut))
             {
                 NativeMethods.cvLUT(src.CvPtr, dst.CvPtr, lutMat.CvPtr);
+                KeepAlive(src, dst);
             }
         }
 #if LANG_JP
@@ -1210,6 +1221,7 @@ namespace OpenCvSharp
             using (CvMat lutMat = new CvMat(256, 1, MatrixType.S32C1, lut))
             {
                 NativeMethods.cvLUT(src.CvPtr, dst.CvPtr, lutMat.CvPtr);
+                KeepAlive(src, dst);
             }
         }
 #if LANG_JP
@@ -1241,6 +1253,7 @@ namespace OpenCvSharp
             using (CvMat lutMat = new CvMat(256, 1, MatrixType.F32C1, lut))
             {
                 NativeMethods.cvLUT(src.CvPtr, dst.CvPtr, lutMat.CvPtr);
+                KeepAlive(src, dst);
             }
         }
 #if LANG_JP
@@ -1272,6 +1285,7 @@ namespace OpenCvSharp
             using (CvMat lutMat = new CvMat(256, 1, MatrixType.F64C1, lut))
             {
                 NativeMethods.cvLUT(src.CvPtr, dst.CvPtr, lutMat.CvPtr);
+                KeepAlive(src, dst);
             }
         }
         #endregion

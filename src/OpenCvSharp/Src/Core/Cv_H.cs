@@ -144,6 +144,7 @@ namespace OpenCvSharp
             IntPtr result = NativeMethods.cvHaarDetectObjects(
                 image.CvPtr, cascade.CvPtr, storage.CvPtr, 
                 scaleFactor, minNeighbors, flags, minSize, maxSize);
+            KeepAlive(image, cascade, storage);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -300,6 +301,7 @@ namespace OpenCvSharp
             if (circleStorage == null)
                 throw new ArgumentNullException("circleStorage");
             IntPtr result = NativeMethods.cvHoughCircles(image.CvPtr, circleStorage.CvPtr, method, dp, minDist, param1, param2, minRadius, maxRadius);
+            KeepAlive(image, circleStorage);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -455,6 +457,7 @@ namespace OpenCvSharp
             if (circleStorage == null)
                 throw new ArgumentNullException("circleStorage");
             IntPtr result = NativeMethods.cvHoughCircles(image.CvPtr, circleStorage.CvPtr, method, dp, minDist, param1, param2, minRadius, maxRadius);
+            KeepAlive(image, circleStorage);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -524,6 +527,7 @@ namespace OpenCvSharp
             if (lineStorage == null)
                 throw new ArgumentNullException("lineStorage");
             IntPtr result = NativeMethods.cvHoughLines2(image.CvPtr, lineStorage.CvPtr, method, rho, theta, threshold, param1, param2);
+            KeepAlive(image, lineStorage);
             return new CvSeq(result);
         }
 #if LANG_JP
@@ -587,6 +591,7 @@ namespace OpenCvSharp
             if (lineStorage == null)
                 throw new ArgumentNullException("lineStorage");
             IntPtr result = NativeMethods.cvHoughLines2(image.CvPtr, lineStorage.CvPtr, method, rho, theta, threshold, param1, param2);
+            KeepAlive(image, lineStorage);
             return new CvSeq(result);
         }
         #endregion
