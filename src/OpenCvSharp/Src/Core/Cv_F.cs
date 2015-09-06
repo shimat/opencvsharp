@@ -745,14 +745,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("boundsMax");
             if (result == null)
                 throw new ArgumentNullException("result");
-            try
-            {
-                return NativeMethods.cvFindFeaturesBoxed(tr.CvPtr, boundsMin.CvPtr, boundsMax.CvPtr, result.CvPtr);
-            }
-            finally
-            {
-                KeepAlive(tr, boundsMin, boundsMax, result);
-            }
+            
+            var ret = NativeMethods.cvFindFeaturesBoxed(tr.CvPtr, boundsMin.CvPtr, boundsMax.CvPtr, result.CvPtr);
+            KeepAlive(tr, boundsMin, boundsMax, result);
+            return ret;
         }
 
         #endregion
@@ -862,15 +858,10 @@ namespace OpenCvSharp
             if (fundamentalMatrix == null)
                 throw new ArgumentNullException("fundamentalMatrix");
 
-            try
-            {
-                return NativeMethods.cvFindFundamentalMat(
+            var ret = NativeMethods.cvFindFundamentalMat(
                     points1.CvPtr, points2.CvPtr, fundamentalMatrix.CvPtr, method, param1, param2, ToPtr(status));
-            }
-            finally
-            {
-                KeepAlive(points1, points2, fundamentalMatrix, status);
-            }
+            KeepAlive(points1, points2, fundamentalMatrix, status);
+            return ret;
         }
         #endregion
         #region FindGraphEdge
@@ -1083,15 +1074,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("dstPoints");
             if (homography == null)
                 throw new ArgumentNullException("homography");
-            try
-            {
-                return NativeMethods.cvFindHomography(
+            var ret = NativeMethods.cvFindHomography(
                     srcPoints.CvPtr, dstPoints.CvPtr, homography.CvPtr, method, ransacReprojThreshold, ToPtr(mask));
-            }
-            finally
-            {
-                KeepAlive(srcPoints, dstPoints, homography, mask);
-            }
+            KeepAlive(srcPoints, dstPoints, homography, mask);
+            return ret;
         }
         #endregion
         #region FindNearestPoint2D
@@ -1376,14 +1362,9 @@ namespace OpenCvSharp
 #endif
         public static CvBox2D FitEllipse2(CvArr points)
         {
-            try
-            {
-                return NativeMethods.cvFitEllipse2(points.CvPtr);
-            }
-            finally
-            {
-                KeepAlive(points);
-            }
+            var ret = NativeMethods.cvFitEllipse2(points.CvPtr);
+            KeepAlive(points);
+            return ret;
         }
 #if LANG_JP
         /// <summary>

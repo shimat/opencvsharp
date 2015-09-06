@@ -65,8 +65,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src2");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr src3Ptr = (src3 == null) ? IntPtr.Zero : src3.CvPtr;
-            NativeMethods.cvGEMM(src1.CvPtr, src2.CvPtr, alpha, src3Ptr, beta, dst.CvPtr, tAbc);
+            NativeMethods.cvGEMM(src1.CvPtr, src2.CvPtr, alpha, ToPtr(src3), beta, dst.CvPtr, tAbc);
+            KeepAlive(src1, src2, src3, beta, dst);
         }
 #if LANG_JP
         /// <summary>
@@ -183,7 +183,9 @@ namespace OpenCvSharp
 #endif
         public static CvScalar Get1D(CvArr arr, int idx0)
         {
-            return NativeMethods.cvGet1D(arr.CvPtr, idx0);
+            var ret = NativeMethods.cvGet1D(arr.CvPtr, idx0);
+            KeepAlive(arr);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -204,7 +206,9 @@ namespace OpenCvSharp
 #endif
         public static CvScalar Get2D(CvArr arr, int idx0, int idx1)
         {
-            return NativeMethods.cvGet2D(arr.CvPtr, idx0, idx1);
+            var ret = NativeMethods.cvGet2D(arr.CvPtr, idx0, idx1); 
+            KeepAlive(arr);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -227,7 +231,9 @@ namespace OpenCvSharp
 #endif
         public static CvScalar Get3D(CvArr arr, int idx0, int idx1, int idx2)
         {
-            return NativeMethods.cvGet3D(arr.CvPtr, idx0, idx1, idx2);
+            var ret = NativeMethods.cvGet3D(arr.CvPtr, idx0, idx1, idx2);
+            KeepAlive(arr);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -246,7 +252,9 @@ namespace OpenCvSharp
 #endif
         public static CvScalar GetND(CvArr arr, params int[] idx)
         {
-            return NativeMethods.cvGetND(arr.CvPtr, idx);
+            var ret = NativeMethods.cvGetND(arr.CvPtr, idx);
+            KeepAlive(arr);
+            return ret;
         }
         #endregion
         #region GetAffineTransform
@@ -300,6 +308,7 @@ namespace OpenCvSharp
             IntPtr mapMatrixPtr = NativeMethods.cvCreateMat(2, 3, MatrixType.F32C1);
             NativeMethods.cvGetAffineTransform(src, dst, mapMatrixPtr);
             mapMatrix = new CvMat(mapMatrixPtr);
+            KeepAlive(src, dst);
             return mapMatrix;
         }
         #endregion
@@ -323,8 +332,9 @@ namespace OpenCvSharp
         {
             if (capture == null)
                 throw new ArgumentNullException("capture");
-            
-            return NativeMethods.cvGetCaptureProperty(capture.CvPtr, propertyId);
+            var ret = NativeMethods.cvGetCaptureProperty(capture.CvPtr, propertyId);
+            GC.KeepAlive(capture);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -367,11 +377,11 @@ namespace OpenCvSharp
         public static double GetCentralMoment(CvMoments moments, int xOrder, int yOrder)
         {
             if (moments == null)
-            {
                 throw new ArgumentNullException("moments");
-            }
-            //return CvDll.cvGetCentralMoment(moments.CvPtr, x_order, y_order);
-            return NativeMethods.cvGetCentralMoment(moments, xOrder, yOrder);
+            
+            var ret = NativeMethods.cvGetCentralMoment(moments, xOrder, yOrder);
+            GC.KeepAlive(moments);
+            return ret;
         }
         #endregion
         #region GetCol
@@ -423,6 +433,7 @@ namespace OpenCvSharp
             }
             submat = new CvMat(false);
             IntPtr result = NativeMethods.cvGetCols(arr.CvPtr, submat.CvPtr, startCol, endCol);
+            KeepAlive(arr);
             return new CvMat(result, false);
         }
         #endregion
@@ -471,6 +482,7 @@ namespace OpenCvSharp
             }
             submat = new CvMat(false);
             IntPtr result = NativeMethods.cvGetDiag(arr.CvPtr, submat.CvPtr, diag);
+            KeepAlive(arr);
             return new CvMat(result, false);
         }
         #endregion
@@ -492,10 +504,11 @@ namespace OpenCvSharp
         public static int GetDims(CvArr arr)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
-            return NativeMethods.cvGetDims(arr.CvPtr, IntPtr.Zero);
+            
+            var ret = NativeMethods.cvGetDims(arr.CvPtr, IntPtr.Zero);
+            KeepAlive(arr);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -516,14 +529,14 @@ namespace OpenCvSharp
         public static int GetDims(CvArr arr, out int[] sizes)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
+            
             sizes = new int[CvConst.CV_MAX_DIM];
-
             using (var sizesPtr = new ArrayAddress1<int>(sizes))
             {
-                return NativeMethods.cvGetDims(arr.CvPtr, sizesPtr.Pointer);
+                var ret = NativeMethods.cvGetDims(arr.CvPtr, sizesPtr.Pointer);
+                KeepAlive(arr);
+                return ret;
             }
         }
         #endregion
@@ -546,10 +559,10 @@ namespace OpenCvSharp
         public static int GetDimSize(CvArr arr, int index)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
-            return NativeMethods.cvGetDimSize(arr.CvPtr, index);
+            var ret = NativeMethods.cvGetDimSize(arr.CvPtr, index);
+            KeepAlive(arr);
+            return ret;
         }
         #endregion
         #region GetElemType
@@ -569,10 +582,11 @@ namespace OpenCvSharp
         public static MatrixType GetElemType(CvArr arr)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
-            return (MatrixType)NativeMethods.cvGetElemType(arr.CvPtr);
+            
+            var ret = (MatrixType)NativeMethods.cvGetElemType(arr.CvPtr);
+            KeepAlive(arr);
+            return ret;
         }
         #endregion
         #region GetErrMode
@@ -654,10 +668,9 @@ namespace OpenCvSharp
         {
             if (fs == null)
                 throw new ArgumentNullException("fs");
-            
-            IntPtr mapPtr = (map == null) ? IntPtr.Zero : map.CvPtr;
-            IntPtr keyPtr = (key == null) ? IntPtr.Zero : key.CvPtr;
-            IntPtr result = NativeMethods.cvGetFileNode(fs.CvPtr, mapPtr, keyPtr, createMissing);
+
+            IntPtr result = NativeMethods.cvGetFileNode(fs.CvPtr, ToPtr(map), ToPtr(key), createMissing);
+            KeepAlive(fs, map, key);
             if (result != IntPtr.Zero)
                 return new CvFileNode(result);
             return null;
@@ -679,8 +692,9 @@ namespace OpenCvSharp
 #endif
         public static string GetFileNodeName(CvFileNode node)
         {
-            IntPtr nodePtr = (node == null) ? IntPtr.Zero : node.CvPtr;
-            return NativeMethods.cvGetFileNodeName(nodePtr);
+            var ret = NativeMethods.cvGetFileNodeName(ToPtr(node));
+            KeepAlive(node);
+            return ret;
         }
         #endregion
         #region GetFileNodeByName
@@ -707,8 +721,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("fs");
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
-            IntPtr mapPtr = (map == null) ? IntPtr.Zero : map.CvPtr;
-            IntPtr result = NativeMethods.cvGetFileNodeByName(fs.CvPtr, mapPtr, name);
+            IntPtr result = NativeMethods.cvGetFileNodeByName(fs.CvPtr, ToPtr(map), name);
+            KeepAlive(map, fs);
             if (result != IntPtr.Zero)
                 return new CvFileNode(result);
             else
@@ -734,11 +748,10 @@ namespace OpenCvSharp
         public static CvGraphVtx GetGraphVtx(CvGraph graph, int vtxIdx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
 
             IntPtr vtx = GetSetElemInternal(graph, vtxIdx);
+            GC.KeepAlive(graph);
 
             if (vtx == IntPtr.Zero)
                 return null;
@@ -789,6 +802,7 @@ namespace OpenCvSharp
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
             IntPtr result = NativeMethods.cvGetHashedKey(fs.CvPtr, name, name.Length, createMissing);
+            GC.KeepAlive(fs);
             if (result != IntPtr.Zero)
                 return new CvStringHashNode(result);
             else
@@ -838,7 +852,9 @@ namespace OpenCvSharp
         public static IntPtr GetHistValue_2D(CvHistogram hist, int idx0, int idx1)
         {
             MatrixType type;
-            return NativeMethods.cvPtr2D(hist.BinsPtr, idx0, idx1, out type);
+            var ret = NativeMethods.cvPtr2D(hist.BinsPtr, idx0, idx1, out type);
+            GC.KeepAlive(hist);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -863,7 +879,9 @@ namespace OpenCvSharp
         public static IntPtr GetHistValue_3D(CvHistogram hist, int idx0, int idx1, int idx2)
         {
             MatrixType type;
-            return NativeMethods.cvPtr3D(hist.BinsPtr, idx0, idx1, idx2, out type);
+            var ret = NativeMethods.cvPtr3D(hist.BinsPtr, idx0, idx1, idx2, out type);
+            GC.KeepAlive(hist);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -884,7 +902,9 @@ namespace OpenCvSharp
         public static IntPtr GetHistValue_nD(CvHistogram hist, params int[] idx)
         {
             MatrixType type;
-            return NativeMethods.cvPtrND(hist.BinsPtr, idx, out type, true, IntPtr.Zero);
+            var ret = NativeMethods.cvPtrND(hist.BinsPtr, idx, out type, true, IntPtr.Zero);
+            GC.KeepAlive(hist);
+            return ret;
         }
         #endregion
         #region GetHuMoments
@@ -905,12 +925,11 @@ namespace OpenCvSharp
         public static void GetHuMoments(CvMoments moments, out CvHuMoments humoments)
         {
             if (moments == null)
-            {
                 throw new ArgumentNullException("moments");
-            }
-            //CvDll.cvGetHuMoments(moments.CvPtr, humoments.CvPtr);
+
             humoments = new CvHuMoments();
             NativeMethods.cvGetHuMoments(moments, humoments);
+            GC.KeepAlive(moments);
         }
         #endregion
         #region GetImage
@@ -954,6 +973,7 @@ namespace OpenCvSharp
             
             imageHeader = new IplImage(false);
             IntPtr ptr = NativeMethods.cvGetImage(arr.CvPtr, imageHeader.CvPtr);
+            GC.KeepAlive(arr);
             if (ptr == IntPtr.Zero)
                 return null;
             return new IplImage(ptr, false);
@@ -979,7 +999,9 @@ namespace OpenCvSharp
             if (image == null)
                 throw new ArgumentNullException("image");
             
-            return NativeMethods.cvGetImageCOI(image.CvPtr);
+            var ret = NativeMethods.cvGetImageCOI(image.CvPtr);
+            GC.KeepAlive(image);
+            return ret;
         }
         #endregion
         #region GetImageROI
@@ -1001,10 +1023,11 @@ namespace OpenCvSharp
         public static CvRect GetImageROI(IplImage image)
         {
             if (image == null)
-            {
                 throw new ArgumentNullException("image");
-            }
-            return NativeMethods.cvGetImageROI(image.CvPtr);
+            
+            var ret = NativeMethods.cvGetImageROI(image.CvPtr);
+            GC.KeepAlive(image);
+            return ret;
         }
         #endregion
         #region GetMat
@@ -1095,6 +1118,7 @@ namespace OpenCvSharp
             }
             header = new CvMat(false);
             IntPtr ptr = NativeMethods.cvGetMat(arr.CvPtr, header.CvPtr, out coi, allowND);
+            GC.KeepAlive(arr);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -1146,6 +1170,8 @@ namespace OpenCvSharp
                     }
                 }
             }
+
+            GC.KeepAlive(matIterator);
 
             if (result == IntPtr.Zero)
                 return null;
@@ -1210,6 +1236,7 @@ namespace OpenCvSharp
             maxValue = maxValueTemp;
             minIdx = minIdxTemp;
             maxIdx = maxIdxTemp;
+            GC.KeepAlive(hist);
         }
         #endregion
         #region GetModuleInfo
@@ -1260,11 +1287,11 @@ namespace OpenCvSharp
         public static double GetNormalizedCentralMoment(CvMoments moments, int xOrder, int yOrder)
         {
             if (moments == null)
-            {
                 throw new ArgumentNullException("moments");
-            }
-            //return CvDll.cvGetNormalizedCentralMoment(moments.CvPtr, x_order, y_order);
-            return NativeMethods.cvGetNormalizedCentralMoment(moments, xOrder, yOrder);
+
+            var ret = NativeMethods.cvGetNormalizedCentralMoment(moments, xOrder, yOrder);
+            GC.KeepAlive(moments);
+            return ret;
         }
         #endregion
         #region GetNumThreads
@@ -1386,6 +1413,7 @@ namespace OpenCvSharp
             if (newCameraMatrix == null)
                 throw new ArgumentNullException("newCameraMatrix");
             NativeMethods.cvGetOptimalNewCameraMatrix(cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize, alpha, newCameraMatrix.CvPtr, newImageSize, out validPixROI);
+            KeepAlive(cameraMatrix, distCoeffs, newCameraMatrix);
         }
         #endregion
         #region GetPerspectiveTransform
@@ -1507,6 +1535,7 @@ namespace OpenCvSharp
             if (mapMatrix == null)
                 throw new ArgumentNullException("mapMatrix");
             NativeMethods.cvGetQuadrangleSubPix(src.CvPtr, dst.CvPtr, mapMatrix.CvPtr);
+            KeepAlive(src, dst, mapMatrix);
         }
         #endregion
         #region GetRawData
@@ -1575,6 +1604,7 @@ namespace OpenCvSharp
             step = 1;
             roiSize = new CvSize();
             NativeMethods.cvGetRawData(arr.CvPtr, ref data, ref step, ref roiSize);
+            KeepAlive(arr);
         }
         #endregion
         #region GetReal*D
@@ -1595,7 +1625,9 @@ namespace OpenCvSharp
 #endif
         public static double GetReal1D(CvArr arr, int idx0)
         {
-            return NativeMethods.cvGetReal1D(arr.CvPtr, idx0);
+            var ret = NativeMethods.cvGetReal1D(arr.CvPtr, idx0);
+            GC.KeepAlive(arr);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -1616,7 +1648,9 @@ namespace OpenCvSharp
 #endif
         public static double GetReal2D(CvArr arr, int idx0, int idx1)
         {
-            return NativeMethods.cvGetReal2D(arr.CvPtr, idx0, idx1);
+            var ret = NativeMethods.cvGetReal2D(arr.CvPtr, idx0, idx1);
+            GC.KeepAlive(arr);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -1639,7 +1673,9 @@ namespace OpenCvSharp
 #endif
         public static double GetReal3D(CvArr arr, int idx0, int idx1, int idx2)
         {
-            return NativeMethods.cvGetReal3D(arr.CvPtr, idx0, idx1, idx2);
+            var ret = NativeMethods.cvGetReal3D(arr.CvPtr, idx0, idx1, idx2);
+            GC.KeepAlive(arr);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -1658,7 +1694,9 @@ namespace OpenCvSharp
 #endif
         public static double GetRealND(CvArr arr, params int[] idx)
         {
-            return NativeMethods.cvGetRealND(arr.CvPtr, idx);
+            var ret = NativeMethods.cvGetRealND(arr.CvPtr, idx);
+            GC.KeepAlive(arr);
+            return ret;
         }
         #endregion
         #region GetRectSubPix
@@ -1684,6 +1722,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvGetRectSubPix(src.CvPtr, dst.CvPtr, center);
+            KeepAlive(src, dst);
         }
         #endregion
         #region GetRootFileNode
@@ -1724,6 +1763,7 @@ namespace OpenCvSharp
             if (fs == null)
                 throw new ArgumentNullException("fs");
             IntPtr result = NativeMethods.cvGetRootFileNode(fs.CvPtr, streamIndex);
+            GC.KeepAlive(fs);
             if (result != IntPtr.Zero)
                 return new CvFileNode(result);
             return null;
@@ -1877,6 +1917,7 @@ namespace OpenCvSharp
             }
             submat = new CvMat(false);
             IntPtr result = NativeMethods.cvGetRows(arr.CvPtr, submat.CvPtr, startRow, endRow, deltaRow);
+            GC.KeepAlive(arr);
             return new CvMat(result, false);
         }
         #endregion
@@ -1905,6 +1946,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("seq");
             }
             IntPtr result = NativeMethods.cvGetSeqElem(seq.CvPtr, index);
+            GC.KeepAlive(seq);
             if (result == IntPtr.Zero)
                 return null;
             return Util.ToObject<T>(result);
@@ -1948,10 +1990,10 @@ namespace OpenCvSharp
         public static int GetSeqReaderPos(CvSeqReader reader)
         {
             if (reader == null)
-            {
                 throw new ArgumentNullException("reader");
-            }
-            return NativeMethods.cvGetSeqReaderPos(reader.CvPtr);
+            var ret = NativeMethods.cvGetSeqReaderPos(reader.CvPtr);
+            GC.KeepAlive(reader);
+            return ret;
         }
         #endregion
         #region GetSetElem
@@ -1976,6 +2018,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("setHeader");
 
             IntPtr result = GetSetElemInternal(setHeader, index);
+            GC.KeepAlive(setHeader);
             if (result == IntPtr.Zero)
                 return null;
             return new CvSetElem(result);
@@ -2007,10 +2050,10 @@ namespace OpenCvSharp
         public static CvSize GetSize(CvArr arr)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
-            return NativeMethods.cvGetSize(arr.CvPtr);
+            var ret = NativeMethods.cvGetSize(arr.CvPtr);
+            GC.KeepAlive(arr);
+            return ret;
         }
         #endregion
         #region GetSpatialMoments
@@ -2034,11 +2077,11 @@ namespace OpenCvSharp
         public static double GetSpatialMoment(CvMoments moments, int xOrder, int yOrder)
         {
             if (moments == null)
-            {
                 throw new ArgumentNullException("moments");
-            }
-            //return CvDll.cvGetSpatialMoment(moments.CvPtr, x_order, y_order);
-            return NativeMethods.cvGetSpatialMoment(moments, xOrder, yOrder);
+            
+            var ret = NativeMethods.cvGetSpatialMoment(moments, xOrder, yOrder);
+            GC.KeepAlive(moments);
+            return ret;
         }
         #endregion
         #region GetStarKeypoints
@@ -2088,6 +2131,7 @@ namespace OpenCvSharp
                 @params = new CvStarDetectorParams();
 
             IntPtr result = NativeMethods.cvGetStarKeypoints(img.CvPtr, storage.CvPtr, @params.Struct);
+            KeepAlive(img, storage, @params);
             if (result == IntPtr.Zero)
                 return null;
             return new CvSeq<CvStarKeypoint>(result);
@@ -2115,11 +2159,11 @@ namespace OpenCvSharp
         public static CvMat GetSubRect(CvArr arr, out CvMat submat, CvRect rect)
         {
             if (arr == null)
-            {
                 throw new ArgumentNullException("arr");
-            }
+            
             submat = new CvMat(false);
             IntPtr result = NativeMethods.cvGetSubRect(arr.CvPtr, submat.CvPtr, rect);
+            GC.KeepAlive(arr);
             return new CvMat(result, false);
         }
 #if LANG_JP
@@ -2170,6 +2214,7 @@ namespace OpenCvSharp
             if (font == null)
                 throw new ArgumentNullException("font");
             NativeMethods.cvGetTextSize(textString, font.CvPtr, out textSize, out baseline);
+            GC.KeepAlive(font);
         }
         #endregion
         #region GetTickCount
@@ -2500,9 +2545,10 @@ namespace OpenCvSharp
                 throw new ArgumentOutOfRangeException("corners");
 
             corners = new CvPoint2D32f[cornerCount];
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
 
-            NativeMethods.cvGoodFeaturesToTrack(image.CvPtr, eigImage.CvPtr, tempImage.CvPtr, corners, ref cornerCount, qualityLevel, minDistance, maskPtr, blockSize, useHarris, k);
+            NativeMethods.cvGoodFeaturesToTrack(
+                image.CvPtr, eigImage.CvPtr, tempImage.CvPtr, corners, ref cornerCount, qualityLevel, minDistance, ToPtr(mask), blockSize, useHarris, k);
+            KeepAlive(image, eigImage, tempImage);
         }
         #endregion
         #region GrabFrame
@@ -2526,10 +2572,10 @@ namespace OpenCvSharp
         public static int GrabFrame(CvCapture capture)
         {
             if (capture == null)
-            {
                 throw new ArgumentNullException("capture");
-            }
-            return NativeMethods.cvGrabFrame(capture.CvPtr);
+            var ret = NativeMethods.cvGrabFrame(capture.CvPtr);
+            GC.KeepAlive(capture);
+            return ret;
         }
         #endregion
         #region GraphAddVtx
@@ -2568,12 +2614,12 @@ namespace OpenCvSharp
         public static int GraphAddVtx(CvGraph graph, CvGraphVtx vtx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
-            IntPtr vtxPtr = (vtx == null) ? IntPtr.Zero : vtx.CvPtr;
+
             IntPtr insertedVtxPtr = IntPtr.Zero;
-            return NativeMethods.cvGraphAddVtx(graph.CvPtr, vtxPtr, ref insertedVtxPtr);
+            var ret = NativeMethods.cvGraphAddVtx(graph.CvPtr, ToPtr(vtx), ref insertedVtxPtr);
+            KeepAlive(graph, vtx);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -2595,13 +2641,13 @@ namespace OpenCvSharp
         public static int GraphAddVtx(CvGraph graph, CvGraphVtx vtx, out CvGraphVtx insertedVtx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
-            IntPtr vtxPtr = (vtx == null) ? IntPtr.Zero : vtx.CvPtr;
+
             insertedVtx = new CvGraphVtx();
             IntPtr insertedVtxPtr = insertedVtx.CvPtr;
-            return NativeMethods.cvGraphAddVtx(graph.CvPtr, vtxPtr, ref insertedVtxPtr);
+            var ret = NativeMethods.cvGraphAddVtx(graph.CvPtr, ToPtr(vtx), ref insertedVtxPtr);
+            KeepAlive(graph, vtx, insertedVtx);
+            return ret;
         }
         #endregion
         #region GraphAddEdge
@@ -2673,12 +2719,11 @@ namespace OpenCvSharp
         public static int GraphAddEdge(CvGraph graph, int startIdx, int endIdx, CvGraphEdge edge, IntPtr insertedEdge)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
-            IntPtr edgePtr = (edge == null) ? IntPtr.Zero : edge.CvPtr;
 
-            return NativeMethods.cvGraphAddEdge(graph.CvPtr, startIdx, endIdx, edgePtr, ref insertedEdge);
+            var ret = NativeMethods.cvGraphAddEdge(graph.CvPtr, startIdx, endIdx, ToPtr(edge), ref insertedEdge);
+            KeepAlive(graph, edge);
+            return ret;
         }
         #endregion
         #region GraphAddEdgeByPtr
@@ -2756,9 +2801,9 @@ namespace OpenCvSharp
             if (endVtx == null)
                 throw new ArgumentNullException("endVtx");
 
-            IntPtr edgePtr = (edge == null) ? IntPtr.Zero : edge.CvPtr;
-
-            return NativeMethods.cvGraphAddEdgeByPtr(graph.CvPtr, startVtx.CvPtr, endVtx.CvPtr, edgePtr, ref insertedEdge);
+            var ret = NativeMethods.cvGraphAddEdgeByPtr(graph.CvPtr, startVtx.CvPtr, endVtx.CvPtr, ToPtr(edge), ref insertedEdge);
+            KeepAlive(graph, startVtx, endVtx, edge);
+            return ret;
         }
         #endregion
         #region GraphEdgeIdx
@@ -2780,13 +2825,9 @@ namespace OpenCvSharp
         public static int GraphEdgeIdx(CvGraph graph, CvGraphEdge edge)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
             if (edge == null)
-            {
                 throw new ArgumentNullException("edge");
-            }
 
             return ((int)edge.Flags & CvConst.CV_SET_ELEM_IDX_MASK);
         }
@@ -2808,9 +2849,8 @@ namespace OpenCvSharp
         public static int GraphGetEdgeCount(CvGraph graph)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
+            
             return graph.Edges.ActiveCount;
         }
         #endregion
@@ -2831,9 +2871,8 @@ namespace OpenCvSharp
         public static int GraphGetVtxCount(CvGraph graph)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
+            
             return graph.ActiveCount;
         }
         #endregion
@@ -2857,10 +2896,10 @@ namespace OpenCvSharp
         public static void GraphRemoveEdge(CvGraph graph, int startIdx, int endIdx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
+            
             NativeMethods.cvGraphRemoveEdge(graph.CvPtr, startIdx, endIdx);
+            GC.KeepAlive(graph);
         }
         #endregion
         #region GraphRemoveEdgeByPtr
@@ -2883,18 +2922,14 @@ namespace OpenCvSharp
         public static void GraphRemoveEdgeByPtr(CvGraph graph, CvGraphVtx startVtx, CvGraphVtx endVtx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
             if (startVtx == null)
-            {
                 throw new ArgumentNullException("startVtx");
-            }
             if (endVtx == null)
-            {
                 throw new ArgumentNullException("endVtx");
-            }
+            
             NativeMethods.cvGraphRemoveEdgeByPtr(graph.CvPtr, startVtx.CvPtr, endVtx.CvPtr);
+            KeepAlive(graph, startVtx, endVtx);
         }
         #endregion
         #region GraphRemoveVtx
@@ -2916,10 +2951,11 @@ namespace OpenCvSharp
         public static int GraphRemoveVtx(CvGraph graph, int index)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
-            return NativeMethods.cvGraphRemoveVtx(graph.CvPtr, index);
+            
+            var ret = NativeMethods.cvGraphRemoveVtx(graph.CvPtr, index);
+            GC.KeepAlive(graph);
+            return ret;
         }
         #endregion
         #region GraphRemoveVtxByPtr
@@ -2941,14 +2977,13 @@ namespace OpenCvSharp
         public static int GraphRemoveVtxByPtr(CvGraph graph, CvGraphVtx vtx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
             if (vtx == null)
-            {
                 throw new ArgumentNullException("vtx");
-            }
-            return NativeMethods.cvGraphRemoveVtxByPtr(graph.CvPtr, vtx.CvPtr);
+            
+            var ret = NativeMethods.cvGraphRemoveVtxByPtr(graph.CvPtr, vtx.CvPtr);
+            KeepAlive(graph, vtx);
+            return ret;
         }
         #endregion
         #region GraphVtxDegree
@@ -2970,10 +3005,10 @@ namespace OpenCvSharp
         public static int GraphVtxDegree(CvGraph graph, int vtxIdx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
-            return NativeMethods.cvGraphVtxDegree(graph.CvPtr, vtxIdx);
+            var ret = NativeMethods.cvGraphVtxDegree(graph.CvPtr, vtxIdx);
+            GC.KeepAlive(graph);
+            return ret;
         }
         #endregion
         #region GraphVtxDegreeByPtr
@@ -2995,14 +3030,13 @@ namespace OpenCvSharp
         public static int GraphVtxDegreeByPtr(CvGraph graph, CvGraphVtx vtx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
             if (vtx == null)
-            {
                 throw new ArgumentNullException("vtx");
-            }
-            return NativeMethods.cvGraphVtxDegreeByPtr(graph.CvPtr, vtx.CvPtr);
+            
+            var ret = NativeMethods.cvGraphVtxDegreeByPtr(graph.CvPtr, vtx.CvPtr);
+            KeepAlive(graph, vtx);
+            return ret;
         }
         #endregion
         #region GraphVtxIdx
@@ -3024,13 +3058,9 @@ namespace OpenCvSharp
         public static int GraphVtxIdx(CvGraph graph, CvGraphVtx vtx)
         {
             if (graph == null)
-            {
                 throw new ArgumentNullException("graph");
-            }
             if (vtx == null)
-            {
                 throw new ArgumentNullException("vtx");
-            }
             return ((int)vtx.Flags & CvConst.CV_SET_ELEM_IDX_MASK);
         }
         #endregion
