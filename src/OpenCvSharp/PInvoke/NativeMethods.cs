@@ -29,27 +29,15 @@ namespace OpenCvSharp
 
         public const string Version = "300";
 
-        private static readonly string[] DllNames =
+        private static readonly string[] RuntimeDllNames =
         {
             DllMsvcr,
             DllMsvcp,
+        };
+
+        private static readonly string[] OpenCVDllNames =
+        {
             "opencv_world",
-            /*
-            "opencv_cudacodec", // core
-            "opencv_cudaarithm", // core
-            "opencv_cudalegacy", // objdetect
-            "opencv_cudawarping", // cudalegacy
-            "opencv_cuda", // cudaarithm, cudalegacy, cudawarping
-            "opencv_cudafilters", // cudaarithm
-            "opencv_cudafeatures2d", // cudafilters
-            "opencv_cudaoptflow", // cudaimgproc, cudalegacy, cudawarping
-            "opencv_stitching", // core, flann, imgproc, features, calib3d, objdetect, gpu, cudawarping
-            "opencv_superres", // core, flann, imgproc, highgui, features2d, ml, video, objdetect, gpu, ocl
-            "opencv_videostab", // videostab: core, imgproc, highgui, features2d, video, objdetect, photo, gpu
-            "opencv_bgsegm",
-            "opencv_face",
-            "opencv_optflow",
-            "opencv_xfeatures2d",*/
         };
 
         public const string DllFfmpegX86 = "opencv_ffmpeg" + Version;
@@ -77,7 +65,11 @@ namespace OpenCvSharp
                 return;
 
             string[] ap = EnumerableEx.ToArray(additionalPaths);
-            foreach (string dll in DllNames)
+            foreach (string dll in RuntimeDllNames)
+            {
+                WindowsLibraryLoader.Instance.LoadLibrary(dll, ap);
+            }
+            foreach (string dll in OpenCVDllNames)
             {
                 WindowsLibraryLoader.Instance.LoadLibrary(dll + Version, ap);
             }
