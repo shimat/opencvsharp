@@ -44,7 +44,7 @@ namespace OpenCvSharp.Sandbox
             watch.Stop();
 
             Console.WriteLine("{0}ms", watch.ElapsedMilliseconds);
-            //Window.ShowImages(img);
+            Window.ShowImages(img);
 
             watch.Restart();
 
