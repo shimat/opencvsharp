@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_CORE_INPUTARRAY_H_
 #define _CPP_CORE_INPUTARRAY_H_
 
@@ -31,7 +27,7 @@ CVAPI(cv::_InputArray*) core_InputArray_new_byDouble(double val)
 	return new cv::_InputArray(ia);
 }
 
-CVAPI(cv::_InputArray*) core_InputArray_new_byGpuMat(cv::gpu::GpuMat *gm)
+CVAPI(cv::_InputArray*) core_InputArray_new_byGpuMat(cv::cuda::GpuMat *gm)
 {
 	cv::_InputArray ia(*gm);
 	return new cv::_InputArray(ia);

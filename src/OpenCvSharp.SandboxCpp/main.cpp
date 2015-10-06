@@ -1,5 +1,3 @@
-// Sansan.RD.SandboxCpp.cpp : メイン プロジェクト ファイルです。
-
 #include "stdafx.h"
 
 using namespace System;
@@ -64,25 +62,16 @@ void part(const cv::Mat &src, std::vector<cv::Mat> &parts, int partsCount, cv::S
 
 int main(int argc, char *argv[])
 {
-    /*
-    cv::Mat src = cv::imread("C:\\Penguins.jpg", cv::IMREAD_COLOR);
+    ///*
+    cv::Mat src = cv::imread("C:\\test.png", cv::IMREAD_COLOR);
 
-    std::vector<cv::Mat> parts;
-    part(src, parts, 10, cv::Size(400, 400));
-
-    cv::Mat pano;
-    cv::Stitcher stitcher = cv::Stitcher::createDefault(false);
-
-    std::cout << "Start stitching...";
-    auto status = stitcher.stitch(parts, pano);
-    std::cout << "Finished. (status:" << status << ")" << std::endl;
-    
-    cv::imwrite("C:\\temp\\pano.png", pano);
-    cv::imshow("pano", pano);
+	cv::imshow("src", src);
     cv::waitKey();
     cv::destroyAllWindows();
-    */
-    captureTest();
+    //*/
+
+    //captureTest();
+
     return 0;
 }
 

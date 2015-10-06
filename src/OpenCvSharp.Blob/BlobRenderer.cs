@@ -37,8 +37,8 @@ namespace OpenCvSharp.Blob
         /// <param name="mode"></param>
         /// <param name="color"></param>
         /// <param name="alpha"></param>
-        public static unsafe void PerformOne(LabelData labels, CvBlob blob, IplImage imgSrc, IplImage imgDst,
-            RenderBlobsMode mode, CvScalar color, double alpha)
+        public static unsafe void PerformOne(LabelData labels, CvBlob blob, Mat imgSrc, Mat imgDst,
+            RenderBlobsMode mode, Scalar color, double alpha)
         {
             if (labels == null)
                 throw new ArgumentNullException("labels");
@@ -48,23 +48,13 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("imgSrc");
             if (imgDst == null)
                 throw new ArgumentNullException("imgDst");
-            if (imgDst.Depth != BitDepth.U8 || imgDst.NChannels != 3)
+            if (imgDst.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("'img' must be a 3-channel U8 image.");
 
             if ((mode & RenderBlobsMode.Color) == RenderBlobsMode.Color)
             {
-                int stepSrc = imgSrc.WidthStep;
-                int stepDst = imgDst.WidthStep;
-                int offsetSrc = 0;
-                int offsetDst = 0;
-                CvRect roiSrc = imgSrc.ROI;
-                CvRect roiDst = imgDst.ROI;
-                if (roiSrc.Size != imgSrc.Size)
-                    offsetSrc = roiSrc.Y * stepSrc + roiSrc.X;
-                if (roiDst.Size != imgDst.Size)
-                    offsetDst = roiDst.Y * stepDst + roiDst.X;
-                byte* pSrc = (byte*)imgSrc.ImageData + offsetSrc + (blob.MinY * stepSrc);
-                byte* pDst = (byte*)imgDst.ImageData + offsetDst + (blob.MinY * stepDst);
+                var pSrc = imgSrc.GetGenericIndexer<Vec3b>();
+                var pDst = imgDst.GetGenericIndexer<Vec3b>();
 
                 for (int r = blob.MinY; r < blob.MaxY; r++)
                 {
@@ -72,13 +62,12 @@ namespace OpenCvSharp.Blob
                     {
                         if (labels[r, c] == blob.Label)
                         {
-                            pDst[c*3 + 0] = (byte) ((1.0 - alpha)*pSrc[c + 0] + alpha*color.Val0);
-                            pDst[c*3 + 1] = (byte) ((1.0 - alpha)*pSrc[c + 1] + alpha*color.Val1);
-                            pDst[c*3 + 2] = (byte) ((1.0 - alpha)*pSrc[c + 2] + alpha*color.Val2);
+                            byte v0 = (byte) ((1.0 - alpha)*pSrc[r, c].Item0 + alpha*color.Val0);
+                            byte v1 = (byte) ((1.0 - alpha)*pSrc[r, c].Item1 + alpha*color.Val1);
+                            byte v2 = (byte) ((1.0 - alpha)*pSrc[r, c].Item2 + alpha*color.Val2);
+                            pDst[r, c] = new Vec3b(v0, v1, v2);
                         }
                     }
-                    pSrc += stepSrc;
-                    pDst += stepDst;
                 }
             }
 
@@ -86,11 +75,11 @@ namespace OpenCvSharp.Blob
             {
                 if ((mode & RenderBlobsMode.BoundingBox) == RenderBlobsMode.BoundingBox)
                 {
-                    Cv.Rectangle(
+                    Cv2.Rectangle(
                         imgDst,
-                        new CvPoint(blob.MinX, blob.MinY),
-                        new CvPoint(blob.MaxX - 1, blob.MaxY - 1),
-                        new CvColor(255, 0, 0));
+                        new Point(blob.MinX, blob.MinY),
+                        new Point(blob.MaxX - 1, blob.MaxY - 1),
+                        new Scalar(255, 0, 0));
                 }
                 if ((mode & RenderBlobsMode.Angle) == RenderBlobsMode.Angle)
                 {
@@ -100,19 +89,19 @@ namespace OpenCvSharp.Blob
                     double y1 = blob.Centroid.Y - lengthLine * Math.Sin(angle);
                     double x2 = blob.Centroid.X + lengthLine * Math.Cos(angle);
                     double y2 = blob.Centroid.Y + lengthLine * Math.Sin(angle);
-                    Cv.Line(imgDst, new CvPoint((int)x1, (int)y1), Cv.Point((int)x2, (int)y2),
-                        new CvColor(0, 255, 0));
+                    Cv2.Line(imgDst, new Point((int)x1, (int)y1), new Point((int)x2, (int)y2),
+                        new Scalar(0, 255, 0));
                 }
                 if ((mode & RenderBlobsMode.Centroid) == RenderBlobsMode.Centroid)
                 {
-                    Cv.Line(imgDst,
-                        new CvPoint((int)blob.Centroid.X - 3, (int)blob.Centroid.Y),
-                        new CvPoint((int)blob.Centroid.X + 3, (int)blob.Centroid.Y),
-                        new CvColor(0, 0, 255));
-                    Cv.Line(imgDst,
-                        new CvPoint((int)blob.Centroid.X, (int)blob.Centroid.Y - 3),
-                        new CvPoint((int)blob.Centroid.X, (int)blob.Centroid.Y + 3),
-                        new CvColor(0, 0, 255));
+                    Cv2.Line(imgDst,
+                        new Point((int)blob.Centroid.X - 3, (int)blob.Centroid.Y),
+                        new Point((int)blob.Centroid.X + 3, (int)blob.Centroid.Y),
+                        new Scalar(255, 0, 0));
+                    Cv2.Line(imgDst,
+                        new Point((int)blob.Centroid.X, (int)blob.Centroid.Y - 3),
+                        new Point((int)blob.Centroid.X, (int)blob.Centroid.Y + 3),
+                        new Scalar(255, 0, 0));
                 }
             }
         }
@@ -125,7 +114,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDst"></param>
         /// <param name="mode"></param>
         /// <param name="alpha"></param>
-        public static void PerformMany(CvBlobs blobs, IplImage imgSrc, IplImage imgDst, RenderBlobsMode mode, double alpha)
+        public static void PerformMany(CvBlobs blobs, Mat imgSrc, Mat imgDst, RenderBlobsMode mode, double alpha)
         {
             if (blobs == null)
                 throw new ArgumentNullException("blobs");
@@ -133,10 +122,10 @@ namespace OpenCvSharp.Blob
                 throw new ArgumentNullException("imgSrc");
             if (imgDst == null)
                 throw new ArgumentNullException("imgDst");
-            if (imgDst.Depth != BitDepth.U8 || imgDst.NChannels != 3)
+            if (imgDst.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("'img' must be a 3-channel U8 image.");
 
-            var palette = new Dictionary<int, CvColor>();
+            var palette = new Dictionary<int, Scalar>();
             if ((mode & RenderBlobsMode.Color) == RenderBlobsMode.Color)
             {
                 int colorCount = 0;
@@ -145,7 +134,7 @@ namespace OpenCvSharp.Blob
                     double r, g, b;
                     Hsv2Rgb((colorCount*77) % 360, 0.5, 1.0, out r, out g, out b);
                     colorCount++;
-                    palette[kv.Key] = new CvColor((int)r, (int)g, (int)b);
+                    palette[kv.Key] = new Scalar(b, g, r);
                 }
             }
 

@@ -1,8 +1,4 @@
-#if WIN32
-#pragma once
-#endif
-
-#ifndef _CPP_CORE_MAT_H_
+ï»¿#ifndef _CPP_CORE_MAT_H_
 #define _CPP_CORE_MAT_H_
 
 #include "include_opencv.h"
@@ -11,7 +7,7 @@
 #pragma region Init & Release
 CVAPI(uint64) core_Mat_sizeof()
 {
-    return sizeof(cv::Mat);
+	return sizeof(cv::Mat);
 }
 
 CVAPI(cv::Mat*) core_Mat_new1()
@@ -22,9 +18,9 @@ CVAPI(cv::Mat*) core_Mat_new2(int rows, int cols, int type)
 {
 	return new cv::Mat(rows, cols, type); 
 }
-CVAPI(cv::Mat*) core_Mat_new3(int rows, int cols, int type, CvScalar scalar)
+CVAPI(cv::Mat*) core_Mat_new3(int rows, int cols, int type, MyCvScalar scalar)
 {
-	return new cv::Mat(rows, cols, type, scalar);
+	return new cv::Mat(rows, cols, type, cpp(scalar));
 }
 CVAPI(cv::Mat*) core_Mat_new4(cv::Mat *mat, cv::Range rowRange, cv::Range colRange)
 {
@@ -38,9 +34,9 @@ CVAPI(cv::Mat*) core_Mat_new6(cv::Mat *mat, cv::Range *ranges)
 {
 	return new cv::Mat(*mat, ranges);
 }
-CVAPI(cv::Mat*) core_Mat_new7(cv::Mat *mat, CvRect roi)
+CVAPI(cv::Mat*) core_Mat_new7(cv::Mat *mat, MyCvRect roi)
 {
-	return new cv::Mat(*mat, roi);
+	return new cv::Mat(*mat, cpp(roi));
 }
 CVAPI(cv::Mat*) core_Mat_new8(int rows, int cols, int type, void* data, size_t step)
 {
@@ -55,18 +51,29 @@ CVAPI(cv::Mat*) core_Mat_new10(int ndims, int* sizes, int type)
 {
 	return new cv::Mat(ndims, sizes, type);
 }
-CVAPI(cv::Mat*) core_Mat_new11(int ndims, int* sizes, int type, CvScalar s)
+CVAPI(cv::Mat*) core_Mat_new11(int ndims, int* sizes, int type, MyCvScalar s)
 {
-	return new cv::Mat(ndims, sizes, type, s);
+	return new cv::Mat(ndims, sizes, type, cpp(s));
 }
 
 CVAPI(cv::Mat*) core_Mat_new_FromIplImage(IplImage *img, int copyData)
 {
-	return new cv::Mat(img, copyData != 0);
+	cv::Size size(img->height, img->width);
+	cv::Mat m(size, CV_MAKETYPE(img->depth, img->nChannels), img->imageData, img->widthStep);
+	if (copyData)
+		return new cv::Mat(m.clone());
+	else
+		return new cv::Mat(m);
 }
+
 CVAPI(cv::Mat*) core_Mat_new_FromCvMat(CvMat *mat, int copyData)
 {
-	return new cv::Mat(mat, copyData != 0);
+	cv::Size size(mat->rows, mat->cols);
+	cv::Mat m(size, mat->type, (mat->data).ptr);
+	if (copyData)
+		return new cv::Mat(m.clone());
+	else
+		return new cv::Mat(m);
 }
 
 
@@ -180,23 +187,19 @@ CVAPI(cv::Mat*) core_Mat_cross(cv::Mat *self, cv::Mat *m)
     return new cv::Mat(ret);
 }
 
-CVAPI(int*) core_Mat_refcount(cv::Mat *self)
-{
-	return self->refcount;
-}
 CVAPI(uchar*) core_Mat_data(cv::Mat *self)
 {
 	return self->data;
 }
-CVAPI(uchar*) core_Mat_datastart(cv::Mat *self)
+CVAPI(const uchar*) core_Mat_datastart(cv::Mat *self)
 {
 	return self->datastart;
 }
-CVAPI(uchar*) core_Mat_dataend(cv::Mat *self)
+CVAPI(const uchar*) core_Mat_dataend(cv::Mat *self)
 {
 	return self->dataend;
 }
-CVAPI(uchar*) core_Mat_datalimit(cv::Mat *self)
+CVAPI(const uchar*) core_Mat_datalimit(cv::Mat *self)
 {
 	return self->datalimit;
 }
@@ -267,13 +270,13 @@ CVAPI(int) core_Mat_isSubmatrix(cv::Mat *self)
 	return self->isSubmatrix() ? 1 : 0;
 }
 
-CVAPI(void) core_Mat_locateROI(cv::Mat *self, CvSize *wholeSize, CvPoint *ofs)
+CVAPI(void) core_Mat_locateROI(cv::Mat *self, MyCvSize *wholeSize, MyCvPoint *ofs)
 {
 	cv::Size wholeSize2;
 	cv::Point ofs2;
 	self->locateROI(wholeSize2, ofs2);
-	*wholeSize = cvSize(wholeSize2.width, wholeSize2.height);
-	*ofs = cvPoint(ofs2.x, ofs2.y);
+	*wholeSize = c(cv::Size(wholeSize2.width, wholeSize2.height));
+	*ofs = c(cv::Point(ofs2.x, ofs2.y));
 }
  
 
@@ -343,9 +346,9 @@ CVAPI(int) core_Mat_rows(cv::Mat *self)
 	return self->rows;
 }
 
-CVAPI(cv::Mat*) core_Mat_setTo_Scalar(cv::Mat *self, CvScalar value, cv::Mat *mask)
+CVAPI(cv::Mat*) core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::Mat *mask)
 {
-	cv::Mat ret = self->setTo((cv::Scalar)value, entity(mask));
+	cv::Mat ret = self->setTo(cpp(value), entity(mask));
 	return new cv::Mat(ret);
 }
 CVAPI(cv::Mat*) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value, cv::_InputArray *mask)
@@ -354,10 +357,9 @@ CVAPI(cv::Mat*) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value,
 	return new cv::Mat(ret);
 }
 
-CVAPI(CvSize) core_Mat_size(cv::Mat *self)
+CVAPI(MyCvSize) core_Mat_size(cv::Mat *self)
 {
-	CvSize size = self->size();
-	return size;
+	return c(self->size());
 }
 CVAPI(int) core_Mat_sizeAt(cv::Mat *self, int i)
 {
@@ -390,12 +392,12 @@ CVAPI(cv::Mat*) core_Mat_subMat1(cv::Mat *self, int rowStart, int rowEnd, int co
 	cv::Mat ret = (*self)(rowRange, colRange);
 	return new cv::Mat(ret);
 }
-CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, CvSlice *ranges)
+CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, MyCvSlice *ranges)
 {
 	std::vector<cv::Range> rangesVec;
 	for (int i = 0; i < nRanges; i++)
 	{
-		rangesVec.push_back(ranges[i]);
+		rangesVec.push_back(cpp(ranges[i]));
 	}
 	cv::Mat ret = (*self)(&rangesVec[0]);
 	return new cv::Mat(ret);
@@ -435,7 +437,7 @@ CVAPI(char*) core_Mat_dump(cv::Mat *self, const char *format)
 	if (format == NULL)
 		s << *self;
 	else
-		s << cv::format(*self, format);
+		s << cv::format(*self, 0);
 	std::string str = s.str();
 
 	const char *src = str.c_str();
@@ -473,9 +475,9 @@ CVAPI(void) core_Mat_resize1(cv::Mat *obj, size_t sz)
 {
 	obj->resize(sz);
 }
-CVAPI(void) core_Mat_resize2(cv::Mat *obj, size_t sz, CvScalar s)
+CVAPI(void) core_Mat_resize2(cv::Mat *obj, size_t sz, MyCvScalar s)
 {
-	obj->resize(sz, s);
+	obj->resize(sz, cpp(s));
 }
 CVAPI(void) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
 {
@@ -494,9 +496,9 @@ CVAPI(void) core_Mat_assignment_FromMatExpr(cv::Mat *self, cv::MatExpr *newMatEx
 {
 	*self = *newMatExpr;
 }
-CVAPI(void) core_Mat_assignment_FromScalar(cv::Mat *self, CvScalar scalar)
+CVAPI(void) core_Mat_assignment_FromScalar(cv::Mat *self, MyCvScalar scalar)
 {
-	*self = scalar;
+	*self = cpp(scalar);
 }
 
 CVAPI(void) core_Mat_IplImage(cv::Mat *self, IplImage *outImage)
@@ -507,10 +509,10 @@ CVAPI(void) core_Mat_IplImage(cv::Mat *self, IplImage *outImage)
 }
 CVAPI(void) core_Mat_IplImage_alignment(cv::Mat *self, IplImage **outImage)
 {
-	// ƒLƒƒƒXƒg‚ÌŒ‹‰Ê‚ðŽQl‚ÉŽg‚¤.
-    // ƒƒ‚ƒŠŠÇ—‚Ì–â‘è‚©‚çA’¼Ú‚ÍŽg‚í‚È‚¢.
+	// ã‚­ãƒ£ã‚¹ãƒˆã®çµæžœã‚’å‚è€ƒã«ä½¿ã†.
+    // ãƒ¡ãƒ¢ãƒªç®¡ç†ã®å•é¡Œã‹ã‚‰ã€ç›´æŽ¥ã¯ä½¿ã‚ãªã„.
     IplImage dummy = (IplImage)(*self);
-    // alignment‚ð‚»‚ë‚¦‚é
+    // alignmentã‚’ãã‚ãˆã‚‹
     IplImage *img = cvCreateImage(cvSize(dummy.width, dummy.height), dummy.depth, dummy.nChannels);
     int height = img->height;
     size_t sstep = self->step;
@@ -542,14 +544,14 @@ CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatMat(cv::Mat *a, cv::Mat *b)
 	cv::MatExpr expr = (*a) + (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatScalar(cv::Mat *a, CvScalar s)
+CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatScalar(cv::Mat *a, MyCvScalar s)
 {
-	cv::MatExpr expr = (*a) + cv::Scalar(s);
+	cv::MatExpr expr = (*a) + cpp(s);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_operatorAdd_ScalarMat(CvScalar s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorAdd_ScalarMat(MyCvScalar s, cv::Mat *a)
 {
-	cv::MatExpr expr = cv::Scalar(s) + (*a); 
+	cv::MatExpr expr = cpp(s) + (*a); 
 	return new cv::MatExpr(expr);
 }
 
@@ -563,14 +565,14 @@ CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatMat(cv::Mat *a, cv::Mat *b)
 	cv::MatExpr expr = (*a) - (*b);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatScalar(cv::Mat *a, CvScalar s)
+CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatScalar(cv::Mat *a, MyCvScalar s)
 {
-	cv::MatExpr expr = (*a) - cv::Scalar(s);
+	cv::MatExpr expr = (*a) - cpp(s);
 	return new cv::MatExpr(expr);
 }
-CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_ScalarMat(CvScalar s, cv::Mat *a)
+CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_ScalarMat(MyCvScalar s, cv::Mat *a)
 {
-	cv::MatExpr expr = cv::Scalar(s) - (*a); 
+	cv::MatExpr expr = cpp(s) - (*a); 
 	return new cv::MatExpr(expr);
 }
 

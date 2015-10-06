@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace OpenCvSharp.DebuggerVisualizers2010
 {
     /// <summary>
-    /// IplImageを表示するビューア
+    /// Matを表示するビューア
     /// </summary>
     public partial class ImageViewer : Form
     {
@@ -21,15 +19,6 @@ namespace OpenCvSharp.DebuggerVisualizers2010
             InitializeComponent();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="proxy"></param>
-        public ImageViewer(IplImageProxy proxy)
-            : this()
-        {
-            bitmap = proxy.CreateBitmap();
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -48,7 +37,7 @@ namespace OpenCvSharp.DebuggerVisualizers2010
         {
             base.OnLoad(e);
 
-            SetClientSize(new Size(bitmap.Width, bitmap.Height));            
+            SetClientSize(new System.Drawing.Size(bitmap.Width, bitmap.Height));
             pictureBox.Image = bitmap;
         }
 
@@ -56,20 +45,20 @@ namespace OpenCvSharp.DebuggerVisualizers2010
         /// ClientSizeを画面からはみ出ない大きさに調整して設定する.
         /// </summary>
         /// <param name="size"></param>
-        private void SetClientSize(Size size)
+        private void SetClientSize(System.Drawing.Size size)
         {
-            Size screenSize = Screen.PrimaryScreen.Bounds.Size;
+            var screenSize = Screen.PrimaryScreen.Bounds.Size;
             if (size.Width > screenSize.Width)
             {
-                double ratio = (double)screenSize.Width / size.Width;
-                size.Width = Convert.ToInt32(size.Width * ratio);
-                size.Height = Convert.ToInt32(size.Height * ratio);
+                double ratio = (double) screenSize.Width/size.Width;
+                size.Width = Convert.ToInt32(size.Width*ratio);
+                size.Height = Convert.ToInt32(size.Height*ratio);
             }
             if (size.Height > screenSize.Height)
             {
-                double ratio = (double)screenSize.Height / size.Height;
-                size.Width = Convert.ToInt32(size.Width * ratio);
-                size.Height = Convert.ToInt32(size.Height * ratio);
+                double ratio = (double) screenSize.Height/size.Height;
+                size.Width = Convert.ToInt32(size.Width*ratio);
+                size.Height = Convert.ToInt32(size.Height*ratio);
             }
             ClientSize = size;
         }

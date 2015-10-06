@@ -57,7 +57,7 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Centroid.
         /// </summary>
-        public CvPoint2D64f Centroid { get; set; }
+        public Point2d Centroid { get; set; }
 
         /// <summary>
         /// Indicates how much frames the object has been in scene.

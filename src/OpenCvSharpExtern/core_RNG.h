@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_CORE_RNG_H_
 #define _CPP_CORE_RNG_H_
 
@@ -95,7 +91,7 @@ CVAPI(double) core_RNG_uniform_double(uint64 state, double a, double b)
 	cv::RNG rng(state);
 	return rng.uniform(a, b);
 }
-CVAPI(void) core_RNG_fill(uint64 state, cv::_OutputArray *mat, int distType, cv::_InputArray *a, cv::_InputArray *b, int saturateRange)
+CVAPI(void) core_RNG_fill(uint64 state, cv::_InputOutputArray *mat, int distType, cv::_InputArray *a, cv::_InputArray *b, int saturateRange)
 {
 	cv::RNG rng(state);
 	rng.fill(*mat, distType, *a, *b, saturateRange != 0);

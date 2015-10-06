@@ -35,24 +35,15 @@ namespace OpenCvSharp.Blob
         }
 
         #region Render
+
         /// <summary>
         /// Prints tracks information.
         /// </summary>
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        public void Render(IplImage imgSource, IplImage imgDest)
+        public void Render(Mat imgSource, Mat imgDest)
         {
-            Render(imgSource, imgDest, RenderTracksMode.Id, null);
-        }
-        /// <summary>
-        /// Prints tracks information.
-        /// </summary>
-        /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
-        /// <param name="mode">Render mode. By default is CV_TRACK_RENDER_ID.</param>
-        public void Render(IplImage imgSource, IplImage imgDest, RenderTracksMode mode)
-        {
-            Render(imgSource, imgDest, mode, null);
+            Render(imgSource, imgDest, RenderTracksMode.Id, Scalar.Green);
         }
 
         /// <summary>
@@ -61,22 +52,30 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_TRACK_RENDER_ID.</param>
-        /// <param name="font">OpenCV font for print on the image.</param>
-        public void Render(IplImage imgSource, IplImage imgDest, RenderTracksMode mode, CvFont font)
+        public void Render(Mat imgSource, Mat imgDest, RenderTracksMode mode)
+        {
+            Render(imgSource, imgDest, mode, Scalar.Green);
+        }
+
+        /// <summary>
+        /// Prints tracks information.
+        /// </summary>
+        /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
+        /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
+        /// <param name="mode">Render mode. By default is CV_TRACK_RENDER_ID.</param>
+        /// <param name="textColor"></param>
+        /// <param name="fontFace"></param>
+        /// <param name="fontScale"></param>
+        /// <param name="thickness"></param>
+        public void Render(Mat imgSource, Mat imgDest, RenderTracksMode mode, Scalar textColor,
+            HersheyFonts fontFace = HersheyFonts.HersheySimplex, double fontScale = 1d, int thickness = 1)
         {
             if (imgSource == null)
                 throw new ArgumentNullException("imgSource");
             if (imgDest == null)
                 throw new ArgumentNullException("imgDest");
-            if (imgDest.Depth != BitDepth.U8)
-                throw new ArgumentException("imgDest.Depth != U8");
-            if (imgDest.NChannels != 3)
-                throw new ArgumentException("imgDest.NChannels != 3");
-
-            if ((mode & RenderTracksMode.Id) == RenderTracksMode.Id && font == null)
-            {
-                font = new CvFont(FontFace.HersheyDuplex, 0.5, 0.5, 0, 1);
-            }
+            if (imgDest.Type() != MatType.CV_8UC3)
+                throw new ArgumentException("imgDest.Depth != U8 || imgDest.NChannels != 3");
 
             if (mode != RenderTracksMode.None)
             {
@@ -89,30 +88,33 @@ namespace OpenCvSharp.Blob
                     {
                         if (value.Inactive == 0)
                         {
-                            Cv.PutText(imgDest, key.ToString(), value.Centroid, font, CvColor.Green);
+                            Cv2.PutText(imgDest, key.ToString(), value.Centroid,
+                                fontFace, fontScale, textColor, thickness);
                         }
                     }
                     if ((mode & RenderTracksMode.BoundingBox) == RenderTracksMode.BoundingBox)
                     {
                         if (value.Inactive > 0)
-                            Cv.Rectangle(
-                                imgDest, 
-                                new CvPoint(value.MinX, value.MinY),
-                                new CvPoint(value.MaxX - 1, value.MaxY - 1),
-                                new CvColor(0, 0, 50));
+                            Cv2.Rectangle(
+                                imgDest,
+                                new Point(value.MinX, value.MinY),
+                                new Point(value.MaxX - 1, value.MaxY - 1),
+                                new Scalar(50, 0, 0));
                         else
-                            Cv.Rectangle(
-                                imgDest, 
-                                new CvPoint(value.MinX, value.MinY),
-                                new CvPoint(value.MaxX - 1, value.MaxY - 1), 
-                                new CvColor(0, 0, 255));
+                            Cv2.Rectangle(
+                                imgDest,
+                                new Point(value.MinX, value.MinY),
+                                new Point(value.MaxX - 1, value.MaxY - 1),
+                                new Scalar(255, 0, 0));
                     }
                 }
             }
         }
 
         #endregion
+
         #region ToString
+
         /// <summary>
         /// 
         /// </summary>
@@ -131,13 +133,14 @@ namespace OpenCvSharp.Blob
                     builder.AppendFormat(" - Associated with blobs {0}", value.Label).AppendLine();
                 builder.AppendFormat(" - Lifetime {0}", value.LifeTime).AppendLine();
                 builder.AppendFormat(" - Active {0}", value.Active).AppendLine();
-                builder.AppendFormat(" - Bounding box: ({0},{1}) - ({2}, {3})", 
+                builder.AppendFormat(" - Bounding box: ({0},{1}) - ({2}, {3})",
                     value.MinX, value.MinY, value.MaxX, value.MaxY).AppendLine();
                 builder.AppendFormat(" - Centroid: ({0}, {1})", value.Centroid.X, value.Centroid.Y).AppendLine();
                 builder.AppendLine();
             }
             return builder.ToString();
         }
+
         #endregion
     }
 }
