@@ -5,5 +5,3 @@
 #include "gpu_StereoBM_GPU.h"
 #include "gpu_CascadeClassifier_GPU.h"
 #include "gpu_MOG_GPU.h"
-#include "gpu_FAST_GPU.h"
-#include "gpu_ORB_GPU.h"

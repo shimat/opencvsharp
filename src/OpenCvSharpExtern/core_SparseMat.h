@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_CORE_SPARSEMAT_H_
 #define _CPP_CORE_SPARSEMAT_H_
 
@@ -23,10 +19,6 @@ CVAPI(cv::SparseMat*) core_SparseMat_new2(int dims, const int *sizes, int type)
 CVAPI(cv::SparseMat*) core_SparseMat_new3(cv::Mat *m)
 {
 	return new cv::SparseMat(*m);
-}
-CVAPI(cv::SparseMat*) core_SparseMat_new4(const CvSparseMat* m)
-{
-	return new cv::SparseMat(m);
 }
 
 CVAPI(void) core_SparseMat_delete(cv::SparseMat *obj)
@@ -85,11 +77,6 @@ CVAPI(void) core_SparseMat_addref(cv::SparseMat *obj)
 CVAPI(void) core_SparseMat_release(cv::SparseMat *obj)
 {
 	obj->release();
-}
-
-CVAPI(CvSparseMat*) core_SparseMat_operator_CvSparseMat(cv::SparseMat *obj)
-{
-	return (CvSparseMat*)(*obj);
 }
 
 CVAPI(int) core_SparseMat_elemSize(cv::SparseMat *obj)

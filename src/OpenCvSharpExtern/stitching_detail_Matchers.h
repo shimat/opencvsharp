@@ -1,7 +1,3 @@
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _CPP_STITCHING_DETAIL_MATCHERS_H_
 #define _CPP_STITCHING_DETAIL_MATCHERS_H_
 
@@ -27,9 +23,9 @@ CVAPI(int) stitching_ImageFeatures_img_idx(ImageFeatures *obj)
 {
     return obj->img_idx;
 }
-CVAPI(CvSize) stitching_ImageFeatures_img_size(ImageFeatures *obj)
+CVAPI(MyCvSize) stitching_ImageFeatures_img_size(ImageFeatures *obj)
 {
-    return obj->img_size;
+    return c(obj->img_size);
 }
 CVAPI(int64) stitching_ImageFeatures_keypoints_size(ImageFeatures *obj)
 {

@@ -1,14 +1,10 @@
 // Additional functions
 
-#if WIN32
-#pragma once
-#endif
-
 #ifndef _MY_FUNCTIONS_H_
 #define _MY_FUNCTIONS_H_
 
 #include <opencv2/opencv.hpp>
-
+#include "my_types.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -29,35 +25,44 @@ static int p(T obj, const std::string &caption = "MessageBox")
 #endif
 
 
+
+#if defined WIN32 || defined _WIN32
+#  define CV_CDECL __cdecl
+#  define CV_STDCALL __stdcall
+#else
+#  define CV_CDECL
+#  define CV_STDCALL
+#endif
+
+#ifndef CVAPI
+#  define CVAPI(rettype) CV_EXTERN_C CV_EXPORTS rettype CV_CDECL
+#endif
+
+
+
 static inline cv::_InputArray entity(cv::_InputArray *obj)
 {
-    if (obj != NULL) 
-        return *obj;
-    return cv::noArray();
+    return (obj != NULL) ? *obj : static_cast<cv::_InputArray>(cv::noArray());
 }
 static inline cv::_OutputArray entity(cv::_OutputArray *obj)
 {
-    if (obj != NULL)
-      return *obj;
-    return cv::noArray();
+    return (obj != NULL) ? *obj : static_cast<cv::_OutputArray>(cv::noArray());
+}
+static inline cv::_InputOutputArray entity(cv::_InputOutputArray *obj)
+{
+	return (obj != NULL) ? *obj : cv::noArray();
 }
 static inline cv::Mat entity(cv::Mat *obj)
 {
-    if (obj != NULL)
-      return *obj;
-    return cv::Mat();
+    return (obj != NULL) ? *obj : cv::Mat();
 }
-static inline cv::gpu::GpuMat entity(cv::gpu::GpuMat *obj)
+static inline cv::cuda::GpuMat entity(cv::cuda::GpuMat *obj)
 {
-    if (obj != NULL) 
-      return *obj;
-    return cv::gpu::GpuMat();
+	return (obj != NULL) ? *obj : cv::cuda::GpuMat();
 }
-static inline cv::gpu::Stream entity(cv::gpu::Stream *obj)
+static inline cv::cuda::Stream entity(cv::cuda::Stream *obj)
 {
-    if (obj != NULL) 
-      return *obj;
-    return cv::gpu::Stream::Null();
+	return (obj != NULL) ? *obj : cv::cuda::Stream::Null();
 }
 
 template <typename T>
@@ -66,12 +71,26 @@ static inline cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
     return new cv::Ptr<T>(ptr);
 }
 
+static inline void copyString(const char *src, char *dst, int dstLength)
+{
+	if (strlen(src) == 0)
+		std::strncpy(dst, "", dstLength - 1);
+	else
+		std::strncpy(dst, src, dstLength - 1);
+}
 static inline void copyString(const std::string &src, char *dst, int dstLength)
 {
     if (src.empty())
         std::strncpy(dst, "", dstLength - 1);
     else
         std::strncpy(dst, src.c_str(), dstLength - 1);
+}
+static inline void copyString(const cv::String &src, char *dst, int dstLength)
+{
+	if (src.empty())
+		std::strncpy(dst, "", dstLength - 1);
+	else
+		std::strncpy(dst, src.c_str(), dstLength - 1);
 }
 
 template <typename T>
@@ -80,7 +99,7 @@ static void dump(T *obj, const std::string &outFile)
     int size = sizeof(T);
     std::vector<uchar> bytes(size);
     std::memcpy(&bytes[0], (uchar*)obj, size);
-
+    
     FILE *fp = fopen(outFile.c_str(), "w");
     for (std::vector<uchar>::iterator it = bytes.begin(); it != bytes.end(); it++)
     {

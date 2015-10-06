@@ -5,29 +5,44 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4C2356B8-1A1E-4F92-A51C-A49CA116867F}</ProjectGuid>
+    <ProjectGuid>{524CC7B4-75B9-4925-9DA4-3DACD40F4814}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenCvSharp</RootNamespace>
     <AssemblyName>OpenCvSharp</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\OpenCvSharp.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,17 +52,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\OpenCvSharp.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\OpenCvSharp.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release JP|AnyCPU' ">
     <OutputPath>bin\Release JP\</OutputPath>
     <DefineConstants>TRACE;LANG_JP</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\OpenCvSharp.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release JP\OpenCvSharp.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -56,333 +76,405 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Src\Class\CvLine2D.cs" />
-    <Compile Include="Src\Class\CvLine3D.cs" />
-    <Compile Include="Src\Class\CvSURFParams.cs" />
-    <Compile Include="Src\Class\CvTreeNode.cs" />
-    <Compile Include="Src\Class\CvTypeInfo.cs" />
-    <Compile Include="Src\Class\CvLSH.cs" />
-    <Compile Include="Src\Class\CvStarDetectorParams.cs" />
-    <Compile Include="Src\Class\CvBGCodeBookModel.cs" />
-    <Compile Include="Src\Class\CvBGCodeBookElem.cs" />
-    <Compile Include="Src\Class\CvLevMarq.cs" />
-    <Compile Include="Src\Class\CvHomographyEstimator.cs" />
-    <Compile Include="Src\Class\CvFaceTracker.cs" />
-    <Compile Include="Src\Class\CvLatentSvmDetector.cs" />
-    <Compile Include="Src\Class\CvFontQt.cs" />
-    <Compile Include="Src\Core\Cv_B.cs" />
-    <Compile Include="Src\Core\Cv_C.cs" />
-    <Compile Include="Src\Core\Cv_F.cs" />
-    <Compile Include="Src\Core\Cv_G.cs" />
-    <Compile Include="Src\Core\Cv_E.cs" />
-    <Compile Include="Src\Core\Cv_I.cs" />
-    <Compile Include="Src\Core\Cv_K.cs" />
-    <Compile Include="Src\Core\Cv_L.cs" />
-    <Compile Include="Src\Core\Cv_M.cs" />
-    <Compile Include="Src\Core\Cv_N.cs" />
-    <Compile Include="Src\Core\Cv_O.cs" />
-    <Compile Include="Src\Core\Cv_P.cs" />
-    <Compile Include="Src\Core\Cv_Q.cs" />
-    <Compile Include="Src\Core\Cv_S.cs" />
-    <Compile Include="Src\Core\Cv_T.cs" />
-    <Compile Include="Src\Core\Cv_U.cs" />
-    <Compile Include="Src\Core\Cv_V.cs" />
-    <Compile Include="Src\Core\Cv_W.cs" />
-    <Compile Include="Src\Core\Cv_X.cs" />
-    <Compile Include="Src\Delegate\CvErrorCallback.cs" />
-    <Compile Include="Src\Delegate\CvCallback.cs" />
-    <Compile Include="Src\Delegate\CvOpenGLCallback.cs" />
-    <Compile Include="Src\Delegate\CvButtonCallback.cs" />
-    <Compile Include="Src\Enum\EigenObjectsIOFlag.cs" />
-    <Compile Include="Src\Enum\HardwareSupport.cs" />
-    <Compile Include="Src\Enum\KMeansFlag.cs" />
-    <Compile Include="Src\Enum\DominantsFlag.cs" />
-    <Compile Include="Src\Enum\MarkerStyle.cs" />
-    <Compile Include="Src\Enum\ImageEncodingID.cs" />
-    <Compile Include="Src\Enum\WindowProperty.cs" />
-    <Compile Include="Src\Enum\CvFaceElements.cs" />
-    <Compile Include="Src\Enum\FontWeight.cs" />
-    <Compile Include="Src\Enum\FontStyle.cs" />
-    <Compile Include="Src\Enum\ButtonType.cs" />
-    <Compile Include="Src\Enum\CameraChannels.cs" />
-    <Compile Include="Src\Enum\DistTransformLabelType.cs" />
-    <Compile Include="Src\Enum\FloodFillFlag.cs" />
-    <Compile Include="Src\HighGUI\CvButton.cs" />
-    <Compile Include="Src\ImageEncodingParam.cs" />
-    <Compile Include="Src\PInvoke\LoadLibraryException.cs" />
-    <Compile Include="Src\PInvoke\PInvokeHelper.cs" />
-    <Compile Include="Src\PInvoke\Cv64suf.cs" />
-    <Compile Include="Src\PInvoke\CvConst.cs" />
-    <Compile Include="Src\CvArr\CvArr_Methods.cs" />
-    <Compile Include="Src\Delegate\CvIsInstanceFunc.cs" />
-    <Compile Include="Src\Delegate\CvReleaseFunc.cs" />
-    <Compile Include="Src\Delegate\CvReadFunc.cs" />
-    <Compile Include="Src\Delegate\CvWriteFunc.cs" />
-    <Compile Include="Src\Delegate\CvCloneFunc.cs" />
-    <Compile Include="Src\Enum\CapturePosRatio.cs" />
-    <Compile Include="Src\Enum\CvStatus.cs" />
-    <Compile Include="Src\Enum\ErrMode.cs" />
-    <Compile Include="Src\Enum\FourCC.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\IplROI.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WIplConvKernel.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvConDensation.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvFont.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvHistogram.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvMemStorage.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvQuadEdge2D.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSubdiv2DPoint.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvStereoBMState.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvStereoGCState.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvStringHashNode.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvConnectedComp.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvFileNode.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSeqReader.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvChainPtReader.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSeqWriter.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvGraphEdge.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvGraphVtx.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvGraphScanner.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvKalman.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvMemBlock.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSeqBlock.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvMemStoragePos.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSparseNode.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvLineIterator.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSetElem.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvTypeInfo.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSparseMatIterator.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvHaarStageClassifier.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvHaarClassifier.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvHaarFeature.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvHaarClassifierCascade.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvMSERParams.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvStarDetectorParams.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WIplImage.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvMat.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvMatND.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvSparseMat.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvSeq.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvTreeNode.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvContour.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvSet.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvChain.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvGraph.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvSubdiv2D.cs" />
-    <Compile Include="Src\PInvoke\Struct\CvArr\WCvContourTree.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvBGCodeBookElem.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvBGCodeBookModel.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvLatentSvmDetector.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvLSVMFilterObject.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvMoments.cs" />
-    <Compile Include="Src\PInvoke\WindowsLibraryLoader.cs" />
-    <Compile Include="Src\Struct\CvAttrList.cs" />
-    <Compile Include="Src\Struct\CvBox2D.cs" />
-    <Compile Include="Src\Class\CvChainPtReader.cs" />
-    <Compile Include="Src\Class\CvConDensation.cs" />
-    <Compile Include="Src\Class\CvFeatureTree.cs" />
-    <Compile Include="Src\Class\CvGraphEdge.cs" />
-    <Compile Include="Src\Class\CvGraphScanner.cs" />
-    <Compile Include="Src\Class\CvGraphVtx.cs" />
-    <Compile Include="Src\Class\CvHaarClassifier.cs" />
-    <Compile Include="Src\Class\CvHaarFeature.cs" />
-    <Compile Include="Src\Class\CvHaarStageClassifier.cs" />
-    <Compile Include="Src\Class\CvHuMoments.cs" />
-    <Compile Include="Src\Class\CvLineIterator.cs" />
-    <Compile Include="Src\Class\CvMemBlock.cs" />
-    <Compile Include="Src\Class\CvMemStoragePos.cs" />
-    <Compile Include="Src\Class\CvMoments.cs" />
-    <Compile Include="Src\Class\CvPOSITObject.cs" />
-    <Compile Include="Src\Class\CvRandState.cs" />
-    <Compile Include="Src\Class\CvSparseMatIterator.cs" />
-    <Compile Include="Src\Class\CvSparseNode.cs" />
-    <Compile Include="Src\Class\CvTreeNodeIterator.cs" />
-    <Compile Include="Src\Class\CvTreeNodeIteratorT.cs" />
-    <Compile Include="Src\Class\CvSeqWriter.cs" />
-    <Compile Include="Src\Class\CvSeqWriterT.cs" />
-    <Compile Include="Src\Core\Cv_D.cs" />
-    <Compile Include="Src\CvArr\CvContourTree.cs" />
-    <Compile Include="Src\CvArr\CvGraph.cs" />
-    <Compile Include="Src\Delegate\CvDistanceFunction.cs" />
-    <Compile Include="Src\Delegate\CvWin32WindowCallback.cs" />
-    <Compile Include="Src\Enum\AngleUnit.cs" />
-    <Compile Include="Src\Enum\ContourTreesMatchMethod.cs" />
-    <Compile Include="Src\Enum\ConvexHullOrientation.cs" />
-    <Compile Include="Src\Enum\GraphEdgeVtxFlag.cs" />
-    <Compile Include="Src\Enum\GraphScannerMask.cs" />
-    <Compile Include="Src\Enum\PCAFlag.cs" />
-    <Compile Include="Src\Enum\ConvertImageFlag.cs" />
-    <Compile Include="Src\Enum\PixelConnectivity.cs" />
-    <Compile Include="Src\Enum\StereoRectificationFlag.cs" />
-    <Compile Include="Src\Enum\ImageOrigin.cs" />
-    <Compile Include="Src\Struct\CvCircleSegment.cs" />
-    <Compile Include="Src\Struct\CvConvexityDefect.cs" />
-    <Compile Include="Src\Struct\CvAvgComp.cs" />
-    <Compile Include="Src\Struct\CvString.cs" />
-    <Compile Include="Src\Class\CvMSERParams.cs" />
-    <Compile Include="Src\Struct\CvStarKeypoint.cs" />
-    <Compile Include="Src\Struct\CvFaceData.cs" />
-    <Compile Include="Src\Struct\CvLSVMFilterPosition.cs" />
-    <Compile Include="Src\Struct\CvObjectDetection.cs" />
-    <Compile Include="Src\Utilities\StringArrayAddress.cs" />
-    <Compile Include="Src\Utilities\ArrayAddress.cs" />
-    <Compile Include="Src\Class\CvConnectedComp.cs" />
-    <Compile Include="Src\Class\CvContourScanner.cs" />
-    <Compile Include="Src\Class\CvFileNode.cs" />
-    <Compile Include="Src\Class\CvFileStorage.cs" />
-    <Compile Include="Src\Class\CvHaarClassifierCascade.cs" />
-    <Compile Include="Src\Class\CvHistogram.cs" />
-    <Compile Include="Src\Class\CvKalman.cs" />
-    <Compile Include="Src\Class\CvSeqReader.cs" />
-    <Compile Include="Src\Class\CvStereoBMState.cs" />
-    <Compile Include="Src\Class\CvStringHashNode.cs" />
-    <Compile Include="Src\Class\IplConvKernel.cs" />
-    <Compile Include="Src\Class\CvStereoGCState.cs" />
-    <Compile Include="Src\Class\CvFont.cs" />
-    <Compile Include="Src\Class\CvQuadEdge2D.cs" />
-    <Compile Include="Src\Class\CvRNG.cs" />
-    <Compile Include="Src\Class\CvSeqBlock.cs" />
-    <Compile Include="Src\Class\CvSetElem.cs" />
-    <Compile Include="Src\CvArr\CvSubdiv2D.cs" />
-    <Compile Include="Src\Core\Cv_A.cs" />
-    <Compile Include="Src\Core\Cv_H.cs" />
-    <Compile Include="Src\Core\Cv_R.cs" />
-    <Compile Include="Src\Core\Macro.cs" />
-    <Compile Include="Src\CvArr\CvArr.cs" />
-    <Compile Include="Src\CvArr\CvChain.cs" />
-    <Compile Include="Src\CvArr\CvContour.cs" />
-    <Compile Include="Src\CvArr\CvMat.cs" />
-    <Compile Include="Src\Class\CvMemStorage.cs" />
-    <Compile Include="Src\CvArr\CvMatND.cs" />
-    <Compile Include="Src\CvArr\CvSeqT.cs" />
-    <Compile Include="Src\CvArr\CvSet.cs" />
-    <Compile Include="Src\Class\CvSeqReaderT.cs" />
-    <Compile Include="Src\CvArr\CvSparseMat.cs" />
-    <Compile Include="Src\CvArr\CvSeq.cs" />
-    <Compile Include="Src\Delegate\CvCmpFunc.cs" />
-    <Compile Include="Src\Delegate\CvMouseCallback.cs" />
-    <Compile Include="Src\Delegate\CvTrackbarCallback.cs" />
-    <Compile Include="Src\DisposableCvObject.cs" />
-    <Compile Include="Src\Utilities\DynamicInvoker.cs" />
-    <Compile Include="Src\Enum\AdaptiveThresholdType.cs" />
-    <Compile Include="Src\Enum\ApertureSize.cs" />
-    <Compile Include="Src\Enum\ApproxPolyMethod.cs" />
-    <Compile Include="Src\Enum\ArrComparison.cs" />
-    <Compile Include="Src\Enum\BitDepth.cs" />
-    <Compile Include="Src\Enum\BorderType.cs" />
-    <Compile Include="Src\Enum\CalibrationFlag.cs" />
-    <Compile Include="Src\Enum\ChessboardFlag.cs" />
-    <Compile Include="Src\Enum\CaptureDevice.cs" />
-    <Compile Include="Src\Enum\CaptureProperty.cs" />
-    <Compile Include="Src\Enum\CaptureType.cs" />
-    <Compile Include="Src\Enum\CheckArrFlag.cs" />
-    <Compile Include="Src\Enum\ColorConversion.cs" />
-    <Compile Include="Src\Enum\ContourChain.cs" />
-    <Compile Include="Src\Enum\ContourRetrieval.cs" />
-    <Compile Include="Src\Enum\CovarMatrixFlag.cs" />
-    <Compile Include="Src\Enum\CriteriaType.cs" />
-    <Compile Include="Src\Enum\CvFilter.cs" />
-    <Compile Include="Src\Enum\DCTFlag.cs" />
-    <Compile Include="Src\Enum\DFTFlag.cs" />
-    <Compile Include="Src\Enum\DiagType.cs" />
-    <Compile Include="Src\Enum\DisparityMode.cs" />
-    <Compile Include="Src\Enum\DistanceType.cs" />
-    <Compile Include="Src\Enum\DistributionType.cs" />
-    <Compile Include="Src\Enum\ElementShape.cs" />
-    <Compile Include="Src\Enum\FileStorageMode.cs" />
-    <Compile Include="Src\Enum\FlipMode.cs" />
-    <Compile Include="Src\Enum\FontFace.cs" />
-    <Compile Include="Src\Enum\FundamentalMatMethod.cs" />
-    <Compile Include="Src\Enum\GemmOperation.cs" />
-    <Compile Include="Src\Enum\HaarDetectionType.cs" />
-    <Compile Include="Src\Enum\HistogramComparison.cs" />
-    <Compile Include="Src\Enum\HistogramFormat.cs" />
-    <Compile Include="Src\Enum\HomographyMethod.cs" />
-    <Compile Include="Src\Enum\HoughCirclesMethod.cs" />
-    <Compile Include="Src\Enum\HoughLinesMethod.cs" />
-    <Compile Include="Src\Enum\InpaintMethod.cs" />
-    <Compile Include="Src\Enum\InsertPosition.cs" />
-    <Compile Include="Src\Enum\InvertMethod.cs" />
-    <Compile Include="Src\Enum\LineType.cs" />
-    <Compile Include="Src\Enum\LKFlowFlag.cs" />
-    <Compile Include="Src\Enum\MatchShapesMethod.cs" />
-    <Compile Include="Src\Enum\MatchTemplateMethod.cs" />
-    <Compile Include="Src\Enum\MatrixType.cs" />
-    <Compile Include="Src\Enum\MorphologyOperation.cs" />
-    <Compile Include="Src\Enum\MulSpectrumsFlag.cs" />
-    <Compile Include="Src\Enum\NodeType.cs" />
-    <Compile Include="Src\Enum\NormType.cs" />
-    <Compile Include="Src\Enum\ReduceDimension.cs" />
-    <Compile Include="Src\Enum\ReduceOperation.cs" />
-    <Compile Include="Src\Enum\RotateEdgeFlag.cs" />
-    <Compile Include="Src\Enum\SeqType.cs" />
-    <Compile Include="Src\Enum\SmoothType.cs" />
-    <Compile Include="Src\Enum\SortFlag.cs" />
-    <Compile Include="Src\Enum\StereoBMPreset.cs" />
-    <Compile Include="Src\Enum\CvSubdiv2DPointLocation.cs" />
-    <Compile Include="Src\Enum\SVDFlag.cs" />
-    <Compile Include="Src\Enum\ThresholdType.cs" />
-    <Compile Include="Src\HighGUI\CvCapture.cs" />
-    <Compile Include="Src\HighGUI\CvVideoWriter.cs" />
-    <Compile Include="Src\ICvPtrHolder.cs" />
-    <Compile Include="Src\Struct\CvLineSegmentPolar.cs" />
-    <Compile Include="Src\Struct\CvSlice.cs" />
-    <Compile Include="Src\Struct\CvSubdiv2DEdge.cs" />
-    <Compile Include="Src\Class\CvSubdiv2DPoint.cs" />
-    <Compile Include="Src\Enum\CvNextEdgeType.cs" />
-    <Compile Include="Src\PInvoke\Struct\Etc\WCvSURFParams.cs" />
-    <Compile Include="Src\Struct\CvSURFPoint.cs" />
-    <Compile Include="Src\Struct\CvTermCriteria.cs" />
-    <Compile Include="Src\Struct\CvSize2D32f.cs" />
-    <Compile Include="Src\Struct\CvPoint2D64f.cs" />
-    <Compile Include="Src\Struct\CvPoint3D32f.cs" />
-    <Compile Include="Src\Struct\CvPoint3D64f.cs" />
-    <Compile Include="Src\Struct\CvLineSegmentPoint.cs" />
-    <Compile Include="Src\Utilities\Platform.cs" />
-    <Compile Include="Src\Pointer.cs" />
-    <Compile Include="Src\PointerAccessor\1D\PointerAccessor1D.cs" />
-    <Compile Include="Src\PointerAccessor\2D\IPointerAccessor2D.cs" />
-    <Compile Include="Src\PointerAccessor\2D\PointerAccessor2D.Single.cs" />
-    <Compile Include="Src\Utilities\TimeMeasurer.cs" />
-    <Compile Include="Src\Utilities\StructurePointer.cs" />
-    <Compile Include="Src\Struct\CvColor.cs" />
-    <Compile Include="Src\Struct\CvPoint.cs" />
-    <Compile Include="Src\Struct\CvPoint2D32f.cs" />
-    <Compile Include="Src\Enum\Interpolation.cs" />
-    <Compile Include="Src\HighGUI\CvTrackbar.cs" />
-    <Compile Include="Src\HighGUI\CvWindow.cs" />
-    <Compile Include="Src\DisposableObject.cs" />
-    <Compile Include="Src\Enum\LoadMode.cs" />
-    <Compile Include="Src\CvArr\IplImage.cs" />
-    <Compile Include="Src\Enum\MouseEvent.cs" />
-    <Compile Include="Src\Enum\WindowMode.cs" />
-    <Compile Include="Src\PInvoke\NativeMethods.cs" />
-    <Compile Include="Src\Exception\OpenCvSharpException.cs" />
+    <Compile Include="Cv2\Cv2.cs" />
+    <Compile Include="Cv2\Cv2_features2d.cs" />
+    <Compile Include="Cv2\Cv2_imgcodecs.cs" />
+    <Compile Include="Cv2\Cv2_ml.cs" />
+    <Compile Include="Cv2\Cv2_xfeatures2d.cs" />
+    <Compile Include="Cv2\Cv2_photo.cs" />
+    <Compile Include="Cv2\Cv2_optflow.cs" />
+    <Compile Include="Cv2\Cv2_face.cs" />
+    <Compile Include="Cv2\Cv2_video.cs" />
+    <Compile Include="Cv2\Cv2_superres.cs" />
+    <Compile Include="Modules\core\Enum\CriteriaType.cs" />
+    <Compile Include="Modules\features2d\AgastFeatureDetector.cs" />
+    <Compile Include="Modules\features2d\KeyPointsFilter.cs" />
+    <Compile Include="Modules\features2d\Enum\FASTType.cs" />
+    <Compile Include="Modules\features2d\Enum\AGASTType.cs" />
+    <Compile Include="Modules\features2d\Enum\AKAZEDescriptorType.cs" />
+    <Compile Include="Modules\features2d\Enum\KAZEDiffusivity.cs" />
+    <Compile Include="Modules\features2d\AKAZE.cs" />
+    <Compile Include="Modules\features2d\KAZE.cs" />
+    <Compile Include="Modules\imgproc\GeneralizedHoughGuil.cs" />
+    <Compile Include="Modules\imgproc\GeneralizedHoughBallard.cs" />
+    <Compile Include="Modules\imgproc\GeneralizedHough.cs" />
+    <Compile Include="Modules\imgproc\Enum\LineSegmentDetectorModes.cs" />
+    <Compile Include="Modules\imgproc\LineSegmentDetector.cs" />
+    <Compile Include="Modules\imgproc\CLAHE.cs" />
+    <Compile Include="CvObject.cs" />
+    <Compile Include="Delegate\CvCallback.cs" />
+    <Compile Include="Delegate\CvCloneFunc.cs" />
+    <Compile Include="Delegate\CvCmpFunc.cs" />
+    <Compile Include="Delegate\CvDistanceFunction.cs" />
+    <Compile Include="Delegate\CvErrorCallback.cs" />
+    <Compile Include="Delegate\CvIsInstanceFunc.cs" />
+    <Compile Include="Delegate\CvMouseCallback.cs" />
+    <Compile Include="Delegate\CvOpenGLCallback.cs" />
+    <Compile Include="Delegate\CvReadFunc.cs" />
+    <Compile Include="Delegate\CvReleaseFunc.cs" />
+    <Compile Include="Delegate\CvTrackbarCallback.cs" />
+    <Compile Include="Delegate\CvWin32WindowCallback.cs" />
+    <Compile Include="Delegate\CvWriteFunc.cs" />
+    <Compile Include="DisposableCvObject.cs" />
+    <Compile Include="DisposableObject.cs" />
+    <Compile Include="Modules\imgproc\ConnectedComponent.cs" />
+    <Compile Include="Modules\imgproc\Enum\ConnectedComponentsTypes.cs" />
+    <Compile Include="Modules\imgproc\Enum\GrabCutClasses.cs" />
+    <Compile Include="Modules\imgproc\Enum\RectanglesIntersectTypes.cs" />
+    <Compile Include="Modules\imgproc\Model\CircleSegment.cs" />
+    <Compile Include="Modules\imgproc\Model\HierarchyIndex.cs" />
+    <Compile Include="Modules\imgproc\Model\Line2D.cs" />
+    <Compile Include="Modules\imgproc\Model\Line3D.cs" />
+    <Compile Include="Modules\imgproc\Model\LineSegmentPoint.cs" />
+    <Compile Include="Modules\imgproc\Model\LineSegmentPolar.cs" />
+    <Compile Include="Modules\ml\LogisticRegression.cs" />
+    <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
+    <Compile Include="Modules\ml\ParamGrid.cs" />
+    <Compile Include="Modules\ml\TrainData.cs" />
+    <Compile Include="Modules\photo\EdgePreservingMethods.cs" />
+    <Compile Include="Modules\photo\SeamlessCloneMethods.cs" />
+    <Compile Include="Modules\shape\HausdorffDistanceExtractor.cs" />
+    <Compile Include="Modules\shape\ShapeContextDistanceExtractor.cs" />
+    <Compile Include="Modules\shape\ShapeDistanceExtractor.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_KeyPointsFilter.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_Feature2D.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_AgastFeatureDetector.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_AKAZE.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_KAZE.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_SimpleBlobDetector.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_BRISK.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_GFTTDetector.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_FastFeatureDetector.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_MSER.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_ORB.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_GeneralizedHough.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_LineSegmentDetector.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_LineIterator.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_LogisticRegression.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_StatModel.cs" />
+    <Compile Include="PInvoke\NativeMethods_imgcodecs.cs" />
+    <Compile Include="PInvoke\shape\NativeMethods_shape_ShapeDistanceExtractor.cs" />
+    <Compile Include="PInvoke\NativeMethods_videoio.cs" />
+    <Compile Include="Util\EnumerableEx.cs" />
+    <Compile Include="Modules\imgproc\Enum\AdaptiveThresholdTypes.cs" />
+    <Compile Include="Modules\core\Enum\CmpTypes.cs" />
+    <Compile Include="Modules\imgproc\Enum\BorderTypes.cs" />
+    <Compile Include="Modules\highgui\Enum\ButtonTypes.cs" />
+    <Compile Include="Modules\calib3d\Enum\CalibrationFlags.cs" />
+    <Compile Include="Modules\videoio\Enum\CameraChannels.cs" />
+    <Compile Include="Modules\videoio\Enum\CaptureDevice.cs" />
+    <Compile Include="Modules\videoio\Enum\CapturePosRatio.cs" />
+    <Compile Include="Modules\videoio\Enum\CaptureProperty.cs" />
+    <Compile Include="Modules\videoio\Enum\CaptureType.cs" />
+    <Compile Include="Modules\calib3d\Enum\ChessboardFlags.cs" />
+    <Compile Include="Modules\imgproc\Enum\ColorConversionCodes.cs" />
+    <Compile Include="Modules\imgproc\Enum\ContourApproximationModes.cs" />
+    <Compile Include="Modules\imgproc\Enum\RetrievalModes.cs" />
+    <Compile Include="Modules\core\Enum\CovarFlags.cs" />
+    <Compile Include="Modules\core\Enum\ErrorCode.cs" />
+    <Compile Include="Modules\core\Enum\DctFlags.cs" />
+    <Compile Include="Modules\core\Enum\DftFlags.cs" />
+    <Compile Include="Modules\imgproc\Enum\DistanceTypes.cs" />
+    <Compile Include="Modules\core\Enum\DistributionType.cs" />
+    <Compile Include="Modules\imgproc\Enum\DistanceTransformLabelTypes.cs" />
+    <Compile Include="Modules\imgproc\Enum\MorphShapes.cs" />
+    <Compile Include="Modules\imgproc\Enum\FlipMode.cs" />
+    <Compile Include="Modules\imgproc\Enum\FloodFillFlags.cs" />
+    <Compile Include="Modules\core\Enum\HersheyFonts.cs" />
+    <Compile Include="Modules\videoio\Enum\FourCC.cs" />
+    <Compile Include="Modules\calib3d\Enum\FundamentalMatMethod.cs" />
+    <Compile Include="Modules\core\Enum\GemmFlags.cs" />
+    <Compile Include="Modules\objdetect\Enum\HaarDetectionType.cs" />
+    <Compile Include="Modules\core\Enum\CpuFeatures.cs" />
+    <Compile Include="Modules\imgproc\Enum\HistCompMethods.cs" />
+    <Compile Include="Modules\calib3d\Enum\HomographyMethods.cs" />
+    <Compile Include="Modules\imgproc\Enum\HoughMethods.cs" />
+    <Compile Include="Modules\imgcodecs\Enum\ImwriteFlags.cs" />
+    <Compile Include="Modules\photo\InpaintMethod.cs" />
+    <Compile Include="Modules\imgproc\Enum\InterpolationFlags.cs" />
+    <Compile Include="Modules\core\Enum\DecompTypes.cs" />
+    <Compile Include="Modules\core\Enum\KMeansFlags.cs" />
+    <Compile Include="Modules\imgproc\Enum\LineTypes.cs" />
+    <Compile Include="Modules\imgcodecs\Enum\ImreadModes.cs" />
+    <Compile Include="Modules\imgproc\Enum\MarkerStyle.cs" />
+    <Compile Include="Modules\imgproc\Enum\ShapeMatchModes.cs" />
+    <Compile Include="Modules\imgproc\Enum\TemplateMatchModes.cs" />
+    <Compile Include="Modules\imgproc\Enum\MorphTypes.cs" />
+    <Compile Include="Modules\highgui\Enum\MouseEvent.cs" />
+    <Compile Include="Modules\core\Enum\NormTypes.cs" />
+    <Compile Include="Modules\imgproc\Enum\PixelConnectivity.cs" />
+    <Compile Include="Modules\core\Enum\ReduceDimension.cs" />
+    <Compile Include="Modules\core\Enum\ReduceTypes.cs" />
+    <Compile Include="Modules\core\Enum\SortFlags.cs" />
+    <Compile Include="Modules\calib3d\Enum\StereoRectificationFlags.cs" />
+    <Compile Include="Modules\imgproc\Enum\ThresholdTypes.cs" />
+    <Compile Include="Modules\highgui\Enum\WindowMode.cs" />
+    <Compile Include="Modules\highgui\Enum\WindowProperty.cs" />
+    <Compile Include="ICvPtrHolder.cs" />
+    <Compile Include="Modules\imgcodecs\ImageEncodingParam.cs" />
+    <Compile Include="Modules\highgui\FourCC.cs" />
+    <Compile Include="Modules\bgsegm\BackgroundSubtractorGMG.cs" />
+    <Compile Include="Modules\bgsegm\BackgroundSubtractorMOG.cs" />
+    <Compile Include="Modules\calib3d\StereoMatcher.cs" />
+    <Compile Include="Modules\cuda\DescriptorFormat.cs" />
+    <Compile Include="Modules\cuda\DeviceInfo.cs" />
+    <Compile Include="Modules\cuda\DisposableGpuObject.cs" />
+    <Compile Include="Modules\cuda\Enum\CudaMemAllocType.cs" />
+    <Compile Include="Modules\cuda\Enum\FeatureSet.cs" />
+    <Compile Include="Modules\cuda\GpuMat.cs" />
+    <Compile Include="Modules\cuda\GpuMatIndexer.cs" />
+    <Compile Include="Modules\cuda\GpuMatRowColIndexer.cs" />
+    <Compile Include="Modules\cuda\Stream.cs" />
+    <Compile Include="Modules\face\FaceRecognizer.cs" />
+    <Compile Include="Modules\calib3d\Enum\FindCirclesGridFlags.cs" />
+    <Compile Include="Modules\core\FileStorage.cs" />
+    <Compile Include="Modules\core\FileNode.cs" />
+    <Compile Include="Modules\core\MatExpr_CvMethods.cs" />
+    <Compile Include="Modules\core\Mat\MatOfInt4.cs" />
+    <Compile Include="Modules\core\Mat\Mat_CvMethods.cs" />
+    <Compile Include="Modules\core\Struct\Rectf.cs" />
+    <Compile Include="Modules\features2d\FlannBasedMatcher.cs" />
+    <Compile Include="Modules\highgui\CvTrackbar.cs" />
+    <Compile Include="Modules\imgproc\Enum\ColormapTypes.cs" />
+    <Compile Include="Modules\video\BackgroundSubtractorKNN.cs" />
+    <Compile Include="Modules\xfeatures2d\BriefDescriptorExtractor.cs" />
+    <Compile Include="Modules\flann\FlannDistance.cs" />
+    <Compile Include="Cv2\Cv2_cuda.cs" />
+    <Compile Include="Modules\imgproc\LineIterator.cs" />
+    <Compile Include="Modules\ml\Boost.cs" />
+    <Compile Include="Modules\ml\DTrees.cs" />
+    <Compile Include="Modules\ml\NormalBayesClassifier.cs" />
+    <Compile Include="Modules\ml\RTrees.cs" />
+    <Compile Include="Modules\ml\EM.cs" />
+    <Compile Include="Modules\ml\KNearest.cs" />
+    <Compile Include="Modules\ml\SVM.cs" />
+    <Compile Include="Modules\stitching\Stitcher.cs" />
+    <Compile Include="Modules\video\OpticalFlowFlags.cs" />
+    <Compile Include="Modules\calib3d\Enum\SolvePnPFlags.cs" />
+    <Compile Include="Modules\features2d\Enum\DrawMatchesFlags.cs" />
+    <Compile Include="Modules\features2d\Enum\ORBScore.cs" />
+    <Compile Include="Modules\imgproc\Enum\ProjectionType.cs" />
+    <Compile Include="Modules\imgproc\Enum\GrabCutModes.cs" />
+    <Compile Include="Modules\imgproc\Enum\DistanceMaskSize.cs" />
+    <Compile Include="Modules\core\Enum\AlgorithmParamType.cs" />
+    <Compile Include="Modules\core\SparseMatIndexer.cs" />
+    <Compile Include="Modules\core\SparseMat.cs" />
+    <Compile Include="Modules\ml\ANN_MLP.cs" />
+    <Compile Include="Modules\ml\StatModel.cs" />
+    <Compile Include="Modules\objdetect\CascadeClassifier.cs" />
+    <Compile Include="Modules\objdetect\SimilarRects.cs" />
+    <Compile Include="Modules\objdetect\LatendSvmDetector.cs" />
+    <Compile Include="Modules\superres\FrameSource.cs" />
+    <Compile Include="Modules\superres\DenseOpticalFlowExt.cs" />
+    <Compile Include="Modules\superres\SuperResolution.cs" />
+    <Compile Include="Modules\superres\DenseOpticalFlowExtImpl.cs" />
+    <Compile Include="Modules\superres\SuperResolutionImpl.cs" />
+    <Compile Include="Modules\superres\FrameSourceImpl.cs" />
+    <Compile Include="Modules\video\BackgroundSubtractorMOG2.cs" />
+    <Compile Include="Modules\video\DenseOpticalFlow.cs" />
+    <Compile Include="Modules\video\DenseOpticalFlowImpl.cs" />
+    <Compile Include="Modules\video\KalmanFilter.cs" />
+    <Compile Include="OpenCVException.cs" />
+    <Compile Include="OpenCvSharpException.cs" />
+    <Compile Include="PInvoke\core\NativeMethods_core_Classes.cs" />
+    <Compile Include="PInvoke\core\NativeMethods_core_SparseMat.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_RTrees.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_NormalBayesClassifier.cs" />
+    <Compile Include="PInvoke\calib3d\NativeMethods_calib3d_StereoMatcher.cs" />
+    <Compile Include="PInvoke\NativeMethods_face.cs" />
+    <Compile Include="PInvoke\cuda\NativeMethods_cuda_GpuMat.cs" />
+    <Compile Include="PInvoke\NativeMethods_optflow.cs" />
+    <Compile Include="PInvoke\NativeMethods_bgsegm.cs" />
+    <Compile Include="PInvoke\video\NativeMethods_video_BackgroundSubtractor.cs" />
+    <Compile Include="PInvoke\NativeMethods_xfeatures2d.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_DescriptorMatcher.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_EM.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_SVM.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_KNearest.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_DTrees.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_Boost.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml_ANN_MLP.cs" />
+    <Compile Include="PInvoke\cuda\NativeMethods_cuda.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_CLAHE.cs" />
+    <Compile Include="PInvoke\NativeMethods_photo.cs" />
+    <Compile Include="Modules\calib3d\StereoBM.cs" />
+    <Compile Include="Modules\core\Mat\MatIndexer.cs" />
+    <Compile Include="Modules\core\Mat\MatOfDouble.cs" />
+    <Compile Include="Modules\core\Mat\MatOfFloat6.cs" />
+    <Compile Include="Modules\core\Mat\MatOfFloat4.cs" />
+    <Compile Include="Modules\core\Mat\MatOfDMatch.cs" />
+    <Compile Include="Modules\core\Mat\MatOfDouble3.cs" />
+    <Compile Include="Modules\core\Mat\MatOfPoint2d.cs" />
+    <Compile Include="Modules\core\Mat\MatOfPoint2f.cs" />
+    <Compile Include="Modules\core\Mat\MatOfUShort.cs" />
+    <Compile Include="Modules\core\Mat\MatOfShort.cs" />
+    <Compile Include="Modules\core\Mat\MatOfInt.cs" />
+    <Compile Include="Modules\core\Mat\MatOfFloat.cs" />
+    <Compile Include="Modules\core\Mat\MatOfPoint.cs" />
+    <Compile Include="Modules\core\MatRowColExprIndexer.cs" />
+    <Compile Include="Modules\core\MatExprRangeIndexer.cs" />
+    <Compile Include="Modules\core\Mat\MatOfT.cs" />
+    <Compile Include="Modules\core\Mat\MatOfRect.cs" />
+    <Compile Include="Modules\core\Mat\MatOfPoint3i.cs" />
+    <Compile Include="Modules\core\Mat\MatOfPoint3f.cs" />
+    <Compile Include="Modules\core\Mat\MatOfPoint3d.cs" />
+    <Compile Include="Modules\core\Ptr.cs" />
+    <Compile Include="Modules\core\RNG.cs" />
+    <Compile Include="Modules\core\SVD.cs" />
+    <Compile Include="Modules\core\PCA.cs" />
+    <Compile Include="Modules\core\InputOutputArray.cs" />
+    <Compile Include="Modules\features2d\BFMatcher.cs" />
+    <Compile Include="Modules\xfeatures2d\FREAK.cs" />
+    <Compile Include="Modules\features2d\ORB.cs" />
+    <Compile Include="Modules\features2d\Feature2D.cs" />
+    <Compile Include="Modules\features2d\DescriptorMatcher.cs" />
+    <Compile Include="Modules\features2d\GFTTDetector.cs" />
+    <Compile Include="Modules\features2d\FastFeatureDetector.cs" />
+    <Compile Include="Modules\features2d\BRISK.cs" />
+    <Compile Include="Modules\features2d\SimpleBlobDetector.cs" />
+    <Compile Include="Modules\features2d\DenseFeatureDetector.cs" />
+    <Compile Include="Modules\videoio\VideoWriter.cs" />
+    <Compile Include="Modules\videoio\VideoCapture.cs" />
+    <Compile Include="Modules\imgproc\Moments.cs" />
+    <Compile Include="Modules\xfeatures2d\SIFT.cs" />
+    <Compile Include="PInvoke\ml\NativeMethods_ml.cs" />
+    <Compile Include="PInvoke\NativeMethods_superres.cs" />
+    <Compile Include="Modules\core\Struct\DMatch.cs" />
+    <Compile Include="Modules\core\Struct\Point3d.cs" />
+    <Compile Include="Modules\core\Struct\Point3i.cs" />
+    <Compile Include="Modules\core\Struct\Rangef.cs" />
+    <Compile Include="Modules\core\Struct\Point2d.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_DescriptorExtractor.cs" />
+    <Compile Include="PInvoke\NativeMethods_stitching.cs" />
+    <Compile Include="Util\PInvokeHelper.cs" />
+    <Compile Include="Util\WindowsLibraryLoader.cs" />
+    <Compile Include="Util\ArrayAddress.cs" />
+    <Compile Include="Util\DynamicInvoker.cs" />
+    <Compile Include="Util\Platform.cs" />
+    <Compile Include="Util\ScopedGCHandle.cs" />
+    <Compile Include="Util\StringArrayAddress.cs" />
+    <Compile Include="Util\StructurePointer.cs" />
+    <Compile Include="Util\TimeMeasurer.cs" />
+    <Compile Include="Util\Utility.cs" />
+    <Compile Include="Vector\VectorOfDTreesSplit.cs" />
+    <Compile Include="Vector\VectorOfDTreesNode.cs" />
+    <Compile Include="Vector\VectorOfDouble.cs" />
+    <Compile Include="Vector\VectorOfInt32.cs" />
+    <Compile Include="Vector\VectorOfDMatch.cs" />
+    <Compile Include="Vector\VectorOfVec6d.cs" />
+    <Compile Include="Vector\VectorOfVectorDouble.cs" />
+    <Compile Include="Vector\VectorOfVectorFloat.cs" />
+    <Compile Include="Vector\VectorOfVectorDMatch.cs" />
+    <Compile Include="Vector\VectorOfVectorPoint.cs" />
+    <Compile Include="Vector\VectorOfString.cs" />
+    <Compile Include="Modules\highgui\Window.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_Subdiv2D.cs" />
+    <Compile Include="Modules\imgproc\Subdiv2D.cs" />
+    <Compile Include="Modules\video\BackgroundSubtractor.cs" />
+    <Compile Include="PInvoke\video\NativeMethods_video.cs" />
+    <Compile Include="Modules\core\Algorithm.cs" />
+    <Compile Include="Cv2\Cv2_calib3d.cs" />
+    <Compile Include="Modules\core\Enum\DumpFormat.cs" />
+    <Compile Include="Modules\core\Enum\InOutArrayKind.cs" />
+    <Compile Include="PInvoke\core\NativeMethods_core.cs" />
+    <Compile Include="PInvoke\calib3d\NativeMethods_calib3d.cs" />
+    <Compile Include="PInvoke\NativeMethods.cs" />
+    <Compile Include="PInvoke\core\NativeMethods_core_MatExpr.cs" />
+    <Compile Include="PInvoke\NativeMethods_objdetect.cs" />
+    <Compile Include="Modules\objdetect\HOGDescriptor.cs" />
+    <Compile Include="PInvoke\NativeMethods_highgui.cs" />
+    <Compile Include="PInvoke\imgproc\NativeMethods_imgproc.cs" />
+    <Compile Include="PInvoke\core\NativeMethods_core_Mat.cs" />
+    <Compile Include="PInvoke\NativeMethods_stdvector.cs" />
+    <Compile Include="Modules\core\Struct\IVec.cs" />
+    <Compile Include="Modules\core\MatRowColIndexer.cs" />
+    <Compile Include="Modules\core\Struct\MatType.cs" />
+    <Compile Include="Modules\core\Struct\Point3f.cs" />
+    <Compile Include="Modules\core\Struct\Point2f.cs" />
+    <Compile Include="Modules\core\Struct\RotatedRect.cs" />
+    <Compile Include="Modules\core\Struct\Size2f.cs" />
+    <Compile Include="Modules\core\Struct\TermCriteria.cs" />
+    <Compile Include="Modules\core\Struct\Veci.cs" />
+    <Compile Include="Modules\core\Mat\MatOfByte.cs" />
+    <Compile Include="Modules\xfeatures2d\SURF.cs" />
+    <Compile Include="Modules\xfeatures2d\StarDetector.cs" />
+    <Compile Include="Modules\features2d\MSER.cs" />
+    <Compile Include="Modules\core\Struct\KeyPoint.cs" />
+    <Compile Include="Modules\calib3d\StereoSGBM.cs" />
+    <Compile Include="Modules\core\Enum\MatDiagType.cs" />
+    <Compile Include="Modules\flann\FlannCentersInit.cs" />
+    <Compile Include="PInvoke\NativeMethods_flann.cs" />
+    <Compile Include="Modules\flann\Index.cs" />
+    <Compile Include="Modules\flann\IndexParams\AutotunedIndexParams.cs" />
+    <Compile Include="Modules\flann\IndexParams\CompositeIndexParams.cs" />
+    <Compile Include="Modules\flann\IndexParams\IndexParams.cs" />
+    <Compile Include="Modules\flann\IndexParams\KDTreeIndexParams.cs" />
+    <Compile Include="Modules\flann\IndexParams\KMeansIndexParams.cs" />
+    <Compile Include="Modules\flann\IndexParams\LinearIndexParams.cs" />
+    <Compile Include="Modules\flann\IndexParams\SavedIndexParams.cs" />
+    <Compile Include="Modules\flann\IndexParams\SearchParams.cs" />
+    <Compile Include="Modules\core\Struct\Vecb.cs" />
+    <Compile Include="Cv2\Cv2_highgui.cs" />
+    <Compile Include="Modules\core\Mat\Mat.cs" />
+    <Compile Include="Modules\core\MatExpr.cs" />
+    <Compile Include="Modules\core\Struct\Point.cs" />
+    <Compile Include="Modules\core\Struct\Range.cs" />
+    <Compile Include="Modules\core\Struct\Rect.cs" />
+    <Compile Include="Modules\core\Struct\Scalar.cs" />
+    <Compile Include="Modules\core\Struct\Size.cs" />
+    <Compile Include="Cv2\Cv2_core.cs" />
+    <Compile Include="Cv2\Cv2_imgproc.cs" />
+    <Compile Include="Modules\core\Struct\Vecf.cs" />
+    <Compile Include="Modules\core\Struct\Vecs.cs" />
+    <Compile Include="Modules\core\Struct\Vecw.cs" />
+    <Compile Include="Modules\core\Struct\Vecd.cs" />
+    <Compile Include="Modules\core\Mat\MatOfByte3.cs" />
+    <Compile Include="Modules\core\MatExprRowColIndexer.cs" />
+    <Compile Include="Modules\core\InputArray.cs" />
+    <Compile Include="Modules\core\OutputArray.cs" />
+    <Compile Include="Vector\IStdVector.cs" />
+    <Compile Include="Vector\VectorOfByte.cs" />
+    <Compile Include="Vector\VectorOfVec6f.cs" />
+    <Compile Include="Vector\VectorOfVec4f.cs" />
+    <Compile Include="Vector\VectorOfVectorPoint2f.cs" />
+    <Compile Include="Vector\VectorOfVectorKeyPoint.cs" />
+    <Compile Include="Vector\VectorOfPoint3f.cs" />
+    <Compile Include="Modules\objdetect\HistogramNormType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Src\Struct\CvRect.cs" />
-    <Compile Include="Src\Struct\CvScalar.cs" />
-    <Compile Include="Src\Struct\CvSize.cs" />
-    <Compile Include="Src\PointerAccessor\1D\IPointerAccessor1D.cs" />
-    <Compile Include="Src\Utilities\ScopedGCHandle.cs" />
-    <Compile Include="Src\PInvoke\Win32API.cs" />
-    <Compile Include="Src\PointerAccessor\1D\PointerAccessor1D_Byte.cs" />
-    <Compile Include="Src\PointerAccessor\1D\PointerAccessor1D_Int16.cs" />
-    <Compile Include="Src\PointerAccessor\1D\PointerAccessor1D_Int32.cs" />
-    <Compile Include="Src\PointerAccessor\1D\PointerAccessor1D_Single.cs" />
-    <Compile Include="Src\PointerAccessor\1D\PointerAccessor1D_Double.cs" />
-    <Compile Include="Src\CvObject.cs" />
-    <Compile Include="Src\Exception\OpenCVException.cs" />
-    <Compile Include="Src\Utilities\Util.cs" />
+    <Compile Include="Vector\VectorOfPoint2f.cs" />
+    <Compile Include="Util\PlatformUtil.cs" />
+    <Compile Include="Vector\VectorOfFloat.cs" />
+    <Compile Include="Vector\VectorOfRect.cs" />
+    <Compile Include="Vector\VectorOfPoint.cs" />
+    <Compile Include="Vector\VectorOfKeyPoint.cs" />
+    <Compile Include="Vector\VectorOfVec2f.cs" />
+    <Compile Include="Vector\VectorOfVec4i.cs" />
+    <Compile Include="Vector\VectorOfVec3f.cs" />
+    <Compile Include="Vector\VectorOfMat.cs" />
+    <Compile Include="PInvoke\Win32Api.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows インストーラー 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
     <None Include="OpenCvSharp.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -396,5 +488,7 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
