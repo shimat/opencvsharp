@@ -275,8 +275,8 @@ CVAPI(double) calib3d_calibrateCamera_InputArray(
 		*cameraMatrix, *distCoeffs, *rvecs, *tvecs, flags, criteria);
 }
 CVAPI(double) calib3d_calibrateCamera_vector(
-	cv::Point3d **objectPoints, int opSize1, int *opSize2,
-	cv::Point2d **imagePoints, int ipSize1, int *ipSize2,
+	cv::Point3f **objectPoints, int opSize1, int *opSize2,
+	cv::Point2f **imagePoints, int ipSize1, int *ipSize2,
 	CvSize imageSize,
 	double *cameraMatrix,
 	double *distCoeffs, int distCoeffsSize,
@@ -284,13 +284,13 @@ CVAPI(double) calib3d_calibrateCamera_vector(
 	int flags,
 	CvTermCriteria criteria)
 {
-	std::vector<std::vector<cv::Point3d> > objectPointsVec(opSize1);
+	std::vector<std::vector<cv::Point3f> > objectPointsVec(opSize1);
 	for (int i = 0; i < opSize1; i++)
-		objectPointsVec[i] = std::vector<cv::Point3d>(objectPoints[i], objectPoints[i] + opSize2[i]);
+		objectPointsVec[i] = std::vector<cv::Point3f>(objectPoints[i], objectPoints[i] + opSize2[i]);
 
-	std::vector<std::vector<cv::Point2d> > imagePointsVec(ipSize1);
+	std::vector<std::vector<cv::Point2f> > imagePointsVec(ipSize1);
 	for (int i = 0; i < ipSize1; i++)
-		imagePointsVec[i] = std::vector<cv::Point2d>(imagePoints[i], imagePoints[i] + ipSize2[i]);
+		imagePointsVec[i] = std::vector<cv::Point2f>(imagePoints[i], imagePoints[i] + ipSize2[i]);
 
 	cv::Mat cametaMatrixM(3, 3, CV_64FC1, cameraMatrix);
 	cv::Mat distCoeffsM(distCoeffsSize, 1, CV_64FC1, distCoeffs);
