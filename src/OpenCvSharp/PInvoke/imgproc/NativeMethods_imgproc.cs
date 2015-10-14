@@ -201,7 +201,8 @@ namespace OpenCvSharp
         public static extern Moments.NativeStruct imgproc_moments(IntPtr arr, int binaryImage);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_matchTemplate(IntPtr image, IntPtr templ, IntPtr result, int method);
+        public static extern void imgproc_matchTemplate(
+            IntPtr image, IntPtr templ, IntPtr result, int method, IntPtr mask);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int imgproc_connectedComponents(
