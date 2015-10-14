@@ -65,7 +65,7 @@ namespace OpenCvSharp
             // 作成元への参照を残す。元がGCに回収されないように。
             sourceMat = mat;
         }
-        
+
 #if LANG_JP
         /// <summary>
         /// 指定したサイズ・型の2次元の行列として初期化
@@ -762,7 +762,7 @@ namespace OpenCvSharp
             if (array == null)
                 throw new ArgumentNullException("array");
             TElem[] result = ToArray();
-            if(array.Length >= result.Length + arrayIndex)
+            if (array.Length > result.Length + arrayIndex)
                 throw new ArgumentException("Too short array.Length");
             Array.Copy(result, 0, array, arrayIndex, result.Length);
         }
