@@ -440,9 +440,9 @@ CVAPI(MyCvMoments) imgproc_moments(cv::_InputArray *arr, int binaryImage )
 
 
 CVAPI(void) imgproc_matchTemplate(cv::_InputArray *image, cv::_InputArray *templ,
-	cv::_OutputArray *result, int method)
+	cv::_OutputArray *result, int method, cv::_InputArray *mask)
 {
-	cv::matchTemplate(*image, *templ, *result, method);
+	cv::matchTemplate(*image, *templ, *result, method, entity(mask));
 }
 
 CVAPI(int) imgproc_connectedComponents(cv::_InputArray *image, cv::_OutputArray *labels,

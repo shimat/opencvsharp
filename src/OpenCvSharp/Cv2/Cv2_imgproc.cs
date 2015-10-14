@@ -2306,8 +2306,13 @@ namespace OpenCvSharp
         /// <param name="result">A map of comparison results; will be single-channel 32-bit floating-point. 
         /// If image is WxH and templ is wxh then result will be (W-w+1) x (H-h+1).</param>
         /// <param name="method">Specifies the comparison method</param>
-        public static void MatchTemplate(InputArray image, InputArray templ,
-            OutputArray result, TemplateMatchModes method)
+        /// <param name="mask">Mask of searched template. It must have the same datatype and size with templ. It is not set by default.</param>
+        public static void MatchTemplate(
+            InputArray image, 
+            InputArray templ,
+            OutputArray result,
+            TemplateMatchModes method, 
+            InputArray mask = null)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -2318,10 +2323,13 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             templ.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int)method);
+            if (mask != null)
+                mask.ThrowIfDisposed();
+            NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int)method, ToPtr(mask));
             GC.KeepAlive(image);
             GC.KeepAlive(templ);
             result.Fix();
+            GC.KeepAlive(mask);
         }
         #endregion
         #region ConnectedComponents
