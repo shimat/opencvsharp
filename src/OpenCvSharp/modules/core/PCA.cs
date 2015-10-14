@@ -120,7 +120,7 @@ namespace OpenCvSharp
             {
                 if (disposed)
                     throw new ObjectDisposedException("PCA");
-                IntPtr ret = NativeMethods.core_PCA_eigenvalues(ptr);
+                IntPtr ret = NativeMethods.core_PCA_mean(ptr);
                 return new Mat(ret);
             }
         }
