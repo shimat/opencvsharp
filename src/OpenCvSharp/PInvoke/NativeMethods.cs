@@ -49,7 +49,7 @@ namespace OpenCvSharp
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         static NativeMethods()
         {
-            LoadLibraries();
+            LoadLibraries(WindowsLibraryLoader.Instance.AdditionalPaths);
 
             // call cv to enable redirecting 
             TryPInvoke();
