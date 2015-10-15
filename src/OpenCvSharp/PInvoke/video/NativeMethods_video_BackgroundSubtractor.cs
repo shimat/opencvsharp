@@ -30,8 +30,6 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr video_Ptr_BackgroundSubtractorMOG2_get(IntPtr ptr);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr video_BackgroundSubtractorMOG2_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int video_BackgroundSubtractorMOG2_getHistory(IntPtr ptr);
