@@ -20,9 +20,6 @@ namespace OpenCvSharp
         public static extern IntPtr bgsegm_Ptr_BackgroundSubtractorMOG_get(IntPtr ptr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr bgsegm_BackgroundSubtractorMOG_info(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int bgsegm_BackgroundSubtractorMOG_getHistory(IntPtr ptr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -56,13 +53,9 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void bgsegm_Ptr_BackgroundSubtractorGMG_delete(IntPtr obj);
-
-
+        
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr bgsegm_Ptr_BackgroundSubtractorGMG_get(IntPtr ptr);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr bgsegm_BackgroundSubtractorGMG_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int bgsegm_BackgroundSubtractorGMG_getMaxFeatures(IntPtr ptr);

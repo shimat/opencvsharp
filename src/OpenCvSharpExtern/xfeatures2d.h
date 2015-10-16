@@ -63,10 +63,6 @@ CVAPI(void) xfeatures2d_Ptr_FREAK_delete(cv::Ptr<FREAK> *ptr)
 	delete ptr;
 }
 
-CVAPI(cv::AlgorithmInfo*) xfeatures2d_FREAK_info(FREAK *obj)
-{
-	return obj->info();
-}
 CVAPI(FREAK*) xfeatures2d_Ptr_FREAK_get(cv::Ptr<FREAK> *ptr)
 {
 	return ptr->get();
@@ -88,10 +84,6 @@ CVAPI(void) xfeatures2d_Ptr_StarDetector_delete(cv::Ptr<StarDetector> *ptr)
 	delete ptr;
 }
 
-CVAPI(cv::AlgorithmInfo*) xfeatures2d_StarDetector_info(StarDetector *obj)
-{
-	return obj->info();
-}
 CVAPI(StarDetector*) xfeatures2d_Ptr_StarDetector_get(cv::Ptr<StarDetector> *ptr)
 {
 	return ptr->get();
@@ -119,11 +111,6 @@ CVAPI(SIFT*) xfeatures2d_Ptr_SIFT_get(cv::Ptr<SIFT> *ptr)
 	return ptr->get();
 }
 
-CVAPI(cv::AlgorithmInfo*) xfeatures2d_SIFT_info(SIFT *obj)
-{
-	return obj->info();
-}
-
 #pragma endregion
 
 #pragma region SURF
@@ -143,10 +130,6 @@ CVAPI(void) xfeatures2d_Ptr_SURF_delete(cv::Ptr<SURF> *ptr)
 CVAPI(SURF*) xfeatures2d_Ptr_SURF_get(cv::Ptr<SURF> *ptr)
 {
 	return ptr->get();
-}
-CVAPI(cv::AlgorithmInfo*) xfeatures2d_SURF_info(SURF *obj)
-{
-	return obj->info();
 }
 
 CVAPI(double) xfeatures2d_SURF_getHessianThreshold(SURF *obj)
