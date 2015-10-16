@@ -49,10 +49,7 @@ CVAPI(void) face_FaceRecognizer_load2(FaceRecognizer *obj, cv::FileStorage *fs)
 {
 	obj->load(*fs);
 }
-CVAPI(cv::AlgorithmInfo*) face_FaceRecognizer_info(FaceRecognizer *obj)
-{
-	return obj->info();
-}
+
 CVAPI(cv::Ptr<FaceRecognizer>*) face_createEigenFaceRecognizer(int numComponents, double threshold)
 {
 	return clone(createEigenFaceRecognizer(numComponents, threshold));

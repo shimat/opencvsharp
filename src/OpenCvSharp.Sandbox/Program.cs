@@ -17,7 +17,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            MatForEach();
+            BackgroundSubtractorSample();
+            //MatForEach();
             //LineSegmentDetectorSample();
             //LineIterator();
             //Feature();
@@ -25,6 +26,16 @@ namespace OpenCvSharp.Sandbox
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void BackgroundSubtractorSample()
+        {
+            var mog = BackgroundSubtractorMOG2.Create();
+            var mask = new Mat();
+            var colorImage = Cv2.ImRead(@"data\shapes.png");
+
+            mog.Apply(colorImage, mask);
+            Window.ShowImages(mask);
         }
 
         private static void MatForEach()

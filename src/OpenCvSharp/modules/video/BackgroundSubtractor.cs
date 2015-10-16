@@ -15,7 +15,7 @@ namespace OpenCvSharp
         /// <param name="image"></param>
         /// <param name="fgmask"></param>
         /// <param name="learningRate"></param>
-        public virtual void Run(InputArray image, OutputArray fgmask, double learningRate = -1)
+        public virtual void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
         {
             if (image == null)
                 throw new ArgumentNullException("image");

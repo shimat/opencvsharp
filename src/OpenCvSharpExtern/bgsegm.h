@@ -24,10 +24,6 @@ CVAPI(BackgroundSubtractorMOG*) bgsegm_Ptr_BackgroundSubtractorMOG_get(
 {
 	return ptr->get();
 }
-CVAPI(cv::AlgorithmInfo*) bgsegm_BackgroundSubtractorMOG_info(cv::Ptr<BackgroundSubtractorMOG> *obj)
-{
-	return (*obj)->info();
-}
 
 CVAPI(int) bgsegm_BackgroundSubtractorMOG_getHistory(cv::Ptr<BackgroundSubtractorMOG> *ptr)
 {
@@ -84,10 +80,6 @@ CVAPI(BackgroundSubtractorGMG*) bgsegm_Ptr_BackgroundSubtractorGMG_get(
 	cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
 	return ptr->get();
-}
-CVAPI(cv::AlgorithmInfo*) bgsegm_BackgroundSubtractorGMG_info(cv::Ptr<BackgroundSubtractorGMG> *obj)
-{
-	return (*obj)->info();
 }
 
 CVAPI(int) bgsegm_BackgroundSubtractorGMG_getMaxFeatures(cv::Ptr<BackgroundSubtractorGMG> *ptr)

@@ -38,7 +38,7 @@ namespace OpenCvSharp
         internal BackgroundSubtractorKNN(IntPtr ptr)
         {
             this.objectPtr = new Ptr<BackgroundSubtractorKNN>(ptr);
-            this.ptr = ptr;
+            this.ptr = objectPtr.Get(); 
         }
 
 #if LANG_JP

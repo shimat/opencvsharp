@@ -108,10 +108,6 @@ CVAPI(void) features2d_DenseFeatureDetector_delete(cv::DenseFeatureDetector *obj
 {
 	delete obj;
 }
-CVAPI(cv::AlgorithmInfo*) features2d_DenseFeatureDetector_info(cv::DenseFeatureDetector *obj)
-{
-	return obj->info();
-}
 
 CVAPI(cv::DenseFeatureDetector*) features2d_Ptr_DenseFeatureDetector_get(cv::Ptr<cv::DenseFeatureDetector> *ptr)
 {
