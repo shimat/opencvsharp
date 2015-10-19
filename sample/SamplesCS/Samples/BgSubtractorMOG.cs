@@ -23,7 +23,7 @@ namespace SamplesCS
                     capture.Read(frame);
                     if(frame.Empty())
                         break;
-                    mog.Run(frame, fg, 0.01);
+                    mog.Apply(frame, fg, 0.01);
                     
                     windowSrc.Image = frame;
                     windowDst.Image = fg;
