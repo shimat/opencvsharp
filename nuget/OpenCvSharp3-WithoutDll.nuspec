@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-WithoutDll</id>
-        <version>3.0.0.20150823</version>
+        <version>3.0.0.20150919</version>
         <title>OpenCvSharp3 (without DLLs)</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -11,9 +11,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <summary>OpenCV 3.x wrapper</summary>
-        <releaseNotes>- support OpenCV 3.0
-- renamed enum classes
-- added new photo and feature2d methods</releaseNotes>
+        <releaseNotes>- fixed BackgroundSubtractor*, PCA and camera calibration bugs</releaseNotes>
         <copyright>Copyright 2008-2015</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
