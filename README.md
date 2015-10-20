@@ -20,7 +20,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 * [Visual C++ 2013 Redistributable Package](http://www.microsoft.com/en-US/download/details.aspx?id=30679)
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [Mono](http://www.mono-project.com/Main_Page)
 
-OpenCvSharp.CPlusPlus requires OpenCV DLL files built with VC++2013 (msvcr120.dll). The official pre-built DLL files in build/[x86 or x64]/vc12/bin are suitable.
+On windows, OpenCvSharp requires OpenCV DLL files built with VC++2013 (msvcr120.dll). The official pre-built DLL files in build/[x86 or x64]/vc12/bin are suitable.
 
 ## Features
 * OpenCvSharp is modeled on the native OpenCV C/C++ API style as much as possible.
