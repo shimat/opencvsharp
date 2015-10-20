@@ -17,7 +17,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            BackgroundSubtractorSample();
+            MatchTemplateSample();
+            //BackgroundSubtractorSample();
             //MatForEach();
             //LineSegmentDetectorSample();
             //LineIterator();
@@ -26,6 +27,17 @@ namespace OpenCvSharp.Sandbox
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void MatchTemplateSample()
+        {
+            var src = new Mat(@"data\mt_src.png");
+            var template = new Mat(@"data\template.png");
+            var mask = new Mat(@"data\mask.png");
+            var result = new Mat();
+            Cv2.MatchTemplate(src, template, result, TemplateMatchModes.CCorrNormed, mask);
+
+            Window.ShowImages(result);
         }
 
         private static void BackgroundSubtractorSample()
