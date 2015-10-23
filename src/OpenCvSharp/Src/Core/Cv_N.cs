@@ -75,11 +75,11 @@ namespace OpenCvSharp
         public static int NextGraphItem(CvGraphScanner scanner)
         {
             if (scanner == null)
-            {
                 throw new ArgumentNullException("scanner");
-            }
 
-            return NativeMethods.cvNextGraphItem(scanner.CvPtr);
+            var ret = NativeMethods.cvNextGraphItem(scanner.CvPtr);
+            GC.KeepAlive(scanner);
+            return ret;
         }
         #endregion
         #region NextLinePoint
@@ -142,6 +142,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("treeIterator");
             
             IntPtr result = NativeMethods.cvNextTreeNode(treeIterator);
+            GC.KeepAlive(treeIterator);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -246,12 +247,11 @@ namespace OpenCvSharp
         public static double Norm(CvArr arr1, CvArr arr2, NormType normType, CvArr mask)
         {
             if (arr1 == null)
-            {
                 throw new ArgumentNullException("arr1");
-            }
-            IntPtr arr2Ptr = (arr2 == null) ? IntPtr.Zero : arr2.CvPtr;
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            return NativeMethods.cvNorm(arr1.CvPtr, arr2Ptr, normType, maskPtr);
+
+            var ret = NativeMethods.cvNorm(arr1.CvPtr, ToPtr(arr2), normType, ToPtr(mask));
+            KeepAlive(arr1, arr2, mask);
+            return ret;
         }
         #endregion
         #region Normalize
@@ -343,8 +343,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
-            NativeMethods.cvNormalize(src.CvPtr, dst.CvPtr, a, b, normType, maskPtr);
+
+            NativeMethods.cvNormalize(src.CvPtr, dst.CvPtr, a, b, normType, ToPtr(mask));
+            KeepAlive(src, dst, mask);
         }
         #endregion
         #region NormalizeHist
@@ -365,10 +366,10 @@ namespace OpenCvSharp
         public static void NormalizeHist(CvHistogram hist, double factor)
         {
             if (hist == null)
-            {
                 throw new ArgumentNullException("hist");
-            }
+            
             NativeMethods.cvNormalizeHist(hist.CvPtr, factor);
+            GC.KeepAlive(hist);
         }
         #endregion
         #region Not
@@ -392,6 +393,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvNot(src.CvPtr, dst.CvPtr);
+            KeepAlive(src, dst);
         }
         #endregion
     }

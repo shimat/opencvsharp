@@ -62,6 +62,7 @@ namespace OpenCvSharp
             UInt64 rngVal = rng.Seed;
             NativeMethods.cvRandArr(ref rngVal, arr.CvPtr, distType, param1, param2);
             rng.Seed = rngVal;
+            KeepAlive(rng, arr);
         }
         #endregion
         #region RandInit
@@ -119,6 +120,7 @@ namespace OpenCvSharp
             state.State = new CvRNG((UInt64)(seed != 0 ? seed : -1));
             state.DistType = disttype;
             RandSetRange(state, param1, param2, -1);
+            KeepAlive(state);
         }
         #endregion
         #region RandInt
@@ -258,6 +260,7 @@ namespace OpenCvSharp
                 state.Param[0] = p1;
                 state.Param[1] = p2;
             }
+            GC.KeepAlive(state);
         }
         #endregion
         #region RandShuffle
@@ -324,6 +327,7 @@ namespace OpenCvSharp
                 NativeMethods.cvRandShuffle(mat.CvPtr, ref rngVal, iterFactor);
                 rng.Seed = rngVal;
             }
+            GC.KeepAlive(mat);
         }
         #endregion
         #region Range
@@ -347,10 +351,10 @@ namespace OpenCvSharp
         public static void Range(CvArr mat, double start, double end)
         {
             if (mat == null)
-            {
                 throw new ArgumentNullException("mat");
-            }
+            
             NativeMethods.cvRange(mat.CvPtr, start, end);
+            GC.KeepAlive(mat);
         }
         #endregion
         #region Read
@@ -397,6 +401,7 @@ namespace OpenCvSharp
             {
                 return (T)info.Invoke(BindingFlags.CreateInstance, null, new object[] { result }, null);
             }
+            KeepAlive(fs, node);
             throw new NotSupportedException();
         }
         #endregion
@@ -447,6 +452,7 @@ namespace OpenCvSharp
             {
                 return (T) info.Invoke(BindingFlags.CreateInstance, null, new object[] {result}, null);
             }
+            KeepAlive(fs, map);
             throw new NotSupportedException();
         }
 
@@ -468,10 +474,10 @@ namespace OpenCvSharp
         public static CvPoint ReadChainPoint(CvChainPtReader reader)
         {
             if (reader == null)
-            {
                 throw new ArgumentNullException("reader");
-            }
-            return NativeMethods.cvReadChainPoint(reader.CvPtr);
+            var ret = NativeMethods.cvReadChainPoint(reader.CvPtr);
+            GC.KeepAlive(reader);
+            return ret;
         }
         #endregion      
         #region ReadInt
@@ -602,6 +608,7 @@ namespace OpenCvSharp
             using (var dstPtr = new ArrayAddress1<T>(dst))
             {
                 NativeMethods.cvReadRawData(fs.CvPtr, src.CvPtr, dstPtr.Pointer, dt);
+                KeepAlive(fs, src);
             }
         }
         #endregion
@@ -641,6 +648,7 @@ namespace OpenCvSharp
             using (var dstPtr = new ArrayAddress1<T>(dst))
             {
                 NativeMethods.cvReadRawDataSlice(fs.CvPtr, reader.CvPtr, count, dstPtr, dt);
+                KeepAlive(fs, reader);
             }
         }
         #endregion
@@ -1059,6 +1067,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("img");
             }
             NativeMethods.cvRectangle(img.CvPtr, pt1, pt2, color, thickness, lineType, shift);
+            GC.KeepAlive(img);
         }
 #if LANG_JP
         /// <summary>
@@ -1591,6 +1600,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvReduce(src.CvPtr, dst.CvPtr, dim, type);
+            KeepAlive(src, dst);
         }
         #endregion
         #region RegisterType
@@ -1612,6 +1622,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("info");
             }
             NativeMethods.cvRegisterType(info.CvPtr);
+            GC.KeepAlive(info);
         }
         #endregion
         #region Release
@@ -1619,16 +1630,16 @@ namespace OpenCvSharp
         /// <summary>
         /// オブジェクトを解放する
         /// </summary>
-        /// <param name="struct_ptr">オブジェクトのポインタのポインタ．</param>
+        /// <param name="structPtr">オブジェクトのポインタのポインタ．</param>
 #else
         /// <summary>
         /// Releases the object
         /// </summary>
-        /// <param name="struct_ptr">Double pointer to the object. </param>
+        /// <param name="structPtr">Double pointer to the object. </param>
 #endif
-        public static void Release(ref IntPtr struct_ptr)
+        public static void Release(ref IntPtr structPtr)
         {
-            NativeMethods.cvRelease(ref struct_ptr);
+            NativeMethods.cvRelease(ref structPtr);
         }
 #if LANG_JP
         /// <summary>
@@ -1639,15 +1650,15 @@ namespace OpenCvSharp
         /// <summary>
         /// Releases the object
         /// </summary>
-        /// <param name="struct_ptr">Double pointer to the object. </param>
+        /// <param name="structPtr">Double pointer to the object. </param>
 #endif
-        public static void Release(ref ICvPtrHolder struct_ptr)
+        public static void Release(ref ICvPtrHolder structPtr)
         {
-            if (struct_ptr != null)
+            if (structPtr != null)
             {
-                IntPtr ptr = struct_ptr.CvPtr;
+                IntPtr ptr = structPtr.CvPtr;
                 NativeMethods.cvRelease(ref ptr);
-                struct_ptr = null;
+                structPtr = null;
             }
         }
         #endregion
@@ -2234,6 +2245,7 @@ namespace OpenCvSharp
             if (mapy == null)
                 throw new ArgumentNullException("mapy");
             NativeMethods.cvRemap(src.CvPtr, dst.CvPtr, mapx.CvPtr, mapy.CvPtr, flags, fillval);
+            KeepAlive(src, dst, mapx, mapy);
         }
         #endregion
         #region RemoveNodeFromTree
@@ -2260,6 +2272,7 @@ namespace OpenCvSharp
             if (frame == null)
                 throw new ArgumentNullException("frame");
             NativeMethods.cvRemoveNodeFromTree(node.CvPtr, frame.CvPtr);
+            KeepAlive(node, frame);
         }
         #endregion
         #region Repeat
@@ -2283,6 +2296,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvRepeat(src.CvPtr, dst.CvPtr);
+            KeepAlive(src, dst);
         }
         #endregion
         #region ReprojectImageTo3D
@@ -2310,6 +2324,7 @@ namespace OpenCvSharp
             if (Q == null)
                 throw new ArgumentNullException("Q");
             NativeMethods.cvReprojectImageTo3D(disparityImage.CvPtr, _3dImage.CvPtr, Q.CvPtr);
+            KeepAlive(disparityImage, _3dImage, Q);
         }
         #endregion
         #region ResetImageROI
@@ -2327,10 +2342,10 @@ namespace OpenCvSharp
         public static void ResetImageROI(IplImage image)
         {
             if (image == null)
-            {
                 throw new ArgumentNullException("image");
-            }
+            
             NativeMethods.cvResetImageROI(image.CvPtr);
+            GC.KeepAlive(image);
         }
         #endregion
         #region Reshape
@@ -2340,7 +2355,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="arr">入力配列</param>
         /// <param name="header">書き込まれる出力ヘッダ</param>
-        /// <param name="new_cn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
+        /// <param name="newCn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
         /// <returns>行列データ</returns>
 #else
         /// <summary>
@@ -2348,12 +2363,12 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="arr">Input array. </param>
         /// <param name="header">Output header to be filled. </param>
-        /// <param name="new_cn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
+        /// <param name="newCn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
         /// <returns></returns>
 #endif
-        public static CvMat Reshape(CvArr arr, out CvMat header, int new_cn)
+        public static CvMat Reshape(CvArr arr, out CvMat header, int newCn)
         {
-            return Reshape(arr, out header, new_cn, 0);
+            return Reshape(arr, out header, newCn, 0);
         }
 #if LANG_JP
         /// <summary>
@@ -2361,8 +2376,8 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="arr">入力配列</param>
         /// <param name="header">書き込まれる出力ヘッダ</param>
-        /// <param name="new_cn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
-        /// <param name="new_rows">新しい行数． new_rows = 0は，行数がnew_cnの値に応じて変更する必要があるのにも関わらず，変更されないままであることを意味する．</param>
+        /// <param name="newCn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
+        /// <param name="newRows">新しい行数． new_rows = 0は，行数がnew_cnの値に応じて変更する必要があるのにも関わらず，変更されないままであることを意味する．</param>
         /// <returns>行列データ</returns>
 #else
         /// <summary>
@@ -2370,16 +2385,16 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="arr">Input array. </param>
         /// <param name="header">Output header to be filled. </param>
-        /// <param name="new_cn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
-        /// <param name="new_rows">New number of rows. new_rows = 0 means that number of rows remains unchanged unless it needs to be changed according to new_cn value. destination array to be changed. </param>
+        /// <param name="newCn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
+        /// <param name="newRows">New number of rows. new_rows = 0 means that number of rows remains unchanged unless it needs to be changed according to new_cn value. destination array to be changed. </param>
         /// <returns></returns>
 #endif
-        public static CvMat Reshape(CvArr arr, out CvMat header, int new_cn, int new_rows)
+        public static CvMat Reshape(CvArr arr, out CvMat header, int newCn, int newRows)
         {
             if (arr == null)
                 throw new ArgumentNullException("arr");
             header = new CvMat(false);
-            return Reshape(arr, header, new_cn, new_rows);
+            return Reshape(arr, header, newCn, newRows);
         }
 #if LANG_JP
         /// <summary>
@@ -2387,7 +2402,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="arr">入力配列</param>
         /// <param name="header">書き込まれる出力ヘッダ</param>
-        /// <param name="new_cn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
+        /// <param name="newCn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
         /// <returns>行列データ</returns>
 #else
         /// <summary>
@@ -2395,12 +2410,12 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="arr">Input array. </param>
         /// <param name="header">Output header to be filled. </param>
-        /// <param name="new_cn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
+        /// <param name="newCn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
         /// <returns></returns>
 #endif
-        public static CvMat Reshape(CvArr arr, CvMat header, int new_cn)
+        public static CvMat Reshape(CvArr arr, CvMat header, int newCn)
         {
-            return Reshape(arr, header, new_cn, 0);
+            return Reshape(arr, header, newCn, 0);
         }
 #if LANG_JP
         /// <summary>
@@ -2417,18 +2432,19 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="arr">Input array. </param>
         /// <param name="header">Output header to be filled. </param>
-        /// <param name="new_cn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
-        /// <param name="new_rows">New number of rows. new_rows = 0 means that number of rows remains unchanged unless it needs to be changed according to new_cn value. destination array to be changed. </param>
+        /// <param name="newCn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
+        /// <param name="newRows">New number of rows. new_rows = 0 means that number of rows remains unchanged unless it needs to be changed according to new_cn value. destination array to be changed. </param>
         /// <returns></returns>
 #endif
-        public static CvMat Reshape(CvArr arr, CvMat header, int new_cn, int new_rows)
+        public static CvMat Reshape(CvArr arr, CvMat header, int newCn, int newRows)
         {
             if (arr == null)
                 throw new ArgumentNullException("arr");
             if(header == null)
                 throw new ArgumentNullException("header");
 
-            IntPtr result = NativeMethods.cvReshape(arr.CvPtr, header.CvPtr, new_cn, new_rows);
+            IntPtr result = NativeMethods.cvReshape(arr.CvPtr, header.CvPtr, newCn, newRows);
+            KeepAlive(arr, header);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -2443,11 +2459,11 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="T">出力ヘッダの型</typeparam>
         /// <param name="arr">入力配列</param>
-        /// <param name="sizeof_header">IplImageとCvMat，CvMatNDそれぞれの出力ヘッダを区別するための出力ヘッダのサイズ．</param>
+        /// <param name="sizeofHeader">IplImageとCvMat，CvMatNDそれぞれの出力ヘッダを区別するための出力ヘッダのサイズ．</param>
         /// <param name="header">書き込まれる出力ヘッダ</param>
-        /// <param name="new_cn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
-        /// <param name="new_dims">新しい次元数． new_dims = 0は，次元数が同じままであることを意味する．</param>
-        /// <param name="new_sizes">新しい次元サイズの配列．要素の総数は変化してはいけないので，new_dims-1の値のみ使用される．従って，new_dims = 1であればnew_sizesは使用されない．</param>
+        /// <param name="newDims">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
+        /// <param name="newDims">新しい次元数． new_dims = 0は，次元数が同じままであることを意味する．</param>
+        /// <param name="newSizes">新しい次元サイズの配列．要素の総数は変化してはいけないので，new_dims-1の値のみ使用される．従って，new_dims = 1であればnew_sizesは使用されない．</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -2455,24 +2471,26 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arr">Input array. </param>
-        /// <param name="sizeof_header">Size of output header to distinguish between IplImage, CvMat and CvMatND output headers. </param>
+        /// <param name="sizeofHeader">Size of output header to distinguish between IplImage, CvMat and CvMatND output headers. </param>
         /// <param name="header">Output header to be filled. </param>
-        /// <param name="new_cn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
-        /// <param name="new_dims">New number of dimensions. new_dims = 0 means that number of dimensions remains the same. </param>
-        /// <param name="new_sizes">Array of new dimension sizes. Only new_dims-1 values are used, because the total number of elements must remain the same. Thus, if new_dims = 1, new_sizes array is not used </param>
+        /// <param name="newCn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
+        /// <param name="newDims">New number of dimensions. new_dims = 0 means that number of dimensions remains the same. </param>
+        /// <param name="newSizes">Array of new dimension sizes. Only new_dims-1 values are used, because the total number of elements must remain the same. Thus, if new_dims = 1, new_sizes array is not used </param>
         /// <returns></returns>
 #endif
-        public static T ReshapeMatND<T>(CvArr arr, int sizeof_header, T header, int new_cn, int new_dims,
-                                        int[] new_sizes) where T : CvArr
+        public static T ReshapeMatND<T>(
+            CvArr arr, int sizeofHeader, T header, int newCn, int newDims, int[] newSizes) 
+            where T : CvArr
         {
             if (arr == null)
                 throw new ArgumentNullException("arr");
             if (header == null)
                 throw new ArgumentNullException("header");
-            if (new_sizes == null)
-                throw new ArgumentNullException("new_sizes");
+            if (newSizes == null)
+                throw new ArgumentNullException("newSizes");
 
-            IntPtr result = NativeMethods.cvReshapeMatND(arr.CvPtr, sizeof_header, header.CvPtr, new_cn, new_dims, new_sizes);
+            IntPtr result = NativeMethods.cvReshapeMatND(arr.CvPtr, sizeofHeader, header.CvPtr, newCn, newDims, newSizes);
+            KeepAlive(arr);
 
             Type t = typeof(T);
             if (t == typeof(IplImage))
@@ -2493,9 +2511,9 @@ namespace OpenCvSharp
         /// <typeparam name="T">出力ヘッダの型</typeparam>
         /// <param name="arr">入力配列</param>
         /// <param name="header">書き込まれる出力ヘッダ</param>
-        /// <param name="new_cn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
-        /// <param name="new_dims">新しい次元数． new_dims = 0は，次元数が同じままであることを意味する．</param>
-        /// <param name="new_sizes">新しい次元サイズの配列．要素の総数は変化してはいけないので，new_dims-1の値のみ使用される．従って，new_dims = 1であればnew_sizesは使用されない．</param>
+        /// <param name="newCn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
+        /// <param name="newDims">新しい次元数． new_dims = 0は，次元数が同じままであることを意味する．</param>
+        /// <param name="newSizes">新しい次元サイズの配列．要素の総数は変化してはいけないので，new_dims-1の値のみ使用される．従って，new_dims = 1であればnew_sizesは使用されない．</param>
         /// <returns></returns>
 #else
         /// <summary>
@@ -2504,18 +2522,19 @@ namespace OpenCvSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="arr">Input array. </param>
         /// <param name="header">Output header to be filled. </param>
-        /// <param name="new_cn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
-        /// <param name="new_dims">New number of dimensions. new_dims = 0 means that number of dimensions remains the same. </param>
-        /// <param name="new_sizes">Array of new dimension sizes. Only new_dims-1 values are used, because the total number of elements must remain the same. Thus, if new_dims = 1, new_sizes array is not used </param>
+        /// <param name="newCn">New number of channels. new_cn = 0 means that number of channels remains unchanged. </param>
+        /// <param name="newDims">New number of dimensions. new_dims = 0 means that number of dimensions remains the same. </param>
+        /// <param name="newSizes">Array of new dimension sizes. Only new_dims-1 values are used, because the total number of elements must remain the same. Thus, if new_dims = 1, new_sizes array is not used </param>
         /// <returns></returns>
 #endif
-        public static T ReshapeND<T>(CvArr arr, T header, int new_cn, int new_dims, int[] new_sizes) where T : CvArr
+        public static T ReshapeND<T>(CvArr arr, T header, int newCn, int newDims, int[] newSizes) 
+            where T : CvArr
         {
             FieldInfo info = typeof(T).GetField("SizeOf");
             if (info != null)
             {
                 int size = (int)info.GetRawConstantValue();
-                return ReshapeMatND<T>(arr, size, header, new_cn, new_dims, new_sizes);
+                return ReshapeMatND<T>(arr, size, header, newCn, newDims, newSizes);
             }
             
             throw new OpenCvSharpException("T has no static field 'SizeOf'");
@@ -2563,6 +2582,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvResize(src.CvPtr, dst.CvPtr, interpolation);
+            KeepAlive(src, dst);
         }
         #endregion
         #region ResizeWindow
@@ -2607,6 +2627,7 @@ namespace OpenCvSharp
             if (pos == null)
                 throw new ArgumentNullException("pos");
             NativeMethods.cvRestoreMemStoragePos(storage.CvPtr, pos.CvPtr);
+            KeepAlive(storage, pos);
         }
         #endregion
         #region RetrieveFrame
@@ -2652,6 +2673,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("capture");
             
             IntPtr ptr = NativeMethods.cvRetrieveFrame(capture.CvPtr, streamIdx);
+            KeepAlive(capture);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -2756,8 +2778,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr jacobianPtr = (jacobian == null) ? IntPtr.Zero : jacobian.CvPtr;
-            return NativeMethods.cvRodrigues2(src.CvPtr, dst.CvPtr, jacobianPtr);
+            var ret = NativeMethods.cvRodrigues2(src.CvPtr, dst.CvPtr, ToPtr(jacobian));
+            KeepAlive(src, dst, jacobian);
+            return ret;
         }
         #endregion
         #region Round
@@ -2860,12 +2883,11 @@ namespace OpenCvSharp
             if (matrixQ == null)
                 throw new ArgumentNullException("matrixQ");
 
-            IntPtr matrixQxPtr = (matrixQx == null) ? IntPtr.Zero : matrixQx.CvPtr;
-            IntPtr matrixQyPtr = (matrixQy == null) ? IntPtr.Zero : matrixQy.CvPtr;
-            IntPtr matrixQzPtr = (matrixQz == null) ? IntPtr.Zero : matrixQz.CvPtr;
             eulerAngles = new CvPoint3D64f();
-
-            NativeMethods.cvRQDecomp3x3(matrixM.CvPtr, matrixR.CvPtr, matrixQ.CvPtr, matrixQxPtr, matrixQyPtr, matrixQzPtr, ref eulerAngles);
+            NativeMethods.cvRQDecomp3x3(
+                matrixM.CvPtr, matrixR.CvPtr, matrixQ.CvPtr, 
+                ToPtr(matrixQx), ToPtr(matrixQy), ToPtr(matrixQz), ref eulerAngles);
+            KeepAlive(matrixM, matrixR, matrixQ, matrixQx, matrixQy, matrixQz);
         }
         #endregion
         #region RunHaarClassifierCascade
@@ -2908,10 +2930,10 @@ namespace OpenCvSharp
         public static bool RunHaarClassifierCascade(CvHaarClassifierCascade cascade, CvPoint pt, bool start_stage)
         {
             if (cascade == null)
-            {
                 throw new ArgumentNullException("cascade");
-            }
-            return NativeMethods.cvRunHaarClassifierCascade(cascade.CvPtr, pt, start_stage) > 0;
+            var ret = NativeMethods.cvRunHaarClassifierCascade(cascade.CvPtr, pt, start_stage) > 0;
+            GC.KeepAlive(cascade);
+            return ret;
         }
         #endregion
         #region RunningAvg
@@ -2963,6 +2985,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("acc");
             IntPtr maskPtr = (mask == null) ? IntPtr.Zero : mask.CvPtr;
             NativeMethods.cvRunningAvg(image.CvPtr, acc.CvPtr, alpha, maskPtr);
+            KeepAlive(image, acc, mask);
         }
         #endregion
     }

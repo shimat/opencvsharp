@@ -305,6 +305,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("storage");
 
             IntPtr result = NativeMethods.cvTreeToNodeSeq(first.CvPtr, headerSize, storage);
+            KeepAlive(first, storage);
             if (result == IntPtr.Zero)
                 return null;
             else

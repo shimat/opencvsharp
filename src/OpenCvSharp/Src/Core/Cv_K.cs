@@ -27,6 +27,7 @@ namespace OpenCvSharp
             if (measurement == null)
                 throw new ArgumentNullException("measurement");
             IntPtr result = NativeMethods.cvKalmanCorrect(kalman.CvPtr, measurement.CvPtr);
+            KeepAlive(kalman, measurement);
             return new CvMat(result, false);
         }
 #if LANG_JP
@@ -88,6 +89,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("kalman");
             IntPtr controlPtr = (control == null) ? IntPtr.Zero : control.CvPtr;
             IntPtr result = NativeMethods.cvKalmanPredict(kalman.CvPtr, controlPtr);
+            KeepAlive(kalman, control);
             if (result == IntPtr.Zero)
                 return null;
             else
@@ -297,7 +299,7 @@ namespace OpenCvSharp
             UInt64 rngValue = rng.Seed;
             int result = NativeMethods.cvKMeans2(samples.CvPtr, clusterCount, labels.CvPtr, termcrit, attemps, ref rngValue, flag, centersPtr, out compactness);
             rng.Seed = rngValue;
-
+            KeepAlive(samples, labels, centers);
             return result;
         }
         #endregion

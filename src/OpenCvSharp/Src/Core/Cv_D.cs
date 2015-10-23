@@ -41,6 +41,7 @@ namespace OpenCvSharp
                     mat.RefCount = IntPtr.Zero;
                 }
             }
+            KeepAlive(arr);
         }
         #endregion
         #region Det
@@ -60,10 +61,10 @@ namespace OpenCvSharp
         public static double Det(CvArr mat)
         {
             if (mat == null)
-            {
                 throw new ArgumentNullException("mat");
-            }
-            return NativeMethods.cvDet(mat.CvPtr);
+            var ret = NativeMethods.cvDet(mat.CvPtr);
+            GC.KeepAlive(mat);
+            return ret;
         }
         #endregion
         #region DCT
@@ -89,6 +90,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvDCT(src.CvPtr, dst.CvPtr, flags);
+            KeepAlive(src, dst);
         }
         #endregion
         #region DecodeImage
@@ -112,6 +114,7 @@ namespace OpenCvSharp
             if (buf == null)
                 throw new ArgumentNullException("buf");
             IntPtr ptr = NativeMethods.cvDecodeImage(buf.CvPtr, iscolor);
+            GC.KeepAlive(buf);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -137,6 +140,7 @@ namespace OpenCvSharp
             if (buf == null)
                 throw new ArgumentNullException("buf");
             IntPtr ptr = NativeMethods.cvDecodeImageM(buf.CvPtr, iscolor);
+            GC.KeepAlive(buf);
             if (ptr == IntPtr.Zero)
                 return null;
             else
@@ -239,6 +243,7 @@ namespace OpenCvSharp
 
             NativeMethods.cvDecomposeProjectionMatrix(projMatr.CvPtr, calibMatr.CvPtr, rotMatr.CvPtr, posVect.CvPtr,
                 rotMatrXPtr, rotMatrYPtr, rotMatrZPtr, ref eulerAngles);
+            KeepAlive(projMatr, calibMatr, rotMatr, posVect, rotMatrX, rotMatrY, rotMatrZ);
         }
         #endregion
         #region DeleteMoire
@@ -256,6 +261,7 @@ namespace OpenCvSharp
         public static void DeleteMoire(IplImage img)
         {
             NativeMethods.cvDeleteMoire(img.CvPtr);
+            GC.KeepAlive(img);
         }
         #endregion
         #region DestroyAllWindows
@@ -347,6 +353,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException("dst");
             NativeMethods.cvDFT(src.CvPtr, dst.CvPtr, flags, nonzeroRows);
+            KeepAlive(src, dst);
         }
 #if LANG_JP
         /// <summary>
@@ -455,8 +462,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr elemPtr = (element == null) ? IntPtr.Zero : element.CvPtr;
-            NativeMethods.cvDilate(src.CvPtr, dst.CvPtr, elemPtr, iterations);
+            NativeMethods.cvDilate(src.CvPtr, dst.CvPtr, ToPtr(element), iterations);
+            KeepAlive(src, dst, element);
         }
         #endregion
         #region DisplayOverlay
@@ -644,8 +651,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            IntPtr labelsPtr = (labels == null) ? IntPtr.Zero : labels.CvPtr;
-            NativeMethods.cvDistTransform(src.CvPtr, dst.CvPtr, distanceType, maskSize, mask, labelsPtr, labelType);
+            NativeMethods.cvDistTransform(src.CvPtr, dst.CvPtr, distanceType, maskSize, mask, ToPtr(labels), labelType);
+            KeepAlive(src, dst, mask, labels);
         }
         #endregion
         #region Div
@@ -691,12 +698,12 @@ namespace OpenCvSharp
 #endif
         public static void Div(CvArr src1, CvArr src2, CvArr dst, double scale)
         {
-            IntPtr src1Ptr = (src1 == null) ? IntPtr.Zero : src1.CvPtr;
             if (src2 == null)
                 throw new ArgumentNullException("src2");
             if (dst == null)
                 throw new ArgumentNullException("dst");
-            NativeMethods.cvDiv(src1Ptr, src2.CvPtr, dst.CvPtr, scale);
+            NativeMethods.cvDiv(ToPtr(src1), src2.CvPtr, dst.CvPtr, scale);
+            KeepAlive(src1, src2, dst);
         }
         #endregion
         #region DotProduct
@@ -722,7 +729,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("src1");
             if (src2 == null)
                 throw new ArgumentNullException("src2");
-            return NativeMethods.cvDotProduct(src1.CvPtr, src2.CvPtr);
+            var ret = NativeMethods.cvDotProduct(src1.CvPtr, src2.CvPtr);
+            KeepAlive(src1, src2);
+            return ret;
         }
         #endregion
         #region DrawChessboardCorners
@@ -751,6 +760,7 @@ namespace OpenCvSharp
             if (corners == null)
                 throw new ArgumentNullException("corners");
             NativeMethods.cvDrawChessboardCorners(image.CvPtr, patternSize, corners, corners.Length, patternWasFound);
+            KeepAlive(image);
         }
         #endregion
         #region DrawContours
@@ -861,6 +871,7 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException("contour");
             NativeMethods.cvDrawContours(img.CvPtr, contour.CvPtr, externalColor, holeColor, maxLevel, thickness, lineType, offset);
+            KeepAlive(img, contour);
         }
         #endregion
     }

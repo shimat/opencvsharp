@@ -19,7 +19,7 @@ extern "C"
         int x;
         int y;
         int z;
-    } CvPoint3D;
+	} CvPoint3D; 
 
     typedef struct CvVec2b { uchar val[2]; } CvVec2b;
     typedef struct CvVec3b { uchar val[3]; } CvVec3b;

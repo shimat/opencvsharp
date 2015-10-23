@@ -32,14 +32,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("vec2");
             if (mat == null)
                 throw new ArgumentNullException("mat");
-            try
-            {
-                return NativeMethods.cvMahalanobis(vec1.CvPtr, vec2.CvPtr, mat.CvPtr);
-            }
-            finally
-            {
-                KeepAlive(vec1, vec2, mat);
-            }
+            var ret = NativeMethods.cvMahalanobis(vec1.CvPtr, vec2.CvPtr, mat.CvPtr);
+            KeepAlive(vec1, vec2, mat);
+            return ret;
         }
 #if LANG_JP
         /// <summary>
@@ -66,14 +61,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("vec2");
             if (mat == null)
                 throw new ArgumentNullException("mat");
-            try
-            {
-                return NativeMethods.cvMahalanobis(vec1.CvPtr, vec2.CvPtr, mat.CvPtr);
-            }
-            finally
-            {
-                KeepAlive(vec1, vec2, mat);
-            }
+            var ret = NativeMethods.cvMahalanobis(vec1.CvPtr, vec2.CvPtr, mat.CvPtr);
+            KeepAlive(vec1, vec2, mat);
+            return ret;
         }
         #endregion
         #region MakeHistHeaderForArray
@@ -302,14 +292,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("tree1");
             if (tree2 == null)
                 throw new ArgumentNullException("tree2");
-            try
-            {
-                return NativeMethods.cvMatchContourTrees(tree1.CvPtr, tree2.CvPtr, method, threshold);
-            }
-            finally
-            {
-                KeepAlive(tree1, tree2);
-            }
+            var ret = NativeMethods.cvMatchContourTrees(tree1.CvPtr, tree2.CvPtr, method, threshold);
+            KeepAlive(tree1, tree2);
+            return ret;
         }
         #endregion
         #region MatchShapes
@@ -359,14 +344,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("object1");
             if (object2 == null)
                 throw new ArgumentNullException("object2");
-            try
-            {
-                return NativeMethods.cvMatchShapes(object1.CvPtr, object2.CvPtr, method, parameter);
-            }
-            finally
-            {
-                KeepAlive(object1, object2);
-            }
+            var ret = NativeMethods.cvMatchShapes(object1.CvPtr, object2.CvPtr, method, parameter);
+            KeepAlive(object1, object2);
+            return ret;
         }
         #endregion
         #region MatchTemplate
@@ -501,14 +481,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("probImage");
             if (comp == null)
                 throw new ArgumentNullException("comp");
-            try
-            {
-                return NativeMethods.cvMeanShift(probImage.CvPtr, window, criteria, comp.CvPtr);
-            }
-            finally
-            {
-                KeepAlive(probImage, comp);
-            }
+            var ret = NativeMethods.cvMeanShift(probImage.CvPtr, window, criteria, comp.CvPtr);
+            KeepAlive(probImage, comp);
+            return ret;
         }
         #endregion
         #region MemStorageAlloc
@@ -532,14 +507,9 @@ namespace OpenCvSharp
             if (storage == null)
                 throw new ArgumentNullException("storage");
 
-            try
-            {
-                return NativeMethods.cvMemStorageAlloc(storage.CvPtr, size);
-            }
-            finally
-            {
-                KeepAlive(storage);
-            }
+            var ret = NativeMethods.cvMemStorageAlloc(storage.CvPtr, size);
+            GC.KeepAlive(storage);
+            return ret;
         }
 
         #endregion
@@ -570,7 +540,9 @@ namespace OpenCvSharp
             {
                 fixed (char* strPtr = str)
                 {
-                    return NativeMethods.cvMemStorageAllocString(storage.CvPtr, strPtr, str.Length);
+                    var ret = NativeMethods.cvMemStorageAllocString(storage.CvPtr, strPtr, str.Length);
+                    GC.KeepAlive(storage);
+                    return ret;
                 }
             }
         }
@@ -887,14 +859,9 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException("points");
-            try
-            {
-                return NativeMethods.cvMinAreaRect2(points.CvPtr, ToPtr(storage));
-            }
-            finally
-            {
-                GC.KeepAlive(storage);
-            }
+            var ret = NativeMethods.cvMinAreaRect2(points.CvPtr, ToPtr(storage));
+            GC.KeepAlive(storage);
+            return ret;
         }
         #endregion
         #region MinEnclosingCircle
@@ -922,14 +889,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException("points");
             center = new CvPoint2D32f();
             radius = default(float);
-            try
-            {
-                return NativeMethods.cvMinEnclosingCircle(points.CvPtr, ref center, ref radius);
-            }
-            finally
-            {
-                GC.KeepAlive(points);
-            }
+            var ret = NativeMethods.cvMinEnclosingCircle(points.CvPtr, ref center, ref radius);
+            GC.KeepAlive(points);
+            return ret;
         }
 
 #if LANG_JP
