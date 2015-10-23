@@ -1932,7 +1932,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <returns></returns>
 #endif
-        public void Read(Mat image)
+        public bool Read(Mat image)
         {
             ThrowIfDisposed();
             if(image == null)
@@ -1941,10 +1941,13 @@ namespace OpenCvSharp
             
             //NativeMethods.videoio_VideoCapture_read(ptr, image.CvPtr);
 
-            NativeMethods.videoio_VideoCapture_grab(ptr);
+            bool grabbed = NativeMethods.videoio_VideoCapture_grab(ptr) != 0;
+            if (!grabbed)
+                return false;
+            
             NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(ptr, image.CvPtr);
-
             GC.KeepAlive(image);
+            return true;
         }
         #endregion
         #region Set
