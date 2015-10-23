@@ -1855,7 +1855,7 @@ namespace OpenCvSharp
         /// <returns>1フレームの画像 (GC禁止フラグが立っている). キャプチャできなかった場合はnull.</returns>
 #else
         /// <summary>
-        /// Returns the pointer to the image grabbed with cvGrabFrame function. 
+        /// Decodes and returns the grabbed video frame.
         /// </summary>
         /// <param name="image"></param>
         /// <param name="channel">non-zero streamIdx is only valid for multi-head camera live streams</param>
@@ -1895,6 +1895,26 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             return NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, (int)streamIdx) != 0;
         }
+
+#if LANG_JP
+        /// <summary>
+        /// GrabFrame 関数によって取り出された画像への参照を返す．
+        /// </summary>
+#else
+        /// <summary>
+        /// Decodes and returns the grabbed video frame.
+        /// </summary>
+        /// <returns></returns>
+#endif
+        public Mat RetrieveMat()
+        {
+            ThrowIfDisposed();
+
+            var mat = new Mat();
+            NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(ptr, mat.CvPtr);
+            return mat;
+        }
+
         #endregion
         #region Read
 #if LANG_JP
@@ -1918,7 +1938,13 @@ namespace OpenCvSharp
             if(image == null)
                 throw new ArgumentNullException("image");
             image.ThrowIfDisposed();
-            NativeMethods.videoio_VideoCapture_read(ptr, image.CvPtr);
+            
+            //NativeMethods.videoio_VideoCapture_read(ptr, image.CvPtr);
+
+            NativeMethods.videoio_VideoCapture_grab(ptr);
+            NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(ptr, image.CvPtr);
+
+            GC.KeepAlive(image);
         }
         #endregion
         #region Set

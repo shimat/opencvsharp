@@ -17,7 +17,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            MatchTemplateSample();
+            VideoCaptureSample();
+            //MatchTemplateSample();
             //BackgroundSubtractorSample();
             //MatForEach();
             //LineSegmentDetectorSample();
@@ -29,6 +30,35 @@ namespace OpenCvSharp.Sandbox
             Console.Read();
         }
 
+        private static void VideoCaptureSample()
+        {
+            var cap = new VideoCapture(0);
+
+            if (!cap.IsOpened())
+            {
+                Console.WriteLine("Can't use camera.");
+                return;
+            }
+
+            var frame = new Mat();
+            cap.Grab();
+            NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(cap.CvPtr, frame.CvPtr);
+            
+            Window.ShowImages(frame);
+
+            using (var window = new Window("window"))
+            {
+                while (true)
+                {
+                    cap.Read(frame);
+                    window.ShowImage(frame);
+                    int key = Cv2.WaitKey(50);
+                    if (key == 'b')
+                        break;
+                }
+            }
+        }
+
         private static void MatchTemplateSample()
         {
             var src = new Mat(@"data\mt_src.png");
@@ -37,7 +67,15 @@ namespace OpenCvSharp.Sandbox
             var result = new Mat();
             Cv2.MatchTemplate(src, template, result, TemplateMatchModes.CCorrNormed, mask);
 
-            Window.ShowImages(result);
+            double minVal, maxVal;
+            Point minLoc, maxLoc;
+            Cv2.MinMaxLoc(result, out minVal, out maxVal, out minLoc, out maxLoc);
+
+            var view = src.Clone();
+            view.Rectangle(maxLoc, new Point(maxLoc.X + template.Width, maxLoc.Y + template.Height), Scalar.Red, 2);
+
+            Console.WriteLine(maxVal);
+            Window.ShowImages(view);
         }
 
         private static void BackgroundSubtractorSample()
