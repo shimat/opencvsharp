@@ -91,13 +91,13 @@ namespace OpenCvSharp
             {
                 X = left,
                 Y = top,
-                Width = right - left,
-                Height = bottom - top
+                Width = right - left - 1,
+                Height = bottom - top - 1
             };
 
             if (r.Width < 0)
                 throw new ArgumentException("right > left");
-            if (r.Width < 0)
+            if (r.Height < 0)
                 throw new ArgumentException("bottom > top");
             return r;
         }
