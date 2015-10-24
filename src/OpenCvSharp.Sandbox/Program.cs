@@ -17,7 +17,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            VideoCaptureSample();
+            ConvertImageSample();
+            //VideoCaptureSample();
             //MatchTemplateSample();
             //BackgroundSubtractorSample();
             //MatForEach();
@@ -28,6 +29,28 @@ namespace OpenCvSharp.Sandbox
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void ConvertImageSample()
+        {
+            var m = new Mat(100, 100, MatType.CV_32FC1);
+            var rand = new Random();
+            
+            var indexer = m.GetGenericIndexer<float>();
+            for (int r = 0; r < m.Rows; r++)
+            {
+                for (int c = 0; c < m.Cols; c++)
+                {
+                    indexer[r, c] = (float)rand.NextDouble();
+                }
+            }
+
+            //Window.ShowImages(m);
+
+            var conv = new Mat();
+            Cv2.ConvertImage(m, conv);
+
+            conv.SaveImage(@"C:\temp\float.png");
         }
 
         private static void VideoCaptureSample()
@@ -41,10 +64,6 @@ namespace OpenCvSharp.Sandbox
             }
 
             var frame = new Mat();
-            cap.Grab();
-            NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(cap.CvPtr, frame.CvPtr);
-            
-            Window.ShowImages(frame);
 
             using (var window = new Window("window"))
             {

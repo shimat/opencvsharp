@@ -95,6 +95,7 @@
     <Compile Include="Modules\features2d\Enum\KAZEDiffusivity.cs" />
     <Compile Include="Modules\features2d\AKAZE.cs" />
     <Compile Include="Modules\features2d\KAZE.cs" />
+    <Compile Include="Modules\imgcodecs\Enum\ConvertImageModes.cs" />
     <Compile Include="Modules\imgproc\GeneralizedHoughGuil.cs" />
     <Compile Include="Modules\imgproc\GeneralizedHoughBallard.cs" />
     <Compile Include="Modules\imgproc\GeneralizedHough.cs" />
