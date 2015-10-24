@@ -12,6 +12,11 @@ namespace OpenCvSharp
 #endif
 	public enum ConvertImageFlag : int
 	{
+        /// <summary>
+        /// 
+        /// </summary>
+        None = 0,
+
 #if LANG_JP
 		/// <summary>
 		/// 画像を垂直方向に反転 [CV_CVTIMG_FLIP]

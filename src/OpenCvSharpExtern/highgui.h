@@ -195,6 +195,13 @@ CVAPI(void) highgui_VideoWriter_write(cv::VideoWriter *obj, cv::Mat *image)
 	obj->write(*image);
 }
 
+CVAPI(void) highgui_cvConvertImage_Mat(cv::Mat *src, cv::Mat *dst, int flags)
+{
+	IplImage srcImg = (IplImage)*src;
+	IplImage dstImg = (IplImage)*dst;
+	cvConvertImage(&srcImg, &dstImg, flags);
+}
+
 #pragma endregion
 
 #endif
