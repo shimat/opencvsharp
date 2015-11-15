@@ -17,7 +17,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            ConvertImageSample();
+            CvBlobsSample();
+            //ConvertImageSample();
             //VideoCaptureSample();
             //MatchTemplateSample();
             //BackgroundSubtractorSample();
@@ -29,6 +30,17 @@ namespace OpenCvSharp.Sandbox
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void CvBlobsSample()
+        {
+            var src = new Mat("data/shapes.png", ImreadModes.GrayScale);
+            var bin = src.Threshold(0, 255, ThresholdTypes.Otsu);
+            var view = bin.CvtColor(ColorConversionCodes.GRAY2BGR);
+
+            var blobs = new CvBlobs(bin);
+            blobs.RenderBlobs(bin, view, (RenderBlobsMode)0x001f);
+            Window.ShowImages(bin, view);
         }
 
         private static void ConvertImageSample()

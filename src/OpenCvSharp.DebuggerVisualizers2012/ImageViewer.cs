@@ -28,7 +28,7 @@ namespace OpenCvSharp.DebuggerVisualizers2012
         public ImageViewer(MatProxy proxy)
             : this()
         {
-            bitmap = proxy.CreateBitmap();
+            bitmap = new Bitmap(proxy.CreateBitmapStream());
         }
 
         /// <summary>
