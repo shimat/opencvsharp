@@ -78,7 +78,7 @@ namespace OpenCvSharp.Blob
                     Cv2.Rectangle(
                         imgDst,
                         new Point(blob.MinX, blob.MinY),
-                        new Point(blob.MaxX - 1, blob.MaxY - 1),
+                        new Point(blob.MaxX, blob.MaxY),
                         new Scalar(255, 0, 0));
                 }
                 if ((mode & RenderBlobsMode.Angle) == RenderBlobsMode.Angle)

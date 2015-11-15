@@ -86,6 +86,7 @@
     <Compile Include="Cv2\Cv2_face.cs" />
     <Compile Include="Cv2\Cv2_video.cs" />
     <Compile Include="Cv2\Cv2_superres.cs" />
+    <Compile Include="MatProxy.cs" />
     <Compile Include="Modules\core\Enum\CriteriaType.cs" />
     <Compile Include="Modules\features2d\AgastFeatureDetector.cs" />
     <Compile Include="Modules\features2d\KeyPointsFilter.cs" />
