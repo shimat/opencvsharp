@@ -39,7 +39,7 @@ namespace OpenCvSharp.Sandbox
             var view = bin.CvtColor(ColorConversionCodes.GRAY2BGR);
 
             var blobs = new CvBlobs(bin);
-            blobs.RenderBlobs(bin, view, (RenderBlobsMode)0x001f);
+            blobs.RenderBlobs(bin, view, RenderBlobsMode.Angle | RenderBlobsMode.BoundingBox | RenderBlobsMode.Color);
             Window.ShowImages(bin, view);
         }
 
