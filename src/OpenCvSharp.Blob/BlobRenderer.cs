@@ -140,7 +140,10 @@ namespace OpenCvSharp.Blob
 
             foreach (var kv in blobs)
             {
-                PerformOne(blobs.Labels, kv.Value, imgSrc, imgDst, mode, palette[kv.Key], alpha);
+                Scalar color = default (Scalar);
+                if (palette.ContainsKey(kv.Key))
+                    color = palette[kv.Key];
+                PerformOne(blobs.Labels, kv.Value, imgSrc, imgDst, mode, color, alpha);
             }
         }
 
