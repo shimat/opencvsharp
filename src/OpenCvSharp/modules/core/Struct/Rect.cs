@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace OpenCvSharp
 {
     /// <summary>
-    /// 
+    /// Stores a set of four integers that represent the location and size of a rectangle
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
@@ -51,12 +51,12 @@ namespace OpenCvSharp
         #endregion
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the Rectangle class with the specified location and size.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="x">The x-coordinate of the upper-left corner of the rectangle.</param>
+        /// <param name="y">The y-coordinate of the upper-left corner of the rectangle.</param>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
         public Rect(int x, int y, int width, int height)
         {
             X = x;
@@ -66,10 +66,10 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the Rectangle class with the specified location and size.
         /// </summary>
-        /// <param name="location"></param>
-        /// <param name="size"></param>
+        /// <param name="location">A Point that represents the upper-left corner of the rectangular region.</param>
+        /// <param name="size">A Size that represents the width and height of the rectangular region.</param>
         public Rect(Point location, Size size)
         {
             X = location.X;
@@ -79,12 +79,13 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Creates a Rectangle structure with the specified edge locations.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="top"></param>
-        /// <param name="right"></param>
-        /// <param name="bottom"></param>
+        /// <param name="left">The x-coordinate of the upper-left corner of this Rectangle structure.</param>
+        /// <param name="top">The y-coordinate of the upper-left corner of this Rectangle structure.</param>
+        /// <param name="right">The x-coordinate of the lower-right corner of this Rectangle structure.</param>
+        /// <param name="bottom">The y-coordinate of the lower-right corner of this Rectangle structure.</param>
+// ReSharper disable once InconsistentNaming
         public static Rect FromLTRB(int left, int top, int right, int bottom)
         {
             Rect r = new Rect
