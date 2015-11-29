@@ -85,7 +85,7 @@ namespace OpenCvSharp.Blob
         {
             get
             {
-                return new CvRect(MinX, MinY, MaxX - MinX, MaxY - MinY);
+                return new CvRect(MinX, MinY, MaxX - MinX + 1, MaxY - MinY + 1);
             }
             set
             {
