@@ -27,80 +27,6 @@ namespace OpenCvSharp.Extensions
         /// <returns></returns>
         [DllImport("gdi32")]
         private static extern int DeleteObject(IntPtr hObject);
-        
-#if LANG_JP
-        /// <summary>
-        /// IplImageをBitmapSourceに変換する. 
-        /// </summary>
-        /// <param name="src">変換するIplImage</param>
-        /// <returns>WPFのBitmapSource</returns>
-#else
-        /// <summary>
-        /// Converts IplImage to BitmapSource.
-        /// </summary>
-        /// <param name="src">Input IplImage</param>
-        /// <returns>BitmapSource</returns>
-#endif
-        public static BitmapSource ToBitmapSource(
-            this IplImage src)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (src.IsDisposed)
-                throw new ObjectDisposedException(typeof(IplImage).ToString());
-
-            return ToBitmapSource(
-                src,
-                96, 
-                96, 
-                GetOptimumPixelFormats(src.Depth, src.NChannels), 
-                null);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// IplImageをBitmapSourceに変換する. 
-        /// </summary>
-        /// <param name="src">変換するIplImage</param>
-        /// <param name="horizontalResolution"></param>
-        /// <param name="verticalResolution"></param>
-        /// <param name="pixelFormat"></param>
-        /// <param name="palette"></param>
-        /// <returns>WPFのBitmapSource</returns>
-#else
-        /// <summary>
-        /// Converts IplImage to BitmapSource.
-        /// </summary>
-        /// <param name="src">Input IplImage</param>
-        /// <param name="horizontalResolution"></param>
-        /// <param name="verticalResolution"></param>
-        /// <param name="pixelFormat"></param>
-        /// <param name="palette"></param>
-        /// <returns>BitmapSource</returns>
-#endif
-        public static BitmapSource ToBitmapSource(
-            this IplImage src,
-            int horizontalResolution,
-            int verticalResolution,
-            PixelFormat pixelFormat,
-            BitmapPalette palette)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (src.IsDisposed)
-                throw new ObjectDisposedException(typeof(IplImage).ToString());
-
-            return BitmapSource.Create(
-                src.Width,
-                src.Height,
-                horizontalResolution,
-                verticalResolution,
-                pixelFormat,
-                palette,
-                src.ImageData,
-                src.WidthStep * src.Height,
-                src.WidthStep);
-        }
 
 #if LANG_JP
         /// <summary>
@@ -118,17 +44,7 @@ namespace OpenCvSharp.Extensions
         public static BitmapSource ToBitmapSource(
             this Mat src)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (src.IsDisposed)
-                throw new ObjectDisposedException(typeof(Mat).ToString());
-
-            return ToBitmapSource(
-                src,
-                96,
-                96,
-                GetOptimumPixelFormats(src.Type()),
-                null);
+            return src.ToWriteableBitmap();
         }
 
 #if LANG_JP
@@ -159,24 +75,7 @@ namespace OpenCvSharp.Extensions
             PixelFormat pixelFormat,
             BitmapPalette palette)
         {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (src.IsDisposed)
-                throw new ObjectDisposedException(typeof(Mat).ToString());
-            if (src.Dims() != 2)
-                throw new ArgumentException("src.Dims() != 2");
-
-            long step = src.Step();
-            return BitmapSource.Create(
-                src.Width,
-                src.Height,
-                horizontalResolution,
-                verticalResolution,
-                pixelFormat,
-                palette,
-                src.Data,
-                (int)(step * src.Rows),
-                (int)step);
+            return src.ToWriteableBitmap(horizontalResolution, verticalResolution, pixelFormat, palette);
         }
 
 #if LANG_JP
@@ -217,100 +116,181 @@ namespace OpenCvSharp.Extensions
             }
         }
 
+        #region ToMat
+#if LANG_JP
         /// <summary>
-        /// 指定したIplImageのビット深度・チャンネル数に適合するPixelFormatを返す
+        /// BitmapSourceをMatに変換する
         /// </summary>
-        /// <param name="d"></param>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        private static PixelFormat GetOptimumPixelFormats(BitDepth d, int c)
+        /// <param name="src">変換するBitmapSource</param>
+        /// <returns>OpenCvSharpで扱えるMat</returns>
+#else
+        /// <summary>
+        /// Converts BitmapSource to Mat
+        /// </summary>
+        /// <param name="src">Input BitmapSource</param>
+        /// <returns>IplImage</returns>
+#endif
+        public static Mat ToMat(this BitmapSource src)
         {
-            switch (d)
+            if (src == null)
             {
-                case BitDepth.U8:
-                case BitDepth.S8:
-                    switch (c)
+                throw new ArgumentNullException("src");
+            }
+
+            int w = src.PixelWidth;
+            int h = src.PixelHeight;
+            MatType type = WriteableBitmapConverter.GetOptimumType(src.Format);
+            Mat dst = new Mat(h, w, type);
+            ToMat(src, dst);
+            return dst;
+        }
+#if LANG_JP
+        /// <summary>
+        /// BitmapSourceをMatに変換する.
+        /// </summary>
+        /// <param name="src">変換するBitmapSource</param>
+        /// <param name="dst">出力先のMat</param>
+#else
+        /// <summary>
+        /// Converts BitmapSource to Mat
+        /// </summary>
+        /// <param name="src">Input BitmapSource</param>
+        /// <param name="dst">Output Mat</param>
+#endif
+        public static void ToMat(this BitmapSource src, Mat dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (dst == null)
+                throw new ArgumentNullException("dst");
+            if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
+                throw new ArgumentException("size of src must be equal to size of dst");
+            if (dst.Dims() > 2)
+                throw new ArgumentException("Mat dimensions must be 2");
+
+            int w = src.PixelWidth;
+            int h = src.PixelHeight;
+            int bpp = src.Format.BitsPerPixel;
+            int channels = WriteableBitmapConverter.GetOptimumChannels(src.Format);
+            if (dst.Channels() != channels)
+            {
+                throw new ArgumentException("nChannels of dst is invalid", "dst");
+            }
+
+            bool submat = dst.IsSubmatrix();
+            bool continuous = dst.IsContinuous();
+
+            unsafe
+            {
+                byte* p = (byte*)(dst.Data);
+                long step = dst.Step();
+
+                // 1bppは手作業でコピー
+                if (bpp == 1)
+                {
+                    if (submat)
+                        throw new NotImplementedException("submatrix not supported");
+
+                    // BitmapImageのデータを配列にコピー
+                    // 要素1つに横8ピクセル分のデータが入っている。   
+                    int stride = (w / 8) + 1;
+                    byte[] pixels = new byte[h * stride];
+                    src.CopyPixels(pixels, stride, 0);
+                    int x = 0;
+                    for (int y = 0; y < h; y++)
                     {
-                        case 1:
-                            return PixelFormats.Gray8;
-                        case 3:
-                            return PixelFormats.Bgr24;
-                        case 4:
-                            return PixelFormats.Bgra32;
-                        default:
-                            throw new ArgumentOutOfRangeException("c", "Not supported BitDepth and/or NChannels");
+                        int offset = y * stride;
+                        // この行の各バイトを調べていく
+                        for (int bytePos = 0; bytePos < stride; bytePos++)
+                        {
+                            if (x < w)
+                            {
+                                // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                                byte b = pixels[offset + bytePos];
+                                for (int i = 0; i < 8; i++)
+                                {
+                                    if (x >= w)
+                                    {
+                                        break;
+                                    }
+                                    p[step * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
+                                    b <<= 1;
+                                    x++;
+                                }
+                            }
+                        }
+                        // 次の行へ
+                        x = 0;
                     }
-                case BitDepth.U16:
-                case BitDepth.S16:
-                    switch (c)
+
+                }
+                // 8bpp
+                /*else if (bpp == 8)
+                {
+                    int stride = w;
+                    byte[] pixels = new byte[h * stride];
+                    src.CopyPixels(pixels, stride, 0);
+                    for (int y = 0; y < h; y++)
                     {
-                        case 1:
-                            return PixelFormats.Gray16;
-                        case 3:
-                            return PixelFormats.Rgb48;
-                        case 4:
-                            return PixelFormats.Rgba64;
-                        default:
-                            throw new ArgumentOutOfRangeException("c", "Not supported BitDepth and/or NChannels");
+                        for (int x = 0; x < w; x++)
+                        {
+                            p[step * y + x] = pixels[y * stride + x];
+                        }
                     }
-                case BitDepth.S32:
-                    switch (c)
+                }*/
+                // 24bpp, 32bpp, ...
+                else
+                {
+                    int stride = w * ((bpp + 7) / 8);
+                    if (!submat && continuous)
                     {
-                        case 4:
-                            return PixelFormats.Prgba64;
-                        default:
-                            throw new ArgumentOutOfRangeException("c", "Not supported BitDepth and/or NChannels");
+                        long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
+                        if (imageSize < 0)
+                            throw new OpenCvSharpException("The mat has invalid data pointer");
+                        if (imageSize > Int32.MaxValue)
+                            throw new OpenCvSharpException("Too big mat data");
+                        src.CopyPixels(Int32Rect.Empty, dst.Data, (int)imageSize, stride);
                     }
-                case BitDepth.F32:
-                    switch (c)
+                    else
                     {
-                        case 1:
-                            return PixelFormats.Gray32Float;
-                        case 3:
-                            return PixelFormats.Rgb128Float;
-                        case 4:
-                            return PixelFormats.Rgba128Float;
-                        default:
-                            throw new ArgumentOutOfRangeException("c", "Not supported BitDepth and/or NChannels");
+                        // 高さ1pxの矩形ごと(≒1行ごと)にコピー
+                        var roi = new Int32Rect { X = 0, Y = 0, Width = w, Height = 1 };
+                        IntPtr dstData = dst.Data;
+                        for (int y = 0; y < h; y++)
+                        {
+                            roi.Y = y;
+                            src.CopyPixels(roi, dstData, stride, stride);
+                            dstData = new IntPtr(dstData.ToInt64() + stride);
+                        }
                     }
-                case BitDepth.F64:
-                default:
-                    throw new ArgumentOutOfRangeException("c", "Not supported BitDepth");
+                }
+
             }
         }
 
+#if LANG_JP
         /// <summary>
-        /// 指定したIplImageのビット深度・チャンネル数に適合するPixelFormatを返す
+        /// System.Windows.Media.Imaging.BitmapSource から Mat へピクセルデータをコピーする
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="mat"></param>
+        /// <param name="wb"></param>
         /// <returns></returns>
-        private static PixelFormat GetOptimumPixelFormats(MatType type)
+#else
+        /// <summary>
+        /// Copies pixel data from System.Windows.Media.Imaging.BitmapSource to IplImage instance
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <param name="wb"></param>
+        /// <returns></returns>
+#endif
+        public static void CopyFrom(this Mat mat, BitmapSource wb)
         {
-            if (type == MatType.CV_8UC1 || type == MatType.CV_8SC1)
-                return PixelFormats.Gray8;
-            if (type == MatType.CV_8UC3 || type == MatType.CV_8SC3)
-                return PixelFormats.Bgr24;
-            if (type == MatType.CV_8UC4 || type == MatType.CV_8SC4)
-                return PixelFormats.Bgra32;
+            if (wb == null)
+                throw new ArgumentNullException("wb");
 
-            if (type == MatType.CV_16UC1 || type == MatType.CV_16SC1)
-                return PixelFormats.Gray16;
-            if (type == MatType.CV_16UC3 || type == MatType.CV_16SC3)
-                return PixelFormats.Rgb48;
-            if (type == MatType.CV_16UC4 || type == MatType.CV_16SC4)
-                return PixelFormats.Rgba64;
-
-            if (type == MatType.CV_32SC4)
-                return PixelFormats.Prgba64;
-
-            if (type == MatType.CV_32FC1)
-                return PixelFormats.Gray32Float;
-            if (type == MatType.CV_32FC3)
-                return PixelFormats.Rgb128Float;
-            if (type == MatType.CV_32FC4)
-                return PixelFormats.Rgba128Float;
-
-            throw new ArgumentOutOfRangeException("type", "Not supported MatType");
+            ToMat(wb, mat);
         }
+
+        #endregion
     }
 }

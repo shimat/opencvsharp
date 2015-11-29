@@ -113,13 +113,12 @@ namespace OpenCvSharp.Extensions
             optimumTypes[PixelFormats.Cmyk32] = MatType.CV_8UC4;
         }
 
-        #region ToIplImage
         /// <summary>
         /// 指定したPixelFormatに適合するIplImageのビット深度を返す
         /// </summary>
         /// <param name="f"></param>
         /// <returns></returns>
-        private static BitDepth GetOptimumDepth(PixelFormat f)
+        internal static BitDepth GetOptimumDepth(PixelFormat f)
         {
             try
             {
@@ -136,7 +135,7 @@ namespace OpenCvSharp.Extensions
         /// </summary>
         /// <param name="f"></param>
         /// <returns></returns>
-        private static int GetOptimumChannels(PixelFormat f)
+        internal static int GetOptimumChannels(PixelFormat f)
         {
             try
             {
@@ -153,7 +152,7 @@ namespace OpenCvSharp.Extensions
         /// </summary>
         /// <param name="f"></param>
         /// <returns></returns>
-        private static MatType GetOptimumType(PixelFormat f)
+        internal static MatType GetOptimumType(PixelFormat f)
         {
             try
             {
@@ -164,6 +163,8 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentException("Not supported PixelFormat");
             }
         }
+
+        #region ToIplImage
 
 #if LANG_JP
         /// <summary>
