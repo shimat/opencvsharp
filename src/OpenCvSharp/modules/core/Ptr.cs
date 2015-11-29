@@ -78,6 +78,7 @@ namespace OpenCvSharp
                 {typeof (Stitcher), NativeMethods.stitching_Ptr_Stitcher_delete},
                 {typeof (ShapeContextDistanceExtractor), NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete},
                 {typeof (HausdorffDistanceExtractor), NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete},
+                {typeof (CalibrateDebevec), NativeMethods.photo_Ptr_CalibrateDebevec_delete},
             };
             definedGetFunctions = new Dictionary<Type, ObjFunc>
             {
@@ -127,6 +128,7 @@ namespace OpenCvSharp
                 {typeof (Stitcher), NativeMethods.stitching_Ptr_Stitcher_get},
                 {typeof (ShapeContextDistanceExtractor), NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get},
                 {typeof (HausdorffDistanceExtractor), NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get},
+                {typeof (CalibrateDebevec), NativeMethods.photo_Ptr_CalibrateDebevec_get},
             };
         }
 
