@@ -124,6 +124,8 @@
     <Compile Include="Modules\ml\Enum\SampleTypes.cs" />
     <Compile Include="Modules\ml\ParamGrid.cs" />
     <Compile Include="Modules\ml\TrainData.cs" />
+    <Compile Include="Modules\photo\CalibrateDebevec.cs" />
+    <Compile Include="Modules\photo\CalibrateCRF.cs" />
     <Compile Include="Modules\photo\EdgePreservingMethods.cs" />
     <Compile Include="Modules\photo\SeamlessCloneMethods.cs" />
     <Compile Include="Modules\shape\HausdorffDistanceExtractor.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_LogisticRegression.cs" />
     <Compile Include="PInvoke\ml\NativeMethods_ml_StatModel.cs" />
     <Compile Include="PInvoke\NativeMethods_imgcodecs.cs" />
+    <Compile Include="PInvoke\photo\NativeMethods_photo_HDR.cs" />
     <Compile Include="PInvoke\shape\NativeMethods_shape_ShapeDistanceExtractor.cs" />
     <Compile Include="PInvoke\NativeMethods_videoio.cs" />
     <Compile Include="Util\EnumerableEx.cs" />
@@ -290,7 +293,7 @@
     <Compile Include="PInvoke\ml\NativeMethods_ml_ANN_MLP.cs" />
     <Compile Include="PInvoke\cuda\NativeMethods_cuda.cs" />
     <Compile Include="PInvoke\imgproc\NativeMethods_imgproc_CLAHE.cs" />
-    <Compile Include="PInvoke\NativeMethods_photo.cs" />
+    <Compile Include="PInvoke\photo\NativeMethods_photo.cs" />
     <Compile Include="Modules\calib3d\StereoBM.cs" />
     <Compile Include="Modules\core\Mat\MatIndexer.cs" />
     <Compile Include="Modules\core\Mat\MatOfDouble.cs" />

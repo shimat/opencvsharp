@@ -18,6 +18,7 @@ namespace OpenCvSharp.Sandbox
         private static void Main(string[] args)
         {
             CvBlobsSample();
+            //HDR();
             //ConvertImageSample();
             //VideoCaptureSample();
             //MatchTemplateSample();
@@ -30,6 +31,32 @@ namespace OpenCvSharp.Sandbox
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+                
+        private static void HDR()
+        {
+            var hdr = CalibrateDebevec.Create();
+
+            Mat[] images = new Mat[3];
+            images[0] = Cv2.ImRead(@"data\lenna.png", ImreadModes.AnyColor);
+            images[1] = Cv2.ImRead(@"data\lenna.png", ImreadModes.AnyColor);
+            images[2] = Cv2.ImRead(@"data\lenna.png", ImreadModes.AnyColor);
+
+            float[] speeds = new float[3];
+            speeds[0] = 1;
+            speeds[1] = 1;
+            speeds[2] = 1;
+
+            Mat dst = new Mat();
+
+            hdr.Process(images, dst, speeds);
+
+            dst.ToString();
+
+            for (int i = 0; i < Math.Max(dst.Rows, dst.Cols); i++)
+            {
+                Console.WriteLine(dst.At<float>(i));
+            }
         }
 
         private static void CvBlobsSample()
