@@ -89,7 +89,7 @@ namespace OpenCvSharp.Blob
         /// </summary>
         public Rect Rect
         {
-            get { return new Rect(MinX, MinY, MaxX - MinX, MaxY - MinY); }
+            get { return new Rect(MinX, MinY, MaxX - MinX + 1, MaxY - MinY + 1); }
             set
             {
                 MinX = value.Left;
