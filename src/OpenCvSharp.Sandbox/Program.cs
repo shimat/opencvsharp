@@ -17,7 +17,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            HDR();
+            CvBlobsSample();
+            //HDR();
             //ConvertImageSample();
             //VideoCaptureSample();
             //MatchTemplateSample();
@@ -31,7 +32,7 @@ namespace OpenCvSharp.Sandbox
             Console.WriteLine("Press any key to exit");
             Console.Read();
         }
-
+                
         private static void HDR()
         {
             var hdr = CalibrateDebevec.Create();
@@ -56,6 +57,17 @@ namespace OpenCvSharp.Sandbox
             {
                 Console.WriteLine(dst.At<float>(i));
             }
+        }
+
+        private static void CvBlobsSample()
+        {
+            var src = new Mat("data/shapes.png", ImreadModes.GrayScale);
+            var bin = src.Threshold(0, 255, ThresholdTypes.Otsu);
+            var view = bin.CvtColor(ColorConversionCodes.GRAY2BGR);
+
+            var blobs = new CvBlobs(bin);
+            blobs.RenderBlobs(bin, view, RenderBlobsMode.Angle | RenderBlobsMode.BoundingBox | RenderBlobsMode.Color);
+            Window.ShowImages(bin, view);
         }
 
         private static void ConvertImageSample()

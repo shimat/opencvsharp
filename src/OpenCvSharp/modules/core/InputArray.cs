@@ -36,9 +36,10 @@ namespace OpenCvSharp
         /// <param name="mat"></param>
         internal InputArray(Mat mat)
         {
-            if(mat == null)
-                throw new ArgumentNullException("mat");
-            ptr = NativeMethods.core_InputArray_new_byMat(mat.CvPtr);
+            if (mat == null)
+                ptr = IntPtr.Zero;
+            else
+                ptr = NativeMethods.core_InputArray_new_byMat(mat.CvPtr);
             obj = mat;
         }
 
@@ -49,8 +50,9 @@ namespace OpenCvSharp
         internal InputArray(MatExpr expr)
         {
             if (expr == null)
-                throw new ArgumentNullException("expr");
-            ptr = NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr);
+                ptr = IntPtr.Zero;
+            else
+                ptr = NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr);
             obj = null;
         }
 
