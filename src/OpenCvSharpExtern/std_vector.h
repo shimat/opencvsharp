@@ -741,22 +741,22 @@ CVAPI(vector<cv::Mat>*) vector_Mat_new3(cv::Mat *data, size_t dataLength)
 	}
 	return vec;
 }
-CVAPI(size_t) vector_Mat_getSize(vector<cv::Mat>* vector)
+CVAPI(size_t) vector_Mat_getSize(vector<cv::Mat> *vector)
 {
 	return vector->size();
 }
-CVAPI(cv::Mat*) vector_Mat_getPointer(vector<cv::Mat>* vector)
+CVAPI(cv::Mat*) vector_Mat_getPointer(vector<cv::Mat> *vector)
 {
 	return &(vector->at(0));
 }
-CVAPI(void) vector_Mat_assignToArray(vector<cv::Mat>* vector, cv::Mat** arr)
+CVAPI(void) vector_Mat_assignToArray(vector<cv::Mat> *vector, cv::Mat** arr)
 {
 	for (size_t i = 0; i < vector->size(); i++)
 	{
 		(vector->at(i)).assignTo(*(arr[i]));
 	}
 }
-CVAPI(void) vector_Mat_addref(vector<cv::Mat>* vector)
+CVAPI(void) vector_Mat_addref(vector<cv::Mat> *vector)
 {
   for (std::vector<cv::Mat>::iterator m = vector->begin(); 
        m != vector->end(); 
