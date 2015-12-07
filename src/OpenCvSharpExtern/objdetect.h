@@ -138,4 +138,26 @@ CVAPI(int) objdetect_CascadeClassifier_setImage(cv::CascadeClassifier *obj, cv::
 
 #pragma endregion
 
+
+CVAPI(void) objdetect_groupRectangles1(std::vector<cv::Rect> *rectList, int groupThreshold, double eps)
+{
+    cv::groupRectangles(*rectList, groupThreshold, eps);
+}
+CVAPI(void) objdetect_groupRectangles2(std::vector<cv::Rect> *rectList, std::vector<int> *weights, int groupThreshold, double eps)
+{
+    cv::groupRectangles(*rectList, *weights, groupThreshold, eps);
+}
+CVAPI(void) objdetect_groupRectangles3(std::vector<cv::Rect> *rectList, int groupThreshold, double eps, std::vector<int> *weights, std::vector<double> *levelWeights)
+{
+    cv::groupRectangles(*rectList, groupThreshold, eps, weights, levelWeights);
+}
+CVAPI(void) objdetect_groupRectangles4(std::vector<cv::Rect> *rectList, std::vector<int> *rejectLevels, std::vector<double> *levelWeights, int groupThreshold, double eps)
+{
+    cv::groupRectangles(*rectList, *rejectLevels, *levelWeights, groupThreshold, eps);
+}
+CVAPI(void) objdetect_groupRectangles_meanshift(std::vector<cv::Rect> *rectList, std::vector<double> *foundWeights, std::vector<double> *foundScales, double detectThreshold, CvSize winDetSize)
+{
+    cv::groupRectangles_meanshift(*rectList, *foundWeights, *foundScales, detectThreshold, winDetSize);
+}
+
 #endif
