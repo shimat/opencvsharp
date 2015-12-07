@@ -197,6 +197,11 @@ CVAPI(void) core_FileNode_toString(cv::FileNode *obj, char *buf, int bufLength)
     copyString(str, buf, bufLength);
 }
 
+CVAPI(CvFileNode*) core_FileNode_toLegacy(cv::FileNode *obj)
+{
+    return *(*obj);
+}
+
 CVAPI(void) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec, size_t len)
 {
     obj->readRaw(fmt, vec, len);
