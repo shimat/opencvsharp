@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Cv2\Cv2.cs" />
     <Compile Include="Cv2\Cv2_features2d.cs" />
+    <Compile Include="Cv2\Cv2_objdetect.cs" />
     <Compile Include="Cv2\Cv2_imgcodecs.cs" />
     <Compile Include="Cv2\Cv2_ml.cs" />
     <Compile Include="Cv2\Cv2_xfeatures2d.cs" />
