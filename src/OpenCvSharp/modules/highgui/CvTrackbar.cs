@@ -89,11 +89,9 @@ namespace OpenCvSharp
             gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
             gchCallback = GCHandle.Alloc(callback);
             IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callback);
-#if DEBUG
-            int result = NativeMethods.cvCreateTrackbar(name, window, ref value, max, callback);
-#else
+
             result = NativeMethods.highgui_createTrackbar(name, window, ref value, max, callbackPtr, IntPtr.Zero);
-#endif
+
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
         }
@@ -169,11 +167,9 @@ namespace OpenCvSharp
             IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
 
             gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
-#if DEBUG
-            int result = NativeMethods.cvCreateTrackbar2(name, window, ref value, max, callbackNative, userdataPtr);
-#else
+
             result = NativeMethods.highgui_createTrackbar(name, window, ref value, max, callbackPtr, userdataPtr);
-#endif
+
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
         }
