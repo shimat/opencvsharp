@@ -37,15 +37,21 @@ namespace OpenCvSharp
         public static extern IntPtr core_InputArray_new_byDouble(double val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_InputArray_new_byGpuMat(IntPtr mat);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_InputArray_new_byVectorOfMat(IntPtr vector);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_InputArray_delete(IntPtr ia);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_OutputArray_new_byMat(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_OutputArray_new_byGpuMat(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_OutputArray_new_byScalar(Scalar val);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr core_OutputArray_new_byVectorOfMat(IntPtr vector);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_OutputArray_delete(IntPtr oa);
 
@@ -56,6 +62,9 @@ namespace OpenCvSharp
         public static extern IntPtr core_OutputArray_getMat(IntPtr oa);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern Scalar core_OutputArray_getScalar(IntPtr oa);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_OutputArray_getVectorOfMat(IntPtr oa, IntPtr vector);
+        
         #endregion
 
         #region FileStorage

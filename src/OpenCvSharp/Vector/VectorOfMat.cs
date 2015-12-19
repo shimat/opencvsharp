@@ -45,6 +45,24 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mats"></param>
+        public VectorOfMat(IEnumerable<Mat> mats)
+        {
+            if (mats == null)
+                throw new ArgumentNullException("mats");
+
+            var matPointers = EnumerableEx.SelectPtrs(mats);
+            using (var matPointersPointer = new ArrayAddress1<IntPtr>(matPointers))
+            {
+                ptr = NativeMethods.vector_Mat_new3(
+                    matPointersPointer.Pointer,
+                    new IntPtr(matPointers.Length));
+            }
+        }
+
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">

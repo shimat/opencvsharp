@@ -93,7 +93,7 @@ CVAPI(cv::Mat*) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj)
 }
 #pragma endregion
 
-CVAPI(int) video_buildOpticalFlowPyramid(
+CVAPI(int) video_buildOpticalFlowPyramid1(
 	cv::_InputArray *img, cv::_OutputArray *pyramid,
 	MyCvSize winSize, int maxLevel, int withDerivatives,
 	int pyrBorder, int derivBorder, int tryReuseInputImage)
@@ -101,6 +101,15 @@ CVAPI(int) video_buildOpticalFlowPyramid(
 	return cv::buildOpticalFlowPyramid(
 		*img, *pyramid, cpp(winSize), maxLevel, withDerivatives != 0,
 		pyrBorder, derivBorder, tryReuseInputImage != 0);
+}
+CVAPI(int) video_buildOpticalFlowPyramid2(
+    cv::_InputArray *img, std::vector<cv::Mat> *pyramidVec,
+    MyCvSize winSize, int maxLevel, int withDerivatives,
+    int pyrBorder, int derivBorder, int tryReuseInputImage)
+{
+    return cv::buildOpticalFlowPyramid(
+        *img, *pyramidVec, cpp(winSize), maxLevel, withDerivatives != 0,
+        pyrBorder, derivBorder, tryReuseInputImage != 0);
 }
 
 CVAPI(void) video_calcOpticalFlowPyrLK_InputArray(
