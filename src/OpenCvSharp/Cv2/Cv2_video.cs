@@ -115,7 +115,7 @@ namespace OpenCvSharp
 
             using (var pyramidVec = new VectorOfMat())
             {
-                int result = NativeMethods.video_buildOpticalFlowPyramid1(
+                int result = NativeMethods.video_buildOpticalFlowPyramid2(
                     img.CvPtr, pyramidVec.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
                     (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0);
                 pyramid = pyramidVec.ToArray();
