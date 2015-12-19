@@ -41,12 +41,12 @@ namespace OpenCvSharp
         /// <summary>
         /// [IPL_BORDER_REFLECT]
         /// </summary>
-        Reflict = CvConst.IPL_BORDER_REFLECT,
+        Reflect = CvConst.IPL_BORDER_REFLECT,
 
         /// <summary>
         /// [IPL_BORDER_REFLECT_101]
         /// </summary>
-        Reflict101 = CvConst.IPL_BORDER_REFLECT_101,
+        Reflect101 = CvConst.IPL_BORDER_REFLECT_101,
 
         /// <summary>
         /// [IPL_BORDER_WRAP]
