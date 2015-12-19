@@ -53,10 +53,16 @@ namespace OpenCvSharp
 
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int video_buildOpticalFlowPyramid(
+        public static extern int video_buildOpticalFlowPyramid1(
             IntPtr img, IntPtr pyramid,
             Size winSize, int maxLevel, int withDerivatives,
             int pyrBorder, int derivBorder, int tryReuseInputImage);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int video_buildOpticalFlowPyramid2(
+            IntPtr img, IntPtr pyramidVec,
+            Size winSize, int maxLevel, int withDerivatives,
+            int pyrBorder, int derivBorder, int tryReuseInputImage);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void video_calcOpticalFlowPyrLK_InputArray(
             IntPtr prevImg, IntPtr nextImg,

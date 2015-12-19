@@ -33,6 +33,11 @@ CVAPI(cv::_InputArray*) core_InputArray_new_byGpuMat(cv::cuda::GpuMat *gm)
 	return new cv::_InputArray(ia);
 }
 
+CVAPI(cv::_InputArray*) core_InputArray_new_byVectorOfMat(std::vector<cv::Mat> *vector)
+{
+    cv::_InputArray ia(*vector);
+    return new cv::_InputArray(ia);
+}
 
 CVAPI(void) core_InputArray_delete(cv::_InputArray *ia)
 {
