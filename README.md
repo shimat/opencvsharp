@@ -22,21 +22,8 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 
 On Windows, OpenCvSharp requires OpenCV DLL files built with VC++2013 (msvcr120.dll). The official pre-built DLL files in build/[x86 or x64]/vc12/bin are suitable.
 
-## Features
-* OpenCvSharp is modeled on the native OpenCV C/C++ API style as much as possible.
-* Many classes of OpenCvSharp implement IDisposable. There is no need to manage unsafe resources. 
-* OpenCvSharp does not force object-oriented programming style on you. You can also call native-style OpenCV functions.
-* OpenCvSharp provides functions for converting from Mat/IplImage into Bitmap(GDI+) or WriteableBitmap(WPF).
-* OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux and MacOSX). 
-
------
-
-* オリジナルのC/C++コードと可能な限り似た記述ができるように設計しています。
-* 多くのクラスがIDisposableインターフェイスを実装しているので、ネイティブリソース管理が容易です。
-* オブジェクト指向な書き方を強制しません。OpenCVのネイティブの関数をそのままの形式で呼べます。
-* GDI+やWPFとの相互利用が可能です。OpenCVのMat/IplImageとGDI+のBitmapやWPFのWriteableBitmapとの変換機能があります。
-* [Mono](http://www.mono-project.com/Main_Page)に対応しています。LinuxやMacOSX等のクロスプラットフォームで動作します。
-    　
+## Documents
+http://shimat.github.io/opencvsharp/
 
 ## Usage
 For more details, see the **[Wiki](https://github.com/shimat/opencvsharp/wiki)** page.
@@ -62,6 +49,22 @@ class Program
     }
 }
 ```
+
+## Features
+* OpenCvSharp is modeled on the native OpenCV C/C++ API style as much as possible.
+* Many classes of OpenCvSharp implement IDisposable. There is no need to manage unsafe resources. 
+* OpenCvSharp does not force object-oriented programming style on you. You can also call native-style OpenCV functions.
+* OpenCvSharp provides functions for converting from Mat/IplImage into Bitmap(GDI+) or WriteableBitmap(WPF).
+* OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux and MacOSX). 
+
+-----
+
+* オリジナルのC/C++コードと可能な限り似た記述ができるように設計しています。
+* 多くのクラスがIDisposableインターフェイスを実装しているので、ネイティブリソース管理が容易です。
+* オブジェクト指向な書き方を強制しません。OpenCVのネイティブの関数をそのままの形式で呼べます。
+* GDI+やWPFとの相互利用が可能です。OpenCVのMat/IplImageとGDI+のBitmapやWPFのWriteableBitmapとの変換機能があります。
+* [Mono](http://www.mono-project.com/Main_Page)に対応しています。LinuxやMacOSX等のクロスプラットフォームで動作します。
+
 
 ## License
 OpenCvSharp is licensed under the 
