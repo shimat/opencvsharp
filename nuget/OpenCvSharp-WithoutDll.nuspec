@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp-WithoutDll</id>
-        <version>2.4.10.20150820</version>
+        <version>2.4.10.20151220</version>
         <title>OpenCvSharp2 (without DLLs)</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -11,7 +11,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <summary>OpenCV 2.x wrapper</summary>
-        <releaseNotes>- Added ChamferMatching</releaseNotes>
+        <releaseNotes>- Fixed many bugs</releaseNotes>
         <copyright>Copyright 2008-2015</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
