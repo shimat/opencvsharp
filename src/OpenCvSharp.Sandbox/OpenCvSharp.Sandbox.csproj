@@ -166,19 +166,19 @@
     <Content Include="dll\x64\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dll\x64\opencv_ffmpeg300_64.dll">
+    <Content Include="dll\x64\opencv_ffmpeg310_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dll\x64\opencv_world300.dll">
+    <Content Include="dll\x64\opencv_world310.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="dll\x86\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dll\x86\opencv_ffmpeg300.dll">
+    <Content Include="dll\x86\opencv_ffmpeg310.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dll\x86\opencv_world300.dll">
+    <Content Include="dll\x86\opencv_world310.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

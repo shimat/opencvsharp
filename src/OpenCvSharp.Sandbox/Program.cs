@@ -17,7 +17,7 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            //CvBlobsSample();
+            CvBlobsSample();
             //HDR();
             //ConvertImageSample();
             //VideoCaptureSample();
