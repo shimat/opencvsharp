@@ -15,12 +15,12 @@
 			<Link>dll\x86\msvcr120.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(NativeDlls)\x86\opencv_world300.dll">
-			<Link>dll\x86\opencv_world300.dll</Link>
+		<None Include="$(NativeDlls)\x86\opencv_world310.dll">
+			<Link>dll\x86\opencv_world310.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>	
-		<None Include="$(NativeDlls)\x86\opencv_ffmpeg300.dll">
-			<Link>dll\x86\opencv_ffmpeg300.dll</Link>
+		<None Include="$(NativeDlls)\x86\opencv_ffmpeg310.dll">
+			<Link>dll\x86\opencv_ffmpeg310.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>	
 	</ItemGroup>
@@ -37,12 +37,12 @@
 			<Link>dll\x64\msvcr120.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(NativeDlls)\x64\opencv_world300.dll">
-			<Link>dll\x64\opencv_world300.dll</Link>
+		<None Include="$(NativeDlls)\x64\opencv_world310.dll">
+			<Link>dll\x64\opencv_world310.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>	
-		<None Include="$(NativeDlls)\x64\opencv_ffmpeg300_64.dll">
-			<Link>dll\x64\opencv_ffmpeg300_64.dll</Link>
+		<None Include="$(NativeDlls)\x64\opencv_ffmpeg310_64.dll">
+			<Link>dll\x64\opencv_ffmpeg310_64.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>	
 	</ItemGroup>
