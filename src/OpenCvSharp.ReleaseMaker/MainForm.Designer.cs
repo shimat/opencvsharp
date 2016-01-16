@@ -76,13 +76,13 @@
             this.toolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_Exit});
             this.toolStripMenuItem_File.Name = "toolStripMenuItem_File";
-            this.toolStripMenuItem_File.Size = new System.Drawing.Size(56, 20);
+            this.toolStripMenuItem_File.Size = new System.Drawing.Size(51, 20);
             this.toolStripMenuItem_File.Text = "File(&F)";
             // 
             // toolStripMenuItem_Exit
             // 
             this.toolStripMenuItem_Exit.Name = "toolStripMenuItem_Exit";
-            this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(114, 22);
+            this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(108, 22);
             this.toolStripMenuItem_Exit.Text = "Exit(&X)";
             this.toolStripMenuItem_Exit.Click += new System.EventHandler(this.toolStripMenuItem_Exit_Click);
             // 
@@ -151,7 +151,7 @@
             this.textBox_Version.Name = "textBox_Version";
             this.textBox_Version.Size = new System.Drawing.Size(50, 19);
             this.textBox_Version.TabIndex = 10;
-            this.textBox_Version.Text = "3.0.0";
+            this.textBox_Version.Text = "3.1.0";
             // 
             // MainForm
             // 
