@@ -27,7 +27,7 @@ namespace OpenCvSharp
 
         public const string DllExtern = "OpenCvSharpExtern";
 
-        public const string Version = "300";
+        public const string Version = "310";
 
         private static readonly string[] RuntimeDllNames =
         {
