@@ -72,6 +72,7 @@
     @defgroup core_cluster Clustering
     @defgroup core_utils Utility and system functions and macros
     @{
+        @defgroup core_utils_sse SSE utilities
         @defgroup core_utils_neon NEON utilities
     @}
     @defgroup core_opengl OpenGL interoperability
@@ -80,6 +81,16 @@
     @defgroup core_directx DirectX interoperability
     @defgroup core_eigen Eigen support
     @defgroup core_opencl OpenCL support
+    @defgroup core_va_intel Intel VA-API/OpenCL (CL-VA) interoperability
+    @defgroup core_hal Hardware Acceleration Layer
+    @{
+        @defgroup core_hal_functions Functions
+        @defgroup core_hal_interface Interface
+        @defgroup core_hal_intrin Universal intrinsics
+        @{
+            @defgroup core_hal_intrin_impl Private implementation helpers
+        @}
+    @}
 @}
  */
 
@@ -519,7 +530,7 @@ The function LUT fills the output array with values from the look-up table. Indi
 are taken from the input array. That is, the function processes each element of src as follows:
 \f[\texttt{dst} (I)  \leftarrow \texttt{lut(src(I) + d)}\f]
 where
-\f[d =  \fork{0}{if \texttt{src} has depth \texttt{CV\_8U}}{128}{if \texttt{src} has depth \texttt{CV\_8S}}\f]
+\f[d =  \fork{0}{if \(\texttt{src}\) has depth \(\texttt{CV_8U}\)}{128}{if \(\texttt{src}\) has depth \(\texttt{CV_8S}\)}\f]
 @param src input array of 8-bit elements.
 @param lut look-up table of 256 elements; in case of multi-channel input array, the table should
 either have a single channel (in this case the same table is used for all channels) or the same
@@ -617,21 +628,21 @@ relative difference norm.
 The functions norm calculate an absolute norm of src1 (when there is no
 src2 ):
 
-\f[norm =  \forkthree{\|\texttt{src1}\|_{L_{\infty}} =  \max _I | \texttt{src1} (I)|}{if  \(\texttt{normType} = \texttt{NORM\_INF}\) }
-{ \| \texttt{src1} \| _{L_1} =  \sum _I | \texttt{src1} (I)|}{if  \(\texttt{normType} = \texttt{NORM\_L1}\) }
-{ \| \texttt{src1} \| _{L_2} =  \sqrt{\sum_I \texttt{src1}(I)^2} }{if  \(\texttt{normType} = \texttt{NORM\_L2}\) }\f]
+\f[norm =  \forkthree{\|\texttt{src1}\|_{L_{\infty}} =  \max _I | \texttt{src1} (I)|}{if  \(\texttt{normType} = \texttt{NORM_INF}\) }
+{ \| \texttt{src1} \| _{L_1} =  \sum _I | \texttt{src1} (I)|}{if  \(\texttt{normType} = \texttt{NORM_L1}\) }
+{ \| \texttt{src1} \| _{L_2} =  \sqrt{\sum_I \texttt{src1}(I)^2} }{if  \(\texttt{normType} = \texttt{NORM_L2}\) }\f]
 
 or an absolute or relative difference norm if src2 is there:
 
-\f[norm =  \forkthree{\|\texttt{src1}-\texttt{src2}\|_{L_{\infty}} =  \max _I | \texttt{src1} (I) -  \texttt{src2} (I)|}{if  \(\texttt{normType} = \texttt{NORM\_INF}\) }
-{ \| \texttt{src1} - \texttt{src2} \| _{L_1} =  \sum _I | \texttt{src1} (I) -  \texttt{src2} (I)|}{if  \(\texttt{normType} = \texttt{NORM\_L1}\) }
-{ \| \texttt{src1} - \texttt{src2} \| _{L_2} =  \sqrt{\sum_I (\texttt{src1}(I) - \texttt{src2}(I))^2} }{if  \(\texttt{normType} = \texttt{NORM\_L2}\) }\f]
+\f[norm =  \forkthree{\|\texttt{src1}-\texttt{src2}\|_{L_{\infty}} =  \max _I | \texttt{src1} (I) -  \texttt{src2} (I)|}{if  \(\texttt{normType} = \texttt{NORM_INF}\) }
+{ \| \texttt{src1} - \texttt{src2} \| _{L_1} =  \sum _I | \texttt{src1} (I) -  \texttt{src2} (I)|}{if  \(\texttt{normType} = \texttt{NORM_L1}\) }
+{ \| \texttt{src1} - \texttt{src2} \| _{L_2} =  \sqrt{\sum_I (\texttt{src1}(I) - \texttt{src2}(I))^2} }{if  \(\texttt{normType} = \texttt{NORM_L2}\) }\f]
 
 or
 
-\f[norm =  \forkthree{\frac{\|\texttt{src1}-\texttt{src2}\|_{L_{\infty}}    }{\|\texttt{src2}\|_{L_{\infty}} }}{if  \(\texttt{normType} = \texttt{NORM\_RELATIVE\_INF}\) }
-{ \frac{\|\texttt{src1}-\texttt{src2}\|_{L_1} }{\|\texttt{src2}\|_{L_1}} }{if  \(\texttt{normType} = \texttt{NORM\_RELATIVE\_L1}\) }
-{ \frac{\|\texttt{src1}-\texttt{src2}\|_{L_2} }{\|\texttt{src2}\|_{L_2}} }{if  \(\texttt{normType} = \texttt{NORM\_RELATIVE\_L2}\) }\f]
+\f[norm =  \forkthree{\frac{\|\texttt{src1}-\texttt{src2}\|_{L_{\infty}}    }{\|\texttt{src2}\|_{L_{\infty}} }}{if  \(\texttt{normType} = \texttt{NORM_RELATIVE_INF}\) }
+{ \frac{\|\texttt{src1}-\texttt{src2}\|_{L_1} }{\|\texttt{src2}\|_{L_1}} }{if  \(\texttt{normType} = \texttt{NORM_RELATIVE_L1}\) }
+{ \frac{\|\texttt{src1}-\texttt{src2}\|_{L_2} }{\|\texttt{src2}\|_{L_2}} }{if  \(\texttt{normType} = \texttt{NORM_RELATIVE_L2}\) }\f]
 
 The functions norm return the calculated norm.
 
@@ -693,6 +704,37 @@ min-max but modify the whole array, you can use norm and Mat::convertTo.
 
 In case of sparse matrices, only the non-zero values are analyzed and transformed. Because of this,
 the range transformation for sparse matrices is not allowed since it can shift the zero level.
+
+Possible usage with some positive example data:
+@code{.cpp}
+    vector<double> positiveData = { 2.0, 8.0, 10.0 };
+    vector<double> normalizedData_l1, normalizedData_l2, normalizedData_inf, normalizedData_minmax;
+
+    // Norm to probability (total count)
+    // sum(numbers) = 20.0
+    // 2.0      0.1     (2.0/20.0)
+    // 8.0      0.4     (8.0/20.0)
+    // 10.0     0.5     (10.0/20.0)
+    normalize(positiveData, normalizedData_l1, 1.0, 0.0, NORM_L1);
+
+    // Norm to unit vector: ||positiveData|| = 1.0
+    // 2.0      0.15
+    // 8.0      0.62
+    // 10.0     0.77
+    normalize(positiveData, normalizedData_l2, 1.0, 0.0, NORM_L2);
+
+    // Norm to max element
+    // 2.0      0.2     (2.0/10.0)
+    // 8.0      0.8     (8.0/10.0)
+    // 10.0     1.0     (10.0/10.0)
+    normalize(positiveData, normalizedData_inf, 1.0, 0.0, NORM_INF);
+
+    // Norm to range [0.0;1.0]
+    // 2.0      0.0     (shift to left border)
+    // 8.0      0.75    (6.0/8.0)
+    // 10.0     1.0     (shift to right border)
+    normalize(positiveData, normalizedData_minmax, 1.0, 0.0, NORM_MINMAX);
+@endcode
 
 @param src input array.
 @param dst output array of the same size as src .
@@ -798,19 +840,19 @@ otherwise, its type will be CV_MAKE_TYPE(CV_MAT_DEPTH(dtype), src.channels()).
 */
 CV_EXPORTS_W void reduce(InputArray src, OutputArray dst, int dim, int rtype, int dtype = -1);
 
-/** @brief Creates one multichannel array out of several single-channel ones.
+/** @brief Creates one multi-channel array out of several single-channel ones.
 
-The functions merge merge several arrays to make a single multi-channel array. That is, each
+The function merge merges several arrays to make a single multi-channel array. That is, each
 element of the output array will be a concatenation of the elements of the input arrays, where
 elements of i-th input array are treated as mv[i].channels()-element vectors.
 
-The function split does the reverse operation. If you need to shuffle channels in some other
-advanced way, use mixChannels .
+The function cv::split does the reverse operation. If you need to shuffle channels in some other
+advanced way, use cv::mixChannels.
 @param mv input array of matrices to be merged; all the matrices in mv must have the same
 size and the same depth.
 @param count number of input matrices when mv is a plain C array; it must be greater than zero.
 @param dst output array of the same size and the same depth as mv[0]; The number of channels will
-be the total number of channels in the matrix array.
+be equal to the parameter count.
 @sa  mixChannels, split, Mat::reshape
 */
 CV_EXPORTS void merge(const Mat* mv, size_t count, OutputArray dst);
@@ -845,34 +887,34 @@ CV_EXPORTS_W void split(InputArray m, OutputArrayOfArrays mv);
 /** @brief Copies specified channels from input arrays to the specified channels of
 output arrays.
 
-The functions mixChannels provide an advanced mechanism for shuffling image channels.
+The function cv::mixChannels provides an advanced mechanism for shuffling image channels.
 
-split and merge and some forms of cvtColor are partial cases of mixChannels .
+cv::split and cv::merge and some forms of cv::cvtColor are partial cases of cv::mixChannels .
 
-In the example below, the code splits a 4-channel RGBA image into a 3-channel BGR (with R and B
+In the example below, the code splits a 4-channel BGRA image into a 3-channel BGR (with B and R
 channels swapped) and a separate alpha-channel image:
 @code{.cpp}
-    Mat rgba( 100, 100, CV_8UC4, Scalar(1,2,3,4) );
-    Mat bgr( rgba.rows, rgba.cols, CV_8UC3 );
-    Mat alpha( rgba.rows, rgba.cols, CV_8UC1 );
+    Mat bgra( 100, 100, CV_8UC4, Scalar(255,0,0,255) );
+    Mat bgr( bgra.rows, bgra.cols, CV_8UC3 );
+    Mat alpha( bgra.rows, bgra.cols, CV_8UC1 );
 
     // forming an array of matrices is a quite efficient operation,
     // because the matrix data is not copied, only the headers
     Mat out[] = { bgr, alpha };
-    // rgba[0] -> bgr[2], rgba[1] -> bgr[1],
-    // rgba[2] -> bgr[0], rgba[3] -> alpha[0]
+    // bgra[0] -> bgr[2], bgra[1] -> bgr[1],
+    // bgra[2] -> bgr[0], bgra[3] -> alpha[0]
     int from_to[] = { 0,2, 1,1, 2,0, 3,3 };
-    mixChannels( &rgba, 1, out, 2, from_to, 4 );
+    mixChannels( &bgra, 1, out, 2, from_to, 4 );
 @endcode
 @note Unlike many other new-style C++ functions in OpenCV (see the introduction section and
-Mat::create ), mixChannels requires the output arrays to be pre-allocated before calling the
+Mat::create ), cv::mixChannels requires the output arrays to be pre-allocated before calling the
 function.
-@param src input array or vector of matricesl; all of the matrices must have the same size and the
+@param src input array or vector of matrices; all of the matrices must have the same size and the
 same depth.
-@param nsrcs number of matrices in src.
-@param dst output array or vector of matrices; all the matrices *must be allocated*; their size and
-depth must be the same as in src[0].
-@param ndsts number of matrices in dst.
+@param nsrcs number of matrices in `src`.
+@param dst output array or vector of matrices; all the matrices **must be allocated**; their size and
+depth must be the same as in `src[0]`.
+@param ndsts number of matrices in `dst`.
 @param fromTo array of index pairs specifying which channels are copied and where; fromTo[k\*2] is
 a 0-based index of the input channel in src, fromTo[k\*2+1] is an index of the output channel in
 dst; the continuous channel numbering is used: the first input image channels are indexed from 0 to
@@ -880,16 +922,16 @@ src[0].channels()-1, the second input image channels are indexed from src[0].cha
 src[0].channels() + src[1].channels()-1, and so on, the same scheme is used for the output image
 channels; as a special case, when fromTo[k\*2] is negative, the corresponding output channel is
 filled with zero .
-@param npairs number of index pairs in fromTo.
-@sa split, merge, cvtColor
+@param npairs number of index pairs in `fromTo`.
+@sa cv::split, cv::merge, cv::cvtColor
 */
 CV_EXPORTS void mixChannels(const Mat* src, size_t nsrcs, Mat* dst, size_t ndsts,
                             const int* fromTo, size_t npairs);
 
 /** @overload
-@param src input array or vector of matricesl; all of the matrices must have the same size and the
+@param src input array or vector of matrices; all of the matrices must have the same size and the
 same depth.
-@param dst output array or vector of matrices; all the matrices *must be allocated*; their size and
+@param dst output array or vector of matrices; all the matrices **must be allocated**; their size and
 depth must be the same as in src[0].
 @param fromTo array of index pairs specifying which channels are copied and where; fromTo[k\*2] is
 a 0-based index of the input channel in src, fromTo[k\*2+1] is an index of the output channel in
@@ -904,9 +946,9 @@ CV_EXPORTS void mixChannels(InputArrayOfArrays src, InputOutputArrayOfArrays dst
                             const int* fromTo, size_t npairs);
 
 /** @overload
-@param src input array or vector of matricesl; all of the matrices must have the same size and the
+@param src input array or vector of matrices; all of the matrices must have the same size and the
 same depth.
-@param dst output array or vector of matrices; all the matrices *must be allocated*; their size and
+@param dst output array or vector of matrices; all the matrices **must be allocated**; their size and
 depth must be the same as in src[0].
 @param fromTo array of index pairs specifying which channels are copied and where; fromTo[k\*2] is
 a 0-based index of the input channel in src, fromTo[k\*2+1] is an index of the output channel in
@@ -1345,7 +1387,7 @@ CV_EXPORTS_W void sqrt(InputArray src, OutputArray dst);
 /** @brief Raises every array element to a power.
 
 The function pow raises every element of the input array to power :
-\f[\texttt{dst} (I) =  \fork{\texttt{src}(I)^power}{if \texttt{power} is integer}{|\texttt{src}(I)|^power}{otherwise}\f]
+\f[\texttt{dst} (I) =  \fork{\texttt{src}(I)^{power}}{if \(\texttt{power}\) is integer}{|\texttt{src}(I)|^{power}}{otherwise}\f]
 
 So, for a non-integer power exponent, the absolute values of input array
 elements are used. However, it is possible to get true values for
@@ -1478,7 +1520,7 @@ CV_EXPORTS_W void magnitude(InputArray x, InputArray y, OutputArray magnitude);
 
 /** @brief Checks every element of an input array for invalid values.
 
-The functions checkRange check that every array element is neither NaN nor infinite. When minVal \<
+The functions checkRange check that every array element is neither NaN nor infinite. When minVal \>
 -DBL_MAX and maxVal \< DBL_MAX, the functions also check that each value is between minVal and
 maxVal. In case of multi-channel arrays, each channel is processed independently. If some values
 are out of range, position of the first outlier is stored in pos (when pos != NULL). Then, the
@@ -1993,9 +2035,9 @@ so you need to "flip" the second convolution operand B vertically and horizontal
 -   An example using the discrete fourier transform can be found at
     opencv_source_code/samples/cpp/dft.cpp
 -   (Python) An example using the dft functionality to perform Wiener deconvolution can be found
-    at opencv_source/samples/python2/deconvolution.py
+    at opencv_source/samples/python/deconvolution.py
 -   (Python) An example rearranging the quadrants of a Fourier image can be found at
-    opencv_source/samples/python2/dft.py
+    opencv_source/samples/python/dft.py
 @param src input array that could be real or complex.
 @param dst output array whose size and type depends on the flags .
 @param flags transformation flags, representing a combination of the cv::DftFlags
@@ -2381,8 +2423,7 @@ class CV_EXPORTS LDA
 {
 public:
     /** @brief constructor
-    Initializes a LDA with num_components (default 0) and specifies how
-    samples are aligned (default dataAsRow=true).
+    Initializes a LDA with num_components (default 0).
     */
     explicit LDA(int num_components = 0);
 
@@ -2413,15 +2454,17 @@ public:
       */
     ~LDA();
 
-    /** Compute the discriminants for data in src and labels.
+    /** Compute the discriminants for data in src (row aligned) and labels.
       */
     void compute(InputArrayOfArrays src, InputArray labels);
 
     /** Projects samples into the LDA subspace.
+        src may be one or more row aligned samples.
       */
     Mat project(InputArray src);
 
     /** Reconstructs projections from the LDA subspace.
+        src may be one or more row aligned projections.
       */
     Mat reconstruct(InputArray src);
 
@@ -2437,11 +2480,10 @@ public:
     static Mat subspaceReconstruct(InputArray W, InputArray mean, InputArray src);
 
 protected:
-    bool _dataAsRow;
+    bool _dataAsRow; // unused, but needed for 3.0 ABI compatibility.
     int _num_components;
     Mat _eigenvectors;
     Mat _eigenvalues;
-
     void lda(InputArrayOfArrays src, InputArray labels);
 };
 
@@ -2806,7 +2848,7 @@ and groups the input samples around the clusters. As an output, \f$\texttt{label
 
 @note
 -   (Python) An example on K-means clustering can be found at
-    opencv_source_code/samples/python2/kmeans.py
+    opencv_source_code/samples/python/kmeans.py
 @param data Data for clustering. An array of N-Dimensional points with float coordinates is needed.
 Examples of this array can be:
 -   Mat points(count, 2, CV_32F);
@@ -2874,6 +2916,21 @@ public:
     static Ptr<Formatter> get(int fmt = FMT_DEFAULT);
 
 };
+
+static inline
+String& operator << (String& out, Ptr<Formatted> fmtd)
+{
+    fmtd->reset();
+    for(const char* str = fmtd->next(); str; str = fmtd->next())
+        out += cv::String(str);
+    return out;
+}
+
+static inline
+String& operator << (String& out, const Mat& mtx)
+{
+    return out << Formatter::get()->format(mtx);
+}
 
 //////////////////////////////////////// Algorithm ////////////////////////////////////
 

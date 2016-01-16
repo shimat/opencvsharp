@@ -225,8 +225,10 @@ enum MorphTypes{
                         //!< \f[\texttt{dst} = \mathrm{morph\_grad} ( \texttt{src} , \texttt{element} )= \mathrm{dilate} ( \texttt{src} , \texttt{element} )- \mathrm{erode} ( \texttt{src} , \texttt{element} )\f]
     MORPH_TOPHAT   = 5, //!< "top hat"
                         //!< \f[\texttt{dst} = \mathrm{tophat} ( \texttt{src} , \texttt{element} )= \texttt{src} - \mathrm{open} ( \texttt{src} , \texttt{element} )\f]
-    MORPH_BLACKHAT = 6  //!< "black hat"
+    MORPH_BLACKHAT = 6, //!< "black hat"
                         //!< \f[\texttt{dst} = \mathrm{blackhat} ( \texttt{src} , \texttt{element} )= \mathrm{close} ( \texttt{src} , \texttt{element} )- \texttt{src}\f]
+    MORPH_HITMISS  = 7  //!< "hit and miss"
+                        //!<   .- Only supported for CV_8UC1 binary images. Tutorial can be found in [this page](http://opencv-code.com/tutorials/hit-or-miss-transform-in-opencv/)
 };
 
 //! shape of the structuring element
@@ -1369,6 +1371,28 @@ CV_EXPORTS_W void Sobel( InputArray src, OutputArray dst, int ddepth,
                          double scale = 1, double delta = 0,
                          int borderType = BORDER_DEFAULT );
 
+/** @brief Calculates the first order image derivative in both x and y using a Sobel operator
+
+Equivalent to calling:
+
+@code
+Sobel( src, dx, CV_16SC1, 1, 0, 3 );
+Sobel( src, dy, CV_16SC1, 0, 1, 3 );
+@endcode
+
+@param src input image.
+@param dx output image with first-order derivative in x.
+@param dy output image with first-order derivative in y.
+@param ksize size of Sobel kernel. It must be 3.
+@param borderType pixel extrapolation method, see cv::BorderTypes
+
+@sa Sobel
+ */
+
+CV_EXPORTS_W void spatialGradient( InputArray src, OutputArray dx,
+                                   OutputArray dy, int ksize = 3,
+                                   int borderType = BORDER_DEFAULT );
+
 /** @brief Calculates the first x- or y- image derivative using Scharr operator.
 
 The function computes the first x- or y- spatial image derivative using the Scharr operator. The
@@ -1689,6 +1713,7 @@ See the line detection example below:
     #include <opencv2/highgui.hpp>
 
     using namespace cv;
+    using namespace std;
 
     int main(int argc, char** argv)
     {
@@ -1774,18 +1799,19 @@ Example: :
     #include <math.h>
 
     using namespace cv;
+    using namespace std;
 
     int main(int argc, char** argv)
     {
         Mat img, gray;
-        if( argc != 2 && !(img=imread(argv[1], 1)).data)
+        if( argc != 2 || !(img=imread(argv[1], 1)).data)
             return -1;
         cvtColor(img, gray, COLOR_BGR2GRAY);
         // smooth it, otherwise a lot of false circles may be detected
         GaussianBlur( gray, gray, Size(9, 9), 2, 2 );
         vector<Vec3f> circles;
         HoughCircles(gray, circles, HOUGH_GRADIENT,
-                     2, gray->rows/4, 200, 100 );
+                     2, gray.rows/4, 200, 100 );
         for( size_t i = 0; i < circles.size(); i++ )
         {
              Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
@@ -1797,6 +1823,8 @@ Example: :
         }
         namedWindow( "circles", 1 );
         imshow( "circles", img );
+
+        waitKey(0);
         return 0;
     }
 @endcode
@@ -1896,7 +1924,7 @@ CV_EXPORTS_W void dilate( InputArray src, OutputArray dst, InputArray kernel,
 
 /** @brief Performs advanced morphological transformations.
 
-The function can perform advanced morphological transformations using an erosion and dilation as
+The function morphologyEx can perform advanced morphological transformations using an erosion and dilation as
 basic operations.
 
 Any of the operations can be done in-place. In case of multi-channel images, each channel is
@@ -1904,11 +1932,11 @@ processed independently.
 
 @param src Source image. The number of channels can be arbitrary. The depth should be one of
 CV_8U, CV_16U, CV_16S, CV_32F or CV_64F.
-@param dst Destination image of the same size and type as  src\` .
-@param kernel Structuring element. It can be created using getStructuringElement.
+@param dst Destination image of the same size and type as source image.
+@param op Type of a morphological operation, see cv::MorphTypes
+@param kernel Structuring element. It can be created using cv::getStructuringElement.
 @param anchor Anchor position with the kernel. Negative values mean that the anchor is at the
 kernel center.
-@param op Type of a morphological operation, see cv::MorphTypes
 @param iterations Number of times erosion and dilation are applied.
 @param borderType Pixel extrapolation method, see cv::BorderTypes
 @param borderValue Border value in case of a constant border. The default value has a special
@@ -1942,8 +1970,8 @@ way:
     // specify fx and fy and let the function compute the destination image size.
     resize(src, dst, Size(), 0.5, 0.5, interpolation);
 @endcode
-To shrink an image, it will generally look best with CV_INTER_AREA interpolation, whereas to
-enlarge an image, it will generally look best with CV_INTER_CUBIC (slow) or CV_INTER_LINEAR
+To shrink an image, it will generally look best with cv::INTER_AREA interpolation, whereas to
+enlarge an image, it will generally look best with cv::INTER_CUBIC (slow) or cv::INTER_LINEAR
 (faster but still looks OK).
 
 @param src input image.
@@ -2570,8 +2598,8 @@ the same.
 @param dst Output (corrected) image that has the same size and type as src .
 @param cameraMatrix Input camera matrix \f$A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\f$ .
 @param distCoeffs Input vector of distortion coefficients
-\f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]])\f$ of 4, 5, or 8 elements. If the vector is
-NULL/empty, the zero distortion coefficients are assumed.
+\f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\f$
+of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
 @param newCameraMatrix Camera matrix of the distorted image. By default, it is the same as
 cameraMatrix but you may additionally scale and shift the result by using a different matrix.
  */
@@ -2597,8 +2625,28 @@ The function actually builds the maps for the inverse mapping algorithm that is 
 is, for each pixel \f$(u, v)\f$ in the destination (corrected and rectified) image, the function
 computes the corresponding coordinates in the source image (that is, in the original image from
 camera). The following process is applied:
-\f[\begin{array}{l} x  \leftarrow (u - {c'}_x)/{f'}_x  \\ y  \leftarrow (v - {c'}_y)/{f'}_y  \\{[X\,Y\,W]} ^T  \leftarrow R^{-1}*[x \, y \, 1]^T  \\ x'  \leftarrow X/W  \\ y'  \leftarrow Y/W  \\ x"  \leftarrow x' (1 + k_1 r^2 + k_2 r^4 + k_3 r^6) + 2p_1 x' y' + p_2(r^2 + 2 x'^2)  \\ y"  \leftarrow y' (1 + k_1 r^2 + k_2 r^4 + k_3 r^6) + p_1 (r^2 + 2 y'^2) + 2 p_2 x' y'  \\ map_x(u,v)  \leftarrow x" f_x + c_x  \\ map_y(u,v)  \leftarrow y" f_y + c_y \end{array}\f]
-where \f$(k_1, k_2, p_1, p_2[, k_3])\f$ are the distortion coefficients.
+\f[
+\begin{array}{l}
+x  \leftarrow (u - {c'}_x)/{f'}_x  \\
+y  \leftarrow (v - {c'}_y)/{f'}_y  \\
+{[X\,Y\,W]} ^T  \leftarrow R^{-1}*[x \, y \, 1]^T  \\
+x'  \leftarrow X/W  \\
+y'  \leftarrow Y/W  \\
+r^2  \leftarrow x'^2 + y'^2 \\
+x''  \leftarrow x' \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6}
++ 2p_1 x' y' + p_2(r^2 + 2 x'^2)  + s_1 r^2 + s_2 r^4\\
+y''  \leftarrow y' \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6}
++ p_1 (r^2 + 2 y'^2) + 2 p_2 x' y' + s_3 r^2 + s_4 r^4 \\
+s\vecthree{x'''}{y'''}{1} =
+\vecthreethree{R_{33}(\tau_x, \tau_y)}{0}{-R_{13}((\tau_x, \tau_y)}
+{0}{R_{33}(\tau_x, \tau_y)}{-R_{23}(\tau_x, \tau_y)}
+{0}{0}{1} R(\tau_x, \tau_y) \vecthree{x''}{y''}{1}\\
+map_x(u,v)  \leftarrow x''' f_x + c_x  \\
+map_y(u,v)  \leftarrow y''' f_y + c_y
+\end{array}
+\f]
+where \f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\f$
+are the distortion coefficients.
 
 In case of a stereo camera, this function is called twice: once for each camera head, after
 stereoRectify, which in its turn is called after cv::stereoCalibrate. But if the stereo camera
@@ -2606,13 +2654,13 @@ was not calibrated, it is still possible to compute the rectification transforma
 the fundamental matrix using cv::stereoRectifyUncalibrated. For each camera, the function computes
 homography H as the rectification transformation in a pixel domain, not a rotation matrix R in 3D
 space. R can be computed from H as
-\f[\texttt{R} = \texttt{cameraMatrix} ^{-1} \cdot \textGC_BGDtt{H} \cdot \texttt{cameraMatrix}\f]
+\f[\texttt{R} = \texttt{cameraMatrix} ^{-1} \cdot \texttt{H} \cdot \texttt{cameraMatrix}\f]
 where cameraMatrix can be chosen arbitrarily.
 
 @param cameraMatrix Input camera matrix \f$A=\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\f$ .
 @param distCoeffs Input vector of distortion coefficients
-\f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]])\f$ of 4, 5, or 8 elements. If the vector is
-NULL/empty, the zero distortion coefficients are assumed.
+\f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\f$
+of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
 @param R Optional rectification transformation in the object space (3x3 matrix). R1 or R2 ,
 computed by stereoRectify can be passed here. If the matrix is empty, the identity transformation
 is assumed. In cvInitUndistortMap R assumed to be an identity matrix.
@@ -2687,8 +2735,8 @@ The function can be used for both a stereo camera head or a monocular camera (wh
 transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.
 @param cameraMatrix Camera matrix \f$\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\f$ .
 @param distCoeffs Input vector of distortion coefficients
-\f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]])\f$ of 4, 5, or 8 elements. If the vector is
-NULL/empty, the zero distortion coefficients are assumed.
+\f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\f$
+of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
 @param R Rectification transformation in the object space (3x3 matrix). R1 or R2 computed by
 cv::stereoRectify can be passed here. If the matrix is empty, the identity transformation is used.
 @param P New camera matrix (3x3) or new projection matrix (3x4). P1 or P2 computed by
@@ -3365,7 +3413,7 @@ represents the background label. ltype specifies the output label image type, an
 consideration based on the total number of labels or alternatively the total number of pixels in
 the source image.
 
-@param image the image to be labeled
+@param image the 8-bit single-channel image to be labeled
 @param labels destination labeled image
 @param connectivity 8 or 4 for 8-way or 4-way connectivity respectively
 @param ltype output image label type. Currently CV_32S and CV_16U are supported.
@@ -3374,12 +3422,13 @@ CV_EXPORTS_W int connectedComponents(InputArray image, OutputArray labels,
                                      int connectivity = 8, int ltype = CV_32S);
 
 /** @overload
-@param image the image to be labeled
+@param image the 8-bit single-channel image to be labeled
 @param labels destination labeled image
 @param stats statistics output for each label, including the background label, see below for
 available statistics. Statistics are accessed via stats(label, COLUMN) where COLUMN is one of
-cv::ConnectedComponentsTypes
-@param centroids floating point centroid (x,y) output for each label, including the background label
+cv::ConnectedComponentsTypes. The data type is CV_32S.
+@param centroids centroid output for each label, including the background label. Centroids are
+accessed via centroids(label, 0) for x and centroids(label, 1) for y. The data type CV_64F.
 @param connectivity 8 or 4 for 8-way or 4-way connectivity respectively
 @param ltype output image label type. Currently CV_32S and CV_16U are supported.
 */
@@ -3742,7 +3791,7 @@ enum ColormapTypes
     COLORMAP_HSV = 9, //!< ![HSV](pics/colormaps/colorscale_hsv.jpg)
     COLORMAP_PINK = 10, //!< ![pink](pics/colormaps/colorscale_pink.jpg)
     COLORMAP_HOT = 11, //!< ![hot](pics/colormaps/colorscale_hot.jpg)
-    COLORMAP_PARULA = 12 //!< ![hot](pics/colormaps/colorscale_parula.jpg)
+    COLORMAP_PARULA = 12 //!< ![parula](pics/colormaps/colorscale_parula.jpg)
 };
 
 /** @brief Applies a GNU Octave/MATLAB equivalent colormap on a given image.
@@ -3874,6 +3923,43 @@ a filled ellipse sector is to be drawn.
 */
 CV_EXPORTS_W void ellipse(InputOutputArray img, const RotatedRect& box, const Scalar& color,
                         int thickness = 1, int lineType = LINE_8);
+
+/* ----------------------------------------------------------------------------------------- */
+/* ADDING A SET OF PREDEFINED MARKERS WHICH COULD BE USED TO HIGHLIGHT POSITIONS IN AN IMAGE */
+/* ----------------------------------------------------------------------------------------- */
+
+//! Possible set of marker types used for the cv::drawMarker function
+enum MarkerTypes
+{
+    MARKER_CROSS = 0,           //!< A crosshair marker shape
+    MARKER_TILTED_CROSS = 1,    //!< A 45 degree tilted crosshair marker shape
+    MARKER_STAR = 2,            //!< A star marker shape, combination of cross and tilted cross
+    MARKER_DIAMOND = 3,         //!< A diamond marker shape
+    MARKER_SQUARE = 4,          //!< A square marker shape
+    MARKER_TRIANGLE_UP = 5,     //!< An upwards pointing triangle marker shape
+    MARKER_TRIANGLE_DOWN = 6    //!< A downwards pointing triangle marker shape
+};
+
+/** @brief Draws a marker on a predefined position in an image.
+
+The function drawMarker draws a marker on a given position in the image. For the moment several
+marker types are supported, see cv::MarkerTypes for more information.
+
+@param img Image.
+@param position The point where the crosshair is positioned.
+@param markerType The specific type of marker you want to use, see cv::MarkerTypes
+@param color Line color.
+@param thickness Line thickness.
+@param line_type Type of the line, see cv::LineTypes
+@param markerSize The length of the marker axis [default = 20 pixels]
+ */
+CV_EXPORTS_W void drawMarker(CV_IN_OUT Mat& img, Point position, const Scalar& color,
+                             int markerType = MARKER_CROSS, int markerSize=20, int thickness=1,
+                             int line_type=8);
+
+/* ----------------------------------------------------------------------------------------- */
+/* END OF MARKER SECTION */
+/* ----------------------------------------------------------------------------------------- */
 
 /** @overload */
 CV_EXPORTS void fillConvexPoly(Mat& img, const Point* pts, int npts,

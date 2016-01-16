@@ -191,11 +191,21 @@ CV_EXPORTS void scalarToRawData(const cv::Scalar& s, void* buf, int type, int un
 \****************************************************************************************/
 
 #ifdef HAVE_IPP
-#  include "ipp.h"
+#include "ipp.h"
 
-#  define IPP_VERSION_X100 (IPP_VERSION_MAJOR * 100 + IPP_VERSION_MINOR)
+#ifndef IPP_VERSION_UPDATE // prior to 7.1
+#define IPP_VERSION_UPDATE 0
+#endif
 
-#define IPP_ALIGN 32 // required for AVX optimization
+#define IPP_VERSION_X100 (IPP_VERSION_MAJOR * 100 + IPP_VERSION_MINOR*10 + IPP_VERSION_UPDATE)
+
+// General define for ipp function disabling
+#define IPP_DISABLE_BLOCK 0
+
+#ifdef CV_MALLOC_ALIGN
+#undef CV_MALLOC_ALIGN
+#endif
+#define CV_MALLOC_ALIGN 32 // required for AVX optimization
 
 #define setIppErrorStatus() cv::ipp::setIppStatus(-1, CV_Func, __FILE__, __LINE__)
 
@@ -231,12 +241,131 @@ static inline IppDataType ippiGetDataType(int depth)
         depth == CV_64F ? ipp64f : (IppDataType)-1;
 }
 
+// IPP temporary buffer hepler
+template<typename T>
+class IppAutoBuffer
+{
+public:
+    IppAutoBuffer() { m_pBuffer = NULL; }
+    IppAutoBuffer(int size) { Alloc(size); }
+    ~IppAutoBuffer() { Release(); }
+    T* Alloc(int size) { m_pBuffer = (T*)ippMalloc(size); return m_pBuffer; }
+    void Release() { if(m_pBuffer) ippFree(m_pBuffer); }
+    inline operator T* () { return (T*)m_pBuffer;}
+    inline operator const T* () const { return (const T*)m_pBuffer;}
+private:
+    // Disable copy operations
+    IppAutoBuffer(IppAutoBuffer &) {};
+    IppAutoBuffer& operator =(const IppAutoBuffer &) {return *this;};
+
+    T* m_pBuffer;
+};
+
 #else
-#  define IPP_VERSION_X100 0
+#define IPP_VERSION_X100 0
+#endif
+
+// There shoud be no API difference in OpenCV between ICV and IPP since 9.0
+#if (defined HAVE_IPP_ICV_ONLY) && IPP_VERSION_X100 >= 900
+#undef HAVE_IPP_ICV_ONLY
+#endif
+
+#ifdef HAVE_IPP_ICV_ONLY
+#define HAVE_ICV 1
+#else
+#define HAVE_ICV 0
+#endif
+
+#if defined HAVE_IPP
+#if IPP_VERSION_X100 >= 900
+#define IPP_INITIALIZER(FEAT)                           \
+{                                                       \
+    if(FEAT)                                            \
+        ippSetCpuFeatures(FEAT);                        \
+    else                                                \
+        ippInit();                                      \
+}
+#elif IPP_VERSION_X100 >= 800
+#define IPP_INITIALIZER(FEAT)                           \
+{                                                       \
+    ippInit();                                          \
+}
+#else
+#define IPP_INITIALIZER(FEAT)                           \
+{                                                       \
+    ippStaticInit();                                    \
+}
+#endif
+
+#ifdef CVAPI_EXPORTS
+#define IPP_INITIALIZER_AUTO                            \
+struct __IppInitializer__                               \
+{                                                       \
+    __IppInitializer__()                                \
+    {IPP_INITIALIZER(cv::ipp::getIppFeatures())}        \
+};                                                      \
+static struct __IppInitializer__ __ipp_initializer__;
+#else
+#define IPP_INITIALIZER_AUTO
+#endif
+#else
+#define IPP_INITIALIZER
+#define IPP_INITIALIZER_AUTO
 #endif
 
 #define CV_IPP_CHECK_COND (cv::ipp::useIPP())
 #define CV_IPP_CHECK() if(CV_IPP_CHECK_COND)
+
+#ifdef HAVE_IPP
+
+#ifdef CV_IPP_RUN_VERBOSE
+#define CV_IPP_RUN_(condition, func, ...)                                   \
+    {                                                                       \
+        if (cv::ipp::useIPP() && (condition) && func)                       \
+        {                                                                   \
+            printf("%s: IPP implementation is running\n", CV_Func);         \
+            fflush(stdout);                                                 \
+            CV_IMPL_ADD(CV_IMPL_IPP);                                       \
+            return __VA_ARGS__;                                             \
+        }                                                                   \
+        else                                                                \
+        {                                                                   \
+            printf("%s: Plain implementation is running\n", CV_Func);       \
+            fflush(stdout);                                                 \
+        }                                                                   \
+    }
+#elif defined CV_IPP_RUN_ASSERT
+#define CV_IPP_RUN_(condition, func, ...)                                   \
+    {                                                                       \
+        if (cv::ipp::useIPP() && (condition))                               \
+        {                                                                   \
+            if(func)                                                        \
+            {                                                               \
+                CV_IMPL_ADD(CV_IMPL_IPP);                                   \
+            }                                                               \
+            else                                                            \
+            {                                                               \
+                setIppErrorStatus();                                        \
+                CV_Error(cv::Error::StsAssert, #func);                      \
+            }                                                               \
+            return __VA_ARGS__;                                             \
+        }                                                                   \
+    }
+#else
+#define CV_IPP_RUN_(condition, func, ...)                                   \
+    if (cv::ipp::useIPP() && (condition) && func)                           \
+    {                                                                       \
+        CV_IMPL_ADD(CV_IMPL_IPP);                                           \
+        return __VA_ARGS__;                                                 \
+    }
+#endif
+
+#else
+#define CV_IPP_RUN_(condition, func, ...)
+#endif
+
+#define CV_IPP_RUN(condition, func, ...) CV_IPP_RUN_(condition, func, __VA_ARGS__)
+
 
 #ifndef IPPI_CALL
 #  define IPPI_CALL(func) CV_Assert((func) >= 0)
