@@ -9,7 +9,7 @@ namespace OpenCvSharp
     /// </summary>
     public class MatOfPoint2f : Mat<Point2f, MatOfPoint2f>
     {
-        private static readonly MatType ThisType = MatType.CV_32FC1;
+        private static readonly MatType ThisType = MatType.CV_32FC2;
         private const int ThisDepth = MatType.CV_32F;
         private const int ThisChannels = 2;
 
