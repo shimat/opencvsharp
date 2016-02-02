@@ -7,8 +7,8 @@ OpenCVを.NET Frameworkから利用するための、クロスプラットフォ
 ### NuGet
 If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http://www.nuget.org/). Search *'opencvsharp'* on the NuGet Package Manager.
 
-* [OpenCV3.0 All-in-one package](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) - bundles native OpenCV DLLs
-* [OpenCV3.0 Minimum package](https://www.nuget.org/packages/OpenCvSharp3-WithoutDll/) 
+* [OpenCV3.1 All-in-one package](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) - bundles native OpenCV DLLs
+* [OpenCV3.1 Minimum package](https://www.nuget.org/packages/OpenCvSharp3-WithoutDll/) 
 * [OpenCV2.4.10 All-in-one package](https://www.nuget.org/packages/OpenCvSharp-AnyCPU/) - bundles native OpenCV DLLs
 * [OpenCV2.4.10 Minimum package](https://www.nuget.org/packages/OpenCvSharp-WithoutDll/) 
 
@@ -16,7 +16,7 @@ If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http:/
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Requirements
-* [OpenCV 3.0 / 2.4.10](http://opencv.org/)
+* [OpenCV 3.1 / 2.4.10](http://opencv.org/)
 * [Visual C++ 2013 Redistributable Package](http://www.microsoft.com/en-US/download/details.aspx?id=30679)
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [Mono](http://www.mono-project.com/Main_Page)
 
