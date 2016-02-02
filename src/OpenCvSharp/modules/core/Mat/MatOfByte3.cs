@@ -11,7 +11,7 @@ namespace OpenCvSharp
     /// </summary>
     public class MatOfByte3 : Mat<Vec3b, MatOfByte3>
     {
-        private static readonly MatType ThisType = MatType.CV_8UC1;
+        private static readonly MatType ThisType = MatType.CV_8UC3;
         private const int ThisDepth = MatType.CV_8U;
         private const int ThisChannels = 3;
 
