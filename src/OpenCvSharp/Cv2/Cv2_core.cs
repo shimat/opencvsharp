@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.Util;
 
@@ -1836,6 +1837,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region PerspectiveTransform
+
         /// <summary>
         /// performs perspective transformation of each element of multi-channel input matrix
         /// </summary>
@@ -1858,6 +1860,99 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             dst.Fix();
         }
+
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        /// <returns>The destination array; it will have the same size and same type as src</returns>
+        public static Point2f[] PerspectiveTransform(IEnumerable<Point2f> src, double[,] m)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            using (var srcMat = MatOfPoint2f.FromArray(src))
+            using (var dstMat = new MatOfPoint2f())
+            using (var mMat = MatOfDouble.FromArray(m))
+            {
+                NativeMethods.core_perspectiveTransform(srcMat.CvPtr, dstMat.CvPtr, mMat.CvPtr);
+                return dstMat.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        /// <returns>The destination array; it will have the same size and same type as src</returns>
+        public static Point2d[] PerspectiveTransform(IEnumerable<Point2d> src, double[,] m)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            using (var srcMat = MatOfPoint2d.FromArray(src))
+            using (var dstMat = new MatOfPoint2d())
+            using (var mMat = MatOfDouble.FromArray(m))
+            {
+                NativeMethods.core_perspectiveTransform(srcMat.CvPtr, dstMat.CvPtr, mMat.CvPtr);
+                return dstMat.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        /// <returns>The destination array; it will have the same size and same type as src</returns>
+        public static Point3f[] PerspectiveTransform(IEnumerable<Point3f> src, double[,] m)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            using (var srcMat = MatOfPoint3f.FromArray(src))
+            using (var dstMat = new MatOfPoint3f())
+            using (var mMat = MatOfDouble.FromArray(m))
+            {
+                NativeMethods.core_perspectiveTransform(srcMat.CvPtr, dstMat.CvPtr, mMat.CvPtr);
+                return dstMat.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        /// <returns>The destination array; it will have the same size and same type as src</returns>
+        public static Point3d[] PerspectiveTransform(IEnumerable<Point3d> src, double[,] m)
+        {
+            if (src == null)
+                throw new ArgumentNullException("src");
+            if (m == null)
+                throw new ArgumentNullException("m");
+
+            using (var srcMat = MatOfPoint3d.FromArray(src))
+            using (var dstMat = new MatOfPoint3d())
+            using (var mMat = MatOfDouble.FromArray(m))
+            {
+                NativeMethods.core_perspectiveTransform(srcMat.CvPtr, dstMat.CvPtr, mMat.CvPtr);
+                return dstMat.ToArray();
+            }
+        }
+
         #endregion
         #region CompleteSymm
         /// <summary>

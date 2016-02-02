@@ -421,9 +421,34 @@ CVAPI(void) core_transform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_Inp
 {
 	cv::transform(*src, *dst, *m);
 }
+
 CVAPI(void) core_perspectiveTransform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
 {
 	cv::perspectiveTransform(*src, *dst, *m);
+}
+CVAPI(void) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, cv::_InputArray *m)
+{
+	std::vector<cv::Point2f> srcVector(src, src + srcLength);
+	std::vector<cv::Point2f> dstVector(dst, dst + dstLength);
+	cv::perspectiveTransform(srcVector, dstVector, *m);
+}
+CVAPI(void) core_perspectiveTransform_Point2d(cv::Point2d *src, int srcLength, cv::Point2d *dst, int dstLength, cv::_InputArray *m)
+{
+	std::vector<cv::Point2d> srcVector(src, src + srcLength);
+	std::vector<cv::Point2d> dstVector(dst, dst + dstLength);
+	cv::perspectiveTransform(srcVector, dstVector, *m);
+}
+CVAPI(void) core_perspectiveTransform_Point3f(cv::Point3f *src, int srcLength, cv::Point3f *dst, int dstLength, cv::_InputArray *m)
+{
+	std::vector<cv::Point3f> srcVector(src, src + srcLength);
+	std::vector<cv::Point3f> dstVector(dst, dst + dstLength);
+	cv::perspectiveTransform(srcVector, dstVector, *m);
+}
+CVAPI(void) core_perspectiveTransform_Point3d(cv::Point3d *src, int srcLength, cv::Point3d *dst, int dstLength, cv::_InputArray *m)
+{
+	std::vector<cv::Point3d> srcVector(src, src + srcLength);
+	std::vector<cv::Point3d> dstVector(dst, dst + dstLength);
+	cv::perspectiveTransform(srcVector, dstVector, *m);
 }
 
 CVAPI(void) core_completeSymm(cv::_InputOutputArray *mtx, int lowerToUpper)
