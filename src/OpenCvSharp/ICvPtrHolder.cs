@@ -8,7 +8,7 @@ namespace OpenCvSharp
     /// </summary>
 #else
     /// <summary>
-    /// Represents a OpenCV-based class which have a native pointer. 
+    /// Represents a OpenCV-based class which has a native pointer. 
     /// </summary>
 #endif
     public interface ICvPtrHolder
