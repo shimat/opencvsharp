@@ -42,7 +42,7 @@ namespace SamplesCS
 
                     List<Point2f> obj = new List<Point2f>();
                     List<Point2f> scene = new List<Point2f>();
-                    List<DMatch> good_matches_list = new List<DMatch>();
+                    List<DMatch> goodMatchesList = new List<DMatch>();
                     //iterate through the mask only pulling out nonzero items because they're matches
                     for (int i = 0; i < mask.Rows; i++)
                     {
@@ -51,7 +51,7 @@ namespace SamplesCS
                         {
                             obj.Add(keypoints1[matches[i][0].QueryIdx].Pt);
                             scene.Add(keypoints2[matches[i][0].TrainIdx].Pt);
-                            good_matches_list.Add(matches[i][0]);
+                            goodMatchesList.Add(matches[i][0]);
                         }
                     }
 
@@ -69,7 +69,7 @@ namespace SamplesCS
                                       new Point2f(img1.Cols, img1.Rows),
                                       new Point2f(0, img1.Rows) };
 
-                            Point2d[] scene_corners = MyPerspectiveTransform(obj_corners, homography);
+                            Point2d[] sceneCorners = MyPerspectiveTransform(obj_corners, homography);
 
                             //This is a good concat horizontal
                             using (Mat img3 = new Mat(Math.Max(img1.Height, img2.Height), img2.Width + img1.Width, MatType.CV_8UC3))
@@ -81,16 +81,16 @@ namespace SamplesCS
 
                                 byte[] maskBytes = new byte[mask.Rows * mask.Cols];
                                 mask.GetArray(0, 0, maskBytes);
-                                Cv2.DrawMatches(img1, keypoints1, img2, keypoints2, good_matches_list, img3, Scalar.All(-1), Scalar.All(-1), maskBytes, DrawMatchesFlags.NotDrawSinglePoints);
+                                Cv2.DrawMatches(img1, keypoints1, img2, keypoints2, goodMatchesList, img3, Scalar.All(-1), Scalar.All(-1), maskBytes, DrawMatchesFlags.NotDrawSinglePoints);
 
-                                List<List<Point>> ListOfListOfPoint2d = new List<List<Point>>();
-                                List<Point> ListOfPoint2d = new List<Point>();
-                                ListOfPoint2d.Add(new Point(scene_corners[0].X + img1.Cols, scene_corners[0].Y));
-                                ListOfPoint2d.Add(new Point(scene_corners[1].X + img1.Cols, scene_corners[1].Y));
-                                ListOfPoint2d.Add(new Point(scene_corners[2].X + img1.Cols, scene_corners[2].Y));
-                                ListOfPoint2d.Add(new Point(scene_corners[3].X + img1.Cols, scene_corners[3].Y));
-                                ListOfListOfPoint2d.Add(ListOfPoint2d);
-                                img3.Polylines(ListOfListOfPoint2d, true, Scalar.LimeGreen, 2);
+                                List<List<Point>> listOfListOfPoint2D = new List<List<Point>>();
+                                List<Point> listOfPoint2D = new List<Point>();
+                                listOfPoint2D.Add(new Point(sceneCorners[0].X + img1.Cols, sceneCorners[0].Y));
+                                listOfPoint2D.Add(new Point(sceneCorners[1].X + img1.Cols, sceneCorners[1].Y));
+                                listOfPoint2D.Add(new Point(sceneCorners[2].X + img1.Cols, sceneCorners[2].Y));
+                                listOfPoint2D.Add(new Point(sceneCorners[3].X + img1.Cols, sceneCorners[3].Y));
+                                listOfListOfPoint2D.Add(listOfPoint2D);
+                                img3.Polylines(listOfListOfPoint2D, true, Scalar.LimeGreen, 2);
 
                                 //This works too
                                 //Cv2.Line(img3, scene_corners[0] + new Point2d(img1.Cols, 0), scene_corners[1] + new Point2d(img1.Cols, 0), Scalar.LimeGreen);
@@ -106,7 +106,7 @@ namespace SamplesCS
             }
         }
 
-        static Point2d[] MyPerspectiveTransform(Point2f[] yourData, Mat transformationMatrix)
+        static Point2d[] MyPerspectiveTransform2(Point2f[] yourData, Mat transformationMatrix)
         {
             using (Mat src = new Mat(yourData.Length, 1, MatType.CV_32FC2, yourData))
             using (Mat dst = new Mat())
@@ -117,6 +117,15 @@ namespace SamplesCS
                 Point2d[] result = Array.ConvertAll(dstArray, new Converter<Point2f, Point2d>(Point2fToPoint2d));
                 return result;
             }
+        }
+
+        static Point2d[] MyPerspectiveTransform(Point2f[] yourData, Mat transformationMatrix)
+        {
+            MatOfPoint2f s = MatOfPoint2f.FromArray(yourData);
+            MatOfPoint2f d = new MatOfPoint2f();
+            Cv2.PerspectiveTransform(s, d, transformationMatrix);
+            Point2f[] f = d.ToArray();
+            return f.Select(Point2fToPoint2d).ToArray();
         }
 
         static int VoteForSizeAndOrientation(KeyPoint[] modelKeyPoints, KeyPoint[] observedKeyPoints, DMatch[][] matches, Mat mask, float scaleIncrement, int rotationBins)
