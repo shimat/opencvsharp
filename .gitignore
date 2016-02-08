@@ -110,3 +110,4 @@ Backup*/
 UpgradeLog*.XML
 Help JP
 Help EN
+/src/*.opendb
