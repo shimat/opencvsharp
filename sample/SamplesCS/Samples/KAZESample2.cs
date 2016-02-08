@@ -8,7 +8,7 @@ using SampleBase;
 namespace SamplesCS
 {
     /// <summary>
-    /// 
+    /// https://github.com/shimat/opencvsharp/issues/176
     /// </summary>
 // ReSharper disable once InconsistentNaming
     class KAZESample2 : ISample
@@ -55,8 +55,8 @@ namespace SamplesCS
                         }
                     }
 
-                    List<Point2d> objPts = obj.ConvertAll(new Converter<Point2f, Point2d>(Point2fToPoint2d));
-                    List<Point2d> scenePts = scene.ConvertAll(new Converter<Point2f, Point2d>(Point2fToPoint2d));
+                    List<Point2d> objPts = obj.ConvertAll(Point2fToPoint2d);
+                    List<Point2d> scenePts = scene.ConvertAll(Point2fToPoint2d);
                     if (nonZero >= 4)
                     {
                         Mat homography = Cv2.FindHomography(objPts, scenePts, HomographyMethods.Ransac, 1.5, mask);
@@ -64,12 +64,12 @@ namespace SamplesCS
 
                         if (homography != null)
                         {
-                            Point2f[] obj_corners = { new Point2f(0, 0),
+                            Point2f[] objCorners = { new Point2f(0, 0),
                                       new Point2f(img1.Cols, 0),
                                       new Point2f(img1.Cols, img1.Rows),
                                       new Point2f(0, img1.Rows) };
 
-                            Point2d[] sceneCorners = MyPerspectiveTransform(obj_corners, homography);
+                            Point2d[] sceneCorners = MyPerspectiveTransform3(objCorners, homography);
 
                             //This is a good concat horizontal
                             using (Mat img3 = new Mat(Math.Max(img1.Height, img2.Height), img2.Width + img1.Width, MatType.CV_8UC3))
@@ -99,6 +99,7 @@ namespace SamplesCS
                                 //Cv2.Line(img3, scene_corners[3] + new Point2d(img1.Cols, 0), scene_corners[0] + new Point2d(img1.Cols, 0), Scalar.LimeGreen);
 
                                 img3.SaveImage("Kaze_Output.png");
+                                Window.ShowImages(img3);
                             }
                         }
                     }
@@ -106,7 +107,8 @@ namespace SamplesCS
             }
         }
 
-        static Point2d[] MyPerspectiveTransform2(Point2f[] yourData, Mat transformationMatrix)
+        // to avoid opencvsharp's bug
+        static Point2d[] MyPerspectiveTransform1(Point2f[] yourData, Mat transformationMatrix)
         {
             using (Mat src = new Mat(yourData.Length, 1, MatType.CV_32FC2, yourData))
             using (Mat dst = new Mat())
@@ -114,18 +116,28 @@ namespace SamplesCS
                 Cv2.PerspectiveTransform(src, dst, transformationMatrix);
                 Point2f[] dstArray = new Point2f[dst.Rows * dst.Cols];
                 dst.GetArray(0, 0, dstArray);
-                Point2d[] result = Array.ConvertAll(dstArray, new Converter<Point2f, Point2d>(Point2fToPoint2d));
+                Point2d[] result = Array.ConvertAll(dstArray, Point2fToPoint2d);
                 return result;
             }
         }
 
-        static Point2d[] MyPerspectiveTransform(Point2f[] yourData, Mat transformationMatrix)
+        // fixed FromArray behavior
+        static Point2d[] MyPerspectiveTransform2(Point2f[] yourData, Mat transformationMatrix)
         {
-            MatOfPoint2f s = MatOfPoint2f.FromArray(yourData);
-            MatOfPoint2f d = new MatOfPoint2f();
-            Cv2.PerspectiveTransform(s, d, transformationMatrix);
-            Point2f[] f = d.ToArray();
-            return f.Select(Point2fToPoint2d).ToArray();
+            using (MatOfPoint2f s = MatOfPoint2f.FromArray(yourData))
+            using (MatOfPoint2f d = new MatOfPoint2f())
+            {
+                Cv2.PerspectiveTransform(s, d, transformationMatrix);
+                Point2f[] f = d.ToArray();
+                return f.Select(Point2fToPoint2d).ToArray();
+            }
+        }
+
+        // new API
+        static Point2d[] MyPerspectiveTransform3(Point2f[] yourData, Mat transformationMatrix)
+        {
+            Point2f[] ret = Cv2.PerspectiveTransform(yourData, transformationMatrix);
+            return ret.Select(Point2fToPoint2d).ToArray();
         }
 
         static int VoteForSizeAndOrientation(KeyPoint[] modelKeyPoints, KeyPoint[] observedKeyPoints, DMatch[][] matches, Mat mask, float scaleIncrement, int rotationBins)
@@ -208,7 +220,7 @@ namespace SamplesCS
             return nonZeroCount;
         }
 
-        static void VoteForUniqueness(DMatch[][] matches, Mat mask, float uniqnessThreshold = 0.80f)
+        private static void VoteForUniqueness(DMatch[][] matches, Mat mask, float uniqnessThreshold = 0.80f)
         {
             byte[] maskData = new byte[matches.Length];
             GCHandle maskHandle = GCHandle.Alloc(maskData, GCHandleType.Pinned);
@@ -219,9 +231,9 @@ namespace SamplesCS
                 {
                     //This is also known as NNDR Nearest Neighbor Distance Ratio
                     if ((matches[i][0].Distance / matches[i][1].Distance) <= uniqnessThreshold)
-                        maskData[i] = (byte)255;
+                        maskData[i] = 255;
                     else
-                        maskData[i] = (byte)0;
+                        maskData[i] = 0;
                 }
                 m.CopyTo(mask);
             }
