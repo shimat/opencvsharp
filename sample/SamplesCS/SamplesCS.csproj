@@ -114,10 +114,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Samples\BgSubtractorMOG.cs" />
     <Compile Include="Samples\PhotoMethods.cs" />
     <Compile Include="Samples\SeamlessClone.cs" />
     <Compile Include="Samples\ConnectedComponentsSample.cs" />
-    <Compile Include="Samples\BgSubtractorMOG.cs" />
+    <Compile Include="Samples\KAZESample2.cs" />
     <Compile Include="Samples\ClaheSample.cs" />
     <Compile Include="Samples\KAZESample.cs" />
     <Compile Include="Samples\Stitching.cs" />
