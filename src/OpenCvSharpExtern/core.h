@@ -438,6 +438,10 @@ CVAPI(void) core_perspectiveTransform(cv::_InputArray *src, cv::_OutputArray *ds
 {
 	cv::perspectiveTransform(*src, *dst, *m);
 }
+CVAPI(void) core_perspectiveTransform_Mat(cv::Mat *src, cv::Mat *dst, cv::Mat *m)
+{
+	cv::perspectiveTransform(*src, *dst, *m);
+}
 CVAPI(void) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, cv::_InputArray *m)
 {
 	std::vector<cv::Point2f> srcVector(src, src + srcLength);
