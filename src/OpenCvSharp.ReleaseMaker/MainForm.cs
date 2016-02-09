@@ -14,7 +14,53 @@ namespace OpenCvSharp.ReleaseMaker
         /// <summary>
         /// 2012 / 2013
         /// </summary>
-        private const string VSVersion = "2013";
+        private const string VisualStudioVersion = "2015";
+
+        private static readonly string[] dllFiles = {
+            @"OpenCvSharp\bin\Release\OpenCvSharp.dll",
+            @"OpenCvSharp\bin\Release\OpenCvSharp.dll.config",
+            @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll",
+            @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config",
+            @"OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll",
+            @"OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll",
+        };
+
+        private static readonly string debuggerVisualizerPath =
+            @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
+
+        private static readonly string[] debuggerVisualizerVersions =
+        {
+            "2010", "2012", "2013", "2015",
+        };
+
+        private static readonly string[] xmlFiles = {
+            @"OpenCvSharp\bin\{0}\OpenCvSharp.xml",
+            @"OpenCvSharp.Blob\bin\{0}\OpenCvSharp.Blob.xml",
+            @"OpenCvSharp.Extensions\bin\{0}\OpenCvSharp.Extensions.xml",
+            @"OpenCvSharp.UserInterface\bin\{0}\OpenCvSharp.UserInterface.xml",
+        };
+
+        private static readonly string[] platforms = {
+            "x86",
+            "x64"
+        };
+        private static readonly string[] languages = {
+            "Release",
+            "Release JP"
+        };
+
+        private static readonly string[] ignoredExt = {
+            ".pdb",
+            ".bak",
+            ".user",
+            ".suo",
+        };
+        private static readonly string[] ignoredDir = {
+            ".svn",
+            ".git",
+            "bin",
+            "obj",
+        };
 
         /// <summary>
         /// Constructor
@@ -33,7 +79,7 @@ namespace OpenCvSharp.ReleaseMaker
         {
             textBox_Src.Text = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                @"Visual Studio " + VSVersion + @"\Projects\OpenCvSharp");
+                @"Visual Studio " + VisualStudioVersion + @"\Projects\OpenCvSharp");
             textBox_Dst.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
 
@@ -92,39 +138,6 @@ namespace OpenCvSharp.ReleaseMaker
             b.Enabled = true;
         }
 
-        private static readonly string[] DllFiles = {
-            @"OpenCvSharp\bin\Release\OpenCvSharp.dll", 
-            @"OpenCvSharp\bin\Release\OpenCvSharp.dll.config", 
-            @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll", 
-            @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config", 
-            @"OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll", 
-            @"OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll", 
-        };
-
-        private static readonly string DebuggerVisualizerPath =
-            @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
-
-        private static readonly string[] DebuggerVisualizerVersions =
-        {
-            "2010", "2012", "2013", "2015",
-        };
-
-        private static readonly string[] XmlFiles = {
-            @"OpenCvSharp\bin\{0}\OpenCvSharp.xml", 
-            @"OpenCvSharp.Blob\bin\{0}\OpenCvSharp.Blob.xml", 
-            @"OpenCvSharp.Extensions\bin\{0}\OpenCvSharp.Extensions.xml", 
-            @"OpenCvSharp.UserInterface\bin\{0}\OpenCvSharp.UserInterface.xml", 
-        };
-
-        private static readonly string[] Platforms = { 
-            "x86", 
-            "x64" 
-        };
-        private static readonly string[] Languages = { 
-            "Release", 
-            "Release JP" 
-        };
-
         /// <summary>
         /// バイナリのzipパッケージを作成
         /// </summary>
@@ -135,12 +148,12 @@ namespace OpenCvSharp.ReleaseMaker
         {
             string dirSrc = Path.Combine(dir, "src");
 
-            foreach (string pf in Platforms)
+            foreach (string pf in platforms)
             {
                 using (ZipFile zf = new ZipFile())
                 {
                     // DLLを選択
-                    foreach (string f in DllFiles)
+                    foreach (string f in dllFiles)
                     {
                         string dll = Path.Combine(dirSrc, f);
                         ZipEntry e = zf.AddFile(dll);
@@ -148,9 +161,9 @@ namespace OpenCvSharp.ReleaseMaker
                     }
 
                     // XMLドキュメントコメントを選択
-                    foreach (string lang in Languages)
+                    foreach (string lang in languages)
                     {
-                        foreach (string f in XmlFiles)
+                        foreach (string f in xmlFiles)
                         {
                             string xml = Path.Combine(dirSrc, String.Format(f, lang));
                             ZipEntry e = zf.AddFile(xml);
@@ -171,11 +184,11 @@ namespace OpenCvSharp.ReleaseMaker
                     }
 
                     // Debugger Visualizerを選択
-                    foreach (string version in DebuggerVisualizerVersions)
+                    foreach (string version in debuggerVisualizerVersions)
                     {
-                        string dllFileName = Path.Combine(dirSrc, String.Format(DebuggerVisualizerPath, version));
+                        string dllFileName = Path.Combine(dirSrc, String.Format(debuggerVisualizerPath, version));
                         string zipFileName = Path.Combine(
-                            "DebuggerVisualizers", version, Path.GetFileName(DebuggerVisualizerPath));
+                            "DebuggerVisualizers", version, Path.GetFileName(debuggerVisualizerPath));
                         ZipEntry e = zf.AddFile(dllFileName);
                         e.FileName = zipFileName;
                     }
@@ -241,20 +254,6 @@ namespace OpenCvSharp.ReleaseMaker
             Directory.CreateDirectory(path);
         }
 
-
-        private static readonly string[] InvalidExt = { 
-            ".pdb", 
-            ".bak",
-            ".user",
-            ".suo",
-        };
-        private static readonly string[] InvalidDir = { 
-            ".svn", 
-            ".git", 
-            "bin",
-            "obj",            
-        };
-
         /// <summary>
         /// ディレクトリをコピーする。
         /// .svn bin obj は除外。
@@ -262,7 +261,7 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="sourceDirName">コピーするディレクトリ</param>
         /// <param name="destDirName">コピー先のディレクトリ</param>
         /// <remarks>http://dobon.net/vb/dotnet/file/copyfolder.html から拝借</remarks>
-        public static void CopyDirectory(
+        private static void CopyDirectory(
             string sourceDirName, string destDirName)
         {
             // コピー先のディレクトリがあれば削除
@@ -283,7 +282,7 @@ namespace OpenCvSharp.ReleaseMaker
 
             // コピー元のディレクトリにあるファイルをコピー
             var files = from f in Directory.GetFiles(sourceDirName)
-                             where !InvalidExt.Contains(Path.GetExtension(f).ToLower()) && Path.GetFileName(f) != "OpenCvSharp.DebuggerVisualizers.dll"
+                             where !ignoredExt.Contains(Path.GetExtension(f)?.ToLower()) && Path.GetFileName(f) != "OpenCvSharp.DebuggerVisualizers.dll"
                              select f;            
             foreach (string file in files)
             {
@@ -292,7 +291,7 @@ namespace OpenCvSharp.ReleaseMaker
 
             // コピー元のディレクトリにあるディレクトリについて、再帰的に呼び出す
             var dirs = from d in Directory.GetDirectories(sourceDirName)
-                       where !InvalidDir.Contains(Path.GetFileName(d))
+                       where !ignoredDir.Contains(Path.GetFileName(d))
                        select d;
             foreach (string dir in dirs)
             {
