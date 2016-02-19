@@ -37,7 +37,7 @@ class Program
 {
     static void Main() 
     {
-        Mat src = new Mat("lenna.png", LoadMode.GrayScale);   // OpenCvSharp 3.x
+        Mat src = new Mat("lenna.png", ImReadModes.GrayScale);   // OpenCvSharp 3.x
         //Mat src = new Mat("lenna.png", LoadMode.GrayScale); // OpenCvSharp 2.4.x
         Mat dst = new Mat();
         
