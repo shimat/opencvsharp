@@ -574,7 +574,7 @@ namespace OpenCvSharp
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
-            int numElems = arr.Length / ThisChannels;
+            int numElems = arr.Length/* / ThisChannels*/;
             var mat = new MatOfRect(numElems, 1);
             mat.SetArray(0, 0, arr);
             return mat;

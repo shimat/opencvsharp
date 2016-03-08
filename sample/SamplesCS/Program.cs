@@ -24,13 +24,14 @@ namespace SamplesCS
                 //new HistSample();
                 //new HOGSample();
                 //new HoughLinesSample();
+                new KAZESample2();
                 //new KAZESample();
                 //new MatOperations();
                 //new MatToBitmap();
                 //new MDS();
                 //new MSERSample();
                 //new NormalArrayOperations();
-                new PhotoMethods();
+                //new PhotoMethods();
                 //new MergeSplitSample();
                 //new MorphologySample();
                 //new PixelAccess();
