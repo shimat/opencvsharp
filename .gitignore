@@ -114,3 +114,4 @@ Help EN
 /src/OpenCvSharpExtern/Release-Static
 *.db
 /src/OpenCvSharp.Sandbox/dll/x86/OpenCvSharpExtern.dll
+/src/OpenCvSharp 3.x.VC.opendb

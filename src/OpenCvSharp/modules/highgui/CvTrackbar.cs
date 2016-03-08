@@ -74,11 +74,11 @@ namespace OpenCvSharp
         public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback2 callback)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (string.IsNullOrEmpty(window))
-                throw new ArgumentNullException("window");
+                throw new ArgumentNullException(nameof(window));
             if (callback == null)
-                throw new ArgumentNullException("callback");
+                throw new ArgumentNullException(nameof(callback));
 
             this.name = name;
             this.window = window;
@@ -90,7 +90,7 @@ namespace OpenCvSharp
             gchCallback = GCHandle.Alloc(callback);
             IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callback);
 
-            result = NativeMethods.highgui_createTrackbar(name, window, ref value, max, callbackPtr, IntPtr.Zero);
+            result = NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, IntPtr.Zero);
 
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
@@ -121,11 +121,11 @@ namespace OpenCvSharp
         public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback2 callback, object userdata)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (string.IsNullOrEmpty(window))
-                throw new ArgumentNullException("window");
+                throw new ArgumentNullException(nameof(window));
             if (callback == null)
-                throw new ArgumentNullException("callback");
+                throw new ArgumentNullException(nameof(callback));
 
             this.name = name;
             this.window = window;
@@ -168,7 +168,7 @@ namespace OpenCvSharp
 
             gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
 
-            result = NativeMethods.highgui_createTrackbar(name, window, ref value, max, callbackPtr, userdataPtr);
+            result = NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, userdataPtr);
 
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
