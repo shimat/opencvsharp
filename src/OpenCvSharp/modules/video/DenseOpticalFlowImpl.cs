@@ -118,7 +118,7 @@ namespace OpenCvSharp
         /// <param name="frame0"></param>
         /// <param name="frame1"></param>
         /// <param name="flow"></param>
-        protected override void Calc(
+        public override void Calc(
             InputArray frame0, InputArray frame1, InputOutputArray flow)
         {
             if (disposed)
