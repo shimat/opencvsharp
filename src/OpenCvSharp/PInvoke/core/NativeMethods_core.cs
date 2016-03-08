@@ -202,6 +202,8 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_perspectiveTransform(IntPtr src, IntPtr dst, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void core_perspectiveTransform_Mat(IntPtr src, IntPtr dst, IntPtr m);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_perspectiveTransform_Point2f(IntPtr src, int srcLength, IntPtr dst, int dstLength, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void core_perspectiveTransform_Point2d(IntPtr src, int srcLength, IntPtr dst, int dstLength, IntPtr m);

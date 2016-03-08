@@ -572,11 +572,12 @@ namespace OpenCvSharp
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
-            int numElems = arr.Length / ThisChannels;
+            int numElems = arr.Length/* / ThisChannels*/;
             var mat = new MatOfPoint2d(numElems, 1);
             mat.SetArray(0, 0, arr);
             return mat;
         }
+
 #if LANG_JP
         /// <summary>
         /// M x N の行列として初期化し、指定した配列からデータをコピーする
@@ -601,6 +602,7 @@ namespace OpenCvSharp
             mat.SetArray(0, 0, arr);
             return mat;
         }
+
 #if LANG_JP
         /// <summary>
         /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
@@ -616,6 +618,7 @@ namespace OpenCvSharp
         {
             return FromArray(EnumerableEx.ToArray(enumerable));
         }
+
         #endregion
 
         #region ToArray
