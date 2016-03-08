@@ -92,7 +92,7 @@ namespace OpenCvSharp
 #if DEBUG
             int result = NativeMethods.cvCreateTrackbar(name, window, ref value, max, callback);
 #else
-            result = NativeMethods.cvCreateTrackbar(name, window, ref value, max, callbackPtr);
+            result = NativeMethods.cvCreateTrackbar(name, window, ref this.value, max, callbackPtr);
 #endif
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
@@ -172,7 +172,7 @@ namespace OpenCvSharp
 #if DEBUG
             int result = NativeMethods.cvCreateTrackbar2(name, window, ref value, max, callbackNative, userdataPtr);
 #else
-            result = NativeMethods.cvCreateTrackbar2(name, window, ref value, max, callbackPtr, userdataPtr);
+            result = NativeMethods.cvCreateTrackbar2(name, window, ref this.value, max, callbackPtr, userdataPtr);
 #endif
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
