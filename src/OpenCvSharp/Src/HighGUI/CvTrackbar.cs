@@ -74,11 +74,11 @@ namespace OpenCvSharp
         public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback callback)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (string.IsNullOrEmpty(window))
-                throw new ArgumentNullException("window");
+                throw new ArgumentNullException(nameof(window));
             if (callback == null)
-                throw new ArgumentNullException("callback");
+                throw new ArgumentNullException(nameof(callback));
 
             this.name = name;
             this.window = window;
