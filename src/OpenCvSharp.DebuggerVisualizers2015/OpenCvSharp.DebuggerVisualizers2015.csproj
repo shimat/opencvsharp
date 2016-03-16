@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenCvSharp.DebuggerVisualizers2015</RootNamespace>
-    <AssemblyName>OpenCvSharp.DebuggerVisualizers2015</AssemblyName>
+    <AssemblyName>OpenCvSharp.DebuggerVisualizers</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
