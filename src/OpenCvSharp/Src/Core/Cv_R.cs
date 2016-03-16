@@ -1645,7 +1645,7 @@ namespace OpenCvSharp
         /// <summary>
         /// オブジェクトを解放する
         /// </summary>
-        /// <param name="struct_ptr">オブジェクトのポインタのポインタ．</param>
+        /// <param name="structPtr">オブジェクトのポインタのポインタ．</param>
 #else
         /// <summary>
         /// Releases the object
@@ -2392,7 +2392,7 @@ namespace OpenCvSharp
         public static CvMat Reshape(CvArr arr, out CvMat header, int newCn, int newRows)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             header = new CvMat(false);
             return Reshape(arr, header, newCn, newRows);
         }
@@ -2423,8 +2423,8 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="arr">入力配列</param>
         /// <param name="header">書き込まれる出力ヘッダ</param>
-        /// <param name="new_cn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
-        /// <param name="new_rows">新しい行数． new_rows = 0は，行数がnew_cnの値に応じて変更する必要があるのにも関わらず，変更されないままであることを意味する．</param>
+        /// <param name="newCn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
+        /// <param name="newRows">新しい行数． new_rows = 0は，行数がnew_cnの値に応じて変更する必要があるのにも関わらず，変更されないままであることを意味する．</param>
         /// <returns>行列データ</returns>
 #else
         /// <summary>
@@ -2439,9 +2439,9 @@ namespace OpenCvSharp
         public static CvMat Reshape(CvArr arr, CvMat header, int newCn, int newRows)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if(header == null)
-                throw new ArgumentNullException("header");
+                throw new ArgumentNullException(nameof(header));
 
             IntPtr result = NativeMethods.cvReshape(arr.CvPtr, header.CvPtr, newCn, newRows);
             KeepAlive(arr, header);
@@ -2461,7 +2461,7 @@ namespace OpenCvSharp
         /// <param name="arr">入力配列</param>
         /// <param name="sizeofHeader">IplImageとCvMat，CvMatNDそれぞれの出力ヘッダを区別するための出力ヘッダのサイズ．</param>
         /// <param name="header">書き込まれる出力ヘッダ</param>
-        /// <param name="newDims">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
+        /// <param name="newCn">新しいチャンネル数 ．new_cn = 0はチャンネル数が変更されていないことを意味する．</param>
         /// <param name="newDims">新しい次元数． new_dims = 0は，次元数が同じままであることを意味する．</param>
         /// <param name="newSizes">新しい次元サイズの配列．要素の総数は変化してはいけないので，new_dims-1の値のみ使用される．従って，new_dims = 1であればnew_sizesは使用されない．</param>
         /// <returns></returns>
@@ -2483,11 +2483,11 @@ namespace OpenCvSharp
             where T : CvArr
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (header == null)
-                throw new ArgumentNullException("header");
+                throw new ArgumentNullException(nameof(header));
             if (newSizes == null)
-                throw new ArgumentNullException("newSizes");
+                throw new ArgumentNullException(nameof(newSizes));
 
             IntPtr result = NativeMethods.cvReshapeMatND(arr.CvPtr, sizeofHeader, header.CvPtr, newCn, newDims, newSizes);
             KeepAlive(arr);

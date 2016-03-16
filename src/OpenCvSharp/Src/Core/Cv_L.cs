@@ -969,9 +969,9 @@ namespace OpenCvSharp
         public static void LogPolar(CvArr src, CvArr dst, CvPoint2D32f center, double M, Interpolation flags)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             NativeMethods.cvLogPolar(src.CvPtr, dst.CvPtr, center, M, flags);
             KeepAlive(src, dst);
         }

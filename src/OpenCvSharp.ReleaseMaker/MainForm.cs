@@ -12,9 +12,9 @@ namespace OpenCvSharp.ReleaseMaker
     public partial class MainForm : Form
     {
         /// <summary>
-        /// 2012 / 2013
+        /// My Visual Studio version
         /// </summary>
-        private const string VSVersion = "2013";
+        private const string VSVersion = "2015";
 
         /// <summary>
         /// Constructor
