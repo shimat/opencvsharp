@@ -7,6 +7,15 @@ namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr imgproc_getGaussianKernel(
+            int ksize, double sigma, int ktype);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_getDerivKernels(
+            IntPtr kx, IntPtr ky,int dx, int dy, int ksize, int normalize, int ktype);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr imgproc_getGaborKernel(Size ksize, double sigma, double theta, double lambd, double gamma, double psi, int ktype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

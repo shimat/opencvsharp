@@ -9,6 +9,56 @@ namespace OpenCvSharp
 {
     static partial class Cv2
     {
+        /// <summary>
+        /// Returns Gaussian filter coefficients.
+        /// </summary>
+        /// <param name="ksize">Aperture size. It should be odd and positive.</param>
+        /// <param name="sigma">Gaussian standard deviation.
+        /// If it is non-positive, it is computed from ksize as `sigma = 0.3*((ksize-1)*0.5 - 1) + 0.8`.</param>
+        /// <param name="ktype">Type of filter coefficients. It can be CV_32F or CV_64F.</param>
+        /// <returns></returns>
+        public static Mat GetGaussianKernel(int ksize, double sigma, MatType? ktype = null)
+        {
+            var ktype0 = ktype.GetValueOrDefault(MatType.CV_64F);
+            var ret = NativeMethods.imgproc_getGaussianKernel(ksize, sigma, ktype0);
+            if (ret == IntPtr.Zero)
+                return null;
+            return new Mat(ret);
+        }
+
+        /// <summary>
+        /// Returns filter coefficients for computing spatial image derivatives.
+        /// </summary>
+        /// <param name="kx">Output matrix of row filter coefficients. It has the type ktype.</param>
+        /// <param name="ky">Output matrix of column filter coefficients. It has the type ktype.</param>
+        /// <param name="dx">Derivative order in respect of x.</param>
+        /// <param name="dy">Derivative order in respect of y.</param>
+        /// <param name="ksize">Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7.</param>
+        /// <param name="normalize">Flag indicating whether to normalize (scale down) the filter coefficients or not.
+        /// Theoretically, the coefficients should have the denominator \f$=2^{ksize*2-dx-dy-2}\f$. 
+        /// If you are going to filter floating-point images, you are likely to use the normalized kernels.
+        /// But if you compute derivatives of an 8-bit image, store the results in a 16-bit image, 
+        /// and wish to preserve all the fractional bits, you may want to set normalize = false.</param>
+        /// <param name="ktype">Type of filter coefficients. It can be CV_32f or CV_64F.</param>
+        public static void GetDerivKernels(
+            OutputArray kx, OutputArray ky, int dx, int dy, int ksize,
+            bool normalize = false, MatType? ktype = null)
+        {
+            if (kx == null)
+                throw new ArgumentNullException(nameof(kx));
+            if (ky == null)
+                throw new ArgumentNullException(nameof(ky));
+            kx.ThrowIfNotReady();
+            ky.ThrowIfNotReady();
+
+            var ktype0 = ktype.GetValueOrDefault(MatType.CV_32F);
+            NativeMethods.imgproc_getDerivKernels(
+                kx.CvPtr, ky.CvPtr, dx, dy, ksize, normalize ? 1 : 0, ktype0);
+
+            kx.Fix();
+            ky.Fix();
+        }
+
         #region GetGaborKernel
         /// <summary>
         /// 
@@ -119,9 +169,9 @@ namespace OpenCvSharp
             double sigmaY = 0, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
@@ -149,9 +199,9 @@ namespace OpenCvSharp
             double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, (int)borderType);
