@@ -87,7 +87,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public static int FetNumberOfCpus()
+        public static int GetNumberOfCpus()
         {
             return NativeMethods.core_getNumberOfCPUs();
         }
