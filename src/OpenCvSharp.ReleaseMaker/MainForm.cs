@@ -108,7 +108,7 @@ namespace OpenCvSharp.ReleaseMaker
 
         private static readonly string[] DebuggerVisualizerVersions =
         {
-            "2010", "2012", "2013",
+            "2010", "2012", "2013", "2015",
         };
 
         private static readonly string[] XmlFiles = {
