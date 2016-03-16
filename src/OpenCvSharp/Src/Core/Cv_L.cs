@@ -635,7 +635,7 @@ namespace OpenCvSharp
         /// <param name="filename">File name. </param>
         /// <returns>The function cvLoad loads object from file.</returns>
 #endif     
-        public static T Load<T>(string filename) where T : ICvPtrHolder
+        public static T Load<T>(string filename) where T : DisposableCvObject
         {
             string realName;
             return Load<T>(filename, null, null, out realName);
@@ -657,7 +657,7 @@ namespace OpenCvSharp
         /// <param name="memstorage">Memory storage for dynamic structures, such as CvSeq  or CvGraph. It is not used for matrices or images. </param>
         /// <returns>The function cvLoad loads object from file.</returns>
 #endif     
-        public static T Load<T>(string filename, CvMemStorage memstorage) where T : ICvPtrHolder
+        public static T Load<T>(string filename, CvMemStorage memstorage) where T : DisposableCvObject
         {
             string realName;
             return Load<T>(filename, memstorage, null, out realName);
@@ -681,7 +681,7 @@ namespace OpenCvSharp
         /// <param name="name">Optional object name. If it is NULL, the first top-level object in the storage will be loaded. </param>
         /// <returns>The function cvLoad loads object from file.</returns>
 #endif 
-        public static T Load<T>(string filename, CvMemStorage memstorage, string name) where T : ICvPtrHolder
+        public static T Load<T>(string filename, CvMemStorage memstorage, string name) where T : DisposableCvObject
         {
             string realName;
             return Load<T>(filename, memstorage, name, out realName);
@@ -707,21 +707,25 @@ namespace OpenCvSharp
         /// <param name="realName">Optional output parameter that will contain name of the loaded object (useful if name=NULL).  </param>
         /// <returns>The function cvLoad loads object from file.</returns>
 #endif
-        public static T Load<T>(string filename, CvMemStorage memstorage, string name, out string realName) where T : ICvPtrHolder
+        public static T Load<T>(string filename, CvMemStorage memstorage, string name, out string realName) where T : DisposableCvObject
         {
             if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
+                throw new ArgumentNullException(nameof(filename));
             if (!File.Exists(filename))
                 throw new FileNotFoundException("", filename);
 
-            IntPtr memstoragePtr = (memstorage == null) ? IntPtr.Zero : memstorage.CvPtr;
+            IntPtr memstoragePtr = memstorage?.CvPtr ?? IntPtr.Zero;
             StringBuilder realNameSb = new StringBuilder(1024);
             IntPtr result = NativeMethods.cvLoad(filename, memstoragePtr, name, realNameSb);
             GC.KeepAlive(memstorage);
             realName = realNameSb.ToString();
+
             try
-            {
-                return Util.Cast<T>(result);
+            {                                             
+                var obj = Util.Cast<T>(result);
+                if (obj != null)
+                    obj.IsEnabledDispose = true;
+                return obj;
             }
             catch
             {
