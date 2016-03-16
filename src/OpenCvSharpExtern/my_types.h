@@ -118,57 +118,57 @@ extern "C"
 }
 
 
-static inline MyCvPoint c(cv::Point p)
+static MyCvPoint c(cv::Point p)
 {
 	MyCvPoint ret = { p.x, p.y };
 	return ret;
 }
-static inline cv::Point cpp(MyCvPoint p)
+static cv::Point cpp(MyCvPoint p)
 {
 	return cv::Point(p.x, p.y);
 }
 
-static inline MyCvPoint2D32f c(cv::Point2f p)
+static MyCvPoint2D32f c(cv::Point2f p)
 {
 	MyCvPoint2D32f ret = { p.x, p.y };
 	return ret;
 }
-static inline cv::Point2f cpp(MyCvPoint2D32f p)
+static cv::Point2f cpp(MyCvPoint2D32f p)
 {
 	return cv::Point2f(p.x, p.y);
 }
 
-static inline MyCvSize c(cv::Size s)
+static MyCvSize c(cv::Size s)
 {
 	MyCvSize ret = { s.width, s.height };
 	return ret;
 }
-static inline cv::Size cpp(MyCvSize s)
+static cv::Size cpp(MyCvSize s)
 {
 	return cv::Size(s.width, s.height);
 }
 
-static inline MyCvSize2D32f c(cv::Size2f s)
+static MyCvSize2D32f c(cv::Size2f s)
 {
 	MyCvSize2D32f ret = { s.width, s.height };
 	return ret;
 }
-static inline cv::Size2f cpp(MyCvSize2D32f s)
+static cv::Size2f cpp(MyCvSize2D32f s)
 {
 	return cv::Size2f(s.width, s.height);
 }
 
-static inline MyCvRect c(cv::Rect r)
+static MyCvRect c(cv::Rect r)
 {
 	MyCvRect ret = { r.x, r.y, r.width, r.height };
 	return ret;
 }
-static inline cv::Rect cpp(MyCvRect r)
+static cv::Rect cpp(MyCvRect r)
 {
 	return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
-static inline MyCvScalar c(cv::Scalar s)
+static MyCvScalar c(cv::Scalar s)
 {
 	MyCvScalar ret;
 	ret.val[0] = s[0];
@@ -177,24 +177,24 @@ static inline MyCvScalar c(cv::Scalar s)
 	ret.val[3] = s[3];
 	return ret;
 }
-static inline cv::Scalar cpp(MyCvScalar s)
+static cv::Scalar cpp(MyCvScalar s)
 {
 	return cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
 }
 
-static inline MyCvSlice c(cv::Range s)
+static MyCvSlice c(cv::Range s)
 {
 	MyCvSlice ret;
     ret.start_index = s.start;
     ret.end_index = s.end;
 	return ret;
 }
-static inline cv::Range cpp(MyCvSlice s)
+static cv::Range cpp(MyCvSlice s)
 {
 	return cv::Range(s.start_index, s.end_index);
 }
 
-static inline MyCvMoments c(cv::Moments m)
+static MyCvMoments c(cv::Moments m)
 {
 	MyCvMoments ret;
 	ret.m00 = m.m00; ret.m10 = m.m10; ret.m01 = m.m01;
@@ -207,12 +207,12 @@ static inline MyCvMoments c(cv::Moments m)
 
 	return ret;
 }
-static inline cv::Moments cpp(MyCvMoments m)
+static cv::Moments cpp(MyCvMoments m)
 {
 	return cv::Moments(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
 }
 
-static inline MyCvTermCriteria c(cv::TermCriteria tc)
+static MyCvTermCriteria c(cv::TermCriteria tc)
 {
 	MyCvTermCriteria ret;
 	ret.type = tc.type;
@@ -220,12 +220,12 @@ static inline MyCvTermCriteria c(cv::TermCriteria tc)
 	ret.epsilon = tc.epsilon;
 	return ret;
 }
-static inline cv::TermCriteria cpp(MyCvTermCriteria tc)
+static cv::TermCriteria cpp(MyCvTermCriteria tc)
 {
 	return cv::TermCriteria(tc.type, tc.max_iter, tc.epsilon);
 }
 
-static inline MyCvBox2D c(cv::RotatedRect r)
+static MyCvBox2D c(cv::RotatedRect r)
 {
 	MyCvBox2D ret;
 	ret.center = c(r.center);
@@ -233,7 +233,7 @@ static inline MyCvBox2D c(cv::RotatedRect r)
 	ret.angle = r.angle;
 	return ret;
 }
-static inline cv::RotatedRect cpp(MyCvBox2D b)
+static cv::RotatedRect cpp(MyCvBox2D b)
 {
 	return cv::RotatedRect(cpp(b.center), cpp(b.size), b.angle);
 }
