@@ -1215,6 +1215,7 @@ namespace OpenCvSharp
             return new Mat(ret);
         }
         #endregion
+
         #region GetRectSubPix
         /// <summary>
         /// Retrieves a pixel rectangle from an image with sub-pixel accuracy.
@@ -1229,9 +1230,9 @@ namespace OpenCvSharp
             OutputArray patch, int patchType = -1)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (patch == null)
-                throw new ArgumentNullException("patch");
+                throw new ArgumentNullException(nameof(patch));
             image.ThrowIfDisposed();
             patch.ThrowIfNotReady();
             NativeMethods.imgproc_getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType);
@@ -1239,6 +1240,57 @@ namespace OpenCvSharp
             patch.Fix();
         }
         #endregion
+
+        /// <summary>
+        /// Remaps an image to log-polar space.
+        /// </summary>
+        /// <param name="src">Source image</param>
+        /// <param name="dst">Destination image</param>
+        /// <param name="center">The transformation center; where the output precision is maximal</param>
+        /// <param name="m">Magnitude scale parameter.</param>
+        /// <param name="flags">A combination of interpolation methods, see cv::InterpolationFlags</param>
+        public static void LogPolar(
+            InputArray src, OutputArray dst,
+            Point2f center, double m, InterpolationFlags flags)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.imgproc_logPolar(src.CvPtr, dst.CvPtr, center, m, (int)flags);
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Remaps an image to polar space.
+        /// </summary>
+        /// <param name="src">Source image</param>
+        /// <param name="dst">Destination image</param>
+        /// <param name="center">The transformation center</param>
+        /// <param name="maxRadius">Inverse magnitude scale parameter</param>
+        /// <param name="flags">A combination of interpolation methods, see cv::InterpolationFlags</param>
+        public static void LinearPolar(
+            InputArray src, OutputArray dst,
+            Point2f center, double maxRadius, InterpolationFlags flags)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.imgproc_linearPolar(src.CvPtr, dst.CvPtr, center, maxRadius, (int)flags);
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
         #region Integral
         /// <summary>
         /// 
