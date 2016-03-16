@@ -218,9 +218,9 @@ CVAPI(void) imgproc_convertMaps(cv::_InputArray* map1, cv::_InputArray* map2, cv
 	cv::convertMaps(*map1, *map2, *dstmap1, *dstmap2, dstmap1type, nninterpolation != 0);
 }
 
-CVAPI(cv::Mat*) imgproc_getRotationMatrix2D(CvPoint2D32f center, double angle, double scale)
+CVAPI(cv::Mat*) imgproc_getRotationMatrix2D(MyCvPoint2D32f center, double angle, double scale)
 {
-	cv::Mat ret = cv::getRotationMatrix2D(center, angle, scale);
+	cv::Mat ret = cv::getRotationMatrix2D(cpp(center), angle, scale);
 	return new cv::Mat(ret);
 
 }
@@ -251,9 +251,21 @@ CVAPI(cv::Mat*) imgproc_getAffineTransform2(cv::_InputArray *src, cv::_InputArra
 	return new cv::Mat(ret);
 }
 
-CVAPI(void) imgproc_getRectSubPix(cv::_InputArray *image, CvSize patchSize, CvPoint2D32f center, cv::_OutputArray *patch, int patchType)
+CVAPI(void) imgproc_getRectSubPix(cv::_InputArray *image, CvSize patchSize, MyCvPoint2D32f center, cv::_OutputArray *patch, int patchType)
 {
-	cv::getRectSubPix(*image, patchSize, center, *patch, patchType);
+	cv::getRectSubPix(*image, patchSize, cpp(center), *patch, patchType);
+}
+
+CVAPI(void) imgproc_logPolar(cv::_InputArray *src, cv::_OutputArray *dst,
+	MyCvPoint2D32f center, double M, int flags)
+{
+	cv::logPolar(*src, *dst, cpp(center), M, flags);
+}
+
+CVAPI(void) imgproc_linearPolar(cv::_InputArray *src, cv::_OutputArray *dst,
+	MyCvPoint2D32f center, double maxRadius, int flags)
+{
+	cv::linearPolar(*src, *dst, cpp(center), maxRadius, flags);
 }
 
 CVAPI(void) imgproc_integral1(cv::_InputArray *src, cv::_OutputArray *sum, int sdepth)

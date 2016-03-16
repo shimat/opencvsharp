@@ -114,8 +114,18 @@ namespace OpenCvSharp
         public static extern IntPtr imgproc_getAffineTransform1(Point2f[] src, Point2f[] dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr imgproc_getAffineTransform2(IntPtr src, IntPtr dst);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_getRectSubPix(IntPtr image, Size patchSize, Point2f center, IntPtr patch, int patchType);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_logPolar(
+            IntPtr src, IntPtr dst, Point2f center, double m, int flags);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_linearPolar(
+            IntPtr src, IntPtr dst, Point2f center, double maxRadius, int flags);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_integral1(IntPtr src, IntPtr sum, int sdepth);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
