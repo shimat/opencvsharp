@@ -33,9 +33,9 @@ namespace OpenCvSharp.Extensions
         public static void Niblack(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
@@ -45,9 +45,9 @@ namespace OpenCvSharp.Extensions
 
             // サイズのチェック
             if (kernelSize < 3)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be 3 and above");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be 3 and above");
             if (kernelSize % 2 == 0)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be odd number");
 
             int width = src.Width;
             int height = src.Height;
@@ -98,9 +98,9 @@ namespace OpenCvSharp.Extensions
         public static void NiblackFast(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
@@ -110,9 +110,9 @@ namespace OpenCvSharp.Extensions
 
             // サイズのチェック
             if (kernelSize < 3)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be 3 and above");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be 3 and above");
             if (kernelSize % 2 == 0)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be odd number");
 
             int borderSize = kernelSize / 2;
             int width = src.Width;
@@ -120,8 +120,8 @@ namespace OpenCvSharp.Extensions
             dst.Create(src.Size(), src.Type());
 
             using (var tempMat = new Mat(height + (borderSize * 2), width + (borderSize * 2), src.Type()))
-            using (var sumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
-            using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
+            using (var sumMat = new Mat())
+            using (var sqSumMat = new Mat())
             {
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
                 Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
@@ -189,9 +189,9 @@ namespace OpenCvSharp.Extensions
         public static void Sauvola(Mat src, Mat dst, int kernelSize, double k, double r)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
@@ -201,9 +201,9 @@ namespace OpenCvSharp.Extensions
 
             // サイズのチェック
             if (kernelSize < 3)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be 3 and above");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be 3 and above");
             if (kernelSize % 2 == 0)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be odd number");
 
             int width = src.Width;
             int height = src.Height;
@@ -258,9 +258,9 @@ namespace OpenCvSharp.Extensions
         public static void SauvolaFast(Mat src, Mat dst, int kernelSize, double k, double r)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
@@ -270,11 +270,11 @@ namespace OpenCvSharp.Extensions
 
             // サイズのチェック
             if (kernelSize < 3)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be 3 and above");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be 3 and above");
             if (kernelSize % 2 == 0)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be odd number");
             if (Math.Abs(r) < 1e-9f)
-                throw new ArgumentOutOfRangeException("r", "r == 0");
+                throw new ArgumentOutOfRangeException(nameof(r), "r == 0");
 
             int borderSize = kernelSize / 2;
             int width = src.Width;
@@ -282,8 +282,8 @@ namespace OpenCvSharp.Extensions
             dst.Create(src.Size(), src.Type());
 
             using (var tempMat = new Mat(height + (borderSize * 2), width + (borderSize * 2), src.Type()))
-            using (var sumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
-            using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
+            using (var sumMat = new Mat())
+            using (var sqSumMat = new Mat())
             {
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
                 Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
@@ -350,9 +350,9 @@ namespace OpenCvSharp.Extensions
         public static void Bernsen(Mat src, Mat dst, int kernelSize, byte constrastMin, byte bgThreshold)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
@@ -362,9 +362,9 @@ namespace OpenCvSharp.Extensions
 
             // サイズのチェック
             if (kernelSize < 3)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be 3 and above");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be 3 and above");
             if (kernelSize % 2 == 0)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be odd number");
 
             int width = src.Width;
             int height = src.Height;
@@ -420,9 +420,9 @@ namespace OpenCvSharp.Extensions
         public static void Nick(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
@@ -432,9 +432,9 @@ namespace OpenCvSharp.Extensions
 
             // サイズのチェック
             if (kernelSize < 3)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be 3 and above");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be 3 and above");
             if (kernelSize % 2 == 0)
-                throw new ArgumentOutOfRangeException("kernelSize", "size must be odd number");
+                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be odd number");
 
             int borderSize = kernelSize / 2;
             int width = src.Width;
@@ -442,8 +442,8 @@ namespace OpenCvSharp.Extensions
             dst.Create(src.Size(), src.Type());
 
             using (var tempMat = new Mat(height + (borderSize * 2), width + (borderSize * 2), src.Type()))
-            using (var sumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
-            using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
+            using (var sumMat = new Mat())
+            using (var sqSumMat = new Mat())
             {
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
                 Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
@@ -507,7 +507,6 @@ namespace OpenCvSharp.Extensions
             int xe = Math.Min(x + size2, img.Width);
             int ys = Math.Max(y - size2, 0);
             int ye = Math.Min(y + size2, img.Height);
-            byte v;
 
             using (var tImg = new MatOfByte(img))
             {
@@ -516,7 +515,7 @@ namespace OpenCvSharp.Extensions
                 {
                     for (int yy = ys; yy < ye; yy++)
                     {
-                        v = indexer[yy, xx];
+                        byte v = indexer[yy, xx];
                         sum += v;
                         sqsum += v*v;
                         count++;
