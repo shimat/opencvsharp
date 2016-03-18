@@ -124,7 +124,7 @@ namespace OpenCvSharp.Extensions
             using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
             {
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
-                Cv2.Integral(tempMat, sumMat, sqSumMat);
+                Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
 
                 using (var tSrcMat = new MatOfByte(src))
                 using (var tDstMat = new MatOfByte(dst))
@@ -286,7 +286,7 @@ namespace OpenCvSharp.Extensions
             using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
             {
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
-                Cv2.Integral(tempMat, sumMat, sqSumMat);
+                Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
 
                 using (var tSrcMat = new MatOfByte(src))
                 using (var tDstMat = new MatOfByte(dst))
@@ -446,7 +446,7 @@ namespace OpenCvSharp.Extensions
             using (var sqSumMat = new Mat(tempMat.Height + 1, tempMat.Width + 1, MatType.CV_64FC1, 1))
             {
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
-                Cv2.Integral(tempMat, sumMat, sqSumMat);
+                Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
 
                 using (var tSrcMat = new MatOfByte(src))
                 using (var tDstMat = new MatOfByte(dst))
