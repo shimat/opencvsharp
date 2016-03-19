@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Samples\BgSubtractorMOG.cs" />
+    <Compile Include="Samples\BinarizerSample.cs" />
     <Compile Include="Samples\PhotoMethods.cs" />
     <Compile Include="Samples\SeamlessClone.cs" />
     <Compile Include="Samples\ConnectedComponentsSample.cs" />
