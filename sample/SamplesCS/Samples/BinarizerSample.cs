@@ -20,14 +20,14 @@ namespace SamplesCS
 
                 var sw = new Stopwatch();
                 sw.Start();
-                Binarizer.NiblackFast(src, niblack, kernelSize, -0.2);
+                Binarizer.Niblack(src, niblack, kernelSize, -0.2);
                 sw.Stop();
-                Console.WriteLine($"NiblackFast {sw.ElapsedMilliseconds} ms");
+                Console.WriteLine($"Niblack {sw.ElapsedMilliseconds} ms");
 
                 sw.Restart();
-                Binarizer.SauvolaFast(src, sauvola, kernelSize, 0.1, 64);
+                Binarizer.Sauvola(src, sauvola, kernelSize, 0.1, 64);
                 sw.Stop();
-                Console.WriteLine($"SauvolaFast {sw.ElapsedMilliseconds} ms");
+                Console.WriteLine($"Sauvola {sw.ElapsedMilliseconds} ms");
 
                 sw.Restart();
                 Binarizer.Bernsen(src, bernsen, kernelSize, 50, 200);
