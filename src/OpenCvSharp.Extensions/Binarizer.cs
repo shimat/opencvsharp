@@ -40,8 +40,6 @@ namespace OpenCvSharp.Extensions
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.Type() != MatType.CV_8UC1)
-                throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
             if (kernelSize < 3)
@@ -129,8 +127,6 @@ namespace OpenCvSharp.Extensions
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.Type() != MatType.CV_8UC1)
-                throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
             if (kernelSize < 3)
@@ -221,8 +217,6 @@ namespace OpenCvSharp.Extensions
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.Type() != MatType.CV_8UC1)
-                throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
             if (kernelSize < 3)
@@ -291,8 +285,6 @@ namespace OpenCvSharp.Extensions
             // グレースケールのみ
             if (src.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("src must be gray scale image");
-            if (dst.Type() != MatType.CV_8UC1)
-                throw new ArgumentException("dst must be gray scale image");
 
             // サイズのチェック
             if (kernelSize < 3)
