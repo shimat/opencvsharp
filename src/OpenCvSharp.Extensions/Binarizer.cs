@@ -23,71 +23,6 @@ namespace OpenCvSharp.Extensions
         /// <param name="k">係数</param>
 #else
         /// <summary>
-        /// Binarizes by Niblack's method
-        /// </summary>
-        /// <param name="src">Input image</param>
-        /// <param name="dst">Output image</param>
-        /// <param name="kernelSize">Window size</param>
-        /// <param name="k">Adequate coefficient</param>
-#endif
-        public static void Niblack(Mat src, Mat dst, int kernelSize, double k)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-
-            // グレースケールのみ
-            if (src.Type() != MatType.CV_8UC1)
-                throw new ArgumentException("src must be gray scale image");
-            if (dst.Type() != MatType.CV_8UC1)
-                throw new ArgumentException("dst must be gray scale image");
-
-            // サイズのチェック
-            if (kernelSize < 3)
-                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be 3 and above");
-            if (kernelSize % 2 == 0)
-                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be odd number");
-
-            int width = src.Width;
-            int height = src.Height;
-            dst.Create(src.Size(), src.Type());
-
-            using (var tSrcMat = new MatOfByte(src))
-            using (var tDstMat = new MatOfByte(dst))
-            {
-                var tSrc = tSrcMat.GetIndexer();
-                var tDst = tDstMat.GetIndexer();
-
-                //for (int y = 0; y < gray.Height; y++)
-                MyParallel.For(0, height, delegate(int y)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
-                        double m, s;
-                        MeanStddev(src, x, y, kernelSize, out m, out s);
-                        double threshold = m + k * s;
-
-                        if (tSrc[y, x] < threshold)
-                            tDst[y, x] = 0;
-                        else
-                            tDst[y, x] = 255;
-                    }
-                }
-                );
-            }
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// Niblackの手法による二値化処理を行う（高速だが、メモリを多く消費するバージョン）。
-        /// </summary>
-        /// <param name="imgSrc">入力画像</param>
-        /// <param name="imgDst">出力画像</param>
-        /// <param name="kernelSize">局所領域のサイズ</param>
-        /// <param name="k">係数</param>
-#else
-        /// <summary>
         /// Binarizes by Niblack's method (This is faster but memory-hogging)
         /// </summary>
         /// <param name="src">Input image</param>
@@ -95,7 +30,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
 #endif
-        public static void NiblackFast(Mat src, Mat dst, int kernelSize, double k)
+        public static void Niblack(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -165,80 +100,9 @@ namespace OpenCvSharp.Extensions
             }
         }
 
-
-
 #if LANG_JP
         /// <summary>
         /// Sauvolaの手法による二値化処理を行う。
-        /// </summary>
-        /// <param name="imgSrc">入力画像</param>
-        /// <param name="imgDst">出力画像</param>
-        /// <param name="kernelSize">局所領域のサイズ</param>
-        /// <param name="k">係数</param>
-        /// <param name="r">係数</param>
-#else
-        /// <summary>
-        /// Binarizes by Sauvola's method
-        /// </summary>
-        /// <param name="src">Input image</param>
-        /// <param name="dst">Output image</param>
-        /// <param name="kernelSize">Window size</param>
-        /// <param name="k">Adequate coefficient</param>
-        /// <param name="r">Adequate coefficient</param>
-#endif
-        public static void Sauvola(Mat src, Mat dst, int kernelSize, double k, double r)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-
-            // グレースケールのみ
-            if (src.Type() != MatType.CV_8UC1)
-                throw new ArgumentException("src must be gray scale image");
-            if (dst.Type() != MatType.CV_8UC1)
-                throw new ArgumentException("dst must be gray scale image");
-
-            // サイズのチェック
-            if (kernelSize < 3)
-                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be 3 and above");
-            if (kernelSize % 2 == 0)
-                throw new ArgumentOutOfRangeException(nameof(kernelSize), "size must be odd number");
-
-            int width = src.Width;
-            int height = src.Height;
-            dst.Create(src.Size(), src.Type());
-
-            using (var tSrcMat = new MatOfByte(src))
-            using (var tDstMat = new MatOfByte(dst))
-            {
-                var tSrc = tSrcMat.GetIndexer();
-                var tDst = tDstMat.GetIndexer();
-
-                //for (int y = 0; y < height; y++)
-                MyParallel.For(0, height, delegate(int y)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
-                        double m, s;
-                        MeanStddev(src, x, y, kernelSize, out m, out s);
-                        double threshold = m * (1 + k * (s / r - 1));
-
-                        if (tSrc[y, x] < threshold)
-                            tDst[y, x] = 0;
-                        else
-                            tDst[y, x] = 255;
-                    }
-                }
-                );
-            }
-            
-        }
-
-
-#if LANG_JP
-        /// <summary>
-        /// Sauvolaの手法による二値化処理を行う（高速だが、メモリを多く消費するバージョン）。
         /// </summary>
         /// <param name="imgSrc">入力画像</param>
         /// <param name="imgDst">出力画像</param>
@@ -255,7 +119,7 @@ namespace OpenCvSharp.Extensions
         /// <param name="k">Adequate coefficient</param>
         /// <param name="r">Adequate coefficient</param>
 #endif
-        public static void SauvolaFast(Mat src, Mat dst, int kernelSize, double k, double r)
+        public static void Sauvola(Mat src, Mat dst, int kernelSize, double k, double r)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -485,48 +349,6 @@ namespace OpenCvSharp.Extensions
                     }
                 }
             }
-        }
-
-
-        /// <summary>
-        /// 注目画素の周辺画素の平均値と標準偏差を求める
-        /// </summary>
-        /// <param name="img">画像の画素データ</param>
-        /// <param name="x">x座標</param>
-        /// <param name="y">y座標</param>
-        /// <param name="size">周辺画素の探索サイズ。奇数でなければならない</param>
-        /// <param name="mean">出力される平均</param>
-        /// <param name="stddev">出力される標準偏差</param>
-        private static void MeanStddev(Mat img, int x, int y, int size, out double mean, out double stddev)
-        {
-            int count = 0;
-            int sum = 0;
-            int sqsum = 0;
-            int size2 = size / 2;
-            int xs = Math.Max(x - size2, 0);
-            int xe = Math.Min(x + size2, img.Width);
-            int ys = Math.Max(y - size2, 0);
-            int ye = Math.Min(y + size2, img.Height);
-
-            using (var tImg = new MatOfByte(img))
-            {
-                var indexer = tImg.GetIndexer();
-                for (int xx = xs; xx < xe; xx++)
-                {
-                    for (int yy = ys; yy < ye; yy++)
-                    {
-                        byte v = indexer[yy, xx];
-                        sum += v;
-                        sqsum += v*v;
-                        count++;
-                    }
-                }
-            }
-
-            mean = (double)sum / count;
-            double var = ((double)sqsum / count) - (mean * mean);
-            if (var < 0.0) var = 0.0;
-            stddev = Math.Sqrt(var);
         }
 
         /// <summary>
