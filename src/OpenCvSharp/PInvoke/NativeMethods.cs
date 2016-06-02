@@ -65,9 +65,12 @@ namespace OpenCvSharp
                 return;
 
             string[] ap = EnumerableEx.ToArray(additionalPaths);
+            List<string> runtimePaths = new List<string> (ap);
+            runtimePaths.Add(Environment.GetFolderPath(Environment.SpecialFolder.System));
+            
             foreach (string dll in RuntimeDllNames)
             {
-                WindowsLibraryLoader.Instance.LoadLibrary(dll, ap);
+                WindowsLibraryLoader.Instance.LoadLibrary(dll, runtimePaths);
             }
             foreach (string dll in OpenCVDllNames)
             {
