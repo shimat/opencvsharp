@@ -3270,6 +3270,34 @@ namespace OpenCvSharp
             }
         }
 
+        private void CheckArgumentsForConvert(int row, int col, Array data, int dataDimension,
+          params MatType[] acceptableTypes)
+        {
+            ThrowIfDisposed();
+            if (row < 0 || row >= Rows)
+                throw new ArgumentOutOfRangeException("row");
+            if (col < 0 || col >= Cols)
+                throw new ArgumentOutOfRangeException("col");
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            MatType t = Type();
+            if (data == null || (data.Length*dataDimension)%t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+
+            if (acceptableTypes != null && acceptableTypes.Length > 0)
+            {
+                bool isValidDepth = EnumerableEx.Any(acceptableTypes, delegate(MatType type)
+                {
+                    return type == t;
+                });
+                if (!isValidDepth)
+                    throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            }
+        }
+
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
@@ -3585,7 +3613,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point2f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
+            CheckArgumentsForConvert(row, col, data, 2, MatType.CV_32FC2);
             NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
         }
 
@@ -3597,7 +3625,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point2f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC2);
+            CheckArgumentsForConvert(row, col, data, 2, MatType.CV_32FC2);
             NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, data, data.Length);
         }
 
@@ -3609,7 +3637,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point2d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
+            CheckArgumentsForConvert(row, col, data,2, MatType.CV_64FC2);
             NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
         }
 
@@ -3621,7 +3649,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point2d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC2);
+            CheckArgumentsForConvert(row, col, data, 2, MatType.CV_64FC2);
             NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, data, data.Length);
         }
 
@@ -3633,7 +3661,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3i[] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
+            CheckArgumentsForConvert(row, col, data, 3, MatType.CV_32SC3);
             NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
         }
 
@@ -3645,7 +3673,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3i[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC3);
+            CheckArgumentsForConvert(row, col, data, 3, MatType.CV_32SC3);
             NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, data, data.Length);
         }
 
@@ -3658,7 +3686,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
+            CheckArgumentsForConvert(row, col, data, 3, MatType.CV_32FC3);
             NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
         }
 
@@ -3670,7 +3698,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32FC3);
+            CheckArgumentsForConvert(row, col, data, 3, MatType.CV_32FC3);
             NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, data, data.Length);
         }
 
@@ -3682,7 +3710,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CheckArgumentsForConvert(row, col, data, 3, MatType.CV_64FC3);
             NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
         }
 
@@ -3694,7 +3722,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_64FC3);
+            CheckArgumentsForConvert(row, col, data, 3, MatType.CV_64FC3);
             NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, data, data.Length);
         }
 
@@ -3706,7 +3734,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Rect[] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            CheckArgumentsForConvert(row, col, data, 4, MatType.CV_32SC4);
             NativeMethods.core_Mat_nGetRect(ptr, row, col, data, data.Length);
         }
 
@@ -3718,7 +3746,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Rect[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32SC4);
+            CheckArgumentsForConvert(row, col, data, 4, MatType.CV_32SC4);
             NativeMethods.core_Mat_nGetRect(ptr, row, col, data, data.Length);
         }
 
