@@ -214,7 +214,7 @@ namespace OpenCvSharp
         public VideoCapture(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             /*if (!File.Exists(fileName))
                 throw new FileNotFoundException("File not found", fileName);*/
 
@@ -1936,7 +1936,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if(image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
             
             //NativeMethods.videoio_VideoCapture_read(ptr, image.CvPtr);

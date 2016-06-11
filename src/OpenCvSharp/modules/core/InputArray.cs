@@ -81,7 +81,7 @@ namespace OpenCvSharp
         internal InputArray(GpuMat mat)
         {
             if (mat == null)
-                throw new ArgumentNullException("mat");
+                throw new ArgumentNullException(nameof(mat));
             ptr = NativeMethods.core_InputArray_new_byGpuMat(mat.CvPtr);
             obj = mat;
         }
@@ -93,7 +93,7 @@ namespace OpenCvSharp
         internal InputArray(IEnumerable<Mat> mat)
         {
             if (mat == null)
-                throw new ArgumentNullException("mat");
+                throw new ArgumentNullException(nameof(mat));
             using (var matVector = new VectorOfMat(mat))
             {
                 ptr = NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr);

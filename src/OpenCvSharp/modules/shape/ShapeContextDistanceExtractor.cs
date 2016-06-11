@@ -297,9 +297,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (image1 == null)
-                throw new ArgumentNullException("image1");
+                throw new ArgumentNullException(nameof(image1));
             if (image2 == null)
-                throw new ArgumentNullException("image2");
+                throw new ArgumentNullException(nameof(image2));
             image1.ThrowIfDisposed();
             image2.ThrowIfDisposed();
             NativeMethods.shape_ShapeContextDistanceExtractor_setImages(ptr, image1.CvPtr, image2.CvPtr);
@@ -318,9 +318,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (image1 == null)
-                throw new ArgumentNullException("image1");
+                throw new ArgumentNullException(nameof(image1));
             if (image2 == null)
-                throw new ArgumentNullException("image2");
+                throw new ArgumentNullException(nameof(image2));
             image1.ThrowIfNotReady();
             image2.ThrowIfNotReady();
             NativeMethods.shape_ShapeContextDistanceExtractor_getImages(ptr, image1.CvPtr, image2.CvPtr);
