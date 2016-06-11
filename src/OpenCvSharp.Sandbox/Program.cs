@@ -17,7 +17,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            CvBlobsSample();
+            ShapeContextDistanceExtractorSaample();
+            //CvBlobsSample();
             //HDR();
             //ConvertImageSample();
             //VideoCaptureSample();
@@ -32,7 +33,34 @@ namespace OpenCvSharp.Sandbox
             Console.WriteLine("Press any key to exit");
             Console.Read();
         }
-                
+
+        private static void ShapeContextDistanceExtractorSaample()
+        {
+            var src = Cv2.ImRead(@"data\shapes.png", ImreadModes.Color);
+            var gray = src.CvtColor(ColorConversionCodes.BGR2GRAY);
+            var canny = gray.Canny(100, 200);
+
+            Point[][] contours;
+            HierarchyIndex[] hierarchy;
+            canny.FindContours(
+                out contours, out hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
+
+            Mat dst = src.Clone();
+            Cv2.DrawContours(dst, new Point[][] { contours[0] }, -1, Scalar.Red, 2);
+            Cv2.DrawContours(dst, new Point[][] { contours[1] }, -1, Scalar.Yellow, 2);
+
+            var distanceExtractor = ShapeContextDistanceExtractor.Create();
+
+            using (var inputA = MatOfPoint.FromArray(contours[0]))
+            using (var inputB = MatOfPoint.FromArray(contours[1]))
+            {
+                var distance = distanceExtractor.ComputeDistance(inputA, inputB);
+                Console.WriteLine(distance); // always 0
+            }
+
+            Window.ShowImages(dst);
+        }
+
         private static void HDR()
         {
             var hdr = CalibrateDebevec.Create();

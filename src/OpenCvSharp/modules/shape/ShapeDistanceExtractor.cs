@@ -20,9 +20,9 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             if (contour1 == null)
-                throw new ArgumentNullException("contour1");
+                throw new ArgumentNullException(nameof(contour1));
             if (contour2 == null)
-                throw new ArgumentNullException("contour2");
+                throw new ArgumentNullException(nameof(contour2));
             contour1.ThrowIfDisposed();
             contour2.ThrowIfDisposed();
 
