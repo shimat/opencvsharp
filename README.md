@@ -56,7 +56,7 @@ class Program
 * Many classes of OpenCvSharp implement IDisposable. There is no need to manage unsafe resources. 
 * OpenCvSharp does not force object-oriented programming style on you. You can also call native-style OpenCV functions.
 * OpenCvSharp provides functions for converting from Mat/IplImage into Bitmap(GDI+) or WriteableBitmap(WPF).
-* OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux and MacOSX). 
+* OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux). 
 
 -----
 
@@ -64,7 +64,7 @@ class Program
 * 多くのクラスがIDisposableインターフェイスを実装しているので、ネイティブリソース管理が容易です。
 * オブジェクト指向な書き方を強制しません。OpenCVのネイティブの関数をそのままの形式で呼べます。
 * GDI+やWPFとの相互利用が可能です。OpenCVのMat/IplImageとGDI+のBitmapやWPFのWriteableBitmapとの変換機能があります。
-* [Mono](http://www.mono-project.com/Main_Page)に対応しています。LinuxやMacOSX等のクロスプラットフォームで動作します。
+* [Mono](http://www.mono-project.com/Main_Page)に対応しています。Linux等のクロスプラットフォームで動作します。
 
 
 ## License
