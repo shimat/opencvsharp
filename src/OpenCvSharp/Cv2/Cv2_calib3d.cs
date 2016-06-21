@@ -1456,9 +1456,9 @@ namespace OpenCvSharp
         /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
         /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
         /// <returns></returns>
-        public static double StereoCalibrate(IEnumerable<IEnumerable<Point3d>> objectPoints,
-                                             IEnumerable<IEnumerable<Point2d>> imagePoints1,
-                                             IEnumerable<IEnumerable<Point2d>> imagePoints2,
+        public static double StereoCalibrate(IEnumerable<IEnumerable<Point3f>> objectPoints,
+                                             IEnumerable<IEnumerable<Point2f>> imagePoints1,
+                                             IEnumerable<IEnumerable<Point2f>> imagePoints2,
                                              double[,] cameraMatrix1, double[] distCoeffs1,
                                              double[,] cameraMatrix2, double[] distCoeffs2,
                                              Size imageSize, OutputArray R,
@@ -1484,9 +1484,9 @@ namespace OpenCvSharp
             TermCriteria criteria0 = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, 1e-6));
 
-            using (var op = new ArrayAddress2<Point3d>(objectPoints))
-            using (var ip1 = new ArrayAddress2<Point2d>(imagePoints1))
-            using (var ip2 = new ArrayAddress2<Point2d>(imagePoints2))
+            using (var op = new ArrayAddress2<Point3f>(objectPoints))
+            using (var ip1 = new ArrayAddress2<Point2f>(imagePoints1))
+            using (var ip2 = new ArrayAddress2<Point2f>(imagePoints2))
             {
                 return NativeMethods.calib3d_stereoCalibrate_array(
                         op.Pointer, op.Dim1Length, op.Dim2Lengths,
