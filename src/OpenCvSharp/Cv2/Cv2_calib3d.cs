@@ -597,10 +597,10 @@ namespace OpenCvSharp
         /// <param name="aspectRatio">Optional “fixed aspect ratio” parameter. 
         /// If the parameter is not 0, the function assumes that the aspect ratio (fx/fy) 
         /// is fixed and correspondingly adjusts the jacobian matrix.</param>
-        public static void ProjectPoints(IEnumerable<Point3d> objectPoints,
+        public static void ProjectPoints(IEnumerable<Point3f> objectPoints,
                                          double[] rvec, double[] tvec,
                                          double[,] cameraMatrix, double[] distCoeffs,
-                                         out Point2d[] imagePoints,
+                                         out Point2f[] imagePoints,
                                          out double[,] jacobian,
                                          double aspectRatio = 0)
         {
@@ -619,12 +619,12 @@ namespace OpenCvSharp
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("cameraMatrix must be double[3,3]");
 
-            Point3d[] objectPointsArray = EnumerableEx.ToArray(objectPoints);
-            using (var objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray))
+            Point3f[] objectPointsArray = EnumerableEx.ToArray(objectPoints);
+            using (var objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_32FC3, objectPointsArray))
             using (var rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec))
             using (var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec))
             using (var cameraMatrixM = new Mat(3, 3, MatType.CV_64FC1, cameraMatrix))
-            using (var imagePointsM = new MatOfPoint2d())
+            using (var imagePointsM = new MatOfPoint2f())
             {
                 var distCoeffsM = new Mat();
                 if (distCoeffs != null)
