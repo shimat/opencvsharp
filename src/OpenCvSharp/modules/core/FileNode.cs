@@ -111,6 +111,31 @@ namespace OpenCvSharp
             NativeMethods.core_FileNode_toString(node.CvPtr, buf, buf.Capacity);
             return buf.ToString();
         }
+        
+        /// <summary>
+        /// Returns the node content as OpenCV Mat
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static explicit operator Mat(FileNode node)
+        {
+        	if (node == null)
+        		throw new ArgumentNullException("node");
+        	node.ThrowIfDisposed();
+        
+        	int rows = (int)node["rows"];
+        	int cols = (int)node["cols"];
+        	Mat matrix = new Mat(rows, cols, MatType.CV_64FC1);
+        	for (int i = 0; i < rows; i++)
+        	{
+        		for (int j = 0; j < cols; j++)
+        		{
+        			matrix.Set(i, j, (double)node["data"][i * cols + j]);
+        		}
+        	}
+        
+        	return matrix;
+        }
 
         #endregion
 
