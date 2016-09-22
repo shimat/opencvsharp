@@ -10,3 +10,6 @@
 #include "features2d_MSER.h"
 #include "features2d_ORB.h"
 #include "features2d_SimpleBlobDetector.h"
+
+#include "features2d_FastFeatureDetector.h"
+#include "features2d_KeyPointsFilter.h"
