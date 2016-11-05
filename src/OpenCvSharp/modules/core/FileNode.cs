@@ -122,19 +122,10 @@ namespace OpenCvSharp
         	if (node == null)
         		throw new ArgumentNullException(nameof(node));
         	node.ThrowIfDisposed();
-        
-        	int rows = (int)node["rows"];
-        	int cols = (int)node["cols"];
-        	Mat matrix = new Mat(rows, cols, MatType.CV_64FC1);
-        	for (int i = 0; i < rows; i++)
-        	{
-        		for (int j = 0; j < cols; j++)
-        		{
-        			matrix.Set(i, j, (double)node["data"][i * cols + j]);
-        		}
-        	}
-        
-        	return matrix;
+
+            var matrix = new Mat();
+            NativeMethods.core_FileNode_toMat(node.CvPtr, matrix.CvPtr);
+            return matrix;
         }
 
         #endregion

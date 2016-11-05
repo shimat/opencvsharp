@@ -2740,5 +2740,160 @@ namespace OpenCvSharp
             dst.Fix();
         }
         #endregion
+
+        #region Write
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void Write(FileStorage fs, string name, int value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.Write(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void Write(FileStorage fs, string name, float value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.Write(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void Write(FileStorage fs, string name, double value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.Write(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void Write(FileStorage fs, string name, string value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.Write(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void Write(FileStorage fs, string name, Mat value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.Write(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void Write(FileStorage fs, string name, SparseMat value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.Write(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void Write(FileStorage fs, string name, IEnumerable<KeyPoint> value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.Write(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void Write(FileStorage fs, string name, IEnumerable<DMatch> value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.Write(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="value"></param>
+        public static void WriteScalar(FileStorage fs, int value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.WriteScalar(value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="value"></param>
+        public static void WriteScalar(FileStorage fs, float value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.WriteScalar(value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="value"></param>
+        public static void WriteScalar(FileStorage fs, double value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.WriteScalar(value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="value"></param>
+        public static void WriteScalar(FileStorage fs, string value)
+        {
+            if (fs == null)
+                throw new ArgumentNullException(nameof(fs));
+            fs.WriteScalar(value);
+        }
+
+        #endregion
     }
 }
