@@ -56,6 +56,10 @@ static inline cv::Mat entity(cv::Mat *obj)
 {
     return (obj != NULL) ? *obj : cv::Mat();
 }
+static inline cv::SparseMat entity(cv::SparseMat *obj)
+{
+	return (obj != NULL) ? *obj : cv::SparseMat();
+}
 static inline cv::cuda::GpuMat entity(cv::cuda::GpuMat *obj)
 {
 	return (obj != NULL) ? *obj : cv::cuda::GpuMat();

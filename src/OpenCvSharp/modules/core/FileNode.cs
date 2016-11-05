@@ -346,6 +346,124 @@ namespace OpenCvSharp
             return NativeMethods.core_FileNode_readObj(ptr);
         }
 
+        #region Read
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public int ReadInt(int defaultValue = default(int))
+        {
+            int value;
+            NativeMethods.core_FileNode_read_int(ptr, out value, defaultValue);
+            return value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public float ReadFloat(float defaultValue = default(float))
+        {
+            float value;
+            NativeMethods.core_FileNode_read_float(ptr, out value, defaultValue);
+            return value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public double ReadDouble(double defaultValue = default(double))
+        {
+            double value;
+            NativeMethods.core_FileNode_read_double(ptr, out value, defaultValue);
+            return value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public string ReadString(string defaultValue = default(string))
+        {
+            var value = new StringBuilder(65536);
+            NativeMethods.core_FileNode_read_String(ptr, value, value.Capacity, defaultValue);
+            return value.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="defaultMat"></param>
+        /// <returns></returns>
+        public Mat ReadMat(Mat defaultMat = null)
+        {
+            var value = new Mat();
+            try
+            {
+                NativeMethods.core_FileNode_read_Mat(ptr, value.CvPtr, Cv2.ToPtr(defaultMat));
+            }
+            catch
+            {
+                value.Dispose();
+                throw;
+            }
+            return value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="defaultMat"></param>
+        /// <returns></returns>
+        public SparseMat ReadSparseMat(SparseMat defaultMat = null)
+        {
+            var value = new SparseMat();
+            try
+            {
+                NativeMethods.core_FileNode_read_SparseMat(ptr, value.CvPtr, Cv2.ToPtr(defaultMat));
+            }
+            catch
+            {
+                value.Dispose();
+                throw;
+            }
+            return value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public KeyPoint[] ReadKeyPoints()
+        {
+            using (var valueVector = new VectorOfKeyPoint())
+            {
+                NativeMethods.core_FileNode_read_vectorOfKeyPoint(ptr, valueVector.CvPtr);
+                return valueVector.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public DMatch[] ReadDMatches()
+        {
+            using (var valueVector = new VectorOfDMatch())
+            {
+                NativeMethods.core_FileNode_read_vectorOfDMatch(ptr, valueVector.CvPtr);
+                return valueVector.ToArray();
+            }
+        }
+
+        #endregion
+
         #endregion
     }
 }
