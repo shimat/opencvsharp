@@ -18,6 +18,7 @@
             <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework2.0, .NETFramework3.5" />
             <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework2.0, .NETFramework3.5" />
             <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework3.5" />
+            <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework3.5" />
             <frameworkAssembly assemblyName="System.Core" targetFramework=".NETFramework3.5" />
             <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework3.5" />
         </frameworkAssemblies>
