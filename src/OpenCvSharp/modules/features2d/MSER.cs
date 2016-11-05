@@ -213,7 +213,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (image == null) 
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
             using (var msersVec = new VectorOfVectorPoint())

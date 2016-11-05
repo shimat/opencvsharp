@@ -317,7 +317,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if (String.IsNullOrEmpty(fileName))
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
 
             FileName = fileName;
             Fps = fps;
@@ -363,7 +363,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if(image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
             NativeMethods.videoio_VideoWriter_write(ptr, image.CvPtr);
         }
@@ -395,9 +395,9 @@ namespace OpenCvSharp
         public static int FourCC(string code)
         {
             if (code == null)
-                throw new ArgumentNullException("code");
+                throw new ArgumentNullException(nameof(code));
             if (code.Length != 4)
-                throw new ArgumentException("code.Length != 4", "code");
+                throw new ArgumentException("code.Length != 4", nameof(code));
 
             return FourCC(code[0], code[1], code[2], code[3]);
         }

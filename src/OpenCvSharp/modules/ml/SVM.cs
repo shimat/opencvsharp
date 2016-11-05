@@ -285,9 +285,9 @@ namespace OpenCvSharp.ML
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (alpha == null)
-                throw new ArgumentNullException("alpha");
+                throw new ArgumentNullException(nameof(alpha));
             if (svidx == null)
-                throw new ArgumentNullException("svidx");
+                throw new ArgumentNullException(nameof(svidx));
 
             alpha.ThrowIfNotReady();
             svidx.ThrowIfNotReady();

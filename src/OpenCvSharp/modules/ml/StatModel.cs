@@ -101,9 +101,9 @@ namespace OpenCvSharp.ML
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             if (samples == null) 
-                throw new ArgumentNullException("samples");
+                throw new ArgumentNullException(nameof(samples));
             if (responses == null)
-                throw new ArgumentNullException("responses");
+                throw new ArgumentNullException(nameof(responses));
             samples.ThrowIfDisposed();
             responses.ThrowIfDisposed();
 
@@ -142,7 +142,7 @@ namespace OpenCvSharp.ML
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             if (samples == null)
-                throw new ArgumentNullException("samples");
+                throw new ArgumentNullException(nameof(samples));
             samples.ThrowIfDisposed();
             if (results!=null)
                 results.ThrowIfNotReady();

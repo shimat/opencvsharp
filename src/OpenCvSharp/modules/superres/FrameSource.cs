@@ -35,7 +35,7 @@ namespace OpenCvSharp
         public static FrameSource CreateVideoSource(string fileName)
         {
             if (String.IsNullOrEmpty("fileName"))
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
             IntPtr ptr = NativeMethods.superres_createFrameSource_Video(fileName);
@@ -50,7 +50,7 @@ namespace OpenCvSharp
         public static FrameSource CreateVideoSourceCuda(string fileName)
         {
             if (String.IsNullOrEmpty("fileName"))
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
             IntPtr ptr = NativeMethods.superres_createFrameSource_Video_CUDA(fileName);

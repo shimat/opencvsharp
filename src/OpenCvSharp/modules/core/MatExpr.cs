@@ -28,7 +28,7 @@ namespace OpenCvSharp
         internal MatExpr(Mat mat)
         {
             if(mat == null)
-                throw new ArgumentNullException("mat");
+                throw new ArgumentNullException(nameof(mat));
             ptr = NativeMethods.core_MatExpr_new(mat.CvPtr);
         }
 
@@ -127,7 +127,7 @@ namespace OpenCvSharp
         public static MatExpr operator -(MatExpr e)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -148,7 +148,7 @@ namespace OpenCvSharp
         public static MatExpr operator ~(MatExpr e)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -171,9 +171,9 @@ namespace OpenCvSharp
         public static MatExpr operator +(MatExpr e, Mat m)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             e.ThrowIfDisposed();
             m.ThrowIfDisposed();
             try
@@ -195,9 +195,9 @@ namespace OpenCvSharp
         public static MatExpr operator +(Mat m, MatExpr e)
         {
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             m.ThrowIfDisposed();
             e.ThrowIfDisposed();
             try
@@ -219,7 +219,7 @@ namespace OpenCvSharp
         public static MatExpr operator +(MatExpr e, Scalar s)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -240,7 +240,7 @@ namespace OpenCvSharp
         public static MatExpr operator +(Scalar s, MatExpr e)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -261,9 +261,9 @@ namespace OpenCvSharp
         public static MatExpr operator +(MatExpr e1, MatExpr e2)
         {
             if (e1 == null)
-                throw new ArgumentNullException("e1");
+                throw new ArgumentNullException(nameof(e1));
             if (e2 == null)
-                throw new ArgumentNullException("e2");
+                throw new ArgumentNullException(nameof(e2));
             e1.ThrowIfDisposed();
             e2.ThrowIfDisposed();
             try
@@ -287,9 +287,9 @@ namespace OpenCvSharp
         public static MatExpr operator -(MatExpr e, Mat m)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             e.ThrowIfDisposed();
             m.ThrowIfDisposed();
             try
@@ -311,9 +311,9 @@ namespace OpenCvSharp
         public static MatExpr operator -(Mat m, MatExpr e)
         {
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             m.ThrowIfDisposed();
             e.ThrowIfDisposed();
             try
@@ -335,7 +335,7 @@ namespace OpenCvSharp
         public static MatExpr operator -(MatExpr e, Scalar s)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -356,7 +356,7 @@ namespace OpenCvSharp
         public static MatExpr operator -(Scalar s, MatExpr e)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -377,9 +377,9 @@ namespace OpenCvSharp
         public static MatExpr operator -(MatExpr e1, MatExpr e2)
         {
             if (e1 == null)
-                throw new ArgumentNullException("e1");
+                throw new ArgumentNullException(nameof(e1));
             if (e2 == null)
-                throw new ArgumentNullException("e2");
+                throw new ArgumentNullException(nameof(e2));
             e1.ThrowIfDisposed();
             e2.ThrowIfDisposed();
             try
@@ -403,9 +403,9 @@ namespace OpenCvSharp
         public static MatExpr operator *(MatExpr e, Mat m)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             e.ThrowIfDisposed();
             m.ThrowIfDisposed();
             try
@@ -427,9 +427,9 @@ namespace OpenCvSharp
         public static MatExpr operator *(Mat m, MatExpr e)
         {
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             m.ThrowIfDisposed();
             e.ThrowIfDisposed();
             try
@@ -451,7 +451,7 @@ namespace OpenCvSharp
         public static MatExpr operator *(MatExpr e, double s)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -472,7 +472,7 @@ namespace OpenCvSharp
         public static MatExpr operator *(double s, MatExpr e)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -493,9 +493,9 @@ namespace OpenCvSharp
         public static MatExpr operator *(MatExpr e1, MatExpr e2)
         {
             if (e1 == null)
-                throw new ArgumentNullException("e1");
+                throw new ArgumentNullException(nameof(e1));
             if (e2 == null)
-                throw new ArgumentNullException("e2");
+                throw new ArgumentNullException(nameof(e2));
             e1.ThrowIfDisposed();
             e2.ThrowIfDisposed();
             try
@@ -519,9 +519,9 @@ namespace OpenCvSharp
         public static MatExpr operator /(MatExpr e, Mat m)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             e.ThrowIfDisposed();
             m.ThrowIfDisposed();
             try
@@ -543,9 +543,9 @@ namespace OpenCvSharp
         public static MatExpr operator /(Mat m, MatExpr e)
         {
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             m.ThrowIfDisposed();
             e.ThrowIfDisposed();
             try
@@ -567,7 +567,7 @@ namespace OpenCvSharp
         public static MatExpr operator /(MatExpr e, double s)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -588,7 +588,7 @@ namespace OpenCvSharp
         public static MatExpr operator /(double s, MatExpr e)
         {
             if (e == null)
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
             try
             {
@@ -609,9 +609,9 @@ namespace OpenCvSharp
         public static MatExpr operator /(MatExpr e1, MatExpr e2)
         {
             if (e1 == null)
-                throw new ArgumentNullException("e1");
+                throw new ArgumentNullException(nameof(e1));
             if (e2 == null)
-                throw new ArgumentNullException("e2");
+                throw new ArgumentNullException(nameof(e2));
             e1.ThrowIfDisposed();
             e2.ThrowIfDisposed();
             try
@@ -661,7 +661,7 @@ namespace OpenCvSharp
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 MatExpr subMatExpr = SubMat(rowRange, colRange);
                 NativeMethods.core_Mat_assignment_FromMatExpr(subMatExpr.CvPtr, value.CvPtr);
             }
@@ -681,7 +681,7 @@ namespace OpenCvSharp
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 MatExpr subMatExpr = SubMat(roi);
                 NativeMethods.core_Mat_assignment_FromMatExpr(subMatExpr.CvPtr, value.CvPtr);
             }

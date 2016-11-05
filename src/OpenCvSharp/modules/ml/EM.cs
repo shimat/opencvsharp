@@ -217,9 +217,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (samples == null)
-                throw new ArgumentNullException("samples");
+                throw new ArgumentNullException(nameof(samples));
             if (means0 == null)
-                throw new ArgumentNullException("means0");
+                throw new ArgumentNullException(nameof(means0));
             samples.ThrowIfDisposed();
             means0.ThrowIfDisposed();
 
@@ -287,9 +287,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (samples == null)
-                throw new ArgumentNullException("samples");
+                throw new ArgumentNullException(nameof(samples));
             if (probs0 == null)
-                throw new ArgumentNullException("probs0");
+                throw new ArgumentNullException(nameof(probs0));
             samples.ThrowIfDisposed();
             probs0.ThrowIfDisposed();
 
@@ -338,7 +338,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (sample == null)
-                throw new ArgumentNullException("sample");
+                throw new ArgumentNullException(nameof(sample));
             sample.ThrowIfDisposed();
             if (probs != null)
                 probs.ThrowIfNotReady();

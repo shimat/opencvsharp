@@ -40,7 +40,7 @@ namespace OpenCvSharp
         public VectorOfPoint2f(int size)
         {
             if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_Point2f_new2(new IntPtr(size));
         }
 
@@ -51,7 +51,7 @@ namespace OpenCvSharp
         public VectorOfPoint2f(IEnumerable<Point2f> data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             Point2f[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Point2f_new3(array, new IntPtr(array.Length));
         }

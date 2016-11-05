@@ -55,7 +55,7 @@ namespace OpenCvSharp
             if (string.IsNullOrEmpty(fourcc))
                 return -1;
             if (fourcc.Length != 4)
-                throw new ArgumentOutOfRangeException("fourcc");
+                throw new ArgumentOutOfRangeException(nameof(fourcc));
             byte c1 = System.Convert.ToByte(fourcc[0]);
             byte c2 = System.Convert.ToByte(fourcc[1]);
             byte c3 = System.Convert.ToByte(fourcc[2]);

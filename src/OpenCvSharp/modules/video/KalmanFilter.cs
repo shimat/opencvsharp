@@ -248,7 +248,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("KalmanFilter");
             if (measurement == null)
-                throw new ArgumentNullException("measurement");
+                throw new ArgumentNullException(nameof(measurement));
             measurement.ThrowIfDisposed();
 
             IntPtr ret = NativeMethods.video_KalmanFilter_correct(ptr, measurement.CvPtr);

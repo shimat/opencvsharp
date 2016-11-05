@@ -112,7 +112,7 @@ namespace OpenCvSharp.Blob
         public void Render(Mat img, Scalar color)
         {
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             if (img.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("Invalid img format (U8 3-channels)");
 

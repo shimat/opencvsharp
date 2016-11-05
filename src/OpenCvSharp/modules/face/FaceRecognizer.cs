@@ -143,9 +143,9 @@ namespace OpenCvSharp.Face
         public virtual void Train(IEnumerable<Mat> src, IEnumerable<int> labels)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (labels == null)
-                throw new ArgumentNullException("labels");
+                throw new ArgumentNullException(nameof(labels));
             IntPtr[] srcArray = EnumerableEx.SelectPtrs(src);
             int[] labelsArray = EnumerableEx.ToArray(labels);
             NativeMethods.face_FaceRecognizer_train(
@@ -160,9 +160,9 @@ namespace OpenCvSharp.Face
         public void Update(IEnumerable<Mat> src, IEnumerable<int> labels)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (labels == null)
-                throw new ArgumentNullException("labels");
+                throw new ArgumentNullException(nameof(labels));
             IntPtr[] srcArray = EnumerableEx.SelectPtrs(src);
             int[] labelsArray = EnumerableEx.ToArray(labels);
             NativeMethods.face_FaceRecognizer_update(
@@ -177,7 +177,7 @@ namespace OpenCvSharp.Face
         public virtual int Predict(InputArray src)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             return NativeMethods.face_FaceRecognizer_predict1(ptr, src.CvPtr);
         }
@@ -191,7 +191,7 @@ namespace OpenCvSharp.Face
         public virtual void Predict(InputArray src, out int label, out double confidence)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             NativeMethods.face_FaceRecognizer_predict2(ptr, src.CvPtr, out label, out confidence);
         }
@@ -203,7 +203,7 @@ namespace OpenCvSharp.Face
         public virtual new void Save(string fileName)
         {
             if (fileName == null)
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             NativeMethods.face_FaceRecognizer_save1(ptr, fileName);
         }
 
@@ -214,7 +214,7 @@ namespace OpenCvSharp.Face
         public virtual void Load(string fileName)
         {
             if (fileName == null)
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             NativeMethods.face_FaceRecognizer_load1(ptr, fileName);
         }
 
@@ -225,7 +225,7 @@ namespace OpenCvSharp.Face
         public virtual void Save(FileStorage fs)
         {
             if (fs == null)
-                throw new ArgumentNullException("fs");
+                throw new ArgumentNullException(nameof(fs));
             NativeMethods.face_FaceRecognizer_save2(ptr, fs.CvPtr);
         }
 
@@ -236,7 +236,7 @@ namespace OpenCvSharp.Face
         public virtual void Load(FileStorage fs)
         {
             if (fs == null)
-                throw new ArgumentNullException("fs");
+                throw new ArgumentNullException(nameof(fs));
             NativeMethods.face_FaceRecognizer_load2(ptr, fs.CvPtr);
         }
 

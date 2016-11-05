@@ -159,7 +159,7 @@ namespace OpenCvSharp
         public static MatExpr Abs(Mat src)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             IntPtr retPtr = NativeMethods.core_abs_Mat(src.CvPtr);
             GC.KeepAlive(src);
@@ -173,7 +173,7 @@ namespace OpenCvSharp
         public static MatExpr Abs(MatExpr src)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             IntPtr retPtr = NativeMethods.core_abs_MatExpr(src.CvPtr);
             GC.KeepAlive(src);
@@ -203,11 +203,11 @@ namespace OpenCvSharp
         public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null, int dtype = -1)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -240,11 +240,11 @@ namespace OpenCvSharp
         public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null, int dtype = -1)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -277,11 +277,11 @@ namespace OpenCvSharp
         public static void Multiply(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -315,11 +315,11 @@ namespace OpenCvSharp
         public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -348,9 +348,9 @@ namespace OpenCvSharp
         public static void Divide(double scale, InputArray src2, OutputArray dst, int dtype = -1)
         {
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_divide(scale, src2.CvPtr, dst.CvPtr, dtype);
@@ -369,11 +369,11 @@ namespace OpenCvSharp
         public static void ScaleAdd(InputArray src1, double alpha, InputArray src2, OutputArray dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -398,11 +398,11 @@ namespace OpenCvSharp
             double beta, double gamma, OutputArray dst, int dtype = -1)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -434,9 +434,9 @@ namespace OpenCvSharp
         public static void ConvertScaleAbs(InputArray src, OutputArray dst, double alpha = 1, double beta = 0)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_convertScaleAbs(src.CvPtr, dst.CvPtr, alpha, beta);
@@ -460,11 +460,11 @@ namespace OpenCvSharp
         public static void LUT(InputArray src, InputArray lut, OutputArray dst, int interpolation = 0)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (lut == null)
-                throw new ArgumentNullException("lut");
+                throw new ArgumentNullException(nameof(lut));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             lut.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -488,7 +488,7 @@ namespace OpenCvSharp
         public static void LUT(InputArray src, byte[] lut, OutputArray dst, int interpolation = 0)
         {
             if (lut == null)
-                throw new ArgumentNullException("lut");
+                throw new ArgumentNullException(nameof(lut));
             if (lut.Length != 256)
                 throw new ArgumentException("lut.Length != 256");
             using (Mat lutMat = new Mat(256, 1, MatType.CV_8UC1, lut))
@@ -506,7 +506,7 @@ namespace OpenCvSharp
         public static Scalar Sum(InputArray src)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             var ret = NativeMethods.core_sum(src.CvPtr);
             GC.KeepAlive(src);
@@ -522,7 +522,7 @@ namespace OpenCvSharp
         public static int CountNonZero(InputArray mtx)
         {
             if (mtx == null)
-                throw new ArgumentNullException("mtx");
+                throw new ArgumentNullException(nameof(mtx));
             mtx.ThrowIfDisposed();
             var ret = NativeMethods.core_countNonZero(mtx.CvPtr);
             return ret;
@@ -538,9 +538,9 @@ namespace OpenCvSharp
         public static void FindNonZero(InputArray src, OutputArray idx)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (idx == null)
-                throw new ArgumentNullException("idx");
+                throw new ArgumentNullException(nameof(idx));
             src.ThrowIfDisposed();
             idx.ThrowIfNotReady();
             NativeMethods.core_findNonZero(src.CvPtr, idx.CvPtr);
@@ -559,7 +559,7 @@ namespace OpenCvSharp
         public static Scalar Mean(InputArray src, InputArray mask = null)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             var ret = NativeMethods.core_mean(src.CvPtr, ToPtr(mask));
             GC.KeepAlive(src);
@@ -580,11 +580,11 @@ namespace OpenCvSharp
             InputArray src, OutputArray mean, OutputArray stddev, InputArray mask = null)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             if (stddev == null)
-                throw new ArgumentNullException("stddev");
+                throw new ArgumentNullException(nameof(stddev));
             src.ThrowIfDisposed();
             mean.ThrowIfNotReady();
             stddev.ThrowIfNotReady();
@@ -609,7 +609,7 @@ namespace OpenCvSharp
             InputArray src, out Scalar mean, out Scalar stddev, InputArray mask = null)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
 
             src.ThrowIfDisposed();
 
@@ -631,7 +631,7 @@ namespace OpenCvSharp
             NormTypes normType = NormTypes.L2, InputArray mask = null)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             src1.ThrowIfDisposed();
             var ret = NativeMethods.core_norm(src1.CvPtr, (int)normType, ToPtr(mask));
             GC.KeepAlive(src1);
@@ -650,9 +650,9 @@ namespace OpenCvSharp
                                   NormTypes normType = NormTypes.L2, InputArray mask = null)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             var ret = NativeMethods.core_norm(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask));
@@ -683,13 +683,13 @@ namespace OpenCvSharp
                                          int update = 0, bool crosscheck = false)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dist == null)
-                throw new ArgumentNullException("dist");
+                throw new ArgumentNullException(nameof(dist));
             if (nidx == null)
-                throw new ArgumentNullException("nidx");
+                throw new ArgumentNullException(nameof(nidx));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dist.ThrowIfNotReady();
@@ -722,9 +722,9 @@ namespace OpenCvSharp
                              NormTypes normType=NormTypes.L2, int dtype=-1, InputArray mask=null)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_normalize(src.CvPtr, dst.CvPtr, alpha, beta, (int)normType, dtype, ToPtr(mask));
@@ -742,7 +742,7 @@ namespace OpenCvSharp
         public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal);
             GC.KeepAlive(src);
@@ -773,7 +773,7 @@ namespace OpenCvSharp
             out Point minLoc, out Point maxLoc, InputArray mask = null)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
             NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal, out minLoc, out maxLoc, ToPtr(mask));
@@ -791,7 +791,7 @@ namespace OpenCvSharp
         public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             NativeMethods.core_minMaxIdx(src.CvPtr, out minVal, out maxVal);
             GC.KeepAlive(src);
@@ -822,7 +822,7 @@ namespace OpenCvSharp
             out int minIdx, out int maxIdx, InputArray mask = null)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             NativeMethods.core_minMaxIdx(src.CvPtr, out minVal, out maxVal, out minIdx, out maxIdx, ToPtr(mask));
             GC.KeepAlive(src);
@@ -843,9 +843,9 @@ namespace OpenCvSharp
         public static void Reduce(InputArray src, OutputArray dst, ReduceDimension dim, ReduceTypes rtype, int dtype)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_reduce(src.CvPtr, dst.CvPtr, (int)dim, (int)rtype, dtype);
@@ -862,11 +862,11 @@ namespace OpenCvSharp
         public static void Merge(Mat[] mv, Mat dst)
         {
             if (mv == null)
-                throw new ArgumentNullException("mv");
+                throw new ArgumentNullException(nameof(mv));
             if (mv.Length == 0)
                 throw new ArgumentException("mv.Length == 0");
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             foreach (Mat m in mv)
             {
                 if(m == null)
@@ -896,7 +896,7 @@ namespace OpenCvSharp
         public static void Split(Mat src, out Mat[] mv)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
             IntPtr mvPtr;
@@ -931,11 +931,11 @@ namespace OpenCvSharp
         public static void MixChannels(Mat[] src, Mat[] dst, int[] fromTo)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (fromTo == null)
-                throw new ArgumentNullException("fromTo");
+                throw new ArgumentNullException(nameof(fromTo));
             if (src.Length == 0)
                 throw new ArgumentException("src.Length == 0");
             if (dst.Length == 0)
@@ -971,9 +971,9 @@ namespace OpenCvSharp
         public static void ExtractChannel(InputArray src, OutputArray dst, int coi)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_extractChannel(src.CvPtr, dst.CvPtr, coi);
@@ -991,9 +991,9 @@ namespace OpenCvSharp
         public static void InsertChannel(InputArray src, InputOutputArray dst, int coi)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_insertChannel(src.CvPtr, dst.CvPtr, coi);
@@ -1013,9 +1013,9 @@ namespace OpenCvSharp
         public static void Flip(InputArray src, OutputArray dst, FlipMode flipCode)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_flip(src.CvPtr, dst.CvPtr, (int)flipCode);
@@ -1034,9 +1034,9 @@ namespace OpenCvSharp
         public static void Repeat(InputArray src, int ny, int nx, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_repeat(src.CvPtr, ny, nx, dst.CvPtr);
@@ -1053,7 +1053,7 @@ namespace OpenCvSharp
         public static Mat Repeat(Mat src, int ny, int nx)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             IntPtr matPtr = NativeMethods.core_repeat(src.CvPtr, ny, nx);
             GC.KeepAlive(src);
@@ -1069,9 +1069,9 @@ namespace OpenCvSharp
         public static void HConcat(Mat[] src, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (src.Length == 0)
                 throw new ArgumentException("src.Length == 0");
             IntPtr[] srcPtr = new IntPtr[src.Length];
@@ -1093,11 +1093,11 @@ namespace OpenCvSharp
         public static void HConcat(InputArray src1, InputArray src2, OutputArray dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1116,9 +1116,9 @@ namespace OpenCvSharp
         public static void VConcat(Mat[] src, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (src.Length == 0)
                 throw new ArgumentException("src.Length == 0");
             IntPtr[] srcPtr = new IntPtr[src.Length];
@@ -1140,11 +1140,11 @@ namespace OpenCvSharp
         public static void VConcat(InputArray src1, InputArray src2, OutputArray dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1165,11 +1165,11 @@ namespace OpenCvSharp
         public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1190,11 +1190,11 @@ namespace OpenCvSharp
         public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1213,11 +1213,11 @@ namespace OpenCvSharp
         public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1235,9 +1235,9 @@ namespace OpenCvSharp
         public static void BitwiseNot(InputArray src, OutputArray dst, InputArray mask = null)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask));
@@ -1254,11 +1254,11 @@ namespace OpenCvSharp
         public static void Absdiff(InputArray src1, InputArray src2, OutputArray dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1277,13 +1277,13 @@ namespace OpenCvSharp
         public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (lowerb == null)
-                throw new ArgumentNullException("lowerb");
+                throw new ArgumentNullException(nameof(lowerb));
             if (upperb == null)
-                throw new ArgumentNullException("upperb");
+                throw new ArgumentNullException(nameof(upperb));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             lowerb.ThrowIfDisposed();
             upperb.ThrowIfDisposed();
@@ -1302,9 +1302,9 @@ namespace OpenCvSharp
         public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_inRange(src.CvPtr, lowerb, upperb, dst.CvPtr);
@@ -1322,11 +1322,11 @@ namespace OpenCvSharp
         public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1346,11 +1346,11 @@ namespace OpenCvSharp
         public static void Min(InputArray src1, InputArray src2, OutputArray dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1368,11 +1368,11 @@ namespace OpenCvSharp
         public static void Min(Mat src1, Mat src2, Mat dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfDisposed();
@@ -1390,9 +1390,9 @@ namespace OpenCvSharp
         public static void Min(Mat src1, double src2, Mat dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             NativeMethods.core_min_MatDouble(src1.CvPtr, src2, dst.CvPtr);
@@ -1410,11 +1410,11 @@ namespace OpenCvSharp
         public static void Max(InputArray src1, InputArray src2, OutputArray dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -1432,11 +1432,11 @@ namespace OpenCvSharp
         public static void Max(Mat src1, Mat src2, Mat dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfDisposed();
@@ -1454,9 +1454,9 @@ namespace OpenCvSharp
         public static void Max(Mat src1, double src2, Mat dst)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             NativeMethods.core_max_MatDouble(src1.CvPtr, src2, dst.CvPtr);
@@ -1473,9 +1473,9 @@ namespace OpenCvSharp
         public static void Sqrt(InputArray src, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_sqrt(src.CvPtr, dst.CvPtr);
@@ -1493,9 +1493,9 @@ namespace OpenCvSharp
         public static void Pow(InputArray src, double power, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_pow_Mat(src.CvPtr, power, dst.CvPtr);
@@ -1512,9 +1512,9 @@ namespace OpenCvSharp
         public static void Exp(InputArray src, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_exp_Mat(src.CvPtr, dst.CvPtr);
@@ -1531,9 +1531,9 @@ namespace OpenCvSharp
         public static void Log(InputArray src, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_log_Mat(src.CvPtr, dst.CvPtr);
@@ -1578,13 +1578,13 @@ namespace OpenCvSharp
             OutputArray x, OutputArray y, bool angleInDegrees = false)
         {
             if (magnitude == null)
-                throw new ArgumentNullException("magnitude");
+                throw new ArgumentNullException(nameof(magnitude));
             if (angle == null)
-                throw new ArgumentNullException("angle");
+                throw new ArgumentNullException(nameof(angle));
             if (x == null)
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             if (y == null)
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
             magnitude.ThrowIfDisposed();
             angle.ThrowIfDisposed();
             x.ThrowIfNotReady();
@@ -1609,13 +1609,13 @@ namespace OpenCvSharp
             OutputArray magnitude, OutputArray angle, bool angleInDegrees = false)
         {
             if (x == null)
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             if (y == null)
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
             if (magnitude == null)
-                throw new ArgumentNullException("magnitude");
+                throw new ArgumentNullException(nameof(magnitude));
             if (angle == null)
-                throw new ArgumentNullException("angle");
+                throw new ArgumentNullException(nameof(angle));
             x.ThrowIfDisposed();
             y.ThrowIfDisposed();
             magnitude.ThrowIfNotReady();
@@ -1638,11 +1638,11 @@ namespace OpenCvSharp
         public static void Phase(InputArray x, InputArray y, OutputArray angle, bool angleInDegrees = false)
         {
             if (x == null)
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             if (y == null)
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
             if (angle == null)
-                throw new ArgumentNullException("angle");
+                throw new ArgumentNullException(nameof(angle));
             x.ThrowIfDisposed();
             y.ThrowIfDisposed();
             angle.ThrowIfNotReady();
@@ -1662,11 +1662,11 @@ namespace OpenCvSharp
         public static void Magnitude(InputArray x, InputArray y, OutputArray magnitude)
         {
             if (x == null)
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             if (y == null)
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
             if (magnitude == null)
-                throw new ArgumentNullException("magnitude");
+                throw new ArgumentNullException(nameof(magnitude));
             x.ThrowIfDisposed();
             y.ThrowIfDisposed();
             magnitude.ThrowIfNotReady();
@@ -1706,7 +1706,7 @@ namespace OpenCvSharp
             double minVal = double.MinValue, double maxVal = double.MaxValue)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
             int ret = NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos, minVal, maxVal);
@@ -1723,7 +1723,7 @@ namespace OpenCvSharp
         public static void PatchNaNs(InputOutputArray a, double val = 0)
         {
             if (a == null)
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             a.ThrowIfNotReady();
             NativeMethods.core_patchNaNs(a.CvPtr, val);
             GC.KeepAlive(a);
@@ -1744,13 +1744,13 @@ namespace OpenCvSharp
             InputArray src3, double gamma, OutputArray dst, GemmFlags flags = GemmFlags.None)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (src3 == null)
-                throw new ArgumentNullException("src3");
+                throw new ArgumentNullException(nameof(src3));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             src3.ThrowIfDisposed();
@@ -1783,9 +1783,9 @@ namespace OpenCvSharp
             InputArray delta = null, double scale = 1, int dtype = -1)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0 , ToPtr(delta), scale, dtype);
@@ -1803,9 +1803,9 @@ namespace OpenCvSharp
         public static void Transpose(InputArray src, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_transpose(src.CvPtr, dst.CvPtr);
@@ -1823,11 +1823,11 @@ namespace OpenCvSharp
         public static void Transform(InputArray src, OutputArray dst, InputArray m)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             m.ThrowIfDisposed();
@@ -1848,11 +1848,11 @@ namespace OpenCvSharp
         public static void PerspectiveTransform(InputArray src, OutputArray dst, InputArray m)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             m.ThrowIfDisposed();
@@ -1871,9 +1871,9 @@ namespace OpenCvSharp
         public static Point2f[] PerspectiveTransform(IEnumerable<Point2f> src, Mat m)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
 
             using (var srcMat = MatOfPoint2f.FromArray(src))
             using (var dstMat = new MatOfPoint2f())
@@ -1893,9 +1893,9 @@ namespace OpenCvSharp
         public static Point2d[] PerspectiveTransform(IEnumerable<Point2d> src, Mat m)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
 
             using (var srcMat = MatOfPoint2d.FromArray(src))
             using (var dstMat = new MatOfPoint2d())
@@ -1915,9 +1915,9 @@ namespace OpenCvSharp
         public static Point3f[] PerspectiveTransform(IEnumerable<Point3f> src, Mat m)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
 
             using (var srcMat = MatOfPoint3f.FromArray(src))
             using (var dstMat = new MatOfPoint3f())
@@ -1937,9 +1937,9 @@ namespace OpenCvSharp
         public static Point3d[] PerspectiveTransform(IEnumerable<Point3d> src, Mat m)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
 
             using (var srcMat = MatOfPoint3d.FromArray(src))
             using (var dstMat = new MatOfPoint3d())
@@ -1960,7 +1960,7 @@ namespace OpenCvSharp
         public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
         {
             if (mtx == null)
-                throw new ArgumentNullException("mtx");
+                throw new ArgumentNullException(nameof(mtx));
             mtx.ThrowIfNotReady();
             NativeMethods.core_completeSymm(mtx.CvPtr, lowerToUpper ? 1 : 0);
             mtx.Fix();
@@ -1975,7 +1975,7 @@ namespace OpenCvSharp
         public static void SetIdentity(InputOutputArray mtx, Scalar? s = null)
         {
             if (mtx == null)
-                throw new ArgumentNullException("mtx");
+                throw new ArgumentNullException(nameof(mtx));
             mtx.ThrowIfNotReady();
             Scalar s0 = s.GetValueOrDefault(new Scalar(1));
             NativeMethods.core_setIdentity(mtx.CvPtr, s0);
@@ -1991,7 +1991,7 @@ namespace OpenCvSharp
         public static double Determinant(InputArray mtx)
         {
             if (mtx == null)
-                throw new ArgumentNullException("mtx");
+                throw new ArgumentNullException(nameof(mtx));
             mtx.ThrowIfDisposed();
             var ret = NativeMethods.core_determinant(mtx.CvPtr);
             GC.KeepAlive(mtx);
@@ -2007,7 +2007,7 @@ namespace OpenCvSharp
         public static Scalar Trace(InputArray mtx)
         {
             if (mtx == null)
-                throw new ArgumentNullException("mtx");
+                throw new ArgumentNullException(nameof(mtx));
             mtx.ThrowIfDisposed();
             var ret = NativeMethods.core_trace(mtx.CvPtr);
             GC.KeepAlive(mtx);
@@ -2026,9 +2026,9 @@ namespace OpenCvSharp
             DecompTypes flags = DecompTypes.LU)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             double ret = NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int)flags);
@@ -2050,11 +2050,11 @@ namespace OpenCvSharp
             DecompTypes flags = DecompTypes.LU)
         {
             if (src1 == null)
-                throw new ArgumentNullException("src1");
+                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
-                throw new ArgumentNullException("src2");
+                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -2075,9 +2075,9 @@ namespace OpenCvSharp
         public static void Sort(InputArray src, OutputArray dst, SortFlags flags)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_sort(src.CvPtr, dst.CvPtr, (int)flags);
@@ -2095,9 +2095,9 @@ namespace OpenCvSharp
         public static void SortIdx(InputArray src, OutputArray dst, SortFlags flags)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_sortIdx(src.CvPtr, dst.CvPtr, (int)flags);
@@ -2115,9 +2115,9 @@ namespace OpenCvSharp
         public static int SolveCubic(InputArray coeffs, OutputArray roots)
         {
             if (coeffs == null)
-                throw new ArgumentNullException("coeffs");
+                throw new ArgumentNullException(nameof(coeffs));
             if (roots == null)
-                throw new ArgumentNullException("roots");
+                throw new ArgumentNullException(nameof(roots));
             coeffs.ThrowIfDisposed();
             roots.ThrowIfNotReady();
             int ret = NativeMethods.core_solveCubic(coeffs.CvPtr, roots.CvPtr);
@@ -2137,9 +2137,9 @@ namespace OpenCvSharp
         public static double SolvePoly(InputArray coeffs, OutputArray roots, int maxIters = 300)
         {
             if (coeffs == null)
-                throw new ArgumentNullException("coeffs");
+                throw new ArgumentNullException(nameof(coeffs));
             if (roots == null)
-                throw new ArgumentNullException("roots");
+                throw new ArgumentNullException(nameof(roots));
             coeffs.ThrowIfDisposed();
             roots.ThrowIfNotReady();
             double ret = NativeMethods.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters);
@@ -2164,11 +2164,11 @@ namespace OpenCvSharp
         public static bool Eigen(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (eigenvalues == null)
-                throw new ArgumentNullException("eigenvalues");
+                throw new ArgumentNullException(nameof(eigenvalues));
             if (eigenvectors == null)
-                throw new ArgumentNullException("eigenvectors");
+                throw new ArgumentNullException(nameof(eigenvectors));
             src.ThrowIfDisposed();
             eigenvalues.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
@@ -2204,11 +2204,11 @@ namespace OpenCvSharp
             CovarFlags flags, MatType ctype)
         {
             if (samples == null)
-                throw new ArgumentNullException("samples");
+                throw new ArgumentNullException(nameof(samples));
             if (covar == null)
-                throw new ArgumentNullException("covar");
+                throw new ArgumentNullException(nameof(covar));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             covar.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             IntPtr[] samplesPtr = EnumerableEx.SelectPtrs(samples);
@@ -2243,11 +2243,11 @@ namespace OpenCvSharp
             InputOutputArray mean, CovarFlags flags, MatType ctype)
         {
             if (samples == null)
-                throw new ArgumentNullException("samples");
+                throw new ArgumentNullException(nameof(samples));
             if (covar == null)
-                throw new ArgumentNullException("covar");
+                throw new ArgumentNullException(nameof(covar));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             samples.ThrowIfDisposed();
             covar.ThrowIfNotReady();
             mean.ThrowIfNotReady();
@@ -2271,11 +2271,11 @@ namespace OpenCvSharp
             OutputArray eigenvectors, int maxComponents = 0)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             if (eigenvectors == null)
-                throw new ArgumentNullException("eigenvectors");
+                throw new ArgumentNullException(nameof(eigenvectors));
             data.ThrowIfDisposed();
             mean.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
@@ -2295,11 +2295,11 @@ namespace OpenCvSharp
             OutputArray eigenvectors, double retainedVariance)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             if (eigenvectors == null)
-                throw new ArgumentNullException("eigenvectors");
+                throw new ArgumentNullException(nameof(eigenvectors));
             data.ThrowIfDisposed();
             mean.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
@@ -2319,13 +2319,13 @@ namespace OpenCvSharp
             InputArray eigenvectors, OutputArray result)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             if (eigenvectors == null)
-                throw new ArgumentNullException("eigenvectors");
+                throw new ArgumentNullException(nameof(eigenvectors));
             if (result == null)
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             eigenvectors.ThrowIfDisposed();
@@ -2346,13 +2346,13 @@ namespace OpenCvSharp
             InputArray eigenvectors, OutputArray result)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             if (eigenvectors == null)
-                throw new ArgumentNullException("eigenvectors");
+                throw new ArgumentNullException(nameof(eigenvectors));
             if (result == null)
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             eigenvectors.ThrowIfDisposed();
@@ -2378,13 +2378,13 @@ namespace OpenCvSharp
             OutputArray u, OutputArray vt, SVD.Flags flags = SVD.Flags.None)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (w == null)
-                throw new ArgumentNullException("w");
+                throw new ArgumentNullException(nameof(w));
             if (u == null)
-                throw new ArgumentNullException("u");
+                throw new ArgumentNullException(nameof(u));
             if (vt == null)
-                throw new ArgumentNullException("vt");
+                throw new ArgumentNullException(nameof(vt));
             src.ThrowIfDisposed();
             w.ThrowIfNotReady();
             u.ThrowIfNotReady();
@@ -2408,15 +2408,15 @@ namespace OpenCvSharp
             InputArray rhs, OutputArray dst)
         {
             if (w == null)
-                throw new ArgumentNullException("w");
+                throw new ArgumentNullException(nameof(w));
             if (u == null)
-                throw new ArgumentNullException("u");
+                throw new ArgumentNullException(nameof(u));
             if (vt == null)
-                throw new ArgumentNullException("vt");
+                throw new ArgumentNullException(nameof(vt));
             if (rhs == null)
-                throw new ArgumentNullException("rhs");
+                throw new ArgumentNullException(nameof(rhs));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             w.ThrowIfDisposed();
             u.ThrowIfDisposed();
             vt.ThrowIfDisposed();
@@ -2438,11 +2438,11 @@ namespace OpenCvSharp
         public static double Mahalanobis(InputArray v1, InputArray v2, InputArray icovar)
         {
             if (v1 == null)
-                throw new ArgumentNullException("v1");
+                throw new ArgumentNullException(nameof(v1));
             if (v2 == null)
-                throw new ArgumentNullException("v2");
+                throw new ArgumentNullException(nameof(v2));
             if (icovar == null)
-                throw new ArgumentNullException("icovar");
+                throw new ArgumentNullException(nameof(icovar));
             v1.ThrowIfDisposed();
             v2.ThrowIfDisposed();
             icovar.ThrowIfDisposed();
@@ -2476,9 +2476,9 @@ namespace OpenCvSharp
         public static void Dft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_dft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
@@ -2501,9 +2501,9 @@ namespace OpenCvSharp
         public static void Idft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_idft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
@@ -2521,9 +2521,9 @@ namespace OpenCvSharp
         public static void Dct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_dct(src.CvPtr, dst.CvPtr, (int)flags);
@@ -2540,9 +2540,9 @@ namespace OpenCvSharp
         public static void Idct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_idct(src.CvPtr, dst.CvPtr, (int)flags);
@@ -2564,11 +2564,11 @@ namespace OpenCvSharp
             DftFlags flags, bool conjB = false)
         {
             if (a == null)
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             if (b == null)
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             if (c == null)
-                throw new ArgumentNullException("c");
+                throw new ArgumentNullException(nameof(c));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
             c.ThrowIfNotReady();
@@ -2605,9 +2605,9 @@ namespace OpenCvSharp
             TermCriteria criteria, int attempts, KMeansFlags flags, OutputArray centers = null)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (bestLabels == null)
-                throw new ArgumentNullException("bestLabels");
+                throw new ArgumentNullException(nameof(bestLabels));
             data.ThrowIfDisposed();
             bestLabels.ThrowIfDisposed();
             double ret = NativeMethods.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int)flags, ToPtr(centers));
@@ -2640,11 +2640,11 @@ namespace OpenCvSharp
         public static void Randu(InputOutputArray dst, InputArray low, InputArray high)
         {
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (low == null)
-                throw new ArgumentNullException("low");
+                throw new ArgumentNullException(nameof(low));
             if (high == null)
-                throw new ArgumentNullException("high");
+                throw new ArgumentNullException(nameof(high));
             dst.ThrowIfNotReady();
             low.ThrowIfDisposed();
             high.ThrowIfDisposed();
@@ -2664,7 +2664,7 @@ namespace OpenCvSharp
         public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
         {
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
             NativeMethods.core_randu_Scalar(dst.CvPtr, low, high);
             GC.KeepAlive(low);
@@ -2683,11 +2683,11 @@ namespace OpenCvSharp
         public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
         {
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             if (stddev == null)
-                throw new ArgumentNullException("stddev");
+                throw new ArgumentNullException(nameof(stddev));
             dst.ThrowIfNotReady();
             mean.ThrowIfDisposed();
             stddev.ThrowIfDisposed();
@@ -2707,7 +2707,7 @@ namespace OpenCvSharp
         public static void Randn(InputOutputArray dst, Scalar mean, Scalar stddev)
         {
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
             NativeMethods.core_randn_Scalar(dst.CvPtr, mean, stddev);
             dst.Fix();
@@ -2724,7 +2724,7 @@ namespace OpenCvSharp
         public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG rng = null)
         {
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
 
             if (rng == null)

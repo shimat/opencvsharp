@@ -149,7 +149,7 @@ namespace OpenCvSharp
         public KeyPoint[] Detect(Mat image, Mat mask = null)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
@@ -179,7 +179,7 @@ namespace OpenCvSharp
         public KeyPoint[] Detect(InputArray image, Mat mask = null)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
@@ -209,7 +209,7 @@ namespace OpenCvSharp
         public KeyPoint[][] Detect(IEnumerable<Mat> images, IEnumerable<Mat> masks = null)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
@@ -246,7 +246,7 @@ namespace OpenCvSharp
         public virtual void Compute(InputArray image, ref KeyPoint[] keypoints, OutputArray descriptors)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
@@ -268,7 +268,7 @@ namespace OpenCvSharp
             OutputArray descriptors)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
@@ -291,9 +291,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (descriptors == null)
-                throw new ArgumentNullException("descriptors");
+                throw new ArgumentNullException(nameof(descriptors));
 
             IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
             IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptors);
@@ -326,9 +326,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (descriptors == null)
-                throw new ArgumentNullException("descriptors");
+                throw new ArgumentNullException(nameof(descriptors));
             image.ThrowIfDisposed();
             if (mask != null)
                 mask.ThrowIfDisposed();

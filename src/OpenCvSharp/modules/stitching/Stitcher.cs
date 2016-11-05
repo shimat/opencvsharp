@@ -250,7 +250,7 @@ namespace OpenCvSharp
         public Status EstimateTransform(InputArray images)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             images.ThrowIfDisposed();
 
             int status = NativeMethods.stitching_Stitcher_estimateTransform_InputArray1(
@@ -261,9 +261,9 @@ namespace OpenCvSharp
         public Status EstimateTransform(InputArray images, Rect[][] rois)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (rois == null)
-                throw new ArgumentNullException("rois");
+                throw new ArgumentNullException(nameof(rois));
             images.ThrowIfDisposed();
 
             using (var roisPointer = new ArrayAddress2<Rect>(rois))
@@ -278,7 +278,7 @@ namespace OpenCvSharp
         public Status EstimateTransform(IEnumerable<Mat> images)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
 
             IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
 
@@ -290,9 +290,9 @@ namespace OpenCvSharp
         public Status EstimateTransform(IEnumerable<Mat> images, Rect[][] rois)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (rois == null)
-                throw new ArgumentNullException("rois");
+                throw new ArgumentNullException(nameof(rois));
 
             IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
 
@@ -308,7 +308,7 @@ namespace OpenCvSharp
         public Status ComposePanorama(OutputArray pano)
         {
             if (pano == null)
-                throw new ArgumentNullException("pano");
+                throw new ArgumentNullException(nameof(pano));
             pano.ThrowIfNotReady();
 
             int status = NativeMethods.stitching_Stitcher_composePanorama1(
@@ -320,9 +320,9 @@ namespace OpenCvSharp
         public Status ComposePanorama(InputArray images, OutputArray pano)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (pano == null)
-                throw new ArgumentNullException("pano");
+                throw new ArgumentNullException(nameof(pano));
             images.ThrowIfDisposed();
             pano.ThrowIfNotReady();
 
@@ -335,9 +335,9 @@ namespace OpenCvSharp
         public Status ComposePanorama(IEnumerable<Mat> images, OutputArray pano)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (pano == null)
-                throw new ArgumentNullException("pano");
+                throw new ArgumentNullException(nameof(pano));
             pano.ThrowIfNotReady();
 
             IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
@@ -356,9 +356,9 @@ namespace OpenCvSharp
         public Status Stitch(InputArray images, OutputArray pano)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (pano == null)
-                throw new ArgumentNullException("pano");
+                throw new ArgumentNullException(nameof(pano));
             images.ThrowIfDisposed();
             pano.ThrowIfNotReady();
 
@@ -379,9 +379,9 @@ namespace OpenCvSharp
         public Status Stitch(IEnumerable<Mat> images, OutputArray pano)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (pano == null)
-                throw new ArgumentNullException("pano");
+                throw new ArgumentNullException(nameof(pano));
             pano.ThrowIfNotReady();
 
             IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
@@ -404,11 +404,11 @@ namespace OpenCvSharp
         public Status Stitch(InputArray images, Rect[][] rois, OutputArray pano)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (rois == null)
-                throw new ArgumentNullException("rois");
+                throw new ArgumentNullException(nameof(rois));
             if (pano == null)
-                throw new ArgumentNullException("pano");
+                throw new ArgumentNullException(nameof(pano));
             images.ThrowIfDisposed();
             pano.ThrowIfNotReady();
 
@@ -433,11 +433,11 @@ namespace OpenCvSharp
         public Status Stitch(IEnumerable<Mat> images, Rect[][] rois, OutputArray pano)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (rois == null)
-                throw new ArgumentNullException("rois");
+                throw new ArgumentNullException(nameof(rois));
             if (pano == null)
-                throw new ArgumentNullException("pano");
+                throw new ArgumentNullException(nameof(pano));
             pano.ThrowIfNotReady();
 
             IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);

@@ -761,7 +761,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
 
             if (array == null)
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             TElem[] result = ToArray();
             if (array.Length > result.Length + arrayIndex)
                 throw new ArgumentException("Too short array.Length");

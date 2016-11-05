@@ -124,11 +124,11 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("DenseOpticalFlowImpl");
             if (frame0 == null)
-                throw new ArgumentNullException("frame0");
+                throw new ArgumentNullException(nameof(frame0));
             if (frame1 == null)
-                throw new ArgumentNullException("frame1");
+                throw new ArgumentNullException(nameof(frame1));
             if (flow == null)
-                throw new ArgumentNullException("flow");
+                throw new ArgumentNullException(nameof(flow));
             frame0.ThrowIfDisposed();
             frame1.ThrowIfDisposed();
             flow.ThrowIfNotReady();

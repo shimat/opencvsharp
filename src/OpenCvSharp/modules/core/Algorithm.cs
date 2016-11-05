@@ -17,7 +17,7 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             if (fs == null)
-                throw new ArgumentNullException("fs");
+                throw new ArgumentNullException(nameof(fs));
 
             NativeMethods.core_Algorithm_write(ptr, fs.CvPtr);
         }
@@ -31,7 +31,7 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             if (fn == null)
-                throw new ArgumentNullException("fn");
+                throw new ArgumentNullException(nameof(fn));
 
             NativeMethods.core_Algorithm_read(ptr, fn.CvPtr);
         }
@@ -62,7 +62,7 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             if (filename == null)
-                throw new ArgumentNullException("filename");
+                throw new ArgumentNullException(nameof(filename));
 
             NativeMethods.core_Algorithm_save(ptr, filename);
         }

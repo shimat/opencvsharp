@@ -32,7 +32,7 @@ namespace OpenCvSharp
         public VectorOfByte(int size)
         {
             if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_uchar_new2(new IntPtr(size));
         }
 
@@ -43,7 +43,7 @@ namespace OpenCvSharp
         public VectorOfByte(IEnumerable<byte> data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             byte[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_uchar_new3(array, new IntPtr(array.Length));
         }

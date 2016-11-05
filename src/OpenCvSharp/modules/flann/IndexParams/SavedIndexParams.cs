@@ -63,7 +63,7 @@ namespace OpenCvSharp.Flann
         public SavedIndexParams(string filename)
         {
             if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename");
+                throw new ArgumentNullException(nameof(filename));
             ptr = NativeMethods.flann_SavedIndexParams_new(filename);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create SavedIndexParams");

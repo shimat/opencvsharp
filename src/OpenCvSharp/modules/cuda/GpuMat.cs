@@ -90,9 +90,9 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfNotAvailable();
             if (rows <= 0)
-                throw new ArgumentOutOfRangeException("rows");
+                throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
-                throw new ArgumentOutOfRangeException("cols");
+                throw new ArgumentOutOfRangeException(nameof(cols));
             ptr = NativeMethods.cuda_GpuMat_new2(rows, cols, type);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -134,9 +134,9 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfNotAvailable();
             if (rows <= 0)
-                throw new ArgumentOutOfRangeException("rows");
+                throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
-                throw new ArgumentOutOfRangeException("cols");
+                throw new ArgumentOutOfRangeException(nameof(cols));
             ptr = NativeMethods.cuda_GpuMat_new3(rows, cols, type, data, (ulong)step);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -218,7 +218,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_GpuMat_new4(m.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -239,7 +239,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_GpuMat_new5(m.CvPtr);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -270,9 +270,9 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfNotAvailable();
             if (rows <= 0)
-                throw new ArgumentOutOfRangeException("rows");
+                throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
-                throw new ArgumentOutOfRangeException("cols");
+                throw new ArgumentOutOfRangeException(nameof(cols));
             ptr = NativeMethods.cuda_GpuMat_new8(rows, cols, type, s);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -325,7 +325,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_GpuMat_new9(m.CvPtr, rowRange, colRange);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -348,7 +348,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_GpuMat_new10(m.CvPtr, roi);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -760,7 +760,7 @@ namespace OpenCvSharp.Gpu
                 {
                     parent.ThrowIfDisposed();
                     if (value == null)
-                        throw new ArgumentNullException("value");
+                        throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
 
                     var matPtr = NativeMethods.cuda_GpuMat_col(parent.ptr, x);
@@ -789,7 +789,7 @@ namespace OpenCvSharp.Gpu
                 {
                     parent.ThrowIfDisposed();
                     if (value == null)
-                        throw new ArgumentNullException("value");
+                        throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
 
                     var colMatPtr = NativeMethods.cuda_GpuMat_colRange(parent.ptr, startCol, endCol);
@@ -869,7 +869,7 @@ namespace OpenCvSharp.Gpu
                 {
                     parent.ThrowIfDisposed();
                     if (value == null)
-                        throw new ArgumentNullException("value");
+                        throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
 
                     var matPtr = NativeMethods.cuda_GpuMat_row(parent.ptr, x);
@@ -898,7 +898,7 @@ namespace OpenCvSharp.Gpu
                 {
                     parent.ThrowIfDisposed();
                     if (value == null)
-                        throw new ArgumentNullException("value");
+                        throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
 
                     var matPtr = NativeMethods.cuda_GpuMat_rowRange(parent.ptr, startCol, endCol);
@@ -1069,7 +1069,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_GpuMat_copyTo1(ptr, m.CvPtr);
         }
 
@@ -1082,9 +1082,9 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             if (mask == null)
-                throw new ArgumentNullException("mask");
+                throw new ArgumentNullException(nameof(mask));
             NativeMethods.cuda_GpuMat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
         }
 
@@ -1100,7 +1100,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             NativeMethods.cuda_GpuMat_convertTo(ptr, dst.CvPtr, rtype, alpha, beta);
         }
 
@@ -1122,7 +1122,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_GpuMat_assignTo(ptr, m.CvPtr, type);
         }
 
@@ -1186,7 +1186,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (mat == null)
-                throw new ArgumentNullException("mat");
+                throw new ArgumentNullException(nameof(mat));
             NativeMethods.cuda_GpuMat_swap(ptr, mat.CvPtr);
         }
 

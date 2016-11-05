@@ -19,7 +19,7 @@ namespace OpenCvSharp
             : base(list)
         {
             if (list == null)
-                throw new ArgumentNullException("list");
+                throw new ArgumentNullException(nameof(list));
             this.list = list;
         }
 

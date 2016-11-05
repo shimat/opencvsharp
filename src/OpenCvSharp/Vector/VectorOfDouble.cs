@@ -32,7 +32,7 @@ namespace OpenCvSharp
         public VectorOfDouble(int size)
         {
             if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_double_new2(new IntPtr(size));
         }
 
@@ -43,7 +43,7 @@ namespace OpenCvSharp
         public VectorOfDouble(IEnumerable<double> data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             double[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_double_new3(array, new IntPtr(array.Length));
         }

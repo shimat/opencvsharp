@@ -20,7 +20,7 @@ namespace OpenCvSharp
         public static KeyPoint[] RunByImageBorder(IEnumerable<KeyPoint> keypoints, Size imageSize, int borderSize)
         {
             if (keypoints == null) 
-                throw new ArgumentNullException("keypoints");
+                throw new ArgumentNullException(nameof(keypoints));
 
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {
@@ -41,7 +41,7 @@ namespace OpenCvSharp
             float maxSize = Single.MaxValue)
         {
             if (keypoints == null)
-                throw new ArgumentNullException("keypoints");
+                throw new ArgumentNullException(nameof(keypoints));
 
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {
@@ -60,9 +60,9 @@ namespace OpenCvSharp
         public static KeyPoint[] RunByPixelsMask(IEnumerable<KeyPoint> keypoints, Mat mask)
         {
             if (keypoints == null)
-                throw new ArgumentNullException("keypoints");
+                throw new ArgumentNullException(nameof(keypoints));
             if (mask == null) 
-                throw new ArgumentNullException("mask");
+                throw new ArgumentNullException(nameof(mask));
             mask.ThrowIfDisposed();
 
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
@@ -82,7 +82,7 @@ namespace OpenCvSharp
         public static KeyPoint[] RemoveDuplicated(IEnumerable<KeyPoint> keypoints)
         {
             if (keypoints == null)
-                throw new ArgumentNullException("keypoints");
+                throw new ArgumentNullException(nameof(keypoints));
 
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {
@@ -100,7 +100,7 @@ namespace OpenCvSharp
         public static KeyPoint[] RetainBest(IEnumerable<KeyPoint> keypoints, int npoints)
         {
             if (keypoints == null)
-                throw new ArgumentNullException("keypoints");
+                throw new ArgumentNullException(nameof(keypoints));
 
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {

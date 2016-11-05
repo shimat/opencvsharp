@@ -65,7 +65,7 @@ namespace OpenCvSharp
         public SparseMat(IEnumerable<int> sizes, MatType type)
         {
             if (sizes == null)
-                throw new ArgumentNullException("sizes");
+                throw new ArgumentNullException(nameof(sizes));
 
             int[] sizesArray = EnumerableEx.ToArray(sizes);
             ptr = NativeMethods.core_SparseMat_new2(sizesArray.Length, sizesArray, type);
@@ -85,7 +85,7 @@ namespace OpenCvSharp
         public SparseMat(Mat m)
         {
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
             ptr = NativeMethods.core_SparseMat_new3(m.CvPtr);
             if (ptr == IntPtr.Zero)
@@ -186,7 +186,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if(m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             NativeMethods.core_SparseMat_operatorAssign_SparseMat(ptr, m.CvPtr);
             return this;
         }
@@ -200,7 +200,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             NativeMethods.core_SparseMat_operatorAssign_Mat(ptr, m.CvPtr);
             return this;
         }
@@ -287,7 +287,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if (sizes == null)
-                throw new ArgumentNullException("sizes");
+                throw new ArgumentNullException(nameof(sizes));
             if (sizes.Length == 1)
                 throw new ArgumentException("sizes is empty");
             NativeMethods.core_SparseMat_create(ptr, sizes.Length, sizes, type);

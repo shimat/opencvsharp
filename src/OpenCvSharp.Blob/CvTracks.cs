@@ -71,9 +71,9 @@ namespace OpenCvSharp.Blob
             HersheyFonts fontFace = HersheyFonts.HersheySimplex, double fontScale = 1d, int thickness = 1)
         {
             if (imgSource == null)
-                throw new ArgumentNullException("imgSource");
+                throw new ArgumentNullException(nameof(imgSource));
             if (imgDest == null)
-                throw new ArgumentNullException("imgDest");
+                throw new ArgumentNullException(nameof(imgDest));
             if (imgDest.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("imgDest.Depth != U8 || imgDest.NChannels != 3");
 

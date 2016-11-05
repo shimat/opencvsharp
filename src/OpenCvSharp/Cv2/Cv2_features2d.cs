@@ -20,7 +20,7 @@ namespace OpenCvSharp
         public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression = true)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
             using (var kp = new VectorOfKeyPoint())
@@ -44,7 +44,7 @@ namespace OpenCvSharp
         public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression, FASTType type)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
             using (var kp = new VectorOfKeyPoint())
@@ -68,7 +68,7 @@ namespace OpenCvSharp
         public static KeyPoint[] AGAST(InputArray image, int threshold, bool nonmaxSuppression, AGASTType type)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
             
             using (var vector = new VectorOfKeyPoint())
@@ -92,11 +92,11 @@ namespace OpenCvSharp
             Scalar? color = null, DrawMatchesFlags flags = DrawMatchesFlags.Default)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (outImage == null)
-                throw new ArgumentNullException("outImage");
+                throw new ArgumentNullException(nameof(outImage));
             if (keypoints == null)
-                throw new ArgumentNullException("keypoints");
+                throw new ArgumentNullException(nameof(keypoints));
             image.ThrowIfDisposed();
             outImage.ThrowIfDisposed();
 
@@ -126,17 +126,17 @@ namespace OpenCvSharp
             IEnumerable<byte> matchesMask = null, DrawMatchesFlags flags = DrawMatchesFlags.Default)
         {
             if (img1 == null)
-                throw new ArgumentNullException("img1");
+                throw new ArgumentNullException(nameof(img1));
             if (img2 == null)
-                throw new ArgumentNullException("img2");
+                throw new ArgumentNullException(nameof(img2));
             if (outImg == null)
-                throw new ArgumentNullException("outImg");
+                throw new ArgumentNullException(nameof(outImg));
             if (keypoints1 == null)
-                throw new ArgumentNullException("keypoints1");
+                throw new ArgumentNullException(nameof(keypoints1));
             if (keypoints2 == null)
-                throw new ArgumentNullException("keypoints2");
+                throw new ArgumentNullException(nameof(keypoints2));
             if (matches1To2 == null)
-                throw new ArgumentNullException("matches1To2");
+                throw new ArgumentNullException(nameof(matches1To2));
             img1.ThrowIfDisposed();
             img2.ThrowIfDisposed();
             outImg.ThrowIfDisposed();
@@ -182,17 +182,17 @@ namespace OpenCvSharp
             DrawMatchesFlags flags = DrawMatchesFlags.Default)
         {
             if (img1 == null)
-                throw new ArgumentNullException("img1");
+                throw new ArgumentNullException(nameof(img1));
             if (img2 == null)
-                throw new ArgumentNullException("img2");
+                throw new ArgumentNullException(nameof(img2));
             if (outImg == null)
-                throw new ArgumentNullException("outImg");
+                throw new ArgumentNullException(nameof(outImg));
             if (keypoints1 == null)
-                throw new ArgumentNullException("keypoints1");
+                throw new ArgumentNullException(nameof(keypoints1));
             if (keypoints2 == null)
-                throw new ArgumentNullException("keypoints2");
+                throw new ArgumentNullException(nameof(keypoints2));
             if (matches1To2 == null)
-                throw new ArgumentNullException("matches1To2");
+                throw new ArgumentNullException(nameof(matches1To2));
             img1.ThrowIfDisposed();
             img2.ThrowIfDisposed();
             outImg.ThrowIfDisposed();
@@ -248,15 +248,15 @@ namespace OpenCvSharp
             out float repeatability, out int correspCount)
         {
             if (img1 == null) 
-                throw new ArgumentNullException("img1");
+                throw new ArgumentNullException(nameof(img1));
             if (img2 == null) 
-                throw new ArgumentNullException("img2");
+                throw new ArgumentNullException(nameof(img2));
             if (H1to2 == null) 
-                throw new ArgumentNullException("H1to2");
+                throw new ArgumentNullException(nameof(H1to2));
             if (keypoints1 == null) 
-                throw new ArgumentNullException("keypoints1");
+                throw new ArgumentNullException(nameof(keypoints1));
             if (keypoints2 == null) 
-                throw new ArgumentNullException("keypoints2");
+                throw new ArgumentNullException(nameof(keypoints2));
 
             using (var keypoints1Vec = new VectorOfKeyPoint(keypoints1))
             using (var keypoints2Vec = new VectorOfKeyPoint(keypoints2))
@@ -280,9 +280,9 @@ namespace OpenCvSharp
             DMatch[][] matches1to2, byte[][] correctMatches1to2Mask)
         {
             if (matches1to2 == null)
-                throw new ArgumentNullException("matches1to2");
+                throw new ArgumentNullException(nameof(matches1to2));
             if (correctMatches1to2Mask == null)
-                throw new ArgumentNullException("correctMatches1to2Mask");
+                throw new ArgumentNullException(nameof(correctMatches1to2Mask));
 
             using (var dm = new ArrayAddress2<DMatch>(matches1to2))
             using (var cm = new ArrayAddress2<byte>(correctMatches1to2Mask))
@@ -306,7 +306,7 @@ namespace OpenCvSharp
             IEnumerable<Point2f> recallPrecisionCurve, float lPrecision)
         {
             if (recallPrecisionCurve == null)
-                throw new ArgumentNullException("recallPrecisionCurve");
+                throw new ArgumentNullException(nameof(recallPrecisionCurve));
 
             var array = EnumerableEx.ToArray(recallPrecisionCurve);
             return NativeMethods.features2d_getRecall(array, array.Length, lPrecision);
@@ -322,7 +322,7 @@ namespace OpenCvSharp
             IEnumerable<Point2f> recallPrecisionCurve, float lPrecision)
         {
             if (recallPrecisionCurve == null)
-                throw new ArgumentNullException("recallPrecisionCurve");
+                throw new ArgumentNullException(nameof(recallPrecisionCurve));
             var array = EnumerableEx.ToArray(recallPrecisionCurve);
             return NativeMethods.features2d_getNearestPoint(array, array.Length, lPrecision);
         }

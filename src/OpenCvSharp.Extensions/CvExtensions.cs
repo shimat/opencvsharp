@@ -52,23 +52,23 @@ namespace OpenCvSharp.Extensions
             double thetaMin = 0, double thetaMax = Math.PI)
         {
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             if (img.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("The source matrix must be 8-bit, single-channel image.");
             if (rho <= 0)
-                throw new ArgumentOutOfRangeException("rho");
+                throw new ArgumentOutOfRangeException(nameof(rho));
             if (theta <= 0)
-                throw new ArgumentOutOfRangeException("theta");
+                throw new ArgumentOutOfRangeException(nameof(theta));
             if (threshold <= 0)
-                throw new ArgumentOutOfRangeException("threshold");
+                throw new ArgumentOutOfRangeException(nameof(threshold));
             if (minLineLength <= 0)
-                throw new ArgumentOutOfRangeException("minLineLength");
+                throw new ArgumentOutOfRangeException(nameof(minLineLength));
             if (thetaMax < thetaMin)
                 throw new ArgumentException();
             if (thetaMax > Math.PI)
-                throw new ArgumentOutOfRangeException("thetaMax", "thetaMax <= pi");
+                throw new ArgumentOutOfRangeException(nameof(thetaMax), "thetaMax <= pi");
             if (thetaMin < 0)
-                throw new ArgumentOutOfRangeException("thetaMin", "thetaMin >= 0");
+                throw new ArgumentOutOfRangeException(nameof(thetaMin), "thetaMin >= 0");
 
             unsafe
             {

@@ -139,7 +139,7 @@ namespace OpenCvSharp.Extensions
             if (type == MatType.CV_32FC4)
                 return PixelFormats.Rgba128Float;
 
-            throw new ArgumentOutOfRangeException("type", "Not supported MatType");
+            throw new ArgumentOutOfRangeException(nameof(type), "Not supported MatType");
         }
 
         #region ToWriteableBitmap
@@ -168,7 +168,7 @@ namespace OpenCvSharp.Extensions
         public static WriteableBitmap ToWriteableBitmap(this Mat src, double dpiX, double dpiY, PixelFormat pf, BitmapPalette bp)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
 
             var wb = new WriteableBitmap(src.Width, src.Height, dpiX, dpiY, pf, bp);
             ToWriteableBitmap(src, wb);
@@ -230,9 +230,9 @@ namespace OpenCvSharp.Extensions
         public static void ToWriteableBitmap(Mat src, WriteableBitmap dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (src.Width != dst.PixelWidth || src.Height != dst.PixelHeight)
                 throw new ArgumentException("size of src must be equal to size of dst");
             //if (src.Depth != BitDepth.U8)
@@ -247,7 +247,7 @@ namespace OpenCvSharp.Extensions
             int channels = GetOptimumChannels(dst.Format);
             if (src.Channels() != channels)
             {
-                throw new ArgumentException("channels of dst != channels of PixelFormat", "dst");
+                throw new ArgumentException("channels of dst != channels of PixelFormat", nameof(dst));
             }
 
             bool submat = src.IsSubmatrix();
