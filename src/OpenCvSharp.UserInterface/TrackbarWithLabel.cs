@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OpenCvSharp.UserInterface
@@ -18,7 +14,7 @@ namespace OpenCvSharp.UserInterface
 #endif
     public partial class TrackbarWithLabel : UserControl
     {
-        private string _labelText;
+        private readonly string labelText;
 
         /// <summary>
         /// Constructor
@@ -27,6 +23,7 @@ namespace OpenCvSharp.UserInterface
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -36,11 +33,11 @@ namespace OpenCvSharp.UserInterface
         /// <param name="pos"></param>
         public TrackbarWithLabel(string labelText, int pos, int max, int min) : this()
         {
-            _labelText = labelText;            
-            _trackBar.Maximum = max;
-            _trackBar.Minimum = min;
-            _trackBar.Value = pos;
-            _trackBar.TickFrequency = (max - min) / 10;
+            this.labelText = labelText;            
+            trackBar.Maximum = max;
+            trackBar.Minimum = min;
+            trackBar.Value = pos;
+            trackBar.TickFrequency = (max - min) / 10;
             SetLabelText();
         }
 
@@ -55,7 +52,7 @@ namespace OpenCvSharp.UserInterface
 #endif
         public TrackBar Trackbar
         {
-            get { return _trackBar; }
+            get { return trackBar; }
         }
 #if LANG_JP
 		/// <summary>
@@ -68,7 +65,7 @@ namespace OpenCvSharp.UserInterface
 #endif
         public Label Label
         {
-            get { return _label; }
+            get { return label; }
         }
 
         /// <summary>
@@ -76,8 +73,8 @@ namespace OpenCvSharp.UserInterface
         /// </summary>
         private void SetLabelText()
         {
-            string text = string.Format("{0} : {1}", _labelText, _trackBar.Value);
-            _label.Text = text;
+            string text = string.Format("{0} : {1}", labelText, trackBar.Value);
+            label.Text = text;
         }
 
         /// <summary>
