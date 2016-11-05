@@ -115,3 +115,4 @@ Help EN
 *.db
 /src/OpenCvSharp.Sandbox/dll/x86/OpenCvSharpExtern.dll
 /src/*.opendb
+*.BAK
