@@ -161,7 +161,36 @@ namespace OpenCvSharp.ML
 
         #endregion
 
-		#region Methods
+        #region Methods
+
+        /// <summary>
+        /// Integer vector specifying the number of neurons in each layer including the input and output layers.
+        /// The very first element specifies the number of elements in the input layer.
+        /// The last element - number of elements in the output layer.Default value is empty Mat.
+        /// </summary>
+        /// <param name="layerSizes"></param>
+        public virtual void SetLayerSizes(InputArray layerSizes)
+	    {
+	        if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            if (layerSizes == null)
+                throw new ArgumentNullException(nameof(layerSizes));
+            NativeMethods.ml_ANN_MLP_setLayerSizes(ptr, layerSizes.CvPtr);
+        }
+
+        /// <summary>
+        /// Integer vector specifying the number of neurons in each layer including the input and output layers.
+        /// The very first element specifies the number of elements in the input layer.
+        /// The last element - number of elements in the output layer.
+        /// </summary>
+        /// <returns></returns>
+	    public virtual Mat GetLayerSizes()
+	    {
+            if (disposed)
+                throw new ObjectDisposedException(GetType().Name);
+	        IntPtr p = NativeMethods.ml_ANN_MLP_getLayerSizes(ptr);
+            return new Mat(p);
+	    }
 
         #endregion
 
