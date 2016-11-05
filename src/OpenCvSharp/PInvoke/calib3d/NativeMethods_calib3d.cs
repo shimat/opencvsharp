@@ -84,13 +84,13 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_solvePnPRansac_InputArray(IntPtr objectPoints, IntPtr imagePoints,
             IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec,
-            int useExtrinsicGuess, int iterationsCount, float reprojectionError, int minInliersCount,
+            int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
             IntPtr inliers, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void calib3d_solvePnPRansac_vector(Point3f[] objectPoints, int objectPointsLength,
             Point2f[] imagePoints, int imagePointsLength, double[,] cameraMatrix, double[] distCoeffs, int distCoeffsLength,
             [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int iterationsCount, float reprojectionError, 
-            int minInliersCount, IntPtr inliers, int flags);
+            double confidence, IntPtr inliers, int flags);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_initCameraMatrix2D_Mat(IntPtr[] objectPoints, int objectPointsLength,

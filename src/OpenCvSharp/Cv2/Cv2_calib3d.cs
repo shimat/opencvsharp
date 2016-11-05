@@ -758,7 +758,7 @@ namespace OpenCvSharp
         /// <param name="iterationsCount">Number of iterations.</param>
         /// <param name="reprojectionError">Inlier threshold value used by the RANSAC procedure. 
         /// The parameter value is the maximum allowed distance between the observed and computed point projections to consider it an inlier.</param>
-        /// <param name="minInliersCount">Number of inliers. If the algorithm at some stage finds more inliers than minInliersCount , it finishes.</param>
+        /// <param name="confidence">The probability that the algorithm produces a useful result.</param>
         /// <param name="inliers">Output vector that contains indices of inliers in objectPoints and imagePoints .</param>
         /// <param name="flags">Method for solving a PnP problem</param>
         public static void SolvePnPRansac(
@@ -771,20 +771,20 @@ namespace OpenCvSharp
             bool useExtrinsicGuess = false,
             int iterationsCount = 100,
             float reprojectionError = 8.0f,
-            int minInliersCount = 100,
+            double confidence = 0.99,
             OutputArray inliers = null,
             SolvePnPFlags flags = SolvePnPFlags.Iterative)
         {
             if (objectPoints == null)
-                throw new ArgumentNullException("objectPoints");
+                throw new ArgumentNullException(nameof(objectPoints));
             if (imagePoints == null)
-                throw new ArgumentNullException("imagePoints");
+                throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
-                throw new ArgumentNullException("cameraMatrix");
+                throw new ArgumentNullException(nameof(cameraMatrix));
             if (rvec == null)
-                throw new ArgumentNullException("rvec");
+                throw new ArgumentNullException(nameof(rvec));
             if (tvec == null)
-                throw new ArgumentNullException("tvec");
+                throw new ArgumentNullException(nameof(tvec));
             objectPoints.ThrowIfDisposed();
             imagePoints.ThrowIfDisposed();
             cameraMatrix.ThrowIfDisposed();
@@ -796,12 +796,11 @@ namespace OpenCvSharp
             NativeMethods.calib3d_solvePnPRansac_InputArray(
                 objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr,
                 rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, iterationsCount,
-                reprojectionError, minInliersCount, ToPtr(inliers), (int)flags);
+                reprojectionError, confidence, ToPtr(inliers), (int)flags);
 
             rvec.Fix();
             tvec.Fix();
-            if (inliers != null)
-                inliers.Fix();
+            inliers?.Fix();
         }
 
         /// <summary>
@@ -827,6 +826,7 @@ namespace OpenCvSharp
             int[] inliers;
             SolvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, out rvec, out tvec, out inliers);
         }
+
         /// <summary>
         /// computes the camera pose from a few 3D points and the corresponding projections. The outliers are possible.
         /// </summary>
@@ -845,7 +845,7 @@ namespace OpenCvSharp
         /// <param name="iterationsCount">Number of iterations.</param>
         /// <param name="reprojectionError">Inlier threshold value used by the RANSAC procedure. 
         /// The parameter value is the maximum allowed distance between the observed and computed point projections to consider it an inlier.</param>
-        /// <param name="minInliersCount">Number of inliers. If the algorithm at some stage finds more inliers than minInliersCount , it finishes.</param>
+        /// <param name="confidence">The probability that the algorithm produces a useful result.</param>
         /// <param name="inliers">Output vector that contains indices of inliers in objectPoints and imagePoints .</param>
         /// <param name="flags">Method for solving a PnP problem</param>
         public static void SolvePnPRansac(
@@ -858,15 +858,15 @@ namespace OpenCvSharp
             bool useExtrinsicGuess = false,
             int iterationsCount = 100,
             float reprojectionError = 8.0f,
-            int minInliersCount = 100,
+            double confidence = 0.99,
             SolvePnPFlags flags = SolvePnPFlags.Iterative)
         {
             if (objectPoints == null)
-                throw new ArgumentNullException("objectPoints");
+                throw new ArgumentNullException(nameof(objectPoints));
             if (imagePoints == null)
-                throw new ArgumentNullException("imagePoints");
+                throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
-                throw new ArgumentNullException("cameraMatrix");
+                throw new ArgumentNullException(nameof(cameraMatrix));
 
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("");
@@ -885,7 +885,7 @@ namespace OpenCvSharp
                     imagePointsArray, imagePointsArray.Length,
                     cameraMatrix, distCoeffsArray, distCoeffsLength,
                     rvec, tvec, useExtrinsicGuess ? 1 : 0, iterationsCount,
-                    reprojectionError, minInliersCount, inliersVec.CvPtr, (int)flags);
+                    reprojectionError, confidence, inliersVec.CvPtr, (int)flags);
                 inliers = inliersVec.ToArray();
             }
         }
