@@ -26,7 +26,7 @@ namespace OpenCvSharp
         public static void NamedWindow(string winname, WindowMode flags)
         {
             if (string.IsNullOrEmpty(winname))
-                throw new ArgumentNullException("winname");
+                throw new ArgumentNullException(nameof(winname));
             try
             {
                 NativeMethods.highgui_namedWindow(winname, (int) flags);
@@ -44,7 +44,7 @@ namespace OpenCvSharp
         public static void DestroyWindow(string winName)
         {
             if (String.IsNullOrEmpty("winName"))
-                throw new ArgumentNullException("winName");
+                throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_destroyWindow(winName);
         }
 
@@ -64,9 +64,9 @@ namespace OpenCvSharp
         public static void ImShow(string winname, Mat mat)
         {
             if (string.IsNullOrEmpty(winname))
-                throw new ArgumentNullException("winname");
+                throw new ArgumentNullException(nameof(winname));
             if (mat == null)
-                throw new ArgumentNullException("mat");
+                throw new ArgumentNullException(nameof(mat));
             try
             {
                 NativeMethods.highgui_imshow(winname, mat.CvPtr);
@@ -112,7 +112,7 @@ namespace OpenCvSharp
         public static void ResizeWindow(string winName, int width, int height)
         {
             if (String.IsNullOrEmpty(winName))
-                throw new ArgumentNullException("winName");
+                throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_resizeWindow(winName, width, height);
         }
 
@@ -125,7 +125,7 @@ namespace OpenCvSharp
         public static void MoveWindow(string winName, int x, int y)
         {
             if (String.IsNullOrEmpty(winName))
-                throw new ArgumentNullException("winName");
+                throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_moveWindow(winName, x, y);
         }
 
@@ -138,7 +138,7 @@ namespace OpenCvSharp
         public static void SetWindowProperty(string winName, WindowProperty propId, double propValue)
         {
             if (String.IsNullOrEmpty(winName))
-                throw new ArgumentNullException("winName");
+                throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_setWindowProperty(winName, (int) propId, propValue);
         }
 
@@ -150,9 +150,9 @@ namespace OpenCvSharp
         public static void SetWindowTitle(string winname, string title)
         {
             if (String.IsNullOrEmpty(winname)) 
-                throw new ArgumentNullException("winname");
+                throw new ArgumentNullException(nameof(winname));
             if (String.IsNullOrEmpty(title))
-                throw new ArgumentNullException("title");
+                throw new ArgumentNullException(nameof(title));
             NativeMethods.highgui_setWindowTitle(winname, title);
         }
 
@@ -165,7 +165,7 @@ namespace OpenCvSharp
         public static double GetWindowProperty(string winName, WindowProperty propId)
         {
             if (String.IsNullOrEmpty(winName))
-                throw new ArgumentNullException("winName");
+                throw new ArgumentNullException(nameof(winName));
             return NativeMethods.highgui_getWindowProperty(winName, (int) propId);
         }
 
@@ -185,9 +185,9 @@ namespace OpenCvSharp
         public static void SetMouseCallback(string windowName, CvMouseCallback onMouse)
         {
             if (string.IsNullOrEmpty(windowName))
-                throw new ArgumentNullException("windowName");
+                throw new ArgumentNullException(nameof(windowName));
             if (onMouse == null)
-                throw new ArgumentNullException("onMouse");
+                throw new ArgumentNullException(nameof(onMouse));
 
             Window window = Window.GetWindowByName(windowName);
             if (window != null)

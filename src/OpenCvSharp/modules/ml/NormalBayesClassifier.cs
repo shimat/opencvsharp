@@ -108,11 +108,11 @@ namespace OpenCvSharp.ML
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (inputs == null) 
-                throw new ArgumentNullException("inputs");
+                throw new ArgumentNullException(nameof(inputs));
             if (outputs == null)
-                throw new ArgumentNullException("outputs");
+                throw new ArgumentNullException(nameof(outputs));
             if (outputProbs == null)
-                throw new ArgumentNullException("outputProbs");
+                throw new ArgumentNullException(nameof(outputProbs));
 
             inputs.ThrowIfDisposed();
             outputs.ThrowIfNotReady();

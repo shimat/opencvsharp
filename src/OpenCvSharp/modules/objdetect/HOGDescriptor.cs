@@ -1719,7 +1719,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
             Size padding0 = padding.GetValueOrDefault(new Size());
@@ -1749,7 +1749,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1781,7 +1781,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1815,7 +1815,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1846,7 +1846,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1875,11 +1875,11 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             if (grad == null)
-                throw new ArgumentNullException("grad");
+                throw new ArgumentNullException(nameof(grad));
             if (angleOfs == null)
-                throw new ArgumentNullException("angleOfs");
+                throw new ArgumentNullException(nameof(angleOfs));
             img.ThrowIfDisposed();
             grad.ThrowIfDisposed();
             angleOfs.ThrowIfDisposed();
@@ -1907,9 +1907,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             if (locations == null)
-                throw new ArgumentNullException("locations");
+                throw new ArgumentNullException(nameof(locations));
             img.ThrowIfDisposed();
 
             Size winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1942,7 +1942,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("HOGDescriptor");
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
             using (var flVec = new VectorOfRect())

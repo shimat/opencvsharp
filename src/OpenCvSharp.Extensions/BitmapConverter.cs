@@ -34,7 +34,7 @@ namespace OpenCvSharp.Extensions
         public static Mat ToMat(this Bitmap src)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
 
             int w = src.Width;
             int h = src.Height;
@@ -75,11 +75,11 @@ namespace OpenCvSharp.Extensions
         public static unsafe void ToMat(this Bitmap src, Mat dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (dst.IsDisposed)
-                throw new ArgumentException("The specified dst is disposed.", "dst");
+                throw new ArgumentException("The specified dst is disposed.", nameof(dst));
             if (dst.Depth() != MatType.CV_8U)
                 throw new NotSupportedException("Mat depth != CV_8U");
             if (dst.Dims() != 2)
@@ -248,7 +248,7 @@ namespace OpenCvSharp.Extensions
         {
             if (src == null)
             {
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             }
 
             PixelFormat pf;
@@ -261,7 +261,7 @@ namespace OpenCvSharp.Extensions
                 case 4:
                     pf = PixelFormat.Format32bppArgb; break;
                 default:
-                    throw new ArgumentException("Number of channels must be 1, 3 or 4.", "src");
+                    throw new ArgumentException("Number of channels must be 1, 3 or 4.", nameof(src));
             }
             return ToBitmap(src, pf);
         }
@@ -283,7 +283,7 @@ namespace OpenCvSharp.Extensions
         public static Bitmap ToBitmap(this Mat src, PixelFormat pf)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
             Bitmap bitmap = new Bitmap(src.Width, src.Height, pf);
@@ -309,11 +309,11 @@ namespace OpenCvSharp.Extensions
         public static unsafe void ToBitmap(this Mat src, Bitmap dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (src.IsDisposed)
-                throw new ArgumentException("The image is disposed.", "src");
+                throw new ArgumentException("The image is disposed.", nameof(src));
             if (src.Depth() != MatType.CV_8U)
                 throw new ArgumentException("Depth of the image must be CV_8U");
             //if (src.IsSubmatrix())

@@ -49,7 +49,7 @@ namespace OpenCvSharp
                     case 1:
                         return Item1;
                     default:
-                        throw new ArgumentOutOfRangeException("i");
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
             set
@@ -63,7 +63,7 @@ namespace OpenCvSharp
                         Item1 = value;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException("i");
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace OpenCvSharp
                     case 2:
                         return Item2;
                     default:
-                        throw new ArgumentOutOfRangeException("i");
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
             set
@@ -139,7 +139,7 @@ namespace OpenCvSharp
                         Item2 = value;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException("i");
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
         }
@@ -207,7 +207,7 @@ namespace OpenCvSharp
                     case 3:
                         return Item3;
                     default:
-                        throw new ArgumentOutOfRangeException("i");
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
             set
@@ -227,7 +227,7 @@ namespace OpenCvSharp
                         Item3 = value;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException("i");
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
         }
@@ -313,7 +313,7 @@ namespace OpenCvSharp
                     case 5:
                         return Item5;
                     default:
-                        throw new ArgumentOutOfRangeException("i");
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
             set
@@ -339,7 +339,7 @@ namespace OpenCvSharp
                         Item5 = value;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException("i");
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
         }

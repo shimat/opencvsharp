@@ -67,7 +67,7 @@ namespace OpenCvSharp
         public Moments(InputArray array, bool binaryImage = false)
         {
             if (array == null)
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             array.ThrowIfDisposed();
             InitializeFromInputArray(array, binaryImage);
         }
@@ -82,7 +82,7 @@ namespace OpenCvSharp
         public Moments(byte[,] array, bool binaryImage = false)
         {
             if (array == null)
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             int rows = array.GetLength(0);
             int cols = array.GetLength(1);
             using (var arrayMat = new Mat(rows, cols, MatType.CV_8UC1, array))
@@ -101,7 +101,7 @@ namespace OpenCvSharp
         public Moments(float[,] array, bool binaryImage = false)
         {
             if (array == null)
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             int rows = array.GetLength(0);
             int cols = array.GetLength(1);
             using (var arrayMat = new Mat(rows, cols, MatType.CV_32FC1, array))
@@ -120,7 +120,7 @@ namespace OpenCvSharp
         public Moments(IEnumerable<Point> array, bool binaryImage = false)
         {
             if (array == null)
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             Point[] points = EnumerableEx.ToArray(array);
             using (var pointsMat = new Mat(points.Length, 1, MatType.CV_32SC2, points))
             {
@@ -138,7 +138,7 @@ namespace OpenCvSharp
         public Moments(IEnumerable<Point2f> array, bool binaryImage = false)
         {
             if (array == null)
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             Point2f[] points = EnumerableEx.ToArray(array);
             using (var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2, points))
             {

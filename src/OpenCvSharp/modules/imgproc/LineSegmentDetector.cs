@@ -105,9 +105,9 @@ namespace OpenCvSharp
             OutputArray width = null, OutputArray prec = null, OutputArray nfa = null)
         {
             if (image == null) 
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (lines == null)
-                throw new ArgumentNullException("lines");
+                throw new ArgumentNullException(nameof(lines));
             image.ThrowIfDisposed();
             lines.ThrowIfNotReady();
             if (width != null)
@@ -139,9 +139,9 @@ namespace OpenCvSharp
         public virtual void DrawSegments(InputOutputArray image, InputArray lines)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (lines == null)
-                throw new ArgumentNullException("lines");
+                throw new ArgumentNullException(nameof(lines));
             image.ThrowIfNotReady();
             lines.ThrowIfDisposed();
 
@@ -165,9 +165,9 @@ namespace OpenCvSharp
             Size size, InputArray lines1, InputArray lines2, InputOutputArray image = null)
         {
             if (lines1 == null) 
-                throw new ArgumentNullException("lines1");
+                throw new ArgumentNullException(nameof(lines1));
             if (lines2 == null)
-                throw new ArgumentNullException("lines2");
+                throw new ArgumentNullException(nameof(lines2));
             lines1.ThrowIfDisposed();
             lines2.ThrowIfDisposed();
             if (image != null)

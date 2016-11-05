@@ -20,7 +20,7 @@ namespace OpenCvSharp
         internal OutputArray(Mat mat)
         {
             if (mat == null)
-                throw new ArgumentNullException("mat");
+                throw new ArgumentNullException(nameof(mat));
             ptr = NativeMethods.core_OutputArray_new_byMat(mat.CvPtr);
             obj = mat;
         }
@@ -32,7 +32,7 @@ namespace OpenCvSharp
         internal OutputArray(GpuMat mat)
         {
             if (mat == null)
-                throw new ArgumentNullException("mat");
+                throw new ArgumentNullException(nameof(mat));
             ptr = NativeMethods.core_OutputArray_new_byGpuMat(mat.CvPtr);
             obj = mat;
         }
@@ -44,7 +44,7 @@ namespace OpenCvSharp
         internal OutputArray(IEnumerable<Mat> mat)
         {
             if (mat == null)
-                throw new ArgumentNullException("mat");
+                throw new ArgumentNullException(nameof(mat));
             using (var matVector = new VectorOfMat(mat))
             {
                 ptr = NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr);
@@ -255,7 +255,7 @@ namespace OpenCvSharp
             where T : struct
         {
             if (list == null)
-                throw new ArgumentNullException("list");
+                throw new ArgumentNullException(nameof(list));
             return new OutputArrayOfStructList<T>(list);
         }
 
@@ -267,7 +267,7 @@ namespace OpenCvSharp
         public static OutputArrayOfMatList Create(List<Mat> list)
         {
             if (list == null)
-                throw new ArgumentNullException("list");
+                throw new ArgumentNullException(nameof(list));
             return new OutputArrayOfMatList(list);
         }
 

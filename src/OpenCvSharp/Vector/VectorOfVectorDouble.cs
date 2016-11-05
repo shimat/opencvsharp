@@ -31,7 +31,7 @@ namespace OpenCvSharp
         public VectorOfVectorDouble(int size)
         {
             if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_vector_double_new2(new IntPtr(size));
         }
 

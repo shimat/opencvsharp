@@ -40,7 +40,7 @@ namespace OpenCvSharp
         public FileStorage(string source, Mode flags, string encoding = null)
         {
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             ptr = NativeMethods.core_FileStorage_new2(source, (int)flags, encoding);
         }
 
@@ -87,7 +87,7 @@ namespace OpenCvSharp
                 if (disposed)
                     throw new ObjectDisposedException("FileStorage");
                 if (nodeName == null)
-                    throw new ArgumentNullException("nodeName");
+                    throw new ArgumentNullException(nameof(nodeName));
                 IntPtr node = NativeMethods.core_FileStorage_indexer(ptr, nodeName);
                 if (node == IntPtr.Zero)
                     return null;
@@ -162,7 +162,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("FileStorage");
             if (fileName == null)
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             int ret = NativeMethods.core_FileStorage_open(ptr, fileName, (int)flags, encoding);
             return ret != 0;
         }
@@ -254,7 +254,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("FileStorage");
             if (name == null)
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             NativeMethods.core_FileStorage_writeObj(ptr, name, obj);
         }
 
@@ -266,7 +266,7 @@ namespace OpenCvSharp
         public static string GetDefaultObjectName(string fileName)
         {
             if (fileName == null)
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
 

@@ -70,7 +70,7 @@ namespace OpenCvSharp
         public static explicit operator int(FileNode node)
         {
             if (node == null)
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             return NativeMethods.core_FileNode_toInt(node.CvPtr);
         }
 
@@ -82,7 +82,7 @@ namespace OpenCvSharp
         public static explicit operator float(FileNode node)
         {
             if (node == null)
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             return NativeMethods.core_FileNode_toFloat(node.CvPtr);
         }
 
@@ -94,7 +94,7 @@ namespace OpenCvSharp
         public static explicit operator double(FileNode node)
         {
             if (node == null)
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             return NativeMethods.core_FileNode_toDouble(node.CvPtr);
         }
 
@@ -106,7 +106,7 @@ namespace OpenCvSharp
         public static explicit operator string(FileNode node)
         {
             if (node == null)
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             var buf = new StringBuilder(1 << 16);
             NativeMethods.core_FileNode_toString(node.CvPtr, buf, buf.Capacity);
             return buf.ToString();
@@ -120,7 +120,7 @@ namespace OpenCvSharp
         public static explicit operator Mat(FileNode node)
         {
         	if (node == null)
-        		throw new ArgumentNullException("node");
+        		throw new ArgumentNullException(nameof(node));
         	node.ThrowIfDisposed();
         
         	int rows = (int)node["rows"];
@@ -151,7 +151,7 @@ namespace OpenCvSharp
                 if (disposed)
                     throw new ObjectDisposedException("FileNode");
                 if (nodeName == null)
-                    throw new ArgumentNullException("nodeName");
+                    throw new ArgumentNullException(nameof(nodeName));
                 IntPtr node = NativeMethods.core_FileNode_operatorThis_byString(ptr, nodeName);
                 if (node == IntPtr.Zero)
                     return null;
@@ -340,7 +340,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("FileNode");
             if (fmt == null)
-                throw new ArgumentNullException("fmt");
+                throw new ArgumentNullException(nameof(fmt));
             NativeMethods.core_FileNode_readRaw(ptr, fmt, vec, new IntPtr(len));
         }
 

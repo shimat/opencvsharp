@@ -288,7 +288,7 @@ namespace OpenCvSharp
             where T : struct
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
             List<T> list = new List<T>(enumerable);
             return Create(list.ToArray());
         }
@@ -303,7 +303,7 @@ namespace OpenCvSharp
             where T : struct
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
             List<T> list = new List<T>(enumerable);
             return Create(list.ToArray(), type);
         }
@@ -330,7 +330,7 @@ namespace OpenCvSharp
             where T : struct
         {
             if (array == null)
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             if (array.Length == 0)
                 throw new ArgumentException("array.Length == 0");
 
@@ -361,7 +361,7 @@ namespace OpenCvSharp
             where T : struct
         {
             if (array == null)
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             int rows = array.GetLength(0);
             int cols = array.GetLength(1);
             if (rows == 0)

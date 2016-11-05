@@ -68,9 +68,9 @@ namespace OpenCvSharp
             IEnumerable<int> indexChange = null)
         {
             if (radiusList == null)
-                throw new ArgumentNullException("radiusList");
+                throw new ArgumentNullException(nameof(radiusList));
             if (numberList == null)
-                throw new ArgumentNullException("numberList");
+                throw new ArgumentNullException(nameof(numberList));
             float[] radiusListArray = EnumerableEx.ToArray(radiusList);
             int[] numberListArray = EnumerableEx.ToArray(numberList);
             int[] indexChangeArray = EnumerableEx.ToArray(indexChange);

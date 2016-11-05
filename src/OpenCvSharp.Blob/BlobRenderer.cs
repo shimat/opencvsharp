@@ -41,13 +41,13 @@ namespace OpenCvSharp.Blob
             RenderBlobsMode mode, Scalar color, double alpha)
         {
             if (labels == null)
-                throw new ArgumentNullException("labels");
+                throw new ArgumentNullException(nameof(labels));
             if (blob == null)
-                throw new ArgumentNullException("blob");
+                throw new ArgumentNullException(nameof(blob));
             if (imgSrc == null)
-                throw new ArgumentNullException("imgSrc");
+                throw new ArgumentNullException(nameof(imgSrc));
             if (imgDst == null)
-                throw new ArgumentNullException("imgDst");
+                throw new ArgumentNullException(nameof(imgDst));
             if (imgDst.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("'img' must be a 3-channel U8 image.");
 
@@ -117,11 +117,11 @@ namespace OpenCvSharp.Blob
         public static void PerformMany(CvBlobs blobs, Mat imgSrc, Mat imgDst, RenderBlobsMode mode, double alpha)
         {
             if (blobs == null)
-                throw new ArgumentNullException("blobs");
+                throw new ArgumentNullException(nameof(blobs));
             if (imgSrc == null)
-                throw new ArgumentNullException("imgSrc");
+                throw new ArgumentNullException(nameof(imgSrc));
             if (imgDst == null)
-                throw new ArgumentNullException("imgDst");
+                throw new ArgumentNullException(nameof(imgDst));
             if (imgDst.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("'img' must be a 3-channel U8 image.");
 

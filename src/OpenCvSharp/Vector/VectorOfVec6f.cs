@@ -32,7 +32,7 @@ namespace OpenCvSharp
         public VectorOfVec6f(int size)
         {
             if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_Vec6f_new2(new IntPtr(size));
         }
 
@@ -43,7 +43,7 @@ namespace OpenCvSharp
         public VectorOfVec6f(IEnumerable<Vec6f> data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             Vec6f[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Vec6f_new3(array, new IntPtr(array.Length));
         }

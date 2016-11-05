@@ -568,7 +568,7 @@ namespace OpenCvSharp
         public static MatOfPoint3d FromArray(params Point3d[] arr)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
@@ -591,7 +591,7 @@ namespace OpenCvSharp
         public static MatOfPoint3d FromArray(Point3d[,] arr)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 

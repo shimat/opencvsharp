@@ -61,7 +61,7 @@ namespace OpenCvSharp.Util
         {
             if (obj == null)
             {
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
             }
             SrcObj = obj;
             Size = Marshal.SizeOf(obj.GetType());

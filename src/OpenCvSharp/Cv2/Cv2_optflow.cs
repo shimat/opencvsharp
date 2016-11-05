@@ -18,9 +18,9 @@ namespace OpenCvSharp
             double timestamp, double duration)
         {
             if (silhouette == null)
-                throw new ArgumentNullException("silhouette");
+                throw new ArgumentNullException(nameof(silhouette));
             if (mhi == null)
-                throw new ArgumentNullException("mhi");
+                throw new ArgumentNullException(nameof(mhi));
             silhouette.ThrowIfDisposed();
             mhi.ThrowIfNotReady();
             NativeMethods.optflow_motempl_updateMotionHistory(
@@ -47,11 +47,11 @@ namespace OpenCvSharp
             double delta1, double delta2, int apertureSize = 3)
         {
             if (mhi == null)
-                throw new ArgumentNullException("mhi");
+                throw new ArgumentNullException(nameof(mhi));
             if (mask == null)
-                throw new ArgumentNullException("mask");
+                throw new ArgumentNullException(nameof(mask));
             if (orientation == null)
-                throw new ArgumentNullException("orientation");
+                throw new ArgumentNullException(nameof(orientation));
             mhi.ThrowIfDisposed();
             mask.ThrowIfNotReady();
             orientation.ThrowIfNotReady();
@@ -78,11 +78,11 @@ namespace OpenCvSharp
             double timestamp, double duration)
         {
             if (orientation == null)
-                throw new ArgumentNullException("orientation");
+                throw new ArgumentNullException(nameof(orientation));
             if (mask == null)
-                throw new ArgumentNullException("mask");
+                throw new ArgumentNullException(nameof(mask));
             if (mhi == null)
-                throw new ArgumentNullException("mhi");
+                throw new ArgumentNullException(nameof(mhi));
             orientation.ThrowIfDisposed();
             mask.ThrowIfDisposed();
             mhi.ThrowIfDisposed();
@@ -106,9 +106,9 @@ namespace OpenCvSharp
             double timestamp, double segThresh)
         {
             if (mhi == null)
-                throw new ArgumentNullException("mhi");
+                throw new ArgumentNullException(nameof(mhi));
             if (segmask == null)
-                throw new ArgumentNullException("segmask");
+                throw new ArgumentNullException(nameof(segmask));
             mhi.ThrowIfDisposed();
             segmask.ThrowIfNotReady();
 
@@ -139,11 +139,11 @@ namespace OpenCvSharp
             int maxFlow)
         {
             if (from == null)
-                throw new ArgumentNullException("from");
+                throw new ArgumentNullException(nameof(@from));
             if (to == null)
-                throw new ArgumentNullException("to");
+                throw new ArgumentNullException(nameof(to));
             if (flow == null)
-                throw new ArgumentNullException("flow");
+                throw new ArgumentNullException(nameof(flow));
             from.ThrowIfDisposed();
             to.ThrowIfDisposed();
             flow.ThrowIfDisposed();
@@ -191,11 +191,11 @@ namespace OpenCvSharp
             double speedUpThr)
         {
             if (from == null)
-                throw new ArgumentNullException("from");
+                throw new ArgumentNullException(nameof(@from));
             if (to == null)
-                throw new ArgumentNullException("to");
+                throw new ArgumentNullException(nameof(to));
             if (flow == null)
-                throw new ArgumentNullException("flow");
+                throw new ArgumentNullException(nameof(flow));
             from.ThrowIfDisposed();
             to.ThrowIfDisposed();
             flow.ThrowIfDisposed();

@@ -93,7 +93,7 @@ namespace OpenCvSharp.Extensions
         public static BitmapSource ToBitmapSource(this Bitmap src)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
 
             IntPtr hBitmap = IntPtr.Zero;
             try
@@ -133,7 +133,7 @@ namespace OpenCvSharp.Extensions
         {
             if (src == null)
             {
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             }
 
             int w = src.PixelWidth;
@@ -159,9 +159,9 @@ namespace OpenCvSharp.Extensions
         public static void ToMat(this BitmapSource src, Mat dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
                 throw new ArgumentException("size of src must be equal to size of dst");
             if (dst.Dims() > 2)
@@ -173,7 +173,7 @@ namespace OpenCvSharp.Extensions
             int channels = WriteableBitmapConverter.GetOptimumChannels(src.Format);
             if (dst.Channels() != channels)
             {
-                throw new ArgumentException("nChannels of dst is invalid", "dst");
+                throw new ArgumentException("nChannels of dst is invalid", nameof(dst));
             }
 
             bool submat = dst.IsSubmatrix();
@@ -285,7 +285,7 @@ namespace OpenCvSharp.Extensions
         public static void CopyFrom(this Mat mat, BitmapSource wb)
         {
             if (wb == null)
-                throw new ArgumentNullException("wb");
+                throw new ArgumentNullException(nameof(wb));
 
             ToMat(wb, mat);
         }

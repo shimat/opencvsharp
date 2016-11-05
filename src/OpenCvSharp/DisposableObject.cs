@@ -192,7 +192,7 @@ namespace OpenCvSharp
         protected internal GCHandle AllocGCHandle(object obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
             
             if (dataHandle.IsAllocated)
                 dataHandle.Free();
@@ -215,7 +215,7 @@ namespace OpenCvSharp
         protected IntPtr AllocMemory(int size)
         {
             if (size <= 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             
             if (AllocatedMemory != IntPtr.Zero)
                 Marshal.FreeHGlobal(AllocatedMemory);
@@ -245,7 +245,7 @@ namespace OpenCvSharp
             if (size == 0)
                 return;
             if (size <= 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             
             if (AllocatedMemorySize > 0)
                 GC.RemoveMemoryPressure(AllocatedMemorySize);

@@ -58,7 +58,7 @@ namespace OpenCvSharp.UserInterface
             {
                 if (value != null && value.IsDisposed)
                 {
-                    throw new ArgumentException("the image is disposed.", "value");
+                    throw new ArgumentException("the image is disposed.", nameof(value));
                 }
 
                 imageIpl = value;

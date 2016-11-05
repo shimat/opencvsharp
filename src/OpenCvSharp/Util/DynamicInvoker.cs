@@ -92,9 +92,9 @@ namespace OpenCvSharp.Util
             if (!typeof(T).IsSubclassOf(typeof(Delegate)))
                 throw new OpenCvSharpException("The type argument must be Delegate.");
             if (string.IsNullOrEmpty(dllName))
-                throw new ArgumentNullException("dllName");
+                throw new ArgumentNullException(nameof(dllName));
             if (string.IsNullOrEmpty(functionName))
-                throw new ArgumentNullException("functionName");
+                throw new ArgumentNullException(nameof(functionName));
 
             PtrLib = Win32Api.LoadLibrary(dllName);
             if (PtrLib == IntPtr.Zero)

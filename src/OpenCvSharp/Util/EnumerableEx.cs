@@ -23,9 +23,9 @@ namespace OpenCvSharp.Util
             IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
             if (selector == null)
-                throw new ArgumentNullException("selector");
+                throw new ArgumentNullException(nameof(selector));
             foreach (TSource elem in enumerable)
             {
                 yield return selector(elem);
@@ -108,9 +108,9 @@ namespace OpenCvSharp.Util
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
             if (predicate == null)
-                throw new ArgumentNullException("predicate");
+                throw new ArgumentNullException(nameof(predicate));
             foreach (TSource elem in enumerable)
             {
                 if (predicate(elem))
@@ -158,7 +158,7 @@ namespace OpenCvSharp.Util
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
             foreach (TSource elem in enumerable)
             {
                 if (predicate(elem))
@@ -177,7 +177,7 @@ namespace OpenCvSharp.Util
             where TSource : class
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
             if (typeof (TSource).IsValueType)
                 return false;
 
@@ -200,7 +200,7 @@ namespace OpenCvSharp.Util
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
             foreach (TSource elem in enumerable)
             {
                 if (!predicate(elem))
@@ -220,7 +220,7 @@ namespace OpenCvSharp.Util
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
 
             int count = 0;
             foreach (TSource elem in enumerable)
@@ -240,7 +240,7 @@ namespace OpenCvSharp.Util
         public static int Count<TSource>(IEnumerable<TSource> enumerable)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
 
             TSource[] array = enumerable as TSource[];
             if (array != null)
@@ -267,7 +267,7 @@ namespace OpenCvSharp.Util
         public static bool IsEmpty<TSource>(IEnumerable<TSource> enumerable)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
 
             foreach (TSource elem in enumerable)
             {

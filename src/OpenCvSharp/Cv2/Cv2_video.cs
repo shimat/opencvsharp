@@ -18,7 +18,7 @@ namespace OpenCvSharp
             InputArray probImage, ref Rect window, TermCriteria criteria)
         {
             if (probImage == null)
-                throw new ArgumentNullException("probImage");
+                throw new ArgumentNullException(nameof(probImage));
             probImage.ThrowIfDisposed();
 
             RotatedRect result = NativeMethods.video_CamShift(
@@ -37,7 +37,7 @@ namespace OpenCvSharp
             InputArray probImage, ref Rect window, TermCriteria criteria)
         {
             if (probImage == null)
-                throw new ArgumentNullException("probImage");
+                throw new ArgumentNullException(nameof(probImage));
             probImage.ThrowIfDisposed();
 
             int result = NativeMethods.video_meanShift(
@@ -71,9 +71,9 @@ namespace OpenCvSharp
             bool tryReuseInputImage = true)
         {
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             if (pyramid == null)
-                throw new ArgumentNullException("pyramid");
+                throw new ArgumentNullException(nameof(pyramid));
             img.ThrowIfDisposed();
             pyramid.ThrowIfNotReady();
 
@@ -110,7 +110,7 @@ namespace OpenCvSharp
             bool tryReuseInputImage = true)
         {
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
             using (var pyramidVec = new VectorOfMat())
@@ -148,17 +148,17 @@ namespace OpenCvSharp
             double minEigThreshold = 1e-4)
         {
             if (prevImg == null)
-                throw new ArgumentNullException("prevImg");
+                throw new ArgumentNullException(nameof(prevImg));
             if (nextImg == null)
-                throw new ArgumentNullException("nextImg");
+                throw new ArgumentNullException(nameof(nextImg));
             if (prevPts == null)
-                throw new ArgumentNullException("prevPts");
+                throw new ArgumentNullException(nameof(prevPts));
             if (nextPts == null)
-                throw new ArgumentNullException("nextPts");
+                throw new ArgumentNullException(nameof(nextPts));
             if (status == null)
-                throw new ArgumentNullException("status");
+                throw new ArgumentNullException(nameof(status));
             if (err == null)
-                throw new ArgumentNullException("err");
+                throw new ArgumentNullException(nameof(err));
             prevImg.ThrowIfDisposed();
             nextImg.ThrowIfDisposed();
             prevPts.ThrowIfDisposed();
@@ -204,13 +204,13 @@ namespace OpenCvSharp
             double minEigThreshold = 1e-4)
         {
             if (prevImg == null)
-                throw new ArgumentNullException("prevImg");
+                throw new ArgumentNullException(nameof(prevImg));
             if (nextImg == null)
-                throw new ArgumentNullException("nextImg");
+                throw new ArgumentNullException(nameof(nextImg));
             if (prevPts == null)
-                throw new ArgumentNullException("prevPts");
+                throw new ArgumentNullException(nameof(prevPts));
             if (nextPts == null)
-                throw new ArgumentNullException("nextPts");
+                throw new ArgumentNullException(nameof(nextPts));
             prevImg.ThrowIfDisposed();
             nextImg.ThrowIfDisposed();
 
@@ -257,11 +257,11 @@ namespace OpenCvSharp
             int iterations, int polyN, double polySigma, OpticalFlowFlags flags)
         {
             if (prev == null)
-                throw new ArgumentNullException("prev");
+                throw new ArgumentNullException(nameof(prev));
             if (next == null)
-                throw new ArgumentNullException("next");
+                throw new ArgumentNullException(nameof(next));
             if (flow == null)
-                throw new ArgumentNullException("flow");
+                throw new ArgumentNullException(nameof(flow));
             prev.ThrowIfDisposed();
             next.ThrowIfDisposed();
             flow.ThrowIfNotReady();
@@ -286,9 +286,9 @@ namespace OpenCvSharp
             InputArray src, InputArray dst, bool fullAffine)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 

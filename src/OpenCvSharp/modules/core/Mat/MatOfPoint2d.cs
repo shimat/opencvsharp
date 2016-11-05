@@ -568,7 +568,7 @@ namespace OpenCvSharp
         public static MatOfPoint2d FromArray(params Point2d[] arr)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
@@ -592,7 +592,7 @@ namespace OpenCvSharp
         public static MatOfPoint2d FromArray(Point2d[,] arr)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 

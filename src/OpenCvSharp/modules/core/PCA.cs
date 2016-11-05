@@ -29,9 +29,9 @@ namespace OpenCvSharp
         public PCA(InputArray data, InputArray mean, Flags flags, int maxComponents = 0)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             ptr = NativeMethods.core_PCA_new2(data.CvPtr, mean.CvPtr, (int)flags, maxComponents);
@@ -46,9 +46,9 @@ namespace OpenCvSharp
         public PCA(InputArray data, InputArray mean, Flags flags, double retainedVariance)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             ptr = NativeMethods.core_PCA_new3(data.CvPtr, mean.CvPtr, (int)flags, retainedVariance);
@@ -140,9 +140,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("PCA");
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             NativeMethods.core_PCA_operatorThis(ptr, data.CvPtr, mean.CvPtr, (int)flags, maxComponents);
@@ -162,9 +162,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("PCA");
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (mean == null)
-                throw new ArgumentNullException("mean");
+                throw new ArgumentNullException(nameof(mean));
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             NativeMethods.core_PCA_computeVar(ptr, data.CvPtr, mean.CvPtr, (int)flags, retainedVariance);
@@ -181,7 +181,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("PCA");
             if (vec == null)
-                throw new ArgumentNullException("vec");
+                throw new ArgumentNullException(nameof(vec));
             vec.ThrowIfDisposed();
             IntPtr ret = NativeMethods.core_PCA_project(ptr, vec.CvPtr);
             return new Mat(ret);
@@ -196,9 +196,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("PCA");
             if (vec == null)
-                throw new ArgumentNullException("vec");
+                throw new ArgumentNullException(nameof(vec));
             if (result == null)
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             vec.ThrowIfDisposed();
             result.ThrowIfNotReady();
             NativeMethods.core_PCA_project(ptr, vec.CvPtr, result.CvPtr);
@@ -215,7 +215,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("PCA");
             if (vec == null)
-                throw new ArgumentNullException("vec");
+                throw new ArgumentNullException(nameof(vec));
             vec.ThrowIfDisposed();
             IntPtr ret = NativeMethods.core_PCA_backProject(ptr, vec.CvPtr);
             return new Mat(ret);
@@ -230,9 +230,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("PCA");
             if (vec == null)
-                throw new ArgumentNullException("vec");
+                throw new ArgumentNullException(nameof(vec));
             if (result == null)
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             vec.ThrowIfDisposed();
             result.ThrowIfNotReady();
             NativeMethods.core_PCA_backProject(ptr, vec.CvPtr, result.CvPtr);

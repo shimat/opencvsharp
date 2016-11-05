@@ -73,7 +73,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_Stream_new2(m.CvPtr);
         }
 
@@ -194,9 +194,9 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 
@@ -213,9 +213,9 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 
@@ -231,9 +231,9 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 
@@ -249,7 +249,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueMemSet(ptr, src.CvPtr, val);
@@ -265,7 +265,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueMemSet_WithMask(ptr, src.CvPtr, val, Cv2.ToPtr(mask));
@@ -283,9 +283,9 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 
@@ -302,7 +302,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfDisposed();
             if (callback == null)
-                throw new ArgumentNullException("callback");
+                throw new ArgumentNullException(nameof(callback));
 
             if (callbackHandle.IsAllocated)
                 callbackHandle.Free();

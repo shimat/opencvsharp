@@ -124,11 +124,11 @@ namespace OpenCvSharp
             InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null)
         {
             if (frame0 == null)
-                throw new ArgumentNullException("frame0");
+                throw new ArgumentNullException(nameof(frame0));
             if (frame1 == null)
-                throw new ArgumentNullException("frame1");
+                throw new ArgumentNullException(nameof(frame1));
             if (flow1 == null)
-                throw new ArgumentNullException("flow1");
+                throw new ArgumentNullException(nameof(flow1));
             frame0.ThrowIfDisposed();
             frame1.ThrowIfDisposed();
             flow1.ThrowIfNotReady();

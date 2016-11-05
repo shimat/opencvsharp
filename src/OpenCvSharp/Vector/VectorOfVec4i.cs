@@ -32,7 +32,7 @@ namespace OpenCvSharp
         public VectorOfVec4i(int size)
         {
             if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_Vec4i_new2(new IntPtr(size));
         }
 
@@ -52,7 +52,7 @@ namespace OpenCvSharp
         public VectorOfVec4i(IEnumerable<Vec4i> data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             Vec4i[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Vec4i_new3(array, new IntPtr(array.Length));
         }

@@ -117,7 +117,7 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             if (templ == null)
-                throw new ArgumentNullException("templ");
+                throw new ArgumentNullException(nameof(templ));
             templ.ThrowIfDisposed();
             var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
 
@@ -138,11 +138,11 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             if (edges == null)
-                throw new ArgumentNullException("edges");
+                throw new ArgumentNullException(nameof(edges));
             if (dx == null) 
-                throw new ArgumentNullException("dx");
+                throw new ArgumentNullException(nameof(dx));
             if (dy == null)
-                throw new ArgumentNullException("dy");
+                throw new ArgumentNullException(nameof(dy));
             edges.ThrowIfDisposed();
             dx.ThrowIfDisposed();
             dy.ThrowIfDisposed();
@@ -166,9 +166,9 @@ namespace OpenCvSharp
             InputArray image, OutputArray positions, OutputArray votes = null)
         {
             if (image == null) 
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (positions == null) 
-                throw new ArgumentNullException("positions");
+                throw new ArgumentNullException(nameof(positions));
             image.ThrowIfDisposed();
             positions.ThrowIfNotReady();
             if (votes != null)
@@ -195,13 +195,13 @@ namespace OpenCvSharp
             InputArray edges, InputArray dx, InputArray dy, OutputArray positions, OutputArray votes = null)
         {
             if (edges == null)
-                throw new ArgumentNullException("edges");
+                throw new ArgumentNullException(nameof(edges));
             if (dx == null) 
-                throw new ArgumentNullException("dx");
+                throw new ArgumentNullException(nameof(dx));
             if (dy == null)
-                throw new ArgumentNullException("dy");
+                throw new ArgumentNullException(nameof(dy));
             if (positions == null)
-                throw new ArgumentNullException("positions");
+                throw new ArgumentNullException(nameof(positions));
             edges.ThrowIfDisposed();
             dx.ThrowIfDisposed();
             dy.ThrowIfDisposed();

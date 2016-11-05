@@ -39,7 +39,7 @@ namespace OpenCvSharp
         public VectorOfVectorPoint(int size)
         {
             if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_vector_Point_new2(new IntPtr(size));
         }
 

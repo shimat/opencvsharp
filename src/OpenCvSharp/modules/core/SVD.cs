@@ -27,7 +27,7 @@ namespace OpenCvSharp
         public SVD(InputArray src, Flags flags = 0)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             ptr = NativeMethods.core_SVD_new(src.CvPtr, (int)flags);
         }
@@ -116,7 +116,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("SVD");
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             NativeMethods.core_SVD_operatorThis(ptr, src.CvPtr, (int)flags);
             return this;
@@ -133,9 +133,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("SVD");
             if (rhs == null)
-                throw new ArgumentNullException("rhs");
+                throw new ArgumentNullException(nameof(rhs));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             rhs.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_SVD_backSubst(ptr, rhs.CvPtr, dst.CvPtr);
@@ -156,13 +156,13 @@ namespace OpenCvSharp
             OutputArray u, OutputArray vt, Flags flags = 0)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (w == null)
-                throw new ArgumentNullException("w");
+                throw new ArgumentNullException(nameof(w));
             if (u == null)
-                throw new ArgumentNullException("u");
+                throw new ArgumentNullException(nameof(u));
             if (vt == null)
-                throw new ArgumentNullException("vt");
+                throw new ArgumentNullException(nameof(vt));
             src.ThrowIfDisposed();
             w.ThrowIfNotReady();
             u.ThrowIfNotReady();
@@ -182,9 +182,9 @@ namespace OpenCvSharp
         public static void Compute(InputArray src, OutputArray w, Flags flags = 0)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (w == null)
-                throw new ArgumentNullException("w");
+                throw new ArgumentNullException(nameof(w));
             src.ThrowIfDisposed();
             w.ThrowIfNotReady();
             NativeMethods.core_SVD_static_compute(src.CvPtr, w.CvPtr, (int)flags);
@@ -203,15 +203,15 @@ namespace OpenCvSharp
             InputArray vt, InputArray rhs, OutputArray dst)
         {
             if (w == null)
-                throw new ArgumentNullException("w");
+                throw new ArgumentNullException(nameof(w));
             if (u == null)
-                throw new ArgumentNullException("u");
+                throw new ArgumentNullException(nameof(u));
             if (vt == null)
-                throw new ArgumentNullException("vt");
+                throw new ArgumentNullException(nameof(vt));
             if (rhs == null)
-                throw new ArgumentNullException("rhs");
+                throw new ArgumentNullException(nameof(rhs));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             w.ThrowIfDisposed();
             u.ThrowIfDisposed();
             vt.ThrowIfDisposed();
@@ -229,9 +229,9 @@ namespace OpenCvSharp
         public static void SolveZ(InputArray src, OutputArray dst)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_SVD_static_solveZ(src.CvPtr, dst.CvPtr);

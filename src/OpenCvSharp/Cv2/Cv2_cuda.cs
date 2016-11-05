@@ -111,7 +111,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfGpuNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_registerPageLocked(m.CvPtr);
         }
 
@@ -123,7 +123,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfGpuNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_unregisterPageLocked(m.CvPtr);
         }
 
@@ -142,7 +142,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfGpuNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_createContinuous1(rows, cols, type, m.CvPtr);
         }
 
@@ -196,7 +196,7 @@ namespace OpenCvSharp.Gpu
         {
             ThrowIfGpuNotAvailable();
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_ensureSizeIsEnough(rows, cols, type, m.CvPtr);
         }
 

@@ -144,9 +144,9 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("LatentSvmDetector");
             if (fileNames == null)
-                throw new ArgumentNullException("fileNames");
+                throw new ArgumentNullException(nameof(fileNames));
             if (classNames == null)
-                throw new ArgumentNullException("classNames");
+                throw new ArgumentNullException(nameof(classNames));
 
             using (var fn = new StringArrayAddress(fileNames))
             using (var cn = new StringArrayAddress(classNames))
@@ -170,7 +170,7 @@ namespace OpenCvSharp
             if (disposed)
                 throw new ObjectDisposedException("LatentSvmDetector");
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
             using (var odVec = new VectorOfVec6d())

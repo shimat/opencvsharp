@@ -132,7 +132,7 @@ namespace OpenCvSharp.Util
         public ArrayAddress2(IEnumerable<IEnumerable<T>> enumerable)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
             original = enumerable;
 
             var list = new List<T[]>();
@@ -149,7 +149,7 @@ namespace OpenCvSharp.Util
         protected void Initialize(T[][] target)
         {
             if (target == null)
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             array = target;
 
             // T[][]をIntPtr[]に変換する

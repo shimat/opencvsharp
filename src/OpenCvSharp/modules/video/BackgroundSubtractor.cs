@@ -18,9 +18,9 @@ namespace OpenCvSharp
         public virtual void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
             if (fgmask == null)
-                throw new ArgumentNullException("fgmask");
+                throw new ArgumentNullException(nameof(fgmask));
             image.ThrowIfDisposed();
             fgmask.ThrowIfNotReady();
             
@@ -37,7 +37,7 @@ namespace OpenCvSharp
         public virtual void GetBackgroundImage(OutputArray backgroundImage)
         {
             if (backgroundImage == null)
-                throw new ArgumentNullException("backgroundImage");
+                throw new ArgumentNullException(nameof(backgroundImage));
             backgroundImage.ThrowIfNotReady();
 
             NativeMethods.video_BackgroundSubtractor_getBackgroundImage(ptr, backgroundImage.CvPtr);

@@ -60,11 +60,11 @@ namespace OpenCvSharp
         public Mat FilterByLabels(Mat src, Mat dst, IEnumerable<int> labelValues)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (labelValues == null)
-                throw new ArgumentNullException("labelValues");
+                throw new ArgumentNullException(nameof(labelValues));
             int[] labelArray = EnumerableEx.ToArray(labelValues);
             if (labelArray.Length == 0)
                 throw new ArgumentException("empty labelValues");
@@ -121,7 +121,7 @@ namespace OpenCvSharp
         public void RenderBlobs(Mat img)
         {
             if (img == null) 
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             /*
             if (img.Empty())
                 throw new ArgumentException("img is empty");

@@ -158,7 +158,7 @@ namespace OpenCvSharp
         public Window(string name, WindowMode flags, Mat image)
         {
             if (name == null)
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
             this.name = name;
             NativeMethods.highgui_namedWindow(name, (int) flags);
@@ -734,7 +734,7 @@ namespace OpenCvSharp
         public static void ShowImages(params Mat[] images)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (images.Length == 0)
                 return;
 
@@ -760,9 +760,9 @@ namespace OpenCvSharp
         public static void ShowImages(IEnumerable<Mat> images, IEnumerable<string> names)
         {
             if (images == null)
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             if (names == null)
-                throw new ArgumentNullException("names");
+                throw new ArgumentNullException(nameof(names));
 
             Mat[] imagesArray = EnumerableEx.ToArray(images);
             string[] namesArray = EnumerableEx.ToArray(names);
@@ -806,7 +806,7 @@ namespace OpenCvSharp
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             }
             if (Windows.ContainsKey(name))
             {

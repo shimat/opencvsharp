@@ -568,7 +568,7 @@ namespace OpenCvSharp
         public static MatOfInt4 FromArray(params Vec4i[] arr)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
@@ -591,7 +591,7 @@ namespace OpenCvSharp
         public static MatOfInt4 FromArray(Vec4i[,] arr)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 

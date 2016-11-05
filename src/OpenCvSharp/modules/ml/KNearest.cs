@@ -143,9 +143,9 @@ namespace OpenCvSharp.ML
 	        if (disposed)
 	            throw new ObjectDisposedException(GetType().Name);
 	        if (samples == null)
-	            throw new ArgumentNullException("samples");
+	            throw new ArgumentNullException(nameof(samples));
 	        if (results == null)
-	            throw new ArgumentNullException("results");
+	            throw new ArgumentNullException(nameof(results));
 	        samples.ThrowIfDisposed();
 	        results.ThrowIfNotReady();
 

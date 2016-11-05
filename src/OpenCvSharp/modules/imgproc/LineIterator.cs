@@ -35,7 +35,7 @@ namespace OpenCvSharp
             bool leftToRight = false)
         {
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
             this.img = img;
             this.pt1 = pt1;
             this.pt2 = pt2;

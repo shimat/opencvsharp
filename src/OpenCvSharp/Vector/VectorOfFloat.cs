@@ -32,7 +32,7 @@ namespace OpenCvSharp
         public VectorOfFloat(int size)
         {
             if (size < 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_float_new2(new IntPtr(size));
         }
 
@@ -43,7 +43,7 @@ namespace OpenCvSharp
         public VectorOfFloat(IEnumerable<float> data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             float[] array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_float_new3(array, new IntPtr(array.Length));
         }

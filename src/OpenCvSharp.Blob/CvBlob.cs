@@ -220,9 +220,9 @@ namespace OpenCvSharp.Blob
         public void SaveImage(string fileName, Mat img)
         {
             if (String.IsNullOrEmpty(fileName))
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             if (img == null)
-                throw new ArgumentNullException("img");
+                throw new ArgumentNullException(nameof(img));
 
             using (var subMat = img.SubMat(Rect))
             {

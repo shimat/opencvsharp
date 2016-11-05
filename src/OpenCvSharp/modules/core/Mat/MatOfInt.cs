@@ -562,7 +562,7 @@ namespace OpenCvSharp
         public static MatOfInt FromArray(params int[] arr)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
@@ -586,7 +586,7 @@ namespace OpenCvSharp
         public static MatOfInt FromArray(int[,] arr)
         {
             if (arr == null)
-                throw new ArgumentNullException("arr");
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 

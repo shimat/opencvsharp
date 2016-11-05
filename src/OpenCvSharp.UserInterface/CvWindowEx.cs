@@ -311,7 +311,7 @@ namespace OpenCvSharp.UserInterface
         {
             if (images == null)
             {
-                throw new ArgumentNullException("images");
+                throw new ArgumentNullException(nameof(images));
             }
             if (images.Length == 0)
             {

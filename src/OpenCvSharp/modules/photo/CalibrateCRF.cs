@@ -19,11 +19,11 @@ namespace OpenCvSharp
         public virtual void Process(IEnumerable<Mat> src, OutputArray dst, IEnumerable<float> times)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (times == null)
-                throw new ArgumentNullException("times");
+                throw new ArgumentNullException(nameof(times));
             dst.ThrowIfNotReady();
             
             IntPtr[] srcArray = EnumerableEx.SelectPtrs(src);

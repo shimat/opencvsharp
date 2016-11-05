@@ -19,11 +19,11 @@ namespace OpenCvSharp
             OutputArray dst, double inpaintRadius, InpaintMethod flags)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (inpaintMask == null)
-                throw new ArgumentNullException("inpaintMask");
+                throw new ArgumentNullException(nameof(inpaintMask));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             inpaintMask.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -51,9 +51,9 @@ namespace OpenCvSharp
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.photo_fastNlMeansDenoising(src.CvPtr, dst.CvPtr, h, templateWindowSize, searchWindowSize);
@@ -81,9 +81,9 @@ namespace OpenCvSharp
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.photo_fastNlMeansDenoisingColored(src.CvPtr, dst.CvPtr, h, hColor, templateWindowSize, searchWindowSize);
@@ -111,9 +111,9 @@ namespace OpenCvSharp
             float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
         {
             if (srcImgs == null)
-                throw new ArgumentNullException("srcImgs");
+                throw new ArgumentNullException(nameof(srcImgs));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
             IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
@@ -166,9 +166,9 @@ namespace OpenCvSharp
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
             if (srcImgs == null)
-                throw new ArgumentNullException("srcImgs");
+                throw new ArgumentNullException(nameof(srcImgs));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
             IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
@@ -223,9 +223,9 @@ namespace OpenCvSharp
             IEnumerable<Mat> observations, Mat result, double lambda = 1.0, int niters = 30)
         {
             if (observations == null)
-                throw new ArgumentNullException("observations");
+                throw new ArgumentNullException(nameof(observations));
             if (result == null) 
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
 
             IntPtr[] observationsPtrs = EnumerableEx.SelectPtrs(observations);
             NativeMethods.photo_denoise_TVL1(observationsPtrs, observationsPtrs.Length, result.CvPtr, lambda, niters);
@@ -245,11 +245,11 @@ namespace OpenCvSharp
             InputArray src, OutputArray grayscale, OutputArray colorBoost)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (grayscale == null) 
-                throw new ArgumentNullException("grayscale");
+                throw new ArgumentNullException(nameof(grayscale));
             if (colorBoost == null)
-                throw new ArgumentNullException("colorBoost");
+                throw new ArgumentNullException(nameof(colorBoost));
             src.ThrowIfDisposed();
             grayscale.ThrowIfNotReady();
             colorBoost.ThrowIfNotReady();
@@ -278,11 +278,11 @@ namespace OpenCvSharp
             OutputArray blend, SeamlessCloneMethods flags)
         {
             if (src == null) 
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             if (blend == null)
-                throw new ArgumentNullException("blend");
+                throw new ArgumentNullException(nameof(blend));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             if (mask != null)
@@ -313,9 +313,9 @@ namespace OpenCvSharp
             float redMul = 1.0f, float greenMul = 1.0f, float blueMul = 1.0f)
         {
             if (src == null) 
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             if (mask != null)
@@ -347,9 +347,9 @@ namespace OpenCvSharp
             float alpha = 0.2f, float beta = 0.4f)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -381,9 +381,9 @@ namespace OpenCvSharp
             int kernelSize = 3)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null) 
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -413,9 +413,9 @@ namespace OpenCvSharp
             float sigmaS = 60, float sigmaR = 0.4f)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null) 
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -439,9 +439,9 @@ namespace OpenCvSharp
             float sigmaS = 10, float sigmaR = 0.15f)
         {
             if (src == null) 
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null) 
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -467,11 +467,11 @@ namespace OpenCvSharp
             float sigmaS = 60, float sigmaR = 0.07f, float shadeFactor = 0.02f)
         {
             if (src == null) 
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst1 == null)
-                throw new ArgumentNullException("dst1");
+                throw new ArgumentNullException(nameof(dst1));
             if (dst2 == null)
-                throw new ArgumentNullException("dst2");
+                throw new ArgumentNullException(nameof(dst2));
 
             src.ThrowIfDisposed();
             dst1.ThrowIfNotReady();
@@ -500,9 +500,9 @@ namespace OpenCvSharp
             float sigmaS = 60, float sigmaR = 0.45f)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             if (dst == null) 
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
