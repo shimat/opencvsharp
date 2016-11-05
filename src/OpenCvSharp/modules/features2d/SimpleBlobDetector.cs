@@ -11,6 +11,8 @@ namespace OpenCvSharp
         private bool disposed;
         private Ptr<SimpleBlobDetector> ptrObj;
 
+        internal override IntPtr PtrObj => ptrObj.CvPtr;
+
         /// <summary>
         /// SimpleBlobDetector parameters
         /// </summary>

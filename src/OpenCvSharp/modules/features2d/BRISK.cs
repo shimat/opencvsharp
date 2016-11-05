@@ -20,6 +20,8 @@ namespace OpenCvSharp
         private bool disposed;
         private Ptr<BRISK> ptrObj;
 
+        internal override IntPtr PtrObj => ptrObj.CvPtr;
+
         #region Init & Disposal
 
         /// <summary>

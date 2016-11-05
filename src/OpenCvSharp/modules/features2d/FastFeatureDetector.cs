@@ -17,6 +17,8 @@ namespace OpenCvSharp
         private bool disposed;
         private Ptr<FastFeatureDetector> ptrObj;
 
+        internal override IntPtr PtrObj => ptrObj.CvPtr;
+
         #region Init & Disposal
 
         /// <summary>

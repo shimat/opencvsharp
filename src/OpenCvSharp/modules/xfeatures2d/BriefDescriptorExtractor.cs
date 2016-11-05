@@ -23,6 +23,8 @@ namespace OpenCvSharp.XFeatures2D
         /// </summary>
         private Ptr<BriefDescriptorExtractor> ptrObj;
 
+        internal override IntPtr PtrObj => ptrObj.CvPtr;
+
         /// <summary>
         /// 
         /// </summary>

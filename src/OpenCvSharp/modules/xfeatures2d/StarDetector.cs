@@ -17,6 +17,8 @@ namespace OpenCvSharp.XFeatures2D
         private bool disposed;
         private Ptr<StarDetector> ptrObj;
 
+        internal override IntPtr PtrObj => ptrObj.CvPtr;
+
         #region Init & Disposal
 
         /// <summary>
