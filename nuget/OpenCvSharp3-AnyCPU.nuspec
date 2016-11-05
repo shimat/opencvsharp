@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-AnyCPU</id>
-        <version>3.1.0.20160622</version>
+        <version>3.1.0.20161105</version>
         <title>OpenCvSharp3</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -11,7 +11,8 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <summary>OpenCV 3.x wrapper</summary>
-        <releaseNotes>- Fixed #210, #222 and #227</releaseNotes>
+        <releaseNotes>- Fixed #265, #261, #248, #211 and #206
+- Added reference to PresentationFramework (Extensions)</releaseNotes>
         <copyright>Copyright 2008-2016</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
