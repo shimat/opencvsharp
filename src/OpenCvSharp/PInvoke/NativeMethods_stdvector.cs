@@ -234,6 +234,22 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void vector_DMatch_delete(IntPtr vector);
         #endregion
+        #region vector<int>
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr vector_vector_int_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr vector_vector_int_new2(IntPtr size);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr vector_vector_int_getSize1(IntPtr vector);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void vector_vector_int_getSize2(IntPtr vector, [In, Out] IntPtr[] size);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr vector_vector_int_getPointer(IntPtr vector);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void vector_vector_int_copy(IntPtr vec, IntPtr[] dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void vector_vector_int_delete(IntPtr vector);
+        #endregion
         #region vector<float>
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vector_vector_float_new1();

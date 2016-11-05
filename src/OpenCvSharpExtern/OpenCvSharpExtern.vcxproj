@@ -362,6 +362,7 @@
     <ClInclude Include="cuda_GpuMat.h" />
     <ClInclude Include="features2d_AgastFeatureDetector.h" />
     <ClInclude Include="features2d_AKAZE.h" />
+    <ClInclude Include="features2d_BOW.h" />
     <ClInclude Include="features2d_BRISK.h" />
     <ClInclude Include="features2d_FastFeatureDetector.h" />
     <ClInclude Include="features2d_GFTTDetector.h" />

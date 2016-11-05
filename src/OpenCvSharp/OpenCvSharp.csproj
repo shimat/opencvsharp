@@ -92,6 +92,9 @@
     <Compile Include="Modules\core\OutputArrayOfMatList.cs" />
     <Compile Include="Modules\core\OutputArrayOfStructList.cs" />
     <Compile Include="Modules\features2d\AgastFeatureDetector.cs" />
+    <Compile Include="Modules\features2d\BOWImgDescriptorExtractor.cs" />
+    <Compile Include="Modules\features2d\BOWKMeansTrainer.cs" />
+    <Compile Include="Modules\features2d\BOWTrainer.cs" />
     <Compile Include="Modules\features2d\KeyPointsFilter.cs" />
     <Compile Include="Modules\features2d\Enum\FASTType.cs" />
     <Compile Include="Modules\features2d\Enum\AGASTType.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="Modules\shape\ShapeContextDistanceExtractor.cs" />
     <Compile Include="Modules\shape\ShapeDistanceExtractor.cs" />
     <Compile Include="PInvoke\core\NativeMethods_core_Algorithm.cs" />
+    <Compile Include="PInvoke\features2d\NativeMethods_features2d_BOW.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_KeyPointsFilter.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_Feature2D.cs" />
     <Compile Include="PInvoke\features2d\NativeMethods_features2d_AgastFeatureDetector.cs" />
@@ -363,6 +367,7 @@
     <Compile Include="Vector\VectorOfDMatch.cs" />
     <Compile Include="Vector\VectorOfVec6d.cs" />
     <Compile Include="Vector\VectorOfVectorDouble.cs" />
+    <Compile Include="Vector\VectorOfVectorInt.cs" />
     <Compile Include="Vector\VectorOfVectorFloat.cs" />
     <Compile Include="Vector\VectorOfVectorDMatch.cs" />
     <Compile Include="Vector\VectorOfVectorPoint.cs" />
