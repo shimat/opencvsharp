@@ -9,9 +9,13 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void imgproc_LineSegmentDetector_detect(IntPtr obj, IntPtr image, IntPtr lines,
+        public static extern void imgproc_LineSegmentDetector_detect_OutputArray(IntPtr obj, IntPtr image, IntPtr lines,
             IntPtr width, IntPtr prec, IntPtr nfa);
-        
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void imgproc_LineSegmentDetector_detect_vector(IntPtr obj, IntPtr image, IntPtr lines,
+            IntPtr width, IntPtr prec, IntPtr nfa);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_LineSegmentDetector_drawSegments(IntPtr obj, IntPtr image, IntPtr lines);
 
