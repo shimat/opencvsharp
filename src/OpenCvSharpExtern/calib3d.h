@@ -144,18 +144,18 @@ CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsL
 
 CVAPI(void) calib3d_solvePnPRansac_InputArray(cv::_InputArray *objectPoints, cv::_InputArray *imagePoints,
 	cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_OutputArray *rvec, cv::_OutputArray *tvec,
-	bool useExtrinsicGuess, int iterationsCount, float reprojectionError, int minInliersCount,
+	bool useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
 	cv::_OutputArray *inliers, int flags)
 {
 	cv::solvePnPRansac(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec,
-		useExtrinsicGuess != 0, iterationsCount, reprojectionError, minInliersCount,
+		useExtrinsicGuess != 0, iterationsCount, reprojectionError, confidence,
 		entity(inliers), flags);
 }
 CVAPI(void) calib3d_solvePnPRansac_vector(cv::Point3f *objectPoints, int objectPointsLength,
 	cv::Point2f *imagePoints, int imagePointsLength,
 	double *cameraMatrix, double *distCoeffs, int distCoeffsLength,
 	double *rvec, double *tvec,
-	int useExtrinsicGuess, int iterationsCount, float reprojectionError, int minInliersCount,
+	int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
 	std::vector<int> *inliers, int flags)
 {
 	cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
@@ -167,7 +167,7 @@ CVAPI(void) calib3d_solvePnPRansac_vector(cv::Point3f *objectPoints, int objectP
 	cv::Matx<double, 3, 1> rvecM, tvecM;
 
 	cv::solvePnPRansac(objectPointsMat, imagePointsMat, *cameraMatrix, distCoeffsMat, rvecM, tvecM,
-		useExtrinsicGuess != 0, iterationsCount, reprojectionError, minInliersCount,
+		useExtrinsicGuess != 0, iterationsCount, reprojectionError, confidence,
 		*inliers, flags);
 
 	memcpy(rvec, rvecM.val, sizeof(double) * 3);
