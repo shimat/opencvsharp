@@ -76,8 +76,7 @@ namespace OpenCvSharp
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (ptrObj != null)
-                            ptrObj.Dispose();
+                        ptrObj?.Dispose();
                         ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
@@ -110,24 +109,53 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(lines));
             image.ThrowIfDisposed();
             lines.ThrowIfNotReady();
-            if (width != null)
-                width.ThrowIfNotReady();
-            if (prec != null)
-                prec.ThrowIfNotReady();
-            if (nfa != null)
-                nfa.ThrowIfNotReady();
+            width?.ThrowIfNotReady();
+            prec?.ThrowIfNotReady();
+            nfa?.ThrowIfNotReady();
 
-            NativeMethods.imgproc_LineSegmentDetector_detect(ptr, image.CvPtr, lines.CvPtr,
+            NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(ptr, image.CvPtr, lines.CvPtr,
                 Cv2.ToPtr(width), Cv2.ToPtr(prec), Cv2.ToPtr(nfa));
 
             GC.KeepAlive(image);
             lines.Fix();
-            if (width != null)
-                width.Fix();
-            if (prec != null)
-                prec.Fix();
-            if (nfa != null)
-                nfa.Fix();
+            width?.Fix();
+            prec?.Fix();
+            nfa?.Fix();
+        }
+
+        /// <summary>
+        /// Finds lines in the input image.
+        /// This is the output of the default parameters of the algorithm on the above shown image.
+        /// </summary>
+        /// <param name="image">A grayscale (CV_8UC1) input image. </param>
+        /// <param name="lines">A vector of Vec4i or Vec4f elements specifying the beginning and ending point of a line. 
+        /// Where Vec4i/Vec4f is (x1, y1, x2, y2), point 1 is the start, point 2 - end. Returned lines are strictly oriented depending on the gradient.</param>
+        /// <param name="width">Vector of widths of the regions, where the lines are found. E.g. Width of line.</param>
+        /// <param name="prec">Vector of precisions with which the lines are found.</param>
+        /// <param name="nfa">Vector containing number of false alarms in the line region, 
+        /// with precision of 10%. The bigger the value, logarithmically better the detection.</param>
+        public virtual void Detect(InputArray image, out Vec4f[] lines,
+            out double[] width, out double[] prec, out double[] nfa)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfDisposed();
+
+            using (var linesVec = new VectorOfVec4f())
+            using (var widthVec = new VectorOfDouble())
+            using (var precVec = new VectorOfDouble())
+            using (var nfaVec = new VectorOfDouble())
+            {
+                NativeMethods.imgproc_LineSegmentDetector_detect_vector(ptr, image.CvPtr,
+                    linesVec.CvPtr, widthVec.CvPtr, precVec.CvPtr, nfaVec.CvPtr);
+
+                lines = linesVec.ToArray();
+                width = widthVec.ToArray();
+                prec = precVec.ToArray();
+                nfa = nfaVec.ToArray();
+            }
+
+            GC.KeepAlive(image);
         }
 
         /// <summary>
@@ -170,16 +198,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(lines2));
             lines1.ThrowIfDisposed();
             lines2.ThrowIfDisposed();
-            if (image != null)
-                image.ThrowIfNotReady();
+            image?.ThrowIfNotReady();
 
             var ret = NativeMethods.imgproc_LineSegmentDetector_compareSegments(
                 ptr, size, lines1.CvPtr, lines2.CvPtr, Cv2.ToPtr(image));
 
             GC.KeepAlive(lines1);
             GC.KeepAlive(lines2);
-            if (image != null)
-                image.Fix();
+            image?.Fix();
 
             return ret;
         }
