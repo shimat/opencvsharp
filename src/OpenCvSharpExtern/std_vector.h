@@ -445,6 +445,46 @@ CVAPI(void) vector_DMatch_delete(vector<cv::DMatch>* vector)
 }
 #pragma endregion
 
+#pragma region vector<int>
+CVAPI(vector<vector<int> >*) vector_vector_int_new1()
+{
+	return new vector<vector<int> >;
+}
+CVAPI(vector<vector<int> >*) vector_vector_int_new2(size_t size)
+{
+	return new vector<vector<int> >(size);
+}
+CVAPI(size_t) vector_vector_int_getSize1(vector<vector<int> >* vec)
+{
+	return vec->size();
+}
+CVAPI(void) vector_vector_int_getSize2(vector<vector<int> >* vec, size_t *sizes)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		sizes[i] = vec->at(i).size();
+	}
+}
+CVAPI(vector<int>*) vector_vector_int_getPointer(vector<vector<int> >* vec)
+{
+	return &(vec->at(0));
+}
+CVAPI(void) vector_vector_int_copy(vector<vector<int> > *vec, int **dst)
+{
+	for (size_t i = 0; i < vec->size(); i++)
+	{
+		vector<int> &elem = vec->at(i);
+		void *src = &elem[0];
+		size_t length = sizeof(int) * elem.size();
+		memcpy(dst[i], src, length);
+	}
+}
+CVAPI(void) vector_vector_int_delete(vector<vector<int> >* vec)
+{
+	delete vec;
+}
+#pragma endregion
+
 #pragma region vector<float>
 CVAPI(vector<vector<float> >*) vector_vector_float_new1()
 {

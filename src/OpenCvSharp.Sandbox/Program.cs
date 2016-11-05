@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using OpenCvSharp.Blob;
 using OpenCvSharp.Gpu;
 using OpenCvSharp.Extensions;
@@ -33,6 +34,26 @@ namespace OpenCvSharp.Sandbox
 
             Console.WriteLine("Press any key to exit");
             Console.Read();
+        }
+
+        private static void BowTest()
+        {
+            DescriptorMatcher matcher = new BFMatcher();
+            Feature2D extractor = AKAZE.Create();
+            Feature2D detector = AKAZE.Create();
+
+            TermCriteria criteria = new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 10, 0.001);
+            BOWKMeansTrainer bowTrainer = new BOWKMeansTrainer(200, criteria, 1);
+            BOWImgDescriptorExtractor bowDescriptorExtractor = new BOWImgDescriptorExtractor(extractor, matcher);
+            
+            Mat img = null;
+
+            KeyPoint[] keypoint = detector.Detect(img);
+            Mat features = new Mat();
+            extractor.Compute(img, ref keypoint, features);
+            bowTrainer.Add(features);
+
+            throw new NotImplementedException();
         }
 
         private static void FileStorageTest()
