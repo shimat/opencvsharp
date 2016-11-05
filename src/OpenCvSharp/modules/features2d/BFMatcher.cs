@@ -13,6 +13,8 @@ namespace OpenCvSharp
         private bool disposed;
         private Ptr<BFMatcher> detectorPtr;
 
+        internal override IntPtr PtrObj => detectorPtr.CvPtr;
+
         #region Init & Disposal
 
         /// <summary>

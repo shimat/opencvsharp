@@ -16,7 +16,9 @@ namespace OpenCvSharp
     public class AgastFeatureDetector : Feature2D
     {
         private bool disposed;
-        private Ptr<AgastFeatureDetector> ptrObj;
+        internal Ptr<AgastFeatureDetector> ptrObj;
+
+        internal override IntPtr PtrObj => ptrObj.CvPtr;
 
 #pragma warning disable 1591
         public const int

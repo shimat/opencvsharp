@@ -18,6 +18,8 @@ namespace OpenCvSharp
         private bool disposed;
         private Ptr<KAZE> ptrObj;
 
+        internal override IntPtr PtrObj => ptrObj.CvPtr;
+
         #region Init & Disposal
 
         /// <summary>

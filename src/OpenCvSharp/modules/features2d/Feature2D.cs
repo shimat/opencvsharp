@@ -14,7 +14,9 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;Feature2D&gt;
         /// </summary>
-        internal Ptr<Feature2D> ptrObj;
+        private Ptr<Feature2D> ptrObj;
+
+        internal virtual IntPtr PtrObj => ptrObj.CvPtr;
 
         /// <summary>
         /// 

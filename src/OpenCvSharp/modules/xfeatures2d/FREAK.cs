@@ -20,6 +20,8 @@ namespace OpenCvSharp.XFeatures2D
         private bool disposed;
         private Ptr<FREAK> ptrObj;
 
+        internal override IntPtr PtrObj => ptrObj.CvPtr;
+
         #region Init & Disposal
 
         /// <summary>
