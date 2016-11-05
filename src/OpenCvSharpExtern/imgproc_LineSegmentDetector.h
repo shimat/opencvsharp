@@ -9,7 +9,7 @@ CVAPI(void) imgproc_LineSegmentDetector_detect_OutputArray(cv::LineSegmentDetect
 	obj->detect(*image, *lines, entity(width), entity(prec), entity(nfa));
 }
 
-CVAPI(void) imgproc_LineSegmentDetector_detect_vector(cv::LineSegmentDetector *obj, cv::_InputArray *image, std::vector<cv::Vec4i> *lines,
+CVAPI(void) imgproc_LineSegmentDetector_detect_vector(cv::LineSegmentDetector *obj, cv::_InputArray *image, std::vector<cv::Vec4f> *lines,
 	std::vector<double> *width, std::vector<double> *prec, std::vector<double> *nfa)
 {
     obj->detect(*image, *lines, *width, *prec, *nfa);
