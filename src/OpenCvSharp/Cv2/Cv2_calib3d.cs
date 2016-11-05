@@ -597,10 +597,10 @@ namespace OpenCvSharp
         /// <param name="aspectRatio">Optional “fixed aspect ratio” parameter. 
         /// If the parameter is not 0, the function assumes that the aspect ratio (fx/fy) 
         /// is fixed and correspondingly adjusts the jacobian matrix.</param>
-        public static void ProjectPoints(IEnumerable<Point3d> objectPoints,
+        public static void ProjectPoints(IEnumerable<Point3f> objectPoints,
                                          double[] rvec, double[] tvec,
                                          double[,] cameraMatrix, double[] distCoeffs,
-                                         out Point2d[] imagePoints,
+                                         out Point2f[] imagePoints,
                                          out double[,] jacobian,
                                          double aspectRatio = 0)
         {
@@ -619,12 +619,12 @@ namespace OpenCvSharp
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("cameraMatrix must be double[3,3]");
 
-            Point3d[] objectPointsArray = EnumerableEx.ToArray(objectPoints);
-            using (var objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray))
+            Point3f[] objectPointsArray = EnumerableEx.ToArray(objectPoints);
+            using (var objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_32FC3, objectPointsArray))
             using (var rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec))
             using (var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec))
             using (var cameraMatrixM = new Mat(3, 3, MatType.CV_64FC1, cameraMatrix))
-            using (var imagePointsM = new MatOfPoint2d())
+            using (var imagePointsM = new MatOfPoint2f())
             {
                 var distCoeffsM = new Mat();
                 if (distCoeffs != null)
@@ -1456,9 +1456,9 @@ namespace OpenCvSharp
         /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
         /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
         /// <returns></returns>
-        public static double StereoCalibrate(IEnumerable<IEnumerable<Point3d>> objectPoints,
-                                             IEnumerable<IEnumerable<Point2d>> imagePoints1,
-                                             IEnumerable<IEnumerable<Point2d>> imagePoints2,
+        public static double StereoCalibrate(IEnumerable<IEnumerable<Point3f>> objectPoints,
+                                             IEnumerable<IEnumerable<Point2f>> imagePoints1,
+                                             IEnumerable<IEnumerable<Point2f>> imagePoints2,
                                              double[,] cameraMatrix1, double[] distCoeffs1,
                                              double[,] cameraMatrix2, double[] distCoeffs2,
                                              Size imageSize, OutputArray R,
@@ -1484,9 +1484,9 @@ namespace OpenCvSharp
             TermCriteria criteria0 = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, 1e-6));
 
-            using (var op = new ArrayAddress2<Point3d>(objectPoints))
-            using (var ip1 = new ArrayAddress2<Point2d>(imagePoints1))
-            using (var ip2 = new ArrayAddress2<Point2d>(imagePoints2))
+            using (var op = new ArrayAddress2<Point3f>(objectPoints))
+            using (var ip1 = new ArrayAddress2<Point2f>(imagePoints1))
+            using (var ip2 = new ArrayAddress2<Point2f>(imagePoints2))
             {
                 return NativeMethods.calib3d_stereoCalibrate_array(
                         op.Pointer, op.Dim1Length, op.Dim2Lengths,

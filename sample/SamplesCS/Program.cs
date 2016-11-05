@@ -13,7 +13,7 @@ namespace SamplesCS
         {
             ISample sample =
                 //new BgSubtractorMOG();
-                new BinarizerSample();
+                //new BinarizerSample();
                 //new BRISKSample();
                 //new ClaheSample();
                 //new ConnectedComponentsSample();
@@ -26,7 +26,7 @@ namespace SamplesCS
                 //new HOGSample();
                 //new HoughLinesSample();
                 //new KAZESample2();
-                //new KAZESample();
+                new KAZESample();
                 //new MatOperations();
                 //new MatToBitmap();
                 //new MDS();
