@@ -99,35 +99,35 @@ CVAPI(int) core_FileStorage_state(cv::FileStorage *obj)
     return obj->state;
 }
 
-CVAPI(void) core_FileStorage_write_int(cv::FileStorage *fs, const const char *name, int value)
+CVAPI(void) core_FileStorage_write_int(cv::FileStorage *fs, const char *name, int value)
 {
 	cv::write(*fs, cv::String(name), value);
 }
-CVAPI(void) core_FileStorage_write_float(cv::FileStorage *fs, const const char *name, float value)
+CVAPI(void) core_FileStorage_write_float(cv::FileStorage *fs, const char *name, float value)
 {
 	cv::write(*fs, cv::String(name), value);
 }
-CVAPI(void) core_FileStorage_write_double(cv::FileStorage *fs, const const char *name, double value)
+CVAPI(void) core_FileStorage_write_double(cv::FileStorage *fs, const char *name, double value)
 {
 	cv::write(*fs, cv::String(name), value);
 }
-CVAPI(void) core_FileStorage_write_String(cv::FileStorage *fs, const const char *name, const char *value)
+CVAPI(void) core_FileStorage_write_String(cv::FileStorage *fs, const char *name, const char *value)
 {
 	cv::write(*fs, cv::String(name), value);
 }
-CVAPI(void) core_FileStorage_write_Mat(cv::FileStorage *fs, const const char *name, const cv::Mat *value)
+CVAPI(void) core_FileStorage_write_Mat(cv::FileStorage *fs, const char *name, const cv::Mat *value)
 {
 	cv::write(*fs, cv::String(name), *value);
 }
-CVAPI(void) core_FileStorage_write_SparseMat(cv::FileStorage *fs, const const char *name, const cv::SparseMat *value)
+CVAPI(void) core_FileStorage_write_SparseMat(cv::FileStorage *fs, const char *name, const cv::SparseMat *value)
 {
 	cv::write(*fs, cv::String(name), *value);
 }
-CVAPI(void) core_FileStorage_write_vectorOfKeyPoint(cv::FileStorage *fs, const const char *name, const std::vector<cv::KeyPoint> *value)
+CVAPI(void) core_FileStorage_write_vectorOfKeyPoint(cv::FileStorage *fs, const char *name, const std::vector<cv::KeyPoint> *value)
 {
 	cv::write(*fs, cv::String(name), *value);
 }
-CVAPI(void) core_FileStorage_write_vectorOfDMatch(cv::FileStorage *fs, const const char *name, const std::vector<cv::DMatch> *value)
+CVAPI(void) core_FileStorage_write_vectorOfDMatch(cv::FileStorage *fs, const char *name, const std::vector<cv::DMatch> *value)
 {
 	cv::write(*fs, cv::String(name), *value);
 }
@@ -146,53 +146,13 @@ CVAPI(void) core_FileStorage_writeScalar_double(cv::FileStorage *fs, double valu
 }
 CVAPI(void) core_FileStorage_writeScalar_String(cv::FileStorage *fs, const char *value)
 {
-	cv::writeScalar(*fs, value);
-}
-
-CVAPI(void) core_FileNode_read_int(cv::FileNode *node, int *value, int default_value)
-{
-	int temp;
-	cv::read(*node, temp, default_value);
-	*value = temp;
-}
-CVAPI(void) core_FileNode_read_float(cv::FileNode *node, float *value, float default_value)
-{
-	float temp;
-	cv::read(*node, temp, default_value);
-	*value = temp;
-}
-CVAPI(void) core_FileNode_read_double(cv::FileNode *node, double *value, double default_value)
-{
-	double temp;
-	cv::read(*node, temp, default_value);
-	*value = temp;
-}
-CVAPI(void) core_FileNode_read_String(cv::FileNode *node, char *value, int valueCapacity, const char *default_value)
-{
-	cv::String str;
-	cv::read(*node, str, (default_value == NULL) ? cv::String() : cv::String(default_value));
-	copyString(str, value, valueCapacity);
-}
-CVAPI(void) core_FileNode_read_Mat(cv::FileNode *node, cv::Mat *mat, cv::Mat *default_mat)
-{
-	cv::read(*node, *mat, entity(default_mat));
-}
-CVAPI(void) core_FileNode_read_SparseMat(cv::FileNode *node, cv::SparseMat *mat, cv::SparseMat *default_mat)
-{
-	cv::read(*node, *mat, entity(default_mat));
-}
-CVAPI(void) core_FileNode_read_vectorOfKeyPoint(cv::FileNode *node, std::vector<cv::KeyPoint> *keypoints)
-{
-	cv::read(*node, *keypoints);
-}
-CVAPI(void) core_FileNode_read_vectorOfDMatch(cv::FileNode *node, std::vector<cv::DMatch> *matches)
-{
-	cv::read(*node, *matches);
+	cv::writeScalar(*fs, cv::String(value));
 }
 
 #pragma endregion
 
 #pragma region FileNode
+
 CVAPI(cv::FileNode*) core_FileNode_new1()
 {
     return new cv::FileNode();
@@ -298,6 +258,47 @@ CVAPI(void) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec
 CVAPI(void*) core_FileNode_readObj(cv::FileNode *obj)
 {
     return obj->readObj();
+}
+
+CVAPI(void) core_FileNode_read_int(cv::FileNode *node, int *value, int default_value)
+{
+	int temp;
+	cv::read(*node, temp, default_value);
+	*value = temp;
+}
+CVAPI(void) core_FileNode_read_float(cv::FileNode *node, float *value, float default_value)
+{
+	float temp;
+	cv::read(*node, temp, default_value);
+	*value = temp;
+}
+CVAPI(void) core_FileNode_read_double(cv::FileNode *node, double *value, double default_value)
+{
+	double temp;
+	cv::read(*node, temp, default_value);
+	*value = temp;
+}
+CVAPI(void) core_FileNode_read_String(cv::FileNode *node, char *value, int valueCapacity, const char *default_value)
+{
+	cv::String str;
+	cv::read(*node, str, (default_value == NULL) ? cv::String() : cv::String(default_value));
+	copyString(str, value, valueCapacity);
+}
+CVAPI(void) core_FileNode_read_Mat(cv::FileNode *node, cv::Mat *mat, cv::Mat *default_mat)
+{
+	cv::read(*node, *mat, entity(default_mat));
+}
+CVAPI(void) core_FileNode_read_SparseMat(cv::FileNode *node, cv::SparseMat *mat, cv::SparseMat *default_mat)
+{
+	cv::read(*node, *mat, entity(default_mat));
+}
+CVAPI(void) core_FileNode_read_vectorOfKeyPoint(cv::FileNode *node, std::vector<cv::KeyPoint> *keypoints)
+{
+	cv::read(*node, *keypoints);
+}
+CVAPI(void) core_FileNode_read_vectorOfDMatch(cv::FileNode *node, std::vector<cv::DMatch> *matches)
+{
+	cv::read(*node, *matches);
 }
 
 #pragma endregion
