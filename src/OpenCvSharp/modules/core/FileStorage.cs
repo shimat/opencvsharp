@@ -275,6 +275,162 @@ namespace OpenCvSharp
             return buf.ToString();
         }
 
+        #region Write
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void Write(string name, int value)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            NativeMethods.core_FileStorage_write_int(ptr, name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void Write(string name, float value)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            NativeMethods.core_FileStorage_write_float(ptr, name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void Write(string name, double value)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            NativeMethods.core_FileStorage_write_double(ptr, name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void Write(string name, string value)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            NativeMethods.core_FileStorage_write_String(ptr, name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void Write(string name, Mat value)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            NativeMethods.core_FileStorage_write_Mat(ptr, name, value.CvPtr);
+            GC.KeepAlive(value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void Write(string name, SparseMat value)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            NativeMethods.core_FileStorage_write_SparseMat(ptr, name, value.CvPtr);
+            GC.KeepAlive(value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void Write(string name, IEnumerable<KeyPoint> value)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            using (var valueVector = new VectorOfKeyPoint(value))
+            {
+                NativeMethods.core_FileStorage_write_vectorOfKeyPoint(ptr, name, valueVector.CvPtr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void Write(string name, IEnumerable<DMatch> value)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            using (var valueVector = new VectorOfDMatch(value))
+            {
+                NativeMethods.core_FileStorage_write_vectorOfDMatch(ptr, name, valueVector.CvPtr);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public void WriteScalar(int value)
+        {
+            NativeMethods.core_FileStorage_writeScalar_int(ptr, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public void WriteScalar(float value)
+        {
+            NativeMethods.core_FileStorage_writeScalar_float(ptr, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public void WriteScalar(double value)
+        {
+            NativeMethods.core_FileStorage_writeScalar_double(ptr, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public void WriteScalar(string value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            NativeMethods.core_FileStorage_writeScalar_String(ptr, value);
+        }
+
+        #endregion
+
         #endregion
 
 #if LANG_JP

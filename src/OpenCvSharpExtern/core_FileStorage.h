@@ -99,6 +99,56 @@ CVAPI(int) core_FileStorage_state(cv::FileStorage *obj)
     return obj->state;
 }
 
+CVAPI(void) core_FileStorage_write_int(cv::FileStorage *fs, const const char *name, int value)
+{
+	cv::write(*fs, cv::String(name), value);
+}
+CVAPI(void) core_FileStorage_write_float(cv::FileStorage *fs, const const char *name, float value)
+{
+	cv::write(*fs, cv::String(name), value);
+}
+CVAPI(void) core_FileStorage_write_double(cv::FileStorage *fs, const const char *name, double value)
+{
+	cv::write(*fs, cv::String(name), value);
+}
+CVAPI(void) core_FileStorage_write_String(cv::FileStorage *fs, const const char *name, const char *value)
+{
+	cv::write(*fs, cv::String(name), value);
+}
+CVAPI(void) core_FileStorage_write_Mat(cv::FileStorage *fs, const const char *name, const cv::Mat *value)
+{
+	cv::write(*fs, cv::String(name), *value);
+}
+CVAPI(void) core_FileStorage_write_SparseMat(cv::FileStorage *fs, const const char *name, const cv::SparseMat *value)
+{
+	cv::write(*fs, cv::String(name), *value);
+}
+CVAPI(void) core_FileStorage_write_vectorOfKeyPoint(cv::FileStorage *fs, const const char *name, const std::vector<cv::KeyPoint> *value)
+{
+	cv::write(*fs, cv::String(name), *value);
+}
+CVAPI(void) core_FileStorage_write_vectorOfDMatch(cv::FileStorage *fs, const const char *name, const std::vector<cv::DMatch> *value)
+{
+	cv::write(*fs, cv::String(name), *value);
+}
+
+CVAPI(void) core_FileStorage_writeScalar_int(cv::FileStorage *fs, int value)
+{
+	cv::writeScalar(*fs, value);
+}
+CVAPI(void) core_FileStorage_writeScalar_float(cv::FileStorage *fs, float value)
+{
+	cv::writeScalar(*fs, value);
+}
+CVAPI(void) core_FileStorage_writeScalar_double(cv::FileStorage *fs, double value)
+{
+	cv::writeScalar(*fs, value);
+}
+CVAPI(void) core_FileStorage_writeScalar_String(cv::FileStorage *fs, const char *value)
+{
+	cv::writeScalar(*fs, value);
+}
+
 #pragma endregion
 
 #pragma region FileNode
@@ -194,6 +244,10 @@ CVAPI(void) core_FileNode_toString(cv::FileNode *obj, char *buf, int bufLength)
 {
     std::string str = (std::string)(*obj);
     copyString(str, buf, bufLength);
+}
+CVAPI(double) core_FileNode_toMat(cv::FileNode *obj, cv::Mat *m)
+{
+	(*obj) >> (*m);
 }
 
 CVAPI(void) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec, size_t len)
