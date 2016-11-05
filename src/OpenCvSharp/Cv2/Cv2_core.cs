@@ -2896,7 +2896,6 @@ namespace OpenCvSharp
         }
 
         #endregion
-
         #region Read
 
         /// <summary>
