@@ -19,13 +19,13 @@ namespace OpenCvSharp.Sandbox
         private static void Main(string[] args)
         {
             //FileStorageTest();
-            ShapeContextDistanceExtractorSaample();
+            //ShapeContextDistanceExtractorSaample();
             //CvBlobsSample();
             //HDR();
             //ConvertImageSample();
             //VideoCaptureSample();
             //MatchTemplateSample();
-            //BackgroundSubtractorSample();
+            BackgroundSubtractorSample();
             //MatForEach();
             //LineSegmentDetectorSample();
             //LineIterator();
@@ -218,8 +218,8 @@ namespace OpenCvSharp.Sandbox
             var mask = new Mat();
             var colorImage = Cv2.ImRead(@"data\shapes.png");
 
-            mog.Apply(colorImage, mask);
-            Window.ShowImages(mask);
+            mog.Apply(colorImage, mask, 0.01);
+            Window.ShowImages(colorImage, mask);
         }
 
         private static void MatForEach()
