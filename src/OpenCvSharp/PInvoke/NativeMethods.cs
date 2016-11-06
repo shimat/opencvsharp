@@ -183,7 +183,6 @@ namespace OpenCvSharp
                 }
                 finally
                 {
-
                     throw new OpenCVException(status, funcName, errMsg, fileName, line);
                 }
             };

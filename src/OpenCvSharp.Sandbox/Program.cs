@@ -18,11 +18,8 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
-            var s = Cv2.GetBuildInformation();
-            s.ToString();
-
-            FileStorageTest();
-            //ShapeContextDistanceExtractorSaample();
+            //FileStorageTest();
+            ShapeContextDistanceExtractorSaample();
             //CvBlobsSample();
             //HDR();
             //ConvertImageSample();
@@ -96,13 +93,14 @@ namespace OpenCvSharp.Sandbox
                 out contours, out hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
 
             Mat dst = src.Clone();
-            Cv2.DrawContours(dst, new Point[][] { contours[0] }, -1, Scalar.Red, 2);
-            Cv2.DrawContours(dst, new Point[][] { contours[1] }, -1, Scalar.Yellow, 2);
+            Cv2.DrawContours(dst, new Point[][] { contours[4] }, -1, Scalar.Red, 2);
+            Cv2.DrawContours(dst, new Point[][] { contours[5] }, -1, Scalar.Yellow, 2);
 
             var distanceExtractor = ShapeContextDistanceExtractor.Create();
+            //var distanceExtractor = HausdorffDistanceExtractor.Create();
 
-            using (var inputA = MatOfPoint.FromArray(contours[0]))
-            using (var inputB = MatOfPoint.FromArray(contours[1]))
+            using (var inputA = MatOfPoint.FromArray(contours[4]))
+            using (var inputB = MatOfPoint.FromArray(contours[5]))
             {
                 var distance = distanceExtractor.ComputeDistance(inputA, inputB);
                 Console.WriteLine(distance); // always 0
