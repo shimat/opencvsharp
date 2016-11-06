@@ -18,6 +18,9 @@ namespace OpenCvSharp.Sandbox
         [STAThread]
         private static void Main(string[] args)
         {
+            var s = Cv2.GetBuildInformation();
+            s.ToString();
+
             FileStorageTest();
             //ShapeContextDistanceExtractorSaample();
             //CvBlobsSample();
