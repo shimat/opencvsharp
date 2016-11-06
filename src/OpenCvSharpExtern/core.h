@@ -18,12 +18,15 @@ CVAPI(int) core_getThreadNum()
 	return cv::getThreadNum();
 }
 
-CVAPI(void) core_getBuildInformation(char *buf, uint32 maxLength)
+CVAPI(void) core_getBuildInformation(char *buf, int maxLength)
 {
-	const std::string& str = cv::getBuildInformation();
-	const char *srcPtr = str.c_str(); 
-	uint32 length = (uint32)std::max<uint64>(str.length() + 1, maxLength);
-	memcpy(buf, srcPtr, length);
+	const cv::String &str = cv::getBuildInformation();
+	copyString(str, buf, maxLength);
+}
+CVAPI(int) core_getBuildInformation_length()
+{
+	const cv::String &str = cv::getBuildInformation();
+	return static_cast<int>(str.length());
 }
 
 CVAPI(int64) core_getTickCount()

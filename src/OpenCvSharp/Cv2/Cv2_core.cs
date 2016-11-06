@@ -41,8 +41,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static string GetBuildInformation()
         {
-            StringBuilder buf = new StringBuilder(1 << 16);
-            NativeMethods.core_getBuildInformation(buf, (uint)buf.Capacity);
+            int length = NativeMethods.core_getBuildInformation_length();
+            var buf = new StringBuilder(length + 1);
+            NativeMethods.core_getBuildInformation(buf, buf.Capacity);
             return buf.ToString();
         }
 
