@@ -427,7 +427,7 @@ CVAPI(void) calib3d_stereoRectify_array(double *cameraMatrix1,
 	cv::Mat R2M(3, 3, CV_64FC1, R2);
 	cv::Mat P1M(3, 4, CV_64FC1, P1);
 	cv::Mat P2M(3, 4, CV_64FC1, P2);
-	cv::Mat QM(3, 4, CV_64FC1, Q);
+	cv::Mat QM(4, 4, CV_64FC1, Q);
 
 	cv::Rect _validPixROI1, _validPixROI2;
 	cv::stereoRectify(cameraMatrix1M, distCoeffs1M, cameraMatrix2M, distCoeffs2M,
