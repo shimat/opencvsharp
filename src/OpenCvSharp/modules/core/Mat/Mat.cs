@@ -570,7 +570,19 @@ namespace OpenCvSharp
             {
                 long currentPosition = stream.Position;
                 stream.Position = 0;
-                stream.Read(buf, 0, buf.Length);
+                long count = 0;
+                while (count < stream.Length)
+                {
+                    long bytesRead = stream.Read(buf, count, buf.Length - count);
+                    if (bytesRead == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        count += bytesRead;
+                    }
+                }                
                 stream.Position = currentPosition;
             }
             return FromImageData(buf, mode);
