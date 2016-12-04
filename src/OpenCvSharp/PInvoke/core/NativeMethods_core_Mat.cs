@@ -165,7 +165,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_subMat1(IntPtr self, int rowStart, int rowEnd, int colStart, int colEnd);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr core_Mat_subMa2t(IntPtr self, int nRanges, Range[] ranges);
+        public static extern IntPtr core_Mat_subMat2(IntPtr self, int nRanges, Range[] ranges);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr core_Mat_t(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
