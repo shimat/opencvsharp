@@ -64,10 +64,15 @@ int main(int argc, char *argv[])
 {
 	using namespace std;
 
-	cv::RNG rng(0xffffffff);
+	cv::RNG_MT19937 rng(0xffffffff);
 	cout << (unsigned)rng << endl;
 	cout << (unsigned)rng << endl;
 	cout << (unsigned)rng << endl;
+
+	rng.seed(1234);
+	cout << rng.uniform(0, 10) << endl;
+	cout << rng.uniform(0, 10) << endl;
+	cout << rng.uniform(0, 10) << endl;
 	return 0;
     ///*
     cv::Mat src = cv::imread("C:\\test.png", cv::IMREAD_COLOR);

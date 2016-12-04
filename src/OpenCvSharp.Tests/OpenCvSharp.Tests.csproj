@@ -101,6 +101,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="core\RNG_MT19937Test.cs" />
     <Compile Include="core\RNGTest.cs" />
     <Compile Include="InvokeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
