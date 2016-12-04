@@ -10,5 +10,6 @@
 #include <ctime>
 
 #include <opencv2/opencv.hpp>
+#include <opencv2/xfeatures2d.hpp>
 //#include <opencv2/nonfree/nonfree.hpp>
 //#include <opencv2/stitching/stitcher.hpp>

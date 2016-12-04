@@ -21,12 +21,10 @@
 #include <opencv2/video.hpp>
 
 // opencv_contrib
-#ifdef ENABLED_CONTRIB
 #include <opencv2/bgsegm.hpp>
 #include <opencv2/face.hpp>
 #include <opencv2/optflow.hpp>
 #include <opencv2/xfeatures2d.hpp>
-#endif
 
 #include <vector>
 #include <algorithm>
