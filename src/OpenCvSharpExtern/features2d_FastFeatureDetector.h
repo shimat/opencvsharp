@@ -8,7 +8,7 @@ CVAPI(void) features2d_FAST1(cv::_InputArray *image, std::vector<cv::KeyPoint> *
     cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0);
 }
 
-CVAPI(void) features2d_FAS2(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression, int type)
+CVAPI(void) features2d_FAST2(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression, int type)
 {
     cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0, type);
 }

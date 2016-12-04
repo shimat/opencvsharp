@@ -801,7 +801,7 @@ CVAPI(void) imgproc_line(
 	cv::line(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, lineType, shift);
 }
 
-CV_EXPORTS_W void imgproc_arrowedLine(
+CVAPI(void) imgproc_arrowedLine(
 	cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2, MyCvScalar color,
 	int thickness, int line_type, int shift, double tipLength)
 {
