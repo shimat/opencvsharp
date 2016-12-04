@@ -60,11 +60,11 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net45\OpenCvSharp.Extensions.XML" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net45\OpenCvSharp.UserInterface.dll" />
         <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.xml" target="lib\net45\OpenCvSharp.XML" />
-        <file src="..\lib\vc++\x64\msvcp120.dll" target="NativeDlls\x64\msvcp120.dll" />
-        <file src="..\lib\vc++\x64\msvcr120.dll" target="NativeDlls\x64\msvcr120.dll" />
+        <file src="..\lib\vc++\x64\msvcp140.dll" target="NativeDlls\x64\msvcp140.dll" />
+        <file src="..\lib\vc++\x64\vcruntime140.dll" target="NativeDlls\x64\vcruntime140.dll" />
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
-        <file src="..\lib\vc++\x86\msvcp120.dll" target="NativeDlls\x86\msvcp120.dll" />
-        <file src="..\lib\vc++\x86\msvcr120.dll" target="NativeDlls\x86\msvcr120.dll" />
+        <file src="..\lib\vc++\x86\msvcp140.dll" target="NativeDlls\x86\msvcp140.dll" />
+        <file src="..\lib\vc++\x86\vcruntime140.dll" target="NativeDlls\x86\vcruntime140.dll" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
         <file src="tools\init.ps1" target="tools\init.ps1" />
         <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
