@@ -62,6 +62,13 @@ void part(const cv::Mat &src, std::vector<cv::Mat> &parts, int partsCount, cv::S
 
 int main(int argc, char *argv[])
 {
+	using namespace std;
+
+	cv::RNG rng(0xffffffff);
+	cout << (unsigned)rng << endl;
+	cout << (unsigned)rng << endl;
+	cout << (unsigned)rng << endl;
+	return 0;
     ///*
     cv::Mat src = cv::imread("C:\\test.png", cv::IMREAD_COLOR);
 
