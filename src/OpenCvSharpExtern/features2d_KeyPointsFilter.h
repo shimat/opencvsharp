@@ -1,5 +1,5 @@
-#ifndef _CPP_FEATURES2D_KAZE_H_
-#define _CPP_FEATURES2D_KAZE_H_
+#ifndef _CPP_FEATURES2D_KEY_POINTS_FILTER_H_
+#define _CPP_FEATURES2D_KEY_POINTS_FILTER_H_
 
 #include "include_opencv.h"
 
