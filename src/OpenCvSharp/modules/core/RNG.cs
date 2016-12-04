@@ -16,7 +16,11 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public ulong State => state;
+        public ulong State
+        {
+            get { return state; }
+            set { state = value; }
+        }
 
         #region Init & Disposal
 
@@ -25,7 +29,7 @@ namespace OpenCvSharp
         /// </summary>
         public RNG()
         {
-            state = 0xffffffff;
+            this.state = 0xffffffff;
         }
 
         /// <summary>
@@ -34,7 +38,7 @@ namespace OpenCvSharp
         /// <param name="state"></param>
         public RNG(ulong state)
         {
-            state = (state == 0) ? state : 0xffffffff;
+            this.state = (state != 0) ? state : 0xffffffff;
         }
 
         #endregion
