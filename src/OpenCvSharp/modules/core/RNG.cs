@@ -8,32 +8,39 @@ namespace OpenCvSharp
     /// Random Number Generator.
     /// The class implements RNG using Multiply-with-Carry algorithm.
     /// </summary>
+    /// <remarks>operations.hpp</remarks>
     public class RNG
     {
+        private ulong state;
+
         /// <summary>
         /// 
         /// </summary>
-        public ulong State { get; set; }
+        public ulong State => state;
 
         #region Init & Disposal
+
         /// <summary>
         /// 
         /// </summary>
         public RNG()
         {
-            State = NativeMethods.core_RNG_new();
+            state = 0xffffffff;
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="state"></param>
         public RNG(ulong state)
         {
-            State = NativeMethods.core_RNG_new(state);
+            state = (state == 0) ? state : 0xffffffff;
         }
+
         #endregion
 
         #region Cast
+
         /// <summary>
         /// 
         /// </summary>
@@ -41,10 +48,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static explicit operator byte(RNG self)
         {
-            if(self == null)
+            if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return NativeMethods.core_RNG_operator_uchar(self.State);
+            return (byte) self.Next();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -54,8 +62,9 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return NativeMethods.core_RNG_operator_schar(self.State);
+            return (sbyte)self.Next();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -65,8 +74,9 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return NativeMethods.core_RNG_operator_ushort(self.State);
+            return (ushort)self.Next();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -76,8 +86,9 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return NativeMethods.core_RNG_operator_short(self.State);
+            return (short)self.Next();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -87,8 +98,9 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return NativeMethods.core_RNG_operator_uint(self.State);
+            return self.Next();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -98,8 +110,9 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return NativeMethods.core_RNG_operator_int(self.State);
+            return (int)self.Next();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -109,8 +122,9 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return NativeMethods.core_RNG_operator_float(self.State);
+            return self.Next() * 2.3283064365386962890625e-10f; 
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -120,18 +134,22 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return NativeMethods.core_RNG_operator_double(self.State);
+            uint t = self.Next();
+            return (((ulong)t << 32) | self.Next()) * 5.4210108624275221700372640043497e-20;
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// updates the state and returns the next 32-bit unsigned integer random number
         /// </summary>
         /// <returns></returns>
         public uint Next()
         {
-            return NativeMethods.core_RNG_next(State);
+            state = (ulong)(uint)State * /*CV_RNG_COEFF*/ 4164903690U + (uint)(State >> 32);
+            return (uint)State;
         }
 
         /// <summary>
@@ -141,15 +159,16 @@ namespace OpenCvSharp
         /// <returns></returns>
         public uint Run(uint n)
         {
-            return NativeMethods.core_RNG_operatorThis(State, n);
+            return (uint)Uniform(0, n);
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public uint Run()
         {
-            return NativeMethods.core_RNG_operatorThis(State);
+            return Next();
         }
 
         /// <summary>
@@ -160,8 +179,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int Uniform(int a, int b)
         {
-            return NativeMethods.core_RNG_uniform(State, a, b);
+            return a == b ? a : (int)(Next() % (b - a) + a);
         }
+
         /// <summary>
         /// returns uniformly distributed floating-point random number from [a,b) range
         /// </summary>
@@ -170,8 +190,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public float Uniform(float a, float b)
         {
-            return NativeMethods.core_RNG_uniform(State, a, b);
+            return ((float)this) * (b - a) + a;
         }
+
         /// <summary>
         /// returns uniformly distributed double-precision floating-point random number from [a,b) range
         /// </summary>
@@ -180,7 +201,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public double Uniform(double a, double b)
         {
-            return NativeMethods.core_RNG_uniform(State, a, b);
+            return ((double)this) * (b - a) + a;
         }
 
         /// <summary>
@@ -191,7 +212,8 @@ namespace OpenCvSharp
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <param name="saturateRange"></param>
-        public void Fill(InputOutputArray mat, DistributionType distType, InputArray a, InputArray b, bool saturateRange = false)
+        public void Fill(InputOutputArray mat, DistributionType distType, InputArray a, InputArray b,
+            bool saturateRange = false)
         {
             if (mat == null)
                 throw new ArgumentNullException(nameof(mat));
@@ -202,7 +224,7 @@ namespace OpenCvSharp
             mat.ThrowIfNotReady();
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            NativeMethods.core_RNG_fill(State, mat.CvPtr, (int)distType, a.CvPtr, b.CvPtr, saturateRange ? 1 : 0);
+            NativeMethods.core_RNG_fill(ref state, mat.CvPtr, (int) distType, a.CvPtr, b.CvPtr, saturateRange ? 1 : 0);
             mat.Fix();
         }
 
@@ -213,8 +235,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public double Gaussian(double sigma)
         {
-            return NativeMethods.core_RNG_gaussian(State, sigma);
+            return NativeMethods.core_RNG_gaussian(ref state, sigma);
         }
+
         #endregion
     }
 }
