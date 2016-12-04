@@ -46,7 +46,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -91,6 +91,7 @@
     <Compile Include="Modules\core\Enum\CriteriaType.cs" />
     <Compile Include="Modules\core\OutputArrayOfMatList.cs" />
     <Compile Include="Modules\core\OutputArrayOfStructList.cs" />
+    <Compile Include="Modules\core\RNG_MT19937.cs" />
     <Compile Include="Modules\features2d\AgastFeatureDetector.cs" />
     <Compile Include="Modules\features2d\BOWImgDescriptorExtractor.cs" />
     <Compile Include="Modules\features2d\BOWKMeansTrainer.cs" />
