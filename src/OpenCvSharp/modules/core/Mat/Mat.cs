@@ -567,22 +567,23 @@ namespace OpenCvSharp
                 throw new ArgumentException("Not supported stream (too long)");
 
             byte[] buf = new byte[stream.Length];
+            long currentPosition = stream.Position;
+            try
             {
-                long currentPosition = stream.Position;
                 stream.Position = 0;
-                long count = 0;
+                int count = 0;
                 while (count < stream.Length)
                 {
-                    long bytesRead = stream.Read(buf, count, buf.Length - count);
+                    int bytesRead = stream.Read(buf, count, buf.Length - count);
                     if (bytesRead == 0)
                     {
                         break;
                     }
-                    else
-                    {
-                        count += bytesRead;
-                    }
-                }                
+                    count += bytesRead;
+                }
+            }
+            finally
+            {
                 stream.Position = currentPosition;
             }
             return FromImageData(buf, mode);

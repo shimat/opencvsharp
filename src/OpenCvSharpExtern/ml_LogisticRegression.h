@@ -63,7 +63,7 @@ CVAPI(void) ml_LogisticRegression_setTermCriteria(LogisticRegression *obj, MyCvT
 CVAPI(float) ml_LogisticRegression_predict(
 	LogisticRegression *obj, cv::_InputArray *samples, cv::_OutputArray *results, int flags)
 { 
-	obj->predict(entity(samples), entity(results), flags);
+	return obj->predict(entity(samples), entity(results), flags);
 }
 
 CVAPI(cv::Mat*) ml_LogisticRegression_get_learnt_thetas(LogisticRegression *obj)

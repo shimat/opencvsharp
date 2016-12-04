@@ -113,7 +113,7 @@ CVAPI(cv::Ptr<EM>*) ml_EM_create()
 	return new cv::Ptr<EM>(obj);
 }
 
-CVAPI(void) ml_EM_delete(cv::Ptr<EM> *obj)
+CVAPI(void) ml_Ptr_EM_delete(cv::Ptr<EM> *obj)
 {
 	delete obj;
 }

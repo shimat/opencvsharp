@@ -49,6 +49,6 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ml_Ptr_EM_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ml_EM_delete(IntPtr ptr);
+        public static extern void ml_Ptr_EM_delete(IntPtr ptr);
     }
 }
