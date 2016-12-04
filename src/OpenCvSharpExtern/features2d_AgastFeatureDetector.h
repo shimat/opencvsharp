@@ -4,7 +4,7 @@
 #include "include_opencv.h"
 
 
-CVAPI(void) AGAST(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints,
+CVAPI(void) features2d_AGAST(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints,
     int threshold, int nonmaxSuppression, int type)
 {
     cv::AGAST(entity(image), *keypoints, threshold, nonmaxSuppression != 0, type);

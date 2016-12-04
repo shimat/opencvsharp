@@ -139,11 +139,11 @@ CVAPI(cv::Ptr<cv::superres::DenseOpticalFlowExt>*) superres_createOptFlow_DualTV
     return clone(cv::superres::createOptFlow_DualTVL1_OCL());
 }
 */
-CVAPI(cv::Ptr<cv::superres::BroxOpticalFlow>*) superres_createOptFlow_Brox_GPU()
+CVAPI(cv::Ptr<cv::superres::BroxOpticalFlow>*) superres_createOptFlow_Brox_CUDA()
 {
     return clone(cv::superres::createOptFlow_Brox_CUDA());
 }
-CVAPI(cv::Ptr<cv::superres::PyrLKOpticalFlow>*) superres_createOptFlow_PyrLK_GPU()
+CVAPI(cv::Ptr<cv::superres::PyrLKOpticalFlow>*) superres_createOptFlow_PyrLK_CUDA()
 {
     return clone(cv::superres::createOptFlow_PyrLK_CUDA());
 }
