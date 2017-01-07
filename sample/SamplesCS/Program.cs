@@ -16,7 +16,7 @@ namespace SamplesCS
                 //new BinarizerSample();
                 //new BRISKSample();
                 //new ClaheSample();
-                //new ConnectedComponentsSample();
+                new ConnectedComponentsSample();
                 //new DFT();
                 //new FaceDetection();
                 //new FASTSample();
@@ -26,7 +26,7 @@ namespace SamplesCS
                 //new HOGSample();
                 //new HoughLinesSample();
                 //new KAZESample2();
-                new KAZESample();
+                //new KAZESample();
                 //new MatOperations();
                 //new MatToBitmap();
                 //new MDS();
