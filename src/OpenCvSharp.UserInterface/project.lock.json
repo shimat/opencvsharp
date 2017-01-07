@@ -1,0 +1,104 @@
+{
+  "locked": false,
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v4.0": {
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.0",
+        "frameworkAssemblies": [
+          "System.Security"
+        ],
+        "compile": {
+          "net40/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "net40/OpenCvSharp.dll": {}
+        }
+      },
+      "OpenCvSharp.Extensions/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.0",
+        "dependencies": {
+          "OpenCvSharp": "1.0.0"
+        },
+        "frameworkAssemblies": [
+          "PresentationCore",
+          "PresentationFramework",
+          "System.Drawing",
+          "System.Windows.Forms",
+          "WindowsBase"
+        ],
+        "compile": {
+          "net40/OpenCvSharp.Extensions.dll": {}
+        },
+        "runtime": {
+          "net40/OpenCvSharp.Extensions.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.6": {
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "frameworkAssemblies": [
+          "System.Security"
+        ],
+        "compile": {
+          "net46/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "net46/OpenCvSharp.dll": {}
+        }
+      },
+      "OpenCvSharp.Extensions/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "dependencies": {
+          "OpenCvSharp": "1.0.0"
+        },
+        "frameworkAssemblies": [
+          "PresentationCore",
+          "PresentationFramework",
+          "System.Drawing",
+          "System.Windows.Forms",
+          "WindowsBase"
+        ],
+        "compile": {
+          "net46/OpenCvSharp.Extensions.dll": {}
+        },
+        "runtime": {
+          "net46/OpenCvSharp.Extensions.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "OpenCvSharp/1.0.0": {
+      "type": "project",
+      "path": "../OpenCvSharp/project.json",
+      "msbuildProject": "../OpenCvSharp/OpenCvSharp.xproj"
+    },
+    "OpenCvSharp.Extensions/1.0.0": {
+      "type": "project",
+      "path": "../OpenCvSharp.Extensions/project.json",
+      "msbuildProject": "../OpenCvSharp.Extensions/OpenCvSharp.Extensions.xproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "": [
+      "OpenCvSharp >= 1.0.0-*",
+      "OpenCvSharp.Extensions >= 1.0.0-*"
+    ],
+    ".NETFramework,Version=v4.0": [
+      "System.Drawing >= 4.0.0",
+      "System.Windows.Forms >= 4.0.0"
+    ],
+    ".NETFramework,Version=v4.6": [
+      "System.Drawing >= 4.0.0",
+      "System.Windows.Forms >= 4.0.0"
+    ]
+  },
+  "tools": {},
+  "projectFileToolGroups": {}
+}

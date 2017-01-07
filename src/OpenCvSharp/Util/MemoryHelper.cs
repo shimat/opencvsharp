@@ -33,6 +33,7 @@ namespace OpenCvSharp.Util
 #endif
         public static unsafe void CopyMemory(void* outDest, void* inSrc, uint inNumOfBytes)
         {
+#if net20 || net40
             // 転送先をuint幅にalignする
             const uint align = sizeof(uint) - 1;
             uint offset = (uint)outDest & align;
@@ -58,6 +59,9 @@ namespace OpenCvSharp.Util
             // 末尾の余り部分をbyteでちまちまコピー
             for (uint i = offset + numOfUInt * sizeof(uint); i < inNumOfBytes; i++)
                 dstBytes[i] = srcBytes[i];
+#else
+            Buffer.MemoryCopy(inSrc, outDest, inNumOfBytes, inNumOfBytes);
+#endif
         }
         public static unsafe void CopyMemory(void* outDest, void* inSrc, int inNumOfBytes)
         {
@@ -75,9 +79,9 @@ namespace OpenCvSharp.Util
         //public static unsafe extern void CopyMemory(void* outDest, void* inSrc, [MarshalAs(UnmanagedType.U4)] int inNumOfBytes);
         //[DllImport("kernel32")]
         //public static extern void CopyMemory(IntPtr outDest, IntPtr inSrc, [MarshalAs(UnmanagedType.U4)] int inNumOfBytes);
-        #endregion
+#endregion
 
-        #region ZeroMemory
+#region ZeroMemory
 #if LANG_JP
         /// <summary>
         /// 指定されたメモリブロックの内容を、他の場所へコピーします。
@@ -132,6 +136,6 @@ namespace OpenCvSharp.Util
         {
             ZeroMemory(outDest.ToPointer(), (uint)inNumOfBytes);
         }
-        #endregion
+#endregion
     }
 }

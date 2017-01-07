@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "OpenCvSharp": "1.0.0-*",
+    "VSSDK.DebuggerVisualizers.10": "10.0.4"
+  },
+
+  "frameworks": {
+    "net20": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+        "System.Drawing": "2.0.0.0",
+        "System.Windows.Forms": "2.0.0.0"
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net20" ]
+      }
+    }
+  },
+  "buildOptions": {
+    "optimize": true,
+    "keyFile": "Key.snk",
+    "publicSign": true
+  }
+}
