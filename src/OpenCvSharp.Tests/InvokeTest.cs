@@ -11,8 +11,11 @@ namespace OpenCvSharp.Tests
         public void ExistsAllEntryPoints()
         {
             var type = typeof (NativeMethods);
+#if net20 || net40
             var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
-
+#else
+            var methods = type.GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static);
+#endif 
             foreach (var method in methods)
             {
                 var parameters = method.GetParameters();
@@ -68,10 +71,6 @@ namespace OpenCvSharp.Tests
                 try
                 {
                     method.Invoke(null, values);
-                }
-                catch (AccessViolationException ex)
-                {
-                    ex.ToString();
                 }
                 catch (TargetInvocationException ex)
                 {
