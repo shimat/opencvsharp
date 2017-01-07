@@ -122,7 +122,7 @@ namespace OpenCvSharp
             if (buf == null)
                 throw new ArgumentNullException(nameof(buf));
             IntPtr matPtr = NativeMethods.imgcodecs_imdecode_vector(
-                buf, new IntPtr(buf.LongLength), (int) flags);
+                buf, new IntPtr(buf.Length), (int) flags);
             return new Mat(matPtr);
         }
 
@@ -142,7 +142,7 @@ namespace OpenCvSharp
             if (prms == null)
                 prms = new int[0];
             img.ThrowIfDisposed();
-            using (VectorOfByte bufVec = new VectorOfByte())
+            using (var bufVec = new VectorOfByte())
             {
                 int ret = NativeMethods.imgcodecs_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length);
                 buf = bufVec.ToArray();
@@ -161,7 +161,7 @@ namespace OpenCvSharp
         {
             if (prms != null)
             {
-                List<int> p = new List<int>();
+                var p = new List<int>();
                 foreach (ImageEncodingParam item in prms)
                 {
                     p.Add((int) item.EncodingId);
