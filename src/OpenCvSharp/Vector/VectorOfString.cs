@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -108,7 +109,7 @@ namespace OpenCvSharp
                 unsafe
                 {
                     sbyte* p = NativeMethods.vector_string_elemAt(ptr, i);
-                    ret[i] = new string(p);
+                    ret[i] = StringHelper.PtrToStringAnsi(p);
                 }
             }
             return ret;

@@ -119,9 +119,9 @@ namespace OpenCvSharp
                 return new DMatch[0];
             }
             DMatch[] dst = new DMatch[size];
-            using (ArrayAddress1<DMatch> dstPtr = new ArrayAddress1<DMatch>(dst))
+            using (var dstPtr = new ArrayAddress1<DMatch>(dst))
             {
-                Util.Utility.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof (DMatch))*dst.Length);
+                MemoryHelper.CopyMemory(dstPtr, ElemPtr, MarshalHelper.SizeOf<DMatch>()*dst.Length);
             }
             return dst;
         }

@@ -2558,7 +2558,7 @@ namespace OpenCvSharp
                 try
                 {
                     buf = NativeMethods.core_Mat_dump(ptr, formatStr);
-                    return new string(buf);
+                    return StringHelper.PtrToStringAnsi(buf);
                 }
                 finally
                 {
@@ -4508,7 +4508,7 @@ namespace OpenCvSharp
             where TMat : Mat, new()
         {
             var type = typeof(TMat);
-#if DOTNET_FRAMEWORK
+#if net20 || net40
             var constructor = type.GetConstructor(new[] {typeof (Mat)});
 #else
             var constructor = type.GetTypeInfo().GetConstructor(new[] { typeof(Mat) });

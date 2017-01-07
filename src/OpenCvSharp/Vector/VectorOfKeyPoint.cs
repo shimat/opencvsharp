@@ -121,7 +121,7 @@ namespace OpenCvSharp
             KeyPoint[] dst = new KeyPoint[size];
             using (var dstPtr = new ArrayAddress1<KeyPoint>(dst))
             {
-                Util.Utility.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof (KeyPoint))*dst.Length);
+                MemoryHelper.CopyMemory(dstPtr, ElemPtr, MarshalHelper.SizeOf<KeyPoint>() * dst.Length);
             }
             return dst;
         }

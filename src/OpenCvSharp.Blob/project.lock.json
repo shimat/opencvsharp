@@ -1195,11 +1195,66 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
+      },
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v1.0",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "netcoreapp1.0/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "netcoreapp1.0/OpenCvSharp.dll": {}
+        }
       }
     },
-    ".NETFramework,Version=v2.0": {},
-    ".NETFramework,Version=v4.0": {},
-    ".NETFramework,Version=v4.6": {},
+    ".NETFramework,Version=v2.0": {
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v2.0",
+        "frameworkAssemblies": [
+          "System.Security"
+        ],
+        "compile": {
+          "net20/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "net20/OpenCvSharp.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.0": {
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.0",
+        "frameworkAssemblies": [
+          "System.Security"
+        ],
+        "compile": {
+          "net40/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "net40/OpenCvSharp.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.6": {
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "frameworkAssemblies": [
+          "System.Security"
+        ],
+        "compile": {
+          "net46/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "net46/OpenCvSharp.dll": {}
+        }
+      }
+    },
     ".NETStandard,Version=v1.6": {
       "Microsoft.NETCore.Platforms/1.1.0": {
         "type": "package",
@@ -2392,6 +2447,19 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
+        }
+      },
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "netstandard1.6/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/OpenCvSharp.dll": {}
         }
       }
     }
@@ -5519,10 +5587,17 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "OpenCvSharp/1.0.0": {
+      "type": "project",
+      "path": "../OpenCvSharp/project.json",
+      "msbuildProject": "../OpenCvSharp/OpenCvSharp.xproj"
     }
   },
   "projectFileDependencyGroups": {
-    "": [],
+    "": [
+      "OpenCvSharp >= 1.0.0-*"
+    ],
     ".NETCoreApp,Version=v1.0": [
       "NETStandard.Library >= 1.6.1"
     ],

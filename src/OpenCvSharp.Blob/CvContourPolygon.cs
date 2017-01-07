@@ -356,7 +356,8 @@ namespace OpenCvSharp.Blob
         /// <param name="fileName">File name.</param>
         public void WriteAsCsv(string fileName)
         {
-            using (StreamWriter writer = new StreamWriter(fileName, false))
+            using (var stream = new FileStream(fileName, FileMode.Create))
+            using (var writer = new StreamWriter(stream))
             {
                 writer.Write(ToString());
             }
@@ -402,7 +403,8 @@ namespace OpenCvSharp.Blob
                 buffer.AppendFormat("{0},{1} ", p.X, p.Y);
             }
 
-            using (var writer = new StreamWriter(fileName, false))
+            using (var stream = new FileStream(fileName, FileMode.Create))
+            using (var writer = new StreamWriter(stream))
             {
                 writer.WriteLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
                 writer.WriteLine(
