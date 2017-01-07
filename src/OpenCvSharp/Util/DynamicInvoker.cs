@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Util
@@ -89,7 +90,11 @@ namespace OpenCvSharp.Util
                 throw new PlatformNotSupportedException("This method is for only Windows");
             }
 
+#if net20 || net40
             if (!typeof(T).IsSubclassOf(typeof(Delegate)))
+#else
+            if (!typeof(T).GetTypeInfo().IsSubclassOf(typeof(Delegate)))
+#endif
                 throw new OpenCvSharpException("The type argument must be Delegate.");
             if (string.IsNullOrEmpty(dllName))
                 throw new ArgumentNullException(nameof(dllName));
@@ -107,7 +112,11 @@ namespace OpenCvSharp.Util
             FunctionName = functionName;
             IsDisposed = false;
 
+#if net20 || net40
             Call = (T)(object)Marshal.GetDelegateForFunctionPointer(PtrProc, typeof(T));
+#else
+            Call = Marshal.GetDelegateForFunctionPointer<T>(PtrProc);
+#endif
         }
 
 #if LANG_JP

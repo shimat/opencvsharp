@@ -119,13 +119,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenCvSharp.Blob\OpenCvSharp.Blob.csproj">
-      <Project>{383ae960-7f56-47a4-bff2-b2b81b6a49b5}</Project>
-      <Name>OpenCvSharp.Blob</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj">
       <Project>{f1110c7b-46b1-4504-871e-135b57f9de67}</Project>
       <Name>OpenCvSharp.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.xproj">
+      <Project>{eb310923-197f-4e20-b123-3a3e7f1d5069}</Project>
+      <Name>OpenCvSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

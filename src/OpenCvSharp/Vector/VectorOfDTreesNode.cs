@@ -122,7 +122,7 @@ namespace OpenCvSharp
             var dst = new DTrees.Node[size];
             using (var dstPtr = new ArrayAddress1<DTrees.Node>(dst))
             {
-                Utility.CopyMemory(dstPtr, ElemPtr, Marshal.SizeOf(typeof(DTrees.Node)) * dst.Length);
+                MemoryHelper.CopyMemory(dstPtr, ElemPtr, MarshalHelper.SizeOf<DTrees.Node>() * dst.Length);
             }
             return dst;
         }

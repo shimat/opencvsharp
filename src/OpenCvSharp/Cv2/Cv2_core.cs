@@ -526,8 +526,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mtx));
             mtx.ThrowIfDisposed();
             var ret = NativeMethods.core_countNonZero(mtx.CvPtr);
-            return ret;
             GC.KeepAlive(mtx);
+            return ret;
         }
         #endregion
         #region FindNonZero

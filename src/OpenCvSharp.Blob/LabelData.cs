@@ -5,7 +5,7 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Label values for each pixel
     /// </summary>
-    public class LabelData : ICloneable
+    public class LabelData 
     {
         private Size size;
         private int[,] values;
@@ -135,11 +135,6 @@ namespace OpenCvSharp.Blob
         public LabelData Clone()
         {
             return new LabelData((int[,]) Values.Clone());
-        }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
     }
 }

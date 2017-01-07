@@ -91,7 +91,7 @@ namespace OpenCvSharp
             IntPtr current = redirectError(ErrorHandlerThrowException, zero, ref zero);
             if (current != IntPtr.Zero)
             {
-#if DOTNET_FRAMEWORK
+#if net20 || net40
                 ErrorHandlerDefault = (CvErrorCallback)Marshal.GetDelegateForFunctionPointer(
                     current, typeof(CvErrorCallback));
 #else

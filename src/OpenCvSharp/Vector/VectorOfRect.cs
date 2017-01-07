@@ -109,9 +109,9 @@ namespace OpenCvSharp
                 return new Rect[0];
             }
             Rect[] dst = new Rect[size];
-            using (ArrayAddress1<Rect> dstPtr = new ArrayAddress1<Rect>(dst))
+            using (var dstPtr = new ArrayAddress1<Rect>(dst))
             {
-                Util.Utility.CopyMemory(dstPtr, ElemPtr, Rect.SizeOf*dst.Length);
+                MemoryHelper.CopyMemory(dstPtr, ElemPtr, Rect.SizeOf*dst.Length);
             }
             return dst;
         }

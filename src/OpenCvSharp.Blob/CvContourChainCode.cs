@@ -24,7 +24,7 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// 
     /// </summary>
-    public class CvContourChainCode : ICloneable
+    public class CvContourChainCode
     {
         /// <summary>
         /// Point where contour begin.
@@ -138,11 +138,6 @@ namespace OpenCvSharp.Blob
                 ChainCode = new List<CvChainCode>(ChainCode),
                 StartingPoint = StartingPoint,
             };
-        }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
     }
 }
