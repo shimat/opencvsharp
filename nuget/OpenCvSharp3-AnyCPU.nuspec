@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-AnyCPU</id>
-        <version>3.1.0.20161105</version>
+        <version>3.2.0.20170107</version>
         <title>OpenCvSharp3</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -11,9 +11,8 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <summary>OpenCV 3.x wrapper</summary>
-        <releaseNotes>- Fixed #265, #261, #248, #211 and #206
-- Added reference to PresentationFramework (Extensions)</releaseNotes>
-        <copyright>Copyright 2008-2016</copyright>
+        <releaseNotes>- support OpenCV 3.2 with contrib modules</releaseNotes>
+        <copyright>Copyright 2008-2017</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework2.0, .NETFramework3.5" />
@@ -51,25 +50,10 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net40\OpenCvSharp.Extensions.XML" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net40\OpenCvSharp.UserInterface.dll" />
         <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.xml" target="lib\net40\OpenCvSharp.XML" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll" target="lib\net45\OpenCvSharp.Blob.dll" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config" target="lib\net45\OpenCvSharp.Blob.dll.config" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.XML" target="lib\net45\OpenCvSharp.Blob.XML" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll" target="lib\net45\OpenCvSharp.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.dll.config" target="lib\net45\OpenCvSharp.dll.config" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll" target="lib\net45\OpenCvSharp.Extensions.dll" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.XML" target="lib\net45\OpenCvSharp.Extensions.XML" />
-        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll" target="lib\net45\OpenCvSharp.UserInterface.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\OpenCvSharp.xml" target="lib\net45\OpenCvSharp.XML" />
-        <file src="..\lib\vc++\x64\msvcp120.dll" target="NativeDlls\x64\msvcp120.dll" />
-        <file src="..\lib\vc++\x64\msvcr120.dll" target="NativeDlls\x64\msvcr120.dll" />
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
-        <file src="..\lib\opencv\x64\vc12\bin\opencv_ffmpeg310_64.dll" target="NativeDlls\x64\opencv_ffmpeg310_64.dll" />
-        <file src="..\lib\opencv\x64\vc12\bin\opencv_world310.dll" target="NativeDlls\x64\opencv_world310.dll" />
-        <file src="..\lib\vc++\x86\msvcp120.dll" target="NativeDlls\x86\msvcp120.dll" />
-        <file src="..\lib\vc++\x86\msvcr120.dll" target="NativeDlls\x86\msvcr120.dll" />
+        <file src="..\lib\opencv\x64\vc14\bin\opencv_ffmpeg320_64.dll" target="NativeDlls\x64\opencv_ffmpeg320_64.dll" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
-        <file src="..\lib\opencv\x86\vc12\bin\opencv_ffmpeg310.dll" target="NativeDlls\x86\opencv_ffmpeg310.dll" />
-        <file src="..\lib\opencv\x86\vc12\bin\opencv_world310.dll" target="NativeDlls\x86\opencv_world310.dll" />
+        <file src="..\lib\opencv\x86\vc14\bin\opencv_ffmpeg320.dll" target="NativeDlls\x86\opencv_ffmpeg320.dll" />
         <file src="tools\init.ps1" target="tools\init.ps1" />
         <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
     </files>

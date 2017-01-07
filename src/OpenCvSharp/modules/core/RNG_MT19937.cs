@@ -15,7 +15,7 @@ namespace OpenCvSharp
         {
             public const int N = 624, M = 397;
         }
-        private uint[] state;
+        private readonly uint[] state;
         private int mti;
 
         #region Init & Disposal

@@ -1,4 +1,3 @@
-#ifdef ENABLED_CONTRIB
 #ifndef _CPP_XFEATURES2D_H_
 #define _CPP_XFEATURES2D_H_
 
@@ -176,5 +175,4 @@ CVAPI(void) xfeatures2d_SURF_setUpright(SURF *obj, int value)
 
 #pragma endregion
 
-#endif
 #endif
