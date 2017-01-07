@@ -22,17 +22,15 @@ namespace OpenCvSharp
         /// </summary>
         private static bool tried = false;
 
-        public const string DllMsvcr = "msvcr120";
-        public const string DllMsvcp = "msvcp120";
-
+        public const string DllVCRuntime = "vcruntime140";
+        public const string DllMsvcp = "msvcp140";
         public const string DllExtern = "OpenCvSharpExtern";
-
-        public const string Version = "310";
+        public const string Version = "320";
 
         private static readonly string[] RuntimeDllNames =
         {
-            DllMsvcr,
-            DllMsvcp,
+            //DllVCRuntime,
+            //DllMsvcp,
         };
 
         private static readonly string[] OpenCVDllNames =

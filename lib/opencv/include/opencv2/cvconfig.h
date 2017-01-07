@@ -1,5 +1,5 @@
 /* OpenCV compiled as static or dynamic libs */
-#define BUILD_SHARED_LIBS
+/* #undef BUILD_SHARED_LIBS */
 
 /* Compile for 'real' NVIDIA GPU architectures */
 #define CUDA_ARCH_BIN ""
@@ -71,12 +71,6 @@
 /* FFMpeg video library */
 #define HAVE_FFMPEG
 
-/* ffmpeg's libswscale */
-#define HAVE_FFMPEG_SWSCALE
-
-/* ffmpeg in Gentoo */
-#define HAVE_GENTOO_FFMPEG
-
 /* Geospatial Data Abstraction Library */
 /* #undef HAVE_GDAL */
 
@@ -111,6 +105,9 @@
 /* libpng/png.h needs to be included */
 /* #undef HAVE_LIBPNG_PNG_H */
 
+/* GDCM DICOM codec */
+/* #undef HAVE_GDCM */
+
 /* V4L/V4L2 capturing support via libv4l */
 /* #undef HAVE_LIBV4L */
 
@@ -119,6 +116,9 @@
 
 /* NVidia Video Decoding API*/
 /* #undef HAVE_NVCUVID */
+
+/* NVidia Video Encoding API*/
+/* #undef HAVE_NVCUVENC */
 
 /* OpenCL Support */
 #define HAVE_OPENCL
@@ -194,3 +194,15 @@
 
 /* Intel VA-API/OpenCL */
 /* #undef HAVE_VA_INTEL */
+
+/* Lapack */
+/* #undef HAVE_LAPACK */
+
+/* FP16 */
+#define HAVE_FP16
+
+/* Library was compiled with functions instrumentation */
+/* #undef ENABLE_INSTRUMENTATION */
+
+/* OpenVX */
+/* #undef HAVE_OPENVX */

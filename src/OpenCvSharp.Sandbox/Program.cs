@@ -7,6 +7,7 @@ using System.Text;
 using OpenCvSharp.Blob;
 using OpenCvSharp.Gpu;
 using OpenCvSharp.Extensions;
+using OpenCvSharp.XFeatures2D;
 
 namespace OpenCvSharp.Sandbox
 {
@@ -29,7 +30,7 @@ namespace OpenCvSharp.Sandbox
             //MatForEach();
             //LineSegmentDetectorSample();
             //LineIterator();
-            //Feature();
+            Feature();
             //Blob();
 
             Console.WriteLine("Press any key to exit");
@@ -305,12 +306,12 @@ namespace OpenCvSharp.Sandbox
         private static void Feature()
         {
             Mat img = new Mat("data/lenna.png", ImreadModes.GrayScale);
-            KAZE kaze = KAZE.Create();
+            //var feature2d = KAZE.Create();
+            var feature2d = SIFT.Create();
 
-            
             KeyPoint[] keyPoints;
             Mat descriptors = new Mat();
-            kaze.DetectAndCompute(img, null, out keyPoints, descriptors);
+            feature2d.DetectAndCompute(img, null, out keyPoints, descriptors);
 
             Mat dst = new Mat();
             Cv2.DrawKeypoints(img, keyPoints, dst);

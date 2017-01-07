@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-using namespace System;
-
 void captureTest()
 {
     /*

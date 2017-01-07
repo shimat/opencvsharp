@@ -42,8 +42,8 @@
 //
 //M*/
 
-#ifndef __OPENCV_CORE_CVDEF_H__
-#define __OPENCV_CORE_CVDEF_H__
+#ifndef OPENCV_CORE_CVDEF_H
+#define OPENCV_CORE_CVDEF_H
 
 //! @addtogroup core_utils
 //! @{
@@ -112,7 +112,7 @@
 #define CV_CPU_SSE4_1           6
 #define CV_CPU_SSE4_2           7
 #define CV_CPU_POPCNT           8
-
+#define CV_CPU_FP16             9
 #define CV_CPU_AVX              10
 #define CV_CPU_AVX2             11
 #define CV_CPU_FMA3             12
@@ -143,7 +143,7 @@ enum CpuFeatures {
     CPU_SSE4_1          = 6,
     CPU_SSE4_2          = 7,
     CPU_POPCNT          = 8,
-
+    CPU_FP16            = 9,
     CPU_AVX             = 10,
     CPU_AVX2            = 11,
     CPU_FMA3            = 12,
@@ -215,7 +215,7 @@ enum CpuFeatures {
 
 #if (defined WIN32 || defined _WIN32) && defined(_M_ARM)
 # include <Intrin.h>
-# include "arm_neon.h"
+# include <arm_neon.h>
 # define CV_NEON 1
 # define CPU_HAS_NEON_FEATURE (true)
 #elif defined(__ARM_NEON__) || (defined (__ARM_NEON) && defined(__aarch64__))
@@ -303,11 +303,39 @@ enum CpuFeatures {
 #define CV_2PI 6.283185307179586476925286766559
 #define CV_LOG2 0.69314718055994530941723212145818
 
+#if defined __ARM_FP16_FORMAT_IEEE \
+    && !defined __CUDACC__
+#  define CV_FP16_TYPE 1
+#else
+#  define CV_FP16_TYPE 0
+#endif
+
+typedef union Cv16suf
+{
+    short i;
+#if CV_FP16_TYPE
+    __fp16 h;
+#endif
+    struct _fp16Format
+    {
+        unsigned int significand : 10;
+        unsigned int exponent    : 5;
+        unsigned int sign        : 1;
+    } fmt;
+}
+Cv16suf;
+
 typedef union Cv32suf
 {
     int i;
     unsigned u;
     float f;
+    struct _fp32Format
+    {
+        unsigned int significand : 23;
+        unsigned int exponent    : 8;
+        unsigned int sign        : 1;
+    } fmt;
 }
 Cv32suf;
 
@@ -357,67 +385,6 @@ Cv64suf;
 *                                  Matrix type (Mat)                                     *
 \****************************************************************************************/
 
-#define CV_CN_MAX     512
-#define CV_CN_SHIFT   3
-#define CV_DEPTH_MAX  (1 << CV_CN_SHIFT)
-
-#define CV_8U   0
-#define CV_8S   1
-#define CV_16U  2
-#define CV_16S  3
-#define CV_32S  4
-#define CV_32F  5
-#define CV_64F  6
-#define CV_USRTYPE1 7
-
-#define CV_MAT_DEPTH_MASK       (CV_DEPTH_MAX - 1)
-#define CV_MAT_DEPTH(flags)     ((flags) & CV_MAT_DEPTH_MASK)
-
-#define CV_MAKETYPE(depth,cn) (CV_MAT_DEPTH(depth) + (((cn)-1) << CV_CN_SHIFT))
-#define CV_MAKE_TYPE CV_MAKETYPE
-
-#define CV_8UC1 CV_MAKETYPE(CV_8U,1)
-#define CV_8UC2 CV_MAKETYPE(CV_8U,2)
-#define CV_8UC3 CV_MAKETYPE(CV_8U,3)
-#define CV_8UC4 CV_MAKETYPE(CV_8U,4)
-#define CV_8UC(n) CV_MAKETYPE(CV_8U,(n))
-
-#define CV_8SC1 CV_MAKETYPE(CV_8S,1)
-#define CV_8SC2 CV_MAKETYPE(CV_8S,2)
-#define CV_8SC3 CV_MAKETYPE(CV_8S,3)
-#define CV_8SC4 CV_MAKETYPE(CV_8S,4)
-#define CV_8SC(n) CV_MAKETYPE(CV_8S,(n))
-
-#define CV_16UC1 CV_MAKETYPE(CV_16U,1)
-#define CV_16UC2 CV_MAKETYPE(CV_16U,2)
-#define CV_16UC3 CV_MAKETYPE(CV_16U,3)
-#define CV_16UC4 CV_MAKETYPE(CV_16U,4)
-#define CV_16UC(n) CV_MAKETYPE(CV_16U,(n))
-
-#define CV_16SC1 CV_MAKETYPE(CV_16S,1)
-#define CV_16SC2 CV_MAKETYPE(CV_16S,2)
-#define CV_16SC3 CV_MAKETYPE(CV_16S,3)
-#define CV_16SC4 CV_MAKETYPE(CV_16S,4)
-#define CV_16SC(n) CV_MAKETYPE(CV_16S,(n))
-
-#define CV_32SC1 CV_MAKETYPE(CV_32S,1)
-#define CV_32SC2 CV_MAKETYPE(CV_32S,2)
-#define CV_32SC3 CV_MAKETYPE(CV_32S,3)
-#define CV_32SC4 CV_MAKETYPE(CV_32S,4)
-#define CV_32SC(n) CV_MAKETYPE(CV_32S,(n))
-
-#define CV_32FC1 CV_MAKETYPE(CV_32F,1)
-#define CV_32FC2 CV_MAKETYPE(CV_32F,2)
-#define CV_32FC3 CV_MAKETYPE(CV_32F,3)
-#define CV_32FC4 CV_MAKETYPE(CV_32F,4)
-#define CV_32FC(n) CV_MAKETYPE(CV_32F,(n))
-
-#define CV_64FC1 CV_MAKETYPE(CV_64F,1)
-#define CV_64FC2 CV_MAKETYPE(CV_64F,2)
-#define CV_64FC3 CV_MAKETYPE(CV_64F,3)
-#define CV_64FC4 CV_MAKETYPE(CV_64F,4)
-#define CV_64FC(n) CV_MAKETYPE(CV_64F,(n))
-
 #define CV_MAT_CN_MASK          ((CV_CN_MAX - 1) << CV_CN_SHIFT)
 #define CV_MAT_CN(flags)        ((((flags) & CV_MAT_CN_MASK) >> CV_CN_SHIFT) + 1)
 #define CV_MAT_TYPE_MASK        (CV_DEPTH_MAX*CV_CN_MAX - 1)
@@ -451,9 +418,8 @@ Cv64suf;
 *          exchange-add operation for atomic operations on reference counters            *
 \****************************************************************************************/
 
-#if defined __INTEL_COMPILER && !(defined WIN32 || defined _WIN32)
-   // atomic increment on the linux version of the Intel(tm) compiler
-#  define CV_XADD(addr, delta) (int)_InterlockedExchangeAdd(const_cast<void*>(reinterpret_cast<volatile void*>(addr)), delta)
+#ifdef CV_XADD
+  // allow to use user-defined macro
 #elif defined __GNUC__
 #  if defined __clang__ && __clang_major__ >= 3 && !defined __ANDROID__ && !defined __EMSCRIPTEN__ && !defined(__CUDACC__)
 #    ifdef __ATOMIC_ACQ_REL
@@ -512,4 +478,4 @@ Cv64suf;
 
 //! @}
 
-#endif // __OPENCV_CORE_CVDEF_H__
+#endif // OPENCV_CORE_CVDEF_H
