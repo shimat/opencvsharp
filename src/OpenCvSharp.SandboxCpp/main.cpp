@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-using namespace System;
-
 void captureTest()
 {
     /*
@@ -64,15 +62,8 @@ int main(int argc, char *argv[])
 {
 	using namespace std;
 
-	cv::RNG_MT19937 rng(0xffffffff);
-	cout << (unsigned)rng << endl;
-	cout << (unsigned)rng << endl;
-	cout << (unsigned)rng << endl;
+	cv::xfeatures2d::DAISY::create();
 
-	rng.seed(1234);
-	cout << rng.uniform(0, 10) << endl;
-	cout << rng.uniform(0, 10) << endl;
-	cout << rng.uniform(0, 10) << endl;
 	return 0;
     ///*
     cv::Mat src = cv::imread("C:\\test.png", cv::IMREAD_COLOR);

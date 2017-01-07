@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="core\RNG_MT19937Test.cs" />
     <Compile Include="core\RNGTest.cs" />
+    <Compile Include="SolveEquationTest.cs" />
     <Compile Include="InvokeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -113,19 +114,13 @@
     <Content Include="dll\x64\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dll\x64\opencv_ffmpeg300_64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="dll\x64\opencv_world300.dll">
+    <Content Include="dll\x64\opencv_ffmpeg320_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="dll\x86\OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dll\x86\opencv_ffmpeg300.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="dll\x86\opencv_world300.dll">
+    <Content Include="dll\x86\opencv_ffmpeg320.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Blob\shapes1.png">

@@ -24,13 +24,14 @@
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>OpenCvSharpSandboxCpp</RootNamespace>
     <ProjectName>OpenCvSharp.SandboxCpp</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>false</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -43,15 +44,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>false</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>false</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -80,13 +81,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(SolutionDir)..\lib\opencv\x86\vc12\lib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\opencv\x86\vc14\lib;$(SolutionDir)..\lib\opencv\x86\vc14\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\</OutDir>
     <IncludePath>$(SolutionDir)..\lib\opencv\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(SolutionDir)..\lib\opencv\x64\vc12\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\opencv\x64\vc14\lib;$(SolutionDir)..\lib\opencv\x64\vc14\staticlib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\</OutDir>
     <IncludePath>$(SolutionDir)..\lib\opencv\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -96,10 +97,11 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_calib3d249d.lib;opencv_contrib249d.lib;opencv_core249d.lib;opencv_features2d249d.lib;opencv_flann249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;opencv_legacy249d.lib;opencv_ml249d.lib;opencv_nonfree249d.lib;opencv_objdetect249d.lib;opencv_photo249d.lib;opencv_stitching249d.lib;opencv_superres249d.lib;opencv_video249d.lib;opencv_videostab249d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -112,7 +114,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_calib3d249d.lib;opencv_contrib249d.lib;opencv_core249d.lib;opencv_features2d249d.lib;opencv_flann249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;opencv_legacy249d.lib;opencv_ml249d.lib;opencv_nonfree249d.lib;opencv_objdetect249d.lib;opencv_photo249d.lib;opencv_stitching249d.lib;opencv_superres249d.lib;opencv_video249d.lib;opencv_videostab249d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -121,10 +123,11 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_world310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;libjasper.lib;libjpeg.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco320.lib;opencv_bgsegm320.lib;opencv_bioinspired320.lib;opencv_calib3d320.lib;opencv_ccalib320.lib;opencv_core320.lib;opencv_datasets320.lib;opencv_dnn320.lib;opencv_dpm320.lib;opencv_face320.lib;opencv_features2d320.lib;opencv_flann320.lib;opencv_fuzzy320.lib;opencv_highgui320.lib;opencv_imgcodecs320.lib;opencv_imgproc320.lib;opencv_line_descriptor320.lib;opencv_ml320.lib;opencv_objdetect320.lib;opencv_optflow320.lib;opencv_phase_unwrapping320.lib;opencv_photo320.lib;opencv_plot320.lib;opencv_reg320.lib;opencv_rgbd320.lib;opencv_saliency320.lib;opencv_shape320.lib;opencv_stereo320.lib;opencv_stitching320.lib;opencv_structured_light320.lib;opencv_superres320.lib;opencv_surface_matching320.lib;opencv_text320.lib;opencv_tracking320.lib;opencv_video320.lib;opencv_videoio320.lib;opencv_videostab320.lib;opencv_xfeatures2d320.lib;opencv_ximgproc320.lib;opencv_xobjdetect320.lib;opencv_xphoto320.lib;zlib.lib;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -133,10 +136,11 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_world310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;libjasper.lib;libjpeg.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco320.lib;opencv_bgsegm320.lib;opencv_bioinspired320.lib;opencv_calib3d320.lib;opencv_ccalib320.lib;opencv_core320.lib;opencv_datasets320.lib;opencv_dnn320.lib;opencv_dpm320.lib;opencv_face320.lib;opencv_features2d320.lib;opencv_flann320.lib;opencv_fuzzy320.lib;opencv_highgui320.lib;opencv_imgcodecs320.lib;opencv_imgproc320.lib;opencv_line_descriptor320.lib;opencv_ml320.lib;opencv_objdetect320.lib;opencv_optflow320.lib;opencv_phase_unwrapping320.lib;opencv_photo320.lib;opencv_plot320.lib;opencv_reg320.lib;opencv_rgbd320.lib;opencv_saliency320.lib;opencv_shape320.lib;opencv_stereo320.lib;opencv_stitching320.lib;opencv_structured_light320.lib;opencv_superres320.lib;opencv_surface_matching320.lib;opencv_text320.lib;opencv_tracking320.lib;opencv_video320.lib;opencv_videoio320.lib;opencv_videostab320.lib;opencv_xfeatures2d320.lib;opencv_ximgproc320.lib;opencv_xobjdetect320.lib;opencv_xphoto320.lib;zlib.lib;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -146,9 +150,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
@@ -156,7 +157,6 @@
     <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

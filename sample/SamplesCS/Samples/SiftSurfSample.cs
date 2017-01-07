@@ -33,8 +33,8 @@ namespace SamplesCS
             KeyPoint[] keypoints1, keypoints2;
             var descriptors1 = new MatOfFloat();
             var descriptors2 = new MatOfFloat();
-            sift.Compute(gray1, null, out keypoints1, descriptors1);
-            sift.Compute(gray2, null, out keypoints2, descriptors2);
+            sift.DetectAndCompute(gray1, null, out keypoints1, descriptors1);
+            sift.DetectAndCompute(gray2, null, out keypoints2, descriptors2);
 
             // Match descriptor vectors
             var bfMatcher = new BFMatcher(NormTypes.L2, false);
@@ -63,14 +63,14 @@ namespace SamplesCS
             Cv2.CvtColor(src1, gray1, ColorConversionCodes.BGR2GRAY);
             Cv2.CvtColor(src2, gray2, ColorConversionCodes.BGR2GRAY);
 
-            var surf = SURF.Create(500, 4, 2, true);
+            var surf = SURF.Create(200, 4, 2, true);
 
             // Detect the keypoints and generate their descriptors using SURF
             KeyPoint[] keypoints1, keypoints2;
             var descriptors1 = new MatOfFloat();
             var descriptors2 = new MatOfFloat();
-            surf.Compute(gray1, null, out keypoints1, descriptors1);
-            surf.Compute(gray2, null, out keypoints2, descriptors2);
+            surf.DetectAndCompute(gray1, null, out keypoints1, descriptors1);
+            surf.DetectAndCompute(gray2, null, out keypoints2, descriptors2);
 
             // Match descriptor vectors 
             var bfMatcher = new BFMatcher(NormTypes.L2, false);
