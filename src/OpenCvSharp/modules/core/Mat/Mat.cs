@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -9,7 +10,7 @@ namespace OpenCvSharp
     /// <summary>
     /// OpenCV C++ n-dimensional dense array class (cv::Mat)
     /// </summary>
-    public partial class Mat : DisposableCvObject, ICloneable
+    public partial class Mat : DisposableCvObject
     {
         private bool disposed;
 
@@ -1878,11 +1879,6 @@ namespace OpenCvSharp
             IntPtr retPtr = NativeMethods.core_Mat_clone(ptr);
             Mat retVal = new Mat(retPtr);
             return retVal;
-        }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
 
         /// <summary>
@@ -4511,14 +4507,18 @@ namespace OpenCvSharp
         public TMat Cast<TMat>()
             where TMat : Mat, new()
         {
-            var type = typeof (TMat);
+            var type = typeof(TMat);
+#if DOTNET_FRAMEWORK
             var constructor = type.GetConstructor(new[] {typeof (Mat)});
+#else
+            var constructor = type.GetTypeInfo().GetConstructor(new[] { typeof(Mat) });
+#endif
             if (constructor == null)
                 throw new OpenCvSharpException("Failed to cast to {0}", type.Name);
             return (TMat)constructor.Invoke(new object[] {this});
         }
 
-        #region ForEach
+#region ForEach
 // ReSharper disable InconsistentNaming
 
         /// <summary>
@@ -4922,9 +4922,9 @@ namespace OpenCvSharp
             GC.KeepAlive(operation);
         }
 // ReSharper restore InconsistentNaming
-        #endregion
+#endregion
 
-        #endregion
+#endregion
     }
 
 }

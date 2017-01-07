@@ -1,0 +1,55 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.6.1"
+      }
+    },
+    "netcoreapp1.0": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.6.1",
+        "Microsoft.NETCore.App": "1.0.0"
+      }
+    },
+    "net20": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+        "System.Drawing": "2.0.0.0",
+        "System.Security": "2.0.0.0",
+        "System.Windows.Forms": "2.0.0.0"
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net20" ]
+      }
+    },
+    "net40": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+        "System.Drawing": "4.0.0.0",
+        "System.Windows.Forms": "4.0.0.0",
+        "PresentationCore": "4.0.0.0",
+        "WindowsBase": "4.0.0.0",
+        "System.Security": "4.0.0.0"
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net40" ]
+      }
+    }
+  },
+    "buildOptions": {
+      "xmlDoc": true,
+      "optimize": true,
+      "keyFile": "Key.snk",
+      "publicSign": true,
+      "allowUnsafe": true
+    }
+  }

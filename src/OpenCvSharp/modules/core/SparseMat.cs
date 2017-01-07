@@ -8,7 +8,7 @@ namespace OpenCvSharp
     /// <summary>
     /// Sparse matrix class.
     /// </summary>
-    public class SparseMat : DisposableCvObject, ICloneable
+    public class SparseMat : DisposableCvObject
     {
         private bool disposed;
 
@@ -214,10 +214,6 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             IntPtr p = NativeMethods.core_SparseMat_clone(ptr);
             return new SparseMat(p);
-        }
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
 
         /// <summary>

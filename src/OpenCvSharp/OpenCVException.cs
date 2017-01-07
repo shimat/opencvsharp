@@ -11,7 +11,7 @@ namespace OpenCvSharp
     /// The default exception to be thrown by OpenCV 
     /// </summary>
 #endif
-    public class OpenCVException : ApplicationException
+    public class OpenCVException : Exception
     {
         #region Properties
 #if LANG_JP

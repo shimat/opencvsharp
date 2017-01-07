@@ -11,7 +11,7 @@ namespace OpenCvSharp
     /// The exception that is thrown by OpenCvSharp. 
     /// </summary>
 #endif
-    public class OpenCvSharpException : ApplicationException
+    public class OpenCvSharpException : Exception
     {
         /// <summary>
         /// 

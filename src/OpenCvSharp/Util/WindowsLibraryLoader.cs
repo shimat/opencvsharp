@@ -95,8 +95,12 @@ namespace OpenCvSharp.Util
         /// <returns></returns>
         public bool IsCurrentPlatformSupported()
         {
+#if DOTNET_FRAMEWORK
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
+#else
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+#endif
         }
 
         /// <summary>
@@ -136,18 +140,25 @@ namespace OpenCvSharp.Util
                     }
 
                     // Try loading from executing assembly domain
-                    var executingAssembly = Assembly.GetExecutingAssembly();
+#if DOTNET_FRAMEWORK
+                    Assembly executingAssembly = Assembly.GetExecutingAssembly();
+#else
+                    Assembly executingAssembly = GetType().GetTypeInfo().Assembly;
+#endif
                     baseDirectory = Path.GetDirectoryName(executingAssembly.Location);
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
                     // Fallback to current app domain
+                    // TODO
+#if DOTNET_FRAMEWORK
                     baseDirectory = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
+#endif
 
                     // Finally try the working directory
-                    baseDirectory = Path.GetFullPath(Environment.CurrentDirectory);
+                    baseDirectory = Path.GetFullPath(System.IO.Directory.GetCurrentDirectory());
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
@@ -287,12 +298,15 @@ namespace OpenCvSharp.Util
         {
             if (!String.IsNullOrEmpty(fileName))
             {
+#if DOTNET_FRAMEWORK
                 PlatformID platformId = Environment.OSVersion.Platform;
-
                 if ((platformId == PlatformID.Win32S) ||
                     (platformId == PlatformID.Win32Windows) ||
                     (platformId == PlatformID.Win32NT) ||
                     (platformId == PlatformID.WinCE))
+#else
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+#endif
                 {
                     if (!fileName.EndsWith(DllFileExtension,
                             StringComparison.OrdinalIgnoreCase))
@@ -351,8 +365,14 @@ namespace OpenCvSharp.Util
             }
         }
 
+#if DOTNET_FRAMEWORK
+        private const CharSet DefaultCharSet = CharSet.Auto;
+#else
+        private const CharSet DefaultCharSet = CharSet.Unicode;
+#endif
+
         [DllImport("kernel32", EntryPoint = "LoadLibrary", CallingConvention = CallingConvention.Winapi,
-            SetLastError = true, CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            SetLastError = true, CharSet = DefaultCharSet, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         private static extern IntPtr Win32LoadLibrary(string dllPath);
     }
 }
