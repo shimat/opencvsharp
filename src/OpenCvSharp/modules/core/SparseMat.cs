@@ -548,7 +548,7 @@ namespace OpenCvSharp
             if (p == IntPtr.Zero)
                 return null;
 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
+            return MarshalHelper.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -565,7 +565,7 @@ namespace OpenCvSharp
             if (p == IntPtr.Zero)
                 return null;
 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
+            return MarshalHelper.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -583,7 +583,7 @@ namespace OpenCvSharp
             if (p == IntPtr.Zero)
                 return null;
 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
+            return MarshalHelper.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -599,7 +599,7 @@ namespace OpenCvSharp
             if (p == IntPtr.Zero)
                 return null;
 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
+            return MarshalHelper.PtrToStructure<T>(p);
         }
 
         #endregion
@@ -618,7 +618,7 @@ namespace OpenCvSharp
             if (p == IntPtr.Zero)
                 return default(T);
 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
+            return MarshalHelper.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -635,7 +635,7 @@ namespace OpenCvSharp
             if (p == IntPtr.Zero)
                 return default(T);
 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
+            return MarshalHelper.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -653,7 +653,7 @@ namespace OpenCvSharp
             if (p == IntPtr.Zero)
                 return default(T);
 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
+            return MarshalHelper.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -669,7 +669,7 @@ namespace OpenCvSharp
             if (p == IntPtr.Zero)
                 return default(T);
 
-            return (T)Marshal.PtrToStructure(p, typeof(T));
+            return MarshalHelper.PtrToStructure<T>(p);
         }
 
         #endregion
@@ -697,7 +697,7 @@ namespace OpenCvSharp
                 get
                 {
                     IntPtr p = parent.Ptr(i0, true, hashVal);
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -718,7 +718,7 @@ namespace OpenCvSharp
                 get
                 {
                     IntPtr p = parent.Ptr(i0, i1, true, hashVal);
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -740,7 +740,7 @@ namespace OpenCvSharp
                 get
                 {
                     IntPtr p = parent.Ptr(i0, i1, i2, true, hashVal);
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -760,7 +760,7 @@ namespace OpenCvSharp
                 get
                 {
                     IntPtr p = parent.Ptr(idx, true, hashVal);
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {

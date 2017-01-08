@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -298,7 +299,7 @@ namespace OpenCvSharp
             /// <returns></returns>
             public T GetValue<T>() where T : struct
             {
-                return (T)Marshal.PtrToStructure(Value, typeof (T));
+                return MarshalHelper.PtrToStructure<T>(Value);
             }
 
             /// <summary>
