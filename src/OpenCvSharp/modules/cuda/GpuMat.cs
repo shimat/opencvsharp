@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Gpu
 {
@@ -642,7 +643,7 @@ namespace OpenCvSharp.Gpu
                 get
                 {
                     var p = new IntPtr(ptrVal + (step*i0) + (sizeOfT*i1));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {

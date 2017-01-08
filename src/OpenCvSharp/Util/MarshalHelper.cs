@@ -12,11 +12,6 @@ namespace OpenCvSharp.Util
     /// </summary>
     public static class MarshalHelper
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
         public static int SizeOf<T>()
         {
 #if net20 || net40
@@ -37,6 +32,16 @@ namespace OpenCvSharp.Util
             {
                 return IntPtr.Size;
             }
+#endif
+        }
+
+        public static T PtrToStructure<T>(IntPtr p)
+            where T : struct 
+        {
+#if net20 || net40
+            return (T)Marshal.PtrToStructure(p, typeof(T));
+#else
+            return Marshal.PtrToStructure<T>(p);
 #endif
         }
     }
