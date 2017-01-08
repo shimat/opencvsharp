@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OpenCvSharp.SandboxZ")]
+[assembly: AssemblyProduct("OpenCvSharp.Sandbox2")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("dd14a901-0822-40ed-bbdb-83f3b870749d")]
+[assembly: Guid("0e83d395-a84b-46bd-b3c3-a6da046cace3")]

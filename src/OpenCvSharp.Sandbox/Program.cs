@@ -14,10 +14,10 @@ namespace OpenCvSharp.Sandbox
     /// <summary>
     /// Simple codes for debugging
     /// </summary>
-    internal class Program
+    public class Program
     {
         [STAThread]
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             //FileStorageTest();
             //ShapeContextDistanceExtractorSaample();

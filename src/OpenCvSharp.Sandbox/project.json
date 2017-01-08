@@ -21,6 +21,7 @@
   },
   "buildOptions": {
     "optimize": true,
-    "allowUnsafe": true
+    "allowUnsafe": true,
+    "emitEntryPoint": true
   }
 }
