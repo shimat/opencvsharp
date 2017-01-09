@@ -50,7 +50,7 @@ namespace OpenCvSharp
             {
                 ptr = NativeMethods.videoio_VideoCapture_new1();
             }
-            catch (AccessViolationException e)
+            catch (Exception e)
             {
                 throw new OpenCvSharpException("Failed to create VideoCapture", e);
             }
@@ -82,7 +82,7 @@ namespace OpenCvSharp
             {
                 ptr = NativeMethods.videoio_VideoCapture_new3(index);
             }
-            catch (AccessViolationException e)
+            catch (Exception e)
             {
                 throw new OpenCvSharpException("Failed to create VideoCapture", e);
             }
@@ -2034,7 +2034,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.videoio_VideoCapture_open2(ptr, index);
             }
-            catch (AccessViolationException e)
+            catch (Exception e)
             {
                 throw new OpenCvSharpException("Failed to create CvCapture", e);
             }

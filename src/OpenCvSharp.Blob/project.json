@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "OpenCvSharp": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.6.1"
+      }
+    },
+    "netcoreapp1.0": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.6.1"
+      }
+    },
+    "net20": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net20" ]
+      }
+    },
+    "net40": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net40" ]
+      }
+    },
+    "net46": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net46" ]
+      }
+    }
+  },
+  "buildOptions": {
+    "xmlDoc": true,
+    "optimize": true,
+    "keyFile": "Key.snk",
+    "publicSign": true,
+    "allowUnsafe": true
+  }
+}

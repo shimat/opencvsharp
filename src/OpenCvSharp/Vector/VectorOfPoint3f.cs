@@ -109,9 +109,9 @@ namespace OpenCvSharp
                 return new Point3f[0];
             }
             Point3f[] dst = new Point3f[size];
-            using (ArrayAddress1<Point3f> dstPtr = new ArrayAddress1<Point3f>(dst))
+            using (var dstPtr = new ArrayAddress1<Point3f>(dst))
             {
-                Util.Utility.CopyMemory(dstPtr, ElemPtr, Point3f.SizeOf*dst.Length);
+                MemoryHelper.CopyMemory(dstPtr, ElemPtr, Point3f.SizeOf*dst.Length);
             }
             return dst;
         }

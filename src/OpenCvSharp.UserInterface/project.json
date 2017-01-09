@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "OpenCvSharp": "1.0.0-*",
+    "OpenCvSharp.Extensions": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "net40": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+        "System.Drawing": "4.0.0.0",
+        "System.Windows.Forms": "4.0.0.0"
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net40" ]
+      }
+    },
+    "net46": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+        "System.Drawing": "4.0.0.0",
+        "System.Windows.Forms": "4.0.0.0"
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net46" ]
+      }
+    }
+  },
+  "buildOptions": {
+    "xmlDoc": true,
+    "optimize": true,
+    "keyFile": "Key.snk",
+    "publicSign": true,
+    "allowUnsafe": true
+  }
+}

@@ -320,7 +320,7 @@ namespace OpenCvSharp.Extensions
                     {
                         long offsetSrc = (y * sstep);
                         long offsetDst = (y * dstep);
-                        Utility.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * channels);
+                        MemoryHelper.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * channels);
                     }
                 }
                 finally

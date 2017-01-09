@@ -117,3 +117,4 @@ Help EN
 /src/*.opendb
 *.BAK
 /nuget/*.nupkg
+/src/.vs
