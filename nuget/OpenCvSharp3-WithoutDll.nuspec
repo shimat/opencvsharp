@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-WithoutDll</id>
-        <version>3.2.0.20170109</version>
+        <version>3.2.0.20170110</version>
         <title>OpenCvSharp3 (without DLLs)</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
