@@ -1,0 +1,3 @@
+[submodule "opencv"]
+	path = opencv
+	url = https://github.com/shimat/opencv_files.git
