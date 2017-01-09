@@ -1,9 +1,7 @@
-﻿{
+{
   "version": "1.0.0-*",
-
   "dependencies": {
   },
-
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50",
@@ -53,6 +51,14 @@
     "optimize": true,
     "keyFile": "Key.snk",
     "publicSign": true,
-    "allowUnsafe": true
+    "allowUnsafe": true,
+    "copyToOutput": { "include": [ "OpenCvSharp.dll.config" ] } 
+  },
+  "configurations": {
+    "Release-JP": {
+      "buildOptions": {
+        "define": [ "LANG_JP" ]
+      }
+    }
   }
 }
