@@ -49,6 +49,54 @@
           "net46/OpenCvSharp.Extensions.dll": {}
         }
       }
+    },
+    ".NETFramework,Version=v4.6.1/win10-x64": {
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "frameworkAssemblies": [
+          "System.Security"
+        ],
+        "compile": {
+          "net46/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "net46/OpenCvSharp.dll": {}
+        }
+      },
+      "OpenCvSharp.Blob/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "dependencies": {
+          "OpenCvSharp": "1.0.0"
+        },
+        "compile": {
+          "net46/OpenCvSharp.Blob.dll": {}
+        },
+        "runtime": {
+          "net46/OpenCvSharp.Blob.dll": {}
+        }
+      },
+      "OpenCvSharp.Extensions/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "dependencies": {
+          "OpenCvSharp": "1.0.0"
+        },
+        "frameworkAssemblies": [
+          "PresentationCore",
+          "PresentationFramework",
+          "System.Drawing",
+          "System.Windows.Forms",
+          "WindowsBase"
+        ],
+        "compile": {
+          "net46/OpenCvSharp.Extensions.dll": {}
+        },
+        "runtime": {
+          "net46/OpenCvSharp.Extensions.dll": {}
+        }
+      }
     }
   },
   "libraries": {

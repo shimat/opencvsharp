@@ -6,6 +6,10 @@
     "OpenCvSharp.Blob": "1.0.0-*"
   },
 
+  "runtimes": {
+    "win10-x64": {}
+  },
+
   "frameworks": {
     "net461": {
       "dependencies": {
@@ -19,9 +23,14 @@
       }
     }
   },
+
   "buildOptions": {
     "optimize": true,
     "allowUnsafe": true,
     "emitEntryPoint": true
+  },
+
+  "publishOptions": {
+    "include": [ "dll/**/*.dll" ]
   }
 }

@@ -68,7 +68,7 @@ namespace OpenCvSharp
             if (IsUnix())
                 return;
 
-            string[] ap = EnumerableEx.ToArray(additionalPaths);
+            string[] ap = additionalPaths == null ? new string[0] : EnumerableEx.ToArray(additionalPaths);
             List<string> runtimePaths = new List<string> (ap);
 #if DOTNET_FRAMEWORK
             runtimePaths.Add(Environment.GetFolderPath(Environment.SpecialFolder.System));
