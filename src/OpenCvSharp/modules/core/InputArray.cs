@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using OpenCvSharp.Gpu;
 
 namespace OpenCvSharp
@@ -379,7 +380,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         private static MatType EstimateType(Type t)
         {
+#if net20 || net40
             if(!t.IsValueType)
+#else
+            if(!t.GetTypeInfo().IsValueType)
+#endif
                 throw new ArgumentException();
 
             // Primitive types
@@ -478,6 +483,6 @@ namespace OpenCvSharp
 
             throw new ArgumentException("Not supported value type for InputArray");
         }
-        #endregion
+#endregion
     }
 }

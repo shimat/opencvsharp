@@ -1,0 +1,48 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "OpenCvSharp": "1.0.0-*",
+    "OpenCvSharp.Blob": "1.0.0-*",
+    "NUnit": "3.5.0",
+    "NUnitLite": "3.5.0",
+    "NUnit.Console": "3.5.0",
+    "NUnit3TestAdapter": "3.5.0"
+  },
+
+  "testRunner": "nunit",
+
+  "runtimes": {
+    "win10-x64": {}
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.6.1",
+        "Microsoft.NETCore.App": "1.1.0"
+      }
+    },
+    "net461": {
+      "dependencies": {
+        "OpenCvSharp.Extensions": "1.0.0-*"
+      },
+      "frameworkAssemblies": {
+      },
+      "buildOptions": {
+        "define": [ "DOTNET_FRAMEWORK", "net46" ]
+      }
+    }
+  },
+
+  "buildOptions": {
+    "optimize": false,
+    "allowUnsafe": true,
+    "emitEntryPoint": true
+  },
+
+  "publishOptions": {
+    "include": [ "dll/**/*.dll" ]
+  } 
+}

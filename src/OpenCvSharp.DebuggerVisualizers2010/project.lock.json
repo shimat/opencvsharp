@@ -1,0 +1,95 @@
+{
+  "locked": false,
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v2.0": {
+      "VSSDK.DebuggerVisualizers/10.0.4": {
+        "type": "package",
+        "dependencies": {
+          "VSSDK.IDE.10": "[10.0.4, 11.0.0)"
+        },
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/net20/Microsoft.VisualStudio.DebuggerVisualizers.dll": {}
+        },
+        "runtime": {
+          "lib/net20/Microsoft.VisualStudio.DebuggerVisualizers.dll": {}
+        }
+      },
+      "VSSDK.DebuggerVisualizers.10/10.0.4": {
+        "type": "package",
+        "dependencies": {
+          "VSSDK.DebuggerVisualizers": "[10.0.4, 11.0.0)",
+          "VSSDK.IDE.10": "[10.0.4, 11.0.0)"
+        }
+      },
+      "VSSDK.IDE.10/10.0.4": {
+        "type": "package"
+      },
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v2.0",
+        "frameworkAssemblies": [
+          "System.Security"
+        ],
+        "compile": {
+          "net20/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "net20/OpenCvSharp.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "VSSDK.DebuggerVisualizers/10.0.4": {
+      "sha512": "ZBSbv2qokVEkt9O1joOZrIt6cZPTQ8y1RVbJt3nkyr5ifX/Gcu15OX2+lcQ41K/Ih141i7b0MoP8MYzEuxQP6A==",
+      "type": "package",
+      "path": "VSSDK.DebuggerVisualizers/10.0.4",
+      "files": [
+        "VSSDK.DebuggerVisualizers.10.0.4.nupkg.sha512",
+        "VSSDK.DebuggerVisualizers.nuspec",
+        "lib/net20/Microsoft.VisualStudio.DebuggerVisualizers.dll",
+        "lib/net20/Microsoft.VisualStudio.DebuggerVisualizers.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "VSSDK.DebuggerVisualizers.10/10.0.4": {
+      "sha512": "3tvSGHmSyGhmQ6AoIb6mj3c0WZf/XlAyx97uBJgWDfXJ9lkngC7jMB+ORJbNF+N130fTTRXcnhVOwqcwgv/ltw==",
+      "type": "package",
+      "path": "VSSDK.DebuggerVisualizers.10/10.0.4",
+      "files": [
+        "VSSDK.DebuggerVisualizers.10.10.0.4.nupkg.sha512",
+        "VSSDK.DebuggerVisualizers.10.nuspec"
+      ]
+    },
+    "VSSDK.IDE.10/10.0.4": {
+      "sha512": "DT+JlSUaObx8bln4XcvnaouLU4xgwXTgRXXFjdvmMQ5r/8uxmaAjIxTHPGpVAtxm3JQICGsTuetCDPdI0r7Nbg==",
+      "type": "package",
+      "path": "VSSDK.IDE.10/10.0.4",
+      "files": [
+        "VSSDK.IDE.10.10.0.4.nupkg.sha512",
+        "VSSDK.IDE.10.nuspec"
+      ]
+    },
+    "OpenCvSharp/1.0.0": {
+      "type": "project",
+      "path": "../OpenCvSharp/project.json",
+      "msbuildProject": "../OpenCvSharp/OpenCvSharp.xproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "": [
+      "OpenCvSharp >= 1.0.0-*",
+      "VSSDK.DebuggerVisualizers.10 >= 10.0.4"
+    ],
+    ".NETFramework,Version=v2.0": [
+      "System.Drawing >= 2.0.0",
+      "System.Windows.Forms >= 2.0.0"
+    ]
+  },
+  "tools": {},
+  "projectFileToolGroups": {}
+}

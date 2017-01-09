@@ -1,0 +1,79 @@
+{
+  "locked": false,
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v2.0": {
+      "VSSDK.DebuggerVisualizers/12.0.4": {
+        "type": "package",
+        "dependencies": {
+          "VSSDK.IDE.12": "[12.0.4, 13.0.0)"
+        },
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/net20/Microsoft.VisualStudio.DebuggerVisualizers.dll": {}
+        },
+        "runtime": {
+          "lib/net20/Microsoft.VisualStudio.DebuggerVisualizers.dll": {}
+        }
+      },
+      "VSSDK.IDE.12/12.0.4": {
+        "type": "package"
+      },
+      "OpenCvSharp/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v2.0",
+        "frameworkAssemblies": [
+          "System.Security"
+        ],
+        "compile": {
+          "net20/OpenCvSharp.dll": {}
+        },
+        "runtime": {
+          "net20/OpenCvSharp.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "VSSDK.DebuggerVisualizers/12.0.4": {
+      "sha512": "P9wZZemQ617nXMTMzxXpj4NoveEhTBfplUZCafHo0UoedSZxLT3afS7l9T02tVSw7ifcvdwJUOj1eeV6qMnR0Q==",
+      "type": "package",
+      "path": "VSSDK.DebuggerVisualizers/12.0.4",
+      "files": [
+        "VSSDK.DebuggerVisualizers.12.0.4.nupkg.sha512",
+        "VSSDK.DebuggerVisualizers.nuspec",
+        "lib/net20/Microsoft.VisualStudio.DebuggerVisualizers.dll",
+        "lib/net20/Microsoft.VisualStudio.DebuggerVisualizers.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "VSSDK.IDE.12/12.0.4": {
+      "sha512": "XYcSrKW9369JO1tOAuNxzZ6OOlx2QujDuboey4eYpp9GgA3Bd3mo0Fy2ZJd86sZqX27roBRzJfM1Ue/peyWOIg==",
+      "type": "package",
+      "path": "VSSDK.IDE.12/12.0.4",
+      "files": [
+        "VSSDK.IDE.12.12.0.4.nupkg.sha512",
+        "VSSDK.IDE.12.nuspec"
+      ]
+    },
+    "OpenCvSharp/1.0.0": {
+      "type": "project",
+      "path": "../OpenCvSharp/project.json",
+      "msbuildProject": "../OpenCvSharp/OpenCvSharp.xproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "": [
+      "OpenCvSharp >= 1.0.0-*",
+      "VSSDK.DebuggerVisualizers >= 12.0.4"
+    ],
+    ".NETFramework,Version=v2.0": [
+      "System.Drawing >= 2.0.0",
+      "System.Windows.Forms >= 2.0.0"
+    ]
+  },
+  "tools": {},
+  "projectFileToolGroups": {}
+}

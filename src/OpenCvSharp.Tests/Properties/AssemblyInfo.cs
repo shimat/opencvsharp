@@ -1,35 +1,19 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
-// アセンブリに関連付けられている情報を変更するには、
-// これらの属性値を変更してください。
-[assembly: AssemblyTitle("OpenCvSharp.Tests")]
-[assembly: AssemblyDescription("")]
+// General Information about an assembly is controlled through the following
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("OpenCvSharp.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
-// ComVisible を false に設定すると、その型はこのアセンブリ内で COM コンポーネントから 
-// 参照不可能になります。COM からこのアセンブリ内の型にアクセスする場合は、
-// その型の ComVisible 属性を true に設定してください。
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
+// COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-// 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
-[assembly: Guid("17dd7d17-213c-4d86-a2e4-a46ab00b36e3")]
-
-// アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を 
-// 既定値にすることができます:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("ffbbcf99-97f0-4f81-aaf6-8d851a8e1d2e")]

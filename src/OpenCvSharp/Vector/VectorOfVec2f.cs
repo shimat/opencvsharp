@@ -114,7 +114,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public T[] ToArray<T>() where T : struct
         {
-            int typeSize = Marshal.SizeOf(typeof (T));
+            int typeSize = MarshalHelper.SizeOf<T>();
             if (typeSize != sizeof (float)*2)
             {
                 throw new OpenCvSharpException();
@@ -130,7 +130,7 @@ namespace OpenCvSharp
                 T[] dst = new T[arySize];
                 using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
                 {
-                    Util.Utility.CopyMemory(dstPtr, ElemPtr, typeSize*dst.Length);
+                    MemoryHelper.CopyMemory(dstPtr, ElemPtr, typeSize*dst.Length);
                 }
                 return dst;
             }

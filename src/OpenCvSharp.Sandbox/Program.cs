@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using OpenCvSharp.Blob;
 using OpenCvSharp.Gpu;
-using OpenCvSharp.Extensions;
 using OpenCvSharp.XFeatures2D;
+#if DOTNET_FRAMEWORK
+using OpenCvSharp.Extensions;
+using System.Drawing;
+#endif
 
 namespace OpenCvSharp.Sandbox
 {
     /// <summary>
     /// Simple codes for debugging
     /// </summary>
-    internal class Program
+    public class Program
     {
         [STAThread]
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            //FileStorageTest();
+            FileStorageTest();
             //ShapeContextDistanceExtractorSaample();
             //CvBlobsSample();
             //HDR();
@@ -60,25 +63,33 @@ namespace OpenCvSharp.Sandbox
         private static void FileStorageTest()
         {
             const string fileName = "foo.yml";
-            using (var fs = new FileStorage(fileName, FileStorage.Mode.Write | FileStorage.Mode.FormatYaml))
+
+            try
             {
-                fs.Write("int", 123);
-                fs.Write("double", Math.PI);
-                using (var tempMat = new Mat("data/lenna.png"))
+                using (var fs = new FileStorage(fileName, FileStorage.Mode.Write | FileStorage.Mode.FormatYaml))
                 {
-                    fs.Write("mat", tempMat);
+                    fs.Write("int", 123);
+                    fs.Write("double", Math.PI);
+                    using (var tempMat = new Mat("data/lenna.png"))
+                    {
+                        fs.Write("mat", tempMat);
+                    }
+                }
+
+                using (var fs = new FileStorage(fileName, FileStorage.Mode.Read))
+                {
+                    Console.WriteLine("int: {0}", fs["int"].ReadInt());
+                    Console.WriteLine("double: {0}", (double) fs["double"]);
+                    using (var window = new Window("mat"))
+                    {
+                        window.ShowImage(fs["mat"].ReadMat());
+                        Cv2.WaitKey();
+                    }
                 }
             }
-
-            using (var fs = new FileStorage(fileName, FileStorage.Mode.Read))
+            finally
             {
-                Console.WriteLine("int: {0}", fs["int"].ReadInt());
-                Console.WriteLine("double: {0}", (double)fs["double"]);
-                using (var window = new Window("mat"))
-                {
-                    window.ShowImage(fs["mat"].ReadMat());
-                    Cv2.WaitKey();
-                }
+                File.Delete(fileName);
             }
         }
 

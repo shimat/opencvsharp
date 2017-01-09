@@ -120,7 +120,7 @@ namespace OpenCvSharp
             Point[] dst = new Point[size];
             using (var dstPtr = new ArrayAddress1<Point>(dst))
             {
-                Util.Utility.CopyMemory(dstPtr, ElemPtr, Point.SizeOf*dst.Length);
+                MemoryHelper.CopyMemory(dstPtr, ElemPtr, Point.SizeOf*dst.Length);
             }
             return dst;
         }

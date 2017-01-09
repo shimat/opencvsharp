@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
@@ -11,22 +12,54 @@ namespace OpenCvSharp.ReleaseMaker
     /// </summary>
     public partial class MainForm : Form
     {
-        /// <summary>
-        /// 2012 / 2013
-        /// </summary>
         private const string VisualStudioVersion = "2015";
 
-        private static readonly string[] dllFiles = {
-            @"OpenCvSharp\bin\Release\OpenCvSharp.dll",
-            @"OpenCvSharp\bin\Release\OpenCvSharp.dll.config",
-            @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll",
-            @"OpenCvSharp.Blob\bin\Release\OpenCvSharp.Blob.dll.config",
-            @"OpenCvSharp.Extensions\bin\Release\OpenCvSharp.Extensions.dll",
-            @"OpenCvSharp.UserInterface\bin\Release\OpenCvSharp.UserInterface.dll",
+        private static readonly Dictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
+        {
+            {
+                "net20", new[]
+                {
+                    @"OpenCvSharp\bin\Release\net20\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\net20\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\net20\OpenCvSharp.Blob.dll",
+                }
+            },{
+                "net40", new[]
+                {
+                    @"OpenCvSharp\bin\Release\net40\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\net40\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\net40\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\net40\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.UserInterface\bin\Release\net40\OpenCvSharp.UserInterface.dll",
+                }
+            },{
+                "net46", new[]
+                {
+                    @"OpenCvSharp\bin\Release\net46\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\net46\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.dll",
+                }
+            },{
+                "netcoreapp1.0", new[]
+                {
+                    @"OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.dll",
+                }
+            },{
+                "netstandard1.6", new[]
+                {
+                    @"OpenCvSharp\bin\Release\netstandard1.6\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\netstandard1.6\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.dll",
+                }
+            }
         };
 
         private static readonly string debuggerVisualizerPath =
-            @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
+            @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\net20\OpenCvSharp.DebuggerVisualizers{0}.dll";
 
         private static readonly string[] debuggerVisualizerVersions =
         {
@@ -34,10 +67,10 @@ namespace OpenCvSharp.ReleaseMaker
         };
 
         private static readonly string[] xmlFiles = {
-            @"OpenCvSharp\bin\{0}\OpenCvSharp.xml",
-            @"OpenCvSharp.Blob\bin\{0}\OpenCvSharp.Blob.xml",
-            @"OpenCvSharp.Extensions\bin\{0}\OpenCvSharp.Extensions.xml",
-            @"OpenCvSharp.UserInterface\bin\{0}\OpenCvSharp.UserInterface.xml",
+            @"OpenCvSharp\bin\{0}\net46\OpenCvSharp.xml",
+            @"OpenCvSharp.Blob\bin\{0}\net46\OpenCvSharp.Blob.xml",
+            @"OpenCvSharp.Extensions\bin\{0}\net46\OpenCvSharp.Extensions.xml",
+            @"OpenCvSharp.UserInterface\bin\{0}\net46\OpenCvSharp.UserInterface.xml",
         };
 
         private static readonly string[] platforms = {
@@ -46,7 +79,7 @@ namespace OpenCvSharp.ReleaseMaker
         };
         private static readonly string[] languages = {
             "Release",
-            "Release JP"
+            "Release-JP"
         };
 
         private static readonly string[] ignoredExt = {
@@ -152,12 +185,16 @@ namespace OpenCvSharp.ReleaseMaker
             {
                 using (ZipFile zf = new ZipFile())
                 {
-                    // DLLを選択
-                    foreach (string f in dllFiles)
+                    // net20, net40といったplatformごとにDLLを選択
+                    foreach (var framework in dllFiles)
                     {
-                        string dll = Path.Combine(dirSrc, f);
-                        ZipEntry e = zf.AddFile(dll);
-                        e.FileName = Path.GetFileName(dll);
+                        var frameworkName = framework.Key;
+                        foreach (var dllFileName in framework.Value)
+                        {
+                            string dllPath = Path.Combine(dirSrc, dllFileName);
+                            ZipEntry e = zf.AddFile(dllPath);
+                            e.FileName = Path.Combine(frameworkName, Path.GetFileName(dllPath));
+                        }
                     }
 
                     // XMLドキュメントコメントを選択
@@ -166,6 +203,8 @@ namespace OpenCvSharp.ReleaseMaker
                         foreach (string f in xmlFiles)
                         {
                             string xml = Path.Combine(dirSrc, String.Format(f, lang));
+                            if (!File.Exists(xml))
+                                continue;
                             ZipEntry e = zf.AddFile(xml);
                             string lg = lang.Contains("JP") ? "Japanese" : "English";
                             e.FileName = Path.Combine("XmlDoc-" + lg, Path.GetFileName(xml));
@@ -195,8 +234,8 @@ namespace OpenCvSharp.ReleaseMaker
 
                     // テキストを選択
                     {
-                        ZipEntry e1 = zf.AddFile(Path.Combine(dir, "LICENSE.txt"));
-                        e1.FileName = Path.GetFileName("LICENSE.txt");
+                        ZipEntry e1 = zf.AddFile(Path.Combine(dir, "LICENSE"));
+                        e1.FileName = Path.GetFileName("LICENSE");
                         ZipEntry e2 = zf.AddFile(Path.Combine(dir, "README.md"));
                         e2.FileName = Path.GetFileName("README.md");
                     }
@@ -216,7 +255,7 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="version"></param>
         private void MakeSamplePackage(string dirSrc, string dirDst, string version)
         {
-            dirSrc = Path.Combine(dirSrc, "sample");
+            dirSrc = Path.Combine(dirSrc, "samples");
             dirDst = Path.Combine(dirDst, GetSampleDstDirName(version));
 
             CopyDirectory(dirSrc, dirDst);

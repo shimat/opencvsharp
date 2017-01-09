@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Gpu
 {
@@ -39,7 +40,7 @@ namespace OpenCvSharp.Gpu
         {
             this.parent = parent;
             this.step = parent.Step();
-            this.sizeOfT = Marshal.SizeOf(typeof(T));
+            this.sizeOfT = MarshalHelper.SizeOf<T>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -9,7 +10,7 @@ namespace OpenCvSharp
     /// <summary>
     /// OpenCV C++ n-dimensional dense array class (cv::Mat)
     /// </summary>
-    public partial class Mat : DisposableCvObject, ICloneable
+    public partial class Mat : DisposableCvObject
     {
         private bool disposed;
 
@@ -1880,11 +1881,6 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-
         /// <summary>
         /// Returns the partial Mat of the specified Mat
         /// </summary>
@@ -2562,7 +2558,7 @@ namespace OpenCvSharp
                 try
                 {
                     buf = NativeMethods.core_Mat_dump(ptr, formatStr);
-                    return new string(buf);
+                    return StringHelper.PtrToStringAnsi(buf);
                 }
                 finally
                 {
@@ -2683,7 +2679,7 @@ namespace OpenCvSharp
                 get
                 {
                     IntPtr p = new IntPtr(ptrVal + (steps[0]*i0));
-                    return (T) Marshal.PtrToStructure(p, typeof (T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -2703,7 +2699,7 @@ namespace OpenCvSharp
                 get
                 {
                     IntPtr p = new IntPtr(ptrVal + (steps[0]*i0) + (steps[1]*i1));
-                    return (T) Marshal.PtrToStructure(p, typeof (T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -2724,7 +2720,7 @@ namespace OpenCvSharp
                 get
                 {
                     IntPtr p = new IntPtr(ptrVal + (steps[0]*i0) + (steps[1]*i1) + (steps[2]*i2));
-                    return (T) Marshal.PtrToStructure(p, typeof (T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -2748,7 +2744,7 @@ namespace OpenCvSharp
                         offset += steps[i]*idx[i];
                     }
                     IntPtr p = new IntPtr(ptrVal + offset);
-                    return (T) Marshal.PtrToStructure(p, typeof (T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -4511,14 +4507,18 @@ namespace OpenCvSharp
         public TMat Cast<TMat>()
             where TMat : Mat, new()
         {
-            var type = typeof (TMat);
+            var type = typeof(TMat);
+#if net20 || net40
             var constructor = type.GetConstructor(new[] {typeof (Mat)});
+#else
+            var constructor = type.GetTypeInfo().GetConstructor(new[] { typeof(Mat) });
+#endif
             if (constructor == null)
                 throw new OpenCvSharpException("Failed to cast to {0}", type.Name);
             return (TMat)constructor.Invoke(new object[] {this});
         }
 
-        #region ForEach
+#region ForEach
 // ReSharper disable InconsistentNaming
 
         /// <summary>
@@ -4922,9 +4922,9 @@ namespace OpenCvSharp
             GC.KeepAlive(operation);
         }
 // ReSharper restore InconsistentNaming
-        #endregion
+#endregion
 
-        #endregion
+#endregion
     }
 
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Gpu
 {
@@ -14,7 +15,7 @@ namespace OpenCvSharp.Gpu
     /// Smart pointer for GPU memory with reference counting. Its interface is mostly similar with cv::Mat.
     /// </summary>
 #endif
-    public partial class GpuMat : DisposableCvObject, ICloneable
+    public partial class GpuMat : DisposableCvObject
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -642,7 +643,7 @@ namespace OpenCvSharp.Gpu
                 get
                 {
                     var p = new IntPtr(ptrVal + (step*i0) + (sizeOfT*i1));
-                    return (T)Marshal.PtrToStructure(p, typeof(T));
+                    return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -1055,10 +1056,6 @@ namespace OpenCvSharp.Gpu
             ThrowIfDisposed();
             IntPtr ret = NativeMethods.cuda_GpuMat_clone(ptr);
             return new GpuMat(ret);
-        }
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
 
         /// <summary>
