@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using OpenCvSharp.Blob;
 using OpenCvSharp.Gpu;
-using OpenCvSharp.Extensions;
 using OpenCvSharp.XFeatures2D;
+#if DOTNET_FRAMEWORK
+using OpenCvSharp.Extensions;
+using System.Drawing;
+#endif
 
 namespace OpenCvSharp.Sandbox
 {

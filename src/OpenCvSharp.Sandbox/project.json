@@ -11,6 +11,13 @@
   },
 
   "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.6.1",
+        "Microsoft.NETCore.App": "1.1.0"
+      }
+    },
     "net461": {
       "dependencies": {
         "OpenCvSharp.Extensions": "1.0.0-*"
@@ -28,9 +35,5 @@
     "optimize": true,
     "allowUnsafe": true,
     "emitEntryPoint": true
-  },
-
-  "publishOptions": {
-    "include": [ "dll/**/*.dll" ]
   }
 }
