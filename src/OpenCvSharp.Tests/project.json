@@ -5,9 +5,7 @@
     "OpenCvSharp": "1.0.0-*",
     "OpenCvSharp.Blob": "1.0.0-*",
     "NUnit": "3.5.0",
-    "NUnitLite": "3.5.0",
-    "NUnit.Console": "3.5.0",
-    "NUnit3TestAdapter": "3.5.0"
+    "dotnet-test-nunit": "3.4.0-beta-3"
   },
 
   "testRunner": "nunit",
