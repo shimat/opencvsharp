@@ -39,7 +39,7 @@ namespace OpenCvSharp
 
         private static readonly string[] OpenCVDllNames =
         {
-            "opencv_world",
+            //"opencv_world",
         };
 
         public const string DllFfmpegX86 = "opencv_ffmpeg" + Version;
