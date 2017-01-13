@@ -34,6 +34,9 @@
   "buildOptions": {
     "optimize": true,
     "allowUnsafe": true,
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+    "copyToOutput": {
+      "include": [ "dll/**/*.dll" ]
+    }
   }
 }

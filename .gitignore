@@ -118,3 +118,5 @@ Help EN
 *.BAK
 /nuget/*.nupkg
 /src/.vs
+/.vs
+/OpenCvSharp.VC.VC.opendb
