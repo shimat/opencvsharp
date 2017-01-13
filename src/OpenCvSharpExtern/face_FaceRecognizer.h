@@ -1,6 +1,5 @@
-#ifdef ENABLED_CONTRIB
-#ifndef _CPP_FACE_H_
-#define _CPP_FACE_H_
+#ifndef _CPP_FACE_FACERECOGNIZER_H_
+#define _CPP_FACE_FACERECOGNIZER_H_
 
 #include "include_opencv.h"
 using namespace cv::face;
@@ -50,19 +49,6 @@ CVAPI(void) face_FaceRecognizer_load2(FaceRecognizer *obj, cv::FileStorage *fs)
 	obj->load(*fs);
 }
 
-CVAPI(cv::Ptr<FaceRecognizer>*) face_createEigenFaceRecognizer(int numComponents, double threshold)
-{
-	return clone(createEigenFaceRecognizer(numComponents, threshold));
-}
-CVAPI(cv::Ptr<FaceRecognizer>*) face_createFisherFaceRecognizer(int numComponents, double threshold)
-{
-	return clone(createFisherFaceRecognizer(numComponents, threshold));
-}
-CVAPI(cv::Ptr<FaceRecognizer>*) face_createLBPHFaceRecognizer(
-	int radius, int neighbors, int gridX, int gridY, double threshold)
-{
-	return clone(createLBPHFaceRecognizer(radius, neighbors, gridX, gridY, threshold));
-}
 CVAPI(FaceRecognizer*) face_Ptr_FaceRecognizer_get(cv::Ptr<FaceRecognizer> *obj)
 {
 	return obj->get();
@@ -72,5 +58,4 @@ CVAPI(void) face_Ptr_FaceRecognizer_delete(cv::Ptr<FaceRecognizer> *obj)
 	delete obj;
 }
 
-#endif
 #endif
