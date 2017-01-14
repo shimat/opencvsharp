@@ -71,7 +71,6 @@ CVAPI(void) vector_char_delete(vector<char>* vector)
 }
 #pragma endregion
 
-
 #pragma region int
 CVAPI(vector<int>*) vector_int32_new1()
 {

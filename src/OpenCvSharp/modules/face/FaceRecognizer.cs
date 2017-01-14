@@ -38,7 +38,7 @@ namespace OpenCvSharp.Face
         internal static FaceRecognizer FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<FaceRecognizer> pointer");
+                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FaceRecognizer)}> pointer");
             var ptrObj = new Ptr<FaceRecognizer>(ptr);
             var detector = new FaceRecognizer
             {
@@ -46,31 +46,6 @@ namespace OpenCvSharp.Face
                 ptr = ptrObj.Get()
             };
             return detector;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="numComponents"></param>
-        /// <param name="threshold"></param>
-        /// <returns></returns>
-        public static FaceRecognizer CreateEigenFaceRecognizer(int numComponents = 0, double threshold = Double.MaxValue)
-        {
-            IntPtr p = NativeMethods.face_createEigenFaceRecognizer(numComponents, threshold);
-            return FromPtr(p);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="numComponents"></param>
-        /// <param name="threshold"></param>
-        /// <returns></returns>
-        public static FaceRecognizer CreateFisherFaceRecognizer(
-            int numComponents = 0, double threshold = Double.MaxValue)
-        {
-            IntPtr p = NativeMethods.face_createFisherFaceRecognizer(numComponents, threshold);
-            return FromPtr(p);
         }
 
         /// <summary>
