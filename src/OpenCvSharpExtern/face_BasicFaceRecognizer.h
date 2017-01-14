@@ -54,14 +54,6 @@ CVAPI(void) face_BasicFaceRecognizer_getMean(BasicFaceRecognizer *obj, cv::Mat *
     result.copyTo(*dst);
 }
 
-CVAPI(cv::Ptr<BasicFaceRecognizer>*) face_createEigenFaceRecognizer(int numComponents, double threshold)
-{
-    return clone(createEigenFaceRecognizer(numComponents, threshold));
-}
-CVAPI(cv::Ptr<BasicFaceRecognizer>*) face_createFisherFaceRecognizer(int numComponents, double threshold)
-{
-    return clone(createFisherFaceRecognizer(numComponents, threshold));
-}
 
 CVAPI(BasicFaceRecognizer*) face_Ptr_BasicFaceRecognizer_get(cv::Ptr<BasicFaceRecognizer> *obj)
 {

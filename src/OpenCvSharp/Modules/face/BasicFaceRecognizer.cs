@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Face
 {
     /// <summary>
     /// 
     /// </summary>
-    public class BaseFaceRecognizer : FaceRecognizer
+    public class BasicFaceRecognizer : FaceRecognizer
     {
         private bool disposed;
 
         /// <summary>
         ///
         /// </summary>
-        private Ptr<BaseFaceRecognizer> recognizerPtr;
+        private Ptr<BasicFaceRecognizer> recognizerPtr;
 
         #region Init & Disposal
 
         /// <summary>
         ///
         /// </summary>
-        protected BaseFaceRecognizer()
+        protected BasicFaceRecognizer()
         {
             recognizerPtr = null;
             ptr = IntPtr.Zero;
@@ -33,12 +32,12 @@ namespace OpenCvSharp.Face
         /// ptr is disposed when the wrapper disposes.
         /// </summary>
         /// <param name="ptr"></param>
-        internal new static BaseFaceRecognizer FromPtr(IntPtr ptr)
+        internal new static BasicFaceRecognizer FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(BaseFaceRecognizer)}> pointer");
-            var ptrObj = new Ptr<BaseFaceRecognizer>(ptr);
-            var detector = new BaseFaceRecognizer
+                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(BasicFaceRecognizer)}> pointer");
+            var ptrObj = new Ptr<BasicFaceRecognizer>(ptr);
+            var detector = new BasicFaceRecognizer
             {
                 recognizerPtr = ptrObj,
                 ptr = ptrObj.Get()
@@ -52,7 +51,7 @@ namespace OpenCvSharp.Face
         /// <param name="numComponents"></param>
         /// <param name="threshold"></param>
         /// <returns></returns>
-        public static BaseFaceRecognizer CreateEigenFaceRecognizer(int numComponents = 0, double threshold = Double.MaxValue)
+        public static BasicFaceRecognizer CreateEigenFaceRecognizer(int numComponents = 0, double threshold = Double.MaxValue)
         {
             IntPtr p = NativeMethods.face_createEigenFaceRecognizer(numComponents, threshold);
             return FromPtr(p);
@@ -64,7 +63,7 @@ namespace OpenCvSharp.Face
         /// <param name="numComponents"></param>
         /// <param name="threshold"></param>
         /// <returns></returns>
-        public static BaseFaceRecognizer CreateFisherFaceRecognizer(
+        public static BasicFaceRecognizer CreateFisherFaceRecognizer(
             int numComponents = 0, double threshold = Double.MaxValue)
         {
             IntPtr p = NativeMethods.face_createFisherFaceRecognizer(numComponents, threshold);
@@ -134,6 +133,116 @@ namespace OpenCvSharp.Face
 
         #region Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int GetNumComponents()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            return NativeMethods.face_BasicFaceRecognizer_getNumComponents(ptr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public void SetNumComponents(int val)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            NativeMethods.face_BasicFaceRecognizer_setNumComponents(ptr, val);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public new double GetThreshold()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            return NativeMethods.face_BasicFaceRecognizer_getThreshold(ptr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public new void SetThreshold(double val)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            NativeMethods.face_BasicFaceRecognizer_setThreshold(ptr, val);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Mat[] GetProjections()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            using (var resultVector = new VectorOfMat())
+            {
+                NativeMethods.face_BasicFaceRecognizer_getProjections(ptr, resultVector.CvPtr);
+                return resultVector.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Mat GetLabels()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            Mat result = new Mat();
+            NativeMethods.face_BasicFaceRecognizer_getLabels(ptr, result.CvPtr);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Mat GetEigenValues()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            Mat result = new Mat();
+            NativeMethods.face_BasicFaceRecognizer_getEigenValues(ptr, result.CvPtr);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Mat GetEigenVectors()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            Mat result = new Mat();
+            NativeMethods.face_BasicFaceRecognizer_getEigenVectors(ptr, result.CvPtr);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Mat GetMean()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            Mat result = new Mat();
+            NativeMethods.face_BasicFaceRecognizer_getMean(ptr, result.CvPtr);
+            return result;
+        }
 
         #endregion
     }
