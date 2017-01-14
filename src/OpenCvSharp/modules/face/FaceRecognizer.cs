@@ -48,22 +48,6 @@ namespace OpenCvSharp.Face
             return detector;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="radius"></param>
-        /// <param name="neighbors"></param>
-        /// <param name="gridX"></param>
-        /// <param name="gridY"></param>
-        /// <param name="threshold"></param>
-        /// <returns></returns>
-        public static FaceRecognizer CreateLBPHFaceRecognizer(int radius = 1, int neighbors = 8,
-            int gridX = 8, int gridY = 8, double threshold = Double.MaxValue)
-        {
-            IntPtr p = NativeMethods.face_createLBPHFaceRecognizer(radius, neighbors, gridX, gridY, threshold);
-            return FromPtr(p);
-        }
-
 #if LANG_JP
 /// <summary>
 /// リソースの解放

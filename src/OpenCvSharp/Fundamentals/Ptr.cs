@@ -32,6 +32,7 @@ namespace OpenCvSharp
             {
                 {typeof (Algorithm), NativeMethods.core_Ptr_Algorithm_delete},
                 {typeof (FaceRecognizer), NativeMethods.face_Ptr_FaceRecognizer_delete},
+                {typeof (BasicFaceRecognizer), NativeMethods.face_Ptr_BasicFaceRecognizer_delete},
                 {typeof (DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_delete},
                 {typeof (BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_delete},
                 {typeof (FlannBasedMatcher), NativeMethods.features2d_Ptr_FlannBasedMatcher_delete},
@@ -84,6 +85,7 @@ namespace OpenCvSharp
             {
                 {typeof (Algorithm), NativeMethods.core_Ptr_Algorithm_get},
                 {typeof (FaceRecognizer), NativeMethods.face_Ptr_FaceRecognizer_get},
+                {typeof (BasicFaceRecognizer), NativeMethods.face_Ptr_BasicFaceRecognizer_get},
                 {typeof (DescriptorMatcher), NativeMethods.features2d_Ptr_DescriptorMatcher_get},
                 {typeof (BFMatcher), NativeMethods.features2d_Ptr_BFMatcher_get},
                 {typeof (FlannBasedMatcher), NativeMethods.features2d_Ptr_FlannBasedMatcher_get},
