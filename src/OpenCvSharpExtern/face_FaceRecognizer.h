@@ -1,6 +1,8 @@
 #ifndef _CPP_FACE_FACERECOGNIZER_H_
 #define _CPP_FACE_FACERECOGNIZER_H_
 
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 using namespace cv::face;
 
@@ -48,6 +50,33 @@ CVAPI(void) face_FaceRecognizer_load2(FaceRecognizer *obj, cv::FileStorage *fs)
 {
 	obj->load(*fs);
 }
+
+CVAPI(void) face_FaceRecognizer_setLabelInfo(FaceRecognizer *obj, int label, const char *strInfo)
+{
+    obj->setLabelInfo(label, strInfo);
+}
+CVAPI(void) face_FaceRecognizer_getLabelInfo(FaceRecognizer *obj, int label, std::vector<uchar> *dst)
+{
+    cv::String result = obj->getLabelInfo(label);
+    dst->resize(result.size() + 1);
+    std::memcpy(&((*dst)[0]), result.c_str(), result.size() + 1);
+}
+
+CVAPI(void) face_FaceRecognizer_getLabelsByString(FaceRecognizer *obj, const char* str, std::vector<int> *dst)
+{
+    std::vector<int> result = obj->getLabelsByString(str);
+    std::copy(result.begin(), result.end(), std::back_inserter(*dst));
+}
+
+CVAPI(double) face_FaceRecognizer_getThreshold(FaceRecognizer *obj)
+{
+    return obj->getThreshold();
+}
+CVAPI(void) face_FaceRecognizer_setThreshold(FaceRecognizer *obj, double val)
+{
+    obj->setThreshold(val);
+}
+
 
 CVAPI(FaceRecognizer*) face_Ptr_FaceRecognizer_get(cv::Ptr<FaceRecognizer> *obj)
 {

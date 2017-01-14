@@ -6,7 +6,9 @@ using OpenCvSharp.Util;
 namespace OpenCvSharp.Face
 {
     /// <summary>
-    ///
+    /// Abstract base class for all face recognition models.
+    /// All face recognition models in OpenCV are derived from the abstract base class FaceRecognizer, which
+    /// provides a unified access to all face recongition algorithms in OpenCV.
     /// </summary>
     public class FaceRecognizer : Algorithm
     {
@@ -64,8 +66,8 @@ namespace OpenCvSharp.Face
         /// <param name="numComponents"></param>
         /// <param name="threshold"></param>
         /// <returns></returns>
-        public static FaceRecognizer CreateFisherFaceRecognizer(int numComponents = 0,
-            double threshold = Double.MaxValue)
+        public static FaceRecognizer CreateFisherFaceRecognizer(
+            int numComponents = 0, double threshold = Double.MaxValue)
         {
             IntPtr p = NativeMethods.face_createFisherFaceRecognizer(numComponents, threshold);
             return FromPtr(p);
@@ -88,13 +90,13 @@ namespace OpenCvSharp.Face
         }
 
 #if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
+/// <summary>
+/// リソースの解放
+/// </summary>
+/// <param name="disposing">
+/// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
+/// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
+///</param>
 #else
         /// <summary>
         /// Releases the resources
@@ -117,8 +119,7 @@ namespace OpenCvSharp.Face
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (recognizerPtr != null)
-                            recognizerPtr.Dispose();
+                        recognizerPtr?.Dispose();
                         recognizerPtr = null;
                         ptr = IntPtr.Zero;
                     }
@@ -136,12 +137,14 @@ namespace OpenCvSharp.Face
         #region Methods
 
         /// <summary>
-        /// Trains a FaceRecognizer.
+        /// Trains a FaceRecognizer with given data and associated labels.
         /// </summary>
         /// <param name="src"></param>
         /// <param name="labels"></param>
         public virtual void Train(IEnumerable<Mat> src, IEnumerable<int> labels)
         {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             if (labels == null)
@@ -153,12 +156,14 @@ namespace OpenCvSharp.Face
         }
 
         /// <summary>
-        /// Updates a FaceRecognizer.
+        /// Updates a FaceRecognizer with given data and associated labels.
         /// </summary>
         /// <param name="src"></param>
         /// <param name="labels"></param>
         public void Update(IEnumerable<Mat> src, IEnumerable<int> labels)
         {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             if (labels == null)
@@ -176,6 +181,8 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual int Predict(InputArray src)
         {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
@@ -190,6 +197,8 @@ namespace OpenCvSharp.Face
         /// <param name="confidence"></param>
         public virtual void Predict(InputArray src, out int label, out double confidence)
         {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
@@ -200,8 +209,10 @@ namespace OpenCvSharp.Face
         /// Serializes this object to a given filename.
         /// </summary>
         /// <param name="fileName"></param>
-        public virtual new void Save(string fileName)
+        public new virtual void Save(string fileName)
         {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
             NativeMethods.face_FaceRecognizer_save1(ptr, fileName);
@@ -213,6 +224,8 @@ namespace OpenCvSharp.Face
         /// <param name="fileName"></param>
         public virtual void Load(string fileName)
         {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
             NativeMethods.face_FaceRecognizer_load1(ptr, fileName);
@@ -224,6 +237,8 @@ namespace OpenCvSharp.Face
         /// <param name="fs"></param>
         public virtual void Save(FileStorage fs)
         {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
             NativeMethods.face_FaceRecognizer_save2(ptr, fs.CvPtr);
@@ -235,9 +250,85 @@ namespace OpenCvSharp.Face
         /// <param name="fs"></param>
         public virtual void Load(FileStorage fs)
         {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
             NativeMethods.face_FaceRecognizer_load2(ptr, fs.CvPtr);
+        }
+
+        /// <summary>
+        /// Sets string info for the specified model's label.
+        /// The string info is replaced by the provided value if it was set before for the specified label.
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="strInfo"></param>
+        public void SetLabelInfo(int label, string strInfo)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            if (strInfo == null)
+                throw new ArgumentNullException(nameof(strInfo));
+            NativeMethods.face_FaceRecognizer_setLabelInfo(ptr, label, strInfo);
+        }
+
+        /// <summary>
+        /// Gets string information by label.
+        /// If an unknown label id is provided or there is no label information associated with the specified 
+        /// label id the method returns an empty string.
+        /// </summary>
+        /// <param name="label"></param>
+        /// <returns></returns>
+        public string GetLabelInfo(int label)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            using (var resultVector = new VectorOfByte())
+            {
+                NativeMethods.face_FaceRecognizer_getLabelInfo(ptr, label, resultVector.CvPtr);
+                return StringHelper.PtrToStringAnsi(resultVector.ElemPtr);
+            }
+        }
+
+        /// <summary>
+        /// Gets vector of labels by string.
+        /// The function searches for the labels containing the specified sub-string in the associated string info.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public int[] GetLabelsByString(string str)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            if (str == null)
+                throw new ArgumentNullException(nameof(str));
+            using (var resultVector = new VectorOfInt32())
+            {
+                NativeMethods.face_FaceRecognizer_getLabelsByString(ptr, str, resultVector.CvPtr);
+                return resultVector.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// threshold parameter accessor - required for default BestMinDist collector
+        /// </summary>
+        /// <returns></returns>
+        public double GetThreshold()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            return NativeMethods.face_FaceRecognizer_getThreshold(ptr);
+        }
+
+        /// <summary>
+        /// Sets threshold of model
+        /// </summary>
+        /// <param name="val"></param>
+        public void SetThreshold(double val)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            NativeMethods.face_FaceRecognizer_setThreshold(ptr, val);
         }
 
         #endregion

@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace OpenCvSharp.Tests
 {
     [TestFixture]
+    // ReSharper disable once InconsistentNaming
     public class RNG_MT19937Test
     {
         [Test]
