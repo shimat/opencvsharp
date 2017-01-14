@@ -1,6 +1,8 @@
 #ifndef _CPP_WVECTOR_H_
 #define _CPP_WVECTOR_H_
 
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 using namespace std;
@@ -36,6 +38,39 @@ CVAPI(void) vector_uchar_delete(vector<uchar>* vector)
 	delete vector;
 }
 #pragma endregion
+
+#pragma region char
+CVAPI(vector<char>*) vector_char_new1()
+{
+    return new vector<char>;
+}
+CVAPI(vector<char>*) vector_char_new2(size_t size)
+{
+    return new vector<char>(size);
+}
+CVAPI(vector<char>*) vector_char_new3(char* data, size_t dataLength)
+{
+    return new vector<char>(data, data + dataLength);
+}
+CVAPI(size_t) vector_char_getSize(vector<char>* vector)
+{
+    return vector->size();
+}
+CVAPI(char*) vector_char_getPointer(vector<char>* vector)
+{
+    return &(vector->at(0));
+}
+CVAPI(void) vector_vector_char_copy(vector<char> *vector, char *dst)
+{
+    size_t length = sizeof(char)* vector->size();
+    memcpy(dst, &(vector->at(0)), length);
+}
+CVAPI(void) vector_char_delete(vector<char>* vector)
+{
+    delete vector;
+}
+#pragma endregion
+
 
 #pragma region int
 CVAPI(vector<int>*) vector_int32_new1()

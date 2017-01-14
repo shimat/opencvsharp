@@ -16,5 +16,15 @@ namespace OpenCvSharp.Util
             return Marshal.PtrToStringAnsi(new IntPtr(p));
 #endif
         }
+
+        public static unsafe string PtrToStringAnsi(IntPtr p)
+        {
+#if DOTNET_FRAMEWORK
+            return new string((sbyte*)p);
+#else
+            // memo: https://github.com/dotnet/standard/blob/master/netstandard/ref/mscorlib.cs#L2970
+            return Marshal.PtrToStringAnsi(p);
+#endif
+        }
     }
 }

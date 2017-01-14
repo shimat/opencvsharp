@@ -42,6 +42,20 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr face_createLBPHFaceRecognizer(
         int radius, int neighbors, int gridX, int gridY, double threshold);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void face_FaceRecognizer_setLabelInfo(IntPtr obj, int label,
+            [MarshalAs(UnmanagedType.LPStr)] string strInfo);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void face_FaceRecognizer_getLabelInfo(IntPtr obj, int label, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void face_FaceRecognizer_getLabelsByString(IntPtr obj,
+            [MarshalAs(UnmanagedType.LPStr)] string str, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern double face_FaceRecognizer_getThreshold(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void face_FaceRecognizer_setThreshold(IntPtr obj, double val);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr face_Ptr_FaceRecognizer_get(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
