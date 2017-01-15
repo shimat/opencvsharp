@@ -5,23 +5,23 @@ using System.Text;
 namespace OpenCvSharp.Face
 {
     /// <summary>
-    /// base for two FaceRecognizer classes
+    /// 
     /// </summary>
-    public class BasicFaceRecognizer : FaceRecognizer
+    public class LBPHFaceRecognizer : FaceRecognizer
     {
         private bool disposed;
 
         /// <summary>
         ///
         /// </summary>
-        private Ptr<BasicFaceRecognizer> recognizerPtr;
+        private Ptr<LBPHFaceRecognizer> recognizerPtr;
 
         #region Init & Disposal
 
         /// <summary>
         ///
         /// </summary>
-        protected BasicFaceRecognizer()
+        protected LBPHFaceRecognizer()
         {
             recognizerPtr = null;
             ptr = IntPtr.Zero;
@@ -32,12 +32,12 @@ namespace OpenCvSharp.Face
         /// ptr is disposed when the wrapper disposes.
         /// </summary>
         /// <param name="ptr"></param>
-        internal new static BasicFaceRecognizer FromPtr(IntPtr ptr)
+        internal new static LBPHFaceRecognizer FromPtr(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(BasicFaceRecognizer)}> pointer");
-            var ptrObj = new Ptr<BasicFaceRecognizer>(ptr);
-            var detector = new BasicFaceRecognizer
+                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(LBPHFaceRecognizer)}> pointer");
+            var ptrObj = new Ptr<LBPHFaceRecognizer>(ptr);
+            var detector = new LBPHFaceRecognizer
             {
                 recognizerPtr = ptrObj,
                 ptr = ptrObj.Get()
@@ -96,57 +96,123 @@ namespace OpenCvSharp.Face
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual int GetNumComponents()
+        public virtual int GetGridX()
         {
             if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
-            return NativeMethods.face_BasicFaceRecognizer_getNumComponents(ptr);
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            return NativeMethods.face_LBPHFaceRecognizer_getGridX(ptr);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public virtual void SetNumComponents(int val)
+        public virtual void SetGridX(int val)
         {
             if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
-            NativeMethods.face_BasicFaceRecognizer_setNumComponents(ptr, val);
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            NativeMethods.face_LBPHFaceRecognizer_setGridX(ptr, val);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public new virtual double GetThreshold()
+        public virtual int GetGridY()
         {
             if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
-            return NativeMethods.face_BasicFaceRecognizer_getThreshold(ptr);
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            return NativeMethods.face_LBPHFaceRecognizer_getGridY(ptr);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public new virtual void SetThreshold(double val)
+        public virtual void SetGridY(int val)
         {
             if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
-            NativeMethods.face_BasicFaceRecognizer_setThreshold(ptr, val);
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            NativeMethods.face_LBPHFaceRecognizer_setGridY(ptr, val);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual Mat[] GetProjections()
+        public virtual int GetRadius()
         {
             if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            return NativeMethods.face_LBPHFaceRecognizer_getRadius(ptr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public virtual void SetRadius(int val)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            NativeMethods.face_LBPHFaceRecognizer_setRadius(ptr, val);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual int GetNeighbors()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            return NativeMethods.face_LBPHFaceRecognizer_getNeighbors(ptr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public virtual void SetNeighbors(int val)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            NativeMethods.face_LBPHFaceRecognizer_setNeighbors(ptr, val);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual double GetThreshold()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            return NativeMethods.face_LBPHFaceRecognizer_getThreshold(ptr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public virtual void SetThreshold(double val)
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            NativeMethods.face_LBPHFaceRecognizer_setThreshold(ptr, val);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual Mat[] GetHistograms()
+        {
+            if (disposed)
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
             using (var resultVector = new VectorOfMat())
             {
-                NativeMethods.face_BasicFaceRecognizer_getProjections(ptr, resultVector.CvPtr);
+                NativeMethods.face_LBPHFaceRecognizer_getHistograms(ptr, resultVector.CvPtr);
                 return resultVector.ToArray();
             }
         }
@@ -158,51 +224,12 @@ namespace OpenCvSharp.Face
         public virtual Mat GetLabels()
         {
             if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
             Mat result = new Mat();
-            NativeMethods.face_BasicFaceRecognizer_getLabels(ptr, result.CvPtr);
+            NativeMethods.face_LBPHFaceRecognizer_getLabels(ptr, result.CvPtr);
             return result;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual Mat GetEigenValues()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
-            Mat result = new Mat();
-            NativeMethods.face_BasicFaceRecognizer_getEigenValues(ptr, result.CvPtr);
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual Mat GetEigenVectors()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
-            Mat result = new Mat();
-            NativeMethods.face_BasicFaceRecognizer_getEigenVectors(ptr, result.CvPtr);
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual Mat GetMean()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
-            Mat result = new Mat();
-            NativeMethods.face_BasicFaceRecognizer_getMean(ptr, result.CvPtr);
-            return result;
-        }
-
+        
         #endregion
     }
 }
