@@ -184,7 +184,7 @@ namespace OpenCvSharp.Face
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual double GetThreshold()
+        public new virtual double GetThreshold()
         {
             if (disposed)
                 throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
@@ -195,7 +195,7 @@ namespace OpenCvSharp.Face
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public virtual void SetThreshold(double val)
+        public new virtual void SetThreshold(double val)
         {
             if (disposed)
                 throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
