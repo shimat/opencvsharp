@@ -7,11 +7,6 @@ namespace OpenCvSharp.Tests
     [TestFixture]
     public class SolveEquationTest
     {
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-        }
-
         [Test]
         public void ByMat()
         {
