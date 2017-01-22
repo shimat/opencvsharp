@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests.Core
 {
     [TestFixture]
     public class RNG_MT19937Test

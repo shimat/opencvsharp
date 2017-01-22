@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests.Core
 {
     [TestFixture]
     public class MatTest
     {
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-        }
-
         [Test]
         public void MatOfDoubleFromArray()
         {
