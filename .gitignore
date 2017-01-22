@@ -123,3 +123,5 @@ Help EN
 /src/OpenCvSharp.Sandbox/foo.yml
 /src/OpenCvSharp.Sandbox/dll/x64/OpenCvSharpExtern.dll
 /src/OpenCvSharp.Sandbox/dll/x86/OpenCvSharpExtern.dll
+/test/OpenCvSharp.Tests/dll/x64/OpenCvSharpExtern.dll
+/test/OpenCvSharp.Tests/dll/x86/OpenCvSharpExtern.dll

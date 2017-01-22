@@ -173,7 +173,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x86\$(TargetFileName)"</Command>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x86\$(TargetFileName)"
+copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -209,7 +210,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x64\$(TargetFileName)"</Command>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x64\$(TargetFileName)"
+copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
