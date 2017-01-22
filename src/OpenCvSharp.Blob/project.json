@@ -50,7 +50,6 @@
     "xmlDoc": true,
     "optimize": true,
     "keyFile": "Key.snk",
-    "publicSign": true,
     "allowUnsafe": true
   }
 }

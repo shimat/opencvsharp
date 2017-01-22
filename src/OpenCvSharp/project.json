@@ -50,9 +50,8 @@
     "xmlDoc": true,
     "optimize": true,
     "keyFile": "Key.snk",
-    "publicSign": true,
     "allowUnsafe": true,
-    "copyToOutput": { "include": [ "OpenCvSharp.dll.config" ] } 
+    "copyToOutput": { "include": [ "OpenCvSharp.dll.config" ] }
   },
   "configurations": {
     "Release-JP": {

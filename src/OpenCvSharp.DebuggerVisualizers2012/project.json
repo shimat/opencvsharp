@@ -22,6 +22,5 @@
   "buildOptions": {
     "optimize": true,
     "keyFile": "Key.snk",
-    "publicSign": true
   }
 }
