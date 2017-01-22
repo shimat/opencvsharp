@@ -133,6 +133,8 @@ namespace OpenCvSharp
                 {typeof (ShapeContextDistanceExtractor), NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get},
                 {typeof (HausdorffDistanceExtractor), NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get},
                 {typeof (CalibrateDebevec), NativeMethods.photo_Ptr_CalibrateDebevec_get},
+                {typeof (StereoBM), NativeMethods.calib3d_Ptr_StereoBM_get},
+                {typeof (StereoSGBM), NativeMethods.calib3d_Ptr_StereoSGBM_get},
             };
         }
 

@@ -173,7 +173,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x86\$(TargetFileName)"</Command>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x86\$(TargetFileName)"
+copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -209,7 +210,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x64\$(TargetFileName)"</Command>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x64\$(TargetFileName)"
+copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -238,7 +240,9 @@
   <ItemGroup>
     <ClInclude Include="bgsegm.h" />
     <ClInclude Include="calib3d.h" />
+    <ClInclude Include="calib3d_StereoBM.h" />
     <ClInclude Include="calib3d_StereoMatcher.h" />
+    <ClInclude Include="calib3d_StereoSGBM.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="core_InputArray.h" />
     <ClInclude Include="core_Mat.h" />

@@ -39,11 +39,11 @@
     "allowUnsafe": true,
     "emitEntryPoint": false,
     "copyToOutput": {
-      "include": [ "dll/**/*.dll", "Data" ]
+      "include": [ "dll/**/*.dll", "_data" ]
     }
   },
 
   "publishOptions": {
-    "include": [ "dll/**/*.dll", "Data" ]
+    "include": [ "dll/**/*.dll", "_data" ]
   } 
 }
