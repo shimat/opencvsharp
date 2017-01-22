@@ -240,7 +240,9 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
   <ItemGroup>
     <ClInclude Include="bgsegm.h" />
     <ClInclude Include="calib3d.h" />
+    <ClInclude Include="calib3d_StereoBM.h" />
     <ClInclude Include="calib3d_StereoMatcher.h" />
+    <ClInclude Include="calib3d_StereoSGBM.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="core_InputArray.h" />
     <ClInclude Include="core_Mat.h" />
