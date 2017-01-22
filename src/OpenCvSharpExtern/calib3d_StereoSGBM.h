@@ -1,5 +1,5 @@
-#ifndef _CPP_CALIB3D_STEREOBM_H_
-#define _CPP_CALIB3D_STEREOBM_H_
+#ifndef _CPP_CALIB3D_STEREOSGBM_H_
+#define _CPP_CALIB3D_STEREOSGBM_H_
 
 #include "include_opencv.h"
 
