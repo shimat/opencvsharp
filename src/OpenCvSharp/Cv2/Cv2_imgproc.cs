@@ -2200,8 +2200,9 @@ namespace OpenCvSharp
         public static int FloodFill(InputOutputArray image, Point seedPoint, Scalar newVal)
         {
             Rect rect;
-            return FloodFill(image, seedPoint, newVal, out rect);
+            return FloodFill(image, seedPoint, newVal, out rect, null, null, FloodFillFlags.Link4);
         }
+
         /// <summary>
         /// Fills a connected component with the given color.
         /// </summary>
@@ -2226,6 +2227,34 @@ namespace OpenCvSharp
                                     Point seedPoint, Scalar newVal, out Rect rect,
                                     Scalar? loDiff = null, Scalar? upDiff = null,
                                     FloodFillFlags flags = FloodFillFlags.Link4)
+        {
+            return FloodFill(image, seedPoint, newVal, out rect, loDiff, upDiff, (int)flags);
+        }
+
+        /// <summary>
+        /// Fills a connected component with the given color.
+        /// </summary>
+        /// <param name="image">Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.</param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
+        /// <param name="rect">Optional output parameter set by the function to the 
+        /// minimum bounding rectangle of the repainted domain.</param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
+        /// 4 (default) or 8, used within the function. Connectivity determines which 
+        /// neighbors of a pixel are considered. </param>
+        /// <returns></returns>
+        public static int FloodFill(InputOutputArray image,
+                                    Point seedPoint, Scalar newVal, out Rect rect,
+                                    Scalar? loDiff = null, Scalar? upDiff = null,
+                                    int flags = 4)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -2256,7 +2285,7 @@ namespace OpenCvSharp
                                     Point seedPoint, Scalar newVal)
         {
             Rect rect;
-            return FloodFill(image, mask, seedPoint, newVal, out rect);
+            return FloodFill(image, mask, seedPoint, newVal, out rect, null, null, FloodFillFlags.Link4);
         }
 
         /// <summary>
@@ -2289,6 +2318,39 @@ namespace OpenCvSharp
                                     Scalar? loDiff = null, Scalar? upDiff = null,
                                     FloodFillFlags flags = FloodFillFlags.Link4)
         {
+            return FloodFill(image, mask, seedPoint, newVal, out rect, loDiff, upDiff, (int)flags);
+        }
+
+        /// <summary>
+        /// Fills a connected component with the given color.
+        /// </summary>
+        /// <param name="image">Input/output 1- or 3-channel, 8-bit, or floating-point image. 
+        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
+        /// second variant of the function. See the details below.</param>
+        /// <param name="mask">(For the second function only) Operation mask that should be a single-channel 8-bit image, 
+        /// 2 pixels wider and 2 pixels taller. The function uses and updates the mask, so you take responsibility of 
+        /// initializing the mask content. Flood-filling cannot go across non-zero pixels in the mask. For example, 
+        /// an edge detector output can be used as a mask to stop filling at edges. It is possible to use the same mask 
+        /// in multiple calls to the function to make sure the filled area does not overlap.</param>
+        /// <param name="seedPoint">Starting point.</param>
+        /// <param name="newVal">New value of the repainted domain pixels.</param>
+        /// <param name="rect">Optional output parameter set by the function to the 
+        /// minimum bounding rectangle of the repainted domain.</param>
+        /// <param name="loDiff">Maximal lower brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="upDiff">Maximal upper brightness/color difference between the currently 
+        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
+        /// being added to the component.</param>
+        /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
+        /// 4 (default) or 8, used within the function. Connectivity determines which 
+        /// neighbors of a pixel are considered. </param>
+        /// <returns></returns>
+        public static int FloodFill(InputOutputArray image, InputOutputArray mask,
+                                    Point seedPoint, Scalar newVal, out Rect rect,
+                                    Scalar? loDiff = null, Scalar? upDiff = null,
+                                    int flags = 4)
+        {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             if (mask == null)
@@ -2297,8 +2359,8 @@ namespace OpenCvSharp
             mask.ThrowIfNotReady();
             Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            int ret = NativeMethods.imgproc_floodFill(image.CvPtr, mask.CvPtr, seedPoint, 
-                newVal, out rect, loDiff0, upDiff0, (int)flags);
+            int ret = NativeMethods.imgproc_floodFill(image.CvPtr, mask.CvPtr, seedPoint,
+                newVal, out rect, loDiff0, upDiff0, flags);
             image.Fix();
             mask.Fix();
             return ret;

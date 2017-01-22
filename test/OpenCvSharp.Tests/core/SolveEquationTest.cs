@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests.Core
 {
     [TestFixture]
-    public class SolveEquationTest
+    public class SolveEquationTest : TestBase
     {
         [Test]
         public void ByMat()

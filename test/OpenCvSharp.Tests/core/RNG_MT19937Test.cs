@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests.Core
 {
     [TestFixture]
     // ReSharper disable once InconsistentNaming
-    public class RNG_MT19937Test
+    public class RNG_MT19937Test : TestBase
     {
         [Test]
         public void Next()

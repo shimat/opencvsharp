@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace OpenCvSharp.Tests
 {
     [TestFixture]
-    public class FaceDetectorTest
+    public class FaceDetectorTest : TestBase
     {
         [OneTimeSetUp]
         public void SetUp()

@@ -844,7 +844,7 @@ static int internal_Mat_get(cv::Mat *m, int row, int col, char *buff, int count)
 
 // unlike other nPut()-s this one (with double[]) should convert input values to correct type
 template<typename T>
-static inline void internal_set_item(cv::Mat *mat, int r, int c, double *src, int &count)
+static void internal_set_item(cv::Mat *mat, int r, int c, double *src, int &count)
 {
 	T *dst = (T*)mat->ptr(r, c);
 	for (int ch = 0; ch < mat->channels() && count > 0; count--, ch++, src++, dst++)
