@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 
 namespace OpenCvSharp.Tests.Calib3D
@@ -7,11 +8,31 @@ namespace OpenCvSharp.Tests.Calib3D
     [TestFixture]
     public class StereoSGBMTest
     {
-        [Test]
-        public void New()
+        [OneTimeSetUp]
+        public void Init()
         {
-            var sgbm = StereoSGBM.Create(10, 100, 16);
-            sgbm.Dispose();
+            var workDirectory = Path.Combine(TestContext.CurrentContext.WorkDirectory, "win10-x64");
+            Directory.SetCurrentDirectory(workDirectory);
+        }
+
+        [Test]
+        public void SimpleCompute()
+        {
+            var left = new Mat("Image/tsukuba_left.png", ImreadModes.GrayScale);
+            var right = new Mat("Image/tsukuba_right.png", ImreadModes.GrayScale);
+
+            var sbm = StereoSGBM.Create(0, 32, 5);
+            var disparity = new Mat();
+            sbm.Compute(left, right, disparity);
+
+            /*
+            double min, max;
+            Cv2.MinMaxLoc(disparity, out min, out max);
+
+            var disparityU8 = new Mat();
+            disparity.ConvertTo(disparityU8, MatType.CV_8UC1, 255 / (max - min), -255 * min / (max - min));
+            Window.ShowImages(disparityU8);
+            //*/
         }
     }
 }

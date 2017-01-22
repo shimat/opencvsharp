@@ -39,11 +39,11 @@
     "allowUnsafe": true,
     "emitEntryPoint": false,
     "copyToOutput": {
-      "include": [ "dll/**/*.dll" ]
+      "include": [ "dll/**/*.dll", "Image" ]
     }
   },
 
   "publishOptions": {
-    "include": [ "dll/**/*.dll" ]
+    "include": [ "dll/**/*.dll", "Image" ]
   } 
 }
