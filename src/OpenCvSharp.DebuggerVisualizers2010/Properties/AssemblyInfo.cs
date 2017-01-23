@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -17,3 +18,11 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("7bf35a9b-8d4a-4b5e-b231-d267d1fb670d")]
+
+// OpenCvSharp objects' debugger visualizer
+[assembly: DebuggerVisualizer(
+    typeof(OpenCvSharp.DebuggerVisualizers2010.MatDebuggerVisualizer),
+    typeof(OpenCvSharp.DebuggerVisualizers2010.MatObjectSource),
+    Target = typeof(OpenCvSharp.Mat),
+    Description = "Mat Visualizer"
+)]

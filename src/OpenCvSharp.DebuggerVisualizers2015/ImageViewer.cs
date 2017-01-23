@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace OpenCvSharp.DebuggerVisualizers2015
 {
     /// <summary>
-    /// IplImageを表示するビューア
+    /// 
     /// </summary>
     public partial class ImageViewer : Form
     {
@@ -26,7 +26,7 @@ namespace OpenCvSharp.DebuggerVisualizers2015
         public ImageViewer(MatProxy proxy)
             : this()
         {
-            bitmap = new Bitmap(proxy.CreateBitmapStream());
+            bitmap = proxy.CreateBitmap();
         }
 
         /// <summary>
