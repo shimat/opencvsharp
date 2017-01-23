@@ -21,6 +21,6 @@
   },
   "buildOptions": {
     "optimize": true,
-    "keyFile": "Key.snk",
+    "keyFile": "Key.snk"
   }
 }

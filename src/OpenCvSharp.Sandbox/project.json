@@ -11,13 +11,13 @@
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
+    /*"netcoreapp1.0": {
       "imports": "dnxcore50",
       "dependencies": {
         "NETStandard.Library": "1.6.1",
         "Microsoft.NETCore.App": "1.1.0"
       }
-    },
+    },*/
     "net461": {
       "dependencies": {
         "OpenCvSharp.Extensions": "1.0.0-*"
@@ -32,9 +32,10 @@
   },
 
   "buildOptions": {
-    "optimize": true,
+    "optimize": false,
     "allowUnsafe": true,
     "emitEntryPoint": true,
+    "preserveCompilationContext": true,
     "copyToOutput": {
       "include": [ "dll/**/*.dll" ]
     }

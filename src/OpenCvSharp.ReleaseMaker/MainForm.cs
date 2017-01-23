@@ -14,7 +14,7 @@ namespace OpenCvSharp.ReleaseMaker
     {
         private const string VisualStudioVersion = "2015";
 
-        private static readonly Dictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
+        private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
         {
             {
                 "net20", new[]
@@ -61,6 +61,9 @@ namespace OpenCvSharp.ReleaseMaker
         private static readonly string debuggerVisualizerPath =
             @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\net20\OpenCvSharp.DebuggerVisualizers{0}.dll";
 
+        private static readonly string debuggerVisualizerPath2015 =
+            @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\OpenCvSharp.DebuggerVisualizers{0}.dll";
+
         private static readonly string[] debuggerVisualizerVersions =
         {
             "2010", "2012", "2013", "2015",
@@ -87,6 +90,8 @@ namespace OpenCvSharp.ReleaseMaker
             ".bak",
             ".user",
             ".suo",
+            ".git",
+            ".gitignore",
         };
         private static readonly string[] ignoredDir = {
             ".svn",
@@ -225,9 +230,12 @@ namespace OpenCvSharp.ReleaseMaker
                     // Debugger Visualizerを選択
                     foreach (string version in debuggerVisualizerVersions)
                     {
-                        string dllFileName = Path.Combine(dirSrc, String.Format(debuggerVisualizerPath, version));
+                        var dvPath = (version == "2015")
+                            ? String.Format(debuggerVisualizerPath2015, version)
+                            : String.Format(debuggerVisualizerPath, version);
+                        string dllFileName = Path.Combine(dirSrc, dvPath);
                         string zipFileName = Path.Combine(
-                            "DebuggerVisualizers", version, Path.GetFileName(debuggerVisualizerPath));
+                            "DebuggerVisualizers", version, Path.GetFileName(dvPath));
                         ZipEntry e = zf.AddFile(dllFileName);
                         e.FileName = zipFileName;
                     }
@@ -272,25 +280,12 @@ namespace OpenCvSharp.ReleaseMaker
         private string GetBinaryDstDirName(string pf, string version)
         {
             string date = DateTime.Now.ToString("yyyyMMdd");
-            return string.Format("OpenCvSharp-{0}-{1}-{2}", version, pf, date);
+            return $"OpenCvSharp-{version}-{pf}-{date}";
         }
         private string GetSampleDstDirName(string version)
         {
             string date = DateTime.Now.ToString("yyyyMMdd");
-            return string.Format("Sample-{0}-{1}", version, date);
-        }
-
-        /// <summary>
-        /// ディレクトリの作成（既存のディレクトリがあれば削除してから）
-        /// </summary>
-        /// <param name="path"></param>
-        private void CreateDirectory(string path)
-        {
-            if (Directory.Exists(path))
-            {
-                Directory.Delete(path, true);
-            }
-            Directory.CreateDirectory(path);
+            return $"Sample-{version}-{date}";
         }
 
         /// <summary>
