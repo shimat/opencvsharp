@@ -1,8 +1,6 @@
 #OpenCvSharp
 Cross platform wrapper of OpenCV for .NET Framework.
 
-OpenCVを.NET Frameworkから利用するための、クロスプラットフォームで動作するラッパーです。
-
 ## Installation
 ### NuGet
 If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http://www.nuget.org/). Search *'opencvsharp'* on the NuGet Package Manager.
@@ -19,6 +17,8 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 * [OpenCV 3.2 / 2.4.10](http://opencv.org/)
 * [Visual C++ 2015 Redistributable Package](https://www.microsoft.com/en-US/download/details.aspx?id=53840) / [Visual C++ 2013 Redistributable Package](http://www.microsoft.com/en-US/download/details.aspx?id=30679) 
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core](https://www.microsoft.com/net/core#windowsvs2015) / [Mono](http://www.mono-project.com/Main_Page)
+
+OpenCvSharp may not work on Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
 
 ## Documents
 http://shimat.github.io/opencvsharp/
@@ -55,15 +55,6 @@ class Program
 * OpenCvSharp does not force object-oriented programming style on you. You can also call native-style OpenCV functions.
 * OpenCvSharp provides functions for converting from Mat/IplImage into Bitmap(GDI+) or WriteableBitmap(WPF).
 * OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux). 
-
------
-
-* オリジナルのC/C++コードと可能な限り似た記述ができるように設計しています。
-* 多くのクラスがIDisposableインターフェイスを実装しているので、ネイティブリソース管理が容易です。
-* オブジェクト指向な書き方を強制しません。OpenCVのネイティブの関数をそのままの形式で呼べます。
-* GDI+やWPFとの相互利用が可能です。OpenCVのMat/IplImageとGDI+のBitmapやWPFのWriteableBitmapとの変換機能があります。
-* [Mono](http://www.mono-project.com/Main_Page)に対応しています。Linux等のクロスプラットフォームで動作します。
-
 
 ## License
 OpenCvSharp is licensed under the 
