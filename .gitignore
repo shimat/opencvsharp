@@ -125,3 +125,4 @@ Help EN
 /src/OpenCvSharp.Sandbox/dll/x86/OpenCvSharpExtern.dll
 /test/OpenCvSharp.Tests/dll/x64/OpenCvSharpExtern.dll
 /test/OpenCvSharp.Tests/dll/x86/OpenCvSharpExtern.dll
+/nuget/nuget/*.nupkg
