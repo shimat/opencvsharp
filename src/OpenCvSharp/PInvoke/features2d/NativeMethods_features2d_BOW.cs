@@ -38,9 +38,15 @@ namespace OpenCvSharp
         // BOWImgDescriptorExtractor
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_BOWImgDescriptorExtractor_new1(IntPtr dextractor, IntPtr dmatcher);
+        public static extern IntPtr features2d_BOWImgDescriptorExtractor_new1_Ptr(IntPtr dextractor, IntPtr dmatcher);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_BOWImgDescriptorExtractor_new2(IntPtr dmatcher);
+        public static extern IntPtr features2d_BOWImgDescriptorExtractor_new2_Ptr(IntPtr dmatcher);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_BOWImgDescriptorExtractor_new1_RawPtr(IntPtr dextractor, IntPtr dmatcher);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr features2d_BOWImgDescriptorExtractor_new2_RawPtr(IntPtr dmatcher);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_BOWImgDescriptorExtractor_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

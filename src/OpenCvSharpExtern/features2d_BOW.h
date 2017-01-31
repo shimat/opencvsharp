@@ -54,15 +54,26 @@ CVAPI(cv::Mat*) features2d_BOWKMeansTrainer_cluster2(cv::BOWKMeansTrainer *obj, 
 
 // BOWImgDescriptorExtractor
 
-CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new1(
+CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new1_Ptr(
 	cv::Ptr<cv::DescriptorExtractor> *dextractor, cv::Ptr<cv::DescriptorMatcher> *dmatcher)
 {
 	return new cv::BOWImgDescriptorExtractor(*dextractor, *dmatcher);
 }
-CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new2(
+CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new2_Ptr(
 	cv::Ptr<cv::DescriptorMatcher> *dmatcher)
 {
 	return new cv::BOWImgDescriptorExtractor(*dmatcher);
+}
+
+CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new1_RawPtr(
+    cv::DescriptorExtractor *dextractor, cv::DescriptorMatcher *dmatcher)
+{
+    return new cv::BOWImgDescriptorExtractor(dextractor, dmatcher);
+}
+CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new2_RawPtr(
+    cv::DescriptorMatcher *dmatcher)
+{
+    return new cv::BOWImgDescriptorExtractor(dmatcher);
 }
 
 CVAPI(void) features2d_BOWImgDescriptorExtractor_delete(cv::BOWImgDescriptorExtractor *obj)

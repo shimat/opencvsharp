@@ -13,6 +13,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1F113DD0-E292-47A5-8EFF-3FB5D0869BF3}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OpenCvSharp", "src\OpenCvSharp\OpenCvSharp.xproj", "{EB310923-197F-4E20-B123-3A3E7F1D5069}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8E7279F8-F801-4672-B42F-1ED2C68B16A4} = {8E7279F8-F801-4672-B42F-1ED2C68B16A4}
+	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OpenCvSharp.Tests", "test\OpenCvSharp.Tests\OpenCvSharp.Tests.xproj", "{FFBBCF99-97F0-4F81-AAF6-8D851A8E1D2E}"
 EndProject

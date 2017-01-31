@@ -21,7 +21,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dextractor));
             if (dmatcher == null)
                 throw new ArgumentNullException(nameof(dmatcher));
-            ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new1(dextractor.PtrObj, dmatcher.PtrObj);
+            ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.CvPtr, dmatcher.CvPtr);
+            GC.KeepAlive(dextractor);
+            GC.KeepAlive(dmatcher);
         }
 
         /// <summary>
@@ -32,7 +34,8 @@ namespace OpenCvSharp
         {
             if (dmatcher == null)
                 throw new ArgumentNullException(nameof(dmatcher));
-            ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new2(dmatcher.PtrObj);
+            ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.CvPtr);
+            GC.KeepAlive(dmatcher);
         }
 
 #if LANG_JP
