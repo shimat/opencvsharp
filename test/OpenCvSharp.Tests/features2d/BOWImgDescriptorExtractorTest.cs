@@ -21,6 +21,7 @@ namespace OpenCvSharp.Tests.Features2D
             new BOWImgDescriptorExtractor(descriptorMatcher);
         }
 
+        [Test]
         public void New2()
         {
             var descriptorExtractor = SURF.Create(100);
@@ -28,6 +29,7 @@ namespace OpenCvSharp.Tests.Features2D
             new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher);
         }
 
+        [Test]
         public void New3()
         {
             var descriptorExtractor = KAZE.Create();
@@ -35,6 +37,7 @@ namespace OpenCvSharp.Tests.Features2D
             new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher);
         }
 
+        [Test]
         public void New4()
         {
             var descriptorExtractor = SURF.Create(100);
@@ -44,6 +47,7 @@ namespace OpenCvSharp.Tests.Features2D
             new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher);
         }
 
+        [Test]
         public void New5()
         {
             var descriptorExtractor = KAZE.Create();
