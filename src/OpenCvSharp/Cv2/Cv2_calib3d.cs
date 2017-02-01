@@ -2154,10 +2154,12 @@ namespace OpenCvSharp
             IntPtr mat = NativeMethods.calib3d_findFundamentalMat_InputArray(
                 points1.CvPtr, points2.CvPtr, (int)method,
                 param1, param2, ToPtr(mask));
-            if (mask != null)
-                mask.Fix();
+            mask?.Fix();
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
             return new Mat(mat);
         }
+
         /// <summary>
         /// Calculates a fundamental matrix from the corresponding points in two images.
         /// </summary>
@@ -2192,8 +2194,7 @@ namespace OpenCvSharp
                 points1Array, points1Array.Length,
                 points2Array, points2Array.Length, (int)method,
                 param1, param2, ToPtr(mask));
-            if (mask != null)
-                mask.Fix();
+            mask?.Fix();
             return new Mat(mat);
         }
         #endregion
@@ -2223,8 +2224,11 @@ namespace OpenCvSharp
 
             NativeMethods.calib3d_computeCorrespondEpilines_InputArray(
                 points.CvPtr, whichImage, F.CvPtr, lines.CvPtr);
+
+            GC.KeepAlive(points);
             lines.Fix();
         }
+
         /// <summary>
         /// For points in an image of a stereo pair, computes the corresponding epilines in the other image.
         /// </summary>
@@ -2316,6 +2320,10 @@ namespace OpenCvSharp
                 projMatr1.CvPtr, projMatr2.CvPtr,
                 projPoints1.CvPtr, projPoints2.CvPtr, points4D.CvPtr);
 
+            GC.KeepAlive(projMatr1);
+            GC.KeepAlive(projMatr2);
+            GC.KeepAlive(projPoints1);
+            GC.KeepAlive(projPoints2);
             points4D.Fix();
         }
         /// <summary>
@@ -2391,9 +2399,13 @@ namespace OpenCvSharp
                 F.CvPtr, points1.CvPtr, points2.CvPtr,
                 newPoints1.CvPtr, newPoints2.CvPtr);
 
+            GC.KeepAlive(F);
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
             newPoints1.Fix();
             newPoints2.Fix();
         }
+
         /// <summary>
         /// Refines coordinates of corresponding points.
         /// </summary>
@@ -2483,6 +2495,7 @@ namespace OpenCvSharp
             NativeMethods.calib3d_validateDisparity(
                 disparity.CvPtr, cost.CvPtr, minDisparity, numberOfDisparities, disp12MaxDisp);
             disparity.Fix();
+            GC.KeepAlive(cost);
         }
 
         /// <summary>
@@ -2515,6 +2528,8 @@ namespace OpenCvSharp
                 disparity.CvPtr, _3dImage.CvPtr, Q.CvPtr, handleMissingValues ? 1 : 0, ddepth);
 
             _3dImage.Fix();
+            GC.KeepAlive(disparity);
+            GC.KeepAlive(Q);
         }
 
         /// <summary>
@@ -2551,6 +2566,8 @@ namespace OpenCvSharp
 
             outVal.Fix();
             inliers.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             return ret;
         }
     }
