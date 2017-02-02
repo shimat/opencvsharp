@@ -81,7 +81,7 @@ namespace OpenCvSharp.Util
         //public static extern void CopyMemory(IntPtr outDest, IntPtr inSrc, [MarshalAs(UnmanagedType.U4)] int inNumOfBytes);
 #endregion
 
-#region ZeroMemory
+        #region ZeroMemory
 #if LANG_JP
         /// <summary>
         /// 指定されたメモリブロックの内容を、他の場所へコピーします。
