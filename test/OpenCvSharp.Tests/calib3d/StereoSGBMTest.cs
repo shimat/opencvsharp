@@ -8,12 +8,6 @@ namespace OpenCvSharp.Tests.Calib3D
     [TestFixture]
     public class StereoSGBMTest : TestBase
     {
-        [OneTimeSetUp]
-        public void Init()
-        {
-            SetCurrentDirectory();
-        }
-
         [Test]
         public void SimpleCompute()
         {

@@ -4,6 +4,8 @@ using NUnit.Framework;
 
 namespace OpenCvSharp.Tests.Face
 {
+    // ReSharper disable once InconsistentNaming
+
     [TestFixture]
     public class LBPHFaceRecognizerTest : TestBase
     {
