@@ -237,6 +237,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClCompile Include="video.cpp" />
     <ClCompile Include="videoio.cpp" />
     <ClCompile Include="xfeatures2d.cpp" />
+    <ClCompile Include="ximgproc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aruco.h" />
@@ -315,6 +316,9 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="video.h" />
     <ClInclude Include="video_background_segm.h" />
     <ClInclude Include="xfeatures2d.h" />
+    <ClInclude Include="ximgproc.h" />
+    <ClInclude Include="ximgproc_FastLineDetector.h" />
+    <ClInclude Include="ximgproc_Paillou.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

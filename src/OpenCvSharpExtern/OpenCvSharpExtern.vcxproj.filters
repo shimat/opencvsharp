@@ -67,6 +67,9 @@
     <ClCompile Include="aruco.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ximgproc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -297,6 +300,15 @@
     <ClInclude Include="aruco.h">
       <Filter>Header Files\aruco</Filter>
     </ClInclude>
+    <ClInclude Include="ximgproc.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ximgproc_Paillou.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ximgproc_FastLineDetector.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -348,6 +360,9 @@
     </Filter>
     <Filter Include="Header Files\aruco">
       <UniqueIdentifier>{d8e2cd6a-75d9-4cb0-84e0-b9b4b4102e07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ximgproc">
+      <UniqueIdentifier>{90a79351-d5d5-4aa3-9ff3-2df1751b11d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
