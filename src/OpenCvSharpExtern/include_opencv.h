@@ -26,6 +26,7 @@
 #include <opencv2/face.hpp>
 #include <opencv2/optflow.hpp>
 #include <opencv2/xfeatures2d.hpp>
+#include <opencv2/ximgproc.hpp>
 
 #include <vector>
 #include <algorithm>
