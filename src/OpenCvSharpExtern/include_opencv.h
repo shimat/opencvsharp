@@ -21,6 +21,7 @@
 #include <opencv2/video.hpp>
 
 // opencv_contrib
+#include <opencv2/aruco.hpp>
 #include <opencv2/bgsegm.hpp>
 #include <opencv2/face.hpp>
 #include <opencv2/optflow.hpp>

@@ -64,6 +64,9 @@
     <ClCompile Include="shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="aruco.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -291,6 +294,9 @@
     <ClInclude Include="face.h">
       <Filter>Header Files\face</Filter>
     </ClInclude>
+    <ClInclude Include="aruco.h">
+      <Filter>Header Files\aruco</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -339,6 +345,9 @@
     </Filter>
     <Filter Include="Header Files\face">
       <UniqueIdentifier>{55d56498-7105-4f1b-a081-518faedcc993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aruco">
+      <UniqueIdentifier>{d8e2cd6a-75d9-4cb0-84e0-b9b4b4102e07}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -215,6 +215,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="aruco.cpp" />
     <ClCompile Include="bgsegm.cpp" />
     <ClCompile Include="calib3d.cpp" />
     <ClCompile Include="core.cpp" />
@@ -238,6 +239,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClCompile Include="xfeatures2d.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="aruco.h" />
     <ClInclude Include="bgsegm.h" />
     <ClInclude Include="calib3d.h" />
     <ClInclude Include="calib3d_StereoBM.h" />
