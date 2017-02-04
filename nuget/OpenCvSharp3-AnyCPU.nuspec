@@ -55,12 +55,6 @@
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.pdb" target="lib\net46\OpenCvSharp.UserInterface.pdb" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.xml" target="lib\net46\OpenCvSharp.UserInterface.xml" />
         <file src="..\src\OpenCvSharp\bin\Release\net46\OpenCvSharp.xml" target="lib\net46\OpenCvSharp.xml" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.dll" target="lib\netcoreapp1.0\OpenCvSharp.Blob.dll" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.pdb" target="lib\netcoreapp1.0\OpenCvSharp.Blob.pdb" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.xml" target="lib\netcoreapp1.0\OpenCvSharp.Blob.xml" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.dll" target="lib\netcoreapp1.0\OpenCvSharp.dll" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.pdb" target="lib\netcoreapp1.0\OpenCvSharp.pdb" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.xml" target="lib\netcoreapp1.0\OpenCvSharp.xml" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.dll" target="lib\netstandard1.6\OpenCvSharp.Blob.dll" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.pdb" target="lib\netstandard1.6\OpenCvSharp.Blob.pdb" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.xml" target="lib\netstandard1.6\OpenCvSharp.Blob.xml" />
