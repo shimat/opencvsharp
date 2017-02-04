@@ -42,13 +42,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.dll",
                 }
             },{
-                "netcoreapp1.0", new[]
-                {
-                    @"OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.dll.config",
-                    @"OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.dll",
-                }
-            },{
                 "netstandard1.6", new[]
                 {
                     @"OpenCvSharp\bin\Release\netstandard1.6\OpenCvSharp.dll",
