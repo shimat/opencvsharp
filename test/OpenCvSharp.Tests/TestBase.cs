@@ -9,7 +9,7 @@ namespace OpenCvSharp.Tests
 {
     public abstract class TestBase 
     {
-        protected void SetCurrentDirectory()
+        protected TestBase()
         {
             var workDirectory = Path.Combine(TestContext.CurrentContext.WorkDirectory, "win10-x64");
             Directory.SetCurrentDirectory(workDirectory);

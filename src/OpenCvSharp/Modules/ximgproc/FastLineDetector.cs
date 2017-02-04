@@ -145,7 +145,7 @@ namespace OpenCvSharp.XImgProc
 
             using (var lines = new VectorOfVec4f())
             {
-                NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(ptr, image.CvPtr, lines.CvPtr);
+                NativeMethods.ximgproc_FastLineDetector_detect_vector(ptr, image.CvPtr, lines.CvPtr);
                 GC.KeepAlive(image);
                 return lines.ToArray();
             }
@@ -165,7 +165,7 @@ namespace OpenCvSharp.XImgProc
             if (lines == null)
                 throw new ArgumentNullException(nameof(lines));
 
-            NativeMethods.imgproc_LineSegmentDetector_drawSegments(ptr, image.CvPtr, lines.CvPtr);
+            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(ptr, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0);
 
             image.Fix();
             GC.KeepAlive(lines);
@@ -187,7 +187,7 @@ namespace OpenCvSharp.XImgProc
 
             using (var linesVec = new VectorOfVec4f(lines))
             {
-                NativeMethods.imgproc_LineSegmentDetector_drawSegments(ptr, image.CvPtr, linesVec.CvPtr);
+                NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(ptr, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0);
             }
 
             image.Fix();
