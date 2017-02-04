@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OpenCvSharp.Face;
 using OpenCvSharp.ML;
 using OpenCvSharp.XFeatures2D;
+using OpenCvSharp.XImgProc;
 
 namespace OpenCvSharp
 {
@@ -81,6 +82,7 @@ namespace OpenCvSharp
                 {typeof (ShapeContextDistanceExtractor), NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete},
                 {typeof (HausdorffDistanceExtractor), NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete},
                 {typeof (CalibrateDebevec), NativeMethods.photo_Ptr_CalibrateDebevec_delete},
+                {typeof (FastLineDetector), NativeMethods.ximgproc_FastLineDetector_delete},
             };
             definedGetFunctions = new Dictionary<Type, ObjFunc>
             {
@@ -135,6 +137,7 @@ namespace OpenCvSharp
                 {typeof (CalibrateDebevec), NativeMethods.photo_Ptr_CalibrateDebevec_get},
                 {typeof (StereoBM), NativeMethods.calib3d_Ptr_StereoBM_get},
                 {typeof (StereoSGBM), NativeMethods.calib3d_Ptr_StereoSGBM_get},
+                {typeof (FastLineDetector), NativeMethods.ximgproc_Ptr_FastLineDetector_get},
             };
         }
 

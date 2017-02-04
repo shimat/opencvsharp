@@ -25,8 +25,14 @@ CVAPI(void) ximgproc_FastLineDetector_detect_vector(cv::ximgproc::FastLineDetect
     obj->detect(*image, *lines);
 }
 
-CVAPI(void) ximgproc_FastLineDetector_drawSegments(cv::ximgproc::FastLineDetector *obj,
+CVAPI(void) ximgproc_FastLineDetector_drawSegments_InputArray(cv::ximgproc::FastLineDetector *obj,
     cv::_InputOutputArray *image, cv::_InputArray *lines, int draw_arrow)
+{
+    obj->drawSegments(*image, *lines, draw_arrow != 0);
+}
+
+CVAPI(void) ximgproc_FastLineDetector_drawSegments_vector(cv::ximgproc::FastLineDetector *obj,
+    cv::_InputOutputArray *image, std::vector<cv::Vec4f> *lines, int draw_arrow)
 {
     obj->drawSegments(*image, *lines, draw_arrow != 0);
 }

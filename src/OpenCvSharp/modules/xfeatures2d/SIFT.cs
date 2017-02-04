@@ -22,7 +22,7 @@ namespace OpenCvSharp.XFeatures2D
         #region Init & Disposal
 
         /// <summary>
-        /// Creates instance by raw pointer cv::SURF*
+        /// Creates instance by raw pointer cv::SIFT*
         /// </summary>
         protected SIFT(IntPtr p)
             : base()
