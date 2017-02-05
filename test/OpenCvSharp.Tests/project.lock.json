@@ -2563,29 +2563,29 @@
       },
       "OpenCvSharp/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v1.6",
+        "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
           "NETStandard.Library": "1.6.1"
         },
         "compile": {
-          "netstandard1.6/OpenCvSharp.dll": {}
+          "netcoreapp1.0/OpenCvSharp.dll": {}
         },
         "runtime": {
-          "netstandard1.6/OpenCvSharp.dll": {}
+          "netcoreapp1.0/OpenCvSharp.dll": {}
         }
       },
       "OpenCvSharp.Blob/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v1.6",
+        "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "OpenCvSharp": "1.0.0"
         },
         "compile": {
-          "netstandard1.6/OpenCvSharp.Blob.dll": {}
+          "netcoreapp1.0/OpenCvSharp.Blob.dll": {}
         },
         "runtime": {
-          "netstandard1.6/OpenCvSharp.Blob.dll": {}
+          "netcoreapp1.0/OpenCvSharp.Blob.dll": {}
         }
       }
     },
@@ -5270,29 +5270,29 @@
       },
       "OpenCvSharp/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v1.6",
+        "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
           "NETStandard.Library": "1.6.1"
         },
         "compile": {
-          "netstandard1.6/OpenCvSharp.dll": {}
+          "netcoreapp1.0/OpenCvSharp.dll": {}
         },
         "runtime": {
-          "netstandard1.6/OpenCvSharp.dll": {}
+          "netcoreapp1.0/OpenCvSharp.dll": {}
         }
       },
       "OpenCvSharp.Blob/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v1.6",
+        "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "OpenCvSharp": "1.0.0"
         },
         "compile": {
-          "netstandard1.6/OpenCvSharp.Blob.dll": {}
+          "netcoreapp1.0/OpenCvSharp.Blob.dll": {}
         },
         "runtime": {
-          "netstandard1.6/OpenCvSharp.Blob.dll": {}
+          "netcoreapp1.0/OpenCvSharp.Blob.dll": {}
         }
       }
     },
@@ -5634,6 +5634,9 @@
         "dependencies": {
           "OpenCvSharp": "1.0.0"
         },
+        "frameworkAssemblies": [
+          "System.Runtime"
+        ],
         "compile": {
           "net46/OpenCvSharp.Blob.dll": {}
         },
@@ -5977,6 +5980,9 @@
         "dependencies": {
           "OpenCvSharp": "1.0.0"
         },
+        "frameworkAssemblies": [
+          "System.Runtime"
+        ],
         "compile": {
           "net46/OpenCvSharp.Blob.dll": {}
         },
