@@ -93,7 +93,7 @@ namespace OpenCvSharp.Sandbox
             }
         }
 
-        private static void ShapeContextDistanceExtractorSaample()
+        private static void ShapeContextDistanceExtractorSample()
         {
             var src = Cv2.ImRead(@"data\shapes.png", ImreadModes.Color);
             var gray = src.CvtColor(ColorConversionCodes.BGR2GRAY);

@@ -65,8 +65,10 @@ namespace OpenCvSharp
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
+#if !uwp
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
+#endif
             ptr = NativeMethods.imgcodecs_imread(fileName, (int) flags);
         }
 
@@ -543,7 +545,7 @@ namespace OpenCvSharp
         }
 
 
-        #region Static Initializers
+#region Static Initializers
 
 #if LANG_JP
     /// <summary>
@@ -632,18 +634,18 @@ namespace OpenCvSharp
             return ImDecode(imageBytes, mode);
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Static
+#region Static
 
         /// <summary>
         /// sizeof(cv::Mat)
         /// </summary>
         public static readonly int SizeOf = (int) NativeMethods.core_Mat_sizeof();
 
-        #region Diag
+#region Diag
 
         /// <summary>
         /// Extracts a diagonal from a matrix, or creates a diagonal matrix.
@@ -655,9 +657,9 @@ namespace OpenCvSharp
             return d.Diag();
         }
 
-        #endregion
+#endregion
 
-        #region Eye
+#region Eye
 
         /// <summary>
         /// Returns an identity matrix of the specified size and type.
@@ -684,9 +686,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region Ones
+#region Ones
 
         /// <summary>
         /// Returns an array of all 1’s of the specified size and type.
@@ -729,9 +731,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region Zeros
+#region Zeros
 
         /// <summary>
         /// Returns a zero array of the specified size and type.
@@ -774,13 +776,13 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Operators
+#region Operators
 
-        #region Unary
+#region Unary
 
         /// <summary>
         /// 
@@ -803,11 +805,11 @@ namespace OpenCvSharp
             return mat;
         }
 
-        #endregion
+#endregion
 
-        #region Binary
+#region Binary
 
-        #region +
+#region +
 
         /// <summary>
         /// 
@@ -859,9 +861,9 @@ namespace OpenCvSharp
             return new MatExpr(retPtr);
         }
 
-        #endregion
+#endregion
 
-        #region -
+#region -
 
         /// <summary>
         /// 
@@ -911,9 +913,9 @@ namespace OpenCvSharp
             return new MatExpr(retPtr);
         }
 
-        #endregion
+#endregion
 
-        #region *
+#region *
 
         /// <summary>
         /// 
@@ -963,9 +965,9 @@ namespace OpenCvSharp
             return new MatExpr(retPtr);
         }
 
-        #endregion
+#endregion
 
-        #region /
+#region /
 
         /// <summary>
         /// 
@@ -1015,9 +1017,9 @@ namespace OpenCvSharp
             return new MatExpr(retPtr);
         }
 
-        #endregion
+#endregion
 
-        #region And
+#region And
 
         /// <summary>
         /// 
@@ -1067,9 +1069,9 @@ namespace OpenCvSharp
             return new MatExpr(retPtr);
         }
 
-        #endregion
+#endregion
 
-        #region Or
+#region Or
 
         /// <summary>
         /// 
@@ -1119,9 +1121,9 @@ namespace OpenCvSharp
             return new MatExpr(retPtr);
         }
 
-        #endregion
+#endregion
 
-        #region Xor
+#region Xor
 
         /// <summary>
         /// 
@@ -1171,9 +1173,9 @@ namespace OpenCvSharp
             return new MatExpr(retPtr);
         }
 
-        #endregion
+#endregion
 
-        #region Not
+#region Not
 
         /// <summary>
         /// 
@@ -1189,13 +1191,13 @@ namespace OpenCvSharp
             return new MatExpr(retPtr);
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Comparison
+#region Comparison
 
         /// <summary>
         /// operator &lt;
@@ -1377,11 +1379,11 @@ namespace OpenCvSharp
             return ret;
         }
 
-        #endregion
+#endregion
 
-        #region Public Methods
+#region Public Methods
 
-        #region Mat Indexers
+#region Mat Indexers
 
         /// <summary>
         /// Extracts a rectangular submatrix.
@@ -1495,11 +1497,11 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
+#endregion
 
-        #region MatExpr Indexers
+#region MatExpr Indexers
 
-        #region SubMat
+#region SubMat
 
         /// <summary>
         /// 
@@ -1601,9 +1603,9 @@ namespace OpenCvSharp
 
         private MatExprIndexer matExprIndexer;
 
-        #endregion
+#endregion
 
-        #region ColExpr
+#region ColExpr
 
         /// <summary>
         /// Mat column's indexer object
@@ -1682,9 +1684,9 @@ namespace OpenCvSharp
 
         private ColExprIndexer colExprIndexer;
 
-        #endregion
+#endregion
 
-        #region RowExpr
+#region RowExpr
 
         /// <summary>
         /// Mat row's indexer object
@@ -1762,11 +1764,11 @@ namespace OpenCvSharp
 
         private RowExprIndexer rowExprIndexer;
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region AdjustROI
+#region AdjustROI
 
         /// <summary>
         /// Adjusts a submatrix size and position within the parent matrix.
@@ -1784,9 +1786,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region AssignTo
+#region AssignTo
 
         /// <summary>
         /// Provides a functional form of convertTo.
@@ -1810,9 +1812,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_assignTo1(ptr, m.CvPtr);
         }
 
-        #endregion
+#endregion
 
-        #region Channels
+#region Channels
 
         /// <summary>
         /// Returns the number of matrix channels.
@@ -1824,9 +1826,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_channels(ptr);
         }
 
-        #endregion
+#endregion
 
-        #region CheckVector
+#region CheckVector
 
         /// <summary>
         /// 
@@ -1865,9 +1867,9 @@ namespace OpenCvSharp
                 ptr, elemChannels, depth, requireContinuous ? 1 : 0);
         }
 
-        #endregion
+#endregion
 
-        #region Clone
+#region Clone
 
         /// <summary>
         /// Creates a full copy of the matrix.
@@ -1894,9 +1896,9 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
+#endregion
 
-        #region Cols
+#region Cols
 
         /// <summary>
         /// the number of columns or -1 when the array has more than 2 dimensions
@@ -1935,9 +1937,9 @@ namespace OpenCvSharp
 
         //private int colsVal = int.MinValue;
 
-        #endregion
+#endregion
 
-        #region Dims
+#region Dims
 
         /// <summary>
         /// the array dimensionality, >= 2
@@ -1948,9 +1950,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_dims(ptr);
         }
 
-        #endregion
+#endregion
 
-        #region ConvertTo
+#region ConvertTo
 
         /// <summary>
         /// Converts an array to another data type with optional scaling.
@@ -1968,9 +1970,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha, beta);
         }
 
-        #endregion
+#endregion
 
-        #region CopyTo
+#region CopyTo
 
         /// <summary>
         /// Copies the matrix to another one.
@@ -1995,9 +1997,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_copyTo(ptr, m.CvPtr, maskPtr);
         }
 
-        #endregion
+#endregion
 
-        #region Create
+#region Create
 
         /// <summary>
         /// Allocates new array data if needed.
@@ -2035,9 +2037,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_create(ptr, sizes.Length, sizes, type);
         }
 
-        #endregion
+#endregion
 
-        #region Cross
+#region Cross
 
         /// <summary>
         /// Computes a cross-product of two 3-element vectors.
@@ -2054,9 +2056,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region Data
+#region Data
 
         /// <summary>
         /// pointer to the data
@@ -2120,9 +2122,9 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
+#endregion
 
-        #region Depth
+#region Depth
 
         /// <summary>
         /// Returns the depth of a matrix element.
@@ -2134,9 +2136,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_depth(ptr);
         }
 
-        #endregion
+#endregion
 
-        #region Diag
+#region Diag
 
         /// <summary>
         /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
@@ -2151,9 +2153,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region Dot
+#region Dot
 
         /// <summary>
         /// Computes a dot-product of two vectors.
@@ -2168,9 +2170,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_dot(ptr, m.CvPtr);
         }
 
-        #endregion
+#endregion
 
-        #region ElemSize
+#region ElemSize
 
         /// <summary>
         /// Returns the matrix element size in bytes.
@@ -2182,9 +2184,9 @@ namespace OpenCvSharp
             return (int) NativeMethods.core_Mat_elemSize(ptr);
         }
 
-        #endregion
+#endregion
 
-        #region ElemSize1
+#region ElemSize1
 
         /// <summary>
         /// Returns the size of each matrix element channel in bytes.
@@ -2196,9 +2198,9 @@ namespace OpenCvSharp
             return (int) NativeMethods.core_Mat_elemSize1(ptr);
         }
 
-        #endregion
+#endregion
 
-        #region Empty
+#region Empty
 
         /// <summary>
         /// Returns true if the array has no elements.
@@ -2210,9 +2212,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_empty(ptr) != 0;
         }
 
-        #endregion
+#endregion
 
-        #region Inv
+#region Inv
 
         /// <summary>
         /// Inverses a matrix.
@@ -2227,9 +2229,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region IsContinuous
+#region IsContinuous
 
         /// <summary>
         /// Reports whether the matrix is continuous or not.
@@ -2241,9 +2243,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_isContinuous(ptr) != 0;
         }
 
-        #endregion
+#endregion
 
-        #region IsSubmatrix
+#region IsSubmatrix
 
         /// <summary>
         /// Returns whether this matrix is a part of other matrix or not.
@@ -2255,9 +2257,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_isSubmatrix(ptr) != 0;
         }
 
-        #endregion
+#endregion
 
-        #region LocateROI
+#region LocateROI
 
         /// <summary>
         /// Locates the matrix header within a parent matrix.
@@ -2270,9 +2272,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_locateROI(ptr, out wholeSize, out ofs);
         }
 
-        #endregion
+#endregion
 
-        #region Mul
+#region Mul
 
         /// <summary>
         /// Performs an element-wise multiplication or division of the two matrices.
@@ -2291,9 +2293,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region Reshape
+#region Reshape
 
         /// <summary>
         /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
@@ -2325,9 +2327,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region Rows
+#region Rows
 
         /// <summary>
         /// the number of rows or -1 when the array has more than 2 dimensions
@@ -2364,9 +2366,9 @@ namespace OpenCvSharp
 
         //private int rowsVal = int.MinValue;
 
-        #endregion
+#endregion
 
-        #region SetTo
+#region SetTo
 
         /// <summary>
         /// Sets all or some of the array elements to the specified value.
@@ -2401,9 +2403,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region Size
+#region Size
 
         /// <summary>
         /// Returns a matrix size.
@@ -2426,9 +2428,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_sizeAt(ptr, dim);
         }
 
-        #endregion
+#endregion
 
-        #region Step
+#region Step
 
         /// <summary>
         /// 
@@ -2451,9 +2453,9 @@ namespace OpenCvSharp
             return (long) NativeMethods.core_Mat_stepAt(ptr, i);
         }
 
-        #endregion
+#endregion
 
-        #region Step1
+#region Step1
 
         /// <summary>
         /// Returns a normalized step.
@@ -2476,9 +2478,9 @@ namespace OpenCvSharp
             return (long) NativeMethods.core_Mat_step1(ptr, i);
         }
 
-        #endregion
+#endregion
 
-        #region T
+#region T
 
         /// <summary>
         /// Transposes a matrix.
@@ -2492,9 +2494,9 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
+#endregion
 
-        #region Total
+#region Total
 
         /// <summary>
         /// Returns the total number of array elements.
@@ -2506,9 +2508,9 @@ namespace OpenCvSharp
             return (long) NativeMethods.core_Mat_total(ptr);
         }
 
-        #endregion
+#endregion
 
-        #region Type
+#region Type
 
         /// <summary>
         /// Returns the type of a matrix element.
@@ -2520,9 +2522,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_type(ptr);
         }
 
-        #endregion
+#endregion
 
-        #region ToString
+#region ToString
 
         /// <summary>
         /// Returns a string that represents this Mat.
@@ -2538,9 +2540,9 @@ namespace OpenCvSharp
                    " ]";
         }
 
-        #endregion
+#endregion
 
-        #region Dump
+#region Dump
 
         /// <summary>
         /// Returns a string that represents each element value of Mat.
@@ -2579,9 +2581,9 @@ namespace OpenCvSharp
             return name.ToLower();
         }
 
-        #endregion
+#endregion
 
-        #region EmptyClone
+#region EmptyClone
 
 #if LANG_JP
     /// <summary>
@@ -2600,9 +2602,9 @@ namespace OpenCvSharp
             return new Mat(Size(), Type());
         }
 
-        #endregion
+#endregion
 
-        #region Ptr
+#region Ptr
 
         /// <summary>
         /// Returns a pointer to the specified matrix row.
@@ -2651,9 +2653,9 @@ namespace OpenCvSharp
             return NativeMethods.core_Mat_ptrnd(ptr, idx);
         }
 
-        #endregion
+#endregion
 
-        #region Element Indexer
+#region Element Indexer
 
         /// <summary>
         /// Mat Indexer
@@ -2769,9 +2771,9 @@ namespace OpenCvSharp
             return new Indexer<T>(this);
         }
 
-        #endregion
+#endregion
 
-        #region Get/Set
+#region Get/Set
 
         /// <summary>
         /// Returns a value to the specified array element.
@@ -2915,9 +2917,9 @@ namespace OpenCvSharp
             (new Indexer<T>(this)[idx]) = value;
         }
 
-        #endregion
+#endregion
 
-        #region Col/ColRange
+#region Col/ColRange
 
         /*
         /// <summary>
@@ -3046,9 +3048,9 @@ namespace OpenCvSharp
 
         private ColIndexer colIndexer;
 
-        #endregion
+#endregion
 
-        #region Row/RowRange
+#region Row/RowRange
 
         /*
         /// <summary>
@@ -3176,9 +3178,9 @@ namespace OpenCvSharp
 
         private RowIndexer rowIndexer;
 
-        #endregion
+#endregion
 
-        #region SubMat
+#region SubMat
 
         /// <summary>
         /// 
@@ -3247,9 +3249,9 @@ namespace OpenCvSharp
             return retVal;*/
         }
 
-        #endregion
+#endregion
 
-        #region GetArray
+#region GetArray
 
         private void CheckArgumentsForConvert(int row, int col, Array data,
             params MatType[] acceptableTypes)
@@ -3798,9 +3800,9 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
+#endregion
 
-        #region SetArray
+#region SetArray
 
         /// <summary>
         /// Set the specified array data to this matrix
@@ -4267,9 +4269,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_nSetVec4f(ptr, row, col, dataV, dataV.Length);
         }
 
-        #endregion
+#endregion
 
-        #region Reserve
+#region Reserve
 
         /// <summary>
         /// reserves enough space to fit sz hyper-planes
@@ -4281,9 +4283,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_reserve(ptr, new IntPtr(sz));
         }
 
-        #endregion
+#endregion
 
-        #region Resize
+#region Resize
 
         /// <summary>
         /// resizes matrix to the specified number of hyper-planes
@@ -4306,9 +4308,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_resize2(ptr, new IntPtr(sz), s);
         }
 
-        #endregion
+#endregion
 
-        #region PushBack
+#region PushBack
 
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat.push_back)
@@ -4332,9 +4334,9 @@ namespace OpenCvSharp
             Add(m);
         }
 
-        #endregion
+#endregion
 
-        #region PopBack
+#region PopBack
 
         /// <summary>
         /// removes several hyper-planes from bottom of the matrix (Mat.pop_back)
@@ -4346,9 +4348,9 @@ namespace OpenCvSharp
             NativeMethods.core_Mat_pop_back(ptr, new IntPtr(nElems));
         }
 
-        #endregion
+#endregion
 
-        #region To*
+#region To*
 
         /// <summary>
         /// Encodes an image into a memory buffer.
@@ -4398,9 +4400,9 @@ namespace OpenCvSharp
             stream.Write(imageBytes, 0, imageBytes.Length);
         }
 
-        #endregion
+#endregion
 
-        #region DrawMarker
+#region DrawMarker
 #pragma warning disable 1591
 
         public void DrawMarker(
@@ -4483,7 +4485,7 @@ namespace OpenCvSharp
             }
         }
 #pragma warning restore 1591
-        #endregion
+#endregion
 
         /// <summary>
         /// 
@@ -4508,14 +4510,17 @@ namespace OpenCvSharp
             where TMat : Mat, new()
         {
             var type = typeof(TMat);
+
+            return (TMat)Activator.CreateInstance(type, this);
+            /*
 #if net20 || net40
             var constructor = type.GetConstructor(new[] {typeof (Mat)});
 #else
-            var constructor = type.GetTypeInfo().GetConstructor(new[] { typeof(Mat) });
+            var constructor = type.GetTypeInfo().GetConstructor(new[] { typeof(Mat) }); 
 #endif
             if (constructor == null)
                 throw new OpenCvSharpException("Failed to cast to {0}", type.Name);
-            return (TMat)constructor.Invoke(new object[] {this});
+            return (TMat)constructor.Invoke(new object[] {this});*/
         }
 
 #region ForEach

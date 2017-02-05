@@ -356,16 +356,20 @@ namespace OpenCvSharp.Blob
         /// <param name="fileName">File name.</param>
         public void WriteAsCsv(string fileName)
         {
+#if uwp
+            throw new NotImplementedException();
+#else
             using (var stream = new FileStream(fileName, FileMode.Create))
             using (var writer = new StreamWriter(stream))
             {
                 writer.Write(ToString());
             }
+#endif
         }
 
-        #endregion
+#endregion
 
-        #region WriteAsSvg
+#region WriteAsSvg
 
         /// <summary>
         /// Write a contour to a SVG file.
@@ -383,6 +387,25 @@ namespace OpenCvSharp.Blob
         /// <param name="stroke">Stroke color</param>
         /// <param name="fill">Fill color</param>
         public void WriteAsSvg(string fileName, Scalar stroke, Scalar fill)
+        {
+#if uwp
+            throw new NotImplementedException();
+#else
+            using (var stream = new FileStream(fileName, FileMode.Create))
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.WriteLine(ToSvg(stroke, fill));
+            }
+#endif
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stroke"></param>
+        /// <param name="fill"></param>
+        /// <returns></returns>
+        public string ToSvg(Scalar stroke, Scalar fill)
         {
             int minx = Int32.MaxValue;
             int miny = Int32.MaxValue;
@@ -403,23 +426,21 @@ namespace OpenCvSharp.Blob
                 buffer.AppendFormat("{0},{1} ", p.X, p.Y);
             }
 
-            using (var stream = new FileStream(fileName, FileMode.Create))
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.WriteLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
-                writer.WriteLine(
-                    "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 20010904//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">");
-                writer.WriteLine(
+            var builder = new StringBuilder()
+                .AppendLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>")
+                .AppendLine(
+                    "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 20010904//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">")
+                .AppendFormat(
                     "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" " +
                     "width=\"{0}px\" height=\"{1}px\" viewBox=\"{2} {3} {4} {5}\" zoomAndPan=\"disable\" >",
-                    maxx - minx, maxy - miny, minx, miny, maxx, maxy);
-                writer.WriteLine(
+                    maxx - minx, maxy - miny, minx, miny, maxx, maxy).AppendLine()
+                .AppendFormat(
                     "<polygon fill=\"rgb({0},{1},{2})\" stroke=\"rgb({3},{4},{5})\" stroke-width=\"1\" points=\"{6}\"/>",
-                    fill.Val0, fill.Val1, fill.Val2, stroke.Val0, stroke.Val1, stroke.Val2, buffer);
-                writer.WriteLine("</svg>");
-            }
+                    fill.Val0, fill.Val1, fill.Val2, stroke.Val0, stroke.Val1, stroke.Val2, buffer).AppendLine()
+                .AppendLine("</svg>");
+            return builder.ToString();
         }
 
-        #endregion
+#endregion
     }
 }

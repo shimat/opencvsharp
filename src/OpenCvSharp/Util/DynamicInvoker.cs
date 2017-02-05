@@ -112,7 +112,7 @@ namespace OpenCvSharp.Util
             FunctionName = functionName;
             IsDisposed = false;
 
-#if net20 || net40
+#if net20 || net40 || uwp
             Call = (T)(object)Marshal.GetDelegateForFunctionPointer(PtrProc, typeof(T));
 #else
             Call = Marshal.GetDelegateForFunctionPointer<T>(PtrProc);
