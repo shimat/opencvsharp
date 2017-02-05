@@ -22,6 +22,9 @@
         "dependencies": {
           "OpenCvSharp": "1.0.0"
         },
+        "frameworkAssemblies": [
+          "System.Runtime"
+        ],
         "compile": {
           "net46/OpenCvSharp.Blob.dll": {}
         },
@@ -70,6 +73,9 @@
         "dependencies": {
           "OpenCvSharp": "1.0.0"
         },
+        "frameworkAssemblies": [
+          "System.Runtime"
+        ],
         "compile": {
           "net46/OpenCvSharp.Blob.dll": {}
         },
@@ -123,7 +129,8 @@
     ],
     ".NETFramework,Version=v4.6.1": [
       "OpenCvSharp.Extensions >= 1.0.0-*",
-      "System.Drawing >= 4.0.0"
+      "System.Drawing >= 4.0.0",
+      "System.Runtime >= 4.0.20"
     ]
   },
   "tools": {},

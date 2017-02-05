@@ -2,7 +2,11 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "OpenCvSharp": "1.0.0-*"
+    "OpenCvSharp": "1.0.0-*",
+    //"System.Runtime": "4.0.20"
+  },
+
+  "frameworkAssemblies": {
   },
 
   "frameworks": {
@@ -10,6 +14,38 @@
       "imports": "dnxcore50",
       "dependencies": {
         "NETStandard.Library": "1.6.1"
+      }
+    },
+    "netcoreapp1.0": {
+      "dependencies": {
+        "NETStandard.Library": "1.6.1"
+      },
+      "buildOptions": {
+        "define": [ "netcoreapp10" ]
+      }
+    }, /*
+    "netcore50": {
+      "dependencies": {
+        "NETStandard.Library": "1.6.1"
+      },
+      "buildOptions": {
+        "define": [ "netcore50" ]
+      }
+    },*/
+    "uap10.0": {
+      "dependencies": {
+        "NETStandard.Library": "1.6.1"
+      },
+      "buildOptions": {
+        "define": [ "uap10" ]
+      }
+    },
+    "portable45-net45+win8+wpa81": {
+      "dependencies": {
+        "NETStandard.Library": "1.6.1"
+      },
+      "buildOptions": {
+        "define": [ "uwp" ]
       }
     },
     "net20": {
@@ -34,6 +70,7 @@
       "dependencies": {
       },
       "frameworkAssemblies": {
+        "System.Runtime": "4.0.20"
       },
       "buildOptions": {
         "define": [ "DOTNET_FRAMEWORK", "net46" ]

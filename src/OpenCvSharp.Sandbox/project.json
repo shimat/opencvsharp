@@ -23,7 +23,8 @@
         "OpenCvSharp.Extensions": "1.0.0-*"
       },
       "frameworkAssemblies": {
-        "System.Drawing": "4.0.0.0"
+        "System.Drawing": "4.0.0.0",
+        "System.Runtime": "4.0.20.0"
       },
       "buildOptions": {
         "define": [ "DOTNET_FRAMEWORK", "net46" ]
