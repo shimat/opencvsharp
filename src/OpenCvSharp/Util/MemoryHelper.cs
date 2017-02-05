@@ -33,7 +33,7 @@ namespace OpenCvSharp.Util
 #endif
         public static unsafe void CopyMemory(void* outDest, void* inSrc, uint inNumOfBytes)
         {
-#if net20 || net40
+#if net20 || net40 || uwp
             // 転送先をuint幅にalignする
             const uint align = sizeof(uint) - 1;
             uint offset = (uint)outDest & align;

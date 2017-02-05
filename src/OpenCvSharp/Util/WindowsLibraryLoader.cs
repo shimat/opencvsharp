@@ -138,6 +138,7 @@ namespace OpenCvSharp.Util
                     }
 
                     // Try loading from executing assembly domain
+#if !netcore50 && !uap10 && !uwp
 #if DOTNET_FRAMEWORK
                     Assembly executingAssembly = Assembly.GetExecutingAssembly();
 #else
@@ -146,6 +147,7 @@ namespace OpenCvSharp.Util
                     baseDirectory = Path.GetDirectoryName(executingAssembly.Location);
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
+#endif
 
                     // Fallback to current app domain
                     // TODO
@@ -155,8 +157,12 @@ namespace OpenCvSharp.Util
                     if (dllHandle != IntPtr.Zero) return;
 #endif
 
+#if uwp
+                    baseDirectory = "";
+#else
                     // Finally try the working directory
                     baseDirectory = Path.GetFullPath(System.IO.Directory.GetCurrentDirectory());
+#endif
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
@@ -194,7 +200,11 @@ namespace OpenCvSharp.Util
         private ProcessArchitectureInfo GetProcessArchitecture()
         {
             // BUGBUG: Will this always be reliable?
+#if uwp
+            string processArchitecture = "";
+#else
             string processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
+#endif
             var processInfo = new ProcessArchitectureInfo();
             if (!String.IsNullOrEmpty(processArchitecture))
             {
@@ -244,7 +254,11 @@ namespace OpenCvSharp.Util
             IntPtr libraryHandle = IntPtr.Zero;
             var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
+#if uwp
+            if (true) // TODO
+#else
             if (File.Exists(fileName))
+#endif
             {
                 // Attempt to load dll
                 try

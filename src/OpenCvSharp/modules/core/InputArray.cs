@@ -388,6 +388,22 @@ namespace OpenCvSharp
                 throw new ArgumentException();
 
             // Primitive types
+#if netcore50 || uap10 || uwp
+            if (t == typeof(byte))
+                return MatType.CV_8UC1;
+            if (t == typeof(sbyte))
+                return MatType.CV_8SC1;
+            if (t == typeof(ushort) || t == typeof(char))
+                return MatType.CV_16UC1;
+            if (t == typeof(short))
+                return MatType.CV_16SC1;
+            if (t == typeof(int) || t == typeof(uint))
+                return MatType.CV_32SC1;
+            if (t == typeof(float))
+                return MatType.CV_32FC1;
+            if (t == typeof(double))
+                return MatType.CV_64FC1;
+#else
             TypeCode code = Type.GetTypeCode(t);
             switch (code)
             {
@@ -408,6 +424,8 @@ namespace OpenCvSharp
                 case TypeCode.Double:
                     return MatType.CV_64FC1;
             }
+#endif
+
             // OpenCV struct types
             if (t == typeof(Point))
                 return MatType.CV_32SC2;
