@@ -24,7 +24,8 @@
       },
       "frameworkAssemblies": {
         "System.Drawing": "4.0.0.0",
-        "System.Runtime": "4.0.20.0"
+        "System.Runtime": "4.0.20.0",
+        "System.Collections": "4.0.10.0" 
       },
       "buildOptions": {
         "define": [ "DOTNET_FRAMEWORK", "net46" ]

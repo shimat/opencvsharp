@@ -129,6 +129,7 @@
     ],
     ".NETFramework,Version=v4.6.1": [
       "OpenCvSharp.Extensions >= 1.0.0-*",
+      "System.Collections >= 4.0.10",
       "System.Drawing >= 4.0.0",
       "System.Runtime >= 4.0.20"
     ]

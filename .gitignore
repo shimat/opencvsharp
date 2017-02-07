@@ -126,3 +126,4 @@ Help EN
 /test/OpenCvSharp.Tests/dll/x64/OpenCvSharpExtern.dll
 /test/OpenCvSharp.Tests/dll/x86/OpenCvSharpExtern.dll
 /nuget/nuget/*.nupkg
+/doc/Help
