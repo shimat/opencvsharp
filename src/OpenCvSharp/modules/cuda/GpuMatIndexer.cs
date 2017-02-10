@@ -1,7 +1,6 @@
-using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp.Gpu
+namespace OpenCvSharp.Cuda
 {
     /// <summary>
     /// Abstract definition of Mat indexer

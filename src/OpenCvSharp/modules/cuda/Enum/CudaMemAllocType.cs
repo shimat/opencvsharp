@@ -1,6 +1,6 @@
 using System;
 
-namespace OpenCvSharp.Gpu
+namespace OpenCvSharp.Cuda
 {
 #pragma warning disable 1591
 

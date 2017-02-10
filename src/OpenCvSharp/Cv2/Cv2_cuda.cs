@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Cuda;
 
-namespace OpenCvSharp.Gpu
+namespace OpenCvSharp
 {
     /// <summary>
     /// Functions of OpenCV GPU module
     /// </summary>
-    public static class Cv2Gpu
+    static partial class Cv2
     {
         #region Hardware
 

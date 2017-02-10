@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.Gpu
+namespace OpenCvSharp.Cuda
 {
     /// <summary>
     /// An abstract class in GPU module that implements DisposableCvObject
@@ -50,7 +50,7 @@ namespace OpenCvSharp.Gpu
         {
             if (IsDisposed)
                 throw new ObjectDisposedException(GetType().Name);
-            if (Cv2Gpu.GetCudaEnabledDeviceCount() < 1)
+            if (Cv2.GetCudaEnabledDeviceCount() < 1)
                 throw new OpenCvSharpException("Your OpenCV DLL does not support GPU module.");
 
             if (!IsGpuCompatible)
@@ -66,8 +66,8 @@ namespace OpenCvSharp.Gpu
             {
                 if (!isGpuAvailable.HasValue)
                 {
-                    isGpuAvailable = (Cv2Gpu.GetCudaEnabledDeviceCount() >= 1) &&
-                                     new DeviceInfo(Cv2Gpu.GetDevice()).IsCompatible;
+                    isGpuAvailable = (Cv2.GetCudaEnabledDeviceCount() >= 1) &&
+                                     new DeviceInfo(Cv2.GetDevice()).IsCompatible;
                 }
                 return isGpuAvailable.Value;
             }

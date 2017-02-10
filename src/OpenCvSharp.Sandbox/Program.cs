@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using OpenCvSharp.Blob;
-using OpenCvSharp.Gpu;
 using OpenCvSharp.XFeatures2D;
 #if DOTNET_FRAMEWORK
 using OpenCvSharp.Extensions;

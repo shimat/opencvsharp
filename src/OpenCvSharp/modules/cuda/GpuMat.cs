@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp.Gpu
+namespace OpenCvSharp.Cuda
 {
 #if LANG_JP
     /// <summary>
@@ -15,7 +15,7 @@ namespace OpenCvSharp.Gpu
     /// Smart pointer for GPU memory with reference counting. Its interface is mostly similar with cv::Mat.
     /// </summary>
 #endif
-    public partial class GpuMat : DisposableCvObject
+    public class GpuMat : DisposableCvObject
     {
         /// <summary>
         /// Track whether Dispose has been called
@@ -28,7 +28,7 @@ namespace OpenCvSharp.Gpu
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
-            if (Cv2Gpu.GetCudaEnabledDeviceCount() < 1)
+            if (Cv2.GetCudaEnabledDeviceCount() < 1)
                 throw new OpenCvSharpException("GPU module cannot be used.");
         }
 
