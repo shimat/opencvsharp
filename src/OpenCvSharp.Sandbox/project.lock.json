@@ -7,7 +7,8 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "frameworkAssemblies": [
-          "System.Security"
+          "System.Security",
+          "System.Web"
         ],
         "compile": {
           "net46/OpenCvSharp.dll": {}
@@ -22,9 +23,6 @@
         "dependencies": {
           "OpenCvSharp": "1.0.0"
         },
-        "frameworkAssemblies": [
-          "System.Runtime"
-        ],
         "compile": {
           "net46/OpenCvSharp.Blob.dll": {}
         },
@@ -58,7 +56,8 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "frameworkAssemblies": [
-          "System.Security"
+          "System.Security",
+          "System.Web"
         ],
         "compile": {
           "net46/OpenCvSharp.dll": {}
@@ -73,9 +72,6 @@
         "dependencies": {
           "OpenCvSharp": "1.0.0"
         },
-        "frameworkAssemblies": [
-          "System.Runtime"
-        ],
         "compile": {
           "net46/OpenCvSharp.Blob.dll": {}
         },

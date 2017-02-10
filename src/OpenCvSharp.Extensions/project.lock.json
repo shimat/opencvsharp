@@ -7,7 +7,8 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.0",
         "frameworkAssemblies": [
-          "System.Security"
+          "System.Security",
+          "System.Web"
         ],
         "compile": {
           "net40/OpenCvSharp.dll": {}
@@ -22,7 +23,8 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "frameworkAssemblies": [
-          "System.Security"
+          "System.Security",
+          "System.Web"
         ],
         "compile": {
           "net46/OpenCvSharp.dll": {}

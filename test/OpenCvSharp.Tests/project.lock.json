@@ -2578,7 +2578,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
-          "NETStandard.Library": "1.6.1",
           "OpenCvSharp": "1.0.0"
         },
         "compile": {
@@ -5285,7 +5284,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
-          "NETStandard.Library": "1.6.1",
           "OpenCvSharp": "1.0.0"
         },
         "compile": {
@@ -5619,7 +5617,8 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "frameworkAssemblies": [
-          "System.Security"
+          "System.Security",
+          "System.Web"
         ],
         "compile": {
           "net46/OpenCvSharp.dll": {}
@@ -5634,9 +5633,6 @@
         "dependencies": {
           "OpenCvSharp": "1.0.0"
         },
-        "frameworkAssemblies": [
-          "System.Runtime"
-        ],
         "compile": {
           "net46/OpenCvSharp.Blob.dll": {}
         },
@@ -5965,7 +5961,8 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "frameworkAssemblies": [
-          "System.Security"
+          "System.Security",
+          "System.Web"
         ],
         "compile": {
           "net46/OpenCvSharp.dll": {}
@@ -5980,9 +5977,6 @@
         "dependencies": {
           "OpenCvSharp": "1.0.0"
         },
-        "frameworkAssemblies": [
-          "System.Runtime"
-        ],
         "compile": {
           "net46/OpenCvSharp.Blob.dll": {}
         },
@@ -6196,7 +6190,7 @@
       ]
     },
     "Microsoft.DotNet.InternalAbstractions/1.0.0": {
-      "sha512": "Quw7gLLiX1ozStRK/cPT6H6Jwx1saMBb9CcZHf13Ja2+Gp/hlJO/ke5Dxr3xFmSMeLLydM4HfXpB9pcyJ846Aw==",
+      "sha512": "AAguUq7YyKk3yDWPoWA8DrLZvURxB/LrDdTn1h5lmPeznkFUpfC3p459w5mQYQE0qpquf/CkSQZ0etiV5vRHFA==",
       "type": "package",
       "path": "Microsoft.DotNet.InternalAbstractions/1.0.0",
       "files": [
