@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using OpenCvSharp.Cuda;
 
 #pragma warning disable 1591
 
@@ -199,7 +200,7 @@ namespace OpenCvSharp
         public static extern void HOGDescriptor_detectMultiScale(IntPtr obj, IntPtr img, IntPtr found_locations, 
 										           double hit_threshold, Size win_stride, Size padding, double scale, int group_threshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void HOGDescriptor_getDescriptors(IntPtr obj, IntPtr img, Size win_stride, IntPtr descriptors, [MarshalAs(UnmanagedType.I4)] Gpu.DescriptorFormat descr_format);
+        public static extern void HOGDescriptor_getDescriptors(IntPtr obj, IntPtr img, Size win_stride, IntPtr descriptors, [MarshalAs(UnmanagedType.I4)] DescriptorFormat descr_format);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern Size HOGDescriptor_win_size_get(IntPtr obj);

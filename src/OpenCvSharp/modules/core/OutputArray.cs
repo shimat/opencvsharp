@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Gpu;
+using OpenCvSharp.Cuda;
 
 namespace OpenCvSharp
 {
