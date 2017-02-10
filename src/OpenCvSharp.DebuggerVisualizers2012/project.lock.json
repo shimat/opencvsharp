@@ -32,7 +32,8 @@
         "type": "project",
         "framework": ".NETFramework,Version=v2.0",
         "frameworkAssemblies": [
-          "System.Security"
+          "System.Security",
+          "System.Web"
         ],
         "compile": {
           "net20/OpenCvSharp.dll": {}

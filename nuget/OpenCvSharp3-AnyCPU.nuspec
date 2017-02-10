@@ -24,8 +24,22 @@
             <group targetFramework="netcoreapp1.0">
                 <dependency id="NETStandard.Library" version="1.6.1" />
             </group>
+            <group targetFramework="netcore50">
+                <dependency id="NETStandard.Library" version="1.6.1" />
+            </group>
             <group targetFramework="uap10.0">
                 <!--<dependency id="NETStandard.Library" version="1.6.1" />-->
+                <dependency id="System.AppContext" version="4.3.0" />
+                <dependency id="System.Console" version="4.3.0" />
+                <dependency id="System.Collections" version="4.3.0" />
+                <dependency id="System.Diagnostics.Debug" version="4.3.0" />
+                <dependency id="System.Globalization" version="4.3.0" />
+                <dependency id="System.IO.FileSystem" version="4.3.0" />
+                <dependency id="System.Linq" version="4.3.0" />
+                <dependency id="System.Runtime.Extensions" version="4.3.0" />
+                <dependency id="System.Runtime.InteropServices" version="4.3.0" />
+                <dependency id="System.Runtime.InteropServices.RuntimeInformation" version="4.3.0" />
+                <dependency id="System.Threading" version="4.3.0" />
             </group>
             <group targetFramework="portable45-net45+win8+wpa81">
                 <dependency id="NETStandard.Library" version="1.6.1" />
@@ -33,6 +47,7 @@
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Security" targetFramework="net20, net40, net46" />
+            <frameworkAssembly assemblyName="System.Web" targetFramework="net20, net40, net46" />
             <frameworkAssembly assemblyName="System.Drawing" targetFramework="net20, net40, net46" />
             <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="net20, net40, net46" />
             <frameworkAssembly assemblyName="PresentationCore" targetFramework="net40, net46" />
@@ -84,6 +99,13 @@
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.dll" target="lib\netstandard1.6" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.pdb" target="lib\netstandard1.6" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.xml" target="lib\netstandard1.6" />
+
+        <file src="..\src\OpenCvSharp\bin\Release\netcore50\OpenCvSharp.dll" target="lib\netcore50" />
+        <file src="..\src\OpenCvSharp\bin\Release\netcore50\OpenCvSharp.pdb" target="lib\netcore50" />
+        <file src="..\src\OpenCvSharp\bin\Release\netcore50\OpenCvSharp.xml" target="lib\netcore50" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcore50\OpenCvSharp.Blob.dll" target="lib\netcore50" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcore50\OpenCvSharp.Blob.pdb" target="lib\netcore50" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcore50\OpenCvSharp.Blob.xml" target="lib\netcore50" />
 
         <file src="..\src\OpenCvSharp\bin\Release\uap10.0\OpenCvSharp.dll" target="lib\uap10.0" />
         <file src="..\src\OpenCvSharp\bin\Release\uap10.0\OpenCvSharp.pdb" target="lib\uap10.0" />

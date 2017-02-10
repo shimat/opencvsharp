@@ -16,7 +16,7 @@
       "buildOptions": {
         "define": [ "netcoreapp10" ]
       }
-    },/*
+    },
     "netcore50": {
       "dependencies": {
         "NETStandard.Library": "1.6.1"
@@ -24,10 +24,21 @@
       "buildOptions": {
         "define": [ "netcore50" ]
       }
-    },*/
+    },
     "uap10.0": {
       "dependencies": {
-        "NETStandard.Library": "1.6.1"
+        //"NETStandard.Library": "1.6.1",
+        "System.AppContext": "4.3.0",
+        "System.Console": "4.3.0",
+        "System.Collections": "4.3.0",
+        "System.Diagnostics.Debug": "4.3.0",
+        "System.Globalization": "4.3.0",
+        "System.IO.FileSystem": "4.3.0",
+        "System.Linq": "4.3.0",
+        "System.Runtime.Extensions": "4.3.0",
+        "System.Runtime.InteropServices": "4.3.0",
+        "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+        "System.Threading": "4.3.0"
       },
       "buildOptions": {
         "define": [ "uap10" ]
@@ -45,7 +56,8 @@
       "dependencies": {
       },
       "frameworkAssemblies": {
-        "System.Security": "2.0.0.0"
+        "System.Security": "2.0.0.0",
+        "System.Web": "2.0.0.0"
       },
       "buildOptions": {
         "define": [ "DOTNET_FRAMEWORK", "net20" ]
@@ -55,7 +67,8 @@
       "dependencies": {
       },
       "frameworkAssemblies": {
-        "System.Security": "4.0.0.0"
+        "System.Security": "4.0.0.0",
+        "System.Web": "4.0.0.0"
       },
       "buildOptions": {
         "define": [ "DOTNET_FRAMEWORK", "net40" ]
@@ -65,7 +78,8 @@
       "dependencies": {
       },
       "frameworkAssemblies": {
-        "System.Security": "4.0.0.0"
+        "System.Security": "4.0.0.0",
+        "System.Web": "4.0.0.0" 
       },
       "buildOptions": {
         "define": [ "DOTNET_FRAMEWORK", "net46" ]

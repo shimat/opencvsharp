@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace OpenCvSharp.Util
+namespace OpenCvSharp
 {
     /// <summary>
     /// Handles loading embedded dlls into memory, based on http://stackoverflow.com/questions/666799/embedding-unmanaged-dll-into-a-managed-c-sharp-dll.
@@ -157,6 +157,14 @@ namespace OpenCvSharp.Util
                     if (dllHandle != IntPtr.Zero) return;
 #endif
 
+                    // Gets the pathname of the base directory that the assembly resolver uses to probe for assemblies.
+                    // https://github.com/dotnet/corefx/issues/2221
+#if !net20 && !net40 && !uwp
+                    baseDirectory = AppContext.BaseDirectory;
+                    dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
+                    if (dllHandle != IntPtr.Zero) return;
+#endif
+
 #if uwp
                     baseDirectory = "";
 #else
@@ -167,15 +175,16 @@ namespace OpenCvSharp.Util
                     if (dllHandle != IntPtr.Zero) return;
 
                     // ASP.NET hack, requires an active context
-#if false
-                    if (HttpContext.Current != null)
+#if DOTNET_FRAMEWORK
+                    if (System.Web.HttpContext.Current != null)
                     {
-                        var server = HttpContext.Current.Server;
+                        var server = System.Web.HttpContext.Current.Server;
                         baseDirectory = Path.GetFullPath(server.MapPath("bin"));
                         dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                         if (dllHandle != IntPtr.Zero) return;
                     }
 #endif
+
                     StringBuilder errorMessage = new StringBuilder();
                     errorMessage.AppendFormat("Failed to find dll \"{0}\", for processor architecture {1}.", dllName,
                                               processArch.Architecture);
@@ -255,6 +264,7 @@ namespace OpenCvSharp.Util
             var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
 #if uwp
+#pragma warning disable 0162
             if (true) // TODO
 #else
             if (File.Exists(fileName))
