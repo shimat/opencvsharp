@@ -89,5 +89,64 @@ namespace OpenCvSharp
         {
             return FastLineDetector.Create(lengthThreshold, distanceThreshold, cannyTh1, cannyTh2, cannyApertureSize, doMerge);
         }
+
+        /// <summary>
+        /// Calculates 2D Fast Hough transform of an image.
+        /// </summary>
+        /// <param name="src">The source (input) image.</param>
+        /// <param name="dst">The destination image, result of transformation.</param>
+        /// <param name="dstMatDepth">The depth of destination image</param>
+        /// <param name="angleRange">The part of Hough space to calculate, see cv::AngleRangeOption</param>
+        /// <param name="op">The operation to be applied, see cv::HoughOp</param>
+        /// <param name="makeSkew">Specifies to do or not to do image skewing, see cv::HoughDeskewOption</param>
+        public static void FastHoughTransform(
+            InputArray src,
+            OutputArray dst,
+            MatType dstMatDepth,
+            AngleRangeOption angleRange = AngleRangeOption.ARO_315_135,
+            HoughOP op = HoughOP.FHT_ADD,
+            HoughDeskewOption makeSkew = HoughDeskewOption.DESKEW)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.ximgproc_FastHoughTransform(src.CvPtr, dst.CvPtr, dstMatDepth, (int)angleRange, (int)op, (int)makeSkew);
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Calculates coordinates of line segment corresponded by point in Hough space.
+        /// </summary>
+        /// <remarks>
+        /// If rules parameter set to RO_STRICT then returned line cut along the border of source image.
+        /// If rules parameter set to RO_WEAK then in case of point, which belongs 
+        /// the incorrect part of Hough image, returned line will not intersect source image.
+        /// </remarks>
+        /// <param name="houghPoint">Point in Hough space.</param>
+        /// <param name="srcImgInfo">The source (input) image of Hough transform.</param>
+        /// <param name="angleRange">The part of Hough space where point is situated, see cv::AngleRangeOption</param>
+        /// <param name="makeSkew">Specifies to do or not to do image skewing, see cv::HoughDeskewOption</param>
+        /// <param name="rules">Specifies strictness of line segment calculating, see cv::RulesOption</param>
+        /// <returns>Coordinates of line segment corresponded by point in Hough space.</returns>
+        public static Vec4i HoughPoint2Line(
+            Point houghPoint,
+            InputArray srcImgInfo,
+            AngleRangeOption angleRange = AngleRangeOption.ARO_315_135,
+            HoughDeskewOption makeSkew = HoughDeskewOption.DESKEW,
+            RulesOption rules = RulesOption.IGNORE_BORDERS)
+        {
+            if (srcImgInfo == null)
+                throw new ArgumentNullException(nameof(srcImgInfo));
+            srcImgInfo.ThrowIfDisposed();
+
+            return NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.CvPtr, (int) angleRange, (int) makeSkew,
+                (int) rules);
+        }
     }
 }

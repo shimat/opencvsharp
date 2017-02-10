@@ -206,6 +206,20 @@ static cv::Scalar cpp(MyCvScalar s)
 	return cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
 }
 
+static CvVec4i c(cv::Vec4i v)
+{
+    CvVec4i vv;
+    vv.val[0] = v.val[0];
+    vv.val[1] = v.val[1];
+    vv.val[2] = v.val[2];
+    vv.val[3] = v.val[3];
+    return vv;
+}
+static cv::Vec4i cpp(CvVec4i v)
+{
+    return cv::Vec4i(v.val[0], v.val[1], v.val[2], v.val[3]);
+}
+
 static MyCvSlice c(cv::Range s)
 {
 	MyCvSlice ret;
