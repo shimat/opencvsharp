@@ -312,6 +312,9 @@
     <ClInclude Include="ximgproc_FastHoughTransform.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
+    <ClInclude Include="ximgproc_WeightedMedianFilter.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
