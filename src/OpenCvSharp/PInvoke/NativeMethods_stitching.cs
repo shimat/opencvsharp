@@ -71,7 +71,7 @@ namespace OpenCvSharp
             IntPtr obj, IntPtr images, IntPtr pano);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int stitching_Stitcher_stitch1_MatArray(
-            IntPtr obj, IntPtr[] images, int imagesSize, IntPtr pano);
+            IntPtr obj, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] images, int imagesSize, IntPtr pano);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int stitching_Stitcher_stitch2_InputArray(
             IntPtr obj, IntPtr images,
