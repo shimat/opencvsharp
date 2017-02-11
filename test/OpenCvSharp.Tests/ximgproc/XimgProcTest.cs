@@ -29,6 +29,17 @@ namespace OpenCvSharp.Tests.XImgProc
                 //Window.ShowImages(dst);
             }
         }
+
+        [Test]
+        public void WeightedMedianFilter()
+        {
+            using (var src = Image("lenna.png", ImreadModes.GrayScale))
+            using (var dst = new Mat())
+            {
+                Cv2.WeightedMedianFilter(src, src, dst, 7);
+                //Window.ShowImages(dst);
+            }
+        }
     }
 }
 
