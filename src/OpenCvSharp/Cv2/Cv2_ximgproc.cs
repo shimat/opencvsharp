@@ -145,8 +145,46 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(srcImgInfo));
             srcImgInfo.ThrowIfDisposed();
 
-            return NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.CvPtr, (int) angleRange, (int) makeSkew,
+            var ret = NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.CvPtr, (int) angleRange, (int) makeSkew,
                 (int) rules);
+            GC.KeepAlive(srcImgInfo);
+            return ret;
+        }
+
+        /// <summary>
+        /// Applies weighted median filter to an image.
+        /// </summary>
+        /// <remarks>
+        /// For more details about this implementation, please see @cite zhang2014100+
+        /// </remarks>
+        /// <param name="joint">Joint 8-bit, 1-channel or 3-channel image.</param>
+        /// <param name="src">Source 8-bit or floating-point, 1-channel or 3-channel image.</param>
+        /// <param name="dst">Destination image.</param>
+        /// <param name="r">Radius of filtering kernel, should be a positive integer.</param>
+        /// <param name="sigma">Filter range standard deviation for the joint image.</param>
+        /// <param name="weightType">The type of weight definition, see WMFWeightType</param>
+        /// <param name="mask">A 0-1 mask that has the same size with I. This mask is used to ignore the effect of some pixels. If the pixel value on mask is 0,
+        /// the pixel will be ignored when maintaining the joint-histogram.This is useful for applications like optical flow occlusion handling.</param>
+        public static void WeightedMedianFilter(
+            InputArray joint, InputArray src, OutputArray dst, int r,
+            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, Mat mask = null)
+        {
+            if (joint == null)
+                throw new ArgumentNullException(nameof(joint));
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            joint.ThrowIfDisposed();
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.ximgproc_weightedMedianFilter(
+                joint.CvPtr, src.CvPtr, dst.CvPtr, r, sigma, (int)weightType, ToPtr(mask));
+
+            GC.KeepAlive(joint);
+            GC.KeepAlive(src);
+            dst.Fix();
         }
     }
 }
