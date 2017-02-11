@@ -83,10 +83,11 @@ namespace OpenCvSharp
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ptr">cv::Stitcher*</param>
-        private Stitcher(IntPtr ptr)
+        /// <param name="p">cv::Stitcher*</param>
+        private Stitcher(IntPtr p)
         {
-            this.ptr = ptr;
+            ptrObj = new Ptr(p);
+            ptr = ptrObj.Get();
         }
 
         /// <summary>
@@ -96,8 +97,8 @@ namespace OpenCvSharp
         /// whenever it's possible.</param>
         public static Stitcher Create(bool tryUseGpu = false)
         {
-            IntPtr ptr = NativeMethods.stitching_createStitcher(tryUseGpu ? 1 : 0);
-            return new Stitcher(ptr);
+            IntPtr p = NativeMethods.stitching_createStitcher(tryUseGpu ? 1 : 0);
+            return new Stitcher(p);
         }
 
         /// <summary>
@@ -281,6 +282,8 @@ namespace OpenCvSharp
 
             int status = NativeMethods.stitching_Stitcher_estimateTransform_MatArray1(
                 ptr, imagesPtrs, imagesPtrs.Length);
+
+            GC.KeepAlive(imagesPtrs);
             return (Status)status;
         }
 
@@ -298,6 +301,8 @@ namespace OpenCvSharp
                 int status = NativeMethods.stitching_Stitcher_estimateTransform_MatArray2(
                     ptr, imagesPtrs, imagesPtrs.Length,
                     roisPointer.Pointer, roisPointer.Dim1Length, roisPointer.Dim2Lengths);
+
+                GC.KeepAlive(imagesPtrs);
                 return (Status)status;
             }
         }
@@ -341,6 +346,7 @@ namespace OpenCvSharp
             int status = NativeMethods.stitching_Stitcher_composePanorama2_MatArray(
                 ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr);
             pano.Fix();
+            GC.KeepAlive(imagesPtrs);
             return (Status)status;
         }
 
@@ -386,6 +392,7 @@ namespace OpenCvSharp
             Status status = (Status)NativeMethods.stitching_Stitcher_stitch1_MatArray(
                 ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr);
 
+            GC.KeepAlive(imagesPtrs);
             pano.Fix();
 
             return status;

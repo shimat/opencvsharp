@@ -3,9 +3,9 @@
 
 #include "include_opencv.h"
 
-CVAPI(cv::Ptr<cv::Stitcher>*) stitching_createStitcher(int try_use_cpu)
+CVAPI(cv::Ptr<cv::Stitcher>*) stitching_createStitcher(int try_use_gpu)
 {
-	cv::Ptr<cv::Stitcher> ptr = cv::createStitcher(try_use_cpu != 0);
+	cv::Ptr<cv::Stitcher> ptr = cv::createStitcher(try_use_gpu != 0);
 	return new cv::Ptr<cv::Stitcher>(ptr);
 }
 
