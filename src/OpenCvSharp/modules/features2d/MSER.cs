@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -16,12 +13,13 @@ namespace OpenCvSharp
     /// Maximal Stable Extremal Regions class
     /// </summary>
 #endif
+    // ReSharper disable once InconsistentNaming
     public class MSER : Feature2D
     {
         private bool disposed;
-        private Ptr<MSER> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         #region Init & Disposal
 
@@ -30,7 +28,7 @@ namespace OpenCvSharp
         /// </summary>
         protected MSER(IntPtr p)
         {
-            ptrObj = new Ptr<MSER>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -103,11 +101,8 @@ namespace OpenCvSharp
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
 
@@ -231,5 +226,22 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_MSER_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_MSER_delete(ptr);
+            }
+        }
     }
 }

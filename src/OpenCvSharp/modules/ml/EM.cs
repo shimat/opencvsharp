@@ -20,7 +20,7 @@ namespace OpenCvSharp
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
-        private Ptr<EM> ptrObj;
+        private Ptr ptrObj;
 
         #region Constants
 
@@ -40,7 +40,7 @@ namespace OpenCvSharp
         /// </summary>
         protected EM(IntPtr p)
         {
-            ptrObj = new Ptr<EM>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -79,11 +79,8 @@ namespace OpenCvSharp
                 {
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     ptr = IntPtr.Zero;
                     disposed = true;
@@ -444,5 +441,22 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.ml_Ptr_EM_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.ml_Ptr_EM_delete(ptr);
+            }
+        }
     }
 }

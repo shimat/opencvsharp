@@ -31,8 +31,6 @@ namespace OpenCvSharp
         public static extern void face_FaceRecognizer_save2(IntPtr obj, IntPtr fs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void face_FaceRecognizer_load2(IntPtr obj, IntPtr fs);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr face_FaceRecognizer_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void face_FaceRecognizer_setLabelInfo(IntPtr obj, int label,

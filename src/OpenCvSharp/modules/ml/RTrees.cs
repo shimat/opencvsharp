@@ -18,7 +18,7 @@ namespace OpenCvSharp.ML
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
-        private Ptr<RTrees> ptrObj;
+        private Ptr ptrObj;
 
 		#region Init and Disposal
 
@@ -28,7 +28,7 @@ namespace OpenCvSharp.ML
         protected RTrees(IntPtr p)
             : base()
         {
-            ptrObj = new Ptr<RTrees>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -36,7 +36,7 @@ namespace OpenCvSharp.ML
         /// Creates the empty model.
         /// </summary>
         /// <returns></returns>
-        public static new RTrees Create()
+        public new static RTrees Create()
 	    {
             IntPtr ptr = NativeMethods.ml_RTrees_create();
             return new RTrees(ptr);
@@ -67,11 +67,8 @@ namespace OpenCvSharp.ML
                 {
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     ptr = IntPtr.Zero;
                     disposed = true;
@@ -136,5 +133,22 @@ namespace OpenCvSharp.ML
 	    }
 
         #endregion
-	}
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.ml_Ptr_RTrees_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.ml_Ptr_RTrees_delete(ptr);
+            }
+        }
+    }
 }

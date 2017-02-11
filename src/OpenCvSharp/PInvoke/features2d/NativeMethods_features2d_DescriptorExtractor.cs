@@ -24,8 +24,6 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int features2d_DescriptorExtractor_empty(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_DescriptorExtractor_info(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_DescriptorExtractor_create(
             [MarshalAs(UnmanagedType.LPStr)] string descriptorExtractorType);
 

@@ -12,14 +12,14 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;CLAHE&gt;
         /// </summary>
-        private Ptr<CLAHE> ptrObj;
+        private Ptr ptrObj;
 
         /// <summary>
         /// 
         /// </summary>
         private CLAHE(IntPtr p)
         {
-            ptrObj = new Ptr<CLAHE>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -66,8 +66,7 @@ namespace OpenCvSharp
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (ptrObj != null)
-                            ptrObj.Dispose();
+                        ptrObj?.Dispose();
                         ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
@@ -178,6 +177,23 @@ namespace OpenCvSharp
                 throw new ObjectDisposedException(GetType().Name);
 
             NativeMethods.imgproc_CLAHE_collectGarbage(ptr);
+        }
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.imgproc_Ptr_CLAHE_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.imgproc_Ptr_CLAHE_delete(ptr);
+            }
         }
     }
 }

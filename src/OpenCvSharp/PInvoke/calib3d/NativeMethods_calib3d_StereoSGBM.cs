@@ -24,9 +24,6 @@ namespace OpenCvSharp
             int speckleWindowSize, int speckleRange, int mode);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr calib3d_Ptr_StereoSGBM_info(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int calib3d_StereoSGBM_getPreFilterCap(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

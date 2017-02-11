@@ -13,7 +13,7 @@ namespace OpenCvSharp
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
-        private Ptr<CalibrateDebevec> ptrObj;
+        private Ptr ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer cv::ml::Boost*
@@ -21,7 +21,7 @@ namespace OpenCvSharp
         protected CalibrateDebevec(IntPtr p)
             : base()
         {
-            ptrObj = new Ptr<CalibrateDebevec>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -65,11 +65,8 @@ namespace OpenCvSharp
                 {
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     ptr = IntPtr.Zero;
                     disposed = true;
@@ -78,6 +75,23 @@ namespace OpenCvSharp
                 {
                     base.Dispose(disposing);
                 }
+            }
+        }
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.photo_Ptr_CalibrateDebevec_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.photo_Ptr_CalibrateDebevec_delete(ptr);
             }
         }
     }

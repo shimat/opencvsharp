@@ -14,7 +14,7 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr<BackgroundSubtractorMOG2> objectPtr;
+        private Ptr objectPtr;
         /// <summary>
         /// 
         /// </summary>
@@ -39,7 +39,7 @@ namespace OpenCvSharp
 
         internal BackgroundSubtractorMOG2(IntPtr ptr)
         {
-            this.objectPtr = new Ptr<BackgroundSubtractorMOG2>(ptr);
+            this.objectPtr = new Ptr(ptr);
             this.ptr = objectPtr.Get(); 
         }
 
@@ -71,10 +71,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        if (objectPtr != null)
-                        {
-                            objectPtr.Dispose();
-                        }
+                        objectPtr?.Dispose();
                         objectPtr = null;
                         ptr = IntPtr.Zero;
                     }
@@ -320,5 +317,21 @@ namespace OpenCvSharp
 
         #endregion
 
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.video_Ptr_BackgroundSubtractorMOG2_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.video_Ptr_BackgroundSubtractorMOG2_delete(ptr);
+            }
+        }
     }
 }

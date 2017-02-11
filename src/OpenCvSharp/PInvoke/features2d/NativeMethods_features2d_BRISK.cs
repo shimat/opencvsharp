@@ -22,7 +22,5 @@ namespace OpenCvSharp
         public static extern void features2d_Ptr_BRISK_delete(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_BRISK_get(IntPtr ptr);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_BRISK_info(IntPtr obj);
     }
 }

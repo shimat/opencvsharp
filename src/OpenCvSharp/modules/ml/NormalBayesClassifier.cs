@@ -17,7 +17,7 @@ namespace OpenCvSharp.ML
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
-        private Ptr<NormalBayesClassifier> ptrObj;
+        private Ptr ptrObj;
 
         #region Init and Disposal
 
@@ -26,7 +26,7 @@ namespace OpenCvSharp.ML
         /// </summary>
         protected NormalBayesClassifier(IntPtr p)
         {
-            ptrObj = new Ptr<NormalBayesClassifier>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -66,11 +66,8 @@ namespace OpenCvSharp.ML
                 {
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     ptr = IntPtr.Zero;
                     disposed = true;
@@ -126,6 +123,23 @@ namespace OpenCvSharp.ML
             return result;
         }
 
-	    #endregion
+        #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.ml_Ptr_NormalBayesClassifier_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.ml_Ptr_NormalBayesClassifier_delete(ptr);
+            }
+        }
     }
 }

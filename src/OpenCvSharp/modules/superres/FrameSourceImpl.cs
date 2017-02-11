@@ -8,7 +8,7 @@ namespace OpenCvSharp
     internal sealed class FrameSourceImpl : FrameSource
     {
         private bool disposed;
-        private Ptr<FrameSource> ptrObj;
+        private Ptr ptrObj;
 
         #region Init & Disposal
 
@@ -31,7 +31,7 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid FrameSource pointer");
             var obj = new FrameSourceImpl();
-            var ptrObj = new Ptr<FrameSource>(ptr);
+            var ptrObj = new Ptr(ptr);
             obj.ptrObj = ptrObj;
             obj.ptr = ptr;
             return obj;
@@ -84,8 +84,7 @@ namespace OpenCvSharp
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (ptrObj != null)
-                            ptrObj.Dispose();
+                        ptrObj?.Dispose();
                         ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
@@ -123,5 +122,22 @@ namespace OpenCvSharp
             NativeMethods.superres_FrameSource_reset(ptr);
         }
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.superres_Ptr_FrameSource_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.superres_Ptr_FrameSource_delete(ptr);
+            }
+        }
     }
 }

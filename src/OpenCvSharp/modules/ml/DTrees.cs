@@ -18,7 +18,7 @@ namespace OpenCvSharp.ML
         /// </summary>
         private bool disposed;
 
-        private Ptr<DTrees> ptrObj;
+        private Ptr ptrObj;
 
         #region Init and Disposal
 
@@ -35,7 +35,7 @@ namespace OpenCvSharp.ML
         /// </summary>
         protected DTrees(IntPtr p)
         {
-            ptrObj = new Ptr<DTrees>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -74,11 +74,8 @@ namespace OpenCvSharp.ML
                 {
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     ptr = IntPtr.Zero;
                     disposed = true;
@@ -349,5 +346,22 @@ namespace OpenCvSharp.ML
         }
 
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.ml_Ptr_DTrees_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.ml_Ptr_DTrees_delete(ptr);
+            }
+        }
     }
 }

@@ -18,9 +18,9 @@ namespace OpenCvSharp.XFeatures2D
     public class FREAK : Feature2D
     {
         private bool disposed;
-        private Ptr<FREAK> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         #region Init & Disposal
 
@@ -29,7 +29,7 @@ namespace OpenCvSharp.XFeatures2D
         /// </summary>
         protected FREAK(IntPtr p)
         {
-            ptrObj = new Ptr<FREAK>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -105,5 +105,22 @@ namespace OpenCvSharp.XFeatures2D
         #region Methods
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.xfeatures2d_Ptr_FREAK_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.xfeatures2d_Ptr_FREAK_delete(ptr);
+            }
+        }
     }
 }

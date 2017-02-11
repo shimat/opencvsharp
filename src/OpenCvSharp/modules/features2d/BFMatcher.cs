@@ -11,9 +11,9 @@ namespace OpenCvSharp
     public class BFMatcher : DescriptorMatcher
     {
         private bool disposed;
-        private Ptr<BFMatcher> detectorPtr;
+        private Ptr detectorPtr;
 
-        internal override IntPtr PtrObj => detectorPtr.CvPtr;
+        //internal override IntPtr PtrObj => detectorPtr.CvPtr;
 
         #region Init & Disposal
 
@@ -25,12 +25,13 @@ namespace OpenCvSharp
         public BFMatcher(NormTypes normType = NormTypes.L2, bool crossCheck = false)
         {
             ptr = NativeMethods.features2d_BFMatcher_new((int) normType, crossCheck ? 1 : 0);
+            detectorPtr = null;
         }
 
         /// <summary>
         /// Creates instance by cv::Ptr&lt;T&gt;
         /// </summary>
-        internal BFMatcher(Ptr<BFMatcher> detectorPtr)
+        internal BFMatcher(Ptr detectorPtr)
         {
             this.detectorPtr = detectorPtr;
             this.ptr = detectorPtr.Get();
@@ -54,7 +55,7 @@ namespace OpenCvSharp
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid cv::Ptr<BFMatcher> pointer");
-            var ptrObj = new Ptr<BFMatcher>(ptr);
+            var ptrObj = new Ptr(ptr);
             return new BFMatcher(ptrObj);
         }
 
@@ -121,5 +122,22 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_BFMatcher_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_BFMatcher_delete(ptr);
+            }
+        }
     }
 }

@@ -19,11 +19,11 @@ namespace OpenCvSharp.XFeatures2D
         private bool disposed;
 
         /// <summary>
-        /// cv::Ptr&lt;BriefDescriptorExtractor&gt;
+        /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr<BriefDescriptorExtractor> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         /// <summary>
         /// 
@@ -38,7 +38,7 @@ namespace OpenCvSharp.XFeatures2D
         /// <param name="ptr"></param>
         protected BriefDescriptorExtractor(IntPtr ptr)
         {
-            ptrObj = new Ptr<BriefDescriptorExtractor>(ptr);
+            ptrObj = new Ptr(ptr);
             ptr = ptrObj.Get();
         }
 
@@ -68,10 +68,7 @@ namespace OpenCvSharp.XFeatures2D
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                        }
+                        ptrObj?.Dispose();
                         ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
@@ -84,6 +81,23 @@ namespace OpenCvSharp.XFeatures2D
                 {
                     base.Dispose(disposing);
                 }
+            }
+        }
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_delete(ptr);
             }
         }
     }

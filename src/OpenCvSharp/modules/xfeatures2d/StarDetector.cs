@@ -15,9 +15,9 @@ namespace OpenCvSharp.XFeatures2D
     public class StarDetector : Feature2D
     {
         private bool disposed;
-        private Ptr<StarDetector> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         #region Init & Disposal
 
@@ -26,7 +26,7 @@ namespace OpenCvSharp.XFeatures2D
         /// </summary>
         internal StarDetector(IntPtr p)
         {
-            ptrObj = new Ptr<StarDetector>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -88,11 +88,8 @@ namespace OpenCvSharp.XFeatures2D
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
 
@@ -109,5 +106,22 @@ namespace OpenCvSharp.XFeatures2D
         #region Methods
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.xfeatures2d_Ptr_StarDetector_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.xfeatures2d_Ptr_StarDetector_delete(ptr);
+            }
+        }
     }
 }

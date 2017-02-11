@@ -17,7 +17,7 @@ namespace OpenCvSharp.XImgProc
     public class FastLineDetector : Algorithm
     {
         private bool disposed;
-        private Ptr<FastLineDetector> detectorPtr;
+        private Ptr detectorPtr;
 
         #region Init & Disposal
 
@@ -27,7 +27,7 @@ namespace OpenCvSharp.XImgProc
         protected FastLineDetector(IntPtr p)
             : base()
         {
-            detectorPtr = new Ptr<FastLineDetector>(p);
+            detectorPtr = new Ptr(p);
             ptr = detectorPtr.Get();
         }
 
@@ -57,11 +57,8 @@ namespace OpenCvSharp.XImgProc
                     // releases managed resources
                     if (disposing)
                     {
-                        if (detectorPtr != null)
-                        {
-                            detectorPtr.Dispose();
-                            detectorPtr = null;
-                        }
+                        detectorPtr?.Dispose();
+                        detectorPtr = null;
                     }
                     // releases unmanaged resources
                     
@@ -194,5 +191,22 @@ namespace OpenCvSharp.XImgProc
         }
 
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.ximgproc_Ptr_FastLineDetector_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.ximgproc_FastLineDetector_delete(ptr);
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace OpenCvSharp
     public class HausdorffDistanceExtractor : ShapeDistanceExtractor
     {
         private bool disposed;
-        private Ptr<HausdorffDistanceExtractor> ptrObj;
+        private Ptr ptrObj;
 
         #region Init & Disposal
 
@@ -23,7 +23,7 @@ namespace OpenCvSharp
         /// </summary>
         protected HausdorffDistanceExtractor(IntPtr p)
         {
-            ptrObj = new Ptr<HausdorffDistanceExtractor>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -67,11 +67,8 @@ namespace OpenCvSharp
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
                     ptr = IntPtr.Zero;
@@ -126,5 +123,22 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete(ptr);
+            }
+        }
     }
 }

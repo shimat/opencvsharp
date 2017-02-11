@@ -17,9 +17,6 @@ namespace OpenCvSharp
         public static extern void features2d_Ptr_KAZE_delete(IntPtr ptr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_KAZE_info(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_KAZE_get(IntPtr ptr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

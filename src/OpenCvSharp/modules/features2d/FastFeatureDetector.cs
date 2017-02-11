@@ -15,9 +15,9 @@ namespace OpenCvSharp
     public class FastFeatureDetector : Feature2D
     {
         private bool disposed;
-        private Ptr<FastFeatureDetector> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         #region Init & Disposal
 
@@ -26,7 +26,7 @@ namespace OpenCvSharp
         /// </summary>
         protected FastFeatureDetector(IntPtr ptr)
         {
-            ptrObj = new Ptr<FastFeatureDetector>(ptr);
+            ptrObj = new Ptr(ptr);
             ptr = ptrObj.Get();
         }
 
@@ -67,11 +67,8 @@ namespace OpenCvSharp
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
                     
@@ -149,5 +146,22 @@ namespace OpenCvSharp
         #region Methods
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_FastFeatureDetector_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_FastFeatureDetector_delete(ptr);
+            }
+        }
     }
 }

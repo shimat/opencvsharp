@@ -16,9 +16,6 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr imgproc_Ptr_CLAHE_get(IntPtr obj);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr imgproc_CLAHE_info(IntPtr obj);
-
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void imgproc_CLAHE_apply(IntPtr obj, IntPtr src, IntPtr dst);

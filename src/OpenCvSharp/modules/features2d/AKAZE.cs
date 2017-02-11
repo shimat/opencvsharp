@@ -21,12 +21,13 @@ namespace OpenCvSharp
     /// In British Machine Vision Conference (BMVC), Bristol, UK, September 2013.
     /// </remarks>
 #endif
+    // ReSharper disable once InconsistentNaming
     public class AKAZE : Feature2D
     {
         private bool disposed;
-        private Ptr<AKAZE> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         #region Init & Disposal
 
@@ -35,7 +36,7 @@ namespace OpenCvSharp
         /// </summary>
         protected AKAZE(IntPtr p)
         {
-            ptrObj = new Ptr<AKAZE>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -90,11 +91,8 @@ namespace OpenCvSharp
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
                     ptr = IntPtr.Zero;
@@ -248,5 +246,22 @@ namespace OpenCvSharp
         #region Methods
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_AKAZE_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_AKAZE_delete(ptr);
+            }
+        }
     }
 }

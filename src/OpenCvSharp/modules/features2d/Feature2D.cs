@@ -12,11 +12,13 @@ namespace OpenCvSharp
         private bool disposed;
 
         /// <summary>
-        /// cv::Ptr&lt;Feature2D&gt;
+        /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr<Feature2D> ptrObj;
+        private Ptr ptrObj;
 
-        internal virtual IntPtr PtrObj => ptrObj.CvPtr;
+        //internal virtual IntPtr PtrObj => ptrObj.CvPtr;
+
+        #region Init & Disposal
 
         /// <summary>
         /// 
@@ -35,7 +37,7 @@ namespace OpenCvSharp
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid cv::Ptr<Feature2D> pointer");
-            var ptrObj = new Ptr<Feature2D>(ptr);
+            var ptrObj = new Ptr(ptr);
             var detector = new Feature2D
             {
                 ptrObj = ptrObj,
@@ -74,8 +76,7 @@ namespace OpenCvSharp
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (ptrObj != null)
-                            ptrObj.Dispose();
+                        ptrObj?.Dispose();
                         ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
@@ -87,7 +88,11 @@ namespace OpenCvSharp
                 }
             }
         }
-        
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// 
         /// </summary>
@@ -129,6 +134,10 @@ namespace OpenCvSharp
                 return NativeMethods.features2d_Feature2D_defaultNorm(ptr);
             }
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Return true if detector object is empty
@@ -345,6 +354,25 @@ namespace OpenCvSharp
             GC.KeepAlive(image);
             GC.KeepAlive(mask);
             descriptors.Fix();
+        }
+
+        #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_Feature2D_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_Feature2D_delete(ptr);
+            }
         }
     }
 }

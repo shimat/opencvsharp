@@ -26,7 +26,7 @@ namespace OpenCvSharp
     public class StereoSGBM : StereoMatcher
     {
         private bool disposed;
-        private Ptr<StereoSGBM> ptrObj;
+        private Ptr ptrObj;
 
         #region Init and Disposal
 
@@ -35,7 +35,7 @@ namespace OpenCvSharp
         /// </summary>
         protected StereoSGBM(IntPtr ptr) : base(ptr)
         {
-            ptrObj = new Ptr<StereoSGBM>(ptr);
+            ptrObj = new Ptr(ptr);
         }
 
         /// <summary>
@@ -95,10 +95,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                        }
+                        ptrObj?.Dispose();
                         ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
@@ -211,5 +208,21 @@ namespace OpenCvSharp
 
         #endregion
 
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.calib3d_Ptr_StereoSGBM_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.calib3d_Ptr_StereoSGBM_delete(ptr);
+            }
+        }
     }
 }

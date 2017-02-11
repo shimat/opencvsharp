@@ -92,8 +92,6 @@ namespace OpenCvSharp
             IntPtr obj, IntPtr i0, IntPtr i1, IntPtr flow);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void video_DenseOpticalFlow_collectGarbage(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr video_DenseOpticalFlow_info(IntPtr obj);
 
         // TODO
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
