@@ -4,8 +4,8 @@
   "dependencies": {
     "OpenCvSharp": "1.0.0-*",
     "OpenCvSharp.Blob": "1.0.0-*",
-    "NUnit": "3.5.0",
-    "dotnet-test-nunit": "3.4.0-beta-3"
+    "dotnet-test-nunit": "3.4.0-beta-3",
+    "NUnit": "3.6.0"
   },
 
   "testRunner": "nunit",
