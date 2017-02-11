@@ -18,9 +18,6 @@ namespace OpenCvSharp
         public static extern void features2d_Ptr_ORB_delete(IntPtr ptr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_ORB_info(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_ORB_get(IntPtr ptr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]

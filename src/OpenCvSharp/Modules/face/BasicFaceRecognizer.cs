@@ -14,7 +14,7 @@ namespace OpenCvSharp.Face
         /// <summary>
         ///
         /// </summary>
-        private Ptr<BasicFaceRecognizer> recognizerPtr;
+        private Ptr recognizerPtr;
 
         #region Init & Disposal
 
@@ -36,7 +36,7 @@ namespace OpenCvSharp.Face
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(BasicFaceRecognizer)}> pointer");
-            var ptrObj = new Ptr<BasicFaceRecognizer>(ptr);
+            var ptrObj = new Ptr(ptr);
             var detector = new BasicFaceRecognizer
             {
                 recognizerPtr = ptrObj,
@@ -204,5 +204,22 @@ namespace OpenCvSharp.Face
         }
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.face_Ptr_BasicFaceRecognizer_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.face_Ptr_BasicFaceRecognizer_delete(ptr);
+            }
+        }
     }
 }

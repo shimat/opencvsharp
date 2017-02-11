@@ -12,14 +12,14 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;LineSegmentDetector&gt;
         /// </summary>
-        private Ptr<LineSegmentDetector> ptrObj;
+        private Ptr ptrObj;
 
         /// <summary>
         /// 
         /// </summary>
         protected LineSegmentDetector(IntPtr p)
         {
-            ptrObj = new Ptr<LineSegmentDetector>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -208,6 +208,22 @@ namespace OpenCvSharp
             image?.Fix();
 
             return ret;
+        }
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.imgproc_Ptr_LineSegmentDetector_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(ptr);
+            }
         }
     }
 }

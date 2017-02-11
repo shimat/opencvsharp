@@ -17,7 +17,7 @@ namespace OpenCvSharp.XFeatures2D
     public class SIFT : Feature2D
     {
         private bool disposed;
-        private Ptr<SIFT> detectorPtr;
+        private Ptr detectorPtr;
 
         #region Init & Disposal
 
@@ -27,7 +27,7 @@ namespace OpenCvSharp.XFeatures2D
         protected SIFT(IntPtr p)
             : base()
         {
-            detectorPtr = new Ptr<SIFT>(p);
+            detectorPtr = new Ptr(p);
             ptr = detectorPtr.Get();
         }
 
@@ -103,5 +103,22 @@ namespace OpenCvSharp.XFeatures2D
         #region Properties
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.xfeatures2d_Ptr_SIFT_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.xfeatures2d_Ptr_SIFT_delete(ptr);
+            }
+        }
     }
 }

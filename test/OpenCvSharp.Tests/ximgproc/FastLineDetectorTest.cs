@@ -70,7 +70,7 @@ namespace OpenCvSharp.Tests.XImgProc
             {
                 Vec4f[] lines = fld.Detect(image);
                 fld.DrawSegments(view, lines, true);
-                Window.ShowImages(view);
+                //Window.ShowImages(view);
             }
         }
     }

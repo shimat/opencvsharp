@@ -52,9 +52,6 @@ namespace OpenCvSharp
         public static extern IntPtr features2d_DescriptorMatcher_create([MarshalAs(UnmanagedType.LPStr)] string descriptorMatcherType);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_DescriptorMatcher_info(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_DescriptorMatcher_get(IntPtr ptr);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void features2d_Ptr_DescriptorMatcher_delete(IntPtr ptr);
@@ -66,8 +63,6 @@ namespace OpenCvSharp
         public static extern void features2d_BFMatcher_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int features2d_BFMatcher_isMaskSupported(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_BFMatcher_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_BFMatcher_get(IntPtr ptr);
@@ -90,8 +85,6 @@ namespace OpenCvSharp
         public static extern void features2d_FlannBasedMatcher_train(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int features2d_FlannBasedMatcher_isMaskSupported(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr features2d_FlannBasedMatcher_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr features2d_Ptr_FlannBasedMatcher_get(IntPtr ptr);

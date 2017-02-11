@@ -14,7 +14,7 @@ namespace OpenCvSharp.Face
         /// <summary>
         ///
         /// </summary>
-        private Ptr<LBPHFaceRecognizer> recognizerPtr;
+        private Ptr recognizerPtr;
 
         #region Init & Disposal
 
@@ -36,7 +36,7 @@ namespace OpenCvSharp.Face
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(LBPHFaceRecognizer)}> pointer");
-            var ptrObj = new Ptr<LBPHFaceRecognizer>(ptr);
+            var ptrObj = new Ptr(ptr);
             var detector = new LBPHFaceRecognizer
             {
                 recognizerPtr = ptrObj,
@@ -229,7 +229,24 @@ namespace OpenCvSharp.Face
             NativeMethods.face_LBPHFaceRecognizer_getLabels(ptr, result.CvPtr);
             return result;
         }
-        
+
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.face_Ptr_LBPHFaceRecognizer_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.face_Ptr_LBPHFaceRecognizer_delete(ptr);
+            }
+        }
     }
 }

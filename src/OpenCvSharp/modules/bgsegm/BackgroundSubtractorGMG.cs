@@ -13,7 +13,7 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr<BackgroundSubtractorGMG> objectPtr;
+        private Ptr objectPtr;
         /// <summary>
         /// 
         /// </summary>
@@ -37,7 +37,7 @@ namespace OpenCvSharp
 
         internal BackgroundSubtractorGMG(IntPtr ptr)
         {
-            this.objectPtr = new Ptr<BackgroundSubtractorGMG>(ptr);
+            this.objectPtr = new Ptr(ptr);
             this.ptr = objectPtr.Get(); 
         }
 
@@ -69,10 +69,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        if (objectPtr != null)
-                        {
-                            objectPtr.Dispose();
-                        }
+                        objectPtr?.Dispose();
                         objectPtr = null;
                         ptr = IntPtr.Zero;
                     }
@@ -277,8 +274,24 @@ namespace OpenCvSharp
                 NativeMethods.bgsegm_BackgroundSubtractorGMG_setMaxVal(ptr, value);
             }
         }
-        
+
         #endregion
 
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.bgsegm_Ptr_BackgroundSubtractorGMG_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.bgsegm_Ptr_BackgroundSubtractorGMG_delete(ptr);
+            }
+        }
     }
 }

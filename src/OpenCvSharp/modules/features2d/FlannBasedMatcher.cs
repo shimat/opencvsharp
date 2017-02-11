@@ -14,9 +14,9 @@ namespace OpenCvSharp
     public class FlannBasedMatcher : DescriptorMatcher
     {
         private bool disposed;
-        private Ptr<FlannBasedMatcher> detectorPtr;
+        private Ptr detectorPtr;
 
-        internal override IntPtr PtrObj => detectorPtr.CvPtr;
+        //internal override IntPtr PtrObj => detectorPtr.CvPtr;
 
         #region Init & Disposal
 
@@ -34,7 +34,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Creates instance by cv::Ptr&lt;T&gt;
         /// </summary>
-        internal FlannBasedMatcher(Ptr<FlannBasedMatcher> detectorPtr)
+        internal FlannBasedMatcher(Ptr detectorPtr)
         {
             this.detectorPtr = detectorPtr;
             this.ptr = detectorPtr.Get();
@@ -58,7 +58,7 @@ namespace OpenCvSharp
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid cv::Ptr<FlannBasedMatcher> pointer");
-            var ptrObj = new Ptr<FlannBasedMatcher>(ptr);
+            var ptrObj = new Ptr(ptr);
             return new FlannBasedMatcher(ptrObj);
         }
 
@@ -168,5 +168,22 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(ptr);
+            }
+        }
     }
 }

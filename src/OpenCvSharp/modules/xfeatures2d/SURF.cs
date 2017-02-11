@@ -15,7 +15,7 @@ namespace OpenCvSharp.XFeatures2D
     public class SURF : Feature2D
     {
         private bool disposed;
-        private Ptr<SURF> detectorPtr;
+        private Ptr detectorPtr;
 
         #region Init & Disposal
 
@@ -25,7 +25,7 @@ namespace OpenCvSharp.XFeatures2D
         protected SURF(IntPtr ptr)
             : base()
         {
-            detectorPtr = new Ptr<SURF>(ptr);
+            detectorPtr = new Ptr(ptr);
             ptr = detectorPtr.Get();
         }
 
@@ -86,11 +86,8 @@ namespace OpenCvSharp.XFeatures2D
                     // releases managed resources
                     if (disposing)
                     {
-                        if (detectorPtr != null)
-                        {
-                            detectorPtr.Dispose();
-                            detectorPtr = null;
-                        }
+                        detectorPtr?.Dispose();
+                        detectorPtr = null;
                     }
 
                     // releases unmanaged resources
@@ -200,7 +197,24 @@ namespace OpenCvSharp.XFeatures2D
                 NativeMethods.xfeatures2d_SURF_setUpright(ptr, value ? 1 : 0);
             }
         }
-        
+
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.xfeatures2d_Ptr_SURF_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.xfeatures2d_Ptr_SURF_delete(ptr);
+            }
+        }
     }
 }

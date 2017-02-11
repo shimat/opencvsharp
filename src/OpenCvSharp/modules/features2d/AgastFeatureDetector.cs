@@ -16,9 +16,9 @@ namespace OpenCvSharp
     public class AgastFeatureDetector : Feature2D
     {
         private bool disposed;
-        internal Ptr<AgastFeatureDetector> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
 #pragma warning disable 1591
         public const int
@@ -29,6 +29,7 @@ namespace OpenCvSharp
             THRESHOLD = 10000,
             NONMAX_SUPPRESSION = 10001;
 #pragma warning restore 1591
+
         #region Init & Disposal
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace OpenCvSharp
         /// </summary>
         protected AgastFeatureDetector(IntPtr p)
         {
-            ptrObj = new Ptr<AgastFeatureDetector>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -82,11 +83,8 @@ namespace OpenCvSharp
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
                     ptr = IntPtr.Zero;
@@ -158,11 +156,28 @@ namespace OpenCvSharp
                 NativeMethods.features2d_AgastFeatureDetector_setType(ptr, (int)value);
             }
         }
-        
+
         #endregion
 
         #region Methods
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_AgastFeatureDetector_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(ptr);
+            }
+        }
     }
 }

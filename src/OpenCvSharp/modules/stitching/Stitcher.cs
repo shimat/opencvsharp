@@ -60,7 +60,7 @@ namespace OpenCvSharp
     public sealed class Stitcher : DisposableCvObject
     {
         private bool disposed;
-        private Ptr<Stitcher> ptrObj;
+        private Ptr ptrObj;
 
         #region Enum
 
@@ -113,11 +113,8 @@ namespace OpenCvSharp
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
                     ptr = IntPtr.Zero;
@@ -454,5 +451,22 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.stitching_Ptr_Stitcher_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.stitching_Ptr_Stitcher_delete(ptr);
+            }
+        }
     }
 }

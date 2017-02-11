@@ -22,8 +22,6 @@ namespace OpenCvSharp
         public static extern int xfeatures2d_BriefDescriptorExtractor_descriptorSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int xfeatures2d_BriefDescriptorExtractor_descriptorType(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr xfeatures2d_BriefDescriptorExtractor_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr xfeatures2d_Ptr_BriefDescriptorExtractor_get(IntPtr ptr);
@@ -37,8 +35,6 @@ namespace OpenCvSharp
         public static extern void xfeatures2d_Ptr_FREAK_delete(IntPtr ptr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr xfeatures2d_FREAK_info(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr xfeatures2d_Ptr_FREAK_get(IntPtr ptr);
 
         // StarDetector
@@ -50,8 +46,6 @@ namespace OpenCvSharp
         public static extern void xfeatures2d_Ptr_StarDetector_delete(IntPtr ptr);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr xfeatures2d_StarDetector_info(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr xfeatures2d_Ptr_StarDetector_get(IntPtr ptr);
 
         // DenseFeatureDetector
@@ -62,8 +56,6 @@ namespace OpenCvSharp
             int initXyStep, int initImgBound, int varyXyStepWithScale, int varyImgBoundWithScale);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern void xfeatures2d_DenseFeatureDetector_delete(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr xfeatures2d_DenseFeatureDetector_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr xfeatures2d_Ptr_DenseFeatureDetector_get(IntPtr ptr);
@@ -81,8 +73,6 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr xfeatures2d_Ptr_SURF_get(IntPtr ptr);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr xfeatures2d_SURF_info(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern double xfeatures2d_SURF_getHessianThreshold(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
@@ -113,7 +103,5 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr xfeatures2d_Ptr_SIFT_get(IntPtr ptr);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr xfeatures2d_SIFT_info(IntPtr obj);
     }
 }

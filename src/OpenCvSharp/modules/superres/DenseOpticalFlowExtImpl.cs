@@ -16,7 +16,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        private Ptr<DenseOpticalFlowExt> detectorPtr;
+        private Ptr detectorPtr;
 
         #region Init & Disposal
 
@@ -39,7 +39,7 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid DenseOpticalFlowExt pointer");
 
-            var ptrObj = new Ptr<DenseOpticalFlowExt>(ptr);
+            var ptrObj = new Ptr(ptr);
             var obj = new DenseOpticalFlowExtImpl
             {
                 detectorPtr = ptrObj,
@@ -95,8 +95,7 @@ namespace OpenCvSharp
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (detectorPtr != null)
-                            detectorPtr.Dispose();
+                        detectorPtr?.Dispose();
                         detectorPtr = null;
                         ptr = IntPtr.Zero;
                     }
@@ -152,5 +151,22 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.superres_Ptr_DenseOpticalFlowExt_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.superres_Ptr_DenseOpticalFlowExt_delete(ptr);
+            }
+        }
     }
 }

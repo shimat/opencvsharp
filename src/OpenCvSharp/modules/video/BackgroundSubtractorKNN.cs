@@ -12,7 +12,7 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr<BackgroundSubtractorKNN> objectPtr;
+        private Ptr objectPtr;
         /// <summary>
         /// 
         /// </summary>
@@ -37,7 +37,7 @@ namespace OpenCvSharp
 
         internal BackgroundSubtractorKNN(IntPtr ptr)
         {
-            this.objectPtr = new Ptr<BackgroundSubtractorKNN>(ptr);
+            this.objectPtr = new Ptr(ptr);
             this.ptr = objectPtr.Get(); 
         }
 
@@ -69,10 +69,7 @@ namespace OpenCvSharp
                     }
                     if (IsEnabledDispose)
                     {
-                        if (objectPtr != null)
-                        {
-                            objectPtr.Dispose();
-                        }
+                        objectPtr?.Dispose();
                         objectPtr = null;
                         ptr = IntPtr.Zero;
                     }
@@ -220,7 +217,24 @@ namespace OpenCvSharp
                 NativeMethods.video_BackgroundSubtractorKNN_setShadowThreshold(ptr, value);
             }
         }
-        
+
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.video_Ptr_BackgroundSubtractorKNN_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.video_Ptr_BackgroundSubtractorKNN_delete(ptr);
+            }
+        }
     }
 }

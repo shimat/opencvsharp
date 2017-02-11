@@ -11,7 +11,7 @@ namespace OpenCvSharp.ML
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
-        private Ptr<Boost> ptrObj;
+        private Ptr ptrObj;
 
 		#region Init and Disposal
 
@@ -21,7 +21,7 @@ namespace OpenCvSharp.ML
         protected Boost(IntPtr p)
             : base()
         {
-            ptrObj = new Ptr<Boost>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -29,7 +29,7 @@ namespace OpenCvSharp.ML
         /// Creates the empty model.
         /// </summary>
         /// <returns></returns>
-        public static new Boost Create()
+        public new static Boost Create()
 	    {
             IntPtr ptr = NativeMethods.ml_Boost_create();
             return new Boost(ptr);
@@ -60,11 +60,8 @@ namespace OpenCvSharp.ML
                 {
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     ptr = IntPtr.Zero;
                     disposed = true;
@@ -148,5 +145,22 @@ namespace OpenCvSharp.ML
         };
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.ml_Ptr_Boost_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.ml_Ptr_Boost_delete(ptr);
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace OpenCvSharp
     public class StereoBM : StereoMatcher
     {
         private bool disposed;
-        private Ptr<StereoBM> ptrObj;
+        private Ptr ptrObj;
 
         #region Init and Disposal
 
@@ -27,7 +27,7 @@ namespace OpenCvSharp
         protected StereoBM(IntPtr ptr)
             : base(ptr)
         {
-            ptrObj = new Ptr<StereoBM>(ptr);
+            ptrObj = new Ptr(ptr);
         }
 
         /// <summary>
@@ -243,5 +243,21 @@ namespace OpenCvSharp
 
         #endregion
 
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.calib3d_Ptr_StereoBM_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.calib3d_Ptr_StereoBM_delete(ptr);
+            }
+        }
     }
 }

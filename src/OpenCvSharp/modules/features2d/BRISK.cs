@@ -15,12 +15,13 @@ namespace OpenCvSharp
     /// BRISK implementation
     /// </summary>
 #endif
+    // ReSharper disable once InconsistentNaming
     public class BRISK : Feature2D
     {
         private bool disposed;
-        private Ptr<BRISK> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         #region Init & Disposal
 
@@ -39,7 +40,7 @@ namespace OpenCvSharp
         protected BRISK(IntPtr p)
             : base()
         {
-            ptrObj = new Ptr<BRISK>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -112,11 +113,8 @@ namespace OpenCvSharp
                     if (disposing)
                     {
                         // releases unmanaged resources
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     disposed = true;
                 }
@@ -132,5 +130,22 @@ namespace OpenCvSharp
         #region Methods
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_BRISK_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_BRISK_delete(ptr);
+            }
+        }
     }
 }

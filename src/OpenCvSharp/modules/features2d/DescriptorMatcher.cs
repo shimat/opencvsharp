@@ -15,9 +15,9 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        private Ptr<DescriptorMatcher> detectorPtr;
+        private Ptr detectorPtr;
 
-        internal virtual IntPtr PtrObj => detectorPtr.CvPtr;
+        //internal virtual IntPtr PtrObj => detectorPtr.CvPtr;
 
         #region Init & Disposal
 
@@ -87,7 +87,7 @@ namespace OpenCvSharp
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid cv::Ptr<DescriptorMatcher> pointer");
-            var ptrObj = new Ptr<DescriptorMatcher>(ptr);
+            var ptrObj = new Ptr(ptr);
             var detector = new DescriptorMatcher
             {
                 detectorPtr = ptrObj,
@@ -143,8 +143,7 @@ namespace OpenCvSharp
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (detectorPtr != null)
-                            detectorPtr.Dispose();
+                        detectorPtr?.Dispose();
                         detectorPtr = null;
                         ptr = IntPtr.Zero;
                     }
@@ -410,5 +409,22 @@ namespace OpenCvSharp
         #endregion
 
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_DescriptorMatcher_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_DescriptorMatcher_delete(ptr);
+            }
+        }
     }
 }

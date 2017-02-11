@@ -19,12 +19,13 @@ namespace OpenCvSharp
     /// of random point pairs (or k-tuples) are rotated according to the measured orientation).
     /// </remarks>
 #endif
+    // ReSharper disable once InconsistentNaming
     public class ORB : Feature2D
     {
         private bool disposed;
-        private Ptr<ORB> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         #region Init & Disposal
 
@@ -33,7 +34,7 @@ namespace OpenCvSharp
         /// </summary>
         protected ORB(IntPtr p)
         {
-            ptrObj = new Ptr<ORB>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -85,11 +86,8 @@ namespace OpenCvSharp
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
                     ptr = IntPtr.Zero;
@@ -289,5 +287,22 @@ namespace OpenCvSharp
         #region Methods
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_ORB_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_ORB_delete(ptr);
+            }
+        }
     }
 }

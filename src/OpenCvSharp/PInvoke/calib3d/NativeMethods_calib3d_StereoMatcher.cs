@@ -14,8 +14,6 @@ namespace OpenCvSharp
         public static extern void calib3d_StereoMatcher_compute(
             IntPtr obj, IntPtr left, IntPtr right, IntPtr disparity);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr calib3d_Ptr_StereoMatcher_info(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int calib3d_StereoMatcher_getMinDisparity(IntPtr obj);

@@ -13,12 +13,13 @@ namespace OpenCvSharp
     /// Class implementing the KAZE keypoint detector and descriptor extractor
     /// </summary>
 #endif
+    // ReSharper disable once InconsistentNaming
     public class KAZE : Feature2D
     {
         private bool disposed;
-        private Ptr<KAZE> ptrObj;
+        private Ptr ptrObj;
 
-        internal override IntPtr PtrObj => ptrObj.CvPtr;
+        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
         #region Init & Disposal
 
@@ -27,7 +28,7 @@ namespace OpenCvSharp
         /// </summary>
         protected KAZE(IntPtr p)
         {
-            ptrObj = new Ptr<KAZE>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -76,11 +77,8 @@ namespace OpenCvSharp
                     // releases managed resources
                     if (disposing)
                     {
-                        if (ptrObj != null)
-                        {
-                            ptrObj.Dispose();
-                            ptrObj = null;
-                        }
+                        ptrObj?.Dispose();
+                        ptrObj = null;
                     }
                     // releases unmanaged resources
                     ptr = IntPtr.Zero;
@@ -219,5 +217,22 @@ namespace OpenCvSharp
         #region Methods
 
         #endregion
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.features2d_Ptr_KAZE_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.features2d_Ptr_KAZE_delete(ptr);
+            }
+        }
     }
 }

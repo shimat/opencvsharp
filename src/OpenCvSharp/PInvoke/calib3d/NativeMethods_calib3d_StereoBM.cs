@@ -19,9 +19,6 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calib3d_StereoBM_create(int numDisparities, int blockSize);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr calib3d_Ptr_StereoBM_info(IntPtr obj);
-
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
         public static extern int calib3d_StereoBM_getPreFilterType(IntPtr obj);

@@ -15,14 +15,14 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;T&gt; object
         /// </summary>
-        private Ptr<GeneralizedHoughGuil> ptrObj;
+        private Ptr ptrObj;
 
         /// <summary>
         /// 
         /// </summary>
         private GeneralizedHoughGuil(IntPtr p)
         {
-            ptrObj = new Ptr<GeneralizedHoughGuil>(p);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
@@ -66,8 +66,7 @@ namespace OpenCvSharp
                     // releases unmanaged resources
                     if (IsEnabledDispose)
                     {
-                        if (ptrObj != null)
-                            ptrObj.Dispose();
+                        ptrObj?.Dispose();
                         ptrObj = null;
                         ptr = IntPtr.Zero;
                     }
@@ -317,6 +316,23 @@ namespace OpenCvSharp
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
                 NativeMethods.imgproc_GeneralizedHoughGuil_setPosThresh(ptr, value);
+            }
+        }
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(ptr);
+            }
+
+            protected override void Release()
+            {
+                NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(ptr);
             }
         }
     }
