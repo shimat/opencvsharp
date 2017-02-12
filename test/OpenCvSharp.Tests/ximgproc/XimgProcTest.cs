@@ -40,6 +40,21 @@ namespace OpenCvSharp.Tests.XImgProc
                 //Window.ShowImages(dst);
             }
         }
+
+        [Test]
+        public void CovarianceEstimation()
+        {
+            const int windowSize = 7;
+            using (var src = Image("lenna.png", ImreadModes.GrayScale))
+            using (var dst = new Mat())
+            {
+                Cv2.CovarianceEstimation(src, dst, windowSize, windowSize);
+                // TODO
+                Assert.That(dst.Rows, Is.EqualTo(windowSize * windowSize));
+                Assert.That(dst.Cols, Is.EqualTo(windowSize * windowSize));
+                Assert.That(dst.Type(), Is.EqualTo(MatType.CV_32FC2));
+            }
+        }
     }
 }
 

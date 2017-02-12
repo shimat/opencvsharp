@@ -186,5 +186,35 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             dst.Fix();
         }
+
+        /// <summary>
+        /// Computes the estimated covariance matrix of an image using the sliding window forumlation.
+        /// </summary>
+        /// <remarks>
+        /// The window size parameters control the accuracy of the estimation.
+        /// The sliding window moves over the entire image from the top-left corner 
+        /// to the bottom right corner.Each location of the window represents a sample. 
+        /// If the window is the size of the image, then this gives the exact covariance matrix. 
+        /// For all other cases, the sizes of the window will impact the number of samples 
+        /// and the number of elements in the estimated covariance matrix.
+        /// </remarks>
+        /// <param name="src">The source image. Input image must be of a complex type.</param>
+        /// <param name="dst">The destination estimated covariance matrix. Output matrix will be size (windowRows*windowCols, windowRows*windowCols).</param>
+        /// <param name="windowRows">The number of rows in the window.</param>
+        /// <param name="windowCols">The number of cols in the window.</param>
+        public static void CovarianceEstimation(InputArray src, OutputArray dst, int windowRows, int windowCols)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.ximgproc_covarianceEstimation(src.CvPtr, dst.CvPtr, windowRows, windowCols);
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
     }
 }
