@@ -320,7 +320,6 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="ximgproc_FastHoughTransform.h" />
     <ClInclude Include="ximgproc_FastLineDetector.h" />
     <ClInclude Include="ximgproc_Paillou.h" />
-    <ClInclude Include="ximgproc_WeightedMedianFilter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

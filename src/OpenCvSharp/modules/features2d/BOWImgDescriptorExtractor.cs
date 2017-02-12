@@ -116,7 +116,7 @@ namespace OpenCvSharp
         /// <param name="pointIdxsOfClusters">pointIdxsOfClusters Indices of keypoints that belong to the cluster. 
         /// This means that pointIdxsOfClusters[i] are keypoint indices that belong to the i -th cluster(word of vocabulary) returned if it is non-zero.</param>
         /// <param name="descriptors">Descriptors of the image keypoints that are returned if they are non-zero.</param>
-        public void Compute(InputArray image, IList<KeyPoint> keypoints, OutputArray imgDescriptor,
+        public void Compute(InputArray image, ref KeyPoint[] keypoints, OutputArray imgDescriptor,
             out int[][] pointIdxsOfClusters, Mat descriptors = null)
         {
             if (IsDisposed)
@@ -131,11 +131,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.features2d_BOWImgDescriptorExtractor_compute11(ptr, image.CvPtr, keypointsVec.CvPtr, 
                     imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr, Cv2.ToPtr(descriptors));
-                keypoints.Clear();
-                foreach (var k in keypointsVec.ToArray())
-                {
-                    keypoints.Add(k);
-                }
+                keypoints = keypointsVec.ToArray();
                 pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
             }
             GC.KeepAlive(image);
