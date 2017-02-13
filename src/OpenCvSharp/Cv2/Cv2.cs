@@ -30,37 +30,5 @@ namespace OpenCvSharp
         {
             return obj?.CvPtr ?? IntPtr.Zero;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <returns></returns>
-        internal static void CopyToList<T>(IEnumerable<T> src, IList<T> dst)
-        {
-            T[] srcArray = EnumerableEx.ToArray(src);
-
-            T[] dstArray = dst as T[];
-            List<T> dstList = dst as List<T>;
-            if (dstArray != null)
-            {
-                Array.Resize(ref dstArray, srcArray.Length);
-                Array.ConstrainedCopy(srcArray, 0, dstArray, 0, srcArray.Length);
-            }
-            else if (dstList != null)
-            {
-                dstList.Clear();
-                dstList.AddRange(dstList);
-            }
-            else
-            {
-                dst.Clear();
-                foreach (var k in dst)
-                {
-                    dst.Add(k);
-                }
-            }
-        }
     }
 }
