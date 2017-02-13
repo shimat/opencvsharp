@@ -54,6 +54,7 @@
             <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net40, net46" />
             <frameworkAssembly assemblyName="System.Core" targetFramework="net40, net46" />
             <frameworkAssembly assemblyName="WindowsBase" targetFramework="net40, net46" />
+            <frameworkAssembly assemblyName="System.Xaml" targetFramework="net40, net46" />
             <frameworkAssembly assemblyName="System.Runtime" targetFramework="net46" />
         </frameworkAssemblies>
     </metadata>

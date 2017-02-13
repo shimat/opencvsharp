@@ -40,7 +40,9 @@
           "PresentationCore",
           "PresentationFramework",
           "System.Drawing",
+          "System.Runtime",
           "System.Windows.Forms",
+          "System.Xaml",
           "WindowsBase"
         ],
         "compile": {
@@ -89,7 +91,9 @@
           "PresentationCore",
           "PresentationFramework",
           "System.Drawing",
+          "System.Runtime",
           "System.Windows.Forms",
+          "System.Xaml",
           "WindowsBase"
         ],
         "compile": {

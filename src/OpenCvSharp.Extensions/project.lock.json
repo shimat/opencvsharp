@@ -51,13 +51,16 @@
       "PresentationFramework >= 4.0.0",
       "System.Drawing >= 4.0.0",
       "System.Windows.Forms >= 4.0.0",
+      "System.Xaml >= 4.0.0",
       "WindowsBase >= 4.0.0"
     ],
     ".NETFramework,Version=v4.6": [
       "PresentationCore >= 4.0.0",
       "PresentationFramework >= 4.0.0",
       "System.Drawing >= 4.0.0",
+      "System.Runtime >= 4.0.20",
       "System.Windows.Forms >= 4.0.0",
+      "System.Xaml >= 4.0.0",
       "WindowsBase >= 4.0.0"
     ]
   },
