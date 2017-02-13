@@ -143,6 +143,7 @@ namespace OpenCvSharp.Extensions
         }
 
         #region ToWriteableBitmap
+
 #if LANG_JP
         /// <summary>
         /// MatをWriteableBitmapに変換する. 引数はWriteableBitmapのコンストラクタに相当する.
@@ -165,7 +166,8 @@ namespace OpenCvSharp.Extensions
         /// <param name="bp">Bitmap pallette</param>
         /// <returns>WriteableBitmap</returns>
 #endif
-        public static WriteableBitmap ToWriteableBitmap(this Mat src, double dpiX, double dpiY, PixelFormat pf, BitmapPalette bp)
+        public static WriteableBitmap ToWriteableBitmap(this Mat src, double dpiX, double dpiY, PixelFormat pf,
+            BitmapPalette bp)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -174,6 +176,7 @@ namespace OpenCvSharp.Extensions
             ToWriteableBitmap(src, wb);
             return wb;
         }
+
 #if LANG_JP
         /// <summary>
 	    /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
@@ -193,6 +196,7 @@ namespace OpenCvSharp.Extensions
         {
             return ToWriteableBitmap(src, 96, 96, pf, null);
         }
+
 #if LANG_JP
         /// <summary>
 	    /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
@@ -264,9 +268,9 @@ namespace OpenCvSharp.Extensions
 
                     // 手作業で移し替える
                     int stride = w / 8 + 1;
-                    if (stride < 2)                    
+                    if (stride < 2)
                         stride = 2;
-                    
+
                     byte[] pixels = new byte[h * stride];
 
                     for (int x = 0, y = 0; y < h; y++)
@@ -298,7 +302,7 @@ namespace OpenCvSharp.Extensions
 
                 // 一気にコピー            
                 if (!submat && continuous)
-                {                    
+                {
                     long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
                     if (imageSize < 0)
                         throw new OpenCvSharpException("The mat has invalid data pointer");
@@ -329,6 +333,7 @@ namespace OpenCvSharp.Extensions
                 }
             }
         }
+
         #endregion
     }
 }
