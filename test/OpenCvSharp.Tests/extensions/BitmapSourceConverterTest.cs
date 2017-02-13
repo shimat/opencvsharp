@@ -69,14 +69,16 @@ namespace OpenCvSharp.Tests.Core
         [Test]
         [Explicit]
         [Apartment(ApartmentState.STA)]
-        public void BitmapSource8BitSample()
+        public void BitmapSourceSample()
         {
             const int size = 250;
+
+            BitmapSource bs8, bs16;
+
             Scalar blueColor8 = new Scalar(128, 0, 0);
             Scalar greenColor8 = new Scalar(0, 128, 0);
             Scalar redColor8 = new Scalar(0, 0, 128);
             Scalar whiteColor8 = new Scalar(255, 255, 255);
-
             using (var mat = new Mat(size, size, MatType.CV_8UC3, new Scalar(128, 128, 128)))
             {
                 mat.Rectangle(new OpenCvSharp.Rect(15, 10, 100, 100), blueColor8, -1);
@@ -88,25 +90,13 @@ namespace OpenCvSharp.Tests.Core
                 mat.Rectangle(new OpenCvSharp.Rect(75, 130, 100, 100), redColor8, -1);
                 mat.PutText("R", new OpenCvSharp.Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor8);
 
-                var bs = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
-                Show(bs, nameof(BitmapSource8BitSample));
+                bs8 = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
             }
-        }
 
-        /// <summary>
-        /// https://github.com/shimat/opencvsharp/issues/304
-        /// </summary>
-        [Test]
-        [Explicit]
-        [Apartment(ApartmentState.STA)]
-        public void BitmapSource16BitSample()
-        {
-            const int size = 250;
             Scalar blueColor16 = new Scalar(32767, 0, 0);
             Scalar greenColor16 = new Scalar(0, 32767, 0);
             Scalar redColor16 = new Scalar(0, 0, 32767);
             Scalar whiteColor16 = new Scalar(65535, 65535, 65535);
-
             using (var mat = new Mat(size, size, MatType.CV_16UC3, new Scalar(32767, 32767, 32767)))
             {
                 mat.Rectangle(new OpenCvSharp.Rect(15, 10, 100, 100), blueColor16, -1);
@@ -118,21 +108,27 @@ namespace OpenCvSharp.Tests.Core
                 mat.Rectangle(new OpenCvSharp.Rect(75, 130, 100, 100), redColor16, -1);
                 mat.PutText("R", new OpenCvSharp.Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor16);
 
-                var bs = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
-                Show(bs, nameof(BitmapSource16BitSample));
+                bs16 = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
             }
-        }
 
-        private static void Show(BitmapSource bs, string title = "Window")
-        {
-            // WPFのWindowに表示してみる
-            var image = new System.Windows.Controls.Image { Source = bs };
+            var image8 = new System.Windows.Controls.Image { Source = bs8 };
+            var image16 = new System.Windows.Controls.Image { Source = bs16 };
+            var grid = new System.Windows.Controls.Grid();
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            Grid.SetRow(image8, 0);
+            Grid.SetColumn(image8, 0);
+            grid.Children.Add(image8);
+            Grid.SetRow(image16, 0);
+            Grid.SetColumn(image16, 1);
+            grid.Children.Add(image16);
             var window = new System.Windows.Window
             {
-                Title = "from Mat to BitmapSource",
-                Width = bs.PixelWidth,
-                Height = bs.PixelHeight,
-                Content = image
+                Title = "Left:8bit Right:16bit",
+                Width = size * 2,
+                Height = size,
+                Content = grid
             };
 
             var app = new System.Windows.Application();
