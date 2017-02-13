@@ -152,13 +152,13 @@ namespace OpenCvSharp.Extensions
             var type = src.Type();
             if (type == MatType.CV_16UC3 || type == MatType.CV_16SC3) // PixelFormats.Rgb48
             {
-                var dst = src.Clone();
+                var dst = new Mat();
                 Cv2.CvtColor(src, dst, ColorConversionCodes.BGR2RGB);
                 return dst;
             }
             if (type == MatType.CV_16UC4 || type == MatType.CV_16SC4) // PixelFormats.Rgba64
             {
-                var dst = src.Clone();
+                var dst = new Mat();
                 Cv2.CvtColor(src, dst, ColorConversionCodes.BGRA2RGBA);
                 return dst;
             }
