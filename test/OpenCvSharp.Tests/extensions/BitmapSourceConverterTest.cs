@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using NUnit.Framework;
 
-namespace OpenCvSharp.Tests.Core
+namespace OpenCvSharp.Tests.Extensions
 {
     [TestFixture]
     public class BitmapSourceConverterTest : TestBase
