@@ -3,9 +3,9 @@
 namespace OpenCvSharp
 {
 #if LANG_JP
-    /// <summary>
-    /// OpenCvSharpから投げられる例外
-    /// </summary>
+/// <summary>
+/// OpenCvSharpから投げられる例外
+/// </summary>
 #else
     /// <summary>
     /// The exception that is thrown by OpenCvSharp. 
@@ -20,13 +20,16 @@ namespace OpenCvSharp
             : base()
         {
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="message"></param>
         public OpenCvSharpException(string message)
             : base(message)
-        { }
+        {
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -34,7 +37,9 @@ namespace OpenCvSharp
         /// <param name="args"></param>
         public OpenCvSharpException(string messageFormat, params object[] args)
             : base(string.Format(messageFormat, args))
-        { }
+        {
+        }
+
         /// <summary>
         /// 
         /// </summary>
