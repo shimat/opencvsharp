@@ -14,6 +14,7 @@
         "PresentationFramework": "4.0.0.0",
         "System.Drawing": "4.0.0.0",
         "System.Windows.Forms": "4.0.0.0",
+        "System.Xaml": "4.0.0.0",
         "WindowsBase": "4.0.0.0"
       },
       "buildOptions": {
@@ -28,6 +29,8 @@
         "PresentationFramework": "4.0.0.0",
         "System.Drawing": "4.0.0.0",
         "System.Windows.Forms": "4.0.0.0",
+        "System.Xaml": "4.0.0.0",
+        "System.Runtime": "4.0.20.0",
         "WindowsBase": "4.0.0.0"
       },
       "buildOptions": {

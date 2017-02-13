@@ -8,7 +8,7 @@ using OpenCvSharp.Util;
 namespace OpenCvSharp.Extensions
 {
     /// <summary>
-    /// Static class which provides conversion between System.Windows.Media.Imaging.WriteableBitmap and IplImage
+    /// Static class which provides conversion between System.Windows.Media.Imaging.WriteableBitmap and Mat
     /// </summary>
     public static class WriteableBitmapConverter
     {
@@ -75,7 +75,7 @@ namespace OpenCvSharp.Extensions
         }
 
         /// <summary>
-        /// 指定したPixelFormatに適合するIplImageのチャンネル数を返す
+        /// 指定したPixelFormatに適合するMatのチャンネル数を返す
         /// </summary>
         /// <param name="f"></param>
         /// <returns></returns>
@@ -109,7 +109,7 @@ namespace OpenCvSharp.Extensions
         }
 
         /// <summary>
-        /// 指定したIplImageのビット深度・チャンネル数に適合するPixelFormatを返す
+        /// 指定したMatのビット深度・チャンネル数に適合するPixelFormatを返す
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -142,6 +142,29 @@ namespace OpenCvSharp.Extensions
             throw new ArgumentOutOfRangeException(nameof(type), "Not supported MatType");
         }
 
+        /// <summary>
+        /// BGR -> RGB
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        private static Mat SwapChannelsIfNeeded(Mat src)
+        {
+            var type = src.Type();
+            if (type == MatType.CV_16UC3 || type == MatType.CV_16SC3) // PixelFormats.Rgb48
+            {
+                var dst = src.Clone();
+                Cv2.CvtColor(src, dst, ColorConversionCodes.BGR2RGB);
+                return dst;
+            }
+            if (type == MatType.CV_16UC4 || type == MatType.CV_16SC4) // PixelFormats.Rgba64
+            {
+                var dst = src.Clone();
+                Cv2.CvtColor(src, dst, ColorConversionCodes.BGRA2RGBA);
+                return dst;
+            }
+            return src;
+        }
+
         #region ToWriteableBitmap
 
 #if LANG_JP
@@ -171,7 +194,7 @@ namespace OpenCvSharp.Extensions
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
-
+            
             var wb = new WriteableBitmap(src.Width, src.Height, dpiX, dpiY, pf, bp);
             ToWriteableBitmap(src, wb);
             return wb;
@@ -213,7 +236,16 @@ namespace OpenCvSharp.Extensions
         public static WriteableBitmap ToWriteableBitmap(this Mat src)
         {
             PixelFormat pf = GetOptimumPixelFormats(src.Type());
-            return ToWriteableBitmap(src, 96, 96, pf, null);
+            Mat swappedMat = SwapChannelsIfNeeded(src);
+            try
+            {
+                return ToWriteableBitmap(swappedMat, 96, 96, pf, null);
+            }
+            finally
+            {
+                if (src != swappedMat)
+                    swappedMat.Dispose();
+            }
         }
 
 #if LANG_JP
