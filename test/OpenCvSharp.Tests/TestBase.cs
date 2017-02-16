@@ -11,8 +11,7 @@ namespace OpenCvSharp.Tests
     {
         protected TestBase()
         {
-            var workDirectory = Path.Combine(TestContext.CurrentContext.WorkDirectory, "win10-x64");
-            Directory.SetCurrentDirectory(workDirectory);
+            Directory.SetCurrentDirectory(TestContext.CurrentContext.TestDirectory);
         }
 
         protected Mat Image(string fileName, ImreadModes modes = ImreadModes.Color)
