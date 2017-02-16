@@ -34,34 +34,36 @@ namespace OpenCvSharp.Tests.Stitching
             }
         }
 
-        private static Mat[] SelectStitchingImages(int width, int height, int count, bool show = false)
+        private Mat[] SelectStitchingImages(int width, int height, int count, bool show = false)
         {
-            Mat source = new Mat(@"Data\Image\lenna.png", ImreadModes.Color);
-            Mat result = source.Clone();
-
-            var rand = new Random(123); // constant seed for test
             var mats = new List<Mat>();
-            for (int i = 0; i < count; i++)
+
+            using (Mat source = Image(@"lenna.png", ImreadModes.Color))
+            using (Mat result = source.Clone())
             {
-                int x1 = rand.Next(source.Cols - width);
-                int y1 = rand.Next(source.Rows - height);
-                int x2 = x1 + width;
-                int y2 = y1 + height;
-
-                result.Line(new Point(x1, y1), new Point(x1, y2), new Scalar(0, 0, 255));
-                result.Line(new Point(x1, y2), new Point(x2, y2), new Scalar(0, 0, 255));
-                result.Line(new Point(x2, y2), new Point(x2, y1), new Scalar(0, 0, 255));
-                result.Line(new Point(x2, y1), new Point(x1, y1), new Scalar(0, 0, 255));
-
-                Mat m = source[new Rect(x1, y1, width, height)];
-                mats.Add(m.Clone());
-            }
-
-            if (show)
-            {
-                using (new Window(result))
+                var rand = new Random(123); // constant seed for test
+                for (int i = 0; i < count; i++)
                 {
-                    Cv2.WaitKey();
+                    int x1 = rand.Next(source.Cols - width);
+                    int y1 = rand.Next(source.Rows - height);
+                    int x2 = x1 + width;
+                    int y2 = y1 + height;
+
+                    result.Line(new Point(x1, y1), new Point(x1, y2), new Scalar(0, 0, 255));
+                    result.Line(new Point(x1, y2), new Point(x2, y2), new Scalar(0, 0, 255));
+                    result.Line(new Point(x2, y2), new Point(x2, y1), new Scalar(0, 0, 255));
+                    result.Line(new Point(x2, y1), new Point(x1, y1), new Scalar(0, 0, 255));
+
+                    Mat m = source[new Rect(x1, y1, width, height)];
+                    mats.Add(m.Clone());
+                }
+
+                if (show)
+                {
+                    using (new Window(result))
+                    {
+                        Cv2.WaitKey();
+                    }
                 }
             }
 

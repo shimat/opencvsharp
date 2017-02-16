@@ -3836,7 +3836,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, params short[] data)
         {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_16S, MatType.CV_16U);
+            CheckArgumentsForConvert(row, col, data, MatType.CV_16SC1, MatType.CV_16U);
             NativeMethods.core_Mat_nSetS(ptr, row, col, data, data.Length);
         }
 
