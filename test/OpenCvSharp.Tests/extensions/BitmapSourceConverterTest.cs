@@ -67,7 +67,8 @@ namespace OpenCvSharp.Tests.Extensions
         /// https://github.com/shimat/opencvsharp/issues/304
         /// </summary>
         [Test]
-        [Explicit]
+        //[Explicit]
+        [Ignore("sample")]
         [Apartment(ApartmentState.STA)]
         public void BitmapSourceSample()
         {
