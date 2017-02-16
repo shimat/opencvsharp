@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -566,7 +567,9 @@ namespace OpenCvSharp
 
             int numElems = arr.Length / ThisChannels;
             var mat = new MatOfShort(numElems, 1);
-            mat.SetArray(0, 0, arr);
+            //mat.SetArray(0, 0, arr);
+            IntPtr ptr = mat.Ptr(0, 0);
+            Marshal.Copy(arr, 0, ptr, arr.Length);
             return mat;
         }
 
