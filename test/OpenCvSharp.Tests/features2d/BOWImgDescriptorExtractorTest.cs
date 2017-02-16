@@ -17,44 +17,44 @@ namespace OpenCvSharp.Tests.Features2D
         [Test]
         public void New1()
         {
-            var descriptorMatcher = new BFMatcher();
-            new BOWImgDescriptorExtractor(descriptorMatcher);
+            using (var descriptorMatcher = new BFMatcher())
+            using (new BOWImgDescriptorExtractor(descriptorMatcher)) { }
         }
 
         [Test]
         public void New2()
         {
-            var descriptorExtractor = SURF.Create(100);
-            var descriptorMatcher = new BFMatcher();
-            new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher);
+            using (var descriptorExtractor = SURF.Create(100))
+            using (var descriptorMatcher = new BFMatcher())
+            using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
 
         [Test]
         public void New3()
         {
-            var descriptorExtractor = KAZE.Create();
-            var descriptorMatcher = new BFMatcher();
-            new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher);
+            using (var descriptorExtractor = KAZE.Create())
+            using (var descriptorMatcher = new BFMatcher())
+            using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
 
         [Test]
         public void New4()
         {
-            var descriptorExtractor = SURF.Create(100);
             LinearIndexParams ip = new LinearIndexParams();
             SearchParams sp = new SearchParams();
-            var descriptorMatcher = new FlannBasedMatcher(ip, sp);
-            new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher);
+            using (var descriptorExtractor = SURF.Create(100))
+            using (var descriptorMatcher = new FlannBasedMatcher(ip, sp))
+            using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
 
         [Test]
         public void New5()
         {
-            var descriptorExtractor = KAZE.Create();
             LinearIndexParams ip = new LinearIndexParams();
             SearchParams sp = new SearchParams();
-            var descriptorMatcher = new FlannBasedMatcher(ip, sp);
-            new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher);
+            using (var descriptorExtractor = KAZE.Create())
+            using (var descriptorMatcher = new FlannBasedMatcher(ip, sp))
+            using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
     }
 }
