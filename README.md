@@ -1,4 +1,4 @@
-#OpenCvSharp
+#OpenCvSharp [![Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master)
 Cross platform wrapper of OpenCV for .NET Framework.
 
 ## Installation
