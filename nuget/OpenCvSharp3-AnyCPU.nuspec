@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-AnyCPU</id>
-        <version>3.2.0.20170205-beta</version>
+        <version>3.2.0.20170217-beta</version>
         <title>OpenCvSharp3</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -28,18 +28,7 @@
                 <dependency id="NETStandard.Library" version="1.6.1" />
             </group>
             <group targetFramework="uap10.0">
-                <!--<dependency id="NETStandard.Library" version="1.6.1" />-->
-                <dependency id="System.AppContext" version="4.3.0" />
-                <dependency id="System.Console" version="4.3.0" />
-                <dependency id="System.Collections" version="4.3.0" />
-                <dependency id="System.Diagnostics.Debug" version="4.3.0" />
-                <dependency id="System.Globalization" version="4.3.0" />
-                <dependency id="System.IO.FileSystem" version="4.3.0" />
-                <dependency id="System.Linq" version="4.3.0" />
-                <dependency id="System.Runtime.Extensions" version="4.3.0" />
-                <dependency id="System.Runtime.InteropServices" version="4.3.0" />
-                <dependency id="System.Runtime.InteropServices.RuntimeInformation" version="4.3.0" />
-                <dependency id="System.Threading" version="4.3.0" />
+                <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.1.0" />
             </group>
             <group targetFramework="portable45-net45+win8+wpa81">
                 <dependency id="NETStandard.Library" version="1.6.1" />
@@ -55,7 +44,6 @@
             <frameworkAssembly assemblyName="System.Core" targetFramework="net40, net46" />
             <frameworkAssembly assemblyName="WindowsBase" targetFramework="net40, net46" />
             <frameworkAssembly assemblyName="System.Xaml" targetFramework="net40, net46" />
-            <frameworkAssembly assemblyName="System.Runtime" targetFramework="net46" />
         </frameworkAssemblies>
     </metadata>
     <files>
@@ -133,7 +121,7 @@
         <file src="..\opencv\3.2\x64\vc14\bin\opencv_ffmpeg320_64.dll" target="NativeDlls\x64\opencv_ffmpeg320_64.dll" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
         <file src="..\opencv\3.2\x86\vc14\bin\opencv_ffmpeg320.dll" target="NativeDlls\x86\opencv_ffmpeg320.dll" />
-        <file src="tools\init.ps1" target="tools\init.ps1" />
-        <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
+        <!--<file src="tools\init.ps1" target="tools\init.ps1" />
+        <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />-->
     </files>
 </package>
