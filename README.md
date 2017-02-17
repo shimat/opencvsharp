@@ -1,6 +1,8 @@
 #OpenCvSharp [![Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master)
 Cross platform wrapper of OpenCV for .NET Framework.
 
+Old versions of OpenCvSharp is maintained in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
+
 ## Installation
 ### NuGet
 If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http://www.nuget.org/). Search *'opencvsharp'* on the NuGet Package Manager.
@@ -9,15 +11,13 @@ If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http:/
 |--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
 | OpenCV3.2 All-in-one package - bundles native OpenCV DLLs    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU.svg)](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU)         |
 | OpenCV3.2 Minimum package                                    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll.svg)](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll) |
-| OpenCV2.4.10 All-in-one package - bundles native OpenCV DLLs | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp-AnyCPU.svg)](https://badge.fury.io/nu/OpenCvSharp-AnyCPU)           |
-| OpenCV2.4.10 Minimum package                                 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp-WithoutDll.svg)](https://badge.fury.io/nu/OpenCvSharp-WithoutDll)   |
 
 ### Downloads
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Requirements
-* [OpenCV 3.2 / 2.4.10](http://opencv.org/)
-* [Visual C++ 2015 Redistributable Package](https://www.microsoft.com/en-US/download/details.aspx?id=53840) / [Visual C++ 2013 Redistributable Package](http://www.microsoft.com/en-US/download/details.aspx?id=30679) 
+* [OpenCV 3.2](http://opencv.org/)
+* [Visual C++ 2015 Redistributable Package](https://www.microsoft.com/en-US/download/details.aspx?id=53840)
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core](https://www.microsoft.com/net/core#windowsvs2015) / [Mono](http://www.mono-project.com/Main_Page)
 
 OpenCvSharp may not work on Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
@@ -31,14 +31,12 @@ For more details, see the **[Wiki](https://github.com/shimat/opencvsharp/wiki)**
 ```C#
 // Edge detection by Canny algorithm
 using OpenCvSharp;
-// using OpenCvSharp.CPlusPlus;  //for OpenCvSharp2
 
 class Program 
 {
     static void Main() 
     {
-        Mat src = new Mat("lenna.png", ImreadModes.GrayScale);   // OpenCvSharp 3.x
-        //Mat src = new Mat("lenna.png", LoadMode.GrayScale); // OpenCvSharp 2.4.x
+        Mat src = new Mat("lenna.png", ImreadModes.GrayScale);
         Mat dst = new Mat();
         
         Cv2.Canny(src, dst, 50, 200);
