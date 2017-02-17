@@ -26,8 +26,8 @@ namespace OpenCvSharp
         /// </summary>
         private static bool tried = false;
 
-        public const string DllVCRuntime = "vcruntime140";
-        public const string DllMsvcp = "msvcp140";
+        //public const string DllVCRuntime = "vcruntime140";
+        //public const string DllMsvcp = "msvcp140";
         public const string DllExtern = "OpenCvSharpExtern";
         public const string Version = "320";
 
@@ -120,7 +120,7 @@ namespace OpenCvSharp
             catch (DllNotFoundException e)
             {
                 var exception = PInvokeHelper.CreateException(e);
-#if !uwp
+#if !uwp && !uap10
                 try{Console.WriteLine(exception.Message);}
                 catch{}
 #endif
@@ -131,7 +131,7 @@ namespace OpenCvSharp
             catch (BadImageFormatException e)
             {
                 var exception = PInvokeHelper.CreateException(e);
-#if !uwp
+#if !uwp && !uap10
                 try { Console.WriteLine(exception.Message); }
                 catch { }
 #endif
@@ -142,7 +142,7 @@ namespace OpenCvSharp
             catch (Exception e)
             {
                 Exception ex = e.InnerException ?? e;
-#if !uwp
+#if !uwp && !uap10
                 try{ Console.WriteLine(ex.Message); }
                 catch{}
 #endif
@@ -172,6 +172,8 @@ namespace OpenCvSharp
             return (p == PlatformID.Unix ||
                     p == PlatformID.MacOSX ||
                     (int)p == 128);
+#elif uap10
+            return false;
 #else
             return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX);

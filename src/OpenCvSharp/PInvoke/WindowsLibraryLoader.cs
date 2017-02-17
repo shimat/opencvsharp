@@ -17,12 +17,10 @@ namespace OpenCvSharp
     {
         #region Singleton pattern
 
-        private static readonly WindowsLibraryLoader instance = new WindowsLibraryLoader();
-
         /// <summary>
         /// 
         /// </summary>
-        public static WindowsLibraryLoader Instance { get { return instance; } }
+        public static WindowsLibraryLoader Instance { get; } = new WindowsLibraryLoader();
 
         #endregion
 
@@ -96,6 +94,8 @@ namespace OpenCvSharp
 #if DOTNET_FRAMEWORK
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
+#elif uap10
+            return true;
 #else
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 #endif
@@ -263,7 +263,10 @@ namespace OpenCvSharp
             IntPtr libraryHandle = IntPtr.Zero;
             var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
-#if uwp
+            // Show where we're trying to load the file from
+            Debug.WriteLine(String.Format("Trying to load native library \"{0}\"...", fileName));
+
+#if uwp || uap10
 #pragma warning disable 0162
             if (true) // TODO
 #else
@@ -273,11 +276,6 @@ namespace OpenCvSharp
                 // Attempt to load dll
                 try
                 {
-                    // Show where we're trying to load the file from
-                    Debug.WriteLine(String.Format(
-                          "Trying to load native library \"{0}\"...",
-                          fileName));
-
                     libraryHandle = Win32LoadLibrary(fileName);
                     if (libraryHandle != IntPtr.Zero)
                     {
@@ -326,6 +324,7 @@ namespace OpenCvSharp
                     (platformId == PlatformID.Win32Windows) ||
                     (platformId == PlatformID.Win32NT) ||
                     (platformId == PlatformID.WinCE))
+#elif uap10
 #else
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 #endif
