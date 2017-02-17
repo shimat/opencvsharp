@@ -1,0 +1,45 @@
+version: '3.2.0-{build}'
+
+init:
+- ps: |
+    $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
+    $date = Get-Date -Format "yyyyMMdd"
+    Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
+    Write-Host $env:APPVEYOR_BUILD_VERSION
+
+image: Visual Studio 2015
+
+configuration: Release
+
+before_build:
+- git submodule update --init --recursive
+- nuget restore
+- dotnet restore
+
+build_script:
+- msbuild OpenCvSharp.sln /t:rebuild /p:configuration=%CONFIGURATION% /p:platform=x64
+- msbuild OpenCvSharp.sln /t:rebuild /p:configuration=%CONFIGURATION% /p:platform=x86
+
+after_build:
+- ps: |
+    (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
+      [xml]$xml = Get-Content $_.FullName
+      $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
+      $xml.Save($_.FullName)
+    }
+    nuget pack nuget/OpenCvSharp3-AnyCPU.nuspec -OutputDirectory artifacts
+    nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
+
+test_script:
+- dotnet test ./test/OpenCvSharp.Tests -c %CONFIGURATION%
+
+artifacts:
+- path: artifacts\**\*.*
+
+deploy:
+- provider: NuGet
+  server: https://ci.appveyor.com/nuget/shimat
+  api_key:
+    secure: PW0F7tbGr+QLuLPUGy+32pNtMZUJeqjyikz9nKlpALA=
+  skip_symbols: true
+  artifact: /.*\.nupkg/
