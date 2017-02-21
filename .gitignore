@@ -121,4 +121,4 @@ UpgradeLog*.XML
 /test/OpenCvSharp.Tests/dll/x86/OpenCvSharpExtern.dll
 /nuget/nuget/*.nupkg
 /nuget/*.nupkg
-/doc/Help
+/Help

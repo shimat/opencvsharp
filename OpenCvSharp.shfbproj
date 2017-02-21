@@ -25,21 +25,21 @@
     <CleanIntermediates>True</CleanIntermediates>
     <MissingTags>AutoDocumentCtors, AutoDocumentDispose</MissingTags>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\src\OpenCvSharp\bin\Release\net46\OpenCvSharp.dll" />
+      <DocumentationSource sourceFile="src\OpenCvSharp\bin\Release\net46\OpenCvSharp.dll" />
       <DocumentationSource sourceFile="..\src\OpenCvSharp\bin\Release\net46\OpenCvSharp.xml" />
-      <DocumentationSource sourceFile="..\src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.dll" />
-      <DocumentationSource sourceFile="..\src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.xml" />
-      <DocumentationSource sourceFile="..\src\OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.dll" />
-      <DocumentationSource sourceFile="..\src\OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.xml" />
-      <DocumentationSource sourceFile="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.dll" />
-      <DocumentationSource sourceFile="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.xml" />
+      <DocumentationSource sourceFile="src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.dll" />
+      <DocumentationSource sourceFile="src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.xml" />
+      <DocumentationSource sourceFile="src\OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.dll" />
+      <DocumentationSource sourceFile="src\OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.xml" />
+      <DocumentationSource sourceFile="src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.dll" />
+      <DocumentationSource sourceFile="src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.xml" />
     </DocumentationSources>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
     <SyntaxFilters>C#, Visual Basic, Managed C++, F#, JavaScript</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
-    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <RootNamespaceContainer>True</RootNamespaceContainer>
     <PresentationStyle>VS2013</PresentationStyle>
     <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
@@ -47,6 +47,8 @@
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected</VisibleItems>
+    <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
+    <BinaryTOC>True</BinaryTOC>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
