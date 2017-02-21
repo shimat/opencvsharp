@@ -24,14 +24,8 @@
             <group targetFramework="netcoreapp1.0">
                 <dependency id="NETStandard.Library" version="1.6.1" />
             </group>
-            <group targetFramework="netcore50">
-                <dependency id="NETStandard.Library" version="1.6.1" />
-            </group>
             <group targetFramework="uap10.0">
                 <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.1.0" />
-            </group>
-            <group targetFramework="portable45-net45+win8+wpa81">
-                <dependency id="NETStandard.Library" version="1.6.1" />
             </group>
         </dependencies>
         <frameworkAssemblies>
@@ -89,13 +83,6 @@
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.pdb" target="lib\netstandard1.6" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.xml" target="lib\netstandard1.6" />
 
-        <file src="..\src\OpenCvSharp\bin\Release\netcore50\OpenCvSharp.dll" target="lib\netcore50" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcore50\OpenCvSharp.pdb" target="lib\netcore50" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcore50\OpenCvSharp.xml" target="lib\netcore50" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcore50\OpenCvSharp.Blob.dll" target="lib\netcore50" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcore50\OpenCvSharp.Blob.pdb" target="lib\netcore50" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcore50\OpenCvSharp.Blob.xml" target="lib\netcore50" />
-
         <file src="..\src\OpenCvSharp\bin\Release\uap10.0\OpenCvSharp.dll" target="lib\uap10.0" />
         <file src="..\src\OpenCvSharp\bin\Release\uap10.0\OpenCvSharp.pdb" target="lib\uap10.0" />
         <file src="..\src\OpenCvSharp\bin\Release\uap10.0\OpenCvSharp.xml" target="lib\uap10.0" />
@@ -109,13 +96,6 @@
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.dll" target="lib\netcoreapp1.0" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.pdb" target="lib\netcoreapp1.0" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.xml" target="lib\netcoreapp1.0" />
-
-        <file src="..\src\OpenCvSharp\bin\Release\portable45-net45+win8+wpa81\OpenCvSharp.dll" target="lib\portable45-net45+win8+wpa81" />
-        <file src="..\src\OpenCvSharp\bin\Release\portable45-net45+win8+wpa81\OpenCvSharp.pdb" target="lib\portable45-net45+win8+wpa81" />
-        <file src="..\src\OpenCvSharp\bin\Release\portable45-net45+win8+wpa81\OpenCvSharp.xml" target="lib\portable45-net45+win8+wpa81" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\portable45-net45+win8+wpa81\OpenCvSharp.Blob.dll" target="lib\portable45-net45+win8+wpa81" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\portable45-net45+win8+wpa81\OpenCvSharp.Blob.pdb" target="lib\portable45-net45+win8+wpa81" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\portable45-net45+win8+wpa81\OpenCvSharp.Blob.xml" target="lib\portable45-net45+win8+wpa81" />
 
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
         <file src="..\opencv\3.2\x64\vc14\bin\opencv_ffmpeg320_64.dll" target="NativeDlls\x64\opencv_ffmpeg320_64.dll" />

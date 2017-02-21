@@ -16,7 +16,7 @@
       "buildOptions": {
         "define": [ "netcoreapp10" ]
       }
-    },
+    }, /*
     "netcore50": {
       "dependencies": {
         "NETStandard.Library": "1.6.1"
@@ -32,7 +32,7 @@
       "buildOptions": {
         "define": [ "uwp" ]
       }
-    },
+    },*/
     "uap10.0": {
       "dependencies": {
         "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
