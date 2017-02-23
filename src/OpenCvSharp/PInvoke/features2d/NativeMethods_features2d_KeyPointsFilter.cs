@@ -9,23 +9,23 @@ namespace OpenCvSharp
     {
         // ReSharper disable InconsistentNaming
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_KeyPointsFilter_runByImageBorder(
             IntPtr keypoints, Size imageSize, int borderSize);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_KeyPointsFilter_runByKeypointSize(
             IntPtr keypoints, float minSize, float maxSize);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_KeyPointsFilter_runByPixelsMask(
             IntPtr keypoints, IntPtr mask);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_KeyPointsFilter_removeDuplicated(
             IntPtr keypoints);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_KeyPointsFilter_retainBest(
             IntPtr keypoints, int npoints);
     }

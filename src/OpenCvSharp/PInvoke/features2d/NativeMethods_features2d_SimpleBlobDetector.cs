@@ -9,12 +9,12 @@ namespace OpenCvSharp
     {
         // ReSharper disable InconsistentNaming
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr features2d_SimpleBlobDetector_create(
             ref SimpleBlobDetector.WParams parameters);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr features2d_Ptr_SimpleBlobDetector_get(IntPtr ptr);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_Ptr_SimpleBlobDetector_delete(IntPtr ptr);
     }
 }
