@@ -79,10 +79,10 @@ namespace OpenCvSharp
         public static extern void core_Mat_convertTo(IntPtr self, IntPtr m, int rtype, double alpha, double beta);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_Mat_copyTo(IntPtr self, IntPtr m, IntPtr mask);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_create1")]
-        public static extern void core_Mat_create(IntPtr self, int rows, int cols, int type);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_create2")]
-        public static extern void core_Mat_create(IntPtr self, int ndims, 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_Mat_create1(IntPtr self, int rows, int cols, int type);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_Mat_create2(IntPtr self, int ndims, 
             [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_Mat_cross(IntPtr self, IntPtr m);
@@ -98,10 +98,10 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_Mat_depth(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_diag1")]
-        public static extern IntPtr core_Mat_diag(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_diag2")]
-        public static extern IntPtr core_Mat_diag(IntPtr self, int d);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_Mat_diag1(IntPtr self);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_Mat_diag2(IntPtr self, int d);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern double core_Mat_dot(IntPtr self, IntPtr m);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -154,10 +154,10 @@ namespace OpenCvSharp
         public static extern Size core_Mat_size(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_Mat_sizeAt(IntPtr self, int i);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_step11")]
-        public static extern ulong core_Mat_step1(IntPtr self);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_Mat_step12")]
-        public static extern ulong core_Mat_step1(IntPtr self, int i);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ulong core_Mat_step11(IntPtr self);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ulong core_Mat_step12(IntPtr self, int i);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern long core_Mat_step(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

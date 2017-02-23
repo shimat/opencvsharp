@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -178,12 +176,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat Project(InputArray vec)
         {
-            if (disposed)
-                throw new ObjectDisposedException("PCA");
+            ThrowIfDisposed();
             if (vec == null)
                 throw new ArgumentNullException(nameof(vec));
             vec.ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_PCA_project(ptr, vec.CvPtr);
+            IntPtr ret = NativeMethods.core_PCA_project1(ptr, vec.CvPtr);
             return new Mat(ret);
         }
         /// <summary>
@@ -193,15 +190,14 @@ namespace OpenCvSharp
         /// <param name="result"></param>
         public void Project(InputArray vec, OutputArray result)
         {
-            if (disposed)
-                throw new ObjectDisposedException("PCA");
+            ThrowIfDisposed();
             if (vec == null)
                 throw new ArgumentNullException(nameof(vec));
             if (result == null)
                 throw new ArgumentNullException(nameof(result));
             vec.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            NativeMethods.core_PCA_project(ptr, vec.CvPtr, result.CvPtr);
+            NativeMethods.core_PCA_project2(ptr, vec.CvPtr, result.CvPtr);
             result.Fix();
         }
 
@@ -212,12 +208,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat BackProject(InputArray vec)
         {
-            if (disposed)
-                throw new ObjectDisposedException("PCA");
+            ThrowIfDisposed();
             if (vec == null)
                 throw new ArgumentNullException(nameof(vec));
             vec.ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_PCA_backProject(ptr, vec.CvPtr);
+            IntPtr ret = NativeMethods.core_PCA_backProject1(ptr, vec.CvPtr);
             return new Mat(ret);
         }
         /// <summary>
@@ -227,15 +222,14 @@ namespace OpenCvSharp
         /// <param name="result"></param>
         public void BackProject(InputArray vec, OutputArray result)
         {
-            if (disposed)
-                throw new ObjectDisposedException("PCA");
+            ThrowIfDisposed();
             if (vec == null)
                 throw new ArgumentNullException(nameof(vec));
             if (result == null)
                 throw new ArgumentNullException(nameof(result));
             vec.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            NativeMethods.core_PCA_backProject(ptr, vec.CvPtr, result.CvPtr);
+            NativeMethods.core_PCA_backProject2(ptr, vec.CvPtr, result.CvPtr);
             result.Fix();
         }
         #endregion

@@ -257,14 +257,14 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_PCA_computeVar(IntPtr obj, IntPtr data, IntPtr mean,
             int flags, double retainedVariance);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_PCA_project1")]
-        public static extern IntPtr core_PCA_project(IntPtr obj, IntPtr vec);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_PCA_project2")]
-        public static extern void core_PCA_project(IntPtr obj, IntPtr vec, IntPtr result);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_PCA_backProject1")]
-        public static extern IntPtr core_PCA_backProject(IntPtr obj, IntPtr vec);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_PCA_backProject2")]
-        public static extern void core_PCA_backProject(IntPtr obj, IntPtr vec, IntPtr result);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_PCA_project1(IntPtr obj, IntPtr vec);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_PCA_project2(IntPtr obj, IntPtr vec, IntPtr result);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_PCA_backProject1(IntPtr obj, IntPtr vec);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_PCA_backProject2(IntPtr obj, IntPtr vec, IntPtr result);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_PCA_eigenvectors(IntPtr obj);
@@ -282,10 +282,10 @@ namespace OpenCvSharp
         #endregion
 
         #region SVD
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_SVD_new1")]
-        public static extern IntPtr core_SVD_new();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_SVD_new2")]
-        public static extern IntPtr core_SVD_new(IntPtr src, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_SVD_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_SVD_new2(IntPtr src, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_SVD_delete(IntPtr obj);
 
@@ -294,10 +294,10 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_SVD_backSubst(IntPtr obj, IntPtr rhs, IntPtr dst);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_SVD_static_compute1")]
-        public static extern void core_SVD_static_compute(IntPtr src, IntPtr w, IntPtr u, IntPtr vt, int flags);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_SVD_static_compute2")]
-        public static extern void core_SVD_static_compute(IntPtr src, IntPtr w, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_SVD_static_compute1(IntPtr src, IntPtr w, IntPtr u, IntPtr vt, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_SVD_static_compute2(IntPtr src, IntPtr w, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_SVD_static_backSubst(IntPtr w, IntPtr u, IntPtr vt, IntPtr rhs, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

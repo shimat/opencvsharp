@@ -2263,7 +2263,7 @@ namespace OpenCvSharp
             image.ThrowIfNotReady();
             Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            int ret = NativeMethods.imgproc_floodFill(image.CvPtr, seedPoint, newVal, out rect,
+            int ret = NativeMethods.imgproc_floodFill1(image.CvPtr, seedPoint, newVal, out rect,
                 loDiff0, upDiff0, (int)flags);
             image.Fix();
             return ret;
@@ -2361,7 +2361,7 @@ namespace OpenCvSharp
             mask.ThrowIfNotReady();
             Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            int ret = NativeMethods.imgproc_floodFill(image.CvPtr, mask.CvPtr, seedPoint,
+            int ret = NativeMethods.imgproc_floodFill2(image.CvPtr, mask.CvPtr, seedPoint,
                 newVal, out rect, loDiff0, upDiff0, flags);
             image.Fix();
             mask.Fix();

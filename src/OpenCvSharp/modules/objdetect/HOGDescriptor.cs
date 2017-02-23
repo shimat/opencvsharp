@@ -1716,8 +1716,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public virtual float[] Compute(Mat img, Size? winStride = null, Size? padding = null, Point[] locations = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
 
@@ -1725,7 +1724,7 @@ namespace OpenCvSharp
             Size padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfFloat())
             {
-                int length = (locations != null) ? locations.Length : 0;
+                int length = locations?.Length ?? 0;
                 NativeMethods.objdetect_HOGDescriptor_compute(ptr, img.CvPtr, flVec.CvPtr, winStride0, padding0, locations, length);
                 return flVec.ToArray();
             }
@@ -1746,8 +1745,7 @@ namespace OpenCvSharp
         public virtual Point[] Detect(Mat img, 
             double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[] searchLocations = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
@@ -1756,9 +1754,10 @@ namespace OpenCvSharp
             Size padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfPoint())
             {
-                int slLength = (searchLocations != null) ? searchLocations.Length : 0;
-                NativeMethods.objdetect_HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, 
+                int slLength = searchLocations?.Length ?? 0;
+                NativeMethods.objdetect_HOGDescriptor_detect1(ptr, img.CvPtr, flVec.CvPtr, 
                     hitThreshold, winStride0, padding0, searchLocations, slLength);
+                GC.KeepAlive(img);
                 return flVec.ToArray();
             }
         }
@@ -1778,8 +1777,7 @@ namespace OpenCvSharp
         public virtual Point[] Detect(Mat img, out double[] weights, 
             double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[] searchLocations = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
@@ -1789,9 +1787,10 @@ namespace OpenCvSharp
             using (var flVec = new VectorOfPoint())
             using (var weightsVec = new VectorOfDouble())
             {
-                int slLength = (searchLocations != null) ? searchLocations.Length : 0;
-                NativeMethods.objdetect_HOGDescriptor_detect(ptr, img.CvPtr, flVec.CvPtr, weightsVec.CvPtr,
+                int slLength = searchLocations?.Length ?? 0;
+                NativeMethods.objdetect_HOGDescriptor_detect2(ptr, img.CvPtr, flVec.CvPtr, weightsVec.CvPtr,
                     hitThreshold, winStride0, padding0, searchLocations, slLength);
+                GC.KeepAlive(img);
                 weights = weightsVec.ToArray();
                 return flVec.ToArray();
             }
@@ -1812,8 +1811,7 @@ namespace OpenCvSharp
         public virtual Rect[] DetectMultiScale(Mat img, 
             double hitThreshold = 0, Size? winStride = null, Size? padding = null, double scale=1.05, int groupThreshold = 2)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
@@ -1822,8 +1820,9 @@ namespace OpenCvSharp
             Size padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfRect())
             {
-                NativeMethods.objdetect_HOGDescriptor_detectMultiScale(ptr, img.CvPtr, flVec.CvPtr, 
+                NativeMethods.objdetect_HOGDescriptor_detectMultiScale1(ptr, img.CvPtr, flVec.CvPtr, 
                     hitThreshold, winStride0, padding0, scale, groupThreshold);
+                GC.KeepAlive(img);
                 return flVec.ToArray();
             }          
         }
@@ -1854,9 +1853,10 @@ namespace OpenCvSharp
             using (var flVec = new VectorOfRect())
             using (var foundWeightsVec = new VectorOfDouble())
             {
-                NativeMethods.objdetect_HOGDescriptor_detectMultiScale(ptr, img.CvPtr, flVec.CvPtr, foundWeightsVec.CvPtr,
+                NativeMethods.objdetect_HOGDescriptor_detectMultiScale2(ptr, img.CvPtr, flVec.CvPtr, foundWeightsVec.CvPtr,
                     hitThreshold, winStride0, padding0, scale, groupThreshold);
                 foundWeights = foundWeightsVec.ToArray();
+                GC.KeepAlive(img);
                 return flVec.ToArray();
             }
         }

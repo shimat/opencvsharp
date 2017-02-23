@@ -34,7 +34,7 @@ namespace OpenCvSharp
 #endif
         public Subdiv2D()
         {
-            ptr = NativeMethods.imgproc_Subdiv2D_new();
+            ptr = NativeMethods.imgproc_Subdiv2D_new1();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -52,7 +52,7 @@ namespace OpenCvSharp
 #endif
         public Subdiv2D(Rect rect)
         {
-            ptr = NativeMethods.imgproc_Subdiv2D_new(rect);
+            ptr = NativeMethods.imgproc_Subdiv2D_new2(rect);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
@@ -158,9 +158,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int Insert(Point2f pt)
         {
-            if(disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
-            return NativeMethods.imgproc_Subdiv2D_insert(ptr, pt);
+            ThrowIfDisposed();
+            return NativeMethods.imgproc_Subdiv2D_insert1(ptr, pt);
         }
         /// <summary>
         /// 
@@ -168,11 +167,10 @@ namespace OpenCvSharp
         /// <param name="ptvec"></param>
         public void Insert(Point2f[] ptvec)
         {
-            if(disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             if(ptvec == null)
                 throw new ArgumentNullException(nameof(ptvec));
-            NativeMethods.imgproc_Subdiv2D_insert(ptr, ptvec, ptvec.Length);
+            NativeMethods.imgproc_Subdiv2D_insert2(ptr, ptvec, ptvec.Length);
         }
         /// <summary>
         /// 

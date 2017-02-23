@@ -324,7 +324,7 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_divide(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype);
+            NativeMethods.core_divide2(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             dst.Fix();
@@ -354,7 +354,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_divide(scale, src2.CvPtr, dst.CvPtr, dtype);
+            NativeMethods.core_divide1(scale, src2.CvPtr, dst.CvPtr, dtype);
             GC.KeepAlive(src2);
             dst.Fix();
         }
@@ -634,7 +634,7 @@ namespace OpenCvSharp
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
             src1.ThrowIfDisposed();
-            var ret = NativeMethods.core_norm(src1.CvPtr, (int)normType, ToPtr(mask));
+            var ret = NativeMethods.core_norm1(src1.CvPtr, (int)normType, ToPtr(mask));
             GC.KeepAlive(src1);
             GC.KeepAlive(mask);
             return ret;
@@ -656,7 +656,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src2));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            var ret = NativeMethods.core_norm(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask));
+            var ret = NativeMethods.core_norm2(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask));
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(mask);
@@ -745,7 +745,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal);
+            NativeMethods.core_minMaxLoc1(src.CvPtr, out minVal, out maxVal);
             GC.KeepAlive(src);
         }
 
@@ -777,7 +777,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            NativeMethods.core_minMaxLoc(src.CvPtr, out minVal, out maxVal, out minLoc, out maxLoc, ToPtr(mask));
+            NativeMethods.core_minMaxLoc2(src.CvPtr, out minVal, out maxVal, out minLoc, out maxLoc, ToPtr(mask));
             GC.KeepAlive(src);
         }
 
@@ -794,7 +794,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            NativeMethods.core_minMaxIdx(src.CvPtr, out minVal, out maxVal);
+            NativeMethods.core_minMaxIdx1(src.CvPtr, out minVal, out maxVal);
             GC.KeepAlive(src);
         }
 
@@ -825,7 +825,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            NativeMethods.core_minMaxIdx(src.CvPtr, out minVal, out maxVal, out minIdx, out maxIdx, ToPtr(mask));
+            NativeMethods.core_minMaxIdx2(src.CvPtr, out minVal, out maxVal, out minIdx, out maxIdx, ToPtr(mask));
             GC.KeepAlive(src);
         }
         #endregion
@@ -1040,7 +1040,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_repeat(src.CvPtr, ny, nx, dst.CvPtr);
+            NativeMethods.core_repeat1(src.CvPtr, ny, nx, dst.CvPtr);
             GC.KeepAlive(src);
             dst.Fix();
         }
@@ -1056,7 +1056,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_repeat(src.CvPtr, ny, nx);
+            IntPtr matPtr = NativeMethods.core_repeat2(src.CvPtr, ny, nx);
             GC.KeepAlive(src);
             return new Mat(matPtr);
         }
@@ -1081,7 +1081,7 @@ namespace OpenCvSharp
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
             }
-            NativeMethods.core_hconcat(srcPtr, (uint)src.Length, dst.CvPtr);
+            NativeMethods.core_hconcat1(srcPtr, (uint)src.Length, dst.CvPtr);
             GC.KeepAlive(src);
             dst.Fix();
         }
@@ -1102,7 +1102,7 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_hconcat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_hconcat2(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             dst.Fix();
@@ -1128,7 +1128,7 @@ namespace OpenCvSharp
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
             }
-            NativeMethods.core_vconcat(srcPtr, (uint)src.Length, dst.CvPtr);
+            NativeMethods.core_vconcat1(srcPtr, (uint)src.Length, dst.CvPtr);
             GC.KeepAlive(src);
             dst.Fix();
         }
@@ -1149,7 +1149,7 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_vconcat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
+            NativeMethods.core_vconcat2(src1.CvPtr, src2.CvPtr, dst.CvPtr);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             dst.Fix();
@@ -1289,7 +1289,7 @@ namespace OpenCvSharp
             lowerb.ThrowIfDisposed();
             upperb.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_inRange(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr);
+            NativeMethods.core_inRange_InputArray(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr);
             dst.Fix();
         }
 
@@ -1308,7 +1308,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_inRange(src.CvPtr, lowerb, upperb, dst.CvPtr);
+            NativeMethods.core_inRange_Scalar(src.CvPtr, lowerb, upperb, dst.CvPtr);
             dst.Fix();
         }
         #endregion

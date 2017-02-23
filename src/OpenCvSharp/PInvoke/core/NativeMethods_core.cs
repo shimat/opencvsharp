@@ -58,10 +58,10 @@ namespace OpenCvSharp
         public static extern void core_subtract(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_multiply(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_divide1")]
-        public static extern void core_divide(double scale, IntPtr src2, IntPtr dst, int dtype);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_divide2")]
-        public static extern void core_divide(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_divide1(double scale, IntPtr src2, IntPtr dst, int dtype);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_divide2(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_scaleAdd(IntPtr src1, double alpha, IntPtr src2,IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -91,10 +91,10 @@ namespace OpenCvSharp
         public static extern void core_meanStdDev_Scalar(
             IntPtr src, out Scalar mean, out Scalar stddev, IntPtr mask);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_norm1")]
-        public static extern double core_norm(IntPtr src1, int normType, IntPtr mask);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_norm2")]
-        public static extern double core_norm(IntPtr src1, IntPtr src2,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern double core_norm1(IntPtr src1, int normType, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern double core_norm2(IntPtr src1, IntPtr src2,
                                                int normType, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_batchDistance(IntPtr src1, IntPtr src2,
@@ -104,15 +104,15 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_normalize(IntPtr src, IntPtr dst, double alpha, double beta,
                              int normType, int dtype, IntPtr mask);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxLoc1")]
-        public static extern void core_minMaxLoc(IntPtr src, out double minVal, out double maxVal);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxLoc2")]
-        public static extern void core_minMaxLoc(IntPtr src, out double minVal, out double maxVal,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_minMaxLoc1(IntPtr src, out double minVal, out double maxVal);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_minMaxLoc2(IntPtr src, out double minVal, out double maxVal,
             out Point minLoc, out Point maxLoc, IntPtr mask);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxIdx1")]
-        public static extern void core_minMaxIdx(IntPtr src, out double minVal, out double maxVal);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_minMaxIdx2")]
-        public static extern void core_minMaxIdx(IntPtr src, out double minVal, out double maxVal,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_minMaxIdx1(IntPtr src, out double minVal, out double maxVal);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_minMaxIdx2(IntPtr src, out double minVal, out double maxVal,
             out int minIdx, out int maxIdx, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_reduce(IntPtr src, IntPtr dst, int dim, int rtype, int dtype);
@@ -129,18 +129,18 @@ namespace OpenCvSharp
         public static extern void core_insertChannel(IntPtr src, IntPtr dst, int coi);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_flip(IntPtr src, IntPtr dst, int flipCode);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_repeat1")]
-        public static extern void core_repeat(IntPtr src, int ny, int nx, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_repeat2")]
-        public static extern IntPtr core_repeat(IntPtr src, int ny, int nx);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_hconcat1")]
-        public static extern void core_hconcat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_hconcat2")]
-        public static extern void core_hconcat(IntPtr src1, IntPtr src2, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_vconcat1")]
-        public static extern void core_vconcat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_vconcat2")]
-        public static extern void core_vconcat(IntPtr src1, IntPtr src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_repeat1(IntPtr src, int ny, int nx, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_repeat2(IntPtr src, int ny, int nx);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_hconcat1([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_hconcat2(IntPtr src1, IntPtr src2, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_vconcat1([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_vconcat2(IntPtr src1, IntPtr src2, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_bitwise_and(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -151,10 +151,10 @@ namespace OpenCvSharp
         public static extern void core_bitwise_not(IntPtr src, IntPtr dst, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_absdiff(IntPtr src1, IntPtr src2, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_inRange_InputArray")]
-        public static extern void core_inRange(IntPtr src, IntPtr lowerb, IntPtr upperb, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "core_inRange_Scalar")]
-        public static extern void core_inRange(IntPtr src, Scalar lowerb, Scalar upperb, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_inRange_InputArray(IntPtr src, IntPtr lowerb, IntPtr upperb, IntPtr dst);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_inRange_Scalar(IntPtr src, Scalar lowerb, Scalar upperb, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_compare(IntPtr src1, IntPtr src2, IntPtr dst, int cmpop);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

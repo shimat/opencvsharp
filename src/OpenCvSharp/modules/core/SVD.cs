@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -17,7 +15,7 @@ namespace OpenCvSharp
         /// </summary>
         public SVD()
         {
-            ptr = NativeMethods.core_SVD_new();
+            ptr = NativeMethods.core_SVD_new1();
         }
         /// <summary>
         /// the constructor that performs SVD
@@ -29,7 +27,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            ptr = NativeMethods.core_SVD_new(src.CvPtr, (int)flags);
+            ptr = NativeMethods.core_SVD_new2(src.CvPtr, (int)flags);
         }
 
         /// <summary>
@@ -167,7 +165,7 @@ namespace OpenCvSharp
             w.ThrowIfNotReady();
             u.ThrowIfNotReady();
             vt.ThrowIfNotReady();
-            NativeMethods.core_SVD_static_compute(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
+            NativeMethods.core_SVD_static_compute1(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
             w.Fix();
             u.Fix();
             vt.Fix();
@@ -187,7 +185,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(w));
             src.ThrowIfDisposed();
             w.ThrowIfNotReady();
-            NativeMethods.core_SVD_static_compute(src.CvPtr, w.CvPtr, (int)flags);
+            NativeMethods.core_SVD_static_compute2(src.CvPtr, w.CvPtr, (int)flags);
             w.Fix();
         }
 

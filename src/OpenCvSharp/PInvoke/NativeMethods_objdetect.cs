@@ -97,23 +97,20 @@ namespace OpenCvSharp
             IntPtr self, IntPtr img, IntPtr descriptors,
                          Size winStride, Size padding, [In] Point[] locations, int locationsLength);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl,
-            EntryPoint = "objdetect_HOGDescriptor_detect1")]
-        public static extern void objdetect_HOGDescriptor_detect(
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void objdetect_HOGDescriptor_detect1(
             IntPtr self, IntPtr img, IntPtr foundLocations,
             double hitThreshold, Size winStride, Size padding, [In] Point[] searchLocations, int searchLocationsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl,
-            EntryPoint = "objdetect_HOGDescriptor_detect2")]
-        public static extern void objdetect_HOGDescriptor_detect(
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void objdetect_HOGDescriptor_detect2(
             IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr weights,
             double hitThreshold, Size winStride, Size padding, [In] Point[] searchLocations, int searchLocationsLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "objdetect_HOGDescriptor_detectMultiScale1")]
-        public static extern void objdetect_HOGDescriptor_detectMultiScale(
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void objdetect_HOGDescriptor_detectMultiScale1(
             IntPtr self, IntPtr img, IntPtr foundLocations,
             double hitThreshold, Size winStride, Size padding, double scale, int groupThreshold);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl,
-            EntryPoint = "objdetect_HOGDescriptor_detectMultiScale2")]
-        public static extern void objdetect_HOGDescriptor_detectMultiScale(
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void objdetect_HOGDescriptor_detectMultiScale2(
             IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr foundWeights,
             double hitThreshold, Size winStride, Size padding, double scale, int groupThreshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

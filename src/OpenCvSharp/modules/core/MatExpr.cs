@@ -29,7 +29,7 @@ namespace OpenCvSharp
         {
             if(mat == null)
                 throw new ArgumentNullException(nameof(mat));
-            ptr = NativeMethods.core_MatExpr_new(mat.CvPtr);
+            ptr = NativeMethods.core_MatExpr_new2(mat.CvPtr);
         }
 
         /// <summary>
@@ -764,7 +764,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             try
             {
-                IntPtr retPtr = NativeMethods.core_MatExpr_diag(ptr, d);
+                IntPtr retPtr = NativeMethods.core_MatExpr_diag2(ptr, d);
                 MatExpr retVal = new MatExpr(retPtr);
                 return retVal;
             }
@@ -805,7 +805,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             try
             {
-                IntPtr retPtr = NativeMethods.core_MatExpr_inv(ptr, (int)method);
+                IntPtr retPtr = NativeMethods.core_MatExpr_inv2(ptr, (int)method);
                 MatExpr retVal = new MatExpr(retPtr);
                 return retVal;
             }

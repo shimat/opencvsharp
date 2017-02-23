@@ -16,17 +16,18 @@ namespace OpenCvSharp.Tests.Stitching
 
             Mat[] images = SelectStitchingImages(200, 200, 40, show: debugMode);
 
-            var stitcher = Stitcher.Create(false);
-            Mat pano = new Mat();
+            using (var stitcher = Stitcher.Create(false))
+            using (var pano = new Mat())
+            {
+                Console.Write("Stitching start...");
+                var status = stitcher.Stitch(images, pano);
+                Console.WriteLine(" finish (status:{0})", status);
+                Assert.That(status, Is.EqualTo(Stitcher.Status.OK));
 
-            Console.Write("Stitching start...");
-            var status = stitcher.Stitch(images, pano);
-            Console.WriteLine(" finish (status:{0})", status);
-            Assert.That(status, Is.EqualTo(Stitcher.Status.OK));
-
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (debugMode)
-                Window.ShowImages(pano);
+                // ReSharper disable ConditionIsAlwaysTrueOrFalse
+                if (debugMode)
+                    Window.ShowImages(pano);
+            }
 
             foreach (Mat image in images)
             {

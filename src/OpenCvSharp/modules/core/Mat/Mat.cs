@@ -2010,7 +2010,7 @@ namespace OpenCvSharp
         public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
-            NativeMethods.core_Mat_create(ptr, rows, cols, type);
+            NativeMethods.core_Mat_create1(ptr, rows, cols, type);
         }
 
         /// <summary>
@@ -2034,7 +2034,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(sizes));
             if (sizes.Length < 2)
                 throw new ArgumentException("sizes.Length < 2");
-            NativeMethods.core_Mat_create(ptr, sizes.Length, sizes, type);
+            NativeMethods.core_Mat_create2(ptr, sizes.Length, sizes, type);
         }
 
         #endregion
@@ -2148,7 +2148,7 @@ namespace OpenCvSharp
         public Mat Diag(MatDiagType d = MatDiagType.Main)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_diag(ptr, (int) d);
+            IntPtr retPtr = NativeMethods.core_Mat_diag2(ptr, (int) d);
             Mat retVal = new Mat(retPtr);
             return retVal;
         }
@@ -2464,7 +2464,7 @@ namespace OpenCvSharp
         public long Step1()
         {
             ThrowIfDisposed();
-            return (long) NativeMethods.core_Mat_step1(ptr);
+            return (long) NativeMethods.core_Mat_step11(ptr);
         }
 
         /// <summary>
@@ -2475,7 +2475,7 @@ namespace OpenCvSharp
         public long Step1(int i)
         {
             ThrowIfDisposed();
-            return (long) NativeMethods.core_Mat_step1(ptr, i);
+            return (long) NativeMethods.core_Mat_step12(ptr, i);
         }
 
         #endregion

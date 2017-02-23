@@ -206,12 +206,12 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_distanceTransform(IntPtr src, IntPtr dst,
                                                     int distanceType, int maskSize);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_floodFill1")]
-        public static extern int imgproc_floodFill(IntPtr image,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int imgproc_floodFill1(IntPtr image,
                                                     Point seedPoint, Scalar newVal, out Rect rect,
                                                     Scalar loDiff, Scalar upDiff, int flags);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, EntryPoint = "imgproc_floodFill2")]
-        public static extern int imgproc_floodFill(IntPtr image, IntPtr mask,
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int imgproc_floodFill2(IntPtr image, IntPtr mask,
                                                     Point seedPoint, Scalar newVal, out Rect rect,
                                                     Scalar loDiff, Scalar upDiff, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
