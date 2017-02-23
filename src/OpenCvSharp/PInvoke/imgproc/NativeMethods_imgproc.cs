@@ -445,12 +445,12 @@ namespace OpenCvSharp
         public static extern void imgproc_ellipse2Poly(
             Point center, Size axes, int angle, int arcStart, int arcEnd, int delta, IntPtr pts);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern void core_putText(IntPtr img, [MarshalAs(UnmanagedType.LPStr)] string text, Point org,
             int fontFace, double fontScale, Scalar color,
             int thickness, int lineType, int bottomLeftOrigin);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern Size core_getTextSize([MarshalAs(UnmanagedType.LPStr)] string text, int fontFace,
             double fontScale, int thickness, out int baseLine);
 
