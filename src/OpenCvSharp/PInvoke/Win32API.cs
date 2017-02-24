@@ -97,6 +97,7 @@ namespace OpenCvSharp
         #endregion
 
         #region DllImport
+#if !uap
         #region kernel32
         [DllImport("kernel32")]
         public static extern IntPtr LoadLibrary(string lpFileName);
@@ -223,6 +224,7 @@ namespace OpenCvSharp
         [DllImport("gdi32", SetLastError = true)]
         public static extern int StretchDIBits(IntPtr hdc, Int32 XDest, Int32 YDest, Int32 nDestWidth, Int32 nDestHeight, Int32 XSrc, Int32 YSrc, Int32 nSrcWidth, Int32 nSrcHeight, IntPtr lpBits, ref BITMAPINFO lpBitsInfo, UInt32 iUsage, UInt32 dwRop);
         #endregion
+#endif
         #endregion
     }
 
