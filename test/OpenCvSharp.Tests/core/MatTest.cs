@@ -8,6 +8,18 @@ namespace OpenCvSharp.Tests.Core
     public class MatTest : TestBase
     {
         [Test]
+        public void SetTo()
+        {
+            using (Mat graySrc = Image("lenna.png", ImreadModes.GrayScale))
+            using (Mat resultImage = graySrc.Clone())
+            using (Mat mask = graySrc.InRange(100, 200))
+            {
+                Assert.DoesNotThrow(() => { resultImage.SetTo(0, mask); });
+                Assert.DoesNotThrow(() => { resultImage.SetTo(0, null); });
+            }
+        }
+
+        [Test]
         public void MatOfDoubleFromArray()
         {
             var array = new double[] {7, 8, 9};
