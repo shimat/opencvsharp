@@ -28,7 +28,7 @@ namespace OpenCvSharp
         public static extern void ml_KNearest_setAlgorithmType(IntPtr obj, int val);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float ml_KNearest_findNearest(IntPtr samples, int k,
+        public static extern float ml_KNearest_findNearest(IntPtr obj, IntPtr samples, int k,
             IntPtr results, IntPtr neighborResponses, IntPtr dist);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

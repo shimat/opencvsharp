@@ -147,14 +147,14 @@ namespace OpenCvSharp.ML
 	        results.ThrowIfNotReady();
 
 	        float ret = NativeMethods.ml_KNearest_findNearest(
-	            samples.CvPtr, k, results.CvPtr, Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist));
+                ptr,
+	            samples.CvPtr, k, results.CvPtr, 
+                Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist));
 
             GC.KeepAlive(samples);
 	        results.Fix();
-            if (neighborResponses != null)
-    	        neighborResponses.Fix();
-	        if (dist != null)
-                dist.Fix();
+	        neighborResponses?.Fix();
+	        dist?.Fix();
 	        return ret;
 	    }
 
