@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Util
 {
+#if !uap10
 #if LANG_JP
     /// <summary>
     /// 動的にアンマネージのアセンブリにある関数を呼び出すためのクラス
@@ -144,4 +145,5 @@ namespace OpenCvSharp.Util
             }
         }
     }
+#endif
 }

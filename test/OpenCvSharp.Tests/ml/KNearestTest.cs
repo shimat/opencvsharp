@@ -37,15 +37,8 @@ namespace OpenCvSharp.Tests.ML
             var neighborResponses = new Mat();
             var dists = new Mat();
             var detectedClass = (int)kNearest.FindNearest(testFeature, k, results, neighborResponses, dists);
-            /*
-            K=1
-            [3]
-            [0]
 
-            K=4:
-            [3, 2, 4, 5]
-            [0, 4, 4, 16]
-            */
+            Assert.AreEqual(3, detectedClass);
         }
     }
 }

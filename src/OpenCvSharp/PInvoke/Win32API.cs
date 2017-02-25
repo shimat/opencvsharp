@@ -97,7 +97,7 @@ namespace OpenCvSharp
         #endregion
 
         #region DllImport
-#if !uap
+#if !uap10
         #region kernel32
         [DllImport("kernel32")]
         public static extern IntPtr LoadLibrary(string lpFileName);
