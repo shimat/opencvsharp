@@ -38,9 +38,9 @@ CVAPI(int) ml_StatModel_train1(
 }
 
 CVAPI(int) ml_StatModel_train2(
-	StatModel *obj, cv::_InputArray *samples, int layout, cv::_InputArray *responses)
+    StatModel *obj, cv::_InputArray *samples, int layout, cv::_InputArray *responses)
 {
-	return obj->train(entity(samples), layout, entity(responses)) ? 1 : 0;
+    return obj->train(*samples, layout, *responses) ? 1 : 0;
 }
 
 CVAPI(float) ml_StatModel_calcError(

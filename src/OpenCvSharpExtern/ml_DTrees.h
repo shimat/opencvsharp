@@ -2,9 +2,7 @@
 #define _CPP_ML_DTREE_H_
 
 #include "include_opencv.h"
-#include "ml.h"
 using namespace cv::ml;
-
 
 extern "C"
 {

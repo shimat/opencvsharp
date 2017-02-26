@@ -210,9 +210,6 @@
     <ClInclude Include="ml_Boost.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="ml_DTree.h">
-      <Filter>Header Files\ml</Filter>
-    </ClInclude>
     <ClInclude Include="ml_RTrees.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
@@ -311,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="ximgproc_FastHoughTransform.h">
       <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_DTrees.h">
+      <Filter>Header Files\ml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

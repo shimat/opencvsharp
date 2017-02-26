@@ -289,7 +289,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="ml.h" />
     <ClInclude Include="ml_ANN_MLP.h" />
     <ClInclude Include="ml_Boost.h" />
-    <ClInclude Include="ml_DTree.h" />
+    <ClInclude Include="ml_DTrees.h" />
     <ClInclude Include="ml_KNearest.h" />
     <ClInclude Include="ml_LogisticRegressionh.h" />
     <ClInclude Include="ml_NormalBayesClassifier.h" />

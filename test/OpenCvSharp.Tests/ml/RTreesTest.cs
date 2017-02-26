@@ -7,8 +7,7 @@ using OpenCvSharp.ML;
 namespace OpenCvSharp.Tests.ML
 {
     [TestFixture]
-    // ReSharper disable once InconsistentNaming
-    public class SVMTest : TestBase
+    public class RTreesTest : TestBase
     {
         [Test]
         public void RunTest()
@@ -22,13 +21,10 @@ namespace OpenCvSharp.Tests.ML
             };
             var trainFeatures = new Mat(4, 2, MatType.CV_32F, trainFeaturesData);
 
-            int[] trainLabelsData = { +1, -1, +1, -1 };
+            int[] trainLabelsData = { 1, -1, 1, -1 };
             var trainLabels = new Mat(4, 1, MatType.CV_32S, trainLabelsData);
 
-            var model = SVM.Create();
-            model.Type = SVM.Types.CSvc;
-            model.KernelType = SVM.KernelTypes.Linear;
-            model.TermCriteria = new TermCriteria(CriteriaType.MaxIter, 100, 1e-6);
+            var model = RTrees.Create();
             model.Train(trainFeatures, SampleTypes.RowSample, trainLabels);
 
             float[] testFeatureData = { 90, 90 };
