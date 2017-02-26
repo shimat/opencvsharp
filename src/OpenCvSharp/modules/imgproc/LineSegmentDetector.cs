@@ -103,7 +103,7 @@ namespace OpenCvSharp
         public virtual void Detect(InputArray image, OutputArray lines,
             OutputArray width = null, OutputArray prec = null, OutputArray nfa = null)
         {
-            if (image == null) 
+            if (image == null)
                 throw new ArgumentNullException(nameof(image));
             if (lines == null)
                 throw new ArgumentNullException(nameof(lines));
@@ -192,7 +192,7 @@ namespace OpenCvSharp
         public virtual int CompareSegments(
             Size size, InputArray lines1, InputArray lines2, InputOutputArray image = null)
         {
-            if (lines1 == null) 
+            if (lines1 == null)
                 throw new ArgumentNullException(nameof(lines1));
             if (lines2 == null)
                 throw new ArgumentNullException(nameof(lines2));

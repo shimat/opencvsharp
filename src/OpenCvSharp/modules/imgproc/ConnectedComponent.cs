@@ -47,7 +47,7 @@ namespace OpenCvSharp
         /// <returns>Filtered image.</returns>
         public Mat FilterByLabel(Mat src, Mat dst, int labelValue)
         {
-            return FilterByLabels(src, dst, new[] {labelValue});
+            return FilterByLabels(src, dst, new[] { labelValue });
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace OpenCvSharp
         /// <returns>Filtered image.</returns>
         public Mat FilterByBlob(Mat src, Mat dst, Blob blob)
         {
-            return FilterByLabels(src, dst, new[] {blob.Label});
+            return FilterByLabels(src, dst, new[] { blob.Label });
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace OpenCvSharp
         /// <param name="img">The target image to be drawn.</param>
         public void RenderBlobs(Mat img)
         {
-            if (img == null) 
+            if (img == null)
                 throw new ArgumentNullException(nameof(img));
             /*
             if (img.Empty())
@@ -142,7 +142,7 @@ namespace OpenCvSharp
             {
                 colors[i] = Scalar.RandomColor();
             }
-            
+
             using (var imgt = new MatOfByte3(img))
             {
                 var indexer = imgt.GetIndexer();

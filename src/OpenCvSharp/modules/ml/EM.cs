@@ -25,10 +25,10 @@ namespace OpenCvSharp
         #region Constants
 
 #pragma warning disable 1591
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public const int DEFAULT_NCLUSTERS = 5;
         public const int DEFAULT_MAX_ITERS = 100;
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
         #endregion
@@ -49,10 +49,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <returns></returns>
         public static EM Create()
-	    {
+        {
             IntPtr ptr = NativeMethods.ml_SVM_create();
             return new EM(ptr);
-	    }
+        }
 
 #if LANG_JP
     /// <summary>
@@ -176,7 +176,7 @@ namespace OpenCvSharp
                 NativeMethods.ml_EM_getCovs(ptr, vec.CvPtr);
                 return vec.ToArray();
             }
-            
+
         }
 
 #if LANG_JP

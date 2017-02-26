@@ -134,14 +134,14 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr Ptr 
+        public IntPtr Ptr
         {
             get
             {
                 if (disposed)
                     throw new ObjectDisposedException(GetType().Name);
                 return NativeMethods.imgproc_LineIterator_ptr_get(ptr);
-            } 
+            }
         }
 
         /// <summary>

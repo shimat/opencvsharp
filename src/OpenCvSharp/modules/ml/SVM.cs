@@ -9,7 +9,7 @@ namespace OpenCvSharp.ML
     /// SVM model classifier
     /// </summary>
 #else
-	/// <summary>
+    /// <summary>
     /// Support Vector Machines
     /// </summary>
 #endif
@@ -41,10 +41,10 @@ namespace OpenCvSharp.ML
         /// </summary>
         /// <returns></returns>
 	    public static SVM Create()
-	    {
+        {
             IntPtr ptr = NativeMethods.ml_SVM_create();
             return new SVM(ptr);
-	    }
+        }
 
 #if LANG_JP
         /// <summary>
@@ -87,75 +87,75 @@ namespace OpenCvSharp.ML
 
         #region Properties
 
-	    /// <summary>
-	    /// Type of a %SVM formulation. 
-	    /// Default value is SVM::C_SVC.
-	    /// </summary>
-	    public Types Type
-	    {
-	        get { return (Types) NativeMethods.ml_SVM_getType(ptr); }
-	        set { NativeMethods.ml_SVM_setType(ptr, (int) value); }
-	    }
+        /// <summary>
+        /// Type of a %SVM formulation. 
+        /// Default value is SVM::C_SVC.
+        /// </summary>
+        public Types Type
+        {
+            get { return (Types)NativeMethods.ml_SVM_getType(ptr); }
+            set { NativeMethods.ml_SVM_setType(ptr, (int)value); }
+        }
 
         /// <summary>
         /// Parameter gamma of a kernel function.
         /// For SVM::POLY, SVM::RBF, SVM::SIGMOID or SVM::CHI2. Default value is 1. 
         /// </summary>
 	    public double Gamma
-	    {
-	        get { return NativeMethods.ml_SVM_getGamma(ptr); }
-	        set { NativeMethods.ml_SVM_setGamma(ptr, value); }
-	    }
+        {
+            get { return NativeMethods.ml_SVM_getGamma(ptr); }
+            set { NativeMethods.ml_SVM_setGamma(ptr, value); }
+        }
 
         /// <summary>
         /// Parameter coef0 of a kernel function.
         /// For SVM::POLY or SVM::SIGMOID. Default value is 0.
         /// </summary>
 	    public double Coef0
-	    {
-	        get { return NativeMethods.ml_SVM_getCoef0(ptr); }
-	        set { NativeMethods.ml_SVM_setCoef0(ptr, value); }
-	    }
+        {
+            get { return NativeMethods.ml_SVM_getCoef0(ptr); }
+            set { NativeMethods.ml_SVM_setCoef0(ptr, value); }
+        }
 
         /// <summary>
         /// Parameter degree of a kernel function.
         /// For SVM::POLY. Default value is 0.
         /// </summary>
 	    public double Degree
-	    {
-	  	    get { return NativeMethods.ml_SVM_getDegree(ptr); }
-	        set { NativeMethods.ml_SVM_setDegree(ptr, value); }      
-	    }
+        {
+            get { return NativeMethods.ml_SVM_getDegree(ptr); }
+            set { NativeMethods.ml_SVM_setDegree(ptr, value); }
+        }
 
         /// <summary>
         /// Parameter C of a %SVM optimization problem.
         /// For SVM::C_SVC, SVM::EPS_SVR or SVM::NU_SVR. Default value is 0.
         /// </summary>
 	    public double C
-	    {
-	        get { return NativeMethods.ml_SVM_getC(ptr); }
-	        set { NativeMethods.ml_SVM_setC(ptr, value); }    
-	    }
+        {
+            get { return NativeMethods.ml_SVM_getC(ptr); }
+            set { NativeMethods.ml_SVM_setC(ptr, value); }
+        }
 
         /// <summary>
         /// Parameter nu of a %SVM optimization problem.
         /// For SVM::NU_SVC, SVM::ONE_CLASS or SVM::NU_SVR. Default value is 0.
         /// </summary>
 	    public double Nu
-	    {
-	    	get { return NativeMethods.ml_SVM_getNu(ptr); }
-	        set { NativeMethods.ml_SVM_setNu(ptr, value); }        
-	    }
+        {
+            get { return NativeMethods.ml_SVM_getNu(ptr); }
+            set { NativeMethods.ml_SVM_setNu(ptr, value); }
+        }
 
         /// <summary>
         /// Parameter epsilon of a %SVM optimization problem.
         /// For SVM::EPS_SVR. Default value is 0.
         /// </summary>
 	    public double P
-	    {
-	        get { return NativeMethods.ml_SVM_getP(ptr); }
-	        set { NativeMethods.ml_SVM_setP(ptr, value); }     
-	    }
+        {
+            get { return NativeMethods.ml_SVM_getP(ptr); }
+            set { NativeMethods.ml_SVM_setP(ptr, value); }
+        }
 
         /// <summary>
         /// Optional weights in the SVM::C_SVC problem, assigned to particular classes.
@@ -167,17 +167,17 @@ namespace OpenCvSharp.ML
         /// corresponding class. Default value is empty Mat.
         /// </remarks>
 	    public Mat ClassWeights
-	    {
-	        get
-	        {
-	            IntPtr p = NativeMethods.ml_SVM_getClassWeights(ptr);
+        {
+            get
+            {
+                IntPtr p = NativeMethods.ml_SVM_getClassWeights(ptr);
                 return new Mat(p);
-	        }
-	        set
-	        {
-	            NativeMethods.ml_SVM_setClassWeights(ptr, value.CvPtr);
-	        }   
-	    }
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setClassWeights(ptr, value.CvPtr);
+            }
+        }
 
         /// <summary>
         /// Termination criteria of the iterative SVM training procedure 
@@ -188,11 +188,11 @@ namespace OpenCvSharp.ML
         /// Default value is `TermCriteria( TermCriteria::MAX_ITER + TermCriteria::EPS, 1000, FLT_EPSILON )`;
         /// </remarks>
 	    public TermCriteria TermCriteria
-	    {
-	        get { return NativeMethods.ml_SVM_getTermCriteria(ptr); }
-	        set { NativeMethods.ml_SVM_setTermCriteria(ptr, value); }
-	    }
-        
+        {
+            get { return NativeMethods.ml_SVM_getTermCriteria(ptr); }
+            set { NativeMethods.ml_SVM_setTermCriteria(ptr, value); }
+        }
+
         /// <summary>
         /// Type of a %SVM kernel. See SVM::KernelTypes. Default value is SVM::RBF.
         /// </summary>
@@ -205,15 +205,15 @@ namespace OpenCvSharp.ML
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// Initialize with custom kernel.
         /// </summary>
         /// <param name="kernel"></param>
-	    public void SetCustomKernel(Kernel kernel)
-	    {
+        public void SetCustomKernel(Kernel kernel)
+        {
             throw new NotImplementedException();
-	    }
+        }
 
         /// <summary>
         /// Trains an %SVM with optimal parameters.
@@ -234,14 +234,14 @@ namespace OpenCvSharp.ML
         /// to such proportion in the whole train dataset.</param>
         /// <returns></returns>
 	    public bool TrainAuto(TrainData data, int kFold = 10,
-	        ParamGrid? cGrid = null,
-	        ParamGrid? gammaGrid = null,
-	        ParamGrid? pGrid = null,
-	        ParamGrid? nuGrid = null,
-	        ParamGrid? coeffGrid = null,
+            ParamGrid? cGrid = null,
+            ParamGrid? gammaGrid = null,
+            ParamGrid? pGrid = null,
+            ParamGrid? nuGrid = null,
+            ParamGrid? coeffGrid = null,
             ParamGrid? degreeGrid = null,
-	        bool balanced = false)
-	    {
+            bool balanced = false)
+        {
             throw new NotImplementedException();
             /*
 	        var cGridValue = cGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.C));
@@ -257,12 +257,12 @@ namespace OpenCvSharp.ML
         /// </summary>
         /// <returns></returns>
 	    public Mat GetSupportVectors()
-	    {
+        {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             IntPtr p = NativeMethods.ml_SVM_getSupportVectors(ptr);
             return new Mat(p);
-	    }
+        }
 
         /// <summary>
         /// Retrieves the decision function
@@ -278,7 +278,7 @@ namespace OpenCvSharp.ML
         /// In the case of linear %SVM each decision function consists of a single "compressed" support vector.</param>
         /// <returns></returns>
 	    public double GetDecisionFunction(int i, OutputArray alpha, OutputArray svidx)
-	    {
+        {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
             if (alpha == null)
@@ -288,11 +288,11 @@ namespace OpenCvSharp.ML
 
             alpha.ThrowIfNotReady();
             svidx.ThrowIfNotReady();
-	        double ret = NativeMethods.ml_SVM_getDecisionFunction(ptr, i, alpha.CvPtr, svidx.CvPtr);
+            double ret = NativeMethods.ml_SVM_getDecisionFunction(ptr, i, alpha.CvPtr, svidx.CvPtr);
             alpha.Fix();
             svidx.Fix();
-	        return ret;
-	    }
+            return ret;
+        }
 
         /// <summary>
         /// Generates a grid for SVM parameters.
@@ -301,9 +301,9 @@ namespace OpenCvSharp.ML
         /// The grid is generated for the parameter with this ID.</param>
         /// <returns></returns>
 	    public static ParamGrid GetDefaultGrid(ParamTypes paramId)
-	    {
-	        return NativeMethods.ml_SVM_getDefaultGrid((int)paramId);
-	    }
+        {
+            return NativeMethods.ml_SVM_getDefaultGrid((int)paramId);
+        }
 
         #endregion
 
@@ -313,56 +313,56 @@ namespace OpenCvSharp.ML
         /// 
         /// </summary>
 	    public class Kernel
-	    {
+        {
             /// <summary>
             /// 
             /// </summary>
 	        public Kernel()
-	        {
-	            throw new NotImplementedException();
-	        }
-	    }
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-	    /// <summary>
-	    /// SVM type
-	    /// </summary>
-	    public enum Types
-	    {
-	        /// <summary>
-	        /// C-Support Vector Classification. n-class classification (n \f$\geq\f$ 2), 
-	        /// allows imperfect separation of classes with penalty multiplier C for outliers.
-	        /// </summary>
-	        CSvc = 100,
+        /// <summary>
+        /// SVM type
+        /// </summary>
+        public enum Types
+        {
+            /// <summary>
+            /// C-Support Vector Classification. n-class classification (n \f$\geq\f$ 2), 
+            /// allows imperfect separation of classes with penalty multiplier C for outliers.
+            /// </summary>
+            CSvc = 100,
 
-	        /// <summary>
-	        /// nu-Support Vector Classification. n-class classification with possible
-	        /// imperfect separation. Parameter \f$\nu\f$ (in the range 0..1, the larger 
-	        /// the value, the smoother the decision boundary) is used instead of C.
-	        /// </summary>
-	        NuSvc = 101,
+            /// <summary>
+            /// nu-Support Vector Classification. n-class classification with possible
+            /// imperfect separation. Parameter \f$\nu\f$ (in the range 0..1, the larger 
+            /// the value, the smoother the decision boundary) is used instead of C.
+            /// </summary>
+            NuSvc = 101,
 
-	        /// <summary>
-	        /// Distribution Estimation (One-class %SVM). All the training data are from
-	        /// the same class, %SVM builds a boundary that separates the class from the 
-	        /// rest of the feature space.
-	        /// </summary>
-	        OneClass = 102,
+            /// <summary>
+            /// Distribution Estimation (One-class %SVM). All the training data are from
+            /// the same class, %SVM builds a boundary that separates the class from the 
+            /// rest of the feature space.
+            /// </summary>
+            OneClass = 102,
 
-	        /// <summary>
-	        /// epsilon-Support Vector Regression. 
-	        /// The distance between feature vectors from the training set and the fitting 
-	        /// hyper-plane must be less than p. For outliers the penalty multiplier C is used.
-	        /// </summary>
-	        EpsSvr = 103,
+            /// <summary>
+            /// epsilon-Support Vector Regression. 
+            /// The distance between feature vectors from the training set and the fitting 
+            /// hyper-plane must be less than p. For outliers the penalty multiplier C is used.
+            /// </summary>
+            EpsSvr = 103,
 
-	        /// <summary>
-	        /// nu-Support Vector Regression. \f$\nu\f$ is used instead of p.
-	        /// See @cite LibSVM for details.
-	        /// </summary>
-	        NuSvr = 104
-	    }
+            /// <summary>
+            /// nu-Support Vector Regression. \f$\nu\f$ is used instead of p.
+            /// See @cite LibSVM for details.
+            /// </summary>
+            NuSvr = 104
+        }
 
-	    /// <summary>
+        /// <summary>
         /// SVM kernel type
         /// </summary>
         public enum KernelTypes
@@ -395,7 +395,7 @@ namespace OpenCvSharp.ML
             /// \f$K(x_i, x_j) = \tanh(\gamma x_i^T x_j + coef0)\f$.
             /// </summary>
             Sigmoid = 3,
-            
+
             /// <summary>
             /// Exponential Chi2 kernel, similar to the RBF kernel:
             /// \f$K(x_i, x_j) = e^{-\gamma \chi^2(x_i,x_j)}, \chi^2(x_i,x_j) = (x_i-x_j)^2/(x_i+x_j), \gamma &gt; 0\f$. 

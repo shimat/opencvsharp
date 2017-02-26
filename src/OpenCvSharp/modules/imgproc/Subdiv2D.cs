@@ -95,7 +95,7 @@ namespace OpenCvSharp
                 try
                 {
                     if (disposing)
-                    {                        
+                    {
                     }
                     if (ptr != IntPtr.Zero)
                     {
@@ -127,13 +127,13 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         public const int
-            NEXT_AROUND_ORG   = 0x00,
-            NEXT_AROUND_DST   = 0x22,
-            PREV_AROUND_ORG   = 0x11,
-            PREV_AROUND_DST   = 0x33,
-            NEXT_AROUND_LEFT  = 0x13,
+            NEXT_AROUND_ORG = 0x00,
+            NEXT_AROUND_DST = 0x22,
+            PREV_AROUND_ORG = 0x11,
+            PREV_AROUND_DST = 0x33,
+            NEXT_AROUND_LEFT = 0x13,
             NEXT_AROUND_RIGHT = 0x31,
-            PREV_AROUND_LEFT  = 0x20,
+            PREV_AROUND_LEFT = 0x20,
             PREV_AROUND_RIGHT = 0x02;
         #endregion
 
@@ -145,7 +145,7 @@ namespace OpenCvSharp
         /// <param name="rect"></param>
         public void InitDelaunay(Rect rect)
         {
-            if(disposed)
+            if (disposed)
                 throw new ObjectDisposedException("Subdiv2D", "");
             NativeMethods.imgproc_Subdiv2D_initDelaunay(ptr, rect);
         }
@@ -168,7 +168,7 @@ namespace OpenCvSharp
         public void Insert(Point2f[] ptvec)
         {
             ThrowIfDisposed();
-            if(ptvec == null)
+            if (ptvec == null)
                 throw new ArgumentNullException(nameof(ptvec));
             NativeMethods.imgproc_Subdiv2D_insert2(ptr, ptvec, ptvec.Length);
         }

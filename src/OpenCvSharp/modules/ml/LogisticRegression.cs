@@ -2,11 +2,11 @@
 
 namespace OpenCvSharp.ML
 {
-	/// <summary>
+    /// <summary>
     /// Implements Logistic Regression classifier.
     /// </summary>
-	public class LogisticRegression : StatModel
-	{
+    public class LogisticRegression : StatModel
+    {
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
@@ -29,10 +29,10 @@ namespace OpenCvSharp.ML
         /// </summary>
         /// <returns></returns>
         public static LogisticRegression Create()
-	    {
+        {
             IntPtr ptr = NativeMethods.ml_LogisticRegression_create();
             return new LogisticRegression(ptr);
-	    }
+        }
 
         /// <summary>
         /// Clean up any resources being used.
@@ -61,7 +61,7 @@ namespace OpenCvSharp.ML
                 }
             }
         }
-		#endregion
+        #endregion
 
         #region Properties
 
@@ -73,7 +73,7 @@ namespace OpenCvSharp.ML
             get { return NativeMethods.ml_LogisticRegression_getLearningRate(ptr); }
             set { NativeMethods.ml_LogisticRegression_setLearningRate(ptr, value); }
         }
-        
+
         /// <summary>
         /// Number of iterations.
         /// </summary>
@@ -123,7 +123,7 @@ namespace OpenCvSharp.ML
 
         #endregion
 
-		#region Methods
+        #region Methods
 
         /// <summary>
         /// Predicts responses for input samples and returns a float type.
@@ -134,10 +134,10 @@ namespace OpenCvSharp.ML
         /// <param name="results">Predicted labels as a column matrix of type CV_32S.</param>
         /// <param name="flags">Not used.</param>
         /// <returns></returns>
-	    public float Predict(InputArray samples, OutputArray results = null, int flags = 0)
+        public float Predict(InputArray samples, OutputArray results = null, int flags = 0)
         {
             if (disposed)
-	            throw new NotImplementedException(GetType().Name);
+                throw new NotImplementedException(GetType().Name);
             if (samples == null)
                 throw new ArgumentNullException(nameof(samples));
             samples.ThrowIfDisposed();
@@ -153,20 +153,20 @@ namespace OpenCvSharp.ML
             return ret;
         }
 
-	    /// <summary>
+        /// <summary>
         /// This function returns the trained paramters arranged across rows.
         ///  For a two class classifcation problem, it returns a row matrix. 
         /// It returns learnt paramters of the Logistic Regression as a matrix of type CV_32F.
         /// </summary>
         /// <returns></returns>
-	    public Mat GetLearntThetas()
-	    {
+        public Mat GetLearntThetas()
+        {
             if (disposed)
                 throw new NotImplementedException(GetType().Name);
 
-	        IntPtr p = NativeMethods.ml_LogisticRegression_get_learnt_thetas(ptr);
+            IntPtr p = NativeMethods.ml_LogisticRegression_get_learnt_thetas(ptr);
             return new Mat(p);
-	    }
+        }
 
         #endregion
 
@@ -180,7 +180,7 @@ namespace OpenCvSharp.ML
             /// <summary>
             /// Regularization disabled
             /// </summary>
-            RegDisable = -1, 
+            RegDisable = -1,
 
             /// <summary>
             /// L1 norm
@@ -190,7 +190,7 @@ namespace OpenCvSharp.ML
             /// <summary>
             /// L2 norm
             /// </summary>
-            RegL2 = 1 
+            RegL2 = 1
         }
 
         /// <summary>

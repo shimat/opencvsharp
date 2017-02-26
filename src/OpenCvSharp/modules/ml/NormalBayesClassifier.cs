@@ -7,7 +7,7 @@ namespace OpenCvSharp.ML
     /// 正規分布データに対するベイズ分類器クラス
     /// </summary>
 #else
-	/// <summary>
+    /// <summary>
     /// Bayes classifier for normally distributed data
     /// </summary>
 #endif
@@ -36,10 +36,10 @@ namespace OpenCvSharp.ML
         /// </summary>
         /// <returns></returns>
         public static NormalBayesClassifier Create()
-	    {
+        {
             IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_create();
             return new NormalBayesClassifier(ptr);
-	    }
+        }
 
 #if LANG_JP
         /// <summary>
@@ -100,11 +100,11 @@ namespace OpenCvSharp.ML
         /// The vector outputProbs contains the output probabilities corresponding to each element of result.
         /// </remarks>
 	    public float PredictProb(InputArray inputs, OutputArray outputs,
-	        OutputArray outputProbs, int flags = 0)
+            OutputArray outputProbs, int flags = 0)
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException(nameof(inputs));
             if (outputs == null)
                 throw new ArgumentNullException(nameof(outputs));

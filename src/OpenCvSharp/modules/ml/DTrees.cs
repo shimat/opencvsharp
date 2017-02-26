@@ -252,7 +252,7 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            
+
             using (var vector = new VectorOfInt32())
             {
                 NativeMethods.ml_DTrees_getSubsets(ptr, vector.CvPtr);
@@ -279,17 +279,17 @@ namespace OpenCvSharp.ML
             /// Class index normalized to 0..class_count-1 range and assigned to the 
             /// node. It is used internally in classification trees and tree ensembles.
             /// </summary>
-            public int ClassIdx; 
+            public int ClassIdx;
 
             /// <summary>
             /// Index of the parent node
             /// </summary>
-            public int Parent; 
+            public int Parent;
 
             /// <summary>
             /// Index of the left child node
             /// </summary>
-            public int Left; 
+            public int Left;
 
             /// <summary>
             /// Index of right child node
@@ -300,12 +300,12 @@ namespace OpenCvSharp.ML
             /// Default direction where to go (-1: left or +1: right). It helps in the
             /// case of missing values.
             /// </summary>
-            public int DefaultDir; 
+            public int DefaultDir;
 
             /// <summary>
             /// Index of the first split
             /// </summary>
-            public int Split; 
+            public int Split;
         }
 
         /// <summary>
@@ -322,27 +322,27 @@ namespace OpenCvSharp.ML
             /// If not 0, then the inverse split rule is used (i.e. left and right
             /// branches are exchanged in the rule expressions below).
             /// </summary>
-            public int Inversed; 
+            public int Inversed;
 
             /// <summary>
             /// The split quality, a positive number. It is used to choose the best split.
             /// </summary>
-            public float Quality; 
+            public float Quality;
 
             /// <summary>
             /// Index of the next split in the list of splits for the node
             /// </summary>
-            public int Next; 
+            public int Next;
 
             /// <summary>
             /// The threshold value in case of split on an ordered variable.
             /// </summary>
-            public float C; 
+            public float C;
 
             /// <summary>
             /// Offset of the bitset used by the split on a categorical variable.
             /// </summary>
-            public int SubsetOfs; 
+            public int SubsetOfs;
         }
 
         #endregion

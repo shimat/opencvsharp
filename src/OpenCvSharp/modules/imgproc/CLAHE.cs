@@ -5,6 +5,7 @@ namespace OpenCvSharp
     /// <summary>
     /// Contrast Limited Adaptive Histogram Equalization
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public sealed class CLAHE : Algorithm
     {
         private bool disposed;

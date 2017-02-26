@@ -8,19 +8,19 @@ namespace OpenCvSharp.ML
     /// ランダムツリークラス
     /// </summary>
 #else
-	/// <summary>
+    /// <summary>
     /// The class implements the random forest predictor.
     /// </summary>
 #endif
-	public class RTrees : DTrees
-	{
+    public class RTrees : DTrees
+    {
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
         private Ptr ptrObj;
 
-		#region Init and Disposal
+        #region Init and Disposal
 
         /// <summary>
         /// Creates instance by raw pointer cv::ml::RTrees*
@@ -37,10 +37,10 @@ namespace OpenCvSharp.ML
         /// </summary>
         /// <returns></returns>
         public new static RTrees Create()
-	    {
+        {
             IntPtr ptr = NativeMethods.ml_RTrees_create();
             return new RTrees(ptr);
-	    }
+        }
 
 #if LANG_JP
         /// <summary>
@@ -81,7 +81,7 @@ namespace OpenCvSharp.ML
         }
         #endregion
 
-		#region Properties
+        #region Properties
 
         /// <summary>
         /// If true then variable importance will be calculated and then 
@@ -114,8 +114,8 @@ namespace OpenCvSharp.ML
 
         #endregion
 
-		#region Methods
-		
+        #region Methods
+
         /// <summary>
         /// Returns the variable importance array. 
         /// The method returns the variable importance vector, computed at the training 
@@ -123,14 +123,14 @@ namespace OpenCvSharp.ML
         /// the empty matrix is returned.
         /// </summary>
         /// <returns></returns>
-	    public Mat GetVarImportance()
-	    {
-	        if (disposed)
-	            throw new NotImplementedException(GetType().Name);
+        public Mat GetVarImportance()
+        {
+            if (disposed)
+                throw new NotImplementedException(GetType().Name);
 
             IntPtr p = NativeMethods.ml_RTrees_getVarImportance(ptr);
             return new Mat(p);
-	    }
+        }
 
         #endregion
 

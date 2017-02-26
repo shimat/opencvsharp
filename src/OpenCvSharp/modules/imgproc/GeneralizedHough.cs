@@ -139,7 +139,7 @@ namespace OpenCvSharp
                 throw new ObjectDisposedException(GetType().Name);
             if (edges == null)
                 throw new ArgumentNullException(nameof(edges));
-            if (dx == null) 
+            if (dx == null)
                 throw new ArgumentNullException(nameof(dx));
             if (dy == null)
                 throw new ArgumentNullException(nameof(dy));
@@ -165,9 +165,9 @@ namespace OpenCvSharp
         public virtual void Detect(
             InputArray image, OutputArray positions, OutputArray votes = null)
         {
-            if (image == null) 
+            if (image == null)
                 throw new ArgumentNullException(nameof(image));
-            if (positions == null) 
+            if (positions == null)
                 throw new ArgumentNullException(nameof(positions));
             image.ThrowIfDisposed();
             positions.ThrowIfNotReady();
@@ -196,7 +196,7 @@ namespace OpenCvSharp
         {
             if (edges == null)
                 throw new ArgumentNullException(nameof(edges));
-            if (dx == null) 
+            if (dx == null)
                 throw new ArgumentNullException(nameof(dx));
             if (dy == null)
                 throw new ArgumentNullException(nameof(dy));

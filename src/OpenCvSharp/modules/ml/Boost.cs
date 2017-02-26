@@ -2,18 +2,18 @@
 
 namespace OpenCvSharp.ML
 {
-	/// <summary>
+    /// <summary>
     /// Boosted tree classifier derived from DTrees
     /// </summary>
-	public class Boost : DTrees
-	{
+    public class Boost : DTrees
+    {
         /// <summary>
         /// Track whether Dispose has been called
         /// </summary>
         private bool disposed;
         private Ptr ptrObj;
 
-		#region Init and Disposal
+        #region Init and Disposal
 
         /// <summary>
         /// Creates instance by raw pointer cv::ml::Boost*
@@ -30,10 +30,10 @@ namespace OpenCvSharp.ML
         /// </summary>
         /// <returns></returns>
         public new static Boost Create()
-	    {
+        {
             IntPtr ptr = NativeMethods.ml_Boost_create();
             return new Boost(ptr);
-	    }
+        }
 
 #if LANG_JP
         /// <summary>
@@ -72,7 +72,7 @@ namespace OpenCvSharp.ML
                 }
             }
         }
-		#endregion
+        #endregion
 
         #region Properties
 
@@ -111,7 +111,7 @@ namespace OpenCvSharp.ML
         #endregion
 
         #region Methods
-		#endregion
+        #endregion
 
         #region Types
 
@@ -124,24 +124,24 @@ namespace OpenCvSharp.ML
             /// <summary>
             /// Discrete AdaBoost.
             /// </summary>
-            Discrete = 0, 
+            Discrete = 0,
 
             /// <summary>
             /// Real AdaBoost. It is a technique that utilizes confidence-rated predictions
             /// and works well with categorical data.
             /// </summary>
-            Real = 1, 
+            Real = 1,
 
             /// <summary>
             /// LogitBoost. It can produce good regression fits.
             /// </summary>
-            Logit = 2, 
+            Logit = 2,
 
             /// <summary>
             /// Gentle AdaBoost. It puts less weight on outlier data points and for that
             /// reason is often good with regression data.
             /// </summary>
-            Gentle = 3 
+            Gentle = 3
         };
 
         #endregion
