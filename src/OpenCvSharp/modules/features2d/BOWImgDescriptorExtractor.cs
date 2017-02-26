@@ -171,7 +171,7 @@ namespace OpenCvSharp
         /// <param name="image">Image, for which the descriptor is computed.</param>
         /// <param name="keypoints">Keypoints detected in the input image.</param>
         /// <param name="imgDescriptor">Computed output image descriptor.</param>
-        public void Compute2(Mat image, out KeyPoint[] keypoints, Mat imgDescriptor)
+        public void Compute2(Mat image, ref KeyPoint[] keypoints, Mat imgDescriptor)
         {
             if (IsDisposed)
                 throw new ObjectDisposedException(GetType().Name);
@@ -180,7 +180,7 @@ namespace OpenCvSharp
             if (imgDescriptor == null)
                 throw new ArgumentNullException(nameof(imgDescriptor));
 
-            using (var keypointsVec = new VectorOfKeyPoint())
+            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {
                 NativeMethods.features2d_BOWImgDescriptorExtractor_compute2(
                     ptr, image.CvPtr, keypointsVec.CvPtr, imgDescriptor.CvPtr);
