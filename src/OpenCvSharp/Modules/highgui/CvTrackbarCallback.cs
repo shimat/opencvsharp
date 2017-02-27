@@ -17,11 +17,7 @@ namespace OpenCvSharp
 #endif
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void CvTrackbarCallback(int pos);
-
-
-
-
-
+    
 #if LANG_JP
     /// <summary>
     /// CvTrackbarが操作されたときのイベント処理を行うデリゲート

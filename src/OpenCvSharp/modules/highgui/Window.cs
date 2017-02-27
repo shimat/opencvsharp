@@ -421,6 +421,27 @@ namespace OpenCvSharp
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
+        public CvTrackbar CreateTrackbar(string name, CvTrackbarCallback callback)
+        {
+            CvTrackbar trackbar = new CvTrackbar(name, this.name, callback);
+            trackbars.Add(name, trackbar);
+            return trackbar;
+        }
+
+#if LANG_JP
+    /// <summary>
+    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+    /// </summary>
+    /// <param name="name">トラックバーの名前</param>
+    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+#else
+        /// <summary>
+        /// Creates the trackbar and attaches it to this window
+        /// </summary>
+        /// <param name="name">Name of created trackbar. </param>
+        /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
+        /// <returns></returns>
+#endif
         public CvTrackbar CreateTrackbar(string name, CvTrackbarCallback2 callback)
         {
             CvTrackbar trackbar = new CvTrackbar(name, this.name, callback);
@@ -446,9 +467,34 @@ namespace OpenCvSharp
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
-        public CvTrackbar CreateTrackbar(string name, int value, int max, CvTrackbarCallback2 callback)
+        public CvTrackbar CreateTrackbar(string name, int value, int max, CvTrackbarCallback callback)
         {
             CvTrackbar trackbar = new CvTrackbar(name, this.name, value, max, callback);
+            trackbars.Add(name, trackbar);
+            return trackbar;
+        }
+
+#if LANG_JP
+    /// <summary>
+    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+    /// </summary>
+    /// <param name="name">トラックバーの名前</param>
+    /// <param name="value">スライダの初期位置</param>
+    /// <param name="max">スライダの最大値．最小値は常に 0.</param>
+    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+#else
+        /// <summary>
+        /// Creates the trackbar and attaches it to this window
+        /// </summary>
+        /// <param name="name">Name of created trackbar. </param>
+        /// <param name="value">The position of the slider</param>
+        /// <param name="max">Maximal position of the slider. Minimal position is always 0. </param>
+        /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
+        /// <returns></returns>
+#endif
+        public CvTrackbar CreateTrackbar(string name, int value, int max, CvTrackbarCallback2 callback)
+        {
+            CvTrackbar trackbar = new CvTrackbar(name, this.name, value, max, callback, null);
             trackbars.Add(name, trackbar);
             return trackbar;
         }

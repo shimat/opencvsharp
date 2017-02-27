@@ -32,7 +32,27 @@ namespace OpenCvSharp
         private GCHandle gchUserdata;
 
         #region Init and Disposal
-        #region cvCreateTrackbar
+        
+#if LANG_JP
+        /// <summary>
+        /// 初期化(目盛りは0~100)
+        /// </summary>
+        /// <param name="name">トラックバーの名前</param>
+        /// <param name="window">トラックバーの親ウィンドウ名</param>
+        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+#else
+        /// <summary>
+        /// Constructor (value=0, max=100)
+        /// </summary>
+        /// <param name="name">Trackbar name</param>
+        /// <param name="window">Window name</param>
+        /// <param name="callback">Callback handler</param>
+#endif
+        public CvTrackbar(string name, string window, CvTrackbarCallback callback)
+            : this(name, window, 0, 100, callback)
+        {
+        }
+
 #if LANG_JP
         /// <summary>
         /// 初期化(目盛りは0~100)
@@ -49,9 +69,10 @@ namespace OpenCvSharp
         /// <param name="callback">Callback handler</param>
 #endif
         public CvTrackbar(string name, string window, CvTrackbarCallback2 callback)
-            : this(name, window, 0, 100, callback)
+            : this(name, window, 0, 100, callback, null)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 初期化
@@ -71,7 +92,7 @@ namespace OpenCvSharp
         /// <param name="max">The upper limit of the range this trackbar is working with. </param>
         /// <param name="callback">Callback handler</param>
 #endif
-        public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback2 callback)
+        public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback callback)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -86,17 +107,23 @@ namespace OpenCvSharp
             this.max = max;
             this.callback = callback;
 
-            gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
+            // userdata wrapper             
+            callbackNative = delegate (int pos, IntPtr ud)
+            {
+                callback(pos);
+            };
+
+            //gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
             gchCallback = GCHandle.Alloc(callback);
-            IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callback);
+            gchCallbackNative = GCHandle.Alloc(callbackNative);
+            IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
 
             result = NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, IntPtr.Zero);
 
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
         }
-        #endregion
-        #region cvCreateTrackbar2
+
 #if LANG_JP
         /// <summary>
         /// 初期化
@@ -148,7 +175,7 @@ namespace OpenCvSharp
 
             this.callback = callback;
             // コールバックdelegateを、userdataをobjectとするように変換                
-            callbackNative = delegate(int pos, IntPtr ud)
+            callbackNative = delegate (int pos, IntPtr ud)
             {
                 if (ud == IntPtr.Zero)
                 {
@@ -166,14 +193,13 @@ namespace OpenCvSharp
             gchCallbackNative = GCHandle.Alloc(callbackNative);
             IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
 
-            gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
+            //gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
 
             result = NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, userdataPtr);
 
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
         }
-        #endregion
 
 #if LANG_JP
         /// <summary>
