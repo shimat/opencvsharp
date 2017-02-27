@@ -158,7 +158,7 @@ namespace OpenCvSharp.Util
             for (int i = 0; i < array.Length; i++)
             {
                 T[] elem = array[i];
-                if (elem == null || elem.Length == 0)
+                if (elem == null/* || elem.Length == 0*/)
                 {
                     throw new ArgumentException(string.Format("array[{0}] is not valid array object.", i));
                 }
