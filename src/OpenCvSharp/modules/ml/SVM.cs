@@ -46,6 +46,34 @@ namespace OpenCvSharp.ML
             return new SVM(ptr);
         }
 
+        /// <summary>
+        /// Loads and creates a serialized svm from a file.
+        /// Use SVM::save to serialize and store an SVM to disk.
+        /// Load the SVM from this file again, by calling this function with the path to the file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static SVM Load(string filePath)
+        {
+            if (filePath == null)
+                throw new ArgumentNullException(nameof(filePath));
+            IntPtr ptr = NativeMethods.ml_SVM_load(filePath);
+            return new SVM(ptr);
+        }
+
+        /// <summary>
+        /// Loads algorithm from a String.
+        /// </summary>
+        /// <param name="strModel">he string variable containing the model you want to load.</param>
+        /// <returns></returns>
+        public static SVM LoadFromString(string strModel)
+        {
+            if (strModel == null)
+                throw new ArgumentNullException(nameof(strModel));
+            IntPtr ptr = NativeMethods.ml_SVM_loadFromString(strModel);
+            return new SVM(ptr);
+        }
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -55,15 +83,15 @@ namespace OpenCvSharp.ML
         /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
         ///</param>
 #else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">
+    /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
+    /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
+    /// </param>
 #endif
-        protected override void Dispose(bool disposing)
+    protected override void Dispose(bool disposing)
         {
             if (!disposed)
             {

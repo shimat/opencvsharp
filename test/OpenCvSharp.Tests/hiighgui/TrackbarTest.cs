@@ -106,7 +106,7 @@ namespace OpenCvSharp.Tests.HighGui
                             break;
                     }
                 }
-
+                
                 openCloseWindow.Dispose();
                 erodeDilateWindow.Dispose();
             }

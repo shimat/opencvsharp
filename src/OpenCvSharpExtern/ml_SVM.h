@@ -130,4 +130,17 @@ CVAPI(cv::ml::SVM*) ml_Ptr_SVM_get(cv::Ptr<SVM>* obj)
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<SVM>*) ml_SVM_load(const char *filePath)
+{
+    cv::Ptr<SVM> ptr = SVM::load(filePath);
+    return new cv::Ptr<SVM>(ptr);
+}
+
+CVAPI(cv::Ptr<SVM>*) ml_SVM_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::SVM::create()->getDefaultName();
+    cv::Ptr<SVM> ptr = SVM::loadFromString<SVM>(strModel, objname);
+    return new cv::Ptr<SVM>(ptr);
+}
+
 #endif
