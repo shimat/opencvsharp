@@ -40,6 +40,32 @@ namespace OpenCvSharp.ML
             return new KNearest(ptr);
         }
 
+        /// <summary>
+        /// Loads and creates a serialized model from a file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static KNearest Load(string filePath)
+        {
+            if (filePath == null)
+                throw new ArgumentNullException(nameof(filePath));
+            IntPtr ptr = NativeMethods.ml_KNearest_load(filePath);
+            return new KNearest(ptr);
+        }
+
+        /// <summary>
+        /// Loads algorithm from a String.
+        /// </summary>
+        /// <param name="strModel">he string variable containing the model you want to load.</param>
+        /// <returns></returns>
+        public static KNearest LoadFromString(string strModel)
+        {
+            if (strModel == null)
+                throw new ArgumentNullException(nameof(strModel));
+            IntPtr ptr = NativeMethods.ml_KNearest_loadFromString(strModel);
+            return new KNearest(ptr);
+        }
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放

@@ -221,4 +221,17 @@ CVAPI(DTrees*) ml_Ptr_DTrees_get(cv::Ptr<DTrees> *obj)
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<DTrees>*) ml_DTrees_load(const char *filePath)
+{
+    cv::Ptr<DTrees> ptr = cv::Algorithm::load<DTrees>(filePath);
+    return new cv::Ptr<DTrees>(ptr);
+}
+
+CVAPI(cv::Ptr<DTrees>*) ml_DTrees_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::DTrees::create()->getDefaultName();
+    cv::Ptr<DTrees> ptr = cv::Algorithm::loadFromString<DTrees>(strModel, objname);
+    return new cv::Ptr<DTrees>(ptr);
+}
+
 #endif

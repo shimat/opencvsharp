@@ -42,6 +42,34 @@ namespace OpenCvSharp.ML
         }
 
         /// <summary>
+        /// Loads and creates a serialized ANN from a file.
+        /// Use ANN::save to serialize and store an ANN to disk.
+        /// Load the ANN from this file again, by calling this function with the path to the file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static ANN_MLP Load(string filePath)
+        {
+            if (filePath == null)
+                throw new ArgumentNullException(nameof(filePath));
+            IntPtr ptr = NativeMethods.ml_ANN_MLP_load(filePath);
+            return new ANN_MLP(ptr);
+        }
+
+        /// <summary>
+        /// Loads algorithm from a String.
+        /// </summary>
+        /// <param name="strModel">he string variable containing the model you want to load.</param>
+        /// <returns></returns>
+        public static ANN_MLP LoadFromString(string strModel)
+        {
+            if (strModel == null)
+                throw new ArgumentNullException(nameof(strModel));
+            IntPtr ptr = NativeMethods.ml_ANN_MLP_loadFromString(strModel);
+            return new ANN_MLP(ptr);
+        }
+
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">

@@ -53,4 +53,17 @@ CVAPI(RTrees*) ml_Ptr_RTrees_get(cv::Ptr<RTrees> *obj)
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<RTrees>*) ml_RTrees_load(const char *filePath)
+{
+    cv::Ptr<RTrees> ptr = cv::Algorithm::load<RTrees>(filePath);
+    return new cv::Ptr<RTrees>(ptr);
+}
+
+CVAPI(cv::Ptr<RTrees>*) ml_RTrees_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::RTrees::create()->getDefaultName();
+    cv::Ptr<RTrees> ptr = cv::Algorithm::loadFromString<RTrees>(strModel, objname);
+    return new cv::Ptr<RTrees>(ptr);
+}
+
 #endif

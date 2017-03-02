@@ -49,4 +49,17 @@ CVAPI(Boost*) ml_Ptr_Boost_get(cv::Ptr<Boost>* obj)
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<Boost>*) ml_Boost_load(const char *filePath)
+{
+    cv::Ptr<Boost> ptr = cv::Algorithm::load<Boost>(filePath);
+    return new cv::Ptr<Boost>(ptr);
+}
+
+CVAPI(cv::Ptr<Boost>*) ml_Boost_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::Boost::create()->getDefaultName();
+    cv::Ptr<Boost> ptr = cv::Algorithm::loadFromString<Boost>(strModel, objname);
+    return new cv::Ptr<Boost>(ptr);
+}
+
 #endif

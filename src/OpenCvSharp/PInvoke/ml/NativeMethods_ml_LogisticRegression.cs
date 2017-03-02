@@ -50,5 +50,11 @@ namespace OpenCvSharp
         public static extern void ml_Ptr_LogisticRegression_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr ml_Ptr_LogisticRegression_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr ml_LogisticRegression_load(string filePath);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr ml_LogisticRegression_loadFromString(string strModel);
     }
 }

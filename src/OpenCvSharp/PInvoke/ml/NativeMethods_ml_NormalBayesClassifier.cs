@@ -20,5 +20,11 @@ namespace OpenCvSharp
         
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr ml_Ptr_NormalBayesClassifier_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr ml_NormalBayesClassifier_load(string filePath);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr ml_NormalBayesClassifier_loadFromString(string strModel);
     }
 }

@@ -35,6 +35,32 @@ namespace OpenCvSharp.ML
             return new Boost(ptr);
         }
 
+        /// <summary>
+        /// Loads and creates a serialized model from a file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static Boost Load(string filePath)
+        {
+            if (filePath == null)
+                throw new ArgumentNullException(nameof(filePath));
+            IntPtr ptr = NativeMethods.ml_Boost_load(filePath);
+            return new Boost(ptr);
+        }
+
+        /// <summary>
+        /// Loads algorithm from a String.
+        /// </summary>
+        /// <param name="strModel">he string variable containing the model you want to load.</param>
+        /// <returns></returns>
+        public static Boost LoadFromString(string strModel)
+        {
+            if (strModel == null)
+                throw new ArgumentNullException(nameof(strModel));
+            IntPtr ptr = NativeMethods.ml_Boost_loadFromString(strModel);
+            return new Boost(ptr);
+        }
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放

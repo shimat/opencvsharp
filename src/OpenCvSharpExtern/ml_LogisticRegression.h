@@ -88,4 +88,17 @@ CVAPI(LogisticRegression*) ml_Ptr_LogisticRegression_get(cv::Ptr<LogisticRegress
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<LogisticRegression>*) ml_LogisticRegression_load(const char *filePath)
+{
+    cv::Ptr<LogisticRegression> ptr = cv::Algorithm::load<LogisticRegression>(filePath);
+    return new cv::Ptr<LogisticRegression>(ptr);
+}
+
+CVAPI(cv::Ptr<LogisticRegression>*) ml_LogisticRegression_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::LogisticRegression::create()->getDefaultName();
+    cv::Ptr<LogisticRegression> ptr = cv::Algorithm::loadFromString<LogisticRegression>(strModel, objname);
+    return new cv::Ptr<LogisticRegression>(ptr);
+}
+
 #endif

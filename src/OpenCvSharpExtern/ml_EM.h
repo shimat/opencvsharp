@@ -123,4 +123,17 @@ CVAPI(EM*) ml_Ptr_EM_get(cv::Ptr<EM> *obj)
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<EM>*) ml_EM_load(const char *filePath)
+{
+    cv::Ptr<EM> ptr = cv::Algorithm::load<EM>(filePath);
+    return new cv::Ptr<EM>(ptr);
+}
+
+CVAPI(cv::Ptr<EM>*) ml_EM_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::EM::create()->getDefaultName();
+    cv::Ptr<EM> ptr = cv::Algorithm::loadFromString<EM>(strModel, objname);
+    return new cv::Ptr<EM>(ptr);
+}
+
 #endif

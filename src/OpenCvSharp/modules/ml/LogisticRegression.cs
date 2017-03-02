@@ -35,6 +35,32 @@ namespace OpenCvSharp.ML
         }
 
         /// <summary>
+        /// Loads and creates a serialized model from a file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static LogisticRegression Load(string filePath)
+        {
+            if (filePath == null)
+                throw new ArgumentNullException(nameof(filePath));
+            IntPtr ptr = NativeMethods.ml_LogisticRegression_load(filePath);
+            return new LogisticRegression(ptr);
+        }
+
+        /// <summary>
+        /// Loads algorithm from a String.
+        /// </summary>
+        /// <param name="strModel">he string variable containing the model you want to load.</param>
+        /// <returns></returns>
+        public static LogisticRegression LoadFromString(string strModel)
+        {
+            if (strModel == null)
+                throw new ArgumentNullException(nameof(strModel));
+            IntPtr ptr = NativeMethods.ml_LogisticRegression_loadFromString(strModel);
+            return new LogisticRegression(ptr);
+        }
+
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">

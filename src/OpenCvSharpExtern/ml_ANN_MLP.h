@@ -125,4 +125,17 @@ CVAPI(ANN_MLP*) ml_Ptr_ANN_MLP_get(cv::Ptr<ANN_MLP> *obj)
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<ANN_MLP>*) ml_ANN_MLP_load(const char *filePath)
+{
+    cv::Ptr<ANN_MLP> ptr = ANN_MLP::load(filePath);
+    return new cv::Ptr<ANN_MLP>(ptr);
+}
+
+CVAPI(cv::Ptr<ANN_MLP>*) ml_ANN_MLP_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::ANN_MLP::create()->getDefaultName();
+    cv::Ptr<ANN_MLP> ptr = cv::Algorithm::loadFromString<ANN_MLP>(strModel, objname);
+    return new cv::Ptr<ANN_MLP>(ptr);
+}
+
 #endif

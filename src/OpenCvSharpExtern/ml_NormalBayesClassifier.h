@@ -29,4 +29,17 @@ CVAPI(NormalBayesClassifier*) ml_Ptr_NormalBayesClassifier_get(
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<NormalBayesClassifier>*) ml_NormalBayesClassifier_load(const char *filePath)
+{
+    cv::Ptr<NormalBayesClassifier> ptr = cv::Algorithm::load<NormalBayesClassifier>(filePath);
+    return new cv::Ptr<NormalBayesClassifier>(ptr);
+}
+
+CVAPI(cv::Ptr<NormalBayesClassifier>*) ml_NormalBayesClassifier_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::NormalBayesClassifier::create()->getDefaultName();
+    cv::Ptr<NormalBayesClassifier> ptr = cv::Algorithm::loadFromString<NormalBayesClassifier>(strModel, objname);
+    return new cv::Ptr<NormalBayesClassifier>(ptr);
+}
+
 #endif

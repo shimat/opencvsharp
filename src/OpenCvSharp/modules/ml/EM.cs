@@ -54,6 +54,32 @@ namespace OpenCvSharp
             return new EM(ptr);
         }
 
+        /// <summary>
+        /// Loads and creates a serialized model from a file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static EM Load(string filePath)
+        {
+            if (filePath == null)
+                throw new ArgumentNullException(nameof(filePath));
+            IntPtr ptr = NativeMethods.ml_EM_load(filePath);
+            return new EM(ptr);
+        }
+
+        /// <summary>
+        /// Loads algorithm from a String.
+        /// </summary>
+        /// <param name="strModel">he string variable containing the model you want to load.</param>
+        /// <returns></returns>
+        public static EM LoadFromString(string strModel)
+        {
+            if (strModel == null)
+                throw new ArgumentNullException(nameof(strModel));
+            IntPtr ptr = NativeMethods.ml_EM_loadFromString(strModel);
+            return new EM(ptr);
+        }
+
 #if LANG_JP
     /// <summary>
     /// リソースの解放

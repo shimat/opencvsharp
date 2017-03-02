@@ -66,4 +66,17 @@ CVAPI(KNearest*) ml_Ptr_KNearest_get(cv::Ptr<KNearest>* obj)
 	return obj->get();
 }
 
+CVAPI(cv::Ptr<KNearest>*) ml_KNearest_load(const char *filePath)
+{
+    cv::Ptr<KNearest> ptr = cv::Algorithm::load<KNearest>(filePath);
+    return new cv::Ptr<KNearest>(ptr);
+}
+
+CVAPI(cv::Ptr<KNearest>*) ml_KNearest_loadFromString(const char *strModel)
+{
+    cv::String objname = cv::ml::KNearest::create()->getDefaultName();
+    cv::Ptr<KNearest> ptr = cv::Algorithm::loadFromString<KNearest>(strModel, objname);
+    return new cv::Ptr<KNearest>(ptr);
+}
+
 #endif

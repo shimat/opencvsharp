@@ -41,6 +41,32 @@ namespace OpenCvSharp.ML
             return new NormalBayesClassifier(ptr);
         }
 
+        /// <summary>
+        /// Loads and creates a serialized model from a file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static NormalBayesClassifier Load(string filePath)
+        {
+            if (filePath == null)
+                throw new ArgumentNullException(nameof(filePath));
+            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_load(filePath);
+            return new NormalBayesClassifier(ptr);
+        }
+
+        /// <summary>
+        /// Loads algorithm from a String.
+        /// </summary>
+        /// <param name="strModel">he string variable containing the model you want to load.</param>
+        /// <returns></returns>
+        public static NormalBayesClassifier LoadFromString(string strModel)
+        {
+            if (strModel == null)
+                throw new ArgumentNullException(nameof(strModel));
+            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_loadFromString(strModel);
+            return new NormalBayesClassifier(ptr);
+        }
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放
