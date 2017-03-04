@@ -26,7 +26,7 @@ CVAPI(void) core_Algorithm_save(cv::Algorithm *obj, const char *filename)
 CVAPI(void) core_Algorithm_getDefaultName(cv::Algorithm *obj, char *buf, int bufLength)
 {
 	cv::String str = obj->getDefaultName();
-	memcpy(buf, str.c_str(), std::min(bufLength, (int)str.size()));
+    copyString(str, buf, bufLength);
 }
 
 #endif

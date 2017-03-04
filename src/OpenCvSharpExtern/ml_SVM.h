@@ -109,6 +109,9 @@ CVAPI(double) ml_SVM_getDecisionFunction(
 	return obj->getDecisionFunction(i, entity(alpha), entity(svidx));
 }
 
+
+// static
+
 CVAPI(ParamGridStruct) ml_SVM_getDefaultGrid(int param_id)
 { 
 	return c(cv::ml::SVM::getDefaultGrid(param_id));

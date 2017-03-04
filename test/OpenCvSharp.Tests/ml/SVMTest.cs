@@ -84,7 +84,16 @@ namespace OpenCvSharp.Tests.ML
             {
                 using (var model2 = SVM.LoadFromString(content)) { }
             });
+            
+            Assert.DoesNotThrow(() =>
+            {
+                using (var fs = new FileStorage(fileName, FileStorage.Mode.Read))
+                using (var model2 = SVM.Create())
+                {
+                    var node = fs["opencv_ml_svm"];
+                    model2.Read(node);
+                }
+            });
         }
     }
 }
-

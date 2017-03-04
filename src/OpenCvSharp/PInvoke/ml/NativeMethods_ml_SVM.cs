@@ -65,6 +65,8 @@ namespace OpenCvSharp
         public static extern double ml_SVM_getDecisionFunction(
             IntPtr obj, int i, IntPtr alpha, IntPtr svidx);
 
+        // static
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ParamGrid ml_SVM_getDefaultGrid(int paramId);
 
