@@ -4,13 +4,13 @@
 #include "include_opencv.h"
 
 CVAPI(void) imgproc_LineSegmentDetector_detect_OutputArray(cv::LineSegmentDetector *obj, cv::_InputArray *image, cv::_OutputArray *lines,
-	cv::_OutputArray *width, cv::_OutputArray *prec, cv::_OutputArray *nfa)
+    cv::_OutputArray *width, cv::_OutputArray *prec, cv::_OutputArray *nfa)
 {
-	obj->detect(*image, *lines, entity(width), entity(prec), entity(nfa));
+    obj->detect(*image, *lines, entity(width), entity(prec), entity(nfa));
 }
 
 CVAPI(void) imgproc_LineSegmentDetector_detect_vector(cv::LineSegmentDetector *obj, cv::_InputArray *image, std::vector<cv::Vec4f> *lines,
-	std::vector<double> *width, std::vector<double> *prec, std::vector<double> *nfa)
+    std::vector<double> *width, std::vector<double> *prec, std::vector<double> *nfa)
 {
     obj->detect(*image, *lines, *width, *prec, *nfa);
 }

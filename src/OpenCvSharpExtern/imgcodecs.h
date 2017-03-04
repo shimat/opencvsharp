@@ -51,23 +51,23 @@ CVAPI(int) imgcodecs_imencode_vector(const char *ext, cv::_InputArray *img,
 
 CVAPI(void) imgcodecs_cvConvertImage_CvArr(CvArr *src, CvArr *dst, int flags)
 {
-	cvConvertImage(src, dst, flags);
+    cvConvertImage(src, dst, flags);
 }
 CVAPI(void) imgcodecs_cvConvertImage_Mat(cv::Mat *src, cv::Mat *dst, int flags)
 {
-	IplImage srcImg = (IplImage)*src;
-	IplImage dstImg = (IplImage)*dst;
-	cvConvertImage(&srcImg, &dstImg, flags);
+    IplImage srcImg = (IplImage)*src;
+    IplImage dstImg = (IplImage)*dst;
+    cvConvertImage(&srcImg, &dstImg, flags);
 }
 
 CVAPI(int) imgcodecs_cvHaveImageReader(const char *filename)
 {
-	return cvHaveImageReader(filename);
+    return cvHaveImageReader(filename);
 }
 
 CVAPI(int) imgcodecs_cvHaveImageWriter(const char *filename)
 {
-	return cvHaveImageWriter(filename);
+    return cvHaveImageWriter(filename);
 }
 
 #endif

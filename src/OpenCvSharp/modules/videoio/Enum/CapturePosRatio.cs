@@ -4,9 +4,9 @@
 namespace OpenCvSharp
 {
 #if LANG_JP
-	/// <summary>
-	/// ビデオファイル内の相対的な位置
-	/// </summary>
+    /// <summary>
+    /// ビデオファイル内の相対的な位置
+    /// </summary>
 #else
     /// <summary>
     /// Position in relative units

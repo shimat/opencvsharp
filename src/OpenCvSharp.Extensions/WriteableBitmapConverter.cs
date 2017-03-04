@@ -202,7 +202,7 @@ namespace OpenCvSharp.Extensions
 
 #if LANG_JP
         /// <summary>
-	    /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
+        /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
         /// </summary>
         /// <param name="src">変換するMat</param>
         /// <param name="pf">ビットマップの PixelFormat</param>
@@ -222,7 +222,7 @@ namespace OpenCvSharp.Extensions
 
 #if LANG_JP
         /// <summary>
-	    /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
+        /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
         /// </summary>
         /// <param name="src">変換するMat</param>
         /// <returns>WPFのWriteableBitmap</returns>

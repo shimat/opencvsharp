@@ -5,8 +5,8 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-	/// マルチヘッドカメラから取得する画像のチャネル
-	/// </summary>
+    /// マルチヘッドカメラから取得する画像のチャネル
+    /// </summary>
 #else
     /// <summary>
     /// channel indices for multi-head camera live streams

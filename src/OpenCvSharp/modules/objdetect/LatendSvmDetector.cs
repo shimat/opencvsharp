@@ -55,9 +55,9 @@ namespace OpenCvSharp
         /// Default constructor
         /// </summary>
         public LatentSvmDetector()
-	    {
+        {
             ptr = NativeMethods.objdetect_LatentSvmDetector_new();               
-	    }
+        }
 
         /// <summary>
         /// Creates the HOG descriptor and detector.

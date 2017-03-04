@@ -8,56 +8,56 @@ using namespace cv::bgsegm;
 #pragma region BackgroundSubtractorMOG
 
 CVAPI(cv::Ptr<BackgroundSubtractorMOG>*) bgsegm_createBackgroundSubtractorMOG(
-	int history, int nmixtures,	double backgroundRatio, double noiseSigma)
+    int history, int nmixtures,    double backgroundRatio, double noiseSigma)
 {
-	cv::Ptr<BackgroundSubtractorMOG> ptr = createBackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
-	return new cv::Ptr<BackgroundSubtractorMOG>(ptr);
+    cv::Ptr<BackgroundSubtractorMOG> ptr = createBackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
+    return new cv::Ptr<BackgroundSubtractorMOG>(ptr);
 }
 CVAPI(void) bgsegm_Ptr_BackgroundSubtractorMOG_delete(cv::Ptr<BackgroundSubtractorMOG> *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 CVAPI(BackgroundSubtractorMOG*) bgsegm_Ptr_BackgroundSubtractorMOG_get(
-	cv::Ptr<BackgroundSubtractorMOG> *ptr)
+    cv::Ptr<BackgroundSubtractorMOG> *ptr)
 {
-	return ptr->get();
+    return ptr->get();
 }
 
 CVAPI(int) bgsegm_BackgroundSubtractorMOG_getHistory(cv::Ptr<BackgroundSubtractorMOG> *ptr)
 {
-	return (*ptr)->getHistory();
+    return (*ptr)->getHistory();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorMOG_setHistory(cv::Ptr<BackgroundSubtractorMOG> *ptr, int value)
 {
-	(*ptr)->setHistory(value);
+    (*ptr)->setHistory(value);
 }
 
 CVAPI(int) bgsegm_BackgroundSubtractorMOG_getNMixtures(cv::Ptr<BackgroundSubtractorMOG> *ptr)
 {
-	return (*ptr)->getNMixtures();
+    return (*ptr)->getNMixtures();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorMOG_setNMixtures(cv::Ptr<BackgroundSubtractorMOG> *ptr, int value)
 {
-	(*ptr)->setNMixtures(value);
+    (*ptr)->setNMixtures(value);
 }
 
 CVAPI(double) bgsegm_BackgroundSubtractorMOG_getBackgroundRatio(cv::Ptr<BackgroundSubtractorMOG> *ptr)
 {
-	return (*ptr)->getBackgroundRatio();
+    return (*ptr)->getBackgroundRatio();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorMOG_setBackgroundRatio(cv::Ptr<BackgroundSubtractorMOG> *ptr, double value)
 {
-	(*ptr)->setBackgroundRatio(value);
+    (*ptr)->setBackgroundRatio(value);
 }
 
 CVAPI(double) bgsegm_BackgroundSubtractorMOG_getNoiseSigma(cv::Ptr<BackgroundSubtractorMOG> *ptr)
 {
-	return (*ptr)->getNoiseSigma();
+    return (*ptr)->getNoiseSigma();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorMOG_setNoiseSigma(cv::Ptr<BackgroundSubtractorMOG> *ptr, double value)
 {
-	(*ptr)->setNoiseSigma(value);
+    (*ptr)->setNoiseSigma(value);
 }
 
 #pragma endregion
@@ -65,110 +65,110 @@ CVAPI(void) bgsegm_BackgroundSubtractorMOG_setNoiseSigma(cv::Ptr<BackgroundSubtr
 #pragma region BackgroundSubtractorGMG
 
 CVAPI(cv::Ptr<BackgroundSubtractorGMG>*) bgsegm_createBackgroundSubtractorGMG(
-	int initializationFrames, double decisionThreshold)
+    int initializationFrames, double decisionThreshold)
 {
-	cv::Ptr<BackgroundSubtractorGMG> ptr = createBackgroundSubtractorGMG(initializationFrames, decisionThreshold);
-	return new cv::Ptr<BackgroundSubtractorGMG>(ptr);
+    cv::Ptr<BackgroundSubtractorGMG> ptr = createBackgroundSubtractorGMG(initializationFrames, decisionThreshold);
+    return new cv::Ptr<BackgroundSubtractorGMG>(ptr);
 }
 CVAPI(void) bgsegm_Ptr_BackgroundSubtractorGMG_delete(cv::Ptr<BackgroundSubtractorGMG> *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 CVAPI(BackgroundSubtractorGMG*) bgsegm_Ptr_BackgroundSubtractorGMG_get(
-	cv::Ptr<BackgroundSubtractorGMG> *ptr)
+    cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return ptr->get();
+    return ptr->get();
 }
 
 CVAPI(int) bgsegm_BackgroundSubtractorGMG_getMaxFeatures(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getMaxFeatures();
+    return (*ptr)->getMaxFeatures();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setMaxFeatures(cv::Ptr<BackgroundSubtractorGMG> *ptr, int value)
 {
-	(*ptr)->setMaxFeatures(value);
+    (*ptr)->setMaxFeatures(value);
 }
 
 CVAPI(double) bgsegm_BackgroundSubtractorGMG_getDefaultLearningRate(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getDefaultLearningRate();
+    return (*ptr)->getDefaultLearningRate();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setDefaultLearningRate(cv::Ptr<BackgroundSubtractorGMG> *ptr, double value)
 {
-	(*ptr)->setDefaultLearningRate(value);
+    (*ptr)->setDefaultLearningRate(value);
 }
 
 CVAPI(int) bgsegm_BackgroundSubtractorGMG_getNumFrames(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getNumFrames();
+    return (*ptr)->getNumFrames();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setNumFrames(cv::Ptr<BackgroundSubtractorGMG> *ptr, int value)
 {
-	(*ptr)->setNumFrames(value);
+    (*ptr)->setNumFrames(value);
 }
 
 CVAPI(int) bgsegm_BackgroundSubtractorGMG_getQuantizationLevels(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getQuantizationLevels();
+    return (*ptr)->getQuantizationLevels();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setQuantizationLevels(cv::Ptr<BackgroundSubtractorGMG> *ptr, int value)
 {
-	(*ptr)->setQuantizationLevels(value);
+    (*ptr)->setQuantizationLevels(value);
 }
 
 CVAPI(double) bgsegm_BackgroundSubtractorGMG_getBackgroundPrior(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getBackgroundPrior();
+    return (*ptr)->getBackgroundPrior();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setBackgroundPrior(cv::Ptr<BackgroundSubtractorGMG> *ptr, double value)
 {
-	(*ptr)->setBackgroundPrior(value);
+    (*ptr)->setBackgroundPrior(value);
 }
 
 CVAPI(int) bgsegm_BackgroundSubtractorGMG_getSmoothingRadius(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getSmoothingRadius();
+    return (*ptr)->getSmoothingRadius();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setSmoothingRadius(cv::Ptr<BackgroundSubtractorGMG> *ptr, int value)
 {
-	(*ptr)->setSmoothingRadius(value);
+    (*ptr)->setSmoothingRadius(value);
 }
 
 CVAPI(double) bgsegm_BackgroundSubtractorGMG_getDecisionThreshold(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getDecisionThreshold();
+    return (*ptr)->getDecisionThreshold();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setDecisionThreshold(cv::Ptr<BackgroundSubtractorGMG> *ptr, double value)
 {
-	(*ptr)->setDecisionThreshold(value);
+    (*ptr)->setDecisionThreshold(value);
 }
 
 CVAPI(int) bgsegm_BackgroundSubtractorGMG_getUpdateBackgroundModel(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getUpdateBackgroundModel() ? 1 : 0;
+    return (*ptr)->getUpdateBackgroundModel() ? 1 : 0;
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setUpdateBackgroundModel(cv::Ptr<BackgroundSubtractorGMG> *ptr, int value)
 {
-	(*ptr)->setUpdateBackgroundModel(value != 0);
+    (*ptr)->setUpdateBackgroundModel(value != 0);
 }
 
 CVAPI(double) bgsegm_BackgroundSubtractorGMG_getMinVal(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getMinVal();
+    return (*ptr)->getMinVal();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setMinVal(cv::Ptr<BackgroundSubtractorGMG> *ptr, double value)
 {
-	(*ptr)->setMinVal(value);
+    (*ptr)->setMinVal(value);
 }
 
 CVAPI(double) bgsegm_BackgroundSubtractorGMG_getMaxVal(cv::Ptr<BackgroundSubtractorGMG> *ptr)
 {
-	return (*ptr)->getMaxVal();
+    return (*ptr)->getMaxVal();
 }
 CVAPI(void) bgsegm_BackgroundSubtractorGMG_setMaxVal(cv::Ptr<BackgroundSubtractorGMG> *ptr, double value)
 {
-	(*ptr)->setMaxVal(value);
+    (*ptr)->setMaxVal(value);
 }
 
 #pragma endregion

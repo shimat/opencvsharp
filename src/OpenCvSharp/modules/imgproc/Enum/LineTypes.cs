@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// 線分の種類
-	/// </summary>
+    /// 線分の種類
+    /// </summary>
 #else
     /// <summary>
     /// Type of the line

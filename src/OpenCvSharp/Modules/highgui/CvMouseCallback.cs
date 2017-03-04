@@ -28,7 +28,7 @@ namespace OpenCvSharp
         Int32 x,
         Int32 y,
         MouseEvent flags/*,
-		void* param  <- うまくいかん
-		*/
+        void* param  <- うまくいかん
+        */
     );
 }

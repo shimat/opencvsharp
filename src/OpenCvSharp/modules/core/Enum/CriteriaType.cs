@@ -4,8 +4,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// 終了条件の種類
-	/// </summary>
+    /// 終了条件の種類
+    /// </summary>
 #else
     /// <summary>
     /// Type of termination criteria 

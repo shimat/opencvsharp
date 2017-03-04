@@ -179,7 +179,7 @@ namespace OpenCvSharp
         public static extern int HOGDescriptor_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr HOGDescriptor_new(Size win_size, Size block_size, Size block_stride, Size cell_size, 
-	        int nbins, double winSigma, double threshold_L2Hys, bool gamma_correction, int nlevels);
+            int nbins, double winSigma, double threshold_L2Hys, bool gamma_correction, int nlevels);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void HOGDescriptor_delete(IntPtr obj);
 
@@ -198,7 +198,7 @@ namespace OpenCvSharp
         public static extern void HOGDescriptor_detect(IntPtr obj, IntPtr img, IntPtr found_locations, double hit_threshold, Size win_stride, Size padding);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void HOGDescriptor_detectMultiScale(IntPtr obj, IntPtr img, IntPtr found_locations, 
-										           double hit_threshold, Size win_stride, Size padding, double scale, int group_threshold);
+                                                   double hit_threshold, Size win_stride, Size padding, double scale, int group_threshold);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void HOGDescriptor_getDescriptors(IntPtr obj, IntPtr img, Size win_stride, IntPtr descriptors, [MarshalAs(UnmanagedType.I4)] DescriptorFormat descr_format);
 

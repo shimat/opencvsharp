@@ -5,18 +5,18 @@
 
 CVAPI(cv::Ptr<cv::Stitcher>*) stitching_createStitcher(int try_use_gpu)
 {
-	cv::Ptr<cv::Stitcher> ptr = cv::createStitcher(try_use_gpu != 0);
-	return new cv::Ptr<cv::Stitcher>(ptr);
+    cv::Ptr<cv::Stitcher> ptr = cv::createStitcher(try_use_gpu != 0);
+    return new cv::Ptr<cv::Stitcher>(ptr);
 }
 
 CVAPI(void) stitching_Ptr_Stitcher_delete(cv::Ptr<cv::Stitcher> *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 CVAPI(cv::Stitcher*) stitching_Ptr_Stitcher_get(cv::Ptr<cv::Stitcher> *obj)
 {
-	return obj->get();
+    return obj->get();
 }
 
 #pragma region getter/setter

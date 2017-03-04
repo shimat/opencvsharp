@@ -2,9 +2,9 @@
 namespace OpenCvSharp
 {
 #if LANG_JP
-	/// <summary>
-	/// ウィンドウのプロパティを取得・設定する際のプロパティID(cvGetWindowProperty/cvSetWindowProperty)
-	/// </summary>
+    /// <summary>
+    /// ウィンドウのプロパティを取得・設定する際のプロパティID(cvGetWindowProperty/cvSetWindowProperty)
+    /// </summary>
 #else
     /// <summary>
     /// Property identifiers for cvGetWindowProperty/cvSetWindowProperty

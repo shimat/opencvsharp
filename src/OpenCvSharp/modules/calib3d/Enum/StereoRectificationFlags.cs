@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// 輪郭の近似手法
-	/// </summary>
+    /// 輪郭の近似手法
+    /// </summary>
 #else
     /// <summary>
     /// The operation flags for cvStereoRectify
@@ -13,10 +13,10 @@ namespace OpenCvSharp
     public enum StereoRectificationFlags : int
     {
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// フラグなし (=0).
         /// 利用できる画像領域が最大になるように（エピポーラ線の傾きに従って）片方の画像を水平・垂直方向に移動する.
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// Default value (=0).
@@ -27,9 +27,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// 平行化後のビューにおいて各カメラの主点（光学中心）が同じ座標になるようにする． 
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// the function makes the principal points of each camera have the same pixel coordinates in the rectified views. 

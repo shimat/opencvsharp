@@ -3,9 +3,9 @@
 namespace OpenCvSharp
 {
 #if LANG_JP
-   	/// <summary>
-	/// cvHaarDetectObjectsの処理モード
-	/// </summary>
+       /// <summary>
+    /// cvHaarDetectObjectsの処理モード
+    /// </summary>
 #else
     /// <summary>
     /// Modes of operation for cvHaarDetectObjects
@@ -15,11 +15,11 @@ namespace OpenCvSharp
     public enum HaarDetectionType : int
     {
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// これがセットされると，関数は Canny エッジ検出器を 非常に多くのエッジを含む（あるいは非常に少ないエッジしか含まない） 画像領域を，
         /// 探索オブジェクトを含まない領域と見なして棄却する． 顔検出用には特別な閾値が調整されており，この場合，枝刈りにより処理が 高速化される．
         /// [CV_HAAR_DO_CANNY_PRUNING]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// If it is set, the function uses Canny edge detector to reject some image regions that contain too few or too much edges and thus can not contain the searched object. 
@@ -31,11 +31,11 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// スケーリングされる度に，関数は， 分類カスケード中の特徴の座標系を 「拡大」するのではなく，逆に画像を縮小する． 
         /// 現在は，単体でのみ用いることができるオプションである． つまり，このフラグは他のものと併用はできない．
         /// [CV_HAAR_SCALE_IMAGE]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// For each scale factor used the function will downscale the image rather than "zoom" the feature coordinates in the classifier cascade. 
@@ -50,7 +50,7 @@ namespace OpenCvSharp
         /// <summary>
         /// これがセットされると，関数は，（もし存在すれば）画像中の最大のオブジェクトを検出する． つまり，出力シーケンスは一つ（あるいは 0）のエレメントを持つ．
         /// [CV_HAAR_FIND_BIGGEST_OBJECT]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// If it is set, the function finds the largest object (if any) in the image. That is, the output sequence will contain one (or zero) element(s).
@@ -68,7 +68,7 @@ namespace OpenCvSharp
         /// （flags=FindBiggestObject）よりも不正確な（少しだけ大きい）オブジェクト矩形を返す． しかし，このモードはずっと高速であり，最大で10倍程度の速度差になる．
         /// 正確さを増すために，min_neighbors に大き な値を指定することができる． 
         /// [CV_HAAR_DO_ROUGH_SEARCH]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// It should be used only when FindBiggestObject is set and min_neighbors > 0. 

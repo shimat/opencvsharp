@@ -80,8 +80,8 @@ namespace OpenCvSharp
         public static extern IntPtr shape_createShapeContextDistanceExtractor(
             int nAngularBins, int nRadialBins,
             float innerRadius, float outerRadius, int iterations /*,
-	        const Ptr<HistogramCostExtractor> &comparer = createChiHistogramCostExtractor(),
-	        const Ptr<ShapeTransformer> &transformer = createThinPlateSplineShapeTransformer()*/);
+            const Ptr<HistogramCostExtractor> &comparer = createChiHistogramCostExtractor(),
+            const Ptr<ShapeTransformer> &transformer = createThinPlateSplineShapeTransformer()*/);
 
 
         // HausdorffDistanceExtractor

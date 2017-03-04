@@ -4,9 +4,9 @@ namespace OpenCvSharp
     // ReSharper disable InconsistentNaming
 
 #if LANG_JP
-	/// <summary>
-	/// カメラキャプチャの初期化に用いるカメラのデバイス
-	/// </summary>
+    /// <summary>
+    /// カメラキャプチャの初期化に用いるカメラのデバイス
+    /// </summary>
 #else
     /// <summary>
     /// Camera device types

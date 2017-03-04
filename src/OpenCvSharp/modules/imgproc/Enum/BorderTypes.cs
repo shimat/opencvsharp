@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// cvCopyMakeBorderで指定する, 境界線のタイプ
-	/// </summary>
+    /// cvCopyMakeBorderで指定する, 境界線のタイプ
+    /// </summary>
 #else
     /// <summary>
     /// Type of the border to create around the copied source image rectangle
@@ -13,10 +13,10 @@ namespace OpenCvSharp
     public enum BorderTypes : int
     {
 #if LANG_JP
-		/// <summary>
-		/// 境界はこの関数の最後のパラメータとして渡された定数 value で埋められる. 
-		/// `iiiiii|abcdefgh|iiiiiii`  with some specified `i`
-		/// </summary>
+        /// <summary>
+        /// 境界はこの関数の最後のパラメータとして渡された定数 value で埋められる. 
+        /// `iiiiii|abcdefgh|iiiiiii`  with some specified `i`
+        /// </summary>
 #else
         /// <summary>
         /// Border is filled with the fixed value, passed as last parameter of the function.
@@ -26,10 +26,10 @@ namespace OpenCvSharp
         Constant = 0,
 
 #if LANG_JP
-		/// <summary>
-		/// 画像の最も上/下の行と最も左/右の列（画像領域の一番外側の値）を用いて境界線を生成する．
+        /// <summary>
+        /// 画像の最も上/下の行と最も左/右の列（画像領域の一番外側の値）を用いて境界線を生成する．
         /// `aaaaaa|abcdefgh|hhhhhhh`
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// The pixels from the top and bottom rows, the left-most and right-most columns are replicated to fill the border.

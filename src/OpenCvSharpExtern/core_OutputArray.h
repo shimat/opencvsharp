@@ -5,14 +5,14 @@
 
 CVAPI(cv::_OutputArray*) core_OutputArray_new_byMat(cv::Mat *mat)
 {
-	cv::_OutputArray ia(*mat);
-	return new cv::_OutputArray(ia);
+    cv::_OutputArray ia(*mat);
+    return new cv::_OutputArray(ia);
 }
 
 CVAPI(cv::_OutputArray*) core_OutputArray_new_byGpuMat(cv::cuda::GpuMat *gm)
 {
-	cv::_OutputArray ia(*gm);
-	return new cv::_OutputArray(ia);
+    cv::_OutputArray ia(*gm);
+    return new cv::_OutputArray(ia);
 }
 
 CVAPI(cv::_OutputArray*) core_OutputArray_new_byScalar(MyCvScalar scalar)
@@ -30,13 +30,13 @@ CVAPI(cv::_OutputArray*) core_OutputArray_new_byVectorOfMat(std::vector<cv::Mat>
 
 CVAPI(void) core_OutputArray_delete(cv::_OutputArray *oa)
 {
-	delete oa;
+    delete oa;
 }
 
 CVAPI(cv::Mat*) core_OutputArray_getMat(cv::_OutputArray *oa)
 {
-	cv::Mat &mat = oa->getMatRef();
-	return new cv::Mat(mat);
+    cv::Mat &mat = oa->getMatRef();
+    return new cv::Mat(mat);
 }
 
 CVAPI(MyCvScalar) core_OutputArray_getScalar(cv::_OutputArray *oa)

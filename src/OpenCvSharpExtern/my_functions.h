@@ -50,7 +50,7 @@ static cv::_OutputArray entity(cv::_OutputArray *obj)
 }
 static cv::_InputOutputArray entity(cv::_InputOutputArray *obj)
 {
-	return (obj != NULL) ? *obj : cv::noArray();
+    return (obj != NULL) ? *obj : cv::noArray();
 }
 static cv::Mat entity(cv::Mat *obj)
 {
@@ -58,15 +58,15 @@ static cv::Mat entity(cv::Mat *obj)
 }
 static cv::SparseMat entity(cv::SparseMat *obj)
 {
-	return (obj != NULL) ? *obj : cv::SparseMat();
+    return (obj != NULL) ? *obj : cv::SparseMat();
 }
 static cv::cuda::GpuMat entity(cv::cuda::GpuMat *obj)
 {
-	return (obj != NULL) ? *obj : cv::cuda::GpuMat();
+    return (obj != NULL) ? *obj : cv::cuda::GpuMat();
 }
 static cv::cuda::Stream entity(cv::cuda::Stream *obj)
 {
-	return (obj != NULL) ? *obj : cv::cuda::Stream::Null();
+    return (obj != NULL) ? *obj : cv::cuda::Stream::Null();
 }
 
 template <typename T>
@@ -77,10 +77,10 @@ static cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
 
 static void copyString(const char *src, char *dst, int dstLength)
 {
-	if (strlen(src) == 0)
-		std::strncpy(dst, "", dstLength - 1);
-	else
-		std::strncpy(dst, src, dstLength - 1);
+    if (strlen(src) == 0)
+        std::strncpy(dst, "", dstLength - 1);
+    else
+        std::strncpy(dst, src, dstLength - 1);
 }
 static void copyString(const std::string &src, char *dst, int dstLength)
 {
@@ -91,10 +91,10 @@ static void copyString(const std::string &src, char *dst, int dstLength)
 }
 static void copyString(const cv::String &src, char *dst, int dstLength)
 {
-	if (src.empty())
-		std::strncpy(dst, "", dstLength - 1);
-	else
-		std::strncpy(dst, src.c_str(), dstLength - 1);
+    if (src.empty())
+        std::strncpy(dst, "", dstLength - 1);
+    else
+        std::strncpy(dst, src.c_str(), dstLength - 1);
 }
 
 template <typename T>
@@ -130,8 +130,8 @@ static void toVec(
     for (int i = 0; i < size1; i++)
     {
         int size = size2[i];
-		TIn *p = inPtr[i];
-		std::vector<TOut> v(p, p + size);
+        TIn *p = inPtr[i];
+        std::vector<TOut> v(p, p + size);
         /*std::vector<cv::Rect> v(size);
         for (int j = 0; j < size; j++)
         {

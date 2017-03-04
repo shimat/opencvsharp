@@ -42,8 +42,8 @@ namespace OpenCvSharp.UserInterface
         }
 
 #if LANG_JP
-		/// <summary>
-		/// TrackBarコントロール
+        /// <summary>
+        /// TrackBarコントロール
         /// </summary>
 #else
         /// <summary>
@@ -55,8 +55,8 @@ namespace OpenCvSharp.UserInterface
             get { return trackBar; }
         }
 #if LANG_JP
-		/// <summary>
-		/// Labelコントロール
+        /// <summary>
+        /// Labelコントロール
         /// </summary>
 #else
         /// <summary>

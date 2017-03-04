@@ -40,7 +40,7 @@ namespace OpenCvSharp.ML
         /// parameters for your problem, it can be done with SVM::TrainAuto.
         /// </summary>
         /// <returns></returns>
-	    public static SVM Create()
+        public static SVM Create()
         {
             IntPtr ptr = NativeMethods.ml_SVM_create();
             return new SVM(ptr);
@@ -129,7 +129,7 @@ namespace OpenCvSharp.ML
         /// Parameter gamma of a kernel function.
         /// For SVM::POLY, SVM::RBF, SVM::SIGMOID or SVM::CHI2. Default value is 1. 
         /// </summary>
-	    public double Gamma
+        public double Gamma
         {
             get { return NativeMethods.ml_SVM_getGamma(ptr); }
             set { NativeMethods.ml_SVM_setGamma(ptr, value); }
@@ -139,7 +139,7 @@ namespace OpenCvSharp.ML
         /// Parameter coef0 of a kernel function.
         /// For SVM::POLY or SVM::SIGMOID. Default value is 0.
         /// </summary>
-	    public double Coef0
+        public double Coef0
         {
             get { return NativeMethods.ml_SVM_getCoef0(ptr); }
             set { NativeMethods.ml_SVM_setCoef0(ptr, value); }
@@ -149,7 +149,7 @@ namespace OpenCvSharp.ML
         /// Parameter degree of a kernel function.
         /// For SVM::POLY. Default value is 0.
         /// </summary>
-	    public double Degree
+        public double Degree
         {
             get { return NativeMethods.ml_SVM_getDegree(ptr); }
             set { NativeMethods.ml_SVM_setDegree(ptr, value); }
@@ -159,7 +159,7 @@ namespace OpenCvSharp.ML
         /// Parameter C of a %SVM optimization problem.
         /// For SVM::C_SVC, SVM::EPS_SVR or SVM::NU_SVR. Default value is 0.
         /// </summary>
-	    public double C
+        public double C
         {
             get { return NativeMethods.ml_SVM_getC(ptr); }
             set { NativeMethods.ml_SVM_setC(ptr, value); }
@@ -169,7 +169,7 @@ namespace OpenCvSharp.ML
         /// Parameter nu of a %SVM optimization problem.
         /// For SVM::NU_SVC, SVM::ONE_CLASS or SVM::NU_SVR. Default value is 0.
         /// </summary>
-	    public double Nu
+        public double Nu
         {
             get { return NativeMethods.ml_SVM_getNu(ptr); }
             set { NativeMethods.ml_SVM_setNu(ptr, value); }
@@ -179,7 +179,7 @@ namespace OpenCvSharp.ML
         /// Parameter epsilon of a %SVM optimization problem.
         /// For SVM::EPS_SVR. Default value is 0.
         /// </summary>
-	    public double P
+        public double P
         {
             get { return NativeMethods.ml_SVM_getP(ptr); }
             set { NativeMethods.ml_SVM_setP(ptr, value); }
@@ -194,7 +194,7 @@ namespace OpenCvSharp.ML
         /// The larger weight, the larger penalty on misclassification of data from the 
         /// corresponding class. Default value is empty Mat.
         /// </remarks>
-	    public Mat ClassWeights
+        public Mat ClassWeights
         {
             get
             {
@@ -215,7 +215,7 @@ namespace OpenCvSharp.ML
         /// You can specify tolerance and/or the maximum number of iterations. 
         /// Default value is `TermCriteria( TermCriteria::MAX_ITER + TermCriteria::EPS, 1000, FLT_EPSILON )`;
         /// </remarks>
-	    public TermCriteria TermCriteria
+        public TermCriteria TermCriteria
         {
             get { return NativeMethods.ml_SVM_getTermCriteria(ptr); }
             set { NativeMethods.ml_SVM_setTermCriteria(ptr, value); }
@@ -261,7 +261,7 @@ namespace OpenCvSharp.ML
         /// more balanced cross-validation subsets that is proportions between classes in subsets are close 
         /// to such proportion in the whole train dataset.</param>
         /// <returns></returns>
-	    public bool TrainAuto(TrainData data, int kFold = 10,
+        public bool TrainAuto(TrainData data, int kFold = 10,
             ParamGrid? cGrid = null,
             ParamGrid? gammaGrid = null,
             ParamGrid? pGrid = null,
@@ -272,7 +272,7 @@ namespace OpenCvSharp.ML
         {
             throw new NotImplementedException();
             /*
-	        var cGridValue = cGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.C));
+            var cGridValue = cGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.C));
             var gammaGridValue = gammaGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Gamma));
             var pGridValue = pGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.P));
             var nuGridValue = nuGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Nu));
@@ -284,7 +284,7 @@ namespace OpenCvSharp.ML
         /// Retrieves all the support vectors
         /// </summary>
         /// <returns></returns>
-	    public Mat GetSupportVectors()
+        public Mat GetSupportVectors()
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
@@ -305,7 +305,7 @@ namespace OpenCvSharp.ML
         /// within the matrix of support vectors (which can be retrieved by SVM::getSupportVectors). 
         /// In the case of linear %SVM each decision function consists of a single "compressed" support vector.</param>
         /// <returns></returns>
-	    public double GetDecisionFunction(int i, OutputArray alpha, OutputArray svidx)
+        public double GetDecisionFunction(int i, OutputArray alpha, OutputArray svidx)
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);
@@ -328,7 +328,7 @@ namespace OpenCvSharp.ML
         /// <param name="paramId">SVM parameters IDs that must be one of the SVM::ParamTypes. 
         /// The grid is generated for the parameter with this ID.</param>
         /// <returns></returns>
-	    public static ParamGrid GetDefaultGrid(ParamTypes paramId)
+        public static ParamGrid GetDefaultGrid(ParamTypes paramId)
         {
             return NativeMethods.ml_SVM_getDefaultGrid((int)paramId);
         }
@@ -340,12 +340,12 @@ namespace OpenCvSharp.ML
         /// <summary>
         /// 
         /// </summary>
-	    public class Kernel
+        public class Kernel
         {
             /// <summary>
             /// 
             /// </summary>
-	        public Kernel()
+            public Kernel()
             {
                 throw new NotImplementedException();
             }

@@ -8,16 +8,16 @@ using namespace cv::cuda;
 
 CVAPI(int) cuda_getCudaEnabledDeviceCount()
 {
-	return getCudaEnabledDeviceCount();
+    return getCudaEnabledDeviceCount();
 }
 
 CVAPI(void) cuda_setDevice(int device)
 {
-	setDevice(device);
+    setDevice(device);
 }
 CVAPI(int) cuda_getDevice()
 {
-	return getDevice();
+    return getDevice();
 }
 
 CVAPI(void) cuda_resetDevice()
@@ -73,11 +73,11 @@ CVAPI(DeviceInfo*) cuda_DeviceInfo_new1()
 }
 CVAPI(DeviceInfo*) cuda_DeviceInfo_new2(int deviceId)
 {
-	return new DeviceInfo(deviceId);
+    return new DeviceInfo(deviceId);
 }
 CVAPI(void) cuda_DeviceInfo_delete(DeviceInfo *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 CVAPI(void) cuda_DeviceInfo_name(DeviceInfo *obj, char *buf, int bufLength)
@@ -130,7 +130,7 @@ CVAPI(int) cuda_DeviceInfo_deviceID(DeviceInfo *obj)
 }
 CVAPI(int) cuda_DeviceInfo_canMapHostMemory(DeviceInfo *obj)
 {
-	return obj->canMapHostMemory() ? 1 : 0;
+    return obj->canMapHostMemory() ? 1 : 0;
 }
 
 
@@ -149,46 +149,46 @@ CVAPI(void) cuda_printShortCudaDeviceInfo(int device)
 
 CVAPI(Stream*) cuda_Stream_new1()
 {
-	return new Stream();
+    return new Stream();
 }
 CVAPI(Stream*) cuda_Stream_new2(Stream* s)
 {
-	return new Stream(*s);
+    return new Stream(*s);
 }
 
 CVAPI(void) cuda_Stream_delete(Stream *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 CVAPI(void) cuda_Stream_opAssign(Stream *left, Stream *right)
 {
-	*left = *right;
+    *left = *right;
 }
 
 CVAPI(int) cuda_Stream_queryIfComplete(Stream *obj)
 {
-	return obj->queryIfComplete() ? 1 : 0;
+    return obj->queryIfComplete() ? 1 : 0;
 }
 CVAPI(void) cuda_Stream_waitForCompletion(Stream *obj)
 {
-	obj->waitForCompletion();
+    obj->waitForCompletion();
 }
 
 CVAPI(void) cuda_Stream_enqueueHostCallback(
-	Stream *obj, Stream::StreamCallback callback, void* userData)
+    Stream *obj, Stream::StreamCallback callback, void* userData)
 {
-	obj->enqueueHostCallback(callback, userData);
+    obj->enqueueHostCallback(callback, userData);
 }
 
 CVAPI(Stream*) cuda_Stream_Null()
 {
-	return &Stream::Null();
+    return &Stream::Null();
 }
 
 CVAPI(int) cuda_Stream_bool(Stream *obj)
 {
-	return (bool)(*obj) ? 1 : 0;
+    return (bool)(*obj) ? 1 : 0;
 }
 
 #pragma endregion

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace OpenCvSharp.Blob
 {
-	/// <summary>
+    /// <summary>
     /// Render mode of cvRenderTracks
     /// </summary>
-	[Flags]
-	public enum RenderTracksMode : ushort
-	{
+    [Flags]
+    public enum RenderTracksMode : ushort
+    {
         /// <summary>
         /// No flags
         /// [0]
@@ -27,5 +27,5 @@ namespace OpenCvSharp.Blob
         /// [CV_TRACK_RENDER_BOUNDING_BOX]
         /// </summary>
         BoundingBox = CvBlobConst.CV_TRACK_RENDER_BOUNDING_BOX,
-	}
+    }
 }

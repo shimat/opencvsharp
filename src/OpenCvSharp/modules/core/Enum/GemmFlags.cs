@@ -6,8 +6,8 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-	/// cv::GEMMメソッドの操作フラグ
-	/// </summary>
+    /// cv::GEMMメソッドの操作フラグ
+    /// </summary>
 #else
     /// <summary>
     /// The operation flags for cv::GEMM
@@ -22,9 +22,9 @@ namespace OpenCvSharp
         None = 0,
 
 #if LANG_JP
-		/// <summary>
-		/// src1を転置 
-		/// </summary>
+        /// <summary>
+        /// src1を転置 
+        /// </summary>
 #else
         /// <summary>
         /// Transpose src1
@@ -35,9 +35,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// src2を転置 
-		/// </summary>
+        /// <summary>
+        /// src2を転置 
+        /// </summary>
 #else
         /// <summary>
         /// Transpose src2
@@ -47,9 +47,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// src3を転置 
-		/// </summary>
+        /// <summary>
+        /// src3を転置 
+        /// </summary>
 #else
         /// <summary>
         /// Transpose src3

@@ -5,16 +5,16 @@
 namespace OpenCvSharp
 {
 #if LANG_JP
-	/// <summary>
-	/// 色空間の変換の方法
-	/// </summary>
+    /// <summary>
+    /// 色空間の変換の方法
+    /// </summary>
 #else
     /// <summary>
     /// Color conversion operation for cv::cvtColor
     /// </summary>
 #endif
     public enum ColorConversionCodes : int
-	{
+    {
         BGR2BGRA = 0, //!< add alpha channel to RGB or BGR image
         RGB2RGBA = BGR2BGRA,
 
@@ -268,5 +268,5 @@ namespace OpenCvSharp
         BayerGR2RGB_EA = BayerGB2BGR_EA,
 
         COLORCVT_MAX = 139
-	}
+    }
 }

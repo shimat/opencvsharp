@@ -362,7 +362,7 @@ namespace OpenCvSharp.Extensions
                                 throw new NotImplementedException("submatrix not supported");
 
                             // BitmapDataは4byte幅だが、IplImageは1byte幅
-                            // 手作業で移し替える				 
+                            // 手作業で移し替える                 
                             //int offset = stride - (w / 8);
                             int x = 0;
                             int y;

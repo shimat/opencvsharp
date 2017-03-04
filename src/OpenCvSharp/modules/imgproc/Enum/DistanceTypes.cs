@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// cvDistTransformで指定する距離の種類
-	/// </summary>
+    /// cvDistTransformで指定する距離の種類
+    /// </summary>
 #else
     /// <summary>
     /// Type of distance for cvDistTransform

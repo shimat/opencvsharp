@@ -210,7 +210,7 @@ namespace OpenCvSharp.ML
         /// The last element - number of elements in the output layer.
         /// </summary>
         /// <returns></returns>
-	    public virtual Mat GetLayerSizes()
+        public virtual Mat GetLayerSizes()
         {
             if (disposed)
                 throw new ObjectDisposedException(GetType().Name);

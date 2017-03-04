@@ -9,104 +9,104 @@ using namespace cv::ml;
 
 CVAPI(int) ml_SVM_getType(SVM *obj)
 {
-	return obj->getType();
+    return obj->getType();
 }
 CVAPI(void) ml_SVM_setType(SVM *obj, int val)
 {
-	obj->setType(val);
+    obj->setType(val);
 }
 
 CVAPI(double) ml_SVM_getGamma(SVM *obj)
 {
-	return obj->getGamma();
+    return obj->getGamma();
 }
 CVAPI(void) ml_SVM_setGamma(SVM *obj, double val)
 {
-	obj->setGamma(val);
+    obj->setGamma(val);
 }
 
 CVAPI(double) ml_SVM_getCoef0(SVM *obj)
 {
-	return obj->getCoef0();
+    return obj->getCoef0();
 }
 CVAPI(void) ml_SVM_setCoef0(SVM *obj, double val)
 {
-	obj->setCoef0(val);
+    obj->setCoef0(val);
 }
 
 CVAPI(double) ml_SVM_getDegree(SVM *obj)
 {
-	return obj->getDegree();
+    return obj->getDegree();
 }
 CVAPI(void) ml_SVM_setDegree(SVM *obj, double val)
 {
-	obj->setDegree(val);
+    obj->setDegree(val);
 }
 
 CVAPI(double) ml_SVM_getC(SVM *obj)
 {
-	return obj->getC();
+    return obj->getC();
 }
 CVAPI(void) ml_SVM_setC(SVM *obj, double val)
 {
-	obj->setC(val);
+    obj->setC(val);
 }
 
 CVAPI(double) ml_SVM_getP(SVM *obj)
 {
-	return obj->getP();
+    return obj->getP();
 }
 CVAPI(void) ml_SVM_setP(SVM *obj, double val)
 {
-	obj->setP(val);
+    obj->setP(val);
 }
 
 CVAPI(double) ml_SVM_getNu(SVM *obj)
 {
-	return obj->getNu();
+    return obj->getNu();
 }
 CVAPI(void) ml_SVM_setNu(SVM *obj, double val)
 {
-	obj->setNu(val);
+    obj->setNu(val);
 }
 
 CVAPI(cv::Mat*) ml_SVM_getClassWeights(SVM *obj)
 {
-	return new cv::Mat(obj->getClassWeights());
+    return new cv::Mat(obj->getClassWeights());
 }
 CVAPI(void) ml_SVM_setClassWeights(SVM *obj, cv::Mat *val)
 {
-	obj->setClassWeights(*val);
+    obj->setClassWeights(*val);
 }
 
 CVAPI(MyCvTermCriteria) ml_SVM_getTermCriteria(SVM *obj)
 {
-	return c(obj->getTermCriteria());
+    return c(obj->getTermCriteria());
 }
 CVAPI(void) ml_SVM_setTermCriteria(SVM *obj, MyCvTermCriteria val)
 {
-	obj->setTermCriteria(cpp(val));
+    obj->setTermCriteria(cpp(val));
 }
 
 CVAPI(int) ml_SVM_getKernelType(SVM *obj)
 {
-	return obj->getKernelType();
+    return obj->getKernelType();
 }
 
 CVAPI(void) ml_SVM_setKernel(SVM *obj, int kernelType)
 {
-	obj->setKernel(kernelType);
+    obj->setKernel(kernelType);
 }
 
 CVAPI(cv::Mat*) ml_SVM_getSupportVectors(SVM *obj)
 {
-	return new cv::Mat(obj->getSupportVectors());
+    return new cv::Mat(obj->getSupportVectors());
 }
 
 CVAPI(double) ml_SVM_getDecisionFunction(
-	cv::ml::SVM *obj, int i, cv::_OutputArray *alpha, cv::_OutputArray *svidx)
+    cv::ml::SVM *obj, int i, cv::_OutputArray *alpha, cv::_OutputArray *svidx)
 {
-	return obj->getDecisionFunction(i, entity(alpha), entity(svidx));
+    return obj->getDecisionFunction(i, entity(alpha), entity(svidx));
 }
 
 
@@ -114,23 +114,23 @@ CVAPI(double) ml_SVM_getDecisionFunction(
 
 CVAPI(ParamGridStruct) ml_SVM_getDefaultGrid(int param_id)
 { 
-	return c(cv::ml::SVM::getDefaultGrid(param_id));
+    return c(cv::ml::SVM::getDefaultGrid(param_id));
 }
 
 CVAPI(cv::Ptr<SVM>*) ml_SVM_create()
 {
-	cv::Ptr<SVM> ptr = SVM::create();
-	return new cv::Ptr<SVM>(ptr);
+    cv::Ptr<SVM> ptr = SVM::create();
+    return new cv::Ptr<SVM>(ptr);
 }
 
 CVAPI(void) ml_Ptr_SVM_delete(cv::Ptr<SVM> *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 CVAPI(cv::ml::SVM*) ml_Ptr_SVM_get(cv::Ptr<SVM>* obj)
 {
-	return obj->get();
+    return obj->get();
 }
 
 CVAPI(cv::Ptr<SVM>*) ml_SVM_load(const char *filePath)

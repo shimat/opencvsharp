@@ -2,9 +2,9 @@
 namespace OpenCvSharp
 {
 #if LANG_JP
-	/// <summary>
-	/// CvCaptureのキャプチャタイプ(カメラorファイル)
-	/// </summary>
+    /// <summary>
+    /// CvCaptureのキャプチャタイプ(カメラorファイル)
+    /// </summary>
 #else
     /// <summary>
     /// Capture type of CvCapture (Camera or AVI file)
@@ -13,9 +13,9 @@ namespace OpenCvSharp
     public enum CaptureType
     {
 #if LANG_JP
-		/// <summary>
-		/// AVIファイルからのキャプチャ
-		/// </summary>
+        /// <summary>
+        /// AVIファイルからのキャプチャ
+        /// </summary>
 #else
         /// <summary>
         /// Captures from an AVI file
@@ -25,9 +25,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// カメラからのキャプチャ
-		/// </summary>
+        /// <summary>
+        /// カメラからのキャプチャ
+        /// </summary>
 #else
         /// <summary>
         /// Captures from digital camera

@@ -4,8 +4,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// floodFillの処理フラグ
-	/// </summary>
+    /// floodFillの処理フラグ
+    /// </summary>
 #else
     /// <summary>
     /// floodFill Operation flags. Lower bits contain a connectivity value, 4 (default) or 8, used within the function. Connectivity determines which neighbors of a pixel are considered. Upper bits can be 0 or a combination of the following flags:
@@ -15,10 +15,10 @@ namespace OpenCvSharp
     public enum FloodFillFlags : int
     {
 #if LANG_JP
-		/// <summary>
-		/// 4連結による線分
+        /// <summary>
+        /// 4連結による線分
         /// [= 4]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// 4-connected line.
@@ -28,10 +28,10 @@ namespace OpenCvSharp
         Link4 = 4,
 
 #if LANG_JP
-		/// <summary>
-		/// 8連結による線分
+        /// <summary>
+        /// 8連結による線分
         /// [= 8]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// 8-connected line.
@@ -41,10 +41,10 @@ namespace OpenCvSharp
         Link8 = 8,
 
 #if LANG_JP
-		/// <summary>
-		/// If set, the difference between the current pixel and seed pixel is considered. Otherwise, the difference between neighbor pixels is considered (that is, the range is floating).
+        /// <summary>
+        /// If set, the difference between the current pixel and seed pixel is considered. Otherwise, the difference between neighbor pixels is considered (that is, the range is floating).
         /// [CV_FLOODFILL_FIXED_RANGE]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// If set, the difference between the current pixel and seed pixel is considered. Otherwise, the difference between neighbor pixels is considered (that is, the range is floating).
@@ -55,10 +55,10 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// If set, the function does not change the image ( newVal is ignored), but fills the mask. The flag can be used for the second variant only.
+        /// <summary>
+        /// If set, the function does not change the image ( newVal is ignored), but fills the mask. The flag can be used for the second variant only.
         /// [CV_FLOODFILL_MASK_ONLY]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// If set, the function does not change the image ( newVal is ignored), but fills the mask. The flag can be used for the second variant only.

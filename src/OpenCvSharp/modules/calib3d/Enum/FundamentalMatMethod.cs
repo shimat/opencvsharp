@@ -4,8 +4,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// 基礎行列の計算手法
-	/// </summary>
+    /// 基礎行列の計算手法
+    /// </summary>
 #else
     /// <summary>
     /// Method for computing the fundamental matrix 
@@ -15,9 +15,9 @@ namespace OpenCvSharp
     public enum FundamentalMatMethod : int
     {
 #if LANG_JP
-		/// <summary>
-		/// 7-pointアルゴリズム． N == 7 
-		/// </summary>
+        /// <summary>
+        /// 7-pointアルゴリズム． N == 7 
+        /// </summary>
 #else
         /// <summary>
         /// for 7-point algorithm. N == 7 
@@ -26,9 +26,9 @@ namespace OpenCvSharp
         Point7 = 1,
 
 #if LANG_JP
-		/// <summary>
-		/// 8-pointアルゴリズム． N > 8 
-		/// </summary>
+        /// <summary>
+        /// 8-pointアルゴリズム． N > 8 
+        /// </summary>
 #else
         /// <summary>
         /// for 8-point algorithm. N >= 8 
@@ -38,9 +38,9 @@ namespace OpenCvSharp
         Point8 = 2,
 
 #if LANG_JP
-		/// <summary>
-		/// LMedSアルゴリズム． N >= 8 
-		/// </summary>
+        /// <summary>
+        /// LMedSアルゴリズム． N >= 8 
+        /// </summary>
 #else
         /// <summary>
         /// for LMedS algorithm. N > 8 
@@ -50,10 +50,10 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// RANSAC アルゴリズム． N > 8 
+        /// <summary>
+        /// RANSAC アルゴリズム． N > 8 
         /// [CV_FM_RANSAC]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// for RANSAC algorithm. N > 8 

@@ -606,9 +606,9 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
-		/// retrieve() によって返されるMat オブジェクトのフォーマット．
-		/// </summary>
+        /// <summary>
+        /// retrieve() によって返されるMat オブジェクトのフォーマット．
+        /// </summary>
 #else
         /// <summary>
         /// The format of the Mat objects returned by retrieve()
@@ -628,9 +628,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 現在のキャプチャモードを表す，バックエンド固有の値．
-		/// </summary>
+        /// <summary>
+        /// 現在のキャプチャモードを表す，バックエンド固有の値．
+        /// </summary>
 #else
         /// <summary>
         /// A backend-specific value indicating the current capture mode
@@ -650,9 +650,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 画像のゲイン（カメラの場合のみ）．
-		/// </summary>
+        /// <summary>
+        /// 画像のゲイン（カメラの場合のみ）．
+        /// </summary>
 #else
         /// <summary>
         /// Gain of the image (only for cameras)
@@ -676,9 +676,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 露出（カメラの場合のみ）．
-		/// </summary>
+        /// <summary>
+        /// 露出（カメラの場合のみ）．
+        /// </summary>
 #else
         /// <summary>
         /// Exposure (only for cameras)
@@ -702,9 +702,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 画像がRGBに変換されるか否かを表す，ブール値のフラグ．
-		/// </summary>
+        /// <summary>
+        /// 画像がRGBに変換されるか否かを表す，ブール値のフラグ．
+        /// </summary>
 #else
         /// <summary>
         /// Boolean flags indicating whether images should be converted to RGB
@@ -740,9 +740,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// TOWRITE（注意：現在のところ，DC1394 v 2.x バックエンドでのみサポートされます）．
-		/// </summary>
+        /// <summary>
+        /// TOWRITE（注意：現在のところ，DC1394 v 2.x バックエンドでのみサポートされます）．
+        /// </summary>
 #else
         /// <summary>
         /// TOWRITE (note: only supported by DC1394 v 2.x backend currently)
@@ -1039,10 +1039,10 @@ namespace OpenCvSharp
         // Properties of cameras available through OpenNI interfaces
 // ReSharper disable InconsistentNaming
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// 
-		/// [CV_CAP_PROP_OPENNI_OUTPUT_MODE]
-		/// </summary>
+        /// [CV_CAP_PROP_OPENNI_OUTPUT_MODE]
+        /// </summary>
 #else
         /// <summary>
         /// 
@@ -1062,10 +1062,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// in mm
-		/// [CV_CAP_PROP_OPENNI_FRAME_MAX_DEPTH]
-		/// </summary>
+        /// [CV_CAP_PROP_OPENNI_FRAME_MAX_DEPTH]
+        /// </summary>
 #else
         /// <summary>
         /// in mm
@@ -1085,10 +1085,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// in mm
-		/// [CV_CAP_PROP_OPENNI_BASELINE]
-		/// </summary>
+        /// [CV_CAP_PROP_OPENNI_BASELINE]
+        /// </summary>
 #else
         /// <summary>
         /// in mm
@@ -1108,10 +1108,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// in pixels
-		/// [CV_CAP_PROP_OPENNI_FOCAL_LENGTH]
-		/// </summary>
+        /// [CV_CAP_PROP_OPENNI_FOCAL_LENGTH]
+        /// </summary>
 #else
         /// <summary>
         /// in pixels
@@ -1131,12 +1131,12 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// flag that synchronizes the remapping depth map to image map
         /// by changing depth generator's view point (if the flag is "on") or
         /// sets this view point to its normal one (if the flag is "off").
-		/// [CV_CAP_PROP_OPENNI_REGISTRATION]
-		/// </summary>
+        /// [CV_CAP_PROP_OPENNI_REGISTRATION]
+        /// </summary>
 #else
         /// <summary>
         /// flag that synchronizes the remapping depth map to image map
@@ -1158,10 +1158,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// 
-		/// [CV_CAP_OPENNI_IMAGE_GENERATOR_OUTPUT_MODE]
-		/// </summary>
+        /// [CV_CAP_OPENNI_IMAGE_GENERATOR_OUTPUT_MODE]
+        /// </summary>
 #else
         /// <summary>
         /// 
@@ -1181,10 +1181,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// 
-		/// [CV_CAP_OPENNI_DEPTH_GENERATOR_BASELINE]
-		/// </summary>
+        /// [CV_CAP_OPENNI_DEPTH_GENERATOR_BASELINE]
+        /// </summary>
 #else
         /// <summary>
         /// 
@@ -1204,10 +1204,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// 
-		/// [CV_CAP_OPENNI_DEPTH_GENERATOR_FOCAL_LENGTH]
-		/// </summary>
+        /// [CV_CAP_OPENNI_DEPTH_GENERATOR_FOCAL_LENGTH]
+        /// </summary>
 #else
         /// <summary>
         /// 
@@ -1227,10 +1227,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// 
-		/// [CV_CAP_OPENNI_DEPTH_GENERATOR_REGISTRATION_ON]
-		/// </summary>
+        /// [CV_CAP_OPENNI_DEPTH_GENERATOR_REGISTRATION_ON]
+        /// </summary>
 #else
         /// <summary>
         /// 
@@ -1254,10 +1254,10 @@ namespace OpenCvSharp
         // Properties of cameras available through GStreamer interface
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// default is 1
-		/// [CV_CAP_GSTREAMER_QUEUE_LENGTH]
-		/// </summary>
+        /// [CV_CAP_GSTREAMER_QUEUE_LENGTH]
+        /// </summary>
 #else
         /// <summary>
         /// default is 1
@@ -1277,10 +1277,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// ip for anable multicast master mode. 0 for disable multicast
-		/// [CV_CAP_PROP_PVAPI_MULTICASTIP]
-		/// </summary>
+        /// [CV_CAP_PROP_PVAPI_MULTICASTIP]
+        /// </summary>
 #else
         /// <summary>
         /// ip for anable multicast master mode. 0 for disable multicast
@@ -1305,10 +1305,10 @@ namespace OpenCvSharp
         // Properties of cameras available through XIMEA SDK interface
 // ReSharper disable InconsistentNaming
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Change image resolution by binning or skipping.  
-		/// [CV_CAP_PROP_XI_DOWNSAMPLING]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_DOWNSAMPLING]
+        /// </summary>
 #else
         /// <summary>
         /// Change image resolution by binning or skipping.  
@@ -1328,10 +1328,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Output data format.
-		/// [CV_CAP_PROP_XI_DATA_FORMAT]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_DATA_FORMAT]
+        /// </summary>
 #else
         /// <summary>
         /// Output data format.
@@ -1347,10 +1347,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Horizontal offset from the origin to the area of interest (in pixels).
-		/// [CV_CAP_PROP_XI_OFFSET_X]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_OFFSET_X]
+        /// </summary>
 #else
         /// <summary>
         /// Horizontal offset from the origin to the area of interest (in pixels).
@@ -1370,10 +1370,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Vertical offset from the origin to the area of interest (in pixels).
-		/// [CV_CAP_PROP_XI_OFFSET_Y]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_OFFSET_Y]
+        /// </summary>
 #else
         /// <summary>
         /// Vertical offset from the origin to the area of interest (in pixels).
@@ -1393,10 +1393,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Defines source of trigger.
-		/// [CV_CAP_PROP_XI_TRG_SOURCE]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_TRG_SOURCE]
+        /// </summary>
 #else
         /// <summary>
         /// Defines source of trigger.
@@ -1416,10 +1416,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Generates an internal trigger. PRM_TRG_SOURCE must be set to TRG_SOFTWARE.
-		/// [CV_CAP_PROP_XI_TRG_SOFTWARE]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_TRG_SOFTWARE]
+        /// </summary>
 #else
         /// <summary>
         /// Generates an internal trigger. PRM_TRG_SOURCE must be set to TRG_SOFTWARE.
@@ -1439,10 +1439,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Selects general purpose input
-		/// [CV_CAP_PROP_XI_GPI_SELECTOR]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_GPI_SELECTOR]
+        /// </summary>
 #else
         /// <summary>
         /// Selects general purpose input
@@ -1462,10 +1462,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Set general purpose input mode
-		/// [CV_CAP_PROP_XI_GPI_MODE]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_GPI_MODE]
+        /// </summary>
 #else
         /// <summary>
         /// Set general purpose input mode
@@ -1485,10 +1485,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Get general purpose level
-		/// [CV_CAP_PROP_XI_GPI_LEVEL]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_GPI_LEVEL]
+        /// </summary>
 #else
         /// <summary>
         /// Get general purpose level
@@ -1508,10 +1508,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Selects general purpose output 
-		/// [CV_CAP_PROP_XI_GPO_SELECTOR]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_GPO_SELECTOR]
+        /// </summary>
 #else
         /// <summary>
         /// Selects general purpose output 
@@ -1531,10 +1531,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Set general purpose output mode
-		/// [CV_CAP_PROP_XI_GPO_MODE]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_GPO_MODE]
+        /// </summary>
 #else
         /// <summary>
         /// Set general purpose output mode
@@ -1554,10 +1554,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Selects camera signalling LED 
-		/// [CV_CAP_PROP_XI_LED_SELECTOR]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_LED_SELECTOR]
+        /// </summary>
 #else
         /// <summary>
         /// Selects camera signalling LED 
@@ -1577,10 +1577,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Define camera signalling LED functionality
-		/// [CV_CAP_PROP_XI_LED_MODE]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_LED_MODE]
+        /// </summary>
 #else
         /// <summary>
         /// Define camera signalling LED functionality
@@ -1600,10 +1600,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Calculates White Balance(must be called during acquisition)
-		/// [CV_CAP_PROP_XI_MANUAL_WB]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_MANUAL_WB]
+        /// </summary>
 #else
         /// <summary>
         /// Calculates White Balance(must be called during acquisition)
@@ -1623,10 +1623,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Automatic white balance
-		/// [CV_CAP_PROP_XI_AUTO_WB]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_AUTO_WB]
+        /// </summary>
 #else
         /// <summary>
         /// Automatic white balance
@@ -1646,10 +1646,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Automatic exposure/gain
-		/// [CV_CAP_PROP_XI_AEAG]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_AEAG]
+        /// </summary>
 #else
         /// <summary>
         /// Automatic exposure/gain
@@ -1669,10 +1669,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Exposure priority (0.5 - exposure 50%, gain 50%).
-		/// [CV_CAP_PROP_XI_EXP_PRIORITY]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_EXP_PRIORITY]
+        /// </summary>
 #else
         /// <summary>
         /// Exposure priority (0.5 - exposure 50%, gain 50%).
@@ -1692,10 +1692,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Maximum limit of exposure in AEAG procedure
-		/// [CV_CAP_PROP_XI_AE_MAX_LIMIT]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_AE_MAX_LIMIT]
+        /// </summary>
 #else
         /// <summary>
         /// Maximum limit of exposure in AEAG procedure
@@ -1715,10 +1715,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Maximum limit of gain in AEAG procedure
-		/// [CV_CAP_PROP_XI_AG_MAX_LIMIT]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_AG_MAX_LIMIT]
+        /// </summary>
 #else
         /// <summary>
         /// Maximum limit of gain in AEAG procedure
@@ -1738,10 +1738,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// default is 1
-		/// [CV_CAP_PROP_XI_AEAG_LEVEL]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_AEAG_LEVEL]
+        /// </summary>
 #else
         /// <summary>
         /// default is 1
@@ -1761,10 +1761,10 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// default is 1
-		/// [CV_CAP_PROP_XI_TIMEOUT]
-		/// </summary>
+        /// [CV_CAP_PROP_XI_TIMEOUT]
+        /// </summary>
 #else
         /// <summary>
         /// default is 1

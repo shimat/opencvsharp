@@ -314,7 +314,7 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method</param>
         public static void Filter2D(
             InputArray src, OutputArray dst, MatType ddepth,
-	        InputArray kernel, Point? anchor = null, double delta = 0, 
+            InputArray kernel, Point? anchor = null, double delta = 0, 
             BorderTypes borderType = BorderTypes.Default)
         {
             if (src == null)

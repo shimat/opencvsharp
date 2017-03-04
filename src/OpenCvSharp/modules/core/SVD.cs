@@ -239,9 +239,9 @@ namespace OpenCvSharp
         #endregion
 
 #if LANG_JP
-   	/// <summary>
-	/// VDの操作フラグ
-	/// </summary>
+       /// <summary>
+    /// VDの操作フラグ
+    /// </summary>
 #else
         /// <summary>
         /// Operation flags for SVD
@@ -256,9 +256,9 @@ namespace OpenCvSharp
             None = 0,
 
 #if LANG_JP
-		/// <summary>
-		/// 計算中に行列Aの変更を行うことができる．このフラグの指定は処理速度を向上させる．
-		/// </summary>
+        /// <summary>
+        /// 計算中に行列Aの変更を行うことができる．このフラグの指定は処理速度を向上させる．
+        /// </summary>
 #else
             /// <summary>
             /// enables modification of matrix src1 during the operation. It speeds up the processing. 

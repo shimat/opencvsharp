@@ -22,9 +22,9 @@ namespace OpenCvSharp
         /// Default constructor
         /// </summary>
         public CascadeClassifier()
-	    {
+        {
             ptr = NativeMethods.objdetect_CascadeClassifier_new();               
-	    }
+        }
 
         /// <summary>
         /// Loads a classifier from a file.

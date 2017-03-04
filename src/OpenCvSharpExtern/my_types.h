@@ -17,79 +17,79 @@ namespace cv
 
 extern "C" 
 {
-	#pragma region OpenCV1.0-compatible Types
+    #pragma region OpenCV1.0-compatible Types
 
-	struct MyCvPoint
-	{
-		int x;
-		int y;
-	};
+    struct MyCvPoint
+    {
+        int x;
+        int y;
+    };
 
-	struct MyCvPoint2D32f
-	{
-		float x;
-		float y;
-	};
+    struct MyCvPoint2D32f
+    {
+        float x;
+        float y;
+    };
 
-	struct MyCvSize
-	{
-		int width;
-		int height;
-	};
+    struct MyCvSize
+    {
+        int width;
+        int height;
+    };
 
-	struct MyCvSize2D32f
-	{
-		float width;
-		float height;
-	};
+    struct MyCvSize2D32f
+    {
+        float width;
+        float height;
+    };
 
-	struct MyCvRect
-	{
-		int x;
-		int y;
-		int width;
-		int height;
-	};
+    struct MyCvRect
+    {
+        int x;
+        int y;
+        int width;
+        int height;
+    };
 
-	struct MyCvScalar
-	{
-		double val[4];
-	};
+    struct MyCvScalar
+    {
+        double val[4];
+    };
 
     struct MyCvSlice
     {
         int  start_index, end_index;
     };
 
-	struct MyCvMoments
-	{
-		double  m00, m10, m01, m20, m11, m02, m30, m21, m12, m03; /* spatial moments */
-		double  mu20, mu11, mu02, mu30, mu21, mu12, mu03; /* central moments */
-		double  inv_sqrt_m00; /* m00 != 0 ? 1/sqrt(m00) : 0 */
-	};
+    struct MyCvMoments
+    {
+        double  m00, m10, m01, m20, m11, m02, m30, m21, m12, m03; /* spatial moments */
+        double  mu20, mu11, mu02, mu30, mu21, mu12, mu03; /* central moments */
+        double  inv_sqrt_m00; /* m00 != 0 ? 1/sqrt(m00) : 0 */
+    };
 
-	struct MyCvTermCriteria
-	{
-		int    type;
-		int    max_iter;
-		double epsilon;
-	};
+    struct MyCvTermCriteria
+    {
+        int    type;
+        int    max_iter;
+        double epsilon;
+    };
 
-	struct MyCvBox2D
-	{
-		MyCvPoint2D32f center; 
-		MyCvSize2D32f  size;
-		float angle;
-	};
+    struct MyCvBox2D
+    {
+        MyCvPoint2D32f center; 
+        MyCvSize2D32f  size;
+        float angle;
+    };
 
-	#pragma endregion
+    #pragma endregion
 
-	struct CvPoint3D
-	{
-		int x;
-		int y;
-		int z;
-	};
+    struct CvPoint3D
+    {
+        int x;
+        int y;
+        int z;
+    };
 
     struct aruco_DetectorParameters 
     {
@@ -144,66 +144,66 @@ extern "C"
 
 static MyCvPoint c(cv::Point p)
 {
-	MyCvPoint ret = { p.x, p.y };
-	return ret;
+    MyCvPoint ret = { p.x, p.y };
+    return ret;
 }
 static cv::Point cpp(MyCvPoint p)
 {
-	return cv::Point(p.x, p.y);
+    return cv::Point(p.x, p.y);
 }
 
 static MyCvPoint2D32f c(cv::Point2f p)
 {
-	MyCvPoint2D32f ret = { p.x, p.y };
-	return ret;
+    MyCvPoint2D32f ret = { p.x, p.y };
+    return ret;
 }
 static cv::Point2f cpp(MyCvPoint2D32f p)
 {
-	return cv::Point2f(p.x, p.y);
+    return cv::Point2f(p.x, p.y);
 }
 
 static MyCvSize c(cv::Size s)
 {
-	MyCvSize ret = { s.width, s.height };
-	return ret;
+    MyCvSize ret = { s.width, s.height };
+    return ret;
 }
 static cv::Size cpp(MyCvSize s)
 {
-	return cv::Size(s.width, s.height);
+    return cv::Size(s.width, s.height);
 }
 
 static MyCvSize2D32f c(cv::Size2f s)
 {
-	MyCvSize2D32f ret = { s.width, s.height };
-	return ret;
+    MyCvSize2D32f ret = { s.width, s.height };
+    return ret;
 }
 static cv::Size2f cpp(MyCvSize2D32f s)
 {
-	return cv::Size2f(s.width, s.height);
+    return cv::Size2f(s.width, s.height);
 }
 
 static MyCvRect c(cv::Rect r)
 {
-	MyCvRect ret = { r.x, r.y, r.width, r.height };
-	return ret;
+    MyCvRect ret = { r.x, r.y, r.width, r.height };
+    return ret;
 }
 static cv::Rect cpp(MyCvRect r)
 {
-	return cv::Rect(r.x, r.y, r.width, r.height);
+    return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
 static MyCvScalar c(cv::Scalar s)
 {
-	MyCvScalar ret;
-	ret.val[0] = s[0];
-	ret.val[1] = s[1];
-	ret.val[2] = s[2];
-	ret.val[3] = s[3];
-	return ret;
+    MyCvScalar ret;
+    ret.val[0] = s[0];
+    ret.val[1] = s[1];
+    ret.val[2] = s[2];
+    ret.val[3] = s[3];
+    return ret;
 }
 static cv::Scalar cpp(MyCvScalar s)
 {
-	return cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
+    return cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
 }
 
 static CvVec4i c(cv::Vec4i v)
@@ -222,58 +222,58 @@ static cv::Vec4i cpp(CvVec4i v)
 
 static MyCvSlice c(cv::Range s)
 {
-	MyCvSlice ret;
+    MyCvSlice ret;
     ret.start_index = s.start;
     ret.end_index = s.end;
-	return ret;
+    return ret;
 }
 static cv::Range cpp(MyCvSlice s)
 {
-	return cv::Range(s.start_index, s.end_index);
+    return cv::Range(s.start_index, s.end_index);
 }
 
 static MyCvMoments c(cv::Moments m)
 {
-	MyCvMoments ret;
-	ret.m00 = m.m00; ret.m10 = m.m10; ret.m01 = m.m01;
-	ret.m20 = m.m20; ret.m11 = m.m11; ret.m02 = m.m02;
-	ret.m30 = m.m30; ret.m21 = m.m21; ret.m12 = m.m12; ret.m03 = m.m03;
-	ret.mu20 = m.mu20; ret.mu11 = m.mu11; ret.mu02 = m.mu02;
-	ret.mu30 = m.mu30; ret.mu21 = m.mu21; ret.mu12 = m.mu12; ret.mu03 = m.mu03;
-	double am00 = std::abs(m.m00);
-	ret.inv_sqrt_m00 = am00 > DBL_EPSILON ? 1. / std::sqrt(am00) : 0;
+    MyCvMoments ret;
+    ret.m00 = m.m00; ret.m10 = m.m10; ret.m01 = m.m01;
+    ret.m20 = m.m20; ret.m11 = m.m11; ret.m02 = m.m02;
+    ret.m30 = m.m30; ret.m21 = m.m21; ret.m12 = m.m12; ret.m03 = m.m03;
+    ret.mu20 = m.mu20; ret.mu11 = m.mu11; ret.mu02 = m.mu02;
+    ret.mu30 = m.mu30; ret.mu21 = m.mu21; ret.mu12 = m.mu12; ret.mu03 = m.mu03;
+    double am00 = std::abs(m.m00);
+    ret.inv_sqrt_m00 = am00 > DBL_EPSILON ? 1. / std::sqrt(am00) : 0;
 
-	return ret;
+    return ret;
 }
 static cv::Moments cpp(MyCvMoments m)
 {
-	return cv::Moments(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
+    return cv::Moments(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
 }
 
 static MyCvTermCriteria c(cv::TermCriteria tc)
 {
-	MyCvTermCriteria ret;
-	ret.type = tc.type;
-	ret.max_iter = tc.maxCount;
-	ret.epsilon = tc.epsilon;
-	return ret;
+    MyCvTermCriteria ret;
+    ret.type = tc.type;
+    ret.max_iter = tc.maxCount;
+    ret.epsilon = tc.epsilon;
+    return ret;
 }
 static cv::TermCriteria cpp(MyCvTermCriteria tc)
 {
-	return cv::TermCriteria(tc.type, tc.max_iter, tc.epsilon);
+    return cv::TermCriteria(tc.type, tc.max_iter, tc.epsilon);
 }
 
 static MyCvBox2D c(cv::RotatedRect r)
 {
-	MyCvBox2D ret;
-	ret.center = c(r.center);
-	ret.size = c(r.size);
-	ret.angle = r.angle;
-	return ret;
+    MyCvBox2D ret;
+    ret.center = c(r.center);
+    ret.size = c(r.size);
+    ret.angle = r.angle;
+    return ret;
 }
 static cv::RotatedRect cpp(MyCvBox2D b)
 {
-	return cv::RotatedRect(cpp(b.center), cpp(b.size), b.angle);
+    return cv::RotatedRect(cpp(b.center), cpp(b.size), b.angle);
 }
 
 static cv::aruco::DetectorParameters cpp(aruco_DetectorParameters p)

@@ -7,8 +7,8 @@ namespace OpenCvSharp.Flann
 
 #if LANG_JP
     /// <summary>
-	/// k-means クラスタリングの初期中心を選択するアルゴリズム．
-	/// </summary>
+    /// k-means クラスタリングの初期中心を選択するアルゴリズム．
+    /// </summary>
 #else
     /// <summary>
     /// The algorithm to use for selecting the initial centers when performing a k-means clustering step. 

@@ -15,46 +15,46 @@ CVAPI(void) features2d_FAST2(cv::_InputArray *image, std::vector<cv::KeyPoint> *
 
 
 CVAPI(cv::Ptr<cv::FastFeatureDetector>*) features2d_FastFeatureDetector_create(
-	int threshold, int nonmaxSuppression)
+    int threshold, int nonmaxSuppression)
 {
-	cv::Ptr<cv::FastFeatureDetector> ptr = cv::FastFeatureDetector::create(threshold, nonmaxSuppression != 0);
-	return new cv::Ptr<cv::FastFeatureDetector>(ptr);
+    cv::Ptr<cv::FastFeatureDetector> ptr = cv::FastFeatureDetector::create(threshold, nonmaxSuppression != 0);
+    return new cv::Ptr<cv::FastFeatureDetector>(ptr);
 }
 CVAPI(void) features2d_Ptr_FastFeatureDetector_delete(cv::Ptr<cv::FastFeatureDetector> *ptr)
 {
-	delete ptr;
+    delete ptr;
 }
 
 CVAPI(cv::FastFeatureDetector*) features2d_Ptr_FastFeatureDetector_get(cv::Ptr<cv::FastFeatureDetector> *ptr)
 {
-	return ptr->get();
+    return ptr->get();
 }
 
 CVAPI(void) features2d_FastFeatureDetector_setThreshold(cv::FastFeatureDetector *obj, int threshold)
 {
-	obj->setThreshold(threshold);
+    obj->setThreshold(threshold);
 }
 CVAPI(int) features2d_FastFeatureDetector_getThreshold(cv::FastFeatureDetector *obj)
 {
-	return obj->getThreshold();
+    return obj->getThreshold();
 }
 
 CVAPI(void) features2d_FastFeatureDetector_setNonmaxSuppression(cv::FastFeatureDetector *obj, int f)
 {
-	obj->setNonmaxSuppression(f != 0);
+    obj->setNonmaxSuppression(f != 0);
 }
 CVAPI(int) features2d_FastFeatureDetector_getNonmaxSuppression(cv::FastFeatureDetector *obj)
 {
-	return obj->getNonmaxSuppression() ? 1 : 0;
+    return obj->getNonmaxSuppression() ? 1 : 0;
 }
 
 CVAPI(void) features2d_FastFeatureDetector_setType(cv::FastFeatureDetector *obj, int type)
 {
-	obj->setType(type);
+    obj->setType(type);
 }
 CVAPI(int) features2d_FastFeatureDetector_getType(cv::FastFeatureDetector *obj)
 {
-	return obj->getType();
+    return obj->getType();
 }
 
 #endif

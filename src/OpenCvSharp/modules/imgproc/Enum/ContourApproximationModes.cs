@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// 輪郭の近似手法
-	/// </summary>
+    /// 輪郭の近似手法
+    /// </summary>
 #else
     /// <summary>
     /// Approximation method (for all the modes, except CV_RETR_RUNS, which uses built-in approximation). 
@@ -13,9 +13,9 @@ namespace OpenCvSharp
     public enum ContourApproximationModes : int
     {
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// [CHAIN_APPROX_NONE]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// CHAIN_APPROX_NONE - translate all the points from the chain code into points; 
@@ -25,9 +25,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// 水平・垂直・斜めの線分を圧縮し，それらの端点のみを残します．例えば，まっすぐな矩形の輪郭線は，4つの点にエンコードされます． [CV_CHAIN_APPROX_SIMPLE]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// CHAIN_APPROX_SIMPLE - compress horizontal, vertical, and diagonal segments, that is, the function leaves only their ending points; 
@@ -37,9 +37,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Teh-Chinチェーン近似アルゴリズムの1つを適用します． TehChin89 を参照してください． [CV_CHAIN_APPROX_TC89_L1]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// CHAIN_APPROX_TC89_L1 - apply one of the flavors of Teh-Chin chain approximation algorithm. 
@@ -50,9 +50,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
+        /// <summary>
         /// Teh-Chinチェーン近似アルゴリズムの1つを適用します． TehChin89 を参照してください． [CV_CHAIN_APPROX_TC89_KCOS]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// CHAIN_APPROX_TC89_KCOS - apply one of the flavors of Teh-Chin chain approximation algorithm. 

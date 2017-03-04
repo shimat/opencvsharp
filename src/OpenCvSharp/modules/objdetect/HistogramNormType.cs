@@ -5,8 +5,8 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-	/// 
-	/// </summary>
+    /// 
+    /// </summary>
 #else
     /// <summary>
     /// 
@@ -15,10 +15,10 @@ namespace OpenCvSharp
     public enum HistogramNormType : int
     {
 #if LANG_JP
-		/// <summary>
-		/// 
+        /// <summary>
+        /// 
         /// [HOGDescriptor::L2Hys]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// 

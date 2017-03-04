@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// cv::imwrite, cv::inencode で用いるエンコードの種類
-	/// </summary>
+    /// cv::imwrite, cv::inencode で用いるエンコードの種類
+    /// </summary>
 #else
     /// <summary>
     /// The format type IDs for cv::imwrite and cv::inencode

@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// Mat.DrawMarkerで用いるマーカーの形状
-	/// </summary>
+    /// Mat.DrawMarkerで用いるマーカーの形状
+    /// </summary>
 #else
     /// <summary>
     /// Marker styles for Mat.DrawMarker
@@ -13,9 +13,9 @@ namespace OpenCvSharp
     public enum MarkerStyle : int
     {
 #if LANG_JP
-		/// <summary>
-		/// 円（線のみ）
-		/// </summary>
+        /// <summary>
+        /// 円（線のみ）
+        /// </summary>
 #else
         /// <summary>
         /// A circle polyline
@@ -24,9 +24,9 @@ namespace OpenCvSharp
         CircleLine,
 
 #if LANG_JP
-		/// <summary>
-		/// 円（塗りつぶし）
-		/// </summary>
+        /// <summary>
+        /// 円（塗りつぶし）
+        /// </summary>
 #else
         /// <summary>
         /// A filled circle
@@ -35,9 +35,9 @@ namespace OpenCvSharp
         CircleFilled,
 
 #if LANG_JP
-		/// <summary>
-		/// 十字
-		/// </summary>
+        /// <summary>
+        /// 十字
+        /// </summary>
 #else
         /// <summary>
         /// A cross
@@ -46,9 +46,9 @@ namespace OpenCvSharp
         Cross,
 
 #if LANG_JP
-		/// <summary>
-		/// バツ
-		/// </summary>
+        /// <summary>
+        /// バツ
+        /// </summary>
 #else
         /// <summary>
         /// A tilted cross
@@ -57,9 +57,9 @@ namespace OpenCvSharp
         TiltedCross,
 
 #if LANG_JP
-		/// <summary>
-		/// 円と十字
-		/// </summary>
+        /// <summary>
+        /// 円と十字
+        /// </summary>
 #else
         /// <summary>
         /// A circle and a cross
@@ -68,9 +68,9 @@ namespace OpenCvSharp
         CircleAndCross,
 
 #if LANG_JP
-		/// <summary>
-		/// 円とバツ
-		/// </summary>
+        /// <summary>
+        /// 円とバツ
+        /// </summary>
 #else
         /// <summary>
         /// A circle and a tilted cross
@@ -79,9 +79,9 @@ namespace OpenCvSharp
         CircleAndTiltedCross,
 
 #if LANG_JP
-		/// <summary>
-		/// 菱形（線のみ）
-		/// </summary>
+        /// <summary>
+        /// 菱形（線のみ）
+        /// </summary>
 #else
         /// <summary>
         /// A diamond polyline
@@ -90,9 +90,9 @@ namespace OpenCvSharp
         DiamondLine,
 
 #if LANG_JP
-		/// <summary>
-		/// 菱形（塗りつぶし）
-		/// </summary>
+        /// <summary>
+        /// 菱形（塗りつぶし）
+        /// </summary>
 #else
         /// <summary>
         /// A filled diamond
@@ -101,9 +101,9 @@ namespace OpenCvSharp
         DiamondFilled,
 
 #if LANG_JP
-		/// <summary>
-		/// 正方形（線のみ）
-		/// </summary>
+        /// <summary>
+        /// 正方形（線のみ）
+        /// </summary>
 #else
         /// <summary>
         /// A square polyline
@@ -112,9 +112,9 @@ namespace OpenCvSharp
         SquareLine,
 
 #if LANG_JP
-		/// <summary>
-		/// 正方形（塗りつぶし）
-		/// </summary>
+        /// <summary>
+        /// 正方形（塗りつぶし）
+        /// </summary>
 #else
         /// <summary>
         /// A filledsquare

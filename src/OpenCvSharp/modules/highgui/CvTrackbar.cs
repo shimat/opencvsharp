@@ -246,8 +246,8 @@ namespace OpenCvSharp
         #region Properties
 #if LANG_JP
         /// <summary>
-		/// トラックバーの名前を取得する
-		/// </summary>
+        /// トラックバーの名前を取得する
+        /// </summary>
 #else
         /// <summary>
         /// Name of this trackbar
@@ -259,9 +259,9 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
-		/// 親ウィンドウの名前を取得する
-		/// </summary>
+        /// <summary>
+        /// 親ウィンドウの名前を取得する
+        /// </summary>
 #else
         /// <summary>
         /// Name of parent window
@@ -273,9 +273,9 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
-		/// トラックバーの現在の値を取得・設定する
-		/// </summary>
+        /// <summary>
+        /// トラックバーの現在の値を取得・設定する
+        /// </summary>
 #else
         /// <summary>
         /// Gets or sets a numeric value that represents the current position of the scroll box on the track bar. 
@@ -288,9 +288,9 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
-		/// トラックバーの目盛りの最大値を取得する
-		/// </summary>
+        /// <summary>
+        /// トラックバーの目盛りの最大値を取得する
+        /// </summary>
 #else
         /// <summary>
         /// Gets the upper limit of the range this trackbar is working with. 
@@ -302,9 +302,9 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-		/// <summary>
-		/// スライダが動いた際のコールバックイベントデリゲートを取得する
-		/// </summary>
+        /// <summary>
+        /// スライダが動いた際のコールバックイベントデリゲートを取得する
+        /// </summary>
 #else
         /// <summary>
         /// Gets the callback delegate which occurs when the Value property of a track bar changes, either by movement of the scroll box or by manipulation in code. 
@@ -317,8 +317,8 @@ namespace OpenCvSharp
 
 #if LANG_JP
         /// <summary>
-		/// 
-		/// </summary>
+        /// 
+        /// </summary>
 #else
         /// <summary>
         /// 
@@ -332,8 +332,8 @@ namespace OpenCvSharp
 
 #if LANG_JP
         /// <summary>
-		/// 
-		/// </summary>
+        /// 
+        /// </summary>
 #else
         /// <summary>
         /// 

@@ -5,8 +5,8 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-	/// diagonal type
-	/// </summary>
+    /// diagonal type
+    /// </summary>
 #else
     /// <summary>
     /// diagonal type
@@ -15,10 +15,10 @@ namespace OpenCvSharp
     public enum MatDiagType : int
     {
 #if LANG_JP
-		/// <summary>
-		/// a diagonal from the upper half
+        /// <summary>
+        /// a diagonal from the upper half
         /// [&lt; 0]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// a diagonal from the upper half
@@ -27,10 +27,10 @@ namespace OpenCvSharp
 #endif
         Upper = -1,
 #if LANG_JP
-		/// <summary>
-		/// Main dialonal
+        /// <summary>
+        /// Main dialonal
         /// [= 0]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// Main dialonal
@@ -39,10 +39,10 @@ namespace OpenCvSharp
 #endif
         Main = 0,
 #if LANG_JP
-		/// <summary>
-		/// a diagonal from the lower half
+        /// <summary>
+        /// a diagonal from the lower half
         /// [&gt; 0]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// a diagonal from the lower half

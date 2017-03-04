@@ -119,9 +119,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static explicit operator Mat(FileNode node)
         {
-        	if (node == null)
-        		throw new ArgumentNullException(nameof(node));
-        	node.ThrowIfDisposed();
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            node.ThrowIfDisposed();
 
             var matrix = new Mat();
             NativeMethods.core_FileNode_toMat(node.CvPtr, matrix.CvPtr);

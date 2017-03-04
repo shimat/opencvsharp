@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// 輪郭の抽出モード 
-	/// </summary>
+    /// 輪郭の抽出モード 
+    /// </summary>
 #else
     /// <summary>
     /// mode of the contour retrieval algorithm
@@ -13,9 +13,9 @@ namespace OpenCvSharp
     public enum RetrievalModes : int
     {
 #if LANG_JP
-		/// <summary>
-		/// 最も外側の輪郭のみ抽出 
-		/// </summary>
+        /// <summary>
+        /// 最も外側の輪郭のみ抽出 
+        /// </summary>
 #else
         /// <summary>
         /// retrieves only the extreme outer contours. 
@@ -25,10 +25,10 @@ namespace OpenCvSharp
         External = 0,
         
 #if LANG_JP
-		/// <summary>
-		/// 全ての輪郭を抽出し，リストに追加 
+        /// <summary>
+        /// 全ての輪郭を抽出し，リストに追加 
         /// [CV_RETR_LIST]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// retrieves all of the contours without establishing any hierarchical relationships.
@@ -38,9 +38,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 全ての輪郭を抽出し，二つのレベルを持つ階層構造を構成する．1番目のレベルは連結成分の外側の境界線，2番目のレベルは穴（連結成分の内側に存在する）の境界線 
-		/// </summary>
+        /// <summary>
+        /// 全ての輪郭を抽出し，二つのレベルを持つ階層構造を構成する．1番目のレベルは連結成分の外側の境界線，2番目のレベルは穴（連結成分の内側に存在する）の境界線 
+        /// </summary>
 #else
         /// <summary>
         /// retrieves all of the contours and organizes them into a two-level hierarchy. 
@@ -53,9 +53,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 全ての輪郭を抽出し，枝分かれした輪郭を完全に表現する階層構造を構成する 
-		/// </summary>
+        /// <summary>
+        /// 全ての輪郭を抽出し，枝分かれした輪郭を完全に表現する階層構造を構成する 
+        /// </summary>
 #else
         /// <summary>
         /// retrieves all of the contours and reconstructs a full hierarchy 
@@ -66,10 +66,10 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 
+        /// <summary>
+        /// 
         /// [CV_RETR_FLOODFILL]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// 

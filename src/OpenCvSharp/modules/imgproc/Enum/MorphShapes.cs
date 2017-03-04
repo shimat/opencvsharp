@@ -3,8 +3,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// 構造要素の形状
-	/// </summary>
+    /// 構造要素の形状
+    /// </summary>
 #else
     /// <summary>
     /// Shape of the structuring element
@@ -13,9 +13,9 @@ namespace OpenCvSharp
     public enum MorphShapes : int
     {
 #if LANG_JP
-		/// <summary>
-		/// 矩形 
-		/// </summary>
+        /// <summary>
+        /// 矩形 
+        /// </summary>
 #else
         /// <summary>
         /// A rectangular element
@@ -25,9 +25,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 十字型 
-		/// </summary>
+        /// <summary>
+        /// 十字型 
+        /// </summary>
 #else
         /// <summary>
         /// A cross-shaped element
@@ -37,9 +37,9 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// 楕円 
-		/// </summary>
+        /// <summary>
+        /// 楕円 
+        /// </summary>
 #else
         /// <summary>
         /// An elliptic element

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace OpenCvSharp.Blob
 {
-	/// <summary>
+    /// <summary>
     /// Render mode of cvRenderBlobs
     /// </summary>
-	[Flags]
-	public enum RenderBlobsMode : ushort
-	{
+    [Flags]
+    public enum RenderBlobsMode : ushort
+    {
         /// <summary>
         /// No flags (=0)
         /// </summary>
@@ -50,5 +50,5 @@ namespace OpenCvSharp.Blob
         /// [CV_BLOB_RENDER_TO_STD]
         /// </summary>
         ToStd = CvBlobConst.CV_BLOB_RENDER_TO_STD,
-	}
+    }
 }

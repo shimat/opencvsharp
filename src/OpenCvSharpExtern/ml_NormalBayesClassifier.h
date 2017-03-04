@@ -6,27 +6,27 @@ using namespace cv::ml;
 
 
 CVAPI(float) ml_NormalBayesClassifier_predictProb(
-	NormalBayesClassifier *obj, cv::_InputArray *inputs, 
-	cv::_OutputArray *samples, cv::_OutputArray *outputProbs, int flags)
+    NormalBayesClassifier *obj, cv::_InputArray *inputs, 
+    cv::_OutputArray *samples, cv::_OutputArray *outputProbs, int flags)
 {
-	return obj->predictProb(entity(inputs), entity(samples), entity(outputProbs), flags);
+    return obj->predictProb(entity(inputs), entity(samples), entity(outputProbs), flags);
 }
 
 CVAPI(cv::Ptr<NormalBayesClassifier>*) ml_NormalBayesClassifier_create()
 {
-	cv::Ptr<NormalBayesClassifier> ptr = NormalBayesClassifier::create();
-	return new cv::Ptr<NormalBayesClassifier>(ptr);
+    cv::Ptr<NormalBayesClassifier> ptr = NormalBayesClassifier::create();
+    return new cv::Ptr<NormalBayesClassifier>(ptr);
 }
 
 CVAPI(void) ml_Ptr_NormalBayesClassifier_delete(cv::Ptr<NormalBayesClassifier> *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 CVAPI(NormalBayesClassifier*) ml_Ptr_NormalBayesClassifier_get(
-	cv::Ptr<NormalBayesClassifier>* obj)
+    cv::Ptr<NormalBayesClassifier>* obj)
 {
-	return obj->get();
+    return obj->get();
 }
 
 CVAPI(cv::Ptr<NormalBayesClassifier>*) ml_NormalBayesClassifier_load(const char *filePath)

@@ -2,9 +2,9 @@
 namespace OpenCvSharp
 {
 #if LANG_JP
-   	/// <summary>
-	/// cvInpaintの修復方法
-	/// </summary>
+       /// <summary>
+    /// cvInpaintの修復方法
+    /// </summary>
 #else
     /// <summary>
     /// The inpainting method
@@ -13,10 +13,10 @@ namespace OpenCvSharp
     public enum InpaintMethod
     {
 #if LANG_JP
-		/// <summary>
-		/// ナビエ・ストークス(Navier-Stokes)ベースの手法
+        /// <summary>
+        /// ナビエ・ストークス(Navier-Stokes)ベースの手法
         /// [CV_INPAINT_NS]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// Navier-Stokes based method.
@@ -28,10 +28,10 @@ namespace OpenCvSharp
 
 
 #if LANG_JP
-		/// <summary>
-		/// Alexandru Teleaによる手法 
+        /// <summary>
+        /// Alexandru Teleaによる手法 
         /// [CV_INPAINT_TELEA]
-		/// </summary>
+        /// </summary>
 #else
         /// <summary>
         /// The method by Alexandru Telea

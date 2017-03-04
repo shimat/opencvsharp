@@ -3,14 +3,14 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// ハフ変換の種類
-	/// </summary>
+    /// ハフ変換の種類
+    /// </summary>
 #else
     /// <summary>
     /// Variants of a Hough transform
     /// </summary>
 #endif
-	public enum HoughMethods : int
+    public enum HoughMethods : int
     {
         /*  */
         /// <summary>
@@ -40,5 +40,5 @@ namespace OpenCvSharp
         /// basically *21HT*, described in @cite Yuen90
         /// </summary>
         Gradient = 3 
-	}
+    }
 }

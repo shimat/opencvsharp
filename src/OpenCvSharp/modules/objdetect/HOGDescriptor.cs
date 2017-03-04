@@ -1368,9 +1368,9 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public HOGDescriptor()
-	    {
+        {
             ptr = NativeMethods.objdetect_HOGDescriptor_new1();               
-	    }
+        }
 #if LANG_JP
         /// <summary>
         /// HOG ディスクリプタおよび検出器を作成します

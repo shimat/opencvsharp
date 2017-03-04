@@ -4,8 +4,8 @@ namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
-	/// cvNamedWindowで使用するウィンドウのフラグ
-	/// </summary>
+    /// cvNamedWindowで使用するウィンドウのフラグ
+    /// </summary>
 #else
     /// <summary>
     /// Flags for the window
@@ -21,9 +21,9 @@ namespace OpenCvSharp
         Normal = 0x00000000,
 
 #if LANG_JP
-		/// <summary>
-		/// 表示される画像サイズに合わせてウィンドウサイズが自動的に調整される 
-		/// </summary>
+        /// <summary>
+        /// 表示される画像サイズに合わせてウィンドウサイズが自動的に調整される 
+        /// </summary>
 #else
         /// <summary>
         /// the user cannot resize the window, the size is constrainted by the image displayed
