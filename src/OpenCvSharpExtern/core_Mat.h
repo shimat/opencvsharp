@@ -350,9 +350,10 @@ CVAPI(cv::Mat*) core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::Mat *
 {
     cv::Mat ret;
     if (mask == NULL)
-        ret = self->setTo(cpp(value), entity(mask));
-    else
         ret = self->setTo(cpp(value));
+    else
+        ret = self->setTo(cpp(value), entity(mask));
+
     return new cv::Mat(ret);
 }
 CVAPI(cv::Mat*) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value, cv::_InputArray *mask)

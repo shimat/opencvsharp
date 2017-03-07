@@ -65,7 +65,7 @@ namespace OpenCvSharp.Tests.ML
             FileAssert.Exists(fileName);
 
             string content = File.ReadAllText(fileName);
-            Console.WriteLine(content);
+            //Console.WriteLine(content);
 
             Assert.DoesNotThrow(() =>
             {
