@@ -2377,12 +2377,13 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public Mat SetTo(Scalar value, InputArray mask = null)
+        public Mat SetTo(Scalar value, Mat mask = null)
         {
             ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
             IntPtr retPtr = NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr);
             Mat retVal = new Mat(retPtr);
+            GC.KeepAlive(mask);
             return retVal;
         }
 
@@ -2392,7 +2393,7 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public Mat SetTo(InputArray value, InputArray mask = null)
+        public Mat SetTo(InputArray value, Mat mask = null)
         {
             ThrowIfDisposed();
             if (value == null)
@@ -2401,6 +2402,7 @@ namespace OpenCvSharp
             IntPtr maskPtr = Cv2.ToPtr(mask);
             IntPtr retPtr = NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr);
             Mat retVal = new Mat(retPtr);
+            GC.KeepAlive(mask);
             return retVal;
         }
 

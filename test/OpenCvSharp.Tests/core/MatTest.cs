@@ -15,7 +15,23 @@ namespace OpenCvSharp.Tests.Core
             using (Mat mask = graySrc.InRange(100, 200))
             {
                 Assert.DoesNotThrow(() => { resultImage.SetTo(0, mask); });
+                //Window.ShowImages(resultImage);
                 Assert.DoesNotThrow(() => { resultImage.SetTo(0, null); });
+                //Window.ShowImages(resultImage);
+            }
+        }
+
+        [Test]
+        public void CopyTo()
+        {
+            using (Mat src = Image("lenna.png", ImreadModes.GrayScale))
+            using (Mat dst = new Mat())
+            using (Mat mask = src.GreaterThan(128))
+            {
+                Assert.DoesNotThrow(() => { src.CopyTo(dst, mask); });
+                //Window.ShowImages(dst);
+                Assert.DoesNotThrow(() => { src.CopyTo(dst, null); });
+                //Window.ShowImages(dst);
             }
         }
 
