@@ -655,7 +655,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat Diag(Mat d)
         {
-            return d.Diag();
+            IntPtr retPtr = NativeMethods.core_Mat_diag3(d.CvPtr);
+            Mat retVal = new Mat(retPtr);
+            return retVal;
         }
 
         #endregion
