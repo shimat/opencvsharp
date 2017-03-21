@@ -40,7 +40,7 @@ namespace OpenCvSharp.ML
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public static Boost Load(string filePath)
+        public new static Boost Load(string filePath)
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
@@ -53,7 +53,7 @@ namespace OpenCvSharp.ML
         /// </summary>
         /// <param name="strModel">he string variable containing the model you want to load.</param>
         /// <returns></returns>
-        public static Boost LoadFromString(string strModel)
+        public new static Boost LoadFromString(string strModel)
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
