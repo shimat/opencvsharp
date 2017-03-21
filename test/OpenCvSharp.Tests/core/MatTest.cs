@@ -36,6 +36,30 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Test]
+        public void Diag()
+        {
+            var data = new byte[] {1, 10, 100};
+            using (var mat = new Mat(3, 1, MatType.CV_8UC1, data))
+            using (var diag = Mat.Diag(mat))
+            {
+                Assert.AreEqual(3, diag.Rows);
+                Assert.AreEqual(3, diag.Cols);
+                Assert.AreEqual(MatType.CV_8UC1, diag.Type());
+
+                Assert.AreEqual(1, diag.Get<byte>(0, 0));
+                Assert.AreEqual(0, diag.Get<byte>(0, 1));
+                Assert.AreEqual(0, diag.Get<byte>(0, 2));
+                Assert.AreEqual(0, diag.Get<byte>(1, 0));
+                Assert.AreEqual(10, diag.Get<byte>(1, 1));
+                Assert.AreEqual(0, diag.Get<byte>(1, 2));
+                Assert.AreEqual(0, diag.Get<byte>(2, 0));
+                Assert.AreEqual(0, diag.Get<byte>(2, 1));
+                Assert.AreEqual(100, diag.Get<byte>(2, 2));
+            }
+        }
+
+
+        [Test]
         public void MatOfDoubleFromArray()
         {
             var array = new double[] {7, 8, 9};
