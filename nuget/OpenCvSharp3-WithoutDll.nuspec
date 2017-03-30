@@ -11,7 +11,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <summary>OpenCV 3.x wrapper</summary>
-        <releaseNotes>- Fixed #289, #288, #287, #286</releaseNotes>
+        <releaseNotes>- Fixed #329, #322, #320, #319, #318, #314, #306, #304 and #303</releaseNotes>
         <copyright>Copyright 2008-2017</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <dependencies>
@@ -25,18 +25,7 @@
                 <dependency id="NETStandard.Library" version="1.6.1" />
             </group>
             <group targetFramework="uap10.0">
-                <!--<dependency id="NETStandard.Library" version="1.6.1" />-->
-                <dependency id="System.AppContext" version="4.3.0" />
-                <dependency id="System.Console" version="4.3.0" />
-                <dependency id="System.Collections" version="4.3.0" />
-                <dependency id="System.Diagnostics.Debug" version="4.3.0" />
-                <dependency id="System.Globalization" version="4.3.0" />
-                <dependency id="System.IO.FileSystem" version="4.3.0" />
-                <dependency id="System.Linq" version="4.3.0" />
-                <dependency id="System.Runtime.Extensions" version="4.3.0" />
-                <dependency id="System.Runtime.InteropServices" version="4.3.0" />
-                <dependency id="System.Runtime.InteropServices.RuntimeInformation" version="4.3.0" />
-                <dependency id="System.Threading" version="4.3.0" />
+                <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.1.0" />
             </group>
         </dependencies>
         <frameworkAssemblies>
@@ -49,7 +38,6 @@
             <frameworkAssembly assemblyName="System.Core" targetFramework="net40, net46" />
             <frameworkAssembly assemblyName="WindowsBase" targetFramework="net40, net46" />
             <frameworkAssembly assemblyName="System.Xaml" targetFramework="net40, net46" />
-            <frameworkAssembly assemblyName="System.Runtime" targetFramework="net46" />
         </frameworkAssemblies>
     </metadata>
     <files>
@@ -107,7 +95,7 @@
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.pdb" target="lib\netcoreapp1.0" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.xml" target="lib\netcoreapp1.0" />
 
-        <file src="tools\init.ps1" target="tools\init.ps1" />
-        <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
+        <!--<file src="tools\init.ps1" target="tools\init.ps1" />
+        <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />-->
     </files>
 </package>
