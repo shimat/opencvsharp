@@ -22,10 +22,10 @@ namespace OpenCvSharp.XFeatures2D
         /// <summary>
         /// Creates instance by raw pointer cv::SURF*
         /// </summary>
-        protected SURF(IntPtr ptr)
+        protected SURF(IntPtr p)
             : base()
         {
-            detectorPtr = new Ptr(ptr);
+            detectorPtr = new Ptr(p);
             ptr = detectorPtr.Get();
         }
 
