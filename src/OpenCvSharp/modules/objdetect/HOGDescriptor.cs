@@ -16,6 +16,7 @@ namespace OpenCvSharp
     public class HOGDescriptor : DisposableCvObject
     {
         #region Fields
+
         /// <summary>
         /// 
         /// </summary>
@@ -28,10 +29,6 @@ namespace OpenCvSharp
         /// sizeof(HOGDescriptor) 
         /// </summary>
         public static readonly int SizeOf = NativeMethods.objdetect_HOGDescriptor_sizeof();
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
 
         #region DefaultPeopleDetector
 
@@ -1371,6 +1368,7 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.objdetect_HOGDescriptor_new1();               
         }
+
 #if LANG_JP
         /// <summary>
         /// HOG ディスクリプタおよび検出器を作成します
@@ -1459,46 +1457,15 @@ namespace OpenCvSharp
             this.ptr = ptr;
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (IsEnabledDispose)
-                    {
-                        if(ptr != IntPtr.Zero)
-                            NativeMethods.objdetect_HOGDescriptor_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.objdetect_HOGDescriptor_delete(ptr);
+            base.DisposeUnmanaged();
         }
+
         #endregion
 
         #region Properties
@@ -1639,8 +1606,7 @@ namespace OpenCvSharp
 #endif
         public virtual void SetSVMDetector(float[] svmDetector)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
 
             using (var svmDetectorVec = new VectorOfFloat(svmDetector))
             {
@@ -1656,8 +1622,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public virtual bool Load(string fileName, string objName = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             return NativeMethods.objdetect_HOGDescriptor_load(ptr, fileName, objName);
         }
 
@@ -1668,8 +1633,7 @@ namespace OpenCvSharp
         /// <param name="objName"></param>
         public virtual void Save(string fileName, string objName = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             NativeMethods.objdetect_HOGDescriptor_save(ptr, fileName, objName);
         }
 
@@ -1679,8 +1643,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int GetDescriptorSize()
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             return NativeMethods.objdetect_HOGDescriptor_getDescriptorSize(ptr).ToInt32();
         }
 
@@ -1690,8 +1653,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public bool CheckDetectorSize()
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             return NativeMethods.objdetect_HOGDescriptor_checkDetectorSize(ptr) != 0;
         }
 
@@ -1701,8 +1663,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public double GetWinSigma()
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             return NativeMethods.objdetect_HOGDescriptor_getWinSigma(ptr);
         }
 
@@ -1842,8 +1803,7 @@ namespace OpenCvSharp
         public virtual Rect[] DetectMultiScale(Mat img, out double[] foundWeights,
             double hitThreshold = 0, Size? winStride = null, Size? padding = null, double scale = 1.05, int groupThreshold = 2)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
@@ -1872,8 +1832,7 @@ namespace OpenCvSharp
         /// <param name="paddingBR"></param>
         public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, Size? paddingTL = null, Size? paddingBR = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             if (grad == null)
@@ -1904,8 +1863,7 @@ namespace OpenCvSharp
             Mat img, Point[] locations, out Point[] foundLocations, out double[] confidences,
             double hitThreshold = 0, Size? winStride = null, Size? padding = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             if (locations == null)
@@ -1939,8 +1897,7 @@ namespace OpenCvSharp
             double hitThreshold = 0,
             int groupThreshold = 0)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
@@ -1981,8 +1938,7 @@ namespace OpenCvSharp
         /// <param name="modelFile"></param>
         public void ReadALTModel(string modelFile)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
             NativeMethods.objdetect_HOGDescriptor_readALTModel(ptr, modelFile);
         }
         /// <summary>
@@ -1994,8 +1950,7 @@ namespace OpenCvSharp
         /// <param name="eps"></param>
         public void GroupRectangles(out Rect[] rectList, out double[] weights, int groupThreshold, double eps)
         {
-            if (disposed)
-                throw new ObjectDisposedException("HOGDescriptor");
+            ThrowIfDisposed();
 
             using (var rectListVec = new VectorOfRect())
             using (var weightsVec = new VectorOfDouble())
