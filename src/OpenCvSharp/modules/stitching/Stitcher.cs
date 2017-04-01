@@ -59,7 +59,6 @@ namespace OpenCvSharp
     /// </summary>
     public sealed class Stitcher : DisposableCvObject
     {
-        private bool disposed;
         private Ptr ptrObj;
 
         #region Enum
@@ -102,30 +101,13 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Deletes all resources 
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                    }
-                    // releases unmanaged resources
-                    ptr = IntPtr.Zero;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         #endregion
@@ -470,9 +452,10 @@ namespace OpenCvSharp
                 return NativeMethods.stitching_Ptr_Stitcher_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.stitching_Ptr_Stitcher_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

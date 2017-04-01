@@ -12,8 +12,6 @@ namespace OpenCvSharp.Face
     /// </summary>
     public class FaceRecognizer : Algorithm
     {
-        private bool disposed;
-
         /// <summary>
         ///
         /// </summary>
@@ -89,47 +87,14 @@ namespace OpenCvSharp.Face
             return LBPHFaceRecognizer.FromPtr(p);
         }
 
-#if LANG_JP
-/// <summary>
-/// リソースの解放
-/// </summary>
-/// <param name="disposing">
-/// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-/// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        recognizerPtr?.Dispose();
-                        recognizerPtr = null;
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            recognizerPtr?.Dispose();
+            recognizerPtr = null;
+            base.DisposeManaged();
         }
 
         #endregion
@@ -143,8 +108,7 @@ namespace OpenCvSharp.Face
         /// <param name="labels"></param>
         public virtual void Train(IEnumerable<Mat> src, IEnumerable<int> labels)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             if (labels == null)
@@ -162,8 +126,7 @@ namespace OpenCvSharp.Face
         /// <param name="labels"></param>
         public void Update(IEnumerable<Mat> src, IEnumerable<int> labels)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             if (labels == null)
@@ -181,8 +144,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual int Predict(InputArray src)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
@@ -197,8 +159,7 @@ namespace OpenCvSharp.Face
         /// <param name="confidence"></param>
         public virtual void Predict(InputArray src, out int label, out double confidence)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
@@ -211,8 +172,7 @@ namespace OpenCvSharp.Face
         /// <param name="fileName"></param>
         public new virtual void Save(string fileName)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
             NativeMethods.face_FaceRecognizer_save1(ptr, fileName);
@@ -224,8 +184,7 @@ namespace OpenCvSharp.Face
         /// <param name="fileName"></param>
         public virtual void Load(string fileName)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
             NativeMethods.face_FaceRecognizer_load1(ptr, fileName);
@@ -237,8 +196,7 @@ namespace OpenCvSharp.Face
         /// <param name="fs"></param>
         public virtual void Save(FileStorage fs)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
             NativeMethods.face_FaceRecognizer_save2(ptr, fs.CvPtr);
@@ -250,8 +208,7 @@ namespace OpenCvSharp.Face
         /// <param name="fs"></param>
         public virtual void Load(FileStorage fs)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
             NativeMethods.face_FaceRecognizer_load2(ptr, fs.CvPtr);
@@ -265,8 +222,7 @@ namespace OpenCvSharp.Face
         /// <param name="strInfo"></param>
         public void SetLabelInfo(int label, string strInfo)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (strInfo == null)
                 throw new ArgumentNullException(nameof(strInfo));
             NativeMethods.face_FaceRecognizer_setLabelInfo(ptr, label, strInfo);
@@ -281,8 +237,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public string GetLabelInfo(int label)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             using (var resultVector = new VectorOfByte())
             {
                 NativeMethods.face_FaceRecognizer_getLabelInfo(ptr, label, resultVector.CvPtr);
@@ -298,8 +253,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public int[] GetLabelsByString(string str)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             if (str == null)
                 throw new ArgumentNullException(nameof(str));
             using (var resultVector = new VectorOfInt32())
@@ -315,8 +269,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public double GetThreshold()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             return NativeMethods.face_FaceRecognizer_getThreshold(ptr);
         }
 
@@ -326,8 +279,7 @@ namespace OpenCvSharp.Face
         /// <param name="val"></param>
         public void SetThreshold(double val)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(FaceRecognizer));
+            ThrowIfDisposed();
             NativeMethods.face_FaceRecognizer_setThreshold(ptr, val);
         }
 
@@ -344,9 +296,10 @@ namespace OpenCvSharp.Face
                 return NativeMethods.face_Ptr_FaceRecognizer_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.face_FaceRecognizer_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }
