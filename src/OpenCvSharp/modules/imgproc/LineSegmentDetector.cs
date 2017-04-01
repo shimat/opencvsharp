@@ -7,8 +7,6 @@ namespace OpenCvSharp
     /// </summary>
     public class LineSegmentDetector : Algorithm
     {
-        private bool disposed;
-
         /// <summary>
         /// cv::Ptr&lt;LineSegmentDetector&gt;
         /// </summary>
@@ -46,47 +44,14 @@ namespace OpenCvSharp
             return new LineSegmentDetector(ptr);
         }
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         /// <summary>
@@ -220,9 +185,10 @@ namespace OpenCvSharp
                 return NativeMethods.imgproc_Ptr_LineSegmentDetector_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }
