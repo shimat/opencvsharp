@@ -15,8 +15,6 @@ namespace OpenCvSharp.Flann
 #endif
     public class CompositeIndexParams : IndexParams
     {
-        private bool disposed = false;
-
         #region Properties
         /*
 #if LANG_JP
@@ -176,55 +174,23 @@ namespace OpenCvSharp.Flann
         /// <param name="centersInit">The algorithm to use for selecting the initial centers when performing a k-means clustering step. </param>
         /// <param name="cbIndex">This parameter (cluster boundary index) influences the way exploration is performed in the hierarchical kmeans tree. When cb_index is zero the next kmeans domain to be explored is choosen to be the one with the closest center. A value greater then zero also takes into account the size of the domain.</param>
 #endif
-        public CompositeIndexParams(int trees = 4, int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
+        public CompositeIndexParams(int trees = 4, int branching = 32, int iterations = 11,
+            FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
         {
             ptr = NativeMethods.flann_CompositeIndexParams_new(trees, branching, iterations, centersInit, cbIndex);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create CompositeIndexParams");
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (IsEnabledDispose)
-                    {
-                        if (ptr != IntPtr.Zero)
-                        {
-                            NativeMethods.flann_CompositeIndexParams_delete(ptr);
-                        }
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.flann_CompositeIndexParams_delete(ptr);
+            base.DisposeUnmanaged();
         }
+
         #endregion
     }
 }
