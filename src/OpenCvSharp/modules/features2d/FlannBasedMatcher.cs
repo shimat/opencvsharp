@@ -13,7 +13,6 @@ namespace OpenCvSharp
     /// </summary>
     public class FlannBasedMatcher : DescriptorMatcher
     {
-        private bool disposed;
         private Ptr detectorPtr;
 
         //internal override IntPtr PtrObj => detectorPtr.CvPtr;
@@ -62,52 +61,29 @@ namespace OpenCvSharp
             return new FlannBasedMatcher(ptrObj);
         }
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
+            if (detectorPtr != null)
             {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (detectorPtr != null)
-                    {
-                        detectorPtr.Dispose();
-                        detectorPtr = null;
-                    }
-                    else
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.features2d_FlannBasedMatcher_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
+                detectorPtr.Dispose();
+                detectorPtr = null;
+                ptr = IntPtr.Zero;
             }
+            base.DisposeManaged();
+        }
+
+        /// <summary>
+        /// Releases managed resources
+        /// </summary>
+        protected override void DisposeUnmanaged()
+        {
+            if (detectorPtr == null && ptr != IntPtr.Zero)
+                NativeMethods.features2d_FlannBasedMatcher_delete(ptr);
+            ptr = IntPtr.Zero;
+            base.DisposeUnmanaged();
         }
 
         #endregion
@@ -180,9 +156,10 @@ namespace OpenCvSharp
                 return NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

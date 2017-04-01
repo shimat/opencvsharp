@@ -9,8 +9,6 @@ namespace OpenCvSharp
     /// </summary>
     public class Feature2D : Algorithm
     {
-        private bool disposed;
-
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
@@ -24,7 +22,6 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         internal Feature2D()
-            : base()
         {
         }
 
@@ -46,47 +43,14 @@ namespace OpenCvSharp
             return detector;
         }
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         #endregion
@@ -101,8 +65,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_Feature2D_descriptorSize(ptr);
             }
         }
@@ -115,8 +78,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_Feature2D_descriptorType(ptr);
             }
         }
@@ -129,8 +91,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_Feature2D_defaultNorm(ptr);
             }
         }
@@ -145,8 +106,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new virtual bool Empty()
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             return NativeMethods.features2d_Feature2D_empty(ptr) != 0;
         }
 
@@ -161,8 +121,7 @@ namespace OpenCvSharp
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
 
             image.ThrowIfDisposed();
             try
@@ -191,8 +150,7 @@ namespace OpenCvSharp
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
 
             image.ThrowIfDisposed();
             try
@@ -221,8 +179,7 @@ namespace OpenCvSharp
         {
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
 
             Mat[] imagesArray = EnumerableEx.ToArray(images);
             IntPtr[] imagesPtr = new IntPtr[imagesArray.Length];
@@ -258,8 +215,7 @@ namespace OpenCvSharp
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
 
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {
@@ -277,8 +233,7 @@ namespace OpenCvSharp
         /// <param name="descriptors">Descriptor collection. descriptors[i] are descriptors computed for set keypoints[i].</param>
         public virtual void Compute(IEnumerable<Mat> images, ref KeyPoint[][] keypoints, IEnumerable<Mat> descriptors)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
             if (descriptors == null)
@@ -312,8 +267,7 @@ namespace OpenCvSharp
             OutputArray descriptors,
             bool useProvidedKeypoints = false)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             if (descriptors == null)
@@ -347,9 +301,10 @@ namespace OpenCvSharp
                 return NativeMethods.features2d_Ptr_Feature2D_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.features2d_Ptr_Feature2D_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }
