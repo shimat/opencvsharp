@@ -10,8 +10,6 @@ namespace OpenCvSharp
     /// </summary>
     public class FileNode : DisposableCvObject
     {
-        private bool disposed;
-
         #region Init & Disposal
 
         /// <summary>
@@ -32,30 +30,12 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (ptr != IntPtr.Zero)
-                    {
-                        NativeMethods.core_FileNode_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.core_FileNode_delete(ptr);
+            base.DisposeUnmanaged();
         }
 
         #endregion
@@ -139,8 +119,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileNode");
+                ThrowIfDisposed();
                 if (nodeName == null)
                     throw new ArgumentNullException(nameof(nodeName));
                 IntPtr node = NativeMethods.core_FileNode_operatorThis_byString(ptr, nodeName);
@@ -157,8 +136,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileNode");
+                ThrowIfDisposed();
                 IntPtr node = NativeMethods.core_FileNode_operatorThis_byInt(ptr, i);
                 if (node == IntPtr.Zero)
                     return null;
@@ -174,8 +152,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 int ret = NativeMethods.core_FileNode_empty(ptr);
                 return ret != 0;
             }
@@ -189,8 +166,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 int ret = NativeMethods.core_FileNode_isNone(ptr);
                 return ret != 0;
             }
@@ -204,8 +180,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 int ret = NativeMethods.core_FileNode_isSeq(ptr);
                 return ret != 0;
             }
@@ -219,8 +194,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 int ret = NativeMethods.core_FileNode_isMap(ptr);
                 return ret != 0;
             }
@@ -234,8 +208,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 int ret = NativeMethods.core_FileNode_isInt(ptr);
                 return ret != 0;
             }
@@ -249,8 +222,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 int ret = NativeMethods.core_FileNode_isReal(ptr);
                 return ret != 0;
             }
@@ -264,8 +236,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 int ret = NativeMethods.core_FileNode_isString(ptr);
                 return ret != 0;
             }
@@ -279,8 +250,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 int ret = NativeMethods.core_FileNode_isNamed(ptr);
                 return ret != 0;
             }
@@ -294,8 +264,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 var buf = new StringBuilder(1024);
                 NativeMethods.core_FileNode_name(ptr, buf, buf.Capacity);
                 return buf.ToString();
@@ -310,8 +279,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("FileStorage");
+                ThrowIfDisposed();
                 return NativeMethods.core_FileNode_size(ptr).ToInt64();
             }
         }
@@ -328,8 +296,7 @@ namespace OpenCvSharp
         /// <param name="len"></param>
         public void ReadRaw(string fmt, IntPtr vec, long len)
         {
-            if (disposed)
-                throw new ObjectDisposedException("FileNode");
+            ThrowIfDisposed();
             if (fmt == null)
                 throw new ArgumentNullException(nameof(fmt));
             NativeMethods.core_FileNode_readRaw(ptr, fmt, vec, new IntPtr(len));
@@ -341,8 +308,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public IntPtr ReadObj()
         {
-            if (disposed)
-                throw new ObjectDisposedException("FileNode");
+            ThrowIfDisposed();
             return NativeMethods.core_FileNode_readObj(ptr);
         }
 
