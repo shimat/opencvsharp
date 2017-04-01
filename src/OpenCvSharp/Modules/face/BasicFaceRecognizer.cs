@@ -9,8 +9,6 @@ namespace OpenCvSharp.Face
     /// </summary>
     public class BasicFaceRecognizer : FaceRecognizer
     {
-        private bool disposed;
-
         /// <summary>
         ///
         /// </summary>
@@ -45,47 +43,14 @@ namespace OpenCvSharp.Face
             return detector;
         }
 
-#if LANG_JP
-/// <summary>
-/// リソースの解放
-/// </summary>
-/// <param name="disposing">
-/// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-/// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        recognizerPtr?.Dispose();
-                        recognizerPtr = null;
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            recognizerPtr?.Dispose();
+            recognizerPtr = null;
+            base.DisposeManaged();
         }
 
         #endregion
@@ -98,8 +63,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual int GetNumComponents()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             return NativeMethods.face_BasicFaceRecognizer_getNumComponents(ptr);
         }
 
@@ -109,8 +73,7 @@ namespace OpenCvSharp.Face
         /// <param name="val"></param>
         public virtual void SetNumComponents(int val)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             NativeMethods.face_BasicFaceRecognizer_setNumComponents(ptr, val);
         }
 
@@ -120,8 +83,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public new virtual double GetThreshold()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             return NativeMethods.face_BasicFaceRecognizer_getThreshold(ptr);
         }
 
@@ -131,8 +93,7 @@ namespace OpenCvSharp.Face
         /// <param name="val"></param>
         public new virtual void SetThreshold(double val)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             NativeMethods.face_BasicFaceRecognizer_setThreshold(ptr, val);
         }
 
@@ -142,8 +103,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual Mat[] GetProjections()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             using (var resultVector = new VectorOfMat())
             {
                 NativeMethods.face_BasicFaceRecognizer_getProjections(ptr, resultVector.CvPtr);
@@ -157,8 +117,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual Mat GetLabels()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getLabels(ptr, result.CvPtr);
             return result;
@@ -170,8 +129,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual Mat GetEigenValues()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getEigenValues(ptr, result.CvPtr);
             return result;
@@ -183,8 +141,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual Mat GetEigenVectors()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getEigenVectors(ptr, result.CvPtr);
             return result;
@@ -196,8 +153,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual Mat GetMean()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(BasicFaceRecognizer));
+            ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getMean(ptr, result.CvPtr);
             return result;
@@ -216,9 +172,10 @@ namespace OpenCvSharp.Face
                 return NativeMethods.face_Ptr_BasicFaceRecognizer_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.face_Ptr_BasicFaceRecognizer_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

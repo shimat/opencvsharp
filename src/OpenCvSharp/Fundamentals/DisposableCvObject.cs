@@ -95,6 +95,7 @@ namespace OpenCvSharp
         protected override void DisposeUnmanaged()
         {
             ptr = IntPtr.Zero;
+            base.DisposeUnmanaged();
         }
         
         #endregion

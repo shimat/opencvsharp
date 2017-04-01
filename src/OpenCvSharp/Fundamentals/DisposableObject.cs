@@ -152,11 +152,14 @@ namespace OpenCvSharp
 
             IsDisposed = true;
 
-            if (disposing)
+            if (IsEnabledDispose)
             {
-                DisposeManaged();
+                if (disposing)
+                {
+                    DisposeManaged();
+                }
+                DisposeUnmanaged();
             }
-            DisposeUnmanaged();
         }
 
 #if LANG_JP
@@ -174,14 +177,14 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// releases managed resources
+        /// Releases managed resources
         /// </summary>
         protected virtual void DisposeManaged()
         {
         }
 
         /// <summary>
-        /// releases unmanaged resources
+        /// Releases unmanaged resources
         /// </summary>
         protected virtual void DisposeUnmanaged()
         {
