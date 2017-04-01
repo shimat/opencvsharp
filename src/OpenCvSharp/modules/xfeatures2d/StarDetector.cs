@@ -14,7 +14,6 @@ namespace OpenCvSharp.XFeatures2D
     [Serializable]
     public class StarDetector : Feature2D
     {
-        private bool disposed;
         private Ptr ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
@@ -62,45 +61,16 @@ namespace OpenCvSharp.XFeatures2D
             return new StarDetector(ptr);
         }
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                    }
-                    // releases unmanaged resources
-
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
+
         #endregion
 
         #region Methods
@@ -118,9 +88,10 @@ namespace OpenCvSharp.XFeatures2D
                 return NativeMethods.xfeatures2d_Ptr_StarDetector_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.xfeatures2d_Ptr_StarDetector_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

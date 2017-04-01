@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using OpenCvSharp.XFeatures2D;
 
-namespace OpenCvSharp.Tests.features2d
+namespace OpenCvSharp.Tests.Features2d
 {
     // ReSharper disable once InconsistentNaming
 
