@@ -22,11 +22,25 @@ namespace OpenCvSharp.Tests.Features2D
         }
 
         [Test]
-        public void New2()
+        public void New2BF()
         {
             using (var descriptorExtractor = SURF.Create(100))
             using (var descriptorMatcher = new BFMatcher())
-            using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
+            {
+                using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
+                using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
+            }
+        }
+
+        [Test]
+        public void New2Flann()
+        {
+            using (var descriptorExtractor = SURF.Create(100))
+            using (var descriptorMatcher = new FlannBasedMatcher())
+            {
+                using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
+                using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
+            }
         }
 
         [Test]

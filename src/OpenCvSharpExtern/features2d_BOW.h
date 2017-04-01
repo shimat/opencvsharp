@@ -65,15 +65,32 @@ CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new2_
     return new cv::BOWImgDescriptorExtractor(*dmatcher);
 }
 
-CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new1_RawPtr(
-    cv::DescriptorExtractor *dextractor, cv::DescriptorMatcher *dmatcher)
+CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new1_RawPtr_BFMatcher(
+    cv::DescriptorExtractor *dextractor, cv::BFMatcher *dmatcher)
 {
-    return new cv::BOWImgDescriptorExtractor(dextractor, dmatcher);
+    cv::Ptr<cv::DescriptorExtractor> dextractorPtr(new cv::DescriptorExtractor(*dextractor));
+    cv::Ptr<cv::DescriptorMatcher> dmatcherPtr = dmatcher->clone();
+    return new cv::BOWImgDescriptorExtractor(dextractorPtr, dmatcherPtr);
 }
-CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new2_RawPtr(
-    cv::DescriptorMatcher *dmatcher)
+CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new1_RawPtr_FlannBasedMatcher(
+    cv::DescriptorExtractor *dextractor, cv::FlannBasedMatcher *dmatcher)
 {
-    return new cv::BOWImgDescriptorExtractor(dmatcher);
+    cv::Ptr<cv::DescriptorExtractor> dextractorPtr(new cv::DescriptorExtractor(*dextractor));
+    cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(new cv::FlannBasedMatcher(*dmatcher));
+    return new cv::BOWImgDescriptorExtractor(dextractorPtr, dmatcherPtr);
+}
+
+CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new2_RawPtr_BFMatcher(
+    cv::BFMatcher *dmatcher)
+{
+    cv::Ptr<cv::DescriptorMatcher> dmatcherPtr = dmatcher->clone();
+    return new cv::BOWImgDescriptorExtractor(dmatcherPtr);
+}
+CVAPI(cv::BOWImgDescriptorExtractor*) features2d_BOWImgDescriptorExtractor_new2_RawPtr_FlannBasedMatcher(
+    cv::FlannBasedMatcher *dmatcher)
+{
+    cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(new cv::FlannBasedMatcher(*dmatcher));
+    return new cv::BOWImgDescriptorExtractor(dmatcherPtr);
 }
 
 CVAPI(void) features2d_BOWImgDescriptorExtractor_delete(cv::BOWImgDescriptorExtractor *obj)
