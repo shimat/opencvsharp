@@ -13,10 +13,6 @@ namespace OpenCvSharp.ML
 #endif
     public class KNearest : StatModel
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
         private Ptr ptrObj;
 
         #region Init and Disposal
@@ -66,43 +62,16 @@ namespace OpenCvSharp.ML
             return new KNearest(ptr);
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                    }
-                    ptr = IntPtr.Zero;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
+
         #endregion
 
         #region Properties
@@ -163,8 +132,7 @@ namespace OpenCvSharp.ML
         public float FindNearest(InputArray samples, int k, OutputArray results,
             OutputArray neighborResponses = null, OutputArray dist = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (samples == null)
                 throw new ArgumentNullException(nameof(samples));
             if (results == null)
@@ -212,9 +180,10 @@ namespace OpenCvSharp.ML
                 return NativeMethods.ml_Ptr_KNearest_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.ml_Ptr_KNearest_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

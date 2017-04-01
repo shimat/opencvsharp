@@ -16,10 +16,6 @@ namespace OpenCvSharp.ML
 
     public class SVM : StatModel
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
         private Ptr ptrObj;
 
         #region Init and Disposal
@@ -74,43 +70,16 @@ namespace OpenCvSharp.ML
             return new SVM(ptr);
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">
-    /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-    /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-    /// </param>
-#endif
-    protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                    }
-                    ptr = IntPtr.Zero;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
+
         #endregion
 
         #region Properties
@@ -286,8 +255,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public Mat GetSupportVectors()
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_SVM_getSupportVectors(ptr);
             return new Mat(p);
         }
@@ -307,8 +275,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public double GetDecisionFunction(int i, OutputArray alpha, OutputArray svidx)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (alpha == null)
                 throw new ArgumentNullException(nameof(alpha));
             if (svidx == null)
@@ -465,9 +432,10 @@ namespace OpenCvSharp.ML
                 return NativeMethods.ml_Ptr_SVM_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.ml_Ptr_SVM_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }
