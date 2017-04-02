@@ -154,7 +154,7 @@ CVAPI(cv::FlannBasedMatcher*) features2d_FlannBasedMatcher_new(
     cv::Ptr<cv::flann::IndexParams> indexParamsPtr;
     cv::Ptr<cv::flann::SearchParams> searchParamsPtr;
     if (indexParams == NULL)    
-        indexParamsPtr = cv::Ptr<cv::flann::IndexParams>(new cv::flann::KDTreeIndexParams());    
+        indexParamsPtr = cv::Ptr<cv::flann::IndexParams>(new cv::flann::IndexParams());    
     else    
         indexParamsPtr = cv::Ptr<cv::flann::IndexParams>(indexParams, IndexParamsDeleter);
     

@@ -23,12 +23,7 @@ namespace OpenCvSharp
             if (dmatcher == null)
                 throw new ArgumentNullException(nameof(dmatcher));
 
-            if (dmatcher is BFMatcher)
-                ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr_BFMatcher(dextractor.CvPtr, dmatcher.CvPtr);
-            else if (dmatcher is FlannBasedMatcher)
-                ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr_FlannBasedMatcher(dextractor.CvPtr, dmatcher.CvPtr);
-            else 
-                throw new ArgumentException($"Not supported DescriptorMatcher type '{dmatcher.GetType().Name}'", nameof(dmatcher));
+            ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.CvPtr, dmatcher.CvPtr);
 
             GC.KeepAlive(dextractor);
             GC.KeepAlive(dmatcher);
@@ -43,13 +38,7 @@ namespace OpenCvSharp
             if (dmatcher == null)
                 throw new ArgumentNullException(nameof(dmatcher));
 
-            if (dmatcher is BFMatcher)
-                ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr_BFMatcher(dmatcher.CvPtr);
-            else if (dmatcher is FlannBasedMatcher)
-                ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr_FlannBasedMatcher(dmatcher.CvPtr);
-            else
-                throw new ArgumentException($"Not supported DescriptorMatcher type '{dmatcher.GetType().Name}'", nameof(dmatcher));
-
+            ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.CvPtr);
             GC.KeepAlive(dmatcher);
         }
 
