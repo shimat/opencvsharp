@@ -149,7 +149,7 @@ static void IndexParamsDeleter(cv::flann::IndexParams *p){ }
 static void SearchParamsDeleter(cv::flann::SearchParams *p) { }
 
 CVAPI(cv::FlannBasedMatcher*) features2d_FlannBasedMatcher_new(
-    cv::flann::IndexParams *indexParams, cv::flann::SearchParams *searchParams)
+    cv::flann::IndexParams *indexParams, cv::Ptr<cv::flann::SearchParams> *searchParams)
 {
     cv::Ptr<cv::flann::IndexParams> indexParamsPtr;
     cv::Ptr<cv::flann::SearchParams> searchParamsPtr;
@@ -158,10 +158,10 @@ CVAPI(cv::FlannBasedMatcher*) features2d_FlannBasedMatcher_new(
     else    
         indexParamsPtr = cv::Ptr<cv::flann::IndexParams>(indexParams, IndexParamsDeleter);
     
-    if (searchParams == NULL)    
-        searchParamsPtr = cv::Ptr<cv::flann::SearchParams>(new cv::flann::SearchParams());
+    if (searchParams == NULL)
+        searchParamsPtr = cv::makePtr<cv::flann::SearchParams>();
     else    
-        searchParamsPtr = cv::Ptr<cv::flann::SearchParams>(searchParams, SearchParamsDeleter);
+        searchParamsPtr = *searchParams;
     
     return new cv::FlannBasedMatcher(indexParamsPtr, searchParamsPtr);
 }

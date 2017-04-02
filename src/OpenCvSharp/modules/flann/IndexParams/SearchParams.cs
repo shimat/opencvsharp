@@ -13,86 +13,77 @@ namespace OpenCvSharp.Flann
 #endif
     public class SearchParams : IndexParams
     {
-        #region Properties
-        #endregion
+        internal Ptr PtrObj { get; private set; }
 
-        #region Init & Disposal
-#if LANG_JP
         /// <summary>
         /// 
         /// </summary>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-#endif
         public SearchParams()
             : this(32, 0.0f, true)
         {
         }
-#if LANG_JP
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="checks"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="checks"></param>
-#endif
         public SearchParams(int checks)
             : this(checks, 0.0f, true)
         {
         }
-#if LANG_JP
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="checks"></param>
         /// <param name="eps"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="checks"></param>
-        /// <param name="eps"></param>
-#endif
         public SearchParams(int checks, float eps)
             : this(checks, eps, true)
         {
         }
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-                /// <param name="checks"></param>
-        /// <param name="eps"></param>
-        /// <param name="sorted"></param>
-#else
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="checks"></param>
         /// <param name="eps"></param>
         /// <param name="sorted"></param>
-#endif
         public SearchParams(int checks, float eps, bool sorted)
         {
-            ptr = NativeMethods.flann_SearchParams_new(checks, eps, sorted ? 1 : 0);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create SearchParams");
+            IntPtr p = NativeMethods.flann_Ptr_SearchParams_new(checks, eps, sorted ? 1 : 0);
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {GetType().Name}");
+
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
         }
 
         /// <summary>
-        /// Releases unmanaged resources
+        /// Releases managed resources
         /// </summary>
-        protected override void DisposeUnmanaged()
+        protected override void DisposeManaged()
         {
-            NativeMethods.flann_SearchParams_delete(ptr);
-            base.DisposeUnmanaged();
+            PtrObj?.Dispose();
+            PtrObj = null;
+            base.DisposeManaged();
         }
 
-        #endregion
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.flann_Ptr_SearchParams_get(ptr);
+            }
+
+            protected override void DisposeUnmanaged()
+            {
+                NativeMethods.flann_Ptr_SearchParams_delete(ptr);
+                base.DisposeUnmanaged();
+            }
+        }
     }
 }

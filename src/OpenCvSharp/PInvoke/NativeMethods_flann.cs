@@ -39,6 +39,14 @@ namespace OpenCvSharp
         public static extern IntPtr flann_IndexParams_new();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void flann_IndexParams_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_IndexParams_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_IndexParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_IndexParams_delete(IntPtr obj);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern void flann_IndexParams_getString(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string defaultVal, [MarshalAs(UnmanagedType.LPStr)] StringBuilder result);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
@@ -129,13 +137,23 @@ namespace OpenCvSharp
         //public static extern void flann_SavedIndexParams_filename_set(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
         #endregion
         #region SearchParams
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr flann_SearchParams_new(int checks, float eps, int sorted);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void flann_SearchParams_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_SearchParams_new(int checks, float eps, int sorted);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_SearchParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_SearchParams_delete(IntPtr obj);
+
         #endregion
 
         #endregion
+
         //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         //public static extern int flann_hierarchicalClustering(IntPtr features, IntPtr centers, IntPtr @params);
     }

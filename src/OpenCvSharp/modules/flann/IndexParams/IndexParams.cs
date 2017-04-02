@@ -8,11 +8,8 @@ namespace OpenCvSharp.Flann
     /// </summary>
     public class IndexParams : DisposableCvObject
     {
-        #region Properties
+        internal Ptr PtrObj { get; private set; }
 
-        #endregion
-
-        #region Init & Disposal
 #if LANG_JP
         /// <summary>
         /// 
@@ -24,21 +21,23 @@ namespace OpenCvSharp.Flann
 #endif
         public IndexParams()
         {
-            ptr = NativeMethods.flann_IndexParams_new();
-            if (ptr == IntPtr.Zero)
+            IntPtr p = NativeMethods.flann_Ptr_IndexParams_new();
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create IndexParams");
+
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
         }
 
         /// <summary>
-        /// Releases unmanaged resources
+        /// Releases managed resources
         /// </summary>
-        protected override void DisposeUnmanaged()
+        protected override void DisposeManaged()
         {
-            NativeMethods.flann_IndexParams_delete(ptr);
-            base.DisposeUnmanaged();
+            PtrObj?.Dispose();
+            PtrObj = null;
+            base.DisposeManaged();
         }
-
-        #endregion
 
         #region Methods
         #region Get**
@@ -159,5 +158,23 @@ namespace OpenCvSharp.Flann
         }
         #endregion
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.flann_Ptr_IndexParams_get(ptr);
+            }
+
+            protected override void DisposeUnmanaged()
+            {
+                NativeMethods.flann_Ptr_IndexParams_delete(ptr);
+                base.DisposeUnmanaged();
+            }
+        }
     }
 }
