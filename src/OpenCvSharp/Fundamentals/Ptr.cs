@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// <summary>
     /// Template class for smart reference-counting pointers
     /// </summary>
-    internal abstract class Ptr : DisposableCvObject
+    public abstract class Ptr : DisposableCvObject
     {
         /// <summary>
         /// Constructor

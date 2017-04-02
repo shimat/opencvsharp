@@ -28,8 +28,12 @@ namespace OpenCvSharp
         /// <param name="searchParams"></param>
         public FlannBasedMatcher(IndexParams indexParams = null, SearchParams searchParams = null)
         {
-            ptr = NativeMethods.features2d_FlannBasedMatcher_new(
-                Cv2.ToPtr(indexParams), Cv2.ToPtr(searchParams));
+            indexParams?.ThrowIfDisposed();
+            searchParams?.ThrowIfDisposed();
+
+            IntPtr indexParamsPtr = indexParams?.PtrObj.CvPtr ?? IntPtr.Zero;
+            IntPtr searchParamsPtr = searchParams?.PtrObj.CvPtr ?? IntPtr.Zero;
+            ptr = NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr);
             this.indexParams = indexParams;
             this.searchParams = searchParams;
         }

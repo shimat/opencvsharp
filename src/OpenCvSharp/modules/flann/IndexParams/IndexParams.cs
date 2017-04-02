@@ -8,33 +8,40 @@ namespace OpenCvSharp.Flann
     /// </summary>
     public class IndexParams : DisposableCvObject
     {
-#if LANG_JP
+        internal OpenCvSharp.Ptr PtrObj { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-#endif
         public IndexParams()
+            : base()
         {
-            ptr = NativeMethods.flann_IndexParams_new();
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create IndexParams");
-        }
+            IntPtr p = NativeMethods.flann_Ptr_IndexParams_new();
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
 
-        protected internal IndexParams(bool dummy)
-        {
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
         }
 
         /// <summary>
-        /// Releases unmanaged resources
+        /// 
         /// </summary>
-        protected override void DisposeUnmanaged()
+        protected IndexParams(OpenCvSharp.Ptr ptrObj)
+            : base()
         {
-            NativeMethods.flann_IndexParams_delete(ptr);
-            base.DisposeUnmanaged();
+            PtrObj = ptrObj;
+            ptr = PtrObj?.Get() ?? IntPtr.Zero;
+        }
+
+        /// <summary>
+        /// Releases managed resources
+        /// </summary>
+        protected override void DisposeManaged()
+        {
+            PtrObj?.Dispose();
+            PtrObj = null;
+            base.DisposeManaged();
         }
 
         #region Methods
@@ -156,5 +163,23 @@ namespace OpenCvSharp.Flann
         }
         #endregion
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.flann_Ptr_IndexParams_get(ptr);
+            }
+
+            protected override void DisposeUnmanaged()
+            {
+                NativeMethods.flann_Ptr_IndexParams_delete(ptr);
+                base.DisposeUnmanaged();
+            }
+        }
     }
 }

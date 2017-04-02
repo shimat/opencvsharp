@@ -15,67 +15,47 @@ namespace OpenCvSharp.Flann
 #endif
     public class SavedIndexParams : IndexParams
     {
-        #region Properties
-        /*
-#if LANG_JP
-        /// <summary>
-        /// インデックスが保存されたファイル名
-        /// </summary>
-#else
-        /// <summary>
-        /// The filename in which the index was saved.
-        /// </summary>
-#endif
-        public string FileName
-        {
-            get
-            {
-                unsafe
-                {
-                    return FlannInvoke.flann_SavedIndexParams_filename_get(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    FlannInvoke.flann_SavedIndexParams_filename_set(ptr, value);
-                }
-            }
-        }
-        //*/
-        #endregion
-
-        #region Init & Disposal
-#if LANG_JP
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="filename">インデックスが保存されたファイル名</param>
-#else
+        /// <param name="fileName"></param>
+        public SavedIndexParams(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            IntPtr p = NativeMethods.flann_Ptr_SavedIndexParams_new(fileName);
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(SavedIndexParams)}");
+
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="filename">インデックスが保存されたファイル名</param>
-#endif
-        public SavedIndexParams(string filename)
+        protected SavedIndexParams(OpenCvSharp.Ptr ptrObj)
+            : base(ptrObj)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException(nameof(filename));
-            ptr = NativeMethods.flann_SavedIndexParams_new(filename);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create SavedIndexParams");
         }
 
-        /// <summary>
-        /// Releases unmanaged resources
-        /// </summary>
-        protected override void DisposeUnmanaged()
+        internal new class Ptr : OpenCvSharp.Ptr
         {
-            NativeMethods.flann_SavedIndexParams_delete(ptr);
-            base.DisposeUnmanaged();
-        }
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
 
-        #endregion
+            public override IntPtr Get()
+            {
+                return NativeMethods.flann_Ptr_SavedIndexParams_get(ptr);
+            }
+
+            protected override void DisposeUnmanaged()
+            {
+                NativeMethods.flann_Ptr_SavedIndexParams_delete(ptr);
+                base.DisposeUnmanaged();
+            }
+        }
     }
 }

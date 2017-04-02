@@ -10,7 +10,6 @@ namespace OpenCvSharp.Tests.Stitching
     public class StitchingTest : TestBase
     {
         [Test]
-        [Ignore("")]
         public void Run()
         {
             const bool debugMode = false;

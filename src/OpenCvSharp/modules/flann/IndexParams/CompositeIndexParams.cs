@@ -15,146 +15,6 @@ namespace OpenCvSharp.Flann
 #endif
     public class CompositeIndexParams : IndexParams
     {
-        #region Properties
-        /*
-#if LANG_JP
-        /// <summary>
-        /// 並列な kd-tree の個数．[1..16] の範囲が適切な値です
-        /// </summary>
-#else
-        /// <summary>
-        /// The number of parallel kd-trees to use. Good values are in the range [1..16]
-        /// </summary>
-#endif
-        public int Trees
-        {
-            get
-            {
-                unsafe
-                {
-                    return *FlannInvoke.flann_CompositeIndexParams_trees(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *FlannInvoke.flann_CompositeIndexParams_trees(ptr) = value;
-                }
-            }
-        }
-#if LANG_JP
-        /// <summary>
-        /// 階層型 k-means tree で利用される branching ファクタ
-        /// </summary>
-#else
-        /// <summary>
-        /// The branching factor to use for the hierarchical k-means tree
-        /// </summary>
-#endif
-        public int Branching
-        {
-            get
-            {
-                unsafe
-                {
-                    return *FlannInvoke.flann_CompositeIndexParams_branching(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *FlannInvoke.flann_CompositeIndexParams_branching(ptr) = value;
-                }
-            }
-        }
-#if LANG_JP
-        /// <summary>
-        /// k-means tree を作成する際の，k-means クラスタリングステージでの反復数の上限．ここで -1 は，k-means クラスタリングが収束するまで続けられることを意味します
-        /// </summary>
-#else
-        /// <summary>
-        /// The maximum number of iterations to use in the k-means clustering
-        /// stage when building the k-means tree. A value of -1 used here means that the k-means clustering should be iterated until convergence
-        /// </summary>
-#endif
-        public int Iterations
-        {
-            get
-            {
-                unsafe
-                {
-                    return *FlannInvoke.flann_CompositeIndexParams_iterations(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *FlannInvoke.flann_CompositeIndexParams_iterations(ptr) = value;
-                }
-            }
-        }
-#if LANG_JP
-        /// <summary>
-        /// k-means クラスタリングの初期中心を選択するアルゴリズム．
-        /// </summary>
-#else
-        /// <summary>
-        /// The algorithm to use for selecting the initial centers when performing a k-means clustering step. 
-        /// </summary>
-#endif
-        public FlannCentersInit CentersInit
-        {
-            get
-            {
-                unsafe
-                {
-                    return *FlannInvoke.flann_CompositeIndexParams_centers_init(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *FlannInvoke.flann_CompositeIndexParams_centers_init(ptr) = value;
-                }
-            }
-        }
-#if LANG_JP
-        /// <summary>
-        /// このパラメータ（クラスタ境界インデックス）は，階層的 k-means tree の探索方法に影響を与えます． 
-        /// cb_index が0の場合，最も近い中心のクラスタが，次に探索される k-means 領域になります．0より大きい値の場合も，領域サイズが考慮されます
-        /// </summary>
-#else
-        /// <summary>
-        /// This parameter (cluster boundary index) influences the
-        /// way exploration is performed in the hierarchical kmeans tree. When cb_index is zero the next kmeans domain to be explored 
-        /// is choosen to be the one with the closest center. A value greater then zero also takes into account the size of the domain.
-        /// </summary>
-#endif
-        public float CbIndex
-        {
-            get
-            {
-                unsafe
-                {
-                    return *FlannInvoke.flann_CompositeIndexParams_cb_index(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *FlannInvoke.flann_CompositeIndexParams_cb_index(ptr) = value;
-                }
-            }
-        }
-        //*/
-        #endregion
-
-        #region Init & Disposal
 #if LANG_JP
         /// <summary>
         /// 
@@ -177,20 +37,38 @@ namespace OpenCvSharp.Flann
         public CompositeIndexParams(int trees = 4, int branching = 32, int iterations = 11,
             FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
         {
-            ptr = NativeMethods.flann_CompositeIndexParams_new(trees, branching, iterations, centersInit, cbIndex);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create CompositeIndexParams");
-        }
+            IntPtr p = NativeMethods.flann_Ptr_CompositeIndexParams_new(trees, branching, iterations, centersInit, cbIndex);
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
 
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
+        }
+        
         /// <summary>
-        /// Releases unmanaged resources
+        /// 
         /// </summary>
-        protected override void DisposeUnmanaged()
+        protected CompositeIndexParams(OpenCvSharp.Ptr ptrObj)
+            : base(ptrObj)
         {
-            NativeMethods.flann_CompositeIndexParams_delete(ptr);
-            base.DisposeUnmanaged();
         }
 
-        #endregion
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.flann_Ptr_CompositeIndexParams_get(ptr);
+            }
+
+            protected override void DisposeUnmanaged()
+            {
+                NativeMethods.flann_Ptr_CompositeIndexParams_delete(ptr);
+                base.DisposeUnmanaged();
+            }
+        }
     }
 }
