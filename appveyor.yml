@@ -6,6 +6,10 @@ init:
     $date = Get-Date -Format "yyyyMMdd"
     Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
     Write-Host $env:APPVEYOR_BUILD_VERSION
+    iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 image: Visual Studio 2015
 
