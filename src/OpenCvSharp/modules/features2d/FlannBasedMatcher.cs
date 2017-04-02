@@ -14,6 +14,8 @@ namespace OpenCvSharp
     public class FlannBasedMatcher : DescriptorMatcher
     {
         private Ptr detectorPtr;
+        private IndexParams indexParams;
+        private SearchParams searchParams;
 
         //internal override IntPtr PtrObj => detectorPtr.CvPtr;
 
@@ -28,6 +30,8 @@ namespace OpenCvSharp
         {
             ptr = NativeMethods.features2d_FlannBasedMatcher_new(
                 Cv2.ToPtr(indexParams), Cv2.ToPtr(searchParams));
+            this.indexParams = indexParams;
+            this.searchParams = searchParams;
         }
 
         /// <summary>
@@ -82,6 +86,8 @@ namespace OpenCvSharp
         {
             if (detectorPtr == null && ptr != IntPtr.Zero)
                 NativeMethods.features2d_FlannBasedMatcher_delete(ptr);
+            indexParams = null;
+            searchParams = null;
             ptr = IntPtr.Zero;
             base.DisposeUnmanaged();
         }

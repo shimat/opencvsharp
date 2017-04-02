@@ -8,11 +8,6 @@ namespace OpenCvSharp.Flann
     /// </summary>
     public class IndexParams : DisposableCvObject
     {
-        #region Properties
-
-        #endregion
-
-        #region Init & Disposal
 #if LANG_JP
         /// <summary>
         /// 
@@ -29,6 +24,10 @@ namespace OpenCvSharp.Flann
                 throw new OpenCvSharpException("Failed to create IndexParams");
         }
 
+        protected internal IndexParams(bool dummy)
+        {
+        }
+
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
@@ -37,8 +36,6 @@ namespace OpenCvSharp.Flann
             NativeMethods.flann_IndexParams_delete(ptr);
             base.DisposeUnmanaged();
         }
-
-        #endregion
 
         #region Methods
         #region Get**

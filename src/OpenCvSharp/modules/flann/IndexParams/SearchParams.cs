@@ -13,10 +13,6 @@ namespace OpenCvSharp.Flann
 #endif
     public class SearchParams : IndexParams
     {
-        #region Properties
-        #endregion
-
-        #region Init & Disposal
 #if LANG_JP
         /// <summary>
         /// 
@@ -30,6 +26,7 @@ namespace OpenCvSharp.Flann
             : this(32, 0.0f, true)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 
@@ -45,6 +42,7 @@ namespace OpenCvSharp.Flann
             : this(checks, 0.0f, true)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 
@@ -62,11 +60,12 @@ namespace OpenCvSharp.Flann
             : this(checks, eps, true)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 
         /// </summary>
-                /// <param name="checks"></param>
+        /// <param name="checks"></param>
         /// <param name="eps"></param>
         /// <param name="sorted"></param>
 #else
@@ -78,6 +77,7 @@ namespace OpenCvSharp.Flann
         /// <param name="sorted"></param>
 #endif
         public SearchParams(int checks, float eps, bool sorted)
+            : base(false)
         {
             ptr = NativeMethods.flann_SearchParams_new(checks, eps, sorted ? 1 : 0);
             if (ptr == IntPtr.Zero)
@@ -92,7 +92,5 @@ namespace OpenCvSharp.Flann
             NativeMethods.flann_SearchParams_delete(ptr);
             base.DisposeUnmanaged();
         }
-
-        #endregion
     }
 }
