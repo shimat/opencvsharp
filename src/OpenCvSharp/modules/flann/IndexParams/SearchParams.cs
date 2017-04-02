@@ -13,33 +13,23 @@ namespace OpenCvSharp.Flann
 #endif
     public class SearchParams : IndexParams
     {
-        internal Ptr PtrObj { get; private set; }
-
         /// <summary>
         /// 
         /// </summary>
-        public SearchParams()
-            : this(32, 0.0f, true)
+        protected SearchParams()
         {
+            PtrObj = null;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="checks"></param>
-        public SearchParams(int checks)
-            : this(checks, 0.0f, true)
+        /// <param name="p"></param>
+        private SearchParams(IntPtr p)
+            : base()
         {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="checks"></param>
-        /// <param name="eps"></param>
-        public SearchParams(int checks, float eps)
-            : this(checks, eps, true)
-        {
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
         }
 
         /// <summary>
@@ -48,14 +38,13 @@ namespace OpenCvSharp.Flann
         /// <param name="checks"></param>
         /// <param name="eps"></param>
         /// <param name="sorted"></param>
-        public SearchParams(int checks, float eps, bool sorted)
+        public static SearchParams Create(int checks = 32, float eps = 0.0f, bool sorted = true)
         {
             IntPtr p = NativeMethods.flann_Ptr_SearchParams_new(checks, eps, sorted ? 1 : 0);
             if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Failed to create {GetType().Name}");
+                throw new OpenCvSharpException($"Failed to create {nameof(SearchParams)}");
 
-            PtrObj = new Ptr(p);
-            ptr = PtrObj.Get();
+            return new SearchParams(p);
         }
 
         /// <summary>
@@ -68,7 +57,7 @@ namespace OpenCvSharp.Flann
             base.DisposeManaged();
         }
 
-        internal class Ptr : OpenCvSharp.Ptr
+        internal new class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
             {

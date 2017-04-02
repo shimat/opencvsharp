@@ -8,25 +8,36 @@ namespace OpenCvSharp.Flann
     /// </summary>
     public class IndexParams : DisposableCvObject
     {
-        internal Ptr PtrObj { get; private set; }
+        internal OpenCvSharp.Ptr PtrObj { get; set; }
 
-#if LANG_JP
         /// <summary>
         /// 
         /// </summary>
-#else
+        protected IndexParams()
+        {
+            PtrObj = null;
+        }
+
         /// <summary>
         /// 
         /// </summary>
-#endif
-        public IndexParams()
+        /// <param name="p"></param>
+        private IndexParams(IntPtr p)
+        {
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static IndexParams Create()
         {
             IntPtr p = NativeMethods.flann_Ptr_IndexParams_new();
             if (p == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create IndexParams");
+                throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
 
-            PtrObj = new Ptr(p);
-            ptr = PtrObj.Get();
+            return new IndexParams(p);
         }
 
         /// <summary>

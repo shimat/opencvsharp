@@ -67,10 +67,19 @@ namespace OpenCvSharp
         public static extern void flann_IndexParams_setAlgorithm(IntPtr obj, int value);
         #endregion
         #region LinearIndexParams
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr flann_LinearIndexParams_new();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void flann_LinearIndexParams_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_LinearIndexParams_new();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_LinearIndexParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_LinearIndexParams_delete(IntPtr obj);
+
         #endregion
         #region KDTreeIndexParams
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

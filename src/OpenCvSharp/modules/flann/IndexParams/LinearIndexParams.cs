@@ -15,32 +15,64 @@ namespace OpenCvSharp.Flann
 #endif
     public class LinearIndexParams : IndexParams
     {
-        #region Init & Disposal
-#if LANG_JP
         /// <summary>
         /// 
         /// </summary>
-#else
+        protected LinearIndexParams()
+            : base()
+        {
+            PtrObj = null;
+        }
+
         /// <summary>
         /// 
         /// </summary>
-#endif
-        public LinearIndexParams()
+        /// <param name="p"></param>
+        private LinearIndexParams(IntPtr p)
+            : base()
         {
-            ptr = NativeMethods.flann_LinearIndexParams_new();
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create LinearIndexParams");
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
         }
 
         /// <summary>
-        /// Releases unmanaged resources
+        /// 
         /// </summary>
-        protected override void DisposeUnmanaged()
+        public new static LinearIndexParams Create()
         {
-            NativeMethods.flann_LinearIndexParams_delete(ptr);
-            base.DisposeUnmanaged();
+            IntPtr p = NativeMethods.flann_Ptr_LinearIndexParams_new();
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(LinearIndexParams)}");
+
+            return new LinearIndexParams(p);
         }
 
-        #endregion
+        /// <summary>
+        /// Releases managed resources
+        /// </summary>
+        protected override void DisposeManaged()
+        {
+            PtrObj?.Dispose();
+            PtrObj = null;
+            base.DisposeManaged();
+        }
+
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.flann_Ptr_LinearIndexParams_get(ptr);
+            }
+
+            protected override void DisposeUnmanaged()
+            {
+                NativeMethods.flann_Ptr_LinearIndexParams_delete(ptr);
+                base.DisposeUnmanaged();
+            }
+        }
     }
 }

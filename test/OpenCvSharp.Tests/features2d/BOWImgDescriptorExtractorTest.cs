@@ -55,33 +55,28 @@ namespace OpenCvSharp.Tests.Features2d
         [Test]
         public void New4()
         {
-            using (LinearIndexParams ip = new LinearIndexParams())
-            using (SearchParams sp = new SearchParams())
+            using (LinearIndexParams ip = LinearIndexParams.Create())
+            using (SearchParams sp = SearchParams.Create())
             using (var descriptorExtractor = SURF.Create(100))
-            using (var descriptorMatcher = new FlannBasedMatcher(ip, sp)) { }
-            //using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
-
-            //GC.KeepAlive(ip);
-            //GC.KeepAlive(sp);
+            using (var descriptorMatcher = new FlannBasedMatcher(ip, sp)) 
+            using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
 
         [Test]
-        [Ignore("")]
         public void New5()
         {
-            LinearIndexParams ip = new LinearIndexParams();
-            SearchParams sp = new SearchParams();
+            LinearIndexParams ip = LinearIndexParams.Create();
+            SearchParams sp = SearchParams.Create();
             using (var descriptorExtractor = KAZE.Create())
             using (var descriptorMatcher = new FlannBasedMatcher(ip, sp))
             using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
 
         [Test]
-        [Ignore("")]
         public void RunTest()
         {
-            LinearIndexParams ip = new LinearIndexParams();
-            SearchParams sp = new SearchParams();
+            LinearIndexParams ip = LinearIndexParams.Create();
+            SearchParams sp = SearchParams.Create();
             using (var descriptorExtractor = SIFT.Create(500))
             //using (var descriptorMatcher = new FlannBasedMatcher(ip, sp))
             using (var descriptorMatcher = new BFMatcher())
