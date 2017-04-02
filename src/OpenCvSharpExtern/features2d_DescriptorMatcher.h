@@ -145,18 +145,15 @@ CVAPI(void) features2d_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr)
 
 #pragma region FlannBasedMatcher
 
-static void IndexParamsDeleter(cv::flann::IndexParams *p){ }
-static void SearchParamsDeleter(cv::flann::SearchParams *p) { }
-
 CVAPI(cv::FlannBasedMatcher*) features2d_FlannBasedMatcher_new(
-    cv::flann::IndexParams *indexParams, cv::Ptr<cv::flann::SearchParams> *searchParams)
+    cv::Ptr<cv::flann::IndexParams> *indexParams, cv::Ptr<cv::flann::SearchParams> *searchParams)
 {
     cv::Ptr<cv::flann::IndexParams> indexParamsPtr;
     cv::Ptr<cv::flann::SearchParams> searchParamsPtr;
-    if (indexParams == NULL)    
+    if (indexParams == NULL)
         indexParamsPtr = cv::makePtr<cv::flann::KDTreeIndexParams>();
-    else    
-        indexParamsPtr = cv::Ptr<cv::flann::IndexParams>(indexParams, IndexParamsDeleter);
+    else
+        indexParamsPtr = *indexParams;
     
     if (searchParams == NULL)
         searchParamsPtr = cv::makePtr<cv::flann::SearchParams>();

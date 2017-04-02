@@ -18,19 +18,12 @@ namespace OpenCvSharp.Flann
         /// <summary>
         /// 
         /// </summary>
-        protected LinearIndexParams()
-            : base()
+        public LinearIndexParams()
         {
-            PtrObj = null;
-        }
+            IntPtr p = NativeMethods.flann_Ptr_LinearIndexParams_new();
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(LinearIndexParams)}");
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        private LinearIndexParams(IntPtr p)
-            : base()
-        {
             PtrObj = new Ptr(p);
             ptr = PtrObj.Get();
         }
@@ -38,23 +31,9 @@ namespace OpenCvSharp.Flann
         /// <summary>
         /// 
         /// </summary>
-        public new static LinearIndexParams Create()
+        protected LinearIndexParams(OpenCvSharp.Ptr ptrObj)
+            : base(ptrObj)
         {
-            IntPtr p = NativeMethods.flann_Ptr_LinearIndexParams_new();
-            if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Failed to create {nameof(LinearIndexParams)}");
-
-            return new LinearIndexParams(p);
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            PtrObj?.Dispose();
-            PtrObj = null;
-            base.DisposeManaged();
         }
 
         internal new class Ptr : OpenCvSharp.Ptr

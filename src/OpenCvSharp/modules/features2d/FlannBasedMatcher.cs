@@ -30,7 +30,7 @@ namespace OpenCvSharp
         {
             indexParams?.ThrowIfDisposed();
             searchParams?.ThrowIfDisposed();
-            indexParams = searchParams = null;
+
             IntPtr indexParamsPtr = indexParams?.PtrObj.CvPtr ?? IntPtr.Zero;
             IntPtr searchParamsPtr = searchParams?.PtrObj.CvPtr ?? IntPtr.Zero;
             ptr = NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr);

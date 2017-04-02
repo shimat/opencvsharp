@@ -82,68 +82,81 @@ namespace OpenCvSharp
 
         #endregion
         #region KDTreeIndexParams
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr flann_KDTreeIndexParams_new(int trees);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void flann_KDTreeIndexParams_delete(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe int* flann_KDTreeIndexParams_trees(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_KDTreeIndexParams_new(int trees);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_KDTreeIndexParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_KDTreeIndexParams_delete(IntPtr obj);
+
         #endregion
         #region KMeansIndexParams
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr flann_KMeansIndexParams_new(
-            int branching, int iterations, [MarshalAs(UnmanagedType.I4)] FlannCentersInit centers_init, float cb_index);
+            int branching, int iterations, [MarshalAs(UnmanagedType.I4)] FlannCentersInit centersInit, float cbIndex);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void flann_KMeansIndexParams_delete(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe int* flann_KMeansIndexParams_branching(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe int* flann_KMeansIndexParams_iterations(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe FlannCentersInit* flann_KMeansIndexParams_centers_init(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe float* flann_KMeansIndexParams_cb_index(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_KMeansIndexParams_new(
+            int branching, int iterations, [MarshalAs(UnmanagedType.I4)] FlannCentersInit centersInit, float cbIndex);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_KMeansIndexParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_KMeansIndexParams_delete(IntPtr obj);
+
         #endregion
         #region CompositeIndexParams
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr flann_CompositeIndexParams_new(int trees, int branching, int iterations, FlannCentersInit centers_init, float cb_index);
+        public static extern IntPtr flann_CompositeIndexParams_new(int trees, int branching, int iterations, FlannCentersInit centersInit, float cbIndex);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void flann_CompositeIndexParams_delete(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe int* flann_CompositeIndexParams_trees(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe int* flann_CompositeIndexParams_branching(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe int* flann_CompositeIndexParams_iterations(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe FlannCentersInit* flann_CompositeIndexParams_centers_init(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe float* flann_CompositeIndexParams_cb_index(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_CompositeIndexParams_new(int trees, int branching, int iterations, FlannCentersInit centersInit, float cbIndex);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_CompositeIndexParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_CompositeIndexParams_delete(IntPtr obj);
+
         #endregion
         #region AutotunedIndexParams
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr flann_AutotunedIndexParams_new(float targetPrecision, float build_weight, float memory_weight, float sample_fraction);
+        public static extern IntPtr flann_AutotunedIndexParams_new(float targetPrecision, float buildWeight, float memoryWeight, float sampleFraction);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void flann_AutotunedIndexParams_delete(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe float* flann_AutotunedIndexParams_target_precision(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe float* flann_AutotunedIndexParams_build_weight(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe float* flann_AutotunedIndexParams_memory_weight(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern unsafe float* flann_AutotunedIndexParams_sample_fraction(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_AutotunedIndexParams_new(float targetPrecision, float buildWeight, float memoryWeight, float sampleFraction);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_AutotunedIndexParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_AutotunedIndexParams_delete(IntPtr obj);
+
         #endregion
         #region SavedIndexParams
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern IntPtr flann_SavedIndexParams_new([MarshalAs(UnmanagedType.LPStr)] string filename);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void flann_SavedIndexParams_delete(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //[return: MarshalAs(UnmanagedType.LPStr)]
-        //public static extern string flann_SavedIndexParams_filename_get(IntPtr obj);
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern void flann_SavedIndexParams_filename_set(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_SavedIndexParams_new([MarshalAs(UnmanagedType.LPStr)] string filename);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_SavedIndexParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_SavedIndexParams_delete(IntPtr obj);
+
         #endregion
         #region SearchParams
 

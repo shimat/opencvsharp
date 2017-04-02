@@ -13,17 +13,13 @@ namespace OpenCvSharp.Flann
         /// <summary>
         /// 
         /// </summary>
-        protected IndexParams()
+        public IndexParams()
+            : base()
         {
-            PtrObj = null;
-        }
+            IntPtr p = NativeMethods.flann_Ptr_IndexParams_new();
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        private IndexParams(IntPtr p)
-        {
             PtrObj = new Ptr(p);
             ptr = PtrObj.Get();
         }
@@ -31,13 +27,11 @@ namespace OpenCvSharp.Flann
         /// <summary>
         /// 
         /// </summary>
-        public static IndexParams Create()
+        protected IndexParams(OpenCvSharp.Ptr ptrObj)
+            : base()
         {
-            IntPtr p = NativeMethods.flann_Ptr_IndexParams_new();
-            if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
-
-            return new IndexParams(p);
+            PtrObj = ptrObj;
+            ptr = PtrObj?.Get() ?? IntPtr.Zero;
         }
 
         /// <summary>

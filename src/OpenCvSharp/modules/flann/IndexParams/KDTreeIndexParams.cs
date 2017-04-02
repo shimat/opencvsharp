@@ -16,38 +16,6 @@ namespace OpenCvSharp.Flann
 #endif
     public class KDTreeIndexParams : IndexParams
     {
-        #region Properties
-        /*
-#if LANG_JP
-        /// <summary>
-        /// 並列な kd-tree の個数．[1..16] の範囲が適切な値です
-        /// </summary>
-#else
-        /// <summary>
-        /// The number of parallel kd-trees to use. Good values are in the range [1..16]
-        /// </summary>
-#endif
-        public int Trees
-        {
-            get
-            {
-                unsafe
-                {
-                    return *FlannInvoke.flann_KDTreeIndexParams_trees(ptr);
-                }
-            }
-            set
-            {
-                unsafe
-                {
-                    *FlannInvoke.flann_KDTreeIndexParams_trees(ptr) = value;
-                }
-            }
-        }
-        //*/
-        #endregion
-
-        #region Init & Disposal
 #if LANG_JP
         /// <summary>
         /// 
@@ -61,20 +29,38 @@ namespace OpenCvSharp.Flann
 #endif
         public KDTreeIndexParams(int trees = 4)
         {
-            ptr = NativeMethods.flann_KDTreeIndexParams_new(trees);
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create KDTreeIndexParams");
+            IntPtr p = NativeMethods.flann_Ptr_KDTreeIndexParams_new(trees);
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
+
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
         }
 
         /// <summary>
-        /// Releases unmanaged resources
+        /// 
         /// </summary>
-        protected override void DisposeUnmanaged()
+        protected KDTreeIndexParams(OpenCvSharp.Ptr ptrObj)
+            : base(ptrObj)
         {
-            NativeMethods.flann_KDTreeIndexParams_delete(ptr);
-            base.DisposeUnmanaged();
         }
 
-        #endregion
+        internal new class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.flann_Ptr_KDTreeIndexParams_get(ptr);
+            }
+
+            protected override void DisposeUnmanaged()
+            {
+                NativeMethods.flann_Ptr_KDTreeIndexParams_delete(ptr);
+                base.DisposeUnmanaged();
+            }
+        }
     }
 }

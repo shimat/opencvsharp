@@ -2,32 +2,24 @@
 
 namespace OpenCvSharp.Flann
 {
-#if LANG_JP
     /// <summary>
     /// 
     /// </summary>
-#else
-    /// <summary>
-    /// 
-    /// </summary>
-#endif
     public class SearchParams : IndexParams
     {
         /// <summary>
         /// 
         /// </summary>
-        protected SearchParams()
+        /// <param name="checks"></param>
+        /// <param name="eps"></param>
+        /// <param name="sorted"></param>
+        public SearchParams(int checks = 32, float eps = 0.0f, bool sorted = true)
+            : base(null)
         {
-            PtrObj = null;
-        }
+            IntPtr p = NativeMethods.flann_Ptr_SearchParams_new(checks, eps, sorted ? 1 : 0);
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(SearchParams)}");
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        private SearchParams(IntPtr p)
-            : base()
-        {
             PtrObj = new Ptr(p);
             ptr = PtrObj.Get();
         }
@@ -35,26 +27,9 @@ namespace OpenCvSharp.Flann
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="checks"></param>
-        /// <param name="eps"></param>
-        /// <param name="sorted"></param>
-        public static SearchParams Create(int checks = 32, float eps = 0.0f, bool sorted = true)
+        protected SearchParams(OpenCvSharp.Ptr ptrObj)
+            : base(ptrObj)
         {
-            IntPtr p = NativeMethods.flann_Ptr_SearchParams_new(checks, eps, sorted ? 1 : 0);
-            if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Failed to create {nameof(SearchParams)}");
-
-            return new SearchParams(p);
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            PtrObj?.Dispose();
-            PtrObj = null;
-            base.DisposeManaged();
         }
 
         internal new class Ptr : OpenCvSharp.Ptr

@@ -7,7 +7,6 @@ using OpenCvSharp.XFeatures2D;
 namespace OpenCvSharp.Tests.Features2d
 {
     [TestFixture]
-    //[Ignore("")]
     public class BOWImgDescriptorExtractorTest : TestBase
     {
         [OneTimeSetUp]
@@ -55,8 +54,8 @@ namespace OpenCvSharp.Tests.Features2d
         [Test]
         public void New4()
         {
-            using (LinearIndexParams ip = LinearIndexParams.Create())
-            using (SearchParams sp = SearchParams.Create())
+            using (var ip = new LinearIndexParams())
+            using (var sp = new SearchParams())
             using (var descriptorExtractor = SURF.Create(100))
             using (var descriptorMatcher = new FlannBasedMatcher(ip, sp)) 
             using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
@@ -65,8 +64,8 @@ namespace OpenCvSharp.Tests.Features2d
         [Test]
         public void New5()
         {
-            LinearIndexParams ip = LinearIndexParams.Create();
-            SearchParams sp = SearchParams.Create();
+            var ip = new LinearIndexParams();
+            var sp = new SearchParams();
             using (var descriptorExtractor = KAZE.Create())
             using (var descriptorMatcher = new FlannBasedMatcher(ip, sp))
             using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
@@ -75,8 +74,8 @@ namespace OpenCvSharp.Tests.Features2d
         [Test]
         public void RunTest()
         {
-            LinearIndexParams ip = LinearIndexParams.Create();
-            SearchParams sp = SearchParams.Create();
+            LinearIndexParams ip = new LinearIndexParams();
+            SearchParams sp = new SearchParams();
             using (var descriptorExtractor = SIFT.Create(500))
             //using (var descriptorMatcher = new FlannBasedMatcher(ip, sp))
             using (var descriptorMatcher = new BFMatcher())
