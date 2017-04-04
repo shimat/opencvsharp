@@ -9,8 +9,6 @@ namespace OpenCvSharp.Face
     /// </summary>
     public class LBPHFaceRecognizer : FaceRecognizer
     {
-        private bool disposed;
-
         /// <summary>
         ///
         /// </summary>
@@ -45,47 +43,14 @@ namespace OpenCvSharp.Face
             return detector;
         }
 
-#if LANG_JP
-/// <summary>
-/// リソースの解放
-/// </summary>
-/// <param name="disposing">
-/// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-/// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        recognizerPtr?.Dispose();
-                        recognizerPtr = null;
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            recognizerPtr?.Dispose();
+            recognizerPtr = null;
+            base.DisposeManaged();
         }
 
         #endregion
@@ -98,8 +63,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual int GetGridX()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             return NativeMethods.face_LBPHFaceRecognizer_getGridX(ptr);
         }
 
@@ -109,8 +73,7 @@ namespace OpenCvSharp.Face
         /// <param name="val"></param>
         public virtual void SetGridX(int val)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setGridX(ptr, val);
         }
 
@@ -120,8 +83,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual int GetGridY()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             return NativeMethods.face_LBPHFaceRecognizer_getGridY(ptr);
         }
 
@@ -131,8 +93,7 @@ namespace OpenCvSharp.Face
         /// <param name="val"></param>
         public virtual void SetGridY(int val)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setGridY(ptr, val);
         }
 
@@ -142,8 +103,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual int GetRadius()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             return NativeMethods.face_LBPHFaceRecognizer_getRadius(ptr);
         }
 
@@ -153,8 +113,7 @@ namespace OpenCvSharp.Face
         /// <param name="val"></param>
         public virtual void SetRadius(int val)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setRadius(ptr, val);
         }
 
@@ -164,8 +123,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual int GetNeighbors()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             return NativeMethods.face_LBPHFaceRecognizer_getNeighbors(ptr);
         }
 
@@ -175,8 +133,7 @@ namespace OpenCvSharp.Face
         /// <param name="val"></param>
         public virtual void SetNeighbors(int val)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setNeighbors(ptr, val);
         }
 
@@ -186,8 +143,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public new virtual double GetThreshold()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             return NativeMethods.face_LBPHFaceRecognizer_getThreshold(ptr);
         }
 
@@ -197,8 +153,7 @@ namespace OpenCvSharp.Face
         /// <param name="val"></param>
         public new virtual void SetThreshold(double val)
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setThreshold(ptr, val);
         }
 
@@ -208,8 +163,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual Mat[] GetHistograms()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             using (var resultVector = new VectorOfMat())
             {
                 NativeMethods.face_LBPHFaceRecognizer_getHistograms(ptr, resultVector.CvPtr);
@@ -223,8 +177,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public virtual Mat GetLabels()
         {
-            if (disposed)
-                throw new ObjectDisposedException(nameof(LBPHFaceRecognizer));
+            ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_LBPHFaceRecognizer_getLabels(ptr, result.CvPtr);
             return result;
@@ -243,9 +196,10 @@ namespace OpenCvSharp.Face
                 return NativeMethods.face_Ptr_LBPHFaceRecognizer_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.face_Ptr_LBPHFaceRecognizer_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

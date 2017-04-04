@@ -274,6 +274,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="features2d_MSER.h" />
     <ClInclude Include="features2d_ORB.h" />
     <ClInclude Include="features2d_SimpleBlobDetector.h" />
+    <ClInclude Include="flann_IndexParams.h" />
     <ClInclude Include="imgcodecs.h" />
     <ClInclude Include="imgproc_CLAHE.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />

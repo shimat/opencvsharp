@@ -15,13 +15,8 @@ namespace OpenCvSharp
 #endif
     public class Subdiv2D : DisposableCvObject
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed = false;
-
         #region Init and Disposal
-        #region Constructor
+
 #if LANG_JP
         /// <summary>
         /// デフォルトのパラメータで初期化.
@@ -56,8 +51,7 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
-        #endregion
-        #region Dispose
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -69,48 +63,18 @@ namespace OpenCvSharp
 #endif
         public void Release()
         {
-            Dispose(true);
+            Dispose();
         }
-#if LANG_JP
+
         /// <summary>
-        /// リソースの解放
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (ptr != IntPtr.Zero)
-                    {
-                        NativeMethods.imgproc_Subdiv2D_delete(ptr);
-                    }
-                    ptr = IntPtr.Zero;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.imgproc_Subdiv2D_delete(ptr);
+            base.DisposeUnmanaged();
         }
-        #endregion
+        
         #endregion
 
         #region Constants
@@ -145,8 +109,7 @@ namespace OpenCvSharp
         /// <param name="rect"></param>
         public void InitDelaunay(Rect rect)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             NativeMethods.imgproc_Subdiv2D_initDelaunay(ptr, rect);
         }
         #endregion
@@ -193,8 +156,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int Locate(Point2f pt, out int edge, out int vertex)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_locate(ptr, pt, out edge, out vertex);
         }
         #endregion
@@ -217,8 +179,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int FindNearest(Point2f pt, out Point2f nearestPt)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_findNearest(ptr, pt, out nearestPt);
         }
         #endregion
@@ -229,8 +190,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Vec4f[] GetEdgeList()
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             IntPtr p;
             NativeMethods.imgproc_Subdiv2D_getEdgeList(ptr, out p);
             using (VectorOfVec4f vec = new VectorOfVec4f(p))
@@ -246,8 +206,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Vec6f[] GetTriangleList()
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             IntPtr p;
             NativeMethods.imgproc_Subdiv2D_getTriangleList(ptr, out p);
             using (VectorOfVec6f vec = new VectorOfVec6f(p))
@@ -265,8 +224,7 @@ namespace OpenCvSharp
         /// <param name="facetCenters"></param>
         public void GetVoronoiFacetList(IEnumerable<int> idx, out Point2f[][] facetList, out Point2f[] facetCenters)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
 
             IntPtr facetListPtr, facetCentersPtr;
             if (idx == null)
@@ -308,8 +266,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Point2f GetVertex(int vertex, out int firstEdge)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_getVertex(ptr, vertex, out firstEdge);
         }
         #endregion
@@ -322,8 +279,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int GetEdge(int edge, int nextEdgeType)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_getEdge(ptr, edge, nextEdgeType);
         }
         #endregion
@@ -335,8 +291,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int NextEdge(int edge)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_nextEdge(ptr, edge);
         }
         #endregion
@@ -349,8 +304,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int RotateEdge(int edge, int rotate)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_rotateEdge(ptr, edge, rotate);
         }
         #endregion
@@ -362,8 +316,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int SymEdge(int edge)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_symEdge(ptr, edge);
         }
         #endregion
@@ -386,8 +339,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int EdgeOrg(int edge, out Point2f orgpt)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_edgeOrg(ptr, edge, out orgpt);
         }
         #endregion
@@ -410,8 +362,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int EdgeDst(int edge, out Point2f dstpt)
         {
-            if (disposed)
-                throw new ObjectDisposedException("Subdiv2D", "");
+            ThrowIfDisposed();
             return NativeMethods.imgproc_Subdiv2D_edgeDst(ptr, edge, out dstpt);
         }
         #endregion

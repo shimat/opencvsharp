@@ -13,8 +13,6 @@ namespace OpenCvSharp
     /// </summary>
     public partial class Mat : DisposableCvObject
     {
-        private bool disposed;
-
         #region Init & Disposal
 
 #if LANG_JP
@@ -502,59 +500,24 @@ namespace OpenCvSharp
             Dispose();
         }
 
-#if LANG_JP
-/// <summary>
-/// リソースの解放
-/// </summary>
-/// <param name="disposing">
-/// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-/// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                    }
-                    // releases unmanaged resources
-                    if (IsEnabledDispose)
-                    {
-                        if (ptr != IntPtr.Zero)
-                            NativeMethods.core_Mat_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.core_Mat_delete(ptr);
+            base.DisposeUnmanaged();
         }
-
 
         #region Static Initializers
 
 #if LANG_JP
-/// <summary>
-/// System.IO.StreamのインスタンスからMatを生成する
-/// </summary>
-/// <param name="stream"></param>
-/// <param name="mode"></param>
-/// <returns></returns>
+        /// <summary>
+        /// System.IO.StreamのインスタンスからMatを生成する
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
 #else
         /// <summary>
         /// Creates the Mat instance from System.IO.Stream
@@ -4999,8 +4962,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsByte(MatForeachFunctionByte operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5015,8 +4977,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec2b(MatForeachFunctionVec2b operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5031,8 +4992,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec3b(MatForeachFunctionVec3b operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5047,8 +5007,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec4b(MatForeachFunctionVec4b operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5063,8 +5022,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec6b(MatForeachFunctionVec6b operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5079,8 +5037,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsInt16(MatForeachFunctionInt16 operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5095,8 +5052,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec2s(MatForeachFunctionVec2s operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5111,8 +5067,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec3s(MatForeachFunctionVec3s operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5127,8 +5082,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec4s(MatForeachFunctionVec4s operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5143,8 +5097,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec6s(MatForeachFunctionVec6s operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5159,8 +5112,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsInt32(MatForeachFunctionInt32 operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5175,8 +5127,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec2i(MatForeachFunctionVec2i operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5191,8 +5142,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec3i(MatForeachFunctionVec3i operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5207,8 +5157,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec4i(MatForeachFunctionVec4i operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5223,8 +5172,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec6i(MatForeachFunctionVec6i operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5239,8 +5187,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsFloat(MatForeachFunctionFloat operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5255,8 +5202,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec2f(MatForeachFunctionVec2f operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5271,8 +5217,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec3f(MatForeachFunctionVec3f operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5287,8 +5232,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec4f(MatForeachFunctionVec4f operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5303,8 +5247,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec6f(MatForeachFunctionVec6f operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5320,8 +5263,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsDouble(MatForeachFunctionDouble operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5336,8 +5278,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec2d(MatForeachFunctionVec2d operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5352,8 +5293,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec3d(MatForeachFunctionVec3d operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5368,8 +5308,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec4d(MatForeachFunctionVec4d operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5384,8 +5323,7 @@ namespace OpenCvSharp
         /// <param name="operation"></param>
         public unsafe void ForEachAsVec6d(MatForeachFunctionVec6d operation)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
@@ -5400,5 +5338,4 @@ namespace OpenCvSharp
 
         #endregion
     }
-
 }

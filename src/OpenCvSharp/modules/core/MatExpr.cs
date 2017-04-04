@@ -10,9 +10,8 @@ namespace OpenCvSharp
     /// </summary>
     public sealed partial class MatExpr : DisposableCvObject
     {
-        private bool disposed;
-
         #region Init & Disposal
+
         /// <summary>
         /// 
         /// </summary>
@@ -21,6 +20,7 @@ namespace OpenCvSharp
         {
             this.ptr = ptr;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,34 +33,18 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    //Console.WriteLine("MatExpr disposed");
-                    if (ptr != IntPtr.Zero)
-                    {
-                        NativeMethods.core_MatExpr_delete(ptr);
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.core_MatExpr_delete(ptr);
+            base.DisposeUnmanaged();
         }
+
         #endregion
 
         #region Cast
+
         /// <summary>
         /// 
         /// </summary>
@@ -79,6 +63,7 @@ namespace OpenCvSharp
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -87,6 +72,7 @@ namespace OpenCvSharp
         {
             return (Mat)this;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -96,6 +82,7 @@ namespace OpenCvSharp
         {
             return new MatExpr(mat);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -105,6 +92,7 @@ namespace OpenCvSharp
         {
             return new MatExpr(mat);
         }
+
         #endregion
 
         #region Operators
@@ -642,6 +630,7 @@ namespace OpenCvSharp
         {
             get
             {
+                ThrowIfDisposed();
                 return SubMat(rowStart, rowEnd, colStart, colEnd);
             }
         }
@@ -656,10 +645,12 @@ namespace OpenCvSharp
         {
             get
             {
+                ThrowIfDisposed();
                 return SubMat(rowRange, colRange);
             }
             set
             {
+                ThrowIfDisposed();
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
                 MatExpr subMatExpr = SubMat(rowRange, colRange);
@@ -676,10 +667,12 @@ namespace OpenCvSharp
         {
             get
             {
+                ThrowIfDisposed();
                 return SubMat(roi);
             }
             set
             {
+                ThrowIfDisposed();
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
                 MatExpr subMatExpr = SubMat(roi);
@@ -702,6 +695,7 @@ namespace OpenCvSharp
                 : base(parent)
             {
             }
+
             /// <summary>
             /// 
             /// </summary>

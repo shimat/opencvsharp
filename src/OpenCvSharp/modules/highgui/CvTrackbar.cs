@@ -14,10 +14,6 @@ namespace OpenCvSharp
 #endif
     public class CvTrackbar : DisposableObject
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
         private readonly string name;
         private readonly string window;
         private int value;
@@ -201,46 +197,20 @@ namespace OpenCvSharp
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                        if (gchCallback.IsAllocated)
-                            gchCallback.Free();
-                        if (gchValue.IsAllocated)
-                            gchValue.Free();
-                        if (gchUserdata.IsAllocated)
-                            gchUserdata.Free();
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            if (gchCallback.IsAllocated)
+                gchCallback.Free();
+            if (gchValue.IsAllocated)
+                gchValue.Free();
+            if (gchUserdata.IsAllocated)
+                gchUserdata.Free();
+            base.DisposeUnmanaged();
         }
+
         #endregion
 
         #region Properties

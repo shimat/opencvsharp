@@ -16,10 +16,6 @@ namespace OpenCvSharp
 #endif
     public class EM : Algorithm
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
         private Ptr ptrObj;
 
         #region Constants
@@ -80,42 +76,14 @@ namespace OpenCvSharp
             return new EM(ptr);
         }
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
         /// <summary>
-        /// Clean up any resources being used.
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                    }
-                    ptr = IntPtr.Zero;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         #endregion
@@ -167,8 +135,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat GetWeights()
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_EM_getWeights(ptr);
             return new Mat(p);
         }
@@ -181,8 +148,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat GetMeans()
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_EM_getMeans(ptr);
             return new Mat(p);
         }
@@ -194,8 +160,7 @@ namespace OpenCvSharp
         /// </summary>
         public Mat[] GetCovs()
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
 
             using (var vec = new VectorOfMat())
             {
@@ -237,8 +202,7 @@ namespace OpenCvSharp
             OutputArray labels = null,
             OutputArray probs = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (samples == null)
                 throw new ArgumentNullException(nameof(samples));
             if (means0 == null)
@@ -246,16 +210,11 @@ namespace OpenCvSharp
             samples.ThrowIfDisposed();
             means0.ThrowIfDisposed();
 
-            if (logLikelihoods != null)
-                logLikelihoods.ThrowIfNotReady();
-            if (covs0 != null)
-                covs0.ThrowIfDisposed();
-            if (weights0 != null)
-                weights0.ThrowIfDisposed();
-            if (labels != null)
-                labels.ThrowIfNotReady();
-            if (probs != null)
-                probs.ThrowIfNotReady();
+            logLikelihoods?.ThrowIfNotReady();
+            covs0?.ThrowIfDisposed();
+            weights0?.ThrowIfDisposed();
+            labels?.ThrowIfNotReady();
+            probs?.ThrowIfNotReady();
 
             int ret = NativeMethods.ml_EM_trainE(
                 ptr,
@@ -267,12 +226,9 @@ namespace OpenCvSharp
                 Cv2.ToPtr(labels),
                 Cv2.ToPtr(probs));
 
-            if (logLikelihoods != null)
-                logLikelihoods.Fix();
-            if (labels != null)
-                labels.Fix();
-            if (probs != null)
-                probs.Fix();
+            logLikelihoods?.Fix();
+            labels?.Fix();
+            probs?.Fix();
             GC.KeepAlive(samples);
             GC.KeepAlive(means0);
             GC.KeepAlive(covs0);
@@ -307,8 +263,7 @@ namespace OpenCvSharp
             OutputArray labels = null,
             OutputArray probs = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (samples == null)
                 throw new ArgumentNullException(nameof(samples));
             if (probs0 == null)
@@ -316,12 +271,9 @@ namespace OpenCvSharp
             samples.ThrowIfDisposed();
             probs0.ThrowIfDisposed();
 
-            if (logLikelihoods != null)
-                logLikelihoods.ThrowIfNotReady();
-            if (labels != null)
-                labels.ThrowIfNotReady();
-            if (probs != null)
-                probs.ThrowIfNotReady();
+            logLikelihoods?.ThrowIfNotReady();
+            labels?.ThrowIfNotReady();
+            probs?.ThrowIfNotReady();
 
             int ret = NativeMethods.ml_EM_trainM(
                 ptr,
@@ -331,12 +283,9 @@ namespace OpenCvSharp
                 Cv2.ToPtr(labels),
                 Cv2.ToPtr(probs));
 
-            if (logLikelihoods != null)
-                logLikelihoods.Fix();
-            if (labels != null)
-                labels.Fix();
-            if (probs != null)
-                probs.Fix();
+            logLikelihoods?.Fix();
+            labels?.Fix();
+            probs?.Fix();
             GC.KeepAlive(samples);
             GC.KeepAlive(probs0);
 
@@ -358,17 +307,14 @@ namespace OpenCvSharp
 #endif
         public virtual Vec2d Predict2(InputArray sample, OutputArray probs = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (sample == null)
                 throw new ArgumentNullException(nameof(sample));
             sample.ThrowIfDisposed();
-            if (probs != null)
-                probs.ThrowIfNotReady();
+            probs?.ThrowIfNotReady();
 
             Vec2d ret = NativeMethods.ml_EM_predict2(ptr, sample.CvPtr, Cv2.ToPtr(probs));
-            if (probs != null)
-                probs.Fix();
+            probs?.Fix();
             GC.KeepAlive(sample);
             return ret;
         }
@@ -479,9 +425,10 @@ namespace OpenCvSharp
                 return NativeMethods.ml_Ptr_EM_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.ml_Ptr_EM_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

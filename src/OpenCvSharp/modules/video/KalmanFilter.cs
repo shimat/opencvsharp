@@ -12,9 +12,8 @@ namespace OpenCvSharp
     /// </summary>
     public class KalmanFilter : DisposableCvObject
     {
-        private bool disposed;
-
         #region Init & Disposal
+
         /// <summary>
         /// the default constructor
         /// </summary>
@@ -37,31 +36,14 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (ptr != IntPtr.Zero)
-                    {
-                        NativeMethods.video_KalmanFilter_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.video_KalmanFilter_delete(ptr);
+            base.DisposeUnmanaged();
         }
+
         #endregion
 
         #region Properties
@@ -72,8 +54,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_statePre(ptr);
                 return new Mat(ret);
             }
@@ -86,8 +67,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_statePost(ptr);
                 return new Mat(ret);
             }
@@ -100,8 +80,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_transitionMatrix(ptr);
                 return new Mat(ret);
             }
@@ -114,8 +93,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_controlMatrix(ptr);
                 return new Mat(ret);
             }
@@ -128,8 +106,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_measurementMatrix(ptr);
                 return new Mat(ret);
             }
@@ -142,8 +119,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_processNoiseCov(ptr);
                 return new Mat(ret);
             }
@@ -156,8 +132,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_measurementNoiseCov(ptr);
                 return new Mat(ret);
             }
@@ -170,8 +145,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_errorCovPre(ptr);
                 return new Mat(ret);
             }
@@ -184,8 +158,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_gain(ptr);
                 return new Mat(ret);
             }
@@ -198,8 +171,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("KalmanFilter");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_errorCovPost(ptr);
                 return new Mat(ret);
             }
@@ -218,8 +190,7 @@ namespace OpenCvSharp
         /// <param name="type"></param>
         public void Init(int dynamParams, int measureParams, int controlParams = 0, int type = MatType.CV_32F)
         {
-            if (disposed)
-                throw new ObjectDisposedException("KalmanFilter");
+            ThrowIfDisposed();
             NativeMethods.video_KalmanFilter_init(ptr, 
                 dynamParams, measureParams, controlParams, type);
         }
@@ -231,8 +202,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat Predict(Mat control = null)
         {
-            if (disposed)
-                throw new ObjectDisposedException("KalmanFilter");
+            ThrowIfDisposed();
 
             IntPtr ret = NativeMethods.video_KalmanFilter_predict(ptr, Cv2.ToPtr(control));
             return new Mat(ret);
@@ -245,8 +215,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat Correct(Mat measurement)
         {
-            if (disposed)
-                throw new ObjectDisposedException("KalmanFilter");
+            ThrowIfDisposed();
             if (measurement == null)
                 throw new ArgumentNullException(nameof(measurement));
             measurement.ThrowIfDisposed();
@@ -256,6 +225,5 @@ namespace OpenCvSharp
         }
 
         #endregion
-
     }
 }

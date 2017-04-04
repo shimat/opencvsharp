@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace OpenCvSharp.Flann
@@ -9,72 +8,41 @@ namespace OpenCvSharp.Flann
     /// </summary>
     public class IndexParams : DisposableCvObject
     {
-        private bool disposed = false;
+        internal OpenCvSharp.Ptr PtrObj { get; set; }
 
-        #region Properties
-
-        #endregion
-
-        #region Init & Disposal
-#if LANG_JP
         /// <summary>
         /// 
         /// </summary>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-#endif
         public IndexParams()
+            : base()
         {
-            ptr = NativeMethods.flann_IndexParams_new();
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to create IndexParams");
+            IntPtr p = NativeMethods.flann_Ptr_IndexParams_new();
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
+
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// 
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected IndexParams(OpenCvSharp.Ptr ptrObj)
+            : base()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (IsEnabledDispose)
-                    {
-                        if (ptr != IntPtr.Zero)
-                        {
-                            NativeMethods.flann_IndexParams_delete(ptr);
-                        }
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            PtrObj = ptrObj;
+            ptr = PtrObj?.Get() ?? IntPtr.Zero;
         }
-        #endregion
+
+        /// <summary>
+        /// Releases managed resources
+        /// </summary>
+        protected override void DisposeManaged()
+        {
+            PtrObj?.Dispose();
+            PtrObj = null;
+            base.DisposeManaged();
+        }
 
         #region Methods
         #region Get**
@@ -195,5 +163,23 @@ namespace OpenCvSharp.Flann
         }
         #endregion
         #endregion
+
+        internal class Ptr : OpenCvSharp.Ptr
+        {
+            public Ptr(IntPtr ptr) : base(ptr)
+            {
+            }
+
+            public override IntPtr Get()
+            {
+                return NativeMethods.flann_Ptr_IndexParams_get(ptr);
+            }
+
+            protected override void DisposeUnmanaged()
+            {
+                NativeMethods.flann_Ptr_IndexParams_delete(ptr);
+                base.DisposeUnmanaged();
+            }
+        }
     }
 }

@@ -17,22 +17,7 @@ namespace OpenCvSharp.Cuda
 #endif
     public class GpuMat : DisposableCvObject
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
-
         #region Init and Disposal
-
-        private void ThrowIfNotAvailable()
-        {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            if (Cv2.GetCudaEnabledDeviceCount() < 1)
-                throw new OpenCvSharpException("GPU module cannot be used.");
-        }
-
-        #region Constructor
 
 #if LANG_JP
     /// <summary>
@@ -354,9 +339,7 @@ namespace OpenCvSharp.Cuda
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
         }
-        #endregion
 
-        #region Dispose
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -368,50 +351,22 @@ namespace OpenCvSharp.Cuda
 #endif
         public void Release()
         {
-            Dispose(true);
+            Dispose();
         }
-#if LANG_JP
+
         /// <summary>
-        /// リソースの解放
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {                        
-                    }
-                    if (IsEnabledDispose)
-                    {
-                        NativeMethods.cuda_GpuMat_delete(ptr);
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.cuda_GpuMat_delete(ptr);
+            base.DisposeUnmanaged();
         }
-        #endregion
+        
         #endregion
 
         #region Cast
+
         /// <summary>
         /// converts header to GpuMat
         /// </summary>
@@ -1239,6 +1194,13 @@ namespace OpenCvSharp.Cuda
         }
 
         #endregion
+
+        private void ThrowIfNotAvailable()
+        {
+            ThrowIfDisposed();
+            if (Cv2.GetCudaEnabledDeviceCount() < 1)
+                throw new OpenCvSharpException("GPU module cannot be used.");
+        }
     }
 }
 

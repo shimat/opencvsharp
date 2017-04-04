@@ -14,7 +14,6 @@ namespace OpenCvSharp.XFeatures2D
 #endif
     public class SURF : Feature2D
     {
-        private bool disposed;
         private Ptr detectorPtr;
 
         #region Init & Disposal
@@ -23,7 +22,6 @@ namespace OpenCvSharp.XFeatures2D
         /// Creates instance by raw pointer cv::SURF*
         /// </summary>
         protected SURF(IntPtr p)
-            : base()
         {
             detectorPtr = new Ptr(p);
             ptr = detectorPtr.Get();
@@ -60,52 +58,20 @@ namespace OpenCvSharp.XFeatures2D
             return new SURF(ptr);
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Releases the resources
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                        detectorPtr?.Dispose();
-                        detectorPtr = null;
-                    }
-
-                    // releases unmanaged resources
-                    
-                    ptr = IntPtr.Zero;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            detectorPtr?.Dispose();
+            detectorPtr = null;
+            base.DisposeManaged();
         }
 
         #endregion
 
         #region Properties
-        
+
         /// <summary>
         /// Threshold for the keypoint detector. Only features, whose hessian is larger than hessianThreshold 
         /// are retained by the detector. Therefore, the larger the value, the less keypoints you will get. 
@@ -211,9 +177,10 @@ namespace OpenCvSharp.XFeatures2D
                 return NativeMethods.xfeatures2d_Ptr_SURF_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.xfeatures2d_Ptr_SURF_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }
