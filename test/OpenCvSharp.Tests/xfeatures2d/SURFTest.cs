@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using OpenCvSharp.XFeatures2D;
 
-namespace OpenCvSharp.Tests.Features2d
+namespace OpenCvSharp.Tests.XFeatures2D
 {
     // ReSharper disable once InconsistentNaming
 
@@ -26,6 +26,21 @@ namespace OpenCvSharp.Tests.Features2d
                 keyPoints = surf.Detect(gray);
 
             Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
+        }
+
+        [Test]
+        public void DetectAndCompute()
+        {
+            using (var gray = Image("lenna.png", ImreadModes.GrayScale))
+            using (var surf = SURF.Create(500))
+            using (Mat descriptor = new Mat())
+            {
+                KeyPoint[] keyPoints;
+                surf.DetectAndCompute(gray, null, out keyPoints, descriptor);
+
+                Console.WriteLine($"keyPoints has {keyPoints.Length} items.");
+                Console.WriteLine($"descriptor has {descriptor.Rows} items.");
+            }
         }
     }
 }

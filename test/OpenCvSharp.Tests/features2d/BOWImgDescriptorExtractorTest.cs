@@ -4,7 +4,7 @@ using NUnit.Framework;
 using OpenCvSharp.Flann;
 using OpenCvSharp.XFeatures2D;
 
-namespace OpenCvSharp.Tests.Features2d
+namespace OpenCvSharp.Tests.Features2D
 {
     [TestFixture]
     public class BOWImgDescriptorExtractorTest : TestBase

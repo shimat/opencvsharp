@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace OpenCvSharp.Tests.Features2d
+namespace OpenCvSharp.Tests.Features2D
 {
     [TestFixture]
     public class BOWKMeansTrainerTest : TestBase
