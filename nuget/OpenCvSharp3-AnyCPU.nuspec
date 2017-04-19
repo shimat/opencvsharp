@@ -11,7 +11,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <summary>OpenCV 3.x wrapper</summary>
-        <releaseNotes>- Fixed #329, #322, #320, #319, #318, #314, #306, #304 and #303</releaseNotes>
+        <releaseNotes>- Fixed #331</releaseNotes>
         <copyright>Copyright 2008-2017</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <dependencies>
@@ -23,9 +23,6 @@
             </group>
             <group targetFramework="netcoreapp1.0">
                 <dependency id="NETStandard.Library" version="1.6.1" />
-            </group>
-            <group targetFramework="uap10.0">
-                <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.1.0" />
             </group>
         </dependencies>
         <frameworkAssemblies>
@@ -82,13 +79,6 @@
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.dll" target="lib\netstandard1.6" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.pdb" target="lib\netstandard1.6" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.xml" target="lib\netstandard1.6" />
-
-        <file src="..\src\OpenCvSharp\bin\Release\uap10.0\OpenCvSharp.dll" target="lib\uap10.0" />
-        <file src="..\src\OpenCvSharp\bin\Release\uap10.0\OpenCvSharp.pdb" target="lib\uap10.0" />
-        <file src="..\src\OpenCvSharp\bin\Release\uap10.0\OpenCvSharp.xml" target="lib\uap10.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\uap10.0\OpenCvSharp.Blob.dll" target="lib\uap10.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\uap10.0\OpenCvSharp.Blob.pdb" target="lib\uap10.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\uap10.0\OpenCvSharp.Blob.xml" target="lib\uap10.0" />
 
         <file src="..\src\OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.dll" target="lib\netcoreapp1.0" />
         <file src="..\src\OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.pdb" target="lib\netcoreapp1.0" />
