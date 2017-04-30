@@ -11,7 +11,6 @@ namespace OpenCvSharp
     /// </summary>
     public class GFTTDetector : Feature2D
     {
-        private bool disposed;
         private Ptr ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
@@ -47,45 +46,16 @@ namespace OpenCvSharp
             ptr = ptrObj.Get();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-    /// <param name="disposing">
-    /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-    /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-    ///</param>
-#else
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                    }
-                    // releases unmanaged resources
-                    
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
+
         #endregion
 
         #region Properties
@@ -97,14 +67,12 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_GFTTDetector_getMaxFeatures(ptr);
             }
             set
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 NativeMethods.features2d_GFTTDetector_setMaxFeatures(ptr, value);
             }
         }
@@ -116,14 +84,12 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_GFTTDetector_getQualityLevel(ptr);
             }
             set
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 NativeMethods.features2d_GFTTDetector_setQualityLevel(ptr, value);
             }
         }
@@ -135,14 +101,12 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_GFTTDetector_getMinDistance(ptr);
             }
             set
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 NativeMethods.features2d_GFTTDetector_setMinDistance(ptr, value);
             }
         }
@@ -155,14 +119,12 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_GFTTDetector_getBlockSize(ptr);
             }
             set
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 NativeMethods.features2d_GFTTDetector_setBlockSize(ptr, value);
             }
         }
@@ -175,14 +137,12 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_GFTTDetector_getHarrisDetector(ptr) != 0;
             }
             set
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 NativeMethods.features2d_GFTTDetector_setHarrisDetector(ptr, value ? 1 : 0);
             }
         }
@@ -195,21 +155,15 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 return NativeMethods.features2d_GFTTDetector_getK(ptr);
             }
             set
             {
-                if (disposed)
-                    throw new ObjectDisposedException(GetType().Name);
+                ThrowIfDisposed();
                 NativeMethods.features2d_GFTTDetector_setK(ptr, value);
             }
         }
-
-        #endregion
-
-        #region Methods
 
         #endregion
 
@@ -224,9 +178,10 @@ namespace OpenCvSharp
                 return NativeMethods.features2d_Ptr_GFTTDetector_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.features2d_Ptr_GFTTDetector_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

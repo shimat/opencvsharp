@@ -14,10 +14,6 @@ namespace OpenCvSharp.ML
     // ReSharper disable once InconsistentNaming
     public class ANN_MLP : StatModel
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
         private Ptr ptrObj;
 
         #region Init and Disposal
@@ -25,7 +21,6 @@ namespace OpenCvSharp.ML
         /// Creates instance by raw pointer cv::ml::ANN_MLP*
         /// </summary>
         protected ANN_MLP(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
@@ -70,32 +65,15 @@ namespace OpenCvSharp.ML
         }
 
         /// <summary>
-        /// Clean up any resources being used.
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                    }
-                    ptr = IntPtr.Zero;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
+
         #endregion
 
         #region Properties
@@ -197,8 +175,7 @@ namespace OpenCvSharp.ML
         /// <param name="layerSizes"></param>
         public virtual void SetLayerSizes(InputArray layerSizes)
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             if (layerSizes == null)
                 throw new ArgumentNullException(nameof(layerSizes));
             NativeMethods.ml_ANN_MLP_setLayerSizes(ptr, layerSizes.CvPtr);
@@ -212,8 +189,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public virtual Mat GetLayerSizes()
         {
-            if (disposed)
-                throw new ObjectDisposedException(GetType().Name);
+            ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_ANN_MLP_getLayerSizes(ptr);
             return new Mat(p);
         }
@@ -303,9 +279,10 @@ namespace OpenCvSharp.ML
                 return NativeMethods.ml_Ptr_ANN_MLP_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.ml_Ptr_ANN_MLP_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

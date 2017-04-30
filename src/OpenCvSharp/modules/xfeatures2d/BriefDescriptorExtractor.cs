@@ -16,8 +16,6 @@ namespace OpenCvSharp.XFeatures2D
 // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
-        private bool disposed;
-
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
@@ -53,35 +51,13 @@ namespace OpenCvSharp.XFeatures2D
         }
 
         /// <summary>
-        /// Releases the resources
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    // releases managed resources
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                        ptr = IntPtr.Zero;
-                    }
-                    
-                    // releases unmanaged resources
-                    
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         internal new class Ptr : OpenCvSharp.Ptr
@@ -95,9 +71,10 @@ namespace OpenCvSharp.XFeatures2D
                 return NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

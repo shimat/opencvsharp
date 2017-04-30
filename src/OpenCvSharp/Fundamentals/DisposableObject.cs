@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace OpenCvSharp
 {
@@ -14,8 +15,66 @@ namespace OpenCvSharp
     /// Represents a class which manages its own memory. 
     /// </summary>
 #endif
-    abstract public class DisposableObject : IDisposable
+    public abstract class DisposableObject : IDisposable
     {
+        /// <summary>
+        /// Gets or sets a handle which allocates using cvSetData.
+        /// </summary>
+        protected GCHandle dataHandle;
+
+        private volatile int disposeSignaled = 0;
+
+        #region Properties
+#if LANG_JP
+        /// <summary>
+        /// リソースが解放済みかどうかを取得する
+        /// </summary>
+#else
+        /// <summary>
+        /// Gets a value indicating whether this instance has been disposed.
+        /// </summary>
+#endif
+        public bool IsDisposed { get; protected set; }
+
+#if LANG_JP
+        /// <summary>
+        /// 解放処理を許可するかどうかを取得・設定する. falseならばDisposeは何もしない.
+        /// 通常はユーザはこのフラグを変更してはならない. CvCapture.QueryFrameで取得したIplImageのように, 
+        /// 解放処理をするとエラーとなるオブジェクトの場合に自動的にこのフラグがfalseとなる。
+        /// </summary>
+#else
+        /// <summary>
+        /// Gets or sets a value indicating whether you permit disposing this instance.
+        /// </summary>
+#endif
+        public bool IsEnabledDispose { get; set; }
+
+
+#if LANG_JP
+        /// <summary>
+        /// cvCreateXXX といった関数がなく自前で構造体の分のメモリを確保する場合、
+        /// そのアドレスを入れておく場所
+        /// </summary>
+#else
+        /// <summary>
+        /// Gets or sets a memory address allocated by AllocMemory.
+        /// </summary>
+#endif
+        protected IntPtr AllocatedMemory { get; set; }
+
+#if LANG_JP
+        /// <summary>
+        /// AllocatedMemoryに確保されているメモリのサイズ
+        /// </summary>
+#else
+        /// <summary>
+        /// Gets or sets the byte length of the allocated memory
+        /// </summary>
+#endif
+        protected long AllocatedMemorySize { get; set; }
+
+        #endregion
+
         #region Init and Dispossal
 #if LANG_JP
         /// <summary>
@@ -30,6 +89,7 @@ namespace OpenCvSharp
             : this(true)
         {
         }
+
 #if LANG_JP
         /// <summary>
         /// 解放の可否を指定して初期化
@@ -63,6 +123,7 @@ namespace OpenCvSharp
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
 #if LANG_JP
         /// <summary>
         /// リソースの解放
@@ -80,32 +141,24 @@ namespace OpenCvSharp
         /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
         /// </param>
 #endif
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (!IsDisposed)
-            {             
-                // releases managed resources
+#pragma warning disable 420
+            // http://stackoverflow.com/questions/425132/a-reference-to-a-volatile-field-will-not-be-treated-as-volatile-implications
+            if (Interlocked.Exchange(ref disposeSignaled, 1) != 0)
+            {
+                return;
+            }
+
+            IsDisposed = true;
+
+            if (IsEnabledDispose)
+            {
                 if (disposing)
                 {
+                    DisposeManaged();
                 }
-
-                // releases unmanaged resources
-                if (dataHandle.IsAllocated)
-                {
-                    dataHandle.Free();
-                }
-                if (AllocatedMemorySize > 0)
-                {
-                    GC.RemoveMemoryPressure(AllocatedMemorySize);
-                    AllocatedMemorySize = 0;
-                }
-                if (AllocatedMemory != IntPtr.Zero)
-                {
-                    Marshal.FreeHGlobal(AllocatedMemory);
-                    AllocatedMemory = IntPtr.Zero;
-                }
-
-                IsDisposed = true;
+                DisposeUnmanaged();
             }
         }
 
@@ -122,61 +175,39 @@ namespace OpenCvSharp
         {
             Dispose(false);
         }
-        #endregion
-
-        #region Properties
-#if LANG_JP
-        /// <summary>
-        /// リソースが解放済みかどうかを取得する
-        /// </summary>
-#else
-        /// <summary>
-        /// Gets a value indicating whether this instance has been disposed.
-        /// </summary>
-#endif
-        public bool IsDisposed { get; protected set; }
-#if LANG_JP
-        /// <summary>
-        /// 解放処理を許可するかどうかを取得・設定する. falseならばDisposeは何もしない.
-        /// 通常はユーザはこのフラグを変更してはならない. CvCapture.QueryFrameで取得したIplImageのように, 
-        /// 解放処理をするとエラーとなるオブジェクトの場合に自動的にこのフラグがfalseとなる。
-        /// </summary>
-#else
-        /// <summary>
-        /// Gets or sets a value indicating whether you permit disposing this instance.
-        /// </summary>
-#endif
-        public bool IsEnabledDispose { get; set; }
 
         /// <summary>
-        /// Gets or sets a handle which allocates using cvSetData.
+        /// Releases managed resources
         /// </summary>
-        protected GCHandle dataHandle;
+        protected virtual void DisposeManaged()
+        {
+        }
 
-#if LANG_JP
         /// <summary>
-        /// cvCreateXXX といった関数がなく自前で構造体の分のメモリを確保する場合、
-        /// そのアドレスを入れておく場所
+        /// Releases unmanaged resources
         /// </summary>
-#else
-        /// <summary>
-        /// Gets or sets a memory address allocated by AllocMemory.
-        /// </summary>
-#endif
-        protected IntPtr AllocatedMemory { get; set; }
-#if LANG_JP
-        /// <summary>
-        /// AllocatedMemoryに確保されているメモリのサイズ
-        /// </summary>
-#else
-        /// <summary>
-        /// Gets or sets the byte length of the allocated memory
-        /// </summary>
-#endif
-        protected long AllocatedMemorySize { get; set; }
+        protected virtual void DisposeUnmanaged()
+        {
+            if (dataHandle.IsAllocated)
+            {
+                dataHandle.Free();
+            }
+            if (AllocatedMemorySize > 0)
+            {
+                GC.RemoveMemoryPressure(AllocatedMemorySize);
+                AllocatedMemorySize = 0;
+            }
+            if (AllocatedMemory != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(AllocatedMemory);
+                AllocatedMemory = IntPtr.Zero;
+            }
+        }
+
         #endregion
 
         #region Methods
+
 #if LANG_JP
         /// <summary>
         /// cvSetDataで割り当てる配列データをGCHandleでピン止めする
@@ -199,6 +230,7 @@ namespace OpenCvSharp
             dataHandle = GCHandle.Alloc(obj, GCHandleType.Pinned);
             return dataHandle;
         }
+
 #if LANG_JP
         /// <summary>
         /// 指定したサイズの量のメモリを割り当てる。
@@ -223,6 +255,7 @@ namespace OpenCvSharp
             NotifyMemoryPressure(size);
             return AllocatedMemory;
         }
+
 #if LANG_JP
         /// <summary>
         /// アンマネージメモリを確保したメモリサイズを通知する。
@@ -268,6 +301,7 @@ namespace OpenCvSharp
             if (IsDisposed) 
                 throw new ObjectDisposedException(GetType().FullName);
         }
+
         #endregion
     }
 }

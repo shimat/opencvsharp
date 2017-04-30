@@ -14,7 +14,6 @@ namespace OpenCvSharp
 #endif
     public class VideoCapture : DisposableCvObject
     {
-        #region Fields
 #if LANG_JP
         /// <summary>
         /// キャプチャの種類 (File or Camera)
@@ -25,13 +24,9 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         private CaptureType captureType;
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
-        #endregion
 
         #region Init and Disposal
+
 #if LANG_JP
         /// <summary>
         /// 空の状態で初期化. 後でOpenが必要.
@@ -225,6 +220,7 @@ namespace OpenCvSharp
             
             captureType = CaptureType.File;
         }
+
 #if LANG_JP
         /// <summary>
         /// ファイルからのビデオキャプチャを初期化する
@@ -253,44 +249,15 @@ namespace OpenCvSharp
             this.ptr = ptr;
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (IsEnabledDispose)
-                    {
-                        NativeMethods.videoio_VideoCapture_delete(ptr);
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.videoio_VideoCapture_delete(ptr);
+            base.DisposeUnmanaged();
         }
+
         #endregion
 
         #region Properties
@@ -2121,15 +2088,15 @@ namespace OpenCvSharp
         private struct IntBytes
         {
             [FieldOffset(0)]
-            public Int32 Value;
+            public int Value;
             [FieldOffset(0)]
-            public readonly Byte B1;
+            public readonly byte B1;
             [FieldOffset(1)]
-            public readonly Byte B2;
+            public readonly byte B2;
             [FieldOffset(2)]
-            public readonly Byte B3;
+            public readonly byte B3;
             [FieldOffset(3)]
-            public readonly Byte B4;
+            public readonly byte B4;
         }
     }
 }

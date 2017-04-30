@@ -7,9 +7,8 @@ namespace OpenCvSharp
     /// </summary>
     public class SVD : DisposableCvObject
     {
-        private bool disposed;
-
         #region Init & Disposal
+
         /// <summary>
         /// the default constructor
         /// </summary>
@@ -31,31 +30,14 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (ptr != IntPtr.Zero)
-                    {
-                        NativeMethods.core_SVD_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.core_SVD_delete(ptr);
+            base.DisposeUnmanaged();
         }
+
         #endregion
 
         #region Properties
@@ -66,8 +48,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("SVD");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_SVD_u(ptr);
                 return new Mat(ret);
             }
@@ -80,8 +61,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if(disposed)
-                    throw new ObjectDisposedException("SVD");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_SVD_w(ptr);
                 return new Mat(ret);
             }
@@ -94,8 +74,7 @@ namespace OpenCvSharp
         {
             get
             {
-                if (disposed)
-                    throw new ObjectDisposedException("SVD");
+                ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_SVD_vt(ptr);
                 return new Mat(ret);
             }
@@ -111,8 +90,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public SVD Run(InputArray src, Flags flags = 0)
         {
-            if (disposed)
-                throw new ObjectDisposedException("SVD");
+            ThrowIfDisposed();
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
@@ -128,8 +106,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public void BackSubst(InputArray rhs, OutputArray dst)
         {
-            if (disposed)
-                throw new ObjectDisposedException("SVD");
+            ThrowIfDisposed();
             if (rhs == null)
                 throw new ArgumentNullException(nameof(rhs));
             if (dst == null)

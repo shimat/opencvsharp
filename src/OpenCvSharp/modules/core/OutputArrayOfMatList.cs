@@ -8,7 +8,6 @@ namespace OpenCvSharp
     /// </summary>
     public sealed class OutputArrayOfMatList : OutputArray
     {
-        private bool disposed;
         private List<Mat> list;
 
         /// <summary>
@@ -50,17 +49,12 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                list = null;
-                disposed = true;
-                base.Dispose(disposing);
-            }
+            list = null;
+            base.DisposeManaged();
         }
     }
 }

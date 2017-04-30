@@ -10,7 +10,6 @@ namespace OpenCvSharp
     /// </summary>
     public class InputArray : DisposableCvObject
     {
-        private bool disposed;
         private object obj;
 
 #pragma warning disable 1591
@@ -103,35 +102,18 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (ptr != IntPtr.Zero)
-                    {
-                        NativeMethods.core_InputArray_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
-                    obj = null;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.core_InputArray_delete(ptr);
+            base.DisposeUnmanaged();
         }
+
         #endregion
 
         #region Cast
+
         /// <summary>
         /// 
         /// </summary>
@@ -204,10 +186,8 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Operators
-        #endregion
-
         #region Methods
+
         /// <summary>
         /// 
         /// </summary>

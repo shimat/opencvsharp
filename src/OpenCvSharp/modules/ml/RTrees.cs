@@ -14,10 +14,6 @@ namespace OpenCvSharp.ML
 #endif
     public class RTrees : DTrees
     {
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
         private Ptr ptrObj;
 
         #region Init and Disposal
@@ -68,43 +64,16 @@ namespace OpenCvSharp.ML
             return new RTrees(ptr);
         }
 
-#if LANG_JP
         /// <summary>
-        /// リソースの解放
+        /// Releases managed resources
         /// </summary>
-        /// <param name="disposing">
-        /// trueの場合は、このメソッドがユーザコードから直接が呼ばれたことを示す。マネージ・アンマネージ双方のリソースが解放される。
-        /// falseの場合は、このメソッドはランタイムからファイナライザによって呼ばれ、もうほかのオブジェクトから参照されていないことを示す。アンマネージリソースのみ解放される。
-        ///</param>
-#else
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-#endif
-        protected override void Dispose(bool disposing)
+        protected override void DisposeManaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                        ptrObj?.Dispose();
-                        ptrObj = null;
-                    }
-                    ptr = IntPtr.Zero;
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
+
         #endregion
 
         #region Properties
@@ -115,8 +84,16 @@ namespace OpenCvSharp.ML
         /// </summary>
         public bool CalculateVarImportance
         {
-            get { return NativeMethods.ml_RTrees_getCalculateVarImportance(ptr) != 0; }
-            set { NativeMethods.ml_RTrees_setCalculateVarImportance(ptr, value ? 1 : 0); }
+            get
+            {
+                ThrowIfDisposed();
+                return NativeMethods.ml_RTrees_getCalculateVarImportance(ptr) != 0;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.ml_RTrees_setCalculateVarImportance(ptr, value ? 1 : 0);
+            }
         }
 
         /// <summary>
@@ -125,8 +102,16 @@ namespace OpenCvSharp.ML
         /// </summary>
         public bool ActiveVarCount
         {
-            get { return NativeMethods.ml_RTrees_getActiveVarCount(ptr) != 0; }
-            set { NativeMethods.ml_RTrees_setActiveVarCount(ptr, value ? 1 : 0); }
+            get
+            {
+                ThrowIfDisposed();
+                return NativeMethods.ml_RTrees_getActiveVarCount(ptr) != 0;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.ml_RTrees_setActiveVarCount(ptr, value ? 1 : 0);
+            }
         }
 
         /// <summary>
@@ -134,8 +119,16 @@ namespace OpenCvSharp.ML
         /// </summary>
         public TermCriteria TermCriteria
         {
-            get { return NativeMethods.ml_RTrees_getTermCriteria(ptr); }
-            set { NativeMethods.ml_RTrees_setTermCriteria(ptr, value); }
+            get
+            {
+                ThrowIfDisposed();
+                return NativeMethods.ml_RTrees_getTermCriteria(ptr);
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.ml_RTrees_setTermCriteria(ptr, value);
+            }
         }
 
         #endregion
@@ -151,9 +144,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public Mat GetVarImportance()
         {
-            if (disposed)
-                throw new NotImplementedException(GetType().Name);
-
+            ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_RTrees_getVarImportance(ptr);
             return new Mat(p);
         }
@@ -171,9 +162,10 @@ namespace OpenCvSharp.ML
                 return NativeMethods.ml_Ptr_RTrees_get(ptr);
             }
 
-            protected override void Release()
+            protected override void DisposeUnmanaged()
             {
                 NativeMethods.ml_Ptr_RTrees_delete(ptr);
+                base.DisposeUnmanaged();
             }
         }
     }

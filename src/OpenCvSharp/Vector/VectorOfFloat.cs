@@ -11,13 +11,6 @@ namespace OpenCvSharp
     public class VectorOfFloat : DisposableCvObject, IStdVector<float>
     {
         /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed = false;
-
-        #region Init and Dispose
-
-        /// <summary>
         /// 
         /// </summary>
         public VectorOfFloat()
@@ -49,34 +42,13 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Clean up any resources being used.
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing">
-        /// If disposing equals true, the method has been called directly or indirectly by a user's code. Managed and unmanaged resources can be disposed.
-        /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
-        /// </param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (IsEnabledDispose)
-                    {
-                        NativeMethods.vector_float_delete(ptr);
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.vector_float_delete(ptr);
+            base.DisposeUnmanaged();
         }
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// vector.size()
@@ -94,10 +66,6 @@ namespace OpenCvSharp
             get { return NativeMethods.vector_float_getPointer(ptr); }
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
@@ -113,7 +81,5 @@ namespace OpenCvSharp
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);
             return dst;
         }
-
-        #endregion
     }
 }

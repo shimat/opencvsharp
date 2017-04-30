@@ -9,8 +9,6 @@ namespace OpenCvSharp.Cuda
     /// </summary>
     public sealed class DeviceInfo : DisposableGpuObject
     {
-        private bool disposed;
-
         /// <summary>
         /// Creates DeviceInfo object for the current GPU
         /// </summary>
@@ -31,26 +29,13 @@ namespace OpenCvSharp.Cuda
         }
 
         /// <summary>
-        /// Releases the resources
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                }
-                if(ptr != IntPtr.Zero)
-                    NativeMethods.cuda_DeviceInfo_delete(ptr);
-
-                ptr = IntPtr.Zero;
-                disposed = true;
-            }
-
-            base.Dispose(disposing);
+            NativeMethods.cuda_DeviceInfo_delete(ptr);
+            base.DisposeUnmanaged();
         }
-
 
         /// <summary>
         /// 

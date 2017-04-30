@@ -9,7 +9,6 @@ namespace OpenCvSharp
     /// </summary>
     public class OutputArray : DisposableCvObject
     {
-        private bool disposed;
         private readonly object obj;
 
         #region Init & Disposal
@@ -53,31 +52,14 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Releases unmanaged resources
         /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeUnmanaged()
         {
-            if (!disposed)
-            {
-                try
-                {
-                    if (disposing)
-                    {
-                    }
-                    if (ptr != IntPtr.Zero)
-                    {
-                        NativeMethods.core_OutputArray_delete(ptr);
-                        ptr = IntPtr.Zero;
-                    }
-                    disposed = true;
-                }
-                finally
-                {
-                    base.Dispose(disposing);
-                }
-            }
+            NativeMethods.core_OutputArray_delete(ptr);
+            base.DisposeUnmanaged();
         }
+
         #endregion
 
         #region Cast
@@ -211,7 +193,7 @@ namespace OpenCvSharp
         {
             return
                 ptr != IntPtr.Zero &&
-                !disposed &&
+                !IsDisposed &&
                 obj != null &&
                 (IsMat() || IsGpuMat());
         }
