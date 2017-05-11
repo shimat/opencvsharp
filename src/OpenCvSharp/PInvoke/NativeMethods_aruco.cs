@@ -12,7 +12,7 @@ namespace OpenCvSharp
         public static extern IntPtr aruco_getPredefinedDictionary(int name);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void aruco_detectMarkers(IntPtr image, IntPtr dictionary, out IntPtr corners, out IntPtr ids, IntPtr detectParameters, out IntPtr outrejectedImgPoints);
+        public static extern void aruco_detectMarkers(IntPtr image, IntPtr dictionary, IntPtr corners, IntPtr ids, IntPtr detectParameters, IntPtr outrejectedImgPoints);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void aruco_drawDetectedMarkers(IntPtr image, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] corners, int cornerSize1, int[] contoursSize2, [MarshalAs(UnmanagedType.LPArray)] int[] ids, int idxLength, Scalar borderColor);
@@ -27,6 +27,12 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr aruco_DetectorParameters_create();
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void aruco_Ptr_DetectorParameters_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr aruco_Ptr_DetectorParameters_get(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void aruco_DetectorParameters_setDoCornerRefinement(IntPtr obj, bool value);

@@ -27,13 +27,12 @@ namespace OpenCvSharp.Aruco
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            IntPtr cornersPtr, idsPtr, rejectedImgPointsPtr;
-            NativeMethods.aruco_detectMarkers(image.CvPtr, dictionary.CvPtr, out cornersPtr, out idsPtr, parameters.CvPtr, out rejectedImgPointsPtr);
-
-            using (var cornersVec = new VectorOfVectorPoint2f(cornersPtr))
-            using (var idsVec = new VectorOfInt32(idsPtr))
-            using (var rejectedImgPointsVec = new VectorOfVectorPoint2f(rejectedImgPointsPtr))
+            using (var cornersVec = new VectorOfVectorPoint2f())
+            using (var idsVec = new VectorOfInt32())
+            using (var rejectedImgPointsVec = new VectorOfVectorPoint2f())
             {
+                NativeMethods.aruco_detectMarkers(image.CvPtr, dictionary.ObjectPtr.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, parameters.ObjectPtr.CvPtr, rejectedImgPointsVec.CvPtr);
+
                 corners = cornersVec.ToArray();
                 ids = idsVec.ToArray();
                 rejectedImgPoints = rejectedImgPointsVec.ToArray();
@@ -43,11 +42,27 @@ namespace OpenCvSharp.Aruco
             GC.KeepAlive(dictionary);
         }
 
+        /// <summary>
+        /// Draw detected markers in image
+        /// </summary>
+        /// <param name="image">input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+        /// <param name="corners">positions of marker corners on input image. 
+        /// For N detected markers, the dimensions of this array should be Nx4.The order of the corners should be clockwise.</param>
+        /// <param name="ids">vector of identifiers for markers in markersCorners. Optional, if not provided, ids are not painted.</param>
         public static void DrawDetectedMarkers(InputArray image, Point2f[][] corners, IEnumerable<int> ids)
         {
             DrawDetectedMarkers(image, corners, ids, new Scalar(0, 255, 0));
         }
 
+        /// <summary>
+        /// Draw detected markers in image
+        /// </summary>
+        /// <param name="image">input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+        /// <param name="corners">positions of marker corners on input image. 
+        /// For N detected markers, the dimensions of this array should be Nx4.The order of the corners should be clockwise.</param>
+        /// <param name="ids">vector of identifiers for markers in markersCorners. Optional, if not provided, ids are not painted.</param>
+        /// <param name="borderColor">color of marker borders. Rest of colors (text color and first corner color)
+        ///  are calculated based on this one to improve visualization.</param>
         public static void DrawDetectedMarkers(InputArray image, Point2f[][] corners, IEnumerable<int> ids, Scalar borderColor)
         {
             if (image == null)
@@ -69,6 +84,14 @@ namespace OpenCvSharp.Aruco
             }
         }
 
+        /// <summary>
+        /// Draw a canonical marker image
+        /// </summary>
+        /// <param name="dictionary">dictionary of markers indicating the type of markers</param>
+        /// <param name="id">identifier of the marker that will be returned. It has to be a valid id in the specified dictionary.</param>
+        /// <param name="sidePixels">size of the image in pixels</param>
+        /// <param name="mat">output image with the marker</param>
+        /// <param name="borderBits">width of the marker border.</param>
         public static void DrawMarker(Dictionary dictionary, int id, int sidePixels, OutputArray mat, int borderBits = 1)
         {
             if (dictionary == null)
@@ -82,6 +105,11 @@ namespace OpenCvSharp.Aruco
             mat.Fix();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static Dictionary GetPredefinedDictionary(PredefinedDictionaryName name)
         {
             IntPtr ptr = NativeMethods.aruco_getPredefinedDictionary((int)name);

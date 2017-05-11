@@ -10,7 +10,7 @@ namespace OpenCvSharp.Aruco
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr objectPtr;
+        internal Ptr ObjectPtr { get; }
 
         #region Init & Disposal
 
@@ -19,8 +19,8 @@ namespace OpenCvSharp.Aruco
         /// </summary>
         protected DetectorParameters(IntPtr p)
         {
-            objectPtr = new Ptr(p);
-            ptr = objectPtr.Get();
+            ObjectPtr = new Ptr(p);
+            ptr = ObjectPtr.Get();
         }
 
         /// <summary>
@@ -403,12 +403,12 @@ namespace OpenCvSharp.Aruco
 
             public override IntPtr Get()
             {
-                return NativeMethods.aruco_Ptr_Dictionary_get(ptr);
+                return NativeMethods.aruco_Ptr_DetectorParameters_get(ptr);
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.aruco_Ptr_Dictionary_delete(ptr);
+                NativeMethods.aruco_Ptr_DetectorParameters_delete(ptr);
                 base.DisposeUnmanaged();
             }
         }
