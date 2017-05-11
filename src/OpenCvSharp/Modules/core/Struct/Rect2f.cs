@@ -8,7 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rectf : IEquatable<Rectf>
+    public struct Rect2f : IEquatable<Rect2f>
     {
         #region Field
         /// <summary>
@@ -34,14 +34,14 @@ namespace OpenCvSharp
 
 #if LANG_JP
         /// <summary>
-        /// プロパティを初期化しない状態の CvRect 構造体を表します。 
+        /// プロパティを初期化しない状態の Rect2f 構造体を表します。 
         /// </summary>
 #else
         /// <summary>
-        /// Represents a CvRect structure with its properties left uninitialized. 
+        /// Represents a Rect2f structure with its properties left uninitialized. 
         /// </summary>
 #endif
-        public static readonly Rectf Empty = new Rectf();
+        public static readonly Rect2f Empty = new Rect2f();
         #endregion
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace OpenCvSharp
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Rectf(float x, float y, float width, float height)
+        public Rect2f(float x, float y, float width, float height)
         {
             X = x;
             Y = y;
@@ -64,7 +64,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="location"></param>
         /// <param name="size"></param>
-        public Rectf(Point2f location, Size2f size)
+        public Rect2f(Point2f location, Size2f size)
         {
             X = location.X;
             Y = location.Y;
@@ -79,9 +79,9 @@ namespace OpenCvSharp
         /// <param name="top"></param>
         /// <param name="right"></param>
         /// <param name="bottom"></param>
-        public static Rectf FromLTRB(float left, float top, float right, float bottom)
+        public static Rect2f FromLTRB(float left, float top, float right, float bottom)
         {
-            Rectf r = new Rectf
+            var r = new Rect2f
             {
                 X = left,
                 Y = top,
@@ -111,7 +111,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public bool Equals(Rectf obj)
+        public bool Equals(Rect2f obj)
         {
             return (X == obj.X && Y == obj.Y && Width == obj.Width && Height == obj.Height);
         }
@@ -130,7 +130,7 @@ namespace OpenCvSharp
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
 #endif
-        public static bool operator ==(Rectf lhs, Rectf rhs)
+        public static bool operator ==(Rect2f lhs, Rect2f rhs)
         {
             return lhs.Equals(rhs);
         }
@@ -149,7 +149,7 @@ namespace OpenCvSharp
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
 #endif
-        public static bool operator !=(Rectf lhs, Rectf rhs)
+        public static bool operator !=(Rect2f lhs, Rect2f rhs)
         {
             return !lhs.Equals(rhs);
         }
@@ -170,9 +170,9 @@ namespace OpenCvSharp
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public static Rectf operator +(Rectf rect, Point2f pt)
+        public static Rect2f operator +(Rect2f rect, Point2f pt)
         {
-            return new Rectf(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
+            return new Rect2f(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
         }
 #if LANG_JP
         /// <summary>
@@ -189,9 +189,9 @@ namespace OpenCvSharp
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public static Rectf operator -(Rectf rect, Point2f pt)
+        public static Rect2f operator -(Rect2f rect, Point2f pt)
         {
-            return new Rectf(rect.X - pt.X, rect.Y - pt.Y, rect.Width, rect.Height);
+            return new Rect2f(rect.X - pt.X, rect.Y - pt.Y, rect.Width, rect.Height);
         }
 
 #if LANG_JP
@@ -209,9 +209,9 @@ namespace OpenCvSharp
         /// <param name="size"></param>
         /// <returns></returns>
 #endif
-        public static Rectf operator +(Rectf rect, Size2f size)
+        public static Rect2f operator +(Rect2f rect, Size2f size)
         {
-            return new Rectf(rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
+            return new Rect2f(rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
         }
 #if LANG_JP
         /// <summary>
@@ -228,9 +228,9 @@ namespace OpenCvSharp
         /// <param name="size"></param>
         /// <returns></returns>
 #endif
-        public static Rectf operator -(Rectf rect, Size2f size)
+        public static Rect2f operator -(Rect2f rect, Size2f size)
         {
-            return new Rectf(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
+            return new Rect2f(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
         }
         #endregion
         #region & / |
@@ -243,13 +243,13 @@ namespace OpenCvSharp
         /// <returns></returns>
 #else
         /// <summary>
-        /// Determines the CvRect structure that represents the intersection of two rectangles. 
+        /// Determines the Rect2f structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="a">A rectangle to intersect. </param>
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
-        public static Rectf operator &(Rectf a, Rectf b)
+        public static Rect2f operator &(Rect2f a, Rect2f b)
         {
             return Intersect(a, b);
         }
@@ -263,13 +263,13 @@ namespace OpenCvSharp
         /// <returns></returns>
 #else
         /// <summary>
-        /// Gets a CvRect structure that contains the union of two CvRect structures. 
+        /// Gets a Rect2f structure that contains the union of two Rect2f structures. 
         /// </summary>
         /// <param name="a">A rectangle to union. </param>
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
 #endif
-        public static Rectf operator |(Rectf a, Rectf b)
+        public static Rect2f operator |(Rect2f a, Rect2f b)
         {
             return Union(a, b);
         }
@@ -283,7 +283,7 @@ namespace OpenCvSharp
         /// </summary>
 #else
         /// <summary>
-        /// Gets the y-coordinate of the top edge of this CvRect structure. 
+        /// Gets the y-coordinate of the top edge of this Rect2f structure. 
         /// </summary>
 #endif
         public float Top
@@ -291,26 +291,28 @@ namespace OpenCvSharp
             get { return Y; }
             set { Y = value; }
         }
+
 #if LANG_JP
         /// <summary>
         /// 下端のy座標 (Y + Height) 
         /// </summary>
 #else
         /// <summary>
-        /// Gets the y-coordinate that is the sum of the Y and Height property values of this CvRect structure.
+        /// Gets the y-coordinate that is the sum of the Y and Height property values of this Rect2f structure.
         /// </summary>
 #endif
         public float Bottom
         {
             get { return Y + Height - 1; }
         }
+
 #if LANG_JP
         /// <summary>
         /// 左端のx座標
         /// </summary>
 #else
         /// <summary>
-        /// Gets the x-coordinate of the left edge of this CvRect structure. 
+        /// Gets the x-coordinate of the left edge of this Rect2f structure. 
         /// </summary>
 #endif
         public float Left
@@ -318,13 +320,14 @@ namespace OpenCvSharp
             get { return X; }
             set { X = value; }
         }
+
 #if LANG_JP
         /// <summary>
         /// 右端のx座標 (X + Width)
         /// </summary>
 #else
         /// <summary>
-        /// Gets the x-coordinate that is the sum of X and Width property values of this CvRect structure. 
+        /// Gets the x-coordinate that is the sum of X and Width property values of this Rect2f structure. 
         /// </summary>
 #endif
         public float Right
@@ -350,6 +353,7 @@ namespace OpenCvSharp
                 Y = value.Y;
             }
         }
+
 #if LANG_JP
         /// <summary>
         /// 矩形の大きさ [CvSize(Width, Height)]
@@ -382,6 +386,7 @@ namespace OpenCvSharp
         {
             get { return new Point2f(X, Y); }
         }
+
 #if LANG_JP
         /// <summary>
         /// 右下の頂点
@@ -418,6 +423,7 @@ namespace OpenCvSharp
         {
             return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
+
 #if LANG_JP
         /// <summary>
         /// 指定した点がこの矩形に含まれているかどうかを判断する
@@ -435,6 +441,7 @@ namespace OpenCvSharp
         {
             return Contains(pt.X, pt.Y);
         }
+
 #if LANG_JP
         /// <summary>
         /// 指定した矩形がこの矩形に含まれているかどうかを判断する
@@ -448,7 +455,7 @@ namespace OpenCvSharp
         /// <param name="rect">rectangle</param>
         /// <returns></returns>
 #endif
-        public bool Contains(Rectf rect)
+        public bool Contains(Rect2f rect)
         {
             return X <= rect.X &&
                    (rect.X + rect.Width) <= (X + Width) &&
@@ -458,7 +465,7 @@ namespace OpenCvSharp
 
 #if LANG_JP
         /// <summary>
-        /// このCvRectを指定の量だけ膨らませる 
+        /// このRect2fを指定の量だけ膨らませる 
         /// </summary>
         /// <param name="width">水平方向の膨張量</param>
         /// <param name="height">垂直方向の膨張量</param>
@@ -476,9 +483,10 @@ namespace OpenCvSharp
             Width += (2 * width);
             Height += (2 * height);
         }
+
 #if LANG_JP
         /// <summary>
-        /// このCvRectを指定の量だけ膨らませる 
+        /// このRect2fを指定の量だけ膨らませる 
         /// </summary>
         /// <param name="size">この四角形の膨張量</param>
 #else
@@ -492,9 +500,10 @@ namespace OpenCvSharp
 
             Inflate(size.Width, size.Height);
         }
+
 #if LANG_JP
         /// <summary>
-        /// このCvRectを指定の量だけ膨らませる 
+        /// このRect2fを指定の量だけ膨らませる 
         /// </summary>
         /// <param name="rect">対象の矩形</param>
         /// <param name="x">水平方向の膨張量</param>
@@ -502,7 +511,7 @@ namespace OpenCvSharp
         /// <returns></returns>
 #else
         /// <summary>
-        /// Creates and returns an inflated copy of the specified CvRect structure.
+        /// Creates and returns an inflated copy of the specified Rect2f structure.
         /// </summary>
         /// <param name="rect">The Rectangle with which to start. This rectangle is not modified. </param>
         /// <param name="x">The amount to inflate this Rectangle horizontally. </param>
@@ -524,13 +533,13 @@ namespace OpenCvSharp
         /// <returns></returns>
 #else
         /// <summary>
-        /// Determines the CvRect structure that represents the intersection of two rectangles. 
+        /// Determines the Rect2f structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="a">A rectangle to intersect. </param>
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
-        public static Rectf Intersect(Rectf a, Rectf b)
+        public static Rect2f Intersect(Rect2f a, Rect2f b)
         {
             float x1 = Math.Max(a.X, b.X);
             float x2 = Math.Min(a.X + a.Width, b.X + b.Width);
@@ -538,9 +547,10 @@ namespace OpenCvSharp
             float y2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
 
             if (x2 >= x1 && y2 >= y1)
-                return new Rectf(x1, y1, x2 - x1, y2 - y1);
+                return new Rect2f(x1, y1, x2 - x1, y2 - y1);
             return Empty;
         }
+
 #if LANG_JP
         /// <summary>
         /// 2 つの矩形の交差部分を表す矩形を取得する
@@ -549,12 +559,12 @@ namespace OpenCvSharp
         /// <returns></returns>
 #else
         /// <summary>
-        /// Determines the CvRect structure that represents the intersection of two rectangles. 
+        /// Determines the Rect2f structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="rect">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
-        public Rectf Intersect(Rectf rect)
+        public Rect2f Intersect(Rect2f rect)
         {
             return Intersect(this, rect);
         }
@@ -572,7 +582,7 @@ namespace OpenCvSharp
         /// <param name="rect">Rectangle</param>
         /// <returns></returns>
 #endif
-        public bool IntersectsWith(Rectf rect)
+        public bool IntersectsWith(Rect2f rect)
         {
             return (
                 (X < rect.X + rect.Width) &&
@@ -590,15 +600,16 @@ namespace OpenCvSharp
         /// <returns></returns>
 #else
         /// <summary>
-        /// Gets a CvRect structure that contains the union of two CvRect structures. 
+        /// Gets a Rect2f structure that contains the union of two Rect2f structures. 
         /// </summary>
         /// <param name="rect">A rectangle to union. </param>
         /// <returns></returns>
 #endif
-        public Rectf Union(Rectf rect)
+        public Rect2f Union(Rect2f rect)
         {
             return Union(this, rect);
         }
+
 #if LANG_JP
         /// <summary>
         /// 2つの矩形の和集合を表す矩形を取得する 
@@ -608,20 +619,20 @@ namespace OpenCvSharp
         /// <returns></returns>
 #else
         /// <summary>
-        /// Gets a CvRect structure that contains the union of two CvRect structures. 
+        /// Gets a Rect2f structure that contains the union of two Rect2f structures. 
         /// </summary>
         /// <param name="a">A rectangle to union. </param>
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
 #endif
-        public static Rectf Union(Rectf a, Rectf b)
+        public static Rect2f Union(Rect2f a, Rect2f b)
         {
             float x1 = Math.Min(a.X, b.X);
             float x2 = Math.Max(a.X + a.Width, b.X + b.Width);
             float y1 = Math.Min(a.Y, b.Y);
             float y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
 
-            return new Rectf(x1, y1, x2 - x1, y2 - y1);
+            return new Rect2f(x1, y1, x2 - x1, y2 - y1);
         }
 
 #if LANG_JP
