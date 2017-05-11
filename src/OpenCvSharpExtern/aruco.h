@@ -30,9 +30,9 @@ CVAPI(void) aruco_drawDetectedMarkers(
 	cv::aruco::drawDetectedMarkers(*image, cornerVec, idxVec, cpp(borderColor));
 }
 
-CVAPI(void) aruco_drawMarker(cv::aruco::Dictionary *dictionary, int id, int sidePixels, cv::_OutputArray *img, int borderBits)
+CVAPI(void) aruco_drawMarker(cv::Ptr<cv::aruco::Dictionary> *dictionary, int id, int sidePixels, cv::_OutputArray *img, int borderBits)
 {
-	cv::aruco::drawMarker(dictionary, id, sidePixels, *img, borderBits);
+	cv::aruco::drawMarker(*dictionary, id, sidePixels, *img, borderBits);
 }
 
 CVAPI(void) aruco_detectMarkers(cv::_InputArray *image, 
