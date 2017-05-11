@@ -12,10 +12,10 @@ namespace OpenCvSharp
         public static extern IntPtr tracking_Tracker_create(string trackerType);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern bool tracking_Tracker_init(IntPtr obj, IntPtr image, Rectd boundingBox);
+        public static extern bool tracking_Tracker_init(IntPtr obj, IntPtr image, Rect2d boundingBox);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern bool tracking_Tracker_update(IntPtr obj, IntPtr image, ref Rectd boundingBox);
+        public static extern bool tracking_Tracker_update(IntPtr obj, IntPtr image, ref Rect2d boundingBox);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void tracking_Ptr_Tracker_delete(IntPtr ptr);

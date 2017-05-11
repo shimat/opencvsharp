@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using OpenCvSharp.Aruco;
 
 namespace OpenCvSharp.Tests.Aruco
 {
@@ -19,7 +20,7 @@ namespace OpenCvSharp.Tests.Aruco
         [Test]
         public void DetectorParametersProperties()
         {
-            var param = OpenCvSharp.DetectorParameters.Create();
+            var param = DetectorParameters.Create();
 
             const bool boolValue = true;
             const int intValue = 100;
@@ -79,7 +80,7 @@ namespace OpenCvSharp.Tests.Aruco
         {
             foreach (PredefinedDictionaryName val in Enum.GetValues(typeof(PredefinedDictionaryName)))
             {
-                var dict = OpenCvSharp.Aruco.GetPredefinedDictionary(val);
+                var dict = CvAruco.GetPredefinedDictionary(val);
                 dict.Dispose();
             }
         }
@@ -88,20 +89,20 @@ namespace OpenCvSharp.Tests.Aruco
         public void DetectMarkers()
         {
             using (var image = Image("markers_6x6_250.png", ImreadModes.GrayScale))
-            using (var dict = OpenCvSharp.Aruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
+            using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
             using (var param = DetectorParameters.Create())
             {
                 Point2f[][] corners;
                 int[] ids;
                 Point2f[][] rejectedImgPoints;
-                OpenCvSharp.Aruco.DetectMarkers(image, dict, out corners, out ids, param, out rejectedImgPoints);
+                CvAruco.DetectMarkers(image, dict, out corners, out ids, param, out rejectedImgPoints);
             }
         }
 
         [Test]
         public void DictionaryProperties()
         {
-            var dict = OpenCvSharp.Aruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+            var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
             Assert.AreEqual(250, dict.BytesList.Rows);
             Assert.AreEqual(5, dict.BytesList.Cols); // (6*6 + 7)/8
             Assert.AreEqual(6, dict.MarkerSize);
@@ -142,9 +143,9 @@ namespace OpenCvSharp.Tests.Aruco
 
                         using (var roiMat = new Mat(outputImage, roi))
                         using (var markerImage = new Mat())
-                        using (var dict = OpenCvSharp.Aruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
+                        using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
                         {
-                            OpenCvSharp.Aruco.DrawMarker(dict, id++, markerSidePixels, markerImage, 1);
+                            CvAruco.DrawMarker(dict, id++, markerSidePixels, markerImage, 1);
                             markerImage.CopyTo(roiMat);
                         }
                     }
@@ -164,16 +165,16 @@ namespace OpenCvSharp.Tests.Aruco
 
             using (var image = Image("markers_6x6_250.png", ImreadModes.GrayScale))
             using (var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB))
-            using (var dict = OpenCvSharp.Aruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
+            using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
             using (var param = DetectorParameters.Create())
             {
                 Point2f[][] corners;
                 int[] ids;
                 Point2f[][] rejectedImgPoints;
-                OpenCvSharp.Aruco.DetectMarkers(image, dict, out corners, out ids, param, out rejectedImgPoints);
+                CvAruco.DetectMarkers(image, dict, out corners, out ids, param, out rejectedImgPoints);
 
-                OpenCvSharp.Aruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
-                OpenCvSharp.Aruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
+                CvAruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
+                CvAruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
 
                 if (output)
                     OpenCvSharp.Cv2.ImWrite(path, outputImage);

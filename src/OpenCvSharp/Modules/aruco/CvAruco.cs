@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Aruco
 {
-    public class Aruco
+    /// <summary>
+    /// aruco module
+    /// </summary>
+    public static class CvAruco
     {
         /// <summary>
-        /// cv::Ptr&lt;T&gt;
+        /// Basic marker detection
         /// </summary>
-        private Ptr objectPtr;
-
-        #region Methods
-
+        /// <param name="image">input image</param>
+        /// <param name="dictionary">indicates the type of markers that will be searched</param>
+        /// <param name="corners">vector of detected marker corners. 
+        /// For each marker, its four corners are provided. For N detected markers,
+        ///  the dimensions of this array is Nx4.The order of the corners is clockwise.</param>
+        /// <param name="ids">vector of identifiers of the detected markers. The identifier is of type int. 
+        /// For N detected markers, the size of ids is also N. The identifiers have the same order than the markers in the imgPoints array.</param>
+        /// <param name="parameters">marker detection parameters</param>
+        /// <param name="rejectedImgPoints">contains the imgPoints of those squares whose inner code has not a 
+        /// correct codification.Useful for debugging purposes.</param>
         public static void DetectMarkers(InputArray image, Dictionary dictionary, out Point2f[][] corners, out int[] ids, DetectorParameters parameters, out Point2f[][] rejectedImgPoints)
         {
             if (image == null)
@@ -29,6 +38,9 @@ namespace OpenCvSharp
                 ids = idsVec.ToArray();
                 rejectedImgPoints = rejectedImgPointsVec.ToArray();
             }
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(dictionary);
         }
 
         public static void DrawDetectedMarkers(InputArray image, Point2f[][] corners, IEnumerable<int> ids)
@@ -75,8 +87,5 @@ namespace OpenCvSharp
             IntPtr ptr = NativeMethods.aruco_getPredefinedDictionary((int)name);
             return new Dictionary(ptr);
         }
-
-        #endregion
-
     }
 }

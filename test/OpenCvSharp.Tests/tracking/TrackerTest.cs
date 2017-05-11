@@ -27,7 +27,7 @@ namespace OpenCvSharp.Tests.Tracking
         {
             using (var vc = Image("lenna.png"))
             using (var tracker = Tracker.Create(TrackerTypes.KCF))
-                Assert.IsTrue(tracker.Init(vc, new Rectd(320, 60, 200, 220)));
+                Assert.IsTrue(tracker.Init(vc, new Rect2d(320, 60, 200, 220)));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace OpenCvSharp.Tests.Tracking
             // This test can not track person perfectly but it is enough to test whether unit test works.
 
             // This rect indicates person who be captured in first frame
-            var bb = new Rectd(286, 146, 70, 180);
+            var bb = new Rect2d(286, 146, 70, 180);
 
             // If you want to save markers image, you must change the following values.
             const bool output = false;
