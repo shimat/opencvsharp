@@ -237,6 +237,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClCompile Include="features2d.cpp" />
     <ClCompile Include="stitching.cpp" />
     <ClCompile Include="superres.cpp" />
+    <ClCompile Include="tracking.cpp" />
     <ClCompile Include="video.cpp" />
     <ClCompile Include="videoio.cpp" />
     <ClCompile Include="xfeatures2d.cpp" />
@@ -317,6 +318,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="stitching.h" />
     <ClInclude Include="stitching_detail_Matchers.h" />
     <ClInclude Include="superres.h" />
+    <ClCompile Include="tracking.h" />
     <ClInclude Include="video.h" />
     <ClInclude Include="video_background_segm.h" />
     <ClInclude Include="xfeatures2d.h" />
