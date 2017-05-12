@@ -33,14 +33,6 @@
         "define": [ "uwp" ]
       }
     },*/
-    "uap10.0": {
-      "dependencies": {
-        "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
-      },
-      "buildOptions": {
-        "define": [ "uap10" ]
-      }
-    },
     "net20": {
       "dependencies": {
       },

@@ -70,6 +70,12 @@
     <ClCompile Include="ximgproc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tracking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tracking.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">

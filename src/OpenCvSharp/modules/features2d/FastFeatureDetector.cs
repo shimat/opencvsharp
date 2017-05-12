@@ -23,9 +23,9 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected FastFeatureDetector(IntPtr ptr)
+        protected FastFeatureDetector(IntPtr p)
         {
-            ptrObj = new Ptr(ptr);
+            ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
