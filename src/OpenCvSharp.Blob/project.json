@@ -36,13 +36,6 @@
         "define": [ "uwp" ]
       }
     },*/
-    "uap10.0": {
-      "dependencies": {
-      },
-      "buildOptions": {
-        "define": [ "uap10" ]
-      }
-    },
     "net20": {
       "dependencies": {
       },

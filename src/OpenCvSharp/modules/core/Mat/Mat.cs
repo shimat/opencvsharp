@@ -730,9 +730,10 @@ namespace OpenCvSharp
         /// Returns a zero array of the specified size and type.
         /// </summary>
         /// <param name="type">Created matrix type.</param>
+        /// <param name="cols"></param>
         /// <param name="sizes"></param>
         /// <returns></returns>
-        public static MatExpr Zeros(MatType type, params int[] sizes)
+        public static MatExpr Zeros(MatType type, int cols, params int[] sizes)
         {
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));

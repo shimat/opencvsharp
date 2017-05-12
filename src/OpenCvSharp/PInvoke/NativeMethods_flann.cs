@@ -113,6 +113,23 @@ namespace OpenCvSharp
         public static extern void flann_Ptr_KMeansIndexParams_delete(IntPtr obj);
 
         #endregion
+        #region LshIndexParams
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_LshIndexParams_new(
+            int tableNumber, int keySize, int multiProbeLevel);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_LshIndexParams_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_LshIndexParams_new(
+            int tableNumber, int keySize, int multiProbeLevel);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr flann_Ptr_LshIndexParams_get(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void flann_Ptr_LshIndexParams_delete(IntPtr obj);
+
+        #endregion
         #region CompositeIndexParams
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
