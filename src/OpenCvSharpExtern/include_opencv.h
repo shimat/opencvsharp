@@ -28,6 +28,7 @@
 #include <opencv2/tracking.hpp>
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/ximgproc.hpp>
+#include <opencv2/xphoto.hpp>
 
 #include <vector>
 #include <algorithm>
