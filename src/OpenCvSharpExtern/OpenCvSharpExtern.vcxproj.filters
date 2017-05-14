@@ -76,6 +76,9 @@
     <ClCompile Include="tracking.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="xphoto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -320,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="flann_IndexParams.h">
       <Filter>Header Files\flann</Filter>
+    </ClInclude>
+    <ClInclude Include="xphoto.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

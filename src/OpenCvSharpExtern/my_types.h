@@ -51,13 +51,13 @@ extern "C"
         int height;
     };
 
-	struct MyCvRectD
-	{
-		double x;
-		double y;
-		double width;
-		double height;
-	};
+    struct MyCvRect2D
+    {
+        double x;
+        double y;
+        double width;
+        double height;
+    };
 
     struct MyCvScalar
     {
@@ -200,14 +200,14 @@ static cv::Rect cpp(MyCvRect r)
     return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
-static MyCvRectD c(cv::Rect2d r)
+static MyCvRect2D c(cv::Rect2d r)
 {
-	MyCvRectD ret = { r.x, r.y, r.width, r.height };
-	return ret;
+    MyCvRect2D ret = { r.x, r.y, r.width, r.height };
+    return ret;
 }
-static cv::Rect2d cpp(MyCvRectD r)
+static cv::Rect2d cpp(MyCvRect2D r)
 {
-	return cv::Rect2d(r.x, r.y, r.width, r.height);
+    return cv::Rect2d(r.x, r.y, r.width, r.height);
 }
 
 static MyCvScalar c(cv::Scalar s)

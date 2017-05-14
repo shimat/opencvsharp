@@ -145,24 +145,24 @@ CVAPI(void) flann_Ptr_KMeansIndexParams_delete(cv::Ptr<cv::flann::KMeansIndexPar
 // cv::flann::LshIndexParams
 CVAPI(cv::flann::LshIndexParams*) flann_LshIndexParams_new(int table_number, int key_size, int multi_probe_level)
 {
-	return new cv::flann::LshIndexParams(table_number, key_size, multi_probe_level);
+    return new cv::flann::LshIndexParams(table_number, key_size, multi_probe_level);
 }
 CVAPI(void) flann_LshIndexParams_delete(cv::flann::LshIndexParams* obj)
 {
-	delete obj;
+    delete obj;
 }
 CVAPI(cv::Ptr<cv::flann::LshIndexParams>*) flann_Ptr_LshIndexParams_new(int table_number, int key_size, int multi_probe_level)
 {
-	return new cv::Ptr<cv::flann::LshIndexParams>(new cv::flann::LshIndexParams(table_number, key_size, multi_probe_level));
+    return new cv::Ptr<cv::flann::LshIndexParams>(new cv::flann::LshIndexParams(table_number, key_size, multi_probe_level));
 }
 CVAPI(cv::flann::LshIndexParams*) flann_Ptr_LshIndexParams_get(
-	cv::Ptr<cv::flann::LshIndexParams> *ptr)
+    cv::Ptr<cv::flann::LshIndexParams> *ptr)
 {
-	return ptr->get();
+    return ptr->get();
 }
 CVAPI(void) flann_Ptr_LshIndexParams_delete(cv::Ptr<cv::flann::LshIndexParams> *obj)
 {
-	delete obj;
+    delete obj;
 }
 
 // cv::flann::CompositeIndexParams
