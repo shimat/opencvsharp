@@ -223,8 +223,8 @@ CVAPI(cv::Mat*) core_Mat_diag2(cv::Mat *self, int d)
 }
 CVAPI(cv::Mat*) core_Mat_diag3(cv::Mat *self)
 {
-	cv::Mat ret = cv::Mat::diag(*self);
-	return new cv::Mat(ret);
+    cv::Mat ret = cv::Mat::diag(*self);
+    return new cv::Mat(ret);
 }
 
 CVAPI(double) core_Mat_dot(cv::Mat *self, cv::Mat *m)

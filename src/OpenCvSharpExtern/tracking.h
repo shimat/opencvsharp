@@ -10,13 +10,13 @@ CVAPI(cv::Ptr<cv::Tracker>*) tracking_Tracker_create(const char* trackerType)
     return new cv::Ptr<cv::Tracker>(p);
 }
 
-CVAPI(bool) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, MyCvRectD boundingBox)
+CVAPI(int) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, MyCvRect2D boundingBox)
 {
     bool ret = tracker->init(*image, cpp(boundingBox));
-    return ret;
+    return ret ? 1 : 0;
 }
 
-CVAPI(bool) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRectD* boundingBox)
+CVAPI(int) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect2D* boundingBox)
 {
     cv::Rect2d bb = cpp(*boundingBox);
     bool ret = tracker->update(*image, bb);
@@ -28,7 +28,7 @@ CVAPI(bool) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, 
         boundingBox->height = bb.height;
     }
 
-    return ret;
+    return ret ? 1 : 0;
 }
 
 CVAPI(void) tracking_Ptr_Tracker_delete(cv::Ptr<cv::Tracker> *ptr)
