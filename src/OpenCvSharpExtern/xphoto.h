@@ -3,6 +3,15 @@
 
 #include "include_opencv.h"
 
+#pragma region Inpainting
+
+CVAPI(void) xphoto_inpaint(cv::Mat *src, cv::Mat *mask, cv::Mat *dst, const cv::xphoto::InpaintTypes algorithm)
+{
+    cv::xphoto::inpaint(*src, *mask, *dst, algorithm);
+}
+
+#pragma endregion
+
 #pragma region WhiteBalance
 
 CVAPI(void) xphoto_applyChannelGains(cv::_InputArray *src, cv::_OutputArray *dst, float gainB, float gainG, float gainR)
