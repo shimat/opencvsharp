@@ -21,6 +21,17 @@ namespace OpenCvSharp.XPhoto
             this.ptr = this.ptrObj.Get();
         }
 
+        /// <summary>
+        /// Creates an instance of LearningBasedWB
+        /// </summary>
+        /// <param name="model">Path to a .yml file with the model. If not specified, the default model is used</param>
+        /// <returns></returns>
+        public static LearningBasedWB Create(string model)
+        {
+            var ptr = NativeMethods.xphoto_createLearningBasedWB(model ?? "");
+            return new LearningBasedWB(ptr);
+        }
+
         #endregion
 
         #region Properties

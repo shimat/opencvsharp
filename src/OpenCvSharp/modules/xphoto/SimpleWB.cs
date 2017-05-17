@@ -21,6 +21,16 @@ namespace OpenCvSharp.XPhoto
             this.ptr = this.ptrObj.Get();
         }
 
+        /// <summary>
+        /// Creates an instance of SimpleWB
+        /// </summary>
+        /// <returns></returns>
+        public static SimpleWB Create()
+        {
+            var ptr = NativeMethods.xphoto_createSimpleWB();
+            return new SimpleWB(ptr);
+        }
+
         #endregion
 
         #region Properties

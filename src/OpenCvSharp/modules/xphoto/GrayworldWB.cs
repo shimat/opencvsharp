@@ -21,6 +21,16 @@ namespace OpenCvSharp.XPhoto
             this.ptr = this.ptrObj.Get();
         }
 
+        /// <summary>
+        /// Creates an instance of GrayworldWB
+        /// </summary>
+        /// <returns></returns>
+        public static GrayworldWB Create()
+        {
+            var ptr = NativeMethods.xphoto_createGrayworldWB();
+            return new GrayworldWB(ptr);
+        }
+
         #endregion
 
         #region Properties

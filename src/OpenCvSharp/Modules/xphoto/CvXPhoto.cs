@@ -1,13 +1,15 @@
 ﻿using System;
 using OpenCvSharp.XPhoto;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.XPhoto
 {
     // ReSharper disable InconsistentNaming
 
-    static partial class Cv2
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class CvXPhoto
     {
-
         #region Inpaint
 
         /// <summary>
@@ -38,6 +40,15 @@ namespace OpenCvSharp
 
         #region WhiteBalance
 
+        /// <summary>
+        /// Implements an efficient fixed-point approximation for applying channel gains, 
+        /// which is the last step of multiple white balance algorithms.
+        /// </summary>
+        /// <param name="src">Input three-channel image in the BGR color space (either CV_8UC3 or CV_16UC3)</param>
+        /// <param name="dst">Output image of the same size and type as src.</param>
+        /// <param name="gainB">gain for the B channel</param>
+        /// <param name="gainG">gain for the G channel</param>
+        /// <param name="gainR">gain for the R channel</param>
         public static void ApplyChannelGains(InputArray src, OutputArray dst, float gainB, float gainG, float gainR)
         {
             if (src == null)
@@ -51,22 +62,32 @@ namespace OpenCvSharp
             dst.Fix();
         }
 
+        /// <summary>
+        /// Creates an instance of LearningBasedWB
+        /// </summary>
+        /// <returns></returns>
         public static GrayworldWB CreateGrayworldWB()
         {
-            var ptr = NativeMethods.xphoto_createGrayworldWB();
-            return new GrayworldWB(ptr);
+            return GrayworldWB.Create();
         }
 
+        /// <summary>
+        /// Creates an instance of LearningBasedWB
+        /// </summary>
+        /// <param name="model">Path to a .yml file with the model. If not specified, the default model is used</param>
+        /// <returns></returns>
         public static LearningBasedWB CreateLearningBasedWB(string model)
         {
-            var ptr = NativeMethods.xphoto_createLearningBasedWB(model ?? "");
-            return new LearningBasedWB(ptr);
+            return LearningBasedWB.Create(model);
         }
 
+        /// <summary>
+        /// Creates an instance of SimpleWB
+        /// </summary>
+        /// <returns></returns>
         public static SimpleWB CreateSimpleWB()
         {
-            var ptr = NativeMethods.xphoto_createSimpleWB();
-            return new SimpleWB(ptr);
+            return SimpleWB.Create();
         }
 
         #endregion
