@@ -121,7 +121,7 @@ CVAPI(void) xphoto_SimpleWB_balanceWhite(cv::xphoto::SimpleWB* ptr, cv::_InputAr
     return ptr->balanceWhite(*src, *dst);
 }
 
-CVAPI(int) xphoto_SimpleWB_InputMax_get(cv::xphoto::SimpleWB* ptr)
+CVAPI(float) xphoto_SimpleWB_InputMax_get(cv::xphoto::SimpleWB* ptr)
 {
     return ptr->getInputMax();
 }
@@ -130,7 +130,7 @@ CVAPI(void) xphoto_SimpleWB_InputMax_set(cv::xphoto::SimpleWB* ptr, float val)
     ptr->setInputMax(val);
 }
 
-CVAPI(int) xphoto_SimpleWB_InputMin_get(cv::xphoto::SimpleWB* ptr)
+CVAPI(float) xphoto_SimpleWB_InputMin_get(cv::xphoto::SimpleWB* ptr)
 {
     return ptr->getInputMin();
 }
@@ -139,7 +139,7 @@ CVAPI(void) xphoto_SimpleWB_InputMin_set(cv::xphoto::SimpleWB* ptr, float val)
     ptr->setInputMin(val);
 }
 
-CVAPI(int) xphoto_SimpleWB_OutputMax_get(cv::xphoto::SimpleWB* ptr)
+CVAPI(float) xphoto_SimpleWB_OutputMax_get(cv::xphoto::SimpleWB* ptr)
 {
     return ptr->getOutputMax();
 }
@@ -148,7 +148,7 @@ CVAPI(void) xphoto_SimpleWB_OutputMax_set(cv::xphoto::SimpleWB* ptr, float val)
     ptr->setOutputMax(val);
 }
 
-CVAPI(int) xphoto_SimpleWB_OutputMin_get(cv::xphoto::SimpleWB* ptr)
+CVAPI(float) xphoto_SimpleWB_OutputMin_get(cv::xphoto::SimpleWB* ptr)
 {
     return ptr->getOutputMin();
 }
@@ -157,7 +157,7 @@ CVAPI(void) xphoto_SimpleWB_OutputMin_set(cv::xphoto::SimpleWB* ptr, float val)
     ptr->setOutputMin(val);
 }
 
-CVAPI(int) xphoto_SimpleWB_P_get(cv::xphoto::SimpleWB* ptr)
+CVAPI(float) xphoto_SimpleWB_P_get(cv::xphoto::SimpleWB* ptr)
 {
     return ptr->getP();
 }
