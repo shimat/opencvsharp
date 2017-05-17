@@ -8,6 +8,13 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
 
+        #region Inpainting
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void xphoto_inpaint(IntPtr prt, IntPtr src, IntPtr dst, int algorithm);
+
+        #endregion
+
         #region WhiteBalance
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

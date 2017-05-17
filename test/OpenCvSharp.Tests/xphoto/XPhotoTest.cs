@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using OpenCvSharp.XPhoto;
 
 namespace OpenCvSharp.Tests.XPhoto
 {
@@ -74,6 +75,19 @@ namespace OpenCvSharp.Tests.XPhoto
             Assert.AreNotEqual(saturationThreshold, wb.SaturationThreshold);
 
             wb.Dispose();
+        }
+
+        [Test]
+        public void Inpaint()
+        {
+            using (var src = Image("building.jpg"))
+            using (var mask = Image("building_mask.bmp", ImreadModes.GrayScale))
+            using (var dst = new Mat(src.Size(), src.Type()))
+            {
+                Cv2.Inpaint(src, mask, dst, InpaintTypes.ShiftMap);
+                //Window.ShowImages(src);
+                //Window.ShowImages(dst);
+            }
         }
 
         [Test]
