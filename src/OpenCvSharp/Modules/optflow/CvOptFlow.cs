@@ -1,10 +1,13 @@
 ﻿using System;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.OptFlow
 {
     // ReSharper disable InconsistentNaming
 
-    static partial class Cv2
+    /// <summary>
+    /// cv::optflow functions
+    /// </summary>
+    public static class CvOptFlow
     {
         /// <summary>
         /// Updates motion history image using the current silhouette
@@ -26,6 +29,7 @@ namespace OpenCvSharp
             NativeMethods.optflow_motempl_updateMotionHistory(
                 silhouette.CvPtr, mhi.CvPtr, timestamp, duration);
             mhi.Fix();
+            GC.KeepAlive(silhouette);
         }
 
         /// <summary>
@@ -61,6 +65,7 @@ namespace OpenCvSharp
 
             mask.Fix();
             orientation.Fix();
+            GC.KeepAlive(mhi);
         }
 
         /// <summary>
@@ -87,8 +92,13 @@ namespace OpenCvSharp
             mask.ThrowIfDisposed();
             mhi.ThrowIfDisposed();
 
-            return NativeMethods.optflow_motempl_calcGlobalOrientation(
+            double result = NativeMethods.optflow_motempl_calcGlobalOrientation(
                 orientation.CvPtr, mask.CvPtr, mhi.CvPtr, timestamp, duration);
+
+            GC.KeepAlive(orientation);
+            GC.KeepAlive(mask);
+            GC.KeepAlive(mhi);
+            return result;
         }
 
         /// <summary>
@@ -119,6 +129,7 @@ namespace OpenCvSharp
                 boundingRects = br.ToArray();
             }
             segmask.Fix();
+            GC.KeepAlive(mhi);
         }
 
         /// <summary>
@@ -151,6 +162,9 @@ namespace OpenCvSharp
             NativeMethods.optflow_calcOpticalFlowSF1(
                 from.CvPtr, to.CvPtr, flow.CvPtr,
                 layers, averagingBlockSize, maxFlow);
+            GC.KeepAlive(from);
+            GC.KeepAlive(to);
+            GC.KeepAlive(flow);
         }
 
         /// <summary>
@@ -172,7 +186,7 @@ namespace OpenCvSharp
         /// <param name="upscaleSigmaDist">spatial sigma for bilateral upscale operation</param>
         /// <param name="upscaleSigmaColor">color sigma for bilateral upscale operation</param>
         /// <param name="speedUpThr">threshold to detect point with irregular flow - where flow should be recalculated after upscale</param>
-        public static void calcOpticalFlowSF(
+        public static void CalcOpticalFlowSF(
             Mat from,
             Mat to,
             Mat flow,
@@ -206,6 +220,9 @@ namespace OpenCvSharp
                 sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix,
                 sigmaColorFix, occThr, upscaleAveragingRadius,
                 upscaleSigmaDist, upscaleSigmaColor, speedUpThr);
+            GC.KeepAlive(from);
+            GC.KeepAlive(to);
+            GC.KeepAlive(flow);
         }
     }
 }
