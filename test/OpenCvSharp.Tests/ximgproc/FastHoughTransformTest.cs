@@ -17,7 +17,7 @@ namespace OpenCvSharp.Tests.XImgProc
             using (var image = Image("building.jpg", ImreadModes.GrayScale))
             using (var fht = new Mat())
             {
-                Cv2.FastHoughTransform(image, fht, MatType.CV_32SC1);
+                CvXImgProc.FastHoughTransform(image, fht, MatType.CV_32SC1);
 
                 double minv, maxv;
                 Cv2.MinMaxLoc(fht, out minv, out maxv);

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp.XImgProc;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.XImgProc
 {
-    static partial class Cv2
+    /// <summary>
+    /// cv::ximgproc functions
+    /// </summary>
+    public static class CvXImgProc
     {
         /// <summary>
         /// Applies Niblack thresholding to input image.
@@ -180,7 +180,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
 
             NativeMethods.ximgproc_weightedMedianFilter(
-                joint.CvPtr, src.CvPtr, dst.CvPtr, r, sigma, (int)weightType, ToPtr(mask));
+                joint.CvPtr, src.CvPtr, dst.CvPtr, r, sigma, (int)weightType, mask?.CvPtr ?? IntPtr.Zero);
 
             GC.KeepAlive(joint);
             GC.KeepAlive(src);

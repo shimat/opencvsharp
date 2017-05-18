@@ -17,6 +17,5 @@ namespace OpenCvSharp
         /// Unmanaged OpenCV data pointer
         /// </summary>
         IntPtr CvPtr { get; }
-
     }
 }

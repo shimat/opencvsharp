@@ -18,7 +18,7 @@ namespace OpenCvSharp.Tests.XImgProc
         [Test]
         public void New2()
         {
-            var fld = Cv2.CreateFastLineDetector();
+            var fld = CvXImgProc.CreateFastLineDetector();
             fld.Dispose();
         }
 

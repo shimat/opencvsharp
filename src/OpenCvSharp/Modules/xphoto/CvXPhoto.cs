@@ -1,12 +1,11 @@
 ﻿using System;
-using OpenCvSharp.XPhoto;
 
 namespace OpenCvSharp.XPhoto
 {
     // ReSharper disable InconsistentNaming
 
     /// <summary>
-    /// 
+    /// cv::xphoto functions
     /// </summary>
     public static class CvXPhoto
     {
@@ -63,7 +62,7 @@ namespace OpenCvSharp.XPhoto
         }
 
         /// <summary>
-        /// Creates an instance of LearningBasedWB
+        /// Creates an instance of GrayworldWB
         /// </summary>
         /// <returns></returns>
         public static GrayworldWB CreateGrayworldWB()
