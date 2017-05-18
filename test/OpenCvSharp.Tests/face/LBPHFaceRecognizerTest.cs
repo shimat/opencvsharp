@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using OpenCvSharp.Face;
 
 namespace OpenCvSharp.Tests.Face
 {
@@ -21,7 +22,7 @@ namespace OpenCvSharp.Tests.Face
         {
             var image = new Mat("Data/Image/Lenna.png");
 
-            var model = Cv2.CreateLBPHFaceRecognizer();
+            var model = CvFace.CreateLBPHFaceRecognizer();
 
             var cascade = new CascadeClassifier("../haarcascade_frontalface_default.xml");
             var rects = cascade.DetectMultiScale(image);
