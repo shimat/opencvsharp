@@ -113,7 +113,7 @@ namespace OpenCvSharp
         public static extern void core_minMaxIdx1(IntPtr src, out double minVal, out double maxVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_minMaxIdx2(IntPtr src, out double minVal, out double maxVal,
-            out int minIdx, out int maxIdx, IntPtr mask);
+            [MarshalAs(UnmanagedType.LPArray)] int[] minIdx, [MarshalAs(UnmanagedType.LPArray)] int[] maxIdx, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_reduce(IntPtr src, IntPtr dst, int dim, int rtype, int dtype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
