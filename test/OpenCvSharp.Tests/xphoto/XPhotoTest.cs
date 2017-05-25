@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using NUnit.Framework;
 using OpenCvSharp.XPhoto;
 
@@ -21,18 +22,21 @@ namespace OpenCvSharp.Tests.XPhoto
                 CvXPhoto.ApplyChannelGains(src, g, 1, 2, 1);
                 CvXPhoto.ApplyChannelGains(src, r, 1, 1, 2);
 
-                //using (var combined = new Mat(src.Rows * 2, src.Cols * 2, src.Type()))
-                //using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
-                //using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
-                //using (var roi3 = new Mat(combined, new Rect(0, src.Rows, src.Cols, src.Rows)))
-                //using (var roi4 = new Mat(combined, new Rect(src.Cols, src.Rows, src.Cols, src.Rows)))
-                //{
-                //    src.CopyTo(roi1);
-                //    b.CopyTo(roi2);
-                //    g.CopyTo(roi3);
-                //    r.CopyTo(roi4);
-                //    Window.ShowImages(combined);
-                //}
+                if (Debugger.IsAttached)
+                {
+                    using (var combined = new Mat(src.Rows * 2, src.Cols * 2, src.Type()))
+                    using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
+                    using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
+                    using (var roi3 = new Mat(combined, new Rect(0, src.Rows, src.Cols, src.Rows)))
+                    using (var roi4 = new Mat(combined, new Rect(src.Cols, src.Rows, src.Cols, src.Rows)))
+                    {
+                        src.CopyTo(roi1);
+                        b.CopyTo(roi2);
+                        g.CopyTo(roi3);
+                        r.CopyTo(roi4);
+                        Window.ShowImages(combined);
+                    }
+                }
             }
         }
 
@@ -45,14 +49,17 @@ namespace OpenCvSharp.Tests.XPhoto
             {
                 wb.BalanceWhite(src, dst);
 
-                //using (var combined = new Mat(src.Rows, src.Cols * 2, src.Type()))
-                //using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
-                //using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
-                //{
-                //    src.CopyTo(roi1);
-                //    dst.CopyTo(roi2);
-                //    Window.ShowImages(combined);
-                //}
+                if (Debugger.IsAttached)
+                {
+                    using (var combined = new Mat(src.Rows, src.Cols * 2, src.Type()))
+                    using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
+                    using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
+                    {
+                        src.CopyTo(roi1);
+                        dst.CopyTo(roi2);
+                        Window.ShowImages(combined);
+                    }
+                }
             }
         }
 
@@ -79,8 +86,8 @@ namespace OpenCvSharp.Tests.XPhoto
             using (var dst = new Mat(src.Size(), src.Type()))
             {
                 CvXPhoto.Inpaint(src, mask, dst, InpaintTypes.ShiftMap);
-                //Window.ShowImages(src);
-                //Window.ShowImages(dst);
+                ShowImagesWhenDebugMode(src);
+                ShowImagesWhenDebugMode(dst);
             }
         }
 
@@ -93,14 +100,17 @@ namespace OpenCvSharp.Tests.XPhoto
             {
                 wb.BalanceWhite(src, dst);
 
-                //using (var combined = new Mat(src.Rows, src.Cols * 2, src.Type()))
-                //using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
-                //using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
-                //{
-                //    src.CopyTo(roi1);
-                //    dst.CopyTo(roi2);
-                //    Window.ShowImages(combined);
-                //}
+                if (Debugger.IsAttached)
+                {
+                    using (var combined = new Mat(src.Rows, src.Cols * 2, src.Type()))
+                    using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
+                    using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
+                    {
+                        src.CopyTo(roi1);
+                        dst.CopyTo(roi2);
+                        Window.ShowImages(combined);
+                    }
+                }
             }
         }
 
@@ -142,14 +152,17 @@ namespace OpenCvSharp.Tests.XPhoto
             {
                 wb.BalanceWhite(src, dst);
 
-                //using (var combined = new Mat(src.Rows, src.Cols * 2, src.Type()))
-                //using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
-                //using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
-                //{
-                //    src.CopyTo(roi1);
-                //    dst.CopyTo(roi2);
-                //    Window.ShowImages(combined);
-                //}
+                if (Debugger.IsAttached)
+                {
+                    using (var combined = new Mat(src.Rows, src.Cols * 2, src.Type()))
+                    using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
+                    using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
+                    {
+                        src.CopyTo(roi1);
+                        dst.CopyTo(roi2);
+                        Window.ShowImages(combined);
+                    }
+                }
             }
         }
 
@@ -187,14 +200,17 @@ namespace OpenCvSharp.Tests.XPhoto
             {
                 wb.BalanceWhite(src, dst);
 
-                //using (var combined = new Mat(src.Rows, src.Cols * 2, src.Type()))
-                //using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
-                //using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
-                //{
-                //    src.CopyTo(roi1);
-                //    dst.CopyTo(roi2);
-                //    Window.ShowImages(combined);
-                //}
+                if (Debugger.IsAttached)
+                {
+                    using (var combined = new Mat(src.Rows, src.Cols * 2, src.Type()))
+                    using (var roi1 = new Mat(combined, new Rect(0, 0, src.Cols, src.Rows)))
+                    using (var roi2 = new Mat(combined, new Rect(src.Cols, 0, src.Cols, src.Rows)))
+                    {
+                        src.CopyTo(roi1);
+                        dst.CopyTo(roi2);
+                        Window.ShowImages(combined);
+                    }
+                }
             }
         }
 

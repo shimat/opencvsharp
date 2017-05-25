@@ -15,9 +15,9 @@ namespace OpenCvSharp.Tests.Core
             using (Mat mask = graySrc.InRange(100, 200))
             {
                 Assert.DoesNotThrow(() => { resultImage.SetTo(0, mask); });
-                //Window.ShowImages(resultImage);
+                ShowImagesWhenDebugMode(resultImage);
                 Assert.DoesNotThrow(() => { resultImage.SetTo(0, null); });
-                //Window.ShowImages(resultImage);
+                ShowImagesWhenDebugMode(resultImage);
             }
         }
 
@@ -29,9 +29,9 @@ namespace OpenCvSharp.Tests.Core
             using (Mat mask = src.GreaterThan(128))
             {
                 Assert.DoesNotThrow(() => { src.CopyTo(dst, mask); });
-                //Window.ShowImages(dst);
+                ShowImagesWhenDebugMode(dst);
                 Assert.DoesNotThrow(() => { src.CopyTo(dst, null); });
-                //Window.ShowImages(dst);
+                ShowImagesWhenDebugMode(dst);
             }
         }
 

@@ -12,9 +12,7 @@ namespace OpenCvSharp.Tests.Stitching
         [Test]
         public void Run()
         {
-            const bool debugMode = false;
-
-            Mat[] images = SelectStitchingImages(200, 200, 40, show: debugMode);
+            Mat[] images = SelectStitchingImages(200, 200, 40);
 
             using (var stitcher = Stitcher.Create(false))
             using (var pano = new Mat())
@@ -24,9 +22,7 @@ namespace OpenCvSharp.Tests.Stitching
                 Console.WriteLine(" finish (status:{0})", status);
                 Assert.That(status, Is.EqualTo(Stitcher.Status.OK));
 
-                // ReSharper disable ConditionIsAlwaysTrueOrFalse
-                if (debugMode)
-                    Window.ShowImages(pano);
+                ShowImagesWhenDebugMode(pano);
             }
 
             foreach (Mat image in images)
@@ -35,7 +31,7 @@ namespace OpenCvSharp.Tests.Stitching
             }
         }
 
-        private Mat[] SelectStitchingImages(int width, int height, int count, bool show = false)
+        private Mat[] SelectStitchingImages(int width, int height, int count)
         {
             var mats = new List<Mat>();
 
@@ -59,13 +55,7 @@ namespace OpenCvSharp.Tests.Stitching
                     mats.Add(m.Clone());
                 }
 
-                if (show)
-                {
-                    using (new Window(result))
-                    {
-                        Cv2.WaitKey();
-                    }
-                }
+                ShowImagesWhenDebugMode(result);
             }
 
             return mats.ToArray();

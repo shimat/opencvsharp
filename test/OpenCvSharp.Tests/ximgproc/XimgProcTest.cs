@@ -15,7 +15,7 @@ namespace OpenCvSharp.Tests.XImgProc
             using (var dst = new Mat())
             {
                 CvXImgProc.Thinning(src, dst, ThinningTypes.ZHANGSUEN);
-                //Window.ShowImages(dst);
+                ShowImagesWhenDebugMode(dst);
             }
         }
 
@@ -26,7 +26,7 @@ namespace OpenCvSharp.Tests.XImgProc
             using (var dst = new Mat())
             {
                 CvXImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5);
-                //Window.ShowImages(dst);
+                ShowImagesWhenDebugMode(dst);
             }
         }
 
@@ -37,7 +37,7 @@ namespace OpenCvSharp.Tests.XImgProc
             using (var dst = new Mat())
             {
                 CvXImgProc.WeightedMedianFilter(src, src, dst, 7);
-                //Window.ShowImages(dst);
+                ShowImagesWhenDebugMode(dst);
             }
         }
 
