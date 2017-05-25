@@ -804,10 +804,10 @@ namespace OpenCvSharp
         /// <param name="src">The source single-channel array</param>
         /// <param name="minIdx"></param>
         /// <param name="maxIdx"></param>
-        public static void MinMaxIdx(InputArray src, out int minIdx, out int maxIdx)
+        public static void MinMaxIdx(InputArray src, int[] minIdx, int[] maxIdx)
         {
             double minVal, maxVal;
-            MinMaxIdx(src, out minVal, out maxVal, out minIdx, out maxIdx, null);
+            MinMaxIdx(src, out minVal, out maxVal, minIdx, maxIdx, null);
         }
 
         /// <summary>
@@ -820,12 +820,16 @@ namespace OpenCvSharp
         /// <param name="maxIdx"></param>
         /// <param name="mask"></param>
         public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
-            out int minIdx, out int maxIdx, InputArray mask = null)
+            int[] minIdx, int[] maxIdx, InputArray mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
+            if (minIdx == null)
+                throw new ArgumentNullException(nameof(minIdx));
+            if (maxIdx == null)
+                throw new ArgumentNullException(nameof(maxIdx));
             src.ThrowIfDisposed();
-            NativeMethods.core_minMaxIdx2(src.CvPtr, out minVal, out maxVal, out minIdx, out maxIdx, ToPtr(mask));
+            NativeMethods.core_minMaxIdx2(src.CvPtr, out minVal, out maxVal, minIdx, maxIdx, ToPtr(mask));
             GC.KeepAlive(src);
         }
         #endregion
