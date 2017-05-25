@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using NUnit.Framework;
 using OpenCvSharp.Aruco;
 
@@ -123,7 +124,6 @@ namespace OpenCvSharp.Tests.Aruco
             const int margin = 20;
 
             // If you want to save markers image, you must change the following values.
-            const bool output = false;
             const string path = "C:\\markers_6x6_250.png";
 
             int width = columns * markerSidePixels + margin * (columns + 1);
@@ -151,8 +151,11 @@ namespace OpenCvSharp.Tests.Aruco
                     }
                 }
 
-                if (output)
-                    OpenCvSharp.Cv2.ImWrite(path, outputImage);
+                if (Debugger.IsAttached)
+                {
+                    Cv2.ImWrite(path, outputImage);
+                    Process.Start(path);
+                }
             }
         }
 
@@ -160,7 +163,6 @@ namespace OpenCvSharp.Tests.Aruco
         public void DrawDetectedMarker()
         {
             // If you want to save markers image, you must change the following values.
-            const bool output = false;
             const string path = "C:\\detected_markers_6x6_250.png";
 
             using (var image = Image("markers_6x6_250.png", ImreadModes.GrayScale))
@@ -176,8 +178,11 @@ namespace OpenCvSharp.Tests.Aruco
                 CvAruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
                 CvAruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
 
-                if (output)
-                    OpenCvSharp.Cv2.ImWrite(path, outputImage);
+                if (Debugger.IsAttached)
+                {
+                    Cv2.ImWrite(path, outputImage);
+                    Process.Start(path);
+                }
             }
         }
     }

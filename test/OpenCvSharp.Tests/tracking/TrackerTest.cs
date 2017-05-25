@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -43,7 +44,6 @@ namespace OpenCvSharp.Tests.Tracking
             var bb = new Rect2d(286, 146, 70, 180);
 
             // If you want to save markers image, you must change the following values.
-            const bool output = false;
             const string path = "C:\\TrackerTest_Update";
 
             const string basedir = "ETHZ\\seq03-img-left\\";
@@ -62,7 +62,7 @@ namespace OpenCvSharp.Tests.Tracking
                             tracker.Update(mat, ref bb);
                         }
 
-                        if (output)
+                        if (Debugger.IsAttached)
                         {
                             Directory.CreateDirectory(path);
                             mat.Rectangle(
