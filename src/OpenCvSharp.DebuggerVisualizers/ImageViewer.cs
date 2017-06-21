@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace OpenCvSharp.DebuggerVisualizers2012
+namespace OpenCvSharp.DebuggerVisualizers
 {
     /// <summary>
     /// 

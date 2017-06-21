@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 
-namespace OpenCvSharp.DebuggerVisualizers2012
+namespace OpenCvSharp.DebuggerVisualizers
 {
     /// <summary>
     /// ビジュアライザでの視覚化処理
