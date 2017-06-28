@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using NUnit.Framework;
 using OpenCvSharp.XPhoto;
 
@@ -245,5 +246,65 @@ namespace OpenCvSharp.Tests.XPhoto
                 Assert.AreNotEqual(p, wb.P);
             }
         }
+
+#if net46
+        [Test, Explicit, Apartment(ApartmentState.STA)]
+        public void Sample()
+        {
+            string[] files;
+            using (var dialog = new System.Windows.Forms.OpenFileDialog
+            {
+                RestoreDirectory = true,
+                Multiselect = true,
+                Filter = "Image Files(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp"
+            })
+            {
+                if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                    return;
+                files = dialog.FileNames;
+            }
+
+            var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var dstDir = System.IO.Path.Combine(desktop, "WB");
+            System.IO.Directory.CreateDirectory(dstDir);
+
+            using (var simpleWB = SimpleWB.Create())
+            using (var learningWB = LearningBasedWB.Create(""))
+            using (var grayworldWB = GrayworldWB.Create())
+            {
+                foreach (var file in files)
+                {
+                    Console.WriteLine(System.IO.Path.GetFileNameWithoutExtension(file));
+
+                    using (var src = new Mat(file))
+                    using (var dstSimple = new Mat())
+                    using (var dstLearning = new Mat())
+                    using (var dstGrayworld = new Mat())
+                    {
+                        simpleWB.BalanceWhite(src, dstSimple);
+                        learningWB.BalanceWhite(src, dstLearning);
+                        grayworldWB.BalanceWhite(src, dstGrayworld);
+
+                        using (var temp1 = new Mat())
+                        using (var temp2 = new Mat())
+                        using (var dst = new Mat())
+                        {
+                            Cv2.HConcat(src, dstSimple, temp1);
+                            Cv2.HConcat(dstLearning, dstGrayworld, temp2);
+                            Cv2.VConcat(temp1, temp2, dst);
+
+                            /*
+                            using (new Window("src", src))
+                            using (new Window("dst", dst))
+                            {
+                                Cv2.WaitKey();
+                            }*/
+                            dst.SaveImage(System.IO.Path.Combine(dstDir, $"{System.IO.Path.GetFileNameWithoutExtension(file)}.png"));
+                        }
+                    }
+                }
+            }
+        }
+#endif
     }
 }

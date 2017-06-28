@@ -122,3 +122,4 @@ UpgradeLog*.XML
 /nuget/nuget/*.nupkg
 /nuget/*.nupkg
 /Help
+/myresults.xml
