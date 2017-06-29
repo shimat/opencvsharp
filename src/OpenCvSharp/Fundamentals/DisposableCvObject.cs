@@ -11,17 +11,12 @@ namespace OpenCvSharp
     /// DisposableObject + ICvPtrHolder
     /// </summary>
 #endif
-    abstract public class DisposableCvObject : DisposableObject, ICvPtrHolder
+    public abstract class DisposableCvObject : DisposableObject, ICvPtrHolder
     {
         /// <summary>
         /// Data pointer
         /// </summary>
         protected IntPtr ptr;
-
-        /// <summary>
-        /// Track whether Dispose has been called
-        /// </summary>
-        private bool disposed;
 
         #region Init and Dispose
 #if LANG_JP

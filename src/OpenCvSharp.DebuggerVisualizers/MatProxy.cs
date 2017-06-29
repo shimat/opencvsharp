@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.IO;
 
-namespace OpenCvSharp.DebuggerVisualizers2010
+namespace OpenCvSharp.DebuggerVisualizers
 {
     /// <summary>
     /// シリアライズ不可能なクラスをやり取りするために使うプロキシ。

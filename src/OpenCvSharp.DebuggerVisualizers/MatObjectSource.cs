@@ -2,7 +2,7 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 
-namespace OpenCvSharp.DebuggerVisualizers2015
+namespace OpenCvSharp.DebuggerVisualizers
 {
     /// <summary>
     /// シリアライズ処理

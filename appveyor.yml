@@ -14,7 +14,7 @@ init:
 # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true
 
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 configuration: Release
 
@@ -24,8 +24,8 @@ before_build:
 - dotnet restore
 
 build_script:
-- msbuild OpenCvSharp.sln /t:rebuild /p:configuration=%CONFIGURATION% /p:platform=x64
-- msbuild OpenCvSharp.sln /t:rebuild /p:configuration=%CONFIGURATION% /p:platform=x86
+- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
+- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
 
 after_build:
 - ps: |
@@ -38,7 +38,8 @@ after_build:
     nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
 
 test_script:
-- dotnet test ./test/OpenCvSharp.Tests -c %CONFIGURATION%
+- nunit3-console.exe ./test/OpenCvSharp.Tests/bin/Release/net461/OpenCvSharp.Tests.dll --result=myresults.xml;format=AppVeyor
+# https://www.appveyor.com/docs/running-tests/#nunit-3x
 
 artifacts:
 - path: artifacts\**\*.*

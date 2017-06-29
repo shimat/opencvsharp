@@ -26,7 +26,7 @@
     <MissingTags>AutoDocumentCtors, AutoDocumentDispose</MissingTags>
     <DocumentationSources>
       <DocumentationSource sourceFile="src\OpenCvSharp\bin\Release\net46\OpenCvSharp.dll" />
-      <DocumentationSource sourceFile="..\src\OpenCvSharp\bin\Release\net46\OpenCvSharp.xml" />
+      <DocumentationSource sourceFile="src\OpenCvSharp\bin\Release\net46\OpenCvSharp.xml" />
       <DocumentationSource sourceFile="src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.dll" />
       <DocumentationSource sourceFile="src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.xml" />
       <DocumentationSource sourceFile="src\OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.dll" />
