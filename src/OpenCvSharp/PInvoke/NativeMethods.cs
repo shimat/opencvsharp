@@ -107,7 +107,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Checks whether PInvoke functions can be called
         /// </summary>
-        private static void TryPInvoke()
+        public static void TryPInvoke()
         {
             if (tried)
                 return;
