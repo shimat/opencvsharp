@@ -13,11 +13,6 @@ namespace OpenCvSharp
     public enum LineTypes : int
     {
         /// <summary>
-        /// 
-        /// </summary>
-        Filled = -1,
-
-        /// <summary>
         /// 8-connected line.
         /// </summary>
         Link8 = 8,
