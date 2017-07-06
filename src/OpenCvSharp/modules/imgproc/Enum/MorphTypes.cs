@@ -17,12 +17,12 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        ERODE = 0,
+        Erode = 0,
 
         /// <summary>
         /// 
         /// </summary>
-        DILATE = 1, 
+        Dilate = 1,
 
 #if LANG_JP
         /// <summary>
@@ -31,7 +31,7 @@ namespace OpenCvSharp
         /// </summary>
 #else
         /// <summary>
-        /// Opening 
+        /// an opening operation
         /// </summary>
 #endif
         Open = 2,
@@ -44,7 +44,7 @@ namespace OpenCvSharp
         /// </summary>
 #else
         /// <summary>
-        /// Closing
+        /// a closing operation
         /// </summary>
 #endif
         Close = 3,
@@ -87,5 +87,10 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         BlackHat = 6,
+
+        /// <summary>
+        /// "hit and miss"
+        /// </summary>
+        HitMiss = 7
     }
 }
