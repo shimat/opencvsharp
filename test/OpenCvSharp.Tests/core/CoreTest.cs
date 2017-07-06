@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace OpenCvSharp.Tests.Core
@@ -7,6 +8,21 @@ namespace OpenCvSharp.Tests.Core
     [TestFixture]
     public class CoreTest : TestBase
     {
+        [Test]
+        public void Subtract()
+        {
+            using (Mat image = Image("lenna.png"))
+            using (Mat dst1 = new Mat())
+            using (Mat dst2 = new Scalar(255) - image)
+            {
+                Cv2.Subtract(new Scalar(255), image, dst1);
+
+                ShowImagesWhenDebugMode(image, dst1, dst2);
+
+                ImageEquals(dst1, dst2);
+            }
+        }
+
         [Test]
         public void Sum()
         {

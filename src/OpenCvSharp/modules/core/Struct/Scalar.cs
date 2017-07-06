@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
@@ -6,6 +7,7 @@ namespace OpenCvSharp
     /// 
     /// </summary>
     [Serializable]
+    [StructLayout(LayoutKind.Sequential)]
     public struct Scalar : IEquatable<Scalar>
     {
         #region Field

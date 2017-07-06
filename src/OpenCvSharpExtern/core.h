@@ -96,10 +96,22 @@ CVAPI(void) core_add(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputAr
 {
     cv::add(*src1, *src2, *dst, entity(mask), dtype);
 }
-CVAPI(void) core_subtract(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+
+CVAPI(void) core_subtract_InputArray2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
 {
     cv::subtract(*src1, *src2, *dst, entity(mask), dtype);
 }
+CVAPI(void) core_subtract_InputArrayScalar(cv::_InputArray *src1, MyCvScalar src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+{
+	cv::Scalar src2_ = cpp(src2);
+	cv::subtract(*src1, src2_, *dst, entity(mask), dtype);
+}
+CVAPI(void) core_subtract_ScalarInputArray(MyCvScalar src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+{
+	cv::Scalar src1_ = cpp(src1);
+	cv::subtract(src1_, *src2, *dst, entity(mask), dtype);
+}
+
 CVAPI(void) core_multiply(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
 {
     cv::multiply(*src1, *src2, *dst, scale, dtype);
