@@ -8,6 +8,36 @@ namespace OpenCvSharp.Tests.ImgProc
     public class ImgProcTest : TestBase
     {
         [Test]
+        public void MorphorogyExErode()
+        {
+            using (Mat src = Mat.Zeros(100, 100, MatType.CV_8UC1))
+            using (Mat dst = new Mat())
+            {
+                Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.White, 1);
+                Cv2.MorphologyEx(src, dst, MorphTypes.Erode, null);
+
+                ShowImagesWhenDebugMode(src, dst);
+
+                Assert.Zero(Cv2.CountNonZero(dst));
+            }
+        }
+
+        [Test]
+        public void MorphorogyExDilate()
+        {
+            using (Mat src = new Mat(100, 100, MatType.CV_8UC1, 255))
+            using (Mat dst = new Mat())
+            {
+                Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.Black, 1);
+                Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, null);
+
+                ShowImagesWhenDebugMode(src, dst);
+
+                Assert.AreEqual(src.Rows * src.Cols, Cv2.CountNonZero(dst));
+            }
+        }
+
+        [Test]
         public void Rectangle()
         {
             var color = Scalar.Red;
@@ -16,10 +46,7 @@ namespace OpenCvSharp.Tests.ImgProc
             {
                 img.Rectangle(new Rect(10, 10, 80, 80), color, 1);
 
-                if (Debugger.IsAttached)
-                {
-                    Window.ShowImages(img);
-                }
+                ShowImagesWhenDebugMode(img);
 
                 var colorVec = color.ToVec3b();
                 var expected = new Vec3b[100, 100];
