@@ -244,6 +244,66 @@ namespace OpenCvSharp.Tests.Core
                 }
             }
         }
+
+        [Test]
+        public void GetSetArrayByte()
+        {
+            var data = new byte[]
+            {
+                0, 
+                128,
+                255,
+                1
+            };
+
+            var mat = new Mat(2, 2, MatType.CV_8UC1);
+            mat.SetArray(0, 0, data);
+
+            var data2 = new byte[mat.Total()];
+            mat.GetArray(0, 0, data2);
+
+            CollectionAssert.AreEqual(data, data2);
+        }
+
+        [Test]
+        public void GetSetArrayVec3b()
+        {
+            var data = new Vec3b[]
+            {
+                Scalar.Red.ToVec3b(),
+                Scalar.Blue.ToVec3b(),
+                Scalar.Green.ToVec3b(),
+                Scalar.Yellow.ToVec3b(),
+            };
+
+            var mat = new Mat(2, 2, MatType.CV_8UC3);
+            mat.SetArray(0, 0, data);
+
+            var data2 = new Vec3b[mat.Total()];
+            mat.GetArray(0, 0, data2);
+
+            CollectionAssert.AreEqual(data, data2);
+        }
+
+        [Test]
+        public void GetSetArrayDMatch()
+        {
+            var data = new DMatch[]
+            {
+                new DMatch(1, 2, 3),
+                new DMatch(2, 4, 6),
+                new DMatch(3, 6, 9),
+                new DMatch(4, 7, 12),
+            };
+
+            var mat = new Mat(2, 2, MatType.CV_32FC4);
+            mat.SetArray(0, 0, data);
+
+            var data2 = new DMatch[mat.Total()];
+            mat.GetArray(0, 0, data2);
+
+            CollectionAssert.AreEqual(data, data2);
+        }
     }
 }
 
