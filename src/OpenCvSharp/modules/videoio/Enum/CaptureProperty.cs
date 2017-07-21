@@ -314,9 +314,19 @@
         Iris = 36,
 
         /// <summary>
-        /// 
+        /// Pop up video/camera filter dialog (note: only supported by DSHOW backend currently. Property value is ignored)
         /// </summary>
         Settings = 37,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        BufferSize = 38,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        AutoFocus = 39,
 
         #endregion
 
