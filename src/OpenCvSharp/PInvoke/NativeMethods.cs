@@ -16,7 +16,7 @@ namespace OpenCvSharp
     /// <summary>
     /// P/Invoke methods of OpenCV 2.x C++ interface
     /// </summary>
-#if DOTNET_FRAMEWORK
+#if DOTNET_FRAMEWORK && !net20
     [SuppressUnmanagedCodeSecurity]
 #endif
     public static partial class NativeMethods
