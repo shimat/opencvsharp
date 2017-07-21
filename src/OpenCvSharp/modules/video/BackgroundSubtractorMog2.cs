@@ -46,6 +46,7 @@ namespace OpenCvSharp
         {
             objectPtr?.Dispose();
             objectPtr = null;
+            ptr = IntPtr.Zero;
             base.DisposeManaged();
         }
 
@@ -61,12 +62,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getHistory(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getHistory(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setHistory(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setHistory(objectPtr.CvPtr, value);
             }
         }
 
@@ -78,12 +79,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getNMixtures(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getNMixtures(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setNMixtures(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setNMixtures(objectPtr.CvPtr, value);
             }
         }
 
@@ -95,12 +96,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundRatio(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundRatio(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setBackgroundRatio(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setBackgroundRatio(objectPtr.CvPtr, value);
             }
         }
 
@@ -112,12 +113,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getHistory(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarThreshold(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarThreshold(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarThreshold(objectPtr.CvPtr, value);
             }
         }
 
@@ -129,12 +130,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getVarThresholdGen(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarThresholdGen(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarThresholdGen(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarThresholdGen(objectPtr.CvPtr, value);
             }
         }
 
@@ -146,12 +147,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getVarInit(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarInit(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarInit(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarInit(objectPtr.CvPtr, value);
             }
         }
 
@@ -163,12 +164,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getVarMin(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarMin(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarMin(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarMin(objectPtr.CvPtr, value);
             }
         }
 
@@ -180,12 +181,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getVarMax(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getVarMax(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarMax(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarMax(objectPtr.CvPtr, value);
             }
         }
 
@@ -197,12 +198,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(objectPtr.CvPtr, value);
             }
         }
 
@@ -214,12 +215,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getDetectShadows(ptr) != 0;
+                return NativeMethods.video_BackgroundSubtractorMOG2_getDetectShadows(objectPtr.CvPtr) != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setDetectShadows(ptr, value ? 1 : 0);
+                NativeMethods.video_BackgroundSubtractorMOG2_setDetectShadows(objectPtr.CvPtr, value ? 1 : 0);
             }
         }
 
@@ -231,12 +232,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getShadowValue(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getShadowValue(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setShadowValue(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setShadowValue(objectPtr.CvPtr, value);
             }
         }
 
@@ -248,12 +249,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorMOG2_getShadowThreshold(ptr);
+                return NativeMethods.video_BackgroundSubtractorMOG2_getShadowThreshold(objectPtr.CvPtr);
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.video_BackgroundSubtractorMOG2_setShadowThreshold(ptr, value);
+                NativeMethods.video_BackgroundSubtractorMOG2_setShadowThreshold(objectPtr.CvPtr, value);
             }
         }
 
