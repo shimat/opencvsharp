@@ -29,6 +29,7 @@
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/ximgproc.hpp>
 #include <opencv2/xphoto.hpp>
+#include <opencv2/text.hpp>
 
 #include <vector>
 #include <algorithm>

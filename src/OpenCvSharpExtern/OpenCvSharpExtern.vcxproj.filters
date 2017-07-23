@@ -79,6 +79,10 @@
     <ClCompile Include="xphoto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="my_string.cpp" />
+    <ClCompile Include="std_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -327,6 +331,13 @@
     <ClInclude Include="xphoto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="string_wrapper.h" />
+    <ClInclude Include="std_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -384,6 +395,9 @@
     </Filter>
     <Filter Include="Header Files\flann">
       <UniqueIdentifier>{fe6ddcd7-d2d0-4c73-99f6-d37802a99d2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\text">
+      <UniqueIdentifier>{9e6e52c9-2254-47e7-91ef-fff079c88338}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
