@@ -79,8 +79,10 @@
     <ClCompile Include="xphoto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="my_string.cpp" />
     <ClCompile Include="std_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -334,7 +336,6 @@
     <ClInclude Include="text.h">
       <Filter>Header Files\text</Filter>
     </ClInclude>
-    <ClInclude Include="string_wrapper.h" />
     <ClInclude Include="std_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>

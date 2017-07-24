@@ -101,4 +101,16 @@ CVAPI(cv::Ptr<OCRTesseract>*) text_OCRTesseract_create(
 	return clone(result);
 }
 
+CVAPI(void) text_Ptr_OCRTesseract_delete(
+    cv::Ptr<OCRTesseract> *obj)
+{
+    delete obj;
+}
+
+CVAPI(OCRTesseract*) text_OCRTesseract_get(
+    cv::Ptr<OCRTesseract> *obj)
+{
+    return obj->get();
+}
+
 #endif

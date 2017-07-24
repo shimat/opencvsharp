@@ -238,6 +238,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClCompile Include="features2d.cpp" />
     <ClCompile Include="stitching.cpp" />
     <ClCompile Include="superres.cpp" />
+    <ClCompile Include="text.cpp" />
     <ClCompile Include="tracking.cpp" />
     <ClCompile Include="video.cpp" />
     <ClCompile Include="videoio.cpp" />
