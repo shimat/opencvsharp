@@ -21,6 +21,7 @@ configuration: Release
 before_build:
 - git submodule update --init --recursive
 - ps: |
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
     function Unzip {
         param([string]$zipfile, [string]$outpath)
         $pwd = pwd
