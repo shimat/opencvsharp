@@ -20,8 +20,16 @@ configuration: Release
 
 before_build:
 - git submodule update --init --recursive
-- Expand-Archive -Path tesseract\build\x86.zip -DestinationPath tesseract\build\ -Force
-- Expand-Archive -Path tesseract\build\x64.zip -DestinationPath tesseract\build\ -Force
+- ps: |
+    function Unzip {
+        param([string]$zipfile, [string]$outpath)
+        $pwd = pwd
+        $zipfile = [System.IO.Path]::Combine($pwd, $zipfile)
+        $outpath = [System.IO.Path]::Combine($pwd, $outpath)
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+    }
+    Unzip tesseract\build\x86.zip tesseract\build\
+    Unzip tesseract\build\x64.zip tesseract\build\
 - nuget restore
 - dotnet restore
 
