@@ -20,6 +20,8 @@ configuration: Release
 
 before_build:
 - git submodule update --init --recursive
+- Expand-Archive -Path tesseract\build\x86.zip -DestinationPath tesseract\build\ -Force
+- Expand-Archive -Path tesseract\build\x64.zip -DestinationPath tesseract\build\ -Force
 - nuget restore
 - dotnet restore
 
