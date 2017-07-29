@@ -19,7 +19,8 @@ image: Visual Studio 2017
 configuration: Release
 
 before_build:
-- git submodule update --init --recursive
+#- git submodule update --init --recursive
+- git submodule update --init
 - ps: |
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     function Unzip {
