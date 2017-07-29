@@ -14,6 +14,7 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <PostBuildEvent>xcopy "$(SolutionDir)tesseract\tessdata"  "$(SolutionDir)test\OpenCvSharp.Tests\_data\tessdata\"  /Y</PostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>

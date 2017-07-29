@@ -4,3 +4,6 @@
 [submodule "samples"]
 	path = samples
 	url = https://github.com/shimat/opencvsharp_samples.git
+[submodule "tesseract"]
+	path = tesseract
+	url = https://github.com/shimat/VS2015_Tesseract
