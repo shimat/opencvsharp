@@ -1,21 +1,20 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Features2D
 {
     // ReSharper disable once InconsistentNaming
 
-    [TestFixture]
     public class FastFeatureDetectorTest : TestBase
     {
-        [Test]
+        [Fact]
         public void CreateAndDispose()
         {
             var surf = FastFeatureDetector.Create();
             surf.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void Detect()
         {
             KeyPoint[] keyPoints;

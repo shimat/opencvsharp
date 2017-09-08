@@ -2,18 +2,17 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using NUnit.Framework;
 using OpenCvSharp.Tracking;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Tracking
 {
     // ReSharper disable once InconsistentNaming
 
-    [TestFixture]
     public class TrackerTest : TestBase
     {
 
-        [Test]
+        [Fact]
         public void Create()
         {
             foreach (TrackerTypes val in Enum.GetValues(typeof(TrackerTypes)))
@@ -23,15 +22,15 @@ namespace OpenCvSharp.Tests.Tracking
             }
         }
 
-        [Test]
+        [Fact]
         public void Init()
         {
             using (var vc = Image("lenna.png"))
             using (var tracker = Tracker.Create(TrackerTypes.KCF))
-                Assert.IsTrue(tracker.Init(vc, new Rect2d(320, 60, 200, 220)));
+                Assert.True(tracker.Init(vc, new Rect2d(320, 60, 200, 220)));
         }
 
-        [Test]
+        [Fact]
         public void Update()
         {
             // ETHZ dataset

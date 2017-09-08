@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
 using OpenCvSharp.XImgProc;
+using Xunit;
 
 namespace OpenCvSharp.Tests.XImgProc
 {
-    [TestFixture]
     public class FastHoughTransformTest : TestBase
     {
         /// <remarks>
         /// https://github.com/opencv/opencv_contrib/blob/master/modules/ximgproc/samples/fast_hough_transform.cpp#L271
         /// </remarks>
-        [Test]
+        [Fact]
         public void FastHoughTransform()
         {
             using (var image = Image("building.jpg", ImreadModes.GrayScale))

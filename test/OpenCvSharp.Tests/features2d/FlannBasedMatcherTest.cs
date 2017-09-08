@@ -1,16 +1,15 @@
 ﻿using System;
-using NUnit.Framework;
 using OpenCvSharp.Flann;
 using OpenCvSharp.XFeatures2D;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Features2D
 {
     // ReSharper disable once InconsistentNaming
 
-    [TestFixture]
     public class FlannBasedMatcherTest : TestBase
     {
-        [Test]
+        [Fact]
         public void Mathing()
         {
             using (var img1 = Image("tsukuba_left.png", ImreadModes.GrayScale))
@@ -24,8 +23,8 @@ namespace OpenCvSharp.Tests.Features2D
                 orb.DetectAndCompute(img2, null, out keyPoints2, descriptor2);
 
                 // Flann needs the descriptors to be of type CV_32F
-                Assert.AreEqual(MatType.CV_8UC1, descriptor1.Type());
-                Assert.AreEqual(MatType.CV_8UC1, descriptor2.Type());
+                Assert.Equal(MatType.CV_8UC1, descriptor1.Type());
+                Assert.Equal(MatType.CV_8UC1, descriptor2.Type());
                 descriptor1.ConvertTo(descriptor1, MatType.CV_32F);
                 descriptor2.ConvertTo(descriptor2, MatType.CV_32F);
 
@@ -43,7 +42,7 @@ namespace OpenCvSharp.Tests.Features2D
             }
         }
 
-        [Test]
+        [Fact]
         public void MathingWithKDTreeIndexParams()
         {
             using (var img1 = Image("tsukuba_left.png", ImreadModes.GrayScale))
@@ -59,8 +58,8 @@ namespace OpenCvSharp.Tests.Features2D
                 var indexParams = new KDTreeIndexParams();
 
                 // Flann needs the descriptors to be of type CV_32F
-                Assert.AreEqual(MatType.CV_8UC1, descriptor1.Type());
-                Assert.AreEqual(MatType.CV_8UC1, descriptor2.Type());
+                Assert.Equal(MatType.CV_8UC1, descriptor1.Type());
+                Assert.Equal(MatType.CV_8UC1, descriptor2.Type());
                 descriptor1.ConvertTo(descriptor1, MatType.CV_32F);
                 descriptor2.ConvertTo(descriptor2, MatType.CV_32F);
 
@@ -78,7 +77,7 @@ namespace OpenCvSharp.Tests.Features2D
             }
         }
 
-        [Test]
+        [Fact]
         public void MathingWithLshIndexParams()
         {
             using (var img1 = Image("tsukuba_left.png", ImreadModes.GrayScale))
@@ -93,8 +92,8 @@ namespace OpenCvSharp.Tests.Features2D
 
                 var indexParams = new LshIndexParams(12, 20, 2);
 
-                Assert.AreEqual(MatType.CV_8UC1, descriptor1.Type());
-                Assert.AreEqual(MatType.CV_8UC1, descriptor2.Type());
+                Assert.Equal(MatType.CV_8UC1, descriptor1.Type());
+                Assert.Equal(MatType.CV_8UC1, descriptor2.Type());
 
                 // LshIndexParams requires Binary descriptor, so it must NOT convert to CV_32F.
                 //descriptor1.ConvertTo(descriptor1, MatType.CV_32F);

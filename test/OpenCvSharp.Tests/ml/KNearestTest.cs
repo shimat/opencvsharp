@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using NUnit.Framework;
 using OpenCvSharp;
 using OpenCvSharp.ML;
+using Xunit;
 
 namespace OpenCvSharp.Tests.ML
 {
-    [TestFixture]
     public class KNearestTest : TestBase
     {
-        [Test]
+        [Fact]
         public void RunTest()
         {
             float[] trainFeaturesData =
@@ -39,10 +38,10 @@ namespace OpenCvSharp.Tests.ML
             var dists = new Mat();
             var detectedClass = (int)kNearest.FindNearest(testFeature, k, results, neighborResponses, dists);
 
-            Assert.AreEqual(3, detectedClass);
+            Assert.Equal(3, detectedClass);
         }
 
-        [Test]
+        [Fact]
         public void SaveLoadTest()
         {
             float[] trainFeaturesData =
@@ -70,19 +69,14 @@ namespace OpenCvSharp.Tests.ML
                 model.Save(fileName);
             }
 
-            FileAssert.Exists(fileName);
+            Assert.True(File.Exists(fileName));
 
             string content = File.ReadAllText(fileName);
             //Console.WriteLine(content);
 
-            Assert.DoesNotThrow(() =>
-            {
-                using (var model2 = KNearest.Load(fileName)) { }
-            });
-            Assert.DoesNotThrow(() =>
-            {
-                using (var model2 = KNearest.LoadFromString(content)) { }
-            });
+            // Assert.DoesNotThrow
+            using (var model2 = KNearest.Load(fileName)) { }
+            using (var model2 = KNearest.LoadFromString(content)) { }
         }
     }
 }

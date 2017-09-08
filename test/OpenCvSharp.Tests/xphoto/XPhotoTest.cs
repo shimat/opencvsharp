@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using NUnit.Framework;
 using OpenCvSharp.XPhoto;
+using Xunit;
+using Xunit.Sdk;
 
 namespace OpenCvSharp.Tests.XPhoto
 {
     // ReSharper disable InconsistentNaming
 
-    [TestFixture]
     public class XPhotoTest : TestBase
     {
-        [Test]
+        [Fact]
         public void ApplyChannelGains()
         {
             using (var src = Image("lenna.png"))
@@ -41,7 +41,7 @@ namespace OpenCvSharp.Tests.XPhoto
             }
         }
 
-        [Test]
+        [Fact]
         public void GrayworldWBBalanceWhite()
         {
             using (var wb = CvXPhoto.CreateGrayworldWB())
@@ -64,7 +64,7 @@ namespace OpenCvSharp.Tests.XPhoto
             }
         }
 
-        [Test]
+        [Fact]
         public void GrayworldWBProperties()
         {
             using (var wb = CvXPhoto.CreateGrayworldWB())
@@ -74,12 +74,12 @@ namespace OpenCvSharp.Tests.XPhoto
                 const float val = 100f;
                 wb.SaturationThreshold = val;
 
-                Assert.AreEqual(val, wb.SaturationThreshold);
-                Assert.AreNotEqual(saturationThreshold, wb.SaturationThreshold);
+                Assert.Equal(val, wb.SaturationThreshold);
+                Assert.NotEqual(saturationThreshold, wb.SaturationThreshold);
             }
         }
 
-        [Test]
+        [Fact]
         public void Inpaint()
         {
             using (var src = Image("building.jpg"))
@@ -92,7 +92,7 @@ namespace OpenCvSharp.Tests.XPhoto
             }
         }
 
-        [Test]
+        [Fact]
         public void LearningBasedWBBalanceWhite()
         {
             using (var wb = CvXPhoto.CreateLearningBasedWB(null))
@@ -115,7 +115,7 @@ namespace OpenCvSharp.Tests.XPhoto
             }
         }
 
-        [Test]
+        [Fact]
         public void LearningBasedWBExtractSimpleFeatures()
         {
             using (var wb = LearningBasedWB.Create(null))
@@ -142,7 +142,7 @@ namespace OpenCvSharp.Tests.XPhoto
             }
         }
 
-        [Test]
+        [Fact]
         public void LearningBasedWBBalanceWhiteWithModel()
         {
             // About model file
@@ -167,7 +167,7 @@ namespace OpenCvSharp.Tests.XPhoto
             }
         }
 
-        [Test]
+        [Fact]
         public void LearningBasedWBProperties()
         {
             using (var wb = LearningBasedWB.Create(null))
@@ -182,17 +182,17 @@ namespace OpenCvSharp.Tests.XPhoto
                 wb.RangeMaxVal = ival;
                 wb.SaturationThreshold = fval;
 
-                Assert.AreEqual(ival, wb.HistBinNum);
-                Assert.AreEqual(ival, wb.RangeMaxVal);
-                Assert.AreEqual(fval, wb.SaturationThreshold);
+                Assert.Equal(ival, wb.HistBinNum);
+                Assert.Equal(ival, wb.RangeMaxVal);
+                Assert.Equal(fval, wb.SaturationThreshold);
 
-                Assert.AreNotEqual(histBinNum, wb.HistBinNum);
-                Assert.AreNotEqual(rangeMaxVal, wb.RangeMaxVal);
-                Assert.AreNotEqual(saturationThreshold, wb.SaturationThreshold);
+                Assert.NotEqual(histBinNum, wb.HistBinNum);
+                Assert.NotEqual(rangeMaxVal, wb.RangeMaxVal);
+                Assert.NotEqual(saturationThreshold, wb.SaturationThreshold);
             }
         }
 
-        [Test]
+        [Fact]
         public void SimpleWBBalanceWhite()
         {
             using (var wb = CvXPhoto.CreateSimpleWB())
@@ -215,7 +215,7 @@ namespace OpenCvSharp.Tests.XPhoto
             }
         }
 
-        [Test]
+        [Fact]
         public void SimpleWBProperties()
         {
             using (var wb = SimpleWB.Create())
@@ -233,24 +233,27 @@ namespace OpenCvSharp.Tests.XPhoto
                 wb.OutputMin = val;
                 wb.P = val;
 
-                Assert.AreEqual(val, wb.InputMax);
-                Assert.AreEqual(val, wb.InputMin);
-                Assert.AreEqual(val, wb.OutputMax);
-                Assert.AreEqual(val, wb.OutputMin);
-                Assert.AreEqual(val, wb.P);
+                Assert.Equal(val, wb.InputMax);
+                Assert.Equal(val, wb.InputMin);
+                Assert.Equal(val, wb.OutputMax);
+                Assert.Equal(val, wb.OutputMin);
+                Assert.Equal(val, wb.P);
 
-                Assert.AreNotEqual(inputMax, wb.InputMax);
-                Assert.AreNotEqual(inputMin, wb.InputMin);
-                Assert.AreNotEqual(outputMax, wb.OutputMax);
-                Assert.AreNotEqual(outputMin, wb.OutputMin);
-                Assert.AreNotEqual(p, wb.P);
+                Assert.NotEqual(inputMax, wb.InputMax);
+                Assert.NotEqual(inputMin, wb.InputMin);
+                Assert.NotEqual(outputMax, wb.OutputMax);
+                Assert.NotEqual(outputMin, wb.OutputMin);
+                Assert.NotEqual(p, wb.P);
             }
         }
-
+        
 #if net46
-        [Test, Explicit, Apartment(ApartmentState.STA)]
+        [ExplicitStaFact]
         public void Sample()
         {
+            if (!Debugger.IsAttached)
+                return;
+
             string[] files;
             using (var dialog = new System.Windows.Forms.OpenFileDialog
             {

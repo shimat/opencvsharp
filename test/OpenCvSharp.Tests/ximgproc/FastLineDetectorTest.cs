@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using OpenCvSharp.XImgProc;
+using Xunit;
 
 namespace OpenCvSharp.Tests.XImgProc
 {
-    [TestFixture]
     public class FastLineDetectorTest : TestBase
     {
-        [Test]
+        [Fact]
         public void New1()
         {
             var fld = FastLineDetector.Create();
             fld.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void New2()
         {
             var fld = CvXImgProc.CreateFastLineDetector();
             fld.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void DetectUsingOutputArray()
         {
             using (var fld = FastLineDetector.Create())
@@ -30,24 +29,25 @@ namespace OpenCvSharp.Tests.XImgProc
             using (var lines = new Mat())
             {
                 fld.Detect(image, lines);
-                Assert.That(lines.Empty, Is.False);
-                Assert.That(lines.Type(), Is.EqualTo(MatType.CV_32FC4));
-                Assert.That(lines.Rows, Is.GreaterThan(0));
+                Assert.False(lines.Empty());
+                Assert.Equal(MatType.CV_32FC4, lines.Type());
+                Assert.True(lines.Rows > 0);
             }
         }
 
-        [Test]
+        [Fact]
         public void DetectUsingVector()
         {
             using (var fld = FastLineDetector.Create())
             using (var image = Image("building.jpg", ImreadModes.GrayScale))
             {
                 Vec4f[] lines = fld.Detect(image);
-                Assert.That(lines, Is.Not.Null.And.Length.GreaterThan(0));
+                Assert.NotNull(lines);
+                Assert.True(lines.Length > 0);
             }
         }
 
-        [Test]
+        [Fact]
         public void DrawSegmentsUsingInputArray()
         {
             using (var fld = FastLineDetector.Create())
@@ -61,7 +61,7 @@ namespace OpenCvSharp.Tests.XImgProc
             }
         }
 
-        [Test]
+        [Fact]
         public void DrawSegmentsUsingVector()
         {
             using (var fld = FastLineDetector.Create())

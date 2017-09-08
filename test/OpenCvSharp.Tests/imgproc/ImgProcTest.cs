@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.ImgProc
 {
-    [TestFixture]
     public class ImgProcTest : TestBase
     {
-        [Test]
+        [Fact]
         public void MorphorogyExErode()
         {
             using (Mat src = Mat.Zeros(100, 100, MatType.CV_8UC1))
@@ -18,11 +17,11 @@ namespace OpenCvSharp.Tests.ImgProc
 
                 ShowImagesWhenDebugMode(src, dst);
 
-                Assert.Zero(Cv2.CountNonZero(dst));
+                Assert.Equal(0, Cv2.CountNonZero(dst));
             }
         }
 
-        [Test]
+        [Fact]
         public void MorphorogyExDilate()
         {
             using (Mat src = new Mat(100, 100, MatType.CV_8UC1, 255))
@@ -33,11 +32,11 @@ namespace OpenCvSharp.Tests.ImgProc
 
                 ShowImagesWhenDebugMode(src, dst);
 
-                Assert.AreEqual(src.Rows * src.Cols, Cv2.CountNonZero(dst));
+                Assert.Equal(src.Rows * src.Cols, Cv2.CountNonZero(dst));
             }
         }
 
-        [Test]
+        [Fact]
         public void Rectangle()
         {
             var color = Scalar.Red;
@@ -65,7 +64,7 @@ namespace OpenCvSharp.Tests.ImgProc
             }
         }
 
-        [Test]
+        [Fact]
         public void RectangleFilled()
         {
             var color = Scalar.Red;
@@ -112,14 +111,13 @@ namespace OpenCvSharp.Tests.ImgProc
                 {
                     var expectedValue = expected[y, x];
                     var actualValue = indexer[y, x];
-                    Assert.AreEqual(
-                        expectedValue,
-                        actualValue,
-                        "difference at (x:{0}, y:{1})\nexpected:\t{2}\nactual:\t{3}\n",
-                        x,
-                        y,
-                        $"(B:{expectedValue.Item0} G:{expectedValue.Item1} R:{expectedValue.Item2})",
-                        $"(B:{actualValue.Item0} G:{actualValue.Item1} R:{actualValue.Item2})");
+                    Assert.True(
+                        expectedValue == actualValue,
+                        String.Format("difference at (x:{0}, y:{1})\nexpected:\t{2}\nactual:\t{3}\n",
+                            x,
+                            y,
+                            $"(B:{expectedValue.Item0} G:{expectedValue.Item1} R:{expectedValue.Item2})",
+                            $"(B:{actualValue.Item0} G:{actualValue.Item1} R:{actualValue.Item2})"));
                 }
             }
         }

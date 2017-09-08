@@ -1,22 +1,21 @@
 ﻿using System;
-using NUnit.Framework;
 using OpenCvSharp.XFeatures2D;
+using Xunit;
 
 namespace OpenCvSharp.Tests.XFeatures2D
 {
     // ReSharper disable once InconsistentNaming
-
-    [TestFixture]
+    
     public class SURFTest : TestBase
     {
-        [Test]
+        [Fact]
         public void CreateAndDispose()
         {
             var surf = SURF.Create(400);
             surf.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void Detect()
         {
             // This parameter should introduce same result of http://opencv.jp/wordpress/wp-content/uploads/lenna_SURF-150x150.png
@@ -28,7 +27,7 @@ namespace OpenCvSharp.Tests.XFeatures2D
             Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
         }
 
-        [Test]
+        [Fact]
         public void DetectAndCompute()
         {
             using (var gray = Image("lenna.png", ImreadModes.GrayScale))

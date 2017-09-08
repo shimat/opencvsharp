@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using NUnit.Framework;
 using OpenCvSharp;
 using OpenCvSharp.ML;
+using Xunit;
 
 namespace OpenCvSharp.Tests.ML
 {
-    [TestFixture]
     // ReSharper disable once InconsistentNaming
     public class SVMTest : TestBase
     {
-        [Test]
+        [Fact]
         public void RunTest()
         {
             float[,] trainFeaturesData =
@@ -38,23 +37,23 @@ namespace OpenCvSharp.Tests.ML
 
                 var detectedClass = (int) model.Predict(testFeature);
 
-                Assert.AreEqual(-1, detectedClass);
+                Assert.Equal(-1, detectedClass);
             }
         }
 
-        [Test]
+        [Fact]
         public void SaveLoadTest()
         {
             float[,] trainFeaturesData =
             {
-                 {0, 0},
-                 {0, 100},
-                 {100, 0},
-                 {100, 100},
+                {0, 0},
+                {0, 100},
+                {100, 0},
+                {100, 100},
             };
             var trainFeatures = new Mat(4, 2, MatType.CV_32F, trainFeaturesData);
 
-            int[] trainLabelsData = { +1, -1, +1, -1 };
+            int[] trainLabelsData = {+1, -1, +1, -1};
             var trainLabels = new Mat(4, 1, MatType.CV_32S, trainLabelsData);
 
             const string fileName = "svm.yml";
@@ -71,29 +70,25 @@ namespace OpenCvSharp.Tests.ML
                 model.Save(fileName);
             }
 
-            FileAssert.Exists(fileName);
+            Assert.True(File.Exists(fileName));
 
             string content = File.ReadAllText(fileName);
             //Console.WriteLine(content);
 
-            Assert.DoesNotThrow(() =>
+            //Assert.DoesNotThrow
+            using (var model2 = SVM.Load(fileName))
             {
-                using (var model2 = SVM.Load(fileName)) { }
-            });
-            Assert.DoesNotThrow(() =>
+            }
+            using (var model2 = SVM.LoadFromString(content))
             {
-                using (var model2 = SVM.LoadFromString(content)) { }
-            });
-            
-            Assert.DoesNotThrow(() =>
+            }
+
+            using (var fs = new FileStorage(fileName, FileStorage.Mode.Read))
+            using (var model2 = SVM.Create())
             {
-                using (var fs = new FileStorage(fileName, FileStorage.Mode.Read))
-                using (var model2 = SVM.Create())
-                {
-                    var node = fs["opencv_ml_svm"];
-                    model2.Read(node);
-                }
-            });
+                var node = fs["opencv_ml_svm"];
+                model2.Read(node);
+            }
         }
     }
 }

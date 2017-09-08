@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using NUnit.Framework;
 using OpenCvSharp;
 using OpenCvSharp.ML;
+using Xunit;
 
 namespace OpenCvSharp.Tests.ML
 {
-    [TestFixture]
     public class RTreesTest : TestBase
     {
-        [Test]
+        [Fact]
         public void RunTest()
         {
             float[,] trainFeaturesData =
@@ -33,10 +32,10 @@ namespace OpenCvSharp.Tests.ML
             
             var detectedClass = (int)model.Predict(testFeature);
             
-            Assert.AreEqual(-1, detectedClass);
+            Assert.Equal(-1, detectedClass);
         }
 
-        [Test]
+        [Fact]
         public void SaveLoadTest()
         {
             float[,] trainFeaturesData =
@@ -62,19 +61,14 @@ namespace OpenCvSharp.Tests.ML
                 model.Save(fileName);
             }
 
-            FileAssert.Exists(fileName);
+            Assert.True(File.Exists(fileName));
 
             string content = File.ReadAllText(fileName);
             //Console.WriteLine(content);
 
-            Assert.DoesNotThrow(() =>
-            {
-                using (var model2 = RTrees.Load(fileName)) { }
-            });
-            Assert.DoesNotThrow(() =>
-            {
-                using (var model2 = RTrees.LoadFromString(content)) { }
-            });
+            // Assert.DoesNotThrow
+            using (var model2 = RTrees.Load(fileName)) { }
+            using (var model2 = RTrees.LoadFromString(content)) { }
         }
     }
 }

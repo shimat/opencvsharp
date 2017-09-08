@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 #pragma warning disable 162
 
 namespace OpenCvSharp.Tests.Stitching
 {
-    [TestFixture]
     public class StitchingTest : TestBase
     {
-        [Test]
+        [Fact]
         public void Run()
         {
             Mat[] images = SelectStitchingImages(200, 200, 40);
@@ -20,7 +19,7 @@ namespace OpenCvSharp.Tests.Stitching
                 Console.Write("Stitching start...");
                 var status = stitcher.Stitch(images, pano);
                 Console.WriteLine(" finish (status:{0})", status);
-                Assert.That(status, Is.EqualTo(Stitcher.Status.OK));
+                Assert.Equal(Stitcher.Status.OK, status);
 
                 ShowImagesWhenDebugMode(pano);
             }

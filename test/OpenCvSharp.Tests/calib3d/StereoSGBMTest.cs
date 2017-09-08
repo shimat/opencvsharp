@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Calib3D
 {
-    [TestFixture]
     public class StereoSGBMTest : TestBase
     {
-        [Test]
+        [Fact]
         public void SimpleCompute()
         {
             var left = Image("tsukuba_left.png", ImreadModes.GrayScale);

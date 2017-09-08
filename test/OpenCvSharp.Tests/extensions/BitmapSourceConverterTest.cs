@@ -8,14 +8,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Extensions
 {
-    [TestFixture]
     public class BitmapSourceConverterTest : TestBase
     {
-        [Test]
+        [Fact]
         public void BitmapSource8Bit()
         {
             Scalar blueColor8 = new Scalar(200, 0, 0);
@@ -39,7 +38,7 @@ namespace OpenCvSharp.Tests.Extensions
             }
         }
 
-        [Test]
+        [Fact]
         public void BitmapSource16Bit()
         {
             Scalar blueColor16 = new Scalar(32767, 0, 0);
@@ -66,10 +65,7 @@ namespace OpenCvSharp.Tests.Extensions
         /// <summary>
         /// https://github.com/shimat/opencvsharp/issues/304
         /// </summary>
-        [Test]
-        //[Explicit]
-        [Ignore("sample")]
-        [Apartment(ApartmentState.STA)]
+        [StaFact(Skip = "sample")]
         public void BitmapSourceSample()
         {
             const int size = 250;
@@ -82,14 +78,14 @@ namespace OpenCvSharp.Tests.Extensions
             Scalar whiteColor8 = new Scalar(255, 255, 255);
             using (var mat = new Mat(size, size, MatType.CV_8UC3, new Scalar(128, 128, 128)))
             {
-                mat.Rectangle(new OpenCvSharp.Rect(15, 10, 100, 100), blueColor8, -1);
-                mat.PutText("B", new OpenCvSharp.Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
+                mat.Rectangle(new Rect(15, 10, 100, 100), blueColor8, -1);
+                mat.PutText("B", new Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
 
-                mat.Rectangle(new OpenCvSharp.Rect(130, 10, 100, 100), greenColor8, -1);
-                mat.PutText("G", new OpenCvSharp.Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
+                mat.Rectangle(new Rect(130, 10, 100, 100), greenColor8, -1);
+                mat.PutText("G", new Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
 
-                mat.Rectangle(new OpenCvSharp.Rect(75, 130, 100, 100), redColor8, -1);
-                mat.PutText("R", new OpenCvSharp.Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor8);
+                mat.Rectangle(new Rect(75, 130, 100, 100), redColor8, -1);
+                mat.PutText("R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor8);
 
                 bs8 = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
             }
@@ -100,14 +96,14 @@ namespace OpenCvSharp.Tests.Extensions
             Scalar whiteColor16 = new Scalar(65535, 65535, 65535);
             using (var mat = new Mat(size, size, MatType.CV_16UC3, new Scalar(32767, 32767, 32767)))
             {
-                mat.Rectangle(new OpenCvSharp.Rect(15, 10, 100, 100), blueColor16, -1);
-                mat.PutText("B", new OpenCvSharp.Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
+                mat.Rectangle(new Rect(15, 10, 100, 100), blueColor16, -1);
+                mat.PutText("B", new Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
 
-                mat.Rectangle(new OpenCvSharp.Rect(130, 10, 100, 100), greenColor16, -1);
-                mat.PutText("G", new OpenCvSharp.Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
+                mat.Rectangle(new Rect(130, 10, 100, 100), greenColor16, -1);
+                mat.PutText("G", new Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
 
-                mat.Rectangle(new OpenCvSharp.Rect(75, 130, 100, 100), redColor16, -1);
-                mat.PutText("R", new OpenCvSharp.Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor16);
+                mat.Rectangle(new Rect(75, 130, 100, 100), redColor16, -1);
+                mat.PutText("R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor16);
 
                 bs16 = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
             }
@@ -137,10 +133,10 @@ namespace OpenCvSharp.Tests.Extensions
         }
 
         private void AssertPixelValue<T>(Scalar expectedValue, BitmapSource bs)
-            where T : struct 
+            where T : struct, IConvertible
         {
             if (bs.PixelWidth != 1 || bs.PixelHeight != 1)
-                Assert.Inconclusive();
+                throw new Exception("1x1 image only");
 
             var pixels = new T[3];
             int stride = 4 * Marshal.SizeOf<T>();
@@ -148,9 +144,9 @@ namespace OpenCvSharp.Tests.Extensions
 
             Console.WriteLine("Expected: ({0},{1},{2})", expectedValue.Val0, expectedValue.Val1, expectedValue.Val2);
             Console.WriteLine("Actual: ({0},{1},{2})", pixels[0], pixels[1], pixels[2]);
-            Assert.That(pixels[0], Is.EqualTo(expectedValue.Val0).Within(1e-9));
-            Assert.That(pixels[1], Is.EqualTo(expectedValue.Val1).Within(1e-9));
-            Assert.That(pixels[2], Is.EqualTo(expectedValue.Val2).Within(1e-9));
+            Assert.Equal(expectedValue.Val0, Convert.ToDouble(pixels[0]), 9);
+            Assert.Equal(expectedValue.Val1, Convert.ToDouble(pixels[1]), 9);
+            Assert.Equal(expectedValue.Val2, Convert.ToDouble(pixels[2]), 9);
         }
     }
 }

@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Diagnostics;
-using NUnit.Framework;
 using OpenCvSharp.Aruco;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Aruco
 {
     // ReSharper disable once InconsistentNaming
 
-    [TestFixture]
     public class ArucoTest : TestBase
     {
 
-        [Test]
+        [Fact]
         public void CreateDetectorParameters()
         {
             var param = DetectorParameters.Create();
             param.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void DetectorParametersProperties()
         {
             var param = DetectorParameters.Create();
@@ -50,33 +49,33 @@ namespace OpenCvSharp.Tests.Aruco
             param.PerspectiveRemovePixelPerCell = intValue;
             param.AdaptiveThreshWinSizeMin = intValue;
 
-            Assert.AreEqual(boolValue, param.DoCornerRefinement);
+            Assert.Equal(boolValue, param.DoCornerRefinement);
 
-            Assert.AreEqual(doubleValue, param.AdaptiveThreshConstant);
-            Assert.AreEqual(doubleValue, param.CornerRefinementMinAccuracy);
-            Assert.AreEqual(doubleValue, param.ErrorCorrectionRate);
-            Assert.AreEqual(doubleValue, param.MaxErroneousBitsInBorderRate);
-            Assert.AreEqual(doubleValue, param.MaxMarkerPerimeterRate);
-            Assert.AreEqual(doubleValue, param.MinCornerDistanceRate);
-            Assert.AreEqual(doubleValue, param.MinMarkerDistanceRate);
-            Assert.AreEqual(doubleValue, param.MinMarkerPerimeterRate);
-            Assert.AreEqual(doubleValue, param.MinOtsuStdDev);
-            Assert.AreEqual(doubleValue, param.PerspectiveRemoveIgnoredMarginPerCell);
-            Assert.AreEqual(doubleValue, param.PolygonalApproxAccuracyRate);
+            Assert.Equal(doubleValue, param.AdaptiveThreshConstant);
+            Assert.Equal(doubleValue, param.CornerRefinementMinAccuracy);
+            Assert.Equal(doubleValue, param.ErrorCorrectionRate);
+            Assert.Equal(doubleValue, param.MaxErroneousBitsInBorderRate);
+            Assert.Equal(doubleValue, param.MaxMarkerPerimeterRate);
+            Assert.Equal(doubleValue, param.MinCornerDistanceRate);
+            Assert.Equal(doubleValue, param.MinMarkerDistanceRate);
+            Assert.Equal(doubleValue, param.MinMarkerPerimeterRate);
+            Assert.Equal(doubleValue, param.MinOtsuStdDev);
+            Assert.Equal(doubleValue, param.PerspectiveRemoveIgnoredMarginPerCell);
+            Assert.Equal(doubleValue, param.PolygonalApproxAccuracyRate);
 
-            Assert.AreEqual(intValue, param.AdaptiveThreshWinSizeMax);
-            Assert.AreEqual(intValue, param.AdaptiveThreshWinSizeStep);
-            Assert.AreEqual(intValue, param.CornerRefinementMaxIterations);
-            Assert.AreEqual(intValue, param.CornerRefinementWinSize);
-            Assert.AreEqual(intValue, param.MarkerBorderBits);
-            Assert.AreEqual(intValue, param.MinDistanceToBorder);
-            Assert.AreEqual(intValue, param.PerspectiveRemovePixelPerCell);
-            Assert.AreEqual(intValue, param.AdaptiveThreshWinSizeMin);
+            Assert.Equal(intValue, param.AdaptiveThreshWinSizeMax);
+            Assert.Equal(intValue, param.AdaptiveThreshWinSizeStep);
+            Assert.Equal(intValue, param.CornerRefinementMaxIterations);
+            Assert.Equal(intValue, param.CornerRefinementWinSize);
+            Assert.Equal(intValue, param.MarkerBorderBits);
+            Assert.Equal(intValue, param.MinDistanceToBorder);
+            Assert.Equal(intValue, param.PerspectiveRemovePixelPerCell);
+            Assert.Equal(intValue, param.AdaptiveThreshWinSizeMin);
 
             param.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void GetPredefinedDictionary()
         {
             foreach (PredefinedDictionaryName val in Enum.GetValues(typeof(PredefinedDictionaryName)))
@@ -86,7 +85,7 @@ namespace OpenCvSharp.Tests.Aruco
             }
         }
 
-        [Test]
+        [Fact]
         public void DetectMarkers()
         {
             using (var image = Image("markers_6x6_250.png", ImreadModes.GrayScale))
@@ -100,22 +99,22 @@ namespace OpenCvSharp.Tests.Aruco
             }
         }
 
-        [Test]
+        [Fact]
         public void DictionaryProperties()
         {
             var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
-            Assert.AreEqual(250, dict.BytesList.Rows);
-            Assert.AreEqual(5, dict.BytesList.Cols); // (6*6 + 7)/8
-            Assert.AreEqual(6, dict.MarkerSize);
-            Assert.AreEqual(5, dict.MaxCorrectionBits);
+            Assert.Equal(250, dict.BytesList.Rows);
+            Assert.Equal(5, dict.BytesList.Cols); // (6*6 + 7)/8
+            Assert.Equal(6, dict.MarkerSize);
+            Assert.Equal(5, dict.MaxCorrectionBits);
 
             dict.MarkerSize = 4;
             dict.MaxCorrectionBits = 50;
-            Assert.AreEqual(4, dict.MarkerSize);
-            Assert.AreEqual(50, dict.MaxCorrectionBits);
+            Assert.Equal(4, dict.MarkerSize);
+            Assert.Equal(50, dict.MaxCorrectionBits);
         }
 
-        [Test]
+        [Fact]
         public void DrawMarker()
         {
             const int markerSidePixels = 128;
@@ -159,7 +158,7 @@ namespace OpenCvSharp.Tests.Aruco
             }
         }
 
-        [Test]
+        [Fact]
         public void DrawDetectedMarker()
         {
             // If you want to save markers image, you must change the following values.
