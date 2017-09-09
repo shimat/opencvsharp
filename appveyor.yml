@@ -41,7 +41,7 @@ test_script:
 #- nunit3-console.exe ./test/OpenCvSharp.Tests/bin/Release/net461/OpenCvSharp.Tests.dll --result=myresults.xml;format=AppVeyor
 # https://www.appveyor.com/docs/running-tests/#nunit-3x
 #- xunit.console ./test/OpenCvSharp.Tests/bin/Release/net461/OpenCvSharp.Tests.dll /appveyor
-- dotnet test /test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
+- dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
 
 
 artifacts:
