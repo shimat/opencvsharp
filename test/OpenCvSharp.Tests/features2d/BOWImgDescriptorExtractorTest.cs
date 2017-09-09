@@ -1,27 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using OpenCvSharp.Flann;
 using OpenCvSharp.XFeatures2D;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Features2D
 {
-    [TestFixture]
     public class BOWImgDescriptorExtractorTest : TestBase
     {
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-        }
-
-        [Test]
+        [Fact]
         public void New1()
         {
             using (var descriptorMatcher = new BFMatcher())
             using (new BOWImgDescriptorExtractor(descriptorMatcher)) { }
         }
 
-        [Test]
+        [Fact]
         public void New2BF()
         {
             using (var descriptorExtractor = SURF.Create(100))
@@ -32,7 +26,7 @@ namespace OpenCvSharp.Tests.Features2D
             }
         }
 
-        [Test]
+        [Fact]
         public void New2Flann()
         {
             using (var descriptorExtractor = SURF.Create(100))
@@ -43,7 +37,7 @@ namespace OpenCvSharp.Tests.Features2D
             }
         }
 
-        [Test]
+        [Fact]
         public void New3()
         {
             using (var descriptorExtractor = KAZE.Create())
@@ -51,7 +45,7 @@ namespace OpenCvSharp.Tests.Features2D
             using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
 
-        [Test]
+        [Fact]
         public void New4()
         {
             using (var ip = new LinearIndexParams())
@@ -61,7 +55,7 @@ namespace OpenCvSharp.Tests.Features2D
             using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
 
-        [Test]
+        [Fact]
         public void New5()
         {
             var ip = new LinearIndexParams();
@@ -71,7 +65,7 @@ namespace OpenCvSharp.Tests.Features2D
             using (new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)) { }
         }
 
-        [Test]
+        [Fact]
         public void RunTest()
         {
             LinearIndexParams ip = new LinearIndexParams();

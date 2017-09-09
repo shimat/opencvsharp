@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Features2D
 {
-    [TestFixture]
     public class BOWKMeansTrainerTest : TestBase
     {
-        [Test]
+        [Fact]
         public void New()
         {
             var bow = new BOWKMeansTrainer(100);

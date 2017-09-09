@@ -1,65 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Core
 {
-    [TestFixture]
     public class MatTest : TestBase
     {
-        [Test]
+        [Fact]
+        public void MatOfTDispose()
+        {
+            //Mat img = Image("lenna.png", ImreadModes.GrayScale);
+            //Mat copy = new Mat(img);
+
+            var sourceMat = new Mat(10, 20, MatType.CV_64FC1);
+            var doubleMat = new MatOfDouble(sourceMat);
+            sourceMat = null;
+            doubleMat.Dispose(); // after it when GC will working program broken
+        }
+
+        [Fact]
         public void SetTo()
         {
             using (Mat graySrc = Image("lenna.png", ImreadModes.GrayScale))
             using (Mat resultImage = graySrc.Clone())
             using (Mat mask = graySrc.InRange(100, 200))
             {
-                Assert.DoesNotThrow(() => { resultImage.SetTo(0, mask); });
+                resultImage.SetTo(0, mask);
                 ShowImagesWhenDebugMode(resultImage);
-                Assert.DoesNotThrow(() => { resultImage.SetTo(0, null); });
+                resultImage.SetTo(0, null); 
                 ShowImagesWhenDebugMode(resultImage);
             }
         }
 
-        [Test]
+        [Fact]
         public void CopyTo()
         {
             using (Mat src = Image("lenna.png", ImreadModes.GrayScale))
             using (Mat dst = new Mat())
             using (Mat mask = src.GreaterThan(128))
             {
-                Assert.DoesNotThrow(() => { src.CopyTo(dst, mask); });
+                src.CopyTo(dst, mask);
                 ShowImagesWhenDebugMode(dst);
-                Assert.DoesNotThrow(() => { src.CopyTo(dst, null); });
+                src.CopyTo(dst, null);
                 ShowImagesWhenDebugMode(dst);
             }
         }
 
-        [Test]
+        [Fact]
         public void Diag()
         {
             var data = new byte[] {1, 10, 100};
             using (var mat = new Mat(3, 1, MatType.CV_8UC1, data))
             using (var diag = Mat.Diag(mat))
             {
-                Assert.AreEqual(3, diag.Rows);
-                Assert.AreEqual(3, diag.Cols);
-                Assert.AreEqual(MatType.CV_8UC1, diag.Type());
+                Assert.Equal(3, diag.Rows);
+                Assert.Equal(3, diag.Cols);
+                Assert.Equal(MatType.CV_8UC1, diag.Type());
 
-                Assert.AreEqual(1, diag.Get<byte>(0, 0));
-                Assert.AreEqual(0, diag.Get<byte>(0, 1));
-                Assert.AreEqual(0, diag.Get<byte>(0, 2));
-                Assert.AreEqual(0, diag.Get<byte>(1, 0));
-                Assert.AreEqual(10, diag.Get<byte>(1, 1));
-                Assert.AreEqual(0, diag.Get<byte>(1, 2));
-                Assert.AreEqual(0, diag.Get<byte>(2, 0));
-                Assert.AreEqual(0, diag.Get<byte>(2, 1));
-                Assert.AreEqual(100, diag.Get<byte>(2, 2));
+                Assert.Equal(1, diag.Get<byte>(0, 0));
+                Assert.Equal(0, diag.Get<byte>(0, 1));
+                Assert.Equal(0, diag.Get<byte>(0, 2));
+                Assert.Equal(0, diag.Get<byte>(1, 0));
+                Assert.Equal(10, diag.Get<byte>(1, 1));
+                Assert.Equal(0, diag.Get<byte>(1, 2));
+                Assert.Equal(0, diag.Get<byte>(2, 0));
+                Assert.Equal(0, diag.Get<byte>(2, 1));
+                Assert.Equal(100, diag.Get<byte>(2, 2));
             }
         }
 
 
-        [Test]
+        [Fact]
         public void MatOfDoubleFromArray()
         {
             var array = new double[] {7, 8, 9};
@@ -68,12 +79,12 @@ namespace OpenCvSharp.Tests.Core
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
             {
-                Assert.That(m.Get<double>(i), Is.EqualTo(array[i]).Within(1e-6));
-                Assert.That(indexer[i], Is.EqualTo(array[i]).Within(1e-6));
+                Assert.Equal(array[i], m.Get<double>(i), 6);
+                Assert.Equal(array[i], indexer[i], 6);
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfDoubleFromRectangularArray()
         {
             var array = new double[,] {{1, 2}, {3, 4}};
@@ -84,13 +95,13 @@ namespace OpenCvSharp.Tests.Core
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    Assert.That(m.Get<double>(i, j), Is.EqualTo(array[i, j]).Within(1e-6));
-                    Assert.That(indexer[i, j], Is.EqualTo(array[i, j]).Within(1e-6));
+                    Assert.Equal(array[i, j], m.Get<double>(i, j), 6);
+                    Assert.Equal(array[i, j], indexer[i, j], 6);
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfFloatFromArray()
         {
             var array = new float[] { 7, 8, 9 };
@@ -99,12 +110,12 @@ namespace OpenCvSharp.Tests.Core
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
             {
-                Assert.That(m.Get<float>(i), Is.EqualTo(array[i]).Within(1e-6));
-                Assert.That(indexer[i], Is.EqualTo(array[i]).Within(1e-6));
+                Assert.Equal(array[i], m.Get<float>(i), 6);
+                Assert.Equal(array[i], indexer[i], 6);
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfFloatFromRectangularArray()
         {
             var array = new float[,] { { 1, 2 }, { 3, 4 } };
@@ -115,13 +126,13 @@ namespace OpenCvSharp.Tests.Core
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    Assert.That(m.Get<float>(i, j), Is.EqualTo(array[i, j]).Within(1e-6));
-                    Assert.That(indexer[i, j], Is.EqualTo(array[i, j]).Within(1e-6));
+                    Assert.Equal(array[i, j], m.Get<float>(i, j), 6);
+                    Assert.Equal(array[i, j], indexer[i, j], 6);
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfIntFromArray()
         {
             var array = new int[] { 7, 8, 9 };
@@ -130,12 +141,12 @@ namespace OpenCvSharp.Tests.Core
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
             {
-                Assert.That(m.Get<int>(i), Is.EqualTo(array[i]));
-                Assert.That(indexer[i], Is.EqualTo(array[i]));
+                Assert.Equal(array[i], m.Get<int>(i));
+                Assert.Equal(array[i], indexer[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfIntFromRectangularArray()
         {
             var array = new int[,] { { 1, 2 }, { 3, 4 } };
@@ -146,13 +157,13 @@ namespace OpenCvSharp.Tests.Core
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    Assert.That(m.Get<int>(i, j), Is.EqualTo(array[i, j]));
-                    Assert.That(indexer[i, j], Is.EqualTo(array[i, j]));
+                    Assert.Equal(array[i, j], m.Get<int>(i, j));
+                    Assert.Equal(array[i, j], indexer[i, j]);
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfUShortFromArray()
         {
             var array = new ushort[] { 7, 8, 9 };
@@ -161,12 +172,12 @@ namespace OpenCvSharp.Tests.Core
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
             {
-                Assert.That(m.Get<ushort>(i), Is.EqualTo(array[i]));
-                Assert.That(indexer[i], Is.EqualTo(array[i]));
+                Assert.Equal(array[i], m.Get<ushort>(i));
+                Assert.Equal(array[i], indexer[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfUShortFromRectangularArray()
         {
             var array = new ushort[,] { { 1, 2 }, { 3, 4 } };
@@ -177,13 +188,13 @@ namespace OpenCvSharp.Tests.Core
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    Assert.That(m.Get<ushort>(i, j), Is.EqualTo(array[i, j]));
-                    Assert.That(indexer[i, j], Is.EqualTo(array[i, j]));
+                    Assert.Equal(array[i, j], m.Get<ushort>(i, j));
+                    Assert.Equal(array[i, j], indexer[i, j]);
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfShortFromArray()
         {
             var array = new short[] { 7, 8, 9 };
@@ -192,12 +203,12 @@ namespace OpenCvSharp.Tests.Core
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
             {
-                Assert.That(m.Get<short>(i), Is.EqualTo(array[i]));
-                Assert.That(indexer[i], Is.EqualTo(array[i]));
+                Assert.Equal(array[i], m.Get<short>(i));
+                Assert.Equal(array[i], indexer[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfShortFromRectangularArray()
         {
             var array = new short[,] { { 1, 2 }, { 3, 4 } };
@@ -208,13 +219,13 @@ namespace OpenCvSharp.Tests.Core
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    Assert.That(m.Get<short>(i, j), Is.EqualTo(array[i, j]));
-                    Assert.That(indexer[i, j], Is.EqualTo(array[i, j]));
+                    Assert.Equal(array[i, j], m.Get<short>(i, j));
+                    Assert.Equal(array[i, j], indexer[i, j]);
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfByteFromArray()
         {
             var array = new byte[] { 7, 8, 9 };
@@ -223,12 +234,12 @@ namespace OpenCvSharp.Tests.Core
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
             {
-                Assert.That(m.Get<byte>(i), Is.EqualTo(array[i]));
-                Assert.That(indexer[i], Is.EqualTo(array[i]));
+                Assert.Equal(array[i], m.Get<byte>(i));
+                Assert.Equal(array[i], indexer[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public void MatOfByteFromRectangularArray()
         {
             var array = new byte[,] { { 1, 2 }, { 3, 4 } };
@@ -239,13 +250,13 @@ namespace OpenCvSharp.Tests.Core
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    Assert.That(m.Get<byte>(i, j), Is.EqualTo(array[i, j]));
-                    Assert.That(indexer[i, j], Is.EqualTo(array[i, j]));
+                    Assert.Equal(array[i, j], m.Get<byte>(i, j));
+                    Assert.Equal(array[i, j], indexer[i, j]);
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void GetSetArrayByte()
         {
             var data = new byte[]
@@ -262,10 +273,10 @@ namespace OpenCvSharp.Tests.Core
             var data2 = new byte[mat.Total()];
             mat.GetArray(0, 0, data2);
 
-            CollectionAssert.AreEqual(data, data2);
+            Assert.Equal(data, data2);
         }
 
-        [Test]
+        [Fact]
         public void GetSetArrayVec3b()
         {
             var data = new Vec3b[]
@@ -282,10 +293,10 @@ namespace OpenCvSharp.Tests.Core
             var data2 = new Vec3b[mat.Total()];
             mat.GetArray(0, 0, data2);
 
-            CollectionAssert.AreEqual(data, data2);
+            Assert.Equal(data, data2);
         }
 
-        [Test]
+        [Fact]
         public void GetSetArrayDMatch()
         {
             var data = new DMatch[]
@@ -302,7 +313,7 @@ namespace OpenCvSharp.Tests.Core
             var data2 = new DMatch[mat.Total()];
             mat.GetArray(0, 0, data2);
 
-            CollectionAssert.AreEqual(data, data2);
+            Assert.Equal(data, data2);
         }
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using OpenCvSharp.XImgProc;
+using Xunit;
 
 namespace OpenCvSharp.Tests.XImgProc
 {
-    [TestFixture]
     public class XImgProcTest : TestBase
     {
-        [Test]
+        [Fact]
         public void Thinning()
         {
             using (var src = Image("blob/shapes2.png", ImreadModes.GrayScale))
@@ -19,7 +18,7 @@ namespace OpenCvSharp.Tests.XImgProc
             }
         }
 
-        [Test]
+        [Fact]
         public void Niblack()
         {
             using (var src = Image("lenna.png", ImreadModes.GrayScale))
@@ -30,7 +29,7 @@ namespace OpenCvSharp.Tests.XImgProc
             }
         }
 
-        [Test]
+        [Fact]
         public void WeightedMedianFilter()
         {
             using (var src = Image("lenna.png", ImreadModes.GrayScale))
@@ -41,7 +40,7 @@ namespace OpenCvSharp.Tests.XImgProc
             }
         }
 
-        [Test]
+        [Fact]
         public void CovarianceEstimation()
         {
             const int windowSize = 7;
@@ -50,9 +49,9 @@ namespace OpenCvSharp.Tests.XImgProc
             {
                 CvXImgProc.CovarianceEstimation(src, dst, windowSize, windowSize);
                 // TODO
-                Assert.That(dst.Rows, Is.EqualTo(windowSize * windowSize));
-                Assert.That(dst.Cols, Is.EqualTo(windowSize * windowSize));
-                Assert.That(dst.Type(), Is.EqualTo(MatType.CV_32FC2));
+                Assert.Equal(windowSize * windowSize, dst.Rows);
+                Assert.Equal(windowSize * windowSize, dst.Cols);
+                Assert.Equal(MatType.CV_32FC2, dst.Type());
             }
         }
     }

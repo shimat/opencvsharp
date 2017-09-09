@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Core
 {
-    [TestFixture]
     public class SolveEquationTest : TestBase
     {
-        [Test]
+        [Fact]
         public void ByMat()
         {
             // x + y = 10
@@ -25,11 +24,11 @@ namespace OpenCvSharp.Tests.Core
             Cv2.Solve(a, y, x, DecompTypes.LU);
 
             Console.WriteLine("X1 = {0}, X2 = {1}", x.At<double>(0), x.At<double>(1));
-            Assert.That(x.At<double>(0), Is.EqualTo(4).Within(1e-6));
-            Assert.That(x.At<double>(1), Is.EqualTo(6).Within(1e-6));
+            Assert.Equal(4, x.At<double>(0), 6);
+            Assert.Equal(6, x.At<double>(1), 6);
         }
 
-        [Test]
+        [Fact]
         public void ByNormalArray()
         {
             // x + y = 10
@@ -48,8 +47,8 @@ namespace OpenCvSharp.Tests.Core
                 DecompTypes.LU);
 
             Console.WriteLine("X1 = {0}, X2 = {1}", x[0], x[1]);
-            Assert.That(x[0], Is.EqualTo(4).Within(1e-6));
-            Assert.That(x[1], Is.EqualTo(6).Within(1e-6));
+            Assert.Equal(4, x[0], 6);
+            Assert.Equal(6, x[1], 6);
         }
     }
 }

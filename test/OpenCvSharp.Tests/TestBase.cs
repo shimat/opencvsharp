@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
+
+[assembly: CollectionBehavior(MaxParallelThreads = 2)]
 
 namespace OpenCvSharp.Tests
 {
@@ -12,7 +12,7 @@ namespace OpenCvSharp.Tests
     {
         protected TestBase()
         {
-            Directory.SetCurrentDirectory(TestContext.CurrentContext.TestDirectory);
+            //Directory.SetCurrentDirectory(TestContext.CurrentContext.TestDirectory);
         }
 
         protected Mat Image(string fileName, ImreadModes modes = ImreadModes.Color)
@@ -26,14 +26,14 @@ namespace OpenCvSharp.Tests
                 return;
             Assert.NotNull(img1);
             Assert.NotNull(img2);
-            Assert.AreEqual(img1.Type(), img2.Type());
+            Assert.Equal(img1.Type(), img2.Type());
 
             using (var comparison = new Mat())
             {
                 Cv2.Compare(img1, img2, comparison, CmpTypes.NE);
                 if (img1.Channels() == 1)
                 {
-                    Assert.Zero(Cv2.CountNonZero(comparison));
+                    Assert.Equal(0, Cv2.CountNonZero(comparison));
                 }
                 else
                 {
@@ -42,7 +42,7 @@ namespace OpenCvSharp.Tests
                     {
                         foreach (var channel in channels)
                         {
-                            Assert.Zero(Cv2.CountNonZero(channel));
+                            Assert.Equal(0, Cv2.CountNonZero(channel));
                         }
                     }
                     finally

@@ -1,22 +1,21 @@
 ﻿using System;
-using NUnit.Framework;
 using OpenCvSharp.XFeatures2D;
+using Xunit;
 
 namespace OpenCvSharp.Tests.XFeatures2D
 {
     // ReSharper disable once InconsistentNaming
-
-    [TestFixture]
+    
     public class SIFTTest : TestBase
     {
-        [Test]
+        [Fact]
         public void CreateAndDispose()
         {
             var surf = SIFT.Create(400);
             surf.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void Detect()
         {
             KeyPoint[] keyPoints = null;

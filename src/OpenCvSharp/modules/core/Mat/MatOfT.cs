@@ -438,8 +438,14 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeManaged()
         {
-            // sourceMat.Disposeに解放を任せるのでここでは何もしない
-            sourceMat = null;
+            // https://github.com/shimat/opencvsharp/commit/803542a68b60a60f2355105d052bbcee91447fbd#commitcomment-24105696
+
+            if (sourceMat != null)
+            {
+                sourceMat = null;
+                ptr = IntPtr.Zero;
+            }
+
             base.DisposeManaged();
         }
 

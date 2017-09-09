@@ -1,32 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Core
 {
-    [TestFixture]
     public class RNGTest : TestBase
     {
-        [Test]
+        [Fact]
         public void Next()
         {
             var rng = new RNG(0xffffffff);
 
-            Assert.AreEqual(130063606, rng.Next());
-            Assert.AreEqual(3003295397, rng.Next());
-            Assert.AreEqual(3870020839, rng.Next());
+            Assert.Equal(130063606U, rng.Next());
+            Assert.Equal(3003295397U, rng.Next());
+            Assert.Equal(3870020839U, rng.Next());
         }
 
-        [Test]
+        [Fact]
         public void Uniform()
         {
             var rng = new RNG(1234);
 
-            Assert.AreEqual(4, rng.Uniform(0, 10));
-            Assert.AreEqual(6, rng.Uniform(0, 10));
-            Assert.AreEqual(9, rng.Uniform(0, 10));
+            Assert.Equal(4, rng.Uniform(0, 10));
+            Assert.Equal(6, rng.Uniform(0, 10));
+            Assert.Equal(9, rng.Uniform(0, 10));
         }
     }
 }

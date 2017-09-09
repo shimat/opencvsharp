@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Calib3D
 {
-    [TestFixture]
     public class StereoBMTest : TestBase
     {
-        [Test]
+        [Fact]
         public void SimpleCompute()
         {
             var left = Image("tsukuba_left.png", ImreadModes.GrayScale);
@@ -21,8 +20,7 @@ namespace OpenCvSharp.Tests.Calib3D
 
             if (Debugger.IsAttached)
             {
-                double min, max;
-                Cv2.MinMaxLoc(disparity, out min, out max);
+                Cv2.MinMaxLoc(disparity, out double min, out double max);
 
                 var disparityU8 = new Mat();
                 disparity.ConvertTo(disparityU8, MatType.CV_8UC1, 255 / (max - min), -255 * min / (max - min));

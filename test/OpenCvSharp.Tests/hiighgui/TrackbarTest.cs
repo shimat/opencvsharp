@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using NUnit.Framework;
-using OpenCvSharp;
-using OpenCvSharp.ML;
+using Xunit;
 
 namespace OpenCvSharp.Tests.HighGui
 {
-    [TestFixture]
     public class TrackbarTest : TestBase
     {
         /// <summary>
         /// https://github.com/VahidN/OpenCVSharp-Samples/blob/master/OpenCVSharpSample08/Program.cs
         /// </summary>
-        [Test]
-        [Ignore("GUI Test")]
+        [Fact(Skip = "GUI Test")]
         //[Apartment(ApartmentState.STA)]
         public void RunTest()
         {

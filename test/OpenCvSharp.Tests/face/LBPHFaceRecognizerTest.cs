@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using OpenCvSharp.Face;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Face
 {
     // ReSharper disable once InconsistentNaming
 
-    [TestFixture]
     public class LBPHFaceRecognizerTest : TestBase
     {
-        [Test]
+        [Fact]
         public void CreateAndDispose()
         {
             var recognizer = OpenCvSharp.Face.FaceRecognizer.CreateLBPHFaceRecognizer(1, 8, 8, 8, 123);
             recognizer.Dispose();
         }
 
-        [Test, Ignore("not implemented")]
+        [Fact(Skip = "not implemented")]
         public void TrainAndPredict()
         {
             var image = new Mat("Data/Image/Lenna.png");

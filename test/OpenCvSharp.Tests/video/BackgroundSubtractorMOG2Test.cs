@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Video
 {
     // ReSharper disable InconsistentNaming
-
-    [TestFixture]
+    
     public class BackgroundSubtractorMOG2Test : TestBase
     {
-        [Test]
+        [Fact]
         public void CheckProperties()
         {
             using (var mog = BackgroundSubtractorMOG2.Create())
@@ -29,7 +27,7 @@ namespace OpenCvSharp.Tests.Video
             }
         }
 
-        [Test]
+        [Fact]
         public void Apply()
         {
             using (var mog = BackgroundSubtractorMOG2.Create())

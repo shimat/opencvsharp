@@ -224,6 +224,11 @@ namespace OpenCvSharp
 #endif
         public Mat(Mat m, params Range[] ranges)
         {
+            if (ranges == null)
+                throw new ArgumentNullException(nameof(ranges));
+            if (ranges.Length == 0)
+                throw new ArgumentException("empty ranges", nameof(ranges));
+
             ptr = NativeMethods.core_Mat_new6(m.ptr, ranges);
         }
 
@@ -500,12 +505,14 @@ namespace OpenCvSharp
             Dispose();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_Mat_delete(ptr);
+            if (ptr != IntPtr.Zero)
+                NativeMethods.core_Mat_delete(ptr);
             base.DisposeUnmanaged();
         }
 

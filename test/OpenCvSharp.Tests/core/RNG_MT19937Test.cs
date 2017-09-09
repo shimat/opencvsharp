@@ -2,32 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Core
 {
-    [TestFixture]
     // ReSharper disable once InconsistentNaming
     public class RNG_MT19937Test : TestBase
     {
-        [Test]
+        [Fact]
         public void Next()
         {
             var rng = new RNG_MT19937(0xffffffff);
 
-            Assert.AreEqual(419326371, rng.Next());
-            Assert.AreEqual(479346978, rng.Next());
-            Assert.AreEqual(3918654476, rng.Next());
+            Assert.Equal(419326371U, rng.Next());
+            Assert.Equal(479346978U, rng.Next());
+            Assert.Equal(3918654476U, rng.Next());
         }
 
-        [Test]
+        [Fact]
         public void Uniform()
         {
             var rng = new RNG_MT19937(1234);
 
-            Assert.AreEqual(5, rng.Uniform(0, 10));
-            Assert.AreEqual(1, rng.Uniform(0, 10));
-            Assert.AreEqual(6, rng.Uniform(0, 10));
+            Assert.Equal(5, rng.Uniform(0, 10));
+            Assert.Equal(1, rng.Uniform(0, 10));
+            Assert.Equal(6, rng.Uniform(0, 10));
         }
     }
 }
