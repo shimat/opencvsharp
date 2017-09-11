@@ -90,8 +90,8 @@ namespace OpenCvSharp
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
