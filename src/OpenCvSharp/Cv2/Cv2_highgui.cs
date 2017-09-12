@@ -38,7 +38,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Destroys the specified window.
         /// </summary>
         /// <param name="winName"></param>
         public static void DestroyWindow(string winName)
@@ -49,7 +49,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Destroys all of the HighGUI windows.
         /// </summary>
         public static void DestroyAllWindows()
         {
