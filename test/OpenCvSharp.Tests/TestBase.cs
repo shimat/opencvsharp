@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using Xunit;
 
-[assembly: CollectionBehavior(MaxParallelThreads = 2)]
+[assembly: CollectionBehavior(/*MaxParallelThreads = 2, */DisableTestParallelization = true)]
 
 namespace OpenCvSharp.Tests
 {
