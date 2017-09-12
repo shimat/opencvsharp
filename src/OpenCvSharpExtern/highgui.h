@@ -28,6 +28,10 @@ CVAPI(int) highgui_waitKey(int delay)
 {
     return cv::waitKey(delay);
 }
+CVAPI(int) highgui_waitKeyEx(int delay)
+{
+    return cv::waitKeyEx(delay);
+}
 
 CVAPI(void) highgui_resizeWindow(const char *winName, int width, int height)
 {
@@ -57,6 +61,12 @@ CVAPI(void) highgui_setMouseCallback(const char *winName, cv::MouseCallback onMo
 {
     cv::setMouseCallback(winName, onMouse, userData);
 }
+
+CVAPI(int) highgui_getMouseWheelDelta(int flags)
+{
+    return cv::getMouseWheelDelta(flags);
+}
+
 CVAPI(int) highgui_createTrackbar(const char *trackbarName, const char *winName,
     int* value, int count, cv::TrackbarCallback onChange, void* userData)
 {
@@ -70,6 +80,16 @@ CVAPI(void) highgui_setTrackbarPos(const char *trackbarName, const char *winName
 {
     cv::setTrackbarPos(trackbarName, winName, pos);
 }
+
+CVAPI(void) highgui_setTrackbarMax(const char *trackbarname, const char *winname, int maxval)
+{
+    cv::setTrackbarMax(trackbarname, winname, maxval);
+}
+CVAPI(void) highgui_setTrackbarMin(const char *trackbarname, const char *winname, int minval)
+{
+    cv::setTrackbarMin(trackbarname, winname, minval);
+}
+
 
 CVAPI(int) highgui_createButton(const char *bar_name, cv::ButtonCallback on_change,
     void* userdata, int type, int initial_button_state)

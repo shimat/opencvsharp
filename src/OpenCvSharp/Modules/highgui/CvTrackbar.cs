@@ -315,5 +315,24 @@ namespace OpenCvSharp
         }
         #endregion
 
+        /// <summary>
+        /// Sets the trackbar maximum position.
+        /// The function sets the maximum position of the specified trackbar in the specified window.
+        /// </summary>
+        /// <param name="maxval">New maximum position.</param>
+        public void SetMax(int maxval)
+        {
+            NativeMethods.highgui_setTrackbarMax(name, window, maxval);
+        }
+
+        /// <summary>
+        /// Sets the trackbar minimum position.
+        /// The function sets the minimum position of the specified trackbar in the specified window.
+        /// </summary>
+        /// <param name="minval">New minimum position.</param>
+        public void SetMin(int minval)
+        {
+            NativeMethods.highgui_setTrackbarMin(name, window, minval);
+        }
     }
 }
