@@ -52,15 +52,7 @@ namespace OpenCvSharp.ReleaseMaker
         };
 
         private static readonly string debuggerVisualizerPath =
-            @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\net20\OpenCvSharp.DebuggerVisualizers{0}.dll";
-
-        private static readonly string debuggerVisualizerPath2015 =
-            @"OpenCvSharp.DebuggerVisualizers{0}\bin\Release\OpenCvSharp.DebuggerVisualizers{0}.dll";
-
-        private static readonly string[] debuggerVisualizerVersions =
-        {
-            "2010", "2012", "2013", "2015",
-        };
+            @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
 
         private static readonly string[] xmlFiles = {
             @"OpenCvSharp\bin\{0}\net46\OpenCvSharp.xml",
@@ -108,9 +100,11 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            textBox_Src.Text = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                @"Visual Studio " + VisualStudioVersion + @"\Projects\OpenCvSharp");
+            // C:\****\opencvsharp\src\OpenCvSharp.ReleaseMaker\bin\Release
+            var binDir = new DirectoryInfo(Directory.GetCurrentDirectory());
+            var solutionDir = binDir.Parent?.Parent?.Parent?.Parent;
+
+            textBox_Src.Text = solutionDir?.FullName ?? "";
             textBox_Dst.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
 
@@ -221,14 +215,10 @@ namespace OpenCvSharp.ReleaseMaker
                     }
 
                     // Debugger Visualizerを選択
-                    foreach (string version in debuggerVisualizerVersions)
                     {
-                        var dvPath = (version == "2015")
-                            ? String.Format(debuggerVisualizerPath2015, version)
-                            : String.Format(debuggerVisualizerPath, version);
-                        string dllFileName = Path.Combine(dirSrc, dvPath);
+                        string dllFileName = Path.Combine(dirSrc, debuggerVisualizerPath);
                         string zipFileName = Path.Combine(
-                            "DebuggerVisualizers", version, Path.GetFileName(dvPath));
+                            "DebuggerVisualizers", Path.GetFileName(debuggerVisualizerPath));
                         ZipEntry e = zf.AddFile(dllFileName);
                         e.FileName = zipFileName;
                     }
