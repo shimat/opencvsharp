@@ -694,6 +694,10 @@ namespace OpenCvSharp
                 rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, (int)flags);
             rvec.Fix();
             tvec.Fix();
+            GC.KeepAlive(objectPoints);
+            GC.KeepAlive(imagePoints);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
         }
 
         /// <summary>
