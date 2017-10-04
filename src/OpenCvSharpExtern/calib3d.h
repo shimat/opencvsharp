@@ -105,7 +105,7 @@ CVAPI(void) calib3d_projectPoints_InputArray(cv::_InputArray *objectPoints,
     double aspectRatio)
 {
     cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
-        *imagePoints, *jacobian, aspectRatio);
+        *imagePoints, entity(jacobian), aspectRatio);
 }
 CVAPI(void) calib3d_projectPoints_Mat(cv::Mat *objectPoints,
     cv::Mat *rvec, cv::Mat *tvec,

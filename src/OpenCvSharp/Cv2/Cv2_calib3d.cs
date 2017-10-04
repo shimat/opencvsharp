@@ -573,6 +573,14 @@ namespace OpenCvSharp
             NativeMethods.calib3d_projectPoints_InputArray(objectPoints.CvPtr,
                 rvec.CvPtr, tvec.CvPtr, cameraMatrix.CvPtr, ToPtr(distCoeffs),
                 imagePoints.CvPtr, ToPtr(jacobian), aspectRatio);
+
+            GC.KeepAlive(objectPoints);
+            GC.KeepAlive(rvec);
+            GC.KeepAlive(tvec);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(imagePoints);
+            GC.KeepAlive(jacobian);
         }
         /// <summary>
         /// projects points from the model coordinate space to the image coordinates. 
@@ -624,13 +632,10 @@ namespace OpenCvSharp
             using (var rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec))
             using (var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec))
             using (var cameraMatrixM = new Mat(3, 3, MatType.CV_64FC1, cameraMatrix))
+            using (var distCoeffsM = (distCoeffs == null) ? new Mat() : new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs))
             using (var imagePointsM = new MatOfPoint2f())
+            using (var jacobianM = new MatOfDouble())
             {
-                var distCoeffsM = new Mat();
-                if (distCoeffs != null)
-                    distCoeffsM = new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs);
-                var jacobianM = new MatOfDouble();
-
                 NativeMethods.calib3d_projectPoints_Mat(objectPointsM.CvPtr,
                     rvecM.CvPtr, tvecM.CvPtr, cameraMatrixM.CvPtr, distCoeffsM.CvPtr,
                     imagePointsM.CvPtr, jacobianM.CvPtr, aspectRatio);
