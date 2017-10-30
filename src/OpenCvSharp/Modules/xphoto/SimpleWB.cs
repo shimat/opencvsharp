@@ -138,7 +138,9 @@ namespace OpenCvSharp.XPhoto
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.xphoto_SimpleWB_balanceWhite(this.ptr, src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
 

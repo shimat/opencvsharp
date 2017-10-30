@@ -230,6 +230,9 @@ namespace OpenCvSharp
             b.ThrowIfDisposed();
             NativeMethods.core_RNG_fill(ref state, mat.CvPtr, (int) distType, a.CvPtr, b.CvPtr, saturateRange ? 1 : 0);
             mat.Fix();
+            GC.KeepAlive(mat);
+            GC.KeepAlive(a);
+            GC.KeepAlive(b);
         }
 
         /// <summary>

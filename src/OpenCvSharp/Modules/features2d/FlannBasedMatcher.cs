@@ -107,7 +107,9 @@ namespace OpenCvSharp
         public override bool IsMaskSupported()
         {
             ThrowIfDisposed();
-            return NativeMethods.features2d_FlannBasedMatcher_isMaskSupported(ptr) != 0;
+            var res = NativeMethods.features2d_FlannBasedMatcher_isMaskSupported(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -126,6 +128,7 @@ namespace OpenCvSharp
 
             IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptorsArray);
             NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
+            GC.KeepAlive(descriptorsArray);
         }
 
         /// <summary>
@@ -135,6 +138,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.features2d_FlannBasedMatcher_clear(ptr);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -151,6 +155,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.features2d_FlannBasedMatcher_train(ptr);
+            GC.KeepAlive(this);
         }
 
         #endregion
@@ -163,7 +168,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr);
+                var res = NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

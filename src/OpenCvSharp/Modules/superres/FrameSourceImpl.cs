@@ -78,6 +78,8 @@ namespace OpenCvSharp
             frame.ThrowIfNotReady();
             NativeMethods.superres_FrameSource_nextFrame(ptr, frame.CvPtr);
             frame.Fix();
+            GC.KeepAlive(this);
+            GC.KeepAlive(frame);
         }
         /// <summary>
         /// 

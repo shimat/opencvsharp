@@ -686,6 +686,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.core_Mat_push_back_uchar(ptr, value);
+            GC.KeepAlive(this);
         }
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
@@ -695,6 +696,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.core_Mat_push_back_char(ptr, value);
+            GC.KeepAlive(this);
         }
     }
 }

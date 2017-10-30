@@ -34,7 +34,9 @@ namespace OpenCvSharp
             NativeMethods.photo_CalibrateCRF_process(ptr, srcArray, srcArray.Length, dst.CvPtr, timesArray);
 
             dst.Fix();
+            GC.KeepAlive(this);
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
     }
 }

@@ -62,12 +62,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_FastFeatureDetector_getThreshold(ptr);
+                var res = NativeMethods.features2d_FastFeatureDetector_getThreshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_FastFeatureDetector_setThreshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -79,12 +82,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_FastFeatureDetector_getNonmaxSuppression(ptr) != 0;
+                var res = NativeMethods.features2d_FastFeatureDetector_getNonmaxSuppression(ptr) != 0;
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_FastFeatureDetector_setNonmaxSuppression(ptr, value ? 1 : 0);
+                GC.KeepAlive(this);
             }
         }
 
@@ -96,12 +102,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_FastFeatureDetector_getType(ptr);
+                var res = NativeMethods.features2d_FastFeatureDetector_getType(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_FastFeatureDetector_setType(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -115,7 +124,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_FastFeatureDetector_get(ptr);
+                var res = NativeMethods.features2d_Ptr_FastFeatureDetector_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

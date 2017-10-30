@@ -44,6 +44,7 @@ namespace OpenCvSharp.XImgProc
             NativeMethods.ximgproc_niBlackThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)type, blockSize, delta);
 
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -68,6 +69,7 @@ namespace OpenCvSharp.XImgProc
             NativeMethods.ximgproc_thinning(src.CvPtr, dst.CvPtr, (int)thinningType);
 
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -117,6 +119,7 @@ namespace OpenCvSharp.XImgProc
             NativeMethods.ximgproc_FastHoughTransform(src.CvPtr, dst.CvPtr, dstMatDepth, (int)angleRange, (int)op, (int)makeSkew);
 
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -184,6 +187,7 @@ namespace OpenCvSharp.XImgProc
 
             GC.KeepAlive(joint);
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -214,6 +218,7 @@ namespace OpenCvSharp.XImgProc
             NativeMethods.ximgproc_covarianceEstimation(src.CvPtr, dst.CvPtr, windowRows, windowCols);
 
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
     }

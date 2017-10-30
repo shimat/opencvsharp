@@ -65,7 +65,12 @@ namespace OpenCvSharp
         /// </summary>
         public int Size
         {
-            get { return NativeMethods.vector_DTrees_Split_getSize(ptr).ToInt32(); }
+            get
+            {
+                var res = NativeMethods.vector_DTrees_Split_getSize(ptr).ToInt32();
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         /// <summary>
@@ -73,7 +78,12 @@ namespace OpenCvSharp
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_DTrees_Split_getPointer(ptr); }
+            get
+            {
+                var res = NativeMethods.vector_DTrees_Split_getPointer(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         /// <summary>

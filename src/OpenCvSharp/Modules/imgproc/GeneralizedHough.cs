@@ -176,8 +176,10 @@ namespace OpenCvSharp
 
             NativeMethods.imgproc_GeneralizedHough_detect1(
                 ptr, image.CvPtr, positions.CvPtr, Cv2.ToPtr(votes));
-
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
+            GC.KeepAlive(positions);
+            GC.KeepAlive(votes);
             positions.Fix();
             if (votes != null)
                 votes.Fix();
@@ -211,10 +213,12 @@ namespace OpenCvSharp
 
             NativeMethods.imgproc_GeneralizedHough_detect2(
                 ptr, edges.CvPtr, dx.CvPtr, dy.CvPtr, positions.CvPtr, Cv2.ToPtr(votes));
-
+            GC.KeepAlive(this);
             GC.KeepAlive(edges);
             GC.KeepAlive(dx);
             GC.KeepAlive(dy);
+            GC.KeepAlive(positions);
+            GC.KeepAlive(votes);
             positions.Fix();
             if (votes != null)
                 votes.Fix();

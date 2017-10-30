@@ -271,6 +271,9 @@ namespace OpenCvSharp
             NativeMethods.shape_ShapeContextDistanceExtractor_getImages(ptr, image1.CvPtr, image2.CvPtr);
             image1.Fix();
             image2.Fix();
+            GC.KeepAlive(this);
+            GC.KeepAlive(image1);
+            GC.KeepAlive(image2);
         }
 
         #endregion

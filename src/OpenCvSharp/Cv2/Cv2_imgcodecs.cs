@@ -53,7 +53,9 @@ namespace OpenCvSharp
             if (prms == null)
                 prms = new int[0];
 
-            return NativeMethods.imgcodecs_imwrite(fileName, img.CvPtr, prms, prms.Length) != 0;
+            var res = NativeMethods.imgcodecs_imwrite(fileName, img.CvPtr, prms, prms.Length) != 0;
+            GC.KeepAlive(img);
+            return res;
         }
 
         /// <summary>
