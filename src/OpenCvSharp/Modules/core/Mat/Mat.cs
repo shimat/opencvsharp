@@ -3243,9 +3243,9 @@ namespace OpenCvSharp
             }
 
             /// <summary>
-            /// Creates a matrix header for the specified matrix column.
+            /// Creates a matrix header for the specified matrix row.
             /// </summary>
-            /// <param name="x">A 0-based column index.</param>
+            /// <param name="x">A 0-based row index.</param>
             /// <returns></returns>
             public override Mat this[int x]
             {
@@ -3276,18 +3276,18 @@ namespace OpenCvSharp
             }
 
             /// <summary>
-            /// Creates a matrix header for the specified column span.
+            /// Creates a matrix header for the specified row span.
             /// </summary>
-            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
-            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
+            /// <param name="startRow">An inclusive 0-based start index of the row span.</param>
+            /// <param name="endRow">An exclusive 0-based ending index of the row span.</param>
             /// <returns></returns>
-            public override Mat this[int startCol, int endCol]
+            public override Mat this[int startRow, int endRow]
             {
                 get
                 {
                     parent.ThrowIfDisposed();
                     // todo: rsb - is this row or col range?
-                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
+                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
                     Mat mat = new Mat(matPtr);
                     return mat;
@@ -3301,7 +3301,7 @@ namespace OpenCvSharp
                     if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startCol, endCol);
+                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
                     Mat mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
