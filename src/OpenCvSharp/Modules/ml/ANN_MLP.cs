@@ -83,8 +83,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public TermCriteria TermCriteria
         {
-            get { return NativeMethods.ml_ANN_MLP_getTermCriteria(ptr); }
-            set { NativeMethods.ml_ANN_MLP_setTermCriteria(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_ANN_MLP_getTermCriteria(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_ANN_MLP_setTermCriteria(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -93,8 +102,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double BackpropWeightScale
         {
-            get { return NativeMethods.ml_ANN_MLP_getBackpropWeightScale(ptr); }
-            set { NativeMethods.ml_ANN_MLP_setBackpropWeightScale(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_ANN_MLP_getBackpropWeightScale(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_ANN_MLP_setBackpropWeightScale(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -105,8 +123,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double BackpropMomentumScale
         {
-            get { return NativeMethods.ml_ANN_MLP_getBackpropMomentumScale(ptr); }
-            set { NativeMethods.ml_ANN_MLP_setBackpropMomentumScale(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_ANN_MLP_getBackpropMomentumScale(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_ANN_MLP_setBackpropMomentumScale(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -115,8 +142,17 @@ namespace OpenCvSharp.ML
 // ReSharper disable once InconsistentNaming
         public double RpropDW0
         {
-            get { return NativeMethods.ml_ANN_MLP_getRpropDW0(ptr); }
-            set { NativeMethods.ml_ANN_MLP_setRpropDW0(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_ANN_MLP_getRpropDW0(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_ANN_MLP_setRpropDW0(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -126,8 +162,17 @@ namespace OpenCvSharp.ML
 // ReSharper disable once InconsistentNaming
         public double RpropDWPlus
         {
-            get { return NativeMethods.ml_ANN_MLP_getRpropDWPlus(ptr); }
-            set { NativeMethods.ml_ANN_MLP_setRpropDWPlus(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_ANN_MLP_getRpropDWPlus(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_ANN_MLP_setRpropDWPlus(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -137,8 +182,17 @@ namespace OpenCvSharp.ML
 // ReSharper disable once InconsistentNaming
         public double RpropDWMinus
         {
-            get { return NativeMethods.ml_ANN_MLP_getRpropDWPlus(ptr); }
-            set { NativeMethods.ml_ANN_MLP_setRpropDWPlus(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_ANN_MLP_getRpropDWPlus(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_ANN_MLP_setRpropDWPlus(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -148,8 +202,17 @@ namespace OpenCvSharp.ML
 // ReSharper disable once InconsistentNaming
         public double RpropDWMin
         {
-            get { return NativeMethods.ml_ANN_MLP_getRpropDWMin(ptr); }
-            set { NativeMethods.ml_ANN_MLP_setRpropDWMin(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_ANN_MLP_getRpropDWMin(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_ANN_MLP_setRpropDWMin(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -159,8 +222,17 @@ namespace OpenCvSharp.ML
 // ReSharper disable once InconsistentNaming
         public double RpropDWMax
         {
-            get { return NativeMethods.ml_ANN_MLP_getRpropDWMax(ptr); }
-            set { NativeMethods.ml_ANN_MLP_setRpropDWMax(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_ANN_MLP_getRpropDWMax(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_ANN_MLP_setRpropDWMax(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         #endregion
@@ -179,6 +251,7 @@ namespace OpenCvSharp.ML
             if (layerSizes == null)
                 throw new ArgumentNullException(nameof(layerSizes));
             NativeMethods.ml_ANN_MLP_setLayerSizes(ptr, layerSizes.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(layerSizes);
         }
 
@@ -192,6 +265,7 @@ namespace OpenCvSharp.ML
         {
             ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_ANN_MLP_getLayerSizes(ptr);
+            GC.KeepAlive(this);
             return new Mat(p);
         }
 
@@ -277,7 +351,9 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                return NativeMethods.ml_Ptr_ANN_MLP_get(ptr);
+                var res = NativeMethods.ml_Ptr_ANN_MLP_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

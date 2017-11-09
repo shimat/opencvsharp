@@ -60,12 +60,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.bgsegm_BackgroundSubtractorMOG_getHistory(ptr);
+                var res = NativeMethods.bgsegm_BackgroundSubtractorMOG_getHistory(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.bgsegm_BackgroundSubtractorMOG_setHistory(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -77,12 +80,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.bgsegm_BackgroundSubtractorMOG_getNMixtures(ptr);
+                var res = NativeMethods.bgsegm_BackgroundSubtractorMOG_getNMixtures(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.bgsegm_BackgroundSubtractorMOG_setNMixtures(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -94,12 +100,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.bgsegm_BackgroundSubtractorMOG_getBackgroundRatio(ptr);
+                var res = NativeMethods.bgsegm_BackgroundSubtractorMOG_getBackgroundRatio(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.bgsegm_BackgroundSubtractorMOG_setBackgroundRatio(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -111,12 +120,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.bgsegm_BackgroundSubtractorMOG_getNoiseSigma(ptr);
+                var res = NativeMethods.bgsegm_BackgroundSubtractorMOG_getNoiseSigma(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.bgsegm_BackgroundSubtractorMOG_setNoiseSigma(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -130,7 +142,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_get(ptr);
+                var res = NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

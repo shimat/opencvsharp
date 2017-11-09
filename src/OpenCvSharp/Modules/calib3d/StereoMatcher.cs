@@ -41,7 +41,6 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             GC.KeepAlive(left);
             GC.KeepAlive(right);
-            GC.KeepAlive(disparity);
             disparity.Fix();
         }
 
@@ -54,11 +53,14 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.calib3d_StereoMatcher_getMinDisparity(ptr);
+                var res = NativeMethods.calib3d_StereoMatcher_getMinDisparity(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 NativeMethods.calib3d_StereoMatcher_setMinDisparity(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -69,11 +71,14 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.calib3d_StereoMatcher_getNumDisparities(ptr);
+                var res = NativeMethods.calib3d_StereoMatcher_getNumDisparities(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 NativeMethods.calib3d_StereoMatcher_setNumDisparities(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -84,11 +89,14 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.calib3d_StereoMatcher_getBlockSize(ptr);
+                var res = NativeMethods.calib3d_StereoMatcher_getBlockSize(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 NativeMethods.calib3d_StereoMatcher_setBlockSize(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -99,11 +107,14 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.calib3d_StereoMatcher_getSpeckleWindowSize(ptr);
+                var res = NativeMethods.calib3d_StereoMatcher_getSpeckleWindowSize(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 NativeMethods.calib3d_StereoMatcher_setSpeckleWindowSize(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -114,11 +125,14 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.calib3d_StereoMatcher_getSpeckleRange(ptr);
+                var res = NativeMethods.calib3d_StereoMatcher_getSpeckleRange(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 NativeMethods.calib3d_StereoMatcher_setSpeckleRange(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -129,11 +143,14 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.calib3d_StereoMatcher_getDisp12MaxDiff(ptr);
+                var res = NativeMethods.calib3d_StereoMatcher_getDisp12MaxDiff(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 NativeMethods.calib3d_StereoMatcher_setDisp12MaxDiff(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 

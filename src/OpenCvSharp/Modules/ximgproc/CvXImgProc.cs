@@ -189,6 +189,7 @@ namespace OpenCvSharp.XImgProc
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
+            GC.KeepAlive(mask);
         }
 
         /// <summary>

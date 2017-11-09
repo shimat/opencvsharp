@@ -40,6 +40,8 @@ namespace OpenCvSharp.Flann
                 throw new ArgumentNullException(nameof(@params));
 
             ptr = NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType);
+            GC.KeepAlive(features);
+            GC.KeepAlive(@params);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create Index");
         }
@@ -91,6 +93,8 @@ namespace OpenCvSharp.Flann
             dists = new float[knn];
 
             NativeMethods.flann_Index_knnSearch1(ptr, queries, queries.Length, indices, dists, knn, @params.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(@params);
         }
 #if LANG_JP
         /// <summary>
@@ -123,6 +127,11 @@ namespace OpenCvSharp.Flann
                 throw new ArgumentNullException(nameof(@params));
 
             NativeMethods.flann_Index_knnSearch2(ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, knn, @params.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(queries);
+            GC.KeepAlive(indices);
+            GC.KeepAlive(dists);
+            GC.KeepAlive(@params);
         }
 #if LANG_JP
         /// <summary>
@@ -156,6 +165,9 @@ namespace OpenCvSharp.Flann
             dists = new float[knn];
 
             NativeMethods.flann_Index_knnSearch3(ptr, queries.CvPtr, indices, dists, knn, @params.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(queries);
+            GC.KeepAlive(@params);
         }
         #endregion
         #region RadiusSearch
@@ -192,6 +204,8 @@ namespace OpenCvSharp.Flann
                 throw new ArgumentNullException(nameof(@params));
 
             NativeMethods.flann_Index_radiusSearch1(ptr, queries, queries.Length, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(@params);
         }
 #if LANG_JP
         /// <summary>
@@ -226,6 +240,11 @@ namespace OpenCvSharp.Flann
                 throw new ArgumentNullException(nameof(@params));
 
             NativeMethods.flann_Index_radiusSearch2(ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, radius, maxResults, @params.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(queries);
+            GC.KeepAlive(indices);
+            GC.KeepAlive(dists);
+            GC.KeepAlive(@params);
         }
 #if LANG_JP
         /// <summary>
@@ -260,6 +279,9 @@ namespace OpenCvSharp.Flann
                 throw new ArgumentNullException(nameof(@params));
 
             NativeMethods.flann_Index_radiusSearch3(ptr, queries.CvPtr, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(queries);
+            GC.KeepAlive(@params);
         }
         #endregion
         #region Save
@@ -279,6 +301,7 @@ namespace OpenCvSharp.Flann
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException(nameof(filename));
             NativeMethods.flann_Index_save(ptr, filename);
+            GC.KeepAlive(this);
         }
         #endregion
         /*

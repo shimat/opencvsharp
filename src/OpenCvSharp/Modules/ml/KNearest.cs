@@ -81,8 +81,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public int DefaultK
         {
-            get { return NativeMethods.ml_KNearest_getDefaultK(ptr); }
-            set { NativeMethods.ml_KNearest_setDefaultK(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_KNearest_getDefaultK(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_KNearest_setDefaultK(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -90,8 +99,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public new bool IsClassifier
         {
-            get { return NativeMethods.ml_KNearest_getIsClassifier(ptr) != 0; }
-            set { NativeMethods.ml_KNearest_setIsClassifier(ptr, value ? 1 : 0); }
+            get
+            {
+                var res = NativeMethods.ml_KNearest_getIsClassifier(ptr) != 0;
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_KNearest_setIsClassifier(ptr, value ? 1 : 0);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -99,8 +117,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public int Emax
         {
-            get { return NativeMethods.ml_KNearest_getEmax(ptr); }
-            set { NativeMethods.ml_KNearest_setEmax(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_KNearest_getEmax(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_KNearest_setEmax(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -108,8 +135,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public Types AlgorithmType
         {
-            get { return (Types)NativeMethods.ml_KNearest_getAlgorithmType(ptr); }
-            set { NativeMethods.ml_KNearest_setAlgorithmType(ptr, (int)value); }
+            get
+            {
+                var res = (Types)NativeMethods.ml_KNearest_getAlgorithmType(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_KNearest_setAlgorithmType(ptr, (int)value);
+                GC.KeepAlive(this);
+            }
         }
 
         #endregion
@@ -180,7 +216,9 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                return NativeMethods.ml_Ptr_KNearest_get(ptr);
+                var res = NativeMethods.ml_Ptr_KNearest_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

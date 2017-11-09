@@ -23,6 +23,7 @@ namespace OpenCvSharp
 
             RotatedRect result = NativeMethods.video_CamShift(
                 probImage.CvPtr, ref window, criteria);
+            GC.KeepAlive(probImage);
             return result;
         }
 
@@ -42,6 +43,7 @@ namespace OpenCvSharp
 
             int result = NativeMethods.video_meanShift(
                 probImage.CvPtr, ref window, criteria);
+            GC.KeepAlive(probImage);
             return result;
         }
 
@@ -82,7 +84,6 @@ namespace OpenCvSharp
                 (int)pyrBorder, (int)derivBorder, tryReuseInputImage ? 1 : 0);
             pyramid.Fix();
             GC.KeepAlive(img);
-            GC.KeepAlive(pyramid);
             return result;
         }
 
@@ -120,6 +121,7 @@ namespace OpenCvSharp
                 int result = NativeMethods.video_buildOpticalFlowPyramid2(
                     img.CvPtr, pyramidVec.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
                     (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0);
+                GC.KeepAlive(img);
                 pyramid = pyramidVec.ToArray();
                 return result;
             }
@@ -174,14 +176,11 @@ namespace OpenCvSharp
 
             NativeMethods.video_calcOpticalFlowPyrLK_InputArray(
                 prevImg.CvPtr, nextImg.CvPtr, prevPts.CvPtr, nextPts.CvPtr,
-                status.CvPtr, err.CvPtr, winSize0,maxLevel,
+                status.CvPtr, err.CvPtr, winSize0, maxLevel,
                 criteria0, (int)flags, minEigThreshold);
             GC.KeepAlive(prevImg);
             GC.KeepAlive(nextImg);
             GC.KeepAlive(prevPts);
-            GC.KeepAlive(nextPts);
-            GC.KeepAlive(status);
-            GC.KeepAlive(err);
             nextPts.Fix();
             status.Fix();
             err.Fix();
@@ -233,6 +232,8 @@ namespace OpenCvSharp
                     prevImg.CvPtr, nextImg.CvPtr, prevPts, prevPts.Length,
                     nextPtsVec.CvPtr, statusVec.CvPtr, errVec.CvPtr, 
                     winSize0, maxLevel, criteria0, (int)flags, minEigThreshold);
+                GC.KeepAlive(prevImg);
+                GC.KeepAlive(nextImg);
                 nextPts = nextPtsVec.ToArray();
                 status = statusVec.ToArray();
                 err = errVec.ToArray();
@@ -278,7 +279,6 @@ namespace OpenCvSharp
                 (int)flags);
             GC.KeepAlive(prev);
             GC.KeepAlive(next);
-            GC.KeepAlive(flow);
             flow.Fix();
         }
 
@@ -303,6 +303,8 @@ namespace OpenCvSharp
 
             IntPtr result = NativeMethods.video_estimateRigidTransform(
                 src.CvPtr, dst.CvPtr, fullAffine ? 1 : 0);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             return new Mat(result);
         }
         

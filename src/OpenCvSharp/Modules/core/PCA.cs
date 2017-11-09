@@ -33,6 +33,8 @@ namespace OpenCvSharp
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             ptr = NativeMethods.core_PCA_new2(data.CvPtr, mean.CvPtr, (int)flags, maxComponents);
+            GC.KeepAlive(data);
+            GC.KeepAlive(mean);
         }
 
         /// <summary>
@@ -51,6 +53,8 @@ namespace OpenCvSharp
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             ptr = NativeMethods.core_PCA_new3(data.CvPtr, mean.CvPtr, (int)flags, retainedVariance);
+            GC.KeepAlive(data);
+            GC.KeepAlive(mean);
         }
 
         /// <summary>
@@ -74,6 +78,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_PCA_eigenvectors(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -87,6 +92,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_PCA_eigenvalues(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -100,6 +106,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_PCA_mean(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -126,6 +133,8 @@ namespace OpenCvSharp
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             NativeMethods.core_PCA_operatorThis(ptr, data.CvPtr, mean.CvPtr, (int)flags, maxComponents);
+            GC.KeepAlive(data);
+            GC.KeepAlive(mean);
             return this;
         }
 
@@ -147,6 +156,8 @@ namespace OpenCvSharp
             data.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             NativeMethods.core_PCA_computeVar(ptr, data.CvPtr, mean.CvPtr, (int)flags, retainedVariance);
+            GC.KeepAlive(data);
+            GC.KeepAlive(mean);
             return this;
         }
 
@@ -162,6 +173,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(vec));
             vec.ThrowIfDisposed();
             IntPtr ret = NativeMethods.core_PCA_project1(ptr, vec.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(vec);
             return new Mat(ret);
         }
         /// <summary>
@@ -197,6 +210,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(vec));
             vec.ThrowIfDisposed();
             IntPtr ret = NativeMethods.core_PCA_backProject1(ptr, vec.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(vec);
             return new Mat(ret);
         }
         /// <summary>

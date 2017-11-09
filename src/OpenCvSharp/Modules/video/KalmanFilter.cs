@@ -56,6 +56,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_statePre(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -69,6 +70,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_statePost(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -82,6 +84,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_transitionMatrix(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -95,6 +98,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_controlMatrix(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -108,6 +112,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_measurementMatrix(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -121,6 +126,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_processNoiseCov(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -134,6 +140,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_measurementNoiseCov(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -147,6 +154,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_errorCovPre(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -160,6 +168,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_gain(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -173,6 +182,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.video_KalmanFilter_errorCovPost(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -193,6 +203,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             NativeMethods.video_KalmanFilter_init(ptr, 
                 dynamParams, measureParams, controlParams, type);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -205,6 +216,8 @@ namespace OpenCvSharp
             ThrowIfDisposed();
 
             IntPtr ret = NativeMethods.video_KalmanFilter_predict(ptr, Cv2.ToPtr(control));
+            GC.KeepAlive(this);
+            GC.KeepAlive(control);
             return new Mat(ret);
         }
 
@@ -221,6 +234,8 @@ namespace OpenCvSharp
             measurement.ThrowIfDisposed();
 
             IntPtr ret = NativeMethods.video_KalmanFilter_correct(ptr, measurement.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(measurement);
             return new Mat(ret);
         }
 

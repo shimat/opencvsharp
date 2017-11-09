@@ -109,7 +109,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_BRISK_get(ptr);
+                var res = NativeMethods.features2d_Ptr_BRISK_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

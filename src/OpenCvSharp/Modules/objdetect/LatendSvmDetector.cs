@@ -87,6 +87,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.objdetect_LatentSvmDetector_clear(ptr);
+            GC.KeepAlive(this);
         }
         /// <summary>
         /// 
@@ -94,7 +95,9 @@ namespace OpenCvSharp
         public virtual bool Empty()
         {
             ThrowIfDisposed();
-            return NativeMethods.objdetect_LatentSvmDetector_empty(ptr) != 0;
+            var res = NativeMethods.objdetect_LatentSvmDetector_empty(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
         /// <summary>
         /// 
@@ -114,8 +117,10 @@ namespace OpenCvSharp
             using (var fn = new StringArrayAddress(fileNames))
             using (var cn = new StringArrayAddress(classNames))
             {
-                return NativeMethods.objdetect_LatentSvmDetector_load(
+                var res = NativeMethods.objdetect_LatentSvmDetector_load(
                     ptr, fn.Pointer, fn.Dim1Length, cn.Pointer, cn.Dim1Length) != 0;
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -139,6 +144,8 @@ namespace OpenCvSharp
             {
                 NativeMethods.objdetect_LatentSvmDetector_detect(
                     ptr, image.CvPtr, odVec.CvPtr, overlapThreshold, numThreads);
+                GC.KeepAlive(this);
+                GC.KeepAlive(image);
 
                 return EnumerableEx.SelectToArray(odVec.ToArray(), v => 
                     new ObjectDetection
@@ -160,6 +167,7 @@ namespace OpenCvSharp
             using (var outVec = new VectorOfString())
             {
                 NativeMethods.objdetect_LatentSvmDetector_getClassNames(ptr, outVec.CvPtr);
+                GC.KeepAlive(this);
                 return outVec.ToArray();
             }
         }
@@ -171,7 +179,9 @@ namespace OpenCvSharp
         public long GetClassCount()
         {
             ThrowIfDisposed();
-            return NativeMethods.objdetect_LatentSvmDetector_getClassCount(ptr).ToInt64();
+            var res = NativeMethods.objdetect_LatentSvmDetector_getClassCount(ptr).ToInt64();
+            GC.KeepAlive(this);
+            return res;
         }
 
         #endregion

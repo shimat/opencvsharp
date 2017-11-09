@@ -87,12 +87,15 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.ml_RTrees_getCalculateVarImportance(ptr) != 0;
+                var res = NativeMethods.ml_RTrees_getCalculateVarImportance(ptr) != 0;
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.ml_RTrees_setCalculateVarImportance(ptr, value ? 1 : 0);
+                GC.KeepAlive(this);
             }
         }
 
@@ -105,12 +108,15 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.ml_RTrees_getActiveVarCount(ptr) != 0;
+                var res =NativeMethods.ml_RTrees_getActiveVarCount(ptr) != 0;
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.ml_RTrees_setActiveVarCount(ptr, value ? 1 : 0);
+                GC.KeepAlive(this);
             }
         }
 
@@ -122,12 +128,15 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.ml_RTrees_getTermCriteria(ptr);
+                var res = NativeMethods.ml_RTrees_getTermCriteria(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.ml_RTrees_setTermCriteria(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -146,6 +155,7 @@ namespace OpenCvSharp.ML
         {
             ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_RTrees_getVarImportance(ptr);
+            GC.KeepAlive(this);
             return new Mat(p);
         }
 
@@ -159,7 +169,9 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                return NativeMethods.ml_Ptr_RTrees_get(ptr);
+                var res = NativeMethods.ml_Ptr_RTrees_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

@@ -18,7 +18,7 @@ namespace OpenCvSharp
         /// </summary>
         public CascadeClassifier()
         {
-            ptr = NativeMethods.objdetect_CascadeClassifier_new();               
+            ptr = NativeMethods.objdetect_CascadeClassifier_new();
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace OpenCvSharp
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("\""+ fileName + "\"not found", fileName);
 #endif
-            ptr = NativeMethods.objdetect_CascadeClassifier_newFromFile(fileName);  
+            ptr = NativeMethods.objdetect_CascadeClassifier_newFromFile(fileName);
         }
 
         /// <summary>
@@ -56,7 +56,9 @@ namespace OpenCvSharp
         public virtual bool Empty()
         {
             ThrowIfDisposed();
-            return NativeMethods.objdetect_CascadeClassifier_empty(ptr) != 0;
+            var res = NativeMethods.objdetect_CascadeClassifier_empty(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -75,7 +77,9 @@ namespace OpenCvSharp
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("\"" + fileName + "\"not found", fileName);
 #endif
-            return NativeMethods.objdetect_CascadeClassifier_load(ptr, fileName) != 0;
+            var res = NativeMethods.objdetect_CascadeClassifier_load(ptr, fileName) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         //public virtual bool read( const FileNode& node );
@@ -112,6 +116,7 @@ namespace OpenCvSharp
                 NativeMethods.objdetect_CascadeClassifier_detectMultiScale1(
                     ptr, image.CvPtr, objectsVec.CvPtr, 
                     scaleFactor, minNeighbors, (int)flags, minSize0, maxSize0);
+                GC.KeepAlive(this);
                 GC.KeepAlive(image);
                 return objectsVec.ToArray();
             }
@@ -157,6 +162,7 @@ namespace OpenCvSharp
                 NativeMethods.objdetect_CascadeClassifier_detectMultiScale2(
                     ptr, image.CvPtr, objectsVec.CvPtr, rejectLevelsVec.CvPtr, levelWeightsVec.CvPtr,
                     scaleFactor, minNeighbors, (int)flags, minSize0, maxSize0, outputRejectLevels ? 1 : 0);
+                GC.KeepAlive(this);
                 GC.KeepAlive(image);
 
                 rejectLevels = rejectLevelsVec.ToArray();
@@ -172,7 +178,9 @@ namespace OpenCvSharp
         public bool IsOldFormatCascade()
         {
             ThrowIfDisposed();
-            return NativeMethods.objdetect_CascadeClassifier_isOldFormatCascade(ptr) != 0;
+            var res = NativeMethods.objdetect_CascadeClassifier_isOldFormatCascade(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -182,7 +190,9 @@ namespace OpenCvSharp
         public virtual Size GetOriginalWindowSize()
         {
             ThrowIfDisposed();
-            return NativeMethods.objdetect_CascadeClassifier_getOriginalWindowSize(ptr);
+            var res = NativeMethods.objdetect_CascadeClassifier_getOriginalWindowSize(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -192,10 +202,12 @@ namespace OpenCvSharp
         public int GetFeatureType()
         {
             ThrowIfDisposed();
-            return NativeMethods.objdetect_CascadeClassifier_getFeatureType(ptr);
+            var res = NativeMethods.objdetect_CascadeClassifier_getFeatureType(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
-#endregion
+        #endregion
     }
 
 }

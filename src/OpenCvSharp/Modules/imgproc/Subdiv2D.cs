@@ -111,6 +111,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.imgproc_Subdiv2D_initDelaunay(ptr, rect);
+            GC.KeepAlive(this);
         }
         #endregion
         #region Insert
@@ -122,7 +123,9 @@ namespace OpenCvSharp
         public int Insert(Point2f pt)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_insert1(ptr, pt);
+            var res = NativeMethods.imgproc_Subdiv2D_insert1(ptr, pt);
+            GC.KeepAlive(this);
+            return res;
         }
         /// <summary>
         /// 
@@ -134,6 +137,7 @@ namespace OpenCvSharp
             if (ptvec == null)
                 throw new ArgumentNullException(nameof(ptvec));
             NativeMethods.imgproc_Subdiv2D_insert2(ptr, ptvec, ptvec.Length);
+            GC.KeepAlive(this);
         }
         /// <summary>
         /// 
@@ -157,7 +161,9 @@ namespace OpenCvSharp
         public int Locate(Point2f pt, out int edge, out int vertex)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_locate(ptr, pt, out edge, out vertex);
+            var res = NativeMethods.imgproc_Subdiv2D_locate(ptr, pt, out edge, out vertex);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #region FindNearest
@@ -180,7 +186,9 @@ namespace OpenCvSharp
         public int FindNearest(Point2f pt, out Point2f nearestPt)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_findNearest(ptr, pt, out nearestPt);
+            var res = NativeMethods.imgproc_Subdiv2D_findNearest(ptr, pt, out nearestPt);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #region GetEdgeList
@@ -193,6 +201,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             IntPtr p;
             NativeMethods.imgproc_Subdiv2D_getEdgeList(ptr, out p);
+            GC.KeepAlive(this);
             using (VectorOfVec4f vec = new VectorOfVec4f(p))
             {
                 return vec.ToArray();
@@ -209,6 +218,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             IntPtr p;
             NativeMethods.imgproc_Subdiv2D_getTriangleList(ptr, out p);
+            GC.KeepAlive(this);
             using (VectorOfVec6f vec = new VectorOfVec6f(p))
             {
                 return vec.ToArray();
@@ -236,6 +246,7 @@ namespace OpenCvSharp
                 int[] idxArray = EnumerableEx.ToArray(idx);
                 NativeMethods.imgproc_Subdiv2D_getVoronoiFacetList(ptr, idxArray, idxArray.Length, out facetListPtr, out facetCentersPtr);
             }
+            GC.KeepAlive(this);
 
             using (VectorOfVectorPoint2f facetListVec = new VectorOfVectorPoint2f(facetListPtr))
             {
@@ -267,7 +278,9 @@ namespace OpenCvSharp
         public Point2f GetVertex(int vertex, out int firstEdge)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_getVertex(ptr, vertex, out firstEdge);
+            var res = NativeMethods.imgproc_Subdiv2D_getVertex(ptr, vertex, out firstEdge);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #region GetEdge
@@ -280,7 +293,9 @@ namespace OpenCvSharp
         public int GetEdge(int edge, int nextEdgeType)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_getEdge(ptr, edge, nextEdgeType);
+            var res = NativeMethods.imgproc_Subdiv2D_getEdge(ptr, edge, nextEdgeType);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #region NextEdge
@@ -292,7 +307,9 @@ namespace OpenCvSharp
         public int NextEdge(int edge)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_nextEdge(ptr, edge);
+            var res = NativeMethods.imgproc_Subdiv2D_nextEdge(ptr, edge);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #region RotateEdge
@@ -305,7 +322,9 @@ namespace OpenCvSharp
         public int RotateEdge(int edge, int rotate)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_rotateEdge(ptr, edge, rotate);
+            var res = NativeMethods.imgproc_Subdiv2D_rotateEdge(ptr, edge, rotate);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #region SymEdge
@@ -317,7 +336,9 @@ namespace OpenCvSharp
         public int SymEdge(int edge)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_symEdge(ptr, edge);
+            var res = NativeMethods.imgproc_Subdiv2D_symEdge(ptr, edge);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #region EdgeOrg
@@ -340,7 +361,9 @@ namespace OpenCvSharp
         public int EdgeOrg(int edge, out Point2f orgpt)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_edgeOrg(ptr, edge, out orgpt);
+            var res = NativeMethods.imgproc_Subdiv2D_edgeOrg(ptr, edge, out orgpt);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #region EdgeDst
@@ -363,7 +386,9 @@ namespace OpenCvSharp
         public int EdgeDst(int edge, out Point2f dstpt)
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_Subdiv2D_edgeDst(ptr, edge, out dstpt);
+            var res = NativeMethods.imgproc_Subdiv2D_edgeDst(ptr, edge, out dstpt);
+            GC.KeepAlive(this);
+            return res;
         }
         #endregion
         #endregion

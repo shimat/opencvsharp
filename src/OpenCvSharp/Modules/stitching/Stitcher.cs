@@ -116,38 +116,92 @@ namespace OpenCvSharp
 
         public double RegistrationResol
         {
-            get { return NativeMethods.stitching_Stitcher_registrationResol(ptr); }
-            set { NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value); }
+            get
+            {
+                var res = NativeMethods.stitching_Stitcher_registrationResol(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         public double SeamEstimationResol
         {
-            get { return NativeMethods.stitching_Stitcher_seamEstimationResol(ptr); }
-            set { NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value); }
+            get
+            {
+                var res = NativeMethods.stitching_Stitcher_seamEstimationResol(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         public double CompositingResol
         {
-            get { return NativeMethods.stitching_Stitcher_compositingResol(ptr); }
-            set { NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value); }
+            get
+            {
+                var res = NativeMethods.stitching_Stitcher_compositingResol(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         public double PanoConfidenceThresh
         {
-            get { return NativeMethods.stitching_Stitcher_panoConfidenceThresh(ptr); }
-            set { NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value); }
+            get
+            {
+                var res = NativeMethods.stitching_Stitcher_panoConfidenceThresh(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         public bool WaveCorrection
         {
-            get { return NativeMethods.stitching_Stitcher_waveCorrection(ptr) != 0; }
-            set { NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value ? 1 : 0); }
+            get
+            {
+                var res = NativeMethods.stitching_Stitcher_waveCorrection(ptr) != 0;
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value ? 1 : 0);
+                GC.KeepAlive(this);
+            }
         }
 
         public WaveCorrectKind WaveCorrectKind
         {
-            get { return (WaveCorrectKind)NativeMethods.stitching_Stitcher_waveCorrectKind(ptr); }
-            set { NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, (int)value); }
+            get
+            {
+                var res = (WaveCorrectKind)NativeMethods.stitching_Stitcher_waveCorrectKind(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, (int)value);
+                GC.KeepAlive(this);
+            }
         }
 
         public FeaturesFinder FeaturesFinder
@@ -209,6 +263,7 @@ namespace OpenCvSharp
 
                 int[] ret = new int[length];
                 Marshal.Copy(pointer, ret, 0, length);
+                GC.KeepAlive(this); // needs to be after copy of unmanaged data
                 return ret;
             }
         }
@@ -220,7 +275,12 @@ namespace OpenCvSharp
 
         public double WorkScale
         {
-            get { return NativeMethods.stitching_Stitcher_workScale(ptr); }
+            get
+            {
+                var res = NativeMethods.stitching_Stitcher_workScale(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         #endregion
@@ -235,6 +295,8 @@ namespace OpenCvSharp
 
             int status = NativeMethods.stitching_Stitcher_estimateTransform_InputArray1(
                 ptr, images.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(images);
             return (Status)status;
         }
 
@@ -251,6 +313,8 @@ namespace OpenCvSharp
                 int status = NativeMethods.stitching_Stitcher_estimateTransform_InputArray2(
                     ptr, images.CvPtr,
                     roisPointer.Pointer, roisPointer.Dim1Length, roisPointer.Dim2Lengths);
+                GC.KeepAlive(this);
+                GC.KeepAlive(images);
                 return (Status)status;
             }
         }
@@ -264,8 +328,8 @@ namespace OpenCvSharp
 
             int status = NativeMethods.stitching_Stitcher_estimateTransform_MatArray1(
                 ptr, imagesPtrs, imagesPtrs.Length);
-
-            GC.KeepAlive(imagesPtrs);
+            GC.KeepAlive(this);
+            GC.KeepAlive(images);
             return (Status)status;
         }
 
@@ -283,8 +347,8 @@ namespace OpenCvSharp
                 int status = NativeMethods.stitching_Stitcher_estimateTransform_MatArray2(
                     ptr, imagesPtrs, imagesPtrs.Length,
                     roisPointer.Pointer, roisPointer.Dim1Length, roisPointer.Dim2Lengths);
-
-                GC.KeepAlive(imagesPtrs);
+                GC.KeepAlive(this);
+                GC.KeepAlive(images);
                 return (Status)status;
             }
         }
@@ -334,7 +398,7 @@ namespace OpenCvSharp
                 ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr);
             pano.Fix();
             GC.KeepAlive(this);
-            GC.KeepAlive(imagesPtrs);
+            GC.KeepAlive(images);
             GC.KeepAlive(pano);
             return (Status)status;
         }
@@ -383,7 +447,7 @@ namespace OpenCvSharp
             Status status = (Status)NativeMethods.stitching_Stitcher_stitch1_MatArray(
                 ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr);
             GC.KeepAlive(this);
-            GC.KeepAlive(imagesPtrs);
+            GC.KeepAlive(images);
             GC.KeepAlive(pano);
             pano.Fix();
 
@@ -465,7 +529,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.stitching_Ptr_Stitcher_get(ptr);
+                var res = NativeMethods.stitching_Ptr_Stitcher_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()
