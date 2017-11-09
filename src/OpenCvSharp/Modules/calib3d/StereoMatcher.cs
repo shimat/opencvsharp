@@ -38,8 +38,10 @@ namespace OpenCvSharp
             right.ThrowIfDisposed();
             disparity.ThrowIfNotReady();
             NativeMethods.calib3d_StereoMatcher_compute(ptr, left.CvPtr, right.CvPtr, disparity.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(left);
             GC.KeepAlive(right);
+            GC.KeepAlive(disparity);
             disparity.Fix();
         }
 

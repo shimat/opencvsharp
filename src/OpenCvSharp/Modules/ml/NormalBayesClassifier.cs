@@ -113,7 +113,10 @@ namespace OpenCvSharp.ML
                 ptr, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags);
             outputs.Fix();
             outputProbs.Fix();
+            GC.KeepAlive(this);
             GC.KeepAlive(inputs);
+            GC.KeepAlive(outputs);
+            GC.KeepAlive(outputProbs);
             return result;
         }
 

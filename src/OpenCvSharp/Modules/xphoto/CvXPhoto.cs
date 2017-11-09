@@ -58,6 +58,7 @@ namespace OpenCvSharp.XPhoto
             dst.ThrowIfNotReady();
             NativeMethods.xphoto_applyChannelGains(src.CvPtr, dst.CvPtr, gainB, gainG, gainR);
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
 

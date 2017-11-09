@@ -97,7 +97,10 @@ namespace OpenCvSharp
 
             NativeMethods.video_DenseOpticalFlow_calc(
                 ptr, frame0.CvPtr, frame1.CvPtr, flow.CvPtr);
-
+            GC.KeepAlive(this);
+            GC.KeepAlive(frame0);
+            GC.KeepAlive(frame1);
+            GC.KeepAlive(flow);
             flow.Fix();
         }
 

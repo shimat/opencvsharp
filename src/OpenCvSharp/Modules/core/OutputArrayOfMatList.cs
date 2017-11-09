@@ -43,6 +43,7 @@ namespace OpenCvSharp
             using (var vectorOfMat = new VectorOfMat())
             {
                 NativeMethods.core_OutputArray_getVectorOfMat(ptr, vectorOfMat.CvPtr);
+                GC.KeepAlive(this);
                 list.Clear();
                 list.AddRange(vectorOfMat.ToArray());
             }

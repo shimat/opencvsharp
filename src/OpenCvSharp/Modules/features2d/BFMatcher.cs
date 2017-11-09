@@ -94,7 +94,9 @@ namespace OpenCvSharp
         public override bool IsMaskSupported()
         {
             ThrowIfDisposed();
-            return NativeMethods.features2d_BFMatcher_isMaskSupported(ptr) != 0;
+            var res = NativeMethods.features2d_BFMatcher_isMaskSupported(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         #endregion
@@ -107,7 +109,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_BFMatcher_get(ptr);
+                var res = NativeMethods.features2d_Ptr_BFMatcher_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

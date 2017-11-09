@@ -57,7 +57,12 @@ namespace OpenCvSharp
         /// </summary>
         public int Size1
         {
-            get { return NativeMethods.vector_vector_KeyPoint_getSize1(ptr).ToInt32(); }
+            get
+            {
+                var res = NativeMethods.vector_vector_KeyPoint_getSize1(ptr).ToInt32();
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         /// <summary>
@@ -78,6 +83,7 @@ namespace OpenCvSharp
                 int size1 = Size1;
                 IntPtr[] size2Org = new IntPtr[size1];
                 NativeMethods.vector_vector_KeyPoint_getSize2(ptr, size2Org);
+                GC.KeepAlive(this);
                 long[] size2 = new long[size1];
                 for (int i = 0; i < size1; i++)
                 {
@@ -92,7 +98,12 @@ namespace OpenCvSharp
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_vector_KeyPoint_getPointer(ptr); }
+            get
+            {
+                var res = NativeMethods.vector_vector_KeyPoint_getPointer(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         /// <summary>
@@ -114,6 +125,7 @@ namespace OpenCvSharp
             using (var retPtr = new ArrayAddress2<KeyPoint>(ret))
             {
                 NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr);
+                GC.KeepAlive(this);
             }
             return ret;
         }

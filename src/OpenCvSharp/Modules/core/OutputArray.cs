@@ -21,6 +21,7 @@ namespace OpenCvSharp
             if (mat == null)
                 throw new ArgumentNullException(nameof(mat));
             ptr = NativeMethods.core_OutputArray_new_byMat(mat.CvPtr);
+            GC.KeepAlive(mat);
             obj = mat;
         }
 
@@ -33,6 +34,7 @@ namespace OpenCvSharp
             if (mat == null)
                 throw new ArgumentNullException(nameof(mat));
             ptr = NativeMethods.core_OutputArray_new_byGpuMat(mat.CvPtr);
+            GC.KeepAlive(mat);
             obj = mat;
         }
 

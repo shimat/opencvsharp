@@ -53,6 +53,7 @@ namespace OpenCvSharp
                     matPointersPointer.Pointer,
                     new IntPtr(matPointers.Length));
             }
+            GC.KeepAlive(mats); // todo: rsb - should probably generate Mat[] and then get CvPtrs
         }
 
         /// <summary>
@@ -69,7 +70,12 @@ namespace OpenCvSharp
         /// </summary>
         public int Size
         {
-            get { return NativeMethods.vector_Mat_getSize(ptr).ToInt32(); }
+            get
+            {
+                var res = NativeMethods.vector_Mat_getSize(ptr).ToInt32();
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         /// <summary>
@@ -77,7 +83,12 @@ namespace OpenCvSharp
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_Mat_getPointer(ptr); }
+            get
+            {
+                var res = NativeMethods.vector_Mat_getPointer(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         /// <summary>
@@ -109,6 +120,7 @@ namespace OpenCvSharp
                 dstPtr[i] = m.CvPtr;
             }
             NativeMethods.vector_Mat_assignToArray(ptr, dstPtr);
+            GC.KeepAlive(this);
 
             return dst;
         }
@@ -119,6 +131,7 @@ namespace OpenCvSharp
         public void AddRef()
         {
             NativeMethods.vector_Mat_addref(ptr);
+            GC.KeepAlive(this);
         }
     }
 }

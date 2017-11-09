@@ -104,10 +104,12 @@ namespace OpenCvSharp
             Scalar color0 = color.GetValueOrDefault(Scalar.All(-1));
             NativeMethods.features2d_drawKeypoints(image.CvPtr, keypointsArray, keypointsArray.Length,
                 outImage.CvPtr, color0, (int)flags);
+            GC.KeepAlive(image);
+            GC.KeepAlive(outImage);
         }
 
         /// <summary>
-        /// Draws matches of keypints from two images on output image.
+        /// Draws matches of keypoints from two images on output image.
         /// </summary>
         /// <param name="img1"></param>
         /// <param name="keypoints1"></param>
@@ -159,6 +161,9 @@ namespace OpenCvSharp
                 img2.CvPtr, keypoints2Array, keypoints2Array.Length,
                 matches1To2Array, matches1To2Array.Length, outImg.CvPtr,
                 matchColor0, singlePointColor0, matchesMaskArray, matchesMaskLength, (int)flags);
+            GC.KeepAlive(img1);
+            GC.KeepAlive(img2);
+            GC.KeepAlive(outImg);
         }
 
         /// <summary>
@@ -229,6 +234,9 @@ namespace OpenCvSharp
                             matchesMaskPtr, matchesMaskSize1, matchesMaskSize2, (int)flags);
                     }
                 }
+                GC.KeepAlive(img1);
+                GC.KeepAlive(img2);
+                GC.KeepAlive(outImg);
             }
         }
 
@@ -265,6 +273,9 @@ namespace OpenCvSharp
                     img1.CvPtr, img2.CvPtr, H1to2.CvPtr,
                     keypoints1Vec.CvPtr, keypoints2Vec.CvPtr, 
                     out repeatability, out correspCount);
+                GC.KeepAlive(img1);
+                GC.KeepAlive(img2);
+                GC.KeepAlive(H1to2);
                 keypoints1 = keypoints1Vec.ToArray();
                 keypoints2 = keypoints2Vec.ToArray();
             }

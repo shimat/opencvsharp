@@ -27,7 +27,9 @@ namespace OpenCvSharp
             NativeMethods.video_BackgroundSubtractor_apply(ptr, image.CvPtr, fgmask.CvPtr, learningRate);
             
             fgmask.Fix();
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
+            GC.KeepAlive(fgmask);
         }
 
         /// <summary>
@@ -41,7 +43,8 @@ namespace OpenCvSharp
             backgroundImage.ThrowIfNotReady();
 
             NativeMethods.video_BackgroundSubtractor_getBackgroundImage(ptr, backgroundImage.CvPtr);
-
+            GC.KeepAlive(this);
+            GC.KeepAlive(backgroundImage);
             backgroundImage.Fix();
         }
     }

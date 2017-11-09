@@ -144,8 +144,11 @@ namespace OpenCvSharp.ML
                 ptr,
                 samples.CvPtr, k, results.CvPtr,
                 Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist));
-
+            GC.KeepAlive(this);
             GC.KeepAlive(samples);
+            GC.KeepAlive(results);
+            GC.KeepAlive(neighborResponses);
+            GC.KeepAlive(dist);
             results.Fix();
             neighborResponses?.Fix();
             dist?.Fix();
