@@ -68,7 +68,9 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                return NativeMethods.flann_Ptr_AutotunedIndexParams_get(ptr);
+                var res = NativeMethods.flann_Ptr_AutotunedIndexParams_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

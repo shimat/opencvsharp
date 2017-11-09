@@ -76,6 +76,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.imgproc_CLAHE_setClipLimit(ptr, clipLimit);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -85,7 +86,9 @@ namespace OpenCvSharp
         public double GetClipLimit()
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_CLAHE_getClipLimit(ptr);
+            var res = NativeMethods.imgproc_CLAHE_getClipLimit(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -105,6 +108,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.imgproc_CLAHE_setTilesGridSize(ptr, tileGridSize);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -114,7 +118,9 @@ namespace OpenCvSharp
         public Size GetTilesGridSize()
         {
             ThrowIfDisposed();
-            return NativeMethods.imgproc_CLAHE_getTilesGridSize(ptr);
+            var res = NativeMethods.imgproc_CLAHE_getTilesGridSize(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -134,6 +140,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.imgproc_CLAHE_collectGarbage(ptr);
+            GC.KeepAlive(this);
         }
 
         internal class Ptr : OpenCvSharp.Ptr
@@ -144,7 +151,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.imgproc_Ptr_CLAHE_get(ptr);
+                var res = NativeMethods.imgproc_Ptr_CLAHE_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

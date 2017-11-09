@@ -52,12 +52,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_GeneralizedHoughBallard_getLevels(ptr);
+                var res = NativeMethods.imgproc_GeneralizedHoughBallard_getLevels(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.imgproc_GeneralizedHoughBallard_setLevels(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -71,12 +74,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_GeneralizedHoughBallard_getVotesThreshold(ptr);
+                var res = NativeMethods.imgproc_GeneralizedHoughBallard_getVotesThreshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.imgproc_GeneralizedHoughBallard_setVotesThreshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -88,7 +94,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_get(ptr);
+                var res = NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

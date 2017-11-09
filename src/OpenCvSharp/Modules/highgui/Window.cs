@@ -685,6 +685,7 @@ namespace OpenCvSharp
             {
                 this.image = img;
                 NativeMethods.highgui_imshow(name, img.CvPtr);
+                GC.KeepAlive(img);
             }
         }
 

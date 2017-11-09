@@ -147,6 +147,7 @@ namespace OpenCvSharp
             using (var bufVec = new VectorOfByte())
             {
                 int ret = NativeMethods.imgcodecs_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length);
+                GC.KeepAlive(img);
                 buf = bufVec.ToArray();
                 return ret != 0;
             }

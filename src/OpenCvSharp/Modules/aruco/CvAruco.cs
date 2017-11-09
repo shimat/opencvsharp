@@ -40,6 +40,7 @@ namespace OpenCvSharp.Aruco
 
             GC.KeepAlive(image);
             GC.KeepAlive(dictionary);
+            GC.KeepAlive(parameters);
         }
 
         /// <summary>
@@ -81,6 +82,7 @@ namespace OpenCvSharp.Aruco
                     int[] idxArray = EnumerableEx.ToArray(ids);
                     NativeMethods.aruco_drawDetectedMarkers(image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths, idxArray, idxArray.Length, borderColor);
                 }
+                GC.KeepAlive(image);
             }
         }
 

@@ -60,7 +60,7 @@ namespace OpenCvSharp.ML
         /// <summary>
         /// Loads algorithm from a String.
         /// </summary>
-        /// <param name="strModel">he string variable containing the model you want to load.</param>
+        /// <param name="strModel">The string variable containing the model you want to load.</param>
         /// <returns></returns>
         public static SVM LoadFromString(string strModel)
         {
@@ -90,8 +90,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public Types Type
         {
-            get { return (Types)NativeMethods.ml_SVM_getType(ptr); }
-            set { NativeMethods.ml_SVM_setType(ptr, (int)value); }
+            get
+            {
+                var res = (Types)NativeMethods.ml_SVM_getType(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setType(ptr, (int)value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -100,8 +109,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double Gamma
         {
-            get { return NativeMethods.ml_SVM_getGamma(ptr); }
-            set { NativeMethods.ml_SVM_setGamma(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_SVM_getGamma(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setGamma(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -110,8 +128,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double Coef0
         {
-            get { return NativeMethods.ml_SVM_getCoef0(ptr); }
-            set { NativeMethods.ml_SVM_setCoef0(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_SVM_getCoef0(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setCoef0(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -120,8 +147,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double Degree
         {
-            get { return NativeMethods.ml_SVM_getDegree(ptr); }
-            set { NativeMethods.ml_SVM_setDegree(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_SVM_getDegree(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setDegree(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -130,8 +166,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double C
         {
-            get { return NativeMethods.ml_SVM_getC(ptr); }
-            set { NativeMethods.ml_SVM_setC(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_SVM_getC(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setC(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -140,8 +185,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double Nu
         {
-            get { return NativeMethods.ml_SVM_getNu(ptr); }
-            set { NativeMethods.ml_SVM_setNu(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_SVM_getNu(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setNu(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -150,8 +204,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double P
         {
-            get { return NativeMethods.ml_SVM_getP(ptr); }
-            set { NativeMethods.ml_SVM_setP(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_SVM_getP(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setP(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -168,11 +231,14 @@ namespace OpenCvSharp.ML
             get
             {
                 IntPtr p = NativeMethods.ml_SVM_getClassWeights(ptr);
+                GC.KeepAlive(this);
                 return new Mat(p);
             }
             set
             {
                 NativeMethods.ml_SVM_setClassWeights(ptr, value.CvPtr);
+                GC.KeepAlive(this);
+                GC.KeepAlive(value);
             }
         }
 
@@ -186,8 +252,17 @@ namespace OpenCvSharp.ML
         /// </remarks>
         public TermCriteria TermCriteria
         {
-            get { return NativeMethods.ml_SVM_getTermCriteria(ptr); }
-            set { NativeMethods.ml_SVM_setTermCriteria(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_SVM_getTermCriteria(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setTermCriteria(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -195,8 +270,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public KernelTypes KernelType
         {
-            get { return (KernelTypes)NativeMethods.ml_SVM_getKernelType(ptr); }
-            set { NativeMethods.ml_SVM_setKernel(ptr, (int)value); }
+            get
+            {
+                var res = (KernelTypes)NativeMethods.ml_SVM_getKernelType(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_SVM_setKernel(ptr, (int)value);
+                GC.KeepAlive(this);
+            }
         }
 
         #endregion
@@ -257,6 +341,7 @@ namespace OpenCvSharp.ML
         {
             ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_SVM_getSupportVectors(ptr);
+            GC.KeepAlive(this);
             return new Mat(p);
         }
 
@@ -432,7 +517,9 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                return NativeMethods.ml_Ptr_SVM_get(ptr);
+                var res = NativeMethods.ml_Ptr_SVM_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

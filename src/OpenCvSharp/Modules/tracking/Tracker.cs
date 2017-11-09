@@ -86,6 +86,7 @@ namespace OpenCvSharp.Tracking
 
             image.ThrowIfDisposed();
             var ret = NativeMethods.tracking_Tracker_init(this.ptr, image.CvPtr, boundingBox);
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
 
             return ret;
@@ -108,6 +109,7 @@ namespace OpenCvSharp.Tracking
 
             image.ThrowIfDisposed();
             var ret = NativeMethods.tracking_Tracker_update(this.ptr, image.CvPtr, ref boundingBox);
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
 
             return ret;
@@ -123,7 +125,9 @@ namespace OpenCvSharp.Tracking
 
             public override IntPtr Get()
             {
-                return NativeMethods.tracking_Ptr_Tracker_get(ptr);
+                var res = NativeMethods.tracking_Ptr_Tracker_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

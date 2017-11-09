@@ -62,12 +62,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return (DistanceTypes)NativeMethods.shape_HausdorffDistanceExtractor_getDistanceFlag(ptr);
+                var res = (DistanceTypes)NativeMethods.shape_HausdorffDistanceExtractor_getDistanceFlag(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.shape_HausdorffDistanceExtractor_setDistanceFlag(ptr, (int)value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -79,12 +82,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.shape_HausdorffDistanceExtractor_getRankProportion(ptr);
+                var res = NativeMethods.shape_HausdorffDistanceExtractor_getRankProportion(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.shape_HausdorffDistanceExtractor_setRankProportion(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -98,7 +104,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ptr);
+                var res = NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()
