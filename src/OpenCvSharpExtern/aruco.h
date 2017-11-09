@@ -19,7 +19,7 @@ CVAPI(void) aruco_drawDetectedMarkers(
     int *cornerSize2,
     int *idx, int idxCount, MyCvScalar borderColor)
 {
-    std::vector<std::vector<cv::Point2f>> cornerVec(cornerSize1);
+    std::vector< std::vector<cv::Point2f> > cornerVec(cornerSize1);
     std::vector<int> idxVec;
 
     for (int i = 0; i < cornerSize1; i++)
@@ -37,14 +37,14 @@ CVAPI(void) aruco_drawMarker(cv::Ptr<cv::aruco::Dictionary> *dictionary, int id,
 
 CVAPI(void) aruco_detectMarkers(cv::_InputArray *image, 
     cv::Ptr<cv::aruco::Dictionary> *dictionary, 
-    std::vector<std::vector<cv::Point2f>> *corners,
+    std::vector< std::vector<cv::Point2f> > *corners,
     std::vector<int> *ids, 
     cv::Ptr<cv::aruco::DetectorParameters> *parameters,
-    std::vector<std::vector<cv::Point2f>> *rejectedImgPoints)
+    std::vector< std::vector<cv::Point2f> > *rejectedImgPoints)
 {
-    //*corners = new std::vector<std::vector<cv::Point2f>>();
+    //*corners = new std::vector< std::vector<cv::Point2f> >();
     //*ids = new std::vector<int>();
-    //*rejectedImgPoints = new std::vector<std::vector<cv::Point2f>>();
+    //*rejectedImgPoints = new std::vector< std::vector<cv::Point2f> >();
     cv::aruco::detectMarkers(*image, *dictionary, *corners, *ids, *parameters, *rejectedImgPoints);
 }
 

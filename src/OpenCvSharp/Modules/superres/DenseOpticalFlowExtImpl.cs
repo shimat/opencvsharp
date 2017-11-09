@@ -98,7 +98,11 @@ namespace OpenCvSharp
 
             NativeMethods.superres_DenseOpticalFlowExt_calc(
                 ptr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2));
-
+            GC.KeepAlive(this);
+            GC.KeepAlive(frame0);
+            GC.KeepAlive(frame1);
+            GC.KeepAlive(flow1);
+            GC.KeepAlive(flow2);
             flow1.Fix();
             if (flow2 != null)
                 flow2.Fix();

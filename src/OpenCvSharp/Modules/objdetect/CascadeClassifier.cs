@@ -112,6 +112,7 @@ namespace OpenCvSharp
                 NativeMethods.objdetect_CascadeClassifier_detectMultiScale1(
                     ptr, image.CvPtr, objectsVec.CvPtr, 
                     scaleFactor, minNeighbors, (int)flags, minSize0, maxSize0);
+                GC.KeepAlive(image);
                 return objectsVec.ToArray();
             }
         }
@@ -156,6 +157,7 @@ namespace OpenCvSharp
                 NativeMethods.objdetect_CascadeClassifier_detectMultiScale2(
                     ptr, image.CvPtr, objectsVec.CvPtr, rejectLevelsVec.CvPtr, levelWeightsVec.CvPtr,
                     scaleFactor, minNeighbors, (int)flags, minSize0, maxSize0, outputRejectLevels ? 1 : 0);
+                GC.KeepAlive(image);
 
                 rejectLevels = rejectLevelsVec.ToArray();
                 levelWeights = levelWeightsVec.ToArray();

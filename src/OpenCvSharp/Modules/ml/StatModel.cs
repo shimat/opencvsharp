@@ -149,8 +149,9 @@ namespace OpenCvSharp.ML
 
             float ret = NativeMethods.ml_StatModel_predict(
                 ptr, samples.CvPtr, Cv2.ToPtr(results), (int)flags);
-
+            GC.KeepAlive(this);
             GC.KeepAlive(samples);
+            GC.KeepAlive(results);
             if (results != null)
                 results.Fix();
             return ret;

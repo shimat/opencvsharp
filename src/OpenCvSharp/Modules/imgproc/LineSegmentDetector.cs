@@ -80,8 +80,12 @@ namespace OpenCvSharp
 
             NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(ptr, image.CvPtr, lines.CvPtr,
                 Cv2.ToPtr(width), Cv2.ToPtr(prec), Cv2.ToPtr(nfa));
-
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
+            GC.KeepAlive(lines);
+            GC.KeepAlive(width);
+            GC.KeepAlive(prec);
+            GC.KeepAlive(nfa);
             lines.Fix();
             width?.Fix();
             prec?.Fix();
@@ -139,7 +143,8 @@ namespace OpenCvSharp
             lines.ThrowIfDisposed();
 
             NativeMethods.imgproc_LineSegmentDetector_drawSegments(ptr, image.CvPtr, lines.CvPtr);
-
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
             image.Fix();
             GC.KeepAlive(lines);
         }
@@ -167,9 +172,10 @@ namespace OpenCvSharp
 
             var ret = NativeMethods.imgproc_LineSegmentDetector_compareSegments(
                 ptr, size, lines1.CvPtr, lines2.CvPtr, Cv2.ToPtr(image));
-
+            GC.KeepAlive(this);
             GC.KeepAlive(lines1);
             GC.KeepAlive(lines2);
+            GC.KeepAlive(image);
             image?.Fix();
 
             return ret;

@@ -298,6 +298,8 @@ namespace OpenCvSharp
             int status = NativeMethods.stitching_Stitcher_composePanorama1(
                 ptr, pano.CvPtr);
             pano.Fix();
+            GC.KeepAlive(this);
+            GC.KeepAlive(pano);
             return (Status)status;
         }
 
@@ -313,6 +315,9 @@ namespace OpenCvSharp
             int status = NativeMethods.stitching_Stitcher_composePanorama2_InputArray(
                 ptr, images.CvPtr, pano.CvPtr);
             pano.Fix();
+            GC.KeepAlive(this);
+            GC.KeepAlive(images);
+            GC.KeepAlive(pano);
             return (Status)status;
         }
 
@@ -328,7 +333,9 @@ namespace OpenCvSharp
             int status = NativeMethods.stitching_Stitcher_composePanorama2_MatArray(
                 ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr);
             pano.Fix();
+            GC.KeepAlive(this);
             GC.KeepAlive(imagesPtrs);
+            GC.KeepAlive(pano);
             return (Status)status;
         }
 
@@ -349,7 +356,9 @@ namespace OpenCvSharp
 
             Status status = (Status)NativeMethods.stitching_Stitcher_stitch1_InputArray(
                 ptr, images.CvPtr, pano.CvPtr);
-
+            GC.KeepAlive(this);
+            GC.KeepAlive(images);
+            GC.KeepAlive(pano);
             pano.Fix();
 
             return status;
@@ -373,8 +382,9 @@ namespace OpenCvSharp
 
             Status status = (Status)NativeMethods.stitching_Stitcher_stitch1_MatArray(
                 ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr);
-
+            GC.KeepAlive(this);
             GC.KeepAlive(imagesPtrs);
+            GC.KeepAlive(pano);
             pano.Fix();
 
             return status;
@@ -405,6 +415,9 @@ namespace OpenCvSharp
                     roisPointer.Pointer, roisPointer.Dim1Length, roisPointer.Dim2Lengths,
                     pano.CvPtr);
                 pano.Fix();
+                GC.KeepAlive(this);
+                GC.KeepAlive(images);
+                GC.KeepAlive(pano);
                 return (Status)status;
             }
         }
@@ -435,6 +448,9 @@ namespace OpenCvSharp
                     roisPointer.Pointer, roisPointer.Dim1Length, roisPointer.Dim2Lengths,
                     pano.CvPtr);
                 pano.Fix();
+                GC.KeepAlive(this);
+                GC.KeepAlive(images);
+                GC.KeepAlive(pano);
                 return (Status)status;
             }
         }

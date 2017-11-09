@@ -30,6 +30,7 @@ namespace OpenCvSharp.OptFlow
                 silhouette.CvPtr, mhi.CvPtr, timestamp, duration);
             mhi.Fix();
             GC.KeepAlive(silhouette);
+            GC.KeepAlive(mhi);
         }
 
         /// <summary>
@@ -66,6 +67,8 @@ namespace OpenCvSharp.OptFlow
             mask.Fix();
             orientation.Fix();
             GC.KeepAlive(mhi);
+            GC.KeepAlive(mask);
+            GC.KeepAlive(orientation);
         }
 
         /// <summary>
@@ -130,6 +133,7 @@ namespace OpenCvSharp.OptFlow
             }
             segmask.Fix();
             GC.KeepAlive(mhi);
+            GC.KeepAlive(segmask);
         }
 
         /// <summary>

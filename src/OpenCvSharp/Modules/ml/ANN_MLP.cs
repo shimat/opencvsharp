@@ -179,6 +179,7 @@ namespace OpenCvSharp.ML
             if (layerSizes == null)
                 throw new ArgumentNullException(nameof(layerSizes));
             NativeMethods.ml_ANN_MLP_setLayerSizes(ptr, layerSizes.CvPtr);
+            GC.KeepAlive(layerSizes);
         }
 
         /// <summary>

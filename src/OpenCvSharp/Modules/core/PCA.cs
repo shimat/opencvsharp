@@ -180,6 +180,9 @@ namespace OpenCvSharp
             result.ThrowIfNotReady();
             NativeMethods.core_PCA_project2(ptr, vec.CvPtr, result.CvPtr);
             result.Fix();
+            GC.KeepAlive(this);
+            GC.KeepAlive(vec);
+            GC.KeepAlive(result);
         }
 
         /// <summary>
@@ -212,6 +215,9 @@ namespace OpenCvSharp
             result.ThrowIfNotReady();
             NativeMethods.core_PCA_backProject2(ptr, vec.CvPtr, result.CvPtr);
             result.Fix();
+            GC.KeepAlive(this);
+            GC.KeepAlive(vec);
+            GC.KeepAlive(result);
         }
         #endregion
 

@@ -78,12 +78,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_AgastFeatureDetector_getThreshold(ptr);
+                var res = NativeMethods.features2d_AgastFeatureDetector_getThreshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AgastFeatureDetector_setThreshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -95,12 +98,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_AgastFeatureDetector_getNonmaxSuppression(ptr);
+                var res = NativeMethods.features2d_AgastFeatureDetector_getNonmaxSuppression(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AgastFeatureDetector_setNonmaxSuppression(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -112,12 +118,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return (AGASTType)NativeMethods.features2d_AgastFeatureDetector_getType(ptr);
+                var res = (AGASTType)NativeMethods.features2d_AgastFeatureDetector_getType(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AgastFeatureDetector_setType(ptr, (int)value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -131,7 +140,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_AgastFeatureDetector_get(ptr);
+                var res = NativeMethods.features2d_Ptr_AgastFeatureDetector_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

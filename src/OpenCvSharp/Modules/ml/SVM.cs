@@ -286,6 +286,9 @@ namespace OpenCvSharp.ML
             double ret = NativeMethods.ml_SVM_getDecisionFunction(ptr, i, alpha.CvPtr, svidx.CvPtr);
             alpha.Fix();
             svidx.Fix();
+            GC.KeepAlive(this);
+            GC.KeepAlive(alpha);
+            GC.KeepAlive(svidx);
             return ret;
         }
 

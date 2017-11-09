@@ -105,7 +105,9 @@ namespace OpenCvSharp.XPhoto
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.xphoto_LearningBasedWB_balanceWhite(this.ptr, src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -123,7 +125,9 @@ namespace OpenCvSharp.XPhoto
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(this.ptr, src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
             dst.Fix();
         }
 

@@ -229,11 +229,14 @@ namespace OpenCvSharp
             logLikelihoods?.Fix();
             labels?.Fix();
             probs?.Fix();
+            GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(means0);
             GC.KeepAlive(covs0);
             GC.KeepAlive(weights0);
-
+            GC.KeepAlive(logLikelihoods);
+            GC.KeepAlive(labels);
+            GC.KeepAlive(probs);
             return ret != 0;
         }
 
@@ -286,8 +289,12 @@ namespace OpenCvSharp
             logLikelihoods?.Fix();
             labels?.Fix();
             probs?.Fix();
+            GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(probs0);
+            GC.KeepAlive(logLikelihoods);
+            GC.KeepAlive(labels);
+            GC.KeepAlive(probs);
 
             return ret != 0;
         }
@@ -315,7 +322,9 @@ namespace OpenCvSharp
 
             Vec2d ret = NativeMethods.ml_EM_predict2(ptr, sample.CvPtr, Cv2.ToPtr(probs));
             probs?.Fix();
+            GC.KeepAlive(this);
             GC.KeepAlive(sample);
+            GC.KeepAlive(probs);
             return ret;
         }
 

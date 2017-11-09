@@ -727,6 +727,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.core_Mat_pop_back(ptr, new IntPtr((long)Total()));
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -756,7 +757,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return (int)NativeMethods.core_Mat_total(ptr);
+                var res = (int)NativeMethods.core_Mat_total(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 

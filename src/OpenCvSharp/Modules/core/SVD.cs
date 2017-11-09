@@ -146,6 +146,10 @@ namespace OpenCvSharp
             w.Fix();
             u.Fix();
             vt.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(w);
+            GC.KeepAlive(u);
+            GC.KeepAlive(vt);
         }
 
         /// <summary>
@@ -164,6 +168,8 @@ namespace OpenCvSharp
             w.ThrowIfNotReady();
             NativeMethods.core_SVD_static_compute2(src.CvPtr, w.CvPtr, (int)flags);
             w.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(w);
         }
 
         /// <summary>
@@ -194,6 +200,11 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.core_SVD_static_backSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
             dst.Fix();
+            GC.KeepAlive(w);
+            GC.KeepAlive(u);
+            GC.KeepAlive(vt);
+            GC.KeepAlive(rhs);
+            GC.KeepAlive(dst);
         }
 
         /// <summary>
@@ -211,6 +222,8 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.core_SVD_static_solveZ(src.CvPtr, dst.CvPtr);
             dst.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
 
         #endregion

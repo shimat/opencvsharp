@@ -149,8 +149,9 @@ namespace OpenCvSharp.ML
                 results.ThrowIfNotReady();
 
             float ret = NativeMethods.ml_LogisticRegression_predict(ptr, samples.CvPtr, Cv2.ToPtr(results), flags);
-
+            GC.KeepAlive(this);
             GC.KeepAlive(samples);
+            GC.KeepAlive(results);
             if (results != null)
                 results.Fix();
 

@@ -81,6 +81,8 @@ namespace OpenCvSharp
                 img.CvPtr, pyramid.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0, 
                 (int)pyrBorder, (int)derivBorder, tryReuseInputImage ? 1 : 0);
             pyramid.Fix();
+            GC.KeepAlive(img);
+            GC.KeepAlive(pyramid);
             return result;
         }
 
@@ -174,7 +176,12 @@ namespace OpenCvSharp
                 prevImg.CvPtr, nextImg.CvPtr, prevPts.CvPtr, nextPts.CvPtr,
                 status.CvPtr, err.CvPtr, winSize0,maxLevel,
                 criteria0, (int)flags, minEigThreshold);
-
+            GC.KeepAlive(prevImg);
+            GC.KeepAlive(nextImg);
+            GC.KeepAlive(prevPts);
+            GC.KeepAlive(nextPts);
+            GC.KeepAlive(status);
+            GC.KeepAlive(err);
             nextPts.Fix();
             status.Fix();
             err.Fix();
@@ -269,7 +276,9 @@ namespace OpenCvSharp
             NativeMethods.video_calcOpticalFlowFarneback(prev.CvPtr, next.CvPtr, 
                 flow.CvPtr, pyrScale, levels, winsize, iterations, polyN, polySigma, 
                 (int)flags);
-
+            GC.KeepAlive(prev);
+            GC.KeepAlive(next);
+            GC.KeepAlive(flow);
             flow.Fix();
         }
 

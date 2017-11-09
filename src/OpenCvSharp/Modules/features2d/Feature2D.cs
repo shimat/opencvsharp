@@ -66,7 +66,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_Feature2D_descriptorSize(ptr);
+                var res = NativeMethods.features2d_Feature2D_descriptorSize(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -79,7 +81,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_Feature2D_descriptorType(ptr);
+                var res = NativeMethods.features2d_Feature2D_descriptorType(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -92,7 +96,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_Feature2D_defaultNorm(ptr);
+                var res = NativeMethods.features2d_Feature2D_defaultNorm(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -107,7 +113,9 @@ namespace OpenCvSharp
         public new virtual bool Empty()
         {
             ThrowIfDisposed();
-            return NativeMethods.features2d_Feature2D_empty(ptr) != 0;
+            var res = NativeMethods.features2d_Feature2D_empty(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -134,6 +142,7 @@ namespace OpenCvSharp
             }
             finally
             {
+                GC.KeepAlive(this);
                 GC.KeepAlive(image);
                 GC.KeepAlive(mask);
             }
@@ -164,6 +173,7 @@ namespace OpenCvSharp
             }
             finally
             {
+                GC.KeepAlive(this);
                 GC.KeepAlive(image);
                 GC.KeepAlive(mask);
             }
@@ -200,7 +210,10 @@ namespace OpenCvSharp
                         throw new ArgumentException("masks.Length != images.Length");
                     NativeMethods.features2d_Feature2D_detect_Mat2(
                         ptr, imagesPtr, imagesArray.Length, keypoints.CvPtr, masksPtr);
+                    GC.KeepAlive(masks);
                 }
+                GC.KeepAlive(this);
+                GC.KeepAlive(imagesArray);
                 return keypoints.ToArray();
             }
         }
@@ -222,6 +235,9 @@ namespace OpenCvSharp
                 NativeMethods.features2d_Feature2D_compute1(ptr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr);
                 keypoints = keypointsVec.ToArray();
             }
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
+            GC.KeepAlive(descriptors);
         }
 
         /// <summary>
@@ -250,6 +266,9 @@ namespace OpenCvSharp
 
                 keypoints = keypointsVec.ToArray();
             }
+            GC.KeepAlive(this);
+            GC.KeepAlive(images);
+            GC.KeepAlive(descriptors);
         }
 
         /// <summary>
@@ -283,9 +302,11 @@ namespace OpenCvSharp
                 keypoints = keypointsVec.ToArray();
             }
 
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
             GC.KeepAlive(mask);
             descriptors.Fix();
+            GC.KeepAlive(descriptors);
         }
 
         #endregion
@@ -298,7 +319,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_Feature2D_get(ptr);
+                var res = NativeMethods.features2d_Ptr_Feature2D_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

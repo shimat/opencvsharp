@@ -34,6 +34,7 @@ namespace OpenCvSharp
 
             // Matで結果取得
             IntPtr matPtr = NativeMethods.core_OutputArray_getMat(ptr);
+            GC.KeepAlive(this);
             using (Mat mat = new Mat(matPtr))
             {
                 // 配列サイズ

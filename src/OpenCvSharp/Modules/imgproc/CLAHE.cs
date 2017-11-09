@@ -63,7 +63,9 @@ namespace OpenCvSharp
             NativeMethods.imgproc_CLAHE_apply(ptr, src.CvPtr, dst.CvPtr);
 
             dst.Fix();
+            GC.KeepAlive(this);
             GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
 
         /// <summary>

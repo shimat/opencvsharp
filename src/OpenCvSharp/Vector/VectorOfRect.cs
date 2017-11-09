@@ -54,7 +54,12 @@ namespace OpenCvSharp
         /// </summary>
         public int Size
         {
-            get { return NativeMethods.vector_Rect_getSize(ptr).ToInt32(); }
+            get
+            {
+                var res = NativeMethods.vector_Rect_getSize(ptr).ToInt32();
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         /// <summary>
@@ -62,7 +67,12 @@ namespace OpenCvSharp
         /// </summary>
         public IntPtr ElemPtr
         {
-            get { return NativeMethods.vector_Rect_getPointer(ptr); }
+            get
+            {
+                var res = NativeMethods.vector_Rect_getPointer(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
         }
 
         /// <summary>
