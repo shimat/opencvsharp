@@ -407,8 +407,6 @@ namespace OpenCvSharp
             NativeMethods.calib3d_matMulDeriv(a.CvPtr, b.CvPtr, dABdA.CvPtr, dABdB.CvPtr);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
-            GC.KeepAlive(dABdA);
-            GC.KeepAlive(dABdB);
             dABdA.Fix();
             dABdB.Fix();
         }
@@ -615,6 +613,7 @@ namespace OpenCvSharp
             NativeMethods.calib3d_projectPoints_InputArray(objectPoints.CvPtr,
                 rvec.CvPtr, tvec.CvPtr, cameraMatrix.CvPtr, ToPtr(distCoeffs),
                 imagePoints.CvPtr, ToPtr(jacobian), aspectRatio);
+
             GC.KeepAlive(objectPoints);
             GC.KeepAlive(rvec);
             GC.KeepAlive(tvec);
@@ -673,17 +672,13 @@ namespace OpenCvSharp
             using (var rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec))
             using (var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec))
             using (var cameraMatrixM = new Mat(3, 3, MatType.CV_64FC1, cameraMatrix))
+            using (var distCoeffsM = (distCoeffs == null) ? new Mat() : new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs))
             using (var imagePointsM = new MatOfPoint2f())
+            using (var jacobianM = new MatOfDouble())
             {
-                var distCoeffsM = new Mat();
-                if (distCoeffs != null)
-                    distCoeffsM = new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs);
-                var jacobianM = new MatOfDouble();
-
                 NativeMethods.calib3d_projectPoints_Mat(objectPointsM.CvPtr,
                     rvecM.CvPtr, tvecM.CvPtr, cameraMatrixM.CvPtr, distCoeffsM.CvPtr,
                     imagePointsM.CvPtr, jacobianM.CvPtr, aspectRatio);
-                GC.KeepAlive(distCoeffsM);
 
                 imagePoints = imagePointsM.ToArray();
                 jacobian = jacobianM.ToRectangularArray();
@@ -737,14 +732,12 @@ namespace OpenCvSharp
             NativeMethods.calib3d_solvePnP_InputArray(
                 objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr,
                 rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, (int)flags);
+            rvec.Fix();
+            tvec.Fix();
             GC.KeepAlive(objectPoints);
             GC.KeepAlive(imagePoints);
             GC.KeepAlive(cameraMatrix);
             GC.KeepAlive(distCoeffs);
-            GC.KeepAlive(rvec);
-            GC.KeepAlive(tvec);
-            rvec.Fix();
-            tvec.Fix();
         }
 
         /// <summary>
@@ -858,9 +851,6 @@ namespace OpenCvSharp
             GC.KeepAlive(imagePoints);
             GC.KeepAlive(cameraMatrix);
             GC.KeepAlive(distCoeffs);
-            GC.KeepAlive(rvec);
-            GC.KeepAlive(tvec);
-            GC.KeepAlive(inliers);
             rvec.Fix();
             tvec.Fix();
             inliers?.Fix();
@@ -978,8 +968,6 @@ namespace OpenCvSharp
 
             IntPtr matPtr = NativeMethods.calib3d_initCameraMatrix2D_Mat(objectPointsPtrs, objectPointsPtrs.Length,
                 imagePointsPtrs, imagePointsPtrs.Length, imageSize, aspectRatio);
-            GC.KeepAlive(objectPoints);
-            GC.KeepAlive(imagePoints);
             return new Mat(matPtr);
         }
         /// <summary>
@@ -1039,7 +1027,6 @@ namespace OpenCvSharp
             int ret = NativeMethods.calib3d_findChessboardCorners_InputArray(
                 image.CvPtr, patternSize, corners.CvPtr, (int)flags);
             GC.KeepAlive(image);
-            GC.KeepAlive(corners);
             corners.Fix();
             return ret != 0;
         }
@@ -1093,7 +1080,6 @@ namespace OpenCvSharp
             int ret = NativeMethods.calib3d_find4QuadCornerSubpix_InputArray(
                 img.CvPtr, corners.CvPtr, regionSize);
             GC.KeepAlive(img);
-            GC.KeepAlive(corners);
             corners.Fix();
             return ret != 0;
         }
@@ -1148,7 +1134,6 @@ namespace OpenCvSharp
 
             NativeMethods.calib3d_drawChessboardCorners_InputArray(
                 image.CvPtr, patternSize, corners.CvPtr, patternWasFound ? 1 : 0);
-            GC.KeepAlive(image);
             GC.KeepAlive(corners);
             image.Fix();
         }
@@ -1172,7 +1157,6 @@ namespace OpenCvSharp
             NativeMethods.calib3d_drawChessboardCorners_array(
                 image.CvPtr, patternSize, cornersArray, cornersArray.Length,
                 patternWasFound ? 1 : 0);
-            GC.KeepAlive(image);
             image.Fix();
         }
         #endregion
@@ -2210,7 +2194,6 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.calib3d_convertPointsFromHomogeneous_InputArray(src.CvPtr, dst.CvPtr);
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
             dst.Fix();
         }
         /// <summary>
@@ -2259,7 +2242,6 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             NativeMethods.calib3d_convertPointsHomogeneous(src.CvPtr, dst.CvPtr);
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
             dst.Fix();
         }
         #endregion
@@ -2299,7 +2281,6 @@ namespace OpenCvSharp
             mask?.Fix();
             GC.KeepAlive(points1);
             GC.KeepAlive(points2);
-            GC.KeepAlive(mask);
             return new Mat(mat);
         }
 
@@ -2338,7 +2319,6 @@ namespace OpenCvSharp
                 points2Array, points2Array.Length, (int)method,
                 param1, param2, ToPtr(mask));
             mask?.Fix();
-            GC.KeepAlive(mask);
             return new Mat(mat);
         }
         #endregion
@@ -2371,7 +2351,6 @@ namespace OpenCvSharp
 
             GC.KeepAlive(F);
             GC.KeepAlive(points);
-            GC.KeepAlive(lines);
             lines.Fix();
         }
 
@@ -2470,7 +2449,6 @@ namespace OpenCvSharp
             GC.KeepAlive(projMatr2);
             GC.KeepAlive(projPoints1);
             GC.KeepAlive(projPoints2);
-            GC.KeepAlive(points4D);
             points4D.Fix();
         }
         /// <summary>
@@ -2549,8 +2527,6 @@ namespace OpenCvSharp
             GC.KeepAlive(F);
             GC.KeepAlive(points1);
             GC.KeepAlive(points2);
-            GC.KeepAlive(newPoints1);
-            GC.KeepAlive(newPoints2);
             newPoints1.Fix();
             newPoints2.Fix();
         }
@@ -2721,8 +2697,6 @@ namespace OpenCvSharp
             inliers.Fix();
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
-            GC.KeepAlive(outVal);
-            GC.KeepAlive(inliers);
             return ret;
         }
     }

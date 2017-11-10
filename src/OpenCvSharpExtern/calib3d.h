@@ -105,7 +105,7 @@ CVAPI(void) calib3d_projectPoints_InputArray(cv::_InputArray *objectPoints,
     double aspectRatio)
 {
     cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
-        *imagePoints, *jacobian, aspectRatio);
+        *imagePoints, entity(jacobian), aspectRatio);
 }
 CVAPI(void) calib3d_projectPoints_Mat(cv::Mat *objectPoints,
     cv::Mat *rvec, cv::Mat *tvec,
@@ -130,16 +130,17 @@ CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsL
     double *rvec, double *tvec, int useExtrinsicGuess,
     int flags)
 {
-    cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
-    cv::Mat imagePointsMat(imagePointsLength, 1, CV_64FC2, imagePoints);
+    const cv::Mat objectPointsMat(objectPointsLength, 1, CV_32FC3, objectPoints);
+    const cv::Mat imagePointsMat(imagePointsLength, 1, CV_32FC2, imagePoints);
     cv::Mat distCoeffsMat;
     if (distCoeffs != NULL)
         distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
 
-    cv::Matx<double, 3, 1> rvecM, tvecM;
-    cv::solvePnP(objectPointsMat, imagePointsMat, *cameraMatrix, distCoeffsMat, rvecM, tvecM, useExtrinsicGuess != 0, flags);
-    memcpy(rvec, rvecM.val, sizeof(double) * 3);
-    memcpy(tvec, tvecM.val, sizeof(double) * 3);
+    const cv::Matx<double, 3, 3> cameraMatrixMat(cameraMatrix);
+    cv::Matx<double, 3, 1> rvecMat, tvecMat;
+    cv::solvePnP(objectPointsMat, imagePointsMat, cameraMatrixMat, distCoeffsMat, rvecMat, tvecMat, useExtrinsicGuess != 0, flags);
+    memcpy(rvec, rvecMat.val, sizeof(double) * 3);
+    memcpy(tvec, tvecMat.val, sizeof(double) * 3);
 }
 
 CVAPI(void) calib3d_solvePnPRansac_InputArray(cv::_InputArray *objectPoints, cv::_InputArray *imagePoints,
