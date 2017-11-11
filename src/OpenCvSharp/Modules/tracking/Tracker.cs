@@ -12,8 +12,6 @@ namespace OpenCvSharp.Tracking
         /// </summary>
         private Ptr ptrObj;
 
-        #region Init & Disposal
-
         /// <summary>
         /// 
         /// </summary>
@@ -23,6 +21,7 @@ namespace OpenCvSharp.Tracking
             ptr = ptrObj.Get();
         }
 
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -55,7 +54,7 @@ namespace OpenCvSharp.Tracking
             }
 
             return new Tracker(ptr);
-        }
+        }*/
 
         /// <summary>
         /// Releases managed resources
@@ -66,8 +65,6 @@ namespace OpenCvSharp.Tracking
             ptrObj = null;
             base.DisposeManaged();
         }
-
-        #endregion
 
         #region Methods
 
@@ -132,6 +129,5 @@ namespace OpenCvSharp.Tracking
                 base.DisposeUnmanaged();
             }
         }
-
     }
 }

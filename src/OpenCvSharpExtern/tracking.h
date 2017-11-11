@@ -3,12 +3,13 @@
 
 #include "include_opencv.h"
 
+/*
 CVAPI(cv::Ptr<cv::Tracker>*) tracking_Tracker_create(const char* trackerType)
 {
     std::string type(trackerType);
     cv::Ptr<cv::Tracker> p = cv::Tracker::create(type);
     return new cv::Ptr<cv::Tracker>(p);
-}
+}*/
 
 CVAPI(int) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, MyCvRect2D boundingBox)
 {
@@ -39,6 +40,29 @@ CVAPI(void) tracking_Ptr_Tracker_delete(cv::Ptr<cv::Tracker> *ptr)
 CVAPI(cv::Tracker*) tracking_Ptr_Tracker_get(cv::Ptr<cv::Tracker> *ptr)
 {
     return ptr->get();
+}
+
+// TrackerKCF
+
+CVAPI(cv::Ptr<cv::TrackerKCF>*) tracking_TrackerKCF_create1()
+{	
+	cv::Ptr<cv::TrackerKCF> p = cv::TrackerKCF::create();
+	return clone(p);
+}
+CVAPI(cv::Ptr<cv::TrackerKCF>*) tracking_TrackerKCF_create2(cv::TrackerKCF::Params *parameters)
+{
+	cv::Ptr<cv::TrackerKCF> p = cv::TrackerKCF::create(*parameters);
+	return clone(p);
+}
+
+CVAPI(void) tracking_Ptr_TrackerKCF_delete(cv::Ptr<cv::TrackerKCF> *ptr)
+{
+	delete ptr;
+}
+
+CVAPI(cv::Tracker*) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF> *ptr)
+{
+	return ptr->get();
 }
 
 #endif

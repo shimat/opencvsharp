@@ -11,7 +11,7 @@ namespace OpenCvSharp.Tests.Tracking
 
     public class TrackerTest : TestBase
     {
-
+        /*
         [Fact]
         public void Create()
         {
@@ -20,13 +20,13 @@ namespace OpenCvSharp.Tests.Tracking
                 var tracker = Tracker.Create(val);
                 tracker.Dispose();
             }
-        }
+        }*/
 
         [Fact]
         public void Init()
         {
             using (var vc = Image("lenna.png"))
-            using (var tracker = Tracker.Create(TrackerTypes.KCF))
+            using (var tracker = TrackerKCF.Create())
                 Assert.True(tracker.Init(vc, new Rect2d(320, 60, 200, 220)));
         }
 
@@ -46,7 +46,7 @@ namespace OpenCvSharp.Tests.Tracking
             const string path = "C:\\TrackerTest_Update";
 
             const string basedir = "ETHZ\\seq03-img-left\\";
-            using (var tracker = Tracker.Create(TrackerTypes.KCF))
+            using (var tracker = TrackerKCF.Create())
                 foreach (var i in Enumerable.Range(0, 21))
                 {
                     var file = $"image_{i:D8}_0.png";
