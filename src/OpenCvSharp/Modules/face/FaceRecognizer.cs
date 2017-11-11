@@ -180,7 +180,7 @@ namespace OpenCvSharp.Face
         /// Serializes this object to a given filename.
         /// </summary>
         /// <param name="fileName"></param>
-        public new virtual void Write(string fileName)
+        public virtual void Write(string fileName)
         {
             ThrowIfDisposed();
             if (fileName == null)
@@ -204,7 +204,7 @@ namespace OpenCvSharp.Face
         /// Serializes this object to a given cv::FileStorage.
         /// </summary>
         /// <param name="fs"></param>
-        public virtual void Write(FileStorage fs)
+        public override void Write(FileStorage fs)
         {
             ThrowIfDisposed();
             if (fs == null)
@@ -216,7 +216,7 @@ namespace OpenCvSharp.Face
         /// Deserializes this object from a given cv::FileNode.
         /// </summary>
         /// <param name="fs"></param>
-        public virtual void Read(FileNode fs)
+        public override void Read(FileNode fs)
         {
             ThrowIfDisposed();
             if (fs == null)

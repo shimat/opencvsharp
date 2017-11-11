@@ -52,7 +52,7 @@ namespace OpenCvSharp.Tracking
             return new TrackerKCF(p);
         }
 
-        internal class Ptr : OpenCvSharp.Ptr
+        internal new class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
             {
