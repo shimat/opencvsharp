@@ -307,7 +307,7 @@ static cv::aruco::DetectorParameters cpp(aruco_DetectorParameters p)
     pp.minCornerDistanceRate = p.minCornerDistanceRate;
     pp.minDistanceToBorder = p.minDistanceToBorder;
     pp.minMarkerDistanceRate = p.minMarkerDistanceRate;
-    pp.doCornerRefinement = p.doCornerRefinement != 0;
+    //pp.doCornerRefinement = p.doCornerRefinement != 0;
     pp.cornerRefinementWinSize = p.cornerRefinementWinSize;
     pp.cornerRefinementMaxIterations = p.cornerRefinementMaxIterations;
     pp.cornerRefinementMinAccuracy = p.cornerRefinementMinAccuracy;
@@ -332,7 +332,7 @@ static aruco_DetectorParameters c(const cv::aruco::DetectorParameters &p)
     pp.minCornerDistanceRate = p.minCornerDistanceRate;
     pp.minDistanceToBorder = p.minDistanceToBorder;
     pp.minMarkerDistanceRate = p.minMarkerDistanceRate;
-    pp.doCornerRefinement = p.doCornerRefinement ? 1 : 0;
+    //pp.doCornerRefinement = p.doCornerRefinement ? 1 : 0;
     pp.cornerRefinementWinSize = p.cornerRefinementWinSize;
     pp.cornerRefinementMaxIterations = p.cornerRefinementMaxIterations;
     pp.cornerRefinementMinAccuracy = p.cornerRefinementMinAccuracy;

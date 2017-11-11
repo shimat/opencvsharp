@@ -6,20 +6,23 @@
 #include "include_opencv.h"
 using namespace cv::face;
 
-CVAPI(cv::Ptr<BasicFaceRecognizer>*) face_createEigenFaceRecognizer(int numComponents, double threshold)
+CVAPI(cv::Ptr<EigenFaceRecognizer>*) face_createEigenFaceRecognizer(int numComponents, double threshold)
 {
-    return clone(createEigenFaceRecognizer(numComponents, threshold));
+	auto r = EigenFaceRecognizer::create(numComponents, threshold);
+	return clone(r);
 }
 
-CVAPI(cv::Ptr<BasicFaceRecognizer>*) face_createFisherFaceRecognizer(int numComponents, double threshold)
+CVAPI(cv::Ptr<FisherFaceRecognizer>*) face_createFisherFaceRecognizer(int numComponents, double threshold)
 {
-    return clone(createFisherFaceRecognizer(numComponents, threshold));
+	auto r = FisherFaceRecognizer::create(numComponents, threshold);
+	return clone(r);
 }
 
 CVAPI(cv::Ptr<LBPHFaceRecognizer>*) face_createLBPHFaceRecognizer(
     int radius, int neighbors, int gridX, int gridY, double threshold)
 {
-    return clone(createLBPHFaceRecognizer(radius, neighbors, gridX, gridY, threshold));
+	auto r = LBPHFaceRecognizer::create(radius, neighbors, gridX, gridY, threshold);
+	return clone(r);
 }
 
 #endif
