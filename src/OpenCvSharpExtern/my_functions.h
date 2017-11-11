@@ -3,6 +3,11 @@
 #ifndef _MY_FUNCTIONS_H_
 #define _MY_FUNCTIONS_H_
 
+#ifdef _WIN32
+#pragma warning(disable: 4996) 
+#endif
+
+
 #include <opencv2/opencv.hpp>
 #include "my_types.h"
 
@@ -20,10 +25,7 @@ static int p(T obj, const std::string &caption = "MessageBox")
     ss << obj;
     return p(ss.str().c_str(), caption.c_str());
 }
-#undef min
-#undef max
 #endif
-
 
 
 #if defined WIN32 || defined _WIN32
