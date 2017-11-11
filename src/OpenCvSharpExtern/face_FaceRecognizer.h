@@ -34,19 +34,19 @@ CVAPI(void) face_FaceRecognizer_predict2(
 {
     obj->predict(*src, *label, *confidence);
 }
-CVAPI(void) face_FaceRecognizer_save1(FaceRecognizer *obj, const char *filename)
+CVAPI(void) face_FaceRecognizer_write1(FaceRecognizer *obj, const char *filename)
 {
     obj->write(filename);
 }
-CVAPI(void) face_FaceRecognizer_load1(FaceRecognizer *obj, const char *filename)
+CVAPI(void) face_FaceRecognizer_read1(FaceRecognizer *obj, const char *filename)
 {
     obj->read(filename);
 }
-CVAPI(void) face_FaceRecognizer_save2(FaceRecognizer *obj, cv::FileStorage *fs)
+CVAPI(void) face_FaceRecognizer_write2(FaceRecognizer *obj, cv::FileStorage *fs)
 {
     obj->write(*fs);
 }
-CVAPI(void) face_FaceRecognizer_load2(FaceRecognizer *obj, cv::FileNode *fn)
+CVAPI(void) face_FaceRecognizer_read2(FaceRecognizer *obj, cv::FileNode *fn)
 {
     obj->read(*fn);
 }

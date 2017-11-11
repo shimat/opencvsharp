@@ -24,13 +24,13 @@ namespace OpenCvSharp
         public static extern void face_FaceRecognizer_predict2(
             IntPtr obj, IntPtr src, out int label, out double confidence);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void face_FaceRecognizer_save1(IntPtr obj, string filename);
+        public static extern void face_FaceRecognizer_write1(IntPtr obj, string filename);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void face_FaceRecognizer_load1(IntPtr obj, string filename);
+        public static extern void face_FaceRecognizer_read1(IntPtr obj, string filename);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void face_FaceRecognizer_save2(IntPtr obj, IntPtr fs);
+        public static extern void face_FaceRecognizer_write2(IntPtr obj, IntPtr fs);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void face_FaceRecognizer_load2(IntPtr obj, IntPtr fs);
+        public static extern void face_FaceRecognizer_read2(IntPtr obj, IntPtr fs);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void face_FaceRecognizer_setLabelInfo(IntPtr obj, int label,

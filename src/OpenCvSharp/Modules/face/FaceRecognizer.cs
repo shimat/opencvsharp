@@ -180,48 +180,48 @@ namespace OpenCvSharp.Face
         /// Serializes this object to a given filename.
         /// </summary>
         /// <param name="fileName"></param>
-        public new virtual void Save(string fileName)
+        public new virtual void Write(string fileName)
         {
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            NativeMethods.face_FaceRecognizer_save1(ptr, fileName);
+            NativeMethods.face_FaceRecognizer_write1(ptr, fileName);
         }
 
         /// <summary>
         /// Deserializes this object from a given filename.
         /// </summary>
         /// <param name="fileName"></param>
-        public virtual void Load(string fileName)
+        public virtual void Read(string fileName)
         {
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            NativeMethods.face_FaceRecognizer_load1(ptr, fileName);
+            NativeMethods.face_FaceRecognizer_read1(ptr, fileName);
         }
 
         /// <summary>
         /// Serializes this object to a given cv::FileStorage.
         /// </summary>
         /// <param name="fs"></param>
-        public virtual void Save(FileStorage fs)
+        public virtual void Write(FileStorage fs)
         {
             ThrowIfDisposed();
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
-            NativeMethods.face_FaceRecognizer_save2(ptr, fs.CvPtr);
+            NativeMethods.face_FaceRecognizer_write2(ptr, fs.CvPtr);
         }
 
         /// <summary>
-        /// Deserializes this object from a given cv::FileStorage.
+        /// Deserializes this object from a given cv::FileNode.
         /// </summary>
         /// <param name="fs"></param>
-        public virtual void Load(FileStorage fs)
+        public virtual void Read(FileNode fs)
         {
             ThrowIfDisposed();
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
-            NativeMethods.face_FaceRecognizer_load2(ptr, fs.CvPtr);
+            NativeMethods.face_FaceRecognizer_read2(ptr, fs.CvPtr);
         }
 
         /// <summary>
