@@ -89,6 +89,8 @@ namespace OpenCvSharp
             }
             double[] dst = new double[size];
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);
+            GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
+                                // make sure we are not disposed until finished with copy.
             return dst;
         }
     }
