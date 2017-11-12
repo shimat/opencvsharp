@@ -113,6 +113,7 @@ namespace OpenCvSharp.XImgProc
             using (var lines = new VectorOfVec4f())
             {
                 NativeMethods.ximgproc_FastLineDetector_detect_vector(ptr, image.CvPtr, lines.CvPtr);
+                GC.KeepAlive(this);
                 GC.KeepAlive(image);
                 return lines.ToArray();
             }
@@ -174,7 +175,9 @@ namespace OpenCvSharp.XImgProc
 
             public override IntPtr Get()
             {
-                return NativeMethods.ximgproc_Ptr_FastLineDetector_get(ptr);
+                var res = NativeMethods.ximgproc_Ptr_FastLineDetector_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

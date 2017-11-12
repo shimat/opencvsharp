@@ -62,6 +62,7 @@ namespace OpenCvSharp
             if (vocabulary == null)
                 throw new ArgumentNullException(nameof(vocabulary));
             NativeMethods.features2d_BOWImgDescriptorExtractor_setVocabulary(ptr, vocabulary.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(vocabulary);
         }
 
@@ -73,6 +74,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             IntPtr p = NativeMethods.features2d_BOWImgDescriptorExtractor_getVocabulary(ptr);
+            GC.KeepAlive(this);
             return new Mat(p);
         }
 
@@ -102,6 +104,7 @@ namespace OpenCvSharp
                 keypoints = keypointsVec.ToArray();
                 pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
             }
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
             GC.KeepAlive(imgDescriptor);
             GC.KeepAlive(descriptors);
@@ -128,6 +131,7 @@ namespace OpenCvSharp
                     ptr, keypointDescriptors.CvPtr, imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr);
                 pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
             }
+            GC.KeepAlive(this);
             GC.KeepAlive(keypointDescriptors);
             GC.KeepAlive(imgDescriptor);
         }
@@ -152,6 +156,7 @@ namespace OpenCvSharp
                     ptr, image.CvPtr, keypointsVec.CvPtr, imgDescriptor.CvPtr);
                 keypoints = keypointsVec.ToArray();
             }
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
             GC.KeepAlive(imgDescriptor);
         }
@@ -163,7 +168,9 @@ namespace OpenCvSharp
         public int DescriptorSize()
         {
             ThrowIfDisposed();
-            return NativeMethods.features2d_BOWImgDescriptorExtractor_descriptorSize(ptr);
+            var res = NativeMethods.features2d_BOWImgDescriptorExtractor_descriptorSize(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -173,7 +180,9 @@ namespace OpenCvSharp
         public int DescriptorType()
         {
             ThrowIfDisposed();
-            return NativeMethods.features2d_BOWImgDescriptorExtractor_descriptorType(ptr);
+            var res = NativeMethods.features2d_BOWImgDescriptorExtractor_descriptorType(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
     }
 }

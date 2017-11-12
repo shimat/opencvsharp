@@ -96,12 +96,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_MSER_getDelta(ptr);
+                var res = NativeMethods.features2d_MSER_getDelta(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_MSER_setDelta(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -113,12 +116,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_MSER_getMinArea(ptr);
+                var res = NativeMethods.features2d_MSER_getMinArea(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_MSER_setMinArea(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -130,12 +136,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_MSER_getMaxArea(ptr);
+                var res = NativeMethods.features2d_MSER_getMaxArea(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_MSER_setMaxArea(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -147,12 +156,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_MSER_getPass2Only(ptr) != 0;
+                var res = NativeMethods.features2d_MSER_getPass2Only(ptr) != 0;
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_MSER_setDelta(ptr, value ? 1 : 0);
+                GC.KeepAlive(this);
             }
         }
 
@@ -179,6 +191,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.features2d_MSER_detectRegions(
                     ptr, image.CvPtr, msersVec.CvPtr, bboxesVec.CvPtr);
+                GC.KeepAlive(this);
                 msers = msersVec.ToArray();
                 bboxes = bboxesVec.ToArray();
             }
@@ -196,7 +209,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_MSER_get(ptr);
+                var res = NativeMethods.features2d_Ptr_MSER_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

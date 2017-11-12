@@ -81,12 +81,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getMaxFeatures(ptr);
+                var res = NativeMethods.features2d_ORB_getMaxFeatures(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setMaxFeatures(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -98,12 +101,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getScaleFactor(ptr);
+                var res = NativeMethods.features2d_ORB_getScaleFactor(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setScaleFactor(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -116,12 +122,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getNLevels(ptr);
+                var res = NativeMethods.features2d_ORB_getNLevels(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setNLevels(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -134,12 +143,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getEdgeThreshold(ptr);
+                var res = NativeMethods.features2d_ORB_getEdgeThreshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setEdgeThreshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -152,12 +164,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getFirstLevel(ptr);
+                var res = NativeMethods.features2d_ORB_getFirstLevel(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setFirstLevel(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -171,12 +186,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getWTA_K(ptr);
+                var res = NativeMethods.features2d_ORB_getWTA_K(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setWTA_K(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -189,12 +207,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getScoreType(ptr);
+                var res = NativeMethods.features2d_ORB_getScoreType(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setScoreType(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -207,12 +228,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getPatchSize(ptr);
+                var res = NativeMethods.features2d_ORB_getPatchSize(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setPatchSize(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -225,12 +249,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_ORB_getFastThreshold(ptr);
+                var res = NativeMethods.features2d_ORB_getFastThreshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_ORB_setFastThreshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -244,7 +271,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_ORB_get(ptr);
+                var res = NativeMethods.features2d_Ptr_ORB_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

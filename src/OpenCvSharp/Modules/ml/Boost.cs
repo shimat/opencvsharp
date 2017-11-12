@@ -80,12 +80,15 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                return (Types) NativeMethods.ml_Boost_getBoostType(ptr);
+                var res = (Types) NativeMethods.ml_Boost_getBoostType(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.ml_Boost_setBoostType(ptr, (int) value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -98,12 +101,15 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.ml_Boost_getWeakCount(ptr);
+                var res = NativeMethods.ml_Boost_getWeakCount(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.ml_Boost_setWeakCount(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -118,12 +124,15 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.ml_Boost_getWeightTrimRate(ptr);
+                var res = NativeMethods.ml_Boost_getWeightTrimRate(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.ml_Boost_setWeightTrimRate(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -170,7 +179,9 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                return NativeMethods.ml_Ptr_Boost_get(ptr);
+                var res = NativeMethods.ml_Ptr_Boost_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

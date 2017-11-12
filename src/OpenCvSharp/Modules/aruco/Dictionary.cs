@@ -44,6 +44,7 @@ namespace OpenCvSharp.Aruco
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.aruco_Dictionary_getBytesList(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -56,12 +57,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_Dictionary_getMarkerSize(ptr);
+                var res = NativeMethods.aruco_Dictionary_getMarkerSize(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_Dictionary_setMarkerSize(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -73,12 +77,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_Dictionary_getMaxCorrectionBits(ptr);
+                var res = NativeMethods.aruco_Dictionary_getMaxCorrectionBits(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_Dictionary_setMaxCorrectionBits(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -92,7 +99,9 @@ namespace OpenCvSharp.Aruco
 
             public override IntPtr Get()
             {
-                return NativeMethods.aruco_Ptr_Dictionary_get(ptr);
+                var res = NativeMethods.aruco_Ptr_Dictionary_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

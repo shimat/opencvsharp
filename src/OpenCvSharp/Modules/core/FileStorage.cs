@@ -69,6 +69,7 @@ namespace OpenCvSharp
                 if (nodeName == null)
                     throw new ArgumentNullException(nameof(nodeName));
                 IntPtr node = NativeMethods.core_FileStorage_indexer(ptr, nodeName);
+                GC.KeepAlive(this);
                 if (node == IntPtr.Zero)
                     return null;
                 return new FileNode(node);
@@ -88,7 +89,9 @@ namespace OpenCvSharp
                     sbyte* buf = NativeMethods.core_FileStorage_elname(ptr);
                     if (buf == null)
                         return null;
-                    return StringHelper.PtrToStringAnsi(buf); ;
+                    var res = StringHelper.PtrToStringAnsi(buf); ;
+                    GC.KeepAlive(this);
+                    return res;
                 }
             }
         }
@@ -106,6 +109,7 @@ namespace OpenCvSharp
                 IntPtr buf = NativeMethods.core_FileStorage_structs(ptr, out length);
                 byte[] result = new byte[length.ToInt32()];
                 Marshal.Copy(buf, result, 0, result.Length);
+                GC.KeepAlive(this);
                 return result;
             }
         }
@@ -118,7 +122,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.core_FileStorage_state(ptr);
+                var res = NativeMethods.core_FileStorage_state(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -140,6 +146,7 @@ namespace OpenCvSharp
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
             int ret = NativeMethods.core_FileStorage_open(ptr, fileName, (int)flags, encoding);
+            GC.KeepAlive(this);
             return ret != 0;
         }
 
@@ -150,7 +157,9 @@ namespace OpenCvSharp
         public virtual bool IsOpened()
         {
             ThrowIfDisposed();
-            return NativeMethods.core_FileStorage_isOpened(ptr) != 0;
+            var res = NativeMethods.core_FileStorage_isOpened(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -184,6 +193,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             IntPtr node = NativeMethods.core_FileStorage_getFirstTopLevelNode(ptr);
+            GC.KeepAlive(this);
             if (node == IntPtr.Zero)
                 return null;
             return new FileNode(node);
@@ -198,6 +208,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             IntPtr node = NativeMethods.core_FileStorage_root(ptr, streamidx);
+            GC.KeepAlive(this);
             if (node == IntPtr.Zero)
                 return null;
             return new FileNode(node);
@@ -226,6 +237,7 @@ namespace OpenCvSharp
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
             NativeMethods.core_FileStorage_writeObj(ptr, name, obj);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -260,6 +272,7 @@ namespace OpenCvSharp
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
             NativeMethods.core_FileStorage_write_int(ptr, name, value);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -273,6 +286,7 @@ namespace OpenCvSharp
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
             NativeMethods.core_FileStorage_write_float(ptr, name, value);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -286,6 +300,7 @@ namespace OpenCvSharp
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
             NativeMethods.core_FileStorage_write_double(ptr, name, value);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -301,6 +316,7 @@ namespace OpenCvSharp
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
             NativeMethods.core_FileStorage_write_String(ptr, name, value);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -316,6 +332,7 @@ namespace OpenCvSharp
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
             NativeMethods.core_FileStorage_write_Mat(ptr, name, value.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(value);
         }
 
@@ -332,6 +349,7 @@ namespace OpenCvSharp
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
             NativeMethods.core_FileStorage_write_SparseMat(ptr, name, value.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(value);
         }
 
@@ -350,6 +368,7 @@ namespace OpenCvSharp
             using (var valueVector = new VectorOfKeyPoint(value))
             {
                 NativeMethods.core_FileStorage_write_vectorOfKeyPoint(ptr, name, valueVector.CvPtr);
+                GC.KeepAlive(this);
             }
         }
 
@@ -368,6 +387,7 @@ namespace OpenCvSharp
             using (var valueVector = new VectorOfDMatch(value))
             {
                 NativeMethods.core_FileStorage_write_vectorOfDMatch(ptr, name, valueVector.CvPtr);
+                GC.KeepAlive(this);
             }
         }
 
@@ -379,6 +399,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.core_FileStorage_writeScalar_int(ptr, value);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -389,6 +410,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.core_FileStorage_writeScalar_float(ptr, value);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -399,6 +421,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.core_FileStorage_writeScalar_double(ptr, value);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -411,6 +434,7 @@ namespace OpenCvSharp
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
             NativeMethods.core_FileStorage_writeScalar_String(ptr, value);
+            GC.KeepAlive(this);
         }
 
         #endregion

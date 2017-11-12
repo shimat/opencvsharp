@@ -52,7 +52,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.photo_Ptr_CalibrateDebevec_get(ptr);
+                var res = NativeMethods.photo_Ptr_CalibrateDebevec_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

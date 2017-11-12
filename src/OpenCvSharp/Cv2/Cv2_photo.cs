@@ -31,7 +31,6 @@ namespace OpenCvSharp
             dst.Fix();
             GC.KeepAlive(src);
             GC.KeepAlive(inpaintMask);
-            GC.KeepAlive(dst);
         }
         #endregion
 
@@ -62,7 +61,6 @@ namespace OpenCvSharp
             NativeMethods.photo_fastNlMeansDenoising(src.CvPtr, dst.CvPtr, h, templateWindowSize, searchWindowSize);
             dst.Fix();
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
         }
         #endregion
         #region FastNlMeansDenoisingColored
@@ -94,7 +92,6 @@ namespace OpenCvSharp
             NativeMethods.photo_fastNlMeansDenoisingColored(src.CvPtr, dst.CvPtr, h, hColor, templateWindowSize, searchWindowSize);
             dst.Fix();
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
         }
         #endregion
         #region FastNlMeansDenoisingMulti
@@ -128,7 +125,6 @@ namespace OpenCvSharp
                 templateWindowSize, h, templateWindowSize, searchWindowSize);
             dst.Fix();
             GC.KeepAlive(srcImgs);
-            GC.KeepAlive(dst);
         }
         /// <summary>
         /// Modification of fastNlMeansDenoising function for images sequence where consequtive images have been captured 
@@ -185,7 +181,6 @@ namespace OpenCvSharp
                 templateWindowSize, h, hColor, templateWindowSize, searchWindowSize);
             dst.Fix();
             GC.KeepAlive(srcImgs);
-            GC.KeepAlive(dst);
         }
         /// <summary>
         /// Modification of fastNlMeansDenoisingMulti function for colored images sequences
@@ -266,8 +261,6 @@ namespace OpenCvSharp
             colorBoost.ThrowIfNotReady();
             NativeMethods.photo_decolor(src.CvPtr, grayscale.CvPtr, colorBoost.CvPtr);
             GC.KeepAlive(src);
-            GC.KeepAlive(grayscale);
-            GC.KeepAlive(colorBoost);
             grayscale.Fix();
             colorBoost.Fix();
         }
@@ -308,7 +301,6 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(mask);
-            GC.KeepAlive(blend);
             blend.Fix();
         }
 
@@ -340,7 +332,6 @@ namespace OpenCvSharp
 
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
-            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -376,7 +367,6 @@ namespace OpenCvSharp
 
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
-            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -411,7 +401,6 @@ namespace OpenCvSharp
 
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
-            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -441,7 +430,6 @@ namespace OpenCvSharp
                 src.CvPtr, dst.CvPtr, (int)flags, sigmaS, sigmaR);
 
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -468,7 +456,6 @@ namespace OpenCvSharp
                 src.CvPtr, dst.CvPtr, sigmaS, sigmaR);
 
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
             dst.Fix();
         }
 
@@ -500,8 +487,6 @@ namespace OpenCvSharp
                 src.CvPtr, dst1.CvPtr, dst2.CvPtr, sigmaS, sigmaR, shadeFactor);
 
             GC.KeepAlive(src);
-            GC.KeepAlive(dst1);
-            GC.KeepAlive(dst2);
             dst1.Fix();
             dst2.Fix();
         }
@@ -532,7 +517,6 @@ namespace OpenCvSharp
                 src.CvPtr, dst.CvPtr, sigmaS, sigmaR);
 
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
             dst.Fix();
         }
     }

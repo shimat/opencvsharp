@@ -111,6 +111,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.video_DenseOpticalFlow_collectGarbage(ptr);
+            GC.KeepAlive(this);
         }
 
         #endregion
@@ -123,7 +124,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.superres_Ptr_DenseOpticalFlowExt_get(ptr);
+                var res = NativeMethods.superres_Ptr_DenseOpticalFlowExt_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

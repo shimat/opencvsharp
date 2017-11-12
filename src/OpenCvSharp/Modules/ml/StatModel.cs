@@ -40,7 +40,9 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            return NativeMethods.ml_StatModel_getVarCount(ptr);
+            var res = NativeMethods.ml_StatModel_getVarCount(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -51,7 +53,9 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            return NativeMethods.ml_StatModel_empty(ptr) != 0;
+            var res = NativeMethods.ml_StatModel_empty(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -62,7 +66,9 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            return NativeMethods.ml_StatModel_isTrained(ptr) != 0;
+            var res = NativeMethods.ml_StatModel_isTrained(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -73,7 +79,9 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            return NativeMethods.ml_StatModel_isClassifier(ptr) != 0;
+            var res = NativeMethods.ml_StatModel_isClassifier(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -108,6 +116,7 @@ namespace OpenCvSharp.ML
             responses.ThrowIfDisposed();
 
             int ret = NativeMethods.ml_StatModel_train2(ptr, samples.CvPtr, (int)layout, responses.CvPtr);
+            GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(responses);
             return ret != 0;

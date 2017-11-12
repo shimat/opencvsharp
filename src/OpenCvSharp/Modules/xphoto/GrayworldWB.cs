@@ -43,12 +43,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_GrayworldWB_SaturationThreshold_get(this.ptr);
+                var res = NativeMethods.xphoto_GrayworldWB_SaturationThreshold_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_GrayworldWB_SaturationThreshold_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -87,7 +90,9 @@ namespace OpenCvSharp.XPhoto
 
             public override IntPtr Get()
             {
-                return NativeMethods.xphoto_Ptr_GrayworldWB_get(this.ptr);
+                var res = NativeMethods.xphoto_Ptr_GrayworldWB_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()
