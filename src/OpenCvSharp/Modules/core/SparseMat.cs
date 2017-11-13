@@ -342,7 +342,7 @@ namespace OpenCvSharp
         public int Dims()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_dims(ptr);
+            var res = NativeMethods.core_SparseMat_dims(ptr);
             GC.KeepAlive(this);
             return res;
         }
@@ -354,7 +354,7 @@ namespace OpenCvSharp
         public int Channels()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_channels(ptr);
+            var res = NativeMethods.core_SparseMat_channels(ptr);
             GC.KeepAlive(this);
             return res;
         }
