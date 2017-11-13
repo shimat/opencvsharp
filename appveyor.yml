@@ -1,7 +1,7 @@
 version: '3.3.1-{build}'
 
 environment:
-  VCTargetsPath: "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets"
+  VCTargetsPath: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets
 
 init:
 - ps: |
