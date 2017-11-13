@@ -231,6 +231,7 @@
     <ClCompile Include="optflow.cpp" />
     <ClCompile Include="photo.cpp" />
     <ClCompile Include="shape.cpp" />
+    <ClCompile Include="std_string.cpp" />
     <ClCompile Include="std_vector.cpp" />
     <ClCompile Include="features2d.cpp" />
     <ClCompile Include="stitching.cpp" />
@@ -309,6 +310,7 @@
     <ClInclude Include="ml_RTrees.h" />
     <ClInclude Include="photo_HDR.h" />
     <ClInclude Include="shape_ShapeDistanceExtractor.h" />
+    <ClInclude Include="std_string.h" />
     <ClInclude Include="videoio.h" />
     <ClInclude Include="video_tracking.h" />
     <ClInclude Include="photo.h" />

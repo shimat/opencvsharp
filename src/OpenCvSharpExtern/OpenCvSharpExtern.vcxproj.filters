@@ -79,6 +79,9 @@
     <ClCompile Include="xphoto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="std_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -329,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="face_FisherFaceRecognizer.h">
       <Filter>Header Files\face</Filter>
+    </ClInclude>
+    <ClInclude Include="std_string.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
