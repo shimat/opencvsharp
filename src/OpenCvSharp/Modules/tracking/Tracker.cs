@@ -7,6 +7,7 @@ namespace OpenCvSharp.Tracking
     /// </summary>
     public class Tracker : Algorithm
     {
+        /*
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
@@ -21,7 +22,6 @@ namespace OpenCvSharp.Tracking
             ptr = ptrObj.Get();
         }
 
-        /*
         /// <summary>
         /// 
         /// </summary>
@@ -54,7 +54,7 @@ namespace OpenCvSharp.Tracking
             }
 
             return new Tracker(ptr);
-        }*/
+        }
 
         /// <summary>
         /// Releases managed resources
@@ -65,6 +65,7 @@ namespace OpenCvSharp.Tracking
             ptrObj = null;
             base.DisposeManaged();
         }
+        */
 
         #region Methods
 

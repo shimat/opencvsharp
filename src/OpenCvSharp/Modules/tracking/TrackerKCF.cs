@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Tracking
 {
+    /// <inheritdoc />
     /// <summary>
     /// KCF is a novel tracking framework that utilizes properties of circulant matrix to enhance the processing speed.
     /// * This tracking method is an implementation of @cite KCF_ECCV which is extended to KFC with color-names features(@cite KCF_CN).
@@ -22,10 +23,19 @@ namespace OpenCvSharp.Tracking
         /// 
         /// </summary>
         protected TrackerKCF(IntPtr p)
-            : base(p)
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <returns></returns>
+        public static TrackerKCF Create()
+        {
+            IntPtr p = NativeMethods.tracking_TrackerKCF_create1();
+            return new TrackerKCF(p);
         }
 
         /// <summary>
@@ -43,13 +53,13 @@ namespace OpenCvSharp.Tracking
         }
 
         /// <summary>
-        /// Constructor
+        /// Releases managed resources
         /// </summary>
-        /// <returns></returns>
-        public static TrackerKCF Create()
+        protected override void DisposeManaged()
         {
-            IntPtr p = NativeMethods.tracking_TrackerKCF_create1();
-            return new TrackerKCF(p);
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         internal new class Ptr : OpenCvSharp.Ptr

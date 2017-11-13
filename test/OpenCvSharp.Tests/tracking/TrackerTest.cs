@@ -27,7 +27,9 @@ namespace OpenCvSharp.Tests.Tracking
         {
             using (var vc = Image("lenna.png"))
             using (var tracker = TrackerKCF.Create())
+            {
                 Assert.True(tracker.Init(vc, new Rect2d(320, 60, 200, 220)));
+            }
         }
 
         [Fact]
@@ -47,6 +49,7 @@ namespace OpenCvSharp.Tests.Tracking
 
             const string basedir = "ETHZ\\seq03-img-left\\";
             using (var tracker = TrackerKCF.Create())
+            {
                 foreach (var i in Enumerable.Range(0, 21))
                 {
                     var file = $"image_{i:D8}_0.png";
@@ -65,13 +68,14 @@ namespace OpenCvSharp.Tests.Tracking
                         {
                             Directory.CreateDirectory(path);
                             mat.Rectangle(
-                                new Point((int)bb.X, (int)bb.Y),
-                                new Point((int)(bb.X + bb.Width), (int)(bb.Y + bb.Height)),
+                                new Point((int) bb.X, (int) bb.Y),
+                                new Point((int) (bb.X + bb.Width), (int) (bb.Y + bb.Height)),
                                 new Scalar(0, 0, 255));
                             Cv2.ImWrite(Path.Combine(path, file), mat);
                         }
                     }
                 }
+            }
         }
     }
 }
