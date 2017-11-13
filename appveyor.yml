@@ -16,20 +16,16 @@ skip_branch_with_pr: true
 
 image: Visual Studio 2017
 
+configuration: Release
+
 before_build:
 - git submodule update --init --recursive
 - nuget restore
 - dotnet restore
 
-configuration: Release
-platform:
-- x86
-- x64
-build:
-  project: OpenCvSharp.sln
-  parallel: true
-  verbosity: minimal
-
+build_script:
+- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
+- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
 
 after_build:
 - ps: |
