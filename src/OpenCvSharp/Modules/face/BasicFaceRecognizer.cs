@@ -64,7 +64,9 @@ namespace OpenCvSharp.Face
         public virtual int GetNumComponents()
         {
             ThrowIfDisposed();
-            return NativeMethods.face_BasicFaceRecognizer_getNumComponents(ptr);
+            var res = NativeMethods.face_BasicFaceRecognizer_getNumComponents(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -75,6 +77,7 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             NativeMethods.face_BasicFaceRecognizer_setNumComponents(ptr, val);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -84,7 +87,9 @@ namespace OpenCvSharp.Face
         public new virtual double GetThreshold()
         {
             ThrowIfDisposed();
-            return NativeMethods.face_BasicFaceRecognizer_getThreshold(ptr);
+            var res = NativeMethods.face_BasicFaceRecognizer_getThreshold(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -95,6 +100,7 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             NativeMethods.face_BasicFaceRecognizer_setThreshold(ptr, val);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -107,6 +113,7 @@ namespace OpenCvSharp.Face
             using (var resultVector = new VectorOfMat())
             {
                 NativeMethods.face_BasicFaceRecognizer_getProjections(ptr, resultVector.CvPtr);
+                GC.KeepAlive(this);
                 return resultVector.ToArray();
             }
         }
@@ -120,6 +127,7 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getLabels(ptr, result.CvPtr);
+            GC.KeepAlive(this);
             return result;
         }
 
@@ -132,6 +140,7 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getEigenValues(ptr, result.CvPtr);
+            GC.KeepAlive(this);
             return result;
         }
 
@@ -144,6 +153,7 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getEigenVectors(ptr, result.CvPtr);
+            GC.KeepAlive(this);
             return result;
         }
 
@@ -156,6 +166,7 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getMean(ptr, result.CvPtr);
+            GC.KeepAlive(this);
             return result;
         }
 
@@ -169,7 +180,9 @@ namespace OpenCvSharp.Face
 
             public override IntPtr Get()
             {
-                return NativeMethods.face_Ptr_BasicFaceRecognizer_get(ptr);
+                var res = NativeMethods.face_Ptr_BasicFaceRecognizer_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

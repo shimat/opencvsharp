@@ -294,9 +294,6 @@
     <ClInclude Include="calib3d_StereoSGBM.h">
       <Filter>Header Files\calib3d</Filter>
     </ClInclude>
-    <ClInclude Include="face.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
     <ClInclude Include="aruco.h">
       <Filter>Header Files\aruco</Filter>
     </ClInclude>
@@ -326,6 +323,12 @@
     </ClInclude>
     <ClInclude Include="xphoto.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="face_EigenFaceRecognizer.h">
+      <Filter>Header Files\face</Filter>
+    </ClInclude>
+    <ClInclude Include="face_FisherFaceRecognizer.h">
+      <Filter>Header Files\face</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

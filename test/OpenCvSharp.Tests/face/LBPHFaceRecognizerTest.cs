@@ -12,7 +12,7 @@ namespace OpenCvSharp.Tests.Face
         [Fact]
         public void CreateAndDispose()
         {
-            var recognizer = OpenCvSharp.Face.FaceRecognizer.CreateLBPHFaceRecognizer(1, 8, 8, 8, 123);
+            var recognizer = LBPHFaceRecognizer.Create(1, 8, 8, 8, 123);
             recognizer.Dispose();
         }
 
@@ -21,7 +21,7 @@ namespace OpenCvSharp.Tests.Face
         {
             var image = new Mat("Data/Image/Lenna.png");
 
-            var model = CvFace.CreateLBPHFaceRecognizer();
+            var model = LBPHFaceRecognizer.Create();
 
             var cascade = new CascadeClassifier("../haarcascade_frontalface_default.xml");
             var rects = cascade.DetectMultiScale(image);

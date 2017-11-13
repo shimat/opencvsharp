@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Face
 {
+    /// <inheritdoc />
     /// <summary>
-    /// 
+    /// The Circular Local Binary Patterns (used in training and prediction) expect the data given as
+    /// grayscale images, use cvtColor to convert between the color spaces.
+    /// This model supports updating.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class LBPHFaceRecognizer : FaceRecognizer
     {
         /// <summary>
@@ -24,25 +26,7 @@ namespace OpenCvSharp.Face
             recognizerPtr = null;
             ptr = IntPtr.Zero;
         }
-
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes.
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal new static LBPHFaceRecognizer FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(LBPHFaceRecognizer)}> pointer");
-            var ptrObj = new Ptr(ptr);
-            var detector = new LBPHFaceRecognizer
-            {
-                recognizerPtr = ptrObj,
-                ptr = ptrObj.Get()
-            };
-            return detector;
-        }
-
+        
         /// <summary>
         /// Releases managed resources
         /// </summary>
@@ -51,6 +35,37 @@ namespace OpenCvSharp.Face
             recognizerPtr?.Dispose();
             recognizerPtr = null;
             base.DisposeManaged();
+        }
+
+        /// <summary>
+        /// The Circular Local Binary Patterns (used in training and prediction) expect the data given as
+        /// grayscale images, use cvtColor to convert between the color spaces.
+        /// This model supports updating.
+        /// </summary>
+        /// <param name="radius">The radius used for building the Circular Local Binary Pattern. The greater the radius, the</param>
+        /// <param name="neighbors">The number of sample points to build a Circular Local Binary Pattern from. 
+        /// An appropriate value is to use `8` sample points.Keep in mind: the more sample points you include, the higher the computational cost.</param>
+        /// <param name="gridX">The number of cells in the horizontal direction, 8 is a common value used in publications. 
+        /// The more cells, the finer the grid, the higher the dimensionality of the resulting feature vector.</param>
+        /// <param name="gridY">The number of cells in the vertical direction, 8 is a common value used in publications. 
+        /// The more cells, the finer the grid, the higher the dimensionality of the resulting feature vector.</param>
+        /// <param name="threshold">The threshold applied in the prediction. If the distance to the nearest neighbor 
+        /// is larger than the threshold, this method returns -1.</param>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        public static LBPHFaceRecognizer Create(int radius = 1, int neighbors = 8,
+            int gridX = 8, int gridY = 8, double threshold = Double.MaxValue)
+        {
+            IntPtr p = NativeMethods.face_LBPHFaceRecognizer_create(radius, neighbors, gridX, gridY, threshold);
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(LBPHFaceRecognizer)}> pointer");
+            var ptrObj = new Ptr(p);
+            var detector = new LBPHFaceRecognizer
+            {
+                recognizerPtr = ptrObj,
+                ptr = ptrObj.Get()
+            };
+            return detector;
         }
 
         #endregion
@@ -64,7 +79,9 @@ namespace OpenCvSharp.Face
         public virtual int GetGridX()
         {
             ThrowIfDisposed();
-            return NativeMethods.face_LBPHFaceRecognizer_getGridX(ptr);
+            var res = NativeMethods.face_LBPHFaceRecognizer_getGridX(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -75,6 +92,7 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setGridX(ptr, val);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -84,7 +102,9 @@ namespace OpenCvSharp.Face
         public virtual int GetGridY()
         {
             ThrowIfDisposed();
-            return NativeMethods.face_LBPHFaceRecognizer_getGridY(ptr);
+            var res = NativeMethods.face_LBPHFaceRecognizer_getGridY(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -95,6 +115,7 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setGridY(ptr, val);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -104,7 +125,9 @@ namespace OpenCvSharp.Face
         public virtual int GetRadius()
         {
             ThrowIfDisposed();
-            return NativeMethods.face_LBPHFaceRecognizer_getRadius(ptr);
+            var res = NativeMethods.face_LBPHFaceRecognizer_getRadius(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -115,6 +138,7 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setRadius(ptr, val);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -124,7 +148,9 @@ namespace OpenCvSharp.Face
         public virtual int GetNeighbors()
         {
             ThrowIfDisposed();
-            return NativeMethods.face_LBPHFaceRecognizer_getNeighbors(ptr);
+            var res = NativeMethods.face_LBPHFaceRecognizer_getNeighbors(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -135,6 +161,7 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setNeighbors(ptr, val);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -144,7 +171,9 @@ namespace OpenCvSharp.Face
         public new virtual double GetThreshold()
         {
             ThrowIfDisposed();
-            return NativeMethods.face_LBPHFaceRecognizer_getThreshold(ptr);
+            var res = NativeMethods.face_LBPHFaceRecognizer_getThreshold(ptr);
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -155,6 +184,7 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             NativeMethods.face_LBPHFaceRecognizer_setThreshold(ptr, val);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -167,6 +197,7 @@ namespace OpenCvSharp.Face
             using (var resultVector = new VectorOfMat())
             {
                 NativeMethods.face_LBPHFaceRecognizer_getHistograms(ptr, resultVector.CvPtr);
+                GC.KeepAlive(this);
                 return resultVector.ToArray();
             }
         }
@@ -180,6 +211,7 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             Mat result = new Mat();
             NativeMethods.face_LBPHFaceRecognizer_getLabels(ptr, result.CvPtr);
+            GC.KeepAlive(this);
             return result;
         }
 
@@ -193,7 +225,9 @@ namespace OpenCvSharp.Face
 
             public override IntPtr Get()
             {
-                return NativeMethods.face_Ptr_LBPHFaceRecognizer_get(ptr);
+                var res = NativeMethods.face_Ptr_LBPHFaceRecognizer_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

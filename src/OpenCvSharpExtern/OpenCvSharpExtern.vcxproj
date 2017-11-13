@@ -257,8 +257,9 @@
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_RNG.h" />
     <ClInclude Include="core_SparseMat.h" />
-    <ClInclude Include="face.h" />
+    <ClInclude Include="face_FisherFaceRecognizer.h" />
     <ClInclude Include="face_BasicFaceRecognizer.h" />
+    <ClInclude Include="face_EigenFaceRecognizer.h" />
     <ClInclude Include="face_FaceRecognizer.h" />
     <ClInclude Include="cuda.h" />
     <ClInclude Include="cuda_GpuMat.h" />
