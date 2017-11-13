@@ -231,7 +231,7 @@ namespace OpenCvSharp
         public void ConvertTo(Mat m, int rtype, double alpha = 1, double beta = 0)
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_convertTo_SparseMat(ptr, m.CvPtr, rtype, alpha);
+            NativeMethods.core_SparseMat_convertTo_Mat(ptr, m.CvPtr, rtype, alpha, beta);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
