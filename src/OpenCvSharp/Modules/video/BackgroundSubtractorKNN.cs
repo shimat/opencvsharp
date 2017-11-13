@@ -59,12 +59,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorKNN_getHistory(ptr);
+                var res = NativeMethods.video_BackgroundSubtractorKNN_getHistory(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.video_BackgroundSubtractorKNN_setHistory(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -76,12 +79,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorKNN_getNSamples(ptr);
+                var res = NativeMethods.video_BackgroundSubtractorKNN_getNSamples(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.video_BackgroundSubtractorKNN_setNSamples(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -93,12 +99,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorKNN_getDist2Threshold(ptr);
+                var res = NativeMethods.video_BackgroundSubtractorKNN_getDist2Threshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.video_BackgroundSubtractorKNN_setDist2Threshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -110,12 +119,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorKNN_getkNNSamples(ptr);
+                var res = NativeMethods.video_BackgroundSubtractorKNN_getkNNSamples(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.video_BackgroundSubtractorKNN_setkNNSamples(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -127,12 +139,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorKNN_getDetectShadows(ptr) != 0;
+                var res = NativeMethods.video_BackgroundSubtractorKNN_getDetectShadows(ptr) != 0;
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.video_BackgroundSubtractorKNN_setDetectShadows(ptr, value ? 1 : 0);
+                GC.KeepAlive(this);
             }
         }
 
@@ -144,12 +159,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorKNN_getShadowValue(ptr);
+                var res = NativeMethods.video_BackgroundSubtractorKNN_getShadowValue(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.video_BackgroundSubtractorKNN_setShadowValue(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -161,12 +179,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.video_BackgroundSubtractorKNN_getShadowThreshold(ptr);
+                var res = NativeMethods.video_BackgroundSubtractorKNN_getShadowThreshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.video_BackgroundSubtractorKNN_setShadowThreshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -180,7 +201,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.video_Ptr_BackgroundSubtractorKNN_get(ptr);
+                var res = NativeMethods.video_Ptr_BackgroundSubtractorKNN_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

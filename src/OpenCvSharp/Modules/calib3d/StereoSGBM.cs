@@ -88,12 +88,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.calib3d_StereoSGBM_getPreFilterCap(ptr);
+                var res = NativeMethods.calib3d_StereoSGBM_getPreFilterCap(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.calib3d_StereoSGBM_setPreFilterCap(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -105,12 +108,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.calib3d_StereoSGBM_getUniquenessRatio(ptr);
+                var res = NativeMethods.calib3d_StereoSGBM_getUniquenessRatio(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.calib3d_StereoSGBM_setUniquenessRatio(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -122,12 +128,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.calib3d_StereoSGBM_getP1(ptr);
+                var res = NativeMethods.calib3d_StereoSGBM_getP1(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.calib3d_StereoSGBM_setP1(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -139,12 +148,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.calib3d_StereoSGBM_getP2(ptr);
+                var res = NativeMethods.calib3d_StereoSGBM_getP2(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.calib3d_StereoSGBM_setP2(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -156,12 +168,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return (StereoSGBMMode)NativeMethods.calib3d_StereoSGBM_getMode(ptr);
+                var res = (StereoSGBMMode)NativeMethods.calib3d_StereoSGBM_getMode(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.calib3d_StereoSGBM_setMode(ptr, (int)value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -175,7 +190,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.calib3d_Ptr_StereoSGBM_get(ptr);
+                var res = NativeMethods.calib3d_Ptr_StereoSGBM_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

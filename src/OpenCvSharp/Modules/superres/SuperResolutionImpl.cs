@@ -86,6 +86,8 @@ namespace OpenCvSharp
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
             NativeMethods.superres_SuperResolution_setInput(ptr, fs.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(fs);
         }
 
         /// <summary>
@@ -100,7 +102,7 @@ namespace OpenCvSharp
             frame.ThrowIfNotReady();
             NativeMethods.superres_SuperResolution_nextFrame(ptr, frame.CvPtr);
             frame.Fix();
-            GC.KeepAlive(ptr);
+            GC.KeepAlive(this);
             GC.KeepAlive(frame);
         }
 
@@ -111,6 +113,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.superres_SuperResolution_reset(ptr);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -120,6 +123,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.superres_SuperResolution_collectGarbage(ptr);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -151,7 +155,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.superres_Ptr_SuperResolution_get(ptr);
+                var res = NativeMethods.superres_Ptr_SuperResolution_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

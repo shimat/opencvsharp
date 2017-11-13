@@ -75,8 +75,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public double LearningRate
         {
-            get { return NativeMethods.ml_LogisticRegression_getLearningRate(ptr); }
-            set { NativeMethods.ml_LogisticRegression_setLearningRate(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_LogisticRegression_getLearningRate(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_LogisticRegression_setLearningRate(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -84,8 +93,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public int Iterations
         {
-            get { return NativeMethods.ml_LogisticRegression_getIterations(ptr); }
-            set { NativeMethods.ml_LogisticRegression_setIterations(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_LogisticRegression_getIterations(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_LogisticRegression_setIterations(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -93,8 +111,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public RegKinds Regularization
         {
-            get { return (RegKinds)NativeMethods.ml_LogisticRegression_getRegularization(ptr); }
-            set { NativeMethods.ml_LogisticRegression_setRegularization(ptr, (int)value); }
+            get
+            {
+                var res = (RegKinds)NativeMethods.ml_LogisticRegression_getRegularization(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_LogisticRegression_setRegularization(ptr, (int)value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -102,8 +129,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public Methods TrainMethod
         {
-            get { return (Methods)NativeMethods.ml_LogisticRegression_getTrainMethod(ptr); }
-            set { NativeMethods.ml_LogisticRegression_setTrainMethod(ptr, (int)value); }
+            get
+            {
+                var res = (Methods)NativeMethods.ml_LogisticRegression_getTrainMethod(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_LogisticRegression_setTrainMethod(ptr, (int)value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -113,8 +149,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public int MiniBatchSize
         {
-            get { return NativeMethods.ml_LogisticRegression_getMiniBatchSize(ptr); }
-            set { NativeMethods.ml_LogisticRegression_setMiniBatchSize(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_LogisticRegression_getMiniBatchSize(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_LogisticRegression_setMiniBatchSize(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -122,8 +167,17 @@ namespace OpenCvSharp.ML
         /// </summary>
         public TermCriteria TermCriteria
         {
-            get { return NativeMethods.ml_LogisticRegression_getTermCriteria(ptr); }
-            set { NativeMethods.ml_LogisticRegression_setTermCriteria(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_LogisticRegression_getTermCriteria(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_LogisticRegression_setTermCriteria(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         #endregion
@@ -169,6 +223,7 @@ namespace OpenCvSharp.ML
             ThrowIfDisposed();
 
             IntPtr p = NativeMethods.ml_LogisticRegression_get_learnt_thetas(ptr);
+            GC.KeepAlive(this);
             return new Mat(p);
         }
 
@@ -223,7 +278,9 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                return NativeMethods.ml_Ptr_LogisticRegression_get(ptr);
+                var res = NativeMethods.ml_Ptr_LogisticRegression_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

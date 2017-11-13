@@ -102,6 +102,8 @@ namespace OpenCvSharp
             {
                 MemoryHelper.CopyMemory(dstPtr, ElemPtr, MarshalHelper.SizeOf<DTrees.Node>() * dst.Length);
             }
+            GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
+                                // make sure we are not disposed until finished with copy.
             return dst;
         }
     }

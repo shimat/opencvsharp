@@ -44,12 +44,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(this.ptr);
+                var res = NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -61,12 +64,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(this.ptr);
+                var res = NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -78,12 +84,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(this.ptr);
+                var res = NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -142,7 +151,9 @@ namespace OpenCvSharp.XPhoto
 
             public override IntPtr Get()
             {
-                return NativeMethods.xphoto_Ptr_LearningBasedWB_get(this.ptr);
+                var res = NativeMethods.xphoto_Ptr_LearningBasedWB_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

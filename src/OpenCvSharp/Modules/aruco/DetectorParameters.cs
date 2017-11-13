@@ -53,12 +53,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getAdaptiveThreshWinSizeMin(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getAdaptiveThreshWinSizeMin(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setAdaptiveThreshWinSizeMin(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -70,12 +73,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getAdaptiveThreshWinSizeMax(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getAdaptiveThreshWinSizeMax(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setAdaptiveThreshWinSizeMax(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -87,12 +93,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getAdaptiveThreshWinSizeStep(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getAdaptiveThreshWinSizeStep(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setAdaptiveThreshWinSizeStep(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -104,12 +113,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getAdaptiveThreshConstant(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getAdaptiveThreshConstant(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setAdaptiveThreshConstant(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -122,12 +134,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getMinMarkerPerimeterRate(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getMinMarkerPerimeterRate(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setMinMarkerPerimeterRate(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -140,12 +155,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getMaxMarkerPerimeterRate(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getMaxMarkerPerimeterRate(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setMaxMarkerPerimeterRate(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -157,12 +175,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getPolygonalApproxAccuracyRate(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getPolygonalApproxAccuracyRate(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setPolygonalApproxAccuracyRate(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -174,12 +195,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getMinCornerDistanceRate(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getMinCornerDistanceRate(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setMinCornerDistanceRate(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -191,12 +215,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getMinDistanceToBorder(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getMinDistanceToBorder(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setMinDistanceToBorder(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -209,12 +236,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getMinMarkerDistanceRate(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getMinMarkerDistanceRate(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setMinMarkerDistanceRate(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -226,12 +256,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getDoCornerRefinement(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getDoCornerRefinement(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setDoCornerRefinement(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -243,12 +276,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getCornerRefinementWinSize(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getCornerRefinementWinSize(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setCornerRefinementWinSize(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -260,12 +296,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getCornerRefinementMaxIterations(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getCornerRefinementMaxIterations(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setCornerRefinementMaxIterations(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -277,12 +316,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getCornerRefinementMinAccuracy(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getCornerRefinementMinAccuracy(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setCornerRefinementMinAccuracy(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -294,12 +336,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getMarkerBorderBits(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getMarkerBorderBits(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setMarkerBorderBits(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -311,12 +356,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getPerspectiveRemovePixelPerCell(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getPerspectiveRemovePixelPerCell(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setPerspectiveRemovePixelPerCell(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -330,12 +378,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getPerspectiveRemoveIgnoredMarginPerCell(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getPerspectiveRemoveIgnoredMarginPerCell(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setPerspectiveRemoveIgnoredMarginPerCell(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -349,12 +400,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getMaxErroneousBitsInBorderRate(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getMaxErroneousBitsInBorderRate(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setMaxErroneousBitsInBorderRate(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -367,12 +421,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getMinOtsuStdDev(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getMinOtsuStdDev(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setMinOtsuStdDev(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -384,12 +441,15 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.aruco_DetectorParameters_getErrorCorrectionRate(ptr);
+                var res =  NativeMethods.aruco_DetectorParameters_getErrorCorrectionRate(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.aruco_DetectorParameters_setErrorCorrectionRate(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -403,7 +463,9 @@ namespace OpenCvSharp.Aruco
 
             public override IntPtr Get()
             {
-                return NativeMethods.aruco_Ptr_DetectorParameters_get(ptr);
+                var res = NativeMethods.aruco_Ptr_DetectorParameters_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

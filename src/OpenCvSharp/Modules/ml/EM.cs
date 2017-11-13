@@ -98,8 +98,17 @@ namespace OpenCvSharp
         /// </summary>
         public int ClustersNumber
         {
-            get { return NativeMethods.ml_EM_getClustersNumber(ptr); }
-            set { NativeMethods.ml_EM_setClustersNumber(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_EM_getClustersNumber(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_EM_setClustersNumber(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -107,8 +116,17 @@ namespace OpenCvSharp
         /// </summary>
         public int CovarianceMatrixType
         {
-            get { return NativeMethods.ml_EM_getCovarianceMatrixType(ptr); }
-            set { NativeMethods.ml_EM_setCovarianceMatrixType(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_EM_getCovarianceMatrixType(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_EM_setCovarianceMatrixType(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -120,8 +138,17 @@ namespace OpenCvSharp
         /// </summary>
         public TermCriteria TermCriteria
         {
-            get { return NativeMethods.ml_EM_getTermCriteria(ptr); }
-            set { NativeMethods.ml_EM_setTermCriteria(ptr, value); }
+            get
+            {
+                var res = NativeMethods.ml_EM_getTermCriteria(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                NativeMethods.ml_EM_setTermCriteria(ptr, value);
+                GC.KeepAlive(this);
+            }
         }
 
         #endregion
@@ -137,6 +164,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_EM_getWeights(ptr);
+            GC.KeepAlive(this);
             return new Mat(p);
         }
 
@@ -150,6 +178,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             IntPtr p = NativeMethods.ml_EM_getMeans(ptr);
+            GC.KeepAlive(this);
             return new Mat(p);
         }
 
@@ -165,6 +194,7 @@ namespace OpenCvSharp
             using (var vec = new VectorOfMat())
             {
                 NativeMethods.ml_EM_getCovs(ptr, vec.CvPtr);
+                GC.KeepAlive(this);
                 return vec.ToArray();
             }
 
@@ -431,7 +461,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.ml_Ptr_EM_get(ptr);
+                var res = NativeMethods.ml_Ptr_EM_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

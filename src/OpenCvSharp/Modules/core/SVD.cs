@@ -27,6 +27,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             ptr = NativeMethods.core_SVD_new2(src.CvPtr, (int)flags);
+            GC.KeepAlive(src);
         }
 
         /// <summary>
@@ -50,6 +51,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_SVD_u(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -63,6 +65,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_SVD_w(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -76,6 +79,7 @@ namespace OpenCvSharp
             {
                 ThrowIfDisposed();
                 IntPtr ret = NativeMethods.core_SVD_vt(ptr);
+                GC.KeepAlive(this);
                 return new Mat(ret);
             }
         }
@@ -95,6 +99,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
             NativeMethods.core_SVD_operatorThis(ptr, src.CvPtr, (int)flags);
+            GC.KeepAlive(src);
             return this;
         }
 
@@ -114,6 +119,9 @@ namespace OpenCvSharp
             rhs.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             NativeMethods.core_SVD_backSubst(ptr, rhs.CvPtr, dst.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(rhs);
+            GC.KeepAlive(dst);
         }
         #endregion
 

@@ -72,12 +72,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_KAZE_getDiffusivity(ptr);
+                var res = NativeMethods.features2d_KAZE_getDiffusivity(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_KAZE_setDiffusivity(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -89,12 +92,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_KAZE_getExtended(ptr);
+                var res = NativeMethods.features2d_KAZE_getExtended(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_KAZE_setExtended(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -107,12 +113,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_KAZE_getNOctaveLayers(ptr);
+                var res = NativeMethods.features2d_KAZE_getNOctaveLayers(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_KAZE_setNOctaveLayers(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -125,12 +134,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_KAZE_getNOctaves(ptr);
+                var res = NativeMethods.features2d_KAZE_getNOctaves(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_KAZE_setNOctaves(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -143,12 +155,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_KAZE_getThreshold(ptr);
+                var res = NativeMethods.features2d_KAZE_getThreshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_KAZE_setThreshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -161,12 +176,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_KAZE_getUpright(ptr);
+                var res = NativeMethods.features2d_KAZE_getUpright(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_KAZE_setUpright(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -180,7 +198,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_KAZE_get(ptr);
+                var res = NativeMethods.features2d_Ptr_KAZE_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

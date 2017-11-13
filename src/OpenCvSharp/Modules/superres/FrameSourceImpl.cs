@@ -88,6 +88,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.superres_FrameSource_reset(ptr);
+            GC.KeepAlive(this);
         }
         #endregion
 
@@ -99,7 +100,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.superres_Ptr_FrameSource_get(ptr);
+                var res = NativeMethods.superres_Ptr_FrameSource_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()
