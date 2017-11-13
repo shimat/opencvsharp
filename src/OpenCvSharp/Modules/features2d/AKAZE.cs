@@ -86,12 +86,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return (AKAZEDescriptorType)NativeMethods.features2d_AKAZE_getDescriptorType(ptr);
+                var res = (AKAZEDescriptorType)NativeMethods.features2d_AKAZE_getDescriptorType(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AKAZE_setDescriptorType(ptr, (int)value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -103,12 +106,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_AKAZE_getDescriptorSize(ptr);
+                var res = NativeMethods.features2d_AKAZE_getDescriptorSize(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AKAZE_setDescriptorSize(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -120,12 +126,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_AKAZE_getDescriptorChannels(ptr);
+                var res =NativeMethods.features2d_AKAZE_getDescriptorChannels(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AKAZE_setDescriptorChannels(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -137,12 +146,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_AKAZE_getThreshold(ptr);
+                var res = NativeMethods.features2d_AKAZE_getThreshold(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AKAZE_setThreshold(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -154,12 +166,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_AKAZE_getNOctaves(ptr);
+                var res = NativeMethods.features2d_AKAZE_getNOctaves(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AKAZE_setNOctaves(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -171,12 +186,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_AKAZE_getNOctaveLayers(ptr);
+                var res = NativeMethods.features2d_AKAZE_getNOctaveLayers(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AKAZE_setNOctaveLayers(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -188,12 +206,15 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.features2d_AKAZE_getDiffusivity(ptr);
+                var res = NativeMethods.features2d_AKAZE_getDiffusivity(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 ThrowIfDisposed();
                 NativeMethods.features2d_AKAZE_setDiffusivity(ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -207,7 +228,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.features2d_Ptr_AKAZE_get(ptr);
+                var res = NativeMethods.features2d_Ptr_AKAZE_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

@@ -81,9 +81,11 @@ namespace OpenCvSharp
             {
                 Point pos = NativeMethods.imgproc_LineIterator_pos(ptr);
                 IntPtr value = NativeMethods.imgproc_LineIterator_operatorEntity(ptr);
+                GC.KeepAlive(this);
                 yield return new Pixel(pos, value);
 
                 NativeMethods.imgproc_LineIterator_operatorPP(ptr);
+                GC.KeepAlive(this);
             }
         }
 
@@ -102,7 +104,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_ptr_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_ptr_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -114,7 +118,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_ptr0_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_ptr0_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -126,7 +132,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_step_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_step_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -138,7 +146,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_elemSize_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_elemSize_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -150,7 +160,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_err_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_err_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -162,7 +174,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_count_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_count_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -174,7 +188,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_minusDelta_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_minusDelta_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -186,7 +202,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_plusDelta_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_plusDelta_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -198,7 +216,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_minusStep_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_minusStep_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 
@@ -210,7 +230,9 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                return NativeMethods.imgproc_LineIterator_plusStep_get(ptr);
+                var res = NativeMethods.imgproc_LineIterator_plusStep_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
         }
 

@@ -123,7 +123,7 @@ namespace OpenCvSharp
                 prec = precVec.ToArray();
                 nfa = nfaVec.ToArray();
             }
-
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
         }
 
@@ -188,7 +188,9 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                return NativeMethods.imgproc_Ptr_LineSegmentDetector_get(ptr);
+                var res = NativeMethods.imgproc_Ptr_LineSegmentDetector_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

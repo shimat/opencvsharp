@@ -70,6 +70,7 @@ namespace OpenCvSharp.Cuda
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_Stream_new2(m.CvPtr);
+            GC.KeepAlive(m);
         }
 
 #if LANG_JP
@@ -127,7 +128,9 @@ namespace OpenCvSharp.Cuda
         public static explicit operator bool(Stream self)
         {
             self.ThrowIfDisposed();
-            return NativeMethods.cuda_Stream_bool(self.ptr) != 0;
+            var res = NativeMethods.cuda_Stream_bool(self.ptr) != 0;
+            GC.KeepAlive(self);
+            return res;
         }
 
         /// <summary>
@@ -137,7 +140,9 @@ namespace OpenCvSharp.Cuda
         public bool QueryIfComplete()
         {
             ThrowIfDisposed();
-            return NativeMethods.cuda_Stream_queryIfComplete(ptr) != 0;
+            var res = NativeMethods.cuda_Stream_queryIfComplete(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -147,6 +152,7 @@ namespace OpenCvSharp.Cuda
         {
             ThrowIfDisposed();
             NativeMethods.cuda_Stream_waitForCompletion(ptr);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -166,6 +172,9 @@ namespace OpenCvSharp.Cuda
             dst.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueDownload_Mat(ptr, src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
 
         /// <summary>
@@ -185,6 +194,9 @@ namespace OpenCvSharp.Cuda
             dst.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueUpload_Mat(ptr, src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
 
         /// <summary>
@@ -203,6 +215,9 @@ namespace OpenCvSharp.Cuda
             dst.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueCopy(ptr, src.CvPtr, dst.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
 
         /// <summary>
@@ -218,6 +233,8 @@ namespace OpenCvSharp.Cuda
             src.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueMemSet(ptr, src.CvPtr, val);
+            GC.KeepAlive(this);
+            GC.KeepAlive(src);
         }
 
         /// <summary>
@@ -234,6 +251,9 @@ namespace OpenCvSharp.Cuda
             src.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueMemSet_WithMask(ptr, src.CvPtr, val, Cv2.ToPtr(mask));
+            GC.KeepAlive(this);
+            GC.KeepAlive(src);
+            GC.KeepAlive(mask);
         }
 
         /// <summary>
@@ -255,6 +275,9 @@ namespace OpenCvSharp.Cuda
             dst.ThrowIfDisposed();
 
             NativeMethods.cuda_Stream_enqueueConvert(ptr, src.CvPtr, dst.CvPtr, dtype, a, b);
+            GC.KeepAlive(this);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
 
         /// <summary>
@@ -293,6 +316,7 @@ namespace OpenCvSharp.Cuda
 
             NativeMethods.cuda_Stream_enqueueHostCallback(
                 ptr, callbackPtr, userDataPtr);
+            GC.KeepAlive(this);
         }
     }
 }

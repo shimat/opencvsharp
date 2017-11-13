@@ -85,7 +85,9 @@ namespace OpenCvSharp.XFeatures2D
 
             public override IntPtr Get()
             {
-                return NativeMethods.xfeatures2d_Ptr_StarDetector_get(ptr);
+                var res =  NativeMethods.xfeatures2d_Ptr_StarDetector_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

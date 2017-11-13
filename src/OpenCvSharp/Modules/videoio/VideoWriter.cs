@@ -292,6 +292,7 @@ namespace OpenCvSharp
             FrameSize = frameSize;
             IsColor = isColor;
             NativeMethods.videoio_VideoWriter_open(ptr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -301,7 +302,9 @@ namespace OpenCvSharp
         public bool IsOpened()
         {
             ThrowIfDisposed();
-            return NativeMethods.videoio_VideoWriter_isOpened(ptr) != 0;
+            var res = NativeMethods.videoio_VideoWriter_isOpened(ptr) != 0;
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
@@ -312,6 +315,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             NativeMethods.videoio_VideoWriter_release(ptr);
+            GC.KeepAlive(this);
         }
 
 #if LANG_JP
@@ -334,6 +338,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
             NativeMethods.videoio_VideoWriter_write(ptr, image.CvPtr);
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
         }
 
         /// <summary>

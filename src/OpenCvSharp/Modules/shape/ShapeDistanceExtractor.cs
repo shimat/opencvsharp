@@ -28,7 +28,7 @@ namespace OpenCvSharp
 
             float ret = NativeMethods.shape_ShapeDistanceExtractor_computeDistance(
                 ptr, contour1.CvPtr, contour2.CvPtr);
-
+            GC.KeepAlive(this);
             GC.KeepAlive(contour1);
             GC.KeepAlive(contour2);
 

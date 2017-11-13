@@ -130,7 +130,9 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                return NativeMethods.ml_Ptr_NormalBayesClassifier_get(ptr);
+                var res = NativeMethods.ml_Ptr_NormalBayesClassifier_get(ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

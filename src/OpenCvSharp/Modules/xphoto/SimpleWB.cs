@@ -43,12 +43,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_SimpleWB_InputMax_get(this.ptr);
+                var res = NativeMethods.xphoto_SimpleWB_InputMax_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_SimpleWB_InputMax_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -60,12 +63,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_SimpleWB_InputMin_get(this.ptr);
+                var res = NativeMethods.xphoto_SimpleWB_InputMin_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_SimpleWB_InputMin_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -77,12 +83,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_SimpleWB_OutputMax_get(this.ptr);
+                var res = NativeMethods.xphoto_SimpleWB_OutputMax_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_SimpleWB_OutputMax_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -94,12 +103,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_SimpleWB_OutputMin_get(this.ptr);
+                var res = NativeMethods.xphoto_SimpleWB_OutputMin_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_SimpleWB_OutputMin_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -111,12 +123,15 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 this.ThrowIfDisposed();
-                return NativeMethods.xphoto_SimpleWB_P_get(this.ptr);
+                var res = NativeMethods.xphoto_SimpleWB_P_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
             set
             {
                 this.ThrowIfDisposed();
                 NativeMethods.xphoto_SimpleWB_P_set(this.ptr, value);
+                GC.KeepAlive(this);
             }
         }
 
@@ -155,7 +170,9 @@ namespace OpenCvSharp.XPhoto
 
             public override IntPtr Get()
             {
-                return NativeMethods.xphoto_Ptr_SimpleWB_get(this.ptr);
+                var res = NativeMethods.xphoto_Ptr_SimpleWB_get(this.ptr);
+                GC.KeepAlive(this);
+                return res;
             }
 
             protected override void DisposeUnmanaged()

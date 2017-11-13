@@ -316,6 +316,7 @@ namespace OpenCvSharp
             try
             {
                 NativeMethods.highgui_imshow(winname, mat.CvPtr);
+                GC.KeepAlive(mat);
             }
             catch (BadImageFormatException ex)
             {
