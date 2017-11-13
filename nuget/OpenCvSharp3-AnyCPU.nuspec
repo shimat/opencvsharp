@@ -88,9 +88,9 @@
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.xml" target="lib\netcoreapp1.0" />
 
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
-        <file src="..\opencv_files_331\x64\vc14\bin\opencv_ffmpeg331_64.dll" target="NativeDlls\x64\opencv_ffmpeg331_64.dll" />
+        <file src="..\opencv_files_331\x64\vc15\bin\opencv_ffmpeg331_64.dll" target="NativeDlls\x64\opencv_ffmpeg331_64.dll" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
-        <file src="..\opencv_files_331\x86\vc14\bin\opencv_ffmpeg331.dll" target="NativeDlls\x86\opencv_ffmpeg331.dll" />
+        <file src="..\opencv_files_331\x86\vc15\bin\opencv_ffmpeg331.dll" target="NativeDlls\x86\opencv_ffmpeg331.dll" />
 
         <!--<file src="tools\init.ps1" target="tools\init.ps1" />
         <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />-->
