@@ -1,7 +1,7 @@
-version: '3.2.0-{build}'
+version: '3.3.1-{build}'
 
-environment:
-  VCTargetsPath: "%VCINSTALLDIR%VCTargets"
++environment:
+ +  VCTargetsPath: "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets"
 
 init:
 - ps: |
@@ -27,8 +27,6 @@ before_build:
 - dotnet restore
 
 build_script:
-- echo %VCINSTALLDIR%
-- echo %VCTargetsPath%
 - msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
 - msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
 
