@@ -1,5 +1,8 @@
 version: '3.2.0-{build}'
 
+environment:
+  VCTargetsPath: "%VCINSTALLDIR%VCTargets"
+
 init:
 - ps: |
     $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
@@ -24,6 +27,8 @@ before_build:
 - dotnet restore
 
 build_script:
+- echo %VCINSTALLDIR%
+- echo %VCTargetsPath%
 - msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
 - msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
 

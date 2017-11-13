@@ -158,6 +158,7 @@ namespace OpenCvSharp.Face
             NativeMethods.face_FaceRecognizer_read1(ptr, fileName);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Serializes this object to a given cv::FileStorage.
         /// </summary>
@@ -172,6 +173,7 @@ namespace OpenCvSharp.Face
             GC.KeepAlive(fs);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Deserializes this object from a given cv::FileNode.
         /// </summary>
