@@ -25,7 +25,7 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        [Fact(Skip = "failed on appveyor")]
+        [Fact(Skip = "fail on appveyor")]
         public void ToStringMultibyte()
         {
             const string value = "ＯｐｅｎＣＶ";
