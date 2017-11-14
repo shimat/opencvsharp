@@ -30,8 +30,8 @@ before_build:
         $outpath = [System.IO.Path]::Combine($pwd, $outpath)
         [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
     }
-    Unzip tesseract\build\x86.zip tesseract\build\
-    Unzip tesseract\build\x64.zip tesseract\build\
+    Unzip tesseract\build\v141\x86.zip tesseract\build\v141
+    Unzip tesseract\build\v141\x64.zip tesseract\build\v141
 - nuget restore
 - dotnet restore
 
