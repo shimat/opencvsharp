@@ -150,67 +150,67 @@ extern "C"
 }
 
 
-static MyCvPoint c(cv::Point p)
+static MyCvPoint c(const cv::Point p)
 {
-    MyCvPoint ret = { p.x, p.y };
+	const MyCvPoint ret = { p.x, p.y };
     return ret;
 }
-static cv::Point cpp(MyCvPoint p)
+static cv::Point cpp(const MyCvPoint p)
 {
     return cv::Point(p.x, p.y);
 }
 
-static MyCvPoint2D32f c(cv::Point2f p)
+static MyCvPoint2D32f c(const cv::Point2f p)
 {
-    MyCvPoint2D32f ret = { p.x, p.y };
+	const MyCvPoint2D32f ret = { p.x, p.y };
     return ret;
 }
-static cv::Point2f cpp(MyCvPoint2D32f p)
+static cv::Point2f cpp(const MyCvPoint2D32f p)
 {
     return cv::Point2f(p.x, p.y);
 }
 
-static MyCvSize c(cv::Size s)
+static MyCvSize c(const cv::Size s)
 {
-    MyCvSize ret = { s.width, s.height };
+	const MyCvSize ret = { s.width, s.height };
     return ret;
 }
-static cv::Size cpp(MyCvSize s)
+static cv::Size cpp(const MyCvSize s)
 {
     return cv::Size(s.width, s.height);
 }
 
-static MyCvSize2D32f c(cv::Size2f s)
+static MyCvSize2D32f c(const cv::Size2f s)
 {
-    MyCvSize2D32f ret = { s.width, s.height };
+	const MyCvSize2D32f ret = { s.width, s.height };
     return ret;
 }
-static cv::Size2f cpp(MyCvSize2D32f s)
+static cv::Size2f cpp(const MyCvSize2D32f s)
 {
     return cv::Size2f(s.width, s.height);
 }
 
-static MyCvRect c(cv::Rect r)
+static MyCvRect c(const cv::Rect r)
 {
-    MyCvRect ret = { r.x, r.y, r.width, r.height };
+	const MyCvRect ret = { r.x, r.y, r.width, r.height };
     return ret;
 }
-static cv::Rect cpp(MyCvRect r)
+static cv::Rect cpp(const MyCvRect r)
 {
     return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
-static MyCvRect2D c(cv::Rect2d r)
+static MyCvRect2D c(const cv::Rect2d r)
 {
-    MyCvRect2D ret = { r.x, r.y, r.width, r.height };
+	const MyCvRect2D ret = { r.x, r.y, r.width, r.height };
     return ret;
 }
-static cv::Rect2d cpp(MyCvRect2D r)
+static cv::Rect2d cpp(const MyCvRect2D r)
 {
     return cv::Rect2d(r.x, r.y, r.width, r.height);
 }
 
-static MyCvScalar c(cv::Scalar s)
+static MyCvScalar c(const cv::Scalar s)
 {
     MyCvScalar ret;
     ret.val[0] = s[0];
@@ -219,12 +219,12 @@ static MyCvScalar c(cv::Scalar s)
     ret.val[3] = s[3];
     return ret;
 }
-static cv::Scalar cpp(MyCvScalar s)
+static cv::Scalar cpp(const MyCvScalar s)
 {
     return cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
 }
 
-static CvVec4i c(cv::Vec4i v)
+static CvVec4i c(const cv::Vec4i v)
 {
     CvVec4i vv;
     vv.val[0] = v.val[0];
@@ -233,24 +233,24 @@ static CvVec4i c(cv::Vec4i v)
     vv.val[3] = v.val[3];
     return vv;
 }
-static cv::Vec4i cpp(CvVec4i v)
+static cv::Vec4i cpp(const CvVec4i v)
 {
     return cv::Vec4i(v.val[0], v.val[1], v.val[2], v.val[3]);
 }
 
-static MyCvSlice c(cv::Range s)
+static MyCvSlice c(const cv::Range s)
 {
     MyCvSlice ret;
     ret.start_index = s.start;
     ret.end_index = s.end;
     return ret;
 }
-static cv::Range cpp(MyCvSlice s)
+static cv::Range cpp(const MyCvSlice s)
 {
     return cv::Range(s.start_index, s.end_index);
 }
 
-static MyCvMoments c(cv::Moments m)
+static MyCvMoments c(const cv::Moments m)
 {
     MyCvMoments ret;
     ret.m00 = m.m00; ret.m10 = m.m10; ret.m01 = m.m01;
@@ -258,17 +258,17 @@ static MyCvMoments c(cv::Moments m)
     ret.m30 = m.m30; ret.m21 = m.m21; ret.m12 = m.m12; ret.m03 = m.m03;
     ret.mu20 = m.mu20; ret.mu11 = m.mu11; ret.mu02 = m.mu02;
     ret.mu30 = m.mu30; ret.mu21 = m.mu21; ret.mu12 = m.mu12; ret.mu03 = m.mu03;
-    double am00 = std::abs(m.m00);
+	const double am00 = std::abs(m.m00);
     ret.inv_sqrt_m00 = am00 > DBL_EPSILON ? 1. / std::sqrt(am00) : 0;
 
     return ret;
 }
-static cv::Moments cpp(MyCvMoments m)
+static cv::Moments cpp(const MyCvMoments m)
 {
     return cv::Moments(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
 }
 
-static MyCvTermCriteria c(cv::TermCriteria tc)
+static MyCvTermCriteria c(const cv::TermCriteria tc)
 {
     MyCvTermCriteria ret;
     ret.type = tc.type;
@@ -276,12 +276,12 @@ static MyCvTermCriteria c(cv::TermCriteria tc)
     ret.epsilon = tc.epsilon;
     return ret;
 }
-static cv::TermCriteria cpp(MyCvTermCriteria tc)
+static cv::TermCriteria cpp(const MyCvTermCriteria tc)
 {
     return cv::TermCriteria(tc.type, tc.max_iter, tc.epsilon);
 }
 
-static MyCvBox2D c(cv::RotatedRect r)
+static MyCvBox2D c(const cv::RotatedRect r)
 {
     MyCvBox2D ret;
     ret.center = c(r.center);
@@ -289,12 +289,12 @@ static MyCvBox2D c(cv::RotatedRect r)
     ret.angle = r.angle;
     return ret;
 }
-static cv::RotatedRect cpp(MyCvBox2D b)
+static cv::RotatedRect cpp(const MyCvBox2D b)
 {
     return cv::RotatedRect(cpp(b.center), cpp(b.size), b.angle);
 }
 
-static cv::aruco::DetectorParameters cpp(aruco_DetectorParameters p)
+static cv::aruco::DetectorParameters cpp(const aruco_DetectorParameters p)
 {
     cv::aruco::DetectorParameters pp;
     pp.adaptiveThreshWinSizeMin = p.adaptiveThreshWinSizeMin;
