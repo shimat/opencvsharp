@@ -10,10 +10,11 @@
     <RuntimeIdentifiers>win10-x64;win7-x64</RuntimeIdentifiers>
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.6.1</NetStandardImplicitPackageVersion>
-    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.1.1</RuntimeFrameworkVersion>
+    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.0.5</RuntimeFrameworkVersion>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <PostBuildEvent>xcopy "$(SolutionDir)tesseract\tessdata"  "$(SolutionDir)test\OpenCvSharp.Tests\_data\tessdata\"  /Y</PostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>

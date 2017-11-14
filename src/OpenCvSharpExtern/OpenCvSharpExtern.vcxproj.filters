@@ -70,16 +70,16 @@
     <ClCompile Include="ximgproc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tracking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tracking.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="xphoto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="std_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tracking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -334,6 +334,12 @@
       <Filter>Header Files\face</Filter>
     </ClInclude>
     <ClInclude Include="std_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tracking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

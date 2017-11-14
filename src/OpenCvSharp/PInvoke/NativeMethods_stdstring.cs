@@ -10,7 +10,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr string_new1();
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, CharSet = CharSet.Ansi)]
         public static extern IntPtr string_new2([MarshalAs(UnmanagedType.LPStr)] string str);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
