@@ -53,6 +53,26 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr img_hash_Ptr_ColorMomentHash_get(IntPtr ptr);
 
+        // MarrHildrethHash
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr img_hash_MarrHildrethHash_create(float alpha, float scale);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void img_hash_Ptr_MarrHildrethHash_delete(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr img_hash_Ptr_MarrHildrethHash_get(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void img_hash_MarrHildrethHash_setKernelParam(IntPtr obj, float alpha, float scale);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern float img_hash_MarrHildrethHash_getAlpha(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern float img_hash_MarrHildrethHash_getScale(IntPtr obj);
+
         // PHash
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

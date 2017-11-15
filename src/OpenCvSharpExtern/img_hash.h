@@ -81,6 +81,39 @@ CVAPI(cv::img_hash::ColorMomentHash*) img_hash_Ptr_ColorMomentHash_get(cv::Ptr<c
 	return ptr->get();
 }
 
+// MarrHildrethHash
+
+CVAPI(cv::Ptr<cv::img_hash::MarrHildrethHash>*) img_hash_MarrHildrethHash_create(const float alpha, const float scale)
+{
+	const auto ptr = cv::img_hash::MarrHildrethHash::create(alpha, scale);
+	return clone(ptr);
+}
+
+CVAPI(void) img_hash_Ptr_MarrHildrethHash_delete(cv::Ptr<cv::img_hash::MarrHildrethHash> *ptr)
+{
+	delete ptr;
+}
+
+CVAPI(cv::img_hash::MarrHildrethHash*) img_hash_Ptr_MarrHildrethHash_get(cv::Ptr<cv::img_hash::MarrHildrethHash> *ptr)
+{
+	return ptr->get();
+}
+
+CVAPI(void) img_hash_MarrHildrethHash_setKernelParam(cv::img_hash::MarrHildrethHash *obj, const float alpha, const float scale)
+{
+	obj->setKernelParam(alpha, scale);
+}
+
+CVAPI(float) img_hash_MarrHildrethHash_getAlpha(cv::img_hash::MarrHildrethHash *obj)
+{
+	return obj->getAlpha();
+}
+
+CVAPI(float) img_hash_MarrHildrethHash_getScale(cv::img_hash::MarrHildrethHash *obj)
+{
+	return obj->getScale();
+}
+
 // PHash
 
 CVAPI(cv::Ptr<cv::img_hash::PHash>*) img_hash_PHash_create()
