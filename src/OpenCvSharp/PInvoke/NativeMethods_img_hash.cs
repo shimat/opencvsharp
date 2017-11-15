@@ -25,6 +25,24 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr img_hash_Ptr_AverageHash_get(IntPtr ptr);
 
+        // BlockMeanHash
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr img_hash_BlockMeanHash_create(int mode);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void img_hash_Ptr_BlockMeanHash_delete(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr img_hash_Ptr_BlockMeanHash_get(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void img_hash_BlockMeanHash_setMode(IntPtr obj, int mode);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void img_hash_BlockMeanHash_getMean(IntPtr obj, IntPtr outVec);
+
+
         // PHash
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

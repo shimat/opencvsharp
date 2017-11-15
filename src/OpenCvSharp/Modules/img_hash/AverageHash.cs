@@ -8,7 +8,6 @@ namespace OpenCvSharp.ImgHash
     /// This is a fast image hashing algorithm, but only work on simple case. For more details, 
     /// please refer to @cite lookslikeit
     /// </summary>
-    // ReSharper disable once InconsistentNaming
     public class AverageHash : ImgHashBase
     {
         /// <summary>
