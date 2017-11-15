@@ -5,70 +5,8 @@ namespace OpenCvSharp.Tracking
     /// <summary>
     /// Base abstract class for the long-term tracker
     /// </summary>
-    public class Tracker : Algorithm
+    public abstract class Tracker : Algorithm
     {
-        /*
-        /// <summary>
-        /// cv::Ptr&lt;T&gt;
-        /// </summary>
-        private Ptr ptrObj;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected Tracker(IntPtr p)
-        {
-            ptrObj = new Ptr(p);
-            ptr = ptrObj.Get();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="trackerType"></param>
-        public static Tracker Create(TrackerTypes trackerType)
-        {
-            IntPtr ptr;
-            switch (trackerType)
-            {
-                case TrackerTypes.Boosting:
-                    ptr = NativeMethods.tracking_Tracker_create("BOOSTING");
-                    break;
-                case TrackerTypes.GOTURN:
-                    ptr = NativeMethods.tracking_Tracker_create("GOTURN");
-                    break;
-                case TrackerTypes.TLD:
-                    ptr = NativeMethods.tracking_Tracker_create("TLD");
-                    break;
-                case TrackerTypes.KCF:
-                    ptr = NativeMethods.tracking_Tracker_create("KCF");
-                    break;
-                case TrackerTypes.MedianFlow:
-                    ptr = NativeMethods.tracking_Tracker_create("MEDIANFLOW");
-                    break;
-                case TrackerTypes.MIL:
-                    ptr = NativeMethods.tracking_Tracker_create("MIL");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(trackerType), trackerType, null);
-            }
-
-            return new Tracker(ptr);
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            ptrObj?.Dispose();
-            ptrObj = null;
-            base.DisposeManaged();
-        }
-        */
-
-        #region Methods
-
         /// <summary>
         /// Initialize the tracker with a know bounding box that surrounding the target
         /// </summary>
@@ -83,7 +21,7 @@ namespace OpenCvSharp.Tracking
                 throw new ArgumentNullException(nameof(image));
 
             image.ThrowIfDisposed();
-            var ret = NativeMethods.tracking_Tracker_init(this.ptr, image.CvPtr, boundingBox);
+            var ret = NativeMethods.tracking_Tracker_init(ptr, image.CvPtr, boundingBox);
             GC.KeepAlive(this);
             GC.KeepAlive(image);
 
@@ -106,33 +44,11 @@ namespace OpenCvSharp.Tracking
                 throw new ArgumentNullException(nameof(image));
 
             image.ThrowIfDisposed();
-            var ret = NativeMethods.tracking_Tracker_update(this.ptr, image.CvPtr, ref boundingBox);
+            var ret = NativeMethods.tracking_Tracker_update(ptr, image.CvPtr, ref boundingBox);
             GC.KeepAlive(this);
             GC.KeepAlive(image);
 
             return ret;
-        }
-
-        #endregion
-
-        internal class Ptr : OpenCvSharp.Ptr
-        {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
-            public override IntPtr Get()
-            {
-                var res = NativeMethods.tracking_Ptr_Tracker_get(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.tracking_Ptr_Tracker_delete(ptr);
-                base.DisposeUnmanaged();
-            }
         }
     }
 }
