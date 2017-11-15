@@ -4,12 +4,12 @@ using Xunit;
 
 namespace OpenCvSharp.Tests.ImgHash
 {
-    public class PHashTest : TestBase
+    public class AverageHashTest : TestBase
     {
         [Fact]
         public void CreateAndDispose()
         {
-            using (var model = PHash.Create())
+            using (var model = AverageHash.Create())
             {
                 GC.KeepAlive(model);
             }
@@ -18,7 +18,7 @@ namespace OpenCvSharp.Tests.ImgHash
         [Fact]
         public void Compute()
         {
-            using (var model = PHash.Create())
+            using (var model = AverageHash.Create())
             using (var img = Image("lenna.png"))
             using (var hash = new MatOfByte())
             {
@@ -28,21 +28,21 @@ namespace OpenCvSharp.Tests.ImgHash
                 Assert.Equal(MatType.CV_8UC1, hash.Type());
 
                 var hashArray = hash.ToArray();
-                Assert.Equal(152, hashArray[0]);
-                Assert.Equal(99, hashArray[1]);
-                Assert.Equal(42, hashArray[2]);
-                Assert.Equal(180, hashArray[3]);
-                Assert.Equal(206, hashArray[4]);
-                Assert.Equal(197, hashArray[5]);
-                Assert.Equal(97, hashArray[6]);
-                Assert.Equal(25, hashArray[7]);
+                Assert.Equal(101, hashArray[0]);
+                Assert.Equal(121, hashArray[1]);
+                Assert.Equal(185, hashArray[2]);
+                Assert.Equal(149, hashArray[3]);
+                Assert.Equal(205, hashArray[4]);
+                Assert.Equal(209, hashArray[5]);
+                Assert.Equal(213, hashArray[6]);
+                Assert.Equal(112, hashArray[7]);
             }
         }
 
         [Fact]
         public void CompareSameImage()
         {
-            using (var model = PHash.Create())
+            using (var model = AverageHash.Create())
             using (var img1 = Image("lenna.png", ImreadModes.GrayScale))
             {
                 double hash = model.Compare(img1, img1);
@@ -53,7 +53,7 @@ namespace OpenCvSharp.Tests.ImgHash
         [Fact]
         public void CompareDifferentImage()
         {
-            using (var model = PHash.Create())
+            using (var model = AverageHash.Create())
             using (var img1 = Image("lenna.png", ImreadModes.GrayScale))
             using (var img2 = Image("building.jpg", ImreadModes.GrayScale))
             {

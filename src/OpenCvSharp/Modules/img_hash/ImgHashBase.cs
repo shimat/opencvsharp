@@ -4,7 +4,7 @@ namespace OpenCvSharp.ImgHash
 {
     /// <inheritdoc />
     /// <summary>
-    /// Base abstract class for the long-term tracker
+    /// The base class for image hash algorithms
     /// </summary>
     public abstract class ImgHashBase : Algorithm
     {

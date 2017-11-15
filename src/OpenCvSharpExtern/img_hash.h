@@ -14,6 +14,24 @@ CVAPI(double) img_hash_ImgHashBase_compare(cv::img_hash::ImgHashBase *obj, cv::_
 	return obj->compare(*hashOne, *hashTwo);
 }
 
+
+// AverageHash
+CVAPI(cv::Ptr<cv::img_hash::AverageHash>*) img_hash_AverageHash_create()
+{
+	const auto ptr = cv::img_hash::AverageHash::create();
+	return clone(ptr);
+}
+
+CVAPI(void) img_hash_Ptr_AverageHash_delete(cv::Ptr<cv::img_hash::AverageHash> *ptr)
+{
+	delete ptr;
+}
+
+CVAPI(cv::img_hash::AverageHash*) img_hash_Ptr_AverageHash_get(cv::Ptr<cv::img_hash::AverageHash> *ptr)
+{
+	return ptr->get();
+}
+
 // PHash
 
 CVAPI(cv::Ptr<cv::img_hash::PHash>*) img_hash_PHash_create()

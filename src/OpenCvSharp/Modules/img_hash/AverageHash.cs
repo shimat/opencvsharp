@@ -4,11 +4,12 @@ namespace OpenCvSharp.ImgHash
 {
     /// <inheritdoc />
     /// <summary>
-    /// pHash: Slower than average_hash, but tolerant of minor modifications.
-    /// This algorithm can combat more variation than averageHash, for more details please refer to @cite lookslikeit
+    /// Computes average hash value of the input image.
+    /// This is a fast image hashing algorithm, but only work on simple case. For more details, 
+    /// please refer to @cite lookslikeit
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public class PHash : ImgHashBase
+    public class AverageHash : ImgHashBase
     {
         /// <summary>
         /// cv::Ptr&lt;T&gt;
@@ -18,7 +19,7 @@ namespace OpenCvSharp.ImgHash
         /// <summary>
         /// 
         /// </summary>
-        protected PHash(IntPtr p)
+        protected AverageHash(IntPtr p)
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
@@ -28,10 +29,10 @@ namespace OpenCvSharp.ImgHash
         /// Constructor
         /// </summary>
         /// <returns></returns>
-        public static PHash Create()
+        public static AverageHash Create()
         {
-            IntPtr p = NativeMethods.img_hash_PHash_create();
-            return new PHash(p);
+            IntPtr p = NativeMethods.img_hash_AverageHash_create();
+            return new AverageHash(p);
         }
         
         /// <inheritdoc />
@@ -53,12 +54,12 @@ namespace OpenCvSharp.ImgHash
 
             public override IntPtr Get()
             {
-                return NativeMethods.img_hash_Ptr_PHash_get(ptr);
+                return NativeMethods.img_hash_Ptr_AverageHash_get(ptr);
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.img_hash_Ptr_PHash_delete(ptr);
+                NativeMethods.img_hash_Ptr_AverageHash_delete(ptr);
                 base.DisposeUnmanaged();
             }
         }
