@@ -132,4 +132,42 @@ CVAPI(cv::img_hash::PHash*) img_hash_Ptr_PHash_get(cv::Ptr<cv::img_hash::PHash> 
 	return ptr->get();
 }
 
+// RadialVarianceHash
+
+CVAPI(cv::Ptr<cv::img_hash::RadialVarianceHash>*) img_hash_RadialVarianceHash_create(const double sigma, const int numOfAngleLine)
+{
+	const auto ptr = cv::img_hash::RadialVarianceHash::create(sigma, numOfAngleLine);
+	return clone(ptr);
+}
+
+CVAPI(void) img_hash_Ptr_RadialVarianceHash_delete(cv::Ptr<cv::img_hash::RadialVarianceHash> *ptr)
+{
+	delete ptr;
+}
+
+CVAPI(cv::img_hash::RadialVarianceHash*) img_hash_Ptr_RadialVarianceHash_get(cv::Ptr<cv::img_hash::RadialVarianceHash> *ptr)
+{
+	return ptr->get();
+}
+
+CVAPI(void) img_hash_RadialVarianceHash_setNumOfAngleLine(cv::img_hash::RadialVarianceHash *obj, const int value)
+{
+	obj->setNumOfAngleLine(value);
+}
+
+CVAPI(void) img_hash_RadialVarianceHash_setSigma(cv::img_hash::RadialVarianceHash *obj, const double value)
+{
+	obj->setSigma(value);
+}
+
+CVAPI(int) img_hash_RadialVarianceHash_getNumOfAngleLine(cv::img_hash::RadialVarianceHash *obj)
+{
+	return obj->getNumOfAngleLine();
+}
+
+CVAPI(double) img_hash_RadialVarianceHash_getSigma(cv::img_hash::RadialVarianceHash *obj)
+{
+	return obj->getSigma();
+}
+
 #endif

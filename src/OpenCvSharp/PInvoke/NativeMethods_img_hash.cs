@@ -83,5 +83,28 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr img_hash_Ptr_PHash_get(IntPtr ptr);
+
+        // RadialVarianceHash
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr img_hash_RadialVarianceHash_create(double sigma, int numOfAngleLine);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void img_hash_Ptr_RadialVarianceHash_delete(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr img_hash_Ptr_RadialVarianceHash_get(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void img_hash_RadialVarianceHash_setNumOfAngleLine(IntPtr obj, int value);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void img_hash_RadialVarianceHash_setSigma(IntPtr obj, double value);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int img_hash_RadialVarianceHash_getNumOfAngleLine(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern double img_hash_RadialVarianceHash_getSigma(IntPtr obj);
     }
 }
