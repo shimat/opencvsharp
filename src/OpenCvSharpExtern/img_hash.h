@@ -63,6 +63,24 @@ CVAPI(void) img_hash_BlockMeanHash_getMean(cv::img_hash::BlockMeanHash *obj, std
 	outVec->assign(mean.begin(), mean.end());
 }
 
+// ColorMomentHash
+
+CVAPI(cv::Ptr<cv::img_hash::ColorMomentHash>*) img_hash_ColorMomentHash_create()
+{
+	const auto ptr = cv::img_hash::ColorMomentHash::create();
+	return clone(ptr);
+}
+
+CVAPI(void) img_hash_Ptr_ColorMomentHash_delete(cv::Ptr<cv::img_hash::ColorMomentHash> *ptr)
+{
+	delete ptr;
+}
+
+CVAPI(cv::img_hash::ColorMomentHash*) img_hash_Ptr_ColorMomentHash_get(cv::Ptr<cv::img_hash::ColorMomentHash> *ptr)
+{
+	return ptr->get();
+}
+
 // PHash
 
 CVAPI(cv::Ptr<cv::img_hash::PHash>*) img_hash_PHash_create()

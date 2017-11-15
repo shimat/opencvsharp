@@ -14,7 +14,7 @@ namespace OpenCvSharp.ImgHash
         /// <param name="inputArr">input image want to compute hash value</param>
         /// <param name="outputArr">hash of the image</param>
         /// <returns></returns>
-        public void Compute(InputArray inputArr, OutputArray outputArr)
+        public virtual void Compute(InputArray inputArr, OutputArray outputArr)
         {
             ThrowIfDisposed();
 
@@ -39,7 +39,7 @@ namespace OpenCvSharp.ImgHash
         /// <param name="hashOne">Hash value one</param>
         /// <param name="hashTwo">Hash value two</param>
         /// <returns>value indicate similarity between inOne and inTwo, the meaning of the value vary from algorithms to algorithms</returns>
-        public double Compare(InputArray hashOne, InputArray hashTwo)
+        public virtual double Compare(InputArray hashOne, InputArray hashTwo)
         {
             ThrowIfDisposed();
 
