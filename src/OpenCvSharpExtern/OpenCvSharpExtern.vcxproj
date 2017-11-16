@@ -221,6 +221,7 @@
     <ClCompile Include="calib3d.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="cuda.cpp" />
+    <ClCompile Include="dnn.cpp" />
     <ClCompile Include="face.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgcodecs.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_RNG.h" />
     <ClInclude Include="core_SparseMat.h" />
+    <ClInclude Include="dnn.h" />
     <ClInclude Include="face_FisherFaceRecognizer.h" />
     <ClInclude Include="face_BasicFaceRecognizer.h" />
     <ClInclude Include="face_EigenFaceRecognizer.h" />

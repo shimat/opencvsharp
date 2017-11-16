@@ -58,5 +58,15 @@ namespace OpenCvSharp.Tests
                 Window.ShowImages(mats);
             }
         }
+
+        protected static void WaitKey(string message = "Press any key to exit")
+        {
+            if (Debugger.IsAttached)
+            {
+                Console.WriteLine();
+                Console.WriteLine(message);
+                Console.Read();
+            }
+        }
     }
 }

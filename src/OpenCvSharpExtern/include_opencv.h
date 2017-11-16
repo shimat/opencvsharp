@@ -28,6 +28,7 @@
 // opencv_contrib
 #include <opencv2/aruco.hpp>
 #include <opencv2/bgsegm.hpp>
+#include <opencv2/dnn.hpp>
 #include <opencv2/face.hpp>
 #include <opencv2/img_hash.hpp>
 #include <opencv2/optflow.hpp>

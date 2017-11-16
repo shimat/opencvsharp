@@ -9,7 +9,6 @@ namespace OpenCvSharp.Tracking
     /// The classifier uses the surrounding background as negative examples in update step to avoid the
     /// drifting problem.The implementation is based on @cite OLB.
     /// </summary>
-    // ReSharper disable once InconsistentNaming
     public class TrackerBoosting : Tracker
     {
         /// <summary>

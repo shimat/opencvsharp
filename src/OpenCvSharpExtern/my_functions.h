@@ -115,7 +115,7 @@ static void dump(T *obj, const std::string &outFile)
 }
 
 static void toVec(
-    cv::Mat **inPtr, int size, std::vector<cv::Mat> &outVec)
+    const cv::Mat **inPtr, const int size, std::vector<cv::Mat> &outVec)
 {
     outVec.resize(size);
     for (int i = 0; i < size; i++)
@@ -126,13 +126,13 @@ static void toVec(
 
 template <typename TIn, typename TOut>
 static void toVec(
-    TIn **inPtr, int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
+	const TIn **inPtr, const int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
 {
     outVec.resize(size1);
     for (int i = 0; i < size1; i++)
     {
         int size = size2[i];
-        TIn *p = inPtr[i];
+		const TIn *p = inPtr[i];
         std::vector<TOut> v(p, p + size);
         /*std::vector<cv::Rect> v(size);
         for (int j = 0; j < size; j++)
