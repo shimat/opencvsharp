@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -40,7 +39,7 @@ namespace OpenCvSharp.Tests.Dnn
                         GetMaxClass(prob, out int classId, out double classProb);
                         Console.WriteLine("Best class: #{0} '{1}'", classId, classNames[classId]);
                         Console.WriteLine("Probability: {0:P2}", classProb);
-                        WaitKey();
+                        Pause();
 
                         Assert.Equal(812, classId);
                     }

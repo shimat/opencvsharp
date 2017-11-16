@@ -59,7 +59,7 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        protected static void WaitKey(string message = "Press any key to exit")
+        protected static void Pause(string message = "Press any key to exit")
         {
             if (Debugger.IsAttached)
             {
