@@ -4,24 +4,6 @@
 #include "include_opencv.h"
 
 
-CVAPI(void) dnn_Net_delete(cv::dnn::Net* net)
-{
-	delete net;
-}
-
-CVAPI(cv::Mat*) dnn_Net_forward(cv::dnn::Net* net, const char *outputName)
-{
-	const cv::String outputNameStr = (outputName == nullptr) ? cv::String() : cv::String(outputName);
-	const auto ret = net->forward(outputNameStr);
-	return new cv::Mat(ret);
-}
-
-CVAPI(void) dnn_Net_setInput(cv::dnn::Net* net, const cv::Mat *blob, const char *name)
-{
-	const cv::String nameStr = (name == nullptr) ? "" : cv::String(name);
-	net->setInput(*blob, name);
-}
-
 CVAPI(cv::dnn::Net*) dnn_readNetFromDarknet(const char *cfgFile, const char *darknetModel)
 {
 	const auto darknetModelStr = (darknetModel == nullptr) ? cv::String() : cv::String(darknetModel);

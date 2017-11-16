@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,9 @@ namespace OpenCvSharp.Tests.Dnn
             const string protoTxt = @"_data\text\bvlc_googlenet.prototxt";
             const string caffeModel = "bvlc_googlenet.caffemodel";
             const string synsetWords = @"_data\text\synset_words.txt";
-            var classNames = File.ReadAllLines(synsetWords);
+            var classNames = File.ReadAllLines(synsetWords)
+                .Select(line => line.Split(' ').Last())
+                .ToArray();
 
             Console.Write("Downloading Caffe Model...");
             await PrepareModel(caffeModel);
@@ -29,6 +32,9 @@ namespace OpenCvSharp.Tests.Dnn
             using (var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel))
             using (var img = Image(@"space_shuttle.jpg"))
             {
+                //Console.WriteLine("Layer names: {0}", string.Join(", ", net.GetLayerNames()));
+                Assert.Equal(1, net.GetLayerId(net.GetLayerNames()[0]));
+
                 // Convert Mat to batch of images
                 using (var inputBlob = CvDnn.BlobFromImage(img, 1, new Size(224, 224), new Scalar(104, 117, 123)))
                 {

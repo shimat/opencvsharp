@@ -352,7 +352,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dnn.h">
-      <Filter>dnn</Filter>
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="dnn_Net.h">
+      <Filter>Header Files\dnn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -412,7 +415,7 @@
     <Filter Include="Header Files\flann">
       <UniqueIdentifier>{fe6ddcd7-d2d0-4c73-99f6-d37802a99d2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dnn">
+    <Filter Include="Header Files\dnn">
       <UniqueIdentifier>{82bf2b1d-8eae-4871-a816-59451452eeb4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

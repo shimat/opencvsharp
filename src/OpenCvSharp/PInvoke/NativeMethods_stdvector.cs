@@ -381,6 +381,20 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_string_delete(IntPtr vector);
         #endregion
+        #region vector<cv::String>
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_cvString_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_cvString_new2(IntPtr size);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_cvString_getSize(IntPtr vec);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_cvString_getPointer(IntPtr vector);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern unsafe sbyte* vector_cvString_elemAt(IntPtr vector, int i);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void vector_cvString_delete(IntPtr vector);
+        #endregion
         #region cv::Mat
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_Mat_new1();
