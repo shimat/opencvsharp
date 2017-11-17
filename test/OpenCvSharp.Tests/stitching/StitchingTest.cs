@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Detail;
 using Xunit;
 
 #pragma warning disable 162
@@ -11,7 +12,7 @@ namespace OpenCvSharp.Tests.Stitching
         [Fact]
         public void Run()
         {
-            Mat[] images = SelectStitchingImages(200, 200, 40);
+            Mat[] images = SelectStitchingImages(200, 200, 10);
 
             using (var stitcher = Stitcher.Create(false))
             using (var pano = new Mat())
@@ -60,6 +61,71 @@ namespace OpenCvSharp.Tests.Stitching
             return mats.ToArray();
         }
 
+        [Fact]
+        public void PropertyRegistrationResol()
+        {
+            using (var stitcher = Stitcher.Create())
+            {
+                const double value = 3.14159;
+                stitcher.RegistrationResol = value;
+                Assert.Equal(value, stitcher.RegistrationResol, 6);
+            }
+        }
+
+        [Fact]
+        public void PropertySeamEstimationResol()
+        {
+            using (var stitcher = Stitcher.Create())
+            {
+                const double value = 3.14159;
+                stitcher.SeamEstimationResol = value;
+                Assert.Equal(value, stitcher.SeamEstimationResol, 6);
+            }
+        }
+
+        [Fact]
+        public void PropertyRCompositingResol()
+        {
+            using (var stitcher = Stitcher.Create())
+            {
+                const double value = 3.14159;
+                stitcher.CompositingResol = value;
+                Assert.Equal(value, stitcher.CompositingResol, 6);
+            }
+        }
+
+        [Fact]
+        public void PropertyPanoConfidenceThresh()
+        {
+            using (var stitcher = Stitcher.Create())
+            {
+                const double value = 3.14159;
+                stitcher.PanoConfidenceThresh = value;
+                Assert.Equal(value, stitcher.PanoConfidenceThresh, 6);
+            }
+        }
+
+        [Fact]
+        public void PropertyWaveCorrection()
+        {
+            using (var stitcher = Stitcher.Create())
+            {
+                const bool value = true;
+                stitcher.WaveCorrection = value;
+                Assert.Equal(value, stitcher.WaveCorrection);
+            }
+        }
+
+        [Fact]
+        public void PropertyWaveCorrectKind()
+        {
+            using (var stitcher = Stitcher.Create())
+            {
+                const WaveCorrectKind value = WaveCorrectKind.Vertical;
+                stitcher.WaveCorrectKind = value;
+                Assert.Equal(value, stitcher.WaveCorrectKind);
+            }
+        }
     }
 }
 

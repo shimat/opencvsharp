@@ -248,6 +248,7 @@ namespace OpenCvSharp.Aruco
             }
         }
 
+        /*
         /// <summary>
         /// do subpixel refinement or not
         /// </summary>
@@ -266,7 +267,7 @@ namespace OpenCvSharp.Aruco
                 NativeMethods.aruco_DetectorParameters_setDoCornerRefinement(ptr, value);
                 GC.KeepAlive(this);
             }
-        }
+        }*/
 
         /// <summary>
         /// window size for the corner refinement process (in pixels) (default 5).

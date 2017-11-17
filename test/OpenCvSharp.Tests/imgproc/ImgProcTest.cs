@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ImgProc
@@ -34,6 +36,48 @@ namespace OpenCvSharp.Tests.ImgProc
 
                 Assert.Equal(src.Rows * src.Cols, Cv2.CountNonZero(dst));
             }
+        }
+
+        [Fact]
+        public void RotatedRectangleIntersectionOutputArray()
+        {
+            var rr1 = new RotatedRect(new Point2f(10, 10), new Size2f(10, 10), 45);
+            var rr2 = new RotatedRect(new Point2f(15, 10), new Size2f(10, 10), 0);
+            using (var intersectingRegion = new Mat())
+            {
+                Cv2.RotatedRectangleIntersection(rr1, rr2, intersectingRegion);
+                Assert.Equal(5, intersectingRegion.Rows);
+                Assert.Equal(1, intersectingRegion.Cols);
+                Assert.Equal(MatType.CV_32FC2, intersectingRegion.Type());
+            }
+        }
+
+        [Fact]
+        public void RotatedRectangleIntersectionVector()
+        {
+            var rr1 = new RotatedRect(new Point2f(100, 100), new Size2f(100, 100), 45);
+            var rr2 = new RotatedRect(new Point2f(130, 100), new Size2f(100, 100), 0);
+
+            Cv2.RotatedRectangleIntersection(rr1, rr2, out var intersectingRegion);
+
+            if (Debugger.IsAttached)
+            {
+                Point[] ToPoints(IEnumerable<Point2f> enumerable)
+                {
+                    return enumerable.Select(p => new Point(p.X, p.Y)).ToArray();
+                }
+
+                using (var img = new Mat(200, 200, MatType.CV_8UC3, 0))
+                {
+                    img.Polylines(new[] { ToPoints(rr1.Points()) }, true, Scalar.Red);
+                    img.Polylines(new[] { ToPoints(rr2.Points()) }, true, Scalar.Green);
+                    img.Polylines(new[] { ToPoints(intersectingRegion) }, true, Scalar.White);
+
+                    Window.ShowImages(img);
+                }
+            }
+
+            intersectingRegion.ToString();
         }
 
         [Fact]

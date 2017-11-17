@@ -70,13 +70,22 @@
     <ClCompile Include="ximgproc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="xphoto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="std_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="tracking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tracking.h">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="img_hash.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="xphoto.cpp">
+    <ClCompile Include="dnn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -294,9 +303,6 @@
     <ClInclude Include="calib3d_StereoSGBM.h">
       <Filter>Header Files\calib3d</Filter>
     </ClInclude>
-    <ClInclude Include="face.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
     <ClInclude Include="aruco.h">
       <Filter>Header Files\aruco</Filter>
     </ClInclude>
@@ -326,6 +332,30 @@
     </ClInclude>
     <ClInclude Include="xphoto.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="face_EigenFaceRecognizer.h">
+      <Filter>Header Files\face</Filter>
+    </ClInclude>
+    <ClInclude Include="face_FisherFaceRecognizer.h">
+      <Filter>Header Files\face</Filter>
+    </ClInclude>
+    <ClInclude Include="std_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tracking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="img_hash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dnn.h">
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="dnn_Net.h">
+      <Filter>Header Files\dnn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -384,6 +414,9 @@
     </Filter>
     <Filter Include="Header Files\flann">
       <UniqueIdentifier>{fe6ddcd7-d2d0-4c73-99f6-d37802a99d2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dnn">
+      <UniqueIdentifier>{82bf2b1d-8eae-4871-a816-59451452eeb4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

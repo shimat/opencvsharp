@@ -77,9 +77,11 @@ namespace OpenCvSharp.Flann
         /// <returns></returns>
         public int GetInt(string key, int defaultVal)
         {
-            return NativeMethods.flann_IndexParams_getInt(ptr, key, defaultVal);
+            var ret = NativeMethods.flann_IndexParams_getInt(ptr, key, defaultVal);
             GC.KeepAlive(this);
+            return ret;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -89,6 +91,7 @@ namespace OpenCvSharp.Flann
         {
             return GetInt(key, -1);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -97,9 +100,11 @@ namespace OpenCvSharp.Flann
         /// <returns></returns>
         public double GetDouble(string key, double defaultVal)
         {
-            return NativeMethods.flann_IndexParams_getDouble(ptr, key, defaultVal);
+            var ret = NativeMethods.flann_IndexParams_getDouble(ptr, key, defaultVal);
             GC.KeepAlive(this);
+            return ret;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -109,6 +114,7 @@ namespace OpenCvSharp.Flann
         {
             return GetDouble(key, -1);
         }
+
         #endregion
         #region Set**
         /// <summary>

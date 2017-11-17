@@ -22,11 +22,8 @@ namespace OpenCvSharp.Tests.Aruco
         {
             var param = DetectorParameters.Create();
 
-            const bool boolValue = true;
             const int intValue = 100;
             const double doubleValue = 10d;
-
-            param.DoCornerRefinement = boolValue;
 
             param.AdaptiveThreshConstant = doubleValue;
             param.CornerRefinementMinAccuracy = doubleValue;
@@ -48,8 +45,6 @@ namespace OpenCvSharp.Tests.Aruco
             param.MinDistanceToBorder = intValue;
             param.PerspectiveRemovePixelPerCell = intValue;
             param.AdaptiveThreshWinSizeMin = intValue;
-
-            Assert.Equal(boolValue, param.DoCornerRefinement);
 
             Assert.Equal(doubleValue, param.AdaptiveThreshConstant);
             Assert.Equal(doubleValue, param.CornerRefinementMinAccuracy);

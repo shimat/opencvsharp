@@ -7,6 +7,13 @@
 using namespace cv::face;
 
 
+CVAPI(cv::Ptr<LBPHFaceRecognizer>*) face_LBPHFaceRecognizer_create(
+	const int radius, const int neighbors, const int gridX, const int gridY, const double threshold)
+{
+	const auto r = LBPHFaceRecognizer::create(radius, neighbors, gridX, gridY, threshold);
+	return clone(r);
+}
+
 CVAPI(int) face_LBPHFaceRecognizer_getGridX(LBPHFaceRecognizer *obj)
 {
     return obj->getGridX();

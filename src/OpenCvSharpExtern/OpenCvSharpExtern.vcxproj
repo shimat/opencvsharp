@@ -29,23 +29,23 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -77,14 +77,14 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)src\$(Configuration)\$(PlatformName)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv\3.2\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv\3.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv\3.2\x64\vc14\lib;$(SolutionDir)\opencv\3.2\x64\vc14\staticlib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv\3.2\x64\vc14\lib;$(SolutionDir)\opencv\3.2\x64\vc14\staticlib;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv\3.2\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv\3.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv\3.2\x86\vc14\lib;$(SolutionDir)\opencv\3.2\x86\vc14\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv\3.2\x86\vc14\lib;$(SolutionDir)\opencv\3.2\x86\vc14\staticlib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_331\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_331\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_331\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_331\x64\vc15\staticlib;$(SolutionDir)\tesseract\build\v141\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_331\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_331\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_331\x86\vc15\staticlib;$(SolutionDir)\tesseract\build\v141\x86;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_331\x86\vc15\staticlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -101,7 +101,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world300d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world331d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -129,7 +129,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world310d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world331d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -161,7 +161,7 @@
       <DisableSpecificWarnings>4251;4275;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;libjasper.lib;libjpeg.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco320.lib;opencv_bgsegm320.lib;opencv_bioinspired320.lib;opencv_calib3d320.lib;opencv_ccalib320.lib;opencv_core320.lib;opencv_datasets320.lib;opencv_dnn320.lib;opencv_dpm320.lib;opencv_face320.lib;opencv_features2d320.lib;opencv_flann320.lib;opencv_fuzzy320.lib;opencv_highgui320.lib;opencv_imgcodecs320.lib;opencv_imgproc320.lib;opencv_line_descriptor320.lib;opencv_ml320.lib;opencv_objdetect320.lib;opencv_optflow320.lib;opencv_phase_unwrapping320.lib;opencv_photo320.lib;opencv_plot320.lib;opencv_reg320.lib;opencv_rgbd320.lib;opencv_saliency320.lib;opencv_shape320.lib;opencv_stereo320.lib;opencv_stitching320.lib;opencv_structured_light320.lib;opencv_superres320.lib;opencv_surface_matching320.lib;opencv_text320.lib;opencv_tracking320.lib;opencv_video320.lib;opencv_videoio320.lib;opencv_videostab320.lib;opencv_xfeatures2d320.lib;opencv_ximgproc320.lib;opencv_xobjdetect320.lib;opencv_xphoto320.lib;zlib.lib;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;zlib.lib;vfw32.lib;opencv_aruco331.lib;opencv_bgsegm331.lib;opencv_bioinspired331.lib;opencv_calib3d331.lib;opencv_ccalib331.lib;opencv_core331.lib;opencv_datasets331.lib;opencv_dnn331.lib;opencv_dpm331.lib;opencv_face331.lib;opencv_features2d331.lib;opencv_flann331.lib;opencv_fuzzy331.lib;opencv_highgui331.lib;opencv_img_hash331.lib;opencv_imgcodecs331.lib;opencv_imgproc331.lib;opencv_line_descriptor331.lib;opencv_ml331.lib;opencv_objdetect331.lib;opencv_optflow331.lib;opencv_phase_unwrapping331.lib;opencv_photo331.lib;opencv_plot331.lib;opencv_reg331.lib;opencv_rgbd331.lib;opencv_saliency331.lib;opencv_shape331.lib;opencv_stereo331.lib;opencv_stitching331.lib;opencv_structured_light331.lib;opencv_superres331.lib;opencv_surface_matching331.lib;opencv_text331.lib;opencv_tracking331.lib;opencv_video331.lib;opencv_videoio331.lib;opencv_videostab331.lib;opencv_xfeatures2d331.lib;opencv_ximgproc331.lib;opencv_xobjdetect331.lib;opencv_xphoto331.lib;libtesseract.lib;liblept.lib;giflib.lib;openjpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -174,8 +174,7 @@
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x86\$(TargetFileName)"
-copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\$(TargetFileName)"</Command>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -200,7 +199,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\$(T
       <DisableSpecificWarnings>4251;4275;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;libjasper.lib;libjpeg.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco320.lib;opencv_bgsegm320.lib;opencv_bioinspired320.lib;opencv_calib3d320.lib;opencv_ccalib320.lib;opencv_core320.lib;opencv_datasets320.lib;opencv_dnn320.lib;opencv_dpm320.lib;opencv_face320.lib;opencv_features2d320.lib;opencv_flann320.lib;opencv_fuzzy320.lib;opencv_highgui320.lib;opencv_imgcodecs320.lib;opencv_imgproc320.lib;opencv_line_descriptor320.lib;opencv_ml320.lib;opencv_objdetect320.lib;opencv_optflow320.lib;opencv_phase_unwrapping320.lib;opencv_photo320.lib;opencv_plot320.lib;opencv_reg320.lib;opencv_rgbd320.lib;opencv_saliency320.lib;opencv_shape320.lib;opencv_stereo320.lib;opencv_stitching320.lib;opencv_structured_light320.lib;opencv_superres320.lib;opencv_surface_matching320.lib;opencv_text320.lib;opencv_tracking320.lib;opencv_video320.lib;opencv_videoio320.lib;opencv_videostab320.lib;opencv_xfeatures2d320.lib;opencv_ximgproc320.lib;opencv_xobjdetect320.lib;opencv_xphoto320.lib;zlib.lib;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;zlib.lib;vfw32.lib;opencv_aruco331.lib;opencv_bgsegm331.lib;opencv_bioinspired331.lib;opencv_calib3d331.lib;opencv_ccalib331.lib;opencv_core331.lib;opencv_datasets331.lib;opencv_dnn331.lib;opencv_dpm331.lib;opencv_face331.lib;opencv_features2d331.lib;opencv_flann331.lib;opencv_fuzzy331.lib;opencv_highgui331.lib;opencv_img_hash331.lib;opencv_imgcodecs331.lib;opencv_imgproc331.lib;opencv_line_descriptor331.lib;opencv_ml331.lib;opencv_objdetect331.lib;opencv_optflow331.lib;opencv_phase_unwrapping331.lib;opencv_photo331.lib;opencv_plot331.lib;opencv_reg331.lib;opencv_rgbd331.lib;opencv_saliency331.lib;opencv_shape331.lib;opencv_stereo331.lib;opencv_stitching331.lib;opencv_structured_light331.lib;opencv_superres331.lib;opencv_surface_matching331.lib;opencv_text331.lib;opencv_tracking331.lib;opencv_video331.lib;opencv_videoio331.lib;opencv_videostab331.lib;opencv_xfeatures2d331.lib;opencv_ximgproc331.lib;opencv_xobjdetect331.lib;opencv_xphoto331.lib;libtesseract.lib;liblept.lib;giflib.lib;openjpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -213,8 +212,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\$(T
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)src\OpenCvSharp.Sandbox\dll\x64\$(TargetFileName)"
-copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(TargetFileName)"</Command>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -223,20 +221,24 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClCompile Include="calib3d.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="cuda.cpp" />
+    <ClCompile Include="dnn.cpp" />
     <ClCompile Include="face.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgcodecs.cpp" />
     <ClCompile Include="imgproc.cpp" />
+    <ClCompile Include="img_hash.cpp" />
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="flann.cpp" />
     <ClCompile Include="optflow.cpp" />
     <ClCompile Include="photo.cpp" />
     <ClCompile Include="shape.cpp" />
+    <ClCompile Include="std_string.cpp" />
     <ClCompile Include="std_vector.cpp" />
     <ClCompile Include="features2d.cpp" />
     <ClCompile Include="stitching.cpp" />
     <ClCompile Include="superres.cpp" />
+    <ClCompile Include="text.cpp" />
     <ClCompile Include="tracking.cpp" />
     <ClCompile Include="video.cpp" />
     <ClCompile Include="videoio.cpp" />
@@ -259,8 +261,11 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_RNG.h" />
     <ClInclude Include="core_SparseMat.h" />
-    <ClInclude Include="face.h" />
+    <ClInclude Include="dnn.h" />
+    <ClInclude Include="dnn_Net.h" />
+    <ClInclude Include="face_FisherFaceRecognizer.h" />
     <ClInclude Include="face_BasicFaceRecognizer.h" />
+    <ClInclude Include="face_EigenFaceRecognizer.h" />
     <ClInclude Include="face_FaceRecognizer.h" />
     <ClInclude Include="cuda.h" />
     <ClInclude Include="cuda_GpuMat.h" />
@@ -288,6 +293,7 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="imgproc_LineIterator.h" />
     <ClInclude Include="imgproc_LineSegmentDetector.h" />
     <ClInclude Include="imgproc_Subdiv2D.h" />
+    <ClInclude Include="img_hash.h" />
     <ClInclude Include="include_opencv.h" />
     <ClInclude Include="ml.h" />
     <ClInclude Include="ml_ANN_MLP.h" />
@@ -310,6 +316,9 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="ml_RTrees.h" />
     <ClInclude Include="photo_HDR.h" />
     <ClInclude Include="shape_ShapeDistanceExtractor.h" />
+    <ClInclude Include="std_string.h" />
+    <ClInclude Include="text.h" />
+    <ClInclude Include="tracking.h" />
     <ClInclude Include="videoio.h" />
     <ClInclude Include="video_tracking.h" />
     <ClInclude Include="photo.h" />
@@ -319,7 +328,6 @@ copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(T
     <ClInclude Include="stitching.h" />
     <ClInclude Include="stitching_detail_Matchers.h" />
     <ClInclude Include="superres.h" />
-    <ClCompile Include="tracking.h" />
     <ClInclude Include="video.h" />
     <ClInclude Include="video_background_segm.h" />
     <ClInclude Include="xfeatures2d.h" />

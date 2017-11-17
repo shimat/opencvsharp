@@ -9,14 +9,14 @@ namespace OpenCvSharp.Tests.HighGui
         public void WaitKey()
         {
             int val = Cv2.WaitKey(1);
-            Assert.Equal(255, val);
+            Assert.Equal(-1, val);
         }
 
         [Fact]
         public void WaitKeyEx()
         {
             int val = Cv2.WaitKeyEx(1);
-            Assert.True(val < 0);
+            Assert.Equal(-1, val);
         }
     }
 }

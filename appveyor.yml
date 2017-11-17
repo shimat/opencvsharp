@@ -1,4 +1,4 @@
-version: '3.2.0-{build}'
+version: '3.3.1-{build}'
 
 init:
 - ps: |
@@ -19,7 +19,19 @@ image: Visual Studio 2017
 configuration: Release
 
 before_build:
-- git submodule update --init --recursive
+#- git submodule update --init --recursive
+- git submodule update --init
+- ps: |
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    function Unzip {
+        param([string]$zipfile, [string]$outpath)
+        $pwd = pwd
+        $zipfile = [System.IO.Path]::Combine($pwd, $zipfile)
+        $outpath = [System.IO.Path]::Combine($pwd, $outpath)
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+    }
+    Unzip tesseract\build\v141\x86.zip tesseract\build\v141
+    Unzip tesseract\build\v141\x64.zip tesseract\build\v141
 - nuget restore
 - dotnet restore
 
@@ -48,9 +60,14 @@ artifacts:
 - path: artifacts\**\*.*
 
 deploy:
-- provider: NuGet
+- provider: NuGet # appveyor
   server: https://ci.appveyor.com/nuget/shimat
   api_key:
     secure: PW0F7tbGr+QLuLPUGy+32pNtMZUJeqjyikz9nKlpALA=
+  skip_symbols: true
+  artifact: /.*\.nupkg/
+- provider: NuGet # nuget.org
+  api_key:
+    secure: qea/3lnas374qyS4Xw9t5Z5jBKsVsBPGsY938QHgJ2IQyrQmug0qPKDU7tll/QkJ
   skip_symbols: true
   artifact: /.*\.nupkg/

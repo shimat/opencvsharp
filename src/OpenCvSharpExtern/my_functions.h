@@ -3,6 +3,11 @@
 #ifndef _MY_FUNCTIONS_H_
 #define _MY_FUNCTIONS_H_
 
+#ifdef _WIN32
+#pragma warning(disable: 4996) 
+#endif
+
+
 #include <opencv2/opencv.hpp>
 #include "my_types.h"
 
@@ -20,10 +25,7 @@ static int p(T obj, const std::string &caption = "MessageBox")
     ss << obj;
     return p(ss.str().c_str(), caption.c_str());
 }
-#undef min
-#undef max
 #endif
-
 
 
 #if defined WIN32 || defined _WIN32
@@ -113,7 +115,7 @@ static void dump(T *obj, const std::string &outFile)
 }
 
 static void toVec(
-    cv::Mat **inPtr, int size, std::vector<cv::Mat> &outVec)
+    const cv::Mat **inPtr, const int size, std::vector<cv::Mat> &outVec)
 {
     outVec.resize(size);
     for (int i = 0; i < size; i++)
@@ -124,13 +126,13 @@ static void toVec(
 
 template <typename TIn, typename TOut>
 static void toVec(
-    TIn **inPtr, int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
+	const TIn **inPtr, const int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
 {
     outVec.resize(size1);
     for (int i = 0; i < size1; i++)
     {
         int size = size2[i];
-        TIn *p = inPtr[i];
+		const TIn *p = inPtr[i];
         std::vector<TOut> v(p, p + size);
         /*std::vector<cv::Rect> v(size);
         for (int j = 0; j < size; j++)

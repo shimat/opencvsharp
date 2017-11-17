@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Face
@@ -46,57 +45,7 @@ namespace OpenCvSharp.Face
             return detector;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="numComponents"> The number of components (read: Eigenfaces) kept for this Principal Component Analysis. 
-        /// As a hint: There's no rule how many components (read: Eigenfaces) should be kept for good reconstruction capabilities. 
-        /// It is based on your input data, so experiment with the number. Keeping 80 components should almost always be sufficient.</param>
-        /// <param name="threshold">The threshold applied in the prediction.</param>
-        /// <returns></returns>
-        public static BasicFaceRecognizer CreateEigenFaceRecognizer(int numComponents = 0, double threshold = Double.MaxValue)
-        {
-            IntPtr p = NativeMethods.face_createEigenFaceRecognizer(numComponents, threshold);
-            return BasicFaceRecognizer.FromPtr(p);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="numComponents">The number of components (read: Fisherfaces) kept for this Linear Discriminant Analysis 
-        /// with the Fisherfaces criterion. It's useful to keep all components, that means the number of your classes c 
-        /// (read: subjects, persons you want to recognize). If you leave this at the default (0) or set it 
-        /// to a value less-equal 0 or greater (c-1), it will be set to the correct number (c-1) automatically.</param>
-        /// <param name="threshold">The threshold applied in the prediction. If the distance to the nearest neighbor 
-        /// is larger than the threshold, this method returns -1.</param>
-        /// <returns></returns>
-        public static BasicFaceRecognizer CreateFisherFaceRecognizer(
-            int numComponents = 0, double threshold = Double.MaxValue)
-        {
-            IntPtr p = NativeMethods.face_createFisherFaceRecognizer(numComponents, threshold);
-            return BasicFaceRecognizer.FromPtr(p);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="radius">The radius used for building the Circular Local Binary Pattern. The greater the radius, the</param>
-        /// <param name="neighbors">The number of sample points to build a Circular Local Binary Pattern from. 
-        /// An appropriate value is to use `8` sample points.Keep in mind: the more sample points you include, the higher the computational cost.</param>
-        /// <param name="gridX">The number of cells in the horizontal direction, 8 is a common value used in publications. 
-        /// The more cells, the finer the grid, the higher the dimensionality of the resulting feature vector.</param>
-        /// <param name="gridY">The number of cells in the vertical direction, 8 is a common value used in publications. 
-        /// The more cells, the finer the grid, the higher the dimensionality of the resulting feature vector.</param>
-        /// <param name="threshold">The threshold applied in the prediction. If the distance to the nearest neighbor 
-        /// is larger than the threshold, this method returns -1.</param>
-        /// <returns></returns>
-        public static LBPHFaceRecognizer CreateLBPHFaceRecognizer(int radius = 1, int neighbors = 8,
-            int gridX = 8, int gridY = 8, double threshold = Double.MaxValue)
-        {
-            IntPtr p = NativeMethods.face_createLBPHFaceRecognizer(radius, neighbors, gridX, gridY, threshold);
-            return LBPHFaceRecognizer.FromPtr(p);
-        }
-
+        /// <inheritdoc />
         /// <summary>
         /// Releases managed resources
         /// </summary>
@@ -189,52 +138,52 @@ namespace OpenCvSharp.Face
         /// Serializes this object to a given filename.
         /// </summary>
         /// <param name="fileName"></param>
-        public new virtual void Save(string fileName)
+        public virtual void Write(string fileName)
         {
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            NativeMethods.face_FaceRecognizer_save1(ptr, fileName);
-            GC.KeepAlive(this);
+            NativeMethods.face_FaceRecognizer_write1(ptr, fileName);
         }
 
         /// <summary>
         /// Deserializes this object from a given filename.
         /// </summary>
         /// <param name="fileName"></param>
-        public virtual void Load(string fileName)
+        public virtual void Read(string fileName)
         {
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            NativeMethods.face_FaceRecognizer_load1(ptr, fileName);
-            GC.KeepAlive(this);
+            NativeMethods.face_FaceRecognizer_read1(ptr, fileName);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Serializes this object to a given cv::FileStorage.
         /// </summary>
         /// <param name="fs"></param>
-        public virtual void Save(FileStorage fs)
+        public override void Write(FileStorage fs)
         {
             ThrowIfDisposed();
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
-            NativeMethods.face_FaceRecognizer_save2(ptr, fs.CvPtr);
+            NativeMethods.face_FaceRecognizer_write2(ptr, fs.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(fs);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Deserializes this object from a given cv::FileStorage.
+        /// Deserializes this object from a given cv::FileNode.
         /// </summary>
         /// <param name="fs"></param>
-        public virtual void Load(FileStorage fs)
+        public override void Read(FileNode fs)
         {
             ThrowIfDisposed();
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
-            NativeMethods.face_FaceRecognizer_load2(ptr, fs.CvPtr);
+            NativeMethods.face_FaceRecognizer_read2(ptr, fs.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(fs);
         }

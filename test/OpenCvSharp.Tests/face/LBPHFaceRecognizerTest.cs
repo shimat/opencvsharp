@@ -12,30 +12,34 @@ namespace OpenCvSharp.Tests.Face
         [Fact]
         public void CreateAndDispose()
         {
-            var recognizer = OpenCvSharp.Face.FaceRecognizer.CreateLBPHFaceRecognizer(1, 8, 8, 8, 123);
+            var recognizer = LBPHFaceRecognizer.Create(1, 8, 8, 8, 123);
             recognizer.Dispose();
         }
 
-        [Fact(Skip = "not implemented")]
+        [Fact]
         public void TrainAndPredict()
         {
-            var image = new Mat("Data/Image/Lenna.png");
-
-            var model = CvFace.CreateLBPHFaceRecognizer();
-
-            var cascade = new CascadeClassifier("../haarcascade_frontalface_default.xml");
-            var rects = cascade.DetectMultiScale(image);
-
-            foreach (Rect rect in rects)
+            using (var image = Image("lenna.png"))
+            using (var grayImage = image.CvtColor(ColorConversionCodes.BGR2GRAY))
+            using (var model = LBPHFaceRecognizer.Create())
+            using (var cascade = new CascadeClassifier("_data/text/haarcascade_frontalface_default.xml"))
             {
-                using (Mat face = image[rect].Clone())
-                {
-                    Cv2.Resize(face, face, new Size(256, 256));
+                var rects = cascade.DetectMultiScale(image);
 
-                    int label;
-                    double confidence;
-                    model.Predict(face, out label, out confidence);
-                    Console.WriteLine($"{label} ({confidence})");
+                model.Train(new[] { grayImage }, new[] { 1 });
+
+                foreach (Rect rect in rects)
+                {
+                    using (Mat face = grayImage[rect].Clone())
+                    {
+                        Cv2.Resize(face, face, new Size(256, 256));
+
+                        model.Predict(face, out int label, out double confidence);
+
+                        Console.WriteLine($"{label} ({confidence})");
+                        Assert.Equal(1, label);
+                        Assert.NotEqual(0, confidence, 9);
+                    }
                 }
             }
         }

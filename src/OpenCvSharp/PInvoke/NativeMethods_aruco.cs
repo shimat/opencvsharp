@@ -7,7 +7,6 @@ namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr aruco_getPredefinedDictionary(int name);
 
@@ -139,7 +138,6 @@ namespace OpenCvSharp
         public static extern int aruco_Dictionary_getMaxCorrectionBits(IntPtr obj);
 
         #endregion
-
     }
 
 }

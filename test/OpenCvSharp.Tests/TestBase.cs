@@ -10,17 +10,12 @@ namespace OpenCvSharp.Tests
 {
     public abstract class TestBase 
     {
-        protected TestBase()
-        {
-            //Directory.SetCurrentDirectory(TestContext.CurrentContext.TestDirectory);
-        }
-
-        protected Mat Image(string fileName, ImreadModes modes = ImreadModes.Color)
+        protected static Mat Image(string fileName, ImreadModes modes = ImreadModes.Color)
         {
             return new Mat(Path.Combine("_data", "image", fileName), modes);
         }
 
-        protected void ImageEquals(Mat img1, Mat img2)
+        protected static void ImageEquals(Mat img1, Mat img2)
         {
             if (img1 == null && img2 == null)
                 return;
@@ -56,11 +51,21 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        protected void ShowImagesWhenDebugMode(params Mat[] mats)
+        protected static void ShowImagesWhenDebugMode(params Mat[] mats)
         {
             if (Debugger.IsAttached)
             {
                 Window.ShowImages(mats);
+            }
+        }
+
+        protected static void Pause(string message = "Press any key to exit")
+        {
+            if (Debugger.IsAttached)
+            {
+                Console.WriteLine();
+                Console.WriteLine(message);
+                Console.Read();
             }
         }
     }

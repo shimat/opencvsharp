@@ -3,7 +3,7 @@
 
 #include "include_opencv.h"
 
-CVAPI(cv::Ptr<cv::Stitcher>*) stitching_createStitcher(int try_use_gpu)
+CVAPI(cv::Ptr<cv::Stitcher>*) stitching_createStitcher(const int try_use_gpu)
 {
     cv::Ptr<cv::Stitcher> ptr = cv::createStitcher(try_use_gpu != 0);
     return new cv::Ptr<cv::Stitcher>(ptr);
@@ -24,7 +24,7 @@ CVAPI(double) stitching_Stitcher_registrationResol(cv::Stitcher *obj)
 { 
     return obj->registrationResol();
 }
-CVAPI(void) stitching_Stitcher_setRegistrationResol(cv::Stitcher *obj, double resol_mpx) 
+CVAPI(void) stitching_Stitcher_setRegistrationResol(cv::Stitcher *obj, const double resol_mpx)
 {
     obj->setRegistrationResol(resol_mpx);
 }
@@ -33,7 +33,7 @@ CVAPI(double) stitching_Stitcher_seamEstimationResol(cv::Stitcher *obj)
 {
     return obj->seamEstimationResol();
 }
-CVAPI(void) stitching_Stitcher_setSeamEstimationResol(cv::Stitcher *obj, double resol_mpx) 
+CVAPI(void) stitching_Stitcher_setSeamEstimationResol(cv::Stitcher *obj, const double resol_mpx)
 {
     obj->setSeamEstimationResol(resol_mpx); 
 }
@@ -42,7 +42,7 @@ CVAPI(double) stitching_Stitcher_compositingResol(cv::Stitcher *obj)
 {
     return obj->compositingResol();
 }
-CVAPI(void) stitching_Stitcher_setCompositingResol(cv::Stitcher *obj, double resol_mpx)
+CVAPI(void) stitching_Stitcher_setCompositingResol(cv::Stitcher *obj, const double resol_mpx)
 { 
     obj->setCompositingResol(resol_mpx);
 }
@@ -51,7 +51,7 @@ CVAPI(double) stitching_Stitcher_panoConfidenceThresh(cv::Stitcher *obj)
 { 
     return obj->panoConfidenceThresh();
 }
-CVAPI(void) stitching_Stitcher_setPanoConfidenceThresh(cv::Stitcher *obj, double conf_thresh)
+CVAPI(void) stitching_Stitcher_setPanoConfidenceThresh(cv::Stitcher *obj, const double conf_thresh)
 {
     obj->setPanoConfidenceThresh(conf_thresh);
 }
@@ -60,7 +60,7 @@ CVAPI(int) stitching_Stitcher_waveCorrection(cv::Stitcher *obj)
 { 
     return obj->waveCorrection() ? 1 : 0; 
 }
-CVAPI(void) stitching_Stitcher_setWaveCorrection(cv::Stitcher *obj, int flag)
+CVAPI(void) stitching_Stitcher_setWaveCorrection(cv::Stitcher *obj, const int flag)
 {
     obj->setWaveCorrection(flag != 0); 
 }
@@ -79,31 +79,31 @@ CVAPI(void) stitching_Stitcher_setWaveCorrectKind(cv::Stitcher *obj, int kind)
 CVAPI(int) stitching_Stitcher_estimateTransform_InputArray1(
     cv::Stitcher *obj, cv::_InputArray *images)
 {
-    cv::Stitcher::Status status = obj->estimateTransform(*images);
+	const cv::Stitcher::Status status = obj->estimateTransform(*images);
     return static_cast<int>(status);
 }
 CVAPI(int) stitching_Stitcher_estimateTransform_InputArray2(
     cv::Stitcher *obj, cv::_InputArray *images,
-    CvRect **rois, int roisSize1, int *roisSize2)
+	const CvRect **rois, const int roisSize1, const int *roisSize2)
 {
     std::vector<std::vector<cv::Rect> > roisVec;
     toVec(rois, roisSize1, roisSize2, roisVec);
 
-    cv::Stitcher::Status status = obj->estimateTransform(*images, roisVec);
+	const cv::Stitcher::Status status = obj->estimateTransform(*images, roisVec);
     return static_cast<int>(status);
 }
 CVAPI(int) stitching_Stitcher_estimateTransform_MatArray1(
-    cv::Stitcher *obj, cv::Mat **images, int imagesSize)
+    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize)
 {
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesSize, imagesVec);
 
-    cv::Stitcher::Status status = obj->estimateTransform(imagesVec);
+	const cv::Stitcher::Status status = obj->estimateTransform(imagesVec);
     return static_cast<int>(status);
 }
 CVAPI(int) stitching_Stitcher_estimateTransform_MatArray2(
-    cv::Stitcher *obj, cv::Mat **images, int imagesSize,
-    CvRect **rois, int roisSize1, int *roisSize2)
+    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize,
+	const CvRect **rois, const int roisSize1, const int *roisSize2)
 {
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesSize, imagesVec);
@@ -111,64 +111,64 @@ CVAPI(int) stitching_Stitcher_estimateTransform_MatArray2(
     std::vector<std::vector<cv::Rect> > roisVec;
     toVec(rois, roisSize1, roisSize2, roisVec);
 
-    cv::Stitcher::Status status = obj->estimateTransform(imagesVec, roisVec);
+	const cv::Stitcher::Status status = obj->estimateTransform(imagesVec, roisVec);
     return static_cast<int>(status);
 }
 
 CVAPI(int) stitching_Stitcher_composePanorama1(
     cv::Stitcher *obj, cv::_OutputArray *pano)
 {
-    cv::Stitcher::Status status = obj->composePanorama(*pano);
+	const cv::Stitcher::Status status = obj->composePanorama(*pano);
     return static_cast<int>(status);
 }
 CVAPI(int) stitching_Stitcher_composePanorama2_InputArray(
     cv::Stitcher *obj, cv::_InputArray *images, cv::_OutputArray *pano)
 {
-    cv::Stitcher::Status status = obj->composePanorama(*images, *pano);
+	const cv::Stitcher::Status status = obj->composePanorama(*images, *pano);
     return static_cast<int>(status);
 }
 CVAPI(int) stitching_Stitcher_composePanorama2_MatArray(
-    cv::Stitcher *obj, cv::Mat **images, int imagesSize, cv::_OutputArray *pano)
+    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize, cv::_OutputArray *pano)
 {
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesSize, imagesVec);
 
-    cv::Stitcher::Status status = obj->composePanorama(imagesVec, *pano);
+	const cv::Stitcher::Status status = obj->composePanorama(imagesVec, *pano);
     return static_cast<int>(status);
 }
 
 CVAPI(int) stitching_Stitcher_stitch1_InputArray(
     cv::Stitcher *obj, cv::_InputArray *images, cv::_OutputArray *pano)
 {
-    cv::Stitcher::Status status = obj->stitch(*images, *pano);
+	const cv::Stitcher::Status status = obj->stitch(*images, *pano);
     return static_cast<int>(status);
 }
 
 CVAPI(int) stitching_Stitcher_stitch1_MatArray(
-    cv::Stitcher *obj, cv::Mat **images, int imagesSize, cv::_OutputArray *pano)
+    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize, cv::_OutputArray *pano)
 {
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesSize, imagesVec);
 
-    cv::Stitcher::Status status = obj->stitch(imagesVec, *pano);
+	const cv::Stitcher::Status status = obj->stitch(imagesVec, *pano);
     return static_cast<int>(status);
 }
 
 CVAPI(int) stitching_Stitcher_stitch2_InputArray(
     cv::Stitcher *obj, cv::_InputArray *images, 
-    CvRect **rois, int roisSize1, int *roisSize2,
+	const CvRect **rois, const int roisSize1, int *roisSize2,
     cv::_OutputArray *pano)
 {
     std::vector<std::vector<cv::Rect> > roisVec;
     toVec(rois, roisSize1, roisSize2, roisVec);
 
-    cv::Stitcher::Status status = obj->stitch(*images, roisVec, *pano);
+	const cv::Stitcher::Status status = obj->stitch(*images, roisVec, *pano);
     return static_cast<int>(status);
 }
 
 CVAPI(int) stitching_Stitcher_stitch2_MatArray(
-    cv::Stitcher *obj, cv::Mat **images, int imagesSize,  
-    CvRect **rois, int roisSize1, int *roisSize2,
+    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize,
+	const CvRect **rois, const int roisSize1, int *roisSize2,
     cv::_OutputArray *pano)
 {
     std::vector<cv::Mat> imagesVec;
@@ -177,7 +177,7 @@ CVAPI(int) stitching_Stitcher_stitch2_MatArray(
     std::vector<std::vector<cv::Rect> > roisVec;
     toVec(rois, roisSize1, roisSize2, roisVec);
 
-    cv::Stitcher::Status status = obj->stitch(imagesVec, roisVec, *pano);
+	const cv::Stitcher::Status status = obj->stitch(imagesVec, roisVec, *pano);
     return static_cast<int>(status);
 }
 
