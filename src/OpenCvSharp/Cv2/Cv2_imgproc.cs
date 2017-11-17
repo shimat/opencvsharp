@@ -3909,7 +3909,7 @@ namespace OpenCvSharp
         {
             using (var intersectingRegionVec = new VectorOfPoint2f())
             {
-                int ret = NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
+                int ret = NativeMethods.imgproc_rotatedRectangleIntersection_vector(
                     rect1, rect2, intersectingRegionVec.CvPtr);
                 intersectingRegion = intersectingRegionVec.ToArray();
                 return (RectanglesIntersectTypes) ret;
