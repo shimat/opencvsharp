@@ -64,7 +64,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
         /// <summary>
@@ -73,7 +73,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_CUDA();
+            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1_CUDA();
             return DenseOpticalFlowExtImpl.FromPtr(ptr);
         }
         /// <summary>
