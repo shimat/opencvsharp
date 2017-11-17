@@ -83,6 +83,7 @@ namespace OpenCvSharp.ReleaseMaker
             ".git",
             "bin",
             "obj",
+            ".vs",
         };
 
         /// <summary>

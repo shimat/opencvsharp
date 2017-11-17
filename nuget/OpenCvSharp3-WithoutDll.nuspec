@@ -11,7 +11,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
         <summary>OpenCV 3.x wrapper</summary>
-        <releaseNotes>- Fixed #331</releaseNotes>
+        <releaseNotes></releaseNotes>
         <copyright>Copyright 2008-2017</copyright>
         <tags>Image Processing OpenCV Wrapper FFI</tags>
         <dependencies>
