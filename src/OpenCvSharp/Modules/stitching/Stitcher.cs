@@ -139,7 +139,7 @@ namespace OpenCvSharp
             }
             set
             {
-                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value);
+                NativeMethods.stitching_Stitcher_setSeamEstimationResol(ptr, value);
                 GC.KeepAlive(this);
             }
         }
@@ -154,7 +154,7 @@ namespace OpenCvSharp
             }
             set
             {
-                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value);
+                NativeMethods.stitching_Stitcher_setCompositingResol(ptr, value);
                 GC.KeepAlive(this);
             }
         }
@@ -169,7 +169,7 @@ namespace OpenCvSharp
             }
             set
             {
-                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value);
+                NativeMethods.stitching_Stitcher_setPanoConfidenceThresh(ptr, value);
                 GC.KeepAlive(this);
             }
         }
@@ -184,7 +184,7 @@ namespace OpenCvSharp
             }
             set
             {
-                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value ? 1 : 0);
+                NativeMethods.stitching_Stitcher_setWaveCorrection(ptr, value ? 1 : 0);
                 GC.KeepAlive(this);
             }
         }
@@ -199,7 +199,7 @@ namespace OpenCvSharp
             }
             set
             {
-                NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, (int)value);
+                NativeMethods.stitching_Stitcher_setWaveCorrectKind(ptr, (int)value);
                 GC.KeepAlive(this);
             }
         }

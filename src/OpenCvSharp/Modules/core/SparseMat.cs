@@ -231,7 +231,7 @@ namespace OpenCvSharp
         public void ConvertTo(Mat m, int rtype, double alpha = 1, double beta = 0)
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_convertTo_SparseMat(ptr, m.CvPtr, rtype, alpha);
+            NativeMethods.core_SparseMat_convertTo_Mat(ptr, m.CvPtr, rtype, alpha, beta);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -342,7 +342,7 @@ namespace OpenCvSharp
         public int Dims()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_dims(ptr);
+            var res = NativeMethods.core_SparseMat_dims(ptr);
             GC.KeepAlive(this);
             return res;
         }
@@ -354,7 +354,7 @@ namespace OpenCvSharp
         public int Channels()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_channels(ptr);
+            var res = NativeMethods.core_SparseMat_channels(ptr);
             GC.KeepAlive(this);
             return res;
         }

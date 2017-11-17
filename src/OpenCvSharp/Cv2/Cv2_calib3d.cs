@@ -233,7 +233,7 @@ namespace OpenCvSharp
             if (src.GetLength(0) != 3 || src.GetLength(1) != 3)
                 throw new ArgumentException("src must be double[3,3]");
 
-            using (var srcM = new Mat(3, 3, MatType.CV_64FC1))
+            using (var srcM = new Mat(3, 3, MatType.CV_64FC1, src))
             using (var mtxRM = new MatOfDouble())
             using (var mtxQM = new MatOfDouble())
             using (var qxM = new MatOfDouble())
