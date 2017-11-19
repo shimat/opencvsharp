@@ -200,6 +200,39 @@ namespace OpenCvSharp
 
         }
 
+        public virtual bool TrainEM(
+            InputArray samples,
+            OutputArray logLikelihoods = null,
+            OutputArray labels = null,
+            OutputArray probs = null)
+        {
+            ThrowIfDisposed();
+            if (samples == null)
+                throw new ArgumentNullException(nameof(samples));
+            samples.ThrowIfDisposed();
+
+            logLikelihoods?.ThrowIfNotReady();
+            labels?.ThrowIfNotReady();
+            probs?.ThrowIfNotReady();
+
+            int ret = NativeMethods.ml_EM_trainEM(
+                ptr,
+                samples.CvPtr,
+                Cv2.ToPtr(logLikelihoods),
+                Cv2.ToPtr(labels),
+                Cv2.ToPtr(probs));
+
+            logLikelihoods?.Fix();
+            labels?.Fix();
+            probs?.Fix();
+            GC.KeepAlive(this);
+            GC.KeepAlive(samples);
+            GC.KeepAlive(logLikelihoods);
+            GC.KeepAlive(labels);
+            GC.KeepAlive(probs);
+            return ret != 0;
+        }
+
 #if LANG_JP
     /// <summary>
     /// サンプル集合からガウス混合パラメータを推定する
