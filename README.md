@@ -5,7 +5,7 @@ Old versions of OpenCvSharp is maintained in [opencvsharp_2410](https://github.c
 
 ## Installation
 ### NuGet
-If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http://www.nuget.org/). Search *'opencvsharp'* on the NuGet Package Manager.
+If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http://www.nuget.org/). Search *'opencvsharp3'* on the NuGet Package Manager.
 
 | Package                                                      | NuGet                                                                                                                      |
 |--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
