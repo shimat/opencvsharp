@@ -75,21 +75,21 @@ CVAPI(void) features2d_Feature2D_detectAndCompute(
     detector->detectAndCompute(entity(image), entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
 }
 
-CVAPI(int) features2d_Feature2D_descriptorSize(cv::Ptr<cv::Feature2D> *obj)
+CVAPI(int) features2d_Feature2D_descriptorSize(cv::Feature2D *obj)
 {
-    return obj->get()->descriptorSize();
+    return obj->descriptorSize();
 }
-CVAPI(int) features2d_Feature2D_descriptorType(cv::Ptr<cv::Feature2D> *obj)
+CVAPI(int) features2d_Feature2D_descriptorType(cv::Feature2D *obj)
 {
-    return obj->get()->descriptorType();
+    return obj->descriptorType();
 }
-CVAPI(int) features2d_Feature2D_defaultNorm(cv::Ptr<cv::Feature2D> *obj)
+CVAPI(int) features2d_Feature2D_defaultNorm(cv::Feature2D *obj)
 {
-    return obj->get()->defaultNorm();
+    return obj->defaultNorm();
 }
-CVAPI(int) features2d_Feature2D_empty(cv::Ptr<cv::Feature2D> *obj)
+CVAPI(int) features2d_Feature2D_empty(cv::Feature2D *obj)
 {
-    return obj->get()->empty() ? 1 : 0;
+    return obj->empty() ? 1 : 0;
 }
 
 #pragma endregion

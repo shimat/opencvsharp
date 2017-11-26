@@ -9,13 +9,6 @@ namespace OpenCvSharp
     /// </summary>
     public class Feature2D : Algorithm
     {
-        /// <summary>
-        /// cv::Ptr&lt;T&gt;
-        /// </summary>
-        private Ptr ptrObj;
-
-        //internal virtual IntPtr PtrObj => ptrObj.CvPtr;
-
         #region Init & Disposal
 
         /// <summary>
@@ -23,34 +16,6 @@ namespace OpenCvSharp
         /// </summary>
         internal Feature2D()
         {
-        }
-
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes. 
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static Feature2D FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException("Invalid cv::Ptr<Feature2D> pointer");
-            var ptrObj = new Ptr(ptr);
-            var detector = new Feature2D
-            {
-                ptrObj = ptrObj,
-                ptr = ptrObj.Get()
-            };
-            return detector;
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            ptrObj?.Dispose();
-            ptrObj = null;
-            base.DisposeManaged();
         }
 
         #endregion
@@ -310,25 +275,5 @@ namespace OpenCvSharp
         }
 
         #endregion
-
-        internal class Ptr : OpenCvSharp.Ptr
-        {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
-            public override IntPtr Get()
-            {
-                var res = NativeMethods.features2d_Ptr_Feature2D_get(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.features2d_Ptr_Feature2D_delete(ptr);
-                base.DisposeUnmanaged();
-            }
-        }
     }
 }

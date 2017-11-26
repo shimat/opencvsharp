@@ -41,5 +41,53 @@ namespace OpenCvSharp.Tests.XFeatures2D
                 Console.WriteLine($"descriptor has {descriptor.Rows} items.");
             }
         }
+
+        [Fact]
+        public void DescriptorSize()
+        {
+            using (var alg = OpenCvSharp.XFeatures2D.SURF.Create(300))
+            {
+                var ext = alg.Extended;
+                var sz = alg.DescriptorSize;
+                Assert.Equal(ext ? 128 : 64, sz);
+                alg.Extended = !ext;
+
+                var ext2 = alg.Extended;
+                Assert.NotEqual(ext, ext2);
+
+                var sz2 = alg.DescriptorSize;
+                Assert.Equal(ext2 ? 128 : 64, sz2);
+            }
+        }
+
+        [Fact]
+        public void DescriptorType()
+        {
+            using (var alg = OpenCvSharp.XFeatures2D.SURF.Create(300))
+            {
+                var dtype = alg.DescriptorType;
+                Assert.Equal(MatType.CV_32F, dtype);
+            }
+        }
+
+        [Fact]
+        public void DefaultNorm()
+        {
+            using (var alg = OpenCvSharp.XFeatures2D.SURF.Create(300))
+            {
+                var defnorm = alg.DefaultNorm;
+                Assert.Equal(4, defnorm);
+            }
+        }
+
+        [Fact]
+        public void Empty()
+        {
+            using (var alg = OpenCvSharp.XFeatures2D.SURF.Create(300))
+            {
+                var empty = alg.Empty();
+                Assert.True(empty);
+            }
+        }
     }
 }
