@@ -32,7 +32,7 @@ namespace OpenCvSharp
         #region Init and Disposal
 
         /// <summary>
-        /// Creates instance by raw pointer cv::ml::EM*
+        /// Creates instance by pointer cv::Ptr&lt;EM&gt;
         /// </summary>
         protected EM(IntPtr p)
         {
@@ -46,7 +46,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static EM Create()
         {
-            IntPtr ptr = NativeMethods.ml_SVM_create();
+            IntPtr ptr = NativeMethods.ml_EM_create();
             return new EM(ptr);
         }
 
