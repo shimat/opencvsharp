@@ -25,5 +25,36 @@ namespace OpenCvSharp.Tests.XFeatures2D
 
             Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
         }
+
+        [Fact]
+        public void DescriptorSize()
+        {
+            using (var alg = OpenCvSharp.XFeatures2D.SIFT.Create())
+            {
+                var sz = alg.DescriptorSize;
+                Assert.Equal(128, sz);
+            }
+        }
+
+        [Fact]
+        public void DescriptorType()
+        {
+            using (var alg = OpenCvSharp.XFeatures2D.SIFT.Create())
+            {
+                var dtype = alg.DescriptorType;
+                Assert.Equal(MatType.CV_32F, dtype);
+            }
+        }
+
+        [Fact]
+        public void DefaultNorm()
+        {
+            using (var alg = OpenCvSharp.XFeatures2D.SIFT.Create())
+            {
+                var defnorm = alg.DefaultNorm;
+                Assert.Equal(4, defnorm);
+            }
+        }
+
     }
 }
