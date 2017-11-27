@@ -64,12 +64,12 @@ namespace OpenCvSharp.ImgHash
 
             public override IntPtr Get()
             {
-                return NativeMethods.img_hash_Ptr_AverageHash_get(ptr);
+                return NativeMethods.img_hash_Ptr_ColorMomentHash_get(ptr);
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.img_hash_Ptr_AverageHash_delete(ptr);
+                NativeMethods.img_hash_Ptr_ColorMomentHash_delete(ptr);
                 base.DisposeUnmanaged();
             }
         }

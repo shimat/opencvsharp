@@ -42,7 +42,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void img_hash_BlockMeanHash_getMean(IntPtr obj, IntPtr outVec);
 
-        // PHash
+        // ColorMomentHash
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr img_hash_ColorMomentHash_create();
