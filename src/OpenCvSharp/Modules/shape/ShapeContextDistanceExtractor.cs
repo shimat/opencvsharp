@@ -317,7 +317,7 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ptr);
+                var res = NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
