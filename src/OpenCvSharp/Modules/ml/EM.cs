@@ -200,6 +200,14 @@ namespace OpenCvSharp
 
         }
 
+        /// <summary>
+        /// Estimates Gaussian mixture parameters from the sample set
+        /// </summary>
+        /// <param name="samples"></param>
+        /// <param name="logLikelihoods"></param>
+        /// <param name="labels"></param>
+        /// <param name="probs"></param>
+        /// <returns></returns>
         public virtual bool TrainEM(
             InputArray samples,
             OutputArray logLikelihoods = null,
