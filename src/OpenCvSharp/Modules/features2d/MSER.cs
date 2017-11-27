@@ -163,7 +163,7 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_MSER_setDelta(ptr, value ? 1 : 0);
+                NativeMethods.features2d_MSER_setPass2Only(ptr, value ? 1 : 0);
                 GC.KeepAlive(this);
             }
         }
