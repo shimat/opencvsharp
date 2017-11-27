@@ -29,7 +29,7 @@ namespace OpenCvSharp
         //public const string DllVCRuntime = "vcruntime140";
         //public const string DllMsvcp = "msvcp140";
         public const string DllExtern = "OpenCvSharpExtern";
-        public const string Version = "320";
+        public const string Version = "331";
 
         private static readonly string[] RuntimeDllNames =
         {
