@@ -9,7 +9,7 @@ namespace OpenCvSharp.Tests.ML
         {
             var em = EM.Create();
             var name = em.GetDefaultName();
-            Assert.Equal(name, "opencv_ml_em");
+            Assert.Equal("opencv_ml_em", name);
         }
     }
 }

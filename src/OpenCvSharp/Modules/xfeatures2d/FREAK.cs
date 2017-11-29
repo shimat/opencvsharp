@@ -72,7 +72,7 @@ namespace OpenCvSharp.XFeatures2D
 
         #endregion
 
-        internal new class Ptr : OpenCvSharp.Ptr
+        internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
             {
