@@ -14,7 +14,7 @@ namespace OpenCvSharp
         /// </summary>
         public VectorOfPoint3f()
         {
-            ptr = NativeMethods.vector_Point2f_new1();
+            ptr = NativeMethods.vector_Point3f_new1();
         }
 
         /// <summary>
