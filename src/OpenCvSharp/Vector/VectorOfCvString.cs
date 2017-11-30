@@ -13,7 +13,7 @@ namespace OpenCvSharp
         /// </summary>
         public VectorOfCvString()
         {
-            ptr = NativeMethods.vector_string_new1();
+            ptr = NativeMethods.vector_cvString_new1();
         }
 
         /// <inheritdoc />
