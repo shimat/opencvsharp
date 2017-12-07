@@ -490,10 +490,18 @@ CVAPI(double) core_invert(cv::_InputArray *src, cv::_OutputArray *dst, int flags
 {
     return cv::invert(*src, *dst, flags);
 }
+
+
 CVAPI(int) core_solve(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int flags)
 {
     return cv::solve(*src1, *src2, *dst, flags);
 }
+
+CVAPI(int) core_solveLP(cv::Mat *Func, cv::Mat *Constr, cv::Mat *z)
+{
+	return cv::solveLP(*Func, *Constr, *z);
+}
+
 CVAPI(void) core_sort(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
 {
     cv::sort(*src, *dst, flags);
