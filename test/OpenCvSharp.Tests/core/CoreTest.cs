@@ -66,6 +66,26 @@ namespace OpenCvSharp.Tests.Core
                 Assert.Equal(new [] {3, 4}, maxIdx);
             }
         }
+
+        [Fact]
+        // ReSharper disable once InconsistentNaming
+        public void SolveLP()
+        {
+            // https://qiita.com/peisuke/items/4cbc0d0bf388492ad2a5
+
+            using (var a = new Mat(3, 1, MatType.CV_64FC1, new double[] { 3, 1, 2 }))
+            using (var b = new Mat(3, 4, MatType.CV_64FC1, new double[] { 1, 1, 3, 30, 2, 2, 5, 24, 4, 1, 2, 36 }))
+            using (var z = new Mat())
+            {
+                Cv2.SolveLP(a, b, z);
+
+                Assert.Equal(MatType.CV_64FC1, z.Type());
+                Assert.Equal(3, z.Total());
+                Assert.Equal(8, z.Get<double>(0));
+                Assert.Equal(4, z.Get<double>(1));
+                Assert.Equal(0, z.Get<double>(2));
+            }
+        }
     }
 }
 

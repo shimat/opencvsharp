@@ -2221,6 +2221,34 @@ namespace OpenCvSharp
             return ret != 0;
         }
         #endregion
+
+        /// <summary>
+        /// Solve given (non-integer) linear programming problem using the Simplex Algorithm (Simplex Method).
+        /// </summary>
+        /// <param name="func">This row-vector corresponds to \f$c\f$ in the LP problem formulation (see above). 
+        /// It should contain 32- or 64-bit floating point numbers.As a convenience, column-vector may be also submitted,
+        /// in the latter case it is understood to correspond to \f$c^T\f$.</param>
+        /// <param name="constr">`m`-by-`n+1` matrix, whose rightmost column corresponds to \f$b\f$ in formulation above 
+        /// and the remaining to \f$A\f$. It should containt 32- or 64-bit floating point numbers.</param>
+        /// <param name="z">The solution will be returned here as a column-vector - it corresponds to \f$c\f$ in the 
+        /// formulation above.It will contain 64-bit floating point numbers.</param>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        public static SolveLPResult SolveLP(Mat func, Mat constr, Mat z)
+        {
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
+            if (constr == null)
+                throw new ArgumentNullException(nameof(constr));
+            if (z == null)
+                throw new ArgumentNullException(nameof(z));
+            var ret = NativeMethods.core_solveLP(func.CvPtr, constr.CvPtr, z.CvPtr);
+            GC.KeepAlive(func);
+            GC.KeepAlive(constr);
+            GC.KeepAlive(z);
+            return (SolveLPResult) ret;
+        }
+
         #region Sort
         /// <summary>
         /// sorts independently each matrix row or each matrix column

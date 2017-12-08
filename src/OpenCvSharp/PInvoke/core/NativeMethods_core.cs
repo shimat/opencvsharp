@@ -231,8 +231,13 @@ namespace OpenCvSharp
         public static extern Scalar core_trace(IntPtr mtx);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern double core_invert(IntPtr src, IntPtr dst, int flags);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_solve(IntPtr src1, IntPtr src2, IntPtr dst, int flags);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int core_solveLP(IntPtr func, IntPtr constr, IntPtr z);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_sort(IntPtr src, IntPtr dst, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
