@@ -9,14 +9,14 @@ If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http:/
 
 | Package                                                      | NuGet                                                                                                                      |
 |--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| OpenCV3.2 All-in-one package - bundles native OpenCV DLLs    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU.svg)](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU)         |
-| OpenCV3.2 Minimum package                                    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll.svg)](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll) |
+| OpenCV3.3.1 All-in-one package - bundles native OpenCV DLLs    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU.svg)](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU)         |
+| OpenCV3.3.1 Minimum package                                    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll.svg)](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll) |
 
 ### Downloads
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Requirements
-* [OpenCV 3.2](http://opencv.org/)
+* [OpenCV 3.3.1](http://opencv.org/)
 * [Visual C++ 2015 Redistributable Package](https://www.microsoft.com/en-US/download/details.aspx?id=53840)
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core](https://www.microsoft.com/net/core#windowsvs2015) / [Mono](http://www.mono-project.com/Main_Page)
 
