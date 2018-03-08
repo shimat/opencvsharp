@@ -12,7 +12,10 @@ namespace OpenCvSharp.Tests.Dnn
 {
     public class CaffeTest : TestBase
     {
-        private static readonly HttpClient httpClient = new HttpClient();
+        private static readonly HttpClient httpClient = new HttpClient
+        {
+            Timeout = TimeSpan.FromMinutes(5)
+        };
 
         // https://docs.opencv.org/3.3.0/d5/de7/tutorial_dnn_googlenet.html
         [Fact]
