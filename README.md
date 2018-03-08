@@ -57,6 +57,18 @@ class Program
 * OpenCvSharp provides functions for converting from Mat/IplImage into Bitmap(GDI+) or WriteableBitmap(WPF).
 * OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux). 
 
+## OpenCvSharp Build Instructions
+- Install Visual Studio 2017 or later
+  - VC++ features are required.
+- Get all submodules
+```
+git submodule update --init --recursive
+```
+- Get tesseract and leptonica libs
+  - Unzip `x64.zip` and `x86.zip` in `tesseract\build\v141`
+- Build OpenCvSharp
+  - Open `OpenCvSharp.sln` and build
+
 ## License
 OpenCvSharp is licensed under the 
 **BSD 3-Clause License**. See [LICENSE](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
