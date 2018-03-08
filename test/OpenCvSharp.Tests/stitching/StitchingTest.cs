@@ -12,7 +12,7 @@ namespace OpenCvSharp.Tests.Stitching
         [Fact]
         public void Run()
         {
-            Mat[] images = SelectStitchingImages(200, 200, 10);
+            Mat[] images = SelectStitchingImages(200, 200, 12);
 
             using (var stitcher = Stitcher.Create(false))
             using (var pano = new Mat())
