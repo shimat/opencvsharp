@@ -28,7 +28,6 @@ namespace OpenCvSharp.Tests.ImgHash
                 Assert.Equal(MatType.CV_64FC1, hash.Type());
 
                 var hashArray = hash.ToArray();
-                System.IO.File.WriteAllText(@"C:\temp\hash.txt", string.Join(" ,", hashArray));
                 Assert.Equal(
                     new double[]
                     {
