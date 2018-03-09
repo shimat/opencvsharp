@@ -7,7 +7,6 @@ namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
-
         #region Inpainting
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -117,5 +116,44 @@ namespace OpenCvSharp
 
         #endregion
 
+        #region Denoising
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void xphoto_dctDenoising(IntPtr src, IntPtr dst, double sigma, int psize);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void xphoto_bm3dDenoising1(
+            IntPtr src,
+            IntPtr dstStep1,
+            IntPtr dstStep2,
+            float h,
+            int templateWindowSize,
+            int searchWindowSize,
+            int blockMatchingStep1,
+            int blockMatchingStep2,
+            int groupSize,
+            int slidingStep,
+            float beta,
+            int normType,
+            int step,
+            int transformType);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void xphoto_bm3dDenoising2(
+            IntPtr src,
+            IntPtr dst,
+            float h,
+            int templateWindowSize,
+            int searchWindowSize,
+            int blockMatchingStep1,
+            int blockMatchingStep2,
+            int groupSize,
+            int slidingStep,
+            float beta,
+            int normType,
+            int step,
+            int transformType);
+
+        #endregion
     }
 }

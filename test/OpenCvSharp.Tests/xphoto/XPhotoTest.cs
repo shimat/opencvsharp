@@ -246,7 +246,36 @@ namespace OpenCvSharp.Tests.XPhoto
                 Assert.NotEqual(p, wb.P);
             }
         }
-        
+
+        [Fact]
+        public void DctDenoising()
+        {
+            using (var src = Image("lenna.png"))
+            using (var dst = new Mat())
+            {
+                CvXPhoto.DctDenoising(src, dst, 1);
+
+                if (Debugger.IsAttached)
+                {
+                    Window.ShowImages(src, dst);
+                }
+            }
+        }
+
+        [Fact]
+        public void Bm3dDenoising()
+        {
+            using (var src = Image("lenna.png", ImreadModes.GrayScale))
+            using (var dst = new Mat())
+            {
+                CvXPhoto.Bm3dDenoising(src, dst);
+
+                if (Debugger.IsAttached)
+                {
+                    Window.ShowImages(src, dst);
+                }
+            }
+        }
 #if net46
         [ExplicitStaFact]
         public void Sample()

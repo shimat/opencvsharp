@@ -168,4 +168,50 @@ CVAPI(void) xphoto_SimpleWB_P_set(cv::xphoto::SimpleWB* ptr, float val)
 
 #pragma endregion
 
+#pragma region Denoising
+
+CVAPI(void) xphoto_dctDenoising(const cv::Mat *src, cv::Mat *dst, const double sigma, const int psize)
+{
+    cv::xphoto::dctDenoising(*src, *dst, sigma, psize);
+}
+
+CVAPI(void) xphoto_bm3dDenoising1(
+    cv::_InputArray *src,
+    cv::_InputOutputArray *dstStep1,
+    cv::_OutputArray *dstStep2,
+    float h,
+    int templateWindowSize,
+    int searchWindowSize,
+    int blockMatchingStep1,
+    int blockMatchingStep2,
+    int groupSize,
+    int slidingStep,
+    float beta,
+    int normType,
+    int step,
+    int transformType)
+{
+    cv::xphoto::bm3dDenoising(*src, *dstStep1, *dstStep2, h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, normType, step, transformType);
+}
+
+CVAPI(void) xphoto_bm3dDenoising2(
+    cv::_InputArray *src,
+    cv::_OutputArray *dst,
+    float h,
+    int templateWindowSize,
+    int searchWindowSize,
+    int blockMatchingStep1 ,
+    int blockMatchingStep2 ,
+    int groupSize,
+    int slidingStep,
+    float beta,
+    int normType,
+    int step,
+    int transformType)
+{
+    cv::xphoto::bm3dDenoising(*src, *dst, h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, normType, step, transformType);
+}
+
+#pragma endregion
+
 #endif
