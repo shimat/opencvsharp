@@ -137,6 +137,16 @@ CVAPI(void) core_addWeighted(cv::_InputArray *src1, double alpha, cv::_InputArra
 
 #pragma endregion
 
+CVAPI(int) core_borderInterpolate(int p, int len, int borderType)
+{
+    return cv::borderInterpolate(p, len, borderType);
+}
+
+CVAPI(void) core_copyMakeBorder(cv::_InputArray *src, cv::_OutputArray *dst,
+    int top, int bottom, int left, int right, int borderType, MyCvScalar value)
+{
+    cv::copyMakeBorder(*src, *dst, top, bottom, left, right, borderType, cpp(value));
+}
 
 CVAPI(void) core_convertScaleAbs(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta)
 {

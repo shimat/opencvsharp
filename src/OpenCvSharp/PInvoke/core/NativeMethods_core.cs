@@ -76,6 +76,12 @@ namespace OpenCvSharp
 
         #endregion
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int core_borderInterpolate(int p, int len, int borderType);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_copyMakeBorder(IntPtr src, IntPtr dst, int top, int bottom, int left,
+            int right, int borderType, Scalar value);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);

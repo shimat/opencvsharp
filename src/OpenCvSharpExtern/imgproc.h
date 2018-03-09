@@ -30,12 +30,6 @@ CVAPI(cv::Mat*) imgproc_getStructuringElement(int shape, MyCvSize ksize, MyCvPoi
     return new cv::Mat(ret);
 }
 
-CVAPI(void) imgproc_copyMakeBorder(cv::_InputArray *src, cv::_OutputArray *dst, 
-    int top, int bottom, int left, int right, int borderType, MyCvScalar value)
-{
-    cv::copyMakeBorder(*src, *dst, top, bottom, left, right, borderType, cpp(value));
-}
-
 CVAPI(void) imgproc_medianBlur(cv::_InputArray *src, cv::_OutputArray *dst, int ksize)
 {
     cv::medianBlur(*src, *dst, ksize);

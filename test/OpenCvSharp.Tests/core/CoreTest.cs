@@ -31,6 +31,22 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void BorderInterpolate()
+        {
+            Assert.Equal(3, Cv2.BorderInterpolate(3, 10, BorderTypes.Reflect));
+            Assert.Equal(3, Cv2.BorderInterpolate(3, 10, BorderTypes.Replicate));
+            Assert.Equal(3, Cv2.BorderInterpolate(3, 10, BorderTypes.Constant));
+
+            Assert.Equal(2, Cv2.BorderInterpolate(-3, 10, BorderTypes.Reflect));
+            Assert.Equal(0, Cv2.BorderInterpolate(-3, 10, BorderTypes.Replicate));
+            Assert.Equal(-1, Cv2.BorderInterpolate(-3, 10, BorderTypes.Constant));
+
+            Assert.Equal(6, Cv2.BorderInterpolate(13, 10, BorderTypes.Reflect));
+            Assert.Equal(9, Cv2.BorderInterpolate(13, 10, BorderTypes.Replicate));
+            Assert.Equal(-1, Cv2.BorderInterpolate(13, 10, BorderTypes.Constant));
+        }
+
+        [Fact]
         public void MinMaxLoc()
         {
             using (Mat ones = Mat.Ones(10, 10, MatType.CV_8UC1))
