@@ -44,6 +44,56 @@ namespace OpenCvSharp.Aruco
         }
 
         /// <summary>
+        /// Pose estimation for single markers
+        /// </summary>
+        /// <param name="corners">corners vector of already detected markers corners. 
+        /// For each marker, its four corners are provided, (e.g std::vector&lt;std::vector&lt;cv::Point2f&gt;&gt; ). 
+        /// For N detected markers, the dimensions of this array should be Nx4. The order of the corners should be clockwise.</param>
+        /// <param name="markerLength">the length of the markers' side. The returning translation vectors will 
+        /// be in the same unit.Normally, unit is meters.</param>
+        /// <param name="cameraMatrix">input 3x3 floating-point camera matrix 
+        /// \f$A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\f$</param>
+        /// <param name="distortionCoefficients">vector of distortion coefficients 
+        /// \f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6],[s_1, s_2, s_3, s_4]])\f$ of 4, 5, 8 or 12 elements</param>
+        /// <param name="rvec">array of output rotation vectors (@sa Rodrigues) (e.g. std::vector&lt;cv::Vec3d&gt;). 
+        /// Each element in rvecs corresponds to the specific marker in imgPoints.</param>
+        /// <param name="tvec">array of output translation vectors (e.g. std::vector&lt;cv::Vec3d&gt;).
+        /// Each element in tvecs corresponds to the specific marker in imgPoints.</param>
+        /// <param name="objPoints">array of object points of all the marker corners</param>
+        public static void EstimatePoseSingleMarkers(Point2f[][] corners, float markerLength, InputArray cameraMatrix, InputArray distortionCoefficients, OutputArray rvec, OutputArray tvec, OutputArray objPoints = null)
+        {
+            if (corners == null)
+                throw new ArgumentNullException(nameof(corners));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distortionCoefficients == null)
+                throw new ArgumentNullException(nameof(distortionCoefficients));
+            if (rvec == null)
+                throw new ArgumentNullException(nameof(rvec));
+            if (tvec == null)
+                throw new ArgumentNullException(nameof(tvec));
+
+            cameraMatrix.ThrowIfDisposed();
+            distortionCoefficients.ThrowIfDisposed();
+            rvec.ThrowIfNotReady();
+            tvec.ThrowIfNotReady();
+            objPoints?.ThrowIfNotReady();
+
+            using (var cornersAddress = new ArrayAddress2<Point2f>(corners))
+            {
+                NativeMethods.aruco_estimatePoseSingleMarkers(
+                    cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                    markerLength, cameraMatrix.CvPtr, distortionCoefficients.CvPtr, rvec.CvPtr, tvec.CvPtr, objPoints?.CvPtr ?? IntPtr.Zero);
+            }
+
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distortionCoefficients);
+            rvec.Fix();
+            tvec.Fix();
+            objPoints?.Fix();
+        }
+
+        /// <summary>
         /// Draw detected markers in image
         /// </summary>
         /// <param name="image">input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>

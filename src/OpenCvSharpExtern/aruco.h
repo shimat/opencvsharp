@@ -42,17 +42,18 @@ CVAPI(void) aruco_detectMarkers(cv::_InputArray *image,
     cv::Ptr<cv::aruco::DetectorParameters> *parameters,
     std::vector< std::vector<cv::Point2f> > *rejectedImgPoints)
 {
-    //*corners = new std::vector< std::vector<cv::Point2f> >();
-    //*ids = new std::vector<int>();
-    //*rejectedImgPoints = new std::vector< std::vector<cv::Point2f> >();
     cv::aruco::detectMarkers(*image, *dictionary, *corners, *ids, *parameters, *rejectedImgPoints);
 }
 
-CVAPI(void) aruco_estimatePoseSingleMarkers(cv::_InputArray *corners, float markerLength,
+CVAPI(void) aruco_estimatePoseSingleMarkers(cv::Point2f **corners, int cornersLength1, int *cornersLengths2, float markerLength,
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_OutputArray *rvecs, cv::_OutputArray *tvecs)
+    cv::_OutputArray *rvecs, cv::_OutputArray *tvecs, cv::_OutputArray *objPoints)
 {
-    cv::aruco::estimatePoseSingleMarkers(*corners, markerLength, *cameraMatrix, *distCoeffs, *rvecs, *tvecs);
+    std::vector<std::vector<cv::Point2f> > cornersVec(cornersLength1);
+    for (int i = 0; i < cornersLength1; i++)    
+        cornersVec[i] = std::vector<cv::Point2f>(corners[i], corners[i] + cornersLengths2[i]);    
+
+    cv::aruco::estimatePoseSingleMarkers(cornersVec, markerLength, *cameraMatrix, *distCoeffs, *rvecs, *tvecs, entity(objPoints));
 }
 
 CVAPI(cv::Ptr<cv::aruco::Dictionary>*) aruco_getPredefinedDictionary(cv::aruco::PREDEFINED_DICTIONARY_NAME name)

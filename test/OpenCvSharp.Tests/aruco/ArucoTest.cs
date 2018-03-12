@@ -87,10 +87,7 @@ namespace OpenCvSharp.Tests.Aruco
             using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
             using (var param = DetectorParameters.Create())
             {
-                Point2f[][] corners;
-                int[] ids;
-                Point2f[][] rejectedImgPoints;
-                CvAruco.DetectMarkers(image, dict, out corners, out ids, param, out rejectedImgPoints);
+                CvAruco.DetectMarkers(image, dict, out _, out _, param, out _);
             }
         }
 
@@ -164,10 +161,7 @@ namespace OpenCvSharp.Tests.Aruco
             using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
             using (var param = DetectorParameters.Create())
             {
-                Point2f[][] corners;
-                int[] ids;
-                Point2f[][] rejectedImgPoints;
-                CvAruco.DetectMarkers(image, dict, out corners, out ids, param, out rejectedImgPoints);
+                CvAruco.DetectMarkers(image, dict, out var corners, out var ids, param, out var rejectedImgPoints);
 
                 CvAruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
                 CvAruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
@@ -176,6 +170,30 @@ namespace OpenCvSharp.Tests.Aruco
                 {
                     Cv2.ImWrite(path, outputImage);
                     Process.Start(path);
+                }
+            }
+        }
+
+        [Fact]
+        public void EstimatePoseSingleMarkers()
+        {
+            using (var image = Image("markers_6x6_250.png", ImreadModes.GrayScale))
+            using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
+            using (var param = DetectorParameters.Create())
+            {
+                CvAruco.DetectMarkers(image, dict, out var corners, out _, param, out _);
+
+                using (var cameraMatrix = Mat.Eye(3, 3, MatType.CV_64FC1))
+                using (var distCoeffs = Mat.Zeros(4, 1, MatType.CV_64FC1))
+                using (var rvec = new Mat())
+                using (var tvec = new Mat())
+                using (var objPoints = new Mat())
+                {
+                    CvAruco.EstimatePoseSingleMarkers(corners, 6, cameraMatrix, distCoeffs, rvec, tvec, objPoints);
+
+                    Assert.Equal(20, rvec.Total());
+                    Assert.Equal(20, tvec.Total());
+                    Assert.Equal(4, objPoints.Total());
                 }
             }
         }
