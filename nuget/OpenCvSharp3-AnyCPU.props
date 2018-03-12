@@ -7,8 +7,8 @@
 			<Link>dll\x86\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(NativeDlls)\x86\opencv_ffmpeg331.dll">
-			<Link>dll\x86\opencv_ffmpeg331.dll</Link>
+		<None Include="$(NativeDlls)\x86\opencv_ffmpeg341.dll">
+			<Link>dll\x86\opencv_ffmpeg341.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
@@ -17,8 +17,8 @@
 			<Link>dll\x64\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(NativeDlls)\x64\opencv_ffmpeg331_64.dll">
-			<Link>dll\x64\opencv_ffmpeg331_64.dll</Link>
+		<None Include="$(NativeDlls)\x64\opencv_ffmpeg341_64.dll">
+			<Link>dll\x64\opencv_ffmpeg341_64.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
