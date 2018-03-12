@@ -156,7 +156,7 @@ namespace OpenCvSharp.XPhoto
             int slidingStep = 1,
             float beta = 2.0f,
             NormTypes normType = NormTypes.L2,
-            Bm3dSteps step = Bm3dSteps.StepAll,
+            Bm3dSteps step = Bm3dSteps.STEPALL,
             TransformTypes transformType = TransformTypes.HAAR)
         {
             if (src == null)
@@ -215,7 +215,7 @@ namespace OpenCvSharp.XPhoto
             int slidingStep = 1,
             float beta = 2.0f,
             NormTypes normType = NormTypes.L2,
-            Bm3dSteps step = Bm3dSteps.StepAll,
+            Bm3dSteps step = Bm3dSteps.STEPALL,
             TransformTypes transformType = TransformTypes.HAAR)
         {
             if (src == null)

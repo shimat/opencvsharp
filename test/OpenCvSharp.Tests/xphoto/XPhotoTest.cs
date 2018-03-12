@@ -86,7 +86,7 @@ namespace OpenCvSharp.Tests.XPhoto
             using (var mask = Image("building_mask.bmp", ImreadModes.GrayScale))
             using (var dst = new Mat(src.Size(), src.Type()))
             {
-                CvXPhoto.Inpaint(src, mask, dst, InpaintTypes.ShiftMap);
+                CvXPhoto.Inpaint(src, mask, dst, InpaintTypes.SHIFTMAP);
                 ShowImagesWhenDebugMode(src);
                 ShowImagesWhenDebugMode(dst);
             }
