@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Core
@@ -27,6 +29,48 @@ namespace OpenCvSharp.Tests.Core
             {
                 Scalar sum = Cv2.Sum(ones);
                 Assert.Equal(100, (int)sum.Val0);
+            }
+        }
+
+        [Fact]
+        public void BorderInterpolate()
+        {
+            Assert.Equal(3, Cv2.BorderInterpolate(3, 10, BorderTypes.Reflect));
+            Assert.Equal(3, Cv2.BorderInterpolate(3, 10, BorderTypes.Replicate));
+            Assert.Equal(3, Cv2.BorderInterpolate(3, 10, BorderTypes.Constant));
+
+            Assert.Equal(2, Cv2.BorderInterpolate(-3, 10, BorderTypes.Reflect));
+            Assert.Equal(0, Cv2.BorderInterpolate(-3, 10, BorderTypes.Replicate));
+            Assert.Equal(-1, Cv2.BorderInterpolate(-3, 10, BorderTypes.Constant));
+
+            Assert.Equal(6, Cv2.BorderInterpolate(13, 10, BorderTypes.Reflect));
+            Assert.Equal(9, Cv2.BorderInterpolate(13, 10, BorderTypes.Replicate));
+            Assert.Equal(-1, Cv2.BorderInterpolate(13, 10, BorderTypes.Constant));
+        }
+
+        [Fact]
+        public void CopyMakeBorder()
+        {
+            using (var src = new Mat(10, 10, MatType.CV_8UC1, 0))
+            using (var dst = new Mat())
+            {
+                const int top = 1, bottom = 2, left = 3, right = 4;
+                Cv2.CopyMakeBorder(src, dst, top, bottom, left, right, BorderTypes.Constant, 255);
+
+                using (var expected = new Mat(src.Rows + top + bottom, src.Cols + left + right, src.Type(), 0))
+                {
+                    Cv2.Rectangle(expected, new Point(0, 0), new Point(expected.Cols, top - 1), 255, -1);
+                    Cv2.Rectangle(expected, new Point(0, expected.Rows - bottom), new Point(expected.Cols, expected.Rows), 255, -1);
+                    Cv2.Rectangle(expected, new Point(0, 0), new Point(left - 1, expected.Rows), 255, -1);
+                    Cv2.Rectangle(expected, new Point(expected.Cols - right, 0), new Point(expected.Cols, expected.Rows), 255, -1);
+
+                    if (Debugger.IsAttached)
+                    {
+                        Window.ShowImages(dst, expected);
+                    }
+
+                    ImageEquals(dst, expected);
+                }
             }
         }
 

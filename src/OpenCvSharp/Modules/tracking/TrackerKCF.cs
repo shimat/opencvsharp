@@ -47,7 +47,7 @@ namespace OpenCvSharp.Tracking
         {
             unsafe
             {
-                IntPtr p = NativeMethods.tracking_TrackerKCF_create2(&parameters);
+                IntPtr p = NativeMethods.tracking_TrackerKCF_create2(parameters);
                 return new TrackerKCF(p);
             }
         }
@@ -84,7 +84,7 @@ namespace OpenCvSharp.Tracking
         /// 
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        public struct Params
+        public class Params
         {
             /// <summary>
             /// detection confidence threshold

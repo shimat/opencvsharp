@@ -102,34 +102,7 @@ namespace OpenCvSharp
             return new Mat(matPtr);
         }
         #endregion
-        #region CopyMakeBorder
-        /// <summary>
-        /// Forms a border around the image
-        /// </summary>
-        /// <param name="src">The source image</param>
-        /// <param name="dst">The destination image; will have the same type as src and 
-        /// the size Size(src.cols+left+right, src.rows+top+bottom)</param>
-        /// <param name="top">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
-        /// <param name="bottom">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
-        /// <param name="left">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
-        /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
-        /// <param name="borderType">The border type</param>
-        /// <param name="value">The border value if borderType == Constant</param>
-        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right, BorderTypes borderType, Scalar? value = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            Scalar value0 = value.GetValueOrDefault(new Scalar());
-            NativeMethods.imgproc_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-        #endregion
+
         #region MedianBlur
         /// <summary>
         /// Smoothes image using median filter

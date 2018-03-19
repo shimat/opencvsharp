@@ -17,6 +17,25 @@ namespace OpenCvSharp.Tests.Tracking
             }
         }
 
+        // https://github.com/shimat/opencvsharp/issues/459
+        [Fact]
+        public void Issue459()
+        {
+            var paras = new TrackerKCF.Params
+            {
+                CompressFeature = true,
+                CompressedSize = 1,
+                Resize = true,
+                DescNpca = 1,
+                DescPca = 1
+            };
+
+            using (var tracker = TrackerKCF.Create(paras))
+            {
+                GC.KeepAlive(tracker);
+            }
+        }
+
         [Fact]
         public void Update()
         {

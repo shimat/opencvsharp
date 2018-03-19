@@ -495,6 +495,47 @@ namespace OpenCvSharp
         }
         #endregion
 
+        /// <summary>
+        /// Computes the source location of an extrapolated pixel.
+        /// </summary>
+        /// <param name="p">0-based coordinate of the extrapolated pixel along one of the axes, likely &lt;0 or &gt;= len</param>
+        /// <param name="len">Length of the array along the corresponding axis.</param>
+        /// <param name="borderType">Border type, one of the #BorderTypes, except for #BORDER_TRANSPARENT and BORDER_ISOLATED. 
+        /// When borderType==BORDER_CONSTANT, the function always returns -1, regardless</param>
+        /// <returns></returns>
+        public static int BorderInterpolate(int p, int len, BorderTypes borderType)
+        {
+            return NativeMethods.core_borderInterpolate(p, len, (int) borderType);
+        }
+
+        #region CopyMakeBorder
+        /// <summary>
+        /// Forms a border around the image
+        /// </summary>
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same type as src and 
+        /// the size Size(src.cols+left+right, src.rows+top+bottom)</param>
+        /// <param name="top">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="bottom">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="left">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="borderType">The border type</param>
+        /// <param name="value">The border value if borderType == Constant</param>
+        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right, BorderTypes borderType, Scalar? value = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            Scalar value0 = value.GetValueOrDefault(new Scalar());
+            NativeMethods.core_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+        #endregion
         #region ConvertScaleAbs
 #if LANG_JP
         /// <summary>
