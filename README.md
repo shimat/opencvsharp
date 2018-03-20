@@ -16,7 +16,7 @@ If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http:/
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Requirements
-* [OpenCV 3.3.1](http://opencv.org/)
+* [OpenCV 3.4.1](http://opencv.org/)
 * [Visual C++ 2015 Redistributable Package](https://www.microsoft.com/en-US/download/details.aspx?id=53840)
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core](https://www.microsoft.com/net/core#windowsvs2015) / [Mono](http://www.mono-project.com/Main_Page)
 
