@@ -68,7 +68,7 @@ before_build:
     Unzip tesseract\build\v141\x86.zip tesseract\build\v141
     Unzip tesseract\build\v141\x64.zip tesseract\build\v141
 - nuget restore
-- dotnet restore
+#- dotnet restore
 
 build_script:
 - msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
