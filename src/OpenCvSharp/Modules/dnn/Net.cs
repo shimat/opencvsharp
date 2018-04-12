@@ -278,11 +278,6 @@ namespace OpenCvSharp.Dnn
             GC.KeepAlive(this);
         }
 
-        /*
-         * @brief 
-         * @param[in] targetId 
-         * @see Target
-         */
         /// <summary>
         /// Ask network to make computations on specific target device.
         /// </summary>
