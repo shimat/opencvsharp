@@ -254,6 +254,47 @@ namespace OpenCvSharp.Dnn
         }
 
         /// <summary>
+        /// Compile Halide layers.
+        /// Schedule layers that support Halide backend. Then compile them for 
+        /// specific target.For layers that not represented in scheduling file 
+        /// or if no manual scheduling used at all, automatic scheduling will be applied.
+        /// </summary>
+        /// <param name="scheduler">Path to YAML file with scheduling directives.</param>
+        public void SetHalideScheduler(string scheduler)
+        {
+            ThrowIfDisposed();
+            NativeMethods.dnn_Net_setHalideScheduler(ptr, scheduler);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Ask network to use specific computation backend where it supported.
+        /// </summary>
+        /// <param name="backendId">backend identifier.</param>
+        public void SetPreferableBackend(int backendId)
+        {
+            ThrowIfDisposed();
+            NativeMethods.dnn_Net_setPreferableBackend(ptr, backendId);
+            GC.KeepAlive(this);
+        }
+
+        /*
+         * @brief 
+         * @param[in] targetId 
+         * @see Target
+         */
+        /// <summary>
+        /// Ask network to make computations on specific target device.
+        /// </summary>
+        /// <param name="targetId">target identifier.</param>
+        public void SetPreferableTarget(int targetId)
+        {
+            ThrowIfDisposed();
+            NativeMethods.dnn_Net_setPreferableTarget(ptr, targetId);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
         /// Sets the new value for the layer output blob
         /// </summary>
         /// <param name="blob">new blob.</param>
@@ -270,6 +311,38 @@ namespace OpenCvSharp.Dnn
 
             NativeMethods.dnn_Net_setInput(ptr, blob.CvPtr, name);
             GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Enables or disables layer fusion in the network.
+        /// </summary>
+        /// <param name="fusion">true to enable the fusion, false to disable. The fusion is enabled by default.</param>
+        public void EnableFusion(bool fusion)
+        {
+            ThrowIfDisposed();
+            NativeMethods.dnn_Net_enableFusion(ptr, fusion ? 1 : 0);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Returns overall time for inference and timings (in ticks) for layers.
+        /// Indexes in returned vector correspond to layers ids.Some layers can be fused with others,
+        /// in this case zero ticks count will be return for that skipped layers.
+        /// </summary>
+        /// <param name="timings">vector for tick timings for all layers.</param>
+        /// <returns>overall ticks for model inference.</returns>
+        public long GetPerfProfile(out double[] timings)
+        {
+            ThrowIfDisposed();
+
+            using (var timingsVec = new VectorOfDouble())
+            {
+                var ret = NativeMethods.dnn_Net_getPerfProfile(ptr, timingsVec.CvPtr);
+                GC.KeepAlive(this);
+
+                timings = timingsVec.ToArray();
+                return ret;
+            }
         }
 
         #endregion
