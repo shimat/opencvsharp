@@ -81,10 +81,35 @@ CVAPI(void) dnn_Net_forward3(
 	net->forward(outputBlobsVec, outBlobNamesVec);
 }
 
+CVAPI(void) dnn_Net_setHalideScheduler(cv::dnn::Net* net, const char *scheduler)
+{
+    net->setHalideScheduler(scheduler);
+}
+
+CVAPI(void) dnn_Net_setPreferableBackend(cv::dnn::Net* net, int backendId)
+{
+    net->setPreferableBackend(backendId);
+}
+
+CVAPI(void) dnn_Net_setPreferableTarget(cv::dnn::Net* net, int targetId)
+{
+    net->setPreferableTarget(targetId);
+}
+
 CVAPI(void) dnn_Net_setInput(cv::dnn::Net* net, const cv::Mat *blob, const char *name)
 {
-	const cv::String nameStr = (name == nullptr) ? "" : cv::String(name);
-	net->setInput(*blob, name);
+    const cv::String nameStr = (name == nullptr) ? "" : cv::String(name);
+    net->setInput(*blob, name);
+}
+
+CVAPI(void) dnn_Net_enableFusion(cv::dnn::Net* net, int fusion)
+{
+    net->enableFusion(fusion != 0);
+}
+
+CVAPI(int64) dnn_Net_getPerfProfile(cv::dnn::Net* net, std::vector<double> *timings)
+{
+    return net->getPerfProfile(*timings);
 }
 
 #endif
