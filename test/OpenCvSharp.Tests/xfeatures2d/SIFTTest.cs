@@ -18,10 +18,10 @@ namespace OpenCvSharp.Tests.XFeatures2D
         [Fact]
         public void Detect()
         {
-            KeyPoint[] keyPoints = null;
+            KeyPoint[] keyPoints;
             using (var gray = Image("lenna.png", 0))
-            using (var surf = SIFT.Create(500))
-                keyPoints = surf.Detect(gray);
+            using (var alg = SIFT.Create(500))
+                keyPoints = alg.Detect(gray);
 
             Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
         }
@@ -29,7 +29,7 @@ namespace OpenCvSharp.Tests.XFeatures2D
         [Fact]
         public void DescriptorSize()
         {
-            using (var alg = OpenCvSharp.XFeatures2D.SIFT.Create())
+            using (var alg = SIFT.Create())
             {
                 var sz = alg.DescriptorSize;
                 Assert.Equal(128, sz);
@@ -39,7 +39,7 @@ namespace OpenCvSharp.Tests.XFeatures2D
         [Fact]
         public void DescriptorType()
         {
-            using (var alg = OpenCvSharp.XFeatures2D.SIFT.Create())
+            using (var alg = SIFT.Create())
             {
                 var dtype = alg.DescriptorType;
                 Assert.Equal(MatType.CV_32F, dtype);
@@ -49,12 +49,11 @@ namespace OpenCvSharp.Tests.XFeatures2D
         [Fact]
         public void DefaultNorm()
         {
-            using (var alg = OpenCvSharp.XFeatures2D.SIFT.Create())
+            using (var alg = SIFT.Create())
             {
                 var defnorm = alg.DefaultNorm;
                 Assert.Equal(4, defnorm);
             }
         }
-
     }
 }
