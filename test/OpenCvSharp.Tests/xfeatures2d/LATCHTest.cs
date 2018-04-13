@@ -21,11 +21,11 @@ namespace OpenCvSharp.Tests.XFeatures2D
             using (var color = Image("lenna.png", ImreadModes.Color))
             using (var gray = Image("lenna.png", ImreadModes.GrayScale))
             using (var descriptors = new Mat())
-            using (var lucid = LATCH.Create())
+            using (var latch = LATCH.Create())
             using (var surf = SURF.Create(500))
             {
                 var keypoints = surf.Detect(gray);
-                lucid.Compute(color, ref keypoints, descriptors);
+                latch.Compute(color, ref keypoints, descriptors);
             }
         }
 
