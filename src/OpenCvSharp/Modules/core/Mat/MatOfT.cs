@@ -449,23 +449,23 @@ namespace OpenCvSharp
             base.DisposeManaged();
         }
 
-		/// <summary>
-		/// Releases unmanaged resources
-		/// </summary>
-		protected override void DisposeUnmanaged()
-		{
-			// Must override this and do nothing; and not call base.DisposeUnmanaged() because this class allows accessing data from an associated Mat. If not then when the sourceMat gets
-			// destroyed and this instance gets destroyed later, it will cause memory corruption as native delete is called twice.
-		}
+        /// <summary>
+        /// Releases unmanaged resources
+        /// </summary>
+        protected override void DisposeUnmanaged()
+        {
+            // Must override this and do nothing; and not call base.DisposeUnmanaged() because this class allows accessing data from an associated Mat. If not then when the sourceMat gets
+            // destroyed and this instance gets destroyed later, it will cause memory corruption as native delete is called twice.
+        }
 
-		#endregion
+        #endregion
 
-		#region Abstract Methods
-		/// <summary>
-		/// Gets type-specific indexer for accessing each element
-		/// </summary>
-		/// <returns></returns>
-		public abstract MatIndexer<TElem> GetIndexer();
+        #region Abstract Methods
+        /// <summary>
+        /// Gets type-specific indexer for accessing each element
+        /// </summary>
+        /// <returns></returns>
+        public abstract MatIndexer<TElem> GetIndexer();
 
         /// <summary>
         /// Gets read-only enumerator

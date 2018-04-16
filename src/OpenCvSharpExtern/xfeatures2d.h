@@ -8,7 +8,7 @@ using namespace cv::xfeatures2d;
 
 CVAPI(cv::Ptr<BriefDescriptorExtractor>*) xfeatures2d_BriefDescriptorExtractor_create(int bytes)
 {
-    cv::Ptr<BriefDescriptorExtractor> ptr = BriefDescriptorExtractor::create(bytes);
+    const auto ptr = BriefDescriptorExtractor::create(bytes);
     return new cv::Ptr<BriefDescriptorExtractor>(ptr);
 }
 CVAPI(void) xfeatures2d_Ptr_BriefDescriptorExtractor_delete(cv::Ptr<BriefDescriptorExtractor> *obj)
@@ -53,7 +53,7 @@ CVAPI(cv::Ptr<FREAK>*) xfeatures2d_FREAK_create(int orientationNormalized,
     std::vector<int> selectedPairsVec;
     if (selectedPairs != NULL)
         selectedPairsVec = std::vector<int>(selectedPairs, selectedPairs + selectedPairsLength);
-    cv::Ptr<FREAK> ptr = FREAK::create(orientationNormalized != 0, scaleNormalized != 0,
+    const auto ptr = FREAK::create(orientationNormalized != 0, scaleNormalized != 0,
         patternScale, nOctaves, selectedPairsVec);
     return new cv::Ptr<FREAK>(ptr);
 }
@@ -74,7 +74,7 @@ CVAPI(FREAK*) xfeatures2d_Ptr_FREAK_get(cv::Ptr<FREAK> *ptr)
 CVAPI(cv::Ptr<StarDetector>*) xfeatures2d_StarDetector_create(int maxSize, int responseThreshold,
     int lineThresholdProjected, int lineThresholdBinarized, int suppressNonmaxSize)
 {
-    cv::Ptr<StarDetector> ptr = StarDetector::create(
+    const auto ptr = StarDetector::create(
         maxSize, responseThreshold, lineThresholdProjected, lineThresholdBinarized, suppressNonmaxSize);
     return new cv::Ptr<StarDetector>(ptr);
 }
@@ -90,13 +90,51 @@ CVAPI(StarDetector*) xfeatures2d_Ptr_StarDetector_get(cv::Ptr<StarDetector> *ptr
 
 #pragma endregion
 
+#pragma region LUCID
+
+CVAPI(cv::Ptr<LUCID>*) xfeatures2d_LUCID_create(const int lucid_kernel = 1, const int blur_kernel = 2)
+{
+    const auto ptr = LUCID::create(lucid_kernel, blur_kernel);
+    return new cv::Ptr<LUCID>(ptr);
+}
+CVAPI(void) xfeatures2d_Ptr_LUCID_delete(cv::Ptr<LUCID> *ptr)
+{
+    delete ptr;
+}
+
+CVAPI(LUCID*) xfeatures2d_Ptr_LUCID_get(cv::Ptr<LUCID> *ptr)
+{
+    return ptr->get();
+}
+
+#pragma endregion
+
+#pragma region LATCH
+
+CVAPI(cv::Ptr<LATCH>*) xfeatures2d_LATCH_create(int bytes, int rotationInvariance, int half_ssd_size, double sigma)
+{
+    const auto ptr = LATCH::create(bytes, rotationInvariance != 0, half_ssd_size, sigma);
+    return new cv::Ptr<LATCH>(ptr);
+}
+CVAPI(void) xfeatures2d_Ptr_LATCH_delete(cv::Ptr<LATCH> *ptr)
+{
+    delete ptr;
+}
+
+CVAPI(LATCH*) xfeatures2d_Ptr_LATCH_get(cv::Ptr<LATCH> *ptr)
+{
+    return ptr->get();
+}
+
+#pragma endregion
+
 #pragma region SIFT
 
 CVAPI(cv::Ptr<SIFT>*) xfeatures2d_SIFT_create(
     int nfeatures, int nOctaveLayers,
     double contrastThreshold, double edgeThreshold, double sigma)
 {
-    cv::Ptr<SIFT> ptr = SIFT::create(
+    const auto ptr = SIFT::create(
         nfeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
     return new cv::Ptr<SIFT>(ptr);
 }
@@ -117,7 +155,7 @@ CVAPI(SIFT*) xfeatures2d_Ptr_SIFT_get(cv::Ptr<SIFT> *ptr)
 CVAPI(cv::Ptr<SURF>*) xfeatures2d_SURF_create(double hessianThreshold, int nOctaves,
     int nOctaveLayers, int extended, int upright)
 {
-    cv::Ptr<SURF> ptr = SURF::create(
+    const auto ptr = SURF::create(
         hessianThreshold, nOctaves, nOctaveLayers, extended != 0, upright != 0);
     return new cv::Ptr<SURF>(ptr);
 }

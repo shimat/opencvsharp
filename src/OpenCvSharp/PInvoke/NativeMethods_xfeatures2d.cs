@@ -63,6 +63,22 @@ namespace OpenCvSharp
         public static extern void xfeatures2d_Ptr_DenseFeatureDetector_delete(IntPtr ptr);
         */
 
+        // LUCID
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr xfeatures2d_LUCID_create(int lucid_kernel = 1, int blur_kernel = 2);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void xfeatures2d_Ptr_LUCID_delete(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr xfeatures2d_Ptr_LUCID_get(IntPtr ptr);
+
+        // LATCH
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr xfeatures2d_LATCH_create(int bytes, int rotationInvariance, int half_ssd_size, double sigma);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void xfeatures2d_Ptr_LATCH_delete(IntPtr ptr);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr xfeatures2d_Ptr_LATCH_get(IntPtr ptr);
+
         // SURF
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr xfeatures2d_SURF_create(
