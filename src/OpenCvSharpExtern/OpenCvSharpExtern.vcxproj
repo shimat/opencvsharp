@@ -263,6 +263,7 @@
     <ClInclude Include="core_SparseMat.h" />
     <ClInclude Include="dnn.h" />
     <ClInclude Include="dnn_Net.h" />
+    <ClInclude Include="face_Facemark.h" />
     <ClInclude Include="face_FisherFaceRecognizer.h" />
     <ClInclude Include="face_BasicFaceRecognizer.h" />
     <ClInclude Include="face_EigenFaceRecognizer.h" />
