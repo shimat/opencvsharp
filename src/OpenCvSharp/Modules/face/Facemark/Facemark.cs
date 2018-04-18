@@ -136,7 +136,7 @@ namespace OpenCvSharp.Face
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);
-            GC.KeepAlive(landmarks);
+            landmarks.Fix();
 
             return ret != 0;
         }
@@ -169,7 +169,35 @@ namespace OpenCvSharp.Face
             image.ThrowIfDisposed();
             faces.ThrowIfDisposed();
 
-            int ret = NativeMethods.face_Facemark_getFaces(ptr, image.CvPtr, faces.CvPtr);
+            int ret = NativeMethods.face_Facemark_getFaces_OutputArray(ptr, image.CvPtr, faces.CvPtr);
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
+            faces.Fix();
+
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Detect faces from a given image using default or user defined face detector.
+        /// Some Algorithm might not provide a default face detector.
+        /// </summary>
+        /// <param name="image">Input image.</param>
+        /// <param name="faces">Output of the function which represent region of interest of the detected faces. Each face is stored in cv::Rect container.</param>
+        /// <returns></returns>
+        public virtual bool GetFaces(InputArray image, out Rect[] faces)
+        {
+            ThrowIfDisposed();
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfDisposed();
+
+            int ret;
+            using (var facesVec = new VectorOfRect())
+            {
+                ret = NativeMethods.face_Facemark_getFaces_vectorOfRect(ptr, image.CvPtr, facesVec.CvPtr);
+                faces = facesVec.ToArray();
+            }
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);
