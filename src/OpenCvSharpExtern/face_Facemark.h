@@ -48,7 +48,11 @@ CVAPI(int) face_Facemark_setFaceDetector(Facemark *obj, FN_FaceDetector detector
     return obj->setFaceDetector(detector, userData) ? 1 : 0;
 }
 
-CVAPI(int) face_Facemark_getFaces(Facemark *obj, cv::_InputArray *image, cv::_OutputArray *faces)
+CVAPI(int) face_Facemark_getFaces_OutputArray(Facemark *obj, cv::_InputArray *image, cv::_OutputArray *faces)
+{
+    return obj->getFaces(*image, *faces) ? 1 : 0;
+}
+CVAPI(int) face_Facemark_getFaces_vectorOfRect(Facemark *obj, cv::_InputArray *image, std::vector<cv::Rect> *faces)
 {
     return obj->getFaces(*image, *faces) ? 1 : 0;
 }
@@ -59,8 +63,10 @@ CVAPI(int) face_Facemark_getFaces(Facemark *obj, cv::_InputArray *image, cv::_Ou
 
 CVAPI(cv::Ptr<FacemarkLBF>*) face_FacemarkLBF_create(FacemarkLBF::Params *params)
 {
-    const auto r = FacemarkLBF::create(*params);
-    return clone(r);
+    const cv::Ptr<FacemarkLBF> obj = (params == nullptr) ? 
+        FacemarkLBF::create() :
+        FacemarkLBF::create(*params);
+    return clone(obj);
 }
 
 CVAPI(FacemarkLBF*) face_Ptr_FacemarkLBF_get(cv::Ptr<FacemarkLBF> *obj)
@@ -109,7 +115,7 @@ CVAPI(int) face_FacemarkLBF_Params_verbose_get(FacemarkLBF::Params *obj)
 }
 CVAPI(void) face_FacemarkLBF_Params_verbose_set(FacemarkLBF::Params *obj, int val)
 {
-    obj->shape_offset = (val != 0);
+    obj->verbose = (val != 0);
 }
 
 CVAPI(int) face_FacemarkLBF_Params_n_landmarks_get(FacemarkLBF::Params *obj)
@@ -229,7 +235,7 @@ CVAPI(void) face_FacemarkLBF_Params_pupils1_get(FacemarkLBF::Params *obj, std::v
 }
 CVAPI(void) face_FacemarkLBF_Params_pupils1_set(FacemarkLBF::Params *obj, std::vector<int> *v)
 {
-    obj->pupils[0].clear();
+    obj->pupils[1].clear();
     std::copy(v->begin(), v->end(), std::back_inserter(obj->pupils[1]));
 }
 

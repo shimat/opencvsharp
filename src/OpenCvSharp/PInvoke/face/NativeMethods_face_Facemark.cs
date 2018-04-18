@@ -34,7 +34,10 @@ namespace OpenCvSharp
         public static extern int face_Facemark_setFaceDetector(IntPtr obj, IntPtr detector, IntPtr userData);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int face_Facemark_getFaces(IntPtr obj, IntPtr image, IntPtr faces);
+        public static extern int face_Facemark_getFaces_OutputArray(IntPtr obj, IntPtr image, IntPtr faces);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_Facemark_getFaces_vectorOfRect(IntPtr obj, IntPtr image, IntPtr faces);
 
         #endregion
 
