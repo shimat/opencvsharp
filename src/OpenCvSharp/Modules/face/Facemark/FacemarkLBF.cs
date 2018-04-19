@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 
 namespace OpenCvSharp.Face
 {
@@ -40,7 +39,7 @@ namespace OpenCvSharp.Face
         {
             IntPtr p = NativeMethods.face_FacemarkLBF_create(parameters?.CvPtr ?? IntPtr.Zero);
             if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(LBPHFaceRecognizer)}> pointer");
+                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkLBF)}> pointer");
             var ptrObj = new Ptr(p);
             var detector = new FacemarkLBF
             {
@@ -400,6 +399,7 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// 
             /// </summary>
+            // ReSharper disable once InconsistentNaming
             public Rect DetectROI
             {
                 get

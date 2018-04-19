@@ -10,6 +10,8 @@ namespace OpenCvSharp.Tests.Face
 
     public class FacemarkLBFTest : TestBase
     {
+        private const string CascadeFile = "_data/text/haarcascade_frontalface_default.xml";
+
         [Fact]
         public void CreateAndDispose()
         {
@@ -34,7 +36,7 @@ namespace OpenCvSharp.Tests.Face
         {
             using (var parameter = new FacemarkLBF.Params())
             {
-                parameter.CascadeFace = "_data/text/haarcascade_frontalface_default.xml";
+                parameter.CascadeFace = CascadeFile;
 
                 using (var facemark = FacemarkLBF.Create(parameter))
                 using (var img = Image("lenna.png"))

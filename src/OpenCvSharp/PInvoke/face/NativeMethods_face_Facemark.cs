@@ -174,5 +174,96 @@ namespace OpenCvSharp
 
         #endregion
 
+
+        #region FacemarkAAM
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr face_FacemarkAAM_create(IntPtr @params);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr face_Ptr_FacemarkAAM_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_Ptr_FacemarkAAM_delete(IntPtr obj);
+
+        #region Params
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr face_FacemarkAAM_Params_new();
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_delete(IntPtr obj);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_model_filename_get(IntPtr obj, IntPtr s);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_model_filename_set(IntPtr obj,
+            [MarshalAs(UnmanagedType.LPStr)] string s);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_FacemarkAAM_Params_m_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_m_set(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_FacemarkAAM_Params_n_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_n_set(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_FacemarkAAM_Params_n_iter_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_n_iter_set(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_FacemarkAAM_Params_verbose_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_verbose_set(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_FacemarkAAM_Params_save_model_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_save_model_set(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_FacemarkAAM_Params_max_m_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_max_m_set(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_FacemarkAAM_Params_max_n_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_max_n_set(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int face_FacemarkAAM_Params_texture_max_m_get(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_texture_max_m_set(IntPtr obj, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_scales_get(IntPtr obj, IntPtr v);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_scales_set(IntPtr obj, IntPtr v);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_read(IntPtr obj, IntPtr fn);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void face_FacemarkAAM_Params_write(IntPtr obj, IntPtr fs);
+
+        #endregion
+
+        #endregion
     }
 }

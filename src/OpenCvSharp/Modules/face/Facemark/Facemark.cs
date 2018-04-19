@@ -74,7 +74,7 @@ namespace OpenCvSharp.Face
         /// using face::addTrainingSample function.
         /// </summary>
         /// <param name="parameters">Optional extra parameters (algorithm dependent).</param>
-        public virtual void Training(IntPtr parameters)
+        public virtual void Training(IntPtr parameters = default)
         {
             ThrowIfDisposed();
             NativeMethods.face_Facemark_training(ptr, parameters);

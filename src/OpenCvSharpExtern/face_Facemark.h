@@ -262,4 +262,141 @@ CVAPI(void) face_FacemarkLBF_Params_write(FacemarkLBF::Params *obj, cv::FileStor
 #pragma endregion
 #pragma endregion
 
+#pragma region FacemarkAAM
+
+CVAPI(cv::Ptr<FacemarkAAM>*) face_FacemarkAAM_create(FacemarkAAM::Params *params)
+{
+    const cv::Ptr<FacemarkAAM> obj = (params == nullptr) ?
+        FacemarkAAM::create() :
+        FacemarkAAM::create(*params);
+    return clone(obj);
+}
+
+CVAPI(FacemarkAAM*) face_Ptr_FacemarkAAM_get(cv::Ptr<FacemarkAAM> *obj)
+{
+    return obj->get();
+}
+
+CVAPI(void) face_Ptr_FacemarkAAM_delete(cv::Ptr<FacemarkAAM> *obj)
+{
+    delete obj;
+}
+
+#pragma region Params
+
+CVAPI(FacemarkAAM::Params*) face_FacemarkAAM_Params_new()
+{
+    return new FacemarkAAM::Params;
+}
+
+CVAPI(void) face_FacemarkAAM_Params_delete(FacemarkAAM::Params *obj)
+{
+    delete obj;
+}
+
+CVAPI(void) face_FacemarkAAM_Params_model_filename_get(FacemarkAAM::Params *obj, std::string *s)
+{
+    *s = obj->model_filename;
+}
+CVAPI(void) face_FacemarkAAM_Params_model_filename_set(FacemarkAAM::Params *obj, const char *s)
+{
+    obj->model_filename = s;
+}
+
+CVAPI(int) face_FacemarkAAM_Params_m_get(FacemarkAAM::Params *obj)
+{
+    return obj->m;
+}
+CVAPI(void) face_FacemarkAAM_Params_m_set(FacemarkAAM::Params *obj, int val)
+{
+    obj->m = val;
+}
+
+CVAPI(int) face_FacemarkAAM_Params_n_get(FacemarkAAM::Params *obj)
+{
+    return obj->n;
+}
+CVAPI(void) face_FacemarkAAM_Params_n_set(FacemarkAAM::Params *obj, int val)
+{
+    obj->n = val;
+}
+
+CVAPI(int) face_FacemarkAAM_Params_n_iter_get(FacemarkAAM::Params *obj)
+{
+    return obj->n_iter;
+}
+CVAPI(void) face_FacemarkAAM_Params_n_iter_set(FacemarkAAM::Params *obj, int val)
+{
+    obj->n_iter = val;
+}
+
+CVAPI(int) face_FacemarkAAM_Params_verbose_get(FacemarkAAM::Params *obj)
+{
+    return obj->verbose ? 1 : 0;
+}
+CVAPI(void) face_FacemarkAAM_Params_verbose_set(FacemarkAAM::Params *obj, int val)
+{
+    obj->verbose = (val != 0);
+}
+
+CVAPI(int) face_FacemarkAAM_Params_save_model_get(FacemarkAAM::Params *obj)
+{
+    return obj->save_model ? 1 : 0;
+}
+CVAPI(void) face_FacemarkAAM_Params_save_model_set(FacemarkAAM::Params *obj, int val)
+{
+    obj->save_model = (val != 0);
+}
+
+CVAPI(int) face_FacemarkAAM_Params_max_m_get(FacemarkAAM::Params *obj)
+{
+    return obj->max_m;
+}
+CVAPI(void) face_FacemarkAAM_Params_max_m_set(FacemarkAAM::Params *obj, int val)
+{
+    obj->max_m = val;
+}
+
+CVAPI(int) face_FacemarkAAM_Params_max_n_get(FacemarkAAM::Params *obj)
+{
+    return obj->max_n;
+}
+CVAPI(void) face_FacemarkAAM_Params_max_n_set(FacemarkAAM::Params *obj, int val)
+{
+    obj->max_n = val;
+}
+
+CVAPI(int) face_FacemarkAAM_Params_texture_max_m_get(FacemarkAAM::Params *obj)
+{
+    return obj->texture_max_m;
+}
+CVAPI(void) face_FacemarkAAM_Params_texture_max_m_set(FacemarkAAM::Params *obj, int val)
+{
+    obj->texture_max_m = val;
+}
+
+CVAPI(void) face_FacemarkAAM_Params_scales_get(FacemarkAAM::Params *obj, std::vector<float> *v)
+{
+    std::copy(obj->scales.begin(), obj->scales.end(), std::back_inserter(*v));
+}
+CVAPI(void) face_FacemarkAAM_Params_scales_set(FacemarkAAM::Params *obj, std::vector<float> *v)
+{
+    obj->scales.clear();
+    std::copy(v->begin(), v->end(), std::back_inserter(obj->scales));
+}
+
+
+CVAPI(void) face_FacemarkAAM_Params_read(FacemarkAAM::Params *obj, cv::FileNode *fn)
+{
+    obj->read(*fn);
+}
+
+CVAPI(void) face_FacemarkAAM_Params_write(FacemarkAAM::Params *obj, cv::FileStorage *fs)
+{
+    obj->write(*fs);
+}
+
+#pragma endregion
+#pragma endregion
+
 #endif
