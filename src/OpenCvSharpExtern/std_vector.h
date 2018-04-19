@@ -134,7 +134,7 @@ CVAPI(vector<double>*) vector_double_new2(size_t size)
 {
     return new vector<double>(size);
 }
-CVAPI(vector<double>*) vector_double_new3(float* data, size_t dataLength)
+CVAPI(vector<double>*) vector_double_new3(double* data, size_t dataLength)
 {
     return new vector<double>(data, data + dataLength);
 }

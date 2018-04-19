@@ -357,6 +357,9 @@
     <ClInclude Include="dnn_Net.h">
       <Filter>Header Files\dnn</Filter>
     </ClInclude>
+    <ClInclude Include="face_Facemark.h">
+      <Filter>Header Files\face</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
