@@ -19,30 +19,20 @@ namespace OpenCvSharp.Util
             {
                 return Marshal.SizeOf(typeof(T));
             }
-            else
-            {
-                return IntPtr.Size;
-            }
+            return IntPtr.Size;
 #else
             if (typeof(T).GetTypeInfo().IsValueType)
             {
-#if uwp
-                return Marshal.SizeOf(typeof(T));
-#else
                 return Marshal.SizeOf<T>();
+            }
+            return IntPtr.Size;
 #endif
-            }
-            else
-            {
-                return IntPtr.Size;
-            }
-#endif
-            }
+        }
 
         public static T PtrToStructure<T>(IntPtr p)
             where T : struct 
         {
-#if net20 || net40 || uwp
+#if net20 || net40
             return (T)Marshal.PtrToStructure(p, typeof(T));
 #else
             return Marshal.PtrToStructure<T>(p);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OpenCvSharp.Face
 {
@@ -189,7 +190,11 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// 
             /// </summary>
+#if net20 || net40
             public float[] Scales
+#else
+            public IReadOnlyList<float> Scales
+#endif
             {
                 get
                 {

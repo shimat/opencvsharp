@@ -18,11 +18,8 @@
             <group targetFramework="net20" />
             <group targetFramework="net40" />
             <group targetFramework="net46" />
-            <group targetFramework="netstandard1.6">
-                <dependency id="NETStandard.Library" version="1.6.1" />
-            </group>
-            <group targetFramework="netcoreapp1.0">
-                <dependency id="NETStandard.Library" version="1.6.1" />
+            <group targetFramework="netstandard2.0">
+                <dependency id="System.Drawing.Common" version="4.5.0-preview2-26406-04" />
             </group>
         </dependencies>
         <frameworkAssemblies>
@@ -73,19 +70,12 @@
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.pdb" target="lib\net46" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.xml" target="lib\net46" />
 
-        <file src="..\src\OpenCvSharp\bin\Release\netstandard1.6\OpenCvSharp.dll" target="lib\netstandard1.6" />
-        <file src="..\src\OpenCvSharp\bin\Release\netstandard1.6\OpenCvSharp.pdb" target="lib\netstandard1.6" />
-        <file src="..\src\OpenCvSharp\bin\Release\netstandard1.6\OpenCvSharp.xml" target="lib\netstandard1.6" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.dll" target="lib\netstandard1.6" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.pdb" target="lib\netstandard1.6" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.xml" target="lib\netstandard1.6" />
-
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.dll" target="lib\netcoreapp1.0" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.pdb" target="lib\netcoreapp1.0" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp1.0\OpenCvSharp.xml" target="lib\netcoreapp1.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.dll" target="lib\netcoreapp1.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.pdb" target="lib\netcoreapp1.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp1.0\OpenCvSharp.Blob.xml" target="lib\netcoreapp1.0" />
+        <file src="..\src\OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.xml" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.dll" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.pdb" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.xml" target="lib\netstandard2.0" />
 
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
         <file src="..\opencv_files_341\x64\vc15\bin\opencv_ffmpeg341_64.dll" target="NativeDlls\x64\opencv_ffmpeg341_64.dll" />

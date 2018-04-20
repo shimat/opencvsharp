@@ -36,7 +36,7 @@ namespace OpenCvSharp.Util
                 return (T) (object) ptr;
             }
 
-#if net20 || net40 || uwp
+#if net20 || net40
             return (T)Marshal.PtrToStructure(ptr, typeof(T));
 #else
             return Marshal.PtrToStructure<T>(ptr);

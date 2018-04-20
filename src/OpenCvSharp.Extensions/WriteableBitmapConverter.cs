@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !netstandard20
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
@@ -369,3 +370,4 @@ namespace OpenCvSharp.Extensions
         #endregion
     }
 }
+#endif

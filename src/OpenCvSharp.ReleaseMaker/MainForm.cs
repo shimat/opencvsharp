@@ -12,8 +12,6 @@ namespace OpenCvSharp.ReleaseMaker
     /// </summary>
     public partial class MainForm : Form
     {
-        private const string VisualStudioVersion = "2015";
-
         private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
         {
             {
@@ -42,11 +40,12 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.dll",
                 }
             },{
-                "netstandard1.6", new[]
+                "netstandard2.0", new[]
                 {
-                    @"OpenCvSharp\bin\Release\netstandard1.6\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\netstandard1.6\OpenCvSharp.dll.config",
-                    @"OpenCvSharp.Blob\bin\Release\netstandard1.6\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
                 }
             }
         };

@@ -138,7 +138,6 @@ namespace OpenCvSharp
                     }
 
                     // Try loading from executing assembly domain
-#if !netcore50 && !uap10 && !uwp
 #if DOTNET_FRAMEWORK
                     Assembly executingAssembly = Assembly.GetExecutingAssembly();
 #else
@@ -147,7 +146,6 @@ namespace OpenCvSharp
                     baseDirectory = Path.GetDirectoryName(executingAssembly.Location);
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
-#endif
 
                     // Fallback to current app domain
                     // TODO
@@ -159,18 +157,14 @@ namespace OpenCvSharp
 
                     // Gets the pathname of the base directory that the assembly resolver uses to probe for assemblies.
                     // https://github.com/dotnet/corefx/issues/2221
-#if !net20 && !net40 && !uwp
+#if !net20 && !net40
                     baseDirectory = AppContext.BaseDirectory;
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 #endif
 
-#if uwp
-                    baseDirectory = "";
-#else
                     // Finally try the working directory
                     baseDirectory = Path.GetFullPath(System.IO.Directory.GetCurrentDirectory());
-#endif
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
@@ -209,11 +203,8 @@ namespace OpenCvSharp
         private ProcessArchitectureInfo GetProcessArchitecture()
         {
             // BUGBUG: Will this always be reliable?
-#if uwp
-            string processArchitecture = "";
-#else
             string processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
-#endif
+
             var processInfo = new ProcessArchitectureInfo();
             if (!String.IsNullOrEmpty(processArchitecture))
             {
@@ -266,12 +257,7 @@ namespace OpenCvSharp
             // Show where we're trying to load the file from
             Debug.WriteLine(String.Format("Trying to load native library \"{0}\"...", fileName));
 
-#if uwp || uap10
-#pragma warning disable 0162
-            if (true) // TODO
-#else
             if (File.Exists(fileName))
-#endif
             {
                 // Attempt to load dll
                 try

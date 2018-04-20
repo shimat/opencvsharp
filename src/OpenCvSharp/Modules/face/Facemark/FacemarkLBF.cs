@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OpenCvSharp.Face
 {
@@ -303,7 +304,11 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// 
             /// </summary>
+#if net20 || net40
             public int[] FeatsM
+#else
+            public IReadOnlyList<int> FeatsM
+#endif
             {
                 get
                 {
@@ -327,7 +332,11 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// 
             /// </summary>
+#if net20 || net40
             public double[] RadiusM
+#else
+            public IReadOnlyList<double> RadiusM
+#endif
             {
                 get
                 {
@@ -351,7 +360,11 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// index of facemark points on pupils of left and right eye
             /// </summary>
+#if net20 || net40
             public int[] Pupils0
+#else
+            public IReadOnlyList<int> Pupils0
+#endif
             {
                 get
                 {
@@ -375,7 +388,11 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// index of facemark points on pupils of left and right eye
             /// </summary>
+#if net20 || net40
             public int[] Pupils1
+#else
+            public IReadOnlyList<int> Pupils1
+#endif
             {
                 get
                 {
