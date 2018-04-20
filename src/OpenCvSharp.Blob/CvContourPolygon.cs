@@ -356,15 +356,11 @@ namespace OpenCvSharp.Blob
         /// <param name="fileName">File name.</param>
         public void WriteAsCsv(string fileName)
         {
-#if uwp
-            throw new NotImplementedException();
-#else
             using (var stream = new FileStream(fileName, FileMode.Create))
             using (var writer = new StreamWriter(stream))
             {
                 writer.Write(ToString());
             }
-#endif
         }
 
 #endregion
@@ -388,15 +384,11 @@ namespace OpenCvSharp.Blob
         /// <param name="fill">Fill color</param>
         public void WriteAsSvg(string fileName, Scalar stroke, Scalar fill)
         {
-#if uwp
-            throw new NotImplementedException();
-#else
             using (var stream = new FileStream(fileName, FileMode.Create))
             using (var writer = new StreamWriter(stream))
             {
                 writer.WriteLine(ToSvg(stroke, fill));
             }
-#endif
         }
 
         /// <summary>

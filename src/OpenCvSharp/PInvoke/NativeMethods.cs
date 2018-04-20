@@ -91,7 +91,7 @@ namespace OpenCvSharp
             IntPtr current = redirectError(ErrorHandlerThrowException, zero, ref zero);
             if (current != IntPtr.Zero)
             {
-#if net20 || net40 || uwp
+#if net20 || net40
                 ErrorHandlerDefault = (CvErrorCallback)Marshal.GetDelegateForFunctionPointer(
                     current, typeof(CvErrorCallback));
 #else
@@ -120,10 +120,8 @@ namespace OpenCvSharp
             catch (DllNotFoundException e)
             {
                 var exception = PInvokeHelper.CreateException(e);
-#if !uwp && !uap10
                 try{Console.WriteLine(exception.Message);}
                 catch{}
-#endif
                 try{Debug.WriteLine(exception.Message);}
                 catch{}
                 throw exception;
@@ -131,10 +129,8 @@ namespace OpenCvSharp
             catch (BadImageFormatException e)
             {
                 var exception = PInvokeHelper.CreateException(e);
-#if !uwp && !uap10
                 try { Console.WriteLine(exception.Message); }
                 catch { }
-#endif
                 try { Debug.WriteLine(exception.Message); }
                 catch { }
                 throw exception;
@@ -142,10 +138,8 @@ namespace OpenCvSharp
             catch (Exception e)
             {
                 Exception ex = e.InnerException ?? e;
-#if !uwp && !uap10
                 try{ Console.WriteLine(ex.Message); }
                 catch{}
-#endif
                 try { Debug.WriteLine(ex.Message); }
                 catch{}
                 throw;

@@ -64,10 +64,10 @@ namespace OpenCvSharp
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
-#if !uwp
+
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
-#endif
+
             ptr = NativeMethods.imgcodecs_imread(fileName, (int) flags);
         }
 

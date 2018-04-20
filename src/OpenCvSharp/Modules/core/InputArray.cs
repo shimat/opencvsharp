@@ -285,7 +285,7 @@ namespace OpenCvSharp
                 throw new ArgumentException();
 
             // Primitive types
-#if netcore50 || uap10 || uwp
+#if false
             if (t == typeof(byte))
                 return MatType.CV_8UC1;
             if (t == typeof(sbyte))
@@ -301,7 +301,7 @@ namespace OpenCvSharp
             if (t == typeof(double))
                 return MatType.CV_64FC1;
 #else
-            TypeCode code = System.Type.GetTypeCode(t);
+            var code = System.Type.GetTypeCode(t);
             switch (code)
             {
                 case TypeCode.Byte:

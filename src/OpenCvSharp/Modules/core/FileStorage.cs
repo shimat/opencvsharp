@@ -249,10 +249,8 @@ namespace OpenCvSharp
         {
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-#if !uwp
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
-#endif
 
             var buf = new StringBuilder(1 << 16);
             NativeMethods.core_FileStorage_getDefaultObjectName(fileName, buf, buf.Capacity);
