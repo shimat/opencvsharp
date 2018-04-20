@@ -30,7 +30,7 @@ CVAPI(uchar*) vector_uchar_getPointer(vector<uchar>* vector)
 }
 CVAPI(void) vector_vector_uchar_copy(vector<uchar> *vector, uchar *dst)
 {
-    size_t length = sizeof(uchar)* vector->size();
+    const size_t length = sizeof(uchar)* vector->size();
     memcpy(dst, &(vector->at(0)), length);
 }
 CVAPI(void) vector_uchar_delete(vector<uchar>* vector)
@@ -62,7 +62,7 @@ CVAPI(char*) vector_char_getPointer(vector<char>* vector)
 }
 CVAPI(void) vector_vector_char_copy(vector<char> *vector, char *dst)
 {
-    size_t length = sizeof(char)* vector->size();
+    const size_t length = sizeof(char)* vector->size();
     memcpy(dst, &(vector->at(0)), length);
 }
 CVAPI(void) vector_char_delete(vector<char>* vector)
@@ -640,7 +640,7 @@ CVAPI(void) vector_vector_KeyPoint_copy(vector<vector<cv::KeyPoint> > *vec, cv::
     {
         vector<cv::KeyPoint> &elem = vec->at(i);
         void *src = &elem[0];
-        size_t length = sizeof(cv::KeyPoint) * elem.size();
+        const size_t length = sizeof(cv::KeyPoint) * elem.size();
         memcpy(dst[i], src, length);
     }
 }
@@ -720,7 +720,7 @@ CVAPI(void) vector_vector_Point_copy(vector<vector<cv::Point> > *vec, cv::Point 
     {
         vector<cv::Point> &elem = vec->at(i);
         void *src = &elem[0];
-        size_t length = sizeof(cv::Point) * elem.size();
+        const size_t length = sizeof(cv::Point) * elem.size();
         memcpy(dst[i], src, length);
     }
 }
@@ -760,7 +760,7 @@ CVAPI(void) vector_vector_Point2f_copy(vector<vector<cv::Point2f> > *vec, cv::Po
     {
         vector<cv::Point2f> &elem = vec->at(i);
         void *src = &elem[0];
-        size_t length = sizeof(cv::Point2f) * elem.size();
+        const size_t length = sizeof(cv::Point2f) * elem.size();
         memcpy(dst[i], src, length);
     }
 }
