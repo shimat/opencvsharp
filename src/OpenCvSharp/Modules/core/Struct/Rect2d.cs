@@ -399,6 +399,15 @@ namespace OpenCvSharp
 
         #region Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Rect ToRect()
+        {
+            return new Rect((int) X, (int) Y, (int) Width, (int) Height);
+        }
+
 #if LANG_JP
         /// <summary>
         /// 指定した点がこの矩形に含まれているかどうかを判断する
