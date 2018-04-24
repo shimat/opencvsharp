@@ -195,4 +195,22 @@ CVAPI(cv::TrackerGOTURN*) tracking_Ptr_TrackerGOTURN_get(cv::Ptr<cv::TrackerGOTU
 	return ptr->get();
 }
 
+// TrackerMOSSE
+
+CVAPI(cv::Ptr<cv::TrackerMOSSE>*) tracking_TrackerMOSSE_create()
+{
+    const auto p = cv::TrackerMOSSE::create();
+    return clone(p);
+}
+
+CVAPI(void) tracking_Ptr_TrackerMOSSE_delete(cv::Ptr<cv::TrackerMOSSE> *ptr)
+{
+    delete ptr;
+}
+
+CVAPI(cv::TrackerMOSSE*) tracking_Ptr_TrackerMOSSE_get(cv::Ptr<cv::TrackerMOSSE> *ptr)
+{
+    return ptr->get();
+}
+
 #endif

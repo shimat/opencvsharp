@@ -116,5 +116,16 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr tracking_Ptr_TrackerGOTURN_get(IntPtr ptr);
+
+        // TrackerMOSSE
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr tracking_TrackerMOSSE_create1();
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void tracking_Ptr_TrackerMOSSE_delete(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr tracking_Ptr_TrackerMOSSE_get(IntPtr ptr);
     }
 }
