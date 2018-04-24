@@ -15,17 +15,11 @@ namespace OpenCvSharp.Tracking
     public class TrackerKCF : Tracker
     {
         /// <summary>
-        /// cv::Ptr&lt;T&gt;
-        /// </summary>
-        private Ptr ptrObj;
-
-        /// <summary>
         /// 
         /// </summary>
         protected TrackerKCF(IntPtr p)
+            : base(new Ptr(p)) 
         {
-            ptrObj = new Ptr(p);
-            ptr = ptrObj.Get();
         }
 
         /// <summary>
@@ -57,8 +51,6 @@ namespace OpenCvSharp.Tracking
         /// </summary>
         protected override void DisposeManaged()
         {
-            ptrObj?.Dispose();
-            ptrObj = null;
             base.DisposeManaged();
         }
 

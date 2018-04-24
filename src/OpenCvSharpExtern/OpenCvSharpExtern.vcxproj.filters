@@ -345,9 +345,6 @@
     <ClInclude Include="text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tracking.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="img_hash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -359,6 +356,12 @@
     </ClInclude>
     <ClInclude Include="face_Facemark.h">
       <Filter>Header Files\face</Filter>
+    </ClInclude>
+    <ClInclude Include="tracking.h">
+      <Filter>Header Files\tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="tracking_MultiTracker.h">
+      <Filter>Header Files\tracking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -420,6 +423,9 @@
     </Filter>
     <Filter Include="Header Files\dnn">
       <UniqueIdentifier>{82bf2b1d-8eae-4871-a816-59451452eeb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tracking">
+      <UniqueIdentifier>{b2a89203-38db-4ab1-a520-3252d788596d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -120,7 +120,7 @@ namespace OpenCvSharp
         // TrackerMOSSE
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr tracking_TrackerMOSSE_create1();
+        public static extern IntPtr tracking_TrackerMOSSE_create();
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void tracking_Ptr_TrackerMOSSE_delete(IntPtr ptr);

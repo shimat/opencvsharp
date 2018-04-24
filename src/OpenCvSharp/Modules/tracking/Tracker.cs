@@ -7,6 +7,28 @@ namespace OpenCvSharp.Tracking
     /// </summary>
     public abstract class Tracker : Algorithm
     {
+        internal Ptr PtrObj { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ptrObj"></param>
+        protected Tracker(Ptr ptrObj)
+        {
+            PtrObj = ptrObj;
+            ptr = ptrObj.Get();
+        }
+
+        /// <summary>
+        /// Releases managed resources
+        /// </summary>
+        protected override void DisposeManaged()
+        {
+            PtrObj?.Dispose();
+            PtrObj = null;
+            base.DisposeManaged();
+        }
+
         /// <summary>
         /// Initialize the tracker with a know bounding box that surrounding the target
         /// </summary>
