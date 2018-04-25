@@ -24,11 +24,34 @@ extern "C"
         int x;
         int y;
     };
-
     struct MyCvPoint2D32f
     {
         float x;
         float y;
+    };
+    struct MyCvPoint2D64f
+    {
+        double x;
+        double y;
+    };
+
+    struct MyCvPoint3D32i
+    {
+        int x;
+        int y;
+        int z;
+    };
+    struct MyCvPoint3D32f
+    {
+        float x;
+        float y;
+        float z;
+    };
+    struct MyCvPoint3D64f
+    {
+        double x;
+        double y;
+        double z;
     };
 
     struct MyCvSize
@@ -36,11 +59,15 @@ extern "C"
         int width;
         int height;
     };
-
     struct MyCvSize2D32f
     {
         float width;
         float height;
+    };
+    struct MyCvSize2D64f
+    {
+        double width;
+        double height;
     };
 
     struct MyCvRect
@@ -50,8 +77,14 @@ extern "C"
         int width;
         int height;
     };
-
-    struct MyCvRect2D
+    struct MyCvRect2D32f
+    {
+        float x;
+        float y;
+        float width;
+        float height;
+    };
+    struct MyCvRect2D64f
     {
         double x;
         double y;
@@ -200,12 +233,12 @@ static cv::Rect cpp(const MyCvRect r)
     return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
-static MyCvRect2D c(const cv::Rect2d r)
+static MyCvRect2D64f c(const cv::Rect2d r)
 {
-	const MyCvRect2D ret = { r.x, r.y, r.width, r.height };
+	const MyCvRect2D64f ret = { r.x, r.y, r.width, r.height };
     return ret;
 }
-static cv::Rect2d cpp(const MyCvRect2D r)
+static cv::Rect2d cpp(const MyCvRect2D64f r)
 {
     return cv::Rect2d(r.x, r.y, r.width, r.height);
 }

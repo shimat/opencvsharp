@@ -10,6 +10,10 @@ namespace OpenCvSharp.Tests.Core
 {
     public class FileStorageTest : TestBase
     {
+        /// <summary>
+        /// https://github.com/shimat/opencvsharp/issues/403
+        /// https://docs.opencv.org/2.4/modules/core/doc/xml_yaml_persistence.html
+        /// </summary>
         [Fact]
         public void Issue403()
         {
@@ -31,13 +35,13 @@ namespace OpenCvSharp.Tests.Core
                     .Add("}");
 
                 fs.Add("map_sequence").Add("[")
-                    .Add("{:")
-                    .Add("float").Add(1.2345f)
-                    .Add("rect").Add(new Rect(4,3,2,1))
-                    .Add("}")/*.Add("{:")
+                    .Add("{")
+                    .Add("vec3b").Add(new Vec3b(255, 128, 0))
+                    .Add("rect").Add(new Rect(1, 2, 3, 4))
+                    .Add("}").Add("{")
                     .Add("size").Add(new Size(10, 20))
                     .Add("point").Add(new Point(300, 400))
-                    .Add("}")*/
+                    .Add("}")
                     .Add("]");
 
                 using (Mat r = Mat.Eye(3, 3, MatType.CV_64FC1))

@@ -173,9 +173,9 @@ CVAPI(void) core_FileStorage_shift_SparseMat(cv::FileStorage *fs, cv::SparseMat 
 {
     (*fs) << *val;
 }
-CVAPI(void) core_FileStorage_shift_Range(cv::FileStorage *fs, cv::Range val)
+CVAPI(void) core_FileStorage_shift_Range(cv::FileStorage *fs, MyCvSlice val)
 {
-    (*fs) << val;
+    (*fs) << cpp(val);
 }
 CVAPI(void) core_FileStorage_shift_KeyPoint(cv::FileStorage *fs, cv::KeyPoint val)
 {
@@ -193,153 +193,154 @@ CVAPI(void) core_FileStorage_shift_vectorOfDMatch(cv::FileStorage *fs, std::vect
 {
     (*fs) << *val;
 }
-CVAPI(void) core_FileStorage_shift_Point2i(cv::FileStorage *fs, cv::Point2i val)
+CVAPI(void) core_FileStorage_shift_Point2i(cv::FileStorage *fs, MyCvPoint val)
 {
-    (*fs) << val;
+    (*fs) << cv::Point2i(val.x, val.y);
 }
-CVAPI(void) core_FileStorage_shift_Point2f(cv::FileStorage *fs, cv::Point2f val)
+CVAPI(void) core_FileStorage_shift_Point2f(cv::FileStorage *fs, MyCvPoint2D32f val)
 {
-    (*fs) << val;
+    (*fs) << cv::Point2f(val.x, val.y);
 }
-CVAPI(void) core_FileStorage_shift_Point2d(cv::FileStorage *fs, cv::Point2d val)
+CVAPI(void) core_FileStorage_shift_Point2d(cv::FileStorage *fs, MyCvPoint2D64f val)
 {
-    (*fs) << val;
+    (*fs) << cv::Point2d(val.x, val.y);
 }
-CVAPI(void) core_FileStorage_shift_Point3i(cv::FileStorage *fs, cv::Point3i val)
+CVAPI(void) core_FileStorage_shift_Point3i(cv::FileStorage *fs, MyCvPoint3D32i val)
 {
-    (*fs) << val;
+    (*fs) << cv::Point3i(val.x, val.y, val.z);
 }
-CVAPI(void) core_FileStorage_shift_Point3f(cv::FileStorage *fs, cv::Point3f val)
+CVAPI(void) core_FileStorage_shift_Point3f(cv::FileStorage *fs, MyCvPoint3D32f val)
 {
-    (*fs) << val;
+    (*fs) << cv::Point3f(val.x, val.y, val.z);
 }
-CVAPI(void) core_FileStorage_shift_Point3d(cv::FileStorage *fs, cv::Point3d val)
+CVAPI(void) core_FileStorage_shift_Point3d(cv::FileStorage *fs, MyCvPoint3D64f val)
 {
-    (*fs) << val;
+    (*fs) << cv::Point3d(val.x, val.y, val.z);
 }
-CVAPI(void) core_FileStorage_shift_Size2i(cv::FileStorage *fs, cv::Size2i val)
+CVAPI(void) core_FileStorage_shift_Size2i(cv::FileStorage *fs, MyCvSize val)
 {
-    (*fs) << val;
+    (*fs) << cv::Size2i(val.width, val.height);
 }
-CVAPI(void) core_FileStorage_shift_Size2f(cv::FileStorage *fs, cv::Size2f val)
+CVAPI(void) core_FileStorage_shift_Size2f(cv::FileStorage *fs, MyCvSize2D32f val)
 {
-    (*fs) << val;
+    (*fs) << cv::Size2f(val.width, val.height);
 }
-CVAPI(void) core_FileStorage_shift_Size2d(cv::FileStorage *fs, cv::Size2d val)
+CVAPI(void) core_FileStorage_shift_Size2d(cv::FileStorage *fs, MyCvSize2D64f val)
 {
-    (*fs) << val;
+    (*fs) << cv::Size2d(val.width, val.height);
 }
-CVAPI(void) core_FileStorage_shift_Rect2i(cv::FileStorage *fs, cv::Rect2i val)
+CVAPI(void) core_FileStorage_shift_Rect2i(cv::FileStorage *fs, MyCvRect val)
 {
-    (*fs) << val;
+    (*fs) << cv::Rect2i(val.x, val.y, val.width, val.height);
 }
-CVAPI(void) core_FileStorage_shift_Rect2f(cv::FileStorage *fs, cv::Rect2f val)
+CVAPI(void) core_FileStorage_shift_Rect2f(cv::FileStorage *fs, MyCvRect2D32f val)
 {
-    (*fs) << val;
+    (*fs) << cv::Rect2f(val.x, val.y, val.width, val.height);
 }
-CVAPI(void) core_FileStorage_shift_Rect2d(cv::FileStorage *fs, cv::Rect2d val)
+CVAPI(void) core_FileStorage_shift_Rect2d(cv::FileStorage *fs, MyCvRect2D64f val)
 {
-    (*fs) << val;
+    (*fs) << cv::Rect2d(val.x, val.y, val.width, val.height);
 }
-CVAPI(void) core_FileStorage_shift_Scalar(cv::FileStorage *fs, cv::Scalar val)
+CVAPI(void) core_FileStorage_shift_Scalar(cv::FileStorage *fs, MyCvScalar val)
 {
-    (*fs) << val;
+    (*fs) << cpp(val);
 }
-CVAPI(void) core_FileStorage_shift_Vec2i(cv::FileStorage *fs, cv::Vec2i val)
+
+CVAPI(void) core_FileStorage_shift_Vec2i(cv::FileStorage *fs, CvVec2i v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec2i(v.val[0], v.val[1]);
 }
-CVAPI(void) core_FileStorage_shift_Vec3i(cv::FileStorage *fs, cv::Vec3i val)
+CVAPI(void) core_FileStorage_shift_Vec3i(cv::FileStorage *fs, CvVec3i v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec3i(v.val[0], v.val[1], v.val[2]);
 }
-CVAPI(void) core_FileStorage_shift_Vec4i(cv::FileStorage *fs, cv::Vec4i val)
+CVAPI(void) core_FileStorage_shift_Vec4i(cv::FileStorage *fs, CvVec4i v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec4i(v.val[0], v.val[1], v.val[2], v.val[3]);
 }
-CVAPI(void) core_FileStorage_shift_Vec6i(cv::FileStorage *fs, cv::Vec6i val)
+CVAPI(void) core_FileStorage_shift_Vec6i(cv::FileStorage *fs, CvVec6i v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec6i(v.val[0], v.val[1], v.val[2], v.val[3], v.val[4], v.val[5]);
 }
-CVAPI(void) core_FileStorage_shift_Vec2d(cv::FileStorage *fs, cv::Vec2d val)
+CVAPI(void) core_FileStorage_shift_Vec2d(cv::FileStorage *fs, CvVec2d v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec2d(v.val[0], v.val[1]);
 }
-CVAPI(void) core_FileStorage_shift_Vec3d(cv::FileStorage *fs, cv::Vec3d val)
+CVAPI(void) core_FileStorage_shift_Vec3d(cv::FileStorage *fs, CvVec3d v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec3d(v.val[0], v.val[1], v.val[2]);
 }
-CVAPI(void) core_FileStorage_shift_Vec4d(cv::FileStorage *fs, cv::Vec4d val)
+CVAPI(void) core_FileStorage_shift_Vec4d(cv::FileStorage *fs, CvVec4d v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec4d(v.val[0], v.val[1], v.val[2], v.val[3]);
 }
-CVAPI(void) core_FileStorage_shift_Vec6d(cv::FileStorage *fs, cv::Vec6d val)
+CVAPI(void) core_FileStorage_shift_Vec6d(cv::FileStorage *fs, CvVec6d v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec6d(v.val[0], v.val[1], v.val[2], v.val[3], v.val[4], v.val[5]);
 }
-CVAPI(void) core_FileStorage_shift_Vec2f(cv::FileStorage *fs, cv::Vec2f val)
+CVAPI(void) core_FileStorage_shift_Vec2f(cv::FileStorage *fs, CvVec2f v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec2f(v.val[0], v.val[1]);
 }
-CVAPI(void) core_FileStorage_shift_Vec3f(cv::FileStorage *fs, cv::Vec3f val)
+CVAPI(void) core_FileStorage_shift_Vec3f(cv::FileStorage *fs, CvVec3f v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec3f(v.val[0], v.val[1], v.val[2]);
 }
-CVAPI(void) core_FileStorage_shift_Vec4f(cv::FileStorage *fs, cv::Vec4f val)
+CVAPI(void) core_FileStorage_shift_Vec4f(cv::FileStorage *fs, CvVec4f v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec4f(v.val[0], v.val[1], v.val[2], v.val[3]);
 }
-CVAPI(void) core_FileStorage_shift_Vec6f(cv::FileStorage *fs, cv::Vec6f val)
+CVAPI(void) core_FileStorage_shift_Vec6f(cv::FileStorage *fs, CvVec6f v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec6f(v.val[0], v.val[1], v.val[2], v.val[3], v.val[4], v.val[5]);
 }
-CVAPI(void) core_FileStorage_shift_Vec2b(cv::FileStorage *fs, cv::Vec2b val)
+CVAPI(void) core_FileStorage_shift_Vec2b(cv::FileStorage *fs, CvVec2b v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec2b(v.val[0], v.val[1]);
 }
-CVAPI(void) core_FileStorage_shift_Vec3b(cv::FileStorage *fs, cv::Vec3b val)
+CVAPI(void) core_FileStorage_shift_Vec3b(cv::FileStorage *fs, CvVec3b v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec3b(v.val[0], v.val[1], v.val[2]);
 }
-CVAPI(void) core_FileStorage_shift_Vec4b(cv::FileStorage *fs, cv::Vec4b val)
+CVAPI(void) core_FileStorage_shift_Vec4b(cv::FileStorage *fs, CvVec4b v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec4b(v.val[0], v.val[1], v.val[2], v.val[3]);
 }
-CVAPI(void) core_FileStorage_shift_Vec6b(cv::FileStorage *fs, cv::Vec6b val)
+CVAPI(void) core_FileStorage_shift_Vec6b(cv::FileStorage *fs, CvVec6b v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec6b(v.val[0], v.val[1], v.val[2], v.val[3], v.val[4], v.val[5]);
 }
-CVAPI(void) core_FileStorage_shift_Vec2s(cv::FileStorage *fs, cv::Vec2s val)
+CVAPI(void) core_FileStorage_shift_Vec2s(cv::FileStorage *fs, CvVec2s v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec2s(v.val[0], v.val[1]);
 }
-CVAPI(void) core_FileStorage_shift_Vec3s(cv::FileStorage *fs, cv::Vec3s val)
+CVAPI(void) core_FileStorage_shift_Vec3s(cv::FileStorage *fs, CvVec3s v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec3s(v.val[0], v.val[1], v.val[2]);
 }
-CVAPI(void) core_FileStorage_shift_Vec4s(cv::FileStorage *fs, cv::Vec4s val)
+CVAPI(void) core_FileStorage_shift_Vec4s(cv::FileStorage *fs, CvVec4s v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec4s(v.val[0], v.val[1], v.val[2], v.val[3]);
 }
-CVAPI(void) core_FileStorage_shift_Vec6s(cv::FileStorage *fs, cv::Vec6s val)
+CVAPI(void) core_FileStorage_shift_Vec6s(cv::FileStorage *fs, CvVec6s v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec6s(v.val[0], v.val[1], v.val[2], v.val[3], v.val[4], v.val[5]);
 }
-CVAPI(void) core_FileStorage_shift_Vec2w(cv::FileStorage *fs, cv::Vec2w val)
+CVAPI(void) core_FileStorage_shift_Vec2w(cv::FileStorage *fs, CvVec2w v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec2w(v.val[0], v.val[1]);
 }
-CVAPI(void) core_FileStorage_shift_Vec3w(cv::FileStorage *fs, cv::Vec3w val)
+CVAPI(void) core_FileStorage_shift_Vec3w(cv::FileStorage *fs, CvVec3w v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec3w(v.val[0], v.val[1], v.val[2]);
 }
-CVAPI(void) core_FileStorage_shift_Vec4w(cv::FileStorage *fs, cv::Vec4w val)
+CVAPI(void) core_FileStorage_shift_Vec4w(cv::FileStorage *fs, CvVec4w v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec4w(v.val[0], v.val[1], v.val[2], v.val[3]);
 }
-CVAPI(void) core_FileStorage_shift_Vec6w(cv::FileStorage *fs, cv::Vec6w val)
+CVAPI(void) core_FileStorage_shift_Vec6w(cv::FileStorage *fs, CvVec6w v)
 {
-    (*fs) << val;
+    (*fs) << cv::Vec6w(v.val[0], v.val[1], v.val[2], v.val[3], v.val[4], v.val[5]);
 }
 
 #pragma endregion

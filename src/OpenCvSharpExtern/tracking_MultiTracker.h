@@ -21,13 +21,13 @@ CVAPI(cv::MultiTracker*) tracking_Ptr_MultiTracker_get(cv::Ptr<cv::MultiTracker>
     return ptr->get();
 }
 
-CVAPI(int) tracking_MultiTracker_add1(cv::MultiTracker *obj, cv::Ptr<cv::Tracker> *newTracker, cv::_InputArray *image, MyCvRect2D boundingBox)
+CVAPI(int) tracking_MultiTracker_add1(cv::MultiTracker *obj, cv::Ptr<cv::Tracker> *newTracker, cv::_InputArray *image, MyCvRect2D64f boundingBox)
 {
     return obj->add(*newTracker, *image, cpp(boundingBox)) ? 1 : 0;
 }
 
 CVAPI(int) tracking_MultiTracker_add2(cv::MultiTracker *obj, cv::Ptr<cv::Tracker> **newTrackers, int newTrackersLength, cv::_InputArray *image, 
-    MyCvRect2D *boundingBox, int boundingBoxLength)
+    MyCvRect2D64f *boundingBox, int boundingBoxLength)
 {
     std::vector<cv::Ptr<cv::Tracker> > newTrackersVec(newTrackersLength);
     for (int i = 0; i < newTrackersLength; i++)
