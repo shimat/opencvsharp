@@ -305,6 +305,21 @@ namespace OpenCvSharp
             }
         }
 
+        /// <summary>
+        /// Returns type of the node.
+        /// </summary>
+        /// <returns>Type of the node.</returns>
+        public Types Type
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.core_FileNode_type(ptr);
+                GC.KeepAlive(this);
+                return (Types)res;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -465,5 +480,83 @@ namespace OpenCvSharp
         #endregion
 
         #endregion
+
+        /// <summary>
+        /// type of the file storage node
+        /// </summary>
+        [Flags]
+        public enum Types
+        {
+            /// <summary>
+            /// empty node
+            /// </summary>
+            None = 0,
+
+            /// <summary>
+            /// an integer
+            /// </summary>
+            Int = 1,
+
+            /// <summary>
+            /// floating-point number
+            /// </summary>
+            Real = 2,
+
+            /// <summary>
+            /// synonym or REAL
+            /// </summary>
+            Float = Real,
+
+            /// <summary>
+            /// text string in UTF-8 encoding
+            /// </summary>
+            Str = 3,
+
+            /// <summary>
+            /// synonym for STR
+            /// </summary>
+            String = Str,
+
+            /// <summary>
+            /// integer of size size_t. 
+            /// Typically used for storing complex dynamic structures where some elements reference the others
+            /// </summary>
+            Ref = 4,
+
+            /// <summary>
+            /// sequence
+            /// </summary>
+            Seq = 5,
+
+            /// <summary>
+            /// mapping
+            /// </summary>
+            Map = 6, 
+
+            /// <summary>
+            /// 
+            /// </summary>
+            TypeMask = 7,
+
+            /// <summary>
+            /// compact representation of a sequence or mapping. Used only by YAML writer
+            /// </summary>
+            Flow = 8,
+
+            /// <summary>
+            /// a registered object (e.g. a matrix)
+            /// </summary>
+            User = 16, 
+
+            /// <summary>
+            /// empty structure (sequence or mapping)
+            /// </summary>
+            Empty = 32,
+
+            /// <summary>
+            /// the node has a name (i.e. it is element of a mapping)
+            /// </summary>
+            Named = 64  
+        }
     }
 }

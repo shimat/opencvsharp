@@ -93,5 +93,150 @@ namespace OpenCvSharp
         public static extern void core_FileStorage_writeScalar_double(IntPtr fs, double value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileStorage_writeScalar_String(IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string value);
+        
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_String(IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_int(IntPtr fs, int val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_float(IntPtr fs, float val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_double(IntPtr fs, double val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Mat(IntPtr fs, IntPtr val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_SparseMat(IntPtr fs, IntPtr val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Range(IntPtr fs, Range val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_KeyPoint(IntPtr fs, KeyPoint val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_DMatch(IntPtr fs, DMatch val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_vectorOfKeyPoint(IntPtr fs, IntPtr val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_vectorOfDMatch(IntPtr fs, IntPtr val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Point2i(IntPtr fs, Point val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Point2f(IntPtr fs, Point2f val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Point2d(IntPtr fs, Point2d val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Point3i(IntPtr fs, Point3i val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Point3f(IntPtr fs, Point3f val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Point3d(IntPtr fs, Point3d val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Size2i(IntPtr fs, Size val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Size2f(IntPtr fs, Size2f val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Size2d(IntPtr fs, Size2d val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Rect2i(IntPtr fs, Rect val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Rect2f(IntPtr fs, Rect2f val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Rect2d(IntPtr fs, Rect2d val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Scalar(IntPtr fs, Scalar val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec2i(IntPtr fs, Vec2i val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec3i(IntPtr fs, Vec3i val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec4i(IntPtr fs, Vec4i val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec6i(IntPtr fs, Vec6i val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec2d(IntPtr fs, Vec2d val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec3d(IntPtr fs, Vec3d val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec4d(IntPtr fs, Vec4d val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec6d(IntPtr fs, Vec6d val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec2f(IntPtr fs, Vec2f val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec3f(IntPtr fs, Vec3f val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec4f(IntPtr fs, Vec4f val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec6f(IntPtr fs, Vec6f val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec2b(IntPtr fs, Vec2b val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec3b(IntPtr fs, Vec3b val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec4b(IntPtr fs, Vec4b val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec6b(IntPtr fs, Vec6b val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec2s(IntPtr fs, Vec2s val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec3s(IntPtr fs, Vec3s val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec4s(IntPtr fs, Vec4s val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec6s(IntPtr fs, Vec6s val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec2w(IntPtr fs, Vec2w val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec3w(IntPtr fs, Vec3w val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec4w(IntPtr fs, Vec4w val);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_shift_Vec6w(IntPtr fs, Vec6w val);
     }
 }
