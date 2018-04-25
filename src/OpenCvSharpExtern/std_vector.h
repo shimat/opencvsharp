@@ -424,6 +424,34 @@ CVAPI(void) vector_Rect_delete(vector<cv::Rect> *vector)
 
 #pragma endregion
 
+#pragma region cv::Rect2d
+CVAPI(vector<cv::Rect2d>*) vector_Rect2d_new1()
+{
+    return new vector<cv::Rect2d>;
+}
+CVAPI(vector<cv::Rect2d>*) vector_Rect2d_new2(size_t size)
+{
+    return new vector<cv::Rect2d>(size);
+}
+CVAPI(vector<cv::Rect2d>*) vector_Rect2d_new3(cv::Rect2d* data, size_t dataLength)
+{
+    return new vector<cv::Rect2d>(data, data + dataLength);
+}
+CVAPI(size_t) vector_Rect2d_getSize(vector<cv::Rect2d>* vector)
+{
+    return vector->size();
+}
+CVAPI(cv::Rect2d*) vector_Rect2d_getPointer(vector<cv::Rect2d> *vector)
+{
+    return &(vector->at(0));
+}
+CVAPI(void) vector_Rect2d_delete(vector<cv::Rect2d> *vector)
+{
+    delete vector;
+}
+
+#pragma endregion
+
 #pragma region cv::KeyPoint
 CVAPI(vector<cv::KeyPoint>*) vector_KeyPoint_new1()
 {

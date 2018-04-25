@@ -13,17 +13,11 @@ namespace OpenCvSharp.Tracking
     public class TrackerMIL : Tracker
     {
         /// <summary>
-        /// cv::Ptr&lt;T&gt;
-        /// </summary>
-        private Ptr ptrObj;
-
-        /// <summary>
         /// 
         /// </summary>
         protected TrackerMIL(IntPtr p)
+            : base(new Ptr(p))
         {
-            ptrObj = new Ptr(p);
-            ptr = ptrObj.Get();
         }
 
         /// <summary>
@@ -49,17 +43,7 @@ namespace OpenCvSharp.Tracking
                 return new TrackerMIL(p);
             }
         }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            ptrObj?.Dispose();
-            ptrObj = null;
-            base.DisposeManaged();
-        }
-
+        
         internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)

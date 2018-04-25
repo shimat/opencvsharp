@@ -18,17 +18,11 @@ namespace OpenCvSharp.Tracking
     public class TrackerTLD : Tracker
     {
         /// <summary>
-        /// cv::Ptr&lt;T&gt;
-        /// </summary>
-        private Ptr ptrObj;
-
-        /// <summary>
         /// 
         /// </summary>
         protected TrackerTLD(IntPtr p)
+            : base(new Ptr(p))
         {
-            ptrObj = new Ptr(p);
-            ptr = ptrObj.Get();
         }
 
         /// <summary>
@@ -53,16 +47,6 @@ namespace OpenCvSharp.Tracking
                 IntPtr p = NativeMethods.tracking_TrackerTLD_create2(&parameters);
                 return new TrackerTLD(p);
             }
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            ptrObj?.Dispose();
-            ptrObj = null;
-            base.DisposeManaged();
         }
 
         internal class Ptr : OpenCvSharp.Ptr
