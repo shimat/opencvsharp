@@ -325,6 +325,30 @@ namespace OpenCvSharp
         #region Methods
 
         /// <summary>
+        /// returns iterator pointing to the first node element
+        /// </summary>
+        /// <returns></returns>
+        public FileNodeIterator Begin()
+        {
+            ThrowIfDisposed();
+            IntPtr p = NativeMethods.core_FileNode_begin(ptr);
+            GC.KeepAlive(this);
+            return new FileNodeIterator(p);
+        }
+        //! 
+        /// <summary>
+        /// returns iterator pointing to the element following the last node element
+        /// </summary>
+        /// <returns></returns>
+        public FileNodeIterator End()
+        {
+            ThrowIfDisposed();
+            IntPtr p = NativeMethods.core_FileNode_end(ptr);
+            GC.KeepAlive(this);
+            return new FileNodeIterator(p);
+        }
+
+        /// <summary>
         /// Reads node elements to the buffer with the specified format
         /// </summary>
         /// <param name="fmt"></param>

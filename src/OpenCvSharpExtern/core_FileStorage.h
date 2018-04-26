@@ -445,6 +445,15 @@ CVAPI(void) core_FileNode_toMat(cv::FileNode *obj, cv::Mat *m)
     (*obj) >> (*m);
 }
 
+CVAPI(cv::FileNodeIterator*) core_FileNode_begin(cv::FileNode *obj)
+{
+    return new cv::FileNodeIterator(obj->begin());
+}
+CVAPI(cv::FileNodeIterator*) core_FileNode_end(cv::FileNode *obj)
+{
+    return new cv::FileNodeIterator(obj->end());
+}
+
 CVAPI(void) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec, size_t len)
 {
     obj->readRaw(fmt, vec, len);
@@ -496,5 +505,72 @@ CVAPI(void) core_FileNode_read_vectorOfDMatch(cv::FileNode *node, std::vector<cv
 }
 
 #pragma endregion
+
+#pragma region FileNodeIterator
+
+CVAPI(cv::FileNodeIterator*) core_FileNodeIterator_new1()
+{
+    return new cv::FileNodeIterator;
+}
+CVAPI(cv::FileNodeIterator*) core_FileNodeIterator_new2(cv::FileNodeIterator *obj)
+{
+    return new cv::FileNodeIterator(*obj);
+}
+
+CVAPI(void) core_FileNodeIterator_delete(cv::FileNodeIterator *obj)
+{
+    delete obj;
+}
+
+CVAPI(cv::FileNode*) core_FileNodeIterator_operatorAsterisk(cv::FileNodeIterator *obj)
+{
+    return new cv::FileNode(*(*obj));
+}
+
+CVAPI(void) core_FileNodeIterator_operatorIncrement(cv::FileNodeIterator *obj)
+{
+    ++(*obj);
+}
+CVAPI(void) core_FileNodeIterator_operatorDecrement(cv::FileNodeIterator *obj)
+{
+    --(*obj);
+}
+
+CVAPI(void) core_FileNodeIterator_operatorPlusEqual(cv::FileNodeIterator *obj, int ofs)
+{
+    (*obj) += ofs;
+}
+CVAPI(void) core_FileNodeIterator_operatorMinusEqual(cv::FileNodeIterator *obj, int ofs)
+{
+    (*obj) -= ofs;
+}
+
+CVAPI(cv::FileNodeIterator*) core_FileNodeIterator_readRaw(
+    cv::FileNodeIterator *obj, const char *fmt, uchar* vec, size_t maxCount)
+{
+    return &(obj->readRaw(fmt, vec, maxCount));
+}
+
+CVAPI(int) core_FileNodeIterator_operatorEqual(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2)
+{
+    return ((*it1) == (*it2)) ? 1 : 0;
+}
+
+CVAPI(int) core_FileNodeIterator_operatorNotEqual(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2)
+{
+    return ((*it1) != (*it2)) ? 1 : 0;
+}
+
+CVAPI(ptrdiff_t) core_FileNodeIterator_operatorMinus(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2)
+{
+    return (*it1) - (*it2);
+}
+
+CVAPI(int) core_FileNodeIterator_operatorLessThan(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2)
+{
+    return (*it1) < (*it2);
+}
+
+#pragma endregion 
 
 #endif
