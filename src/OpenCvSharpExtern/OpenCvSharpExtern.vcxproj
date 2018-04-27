@@ -254,6 +254,7 @@
     <ClInclude Include="calib3d_StereoMatcher.h" />
     <ClInclude Include="calib3d_StereoSGBM.h" />
     <ClInclude Include="core.h" />
+    <ClInclude Include="core_FileNode.h" />
     <ClInclude Include="core_InputArray.h" />
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />

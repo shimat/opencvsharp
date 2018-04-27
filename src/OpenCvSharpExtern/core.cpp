@@ -2,6 +2,7 @@
 
 #include "core_Algorithm.h"
 #include "core_FileStorage.h"
+#include "core_FileNode.h"
 #include "core_InputArray.h"
 #include "core_Mat.h"
 #include "core_MatExpr.h"

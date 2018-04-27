@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace OpenCvSharp
@@ -8,8 +8,10 @@ namespace OpenCvSharp
     /// <summary>
     /// File Storage Node class
     /// </summary>
-    public class FileNode : DisposableCvObject
+    public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     {
+        // ReSharper disable InconsistentNaming
+
         #region Init & Disposal
 
         /// <summary>
@@ -347,6 +349,26 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             return new FileNodeIterator(p);
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<FileNode> GetEnumerator()
+        {
+            using (FileNodeIterator it = Begin(), end = End())
+            {
+                for (; !it.Equals(end); it.MoveNext())
+                {
+                    yield return it.Current;
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
         /// <summary>
         /// Reads node elements to the buffer with the specified format
@@ -499,6 +521,487 @@ namespace OpenCvSharp
                 GC.KeepAlive(this);
                 return valueVector.ToArray();
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Range ReadRange()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Range(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public KeyPoint ReadKeyPoint()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_KeyPoint(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public DMatch ReadDMatch()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_DMatch(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Point ReadPoint()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Point2i(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Point2f ReadPoint2f()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Point2f(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Point2d ReadPoint2d()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Point2d(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Point3i ReadPoint3i()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Point3i(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Point3f ReadPoint3f()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Point3f(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Point3d ReadPoint3d()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Point3d(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Size ReadSize()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Size2i(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Size2f ReadSize2f()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Size2f(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Size2d ReadSize2d()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Size2d(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Rect ReadRect()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Rect2i(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Rect2f ReadRect2f()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Rect2f(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Rect2d ReadRect2d()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Rect2d(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Scalar ReadScalar()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Scalar(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec2i ReadVec2i()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec2i(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec3i ReadVec3i()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec3i(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec4i ReadVec4i()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec4i(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec6i ReadVec6i()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec6i(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec2d ReadVec2d()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec2d(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec3d ReadVec3d()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec3d(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec4d ReadVec4d()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec4d(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec6d ReadVec6d()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec6d(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec2f ReadVec2f()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec2f(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec3f ReadVec3f()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec3f(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec4f ReadVec4f()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec4f(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec6f ReadVec6f()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec6f(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec2b ReadVec2b()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec2b(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec3b ReadVec3b()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec3b(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec4b ReadVec4b()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec4b(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec6b ReadVec6b()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec6b(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec2s ReadVec2s()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec2s(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec3s ReadVec3s()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec3s(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec4s ReadVec4s()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec4s(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec6s ReadVec6s()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec6s(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec2w ReadVec2w()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec2w(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec3w ReadVec3w()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec3w(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec4w ReadVec4w()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec4w(ptr);
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vec6w ReadVec6w()
+        {
+            ThrowIfDisposed();
+            var ret = NativeMethods.core_FileNode_read_Vec6w(ptr);
+            GC.KeepAlive(this);
+            return ret;
         }
 
         #endregion
