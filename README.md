@@ -20,7 +20,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 * [Visual C++ 2017 Redistributable Package](https://go.microsoft.com/fwlink/?LinkId=746572)
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
 
-OpenCvSharp may not work on Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
+OpenCvSharp may not work on UWP and Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
 
 ## Documents
 https://shimat.github.io/opencvsharp_docs/index.html
