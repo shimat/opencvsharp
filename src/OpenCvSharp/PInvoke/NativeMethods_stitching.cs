@@ -11,6 +11,9 @@ namespace OpenCvSharp
         public static extern IntPtr stitching_createStitcher(int try_use_cpu);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr stitching_createStitcherScans(int try_use_cpu);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void stitching_Ptr_Stitcher_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
