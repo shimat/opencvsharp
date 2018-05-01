@@ -120,19 +120,20 @@ namespace OpenCvSharp.Tests.Core
                     Assert.NotNull(node);
                     Assert.Equal(FileNode.Types.Seq, node.Type);
 
-                    var elem0 = node.ElementAt(0);
-                    var elem1 = node.ElementAt(1);
-
-                    Assert.Equal(mapSequence.vec3b, elem0["vec3b"].ReadVec3b());
-                    Assert.Equal(mapSequence.rect, elem0["rect"].ReadRect());
-                    Assert.Equal(mapSequence.size, elem1["size"].ReadSize());
-                    Assert.Equal(mapSequence.point, elem1["point"].ReadPoint());
+                    using (var elem0 = node.ElementAt(0))
+                    using (var elem1 = node.ElementAt(1))
+                    {
+                        Assert.Equal(mapSequence.vec3b, elem0["vec3b"].ReadVec3b());
+                        Assert.Equal(mapSequence.rect, elem0["rect"].ReadRect());
+                        Assert.Equal(mapSequence.size, elem1["size"].ReadSize());
+                        Assert.Equal(mapSequence.point, elem1["point"].ReadPoint());
+                    }
                 }
 
                 // mat
+                using (Mat r = fs["R"].ReadMat())
+                using (Mat t = fs["T"].ReadMat())
                 {
-                    Mat r = fs["R"].ReadMat();
-                    Mat t = fs["T"].ReadMat();
                     Console.WriteLine("R = {0}", r);
                     Console.WriteLine("T = {0}", t);
 
