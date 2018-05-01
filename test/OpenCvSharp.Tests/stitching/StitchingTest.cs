@@ -31,6 +31,28 @@ namespace OpenCvSharp.Tests.Stitching
             }
         }
 
+        [Fact]
+        public void StitchingScanImagesCorrect()
+        {
+            Mat[] images = SelectStitchingImages(200, 200, 12);
+
+            using (var stitcher = Stitcher.CreateScans(false))
+            using (var pano = new Mat())
+            {
+                Console.Write("Stitching for scan images start...");
+                var status = stitcher.Stitch(images, pano);
+                Console.WriteLine(" finish (status:{0})", status);
+                Assert.Equal(Stitcher.Status.OK, status);
+
+                ShowImagesWhenDebugMode(pano);
+            }
+
+            foreach (Mat image in images)
+            {
+                image.Dispose();
+            }
+        }
+
         private Mat[] SelectStitchingImages(int width, int height, int count)
         {
             var mats = new List<Mat>();

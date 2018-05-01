@@ -9,6 +9,12 @@ CVAPI(cv::Ptr<cv::Stitcher>*) stitching_createStitcher(const int try_use_gpu)
     return new cv::Ptr<cv::Stitcher>(ptr);
 }
 
+CVAPI(cv::Ptr<cv::Stitcher>*) stitching_createStitcherScans(const int try_use_gpu)
+{
+    cv::Ptr<cv::Stitcher> ptr = cv::createStitcherScans(try_use_gpu != 0);
+    return new cv::Ptr<cv::Stitcher>(ptr);
+}
+
 CVAPI(void) stitching_Ptr_Stitcher_delete(cv::Ptr<cv::Stitcher> *obj)
 {
     delete obj;

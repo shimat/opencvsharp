@@ -100,6 +100,18 @@ namespace OpenCvSharp
             return new Stitcher(p);
         }
 
+
+        /// <summary>
+        /// Creates a stitcher with the default parameters with scan mode
+        /// </summary>
+        /// <param name="tryUseGpu">Flag indicating whether GPU should be used 
+        /// whenever it's possible.</param>
+        public static Stitcher CreateScans(bool tryUseGpu = false)
+        {
+            IntPtr p = NativeMethods.stitching_createStitcherScans(tryUseGpu ? 1 : 0);
+            return new Stitcher(p);
+        }
+
         /// <summary>
         /// Releases managed resources
         /// </summary>
