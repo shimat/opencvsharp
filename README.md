@@ -1,4 +1,5 @@
-# OpenCvSharp [![Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master)
+# OpenCvSharp [![Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master) ![AppVeyor tests](https://img.shields.io/appveyor/tests/shimat/opencvsharp.svg) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
+
 Cross platform wrapper of OpenCV for .NET Framework.
 
 Old versions of OpenCvSharp is maintained in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
@@ -9,8 +10,9 @@ If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http:/
 
 | Package                                                      | NuGet                                                                                                                      |
 |--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| OpenCV3.3.1 All-in-one package - bundles native OpenCV DLLs    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU.svg)](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU)         |
-| OpenCV3.3.1 Minimum package                                    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll.svg)](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll) |
+| All-in-one package - bundles native OpenCV DLLs    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU.svg)](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU)         |
+| Minimum package                                    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll.svg)](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll) |
+| Development Build Package    | https://ci.appveyor.com/nuget/opencvsharp |
 
 ### Downloads
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
@@ -70,7 +72,4 @@ git submodule update --init --recursive
   - Open `OpenCvSharp.sln` and build
 
 ## License
-OpenCvSharp is licensed under the 
-**BSD 3-Clause License**. See [LICENSE](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
-
-OpenCvSharp.Blob uses [cvBlob](https://code.google.com/p/cvblob/) to implement blob extraction.
+Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
