@@ -24,11 +24,34 @@ extern "C"
         int x;
         int y;
     };
-
     struct MyCvPoint2D32f
     {
         float x;
         float y;
+    };
+    struct MyCvPoint2D64f
+    {
+        double x;
+        double y;
+    };
+
+    struct MyCvPoint3D32i
+    {
+        int x;
+        int y;
+        int z;
+    };
+    struct MyCvPoint3D32f
+    {
+        float x;
+        float y;
+        float z;
+    };
+    struct MyCvPoint3D64f
+    {
+        double x;
+        double y;
+        double z;
     };
 
     struct MyCvSize
@@ -36,11 +59,15 @@ extern "C"
         int width;
         int height;
     };
-
     struct MyCvSize2D32f
     {
         float width;
         float height;
+    };
+    struct MyCvSize2D64f
+    {
+        double width;
+        double height;
     };
 
     struct MyCvRect
@@ -50,8 +77,14 @@ extern "C"
         int width;
         int height;
     };
-
-    struct MyCvRect2D
+    struct MyCvRect2D32f
+    {
+        float x;
+        float y;
+        float width;
+        float height;
+    };
+    struct MyCvRect2D64f
     {
         double x;
         double y;
@@ -88,6 +121,24 @@ extern "C"
         MyCvPoint2D32f center; 
         MyCvSize2D32f  size;
         float angle;
+    };
+
+    struct MyKeyPoint
+    {
+        MyCvPoint2D32f pt; 
+        float size; 
+        float angle;
+        float response; 
+        int octave; 
+        int class_id; 
+    };
+
+    struct MyDMatch
+    {
+        int queryIdx;
+        int trainIdx; 
+        int imgIdx;
+        float distance;
     };
 
     #pragma endregion
@@ -200,12 +251,12 @@ static cv::Rect cpp(const MyCvRect r)
     return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
-static MyCvRect2D c(const cv::Rect2d r)
+static MyCvRect2D64f c(const cv::Rect2d r)
 {
-	const MyCvRect2D ret = { r.x, r.y, r.width, r.height };
+	const MyCvRect2D64f ret = { r.x, r.y, r.width, r.height };
     return ret;
 }
-static cv::Rect2d cpp(const MyCvRect2D r)
+static cv::Rect2d cpp(const MyCvRect2D64f r)
 {
     return cv::Rect2d(r.x, r.y, r.width, r.height);
 }
@@ -292,6 +343,36 @@ static MyCvBox2D c(const cv::RotatedRect r)
 static cv::RotatedRect cpp(const MyCvBox2D b)
 {
     return cv::RotatedRect(cpp(b.center), cpp(b.size), b.angle);
+}
+
+static cv::KeyPoint cpp(const MyKeyPoint k)
+{
+    return cv::KeyPoint(cpp(k.pt), k.size, k.angle, k.response, k.octave, k.class_id);
+}
+static MyKeyPoint c(const cv::KeyPoint k)
+{
+    MyKeyPoint ret;
+    ret.pt = c(k.pt);
+    ret.size = k.size;
+    ret.angle = k.angle;
+    ret.response = k.response;
+    ret.octave = k.octave;
+    ret.class_id = k.class_id;
+    return ret;
+}
+
+static cv::DMatch cpp(const MyDMatch d)
+{
+    return cv::DMatch(d.queryIdx, d.trainIdx, d.imgIdx, d.distance);
+}
+static MyDMatch c(const cv::DMatch d)
+{
+    MyDMatch ret;
+    ret.queryIdx = d.queryIdx;
+    ret.trainIdx = d.trainIdx;
+    ret.imgIdx = d.imgIdx;
+    ret.distance = d.distance;
+    return ret;
 }
 
 static cv::aruco::DetectorParameters cpp(const aruco_DetectorParameters p)

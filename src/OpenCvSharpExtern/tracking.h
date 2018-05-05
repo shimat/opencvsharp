@@ -4,7 +4,7 @@
 #include "include_opencv.h"
 
 
-CVAPI(int) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect2D boundingBox)
+CVAPI(int) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect2D64f boundingBox)
 {
     bool ret = tracker->init(*image, cpp(boundingBox));
     return ret ? 1 : 0;
@@ -32,7 +32,7 @@ CVAPI(int) tracking_Tracker_init2(cv::Tracker* tracker, const cv::Mat* image, co
 	}
 }*/
 
-CVAPI(int) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect2D* boundingBox)
+CVAPI(int) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect2D64f* boundingBox)
 {
     cv::Rect2d bb = cpp(*boundingBox);
 	const bool ret = tracker->update(*image, bb);
