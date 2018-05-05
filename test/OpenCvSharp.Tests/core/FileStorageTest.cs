@@ -19,7 +19,7 @@ namespace OpenCvSharp.Tests.Core
             var sequence = new[] {"image1.jpg", "myfi.png", "../data/baboon.jpg"};
             var map = new {@int = 12345, @double = 3.14159, @string = "foo"};
             var mapSequence = new {
-                vec3b = new Vec2b(255, 128/*, 0*/),
+                vec2b = new Vec2b(255, 128),
                 rect = new Rect(1, 2, 3, 4),
                 size = new Size(10, 20),
                 point = new Point(300, 400)
@@ -45,7 +45,7 @@ namespace OpenCvSharp.Tests.Core
 
                 fs.Add("map_sequence").Add("[")
                     .Add("{")
-                    .Add("vec3b").Add(mapSequence.vec3b)
+                    .Add("vec2b").Add(mapSequence.vec2b)
                     .Add("rect").Add(mapSequence.rect)
                     .Add("}").Add("{")
                     .Add("size").Add(mapSequence.size)
@@ -123,7 +123,7 @@ namespace OpenCvSharp.Tests.Core
                     using (var elem0 = node.ElementAt(0))
                     using (var elem1 = node.ElementAt(1))
                     {
-                        Assert.Equal(mapSequence.vec3b, elem0["vec3b"].ReadVec2b());
+                        Assert.Equal(mapSequence.vec2b, elem0["vec2b"].ReadVec2b());
                         Assert.Equal(mapSequence.rect, elem0["rect"].ReadRect());
                         Assert.Equal(mapSequence.size, elem1["size"].ReadSize());
                         Assert.Equal(mapSequence.point, elem1["point"].ReadPoint());
