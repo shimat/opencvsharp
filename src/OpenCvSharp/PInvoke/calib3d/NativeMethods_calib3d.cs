@@ -144,6 +144,15 @@ namespace OpenCvSharp
             [In, Out] double[] distCoeffs, int distCoeffsSize,
             IntPtr rvecs, IntPtr tvecs,
             int flags, TermCriteria criteria);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern unsafe double calib3d_calibrateCamera_vector(
+            IntPtr[] objectPoints, int opSize1, int[] opSize2,
+            IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
+            Size imageSize,
+            [In, Out] double[,] cameraMatrix,
+            double* distCoeffs, int distCoeffsSize,
+            IntPtr rvecs, IntPtr tvecs,
+            int flags, TermCriteria criteria);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void calib3d_calibrationMatrixValues_InputArray(

@@ -9,6 +9,62 @@ namespace OpenCvSharp.Tests.Calib3D
 {
     public class Calib3DTest : TestBase
     {
+        [Fact]
+        public void FindChessboardCornersTest()
+        {
+            var patternSize = new Size(10, 7);
+
+            using (var image = Image("calibration/00.jpg"))
+            using (var corners = new Mat())
+            {
+                bool found = Cv2.FindChessboardCorners(image, patternSize, corners);
+                
+                if (Debugger.IsAttached)
+                {
+                    Cv2.DrawChessboardCorners(image, patternSize, corners, found);
+                    Window.ShowImages(image);
+                }
+
+                Assert.True(found);
+                Assert.Equal(70, corners.Total());
+                Assert.Equal(MatType.CV_32FC2, corners.Type());
+            }
+        }
+
+        [Fact]
+        public void CalibrateCameraTest()
+        {
+            var patternSize = new Size(10, 7);
+
+            using (var image = Image("calibration/00.jpg"))
+            using (var corners = new MatOfPoint2f())
+            {
+                Cv2.FindChessboardCorners(image, patternSize, corners);
+
+                var objectPoints = Create3DChessboardCorners(patternSize, 1.0f);
+                var imagePoints = corners.ToArray();
+                var cameraMatrix = new double[3, 3] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+                var distCoeffs = new double[8];
+
+                var rms = Cv2.CalibrateCamera(new []{objectPoints}, new[]{imagePoints}, image.Size(), cameraMatrix,
+                    distCoeffs, out var rotationVectors, out var translationVectors, CalibrationFlags.FixK4 | CalibrationFlags.FixK5);
+
+                Assert.Equal(0.319307527092577, rms, 9);
+                Assert.Contains(distCoeffs, d => Math.Abs(d) > 1e-9);
+            }
+
+            IEnumerable<Point3f> Create3DChessboardCorners(Size boardSize, float squareSize)
+            {
+                for (int y = 0; y < boardSize.Height; y++)
+                {
+                    for (int x = 0; x < boardSize.Width; x++)
+                    {
+                        yield return new Point3f(x * squareSize, y * squareSize, 0);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// https://stackoverflow.com/questions/25244603/opencvs-projectpoints-function
         /// </summary>
