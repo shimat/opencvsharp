@@ -11,3 +11,4 @@
 #include "core_RNG.h"
 #include "core_SparseMat.h"
 #include "core_SVD.h"
+#include "core_LDA.h"
