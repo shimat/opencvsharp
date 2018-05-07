@@ -176,7 +176,7 @@ CVAPI(void) calib3d_solvePnPRansac_vector(cv::Point3f *objectPoints, int objectP
 }
 
 CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_Mat(cv::Mat **objectPoints, int objectPointsLength,
-    cv::Mat **imagePoints, int imagePointsLength, CvSize imageSize, double aspectRatio)
+    cv::Mat **imagePoints, int imagePointsLength, MyCvSize imageSize, double aspectRatio)
 {
     std::vector<cv::Mat> objectPointsVec(objectPointsLength);
     for (int i = 0; i < objectPointsLength; i++)
@@ -185,11 +185,11 @@ CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_Mat(cv::Mat **objectPoints, int objec
     for (int i = 0; i < objectPointsLength; i++)
         imagePointsVec[i] = *imagePoints[i];
 
-    cv::Mat ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, imageSize, aspectRatio);
+    cv::Mat ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
     return new cv::Mat(ret);
 }
 CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_array(cv::Point3d **objectPoints, int opSize1, int *opSize2,
-    cv::Point2d **imagePoints, int ipSize1, int *ipSize2, CvSize imageSize, double aspectRatio)
+    cv::Point2d **imagePoints, int ipSize1, int *ipSize2, MyCvSize imageSize, double aspectRatio)
 {
     std::vector<std::vector<cv::Point3d> > objectPointsVec(opSize1);
     for (int i = 0; i < opSize1; i++)
@@ -198,61 +198,61 @@ CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_array(cv::Point3d **objectPoints, int
     for (int i = 0; i < ipSize1; i++)
         imagePointsVec[i] = std::vector<cv::Point3d>(imagePoints[i], imagePoints[i] + ipSize2[i]);
 
-    cv::Mat ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, imageSize, aspectRatio);
+    cv::Mat ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
     return new cv::Mat(ret);
 }
 
-CVAPI(int) calib3d_findChessboardCorners_InputArray(cv::_InputArray *image, CvSize patternSize,
+CVAPI(int) calib3d_findChessboardCorners_InputArray(cv::_InputArray *image, MyCvSize patternSize,
     cv::_OutputArray *corners, int flags)
 {
-    return cv::findChessboardCorners(*image, patternSize, *corners, flags) ? 1 : 0;
+    return cv::findChessboardCorners(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
 }
-CVAPI(int) calib3d_findChessboardCorners_vector(cv::_InputArray *image, CvSize patternSize,
+CVAPI(int) calib3d_findChessboardCorners_vector(cv::_InputArray *image, MyCvSize patternSize,
     std::vector<cv::Point2f> *corners, int flags)
 {
-    return cv::findChessboardCorners(*image, patternSize, *corners, flags) ? 1 : 0;
+    return cv::findChessboardCorners(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
 }
 
-CVAPI(int) calib3d_find4QuadCornerSubpix_InputArray(cv::_InputArray *img, cv::_InputOutputArray *corners, CvSize regionSize)
+CVAPI(int) calib3d_find4QuadCornerSubpix_InputArray(cv::_InputArray *img, cv::_InputOutputArray *corners, MyCvSize regionSize)
 {
-    return cv::find4QuadCornerSubpix(*img, *corners, regionSize) ? 1 : 0;
+    return cv::find4QuadCornerSubpix(*img, *corners, cpp(regionSize)) ? 1 : 0;
 }
-CVAPI(int) calib3d_find4QuadCornerSubpix_vector(cv::_InputArray *img, std::vector<cv::Point2f> *corners, CvSize regionSize)
+CVAPI(int) calib3d_find4QuadCornerSubpix_vector(cv::_InputArray *img, std::vector<cv::Point2f> *corners, MyCvSize regionSize)
 {
-    return cv::find4QuadCornerSubpix(*img, *corners, regionSize) ? 1 : 0;
+    return cv::find4QuadCornerSubpix(*img, *corners, cpp(regionSize)) ? 1 : 0;
 }
 
-CVAPI(void) calib3d_drawChessboardCorners_InputArray(cv::_InputOutputArray *image, CvSize patternSize,
+CVAPI(void) calib3d_drawChessboardCorners_InputArray(cv::_InputOutputArray *image, MyCvSize patternSize,
     cv::_InputArray *corners, int patternWasFound)
 {
-    cv::drawChessboardCorners(*image, patternSize, *corners, patternWasFound != 0);
+    cv::drawChessboardCorners(*image, cpp(patternSize), *corners, patternWasFound != 0);
 }
-CVAPI(void) calib3d_drawChessboardCorners_array(cv::_InputOutputArray *image, CvSize patternSize,
+CVAPI(void) calib3d_drawChessboardCorners_array(cv::_InputOutputArray *image, MyCvSize patternSize,
     cv::Point2f *corners, int cornersLength, int patternWasFound)
 {
     std::vector<cv::Point2f> cornersVec(corners, corners + cornersLength);
-    cv::drawChessboardCorners(*image, patternSize, cornersVec, patternWasFound != 0);
+    cv::drawChessboardCorners(*image, cpp(patternSize), cornersVec, patternWasFound != 0);
 }
 
 static void BlobDetectorDeleter(cv::FeatureDetector *p) {}
 
-CVAPI(int) calib3d_findCirclesGrid_InputArray(cv::_InputArray *image, CvSize patternSize,
+CVAPI(int) calib3d_findCirclesGrid_InputArray(cv::_InputArray *image, MyCvSize patternSize,
     cv::_OutputArray *centers, int flags, cv::FeatureDetector* blobDetector)
 {
     if (blobDetector == NULL)
-        return cv::findCirclesGrid(*image, patternSize, *centers, flags) ? 1 : 0;
+        return cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags) ? 1 : 0;
 
     cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
-    return cv::findCirclesGrid(*image, patternSize, *centers, flags, detectorPtr) ? 1 : 0;
+    return cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags, detectorPtr) ? 1 : 0;
 }
-CVAPI(int) calib3d_findCirclesGrid_vector(cv::_InputArray *image, CvSize patternSize,
+CVAPI(int) calib3d_findCirclesGrid_vector(cv::_InputArray *image, MyCvSize patternSize,
     std::vector<cv::Point2f> *centers, int flags, cv::FeatureDetector* blobDetector)
 {
     if (blobDetector == NULL)
-        return cv::findCirclesGrid(*image, patternSize, *centers, flags) ? 1 : 0;
+        return cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags) ? 1 : 0;
 
     cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
-    return cv::findCirclesGrid(*image, patternSize, *centers, flags, detectorPtr) ? 1 : 0;
+    return cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags, detectorPtr) ? 1 : 0;
 }
 
 CVAPI(double) calib3d_calibrateCamera_InputArray(
@@ -263,7 +263,7 @@ CVAPI(double) calib3d_calibrateCamera_InputArray(
     cv::_InputOutputArray *distCoeffs,
     std::vector<cv::Mat> *rvecs, std::vector<cv::Mat> *tvecs,
     int flags,
-    CvTermCriteria criteria)
+    MyCvTermCriteria criteria)
 {
     std::vector<cv::Mat> objectPointsVec(objectPointsSize);
     for (int i = 0; i < objectPointsSize; i++)
@@ -273,12 +273,12 @@ CVAPI(double) calib3d_calibrateCamera_InputArray(
         imagePointsVec[i] = *imagePoints[i];
 
     return cv::calibrateCamera(objectPointsVec, imagePointsVec, imageSize,
-        *cameraMatrix, *distCoeffs, *rvecs, *tvecs, flags, criteria);
+        *cameraMatrix, *distCoeffs, *rvecs, *tvecs, flags, cpp(criteria));
 }
 CVAPI(double) calib3d_calibrateCamera_vector(
     cv::Point3f **objectPoints, int opSize1, int *opSize2,
     cv::Point2f **imagePoints, int ipSize1, int *ipSize2,
-    CvSize imageSize,
+    MyCvSize imageSize,
     double *cameraMatrix,
     double *distCoeffs, int distCoeffsSize,
     std::vector<cv::Mat> *rvecs, std::vector<cv::Mat> *tvecs,
@@ -296,17 +296,17 @@ CVAPI(double) calib3d_calibrateCamera_vector(
     cv::Mat cametaMatrixM(3, 3, CV_64FC1, cameraMatrix);
     cv::Mat distCoeffsM(distCoeffsSize, 1, CV_64FC1, distCoeffs);
 
-    return cv::calibrateCamera(objectPointsVec, imagePointsVec, imageSize,
+    return cv::calibrateCamera(objectPointsVec, imagePointsVec, cpp(imageSize),
         cametaMatrixM, distCoeffsM, *rvecs, *tvecs, flags, criteria);
 }
 
-CVAPI(void) calib3d_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMatrix, CvSize imageSize,
+CVAPI(void) calib3d_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMatrix, MyCvSize imageSize,
     double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
     cv::Point2d *principalPoint, double *aspectRatio)
 {
     double fovx0, fovy0, focalLength0, aspectRatio0;
     cv::Point2d principalPoint0;
-    cv::calibrationMatrixValues(*cameraMatrix, imageSize, apertureWidth, apertureHeight,
+    cv::calibrationMatrixValues(*cameraMatrix, cpp(imageSize), apertureWidth, apertureHeight,
         fovx0, fovy0, focalLength0, principalPoint0, aspectRatio0);
     *fovx = fovx0;
     *fovy = fovy0;
@@ -314,7 +314,7 @@ CVAPI(void) calib3d_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMa
     *focalLength = focalLength0;
     *aspectRatio = aspectRatio0;
 }
-CVAPI(void) calib3d_calibrationMatrixValues_array(double *cameraMatrix, CvSize imageSize,
+CVAPI(void) calib3d_calibrationMatrixValues_array(double *cameraMatrix, MyCvSize imageSize,
     double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
     cv::Point2d *principalPoint, double *aspectRatio)
 {

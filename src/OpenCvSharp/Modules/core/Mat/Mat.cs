@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -1817,6 +1815,7 @@ namespace OpenCvSharp
         /// <param name="dleft">Shift of the left submatrix boundary to the left.</param>
         /// <param name="dright">Shift of the right submatrix boundary to the right.</param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
             ThrowIfDisposed();
@@ -2359,6 +2358,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="wholeSize">Output parameter that contains the size of the whole matrix containing *this as a part.</param>
         /// <param name="ofs">Output parameter that contains an offset of *this inside the whole matrix.</param>
+        // ReSharper disable once InconsistentNaming
         public void LocateROI(out Size wholeSize, out Point ofs)
         {
             ThrowIfDisposed();
@@ -5221,7 +5221,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsByte(MatForeachFunctionByte operation)
+        public void ForEachAsByte(MatForeachFunctionByte operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5236,7 +5236,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec2b(MatForeachFunctionVec2b operation)
+        public void ForEachAsVec2b(MatForeachFunctionVec2b operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5251,7 +5251,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec3b(MatForeachFunctionVec3b operation)
+        public void ForEachAsVec3b(MatForeachFunctionVec3b operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5266,7 +5266,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec4b(MatForeachFunctionVec4b operation)
+        public void ForEachAsVec4b(MatForeachFunctionVec4b operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5281,7 +5281,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec6b(MatForeachFunctionVec6b operation)
+        public void ForEachAsVec6b(MatForeachFunctionVec6b operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5296,7 +5296,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsInt16(MatForeachFunctionInt16 operation)
+        public void ForEachAsInt16(MatForeachFunctionInt16 operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5311,7 +5311,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec2s(MatForeachFunctionVec2s operation)
+        public void ForEachAsVec2s(MatForeachFunctionVec2s operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5326,7 +5326,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec3s(MatForeachFunctionVec3s operation)
+        public void ForEachAsVec3s(MatForeachFunctionVec3s operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5341,7 +5341,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec4s(MatForeachFunctionVec4s operation)
+        public void ForEachAsVec4s(MatForeachFunctionVec4s operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5356,7 +5356,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec6s(MatForeachFunctionVec6s operation)
+        public void ForEachAsVec6s(MatForeachFunctionVec6s operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5371,7 +5371,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsInt32(MatForeachFunctionInt32 operation)
+        public void ForEachAsInt32(MatForeachFunctionInt32 operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5386,7 +5386,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec2i(MatForeachFunctionVec2i operation)
+        public void ForEachAsVec2i(MatForeachFunctionVec2i operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5401,7 +5401,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec3i(MatForeachFunctionVec3i operation)
+        public void ForEachAsVec3i(MatForeachFunctionVec3i operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5416,7 +5416,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec4i(MatForeachFunctionVec4i operation)
+        public void ForEachAsVec4i(MatForeachFunctionVec4i operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5431,7 +5431,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec6i(MatForeachFunctionVec6i operation)
+        public void ForEachAsVec6i(MatForeachFunctionVec6i operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5446,7 +5446,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsFloat(MatForeachFunctionFloat operation)
+        public void ForEachAsFloat(MatForeachFunctionFloat operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5461,7 +5461,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec2f(MatForeachFunctionVec2f operation)
+        public void ForEachAsVec2f(MatForeachFunctionVec2f operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5476,7 +5476,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec3f(MatForeachFunctionVec3f operation)
+        public void ForEachAsVec3f(MatForeachFunctionVec3f operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5491,7 +5491,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec4f(MatForeachFunctionVec4f operation)
+        public void ForEachAsVec4f(MatForeachFunctionVec4f operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5506,7 +5506,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec6f(MatForeachFunctionVec6f operation)
+        public void ForEachAsVec6f(MatForeachFunctionVec6f operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5522,7 +5522,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsDouble(MatForeachFunctionDouble operation)
+        public void ForEachAsDouble(MatForeachFunctionDouble operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5537,7 +5537,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec2d(MatForeachFunctionVec2d operation)
+        public void ForEachAsVec2d(MatForeachFunctionVec2d operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5552,7 +5552,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec3d(MatForeachFunctionVec3d operation)
+        public void ForEachAsVec3d(MatForeachFunctionVec3d operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5567,7 +5567,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec4d(MatForeachFunctionVec4d operation)
+        public void ForEachAsVec4d(MatForeachFunctionVec4d operation)
         {
             ThrowIfDisposed();
             if (operation == null)
@@ -5582,7 +5582,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="operation"></param>
-        public unsafe void ForEachAsVec6d(MatForeachFunctionVec6d operation)
+        public void ForEachAsVec6d(MatForeachFunctionVec6d operation)
         {
             ThrowIfDisposed();
             if (operation == null)
