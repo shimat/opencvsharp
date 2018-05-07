@@ -287,17 +287,7 @@ DEFINE_FILENODE_READ_VEC(Vec3f)
 DEFINE_FILENODE_READ_VEC(Vec4f)
 DEFINE_FILENODE_READ_VEC(Vec6f)
 DEFINE_FILENODE_READ_VEC(Vec2b)
-//DEFINE_FILENODE_READ_VEC(Vec3b)
-
-CVAPI(CvVec3b) core_FileNode_read_Vec3b(cv::FileNode *node)
-{
-    cv::Vec3b v;
-    (*node) >> v;
-    CvVec3b ret;
-    std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val));
-    return ret;
-}
-
+DEFINE_FILENODE_READ_VEC(Vec3b)
 DEFINE_FILENODE_READ_VEC(Vec4b)
 DEFINE_FILENODE_READ_VEC(Vec6b)
 DEFINE_FILENODE_READ_VEC(Vec2s)

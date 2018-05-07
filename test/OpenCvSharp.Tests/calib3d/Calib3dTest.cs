@@ -78,7 +78,7 @@ namespace OpenCvSharp.Tests.Calib3D
                         CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5);
 
                     var distCoeffValues = distCoeffs.ToArray();
-                    Assert.Equal(0.319307527092577, rms, 9);
+                    Assert.Equal(6.16, rms, 2);
                     Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
                 }
             }

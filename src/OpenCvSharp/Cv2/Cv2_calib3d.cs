@@ -1350,19 +1350,11 @@ namespace OpenCvSharp
             using (var rvecsVec = new VectorOfMat())
             using (var tvecsVec = new VectorOfMat())
             {
-                double ret;
-                unsafe
-                {
-                    fixed (double* distCoeffsPtr = distCoeffs)
-                    {
-                        ret = NativeMethods.calib3d_calibrateCamera_vector(
-                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                            ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
-                            imageSize, cameraMatrix, distCoeffsPtr, distCoeffs.Length,
-                            rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0);
-                    }
-                }
-
+                double ret = NativeMethods.calib3d_calibrateCamera_vector(
+                    op.Pointer, op.Dim1Length, op.Dim2Lengths,
+                    ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
+                    imageSize, cameraMatrix, distCoeffs, distCoeffs.Length,
+                    rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0);
                 Mat[] rvecsM = rvecsVec.ToArray();
                 Mat[] tvecsM = tvecsVec.ToArray();
                 rvecs = EnumerableEx.SelectToArray(rvecsM, m => m.Get<Vec3d>(0));
