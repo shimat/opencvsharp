@@ -54,19 +54,13 @@ image: Visual Studio 2017
 configuration: Release
 
 before_build:
-#- git submodule update --init --recursive
-- git submodule update --init
-- ps: |
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    function Unzip {
-        param([string]$zipfile, [string]$outpath)
-        $pwd = pwd
-        $zipfile = [System.IO.Path]::Combine($pwd, $zipfile)
-        $outpath = [System.IO.Path]::Combine($pwd, $outpath)
-        [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
-    }
-    Unzip tesseract\build\v141\x86.zip tesseract\build\v141
-    Unzip tesseract\build\v141\x64.zip tesseract\build\v141
+- git submodule update --init --recursive
+#- git submodule update --init
+
+# build tesseract
+- msbuild tesseract/tesseract.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
+- msbuild tesseract/tesseract.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
+
 - nuget restore
 #- dotnet restore
 

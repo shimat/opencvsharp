@@ -80,10 +80,10 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_341\include;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_341\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_341\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_341\x64\vc15\staticlib;$(SolutionDir)\tesseract\build\v141\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_341\x64\vc15\staticlib;$(SolutionDir)\tesseract\x64\Release;$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_341\include;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_341\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_341\x86\vc15\staticlib;$(SolutionDir)\tesseract\build\v141\x86;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_341\x86\vc15\staticlib;$(SolutionDir)\tesseract\Release;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_341\x86\vc15\staticlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
