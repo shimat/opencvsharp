@@ -41,51 +41,42 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Properties
+        #region Methods
+
         /// <summary>
         /// eigenvalues of the covariation matrix
         /// </summary>
-        public Mat U
+        public Mat U()
         {
-            get
-            {
-                ThrowIfDisposed();
-                IntPtr ret = NativeMethods.core_SVD_u(ptr);
-                GC.KeepAlive(this);
-                return new Mat(ret);
-            }
+
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.core_SVD_u(ptr);
+            GC.KeepAlive(this);
+            return new Mat(ret);
         }
 
         /// <summary>
         /// eigenvalues of the covariation matrix
         /// </summary>
-        public Mat W
+        public Mat W()
         {
-            get
-            {
-                ThrowIfDisposed();
-                IntPtr ret = NativeMethods.core_SVD_w(ptr);
-                GC.KeepAlive(this);
-                return new Mat(ret);
-            }
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.core_SVD_w(ptr);
+            GC.KeepAlive(this);
+            return new Mat(ret);
         }
 
         /// <summary>
         /// mean value subtracted before the projection and added after the back projection
         /// </summary>
-        public Mat Vt
+        public Mat Vt()
         {
-            get
-            {
-                ThrowIfDisposed();
-                IntPtr ret = NativeMethods.core_SVD_vt(ptr);
-                GC.KeepAlive(this);
-                return new Mat(ret);
-            }
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.core_SVD_vt(ptr);
+            GC.KeepAlive(this);
+            return new Mat(ret);
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// the operator that performs SVD. The previously allocated SVD::u, SVD::w are SVD::vt are released.
         /// </summary>

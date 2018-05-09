@@ -53,41 +53,27 @@ namespace OpenCvSharp
             base.DisposeUnmanaged();
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Returns the eigenvectors of this LDA.
         /// </summary>
-        public Mat Eigenvectors
+        public Mat Eigenvectors()
         {
-            get
-            {
-                ThrowIfDisposed();
-                IntPtr ret = NativeMethods.core_LDA_eigenvectors(ptr);
-                GC.KeepAlive(this);
-                return new Mat(ret);
-            }
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.core_LDA_eigenvectors(ptr);
+            GC.KeepAlive(this);
+            return new Mat(ret);
         }
 
         /// <summary>
         /// Returns the eigenvalues of this LDA.
         /// </summary>
-        public Mat Eigenvalues
+        public Mat Eigenvalues()
         {
-            get
-            {
-                ThrowIfDisposed();
-                IntPtr ret = NativeMethods.core_LDA_eigenvalues(ptr);
-                GC.KeepAlive(this);
-                return new Mat(ret);
-            }
+            ThrowIfDisposed();
+            IntPtr ret = NativeMethods.core_LDA_eigenvalues(ptr);
+            GC.KeepAlive(this);
+            return new Mat(ret);
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Serializes this object to a given filename.
