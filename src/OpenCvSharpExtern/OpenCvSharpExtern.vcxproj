@@ -258,6 +258,7 @@
     <ClInclude Include="core.h" />
     <ClInclude Include="core_FileNode.h" />
     <ClInclude Include="core_InputArray.h" />
+    <ClInclude Include="core_LDA.h" />
     <ClInclude Include="core_Mat.h" />
     <ClInclude Include="core_MatExpr.h" />
     <ClInclude Include="core_OutputArray.h" />

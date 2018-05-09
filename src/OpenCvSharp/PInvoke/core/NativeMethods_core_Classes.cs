@@ -79,5 +79,51 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_SVD_vt(IntPtr obj);
         #endregion
+
+        #region LDA
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_LDA_new1(int numComponents);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_LDA_new2(IntPtr src, IntPtr labels, int numComponents);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_LDA_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_LDA_save_String(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_LDA_load_String(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_LDA_save_FileStorage(IntPtr obj, IntPtr fs);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_LDA_load_FileStorage(IntPtr obj, IntPtr node);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_LDA_compute(IntPtr obj, IntPtr src, IntPtr labels);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_LDA_project(IntPtr obj, IntPtr src);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_LDA_reconstruct(IntPtr obj, IntPtr src);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_LDA_eigenvectors(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_LDA_eigenvalues(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_LDA_subspaceProject(IntPtr w, IntPtr mean, IntPtr src);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr core_LDA_subspaceReconstruct(IntPtr w, IntPtr mean, IntPtr src);
+
+        #endregion
     }
 }

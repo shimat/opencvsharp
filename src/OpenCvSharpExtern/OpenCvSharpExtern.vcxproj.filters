@@ -366,6 +366,9 @@
     <ClInclude Include="core_FileNode.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
+    <ClInclude Include="core_LDA.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
