@@ -238,8 +238,8 @@ namespace OpenCvSharp
 
 #if LANG_JP
        /// <summary>
-    /// VDの操作フラグ
-    /// </summary>
+       /// SVDの操作フラグ
+       /// </summary>
 #else
         /// <summary>
         /// Operation flags for SVD
