@@ -66,8 +66,8 @@ class Program
 ```
 git submodule update --init --recursive
 ```
-- Get tesseract and leptonica libs
-  - Unzip `x64.zip` and `x86.zip` in `tesseract\build\v141`
+- Build tesseract and leptonica
+  - Open `tesseract/tesseract.sln` and build
 - Build OpenCvSharp
   - Open `OpenCvSharp.sln` and build
 
