@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Core
@@ -129,6 +128,17 @@ namespace OpenCvSharp.Tests.Core
                 Assert.Equal(4, z.Get<double>(1));
                 Assert.Equal(0, z.Get<double>(2));
             }
+        }
+
+        [Fact]
+        public void Partition()
+        {
+            var array = new[] {1, 3, 8, 8, 1, 3, 3, };
+
+            int nClasses = Cv2.Partition(array, out var labels, (a, b) => a == b);
+
+            Assert.Equal(3, nClasses);
+            Assert.Equal(new[] {0, 1, 2, 2, 0, 1, 1}, labels);
         }
     }
 }

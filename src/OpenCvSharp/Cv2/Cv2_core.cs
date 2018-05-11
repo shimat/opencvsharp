@@ -2262,7 +2262,7 @@ namespace OpenCvSharp
             return ret != 0;
         }
         #endregion
-
+        #region SolveLP
         /// <summary>
         /// Solve given (non-integer) linear programming problem using the Simplex Algorithm (Simplex Method).
         /// </summary>
@@ -2289,7 +2289,7 @@ namespace OpenCvSharp
             GC.KeepAlive(z);
             return (SolveLPResult) ret;
         }
-
+        #endregion
         #region Sort
         /// <summary>
         /// sorts independently each matrix row or each matrix column
@@ -3261,6 +3261,66 @@ namespace OpenCvSharp
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
             return node.ReadDMatches();
+        }
+
+        #endregion
+
+        #region Partition
+
+        /// <summary>
+        /// Equivalence predicate (a boolean function of two arguments).
+        /// The predicate returns true when the elements are certainly in the same class, and returns false if they may or may not be in the same class.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <returns></returns>
+        public delegate bool PartitionPredicate<in T>(T t1, T t2);
+
+        /// <summary>
+        /// Splits an element set into equivalency classes.
+        /// Consider using GroupBy of Linq instead.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="vec">Set of elements stored as a vector.</param>
+        /// <param name="labels">Output vector of labels. It contains as many elements as vec. Each label labels[i] is a 0-based cluster index of vec[i] .</param>
+        /// <param name="predicate">Equivalence predicate (a boolean function of two arguments).
+        /// The predicate returns true when the elements are certainly in the same class, and returns false if they may or may not be in the same class.</param>
+        /// <returns></returns>
+        public static int Partition<T>(IEnumerable<T> vec, out int[] labels, PartitionPredicate<T> predicate)
+        {
+            var vecArray = EnumerableEx.ToArray(vec);
+            labels = new int[vecArray.Length];
+            var groupHeads = new List<T>();
+
+            int index = 0;
+            foreach (var t in vecArray)
+            {
+                bool foundGroup = false;
+
+                int label = 0;
+                foreach (var groupHeadElem in groupHeads)
+                {
+                    if (predicate(groupHeadElem, t))
+                    {
+                        labels[index] = label;
+                        foundGroup = true;
+                        break;
+                    }
+
+                    label++;
+                }
+
+                if (!foundGroup)
+                {
+                    labels[index] = groupHeads.Count;
+                    groupHeads.Add(t);
+                }
+
+                index++;
+            }
+
+            return groupHeads.Count;
         }
 
         #endregion
