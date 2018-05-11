@@ -3291,8 +3291,6 @@ namespace OpenCvSharp
         {
             var vecArray = EnumerableEx.ToArray(vec);
             labels = new int[vecArray.Length];
-            int maxLabel = 0;
-
             var groupHeads = new List<T>();
 
             int index = 0;
@@ -3315,8 +3313,8 @@ namespace OpenCvSharp
 
                 if (!foundGroup)
                 {
+                    labels[index] = groupHeads.Count;
                     groupHeads.Add(t);
-                    labels[index] = maxLabel++;
                 }
 
                 index++;

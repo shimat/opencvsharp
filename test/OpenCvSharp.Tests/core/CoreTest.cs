@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Core
