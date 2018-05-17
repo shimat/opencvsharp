@@ -1,15 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 
 [assembly: CollectionBehavior(/*MaxParallelThreads = 2, */DisableTestParallelization = true)]
 
 namespace OpenCvSharp.Tests
 {
-    public abstract class TestBase 
+    public abstract class TestBase
     {
+        private static readonly HttpClient httpClient;
+
+        static TestBase()
+        {
+            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+#if net46
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+#endif
+
+            httpClient = new HttpClient
+            {
+                Timeout = TimeSpan.FromMinutes(5)
+            };
+        }
+
         protected static Mat Image(string fileName, ImreadModes modes = ImreadModes.Color)
         {
             return new Mat(Path.Combine("_data", "image", fileName), modes);
@@ -67,6 +84,18 @@ namespace OpenCvSharp.Tests
                 Console.WriteLine(message);
                 Console.Read();
             }
+        }
+
+        protected static async Task<byte[]> DownloadBytes(string url)
+        {
+            var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
+            return await response.Content.ReadAsByteArrayAsync();
+        }
+
+        protected static async Task<string> DownloadString(string url)
+        {
+            var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using OpenCvSharp.Dnn;
 using Xunit;
@@ -12,11 +9,6 @@ namespace OpenCvSharp.Tests.Dnn
 {
     public class CaffeTest : TestBase
     {
-        private static readonly HttpClient httpClient = new HttpClient
-        {
-            Timeout = TimeSpan.FromMinutes(5)
-        };
-
         // https://docs.opencv.org/3.3.0/d5/de7/tutorial_dnn_googlenet.html
         [Fact]
         public async Task LoadCaffeModel()
@@ -54,12 +46,6 @@ namespace OpenCvSharp.Tests.Dnn
                     }
                 }
             }
-        }
-
-        private static async Task<byte[]> DownloadBytes(string url)
-        {
-            var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
-            return await response.Content.ReadAsByteArrayAsync();
         }
 
         private static async Task PrepareModel(string fileName)
