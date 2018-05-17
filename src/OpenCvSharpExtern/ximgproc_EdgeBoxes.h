@@ -44,7 +44,7 @@ CVAPI(cv::Ptr<cv::ximgproc::EdgeBoxes>*) ximgproc_createEdgeBoxes(
         clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa));
 }
 
-CVAPI(void) ximgproc_EdgeBoxes_delete(cv::Ptr<cv::ximgproc::EdgeBoxes> *obj)
+CVAPI(void) ximgproc_Ptr_EdgeBoxes_delete(cv::Ptr<cv::ximgproc::EdgeBoxes> *obj)
 {
     delete obj;
 }

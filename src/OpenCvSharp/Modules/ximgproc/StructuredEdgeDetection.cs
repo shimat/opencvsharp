@@ -163,7 +163,7 @@ namespace OpenCvSharp.XImgProc
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ximgproc_StructuredEdgeDetection_delete(ptr);
+                NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(ptr);
                 base.DisposeUnmanaged();
             }
         }

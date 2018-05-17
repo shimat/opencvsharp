@@ -68,7 +68,7 @@ namespace OpenCvSharp
             float clusterMinMag, float maxAspectRatio, float minBoxArea, float gamma, float kappa);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ximgproc_EdgeBoxes_delete(IntPtr obj);
+        public static extern void ximgproc_Ptr_EdgeBoxes_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr ximgproc_Ptr_EdgeBoxes_get(IntPtr ptr);

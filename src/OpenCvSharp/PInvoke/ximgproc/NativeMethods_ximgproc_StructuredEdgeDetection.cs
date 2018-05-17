@@ -15,7 +15,7 @@ namespace OpenCvSharp
         public static extern IntPtr ximgproc_createRFFeatureGetter();
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ximgproc_RFFeatureGetter_delete(IntPtr obj);
+        public static extern void ximgproc_Ptr_RFFeatureGetter_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr ximgproc_Ptr_RFFeatureGetter_get(IntPtr ptr);
@@ -33,7 +33,7 @@ namespace OpenCvSharp
             [MarshalAs(UnmanagedType.LPStr)] string model, IntPtr howToGetFeatures);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ximgproc_StructuredEdgeDetection_delete(IntPtr obj);
+        public static extern void ximgproc_Ptr_StructuredEdgeDetection_delete(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr ximgproc_Ptr_StructuredEdgeDetection_get(

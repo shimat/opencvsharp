@@ -10,7 +10,7 @@ CVAPI(cv::Ptr<cv::ximgproc::RFFeatureGetter>*) ximgproc_createRFFeatureGetter()
     return clone(cv::ximgproc::createRFFeatureGetter());
 }
 
-CVAPI(void) ximgproc_RFFeatureGetter_delete(cv::Ptr<cv::ximgproc::RFFeatureGetter> *obj)
+CVAPI(void) ximgproc_Ptr_RFFeatureGetter_delete(cv::Ptr<cv::ximgproc::RFFeatureGetter> *obj)
 {
     delete obj;
 }
@@ -38,7 +38,7 @@ CVAPI(cv::Ptr<cv::ximgproc::StructuredEdgeDetection>*) ximgproc_createStructured
     return clone(cv::ximgproc::createStructuredEdgeDetection(model, *howToGetFeatures));
 }
 
-CVAPI(void) ximgproc_StructuredEdgeDetection_delete(cv::Ptr<cv::ximgproc::StructuredEdgeDetection> *obj)
+CVAPI(void) ximgproc_Ptr_StructuredEdgeDetection_delete(cv::Ptr<cv::ximgproc::StructuredEdgeDetection> *obj)
 {
     delete obj;
 }

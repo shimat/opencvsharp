@@ -347,7 +347,7 @@ namespace OpenCvSharp.XImgProc
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ximgproc_EdgeBoxes_delete(ptr);
+                NativeMethods.ximgproc_Ptr_EdgeBoxes_delete(ptr);
                 base.DisposeUnmanaged();
             }
         }
