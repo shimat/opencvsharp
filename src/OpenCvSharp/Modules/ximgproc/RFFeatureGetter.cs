@@ -88,7 +88,7 @@ namespace OpenCvSharp.XImgProc
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ximgproc_RFFeatureGetter_delete(ptr);
+                NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(ptr);
                 base.DisposeUnmanaged();
             }
         }
