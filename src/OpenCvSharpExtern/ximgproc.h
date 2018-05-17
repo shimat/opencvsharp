@@ -15,6 +15,11 @@ CVAPI(void) ximgproc_thinning(cv::_InputArray *src, cv::_OutputArray *dst, int t
     cv::ximgproc::thinning(*src, *dst, thinningType);
 }
 
+CVAPI(void) ximgproc_anisotropicDiffusion(cv::_InputArray *src, cv::_OutputArray *dst, float alpha, float K, int niters)
+{
+    cv::ximgproc::anisotropicDiffusion(*src, *dst, alpha, K, niters);
+}
+
 CVAPI(void) ximgproc_weightedMedianFilter(
     cv::_InputArray *joint, cv::_InputArray *src, cv::_OutputArray *dst,
     int r, double sigma, int weightType, cv::Mat *mask)

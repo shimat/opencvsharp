@@ -8,17 +8,6 @@ namespace OpenCvSharp.Tests.XImgProc
     public class XImgProcTest : TestBase
     {
         [Fact]
-        public void Thinning()
-        {
-            using (var src = Image("blob/shapes2.png", ImreadModes.GrayScale))
-            using (var dst = new Mat())
-            {
-                CvXImgProc.Thinning(src, dst, ThinningTypes.ZHANGSUEN);
-                ShowImagesWhenDebugMode(dst);
-            }
-        }
-
-        [Fact]
         public void Niblack()
         {
             using (var src = Image("lenna.png", ImreadModes.GrayScale))
@@ -26,6 +15,28 @@ namespace OpenCvSharp.Tests.XImgProc
             {
                 CvXImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5);
                 ShowImagesWhenDebugMode(dst);
+            }
+        }
+
+        [Fact]
+        public void Thinning()
+        {
+            using (var src = Image("blob/shapes2.png", ImreadModes.GrayScale))
+            using (var dst = new Mat())
+            {
+                CvXImgProc.Thinning(src, dst, ThinningTypes.ZHANGSUEN);
+                ShowImagesWhenDebugMode(src, dst);
+            }
+        }
+
+        [Fact]
+        public void AnisotropicDiffusion()
+        {
+            using (var src = Image("blob/shapes2.png", ImreadModes.Color))
+            using (var dst = new Mat())
+            {
+                CvXImgProc.AnisotropicDiffusion(src, dst, 1, 1, 1);
+                ShowImagesWhenDebugMode(src, dst);
             }
         }
 

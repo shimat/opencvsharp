@@ -69,7 +69,30 @@ namespace OpenCvSharp.XImgProc
             NativeMethods.ximgproc_thinning(src.CvPtr, dst.CvPtr, (int)thinningType);
 
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Performs anisotropic diffusian on an image.
+        /// The function applies Perona-Malik anisotropic diffusion to an image.
+        /// </summary>
+        /// <param name="src">Grayscale Source image.</param>
+        /// <param name="dst">Destination image of the same size and the same number of channels as src.</param>
+        /// <param name="alpha">The amount of time to step forward by on each iteration (normally, it's between 0 and 1).</param>
+        /// <param name="k">sensitivity to the edges</param>
+        /// <param name="niters">The number of iterations</param>
+        public static void AnisotropicDiffusion(InputArray src, OutputArray dst, float alpha, float k, int niters)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.ximgproc_anisotropicDiffusion(src.CvPtr, dst.CvPtr, alpha, k, niters);
+
+            GC.KeepAlive(src);
             dst.Fix();
         }
 
