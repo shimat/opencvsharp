@@ -1,3 +1,4 @@
+// ReSharper disable CppUnusedIncludeDirective
 #include "core.h"
 
 #include "core_Algorithm.h"

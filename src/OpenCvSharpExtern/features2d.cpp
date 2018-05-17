@@ -1,3 +1,4 @@
+// ReSharper disable CppUnusedIncludeDirective
 #include "features2d.h"
 #include "features2d_AgastFeatureDetector.h"
 #include "features2d_AKAZE.h"
