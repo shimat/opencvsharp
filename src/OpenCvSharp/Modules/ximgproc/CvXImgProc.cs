@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenCvSharp.XImgProc.Segmentation;
 
 namespace OpenCvSharp.XImgProc
 {
@@ -7,6 +8,107 @@ namespace OpenCvSharp.XImgProc
     /// </summary>
     public static class CvXImgProc
     {
+        /// <summary>
+        /// Strategy for the selective search segmentation algorithm.
+        /// </summary>
+        public static class Segmentation
+        {
+            /// <summary>
+            /// Create a new color-based strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyColor CreateSelectiveSearchSegmentationStrategyColor()
+            {
+                return SelectiveSearchSegmentationStrategyColor.Create();
+            }
+
+            /// <summary>
+            /// Create a new size-based strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategySize CreateSelectiveSearchSegmentationStrategySize()
+            {
+                return SelectiveSearchSegmentationStrategySize.Create();
+            }
+
+            /// <summary>
+            /// Create a new size-based strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyTexture CreateSelectiveSearchSegmentationStrategyTexture()
+            {
+                return SelectiveSearchSegmentationStrategyTexture.Create();
+            }
+
+            /// <summary>
+            /// Create a new fill-based strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyFill CreateSelectiveSearchSegmentationStrategyFill()
+            {
+                return SelectiveSearchSegmentationStrategyFill.Create();
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple()
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create();
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy and set one subtrategy
+            /// </summary>
+            /// <param name="s1">The first strategy</param>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple(
+                SelectiveSearchSegmentationStrategy s1)
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create(s1);
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy and set one subtrategy
+            /// </summary>
+            /// <param name="s1">The first strategy</param>
+            /// <param name="s2">The second strategy</param>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple(
+                SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2)
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create(s1, s2);
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy and set one subtrategy
+            /// </summary>
+            /// <param name="s1">The first strategy</param>
+            /// <param name="s2">The second strategy</param>
+            /// <param name="s3">The third strategy</param>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple(
+                SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2, SelectiveSearchSegmentationStrategy s3)
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create(s1, s2, s3);
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy and set one subtrategy
+            /// </summary>
+            /// <param name="s1">The first strategy</param>
+            /// <param name="s2">The second strategy</param>
+            /// <param name="s3">The third strategy</param>
+            /// <param name="s4">The forth strategy</param>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple(
+                SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2, SelectiveSearchSegmentationStrategy s3, SelectiveSearchSegmentationStrategy s4)
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create(s1, s2, s3, s4);
+            }
+        }
+
         /// <summary>
         /// Applies Niblack thresholding to input image.
         /// </summary> 

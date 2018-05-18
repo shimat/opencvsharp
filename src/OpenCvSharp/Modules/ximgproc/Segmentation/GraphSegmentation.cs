@@ -8,15 +8,15 @@ namespace OpenCvSharp.XImgProc.Segmentation
     /// </summary>
     public class GraphSegmentation : Algorithm
     {
-        private Ptr ptrObj;
+        internal Ptr PtrObj { get; private set; }
 
         /// <summary>
         /// Creates instance by raw pointer
         /// </summary>
         protected GraphSegmentation(IntPtr p)
         {
-            ptrObj = new Ptr(p);
-            ptr = ptrObj.Get();
+            PtrObj = new Ptr(p);
+            ptr = PtrObj.Get();
         }
 
         /// <summary>
@@ -24,8 +24,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// </summary>
         protected override void DisposeManaged()
         {
-            ptrObj?.Dispose();
-            ptrObj = null;
+            PtrObj?.Dispose();
+            PtrObj = null;
             base.DisposeManaged();
         }
 
