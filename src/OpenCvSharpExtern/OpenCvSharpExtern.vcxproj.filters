@@ -369,6 +369,15 @@
     <ClInclude Include="core_LDA.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
+    <ClInclude Include="ximgproc_EdgeBoxes.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ximgproc_StructuredEdgeDetection.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ximgproc_Segmentation.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenCvSharp.XImgProc.Segmentation;
 
 namespace OpenCvSharp.XImgProc
 {
@@ -7,6 +8,107 @@ namespace OpenCvSharp.XImgProc
     /// </summary>
     public static class CvXImgProc
     {
+        /// <summary>
+        /// Strategy for the selective search segmentation algorithm.
+        /// </summary>
+        public static class Segmentation
+        {
+            /// <summary>
+            /// Create a new color-based strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyColor CreateSelectiveSearchSegmentationStrategyColor()
+            {
+                return SelectiveSearchSegmentationStrategyColor.Create();
+            }
+
+            /// <summary>
+            /// Create a new size-based strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategySize CreateSelectiveSearchSegmentationStrategySize()
+            {
+                return SelectiveSearchSegmentationStrategySize.Create();
+            }
+
+            /// <summary>
+            /// Create a new size-based strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyTexture CreateSelectiveSearchSegmentationStrategyTexture()
+            {
+                return SelectiveSearchSegmentationStrategyTexture.Create();
+            }
+
+            /// <summary>
+            /// Create a new fill-based strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyFill CreateSelectiveSearchSegmentationStrategyFill()
+            {
+                return SelectiveSearchSegmentationStrategyFill.Create();
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy
+            /// </summary>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple()
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create();
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy and set one subtrategy
+            /// </summary>
+            /// <param name="s1">The first strategy</param>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple(
+                SelectiveSearchSegmentationStrategy s1)
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create(s1);
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy and set one subtrategy
+            /// </summary>
+            /// <param name="s1">The first strategy</param>
+            /// <param name="s2">The second strategy</param>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple(
+                SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2)
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create(s1, s2);
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy and set one subtrategy
+            /// </summary>
+            /// <param name="s1">The first strategy</param>
+            /// <param name="s2">The second strategy</param>
+            /// <param name="s3">The third strategy</param>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple(
+                SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2, SelectiveSearchSegmentationStrategy s3)
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create(s1, s2, s3);
+            }
+
+            /// <summary>
+            /// Create a new multiple strategy and set one subtrategy
+            /// </summary>
+            /// <param name="s1">The first strategy</param>
+            /// <param name="s2">The second strategy</param>
+            /// <param name="s3">The third strategy</param>
+            /// <param name="s4">The forth strategy</param>
+            /// <returns></returns>
+            public static SelectiveSearchSegmentationStrategyMultiple CreateSelectiveSearchSegmentationStrategyMultiple(
+                SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2, SelectiveSearchSegmentationStrategy s3, SelectiveSearchSegmentationStrategy s4)
+            {
+                return SelectiveSearchSegmentationStrategyMultiple.Create(s1, s2, s3, s4);
+            }
+        }
+
         /// <summary>
         /// Applies Niblack thresholding to input image.
         /// </summary> 
@@ -69,7 +171,30 @@ namespace OpenCvSharp.XImgProc
             NativeMethods.ximgproc_thinning(src.CvPtr, dst.CvPtr, (int)thinningType);
 
             GC.KeepAlive(src);
-            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Performs anisotropic diffusian on an image.
+        /// The function applies Perona-Malik anisotropic diffusion to an image.
+        /// </summary>
+        /// <param name="src">Grayscale Source image.</param>
+        /// <param name="dst">Destination image of the same size and the same number of channels as src.</param>
+        /// <param name="alpha">The amount of time to step forward by on each iteration (normally, it's between 0 and 1).</param>
+        /// <param name="k">sensitivity to the edges</param>
+        /// <param name="niters">The number of iterations</param>
+        public static void AnisotropicDiffusion(InputArray src, OutputArray dst, float alpha, float k, int niters)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.ximgproc_anisotropicDiffusion(src.CvPtr, dst.CvPtr, alpha, k, niters);
+
+            GC.KeepAlive(src);
             dst.Fix();
         }
 
@@ -90,6 +215,62 @@ namespace OpenCvSharp.XImgProc
             bool doMerge = false)
         {
             return FastLineDetector.Create(lengthThreshold, distanceThreshold, cannyTh1, cannyTh2, cannyApertureSize, doMerge);
+        }
+
+        /// <summary>
+        /// Creates a EdgeBoxes
+        /// </summary>
+        /// <param name="alpha">step size of sliding window search.</param>
+        /// <param name="beta">nms threshold for object proposals.</param>
+        /// <param name="eta">adaptation rate for nms threshold.</param>
+        /// <param name="minScore">min score of boxes to detect.</param>
+        /// <param name="maxBoxes">max number of boxes to detect.</param>
+        /// <param name="edgeMinMag">edge min magnitude. Increase to trade off accuracy for speed.</param>
+        /// <param name="edgeMergeThr">edge merge threshold. Increase to trade off accuracy for speed.</param>
+        /// <param name="clusterMinMag">cluster min magnitude. Increase to trade off accuracy for speed.</param>
+        /// <param name="maxAspectRatio">max aspect ratio of boxes.</param>
+        /// <param name="minBoxArea">minimum area of boxes.</param>
+        /// <param name="gamma">affinity sensitivity.</param>
+        /// <param name="kappa">scale sensitivity.</param>
+        /// <returns></returns>
+        public static EdgeBoxes CreateEdgeBoxes(
+            float alpha = 0.65f,
+            float beta = 0.75f,
+            float eta = 1,
+            float minScore = 0.01f,
+            int maxBoxes = 10000,
+            float edgeMinMag = 0.1f,
+            float edgeMergeThr = 0.5f,
+            float clusterMinMag = 0.5f,
+            float maxAspectRatio = 3,
+            float minBoxArea = 1000,
+            float gamma = 2,
+            float kappa = 1.5f)
+        {
+            return EdgeBoxes.Create(
+                alpha, beta, eta, minScore, maxBoxes, edgeMinMag, edgeMergeThr,
+                clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa);
+        }
+
+        /// <summary>
+        /// Creates a RFFeatureGetter
+        /// </summary>
+        /// <returns></returns>
+        public static RFFeatureGetter CreateRFFeatureGetter()
+        {
+            return RFFeatureGetter.Create();
+        }
+
+        /// <summary>
+        /// Creates a StructuredEdgeDetection
+        /// </summary>
+        /// <param name="model">name of the file where the model is stored</param>
+        /// <param name="howToGetFeatures">optional object inheriting from RFFeatureGetter.
+        /// You need it only if you would like to train your own forest, pass null otherwise</param>
+        /// <returns></returns>
+        public static StructuredEdgeDetection CreateStructuredEdgeDetection(string model, RFFeatureGetter howToGetFeatures = null)
+        {
+            return StructuredEdgeDetection.Create(model, howToGetFeatures);
         }
 
         /// <summary>

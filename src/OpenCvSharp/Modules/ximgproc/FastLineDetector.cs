@@ -3,17 +3,9 @@ using System.Collections.Generic;
 
 namespace OpenCvSharp.XImgProc
 {
-    // ReSharper disable InconsistentNaming
-
-#if LANG_JP
     /// <summary>
-    /// SIFT 実装.
+    /// Class implementing the FLD (Fast Line Detector) algorithm described in @cite Lee14.
     /// </summary>
-#else
-    /// <summary>
-    /// SIFT implementation.
-    /// </summary>
-#endif
     public class FastLineDetector : Algorithm
     {
         private Ptr detectorPtr;
@@ -21,7 +13,7 @@ namespace OpenCvSharp.XImgProc
         #region Init & Disposal
 
         /// <summary>
-        /// Creates instance by raw pointer cv::FastLineDetector*
+        /// Creates instance by raw pointer
         /// </summary>
         protected FastLineDetector(IntPtr p)
         {
