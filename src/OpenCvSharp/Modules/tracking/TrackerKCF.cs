@@ -119,25 +119,25 @@ namespace OpenCvSharp.Tracking
             /// <summary>
             /// activate the resize feature to improve the processing speed
             /// </summary>
-            [MarshalAs(UnmanagedType.Bool)]
+            [MarshalAs(UnmanagedType.U1)]
             public bool Resize;
 
             /// <summary>
             /// split the training coefficients into two matrices
             /// </summary>
-            [MarshalAs(UnmanagedType.Bool)]
+            [MarshalAs(UnmanagedType.U1)]
             public bool SplitCoeff;
 
             /// <summary>
             /// wrap around the kernel values
             /// </summary>
-            [MarshalAs(UnmanagedType.Bool)]
+            [MarshalAs(UnmanagedType.U1)]
             public bool WrapKernel;
 
             /// <summary>
             /// activate the pca method to compress the features
             /// </summary>
-            [MarshalAs(UnmanagedType.Bool)]
+            [MarshalAs(UnmanagedType.U1)]
             public bool CompressFeature;
 
             /// <summary>
